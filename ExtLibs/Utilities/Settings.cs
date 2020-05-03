@@ -16,6 +16,8 @@ namespace MissionPlanner.Utilities
     {
         static Settings _instance;
 
+        public static string AppConfigName { get; set; } = "Mission Planner";
+
         public static Settings Instance
         {
             get
@@ -23,6 +25,10 @@ namespace MissionPlanner.Utilities
                 if (_instance == null)
                 {
                     _instance = new Settings();
+                    try
+                    {
+                        _instance.Load();
+                    } catch { }
                 }
                 return _instance;
             }
@@ -33,7 +39,7 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// use to store all internal config
+        /// use to store all internal config - use Instance
         /// </summary>
         public static Dictionary<string, string> config = new Dictionary<string, string>();
 
@@ -54,6 +60,17 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public string this[string key, string defaultvalue]
+        {
+            get
+            {
+                string value = this[key];
+                if (value == null)
+                    value = defaultvalue;
+                return value;
+            }
+        }
+
         public IEnumerable<string> Keys
         {
             // the "ToArray" makes this safe for someone to add items while enumerating.
@@ -65,6 +82,8 @@ namespace MissionPlanner.Utilities
             return config.ContainsKey(key);
         }
 
+        public string UserAgent { get; set; } = "MissionPlanner";
+        
         public string ComPort
         {
             get { return this["comport"]; }
@@ -125,14 +144,16 @@ namespace MissionPlanner.Utilities
 
         public IEnumerable<string> GetList(string key)
         {
-            if(config.ContainsKey(key))
-                return config[key].Split(';');
+            if (config.ContainsKey(key))
+                return config[key].Split(';').Select(a => System.Net.WebUtility.UrlDecode(a)).Distinct();
             return new string[0];
         }
 
         public void SetList(string key, IEnumerable<string> list)
         {
-            config[key] = list.Aggregate((s, s1) => s + ';' + s1);
+            if (list == null || list.Count() == 0)
+                return;
+            config[key] = list.Select(a => System.Net.WebUtility.UrlEncode(a)).Distinct().Aggregate((s, s1) => s + ';' + s1);
         }
 
         public void AppendList(string key, string item)
@@ -241,10 +262,10 @@ namespace MissionPlanner.Utilities
         {
             if (isMono())
             {
-                return GetRunningDirectory();
+                return GetUserDataDirectory();
             }
 
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + "Mission Planner" +
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + AppConfigName +
                           Path.DirectorySeparatorChar;
 
             return path;
@@ -256,7 +277,7 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         public static string GetUserDataDirectory()
         {
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "Mission Planner" +
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + AppConfigName +
                           Path.DirectorySeparatorChar;
 
             return path;

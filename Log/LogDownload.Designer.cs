@@ -111,7 +111,7 @@
             // 
             // LogDownload
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.BUT_bintolog);
             this.Controls.Add(this.BUT_dumpdf);

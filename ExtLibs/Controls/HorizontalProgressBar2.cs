@@ -248,5 +248,9 @@ System.ComponentModel.Description("values scaled for display")]
             base.OnPaint(e);
             drawlbl(e.Graphics);
         }
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
     }
 }

@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Swarm.FollowLeader
@@ -29,7 +23,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             {
                 foreach (var MAV in port.MAVlist)
                 {
-                    DG.Drones.Add(new Drone() { MavState = MAV});
+                    DG.Drones.Add(new Drone() { MavState = MAV });
                 }
             }
         }

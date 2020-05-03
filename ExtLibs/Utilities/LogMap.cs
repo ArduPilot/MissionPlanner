@@ -1,13 +1,14 @@
 ﻿using GMap.NET;
 using GMap.NET.MapProviders;
+using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MissionPlanner.Comms;
 
 namespace MissionPlanner.Log
 {
@@ -45,36 +46,40 @@ namespace MissionPlanner.Log
 
                         while (cs.Position < cs.Length)
                         {
-                            MAVLink.MAVLinkMessage packet = parse.ReadPacket(cs);
-
-                            if (packet == null || packet.Length < 5)
-                                continue;
-
-                            if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIM_STATE ||
-                                packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIMSTATE)
+                            try
                             {
-                                sitl = true;
-                            }
+                                MAVLink.MAVLinkMessage packet = parse.ReadPacket(cs);
 
-                            if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
-                            {
-                                var loc = packet.ToStructure<MAVLink.mavlink_global_position_int_t>();
-
-                                if (loc.lat == 0 || loc.lon == 0)
+                                if (packet == null || packet.Length < 5)
                                     continue;
 
-                                var id = packet.sysid * 256 + packet.compid;
+                                if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIM_STATE ||
+                                    packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIMSTATE)
+                                {
+                                    sitl = true;
+                                }
 
-                                if (!loc_list.ContainsKey(id))
-                                    loc_list[id] = new List<PointLatLngAlt>();
+                                if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
+                                {
+                                    var loc = packet.ToStructure<MAVLink.mavlink_global_position_int_t>();
 
-                                loc_list[id].Add(new PointLatLngAlt(loc.lat / 10000000.0f, loc.lon / 10000000.0f));
+                                    if (loc.lat == 0 || loc.lon == 0)
+                                        continue;
 
-                                minx = Math.Min(minx, loc.lon / 10000000.0f);
-                                maxx = Math.Max(maxx, loc.lon / 10000000.0f);
-                                miny = Math.Min(miny, loc.lat / 10000000.0f);
-                                maxy = Math.Max(maxy, loc.lat / 10000000.0f);
+                                    var id = packet.sysid * 256 + packet.compid;
+
+                                    if (!loc_list.ContainsKey(id))
+                                        loc_list[id] = new List<PointLatLngAlt>();
+
+                                    loc_list[id].Add(new PointLatLngAlt(loc.lat / 10000000.0f, loc.lon / 10000000.0f));
+
+                                    minx = Math.Min(minx, loc.lon / 10000000.0f);
+                                    maxx = Math.Max(maxx, loc.lon / 10000000.0f);
+                                    miny = Math.Min(miny, loc.lat / 10000000.0f);
+                                    maxy = Math.Max(maxy, loc.lat / 10000000.0f);
+                                }
                             }
+                            catch { }
                         }
                     }
                     cf.Close();
@@ -82,8 +87,8 @@ namespace MissionPlanner.Log
                 else if (logfile.ToLower().EndsWith(".bin") || logfile.ToLower().EndsWith(".log"))
                 {
                     using (
-                        CollectionBuffer colbuf =
-                            new CollectionBuffer(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        DFLogBuffer colbuf =
+                            new DFLogBuffer(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         )
                     {
                         loc_list[0] = new List<PointLatLngAlt>();
@@ -152,7 +157,7 @@ namespace MissionPlanner.Log
                             a++;
                         }
 
-                        map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                        map.Save(logfile + ".jpg", SKEncodedImageFormat.Jpeg);
 
                         File.SetLastWriteTime(logfile + ".jpg", new FileInfo(logfile).LastWriteTime);
                     }
@@ -179,7 +184,7 @@ namespace MissionPlanner.Log
 
             AddTextToMap(grap, text);
 
-            map.Save(jpgname, System.Drawing.Imaging.ImageFormat.Jpeg);
+            map.Save(jpgname, SKEncodedImageFormat.Jpeg);
 
             map.Dispose();
 
@@ -235,7 +240,7 @@ namespace MissionPlanner.Log
             {
                 using (Graphics gfx = Graphics.FromImage(bmpDestination))
                 {
-                    gfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+                    gfx.CompositingMode = CompositingMode.SourceOver;
 
                     // get tiles & combine into one
                     foreach (var p in tileArea)
@@ -254,7 +259,11 @@ namespace MissionPlanner.Log
                                         long x = p.X*prj.TileSize.Width - topLeftPx.X + padding;
                                         long y = p.Y*prj.TileSize.Width - topLeftPx.Y + padding;
                                         {
-                                            gfx.DrawImage(Image.FromStream(tile.Data), x, y, prj.TileSize.Width, prj.TileSize.Height);
+                                            try
+                                            {
+                                                gfx.DrawImage(Image.FromStream(tile.Data), x, y, prj.TileSize.Width,
+                                                    prj.TileSize.Height);
+                                            } catch (Exception ex2) {  }
                                         }
                                     }
                                 }

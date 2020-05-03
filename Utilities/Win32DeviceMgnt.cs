@@ -1,23 +1,32 @@
-﻿using System;
-using System.Text;
-using ComTypes = System.Runtime.InteropServices.ComTypes;
-using System.Runtime.InteropServices;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
+using System;
 using System.Collections.Generic;
-using log4net;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
+
 //http://www.nakov.com/blog/2009/05/10/enumerate-all-com-ports-and-find-their-name-and-description-in-c/
 public class Win32DeviceMgmt
 {
     private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-
+    private const int BUFFER_SIZE = 255;
     private const UInt32 DIGCF_PRESENT = 0x00000002;
     private const UInt32 DIGCF_DEVICEINTERFACE = 0x00000010;
     private const UInt32 SPDRP_DEVICEDESC = 0x00000000;
     private const UInt32 DICS_FLAG_GLOBAL = 0x00000001;
     private const UInt32 DIREG_DEV = 0x00000001;
     private const UInt32 KEY_QUERY_VALUE = 0x0001;
+    /// <summary>
+    /// https://docs.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-comport
+    /// </summary>
     private const string GUID_DEVINTERFACE_COMPORT = "86E0D1E0-8089-11D0-9CE4-08003E301F73";
+    /// <summary>
+    /// https://docs.microsoft.com/en-us/windows-hardware/drivers/install/guid-devinterface-usb-device
+    /// </summary>
+    private const string GUID_DEVINTERFACE_USB_DEVICE = "A5DCBF10-6530-11D2-901F-00C04FB951ED";
 
     /// <summary>
     /// Device registry property codes
@@ -206,18 +215,36 @@ public class Win32DeviceMgmt
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    private struct SP_DEVINFO_DATA
+    public struct SP_DEVINFO_DATA
     {
         public Int32 cbSize;
         public Guid ClassGuid;
         public Int32 DevInst;
         public UIntPtr Reserved;
-    };
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct SP_DEVICE_INTERFACE_DATA
+    {
+        public Int32 cbSize;
+        public Guid interfaceClassGuid;
+        public Int32 flags;
+        private UIntPtr reserved;
+    }
+
+    [DllImport(@"setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    public static extern Boolean SetupDiEnumDeviceInterfaces(
+        IntPtr hDevInfo,
+        ref SP_DEVINFO_DATA devInfo,
+        ref Guid interfaceClassGuid,
+        UInt32 memberIndex,
+        ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData
+    );
 
     [DllImport("setupapi.dll")]
     private static extern Int32 SetupDiDestroyDeviceInfoList(IntPtr DeviceInfoSet);
 
-    [DllImport("setupapi.dll")]
+    [DllImport(@"setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
     private static extern bool SetupDiEnumDeviceInfo(IntPtr DeviceInfoSet, Int32 MemberIndex, ref SP_DEVINFO_DATA DeviceInterfaceData);
 
     [DllImport("setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -251,6 +278,106 @@ public class Win32DeviceMgmt
         public string name;
     }
 
+    /// <summary>
+    /// The values for iManufacturer, iProduct, and iSerialNumber are just indexs that are used by the USB_STRING_DESCRIPTOR request
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct USB_DEVICE_DESCRIPTOR
+    {
+        public byte bLength;
+        public byte bDescriptorType;
+        public ushort bcdUSB;
+        public byte bDeviceClass;
+        public byte bDeviceSubClass;
+        public byte bDeviceProtocol;
+        public byte bMaxPacketSize0;
+        public ushort idVendor;
+        public ushort idProduct;
+        public ushort bcdDevice;
+        public byte iManufacturer;
+        public byte iProduct;
+        public byte iSerialNumber;
+        public byte bNumConfigurations;
+    }
+    const int MAXIMUM_USB_STRING_LENGTH = 255;
+    const int USB_STRING_DESCRIPTOR_TYPE = 3;
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    public struct USB_STRING_DESCRIPTOR
+    {
+        public byte bLength;
+        public byte bDescriptorType;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAXIMUM_USB_STRING_LENGTH)]
+        public string bString;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct USB_SETUP_PACKET
+    {
+        public byte bmRequest;
+        public byte bRequest;
+        public short wValue;
+        public short wIndex;
+        public short wLength;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct USB_DESCRIPTOR_REQUEST
+    {
+        public int ConnectionIndex;
+        public USB_SETUP_PACKET SetupPacket;
+        //public byte[] Data;
+    }
+    [DllImport("kernel32.dll", ExactSpelling = true, SetLastError = true, CharSet = CharSet.Auto)]
+    static extern bool DeviceIoControl(IntPtr hDevice, uint dwIoControlCode,
+        IntPtr lpInBuffer, int nInBufferSize,
+        IntPtr lpOutBuffer, int nOutBufferSize,
+        out int lpBytesReturned, IntPtr lpOverlapped);
+
+    const int IOCTL_USB_GET_DESCRIPTOR_FROM_NODE_CONNECTION = 0x220410;
+    [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    public static extern IntPtr CreateFile(
+        [MarshalAs(UnmanagedType.LPTStr)] string filename,
+        [MarshalAs(UnmanagedType.U4)] FileAccess access,
+        [MarshalAs(UnmanagedType.U4)] FileShare share,
+        IntPtr securityAttributes, // optional SECURITY_ATTRIBUTES struct or IntPtr.Zero
+        [MarshalAs(UnmanagedType.U4)] FileMode creationDisposition,
+        [MarshalAs(UnmanagedType.U4)] FileAttributes flagsAndAttributes,
+        IntPtr templateFile);
+
+    public static string GetManufact(IntPtr h, USB_DEVICE_DESCRIPTOR PortDeviceDescriptor, int PortPortNumber)
+    {
+        if (PortDeviceDescriptor.iManufacturer > 0)
+        {
+            int nBytesReturned;
+            int nBytes = BUFFER_SIZE;
+
+            // build a request for string descriptor
+            USB_DESCRIPTOR_REQUEST Request = new USB_DESCRIPTOR_REQUEST();
+            Request.ConnectionIndex = PortPortNumber;
+            Request.SetupPacket.wValue = (short)((USB_STRING_DESCRIPTOR_TYPE << 8) + PortDeviceDescriptor.iManufacturer);
+            Request.SetupPacket.wLength = (short)(nBytes - Marshal.SizeOf(Request));
+            Request.SetupPacket.wIndex = 0x409; // Language Code
+
+            // Geez, I wish C# had a Marshal.MemSet() method
+            string NullString = new string((char)0, nBytes / Marshal.SystemDefaultCharSize);
+            IntPtr ptrRequest = Marshal.StringToHGlobalAuto(NullString);
+            Marshal.StructureToPtr(Request, ptrRequest, true);
+
+            // Use an IOCTL call to request the String Descriptor
+            if (DeviceIoControl(h, IOCTL_USB_GET_DESCRIPTOR_FROM_NODE_CONNECTION, ptrRequest, nBytes, ptrRequest, nBytes, out nBytesReturned, IntPtr.Zero))
+            {
+                // The location of the string descriptor is immediately after
+                // the Request structure.  Because this location is not "covered"
+                // by the structure allocation, we're forced to zero out this
+                // chunk of memory by using the StringToHGlobalAuto() hack above
+                IntPtr ptrStringDesc = new IntPtr(ptrRequest.ToInt32() + Marshal.SizeOf(Request));
+                USB_STRING_DESCRIPTOR StringDesc = (USB_STRING_DESCRIPTOR)Marshal.PtrToStructure(ptrStringDesc, typeof(USB_STRING_DESCRIPTOR));
+                return StringDesc.bString;
+            }
+            Marshal.FreeHGlobal(ptrRequest);
+        }
+
+        return "";
+    }
+
     [DllImport("advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueExW", SetLastError = true)]
     private static extern int RegQueryValueEx(IntPtr hKey, string lpValueName, int lpReserved, out uint lpType,
         StringBuilder lpData, ref uint lpcbData);
@@ -261,17 +388,30 @@ public class Win32DeviceMgmt
     [DllImport("kernel32.dll")]
     private static extern Int32 GetLastError();
 
-    public struct DeviceInfo
-    {
-        public string name;
-        public string description;
-        public string board;
-        public string hardwareid;
-    }
+
 
     public static List<DeviceInfo> GetAllCOMPorts()
     {
-        Guid guidComPorts = new Guid(GUID_DEVINTERFACE_COMPORT);
+        var devices = new List<DeviceInfo>();
+        try
+        {
+            // windows 7 virtualcoms
+            devices.AddRange(GetClassDevs(GUID_DEVINTERFACE_USB_DEVICE).ToList());
+
+            // window 10
+            devices.AddRange(GetClassDevs(GUID_DEVINTERFACE_COMPORT));
+        }
+        catch (Exception ex)
+        {
+            log.Error(ex);
+        }
+
+        return devices;
+    }
+
+    private static List<DeviceInfo> GetClassDevs(string guid)
+    {
+        Guid guidComPorts = new Guid(guid);
         IntPtr hDeviceInfoSet = SetupDiGetClassDevs(
             ref guidComPorts, 0, IntPtr.Zero, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
         if (hDeviceInfoSet == IntPtr.Zero)
@@ -287,12 +427,19 @@ public class Win32DeviceMgmt
             {
                 SP_DEVINFO_DATA deviceInfoData = new SP_DEVINFO_DATA();
                 deviceInfoData.cbSize = Marshal.SizeOf(typeof(SP_DEVINFO_DATA));
+                SP_DEVICE_INTERFACE_DATA deviceInterfaceData = new SP_DEVICE_INTERFACE_DATA();
+                deviceInterfaceData.cbSize = Marshal.SizeOf(typeof(SP_DEVICE_INTERFACE_DATA));
+                //bool success = SetupDiEnumDeviceInterfaces(hDeviceInfoSet,ref deviceInfoData, ref guidComPorts, iMemberIndex, ref deviceInterfaceData);
                 bool success = SetupDiEnumDeviceInfo(hDeviceInfoSet, iMemberIndex, ref deviceInfoData);
                 if (!success)
                 {
+                    log.Info("no more devices " + GetLastError());
                     // No more devices in the device information set
                     break;
                 }
+
+                // hDeviceInfoSet - needs to be the hub
+                // var manu = GetManufact(hDeviceInfoSet, new USB_DEVICE_DESCRIPTOR() {iManufacturer = 1}, pp);
 
                 DeviceInfo deviceInfo = new DeviceInfo();
                 try
@@ -334,8 +481,8 @@ public class Win32DeviceMgmt
                 {
                     try
                     {
-                        log.Info((SPDRP) prop + ": " +
-                                 GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP) prop));
+                        log.Info((SPDRP)prop + ": " +
+                                 GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP)prop));
                     }
                     catch
                     {
@@ -384,14 +531,22 @@ public class Win32DeviceMgmt
                 for (int i = 0; i < list.Length; i++)
                 {
                     IntPtr buffer = Marshal.AllocHGlobal(1024);
-                    SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref list[i], out propertyType,
-                        buffer, 1024, out requiredSize, 0);
+                    try
+                    {
+                        if (SetupDiGetDevicePropertyW(hDeviceInfoSet, ref deviceInfoData, ref list[i], out propertyType,
+                            buffer, 1024, out requiredSize, 0))
+                        {
+                            var out11 = Marshal.PtrToStringAuto(buffer);
+                            log.Info(list[i].name + " " + out11);
 
-                    var out11 = Marshal.PtrToStringAuto(buffer);
-                    log.Info(list[i].name + " " + out11);
-
-                    if (list[i].name == "DEVPKEY_Device_BusReportedDeviceDesc")
-                        deviceInfo.board = out11;
+                            if (list[i].name == "DEVPKEY_Device_BusReportedDeviceDesc")
+                                deviceInfo.board = out11;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
 
                     Marshal.FreeHGlobal(buffer);
                 }
@@ -408,11 +563,12 @@ public class Win32DeviceMgmt
             SetupDiDestroyDeviceInfoList(hDeviceInfoSet);
         }
     }
+
     private static DEVPROPKEY DEFINE_DEVPROPKEY(string dEVPKEY_Device_Manufacturer, uint v1, int v2, int v3, byte v4, byte v5, byte v6, byte v7, byte v8, byte v9, byte v10, byte v11, uint v12)
     {
         DEVPROPKEY key = new DEVPROPKEY();
         key.pid = v12;
-        key.fmtid = new Guid(v1, (ushort) v2, (ushort) v3, v4, v5, v6, v7, v8, v9, v10, v11);
+        key.fmtid = new Guid(v1, (ushort)v2, (ushort)v3, v4, v5, v6, v7, v8, v9, v10, v11);
         key.name = dEVPKEY_Device_Manufacturer;
         return key;
     }

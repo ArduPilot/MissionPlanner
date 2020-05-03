@@ -1,4 +1,8 @@
 ﻿
+using System.Collections.Concurrent;
+using System.Net.Http;
+using System.Threading;
+
 namespace GMap.NET.MapProviders
 {
     using System;
@@ -385,88 +389,34 @@ namespace GMap.NET.MapProviders
         {
             PureImage ret = null;
 
-#if !PocketPC
-            WebRequest request = IsSocksProxy ? SocksHttpWebRequest.Create(url) : WebRequest.Create(url);
-#else
-            WebRequest request = WebRequest.Create(url);
-#endif
-            if (WebProxy != null)
-            {
-                request.Proxy = WebProxy;
-            }
+            HttpClient client = new HttpClient();
+            if (!string.IsNullOrEmpty(UserAgent))
+                client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+            if (!string.IsNullOrEmpty(requestAccept))
+                client.DefaultRequestHeaders.Add("Accept", requestAccept);
+            if (!string.IsNullOrEmpty(RefererUrl))
+                client.DefaultRequestHeaders.Add("Referer", RefererUrl);
 
-            if (Credential != null)
-            {
-                request.PreAuthenticate = true;
-                request.Credentials = Credential;
-            }
+            MemoryStream data =
+                Stuff.CopyStream(client.GetStreamAsync(url).ConfigureAwait(false).GetAwaiter().GetResult(), false);
 
-            if (request is HttpWebRequest)
-            {
-                var r = request as HttpWebRequest;
-                r.UserAgent = UserAgent;
-                r.ReadWriteTimeout = TimeoutMs * 6;
-                r.Accept = requestAccept;
-                r.Referer = RefererUrl;
-                r.Timeout = TimeoutMs;
-            }
-#if !PocketPC
-            else if (request is SocksHttpWebRequest)
-            {
-                var r = request as SocksHttpWebRequest;
+            Debug.WriteLine("Response[" + data.Length + " bytes]: " + url);
 
-                if (!string.IsNullOrEmpty(UserAgent))
+            if (data.Length > 0)
+            {
+                ret = TileImageProxy.FromStream(data);
+
+                if (ret != null)
                 {
-                    r.Headers.Add("User-Agent", UserAgent);
-                }
-
-                if (!string.IsNullOrEmpty(requestAccept))
-                {
-                    r.Headers.Add("Accept", requestAccept);
-                }
-
-                if (!string.IsNullOrEmpty(RefererUrl))
-                {
-                    r.Headers.Add("Referer", RefererUrl);
-                }              
-            }
-#endif       
-            using (var response = request.GetResponse())
-            {
-                if (CheckTileImageHttpResponse(response))
-                {
-                    using (Stream responseStream = response.GetResponseStream())
-                    {
-                        MemoryStream data = Stuff.CopyStream(responseStream, false);
-
-                        Debug.WriteLine("Response[" + data.Length + " bytes]: " + url);
-
-                        if (data.Length > 0)
-                        {
-                            ret = TileImageProxy.FromStream(data);
-
-                            if (ret != null)
-                            {
-                                ret.Data = data;
-                                ret.Data.Position = 0;
-                            }
-                            else
-                            {
-                                data.Dispose();
-                            }
-                        }
-                        data = null;
-                    }
+                    ret.Data = data;
+                    ret.Data.Position = 0;
                 }
                 else
                 {
-                    Debug.WriteLine("CheckTileImageHttpResponse[false]: " + url);
+                    data.Dispose();
                 }
-#if PocketPC
-                request.Abort();
-#endif
-                response.Close();
             }
+            data = null;
             return ret;
         }
 

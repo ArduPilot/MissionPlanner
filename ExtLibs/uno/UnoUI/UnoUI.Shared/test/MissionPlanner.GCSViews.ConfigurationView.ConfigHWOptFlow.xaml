@@ -1,0 +1,21 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigHWOptFlow" d:DesignHeight="119" d:DesignWidth="650"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="92,35,0,0" Width="134" Height="19"></Controls:MavlinkCheckBox>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="7,5,0,0" Width="95" Height="20">Optical Flow</TextBlock>
+<Grid Name="groupBox4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,23,0,0" Width="644" Height="5">
+</Grid>
+<Image Name="pictureBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,35,0,0" Width="75" Height="75"></Image>
+</Grid></UserControl>

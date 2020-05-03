@@ -1,5 +1,5 @@
-﻿using System;
-using AltitudeAngelWings.Extra;
+﻿using AltitudeAngelWings.Extra;
+using System;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {

@@ -324,7 +324,7 @@ namespace MissionPlanner.GeoRef
             this.myGMAP1.MarkersEnabled = true;
             this.myGMAP1.MaxZoom = 2;
             this.myGMAP1.MinZoom = 2;
-            this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.myGMAP1.Name = "myGMAP1";
             this.myGMAP1.NegativeMode = false;
             this.myGMAP1.PolygonsEnabled = true;

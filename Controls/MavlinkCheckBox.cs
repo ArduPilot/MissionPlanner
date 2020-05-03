@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections;
 
 namespace MissionPlanner.Controls
 {
@@ -114,7 +110,7 @@ namespace MissionPlanner.Controls
                 enableControl(true);
                 try
                 {
-                    bool ans = MainV2.comPort.setParam(ParamName, OnValue);
+                    bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, OnValue);
                     if (ans == false)
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                 }
@@ -128,7 +124,7 @@ namespace MissionPlanner.Controls
                 enableControl(false);
                 try
                 {
-                    bool ans = MainV2.comPort.setParam(ParamName, OffValue);
+                    bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, OffValue);
                     if (ans == false)
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                 }

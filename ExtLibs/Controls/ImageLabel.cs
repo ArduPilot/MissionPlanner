@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
+    [DefaultEvent("Click")]
     public partial class ImageLabel : MyUserControl //ContainerControl
     {
         public new event EventHandler Click;

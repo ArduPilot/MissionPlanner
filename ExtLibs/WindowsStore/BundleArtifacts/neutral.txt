@@ -1,0 +1,6 @@
+MainPackage=C:\Users\michael\Source\Repos\MissionPlanner\ExtLibs\WindowsStore\bin\AnyCPU\Release\WindowsStore_0.0.50.0_AnyCPU.appx
+SymbolPackage=C:\Users\michael\Source\Repos\MissionPlanner\ExtLibs\WindowsStore\AppPackages\WindowsStore_0.0.50.0_Test\WindowsStore_0.0.50.0_AnyCPU.appxsym
+ResourcePack=C:\Users\michael\Source\Repos\MissionPlanner\ExtLibs\WindowsStore\bin\AnyCPU\Release\WindowsStore_0.0.50.0_scale-100.appx
+ResourcePack=C:\Users\michael\Source\Repos\MissionPlanner\ExtLibs\WindowsStore\bin\AnyCPU\Release\WindowsStore_0.0.50.0_scale-125.appx
+ResourcePack=C:\Users\michael\Source\Repos\MissionPlanner\ExtLibs\WindowsStore\bin\AnyCPU\Release\WindowsStore_0.0.50.0_scale-150.appx
+ResourcePack=C:\Users\michael\Source\Repos\MissionPlanner\ExtLibs\WindowsStore\bin\AnyCPU\Release\WindowsStore_0.0.50.0_scale-400.appx

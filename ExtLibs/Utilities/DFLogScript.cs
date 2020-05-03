@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using MissionPlanner.Utilities;
+using org.mariuszgromada.math.mxparser;
+using org.mariuszgromada.math.mxparser.mathcollection;
 
 namespace MissionPlanner.Log
 {
@@ -77,7 +79,7 @@ namespace MissionPlanner.Log
             double tnow = 0;
             if (tusec != 0)
             {
-                tnow = tusec*1.0e-6;
+                tnow = tusec * 1.0e-6;
             }
             double ret = 0.0;
 
@@ -87,19 +89,149 @@ namespace MissionPlanner.Log
             }
             else
             {
-                ret = (vari - last_v)/(tnow - last_t);
+                ret = (vari - last_v) / (tnow - last_t);
             }
             last_v = vari;
             last_t = tnow;
             return ret;
         }
 
-        public static List<Tuple<double, double>> ProcessExpression(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
+        public class atan2 : FunctionExtension
         {
-            List<Tuple<double, double>> answer = new List<Tuple<double, double>>();
+            private double x;
+            private double y;
+            public atan2()
+            {
+                x = Double.NaN;
+                y = Double.NaN;
+            }
+            public atan2(double x, double y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+            public double calculate()
+            {
+                return Math.Atan2(y, x);
+            }
+
+            public FunctionExtension clone()
+            {
+                return new atan2(x, y);
+            }
+
+            public string getParameterName(int argumentIndex)
+            {
+                if (argumentIndex == 0) return "y";
+                if (argumentIndex == 1) return "x";
+                return "";
+            }
+
+            public int getParametersNumber()
+            {
+                return 2;
+            }
+
+            public void setParameterValue(int argumentIndex, double argumentValue)
+            {
+                if (argumentIndex == 0) x = argumentValue;
+                if (argumentIndex == 1) y = argumentValue;
+            }
+        }
+
+        public static List<Tuple<DFLog.DFItem, double>> ProcessExpression(DFLog dflog, DFLogBuffer logdata, string expression)
+        {
+            List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
+
+            Dictionary<string, List<string>> fieldsUsed = new Dictionary<string, List<string>>();
+
+            var fieldmatchs = Regex.Matches(expression, @"(([A-z0-9_]{2,20})\.([A-z0-9_]+))");
+
+            if (fieldmatchs.Count > 0)
+            {
+                foreach (Match match in fieldmatchs)
+                {
+                    var type = match.Groups[2].Value.ToString();
+                    var field = match.Groups[3].Value.ToString();
+
+                    if (!fieldsUsed.ContainsKey(type))
+                        fieldsUsed[type] = new List<string>();
+
+                    fieldsUsed[type].Add(field);
+                }
+            }
+
+            Function f = new Function("wrap_360(x) = (x+360) # 360");
+            Function f1 = new Function("degrees(x) = x*57.295779513");
+            Function f2 = new Function("atan2", new atan2());
+            Function f3 = new Function("lowpass", new lowpass());
+            Function f4 = new Function("delta", new deltaF());
+
+            // fix maths operators
+            var filter1 =
+                expression.Replace("%", "#").Replace("**", "^").Replace(":2", "");
+
+            //convert paramnames to remove .
+            var filter2 = Regex.Replace(filter1, @"(([A-z0-9_]{2,20})\.([A-z0-9_]+))",
+                match => match.Groups[2].ToString() + match.Groups[3]);
+
+            // convert strings to long
+            var filter3 = Regex.Replace(filter2, @"([""']{1}[^""]+[""']{1})",
+                match => BitConverter.ToUInt64(match.Groups[0].Value.MakeBytesSize(8), 0).ToString());
+
+            Expression e = new Expression(filter3);
+            
+            e.addFunctions(f);
+            e.addFunctions(f1);
+            e.addFunctions(f2);
+            e.addFunctions(f3);
+            e.addFunctions(f4);
+
+            foreach (var item in fieldsUsed)
+            {
+                foreach (var value in item.Value)
+                {
+                    Argument x = new Argument(item.Key + "" + value);
+                    e.addArguments(x);
+                }
+            }
+
+            bool bad = false;
+
+            try
+            {
+                mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
+
+                if (!e.checkSyntax())
+                {
+                    bad = true;
+                }
+            }
+            catch
+            {
+                bad = true;
+            }
+
+            if (!bad)
+                foreach (var line in logdata.GetEnumeratorType(fieldsUsed.Keys.ToArray()))
+                {
+                    foreach (var item in fieldsUsed)
+                    {
+                        foreach (var value in item.Value.Distinct())
+                        {
+                            e.setArgumentValue(item.Key + "" + value,
+                                double.Parse(line.items[dflog.FindMessageOffset(item.Key, value)]));
+                        }
+                    }
+
+                    answer.Add(line, e.calculate());
+                }
+
+            if (answer.Count > 0)
+                return answer;
 
             //earth_accel_df(IMU2,ATT).x
-            if (expression.Contains("earth_accel_df"))
+                if (expression.Contains("earth_accel_df"))
             {
                 var matchs = Regex.Matches(expression, @"([A-z0-9_]+),([A-z0-9_]+)");
 
@@ -139,15 +271,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).x);
+                        answer.Add(item, earth_accel_df(IMU, ATT).x);
                     }
                     if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).y);
+                        answer.Add(item, earth_accel_df(IMU, ATT).y);
                     }
                     if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).z);
+                        answer.Add(item, earth_accel_df(IMU, ATT).z);
                     }
                 }
             } // delta(gps_velocity_df(GPS).x,'x',GPS.TimeUS)
@@ -166,15 +298,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
+                        answer.Add(item, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
                     }
                     else if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
+                        answer.Add(item, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
                     }
                     else if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
+                        answer.Add(item, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
                     }
                 }
             }
@@ -193,15 +325,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
+                        answer.Add(item, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
                     }
                     else if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
+                        answer.Add(item, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
                     }
                     else if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
+                        answer.Add(item, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
                     }
                 }
             }
@@ -216,7 +348,7 @@ namespace MissionPlanner.Log
 
                     foreach (var item in logdata.GetEnumeratorType(type))
                     {
-                        answer.Add(item.lineno, degrees(double.Parse(item.items[dflog.FindMessageOffset(type, field)])));
+                        answer.Add(item, degrees(double.Parse(item.items[dflog.FindMessageOffset(type, field)])));
                     }
                 }
             }
@@ -252,15 +384,47 @@ namespace MissionPlanner.Log
                             var offset = dflog.FindMessageOffset(key, value);
                             if (offset == -1)
                                 continue;
-                            work[a] = double.Parse(item.items[offset]);
+                            var ans = logdata.GetUnit(key, value);
+                            string unit = ans.Item1;
+                            double multiplier = ans.Item2;
+                            work[a] = double.Parse(item.items[offset]) * multiplier;
                         }
+
+
 
                         double workanswer = 0;
                         foreach (var value in work.Values)
                         {
                             workanswer += Math.Pow(value, 2);
                         }
-                        answer.Add(item.lineno, Math.Sqrt(workanswer));
+                        answer.Add(item, Math.Sqrt(workanswer));
+                    }
+                }
+            }
+            else if (expression.Contains("*")) // ATT.DesRoll*ATT.Roll
+            {
+                var matchs = Regex.Matches(expression, @"([A-z0-9_]+)\.([A-z0-9_]+)\*([A-z0-9_]+)\.([A-z0-9_]+)");
+
+                if (matchs.Count > 0)
+                {
+                    var type = matchs[0].Groups[1].Value.ToString();
+                    var field = matchs[0].Groups[2].Value.ToString();
+
+                    var type2 = matchs[0].Groups[3].Value.ToString();
+                    var field2 = matchs[0].Groups[4].Value.ToString();
+
+                    foreach (var item in logdata.GetEnumeratorType(new[] { type, type2 }))
+                    {
+                        if (type == type2)
+                        {
+                            var idx1 = dflog.FindMessageOffset(type, field);
+                            var idx2 = dflog.FindMessageOffset(type2, field2);
+                            if (idx1 == -1 || idx2 == -1)
+                                break;
+                            answer.Add(item,
+                                double.Parse(item.items[idx1]) *
+                                double.Parse(item.items[idx2]));
+                        }
                     }
                 }
             }
@@ -279,9 +443,15 @@ namespace MissionPlanner.Log
                     foreach (var item in logdata.GetEnumeratorType(new[] {type, type2}))
                     {
                         if (type == type2)
-                            answer.Add(item.lineno,
-                                double.Parse(item.items[dflog.FindMessageOffset(type, field)]) -
-                                double.Parse(item.items[dflog.FindMessageOffset(type2, field2)]));
+                        {
+                            var idx1 = dflog.FindMessageOffset(type, field);
+                            var idx2 = dflog.FindMessageOffset(type2, field2);
+                            if(idx1 == -1 || idx2 == -1)
+                                break;
+                            answer.Add(item,
+                                double.Parse(item.items[idx1]) -
+                                double.Parse(item.items[idx2]));
+                        }
                     }
                 }
             }
@@ -320,12 +490,127 @@ namespace MissionPlanner.Log
                         ATT.Yaw = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Yaw")]);
                     }
 
-                    answer.Add(item.lineno, mag_heading_df(MAG, ATT));
+                    answer.Add(item, mag_heading_df(MAG, ATT));
                 }
             }
 
 
             return answer;
+        }
+
+        private class lowpass : FunctionExtension
+        {
+            private  double var;
+            private  string key;
+            private  double factor;
+            static Dictionary<string,double> lowpass_data = new Dictionary<string, double>();
+
+            public lowpass()
+            {
+            }
+            public lowpass(double var, double key, double factor)
+            {
+                this.var = var;
+                this.key = key.ToString();
+                this.factor = factor;
+            }
+            public double calculate()
+            {
+                if (!lowpass_data.ContainsKey(key))
+                    lowpass_data[key] = var;
+                return factor * lowpass_data[key] + (1.0 - factor) * var;
+            }
+
+            public FunctionExtension clone()
+            {
+                return new lowpass(var, double.Parse(key), factor);
+            }
+
+            public string getParameterName(int argumentIndex)
+            {
+                if (argumentIndex == 0) return "var";
+                if (argumentIndex == 1) return "key";
+                if (argumentIndex == 2) return "factor";
+                return "";
+            }
+
+            public int getParametersNumber()
+            {
+                return 3;
+            }
+
+            public void setParameterValue(int argumentIndex, double argumentValue)
+            {
+                if (argumentIndex == 0) var = argumentValue;
+                if (argumentIndex == 1) key = argumentValue.ToString();
+                if (argumentIndex == 2) factor = argumentValue;
+            }
+        }
+
+        private class deltaF : FunctionExtension
+        {
+            private double vari;
+            private string key;
+            private double tusec;
+            private double last_v;
+            private double last_t;
+
+            public deltaF()
+            {
+            }
+            public deltaF(double vari, double key, double tusec)
+            {
+                this.vari = vari;
+                this.key = key.ToString();
+                this.tusec = tusec;
+            }
+
+            public double calculate()
+            {
+                double tnow = 0;
+                if (tusec != 0)
+                {
+                    tnow = tusec * 1.0e-6;
+                }
+                double ret = 0.0;
+
+                if (tnow == last_t)
+                {
+                    ret = 0;
+                }
+                else
+                {
+                    ret = (vari - last_v) / (tnow - last_t);
+                }
+                last_v = vari;
+                last_t = tnow;
+                return ret;
+            }
+
+            public FunctionExtension clone()
+            {
+                return new deltaF(vari, double.Parse(key), tusec);
+            }
+
+            public string getParameterName(int argumentIndex)
+            {
+                if (argumentIndex == 0) return "vari";
+                if (argumentIndex == 1) return "key";
+                if (argumentIndex == 2) return "tusec";
+                return "";
+            }
+
+            public int getParametersNumber()
+            {
+                return 3;
+            }
+
+            public void setParameterValue(int argumentIndex, double argumentValue)
+            {
+                if (argumentIndex == 0) vari = argumentValue;
+                if (argumentIndex == 1) key = argumentValue.ToString();
+                if (argumentIndex == 2) tusec = argumentValue;
+            }
         }
     }
 

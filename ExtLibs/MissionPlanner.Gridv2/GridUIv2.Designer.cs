@@ -305,7 +305,7 @@
             this.map.MarkersEnabled = true;
             this.map.MaxZoom = 19;
             this.map.MinZoom = 2;
-            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.map.Name = "map";
             this.map.NegativeMode = false;
             this.map.PolygonsEnabled = true;
@@ -315,7 +315,6 @@
             this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.map.ShowTileGridLines = false;
             this.map.Zoom = 3D;
-            this.map.OnPolygonClick += new GMap.NET.WindowsForms.PolygonClick(this.map_OnPolygonClick);
             this.map.OnPolygonEnter += new GMap.NET.WindowsForms.PolygonEnter(this.map_OnPolygonEnter);
             this.map.OnPolygonLeave += new GMap.NET.WindowsForms.PolygonLeave(this.map_OnPolygonLeave);
             this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
@@ -636,7 +635,6 @@
             // 
             // GridUIv2
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.map);
             this.Controls.Add(this.LBL_topdock);

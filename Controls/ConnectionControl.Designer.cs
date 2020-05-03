@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectionControl));
             this.cmb_Baud = new System.Windows.Forms.ComboBox();
-            this.cmb_ConnectionType = new System.Windows.Forms.ComboBox();
+   
             this.cmb_Connection = new System.Windows.Forms.ComboBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.cmb_sysid = new System.Windows.Forms.ComboBox();
@@ -58,15 +58,7 @@
             resources.GetString("cmb_Baud.Items12")});
             resources.ApplyResources(this.cmb_Baud, "cmb_Baud");
             this.cmb_Baud.Name = "cmb_Baud";
-            // 
-            // cmb_ConnectionType
-            // 
-            this.cmb_ConnectionType.BackColor = System.Drawing.Color.Black;
-            this.cmb_ConnectionType.DropDownWidth = 122;
-            this.cmb_ConnectionType.ForeColor = System.Drawing.Color.White;
-            this.cmb_ConnectionType.FormattingEnabled = true;
-            resources.ApplyResources(this.cmb_ConnectionType, "cmb_ConnectionType");
-            this.cmb_ConnectionType.Name = "cmb_ConnectionType";
+
             // 
             // cmb_Connection
             // 
@@ -101,12 +93,10 @@
             // 
             // ConnectionControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
             this.Controls.Add(this.cmb_sysid);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.cmb_Connection);
-            this.Controls.Add(this.cmb_ConnectionType);
             this.Controls.Add(this.cmb_Baud);
             resources.ApplyResources(this, "$this");
             this.Name = "ConnectionControl";
@@ -119,7 +109,7 @@
         #endregion
 
         private System.Windows.Forms.ComboBox cmb_Baud;
-        private System.Windows.Forms.ComboBox cmb_ConnectionType;
+    
         private System.Windows.Forms.ComboBox cmb_Connection;
         private System.Windows.Forms.LinkLabel linkLabel1;
         public System.Windows.Forms.ComboBox cmb_sysid;

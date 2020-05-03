@@ -16,7 +16,9 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
 using System.Runtime.InteropServices;
+using MissionPlanner.Utilities;
 using SvgNet.SvgGdi;
+using MathHelper = MissionPlanner.Utilities.MathHelper;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 
@@ -712,22 +714,7 @@ namespace MissionPlanner.Controls
             {
                 get
                 {
-                    if (Item.PropertyType == typeof(Single))
-                    {
-                        return (double) (float) Item.GetValue(src, null);
-                    }
-
-                    if (Item.PropertyType == typeof(Int32))
-                    {
-                        return (double) (int) Item.GetValue(src, null);
-                    }
-
-                    if (Item.PropertyType == typeof(double))
-                    {
-                        return (double) Item.GetValue(src, null);
-                    }
-
-                    throw new Exception("Bad data type");
+                    return Convert.ToDouble(Item.GetValue(src, null));
                 }
             }
 
@@ -746,6 +733,36 @@ namespace MissionPlanner.Controls
                 this._whitePen = new Pen(value, 2);
             }
         }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public Color skyColor1
+        {
+            get { return _skyColor1; }
+            set { _skyColor1 = value; }
+        }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public Color skyColor2
+        {
+            get { return _skyColor2; }
+            set { _skyColor2 = value; }
+        }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values"), DefaultValue(typeof(Color), "0x9bb824")]
+        public Color groundColor1
+        {
+            get { return _groundColor1; }
+            set { _groundColor1 = value; }
+        }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values"), DefaultValue(typeof(Color), "0x414f07")]
+        public Color groundColor2
+        {
+            get { return _groundColor2; }
+            set { _groundColor2 = value; }
+        }
+
+        private Color _skyColor1 = Color.Blue;
+        private Color _skyColor2 = Color.LightBlue;
+        private Color _groundColor1 = Color.FromArgb(0x9b, 0xb8, 0x24);
+        private Color _groundColor2 = Color.FromArgb(0x41, 0x4f, 0x07);
 
         private Color _hudcolor = Color.White;
         private Pen _whitePen = new Pen(Color.White, 2);
@@ -1033,8 +1050,8 @@ namespace MissionPlanner.Controls
                 if (opengl)
                 {
                     // make this gl window and thread current
-                    //if (!Context.IsCurrent || DateTime.Now.Second % 5 == 0)
-                    MakeCurrent();
+                    if (!Context.IsCurrent || DateTime.Now.Second % 5 == 0)
+                        MakeCurrent();
 
                     GL.Clear(ClearBufferMask.ColorBufferBit);
 
@@ -1752,7 +1769,7 @@ namespace MissionPlanner.Controls
                     if (bg.Height != 0)
                     {
                         using (LinearGradientBrush linearBrush = new LinearGradientBrush(
-                            bg, Color.Blue, Color.LightBlue, LinearGradientMode.Vertical))
+                            bg, _skyColor1, _skyColor2, LinearGradientMode.Vertical))
                         {
                             graphicsObject.FillRectangle(linearBrush, bg);
                         }
@@ -1765,7 +1782,7 @@ namespace MissionPlanner.Controls
                     {
                         using (
                             LinearGradientBrush linearBrush = new LinearGradientBrush(
-                                bg, Color.FromArgb(0x9b, 0xb8, 0x24), Color.FromArgb(0x41, 0x4f, 0x07),
+                                bg, _groundColor1, _groundColor2,
                                 LinearGradientMode.Vertical))
                         {
                             graphicsObject.FillRectangle(linearBrush, bg);
@@ -2502,12 +2519,12 @@ namespace MissionPlanner.Controls
                     if (lowvoltagealert)
                     {
                         drawstring(text, font, fontsize + 2, (SolidBrush) Brushes.Red, fontsize,
-                            this.Height - 30 - fontoffset);
+                            this.Height - ((fontsize + 2) * 3) - fontoffset);
                     }
                     else
                     {
                         drawstring(text, font, fontsize + 2, _whiteBrush, fontsize,
-                            this.Height - 30 - fontoffset);
+                            this.Height - ((fontsize + 2) * 3) - fontoffset);
                     }
                 }
 
@@ -2516,45 +2533,54 @@ namespace MissionPlanner.Controls
                 {
                     string gps = "";
                     SolidBrush col = _whiteBrush;
-                    var _fix = Math.Max(_gpsfix, _gpsfix2);
+                    int a = 0;
+                    foreach (var _fix in new[] {_gpsfix, _gpsfix2})
+                    {
+                        if (_fix == 0)
+                        {
+                            gps = (HUDT.GPS0);
+                            col = (SolidBrush) Brushes.Red;
+                        }
+                        else if (_fix == 1)
+                        {
+                            gps = (HUDT.GPS1);
+                            col = (SolidBrush) Brushes.Red;
+                        }
+                        else if (_fix == 2)
+                        {
+                            gps = (HUDT.GPS2);
+                        }
+                        else if (_fix == 3)
+                        {
+                            gps = (HUDT.GPS3);
+                        }
+                        else if (_fix == 4)
+                        {
+                            gps = (HUDT.GPS4);
+                        }
+                        else if (_fix == 5)
+                        {
+                            gps = (HUDT.GPS5);
+                        }
+                        else if (_fix == 6)
+                        {
+                            gps = (HUDT.GPS6);
+                        }
+                        else
+                        {
+                            gps = _fix.ToString();
+                        }
 
-                    if (_fix == 0)
-                    {
-                        gps = (HUDT.GPS0);
-                        col = (SolidBrush) Brushes.Red;
-                    }
-                    else if (_fix == 1)
-                    {
-                        gps = (HUDT.GPS1);
-                        col = (SolidBrush) Brushes.Red;
-                    }
-                    else if (_fix == 2)
-                    {
-                        gps = (HUDT.GPS2);
-                    }
-                    else if (_fix == 3)
-                    {
-                        gps = (HUDT.GPS3);
-                    }
-                    else if (_fix == 4)
-                    {
-                        gps = (HUDT.GPS4);
-                    }
-                    else if (_fix == 5)
-                    {
-                        gps = (HUDT.GPS5);
-                    }
-                    else if (_fix == 6)
-                    {
-                        gps = (HUDT.GPS6);
-                    }
-                    else
-                    {
-                        gps = _fix.ToString();
-                    }
+                        // gps2
+                        if (a == 1) gps = gps.Replace("GPS:", "GPS2:");
+                        // if nogps dont display
+                        if(a >= 1 && _fix == 0)
+                            continue;
 
-                    drawstring(gps, font, fontsize + 2, col, this.Width - 13 * fontsize,
-                        this.Height - 30 - fontoffset);
+                        drawstring(gps, font, fontsize + 2, col, this.Width - 13 * fontsize,
+                            this.Height - ((fontsize + 2) * 3) - fontoffset + ((fontsize + 2) * a));
+                        a++;
+                    }
                 }
 
                 if (isNaN)
@@ -2563,7 +2589,7 @@ namespace MissionPlanner.Controls
 
                 // custom user items
                 graphicsObject.ResetTransform();
-                int height = this.Height - 30 - fontoffset - fontsize - 8;
+                int height = this.Height - ((fontsize + 2) * 3) - fontoffset - fontsize - 8;
                 foreach (string key in CustomItems.Keys)
                 {
                     try
@@ -2647,7 +2673,10 @@ namespace MissionPlanner.Controls
 
                 if (message != "" && messagetime.AddSeconds(10) > DateTime.Now)
                 {
-                    drawstring(message, font, fontsize + 10, (SolidBrush) Brushes.Red, -halfwidth + 50,
+                    var newfontsize = calcsize(message, font, fontsize + 10, (SolidBrush) Brushes.Red, Width - 50 - 50);
+
+
+                    drawstring(message, font, newfontsize, (SolidBrush) Brushes.Red, -halfwidth + 50,
                         halfheight / 3);
                 }
 
@@ -2655,7 +2684,7 @@ namespace MissionPlanner.Controls
 
                 if (displayvibe)
                 {
-                    vibehitzone = new Rectangle(this.Width - 18 * fontsize, this.Height - 30 - fontoffset, 40,
+                    vibehitzone = new Rectangle(this.Width - 18 * fontsize, this.Height - ((fontsize + 2) * 3) - fontoffset, 40,
                         fontsize * 2);
 
                     if (vibex > 30 || vibey > 30 || vibez > 30)
@@ -2672,7 +2701,7 @@ namespace MissionPlanner.Controls
 
                 if (displayekf)
                 {
-                    ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - 30 - fontoffset, 40,
+                    ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - ((fontsize + 2) * 3) - fontoffset, 40,
                         fontsize * 2);
 
                     if (ekfstatus > 0.5)
@@ -2740,7 +2769,7 @@ namespace MissionPlanner.Controls
         }
 
         // Returns a System.Drawing.Bitmap with the contents of the current framebuffer
-        public new Bitmap GrabScreenshot()
+        public Bitmap GrabScreenshot()
         {
             if (OpenTK.Graphics.GraphicsContext.CurrentContext == null)
                 throw new OpenTK.Graphics.GraphicsContextMissingException();
@@ -2757,6 +2786,10 @@ namespace MissionPlanner.Controls
             return bmp;
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
 
         float wrap360(float noin)
         {
@@ -2775,6 +2808,29 @@ namespace MissionPlanner.Controls
         /// </summary>
         private readonly GraphicsPath pth = new GraphicsPath();
 
+        float calcsize(string text, Font font, float fontsize, SolidBrush brush, int targetwidth)
+        {
+            float size = 0;
+            foreach (char cha in text)
+            {
+                int charno = (int) cha;
+                int charid = charno ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
+
+                if (!charDict.ContainsKey(charid))
+                {
+                    size += fontsize;
+                }
+                else
+                {
+                    size += charDict[charid].width;
+                }
+            }
+
+            if (size > targetwidth && size > 3)
+                return calcsize(text, font, fontsize - 1, brush, targetwidth);
+
+            return fontsize;
+        }
         void drawstring(string text, Font font, float fontsize, SolidBrush brush, float x, float y)
         {
             if (!opengl)

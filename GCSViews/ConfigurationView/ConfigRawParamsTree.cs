@@ -1,7 +1,13 @@
-﻿using System;
+﻿using BrightIdeasSoftware;
+using log4net;
+using Microsoft.Scripting.Utils;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,15 +15,10 @@ using System.Text;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
-using log4net;
-using Microsoft.Scripting.Utils;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigRawParamsTree : UserControl, IActivate, IDeactivate
+    public partial class ConfigRawParamsTree : MyUserControl, IActivate, IDeactivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -40,6 +41,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             startup = true;
+
+            _changes.Clear();
 
             BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
@@ -205,29 +208,48 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
 
             // sort with enable at the bottom - this ensures params are set before the function is disabled
-            var temp = new List<string>();
-            foreach (var item in _changes.Keys)
-            {
-                temp.Add((string)item);
-            }
+            var temp = _changes.Keys.Select(a => (string)a).ToList();
 
             temp.SortENABLE();
+
+            bool enable = temp.Any(a => a.EndsWith("_ENABLE"));
+
+            if (enable)
+            {
+                CustomMessageBox.Show(
+                    "You have changed an Enable parameter. You may need to do a full param refresh to show all params",
+                    "Params");
+            }
+
+            int error = 0;
 
             foreach (string value in temp)
             {
                 try
                 {
-                    MainV2.comPort.setParam(value, (float) _changes[value]);
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        return;
+                    }
+
+                    MainV2.comPort.setParam(value, (float)_changes[value]);
 
                     _changes.Remove(value);
                 }
                 catch
                 {
+                    error++;
                     CustomMessageBox.Show("Set " + value + " Failed");
                 }
             }
 
             Params.Refresh();
+
+            if (error > 0)
+                CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
+            else
+                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
         }
 
         private void BUT_compare_Click(object sender, EventArgs e)
@@ -265,7 +287,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.MAV.cs.armed || (int)DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
-                ((Control) sender).Enabled = false;
+                ((Control)sender).Enabled = false;
 
                 try
                 {
@@ -278,7 +300,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
 
-                ((Control) sender).Enabled = true;
+                ((Control)sender).Enabled = true;
 
                 startup = true;
 
@@ -292,7 +314,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -319,23 +341,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         internal void processToScreen()
         {
             toolTip1.RemoveAll();
+            Params.CancelCellEdit();
             Params.Items.Clear();
 
             Params.Objects.ForEach(x => { Params.RemoveObject(x); });
 
             Params.CellEditActivation = ObjectListView.CellEditActivateMode.SingleClick;
 
-            Params.CanExpandGetter = delegate(object x)
+            Params.CanExpandGetter = delegate (object x)
             {
-                var y = (data) x;
+                var y = (data)x;
                 if (y.children != null && y.children.Count > 0)
                     return true;
                 return false;
             };
 
-            Params.ChildrenGetter = delegate(object x)
+            Params.ChildrenGetter = delegate (object x)
             {
-                var y = (data) x;
+                var y = (data)x;
                 return new ArrayList(y.children);
             };
 
@@ -389,7 +412,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                     else
                     {
-                        var newroot = new data {root = split[0], paramname = split[0]};
+                        var newroot = new data { root = split[0], paramname = split[0] };
                         newroot.children.Add(data);
                         roots.Add(newroot);
                         lastroot = newroot;
@@ -447,13 +470,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
                 }
 
-                BeginInvoke((Action) delegate
-                {
-                    CMB_paramfiles.DataSource = paramfiles.ToArray();
-                    CMB_paramfiles.DisplayMember = "name";
-                    CMB_paramfiles.Enabled = true;
-                    BUT_paramfileload.Enabled = true;
-                });
+                if (this.IsDisposed)
+                    return;
+
+                BeginInvoke((Action)delegate
+               {
+                   CMB_paramfiles.DataSource = paramfiles.ToArray();
+                   CMB_paramfiles.DisplayMember = "name";
+                   CMB_paramfiles.Enabled = true;
+                   BUT_paramfileload.Enabled = true;
+               });
             }
             catch (Exception ex)
             {
@@ -476,18 +502,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
 
                     return false;
-                }) .ToArray();
+                }).ToArray();
 
                 Params.Visible = false;
                 Params.UseFiltering = false;
                 Params.ExpandAll();
                 Params.ModelFilter = TextMatchFilter.Regex(Params, searchfor.Replace("*", ".*").Replace("..*", ".*").ToLower());
-                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter) Params.ModelFilter);
+                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter)Params.ModelFilter);
                 Params.UseFiltering = true;
 
                 if (Params.Items.Count > 0)
                 {
-                    if(searchfor.Length == 0)
+                    if (searchfor.Length == 0)
                         Params.CollapseAll();
 
                     foreach (var row in expanded)
@@ -496,6 +522,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
                 Params.Visible = true;
+            }
+
+            if (chk_modified.Checked)
+            {
+                var filter = String.Format("({0})", String.Join("|", _changes.Keys.Select(a => a.ToString())));
+
+                Params.ModelFilter = TextMatchFilter.Regex(Params, filter);
+                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter)Params.ModelFilter);
+                Params.UseFiltering = true;
             }
         }
 
@@ -506,7 +541,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 var data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
-                    ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
+                    ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
 
@@ -524,7 +559,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 // no activate the user needs to click write.
                 //this.Activate();
-            } 
+            }
             catch (Exception ex)
             {
                 CustomMessageBox.Show("Failed to load file.\n" + ex);
@@ -566,7 +601,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    MainV2.comPort.setParam(new[] {"FORMAT_VERSION", "SYSID_SW_MREV"}, 0);
+                    MainV2.comPort.setParam(new[] { "FORMAT_VERSION", "SYSID_SW_MREV" }, 0);
                     Thread.Sleep(1000);
                     MainV2.comPort.doReboot(false, true);
                     MainV2.comPort.BaseStream.Close();
@@ -603,26 +638,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 }
 
-                if (ParameterMetaDataRepository.GetParameterRange(((data) e.RowObject).paramname, ref min, ref max,
+                if (ParameterMetaDataRepository.GetParameterRange(((data)e.RowObject).paramname, ref min, ref max,
                     MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
                     if (newvalue > max || newvalue < min)
                     {
                         if (
                             CustomMessageBox.Show(
-                                ((data) e.RowObject).paramname + " value is out of range. Do you want to continue?",
+                                ((data)e.RowObject).paramname + " value is out of range. Do you want to continue?",
                                 "Out of range", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
+                            e.Cancel = true;
                             return;
                         }
                     }
                 }
 
                 // add to change record
-                _changes[((data) e.RowObject).paramname] = newvalue;
+                _changes[((data)e.RowObject).paramname] = newvalue;
 
                 // update underlying data
-                ((data) e.RowObject).Value = e.NewValue.ToString();
+                ((data)e.RowObject).Value = e.NewValue.ToString();
 
 
                 e.Cancel = false;
@@ -634,7 +670,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Params_FormatRow(object sender, FormatRowEventArgs e)
         {
-            var shortv = _changes.Keys.Select(a => {
+            var shortv = _changes.Keys.Select(a =>
+            {
                 if (a.ToString().Contains('_'))
                     return a.ToString().Substring(0, a.ToString().IndexOf('_'));
                 return "";
@@ -642,13 +679,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (e != null && e.ListView != null && e.ListView.Items.Count > 0)
             {
-                var it = ((data) e.Model);
+                var it = ((data)e.Model);
                 if (_changes.ContainsKey(it.paramname) || shortv.Contains(it.paramname))
                 {
                     e.Item.BackColor = Color.Green;
                 }
                 else
                     e.Item.BackColor = BackColor;
+            }
+
+            var item = e.Model as data;
+            if (item != null)
+            {
+                //olvColumn4.WordWrap = true;
+                //olvColumn5.WordWrap = true;
+                //Params.RowHeight = 26;
+                return;
+
+                var size = TextRenderer.MeasureText(item.desc, Params.Font, new Size(olvColumn5.Width, 26), TextFormatFlags.WordBreak);
+                if (size.Height >= Params.RowHeight)
+                    Params.RowHeight = Math.Min(size.Height, 50);
+
+                size = TextRenderer.MeasureText(item.range, Params.Font, new Size(olvColumn4.Width, 26), TextFormatFlags.WordBreak);
+                if (size.Height >= Params.RowHeight)
+                    Params.RowHeight = Math.Min(size.Height, 50);
             }
         }
 
@@ -673,20 +727,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public string Value;
         }
 
-        private System.Timers.Timer filterTimer = new System.Timers.Timer();
+        private readonly System.Timers.Timer _filterTimer = new System.Timers.Timer();
 
         private void txt_search_TextChanged(object sender, EventArgs e)
         {
-            filterTimer.Elapsed -= FilterTimerOnElapsed;
-            filterTimer.Stop();
-            filterTimer.Interval = 500;
-            filterTimer.Elapsed += FilterTimerOnElapsed;
-            filterTimer.Start();
+            _filterTimer.Elapsed -= FilterTimerOnElapsed;
+            _filterTimer.Stop();
+            _filterTimer.Interval = 500;
+            _filterTimer.Elapsed += FilterTimerOnElapsed;
+            _filterTimer.Start();
         }
 
         private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            filterTimer.Stop();
+            _filterTimer.Stop();
             Invoke((Action)delegate
             {
                 filterList(txt_search.Text);
@@ -696,8 +750,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Params_CellClick(object sender, CellClickEventArgs e)
         {
             // Only process the Description column
-            if (e.RowIndex == -1 || startup || e.ColumnIndex != 4)
+            if (e.RowIndex == -1 || startup)
                 return;
+
+            if (e.ColumnIndex == olvColumn2.Index)
+            {
+                var it = ((data)e.Model);
+                var check = it.Value;
+                var name = it.paramname;
+
+                var availableBitMask =
+                    ParameterMetaDataRepository.GetParameterBitMaskInt(name, MainV2.comPort.MAV.cs.firmware.ToString());
+                if (availableBitMask.Count > 0)
+                {
+                    var mcb = new MavlinkCheckBoxBitMask();
+                    var list = new MAVLink.MAVLinkParamList();
+                    list.Add(new MAVLink.MAVLinkParam(name, double.Parse(check.ToString(), CultureInfo.InvariantCulture),
+                        MAVLink.MAV_PARAM_TYPE.INT32));
+                    mcb.setup(name, list);
+                    mcb.ValueChanged += (o, s, value) =>
+                    {
+                        paramCompareForm_dtlvcallback(s, int.Parse(value));
+                        ((data)e.HitTest.RowObject).Value = value;
+                        Params.RefreshItem(e.HitTest.Item);
+                        e.HitTest.SubItem.Text = value;
+                        Params.CancelCellEdit();
+                        e.Handled = true;
+                        mcb.Focus();
+                    };
+                    var frm = mcb.ShowUserControl();
+                    frm.TopMost = true;
+                }
+            }
+
 
             try
             {
@@ -711,7 +796,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
             }
             catch
             {
@@ -721,6 +806,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CustomMessageBox.Show("Parameters committed to non-volatile memory");
             return;
+        }
+
+        private void Params_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
+        {
+
+
+        }
+
+        private void Params_CellOver(object sender, CellOverEventArgs e)
+        {
+            if (e.ColumnIndex == 4 || e.ColumnIndex == 5)
+            {
+                //     toolTip1.Show(e.HitTest.Item.Text, this.Parent, 3000);
+            }
+        }
+
+        private void chk_modified_CheckedChanged(object sender, EventArgs e)
+        {
+            FilterTimerOnElapsed(null, null);
         }
     }
 }

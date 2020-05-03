@@ -1,20 +1,20 @@
-﻿using System;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 using Timer = System.Windows.Forms.Timer;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigRadioInput : UserControl, IActivate, IDeactivate
+    public partial class ConfigRadioInput : MyUserControl, IActivate, IDeactivate
     {
         private readonly float[] rcmax = new float[16];
         private readonly float[] rcmin = new float[16];
         private readonly float[] rctrim = new float[16];
-        private readonly Timer timer = new Timer();
+        private readonly Timer _timer = new Timer();
         private int chpitch = -1;
         private int chroll = -1;
         private int chthro = -1;
@@ -36,14 +36,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
             // setup rc update
-            timer.Tick += timer_Tick;
+            _timer.Tick += timer_Tick;
         }
 
         public void Activate()
         {
-            timer.Enabled = true;
-            timer.Interval = 100;
-            timer.Start();
+            _timer.Enabled = true;
+            _timer.Interval = 100;
+            _timer.Start();
 
             if (!MainV2.comPort.MAV.param.ContainsKey("RCMAP_ROLL"))
             {
@@ -54,11 +54,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
-                //setup bindings
-                chroll = (int) (float) MainV2.comPort.MAV.param["RCMAP_ROLL"];
-                chpitch = (int) (float) MainV2.comPort.MAV.param["RCMAP_PITCH"];
-                chthro = (int) (float) MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
-                chyaw = (int) (float) MainV2.comPort.MAV.param["RCMAP_YAW"];
+                try
+                {
+                    //setup bindings
+                    chroll = (int)(float)MainV2.comPort.MAV.param["RCMAP_ROLL"];
+                    chpitch = (int)(float)MainV2.comPort.MAV.param["RCMAP_PITCH"];
+                    chthro = (int)(float)MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
+                    chyaw = (int)(float)MainV2.comPort.MAV.param["RCMAP_YAW"];
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.ErrorReceivingParams, Strings.ERROR);
+                    this.Enabled = false;
+                    return;
+                }
             }
 
             BARroll.DataBindings.Clear();
@@ -118,14 +127,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             // this controls the direction of the output, not the input.
-            CHK_revch1.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC1_REV", "RC1_REVERSED"},
+            CHK_revch1.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC1_REV", "RC1_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CHK_revch2.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC2_REV", "RC2_REVERSED"},
+            CHK_revch2.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC2_REV", "RC2_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CHK_revch3.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC3_REV", "RC3_REVERSED"},
+            CHK_revch3.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC3_REV", "RC3_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CHK_revch4.setup(new double[] {-1, 1}, new double[] {1, 0}, new string[] {"RC4_REV", "RC4_REVERSED"},
+            CHK_revch4.setup(new double[] { -1, 1 }, new double[] { 1, 0 }, new string[] { "RC4_REV", "RC4_REVERSED" },
                 MainV2.comPort.MAV.param);
+
+            if(MainV2.comPort.MAV.param["RC"+ chroll + "_REVERSED"]?.Value == 1)
+            {
+                reverseChannel(true, BARroll);
+            }
+            if (MainV2.comPort.MAV.param["RC" + chpitch + "_REVERSED"]?.Value == 1)
+            {
+                reverseChannel(true, BARpitch);
+            }
+            if (MainV2.comPort.MAV.param["RC" + chthro + "_REVERSED"]?.Value == 1)
+            {
+                reverseChannel(true, BARthrottle);
+            }
+            if (MainV2.comPort.MAV.param["RC" + chyaw + "_REVERSED"]?.Value == 1)
+            {
+                reverseChannel(true, BARyaw);
+            }
+
 
             // run after to ensure they are disabled on copter
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -141,7 +168,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            timer.Stop();
+            _timer.Stop();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -254,17 +281,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     rcmin[15] = Math.Min(rcmin[15], MainV2.comPort.MAV.cs.ch16in);
                     rcmax[15] = Math.Max(rcmax[15], MainV2.comPort.MAV.cs.ch16in);
 
-                    BARroll.minline = (int) rcmin[chroll - 1];
-                    BARroll.maxline = (int) rcmax[chroll - 1];
+                    BARroll.minline = (int)rcmin[chroll - 1];
+                    BARroll.maxline = (int)rcmax[chroll - 1];
 
-                    BARpitch.minline = (int) rcmin[chpitch - 1];
-                    BARpitch.maxline = (int) rcmax[chpitch - 1];
+                    BARpitch.minline = (int)rcmin[chpitch - 1];
+                    BARpitch.maxline = (int)rcmax[chpitch - 1];
 
-                    BARthrottle.minline = (int) rcmin[chthro - 1];
-                    BARthrottle.maxline = (int) rcmax[chthro - 1];
+                    BARthrottle.minline = (int)rcmin[chthro - 1];
+                    BARthrottle.maxline = (int)rcmax[chthro - 1];
 
-                    BARyaw.minline = (int) rcmin[chyaw - 1];
-                    BARyaw.maxline = (int) rcmax[chyaw - 1];
+                    BARyaw.minline = (int)rcmin[chyaw - 1];
+                    BARyaw.maxline = (int)rcmax[chyaw - 1];
 
                     setBARStatus(BAR5, rcmin[4], rcmax[4]);
                     setBARStatus(BAR6, rcmin[5], rcmax[5]);
@@ -319,13 +346,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 BUT_Calibrateradio.Text = Strings.Saving;
                 try
                 {
-                    if (rcmin[a] != rcmax[a])
+                    // min < max and min/max != 0
+                    // trim < max && trim >= min && trim != 0 && min != max
+                    if (rcmin[a] < rcmax[a] && rcmin[a] != 0 && rcmax[a] != 0 &&
+                        rctrim[a] <= rcmax[a] && rctrim[a] >= rcmin[a] && rctrim[a] != 0 &&
+                        rcmin[a] != rcmax[a])
                     {
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MIN", rcmin[a], true);
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MAX", rcmax[a], true);
+                        MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                            "RC" + (a + 1).ToString("0") + "_MIN", rcmin[a], true);
+                        MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                            "RC" + (a + 1).ToString("0") + "_MAX", rcmax[a], true);
+                        MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                            "RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a], true);
                     }
-                    if (rctrim[a] < 1195 || rctrim[a] > 1205)
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a], true);
+                    else
+                    {
+                        continue;
+                    }
                 }
                 catch
                 {
@@ -363,53 +400,53 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void setBARStatus(HorizontalProgressBar2 bar, float min, float max)
         {
-            bar.minline = (int) min;
-            bar.maxline = (int) max;
+            bar.minline = (int)min;
+            bar.maxline = (int)max;
         }
 
         private void CHK_revch1_CheckedChanged(object sender, EventArgs e)
         {
-            reverseChannel(((CheckBox) sender).Checked, BARroll);
+            reverseChannel(((CheckBox)sender).Checked, BARroll);
         }
 
         private void CHK_revch2_CheckedChanged(object sender, EventArgs e)
         {
-            reverseChannel(((CheckBox) sender).Checked, BARpitch);
+            reverseChannel(((CheckBox)sender).Checked, BARpitch);
         }
 
         private void CHK_revch3_CheckedChanged(object sender, EventArgs e)
         {
-            reverseChannel(((CheckBox) sender).Checked, BARthrottle);
+            reverseChannel(((CheckBox)sender).Checked, BARthrottle);
         }
 
         private void CHK_revch4_CheckedChanged(object sender, EventArgs e)
         {
-            reverseChannel(((CheckBox) sender).Checked, BARyaw);
+            reverseChannel(((CheckBox)sender).Checked, BARyaw);
         }
 
         private void reverseChannel(bool normalreverse, Control progressbar)
         {
             if (normalreverse)
             {
-                ((HorizontalProgressBar2) progressbar).reverse = true;
-                ((HorizontalProgressBar2) progressbar).BackgroundColor = Color.FromArgb(148, 193, 31);
-                ((HorizontalProgressBar2) progressbar).ValueColor = Color.FromArgb(0x43, 0x44, 0x45);
+                ((HorizontalProgressBar2)progressbar).reverse = true;
+                ((HorizontalProgressBar2)progressbar).BackgroundColor = Color.FromArgb(148, 193, 31);
+                ((HorizontalProgressBar2)progressbar).ValueColor = Color.FromArgb(0x43, 0x44, 0x45);
             }
             else
             {
-                ((HorizontalProgressBar2) progressbar).reverse = false;
-                ((HorizontalProgressBar2) progressbar).BackgroundColor = Color.FromArgb(0x43, 0x44, 0x45);
-                ((HorizontalProgressBar2) progressbar).ValueColor = Color.FromArgb(148, 193, 31);
+                ((HorizontalProgressBar2)progressbar).reverse = false;
+                ((HorizontalProgressBar2)progressbar).BackgroundColor = Color.FromArgb(0x43, 0x44, 0x45);
+                ((HorizontalProgressBar2)progressbar).ValueColor = Color.FromArgb(148, 193, 31);
             }
 
             if (startup)
                 return;
             if (MainV2.comPort.MAV.param["SWITCH_ENABLE"] != null &&
-                (float) MainV2.comPort.MAV.param["SWITCH_ENABLE"] == 1)
+                (float)MainV2.comPort.MAV.param["SWITCH_ENABLE"] == 1)
             {
                 try
                 {
-                    MainV2.comPort.setParam("SWITCH_ENABLE", 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SWITCH_ENABLE", 0);
                     CustomMessageBox.Show("Disabled Dip Switchs");
                 }
                 catch
@@ -423,7 +460,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 0, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.START_RX_PAIR, 0, 0, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
             catch
@@ -436,7 +473,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 1, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.START_RX_PAIR, 0, 1, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
             catch
@@ -449,7 +486,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 2, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.START_RX_PAIR, 0, 2, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
             catch

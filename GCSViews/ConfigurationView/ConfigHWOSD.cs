@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using System;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWOSD : UserControl, IActivate
+    public partial class ConfigHWOSD : MyUserControl, IActivate
     {
         public ConfigHWOSD()
         {
@@ -35,32 +35,32 @@ SR0_RC_CHAN,0
     */
             try
             {
-                MainV2.comPort.setParam("SR0_EXT_STAT", 2);
-                MainV2.comPort.setParam("SR0_EXTRA1", 2);
-                MainV2.comPort.setParam("SR0_EXTRA2", 2);
-                MainV2.comPort.setParam("SR0_EXTRA3", 2);
-                MainV2.comPort.setParam("SR0_POSITION", 2);
-                MainV2.comPort.setParam("SR0_RAW_CTRL", 2);
-                MainV2.comPort.setParam("SR0_RAW_SENS", 2);
-                MainV2.comPort.setParam("SR0_RC_CHAN", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR0_EXT_STAT", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR0_EXTRA1", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR0_EXTRA2", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR0_EXTRA3", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR0_POSITION", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR0_RAW_CTRL", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR0_RAW_SENS", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR0_RC_CHAN", 2);
 
-                MainV2.comPort.setParam("SR1_EXT_STAT", 2);
-                MainV2.comPort.setParam("SR1_EXTRA1", 2);
-                MainV2.comPort.setParam("SR1_EXTRA2", 2);
-                MainV2.comPort.setParam("SR1_EXTRA3", 2);
-                MainV2.comPort.setParam("SR1_POSITION", 2);
-                MainV2.comPort.setParam("SR1_RAW_CTRL", 2);
-                MainV2.comPort.setParam("SR1_RAW_SENS", 2);
-                MainV2.comPort.setParam("SR1_RC_CHAN", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR1_EXT_STAT", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR1_EXTRA1", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR1_EXTRA2", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR1_EXTRA3", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR1_POSITION", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR1_RAW_CTRL", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR1_RAW_SENS", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR1_RC_CHAN", 2);
 
-                MainV2.comPort.setParam("SR3_EXT_STAT", 2);
-                MainV2.comPort.setParam("SR3_EXTRA1", 2);
-                MainV2.comPort.setParam("SR3_EXTRA2", 2);
-                MainV2.comPort.setParam("SR3_EXTRA3", 2);
-                MainV2.comPort.setParam("SR3_POSITION", 2);
-                MainV2.comPort.setParam("SR3_RAW_CTRL", 2);
-                MainV2.comPort.setParam("SR3_RAW_SENS", 2);
-                MainV2.comPort.setParam("SR3_RC_CHAN", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR3_EXT_STAT", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR3_EXTRA1", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR3_EXTRA2", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR3_EXTRA3", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR3_POSITION", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR3_RAW_CTRL", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR3_RAW_SENS", 2);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "SR3_RC_CHAN", 2);
             }
             catch
             {

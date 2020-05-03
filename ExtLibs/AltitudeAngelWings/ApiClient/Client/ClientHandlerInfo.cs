@@ -21,7 +21,7 @@ namespace AltitudeAngelWings.ApiClient.Client
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool isDisposing)
+        protected void Dispose(bool isDisposing)
         {
             if (isDisposing)
             {

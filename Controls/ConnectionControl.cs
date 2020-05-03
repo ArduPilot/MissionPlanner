@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using MissionPlanner.Comms;
+using System;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Comms;
-using System.Threading;
 
 namespace MissionPlanner.Controls
 {
@@ -34,10 +28,6 @@ namespace MissionPlanner.Controls
             get { return this.cmb_Connection; }
         }
 
-        public ComboBox TOOL_APMFirmware
-        {
-            get { return this.cmb_ConnectionType; }
-        }
 
         /// <summary>
         /// Called from the main form - set whether we are connected or not currently.
@@ -55,13 +45,7 @@ namespace MissionPlanner.Controls
 
         private void ConnectionControl_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.X > cmb_ConnectionType.Location.X &&
-                e.Y > cmb_ConnectionType.Location.Y &&
-                e.X < cmb_ConnectionType.Right &&
-                e.Y < cmb_ConnectionType.Bottom)
-            {
-                cmb_ConnectionType.Visible = true;
-            }
+
         }
 
         private void cmb_Connection_DrawItem(object sender, DrawItemEventArgs e)
@@ -106,11 +90,11 @@ namespace MissionPlanner.Controls
 
                 foreach (int item in list)
                 {
-                    var temp = new port_sysid() { compid = (item % 256) , sysid = (item /256), port = port};
+                    var temp = new port_sysid() { compid = (item % 256), sysid = (item / 256), port = port };
 
                     var idx = cmb_sysid.Items.Add(temp);
 
-                    if(temp.port == MainV2.comPort && temp.sysid == MainV2.comPort.sysidcurrent && temp.compid == MainV2.comPort.compidcurrent)
+                    if (temp.port == MainV2.comPort && temp.sysid == MainV2.comPort.sysidcurrent && temp.compid == MainV2.comPort.compidcurrent)
                     {
                         selectidx = idx;
                     }
@@ -118,8 +102,8 @@ namespace MissionPlanner.Controls
             }
 
             if (oldidx == -1 && selectidx != -1)
-            {                
-                cmb_sysid.SelectedIndex = selectidx;               
+            {
+                cmb_sysid.SelectedIndex = selectidx;
             }
 
             cmb_sysid.SelectedIndexChanged += CMB_sysid_SelectedIndexChanged;
@@ -137,7 +121,7 @@ namespace MissionPlanner.Controls
             if (cmb_sysid.SelectedItem == null)
                 return;
 
-            var temp = (port_sysid) cmb_sysid.SelectedItem;
+            var temp = (port_sysid)cmb_sysid.SelectedItem;
 
             foreach (var port in MainV2.Comports)
             {
@@ -157,7 +141,7 @@ namespace MissionPlanner.Controls
 
         private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
         {
-            var temp = (port_sysid) e.Value;
+            var temp = (port_sysid)e.Value;
             MAVLink.MAV_COMPONENT compid = (MAVLink.MAV_COMPONENT)temp.compid;
             string mavComponentHeader = "MAV_COMP_ID_";
             string mavComponentString = null;
@@ -180,8 +164,12 @@ namespace MissionPlanner.Controls
                             //remove "MAV_COMP_ID_" header
                             mavComponentString = mavComponentString.Remove(0, mavComponentHeader.Length);
                         }
+
+                        if (temp.port.MAVlist[temp.sysid, temp.compid].CANNode)
+                            mavComponentString =
+                                temp.compid + " " + temp.port.MAVlist[temp.sysid, temp.compid].VersionString;
                     }
-                    e.Value = temp.port.BaseStream.PortName + "-" + ((int)temp.sysid) + "-" + mavComponentString.Replace("_"," ");
+                    e.Value = temp.port.BaseStream.PortName + "-" + ((int)temp.sysid) + "-" + mavComponentString.Replace("_", " ");
                 }
             }
         }

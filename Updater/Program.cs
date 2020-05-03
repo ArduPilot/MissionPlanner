@@ -5,15 +5,15 @@ using System.Reflection;
 
 namespace Updater
 {
-    static class Program
+    internal static class Program
     {
-        static bool MAC = false;
+        private static bool MAC = false;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             OperatingSystem os = Environment.OSVersion;
 
@@ -41,6 +41,19 @@ namespace Updater
             {
                 try
                 {
+                    Directory.GetFiles(path, "*.old").ForEach(a =>
+                    {
+                        try
+                        {
+                            File.SetAttributes(a, FileAttributes.Normal);
+                            File.Delete(a);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                    });
+
                     System.Diagnostics.Process P = new System.Diagnostics.Process();
                     if (MAC)
                     {
@@ -59,14 +72,14 @@ namespace Updater
             }
         }
 
-        static bool UpdateFiles(string directory)
+        private static bool UpdateFiles(string directory)
         {
             bool all_done = true;
             try
             {
                 string[] files = Directory.GetFiles(directory);
 
-                Console.WriteLine("dir: "+directory);
+                Console.WriteLine("dir: " + directory);
 
                 foreach (string file in files)
                 {
@@ -84,15 +97,35 @@ namespace Updater
                             }
                             try
                             {
-                                Console.Write("Move: " + file + " TO " + file.Remove(file.Length - 4));
-                                File.Copy(file, file.Remove(file.Length - 4), true);
+                                var oldfile = file.Remove(file.Length - 4) + ".old";
+                                var newfile = file.Remove(file.Length - 4);
+
+                                if (File.Exists(oldfile))
+                                {
+                                    try
+                                    {
+                                        File.SetAttributes(oldfile, FileAttributes.Normal);
+                                        File.Delete(oldfile);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex);
+                                    }
+                                }
+
+                                Console.Write("Move: " + file + " TO " + newfile);
+                                // move existing to .old
+                                if (File.Exists(newfile))
+                                    File.Move(newfile, oldfile);
+                                // move .new to existing
+                                File.Move(file, newfile);
                                 done = true;
-                                File.Delete(file);
                                 Console.WriteLine(" Done.");
                             }
-                            catch
+                            catch (Exception ex)
                             {
                                 Console.WriteLine(file + " Failed.");
+                                Console.WriteLine(ex);
                                 System.Threading.Thread.Sleep(500);
                                 // normally in use by explorer.exe
                                 if (file.ToLower().Contains("tlogthumbnailhandler"))
@@ -102,7 +135,6 @@ namespace Updater
                         all_done = all_done && done;
                     }
                 }
-
             }
             catch { }
 
@@ -111,6 +143,12 @@ namespace Updater
 
             return all_done;
             //P.StartInfo.RedirectStandardOutput = true;
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            foreach (T obj in enumerable)
+                action(obj);
         }
     }
 }

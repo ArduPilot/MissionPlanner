@@ -16,9 +16,18 @@ using System.Text.RegularExpressions;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Mime;
+namespace System
+{
+    internal class Settings
+    {
+        internal static Settings Instance = new Settings();
 
+        internal string UserAgent = "MP Installer";
+    }
+}
 namespace Installer
 {
+ 
     public partial class Installer : Form
     {
         private static readonly ILog log =
@@ -91,9 +100,9 @@ namespace Installer
 
                 // length / 100 = part size
                 // part size rounded to closest 100kb
-                ds.chunksize = (int) (Math.Floor((ds.Length/100.0) / 100000.0) * 100000.0);
+                //ds.chunksize = (int) (Math.Floor((ds.Length/100.0) / 100000.0) * 100000.0);
 
-                Console.WriteLine("chunk size {0}", ds.chunksize);
+                //Console.WriteLine("chunk size {0}", ds.chunksize);
 
                 int got = 0;
                 using (ZipArchive zip = new ZipArchive(ds))
@@ -103,6 +112,7 @@ namespace Installer
                         var entry = zip.GetEntry(file);
                         UpdateText(String.Format("Getting {0}\nFile {1} of {2}\nCompressed size {3}\nSize {4}", file, got, filestoget.Count,
                             entry?.CompressedLength, entry?.Length));
+                        ds.chunksize = (int)entry.CompressedLength;
                         var output = tmp + file.Replace('/', Path.DirectorySeparatorChar);
                         var dir = Path.GetDirectoryName(output);
                         if (!Directory.Exists(dir))

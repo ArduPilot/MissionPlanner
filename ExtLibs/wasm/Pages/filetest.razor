@@ -1,0 +1,172 @@
+﻿@page "/Filetest"
+@using System.Collections
+@using System.Globalization
+@using System.IO
+@using System.Net
+@using System.Net.WebSockets
+@using System.Threading
+@using MissionPlanner
+@using MissionPlanner.Comms
+@using MissionPlanner.Utilities
+@using MissionPlanner.Log
+@using System.IO;
+@using System.Text;
+@using System.Net.Http.Headers;
+@using System.Security.Cryptography;
+@using Blazor.FileReader;
+@using Flurl.Http;
+@using Ionic.Zip;
+@using System.Xml.Linq;
+@using Flurl.Http.Content
+@using ICSharpCode.SharpZipLib.Lzw
+@using Microsoft.AspNetCore.Components
+@using MissionPlanner.ArduPilot
+@using Newtonsoft.Json
+@using Org.BouncyCastle.Utilities.Encoders
+@using Microsoft.AspNetCore.Blazor.Services;
+@using Mono.WebAssembly.Interop;
+@using System.Runtime.InteropServices
+@using SevenZip
+@inject IFileReaderService fileReaderService;
+@inject HttpClient Http
+
+<h3>filetest</h3>
+
+<input type="file" id="files" @ref="@inputTypeFileElement" accept=".bin, .log" @onchange="@ReadFile" />
+
+@if (cb != null)
+{
+<h3>MSG</h3>
+<table id="myTable1">
+<thead>
+    <tr>
+        <th>MSG</th>
+        @foreach (var head in cb.dflog.logformat["MSG"].FieldNames)
+        {
+            <th>@head</th>
+        }
+    </tr></thead>
+<tbody>
+@foreach (var msg in cb.GetEnumeratorType("MSG"))
+        {
+<tr>
+@foreach (var item in msg.items)
+        {
+<td>@item</td>
+        }
+</tr>
+        }
+</tbody>  </table>
+<h3>GPS</h3>
+<table id="myTable2">
+<thead><tr>
+    <th>GPS</th>
+    @foreach (var head in cb.dflog.logformat["GPS"].FieldNames)
+    {
+        <th>@head</th>
+        }
+</tr></thead>
+<tbody>
+@foreach (var msg in cb.GetEnumeratorType("GPS"))
+        {
+<tr>
+@foreach (var item in msg.items)
+        {
+<td>@item</td>
+        }
+</tr>
+        }
+</tbody>
+</table>
+}
+
+<div id="loading" style="display: @(Loading ? "block": "none");  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
+
+</div>
+
+        @functions {
+            private bool _loading = false;
+
+            public bool Loading {
+                get { return _loading; }
+                set {   _loading = value;log.Info("Loading " + _loading);StateHasChanged(); }
+            }
+            private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+            ElementReference  inputTypeFileElement;
+
+            static Filetest instance;
+
+            protected override void OnInitialized ()
+            {
+                instance = this;
+                base.OnInitialized ();
+            }
+
+            internal byte[] buffer;
+
+            [JSInvokable]
+            public async static void fileReady()
+            {
+                if (instance == null)
+                    return;
+                log.Info("fileReady start");
+                instance.processFile(instance.buffer);
+                log.Info("fileReady done");
+            }
+
+            DFLogBuffer cb = null;
+
+            public async void processFile(byte[] buffer)
+            {
+                log.Info("processFile start");
+                var ms = new MemoryStream(buffer);
+                log.Info("MemoryStream done");
+                cb = new DFLogBuffer(ms);
+                log.Info("DFLogBuffer done");
+                foreach (var msg in cb.GetEnumeratorType("MSG"))
+                {
+                    log.Debug(msg.msgtype + " " + cb[msg.lineno]);
+                }
+
+                Loading = false;
+
+                await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#myTable1').DataTable( {
+        retrieve: true
+    } );" });
+
+                await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#myTable2').DataTable( {
+        retrieve: true
+    } );" });
+            }
+
+            public async Task ReadFile()
+            {
+                log.Info("ReadFile start");
+                Loading = true;
+
+                foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+                {
+                    var info = await file.ReadFileInfoAsync();
+
+                    log.Debug(info.ToJSON());
+
+                    buffer = new byte[info.Size];
+
+                    var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+
+                    var js = JSRuntime as MonoWebAssemblyJSRuntime;
+                    js.InvokeUnmarshalled<byte[], string, bool>("filebuffer", buffer, "fileReady");
+
+
+
+                }
+
+                log.Info("ReadFile done");
+            }
+                public void Dispose()
+    {
+        instance = null;
+        buffer = null;
+    }
+        }

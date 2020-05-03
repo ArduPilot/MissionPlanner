@@ -1,0 +1,15 @@
+{
+  "name": "ak8963",
+  "scan": [
+    {
+      "type": "i2c",
+      "name": "compass",
+      "device": "0x0c",
+      "query": {
+        "data": "0x00",
+        "length": 1,
+        "responce": [ "0x48" ]
+      }
+    }
+  ]
+}

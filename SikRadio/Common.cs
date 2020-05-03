@@ -17,16 +17,12 @@ namespace MissionPlanner
         {
             try
             {
-                // this is for mono to a ssl server
-                //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
-
-                ServicePointManager.ServerCertificateValidationCallback =
-                    (sender, certificate, chain, policyErrors) => { return true; };
-
                 log.Info("Get " + url);
 
                 // Create a request using a URL that can receive a post. 
                 var request = WebRequest.Create(url);
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
                 request.Timeout = 10000;
                 // Set the Method property of the request to POST.
                 request.Method = "GET";

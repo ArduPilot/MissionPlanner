@@ -1,20 +1,20 @@
+using AltitudeAngelWings.ApiClient.Client;
 using System;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using AltitudeAngelWings.ApiClient.Client;
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace AltitudeAngelWings.ApiClient.CodeProvider
 {
     /// <summary>
     ///     Provides auth code URIs from an auth URI.
     /// </summary>
-    public class WpfAuthorizeDisplay : Window, IAuthorizeCodeProvider, IDisposable
+    public class WpfAuthorizeDisplay : Form, IAuthorizeCodeProvider
     {
         private readonly TaskCompletionSource<Uri> _tcs = new TaskCompletionSource<Uri>();
         private Uri _redirectUri;
         private readonly WebBrowser _webBrowser;
+        private bool seturl = false;
 
         /// <summary>
         ///     Constructor. Ensure this is called from the UI thread.
@@ -26,7 +26,18 @@ namespace AltitudeAngelWings.ApiClient.CodeProvider
 
             _webBrowser = new WebBrowser();
             _webBrowser.Navigating += WebBrowserOnNavigating;
-            Content = new Grid { Children = { _webBrowser } };
+            _webBrowser.Navigated += WebBrowserOnNavigated;
+            _webBrowser.Dock = DockStyle.Fill;
+            Controls.Add(_webBrowser);
+        }
+
+        private void WebBrowserOnNavigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            if (!e.Url.ToString()
+                .StartsWith(_redirectUri.ToString(), StringComparison.OrdinalIgnoreCase)) return;
+            seturl = true;
+            _tcs.SetResult(e.Url);
+            Close();
         }
 
         public Task<Uri> GetCodeUri(Uri authorizeUri, Uri redirectUri)
@@ -35,33 +46,22 @@ namespace AltitudeAngelWings.ApiClient.CodeProvider
 
             _webBrowser.Navigate(authorizeUri);
 
-            bool? result = ShowDialog();
-            if (result == true)
-            {
-            }
+            ShowDialog();
+
+            if(!seturl)
+                _tcs.SetResult(_redirectUri);
+
             return _tcs.Task;
         }
 
-        private void WebBrowserOnNavigating(object sender, NavigatingCancelEventArgs navigatingCancelEventArgs)
+        private void WebBrowserOnNavigating(object sender, WebBrowserNavigatingEventArgs navigatingCancelEventArgs)
         {
-            if (!navigatingCancelEventArgs.Uri.ToString().StartsWith(_redirectUri.ToString(), StringComparison.OrdinalIgnoreCase)) return;
+            if (!navigatingCancelEventArgs.Url.ToString()
+                .StartsWith(_redirectUri.ToString(), StringComparison.OrdinalIgnoreCase)) return;
             navigatingCancelEventArgs.Cancel = true;
-            _tcs.SetResult(navigatingCancelEventArgs.Uri);
+            seturl = true;
+            _tcs.SetResult(navigatingCancelEventArgs.Url);
             Close();
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _webBrowser?.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

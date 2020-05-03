@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using IronPython.Runtime;
+﻿using log4net;
 using MissionPlanner.Utilities;
-using log4net;
+using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
@@ -45,15 +39,28 @@ namespace MissionPlanner.Controls
                     {
                         if (Instance.IsHandleCreated)
                         {
-
-                            MainV2.instance.Invoke((MethodInvoker) delegate { ((Form) Instance).Close(); });
-
-                            Instance = null;
+                            MainV2.instance.BeginInvoke((MethodInvoker)delegate
+                           {
+                               if (Instance == null)
+                                   return;
+                               uiSemaphoreSlim.Wait();
+                               try
+                               {
+                                   ((Form)Instance).Close();
+                               }
+                               finally
+                               {
+                                   uiSemaphoreSlim.Release();
+                               }
+                               Instance = null;
+                           });
                         }
                     }
                 }
             }
         }
+
+        static SemaphoreSlim uiSemaphoreSlim = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Create a new dialog or use an existing one if its still valid
@@ -62,41 +69,41 @@ namespace MissionPlanner.Controls
         /// <returns></returns>
         public static void ShowLoading(string Text, IWin32Window owner = null)
         {
-            //if (MainV2.MONO)
-            {
-                log.Info(Text);
-                //return;
-            }
+            log.Info(Text);
+            // create form on ui thread
+            MainV2.instance.BeginInvokeIfRequired((Action)delegate
+           {
+               uiSemaphoreSlim.Wait();
+               try
+               {
+                   if (Instance != null && !Instance.IsDisposed)
+                   {
+                       Instance.Text = Text;
+                       return;
+                   }
 
-            // ensure we only have one instance at a time
-            lock (locker)
-            {
-                if (Instance != null && !Instance.IsDisposed)
-                {
-                    Instance.Text = Text;
-                    return;
-                }
+                   log.Info("Create Instance");
 
-                log.Info("Create Instance");
-                // create form on ui thread
-                MainV2.instance.Invoke((MethodInvoker) delegate
-                {
-                    Loading frm = new Loading();
-                    if(owner == null)
-                        frm.TopMost = true;
-                    frm.StartPosition = FormStartPosition.CenterParent;
-                    frm.Closing += Frm_Closing;
+                   Loading frm = new Loading();
+                   if (owner == null)
+                       frm.TopMost = true;
+                   frm.StartPosition = FormStartPosition.CenterParent;
+                   frm.Closing += Frm_Closing;
 
                     // set instance
                     Instance = frm;
                     // set text
                     Instance.label1.Text = Text;
 
-                    ThemeManager.ApplyThemeTo(frm);
-                    frm.Show(owner);
-                    frm.Focus();
-                });
-            }
+                   ThemeManager.ApplyThemeTo(frm);
+                   frm.Show(owner);
+                   frm.Focus();
+               }
+               finally
+               {
+                   uiSemaphoreSlim.Release();
+               }
+           });
         }
 
         private static void Frm_Closing(object sender, CancelEventArgs e)

@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -12,12 +6,14 @@ namespace MissionPlanner.Controls
     public partial class ModifyandSet : UserControl
     {
         [System.ComponentModel.Browsable(false)]
-        public NumericUpDown NumericUpDown {
+        public NumericUpDown NumericUpDown
+        {
             get { return numericUpDown1; }
         }
 
         [System.ComponentModel.Browsable(false)]
-        public MyButton Button {
+        public MyButton Button
+        {
             get { return myButton1; }
         }
 

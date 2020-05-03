@@ -1,0 +1,1542 @@
+﻿@page "/DataFlash"
+@using System.Collections
+@using System.Globalization
+@using System.IO
+@using System.Net
+@using System.Net.WebSockets
+@using System.Threading
+@using MissionPlanner
+@using MissionPlanner.Comms
+@using MissionPlanner.Utilities
+@using MissionPlanner.Log
+@using System.IO;
+@using System.Text;
+@using  System.Web;
+@using  System.Net.Http.Headers;
+@using System.Security.Cryptography;
+@using Blazor.FileReader;
+@using Flurl.Http;
+@using Ionic.Zip;
+@using System.Xml.Linq;
+@using Flurl.Http.Content
+@using ICSharpCode.SharpZipLib.Lzw
+@using Microsoft.AspNetCore.Components
+@using MissionPlanner.ArduPilot
+@using Newtonsoft.Json
+@using Org.BouncyCastle.Utilities.Encoders
+@using Microsoft.AspNetCore.Blazor.Services;
+@using Mono.WebAssembly.Interop;
+@using System.Runtime.InteropServices
+@using System.Text.RegularExpressions
+@using SevenZip
+@implements IDisposable
+@inject IFileReaderService fileReaderService;
+@inject HttpClient Http
+
+<style>
+
+    #toolbar {
+        background: rgba(42, 42, 42, 0.8);
+        padding: 4px;
+        border-radius: 4px;
+        margin: 5px;
+        padding: 2px 5px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: white;
+    }
+
+        #toolbar input {
+            vertical-align: middle;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+    #radio-controller {
+        position: absolute;
+        width: 300px;
+        height: 200px;
+        top: 100%;
+        left: 100%;
+        margin-left: -320px;
+        margin-top: -300px;
+    }
+</style>
+<div id="container">
+    <div style="position: relative;">
+        <input type="file" id="files" @ref="inputTypeFileElement" accept=".bin, .log" @onchange="ReadFile" />
+        <button @onclick="UploadLog">Upload </button>
+    </div>
+    <div id="cesiummap" style="position: relative;">
+        <div id="cesiumContainer" style="width: 100%; height: 75%;"></div>
+        <div id="radio-controller"></div>
+        <div id="toolbar">
+            <div class="demo-container">
+                <label> <input type="checkbox" value="false" data-bind="checked: track_vehicle, valueUpdate: 'input'">Camera Tracks Vehicle </label>
+            </div>
+            <div class="demo-container">
+                <div>
+                    <label><input type="checkbox" data-bind="checked: enableContour">Enable Contour Lines</label>
+                </div>
+                <div>
+                    Spacing <input style="width: 136px" type="range" min="1.0" max="500.0" step="1.0" data-bind="value: contourSpacing, valueUpdate: 'input', enable: enableContour"> <span data-bind="text: contourSpacing"></span>m
+                </div>
+                <div>
+                    Line Width <input style="width: 125px" type="range" min="1.0" max="10.0" step="1.0" data-bind="value: contourWidth, valueUpdate: 'input', enable: enableContour"> <span data-bind="text: contourWidth"></span>px
+                </div>
+                <div>
+                    <button type="button" data-bind="click: changeColor, enable: enableContour">Change contour color</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="plot" style="position: relative;">
+        <div id="right" style="float:right; width: 150px; font-size: x-small; overflow-y: scroll;">
+            @if (cb != null)
+            {
+                @foreach (var item in SeenMessageTypes)
+                {
+                    <ul style="margin: 0;">
+                        <input type="checkbox" value="@item" onclick="if ($(this).is(':checked')) {$(this).siblings().css('display', 'block');} else {$(this).siblings().css('display', 'none');}" />
+                        @item
+                        @foreach (var subitem in cb.FMT.First(a => a.Value.Item2 == item).Value.Item4.Split(','))
+                        {
+                            <div style="display: none; margin-left: 20px;">
+                                @if (AmIChecked(item + "." + subitem))
+                                {
+                                    <li><input type="checkbox" @onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" checked />@subitem</li>
+                                }
+                                else
+                                {
+                                    <li><input type="checkbox" @onchange=@(async (eventArgs) => PlotItem(@item, @subitem, (bool)eventArgs.Value)) value="@item.@subitem" />@subitem</li>
+                                }
+                            </div>
+                        }
+                    </ul>
+                }
+            }
+
+        </div>
+        <div id="left" style="margin-right: 150px;">
+            <select @onchange="processMavGraph" @ref="@mavgraphselect">
+                @foreach (var gra in mavgraphlist)
+                {
+                    <option value="@gra">@gra</option>
+                }
+            </select>
+            <ul id="graphs">
+                @foreach (var gra in graphs)
+                {
+                    <li>
+                        <div id="@gra" style="width: 100%; height: 50vh; box-sizing: initial;" @onmousedown="@(async () => setLastGraph(gra))"></div>
+                    </li>
+                }
+                <li><button @onclick="addNewGraph">New Graph</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="position: relative;">
+        <div id="div3" style="width: 100%; height: 50vh"></div>
+        @if (cb != null)
+        {
+            @if (cb.dflog.logformat.ContainsKey("MSG"))
+            {
+                <!--   @DateTime.Now.ToString("o") -->
+                <h3>MSG</h3>
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>MSG</th>
+                            @foreach (var head in cb.dflog.logformat["MSG"].FieldNames)
+                            {
+                                <th>@head</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var msg in cb.GetEnumeratorType("MSG"))
+                        {
+                            <tr>
+                                @foreach (var item in msg.items)
+                                {
+                                    <td>@item</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (cb.dflog.logformat.ContainsKey("ERR"))
+            {
+                <!--   @DateTime.Now.ToString("o") -->
+                <h3>Errors</h3>
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>MSG</th>
+                            @foreach (var head in cb.dflog.logformat["ERR"].FieldNames)
+                            {
+                                <th>@head</th>
+                            }
+                            <th>SubSystem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var msg in cb.GetEnumeratorType("ERR"))
+                        {
+                            <tr>
+                                @foreach (var item in msg.items)
+                                {
+                                    <td>@item</td>
+                                }
+                                <td>@(msg["Subsys"] != null ? ((DFLog.LogErrorSubsystem)msg.GetRaw("Subsys")).ToString() : null)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (cb.dflog.logformat.ContainsKey("MODE"))
+            {
+                <!--     @DateTime.Now.ToString("o") -->
+                <h3>Flight Mode</h3>
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>MSG</th>
+                            @foreach (var head in cb.dflog.logformat["MODE"].FieldNames)
+                            {
+                                <th>@head</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var msg in cb.GetEnumeratorType("MODE"))
+                        {
+                            <tr>
+                                @foreach (var item in msg.items)
+                                {
+                                    <td>@item</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+        <!--    @DateTime.Now.ToString("o") -->
+        <table id="rawTable" class="display"></table>
+        <!--   @DateTime.Now.ToString("o") -->
+        <table id="rawparams" class="display">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th>Options</th>
+                    <th>Desc</th>
+                </tr>
+            </thead>
+            @if (cb != null)
+            {
+                <tbody>
+                    @foreach (var item in CleanParamList)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Value</td>
+                            <td>@item.Options</td>
+                            <td>@item.Desc</td>
+
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+        <!--   @DateTime.Now.ToString("o") -->
+    </div>
+</div>
+@DateTime.Now.ToString("o")
+<button @onclick="@ListBlobs">ListBlobs </button>
+@if (blobs != null)
+{
+    @foreach (var blob in blobs)
+    {
+        <li><a href="/DataFlash?dflog=@blob[0]">@blob[0] - @blob[1]</a></li>
+    }
+}
+
+<div id="loadingDF" style="display: @(Loading ? "block": "none"); text-align: center; vertical-align: middle;  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
+    <h3 style="padding-top: 55vh;">@LoadingStatus</h3>
+</div>
+@DateTime.Now.ToString("o")
+
+<br />
+<button @onclick="@(async() => DoFFT("ACC1","AccX"))">DoFFT AccX</button>
+<br />
+<button @onclick="@(async() => DoFFT("ACC1","AccY"))">DoFFT AccY</button>
+<br />
+<button @onclick="@(async() => DoFFT("ACC1","AccZ"))">DoFFT AccZ</button>
+<br />
+<button @onclick="@(async() => DoFFT("GYR1","GyrZ"))">DoFFT GyrZ</button>
+
+@functions {
+            ElementReference inputTypeFileElement;
+
+            ElementReference mavgraphselect;
+
+            DFLogBuffer cb = null;
+
+            static List<string[]> blobs = null;
+
+            List<string> graphs = new List<string>() { "graph1", "graph2" };
+
+            string selectedchart = "graph1";
+
+            string _loadingStatus = "";
+            private bool _loading = false;
+
+            public bool Loading
+            {
+                get { return _loading; }
+                set
+                {
+                    if (_loading == value) return;
+                    _loading = value;
+                    log.Info("Loading " + _loading);
+                    StateHasChanged();
+                }
+            }
+
+            public string dflog { get { var uri = new Uri(UriHelper.Uri); return Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("dflog", out var type) ? type.First() : ""; } }
+
+            private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+            bool initrender = false;
+
+            public async Task DoFFT(string type, string field)
+            {
+                LoadingStatus = "Doing FFT on log";
+                Loading = true;
+                await Task.Delay(1);
+                var bins = 10;
+                int N = 1 << bins;
+
+                var fft = new FFT2();
+
+                var plotlydata = new plotly(Guid.NewGuid().ToString());
+                plotlydata.root.mode = "";
+                plotlydata.root.type = "heatmap";
+                plotlydata.root.colorscale = "Jet";
+                plotlydata.root.x = new List<object>();
+                plotlydata.root.y = new List<object>();
+                plotlydata.root.z = new List<object>();
+
+
+                var acc1data = cb.GetEnumeratorType(type).ToArray();
+                log.Debug("acc1data ");
+
+                var firstsample = acc1data.Take(N);
+                var samplemin = double.Parse(firstsample.Min(a => a["TimeUS"]));
+                var samplemax = double.Parse(firstsample.Max(a => a["TimeUS"]));
+
+                log.Debug("samplemin " + samplemin + " samplemax " + samplemax);
+
+                var timedelta = samplemin - samplemax;
+
+                log.Debug(" timedelta " + timedelta);
+
+                double[] freqt = fft.FreqTable(N, (int)(1000 / (N / timedelta)));
+
+                // time , freq , [color] &freqcount
+                freqt.ForEach(a => plotlydata.root.y.Add(a));
+                log.Debug("freqt ");
+
+                int totalsamples = acc1data.Count();
+                int count = totalsamples / N;
+                int done = 0;
+                log.Debug("done and count ");
+                Enumerable.Range(0, N/2).ForEach(a => plotlydata.root.z.Add(new List<double>()));
+        while (count > 1) // skip last part
+        {
+            var fftdata = acc1data.Skip(N * done).Take(N);
+
+            plotlydata.root.x.Add(fftdata.Skip(N / 2).First().time.ToString("o"));
+
+            var fftanswerz = fft.rin(fftdata.Select(a => (double)(float)a.GetRaw(field)).ToArray(), (uint)bins);
+
+            //plotlydata.root.z.Add(fftanswerz.Select(a => a > 2 ? 0 : a).ToArray());
+
+            int c1 = 0;
+            fftanswerz.ForEach((a) =>
+            {
+                if (a > 2) a = 0;
+                ((List<double>) plotlydata.root.z[c1]).Add(a);
+                c1++;
+            });
+
+            count--;
+            done++;
+
+            if (DateTime.Now.Millisecond % 100 == 0)
+            {
+                LoadingStatus = "Processing FFT data " + done;
+                Loading = true;
+                await Task.Delay(1);
+    }
+        }
+
+
+        Loading = false;
+
+        ClearPlot(selectedchart);
+
+    await JSRuntime.InvokeAsync<object>("plotData", new object[]
+        {
+            selectedchart,
+            plotlydata.getJSON()
+                        });
+
+    }
+
+    public async Task GetFile(string filename)
+    {
+        if (!File.Exists(filename))
+        {
+            log.Info("get " + filename);
+            var content = await Http.GetStringAsync((filename));
+            log.Info("get " + filename + " done");
+
+            File.WriteAllText(filename, content);
+        }
+    }
+
+    static DataFlash instance;
+
+    protected override void OnInitialized()
+    {
+        instance = this;
+        Console.WriteLine("DataFlash OnInitialized");
+    }
+
+
+    public async void ClearPlot(string selectedchart)
+    {
+        await JSRuntime.InvokeAsync<object>("evalline", new object[]
+        {
+            "Plotly.deleteTraces(" + selectedchart + ", 0 );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  );" +
+            "Plotly.deleteTraces(" + selectedchart + ", 0  ); "
+                                            });
+
+    }
+
+    public void processMavGraph(ChangeEventArgs e)
+    {
+        var selectedString = e.Value.ToString();
+
+        var selectlist = mavgraph.graphs.First(a => a.Name == selectedString);
+
+        Loading = true;
+
+        ClearPlot(selectedchart);
+
+        foreach (var item in selectlist.items)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(item.expression))
+                {
+                    GraphItem(item.expression, "", item.left, false, true);
+                }
+                else
+                {
+                    GraphItem(item.type, item.field, item.left, false);
+                }
+            }
+            catch
+                (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+        Loading = false;
+    }
+
+    async void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
+        bool isexpression = false)
+    {
+        log.InfoFormat("GraphItem: {0} {1}", type, fieldname);
+
+        if (!isexpression)
+        {
+            if (!cb.dflog.logformat.ContainsKey(type))
+            {
+                if (displayerror)
+                    CustomMessageBox.Show(Strings.NoFMTMessage + type + " - " + fieldname, Strings.ERROR);
+                return;
+            }
+
+            log.Info("Graphing " + type + " - " + fieldname);
+
+            //ThreadPool.QueueUserWorkItem(async o =>
+            {
+                try
+                {
+                    List<string> time = new List<string>();
+                    List<string> field = new List<string>();
+                    log.Info("start " + type + "." + fieldname);
+                    LoadingStatus = "Gathering " + type + "." + fieldname;
+                    var count = 0;
+                    foreach (var a in cb.GetEnumeratorType(type))
+                    {
+                        time.Add(a.time.ToString("o"));
+                        field.Add(a[fieldname]);
+                        count++;
+                        if (DateTime.Now.Millisecond % 100 == 0)
+                        {
+                            Loading = true;
+                            log.Debug(type + "." + fieldname + " " + count);
+                            await Task.Delay(1);
+                        }
+                    }
+                    log.Info("end " + type + "." + fieldname);
+
+                    await JSRuntime.InvokeAsync<object>("plotData", new object[]
+                    {
+                        selectedchart,
+                        new
+                        {
+                            name = type + "." + fieldname,
+                            x = time,
+                            y = field
+                        }.ToJSON()
+                                                        });
+                    log.Info("end2 " + type + "." + fieldname);
+
+                    Loading = false;
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to graph item: " + ex.Message, Strings.ERROR);
+                }
+            }
+            //);
+        }
+        else
+        {
+            var list1 = DFLogScript.ProcessExpression(cb.dflog, cb, type);
+
+            var data = list1.Select(a => new { time = a.Item1.time.ToString("o"), field = a.Item2 }).ToList();
+
+            await JSRuntime.InvokeAsync<object>("plotData", new object[]
+            {
+                selectedchart,
+                new
+                {
+                    name = type + "." + fieldname,
+                    x = data.Select(a => a.time).ToList(),
+                    y = data.Select(a => a.field).ToList()
+                }.ToJSON()
+                                                });
+        }
+    }
+
+
+    public async void Checkdflog()
+    {
+        if (dflog != "")
+        {
+            LoadingStatus = "Loading DFLog";
+            Loading = true;
+
+            MemoryStream outStream = new MemoryStream();
+            var inStream = await GetBlob(dflog);
+            log.Info("instream " + inStream.Position + " " + inStream.Length);
+            var zipstream = new ICSharpCode.SharpZipLib.Zip.ZipInputStream(inStream);
+            var theEntry = zipstream.GetNextEntry();
+            log.Info(theEntry.ToJSON());
+            zipstream.CopyTo(outStream);
+            outStream.Position = 0;
+            log.Info("outStream " + outStream.Position + " " + outStream.Length);
+            ProcessStream(outStream);
+
+            StateHasChanged();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        log.Debug("DataFlash OnInitializedAsync");
+
+        log.Info(UriHelper.Uri);
+
+
+        Directory.CreateDirectory("graphs");
+
+        await GetFile("ParameterMetaDataBackup.xml");
+
+        await GetFile("graphs/ekf3Graphs.xml");
+        await GetFile("graphs/ekfGraphs.xml");
+        await GetFile("graphs/mavgraphs.xml");
+        await GetFile("graphs/mavgraphs2.xml");
+        await GetFile("graphs/mavgraphsMP.xml");
+
+
+        mavgraphlist = mavgraph.graphs;
+
+    }
+
+    List<mavgraph.displaylist> mavgraphlist { get; set; } = new List<mavgraph.displaylist>();
+
+    bool initMap = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        log.Debug("DataFlash OnParametersSetAsync Done");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        log.Debug("DataFlash OnAfterRenderAsync Start");
+
+        if (!initMap)
+            JSRuntime.InvokeAsync<object>("initMap", null);
+
+        initMap = true;
+
+
+        if (initrender)
+            return;
+
+        initrender = true;
+
+        setLastGraph(selectedchart);
+
+        UriHelper.LocationChanged += async (e, a) =>
+        {
+            // if user picks dflog
+            Checkdflog();
+        };
+
+        // if first draw
+        Checkdflog();
+
+        log.Debug("DataFlash OnAfterRenderAsync Done");
+    }
+    protected override bool ShouldRender()
+    {
+        var renderUI = true;
+        log.Debug("DataFlash ShouldRender Done");
+        return renderUI;
+    }
+
+
+    public async Task<Stream> GetBlob(string blobName)
+    {
+        string storageAccount = "mptlog";
+        string containerName = "tlog";
+        string queryString = "";
+
+        string requestUri = $"https://{storageAccount}.blob.core.windows.net/{containerName}/{blobName}{queryString}";
+
+        return await Http.GetStreamAsync(requestUri);
+    }
+
+    public async void ListBlobs()
+    {
+        string storageAccount = "mptlog";
+        string containerName = "tlog";
+        string queryString = "?maxresults=50&restype=container&comp=list&sv=2018-03-28&si=tlog-list&sr=c&sig=f%2BfdlQfXGFFwMs%2FBkA%2Fng3iUF8iBUrJszanSawYe9dc%3D";
+
+        string method = "GET";
+
+        string requestUri = $"https://{storageAccount}.blob.core.windows.net/{containerName}{queryString}";
+
+
+        var an = await Http.GetStringAsync(requestUri);
+        log.Info(an);
+        var sample = "";
+        XElement blobsxml = XElement.Parse(an);
+
+        blobs = (from item in blobsxml.Descendants("Blob")
+                 select new[] { (string)item.Element("Name").Value, (string)item.Element("Properties").Element("Content-Length").Value }).ToList();
+
+        log.Info(blobs);
+
+        StateHasChanged();
+    }
+
+    public bool AmIChecked(string item)
+    {
+        if (item == "GPS.Alt")
+            return true;
+
+        return false;
+    }
+
+    public async void UploadLog()
+    {
+        Loading = true;
+
+        foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+        {
+            log.Debug(file.ToJSON());
+
+            var info = await file.ReadFileInfoAsync();
+
+            log.Debug(info.ToJSON());
+
+            using (MemoryStream memoryStream = new MemoryStream(buffer))
+            {
+                log.Debug("Memorystream loaded");
+                var filename = Guid.NewGuid().ToString();
+
+                var outStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
+
+                var zipstream = new ICSharpCode.SharpZipLib.Zip.ZipOutputStream(outStream);
+
+                zipstream.SetLevel(2); // 0 - none 9 = max
+
+                var entry = new ICSharpCode.SharpZipLib.Zip.ZipEntry(filename);
+                zipstream.PutNextEntry(entry);
+
+                await memoryStream.CopyToAsync(zipstream);
+
+                zipstream.CloseEntry();
+                zipstream.Finish();
+                zipstream.Close();
+                outStream.Close();
+
+                await UploadBlobWithRestAPI(filename, File.ReadAllBytes(filename), info);
+
+                File.Delete(filename);
+
+                //Http.PutAsync("/put", new ByteArrayContent(File.ReadAllBytes(filename)));
+
+            }
+        }
+
+        Loading = false;
+    }
+
+    async Task<HttpStatusCode> UploadBlobWithRestAPI(string blobName, byte[] sampleContent, IFileInfo info, bool publiclog = true)
+    {
+        string storageKey = "";
+        string storageAccount = "mptlog";
+        string containerName = "tlog";
+        string queryString = "?sv=2018-03-28&si=tlog-create&sr=c&sig=jPtAHdnssVoz0ASmZPW8MJCIuBN%2FX%2Fq9UvroMgmYfi0%3D";
+
+        string method = "PUT";
+        int contentLength = sampleContent.Length;
+
+        string requestUri = $"https://{storageAccount}.blob.core.windows.net/{containerName}/{blobName}{queryString}";
+
+        string now = DateTime.UtcNow.ToString("R");
+
+        Http.DefaultRequestHeaders.Clear();
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-version", "2018-03-28");
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-date", now);
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-blob-type", "BlockBlob");
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-name", HttpUtility.UrlEncode(info.Name));
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-size", info.Size.ToString());
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-LastModified", info.LastModifiedDate.Value.ToString("o"));
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-type", info.Type);
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-googleid", MainLayout.googleid);
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-public", publiclog.ToString());
+        Http.DefaultRequestHeaders.TryAddWithoutValidation("x-ms-meta-uploaded", DateTime.Now.ToString("o"));
+
+
+        //Http.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", AuthorizationHeader(method, now, storageAccount, storageKey, containerName, blobName, contentLength));
+
+        var result = await Http.PutAsync(requestUri, new ByteArrayContent(sampleContent));
+
+        return result.StatusCode;
+
+        return HttpStatusCode.ServiceUnavailable;
+    }
+
+    public string AuthorizationHeader(string method, string now, string storageAccount, string storageKey, string containerName, string blobName, int ContentLength)
+    {
+
+        string headerResource = $"x-ms-blob-type:BlockBlob\nx-ms-date:{now}\nx-ms-version:2018-03-28";
+        string urlResource = $"/{storageAccount}/{containerName}/{blobName}";
+
+        /*
+StringToSign = VERB + "\n" +
+               Content-Encoding + "\n" +
+               Content-Language + "\n" +
+               Content-Length + "\n" +
+               Content-MD5 + "\n" +
+               Content-Type + "\n" +
+               Date + "\n" +
+               If-Modified-Since + "\n" +
+               If-Match + "\n" +
+               If-None-Match + "\n" +
+               If-Unmodified-Since + "\n" +
+               Range + "\n" +
+               CanonicalizedHeaders +
+               CanonicalizedResource;
+           */
+
+        string stringToSign = $"{method}\n\n\n{ContentLength}\n\n\n\n\n\n\n\n\n{headerResource}\n{urlResource}";
+
+        log.InfoFormat("{0}", stringToSign);
+
+        HMACSHA256 hmac = new HMACSHA256(Convert.FromBase64String(storageKey));
+        string signature = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(stringToSign)));
+
+        String AuthorizationHeader = String.Format("{0} {1}:{2}", "SharedKey", storageAccount, signature);
+        return AuthorizationHeader;
+    }
+
+    public class CodeProgress : ICodeProgress
+    {
+        private readonly Action<long, long> _act;
+
+        public CodeProgress(Action<long, long> act)
+        {
+            _act = act;
+        }
+
+        public void SetProgress(long inSize, long outSize)
+        {
+            _act?.Invoke(inSize, outSize);
+        }
+    }
+
+    int a = 10;
+
+    public void addNewGraph()
+    {
+        graphs.Add("graph" + a++);
+    }
+
+    public async void PlotItem(string type, string item, bool checked1)
+    {
+        Loading = true;
+        if (checked1)
+        {
+            plotly line = new plotly(type + "." + item);
+            int last = DateTime.MinValue.Second;
+            foreach (var msg in cb.GetEnumeratorType(type))
+            {
+                var itemvalue = Convert.ToDouble(msg.GetRaw(item));
+                if (itemvalue == null)
+                    continue;
+
+                if (last != DateTime.Now.Second)
+                {
+                    Console.WriteLine(msg.time.ToString("o") + " " + msg.lineno);
+                    last = DateTime.Now.Second;
+                }
+
+                line.AddXY(msg.time.ToString("o"), itemvalue);
+            }
+            Console.WriteLine("got data about to plot");
+            await JSRuntime.InvokeAsync<object>("plotData", new object[] { selectedchart, line.getJSON() });
+
+        }
+        else
+        {
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { " index = " + selectedchart + ".data.findIndex(item => item.name === '" + type + "." + item + "'); if (index >= 0) Plotly.deleteTraces(" + selectedchart + ", index , 1 ); " });
+        }
+        Loading = false;
+    }
+
+    internal byte[] buffer;
+
+    [JSInvokable]
+    public async static void fileReadyDF()
+    {
+        if (instance == null)
+            return;
+        log.Info("fileReady start");
+        instance.ProcessStream(new MemoryStream(instance.buffer));
+        log.Info("fileReady done");
+
+    }
+
+    public async void ClearCesium()
+    {
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { "  viewer.entities.removeAll(); " });
+    }
+
+    public async Task ReadFile()
+    {
+        log.Info("ReadFile start");
+
+        foreach (var item in graphs)
+        {
+            ClearPlot(item);
+        }
+        ClearPlot("div3");
+
+        ClearCesium();
+
+        LoadingStatus = "Reading File";
+        Loading = true;
+        await Task.Delay(1);
+
+        foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+        {
+            var info = await file.ReadFileInfoAsync();
+
+            log.Debug(info.ToJSON());
+
+            buffer = new byte[info.Size];
+
+            var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+
+            var js = JSRuntime as MonoWebAssemblyJSRuntime;
+            js.InvokeUnmarshalled<byte[], string, bool>("filebuffer", buffer, "fileReadyDF");
+        }
+
+        log.Info("ReadFile done");
+    }
+
+    bool rcshowinit = false;
+
+    public async void ProcessStream(Stream memoryStream)
+    {
+        log.Info("ProcessStream: " + memoryStream.Position + " - " + memoryStream.Length);
+        LoadingStatus = "Processing File";
+        await Task.Delay(1);
+        // cleanup old
+        paramaCache = null;
+
+        cb = new DFLogBuffer(memoryStream);
+
+        LoadingStatus = "File loaded extracting data";
+        await Task.Delay(1);
+
+        foreach (var msg in cb.GetEnumeratorType("MSG"))
+        {
+            log.Debug(msg.msgtype + " " + cb[msg.lineno]);
+
+
+        }
+
+        // ensure myTable exists in the DOM
+        StateHasChanged();
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#myTable').DataTable( {
+        retrieve: true,
+        serverSide: false
+    } );" });
+
+
+
+        plotly linelat = new plotly("GPS.Lat");
+        plotly linelng = new plotly("GPS.Lng");
+        plotly linealt = new plotly("GPS.Alt");
+
+        plotly linemap = new plotly("Map");
+        linemap.root.mode = "linesa";
+        linemap.root.type = "scattergeo";
+
+        plotly scatter3d = new plotly("map3d");
+        scatter3d.root.type = "scatter3d";
+        scatter3d.root.mode = "lines";
+
+        // create anon type - TimeUS,DesRoll,Roll,DesPitch,Pitch,DesYaw,Yaw,ErrRP,ErrYaw
+        var ATTdata = Enumerable.Repeat(new { time = DateTime.MinValue.ToString("o"), Roll = "", DesRoll = "", Pitch = "", DesPitch = "", Yaw = "", DesYaw = "" }, 0).ToList();
+
+        LoadingStatus = "Extracting GPS and ATT";
+        await Task.Delay(1);
+        log.Debug("parse GPS and ATT");
+        foreach (var msg in cb.GetEnumeratorType(new[] { "GPS", "ATT" }))
+        {
+            if (DateTime.Now.Millisecond % 100 == 0)
+            {
+                await Task.Delay(1);
+            }
+
+            if (msg.msgtype == "ATT")
+            {
+                ATTdata.Add(new { time = msg.time.ToString("o"), Roll = msg["Roll"], DesRoll = msg["DesRoll"], Pitch = msg["Pitch"], DesPitch = msg["DesPitch"], Yaw = msg["Yaw"], DesYaw = msg["DesYaw"] });
+            }
+            else if (msg.msgtype == "GPS")
+            {
+                var lat = msg["Lat"];
+                var lng = msg["Lng"];
+                var alt = msg["Alt"];
+                if (lat == null)
+                    continue;
+
+                var lat2 = double.Parse(lat, CultureInfo.InvariantCulture);
+                var lng2 = double.Parse(lng, CultureInfo.InvariantCulture);
+                var alt2 = double.Parse(alt, CultureInfo.InvariantCulture);
+
+                if (lat2 == 0)
+                    continue;
+
+                linelat.AddXY(msg.time, lat2);
+                linelng.AddXY(msg.time, lng2);
+                linealt.AddXY(msg.time, alt2);
+
+                linemap.AddLatLng(lat2, lng2);
+
+                scatter3d.AddXYZ(lat2, lng2, alt2);
+            }
+        }
+
+        log.Debug("ATTdata length: " + ATTdata.Count);
+
+        LoadingStatus = "Extracting MODE and RCIN";
+        await Task.Delay(1);
+
+        log.Debug("About to Modedata");
+        // Modes - TimeUS,Mode,ModeNum,Rsn
+        var Modedata = cb.GetEnumeratorType("MODE").Select(a => new[] { a.time.ToString("o"), a["Mode"] }).ToList();
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { "flight_modes = " + Modedata.ToJSON() });
+
+        log.Debug("About to manual_control_setpoints");
+        // RCIN - TimeUS,C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14
+        var manual_control_setpoints = cb.GetEnumeratorType("RCIN").Select(a => new object[]
+        {
+            a.time.ToString("o"),
+            MathHelper.mapConstrained(double.Parse(a["C2"]), 1000, 2000, -1, 1),
+            MathHelper.mapConstrained(double.Parse(a["C1"]), 1000, 2000, -1, 1) * -1,
+            MathHelper.mapConstrained(double.Parse(a["C3"]), 1000, 2000, -1, 1),
+            MathHelper.mapConstrained(double.Parse(a["C4"]), 1000, 2000, -1, 1)
+                                            }).ToList();
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { "manual_control_setpoints = " + manual_control_setpoints.ToJSON() });
+
+        var attjson = new object[]
+        {
+            "graph2",
+
+            new
+            {
+                name = "ATT.Roll",
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.Roll)
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.DesRoll",
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.DesRoll)
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.Pitch",
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.Pitch)
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.DesPitch",
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.DesPitch)
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.Yaw", yaxis = "y2",
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.Yaw)
+            }.ToJSON(),
+            new
+            {
+                name = "ATT.DesYaw", yaxis = "y2",
+                x = ATTdata.Select(a => a.time),
+                y = ATTdata.Select(a => a.DesYaw)
+            }.ToJSON()
+                            };
+
+        LoadingStatus = "About to plot";
+        await Task.Delay(1);
+        log.Debug("About to PLOT graph1");
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "graph1", linealt.getJSON() });
+        log.Debug("About to PLOT div3");
+        // await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div2", linemap.getJSON() });
+        await JSRuntime.InvokeAsync<object>("plotData", new object[] { "div3", scatter3d.getJSON() });
+        log.Debug("About to PLOT attjson");
+        await JSRuntime.InvokeAsync<object>("plotData", attjson);
+
+        log.Debug("after plotData");
+
+        var msgno = 1;
+        Func<int, int> offsetcalc = (no) => { return (no % 200) * -10; };
+
+        var msgplot = "Plotly.relayout(" + selectedchart + ", " +
+            new
+            {
+                annotations = cb.GetEnumeratorType("MSG").Select(a => new { text = a["Message"], x = a.time.ToString("o"), y = 0, opacity = 0.5, xref = 'x', yref = 'y', showarrow = true, align = "center", ax = 0, ay = offsetcalc(msgno++) }).ToList()
+            }.ToJSON()
+            + ")";
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { msgplot });
+
+        try
+        {
+            LoadingStatus = "Creating GPS track with attitude data";
+            await Task.Delay(1);
+
+            var time = linelat.root.x.GetEnumerator();
+            var x = scatter3d.root.x.GetEnumerator();
+            var y = scatter3d.root.y.GetEnumerator();
+            var z = scatter3d.root.z.GetEnumerator();
+
+            var firsttime = (DateTime)(linelat.root.x.First());
+            var lasttime = (DateTime)(linelat.root.x.Last());
+            var homelocation = new PointLatLngAlt((double)scatter3d.root.x.First(), (double)scatter3d.root.y.First(), (double)scatter3d.root.z.First());
+
+            List<object> track = new List<object>();
+
+            while (x.MoveNext() && y.MoveNext() && z.MoveNext() && time.MoveNext())
+            {
+                track.Add(new[] { ((DateTime)time.Current).ToString("o"), y.Current, x.Current, z.Current });
+            }
+
+            List<object> att = new List<object>();
+
+            // every 2th
+            foreach (var item in ATTdata.Where((value, index) => index % 2 == 0))
+            {
+                att.Add(new[] { item.time, item.Roll, item.Pitch, item.Yaw });
+            }
+
+            //https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=Interpolation.html&label=All
+            var element = @"
+position_data = " + track.ToJSON() + @";
+attitude_data = " + att.ToJSON() + @";
+
+takeoff_altitude = " + homelocation.Alt + @";
+takeoff_position = Cesium.Cartographic.fromDegrees( " + homelocation.Lng + @" ,  " + homelocation.Lat + @" );
+
+function computePositionProperty(attitude_data) {
+var property = new Cesium.SampledPositionProperty();
+var position;
+
+for (var i = 0; i < position_data.length; ++i) {
+var cur_pos = position_data[i];
+var time = Cesium.JulianDate.fromIso8601(cur_pos[0]);
+position = Cesium.Cartesian3.fromDegrees(cur_pos[1], cur_pos[2],
+cur_pos[3] + attitude_data);
+property.addSample(time, position);
+}
+return property;
+}
+
+function computeOrientationProperty() {
+var orientationProperty = new Cesium.TimeIntervalCollectionProperty();
+
+var position = Cesium.Cartesian3.fromRadians(takeoff_position.longitude,
+takeoff_position.latitude);
+
+for (i = 0; i < attitude_data.length; ++i) {
+var cur_attitude = attitude_data[i];
+var time_att = Cesium.JulianDate.fromIso8601(cur_attitude[0]);
+
+//https://cesiumjs.org/Cesium/Build/Apps/Sandcastle/?src=3D%20Models.html
+var heading = Cesium.Math.toRadians(cur_attitude[3] - 90);
+var pitch = Cesium.Math.toRadians(cur_attitude[2]);
+var roll = Cesium.Math.toRadians(cur_attitude[1]);
+var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+
+
+
+if (i < attitude_data.length - 1) {
+var next_attitude = attitude_data[i+1];
+var time_att_next = Cesium.JulianDate.fromIso8601(next_attitude[0]);
+var timeInterval = new Cesium.TimeInterval({
+start : time_att,
+stop : time_att_next,
+isStartIncluded : true,
+isStopIncluded : false,
+data : orientation
+});
+orientationProperty.intervals.addInterval(timeInterval);
+}
+
+}
+
+return orientationProperty;
+}
+
+positionProperty = computePositionProperty(0);
+orientationProperty = computeOrientationProperty();
+
+
+// flight modes
+flightModesProperty = new Cesium.TimeIntervalCollectionProperty();
+for (i = 0; i < flight_modes.length - 1; ++i) {
+var cur_flight_mode = flight_modes[i];
+var next_flight_mode = flight_modes[i+1];
+var cur_time = Cesium.JulianDate.fromIso8601(cur_flight_mode[0]);
+var next_time = Cesium.JulianDate.fromIso8601(next_flight_mode[0]);
+
+var timeInterval = new Cesium.TimeInterval({
+start : cur_time,
+stop : next_time,
+isStartIncluded : true,
+isStopIncluded : false,
+data : cur_flight_mode[1]
+});
+flightModesProperty.intervals.addInterval(timeInterval);
+}
+
+// manual control setpoints
+manualControlSetpointsProperty = new Cesium.TimeIntervalCollectionProperty();
+for (i = 0; i < manual_control_setpoints.length - 1; ++i) {
+var cur_sp = manual_control_setpoints[i];
+var next_sp = manual_control_setpoints[i+1];
+var cur_time = Cesium.JulianDate.fromIso8601(cur_sp[0]);
+var next_time = Cesium.JulianDate.fromIso8601(next_sp[0]);
+var manual_control_setpoint = Cesium.Cartesian4.fromElements(cur_sp[1],
+cur_sp[2], cur_sp[3], cur_sp[4]);
+
+var timeInterval = new Cesium.TimeInterval({
+start : cur_time,
+stop : next_time,
+isStartIncluded : true,
+isStopIncluded : false,
+data : manual_control_setpoint
+});
+manualControlSetpointsProperty.intervals.addInterval(timeInterval);
+}
+
+var default_model_scale = 20;
+
+//Set bounds of our simulation time
+var start = Cesium.JulianDate.fromDate(new Date(""" + firsttime.ToString("o") + @"""));
+var stop = Cesium.JulianDate.fromDate(new Date(""" + lasttime.ToString("o") + @"""));
+
+//Make sure viewer is at the desired time.
+viewer.clock.startTime = start.clone();
+viewer.clock.stopTime = stop.clone();
+viewer.clock.currentTime = start.clone();
+viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
+viewer.clock.multiplier = 1;
+
+viewer.animation.viewModel.setShuttleRingTicks([
+0.01, 0.02, 0.05,
+0.1, 0.25, 0.5,
+1, 2, 5, 10, 15, 30, 60,
+100, 300, 600, 1000]);
+
+//Set timeline to simulation bounds
+viewer.timeline.zoomTo(start, stop);
+
+var pinBuilder = new Cesium.PinBuilder();
+
+target = viewer.entities.add({
+
+//Set the entity availability to the same interval as the simulation time.
+availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
+start : start,
+stop : stop
+})]),
+
+//Use our computed positions
+position : positionProperty,
+orientation : orientationProperty,
+
+//Automatically compute orientation based on position movement.
+//orientation : new Cesium.VelocityOrientationProperty(positionProperty),
+
+//Load the Cesium plane model to represent the entity
+model : {
+uri : 'Cesium_Air.txt',
+minimumPixelSize : 64
+},
+
+//Show the path as a pink line sampled in 1 second increments.
+path : {
+resolution : 1,
+material : new Cesium.PolylineGlowMaterialProperty({
+glowPower : 0.1,
+color : Cesium.Color.YELLOW
+}),
+width : 10
+},
+
+label: {
+id: 'my label',
+text: 'Test Label',
+}
+
+});
+
+var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, [ takeoff_position ]);
+Cesium.when(promise, function(updatedPositions) {
+var ground_offset = takeoff_position.height - takeoff_altitude;
+console.log('Ground Offset in meters: ' + ground_offset);
+var positionProperty = computePositionProperty(ground_offset + 2);
+target.position = positionProperty;
+});
+
+viewer.timeline.updateFromClock();
+viewer.timeline.zoomTo(viewer.clock.startTime, viewer.clock.stopTime);
+
+viewer.zoomTo(target, new Cesium.HeadingPitchRange(0,	Cesium.Math.toRadians(-25), 200));
+
+";
+
+            log.Debug("about to element");
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { element });
+
+            if (rcshowinit == false)
+                await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
+// Radio Controller
+radio_controller.init(document.getElementById('radio-controller'), 300, 200);
+" });
+
+            rcshowinit = true;
+
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
+// update the radio whenever the time changes
+viewer.clock.onTick.addEventListener(function(clock) {
+     var manual_sp = manualControlSetpointsProperty.getValue(clock.currentTime);
+     var flight_mode = flightModesProperty.getValue(clock.currentTime);
+     if (flight_mode === undefined) flight_mode = '';
+     radio_controller.setFlightMode(flight_mode);
+     if (manual_sp === undefined) {
+         radio_controller.hideSticks();
+     } else {
+         // this is mode 2 (map throttle from [0, 1] to [-1, 1])
+         radio_controller.updateSticks(manual_sp.w, manual_sp.z,
+             manual_sp.y, manual_sp.x);
+     }
+     // stick history
+     var stick_history = [];
+     var time = clock.currentTime.clone();
+     for (var i = 0; i < 30; ++i) {
+         manual_sp = manualControlSetpointsProperty.getValue(time);
+         if (manual_sp !== undefined) {
+             stick_history.unshift([manual_sp.w, manual_sp.z,
+                 manual_sp.y, manual_sp.x]);
+         }
+         Cesium.JulianDate.addSeconds(time, -0.03333, time);
+     }
+     radio_controller.updateHistory(stick_history);
+     radio_controller.redraw();
+});
+
+
+
+
+
+var minHeight = -414.0; // approximate dead sea elevation
+var maxHeight = 8777.0; // approximate everest elevation
+var contourColor = Cesium.Color.RED.clone();
+                var contourUniforms = {};
+                var shadingUniforms = {};
+
+                // The viewModel tracks the state of our mini application.
+                var viewModel = {
+                    enableContour: false,
+                    contourSpacing: 10.0,
+                    contourWidth: 2.0,
+                    selectedShading: 'none',
+                    changeColor: function() {
+                        contourUniforms.color = Cesium.Color.fromRandom({alpha: 1.0}, contourColor);
+                    },
+                    track_vehicle : false
+                };
+
+                // Convert the viewModel members into knockout observables.
+                Cesium.knockout.track(viewModel);
+
+                // Bind the viewModel to the DOM elements of the UI that call for it.
+                var toolbar = document.getElementById('toolbar');
+                Cesium.knockout.applyBindings(viewModel, toolbar);
+
+Cesium.knockout.getObservable(viewModel, 'track_vehicle').subscribe(
+    function(newValue) {
+        if (newValue) {
+            viewer.trackedEntity = target;
+        } else {
+            viewer.trackedEntity = undefined;
+        }
+    }
+);
+
+function updateMaterial() {
+    var hasContour = viewModel.enableContour;
+    var selectedShading = viewModel.selectedShading;
+    var globe = viewer.scene.globe;
+    var material;
+    if (hasContour) {
+        if (selectedShading === 'elevation') {
+            material = getElevationContourMaterial();
+            shadingUniforms = material.materials.elevationRampMaterial.uniforms;
+            shadingUniforms.minimumHeight = minHeight;
+            shadingUniforms.maximumHeight = maxHeight;
+            contourUniforms = material.materials.contourMaterial.uniforms;
+        } else if (selectedShading === 'slope') {
+            material = getSlopeContourMaterial();
+            shadingUniforms = material.materials.slopeRampMaterial.uniforms;
+            contourUniforms = material.materials.contourMaterial.uniforms;
+        } else if (selectedShading === 'aspect') {
+            material = getAspectContourMaterial();
+            shadingUniforms = material.materials.aspectRampMaterial.uniforms;
+            contourUniforms = material.materials.contourMaterial.uniforms;
+        } else {
+            material = Cesium.Material.fromType('ElevationContour');
+            contourUniforms = material.uniforms;
+        }
+        contourUniforms.width = viewModel.contourWidth;
+        contourUniforms.spacing = viewModel.contourSpacing;
+        contourUniforms.color = contourColor;
+    } else if (selectedShading === 'elevation') {
+        material = Cesium.Material.fromType('ElevationRamp');
+        shadingUniforms = material.uniforms;
+        shadingUniforms.minimumHeight = minHeight;
+        shadingUniforms.maximumHeight = maxHeight;
+    } else if (selectedShading === 'slope') {
+        material = Cesium.Material.fromType('SlopeRamp');
+        shadingUniforms = material.uniforms;
+    } else if (selectedShading === 'aspect') {
+        material = Cesium.Material.fromType('AspectRamp');
+        shadingUniforms = material.uniforms;
+    }
+    if (selectedShading !== 'none') {
+        shadingUniforms.image = getColorRamp(selectedShading);
+    }
+
+    globe.material = material;
+}
+
+updateMaterial();
+
+                Cesium.knockout.getObservable(viewModel, 'enableContour').subscribe(function(newValue) {
+                    updateMaterial();
+                });
+
+                Cesium.knockout.getObservable(viewModel, 'contourWidth').subscribe(function(newValue) {
+                    contourUniforms.width = parseFloat(newValue);
+                });
+
+                Cesium.knockout.getObservable(viewModel, 'contourSpacing').subscribe(function(newValue) {
+                    contourUniforms.spacing = parseFloat(newValue);
+                });" });
+        }
+        catch (Exception ex)
+        {
+            log.Error(ex);
+        }
+
+        // used for rawtable callbacks
+        var dotNetObjectRef = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeAsync<object>("dotNetObjectRefSave", dotNetObjectRef);
+
+        log.Debug("about to rawtable");
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawTable').DataTable( {
+        retrieve: true,
+        serverSide: true,
+        searching: false,
+        ajax: function (data, callback, settings) {
+                console.log(data);
+                console.log(callback);
+                console.log(settings);
+                d1 = dotNetObjectRef.invokeMethod('GetCBLines', data.draw, data.start, data.length);
+                d2 = JSON.parse(d1);
+            callback(
+                d2
+            );
+        },
+        columns: [
+            { data: 0, title: 'MSG' },
+            { data: 1 },
+            { data: 2 },
+            { data: 3 },
+            { data: 4 },
+            { data: 5 },
+            { data: 6 },
+            { data: 7 },
+            { data: 8 },
+            { data: 9 }
+        ]
+    } );" });
+
+
+        // render the table before converting to a datatable
+        StateHasChanged();
+
+        await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawparams').DataTable( { searching: true,  serverSide: false, retrieve: true    } );" });
+
+
+        log.Debug("done");
+
+        LoadingStatus = "";
+
+        Loading = false;
+    }
+
+    [JSInvokable]
+    public string GetCBLines(int draw, int start, int length)
+    {
+        return new { draw = draw, recordsTotal = cb.Count, recordsFiltered = cb.Count, data = cb.GetEnumeratorTypeAll().Skip(start).Take(length).Select(a => { var b = a.items.ToArray(); Array.Resize(ref b, 10); return b; }) }.ToJSON();
+    }
+
+    public void Dispose()
+    {
+        instance = null;
+        buffer = null;
+    }
+
+    public IEnumerable<string> SeenMessageTypes
+    {
+        get
+        {
+            var sorted = cb.SeenMessageTypes;
+            sorted.Sort();
+            return sorted;
+        }
+
+    }
+
+    IEnumerable<(string Name, string Value, string Options, string Desc)> paramaCache = null;
+
+    public IEnumerable<(string Name, string Value, string Options, string Desc)> CleanParamList
+    {
+        get
+        {
+            if (paramaCache == null)
+            {
+                var paramlist = cb.GetEnumeratorType("PARM").GroupBy(param => param["Name"]).OrderBy(a => a.Key).Select(group => group.First()).ToList();
+
+                paramaCache = paramlist.Select(item => (item["Name"],
+                item["Value"],
+                ParameterMetaDataRepository.GetParameterOptionsInt(item["Name"], Firmwares.ArduCopter2.ToString()).Select(a => a.Key + " = " + a.Value).Aggregate("", (current, next) => current + "; " + next),
+                ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.DisplayName, Firmwares.ArduCopter2.ToString()) + " " + @ParameterMetaDataRepository.GetParameterMetaData(item["Name"], ParameterMetaDataConstants.Description, Firmwares.ArduCopter2.ToString())));
+            }
+
+            return paramaCache;
+        }
+    }
+
+    private string LoadingStatus
+    {
+        get { return _loadingStatus; }
+        set
+        {
+            if (_loadingStatus == value)
+                return;
+            _loadingStatus = value;
+            log.Debug(value);
+            StateHasChanged();
+
+        }
+    }
+
+    private void setLastGraph(string gra)
+    {
+        selectedchart = gra;
+        JSRuntime.InvokeAsync<bool>("evalline", new object[] { "$('ul#graphs > li > div').css('border-style', 'none'); $('ul#graphs > li > div#" + selectedchart + "').css('border-style', 'dotted')" });
+    }
+
+}

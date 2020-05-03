@@ -148,7 +148,7 @@
     <value>Servo Pitch PID</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>FS Werte</value>
+    <value>Anstiegsrate %/s</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Navigationswinkel</value>

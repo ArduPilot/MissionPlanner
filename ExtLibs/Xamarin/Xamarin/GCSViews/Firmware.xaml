@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Xamarin.GCSViews.Firmware">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+                <TableView Intent="Form">
+                    <TableRoot>
+                        <TableSection>
+                            <ImageCell x:Name="quad" Text="" ImageSource="" Tapped="Image_OnTapped" />
+                            <ImageCell x:Name="rover" Text="" ImageSource=""  Tapped="Image_OnTapped"/>
+                            <ImageCell x:Name="plane" Text="" ImageSource=""  Tapped="Image_OnTapped"/>
+                            <ImageCell x:Name="sub" Text="" ImageSource=""  Tapped="Image_OnTapped"/>
+                            <ImageCell x:Name="heli" Text="" ImageSource="" Tapped="Image_OnTapped" />
+                            <ImageCell x:Name="antennatracker" Text="" ImageSource=""  Tapped="Image_OnTapped"/>
+                        </TableSection>
+                    </TableRoot>
+                </TableView>
+            </StackLayout>
+            <ActivityIndicator x:Name="ActivityIndicator" AbsoluteLayout.LayoutFlags="All" Color="Red" IsRunning="true" VerticalOptions="Fill" HorizontalOptions="Fill" AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2" />
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

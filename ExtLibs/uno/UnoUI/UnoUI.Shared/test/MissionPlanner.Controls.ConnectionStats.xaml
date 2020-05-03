@@ -1,0 +1,40 @@
+<UserControl x:Class="MissionPlanner.Controls.ConnectionStats" d:DesignHeight="136" d:DesignWidth="417"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><CheckBox Name="chk_mavlink2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="259,90,0,0" Width="71" Height="18">Mavlink 2</CheckBox>
+<CheckBox Name="chk_signing" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="258,113,0,0" Width="61" Height="18">Signing</CheckBox>
+<Grid Name="groupBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,4,0,0" Width="245" Height="124">
+<TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="13,96,0,0" Width="164" Height="17">Max time between packets (ms)</TextBlock>
+<TextBox Name="txt_MaxPacketInterval" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="184,94,0,0" Width="51" Height="20"></TextBox>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="126,43,0,0" Width="53" Height="17">Packets/s</TextBlock>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="135,18,0,0" Width="41" Height="17">Bytes/s</TextBlock>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="10,18,0,0" Width="33" Height="17">Bytes</TextBlock>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,44,0,0" Width="44" Height="17">Packets</TextBlock>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,70,0,0" Width="51" Height="17">Pkts Lost</TextBlock>
+<TextBox Name="txt_BytesReceived" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="58,16,0,0" Width="64" Height="20"></TextBox>
+<TextBox Name="txt_PacketsPerSecond" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="184,42,0,0" Width="51" Height="20"></TextBox>
+<TextBox Name="txt_BytesPerSecondRx" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="184,16,0,0" Width="51" Height="20"></TextBox>
+<TextBox Name="txt_LinkQuality" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="184,68,0,0" Width="51" Height="20"></TextBox>
+<TextBox Name="txt_PacketsRx" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="58,42,0,0" Width="64" Height="20"></TextBox>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="139,68,0,0" Width="40" Height="17">Quality</TextBlock>
+<TextBox Name="txt_PacketsLost" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="58,68,0,0" Width="64" Height="20"></TextBox>
+</Grid>
+<Grid Name="groupBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="255,4,0,0" Width="144" Height="83">
+<TextBox Name="txt_BytesPerSecondSent" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="74,42,0,0" Width="64" Height="20"></TextBox>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="23,43,0,0" Width="41" Height="17">Bytes/s</TextBlock>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,18,0,0" Width="61" Height="17">Total Bytes</TextBlock>
+<TextBox Name="txt_BytesSent" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="74,16,0,0" Width="64" Height="20"></TextBox>
+</Grid>
+</Grid></UserControl>

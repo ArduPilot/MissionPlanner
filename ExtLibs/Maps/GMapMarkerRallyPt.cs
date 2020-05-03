@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Maps
 {
@@ -28,21 +29,18 @@ namespace MissionPlanner.Maps
             Offset = new Point(-10, -40);
         }
 
-        public GMapMarkerRallyPt(MAVLink.mavlink_rally_point_t mark)
-            : base(new PointLatLng(mark.lat/1e7, mark.lng/1e7))
+        public GMapMarkerRallyPt(PointLatLngAlt plla)
+            : base(new PointLatLng(plla.Lat, plla.Lng))
         {
-            Size = SizeSt;
-            Offset = new Point(-10, -40);
-            Alt = mark.alt;
-            Alt = (int) mark.alt;
+            Alt = (int)plla.Alt;
             ToolTipMode = MarkerTooltipMode.OnMouseOver;
-            ToolTipText = "Rally Point" + "\nAlt: " + mark.alt;
+            ToolTipText = "Rally Point" + "\nAlt: " + plla.Alt;
         }
 
         static readonly Point[] Arrow = new Point[]
         {new Point(-7, 7), new Point(0, -22), new Point(7, 7), new Point(0, 2)};
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(IGraphics g)
         {
 #if !PocketPC
             g.DrawImageUnscaled(localcache2, LocalPosition.X, LocalPosition.Y);

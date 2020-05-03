@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Joystick
@@ -29,7 +23,7 @@ namespace MissionPlanner.Joystick
         {
             var config = MainV2.joystick.getButton(int.Parse(this.Tag.ToString()));
 
-            config.p1 = (float) numericUpDownservono.Value;
+            config.p1 = (float)numericUpDownservono.Value;
 
             MainV2.joystick.setButton(int.Parse(this.Tag.ToString()), config);
         }
@@ -38,7 +32,7 @@ namespace MissionPlanner.Joystick
         {
             var config = MainV2.joystick.getButton(int.Parse(this.Tag.ToString()));
 
-            config.p2 = (float) numericUpDownpwm.Value;
+            config.p2 = (float)numericUpDownpwm.Value;
 
             MainV2.joystick.setButton(int.Parse(this.Tag.ToString()), config);
         }

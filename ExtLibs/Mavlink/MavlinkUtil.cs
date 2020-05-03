@@ -19,12 +19,16 @@ public static class MavlinkUtil
     /// <param name="bytearray">The bytes of the mavlink packet</param>
     /// <param name="startoffset">The position in the byte array where the packet starts</param>
     /// <returns>The newly created mavlink packet</returns>
+
     public static TMavlinkPacket ByteArrayToStructure<TMavlinkPacket>(this byte[] bytearray, int startoffset = 6)
         where TMavlinkPacket : struct
     {
+#if UNSAFE
         return ReadUsingPointer<TMavlinkPacket>(bytearray, startoffset);
+#else
+        return ByteArrayToStructureGC<TMavlinkPacket>(bytearray, startoffset);
+#endif
     }
-
     public static TMavlinkPacket ByteArrayToStructureBigEndian<TMavlinkPacket>(this byte[] bytearray,
         int startoffset = 6) where TMavlinkPacket : struct
     {
@@ -35,6 +39,9 @@ public static class MavlinkUtil
 
     public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset, int payloadlength = 0)
     {
+        if (bytearray == null || bytearray.Length < (startoffset + payloadlength) || payloadlength == 0)
+            return;
+
         int len = Marshal.SizeOf(obj);
 
         IntPtr iptr = Marshal.AllocHGlobal(len);
@@ -60,6 +67,9 @@ public static class MavlinkUtil
 
     public static TMavlinkPacket ByteArrayToStructureT<TMavlinkPacket>(byte[] bytearray, int startoffset)
     {
+        if (bytearray == null || bytearray.Length < startoffset)
+            return default(TMavlinkPacket);
+
         int len = bytearray.Length - startoffset;
 
         IntPtr i = Marshal.AllocHGlobal(len);
@@ -92,9 +102,11 @@ public static class MavlinkUtil
             Array.Resize(ref payload, length);
         return payload;
     }
-
+#if UNSAFE
     public static T ReadUsingPointer<T>(byte[] data, int startoffset) where T : struct
     {
+        if (data == null || data.Length < (startoffset))
+            return default(T);
         unsafe
         {
             fixed (byte* p = &data[startoffset])
@@ -103,7 +115,7 @@ public static class MavlinkUtil
             }
         }
     }
-
+#endif
     public static T ByteArrayToStructureGC<T>(byte[] bytearray, int startoffset) where T : struct
     {
         GCHandle gch = GCHandle.Alloc(bytearray, GCHandleType.Pinned);
@@ -129,7 +141,7 @@ public static class MavlinkUtil
 
         // do endian swap
         object thisBoxed = obj;
-        var test = thisBoxed.GetType().GetTypeInfo();
+        var test = thisBoxed.GetType();
 
         int reversestartoffset = startoffset;
 
@@ -311,6 +323,7 @@ public static class MavlinkUtil
                 return item;
         }
 
+        Console.WriteLine("Unknown Packet " + msgid);
         return new MAVLink.message_info();
     }
 }

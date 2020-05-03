@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.Controls.Icon
 {
@@ -12,7 +12,7 @@ namespace MissionPlanner.Controls.Icon
         private int _width = 30;
         private int _height = 30;
         private bool _isSelected = false;
-        private Point _location = new Point(0,0);
+        private Point _location = new Point(0, 0);
 
         public Pen LinePen { get; set; }
         public SolidBrush BgSolidBrush { get; set; }
@@ -87,12 +87,14 @@ namespace MissionPlanner.Controls.Icon
         {
             // move 0,0 to out start location - no clipping is used, so we can draw anywhere on the parent control
             g.TranslateTransform(Location.X, Location.Y);
+            g.InterpolationMode = InterpolationMode.High;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
 
             var rect = new Rectangle(0, 0, _width, _height);
 
             if (IsSelected)
                 g.FillPie(BgSelectedSolidBrush, rect, 0, 360);
-            else 
+            else
                 g.FillPie(BgSolidBrush, rect, 0, 360);
             g.DrawArc(LinePen, rect, 0, 360);
 

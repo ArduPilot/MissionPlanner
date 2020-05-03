@@ -1,4 +1,6 @@
-﻿namespace MissionPlanner.GCSViews.ConfigurationView
+﻿using MissionPlanner.Controls;
+
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigBatteryMonitoring
     {
@@ -36,19 +38,19 @@
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.TXT_battcapacity = new System.Windows.Forms.TextBox();
-            this.CMB_batmontype = new System.Windows.Forms.ComboBox();
+            this.CMB_batmontype = new MissionPlanner.Controls.MavlinkComboBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.CMB_apmversion = new System.Windows.Forms.ComboBox();
+            this.CMB_HWVersion = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.CHK_speechbattery = new System.Windows.Forms.CheckBox();
             this.TXT_measuredvoltage = new System.Windows.Forms.TextBox();
             this.TXT_voltage = new System.Windows.Forms.TextBox();
             this.label35 = new System.Windows.Forms.Label();
-            this.TXT_divider = new System.Windows.Forms.TextBox();
+            this.TXT_divider_VOLT_MULT = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
-            this.TXT_ampspervolt = new System.Windows.Forms.TextBox();
+            this.TXT_AMP_PERVLT = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -77,7 +79,9 @@
             resources.GetString("CMB_batmonsensortype.Items4"),
             resources.GetString("CMB_batmonsensortype.Items5"),
             resources.GetString("CMB_batmonsensortype.Items6"),
-            resources.GetString("CMB_batmonsensortype.Items7")});
+            resources.GetString("CMB_batmonsensortype.Items7"),
+            resources.GetString("CMB_batmonsensortype.Items8"),
+            resources.GetString("CMB_batmonsensortype.Items9")});
             resources.ApplyResources(this.CMB_batmonsensortype, "CMB_batmonsensortype");
             this.CMB_batmonsensortype.Name = "CMB_batmonsensortype";
             this.CMB_batmonsensortype.SelectedIndexChanged += new System.EventHandler(this.CMB_batmonsensortype_SelectedIndexChanged);
@@ -100,20 +104,22 @@
             // 
             // CMB_batmontype
             // 
+            this.CMB_batmontype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_batmontype.DropDownWidth = 200;
+            resources.ApplyResources(this.CMB_batmontype, "CMB_batmontype");
             this.CMB_batmontype.FormattingEnabled = true;
             this.CMB_batmontype.Items.AddRange(new object[] {
             resources.GetString("CMB_batmontype.Items"),
             resources.GetString("CMB_batmontype.Items1"),
             resources.GetString("CMB_batmontype.Items2")});
-            resources.ApplyResources(this.CMB_batmontype, "CMB_batmontype");
             this.CMB_batmontype.Name = "CMB_batmontype";
+            this.CMB_batmontype.ParamName = null;
+            this.CMB_batmontype.SubControl = null;
             this.CMB_batmontype.SelectedIndexChanged += new System.EventHandler(this.CMB_batmontype_SelectedIndexChanged);
             // 
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.White;
-            this.pictureBox5.BackgroundImage = global::MissionPlanner.Properties.Resources.BR_APMPWRDEAN_2;
             resources.ApplyResources(this.pictureBox5, "pictureBox5");
             this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox5.Name = "pictureBox5";
@@ -124,22 +130,23 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // CMB_apmversion
+            // CMB_HWVersion
             // 
-            this.CMB_apmversion.DropDownWidth = 200;
-            this.CMB_apmversion.FormattingEnabled = true;
-            this.CMB_apmversion.Items.AddRange(new object[] {
-            resources.GetString("CMB_apmversion.Items"),
-            resources.GetString("CMB_apmversion.Items1"),
-            resources.GetString("CMB_apmversion.Items2"),
-            resources.GetString("CMB_apmversion.Items3"),
-            resources.GetString("CMB_apmversion.Items4"),
-            resources.GetString("CMB_apmversion.Items5"),
-            resources.GetString("CMB_apmversion.Items6"),
-            resources.GetString("CMB_apmversion.Items7")});
-            resources.ApplyResources(this.CMB_apmversion, "CMB_apmversion");
-            this.CMB_apmversion.Name = "CMB_apmversion";
-            this.CMB_apmversion.SelectedIndexChanged += new System.EventHandler(this.CMB_apmversion_SelectedIndexChanged);
+            this.CMB_HWVersion.DropDownWidth = 200;
+            this.CMB_HWVersion.FormattingEnabled = true;
+            this.CMB_HWVersion.Items.AddRange(new object[] {
+            resources.GetString("CMB_HWVersion.Items"),
+            resources.GetString("CMB_HWVersion.Items1"),
+            resources.GetString("CMB_HWVersion.Items2"),
+            resources.GetString("CMB_HWVersion.Items3"),
+            resources.GetString("CMB_HWVersion.Items4"),
+            resources.GetString("CMB_HWVersion.Items5"),
+            resources.GetString("CMB_HWVersion.Items6"),
+            resources.GetString("CMB_HWVersion.Items7"),
+            resources.GetString("CMB_HWVersion.Items8")});
+            resources.ApplyResources(this.CMB_HWVersion, "CMB_HWVersion");
+            this.CMB_HWVersion.Name = "CMB_HWVersion";
+            this.CMB_HWVersion.SelectedIndexChanged += new System.EventHandler(this.CMB_apmversion_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -176,24 +183,24 @@
             resources.ApplyResources(this.label35, "label35");
             this.label35.Name = "label35";
             // 
-            // TXT_divider
+            // TXT_divider_VOLT_MULT
             // 
-            resources.ApplyResources(this.TXT_divider, "TXT_divider");
-            this.TXT_divider.Name = "TXT_divider";
-            this.TXT_divider.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_divider_PreviewKeyDown);
-            this.TXT_divider.Validated += new System.EventHandler(this.TXT_divider_Validated);
+            resources.ApplyResources(this.TXT_divider_VOLT_MULT, "TXT_divider_VOLT_MULT");
+            this.TXT_divider_VOLT_MULT.Name = "TXT_divider_VOLT_MULT";
+            this.TXT_divider_VOLT_MULT.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_divider_PreviewKeyDown);
+            this.TXT_divider_VOLT_MULT.Validated += new System.EventHandler(this.TXT_divider_Validated);
             // 
             // label34
             // 
             resources.ApplyResources(this.label34, "label34");
             this.label34.Name = "label34";
             // 
-            // TXT_ampspervolt
+            // TXT_AMP_PERVLT
             // 
-            resources.ApplyResources(this.TXT_ampspervolt, "TXT_ampspervolt");
-            this.TXT_ampspervolt.Name = "TXT_ampspervolt";
-            this.TXT_ampspervolt.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_ampspervolt_PreviewKeyDown);
-            this.TXT_ampspervolt.Validated += new System.EventHandler(this.TXT_ampspervolt_Validated);
+            resources.ApplyResources(this.TXT_AMP_PERVLT, "TXT_AMP_PERVLT");
+            this.TXT_AMP_PERVLT.Name = "TXT_AMP_PERVLT";
+            this.TXT_AMP_PERVLT.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_ampspervolt_PreviewKeyDown);
+            this.TXT_AMP_PERVLT.Validated += new System.EventHandler(this.TXT_ampspervolt_Validated);
             // 
             // label33
             // 
@@ -213,9 +220,9 @@
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.label32);
             this.groupBox4.Controls.Add(this.label33);
-            this.groupBox4.Controls.Add(this.TXT_ampspervolt);
+            this.groupBox4.Controls.Add(this.TXT_AMP_PERVLT);
             this.groupBox4.Controls.Add(this.label34);
-            this.groupBox4.Controls.Add(this.TXT_divider);
+            this.groupBox4.Controls.Add(this.TXT_divider_VOLT_MULT);
             this.groupBox4.Controls.Add(this.label35);
             this.groupBox4.Controls.Add(this.TXT_voltage);
             this.groupBox4.Controls.Add(this.TXT_measuredvoltage);
@@ -247,11 +254,10 @@
             // 
             // ConfigBatteryMonitoring
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.CHK_speechbattery);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.CMB_apmversion);
+            this.Controls.Add(this.CMB_HWVersion);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.CMB_batmonsensortype);
@@ -277,19 +283,19 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox TXT_battcapacity;
-        private System.Windows.Forms.ComboBox CMB_batmontype;
+        private MavlinkComboBox CMB_batmontype;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.ComboBox CMB_apmversion;
+        private System.Windows.Forms.ComboBox CMB_HWVersion;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox CHK_speechbattery;
         private System.Windows.Forms.TextBox TXT_measuredvoltage;
         private System.Windows.Forms.TextBox TXT_voltage;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.TextBox TXT_divider;
+        private System.Windows.Forms.TextBox TXT_divider_VOLT_MULT;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.TextBox TXT_ampspervolt;
+        private System.Windows.Forms.TextBox TXT_AMP_PERVLT;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.GroupBox groupBox4;

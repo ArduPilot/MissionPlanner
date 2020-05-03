@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Warnings
@@ -23,7 +19,7 @@ namespace MissionPlanner.Warnings
             CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
             item.SetField(item.Name);
 
-            CMB_condition.DataSource = Enum.GetNames(typeof (CustomWarning.Conditional));
+            CMB_condition.DataSource = Enum.GetNames(typeof(CustomWarning.Conditional));
 
             CMB_Source.DataSource = item.GetOptions();
 
@@ -37,7 +33,7 @@ namespace MissionPlanner.Warnings
         {
             CMB_condition.Text = custwarning.ConditionType.ToString();
             CMB_Source.Text = custwarning.Name;
-            NUM_warning.Value = (decimal) custwarning.Warning;
+            NUM_warning.Value = (decimal)custwarning.Warning;
             NUM_repeattime.Value = custwarning.RepeatTime;
             TXT_warningtext.Text = custwarning.Text;
         }
@@ -70,8 +66,8 @@ namespace MissionPlanner.Warnings
             this.TXT_warningtext = new System.Windows.Forms.TextBox();
             this.but_addchild = new MissionPlanner.Controls.MyButton();
             this.but_remove = new MissionPlanner.Controls.MyButton();
-            ((System.ComponentModel.ISupportInitialize) (this.NUM_warning)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.NUM_repeattime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_warning)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_repeattime)).BeginInit();
             this.SuspendLayout();
             // 
             // CMB_Source
@@ -172,8 +168,8 @@ namespace MissionPlanner.Warnings
             this.Controls.Add(this.CMB_Source);
             this.Name = "WarningControl";
             this.Size = new System.Drawing.Size(619, 27);
-            ((System.ComponentModel.ISupportInitialize) (this.NUM_warning)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.NUM_repeattime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_warning)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_repeattime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -188,13 +184,13 @@ namespace MissionPlanner.Warnings
         {
             if (custwarning != null)
                 custwarning.ConditionType =
-                    (CustomWarning.Conditional) Enum.Parse(typeof (CustomWarning.Conditional), CMB_condition.Text);
+                    (CustomWarning.Conditional)Enum.Parse(typeof(CustomWarning.Conditional), CMB_condition.Text);
         }
 
         private void NUM_warning_ValueChanged(object sender, EventArgs e)
         {
             if (custwarning != null)
-                custwarning.Warning = (double) NUM_warning.Value;
+                custwarning.Warning = (double)NUM_warning.Value;
         }
 
         private void TXT_warningtext_TextChanged(object sender, EventArgs e)
@@ -206,7 +202,7 @@ namespace MissionPlanner.Warnings
         private void NUM_repeattime_ValueChanged(object sender, EventArgs e)
         {
             if (custwarning != null)
-                custwarning.RepeatTime = (int) NUM_repeattime.Value;
+                custwarning.RepeatTime = (int)NUM_repeattime.Value;
         }
 
         private void but_addchild_Click(object sender, EventArgs e)

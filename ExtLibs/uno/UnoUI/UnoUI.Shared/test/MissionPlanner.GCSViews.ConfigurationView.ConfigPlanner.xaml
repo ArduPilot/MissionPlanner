@@ -1,0 +1,92 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigPlanner" d:DesignHeight="576" d:DesignWidth="816"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,450,0,0" Width="43" Height="17">GCS ID</TextBlock>
+<Custom:DecimalUpDown Name="num_gcsid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="107,448,0,0" Width="53"></Custom:DecimalUpDown>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="249,171,0,0" Width="46" Height="17">Alt Units</TextBlock>
+<ComboBox Name="CMB_altunits" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="320,168,0,0" Width="138" Height="21"></ComboBox>
+<CheckBox Name="chk_shownofly" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="671,477,0,0" Width="56" Height="18">No Fly</CheckBox>
+<CheckBox Name="CHK_AutoParamCommit" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="598,501,0,0" Width="131" Height="18">Auto Commit Params</CheckBox>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,424,0,0" Width="38" Height="17">Layout</TextBlock>
+<ComboBox Name="CMB_Layout" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,421,0,0" Width="138" Height="21"></ComboBox>
+<Button Name="but_AAsignin" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="212,474,0,0" Width="115" Height="20">AltitudeAngel</Button>
+<CheckBox Name="chk_norcreceiver" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="340,500,0,0" Width="105" Height="18">No RC Receiver</CheckBox>
+<CheckBox Name="chk_temp" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="341,550,0,0" Width="144" Height="17">Testing Screen</CheckBox>
+<CheckBox Name="chk_tfr" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="496,500,0,0" Width="53" Height="18">TFR's</CheckBox>
+<CheckBox Name="chk_ADSB" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="598,477,0,0" Width="54" Height="18">ADSB</CheckBox>
+<CheckBox Name="CHK_showairports" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="496,477,0,0" Width="94" Height="18">Show Airports</CheckBox>
+<CheckBox Name="CHK_speechlowspeed" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="671,89,0,0" Width="80" Height="18">Low Speed</CheckBox>
+<CheckBox Name="CHK_Password" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="340,477,0,0" Width="148" Height="18">Password Protect Config</CheckBox>
+<CheckBox Name="CHK_beta" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="228,500,0,0" Width="92" Height="18">Beta Updates</CheckBox>
+<CheckBox Name="chk_analytics" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,500,0,0" Width="118" Height="18">OptOut Anon Stats</CheckBox>
+<Button Name="BUT_Vario" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,474,0,0" Width="99" Height="20">Start/Stop Vario</Button>
+<CheckBox Name="CHK_speecharmdisarm" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="594,89,0,0" Width="83" Height="18">Arm/Disarm</CheckBox>
+<Button Name="BUT_themecustom" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="249,394,0,0" Width="75" Height="20">Custom</Button>
+<ComboBox Name="CMB_theme" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,394,0,0" Width="138" Height="21"></ComboBox>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,397,0,0" Width="39" Height="17">Theme</TextBlock>
+<Button Name="BUT_logdirbrowse" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="496,366,0,0" Width="75" Height="23">Browse</Button>
+<TextBox Name="txt_log_dir" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="107,368,0,0" Width="386" Height="20"></TextBox>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,371,0,0" Width="49" Height="17">Log Path</TextBlock>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="338,274,0,0" Width="81" Height="17">Dist to Home</TextBlock>
+<CheckBox Name="CHK_disttohomeflightdata" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="430,273,0,0" Width="129" Height="17">Display in Flightdata</CheckBox>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,346,0,0" Width="62" Height="17">Map Follow</TextBlock>
+<CheckBox Name="CHK_maprotation" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,345,0,0" Width="205" Height="17">Map is rotated to follow the plane</CheckBox>
+<TextBlock Name="label33" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="496,227,0,0" Width="43" Height="13">Sensor</TextBlock>
+<ComboBox Name="CMB_ratesensors" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="545,224,0,0" Width="40" Height="21"></ComboBox>
+<TextBlock Name="label26" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,38,0,0" Width="72" Height="17">Video Format</TextBlock>
+<ComboBox Name="CMB_videoresolutions" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,35,0,0" Width="408" Height="21"></ComboBox>
+<TextBlock Name="label12" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,323,0,0" Width="29" Height="17">HUD</TextBlock>
+<CheckBox Name="CHK_GDIPlus" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,322,0,0" Width="177" Height="17">GDI+ (old type)</CheckBox>
+<TextBlock Name="label24" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,300,0,0" Width="57" Height="17">Waypoints</TextBlock>
+<CheckBox Name="CHK_loadwponconnect" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,299,0,0" Width="177" Height="17">Load Waypoints on connect?</CheckBox>
+<TextBlock Name="label23" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,274,0,0" Width="70" Height="17">Track Length</TextBlock>
+<Custom:DecimalUpDown Name="NUM_tracklength" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="107,273,0,0" Width="67"></Custom:DecimalUpDown>
+<CheckBox Name="CHK_speechaltwarning" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="515,89,0,0" Width="82" Height="18">Alt Warning</CheckBox>
+<TextBlock Name="label108" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,251,0,0" Width="79" Height="17">Connect Reset</TextBlock>
+<CheckBox Name="CHK_resetapmonconnect" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,250,0,0" Width="163" Height="17">Reset on USB Connect</CheckBox>
+<CheckBox Name="CHK_mavdebug" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,550,0,0" Width="144" Height="17">Mavlink Message Debug</CheckBox>
+<TextBlock Name="label107" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="422,227,0,0" Width="22" Height="13">RC</TextBlock>
+<ComboBox Name="CMB_raterc" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="450,224,0,0" Width="40" Height="21"></ComboBox>
+<TextBlock Name="label104" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="301,227,0,0" Width="69" Height="13">Mode/Status</TextBlock>
+<TextBlock Name="label103" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="205,227,0,0" Width="44" Height="13">Position</TextBlock>
+<TextBlock Name="label102" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="104,227,0,0" Width="43" Height="13">Attitude</TextBlock>
+<TextBlock Name="label101" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,227,0,0" Width="87" Height="17">Telemetry Rates</TextBlock>
+<ComboBox Name="CMB_ratestatus" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="376,224,0,0" Width="40" Height="21"></ComboBox>
+<ComboBox Name="CMB_rateposition" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="255,224,0,0" Width="40" Height="21"></ComboBox>
+<ComboBox Name="CMB_rateattitude" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="153,224,0,0" Width="40" Height="21"></ComboBox>
+<TextBlock Name="label99" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="480,171,0,0" Width="241" Height="31">NOTE: The Configuration Tab will NOT display these units, as those are raw values.
+</TextBlock>
+<TextBlock Name="label98" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,198,0,0" Width="66" Height="17">Speed Units</TextBlock>
+<TextBlock Name="label97" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,171,0,0" Width="53" Height="17">Dist Units</TextBlock>
+<ComboBox Name="CMB_speedunits" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,195,0,0" Width="138" Height="21"></ComboBox>
+<ComboBox Name="CMB_distunits" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,168,0,0" Width="138" Height="21"></ComboBox>
+<TextBlock Name="label96" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,144,0,0" Width="45" Height="17">Joystick</TextBlock>
+<TextBlock Name="label95" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,90,0,0" Width="43" Height="17">Speech</TextBlock>
+<CheckBox Name="CHK_speechbattery" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="412,89,0,0" Width="104" Height="18">Battery Warning</CheckBox>
+<CheckBox Name="CHK_speechcustom" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="332,89,0,0" Width="82" Height="18">30s Interval</CheckBox>
+<CheckBox Name="CHK_speechmode" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="280,89,0,0" Width="55" Height="18">Mode </CheckBox>
+<CheckBox Name="CHK_speechwaypoint" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="207,89,0,0" Width="70" Height="18">Waypoint</CheckBox>
+<TextBlock Name="label94" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,65,0,0" Width="59" Height="17">OSD Color</TextBlock>
+<ComboBox Name="CMB_osdcolor" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,62,0,0" Width="138" Height="21"></ComboBox>
+<ComboBox Name="CMB_language" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,112,0,0" Width="138" Height="21"></ComboBox>
+<TextBlock Name="label93" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,115,0,0" Width="69" Height="17">UI Language</TextBlock>
+<CheckBox Name="CHK_enablespeech" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,89,0,0" Width="100" Height="18">Enable Speech</CheckBox>
+<CheckBox Name="CHK_hudshow" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="520,10,0,0" Width="125" Height="17">Enable HUD Overlay</CheckBox>
+<TextBlock Name="label92" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,11,0,0" Width="71" Height="17">Video Device</TextBlock>
+<ComboBox Name="CMB_videosources" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,8,0,0" Width="245" Height="21"></ComboBox>
+<Button Name="BUT_Joystick" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="107,139,0,0" Width="99" Height="23">Joystick Setup</Button>
+<Button Name="BUT_videostop" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="439,6,0,0" Width="75" Height="23">Stop</Button>
+<Button Name="BUT_videostart" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="358,6,0,0" Width="75" Height="23">Start</Button>
+</Grid></UserControl>

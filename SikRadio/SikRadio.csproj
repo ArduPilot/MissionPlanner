@@ -38,6 +38,8 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,9 +47,14 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -95,6 +102,18 @@
     </Compile>
     <Compile Include="..\ExtLibs\Mavlink\Mavlink.cs">
       <Link>Linked\Mavlink.cs</Link>
+    </Compile>
+    <Compile Include="..\ExtLibs\Mavlink\MavlinkCRC.cs">
+      <Link>Linked\MavlinkCRC.cs</Link>
+    </Compile>
+    <Compile Include="..\ExtLibs\Mavlink\MAVLinkMessage.cs">
+      <Link>Linked\MAVLinkMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\ExtLibs\Mavlink\MavlinkParse.cs">
+      <Link>Linked\MavlinkParse.cs</Link>
+    </Compile>
+    <Compile Include="..\ExtLibs\Mavlink\MavlinkUtil.cs">
+      <Link>Linked\MavlinkUtil.cs</Link>
     </Compile>
     <Compile Include="..\ExtLibs\Utilities\Download.cs">
       <Link>Linked\Download.cs</Link>
@@ -261,11 +280,18 @@
     <PackageReference Include="log4net">
       <Version>2.0.8</Version>
     </PackageReference>
+    <PackageReference Include="SkiaSharp.Views">
+      <Version>1.68.1.1</Version>
+    </PackageReference>
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.5.0</Version>
+      <Version>4.7.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtLibs\Interfaces\Interfaces.csproj">
+      <Project>{fd4d2994-9bea-41a1-8c51-2e02d1e8503e}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExtLibs\ZedGraph\ZedGraph.csproj">
       <Project>{2541686b-1673-43bf-af89-3163945db009}</Project>
       <Name>ZedGraph</Name>

@@ -1,0 +1,27 @@
+<UserControl x:Class="MissionPlanner.Controls.ThemeColors" d:DesignHeight="189" d:DesignWidth="206"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="BUT_done" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="63,154,0,0" Width="75" Height="23">Done</Button>
+<TextBox Name="TXT_butbord" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="93,130,0,0" Width="100" Height="20"></TextBox>
+<Button Name="BUT_butbord" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,128,0,0" Width="75" Height="23">Button Border</Button>
+<TextBox Name="TXT_butbg" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="93,101,0,0" Width="100" Height="20"></TextBox>
+<TextBox Name="TXT_text" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="93,72,0,0" Width="100" Height="20"></TextBox>
+<TextBox Name="TXT_ctlbg" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="93,43,0,0" Width="100" Height="20"></TextBox>
+<TextBox Name="TXT_bg" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="93,14,0,0" Width="100" Height="20"></TextBox>
+<Button Name="BUT_butbg" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,99,0,0" Width="75" Height="23">Button BG</Button>
+<Button Name="BUT_text" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,70,0,0" Width="75" Height="23">Text</Button>
+<Button Name="BUT_ctlbg" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,41,0,0" Width="75" Height="23">Control BG</Button>
+<Button Name="BUT_bg" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,12,0,0" Width="75" Height="23">Background</Button>
+</Grid></UserControl>

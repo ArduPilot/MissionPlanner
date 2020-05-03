@@ -1,0 +1,15 @@
+{
+  "name": "ADIS16470",
+  "scan": [
+    {
+      "type": "spi",
+      "name": "imu",
+      "device": "adis16470",
+      "query": {
+        "data": "0x7200",
+        "length": 2,
+        "responce": [ "0x40", "0x7b" ]
+      }
+    }
+  ]
+}

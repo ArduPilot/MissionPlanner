@@ -1,0 +1,25 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigHWRangeFinder" d:DesignHeight="116" d:DesignWidth="650"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="LBL_volt" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="421,78,0,0" Width="29" Height="23">0.0</TextBlock>
+<TextBlock Name="LBL_dist" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="421,50,0,0" Width="29" Height="23">0.0</TextBlock>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="337,78,0,0" Width="71" Height="23">Voltage: </TextBlock>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="337,50,0,0" Width="79" Height="23">Distance: </TextBlock>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="7,5,0,0" Width="114" Height="20">RangeFinder</TextBlock>
+<Grid Name="groupBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,23,0,0" Width="644" Height="5">
+</Grid>
+<ComboBox Name="CMB_sonartype" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="180,62,0,0" Width="121" Height="21"></ComboBox>
+<Image Name="pictureBox3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,35,0,0" Width="75" Height="75"></Image>
+</Grid></UserControl>

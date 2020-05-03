@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Ports;
-using System.Text;
+﻿using System.IO;
 
 namespace MissionPlanner.Comms
 {
     public class CommsStream : Stream
     {
-        public ICommsSerial CommsSerial { get; set; }
-
-        long _len = 0;
+        private long _len;
 
         public CommsStream(ICommsSerial comm, long len)
         {
             CommsSerial = comm;
             SetLength(len);
         }
+
+        public ICommsSerial CommsSerial { get; set; }
+
+        public override bool CanRead { get; } = true;
+        public override bool CanSeek { get; } = false;
+        public override bool CanWrite { get; } = true;
+
+        public override long Length => _len;
+
+        public override long Position { get; set; }
 
         public override void Flush()
         {
@@ -41,18 +45,7 @@ namespace MissionPlanner.Comms
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            CommsSerial.Write(buffer,offset,count);
+            CommsSerial.Write(buffer, offset, count);
         }
-
-        public override bool CanRead { get; } = true;
-        public override bool CanSeek { get; } = false;
-        public override bool CanWrite { get; } = true;
-
-        public override long Length
-        {
-            get { return _len; }
-        }
-
-        public override long Position { get; set; }
     }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GMap.NET;
-using MissionPlanner.Utilities;
+﻿using GMap.NET;
 using Newtonsoft.Json;
+using System;
 
 namespace MissionPlanner.Utilities
 {
@@ -25,16 +21,35 @@ namespace MissionPlanner.Utilities
         public static readonly Vector3 One = new Vector3(1.0, 1.0, 1.0);
 
         [JsonConstructor]
-        public Vector3(double x = 0, double y = 0, double z = 0) : base(x, y, z) { }
+        public Vector3(double x = 0, double y = 0, double z = 0) : base(x, y, z)
+        {
+        }
 
-        public Vector3(Vector3<double> copyme) : base(copyme) { }
+        public Vector3(Vector3<double> copyme) : base(copyme)
+        {
+        }
     }
 
-    public class Vector3<T> where T: struct
+    public class Vector3<T> where T : struct, IConvertible
     {
         public T x;
         public T y;
         public T z;
+
+        public double xd
+        {
+            get { return (double) (IConvertible) x; }
+        }
+
+        public double yd
+        {
+            get { return (double) (IConvertible) y; }
+        }
+
+        public double zd
+        {
+            get { return (double) (IConvertible) z; }
+        }
 
         [JsonIgnore]
         public T X
@@ -65,7 +80,7 @@ namespace MissionPlanner.Utilities
             this.z = z;
         }
 
-        public Vector3(Tuple<T,T,T> inp)
+        public Vector3(Tuple<T, T, T> inp)
         {
             this.x = inp.Item1;
             this.y = inp.Item2;
@@ -79,6 +94,13 @@ namespace MissionPlanner.Utilities
             this.z = copyme.z;
         }
 
+        private Vector3(double x, double y, double z)
+        {
+            this.x = (T) (IConvertible) x;
+            this.y = (T) (IConvertible) y;
+            this.z = (T) (IConvertible) z;
+        }
+
         public new string ToString()
         {
             return String.Format("Vector3<T>({0}, {1}, {2})", x,
@@ -88,36 +110,36 @@ namespace MissionPlanner.Utilities
 
         public static implicit operator Vector3<T>(PointLatLngAlt a)
         {
-            return new Vector3<T>((dynamic)a.Lat, (dynamic)a.Lng, (dynamic)a.Alt);
+            return new Vector3<T>((T) (IConvertible) a.Lat, (T) (IConvertible) a.Lng, (T) (IConvertible) a.Alt);
         }
 
         public static implicit operator Vector3<T>(PointLatLng a)
         {
-            return new Vector3<T>((dynamic)a.Lat, (dynamic)a.Lng, (dynamic)0);
+            return new Vector3<T>((T) (IConvertible) a.Lat, (T) (IConvertible) a.Lng, (T) (IConvertible) 0);
         }
 
         public static implicit operator PointLatLng(Vector3<T> a)
         {
-            return new PointLatLng((dynamic)a.x, (dynamic)a.y);
+            return new PointLatLng((double) (IConvertible) a.x, (double) (IConvertible) a.y);
         }
 
         public static implicit operator T[](Vector3<T> a)
         {
-            return new T[] { a.x, a.y, a.z};
+            return new T[] {a.x, a.y, a.z};
         }
 
         public static implicit operator Vector3(Vector3<T> a)
         {
-            return new Vector3((double) (dynamic) a.x, (double) (dynamic) a.y, (double) (dynamic) a.z);
+            return new Vector3((double) (IConvertible) a.x, (double) (IConvertible) a.y, (double) (IConvertible) a.z);
         }
 
         public static implicit operator Vector3f(Vector3<T> a)
         {
-            var x = (float)(dynamic)a.x ;
-            var y = (float)(dynamic)a.y ;
-            var z = (float)(dynamic)a.z ;
+            var x = (float) (IConvertible) a.x;
+            var y = (float) (IConvertible) a.y;
+            var z = (float) (IConvertible) a.z;
 
-            return new Vector3f(x,y,z);
+            return new Vector3f(x, y, z);
         }
 
         public T this[int index]
@@ -148,55 +170,55 @@ namespace MissionPlanner.Utilities
 
         public static Vector3<T> operator +(Vector3<T> self, Vector3<T> v)
         {
-            return new Vector3<T>((T)((dynamic)self.x + v.x),
-                (T)((dynamic)self.y + v.y),
-                (T)((dynamic)self.z + v.z));
+            return new Vector3<T>((T) (IConvertible) (self.xd + v.xd),
+                (T) (IConvertible) (self.yd + v.yd),
+                (T) (IConvertible) (self.zd + v.zd));
         }
-
 
         public static Vector3<T> operator -(Vector3<T> self, Vector3<T> v)
         {
-            return new Vector3<T>((T)((dynamic)self.x - v.x),
-                (T)((dynamic)self.y - v.y),
-                (T)((dynamic)self.z - v.z));
+            return new Vector3<T>((T) (IConvertible) (self.xd - v.xd),
+                (T) (IConvertible) (self.yd - v.yd),
+                (T) (IConvertible) (self.zd - v.zd));
         }
 
         public static Vector3<T> operator -(Vector3<T> self)
         {
-            return new Vector3<T>((T)(-(dynamic)self.x), (T)(-(dynamic)self.y), (T)(-(dynamic)self.z));
+            return new Vector3<T>((T) (IConvertible) (-self.xd), (T) (IConvertible) (-self.yd),
+                (T) (IConvertible) (-self.zd));
         }
 
         public static double operator *(Vector3<T> self, Vector3<T> v)
         {
             //  '''dot product'''
-            return ((dynamic)self.x*v.x + (dynamic)self.y*v.y + (dynamic)self.z*v.z);
+            return (self.xd * v.xd + self.yd * v.yd + self.zd * v.zd);
         }
 
         public static Vector3<T> operator *(Vector3<T> self, double v)
         {
-            return new Vector3<T>((T)((dynamic)self.x*v),
-                (T)((dynamic)self.y*v),
-                (T)((dynamic)self.z*v));
+            return new Vector3<T>(self.xd * v,
+                self.yd * v,
+                self.zd * v);
         }
 
         public static Vector3<T> operator *(double v, Vector3<T> self)
         {
-            return (self*v);
+            return (self * v);
         }
 
         public static Vector3<T> operator /(Vector3<T> self, double v)
         {
-            return new Vector3<T>((T)((dynamic)self.x/v),
-                (T)((dynamic)self.y/v),
-                (T)((dynamic)self.z/v));
+            return new Vector3<T>(self.xd / v,
+                self.yd / v,
+                self.zd / v);
         }
 
         public static Vector3<T> operator %(Vector3<T> self, Vector3<T> v)
         {
             //  '''cross product'''
-            return new Vector3<T>((T)((dynamic)self.y*v.z - (dynamic)self.z*v.y),
-                (T)((dynamic)self.z*v.x - (dynamic)self.x*v.z),
-                (T)((dynamic)self.x*v.y - (dynamic)self.y*v.x));
+            return new Vector3<T>((self.yd * v.zd - self.zd * v.yd),
+                (self.zd * v.xd - self.xd * v.zd),
+                (self.xd * v.yd - self.yd * v.xd));
         }
 
         public Vector3<T> copy()
@@ -204,15 +226,14 @@ namespace MissionPlanner.Utilities
             return new Vector3<T>(x, y, z);
         }
 
-
         public T length()
         {
-            return (T)Math.Sqrt((dynamic) x * x + (dynamic) y * y + (dynamic) z * z);
+            return (T) (IConvertible) Math.Sqrt((xd * xd + yd * yd + zd * zd));
         }
 
         public void zero()
         {
-            x = y = z = (dynamic)0;
+            x = y = z = (T) (IConvertible) 0;
         }
 
         //public double angle (Vector3<T> self, Vector3<T> v) {
@@ -222,7 +243,7 @@ namespace MissionPlanner.Utilities
 
         public Vector3<T> normalized()
         {
-            return (dynamic)this/length();
+            return this / (double) (IConvertible) length();
         }
 
         public void normalize()
@@ -233,9 +254,9 @@ namespace MissionPlanner.Utilities
             z = v.z;
         }
 
-        private T HALF_SQRT_2
+        private double HALF_SQRT_2
         {
-            get { return (T)(dynamic)0.70710678118654757; }
+            get { return 0.70710678118654757; }
         }
 
         public Vector3<T> rotate(Rotation rotation)
@@ -246,35 +267,37 @@ namespace MissionPlanner.Utilities
                 case Rotation.ROTATION_NONE:
                 case Rotation.ROTATION_MAX:
                     return this;
+
                 case Rotation.ROTATION_YAW_45:
                 {
-                    tmp = HALF_SQRT_2*((dynamic)x - y);
-                    y = HALF_SQRT_2*((dynamic)x + y);
+                    tmp = (T) (IConvertible) (HALF_SQRT_2 * (xd - yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (xd + yd));
                     x = tmp;
                     return this;
                 }
                 case Rotation.ROTATION_YAW_90:
                 {
                     tmp = x;
-                    x = -(dynamic)y;
+                    x = (T) (IConvertible) (-yd);
                     y = tmp;
                     return this;
                 }
                 case Rotation.ROTATION_YAW_135:
                 {
-                    tmp = -(dynamic)HALF_SQRT_2 *((dynamic)x + y);
-                    y = HALF_SQRT_2*((dynamic)x - y);
+                    tmp = (T) (IConvertible) (-HALF_SQRT_2 * (xd + yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (xd - yd));
                     x = tmp;
                     return this;
                 }
                 case Rotation.ROTATION_YAW_180:
-                    x = -(dynamic)x;
-                    y = -(dynamic)y;
+                    x = (T) (IConvertible) (-xd);
+                    y = (T) (IConvertible) (-yd);
                     return this;
+
                 case Rotation.ROTATION_YAW_225:
                 {
-                    tmp = HALF_SQRT_2*((dynamic)y - x);
-                    y = -(dynamic)HALF_SQRT_2 *((dynamic)x + y);
+                    tmp = (T) (IConvertible) (HALF_SQRT_2 * (yd - xd));
+                    y = (T) (IConvertible) (-HALF_SQRT_2 * (xd + yd));
                     x = tmp;
                     return this;
                 }
@@ -282,28 +305,28 @@ namespace MissionPlanner.Utilities
                 {
                     tmp = x;
                     x = y;
-                    y = -(dynamic)tmp;
+                    y = (T) (IConvertible) (-(double) (IConvertible) tmp);
                     return this;
                 }
                 case Rotation.ROTATION_YAW_315:
                 {
-                    tmp = HALF_SQRT_2*((dynamic)x + y);
-                    y = HALF_SQRT_2*((dynamic)y - x);
+                    tmp = (T) (IConvertible) (HALF_SQRT_2 * (xd + yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (yd - xd));
                     x = tmp;
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_180:
                 {
-                    y = -(dynamic)y;
-                    z = -(dynamic)z;
+                    y = (T) (IConvertible) (-yd);
+                    z = (T) (IConvertible) (-zd);
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_180_YAW_45:
                 {
-                    tmp = HALF_SQRT_2*((dynamic)x + y);
-                    y = HALF_SQRT_2*((dynamic)x - y);
+                    tmp = (T) (IConvertible) (HALF_SQRT_2 * (xd + yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (xd - yd));
                     x = tmp;
-                    z = -(dynamic)z;
+                    z = (T) (IConvertible) (-zd);
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_180_YAW_90:
@@ -311,136 +334,137 @@ namespace MissionPlanner.Utilities
                     tmp = x;
                     x = y;
                     y = tmp;
-                    z = -(dynamic)z;
+                    z = (T) (IConvertible) (-zd);
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_180_YAW_135:
                 {
-                    tmp = HALF_SQRT_2*((dynamic)y - x);
-                    y = HALF_SQRT_2*((dynamic)y + x);
+                    tmp = (T) (IConvertible) (HALF_SQRT_2 * (yd - xd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (yd + xd));
                     x = tmp;
-                    z = -(dynamic)z;
+                    z = (T) (IConvertible) (-zd);
                     return this;
                 }
                 case Rotation.ROTATION_PITCH_180:
                 {
-                    x = -(dynamic)x;
-                    z = -(dynamic)z;
+                    x = (T) (IConvertible) (-xd);
+                    z = (T) (IConvertible) (-zd);
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_180_YAW_225:
                 {
-                    tmp = -(dynamic)HALF_SQRT_2 *((dynamic)x + y);
-                    y = HALF_SQRT_2*((dynamic)y - x);
-                    x = tmp;
-                    z = -(dynamic)z;
+                    tmp = (T) (IConvertible) (-HALF_SQRT_2 * (xd + yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (yd - xd));
+                    x = (T) (IConvertible) tmp;
+                    z = (T) (IConvertible) (-zd);
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_180_YAW_270:
                 {
-                    tmp = x;
-                    x = -(dynamic)y;
-                    y = -(dynamic)tmp;
-                    z = -(dynamic)z;
+                    tmp = (T) (IConvertible) xd;
+                    x = (T) (IConvertible) (-yd);
+                    y = (T) (IConvertible) (-(double) (IConvertible) tmp);
+                    z = (T) (IConvertible) (-zd);
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_180_YAW_315:
                 {
-                    tmp = HALF_SQRT_2*((dynamic)x - y);
-                    y = -(dynamic)HALF_SQRT_2 *((dynamic)x + y);
-                    x = tmp;
-                    z = -(dynamic)z;
+                    tmp = (T) (IConvertible) (HALF_SQRT_2 * (xd - yd));
+                    y = (T) (IConvertible) (-HALF_SQRT_2 * (xd + yd));
+                    x = (T) (IConvertible) tmp;
+                    z = (T) (IConvertible) (-zd);
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_90:
                 {
-                    tmp = z;
-                    z = y;
-                    y = -(dynamic)tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) yd;
+                    y = (T) (IConvertible) (-(double) (IConvertible) tmp);
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_90_YAW_45:
                 {
-                    tmp = z;
-                    z = y;
-                    y = -(dynamic)tmp;
-                    tmp = HALF_SQRT_2*((dynamic)x - y);
-                    y = HALF_SQRT_2*((dynamic)x + y);
-                    x = tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) yd;
+                    y = (T) (IConvertible) (-(double) (IConvertible) tmp);
+                    tmp = (T) (IConvertible) (HALF_SQRT_2 * (xd - yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (xd + yd));
+                    x = (T) (IConvertible) tmp;
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_90_YAW_90:
                 {
-                    tmp = z;
-                    z = y;
-                    y = -(dynamic)tmp;
-                    tmp = x;
-                    x = -(dynamic)y;
-                    y = tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) yd;
+                    y = (T) (IConvertible) (-(double) (IConvertible) tmp);
+                    tmp = (T) (IConvertible) xd;
+                    x = (T) (IConvertible) (-yd);
+                    y = (T) (IConvertible) tmp;
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_90_YAW_135:
                 {
-                    tmp = z;
-                    z = y;
-                    y = -(dynamic)tmp;
-                    tmp = -(dynamic)HALF_SQRT_2 *((dynamic)x + y);
-                    y = HALF_SQRT_2*((dynamic)x - y);
-                    x = tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) yd;
+                    y = (T) (IConvertible) (-(double) (IConvertible) tmp);
+                    tmp = (T) (IConvertible) (-HALF_SQRT_2 * (xd + yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (xd - yd));
+                    x = (T) (IConvertible) tmp;
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_270:
                 {
-                    tmp = z;
-                    z = -(dynamic)y;
-                    y = tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) (-yd);
+                    y = (T) (IConvertible) tmp;
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_270_YAW_45:
                 {
-                    tmp = z;
-                    z = -(dynamic)y;
-                    y = tmp;
-                    tmp = HALF_SQRT_2*((dynamic)x - y);
-                    y = HALF_SQRT_2*((dynamic)x + y);
-                    x = tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) (-yd);
+                    y = (T) (IConvertible) tmp;
+                    tmp = (T) (IConvertible) (HALF_SQRT_2 * (xd - yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (xd + yd));
+                    x = (T) (IConvertible) tmp;
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_270_YAW_90:
                 {
-                    tmp = z;
-                    z = -(dynamic)y;
-                    y = tmp;
-                    tmp = x;
-                    x = -(dynamic)y;
-                    y = tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) (-yd);
+                    y = (T) (IConvertible) tmp;
+                    tmp = (T) (IConvertible) xd;
+                    x = (T) (IConvertible) (-yd);
+                    y = (T) (IConvertible) tmp;
                     return this;
                 }
                 case Rotation.ROTATION_ROLL_270_YAW_135:
                 {
-                    tmp = z;
-                    z = -(dynamic)y;
-                    y = tmp;
-                    tmp = -(dynamic)HALF_SQRT_2 *((dynamic)x + y);
-                    y = HALF_SQRT_2*((dynamic)x - y);
-                    x = tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) (-yd);
+                    y = (T) (IConvertible) tmp;
+                    tmp = (T) (IConvertible) (-HALF_SQRT_2 * (xd + yd));
+                    y = (T) (IConvertible) (HALF_SQRT_2 * (xd - yd));
+                    x = (T) (IConvertible) tmp;
                     return this;
                 }
                 case Rotation.ROTATION_PITCH_90:
                 {
-                    tmp = z;
-                    z = -(dynamic)x;
-                    x = tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) (-xd);
+                    x = (T) (IConvertible) tmp;
                     return this;
                 }
                 case Rotation.ROTATION_PITCH_270:
                 {
-                    tmp = z;
-                    z = x;
-                    x = -(dynamic)tmp;
+                    tmp = (T) (IConvertible) zd;
+                    z = (T) (IConvertible) xd;
+                    x = (T) (IConvertible) (-(double) (IConvertible) tmp);
                     return this;
                 }
             }
+
             throw new Exception("Invalid Rotation");
             //return this;
         }
@@ -479,5 +503,4 @@ namespace MissionPlanner.Utilities
         ROTATION_PITCH_270,
         ROTATION_MAX
     }
-
 }

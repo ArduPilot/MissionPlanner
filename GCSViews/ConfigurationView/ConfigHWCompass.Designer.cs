@@ -62,7 +62,6 @@
             this.CMB_primary_compass = new MissionPlanner.Controls.MavlinkComboBox();
             this.LBL_primary_compass = new System.Windows.Forms.Label();
             this.CHK_compass_learn = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_enablecompass = new MissionPlanner.Controls.MavlinkCheckBox();
             this.groupBoxCompass1 = new System.Windows.Forms.GroupBox();
             this.LBL_compass1_mot = new System.Windows.Forms.Label();
             this.LBL_compass1_offset = new System.Windows.Forms.Label();
@@ -84,6 +83,7 @@
             this.buttonAPMExternal = new MissionPlanner.Controls.MyButton();
             this.QuickAPM25 = new MissionPlanner.Controls.MyButton();
             this.buttonQuickPixhawk = new MissionPlanner.Controls.MyButton();
+            this.but_largemagcal = new MissionPlanner.Controls.MyButton();
             this.groupBoxonboardcalib.SuspendLayout();
             this.groupBoxmpcalib.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -288,7 +288,6 @@
             this.groupBoxGeneralSettings.Controls.Add(this.CMB_primary_compass);
             this.groupBoxGeneralSettings.Controls.Add(this.LBL_primary_compass);
             this.groupBoxGeneralSettings.Controls.Add(this.CHK_compass_learn);
-            this.groupBoxGeneralSettings.Controls.Add(this.CHK_enablecompass);
             this.groupBoxGeneralSettings.Controls.Add(this.CHK_autodec);
             this.groupBoxGeneralSettings.Controls.Add(this.label2);
             this.groupBoxGeneralSettings.Controls.Add(this.label3);
@@ -322,16 +321,6 @@
             this.CHK_compass_learn.ParamName = null;
             this.CHK_compass_learn.UseVisualStyleBackColor = true;
             this.CHK_compass_learn.CheckedChanged += new System.EventHandler(this.CHK_compasslearn_CheckedChanged);
-            // 
-            // CHK_enablecompass
-            // 
-            resources.ApplyResources(this.CHK_enablecompass, "CHK_enablecompass");
-            this.CHK_enablecompass.Name = "CHK_enablecompass";
-            this.CHK_enablecompass.OffValue = 0D;
-            this.CHK_enablecompass.OnValue = 1D;
-            this.CHK_enablecompass.ParamName = null;
-            this.CHK_enablecompass.UseVisualStyleBackColor = true;
-            this.CHK_enablecompass.CheckedChanged += new System.EventHandler(this.CHK_enablecompass_CheckedChanged);
             // 
             // groupBoxCompass1
             // 
@@ -504,9 +493,16 @@
             this.buttonQuickPixhawk.UseVisualStyleBackColor = true;
             this.buttonQuickPixhawk.Click += new System.EventHandler(this.buttonQuickPixhawk_Click);
             // 
+            // but_largemagcal
+            // 
+            resources.ApplyResources(this.but_largemagcal, "but_largemagcal");
+            this.but_largemagcal.Name = "but_largemagcal";
+            this.but_largemagcal.UseVisualStyleBackColor = true;
+            this.but_largemagcal.Click += new System.EventHandler(this.but_largemagcal_Click);
+            // 
             // ConfigHWCompass
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.but_largemagcal);
             this.Controls.Add(this.buttonAPMExternal);
             this.Controls.Add(this.QuickAPM25);
             this.Controls.Add(this.buttonQuickPixhawk);
@@ -544,7 +540,6 @@
         private Controls.MyButton BUT_MagCalibrationLive;
         private System.Windows.Forms.LinkLabel linkLabelmagdec;
         private System.Windows.Forms.TextBox TXT_declination_deg;
-        private Controls.MavlinkCheckBox CHK_enablecompass;
         private System.Windows.Forms.CheckBox CHK_autodec;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -595,5 +590,6 @@
         private System.Windows.Forms.Label label10;
         private Controls.MavlinkComboBox mavlinkComboBoxfitness;
         private System.Windows.Forms.Label label6;
+        private Controls.MyButton but_largemagcal;
     }
 }

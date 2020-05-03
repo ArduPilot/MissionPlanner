@@ -1,4 +1,7 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -8,7 +11,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.MsgBox;
@@ -194,43 +196,43 @@ S15: MAX_WINDOW=131
             {
                 if (beta)
                 {
-                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~hm_trp.ihx", firmwarefile);
+                    return Download.getFilefromNet("https://firmware.ardupilot.org/SiK/beta/radio~hm_trp.ihx", firmwarefile);
                 }
-                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~hm_trp.ihx",
+                return Download.getFilefromNet("https://firmware.ardupilot.org/SiK/stable/radio~hm_trp.ihx",
                     firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900)
             {
                 if (beta)
                 {
-                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900.ihx", firmwarefile);
+                    return Download.getFilefromNet("https://firmware.ardupilot.org/SiK/beta/radio~rfd900.ihx", firmwarefile);
                 }
-                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900.ihx", firmwarefile);
+                return Download.getFilefromNet("https://firmware.ardupilot.org/SiK/stable/radio~rfd900.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900A)
             {
                 if (beta)
                 {
-                    return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900a.ihx",
+                    return Download.getFilefromNet("https://firmware.ardupilot.org/SiK/beta/radio~rfd900a.ihx",
                         firmwarefile);
                 }
-                return Download.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900a.ihx", firmwarefile);
+                return Download.getFilefromNet("https://firmware.ardupilot.org/SiK/stable/radio~rfd900a.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900U)
             {
                 if (beta)
                 {
-                    return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900u.ihx", firmwarefile);
+                    return Download.getFilefromNet("https://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900u.ihx", firmwarefile);
                 }
-                return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900u.ihx", firmwarefile);
+                return Download.getFilefromNet("https://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900u.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900P)
             {
                 if (beta)
                 {
-                    return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900p.ihx", firmwarefile);
+                    return Download.getFilefromNet("https://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900p.ihx", firmwarefile);
                 }
-                return Download.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900p.ihx", firmwarefile);
+                return Download.getFilefromNet("https://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900p.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900X)
             {
@@ -366,7 +368,7 @@ S15: MAX_WINDOW=131
         {
             try
             {
-                Progressbar.Value = (int) (completed*100);
+                Progressbar.Value = (int)(completed * 100);
                 Application.DoEvents();
             }
             catch
@@ -416,7 +418,7 @@ S15: MAX_WINDOW=131
         {
             try
             {
-                Progressbar.Value = (int)Math.Min (completed*100,100);
+                Progressbar.Value = (int)Math.Min(completed * 100, 100);
                 Application.DoEvents();
             }
             catch
@@ -460,7 +462,7 @@ S15: MAX_WINDOW=131
                     // remote
                     var answer = doCommand(Session.Port, "RTI5", true);
 
-                    var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                    var items = answer.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var item in items)
                     {
@@ -486,9 +488,9 @@ S15: MAX_WINDOW=131
 
                                 if (controls.Length > 0)
                                 {
-                                    if (controls[0].GetType() == typeof (CheckBox))
+                                    if (controls[0].GetType() == typeof(CheckBox))
                                     {
-                                        var value = ((CheckBox) controls[0]).Checked ? "1" : "0";
+                                        var value = ((CheckBox)controls[0]).Checked ? "1" : "0";
 
                                         if (value != values[2].Trim())
                                         {
@@ -531,7 +533,7 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
-                                        if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                        if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
                                                 "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue);
@@ -583,7 +585,7 @@ S15: MAX_WINDOW=131
                         }
                     }
 
-                    var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                    var items = answer.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var item in items)
                     {
@@ -599,9 +601,9 @@ S15: MAX_WINDOW=131
 
                                 if (controls.Length > 0)
                                 {
-                                    if (controls[0].GetType() == typeof (CheckBox))
+                                    if (controls[0].GetType() == typeof(CheckBox))
                                     {
-                                        var value = ((CheckBox) controls[0]).Checked ? "1" : "0";
+                                        var value = ((CheckBox)controls[0]).Checked ? "1" : "0";
 
                                         if (value != values[2].Trim())
                                         {
@@ -622,7 +624,7 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
-                                        if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                        if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(Session.Port,
                                                 "ATS" + GetParamNumber(values[0]) + "=" + ((ComboBox) controls[0]).SelectedValue);
@@ -934,7 +936,7 @@ S15: MAX_WINDOW=131
 
                     var freq =
                         (Uploader.Frequency)
-                            Enum.Parse(typeof (Uploader.Frequency),
+                            Enum.Parse(typeof(Uploader.Frequency),
                                 int.Parse(freqstring.ToLower().Replace("x", ""), style).ToString());
 
                     ATI3.Text = freq.ToString();
@@ -952,7 +954,7 @@ S15: MAX_WINDOW=131
 
                     Session.Board =
                         (Uploader.Board)
-                            Enum.Parse(typeof (Uploader.Board),
+                            Enum.Parse(typeof(Uploader.Board),
                                 int.Parse(boardstring.ToLower().Replace("x", ""), style).ToString());
 
                     ATI2.Text = Session.Board.ToString();
@@ -1136,16 +1138,16 @@ S15: MAX_WINDOW=131
 
                                     if (controls[0] is CheckBox)
                                     {
-                                        ((CheckBox) controls[0]).Checked = values[2].Trim() == "1";
+                                        ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
                                     }
                                     else if (controls[0] is TextBox)
                                     {
-                                        ((TextBox) controls[0]).Text = values[2].Trim();
+                                        ((TextBox)controls[0]).Text = values[2].Trim();
                                     }
                                     else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
-                                        var ans = Enum.Parse(typeof (mavlink_option), values[2].Trim());
-                                        ((ComboBox) controls[0]).Text = ans.ToString();
+                                        var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
+                                        ((ComboBox)controls[0]).Text = ans.ToString();
                                     }
                                     else if (controls[0] is ComboBox)
                                     {
@@ -1160,7 +1162,7 @@ S15: MAX_WINDOW=131
                                             }
                                             
                                         }
-                                     
+
                                     }
                                 }
                             }
@@ -1258,6 +1260,7 @@ S15: MAX_WINDOW=131
 
                                     if (controls.Length == 0)
                                         continue;
+
 
                                     controls[0].Enabled = true;
 
@@ -1359,8 +1362,8 @@ S15: MAX_WINDOW=131
             {
                 if (comPort.BytesToRead > 0)
                 {
-                    var data = (byte) comPort.ReadByte();
-                    sb.Append((char) data);
+                    var data = (byte)comPort.ReadByte();
+                    sb.Append((char)data);
                     if (data == '\n')
                         break;
                 }
@@ -1457,7 +1460,7 @@ S15: MAX_WINDOW=131
                 // setup a known enviroment
                 comPort.Write("ATO\r\n");
 
-                retry:
+            retry:
 
                 // wait
                 Sleep(1500, comPort);
@@ -1813,7 +1816,7 @@ red LED solid - in firmware update mode");
             string item = txt.Text;
             if (!(Regex.IsMatch(item, "^[0-9a-fA-F]+$")))
             {
-                if(item.Length != 0)
+                if (item.Length != 0)
                     txt.Text = item.Remove(item.Length - 1, 1);
                 txt.SelectionStart = txt.Text.Length;
             }

@@ -1,0 +1,1 @@
+namespace resedit { public partial class Form1{public Form1(){this.InitializeComponent();}}}

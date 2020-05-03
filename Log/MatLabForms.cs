@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using MissionPlanner.Utilities;
+using System.IO;
 using System.Windows.Forms;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -36,7 +36,7 @@ namespace MissionPlanner.Log
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "Log Files|*.log;*.bin";
+                openFileDialog1.Filter = "Log Files|*.log;*.bin;*.BIN;*.LOG";
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;

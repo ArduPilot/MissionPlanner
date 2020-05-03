@@ -1,16 +1,16 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWPX4Flow : UserControl, IActivate, IDeactivate
+    public partial class ConfigHWPX4Flow : MyUserControl, IActivate, IDeactivate
     {
         bool focusmode = false;
 
-        OpticalFlow flow = null;
+        OpticalFlow _flow = null;
 
         public ConfigHWPX4Flow()
         {
@@ -27,24 +27,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Enabled = true;
 
-            flow = new OpticalFlow(MainV2.comPort);
+            _flow = new OpticalFlow(MainV2.comPort);
 
             // setup bitmap to screen
-            flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
+            _flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
         }
 
         private void but_focusmode_Click(object sender, EventArgs e)
         {
             focusmode = !focusmode;
-            flow.CalibrationMode(focusmode);
+            _flow.CalibrationMode(focusmode);
         }
 
         public void Deactivate()
         {
-            if (flow != null)
+            if (_flow != null)
             {
-                flow.CalibrationMode(false);
-                flow.Close();
+                _flow.CalibrationMode(false);
+                _flow.Close();
             }
         }
     }

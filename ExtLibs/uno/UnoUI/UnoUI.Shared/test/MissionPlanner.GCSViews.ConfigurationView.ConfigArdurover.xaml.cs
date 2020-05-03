@@ -1,0 +1,1 @@
+namespace MissionPlanner.GCSViews.ConfigurationView { public partial class ConfigArdurover{public ConfigArdurover(){this.InitializeComponent();}}}

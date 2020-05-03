@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,13 +15,14 @@ namespace MissionPlanner.Utilities
     /// </summary>
     public class DFLog
     {
+        internal readonly DFLogBuffer _dfLogBuffer;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public struct Label
         {
             public int Id;
             public string Format;
-            public string[] FieldNames;
+            public List<string> FieldNames;
 
             public int Length;
             public string Name;
@@ -27,114 +30,360 @@ namespace MissionPlanner.Utilities
 
         public struct DFItem
         {
-            public string msgtype;
-            public DateTime time;
-            public string[] items;
-            public int timems;
+            public string msgtype
+            {
+                get
+                {
+                    if(raw.Length>0)
+                        return raw[0].ToString();
+                    return "";
+                }
+            }
+            public DateTime time
+            {
+                get
+                {
+                    // always return a time relative to the gps start time
+                    var time = parent.gpsstarttime.AddMilliseconds(timems - parent.msoffset);
+                    parent.lasttime = time;
+                    return time;
+                }
+            }
+
+            public string instance
+            {
+                get
+                {
+                    var typeno = parent.logformat[msgtype].Id;
+
+                    if (!parent._dfLogBuffer.InstanceType.ContainsKey(typeno))
+                        return "";
+
+                    var unittypes = parent._dfLogBuffer.FMTU[typeno].Item1;
+
+                    int colinst = unittypes.IndexOf("#") + 1;
+                    return raw[colinst].ToString();
+                }
+            }
+
+            string[] _items;
+            public string[] items
+            {
+                get
+                {
+                    if (_items == null)
+                    {
+                        _items = raw.Select((a) =>
+                        {
+                            if (a.IsNumber())
+                                return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
+                            else
+                                return a?.ToString();
+                        }).ToArray();
+                    }
+                    return _items;
+                }
+            }
+
+            int _timems;
+            public int timems
+            {
+                get
+                {
+                    if (_timems != 0)
+                        return _timems;
+
+                    if (parent.logformat.ContainsKey(msgtype))
+                    {
+                        int index;
+
+                        index = parent.FindMessageOffset(msgtype, "TimeMS");
+                        if (index >= 0)
+                        {
+                            _timems = int.Parse(raw[index].ToString());
+                            return _timems;
+                        }
+                        index = parent.FindMessageOffset(msgtype, "TimeUS");
+                        if (index >= 0)
+                        {
+                            _timems = (int)(long.Parse(raw[index].ToString()) / 1000);
+                            return _timems;
+                        }
+                        index = parent.FindMessageOffset(msgtype, "T");
+                        if (index >= 0)
+                        {
+                            _timems = int.Parse(raw[index].ToString());
+                            return _timems;
+                        }
+                    }
+
+                    return _timems;
+                }
+            }
+
             public int lineno;
+            private object[] _raw;
+
+            public object[] raw
+            {
+                get { return _raw; }
+                set
+                {
+                    _raw = value;
+                    _items = null;
+                }
+            }
 
             public DFLog parent;
+
+            public DFItem(DFLog _parent, object[] _answer, int lineno) : this()
+            {
+                this.parent = _parent;
+
+                this.lineno = lineno;
+
+                this.raw = _answer;
+
+                // check we have data
+                if (_answer.Length > 0)
+                {
+                    // check this is a gps message and we dont have the current gpsstarttime
+                    if (parent.gpsstarttime == DateTime.MinValue && msgtype.StartsWith("GPS"))
+                    {
+                        if (parent.logformat.ContainsKey(msgtype))
+                        {
+                            var indextimems = _parent.FindMessageOffset(msgtype, "T");
+                            var time = parent.GetTimeGPS(String.Join(",", items));
+
+                            if (time != DateTime.MinValue)
+                            {
+                                parent.gpsstarttime = time;
+
+                                parent.lasttime = parent.gpsstarttime;
+
+                                indextimems = parent.FindMessageOffset(items[0], "T");
+
+                                if (indextimems != -1)
+                                {
+                                    try
+                                    {
+                                        parent.msoffset = int.Parse(items[indextimems]);
+                                    }
+                                    catch
+                                    {
+                                        parent.gpsstarttime = DateTime.MinValue;
+                                    }
+                                }
+
+                                int indextimeus = parent.FindMessageOffset(items[0], "TimeUS");
+
+                                if (indextimeus != -1)
+                                {
+                                    try
+                                    {
+                                        parent.msoffset = long.Parse(items[indextimeus]) / 1000;
+                                    }
+                                    catch
+                                    {
+                                        parent.gpsstarttime = DateTime.MinValue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             public string this[string item]
             {
                 get
                 {
                     var index = parent.FindMessageOffset(msgtype, item);
-                    if (index == -1)
+                    if (index == -1 || index >= items.Length)
                         return null;
                     return items[index];
                 }
             }
+
+            public Dictionary<string, object> ToDictionary()
+            {
+                var ans = new Dictionary<string, object>();
+
+                int a = 1;
+                foreach (var fieldName in parent.logformat[msgtype].FieldNames)
+                {
+                    if (a.IsNumber())
+                        ans[fieldName] = (IConvertible) raw[a];
+                    else
+                        ans[fieldName] = items[a];
+                    a++;
+                }
+
+                return ans;
+            }
+
+            public object GetRaw(string item)
+            {
+                var index = parent.FindMessageOffset(msgtype, item);
+                if (index == -1)
+                    return null;
+                return raw[index];
+            }
+
+            public T GetRaw<T>(string item)
+            {
+                var index = parent.FindMessageOffset(msgtype, item);
+                if (index == -1)
+                    return default(T);
+                return (T) raw[index];
+            }
         }
 
-        public enum error_subsystem
+        //https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Logger/AP_Logger.h
+        public enum Log_Event : byte
+        {
+            AP_STATE = 7,
+            // SYSTEM_TIME_SET = 8,
+            INIT_SIMPLE_BEARING = 9,
+
+            ARMED = 10,
+            DISARMED = 11,
+            AUTO_ARMED = 15,
+            LAND_COMPLETE_MAYBE = 17,
+            LAND_COMPLETE = 18,
+            NOT_LANDED = 28,
+            LOST_GPS = 19,
+            FLIP_START = 21,
+            FLIP_END = 22,
+            SET_HOME = 25,
+            SET_SIMPLE_ON = 26,
+            SET_SIMPLE_OFF = 27,
+            SET_SUPERSIMPLE_ON = 29,
+            AUTOTUNE_INITIALISED = 30,
+            AUTOTUNE_OFF = 31,
+            AUTOTUNE_RESTART = 32,
+            AUTOTUNE_SUCCESS = 33,
+            AUTOTUNE_FAILED = 34,
+            AUTOTUNE_REACHED_LIMIT = 35,
+            AUTOTUNE_PILOT_TESTING = 36,
+            AUTOTUNE_SAVEDGAINS = 37,
+            SAVE_TRIM = 38,
+            SAVEWP_ADD_WP = 39,
+            FENCE_ENABLE = 41,
+            FENCE_DISABLE = 42,
+            ACRO_TRAINER_OFF = 43,
+            ACRO_TRAINER_LEVELING = 44,
+            ACRO_TRAINER_LIMITED = 45,
+            GRIPPER_GRAB = 46,
+            GRIPPER_RELEASE = 47,
+            PARACHUTE_DISABLED = 49,
+            PARACHUTE_ENABLED = 50,
+            PARACHUTE_RELEASED = 51,
+            LANDING_GEAR_DEPLOYED = 52,
+            LANDING_GEAR_RETRACTED = 53,
+            MOTORS_EMERGENCY_STOPPED = 54,
+            MOTORS_EMERGENCY_STOP_CLEARED = 55,
+            MOTORS_INTERLOCK_DISABLED = 56,
+            MOTORS_INTERLOCK_ENABLED = 57,
+            ROTOR_RUNUP_COMPLETE = 58, // Heli only
+            ROTOR_SPEED_BELOW_CRITICAL = 59, // Heli only
+            EKF_ALT_RESET = 60,
+            LAND_CANCELLED_BY_PILOT = 61,
+            EKF_YAW_RESET = 62,
+            AVOIDANCE_ADSB_ENABLE = 63,
+            AVOIDANCE_ADSB_DISABLE = 64,
+            AVOIDANCE_PROXIMITY_ENABLE = 65,
+            AVOIDANCE_PROXIMITY_DISABLE = 66,
+            GPS_PRIMARY_CHANGED = 67,
+            WINCH_RELAXED = 68,
+            WINCH_LENGTH_CONTROL = 69,
+            WINCH_RATE_CONTROL = 70,
+            ZIGZAG_STORE_A = 71,
+            ZIGZAG_STORE_B = 72,
+            LAND_REPO_ACTIVE = 73,
+            STANDBY_ENABLE = 74,
+            STANDBY_DISABLE = 75,
+
+            SURFACED = 163,
+            NOT_SURFACED = 164,
+            BOTTOMED = 165,
+            NOT_BOTTOMED = 166,
+        }
+
+        public enum LogErrorSubsystem : byte
         {
             MAIN = 1,
             RADIO = 2,
             COMPASS = 3,
-            OPTFLOW = 4,
+            OPTFLOW = 4,   // not used
             FAILSAFE_RADIO = 5,
             FAILSAFE_BATT = 6,
-            FAILSAFE_GPS = 7,
+            FAILSAFE_GPS = 7,   // not used
             FAILSAFE_GCS = 8,
             FAILSAFE_FENCE = 9,
             FLIGHT_MODE = 10,
             GPS = 11,
             CRASH_CHECK = 12,
-            ERROR_SUBSYSTEM_FLIP = 13,
-            AUTOTUNE = 14,
-            PARACHUTE = 15,
-            EKF_CHECK = 16,
-            FAILSAFE_EKF = 17,
+            FLIP = 13,
+            AUTOTUNE = 14,  // not used
+            PARACHUTES = 15,
+            EKFCHECK = 16,
+            FAILSAFE_EKFINAV = 17,
             BARO = 18,
             CPU = 19,
-            ADSB = 20,
+            FAILSAFE_ADSB = 20,
             TERRAIN = 21,
             NAVIGATION = 22,
             FAILSAFE_TERRAIN = 23,
             EKF_PRIMARY = 24,
+            THRUST_LOSS_CHECK = 25,
+            FAILSAFE_SENSORS = 26,
+            FAILSAFE_LEAK = 27,
+            PILOT_INPUT = 28,
+            FAILSAFE_VIBE = 29,
         }
 
-        public enum events
+        // bizarrely this enumeration has lots of duplicate values, offering
+        // very little in the way of typesafety
+        public enum LogErrorCode : byte
         {
-            DATA_MAVLINK_FLOAT = 1,
-            DATA_MAVLINK_INT32 = 2,
-            DATA_MAVLINK_INT16 = 3,
-            DATA_MAVLINK_INT8 = 4,
-            DATA_AP_STATE = 7,
-            DATA_SYSTEM_TIME_SET = 8,
-            DATA_INIT_SIMPLE_BEARING = 9,
-            DATA_ARMED = 10,
-            DATA_DISARMED = 11,
-            DATA_AUTO_ARMED = 15,
-            DATA_TAKEOFF = 16,
-            DATA_LAND_COMPLETE_MAYBE = 17,
-            DATA_LAND_COMPLETE = 18,
-            DATA_NOT_LANDED = 28,
-            DATA_LOST_GPS = 19,
-            DATA_BEGIN_FLIP = 21,
-            DATA_END_FLIP = 22,
-            DATA_EXIT_FLIP = 23,
-            DATA_SET_HOME = 25,
-            DATA_SET_SIMPLE_ON = 26,
-            DATA_SET_SIMPLE_OFF = 27,
-            DATA_SET_SUPERSIMPLE_ON = 29,
-            DATA_AUTOTUNE_INITIALISED = 30,
-            DATA_AUTOTUNE_OFF = 31,
-            DATA_AUTOTUNE_RESTART = 32,
-            DATA_AUTOTUNE_COMPLETE = 33,
-            DATA_AUTOTUNE_ABANDONED = 34,
-            DATA_AUTOTUNE_REACHED_LIMIT = 35,
-            DATA_AUTOTUNE_TESTING = 36,
-            DATA_AUTOTUNE_SAVEDGAINS = 37,
-            DATA_SAVE_TRIM = 38,
-            DATA_SAVEWP_ADD_WP = 39,
-            DATA_SAVEWP_CLEAR_MISSION_RTL = 40,
-            DATA_FENCE_ENABLE = 41,
-            DATA_FENCE_DISABLE = 42,
-            DATA_ACRO_TRAINER_DISABLED = 43,
-            DATA_ACRO_TRAINER_LEVELING = 44,
-            DATA_ACRO_TRAINER_LIMITED = 45,
-            DATA_GRIPPER_GRAB = 46,
-            DATA_GRIPPER_RELEASE = 47,
-            DATA_GRIPPER_NEUTRAL = 48,
-            DATA_PARACHUTE_DISABLED = 49,
-            DATA_PARACHUTE_ENABLED = 50,
-            DATA_PARACHUTE_RELEASED = 51,
-            DATA_LANDING_GEAR_DEPLOYED = 52,
-            DATA_LANDING_GEAR_RETRACTED = 53,
-            DATA_MOTORS_EMERGENCY_STOPPED = 54,
-            DATA_MOTORS_EMERGENCY_STOP_CLEARED = 55,
-            DATA_MOTORS_INTERLOCK_DISABLED = 56,
-            DATA_MOTORS_INTERLOCK_ENABLED = 57,
-            DATA_ROTOR_RUNUP_COMPLETE = 58, // Heli only
-            DATA_ROTOR_SPEED_BELOW_CRITICAL = 59, // Heli only
-            DATA_EKF_ALT_RESET = 60,
-            DATA_LAND_CANCELLED_BY_PILOT = 61,
-            DATA_EKF_YAW_RESET = 62,
-            DATA_AVOIDANCE_ADSB_ENABLE = 63,
-            DATA_AVOIDANCE_ADSB_DISABLE = 64,
+            // general error codes
+            ERROR_RESOLVED = 0,
+            FAILED_TO_INITIALISE = 1,
+            UNHEALTHY = 4,
+            // subsystem specific error codes -- radio
+            RADIO_LATE_FRAME = 2,
+            // subsystem specific error codes -- failsafe_thr, batt, gps
+            FAILSAFE_RESOLVED = 0,
+            FAILSAFE_OCCURRED = 1,
+            // subsystem specific error codes -- main
+            MAIN_INS_DELAY = 1,
+            // subsystem specific error codes -- crash checker
+            CRASH_CHECK_CRASH = 1,
+            CRASH_CHECK_LOSS_OF_CONTROL = 2,
+            // subsystem specific error codes -- flip
+            FLIP_ABANDONED = 2,
+            // subsystem specific error codes -- terrain
+            MISSING_TERRAIN_DATA = 2,
+            // subsystem specific error codes -- navigation
+            FAILED_TO_SET_DESTINATION = 2,
+            RESTARTED_RTL = 3,
+            FAILED_CIRCLE_INIT = 4,
+            DEST_OUTSIDE_FENCE = 5,
+
+            // parachute failed to deploy because of low altitude or landed
+            PARACHUTE_TOO_LOW = 2,
+            PARACHUTE_LANDED = 3,
+            // EKF check definitions
+            EKFCHECK_BAD_VARIANCE = 2,
+            EKFCHECK_VARIANCE_CLEARED = 0,
+            // Baro specific error codes
+            BARO_GLITCH = 2,
+            BAD_DEPTH = 3, // sub-only
+                           // GPS specific error coces
+            GPS_GLITCH = 2,
         }
+
 
         public Dictionary<string, Label> logformat = new Dictionary<string, Label>();
 
@@ -196,6 +445,11 @@ namespace MissionPlanner.Utilities
         DateTime gpsstarttime = DateTime.MinValue;
 
         long msoffset = 0;
+
+        public DFLog(DFLogBuffer dfLogBuffer)
+        {
+            _dfLogBuffer = dfLogBuffer;
+        }
 
         public List<DFItem> ReadLog(Stream fn)
         {
@@ -259,45 +513,7 @@ namespace MissionPlanner.Utilities
             }
             else if (line.StartsWith("GPS"))
             {
-                if (line.StartsWith("GPS") && gpsstarttime == DateTime.MinValue)
-                {
-                    var time = GetTimeGPS(line);
-
-                    if (time != DateTime.MinValue)
-                    {
-                        gpsstarttime = time;
-
-                        lasttime = gpsstarttime;
-
-                        int indextimems = FindMessageOffset(items[0], "T");
-
-                        if (indextimems != -1)
-                        {
-                            try
-                            {
-                                msoffset = int.Parse(items[indextimems]);
-                            }
-                            catch
-                            {
-                                gpsstarttime = DateTime.MinValue;
-                            }
-                        }
-
-                        int indextimeus = FindMessageOffset(items[0], "TimeUS");
-
-                        if (indextimeus != -1)
-                        {
-                            try
-                            {
-                                msoffset = long.Parse(items[indextimeus])/1000;
-                            }
-                            catch
-                            {
-                                gpsstarttime = DateTime.MinValue;
-                            }
-                        }
-                    }
-                }
+               
             }
             else if (line.StartsWith("ERR"))
             {
@@ -316,7 +532,7 @@ namespace MissionPlanner.Utilities
                         throw new ArgumentNullException();
                     }
 
-                    items[items.Length - 2] = "" + (DFLog.error_subsystem) int.Parse(items[index]);
+                    items[items.Length - 2] = "" + (DFLog.LogErrorSubsystem) int.Parse(items[index]);
                 }
                 catch
                 {
@@ -333,7 +549,7 @@ namespace MissionPlanner.Utilities
                         throw new ArgumentNullException();
                     }
 
-                    items[items.Length - 1] = "" + (DFLog.events) int.Parse(items[index]);
+                    items[items.Length - 1] = "" + (DFLog.Log_Event) int.Parse(items[index]);
                 }
                 catch
                 {
@@ -343,64 +559,7 @@ namespace MissionPlanner.Utilities
             {
             }
 
-            DFItem item = new DFItem() {parent = this};
-            try
-            {
-                item.lineno = lineno;
-
-                if (items.Length > 0)
-                {
-                    item.msgtype = items[0];
-                    item.items = items;
-                    bool timeus = false;
-
-                    if (logformat.ContainsKey(item.msgtype))
-                    {
-                        int indextimems = FindMessageOffset(item.msgtype, "TimeMS");
-
-                        if (item.msgtype.StartsWith("GPS"))
-                        {
-                            indextimems = FindMessageOffset(item.msgtype, "T");
-                        }
-
-                        if (indextimems == -1)
-                        {
-                            indextimems = FindMessageOffset(item.msgtype, "TimeUS");
-                            timeus = true;
-                        }
-
-                        if (indextimems != -1)
-                        {
-                            long ntime = 0;
-
-                            if (long.TryParse(items[indextimems], out ntime))
-                            {
-                                if (timeus)
-                                    ntime /= 1000;
-
-                                item.timems = (int) ntime;
-
-                                if (gpsstarttime != DateTime.MinValue)
-                                {
-                                    item.time = gpsstarttime.AddMilliseconds(item.timems - msoffset);
-                                    lasttime = item.time;
-                                }
-                            }
-                            else
-                            {
-                                item.time = lasttime;
-                            }
-                        }
-                        else
-                        {
-                            item.time = lasttime;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
+            DFItem item = new DFItem(this, items, lineno);
 
             return item;
         }
@@ -425,7 +584,7 @@ namespace MissionPlanner.Utilities
                         Id = int.Parse(items[1]),
                         Format = items[4],
                         Length = int.Parse(items[2]),
-                        FieldNames = names
+                        FieldNames = names.ToList()
                     };
 
                     logformat[lbl.Name] = lbl;
@@ -477,7 +636,13 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
-                    return gpsTimeToTime(int.Parse(items[indexweek]), long.Parse(items[indextimems]) / 1000.0);
+                    var week = int.Parse(items[indexweek]);
+                    var sec = long.Parse(items[indextimems]) / 1000.0;
+
+                    if(week > 5000 || week < 0 || sec > 60*60*24*7 || sec < 0)
+                        return DateTime.MinValue;
+
+                    return gpsTimeToTime(week, sec);
                 }
                 catch 
                 {
@@ -505,23 +670,34 @@ namespace MissionPlanner.Utilities
                 return -1;
 
             if (logformat.ContainsKey(linetype.ToUpper()))
-                return FindInArray(logformat[linetype].FieldNames, find);
+            {
+                var ans = logformat[linetype].FieldNames.IndexOf(find);
+                if (ans == -1)
+                    return -1;
+                // + type
+                return ans + 1;
+            }
 
             return -1;
         }
 
-        public static int FindInArray(string[] array, string find)
+        public long GetLineNoFromTime(DFLogBuffer logdata, DateTime p1)
         {
-            int a = 1;
-            foreach (string item in array)
+            DateTime last = DateTime.MaxValue;
+
+            foreach (var dfItem in logdata.GetEnumeratorType(new string[] { "GPS","GPS2"}))
             {
-                if (item.ToUpper() == find.ToUpper())
-                {
-                    return a;
-                }
-                a++;
+                // always forwards
+                if (dfItem.time >= p1)
+                    return dfItem.lineno;
+
+                last = dfItem.time;
             }
-            return -1;
+
+            if (last != DateTime.MaxValue)
+                return long.MaxValue;
+
+            return 0;
         }
     }
 }

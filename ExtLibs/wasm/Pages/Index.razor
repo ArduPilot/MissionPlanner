@@ -1,0 +1,153 @@
+﻿@page "/"
+@inject HttpClient Http
+@using System.Net
+@using System.Net.Http.Headers
+@using Blazor.Extensions
+@using Blazor.Extensions.Canvas.Canvas2D
+@using Blazor.Extensions.Canvas.WebGL
+@using GMap.NET.MapProviders
+@using GMap.NET
+@using GMap.NET.Internals
+@using MissionPlanner.Controls
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+<br />
+
+
+<BECanvas Width="400" Height="400" @ref="_canvasReference"></BECanvas>
+
+<HUD Width="400" Height="400" @ref="_hud"></HUD>
+
+<button @onclick=@renderhud>renderhud</button>
+<p>
+    <button id="connect">Connect</button>
+</p>
+<div id="terminal" style="position:relative; width:100%; height:100%"></div>
+
+<br>
+@(DateTime.Now.ToString("O"))
+
+
+@functions {
+
+    private Canvas2DContext _context;
+
+    protected BECanvasComponent _canvasReference;
+
+    protected HUD _hud;
+
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+    async void renderhud()
+    {
+    //var hud = new HUD();
+        var start = DateTime.Now;
+        _hud.Context = await this._canvasReference.CreateCanvas2DAsync();
+        _hud.Width = (int)_canvasReference.Width;
+        _hud.Height = (int)_canvasReference.Height;
+        //Console.WriteLine("About to HUD " + _context + (DateTime.Now - start).TotalMilliseconds);
+        _hud.Refresh();
+        var time = (DateTime.Now - start).TotalMilliseconds;
+        Console.WriteLine("HUD refresh done " + time);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        log.Debug("DataFlash OnInitializedAsync");
+
+        log.Info(UriHelper.Uri);
+
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        log.Debug("DataFlash OnParametersSetAsync Done");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        log.Debug("DataFlash OnAfterRenderAsync Start");
+
+        if (firstRender)
+        {
+            this._context = await this._canvasReference.CreateCanvas2DAsync();
+
+            await this._context.SetFillStyleAsync("green");
+
+            await this._context.FillRectAsync(10, 100, 100, 100);
+
+            await this._context.SetFontAsync("48px serif");
+            await this._context.StrokeTextAsync("Hello Blazor!!!", 10, 100);
+
+            await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"
+            window.document.dispatchEvent(new Event('DOMContentLoaded', {
+                bubbles: true,
+                cancelable: true
+            }));" }).ConfigureAwait(false);
+
+
+        }
+
+        return;
+
+        var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(UriHelper.BaseUri);
+        var asn = await httpClient.GetAsync("test.txt");
+
+        Console.WriteLine(asn.Headers);
+        Console.WriteLine(asn.IsSuccessStatusCode);
+        Console.WriteLine(asn.Content);
+
+        try
+        {
+            GMapProvider.WebProxy = EmptyWebProxy.Instance;
+
+            GMapProvider type = GoogleChinaSatelliteMapProvider.Instance;
+            PureProjection prj = type.Projection;
+            Core core = new Core();
+
+            var zoom = 15;
+            var area = new RectLatLng(core.Position.Lat, core.Position.Lng, 0.1, 0.1);
+
+            core.Provider = type;
+            core.Position = new PointLatLngAlt(-35, 117.89);
+            core.Zoom = zoom;
+
+            GPoint topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
+            GPoint rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
+            GPoint pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
+
+
+            // get type list at new zoom level
+            List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
+
+            // get tiles & combine into one
+            foreach (var p in tileArea)
+            {
+                Console.WriteLine("Downloading[" + p + "]: " + tileArea.IndexOf(p) + " of " + tileArea.Count);
+
+                foreach (var tp in type.Overlays)
+                {
+                    Exception ex;
+
+                    var ret = tp.GetTileImage(p, zoom);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+
+        }
+
+        log.Debug("DataFlash OnAfterRenderAsync Done");
+    }
+    protected override bool ShouldRender()
+    {
+        var renderUI = true;
+        log.Debug("DataFlash ShouldRender Done");
+        return renderUI;
+    }
+}

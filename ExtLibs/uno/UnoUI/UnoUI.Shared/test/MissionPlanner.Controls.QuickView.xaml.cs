@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class QuickView{public QuickView(){this.InitializeComponent();}}}

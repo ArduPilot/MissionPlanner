@@ -1,0 +1,12 @@
+{
+	"name": "mpu 60x0",
+	"scan": [{
+		"device": "mpu6000",
+		"query": "0x75",
+		"responce": ["0x68"]
+	},{
+		"device": "mpu6000_ext",
+		"query": "0x75",
+		"responce": ["0x68"]
+	}]
+}

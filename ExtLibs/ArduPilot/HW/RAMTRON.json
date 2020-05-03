@@ -1,0 +1,10 @@
+{
+	"name": "fram",
+	"scan": [{
+        "type":"spi",
+        "name":"fram",
+		"device": "ramtron",
+		"query": { "data":"0x9f","length":4}
+	}
+    ]
+}

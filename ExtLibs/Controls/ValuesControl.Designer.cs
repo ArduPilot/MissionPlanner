@@ -70,7 +70,7 @@ namespace MissionPlanner.Controls
             // 
             // ValuesControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.myLabel1);

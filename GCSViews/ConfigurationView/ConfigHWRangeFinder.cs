@@ -1,11 +1,11 @@
-﻿using System;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWRangeFinder : UserControl, IActivate, IDeactivate
+    public partial class ConfigHWRangeFinder : MyUserControl, IActivate, IDeactivate
     {
         bool startup = true;
 
@@ -52,8 +52,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (CMB_sonartype.Text == "TeraRangerOne-I2C")
             {
                 // set min and max to 20cm - 10m
-                MainV2.comPort.setParam("RNGFND_MAX_CM", 100);
-                MainV2.comPort.setParam("RNGFND_MIN_CM ", 20);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RNGFND_MAX_CM", 100);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "RNGFND_MIN_CM ", 20);
             }
         }
     }

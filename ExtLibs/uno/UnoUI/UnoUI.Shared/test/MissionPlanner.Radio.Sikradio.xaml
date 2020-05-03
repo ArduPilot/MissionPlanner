@@ -1,0 +1,130 @@
+<UserControl x:Class="MissionPlanner.Radio.Sikradio" d:DesignHeight="492" d:DesignWidth="781"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="BUT_loadcustom" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="527,3,0,0" Width="96" Height="39">Upload Custom Firmware</Button>
+<Button Name="BUT_resettodefault" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="439,3,0,0" Width="82" Height="39">Reset to Defaults</Button>
+<TextBlock Name="linkLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="689,11,0,0" Width="64" Height="17">Status Leds</TextBlock>
+<TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="9,11,0,0" Width="0" Height="16"></TextBlock>
+<Grid Name="groupBoxRemote" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="400,48,0,0" Width="367" Height="367">
+<TextBox Name="RTI2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="300,12,0,0" Width="61" Height="65"></TextBox>
+<TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,15,0,0" Width="43" Height="17">Version</TextBlock>
+<Grid Name="SPLIT_remote" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,81,0,0" Width="357" Height="280">
+<Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Width="170" Height="280">
+<TextBlock Name="label41" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,246,0,0" Width="86" Height="17">GPI1_1R/COUT</TextBlock>
+<ComboBox Name="RMAVLINK" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,163,0,0" Width="80" Height="21"></ComboBox>
+<CheckBox Name="RGPO1_1R_COUT" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,243,0,0" Width="66" Height="20"></CheckBox>
+<TextBox Name="RFORMAT" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="83,3,0,0" Width="80" Height="20"></TextBox>
+<TextBlock Name="label42" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,220,0,0" Width="73" Height="17">GPI1_1R/CIN</TextBlock>
+<CheckBox Name="RGPI1_1R_CIN" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,217,0,0" Width="80" Height="20"></CheckBox>
+<ComboBox Name="RSERIAL_SPEED" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,29,0,0" Width="80" Height="21"></ComboBox>
+<ComboBox Name="RAIR_SPEED" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,56,0,0" Width="80" Height="21"></ComboBox>
+<ComboBox Name="RNETID" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,83,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label25" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,194,0,0" Width="61" Height="17">Op Resend</TextBlock>
+<ComboBox Name="RTXPOWER" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,111,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label26" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,167,0,0" Width="43" Height="17">Mavlink</TextBlock>
+<CheckBox Name="RECC" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,137,0,0" Width="80" Height="20"></CheckBox>
+<TextBlock Name="label27" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,140,0,0" Width="28" Height="17">ECC</TextBlock>
+<TextBlock Name="label28" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,113,0,0" Width="52" Height="17">Tx Power</TextBlock>
+<CheckBox Name="ROPPRESEND" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="83,191,0,0" Width="80" Height="20"></CheckBox>
+<TextBlock Name="label29" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,86,0,0" Width="36" Height="17">Net ID</TextBlock>
+<TextBlock Name="label32" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,33,0,0" Width="31" Height="17">Baud</TextBlock>
+<TextBlock Name="label30" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,59,0,0" Width="54" Height="17">Air Speed</TextBlock>
+<TextBlock Name="label31" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,7,0,0" Width="40" Height="17">Format</TextBlock>
+</Grid>
+<Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="171,0,0,0" Width="186" Height="280">
+<TextBlock Name="label38" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,220,0,0" Width="49" Height="17">AES Key</TextBlock>
+<CheckBox Name="RENCRYPTION_LEVEL" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,191,0,0" Width="80" Height="20"></CheckBox>
+<TextBox Name="txt_Raeskey" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="3,236,0,0" Width="180" Height="20"></TextBox>
+<TextBlock Name="label37" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,192,0,0" Width="83" Height="17">AES Encryption</TextBlock>
+<CheckBox Name="RRTSCTS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,137,0,0" Width="80" Height="20"></CheckBox>
+<TextBlock Name="label33" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,138,0,0" Width="52" Height="17">RTS CTS</TextBlock>
+<TextBlock Name="label34" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,167,0,0" Width="95" Height="17">Max Window (ms)</TextBlock>
+<ComboBox Name="RMAX_WINDOW" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,164,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label24" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,7,0,0" Width="49" Height="17">Min Freq</TextBlock>
+<ComboBox Name="RMAX_FREQ" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,28,0,0" Width="80" Height="21"></ComboBox>
+<ComboBox Name="RNUM_CHANNELS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,55,0,0" Width="80" Height="21"></ComboBox>
+<ComboBox Name="RDUTY_CYCLE" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,82,0,0" Width="80" Height="21"></ComboBox>
+<ComboBox Name="RLBT_RSSI" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,109,0,0" Width="80" Height="21"></ComboBox>
+<ComboBox Name="RMIN_FREQ" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="97,3,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label23" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,31,0,0" Width="52" Height="17">Max Freq</TextBlock>
+<TextBlock Name="label22" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,59,0,0" Width="74" Height="17"># of Channels</TextBlock>
+<TextBlock Name="label21" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,85,0,0" Width="59" Height="17">Duty Cycle</TextBlock>
+<TextBlock Name="label20" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="5,112,0,0" Width="50" Height="17">LBT Rssi</TextBlock>
+</Grid>
+</Grid>
+<TextBox Name="RTI" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="60,12,0,0" Width="147" Height="20"></TextBox>
+</Grid>
+<Grid Name="groupBoxLocal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,48,0,0" Width="382" Height="367">
+<TextBox Name="ATI2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="315,12,0,0" Width="61" Height="65"></TextBox>
+<Grid Name="SPLIT_local" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,81,0,0" Width="374" Height="280">
+<Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Width="172" Height="280">
+<TextBlock Name="label40" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,246,0,0" Width="86" Height="17">GPI1_1R/COUT</TextBlock>
+<CheckBox Name="GPO1_1R_COUT" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="95,243,0,0" Width="66" Height="20"></CheckBox>
+<TextBlock Name="label39" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,220,0,0" Width="73" Height="17">GPI1_1R/CIN</TextBlock>
+<CheckBox Name="GPI1_1R_CIN" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="81,217,0,0" Width="80" Height="20"></CheckBox>
+<ComboBox Name="MAVLINK" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="81,164,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,7,0,0" Width="40" Height="17">Format</TextBlock>
+<ComboBox Name="SERIAL_SPEED" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="81,29,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,33,0,0" Width="31" Height="17">Baud</TextBlock>
+<TextBox Name="FORMAT" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="81,3,0,0" Width="80" Height="20"></TextBox>
+<ComboBox Name="AIR_SPEED" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="81,56,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,59,0,0" Width="54" Height="17">Air Speed</TextBlock>
+<ComboBox Name="NETID" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="81,83,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,86,0,0" Width="36" Height="17">Net ID</TextBlock>
+<ComboBox Name="TXPOWER" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="81,111,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,113,0,0" Width="52" Height="17">Tx Power</TextBlock>
+<CheckBox Name="ECC" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="81,137,0,0" Width="80" Height="20"></CheckBox>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,138,0,0" Width="28" Height="17">ECC</TextBlock>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,194,0,0" Width="61" Height="17">Op Resend</TextBlock>
+<CheckBox Name="OPPRESEND" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="81,191,0,0" Width="80" Height="20"></CheckBox>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,167,0,0" Width="43" Height="17">Mavlink</TextBlock>
+</Grid>
+<Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="173,0,0,0" Width="201" Height="280">
+<CheckBox Name="ENCRYPTION_LEVEL" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,191,0,0" Width="80" Height="20"></CheckBox>
+<TextBlock Name="label36" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,192,0,0" Width="83" Height="17">AES Encryption</TextBlock>
+<TextBlock Name="label35" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,220,0,0" Width="49" Height="17">AES Key</TextBlock>
+<TextBox Name="txt_aeskey" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="3,236,0,0" Width="196" Height="20"></TextBox>
+<CheckBox Name="RTSCTS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,137,0,0" Width="80" Height="20"></CheckBox>
+<TextBlock Name="label19" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,138,0,0" Width="52" Height="17">RTS CTS</TextBlock>
+<TextBlock Name="linkLabel_mavlink" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,254,0,0" Width="152" Height="17">Settings for Standard Mavlink</TextBlock>
+<TextBlock Name="linkLabel_lowlatency" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,267,0,0" Width="128" Height="17">Settings for Low Latency</TextBlock>
+<TextBlock Name="label18" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,167,0,0" Width="95" Height="17">Max Window (ms)</TextBlock>
+<ComboBox Name="MAX_WINDOW" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,164,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label13" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,7,0,0" Width="49" Height="17">Min Freq</TextBlock>
+<ComboBox Name="MAX_FREQ" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,28,0,0" Width="80" Height="21"></ComboBox>
+<ComboBox Name="NUM_CHANNELS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,55,0,0" Width="80" Height="21"></ComboBox>
+<ComboBox Name="DUTY_CYCLE" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,82,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label17" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,112,0,0" Width="50" Height="17">LBT Rssi</TextBlock>
+<ComboBox Name="LBT_RSSI" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,109,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label16" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,85,0,0" Width="59" Height="17">Duty Cycle</TextBlock>
+<ComboBox Name="MIN_FREQ" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,3,0,0" Width="80" Height="21"></ComboBox>
+<TextBlock Name="label15" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,59,0,0" Width="74" Height="17"># of Channels</TextBlock>
+<TextBlock Name="label14" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="4,31,0,0" Width="52" Height="17">Max Freq</TextBlock>
+</Grid>
+</Grid>
+<TextBox Name="ATI3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="207,12,0,0" Width="102" Height="20"></TextBox>
+<TextBlock Name="label11" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="14,15,0,0" Width="43" Height="17">Version</TextBlock>
+<TextBox Name="ATI" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="59,12,0,0" Width="147" Height="20"></TextBox>
+<TextBox Name="RSSI" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="59,38,0,0" Width="250" Height="39"></TextBox>
+<TextBlock Name="label12" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="18,50,0,0" Width="31" Height="17">RSSI</TextBlock>
+</Grid>
+<Button Name="BUT_Syncoptions" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="346,418,0,0" Width="102" Height="29">Copy required to remote</Button>
+<Button Name="BUT_savesettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="237,3,0,0" Width="69" Height="39">Save Settings</Button>
+<Button Name="BUT_getcurrent" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="162,3,0,0" Width="69" Height="39">Load Settings</Button>
+<TextBlock Name="lbl_status" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,418,0,0" Width="328" Height="28">NOTE: Always click "Copy required to remote" when modifying
+this ensures you wont lose radio link</TextBlock>
+<ProgressBar Name="Progressbar" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,453,0,0" Width="755" Height="36"></ProgressBar>
+<Button Name="BUT_upload" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="312,3,0,0" Width="121" Height="39">Upload Firmware (Local)</Button>
+</Grid></UserControl>

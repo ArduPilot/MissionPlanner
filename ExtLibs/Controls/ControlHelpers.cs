@@ -45,7 +45,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        public static void BeginInvokeIfRequired(this ISynchronizeInvoke control, MethodInvoker action)
+        public static void BeginInvokeIfRequired(this ISynchronizeInvoke control, Action action)
         {
             if (control.InvokeRequired)
             {

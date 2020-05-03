@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class SerialOutputNMEA{public SerialOutputNMEA(){this.InitializeComponent();}}}

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace MissionPlanner.Utilities
 {
-    public class ubx_m8p : ICorrections
+    public class Ubx: ICorrections
     {
         int step = 0;
 
@@ -267,6 +267,35 @@ namespace MissionPlanner.Utilities
             public uint cAcc;
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct ubx_cfg_nav5_getset_s
+        {
+            public uint16_t mask;
+            public uint8_t dynModel;
+            public uint8_t fixMode;
+            public int32_t fixedAlt;
+            public uint32_t fixedAltVar;
+            public int8_t minElev;
+            public uint8_t drLimit;
+            public uint16_t pDop;
+            public uint16_t tDop;
+            public uint16_t pAcc;
+            public uint16_t tAcc;
+            public uint8_t staticHoldThresh;
+            public uint8_t dgnssTimeout;
+            public uint8_t cnoThreshNumSVs;
+            public uint8_t cnoThresh;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+            public uint8_t[] reserved1;
+
+            public uint16_t staticHoldMaxDist;
+            public uint8_t utcStandard;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
+            public uint8_t[] reserved2;
+        }
+
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 40)]
         public struct ubx_cfg_tmode3
         {
@@ -433,8 +462,8 @@ namespace MissionPlanner.Utilities
                 packet = generate(0x6, 0x24,
                     new byte[]
                     {
-                        0xFF, 0xFF, 0x02, 0x03, 0x00, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00, 0x05, 0x00, 0xFA, 0x00,
-                        0xFA, 0x00, 0x64, 0x00, 0x2C, 0x01, 0x00, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00, 0x00, 0x00,
+                        0xFF, 0xFF, 0x02, 0x03, 0x00, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00, 0x0F, 0x00, 0xFA, 0x00,
+                        0xFA, 0x00, 0x64, 0x00, 0x2C, 0x01, 0x00, 0x00, 0x00, 0x23, 0x10, 0x27, 0x00, 0x00, 0x00, 0x00,
                         0x00, 0x00, 0x00, 0x00
                     });
                 port.Write(packet, 0, packet.Length);
@@ -479,6 +508,11 @@ namespace MissionPlanner.Utilities
             turnon_off(port, 0xf5, 0x54, rate2);
             // 1087 - 1s
             turnon_off(port, 0xf5, 0x57, rate1);
+
+            // 1094 - 1s
+            turnon_off(port, 0xf5, 0x5e, rate2);
+            // 1097 - 1s
+            turnon_off(port, 0xf5, 0x61, rate1);
 
             // 1124 - 1s
             turnon_off(port, 0xf5, 0x7c, rate2);

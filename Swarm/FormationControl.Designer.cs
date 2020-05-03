@@ -192,7 +192,7 @@
             // 
             // FormationControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ClientSize = new System.Drawing.Size(931, 471);
             this.Controls.Add(this.but_guided);
             this.Controls.Add(this.PNL_status);

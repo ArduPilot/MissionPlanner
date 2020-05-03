@@ -56,7 +56,7 @@ namespace MissionPlanner.Log
 
         public static void ProcessLog(string fn, Action<string> ProgressEvent = null)
         {
-            using (CollectionBuffer colbuf = new CollectionBuffer(File.OpenRead(fn)))
+            using (DFLogBuffer colbuf = new DFLogBuffer(File.OpenRead(fn)))
             {
                 // store all the arrays
                 List<MLArray> mlList = new List<MLArray>();
@@ -267,6 +267,9 @@ namespace MissionPlanner.Log
                 {
                     MAVLink.MAVLinkMessage packet = parse.ReadPacket(cs);
 
+                    if(packet == null)
+                        continue;
+
                     object data = packet.data;
 
                     if (data == null)
@@ -386,9 +389,9 @@ namespace MissionPlanner.Log
         public static double GetMatLabSerialDate(DateTime dt)
         {
             // in c# i cant represent year 0000, so we add one year and the leap year
-            DateTime timebase = new DateTime(1, 1, 1); // = 1
+            DateTime timebase = DateTime.MinValue; // = 1
 
-            double answer = (dt.AddYears(1).AddDays(1) - timebase).TotalDays;
+            double answer = (dt.AddYears(1).AddDays(2) - timebase).TotalDays;
 
             return answer;
         }

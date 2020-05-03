@@ -1,17 +1,12 @@
-using IronPython.Hosting;
+using ICSharpCode.SharpZipLib.Zip;
 using log4net;
+using MissionPlanner.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
-using ICSharpCode.SharpZipLib.Zip;
-using Ionic.Zip;
-using MissionPlanner.Controls;
-using ZipFile = ICSharpCode.SharpZipLib.Zip.ZipFile;
 
 namespace MissionPlanner.Utilities
 {
@@ -45,13 +40,13 @@ namespace MissionPlanner.Utilities
                 if (Environment.Is64BitOperatingSystem)
                 {
                     gotit = Download.getFilefromNet(
-                        "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer64.zip",
+                        "https://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer64.zip",
                         zip);
                 }
                 else
                 {
                     gotit = Download.getFilefromNet(
-                        "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer.zip",
+                        "https://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer.zip",
                         zip);
                 }
 

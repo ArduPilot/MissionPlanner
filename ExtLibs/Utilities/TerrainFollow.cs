@@ -28,7 +28,7 @@ namespace MissionPlanner.Utilities
             _interface = inInterface;
 
             log.Info("Subscribe to packets");
-            subscription = _interface.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST, ReceviedPacket);
+            subscription = _interface.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST, ReceivedPacket);
         }
 
         ~TerrainFollow()
@@ -37,7 +37,7 @@ namespace MissionPlanner.Utilities
             _interface.UnSubscribeToPacketType(subscription);
         }
 
-        private bool ReceviedPacket(MAVLink.MAVLinkMessage rawpacket)
+        private bool ReceivedPacket(MAVLink.MAVLinkMessage rawpacket)
         {
             if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST)
             {

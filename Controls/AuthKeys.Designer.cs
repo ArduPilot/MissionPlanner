@@ -94,7 +94,7 @@
             // 
             // AuthKeys
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.but_disablesigning);
             this.Controls.Add(this.but_add);

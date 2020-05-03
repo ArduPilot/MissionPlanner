@@ -1,0 +1,16 @@
+#
+# Gimbal Status 
+#
+
+uint8 gimbal_id                 #it cannot be zero, it must by a unique id of the gimbal
+
+uint8 mode
+
+uint32 status
+
+uint8 orientation_type          #specifies the meaning of the data, it may be different from the control frame !!!
+
+float32[4] orientation          #the meaning of the content is defined by frame, angles: roll, pitch, yaw in rad, otherwise: orientation quaternion in xyzw
+
+float32[<=3] angular_velocity   #roll, pitch, yaw rates in rad/s, can be NAN if unknown
+

@@ -1,0 +1,141 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigAteryx" d:DesignHeight="587" d:DesignWidth="975"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="BUT_read_flash" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="820,545,0,0" Width="137" Height="23">Read Flash</Button>
+<Button Name="BUT_write_flash" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="820,514,0,0" Width="137" Height="23">Write Flash</Button>
+<Grid Name="groupBox13" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="552,536,0,0" Width="260" Height="42">
+<Custom:DecimalUpDown Name="ROLL_TO_ELEV" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,12,0,0" Width="104"></Custom:DecimalUpDown>
+</Grid>
+<Grid Name="groupBox12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="552,433,0,0" Width="260" Height="106">
+<Custom:DecimalUpDown Name="ARSPD_U_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label42" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="94" Height="16">Max Airspeed</TextBlock>
+<Custom:DecimalUpDown Name="ARSPD_L_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label43" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="121" Height="16">Min Airspeed</TextBlock>
+<Custom:DecimalUpDown Name="CRUISE_ARSPD" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label44" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="48" Height="16">Cruise</TextBlock>
+</Grid>
+<Grid Name="groupBox11" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="284,502,0,0" Width="260" Height="77">
+<Custom:DecimalUpDown Name="LND_APCH_SPD" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label39" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="132" Height="16">Approach Speed</TextBlock>
+<Custom:DecimalUpDown Name="T_OFF_PITCH" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label40" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="101" Height="16">Min TO Pitch</TextBlock>
+</Grid>
+<Grid Name="groupBox10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,502,0,0" Width="260" Height="77">
+<Custom:DecimalUpDown Name="FLD_ATM_PRESS" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label37" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="108" Height="16">in Hg</TextBlock>
+<Custom:DecimalUpDown Name="FLD_ELEV" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label38" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="82" Height="16">Field Elev</TextBlock>
+</Grid>
+<Grid Name="groupBox9" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="284,360,0,0" Width="260" Height="134">
+<Custom:DecimalUpDown Name="PITCH_L_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,101,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label27" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,106,0,0" Width="117" Height="16">Pitch Min</TextBlock>
+<Custom:DecimalUpDown Name="PITCH_U_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label34" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="92" Height="16">Pitch Max</TextBlock>
+<Custom:DecimalUpDown Name="ROLL_L_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label35" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="92" Height="16">Bank Min</TextBlock>
+<Custom:DecimalUpDown Name="ROLL_U_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label36" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="92" Height="16">Bank Max</TextBlock>
+</Grid>
+<Grid Name="groupBox7" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,360,0,0" Width="260" Height="134">
+<Custom:DecimalUpDown Name="LOITER_RD" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,101,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label28" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,106,0,0" Width="117" Height="16">Default Radius</TextBlock>
+<Custom:DecimalUpDown Name="ORBIT_GAIN" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label29" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="92" Height="16">Orbit Gain</TextBlock>
+<Custom:DecimalUpDown Name="ENTRY_ANGLE" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label32" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="92" Height="16">Entry Angle</TextBlock>
+<Custom:DecimalUpDown Name="XTRACK_GAIN" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label33" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="92" Height="16">Track Gain</TextBlock>
+</Grid>
+<Grid Name="groupBox6" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="552,214,0,0" Width="260" Height="77">
+<Custom:DecimalUpDown Name="YAW_RATE_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label30" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="108" Height="16">Yaw Rate Limit</TextBlock>
+<Custom:DecimalUpDown Name="YAW_RATE_KP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label31" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="19" Height="16">P</TextBlock>
+</Grid>
+<Grid Name="groupBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="284,189,0,0" Width="260" Height="163">
+<TextBlock Name="label21" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,133,0,0" Width="72" Height="16">Int Lim</TextBlock>
+<Custom:DecimalUpDown Name="ARSPD_INT_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,131,0,0" Width="104"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="ARSPD_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,101,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label22" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,106,0,0" Width="72" Height="16">Effort Lim</TextBlock>
+<Custom:DecimalUpDown Name="ARSPD_KD" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label23" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="20" Height="16">D</TextBlock>
+<Custom:DecimalUpDown Name="ARSPD_KI" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label24" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="13" Height="16">I</TextBlock>
+<Custom:DecimalUpDown Name="ARSPD_KP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label25" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="19" Height="16">P</TextBlock>
+</Grid>
+<Grid Name="groupBox4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,189,0,0" Width="260" Height="163">
+<TextBlock Name="label16" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,133,0,0" Width="72" Height="16">Int Lim</TextBlock>
+<Custom:DecimalUpDown Name="HDG_INT_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,131,0,0" Width="104"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="HDG_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,101,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label17" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,106,0,0" Width="72" Height="16">Effort Lim</TextBlock>
+<Custom:DecimalUpDown Name="HDG_KD" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label18" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="20" Height="16">D</TextBlock>
+<Custom:DecimalUpDown Name="HDG_KI" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label19" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="13" Height="16">I</TextBlock>
+<Custom:DecimalUpDown Name="HDG_KP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label20" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="19" Height="16">P</TextBlock>
+</Grid>
+<Grid Name="groupBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="552,18,0,0" Width="260" Height="188">
+<TextBlock Name="label26" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,161,0,0" Width="108" Height="20">EH Range</TextBlock>
+<Custom:DecimalUpDown Name="EH_RANGE" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,159,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label11" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,133,0,0" Width="72" Height="16">Int Lim</TextBlock>
+<Custom:DecimalUpDown Name="EH_INT_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,131,0,0" Width="104"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="EH_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,101,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label12" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,106,0,0" Width="72" Height="16">Effort Lim</TextBlock>
+<Custom:DecimalUpDown Name="EH_KD" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label13" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="20" Height="16">D</TextBlock>
+<Custom:DecimalUpDown Name="EH_KI" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label14" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="13" Height="16">I</TextBlock>
+<Custom:DecimalUpDown Name="EH_KP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label15" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="19" Height="16">P</TextBlock>
+</Grid>
+<Grid Name="groupBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="284,18,0,0" Width="260" Height="163">
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,133,0,0" Width="72" Height="16">Int Lim</TextBlock>
+<Custom:DecimalUpDown Name="PITCH_INT_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,131,0,0" Width="104"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="PITCH_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,101,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,106,0,0" Width="72" Height="16">Effort Lim</TextBlock>
+<Custom:DecimalUpDown Name="PITCH_RATE_KP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="20" Height="16">D</TextBlock>
+<Custom:DecimalUpDown Name="PITCH_KI" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="13" Height="16">I</TextBlock>
+<Custom:DecimalUpDown Name="PITCH_KP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label10" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="19" Height="16">P</TextBlock>
+</Grid>
+<Button Name="BUT_rerequestparams" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="820,61,0,0" Width="137" Height="23">Refresh Params</Button>
+<Button Name="BUT_writePIDS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="820,32,0,0" Width="137" Height="23">Write Params</Button>
+<Grid Name="groupBox3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="552,295,0,0" Width="260" Height="133">
+<Custom:DecimalUpDown Name="THR_FS_VALUE" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,101,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,106,0,0" Width="67" Height="16">FS Value</TextBlock>
+<Custom:DecimalUpDown Name="THR_MAX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="36" Height="16">Max</TextBlock>
+<Custom:DecimalUpDown Name="THR_MIN" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="32" Height="16">Min</TextBlock>
+<Custom:DecimalUpDown Name="TRIM_THROTTLE" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="48" Height="16">Cruise</TextBlock>
+</Grid>
+<Grid Name="groupBox8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,18,0,0" Width="260" Height="163">
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,133,0,0" Width="72" Height="16">Int Lim</TextBlock>
+<Custom:DecimalUpDown Name="ROLL_INT_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,131,0,0" Width="104"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="ROLL_LIM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,101,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label49" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,106,0,0" Width="72" Height="16">Effort Lim</TextBlock>
+<Custom:DecimalUpDown Name="ROLL_RATE_KP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,73,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label50" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,78,0,0" Width="20" Height="16">D</TextBlock>
+<Custom:DecimalUpDown Name="ROLL_KI" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,44,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label51" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,49,0,0" Width="13" Height="16">I</TextBlock>
+<Custom:DecimalUpDown Name="ROLL_KP" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,16,0,0" Width="104"></Custom:DecimalUpDown>
+<TextBlock Name="label52" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,21,0,0" Width="19" Height="16">P</TextBlock>
+</Grid>
+</Grid></UserControl>

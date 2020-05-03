@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Joystick
@@ -21,14 +16,22 @@ namespace MissionPlanner.Joystick
 
             comboBox1.ValueMember = "Key";
             comboBox1.DisplayMember = "Value";
-            comboBox1.DataSource = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE",
+
+            var item1 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE",
                 MainV2.comPort.MAV.cs.firmware.ToString());
+            var item2 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_DEFLT_MODE",
+                MainV2.comPort.MAV.cs.firmware.ToString());
+            if (item1.Count > 0)
+                comboBox1.DataSource = item1;
+
+            if (item2.Count > 0)
+                comboBox1.DataSource = item2;
 
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 
             var config = MainV2.joystick.getButton(int.Parse(name));
 
-            comboBox1.SelectedValue = (int) config.p1;
+            comboBox1.SelectedValue = (int)config.p1;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,7 +44,7 @@ namespace MissionPlanner.Joystick
 
             // change what we modified
             config.function = Joystick.buttonfunction.Mount_Mode;
-            config.p1 = (int) comboBox1.SelectedValue;
+            config.p1 = (int)comboBox1.SelectedValue;
 
             // update entry
             MainV2.joystick.setButton(name, config);

@@ -142,7 +142,7 @@ namespace MissionPlanner.Utilities
             }
             else //LOG
             {
-                using (CollectionBuffer col = new CollectionBuffer(File.OpenRead(logfile)))
+                using (DFLogBuffer col = new DFLogBuffer(File.OpenRead(logfile)))
                 using (var outfilestream = File.Open(outputfile, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
                 {
                     foreach (var dfItem in col.GetEnumeratorTypeAll())
@@ -151,9 +151,9 @@ namespace MissionPlanner.Utilities
 
                         if (index != -1)
                         {
-                            dfItem.items[index] =
-                                (Double.Parse(dfItem.items[index], CultureInfo.InvariantCulture) + latrandom).ToString(
-                                    CultureInfo.InvariantCulture);
+                            var lat = Double.Parse(dfItem.items[index], CultureInfo.InvariantCulture);
+                            if (lat != 0)
+                                dfItem.items[index] =(lat + latrandom).ToString(CultureInfo.InvariantCulture);
                         }
 
                         var str = String.Join(",", dfItem.items) + "\r\n";

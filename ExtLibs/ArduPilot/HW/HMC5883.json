@@ -1,0 +1,15 @@
+{
+  "name": "hmc5883",
+  "scan": [
+    {
+      "type": "i2c",
+      "name": "compass",
+      "device": "0x1e",
+      "query": {
+        "data": "0x0a",
+        "length": 3,
+        "responce": [ "H", "4", "3" ]
+      }
+    }
+  ]
+}

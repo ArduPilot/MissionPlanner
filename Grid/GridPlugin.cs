@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using GMap.NET.WindowsForms;
 
 namespace MissionPlanner.Grid
 {
     public class GridPlugin : MissionPlanner.Plugin.Plugin
     {
-        
+
 
         ToolStripMenuItem but;
 

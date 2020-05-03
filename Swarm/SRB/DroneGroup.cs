@@ -1,12 +1,11 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Controls;
+using MissionPlanner.GCSViews.ConfigurationView;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
-using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.HIL;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm.SRB
 {
@@ -126,9 +125,9 @@ namespace MissionPlanner.Swarm.SRB
                             return;
                         }
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
-                        drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
+                        drone.MavState.GuidedMode.x = (int)(drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)(drone.TargetLocation.Lng * 1e7);
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // wait for takeoff
                         if (MAV.cs.alt < drone.TargetLocation.Alt - 0.5)
@@ -139,13 +138,13 @@ namespace MissionPlanner.Swarm.SRB
                                 return;
 
 
-                                drone.TargetVelocity = GetBaseVelocity();
+                            drone.TargetVelocity = GetBaseVelocity();
 
-                                //drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
+                            //drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
 
-                                drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                                drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
-                                drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
+                            drone.MavState.GuidedMode.x = (int)((float)drone.TargetLocation.Lat * 1e7);
+                            drone.MavState.GuidedMode.y = (int)((float)drone.TargetLocation.Lng * 1e7);
+                            drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                             // alt target must be reached
                             return;
@@ -158,9 +157,9 @@ namespace MissionPlanner.Swarm.SRB
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
-                        drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
+                        drone.MavState.GuidedMode.x = (int)((float)drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)((float)drone.TargetLocation.Lng * 1e7);
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
                     }
                     CurrentMode = Mode.alongside;
                     break;
@@ -182,9 +181,9 @@ namespace MissionPlanner.Swarm.SRB
                         if (GetBasePosition()?.Heading != null)
                             drone.SendYaw(GetBasePosition().Heading);
 
-                        drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
-                        drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
+                        drone.MavState.GuidedMode.x = (int)((float)drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)((float)drone.TargetLocation.Lng * 1e7);
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
                     }
 
                     break;
@@ -203,11 +202,11 @@ namespace MissionPlanner.Swarm.SRB
                         drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
 
                         // apply yaw
-                        if(GetBasePosition()?.Heading != null)
+                        if (GetBasePosition()?.Heading != null)
                             drone.SendYaw(GetBasePosition().Heading);
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)((float)drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)((float)drone.TargetLocation.Lng * 1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
                     }
                     break;
@@ -221,7 +220,7 @@ namespace MissionPlanner.Swarm.SRB
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         Thread.Sleep(200);
 
@@ -267,7 +266,7 @@ namespace MissionPlanner.Swarm.SRB
                             else
                             {
                                 // same alt - 0.4
-                                drone.TargetLocation.Alt = drone.Location.Alt-0.4;
+                                drone.TargetLocation.Alt = drone.Location.Alt - 0.4;
                             }
 
                             drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
@@ -280,7 +279,7 @@ namespace MissionPlanner.Swarm.SRB
                     int f = 0;
                     foreach (var drone in Drones)
                     {
-                        if(drone == landing)
+                        if (drone == landing)
                             continue;
 
                         // set drone target position
@@ -290,8 +289,8 @@ namespace MissionPlanner.Swarm.SRB
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
 
-                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.x = (int)((float)drone.TargetLocation.Lat * 1e7);
+                        drone.MavState.GuidedMode.y = (int)((float)drone.TargetLocation.Lng * 1e7);
                         drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
                     }
                     break;
@@ -336,16 +335,16 @@ namespace MissionPlanner.Swarm.SRB
 
         public adsb.PointLatLngAltHdg GetBasePosition()
         {
-            if (SerialInjectGPS.ubxpvt.fix_type < 3)
+            if (ConfigSerialInjectGPS.ubxpvt.fix_type < 3)
                 return null;
 
-            return new adsb.PointLatLngAltHdg(SerialInjectGPS.ubxpvt.lat / 1e7, SerialInjectGPS.ubxpvt.lon / 1e7,
-                SerialInjectGPS.ubxpvt.h_msl/1000.0, (float)(SerialInjectGPS.ubxpvt.head_mot / 1e5), "", DateTime.Now);
+            return new adsb.PointLatLngAltHdg(ConfigSerialInjectGPS.ubxpvt.lat / 1e7, ConfigSerialInjectGPS.ubxpvt.lon / 1e7,
+                ConfigSerialInjectGPS.ubxpvt.h_msl / 1000.0, (float)(ConfigSerialInjectGPS.ubxpvt.head_mot / 1e5), -1, "", DateTime.Now);
         }
 
         public Vector3 GetBaseVelocity()
         {
-            return new Vector3(SerialInjectGPS.ubxvelned.velN/100.0, SerialInjectGPS.ubxvelned.velE / 100.0, SerialInjectGPS.ubxvelned.velD / 100.0);
+            return new Vector3(ConfigSerialInjectGPS.ubxvelned.velN / 100.0, ConfigSerialInjectGPS.ubxvelned.velE / 100.0, ConfigSerialInjectGPS.ubxvelned.velD / 100.0);
         }
 
         public float TakeOffAlt { get; set; }

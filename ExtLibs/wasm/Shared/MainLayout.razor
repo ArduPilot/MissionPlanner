@@ -1,0 +1,83 @@
+@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+@inject HttpClient Http
+@using Sotsera.Blazor.Toaster
+@using System.IO
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        By Michael Oborne
+        <div id="g-signin2" class="g-signin2"></div>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+<div id="loadingML" style="display: @(Loading ? "block": "none");  position: fixed;  left: 0px;  top: 0px;  width: 100%;  height: 100%;  z-index: 9999;  background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif')               50% 50% no-repeat ;">
+
+</div>
+
+<ToastContainer />
+
+@functions
+{
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+    public static string googleid = "";
+    private bool _loading = true;
+
+    public bool Loading
+    {
+        get { return _loading; }
+        set { log.Info("Loading " + _loading); _loading = value; }
+    }
+
+    [JSInvokable]
+    public static void SetGoogleID(string id)
+    {
+        googleid = id;
+    }
+
+    protected override void OnInitialized()
+    {
+        log.Info("MainLayout OnInitialized done");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Loading = false;
+
+        await GetFile("ParameterMetaDataBackup.xml");
+
+        log.Info("MainLayout OnInitializedAsync done");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (googleid == "")
+            JSRuntime.InvokeAsync<object>
+    ("renderButton", new { });
+
+        Console.WriteLine("MainLayout OnAfterRender Done");
+    }
+
+    public async Task GetFile(string filename)
+    {
+        if (!File.Exists(filename))
+        {
+            log.Info("get " + filename);
+            var content = await Http.GetStringAsync((filename));
+            log.Info("get " + filename + " done");
+
+            File.WriteAllText(filename, content);
+        }
+    }
+}

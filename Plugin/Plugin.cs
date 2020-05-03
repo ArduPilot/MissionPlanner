@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-using GMap.NET;
+﻿using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
-using MissionPlanner;
-using MissionPlanner.Utilities;
 using MissionPlanner.GCSViews;
+using MissionPlanner.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Plugin
 {
@@ -179,7 +175,8 @@ namespace MissionPlanner.Plugin
             get
             {
                 return new GMapPolygon(new List<PointLatLng>(MainV2.instance.FlightPlanner.drawnpolygon.Points),
-                    "Poly Copy") {Stroke = MainV2.instance.FlightPlanner.drawnpolygon.Stroke};
+                    "Poly Copy")
+                { Stroke = MainV2.instance.FlightPlanner.drawnpolygon.Stroke };
             }
         }
 

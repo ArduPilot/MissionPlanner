@@ -7,55 +7,26 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SkiaSharp.Views.Desktop;
 
 namespace MissionPlanner.Controls
 {
-    public partial class QuickView : MyUserControl
+    public partial class QuickView : SkiaSharp.Views.Desktop.SKControl
     {
-        //http://stackoverflow.com/questions/3816362/winforms-label-flickering
-
         [System.ComponentModel.Browsable(true)]
         public string desc
         {
-            get
-            {
-                return labelWithPseudoOpacity1.Text;
-            }
-            set
-            {
-                if (labelWithPseudoOpacity1.Text == value)
-                    return;
-                
-                labelWithPseudoOpacity1.Text = value;
-            }
+            get { return _desc; } set { if (_desc == value) return; _desc = value; Invalidate(); }
         }
 
-        double _number = -123456;
+        double _number = -9999;
 
         [System.ComponentModel.Browsable(true)]
-        public double number { get { return double.Parse(labelWithPseudoOpacity2.Text); } 
-            set
-            {
-                if (_number == value)
-                    return;
-                _number = value;
-                string ans = (value).ToString(_numberformat);
-                if (labelWithPseudoOpacity2.Text == ans) 
-                    return;
-                
-                string before = labelWithPseudoOpacity2.Text;
-                labelWithPseudoOpacity2.Text = ans;
-
-                // only run when needed
-                if (before.Length < ans.Length)
-                {
-                    GetFontSize();
-                    this.Invalidate();
-                }
-            }
-        }
+        public double number { get { return _number; } set { if (_number == value) return; _number = value; Invalidate(); } }
 
         string _numberformat = "0.00";
+        private string _desc = "";
+        private Color _numbercolor;
 
         [System.ComponentModel.Browsable(true)]
         public string numberformat
@@ -66,36 +37,56 @@ namespace MissionPlanner.Controls
             }
             set
             {
-                var temp = _number;
                 _numberformat = value;
-                _number = -9999;
-                number = temp;
                 this.Invalidate();
             }
         }
 
         [System.ComponentModel.Browsable(true)]
-        public Color numberColor { get { return labelWithPseudoOpacity2.ForeColor; } set { if (labelWithPseudoOpacity2.ForeColor == value) return; labelWithPseudoOpacity2.ForeColor = value; } }
+        public Color numberColor { get { return _numbercolor; } set { if (_numbercolor == value) return; _numbercolor = value; Invalidate(); } }
 
         public QuickView()
         {
             InitializeComponent();
 
-            labelWithPseudoOpacity1.DoubleClick += new EventHandler(labelWithPseudoOpacity1_DoubleClick);
-            labelWithPseudoOpacity2.DoubleClick += new EventHandler(labelWithPseudoOpacity2_DoubleClick);
-
-            // set the initial value as something invalid
-            number = -9999;
+            PaintSurface+= OnPaintSurface;
         }
 
-        void labelWithPseudoOpacity2_DoubleClick(object sender, EventArgs e)
+        private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e2)
         {
-            this.OnDoubleClick(e);
-        }
+            var e = new SkiaGraphics(e2.Surface);
+            e2.Surface.Canvas.Clear();
+            int y = 0;
+            {
+                Size extent = e.MeasureString(desc, this.Font).ToSize();
 
-        void labelWithPseudoOpacity1_DoubleClick(object sender, EventArgs e)
-        {
-            this.OnDoubleClick(e);
+                var mid = extent.Width / 2;
+
+                e.DrawString(desc, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - mid, 0);
+
+                y = extent.Height;
+            }
+            //
+            {
+                var numb = number.ToString(numberformat);
+
+                Size extent = e.MeasureString("0".PadLeft(numb.Length+1,'0'), new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
+
+                float hRatio = (this.Height - y) / (float)(extent.Height);
+                float wRatio = this.Width / (float)extent.Width;
+                float ratio = (hRatio < wRatio) ? hRatio : wRatio;
+
+                newSize = (newSize * ratio);// * 0.75f; // pixel to points
+
+                newSize -= newSize % 5;
+
+                if (newSize < 8 || newSize > 999999)
+                    newSize = 8;
+
+                extent = e.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
+
+                e.DrawString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width / 2, y + ((this.Height - y) / 2 - extent.Height / 2));
+            }
         }
 
         public override void Refresh()
@@ -104,55 +95,22 @@ namespace MissionPlanner.Controls
                 base.Refresh();
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+        }
+
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
             if (this.Visible && this.ThisReallyVisible())
                 base.OnInvalidated(e);
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            if (this.Visible)
-                base.OnPaint(e);
-        }
-
-        public void GetFontSize()
-        {
-            Size extent = TextRenderer.MeasureText(labelWithPseudoOpacity2.Text, this.Font);
-
-            //SizeF extenttest2 = Graphics.FromHwnd(this.Handle).MeasureString(labelWithPseudoOpacity2.Text, this.Font);
-
-         //   SizeF extent2 = Measure.MeasureString(Graphics.FromHwnd(this.Handle), this.Font, labelWithPseudoOpacity2.Text);
-
-           // extent = extenttest;
-
-            float hRatio = (labelWithPseudoOpacity2.Height) / (float)(extent.Height);
-            float wRatio = this.Width / (float)extent.Width;
-            float ratio = (hRatio < wRatio) ? hRatio : wRatio;
-
-            float newSize = this.Font.Size * ratio;
-
-            if (newSize < 8)
-                newSize = 8;
-
-            labelWithPseudoOpacity2.Font = new Font(labelWithPseudoOpacity2.Font.FontFamily, newSize - 2, labelWithPseudoOpacity2.Font.Style);
-        }
+        float newSize = 8;
 
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            this.ResizeRedraw = true;
-
-            labelWithPseudoOpacity1.Size = new Size(this.Width, labelWithPseudoOpacity1.Size.Height);
-            labelWithPseudoOpacity2.Size = new Size(this.Width, this.Height - labelWithPseudoOpacity1.Size.Height);
-
-            GetFontSize();
-
-          
-        }
-
-        private void QuickView_Resize(object sender, EventArgs e)
-        {
             this.Invalidate();
         }
     }

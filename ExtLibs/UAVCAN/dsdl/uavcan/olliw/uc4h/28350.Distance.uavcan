@@ -1,0 +1,33 @@
+#
+# Distance
+#
+# Pitch and yaw angles in radians should be multiplied by
+#
+# ANGLE_MULTIPLIER = 15 / PI
+#
+# in order to convert them to a coarse representation, because:
+#  - Fits the maximum range of a signed 4 bit or 5 bit integer, respectively
+#  - Exactly represents the following angles:
+#    0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, and negatives
+#
+# Orientation MUST be specified, and there MUST be only one sensor per orientation. 
+# This thus serves as a kind of major sensor_id.
+
+float32 ANGLE_MULTIPLIER = 4.7746482927568605
+
+int4 fixed_axis_pitch         # -PI/2 ... +PI/2 or -6 ... 6
+int5 fixed_axis_yaw           # -PI ... +PI or -12 ... 12
+
+uint4 sensor_sub_id           # Allow up to 16 sensors per orientation
+
+uint3 RANGE_INVALID     = 0   # Range is unknown
+uint3 RANGE_VALID       = 1   # Range field contains valid distance
+uint3 RANGE_TOO_CLOSE   = 2   # Range field contains min range for the sensor
+uint3 RANGE_TOO_FAR     = 3   # Range field contains max range for the sensor
+uint3 range_flag
+
+float16 range                 # Meters
+
+uavcan.olliw.uc4h.DistanceSensorProperties[<=1] sensor_property  # made an array so that it is optional
+
+

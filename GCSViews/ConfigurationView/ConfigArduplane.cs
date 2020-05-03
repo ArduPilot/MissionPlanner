@@ -1,17 +1,16 @@
-﻿using System;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
-using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigArduplane : UserControl, IActivate
+    public partial class ConfigArduplane : MyUserControl, IActivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -141,7 +140,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -203,7 +202,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            var temp = (Hashtable) changes.Clone();
+            var temp = (Hashtable)changes.Clone();
 
             foreach (string value in temp.Keys)
             {
@@ -230,6 +229,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
                             return;
                         }
+
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        return;
+                    }
 
                     MainV2.comPort.setParam(value, (float)changes[value]);
 
@@ -265,7 +270,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
             try
             {
@@ -277,7 +282,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
             Activate();
         }
@@ -287,12 +292,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
 
             updateparam(this);
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
 
             Activate();
@@ -302,7 +307,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (Control ctl in parentctl.Controls)
             {
-                if (typeof (NumericUpDown) == ctl.GetType() || typeof (ComboBox) == ctl.GetType())
+                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
                 {
                     try
                     {

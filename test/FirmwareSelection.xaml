@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MissionPlanner.test.FirmwareSelection">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label TextColor="White" BackgroundColor="Transparent">More than one choice exists. Please filter down to the desired selection.</Label>
+            <Label x:Name="lbltype" TextColor="White" BackgroundColor="Transparent">Type</Label>
+            <Picker x:Name="mavtype" Title="Type" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label x:Name="lblversiontype"  TextColor="White" BackgroundColor="Transparent">Version Type</Label>
+            <Picker x:Name="versiontype" Title="Version type" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+
+            <Label x:Name="lblplatform"  TextColor="White" BackgroundColor="Transparent">Platform</Label>
+            <Picker x:Name="platform" Title="Platform" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label  x:Name="lblversion" TextColor="White" BackgroundColor="Transparent">Version</Label>
+            <Picker x:Name="version" Title="Version" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+
+            <Label x:Name="lblformat"  TextColor="White" BackgroundColor="Transparent">Format</Label>
+            <Picker x:Name="format" Title="Format" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label x:Name="lblusbid"  TextColor="White" BackgroundColor="Transparent">USB ID</Label>
+            <Picker x:Name="USBID" Title="USB ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+
+
+            <Label  x:Name="lblboardid" TextColor="White" BackgroundColor="Transparent">Board ID</Label>
+            <Picker x:Name="board_id" Title="Board ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+            <Label  x:Name="lblbootloaderid" TextColor="White" BackgroundColor="Transparent">Bootloader ID</Label>
+            <Picker x:Name="bootloader_str" Title="Bootloader ID" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="OnSelectedIndexChanged"></Picker>
+
+            <Label x:Name="lblfirmware"  TextColor="White" BackgroundColor="Transparent">Firmwares - Please pick a file to download and upload (.apj)</Label>
+            <Picker x:Name="Result" Title="Firmwares" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="Result_OnSelectedIndexChanged"></Picker>
+            <Button x:Name="Button" Clicked="Button_OnClicked" Text="Upload Firmware"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

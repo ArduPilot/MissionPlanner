@@ -1,15 +1,13 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
-using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -128,7 +126,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!MainV2.comPort.MAV.param.ContainsKey(item.paramname))
                     return;
 
-                var value = (float) MainV2.comPort.MAV.param[item.paramname];
+                var value = (float)MainV2.comPort.MAV.param[item.paramname];
 
                 if (value < item.min)
                     item.min = value;
@@ -140,7 +138,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var increment = ParameterMetaDataRepository.GetParameterMetaData(item.paramname,
                     ParameterMetaDataConstants.Increment, MainV2.comPort.MAV.cs.firmware.ToString());
 
-                var rangeopt = range.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+                var rangeopt = range.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (rangeopt.Length > 1)
                 {
@@ -178,15 +176,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             TXT_info.Clear();
 
-            if (Value.Contains(','))
+            if (Value.Contains(","))
                 Value = Value.Replace(",", ".");
 
             var value = float.Parse(Value, CultureInfo.InvariantCulture);
 
-            var rc = ((RangeControl) sender);
+            var rc = ((RangeControl)sender);
             log.Info(rc.Name + " " + rc.Value);
 
-            var relitems = ((configitem) rc.Tag).relations;
+            var relitems = ((configitem)rc.Tag).relations;
 
             try
             {
@@ -203,8 +201,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    MainV2.comPort.setParam(item.paramaname, value*item.multiplier);
-                    TXT_info.AppendText("set " + item.paramaname + " " + value*item.multiplier + "\r\n");
+                    MainV2.comPort.setParam(item.paramaname, value * item.multiplier);
+                    TXT_info.AppendText("set " + item.paramaname + " " + value * item.multiplier + "\r\n");
                 }
                 catch (Exception ex)
                 {

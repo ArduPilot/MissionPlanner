@@ -345,7 +345,7 @@
             // 
             // WPControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.ClientSize = new System.Drawing.Size(783, 509);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.num_wpnav_accel);

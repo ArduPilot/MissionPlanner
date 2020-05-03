@@ -102,6 +102,7 @@
             this.NUM_Lane_Dist = new System.Windows.Forms.NumericUpDown();
             this.label28 = new System.Windows.Forms.Label();
             this.groupBox_copter = new System.Windows.Forms.GroupBox();
+            this.chk_spline = new System.Windows.Forms.CheckBox();
             this.TXT_headinghold = new System.Windows.Forms.TextBox();
             this.BUT_headingholdminus = new System.Windows.Forms.Button();
             this.BUT_headingholdplus = new System.Windows.Forms.Button();
@@ -110,7 +111,8 @@
             this.LBL_copter_delay = new System.Windows.Forms.Label();
             this.NUM_copter_delay = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chk_test = new System.Windows.Forms.CheckBox();
+            this.chk_spiral = new System.Windows.Forms.CheckBox();
+            this.chk_Corridor = new System.Windows.Forms.CheckBox();
             this.label43 = new System.Windows.Forms.Label();
             this.num_corridorwidth = new System.Windows.Forms.NumericUpDown();
             this.chk_crossgrid = new System.Windows.Forms.CheckBox();
@@ -661,7 +663,7 @@
             65536});
             resources.ApplyResources(this.NUM_focallength, "NUM_focallength");
             this.NUM_focallength.Maximum = new decimal(new int[] {
-            180,
+            500,
             0,
             0,
             0});
@@ -760,6 +762,7 @@
             // groupBox_copter
             // 
             resources.ApplyResources(this.groupBox_copter, "groupBox_copter");
+            this.groupBox_copter.Controls.Add(this.chk_spline);
             this.groupBox_copter.Controls.Add(this.TXT_headinghold);
             this.groupBox_copter.Controls.Add(this.BUT_headingholdminus);
             this.groupBox_copter.Controls.Add(this.BUT_headingholdplus);
@@ -769,6 +772,12 @@
             this.groupBox_copter.Controls.Add(this.NUM_copter_delay);
             this.groupBox_copter.Name = "groupBox_copter";
             this.groupBox_copter.TabStop = false;
+            // 
+            // chk_spline
+            // 
+            resources.ApplyResources(this.chk_spline, "chk_spline");
+            this.chk_spline.Name = "chk_spline";
+            this.chk_spline.UseVisualStyleBackColor = true;
             // 
             // TXT_headinghold
             // 
@@ -828,7 +837,8 @@
             // groupBox1
             // 
             resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.chk_test);
+            this.groupBox1.Controls.Add(this.chk_spiral);
+            this.groupBox1.Controls.Add(this.chk_Corridor);
             this.groupBox1.Controls.Add(this.label43);
             this.groupBox1.Controls.Add(this.num_corridorwidth);
             this.groupBox1.Controls.Add(this.chk_crossgrid);
@@ -849,12 +859,19 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // chk_test
+            // chk_spiral
             // 
-            resources.ApplyResources(this.chk_test, "chk_test");
-            this.chk_test.Name = "chk_test";
-            this.chk_test.UseVisualStyleBackColor = true;
-            this.chk_test.Click += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            resources.ApplyResources(this.chk_spiral, "chk_spiral");
+            this.chk_spiral.Name = "chk_spiral";
+            this.chk_spiral.UseVisualStyleBackColor = true;
+            this.chk_spiral.Click += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
+            // chk_Corridor
+            // 
+            resources.ApplyResources(this.chk_Corridor, "chk_Corridor");
+            this.chk_Corridor.Name = "chk_Corridor";
+            this.chk_Corridor.UseVisualStyleBackColor = true;
+            this.chk_Corridor.Click += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // label43
             // 
@@ -1279,7 +1296,7 @@
             // 
             resources.ApplyResources(this.TRK_zoom, "TRK_zoom");
             this.TRK_zoom.LargeChange = 0.005F;
-            this.TRK_zoom.Maximum = 19F;
+            this.TRK_zoom.Maximum = 22F;
             this.TRK_zoom.Minimum = 2F;
             this.TRK_zoom.Name = "TRK_zoom";
             this.TRK_zoom.SmallChange = 0.001F;
@@ -1296,11 +1313,12 @@
             this.map.EmptyTileColor = System.Drawing.Color.Gray;
             this.map.GrayScaleMode = false;
             this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.map.HoldInvalidation = false;
             this.map.LevelsKeepInMemmory = 5;
             this.map.MarkersEnabled = true;
             this.map.MaxZoom = 19;
             this.map.MinZoom = 2;
-            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.map.Name = "map";
             this.map.NegativeMode = false;
             this.map.PolygonsEnabled = true;
@@ -1315,7 +1333,6 @@
             // 
             // GridUI
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.TRK_zoom);
             this.Controls.Add(this.map);
@@ -1501,8 +1518,10 @@
         private System.Windows.Forms.NumericUpDown num_setservono;
         private System.Windows.Forms.Label lbl_minshutter;
         private System.Windows.Forms.Label label44;
-        private System.Windows.Forms.CheckBox chk_test;
+        private System.Windows.Forms.CheckBox chk_Corridor;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.NumericUpDown num_corridorwidth;
+        private System.Windows.Forms.CheckBox chk_spiral;
+        private System.Windows.Forms.CheckBox chk_spline;
     }
 }

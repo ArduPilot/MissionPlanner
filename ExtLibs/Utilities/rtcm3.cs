@@ -205,6 +205,24 @@ namespace MissionPlanner.Utilities
                             if (ObsMessage != null)
                                 ObsMessage(tp.obs, null);
                         }
+                        else if (head.messageno == 1094)
+                        {
+                            var tp = new type1094();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1097)
+                        {
+                            var tp = new type1097();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
                         else if (head.messageno == 1124)
                         {
                             var tp = new type1124();
@@ -246,8 +264,12 @@ namespace MissionPlanner.Utilities
                             var tp = new type1019();
 
                             tp.Read(packet);
+                            
+                            var week = (int)tp.week;
+                            var tow = 0.0;
 
-                            var week = (int)tp.week + 1024;
+                            // assumes this is always a live stream
+                            StaticUtils.GetFromTime(DateTime.UtcNow, ref week, ref tow);
 
                             // both at start of a week
                             if (tp.toes < (60 * 60 * 24) && lasttow < (60 * 60 * 24))
@@ -1380,7 +1402,7 @@ namespace MissionPlanner.Utilities
             public uint nbits;
             public List<ob> obs = new List<ob>();
 
-            public void Read(byte[] buffer)
+            public virtual void Read(byte[] buffer)
             {
                 uint i = 24;
 
@@ -1568,7 +1590,7 @@ namespace MissionPlanner.Utilities
             public uint nbits;
             public List<ob> obs = new List<ob>();
 
-            public void Read(byte[] buffer)
+            public virtual void Read(byte[] buffer)
             {
                 uint i = 24;
 
@@ -1759,6 +1781,32 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public class type1094 : type1084
+        {
+             public override void Read(byte[] buffer)
+            {
+                base.Read(buffer);
+
+                foreach (var ob in obs)
+                {
+                    ob.sys = 'E';
+                }
+            }
+        }
+
+        public class type1097 : type1087
+        {
+             public override void Read(byte[] buffer)
+            {
+                base.Read(buffer);
+
+                foreach (var ob in obs)
+                {
+                    ob.sys = 'E';
+                }
+            }
+        }
+
         public class type1124
         {
             public uint nbits;
@@ -1903,7 +1951,7 @@ namespace MissionPlanner.Utilities
                 for (j = 0; j < nsat; j++)
                 {
                     var ob = new ob();
-                    ob.sys = 'C';
+                    ob.sys = 'B';
                     ob.tow = tow;
                     ob.week = week;
 
@@ -2101,7 +2149,7 @@ namespace MissionPlanner.Utilities
                 for (j = 0; j < nsat; j++)
                 {
                     var ob = new ob();
-                    ob.sys = 'C';
+                    ob.sys = 'B';
                     ob.tow = tow;
                     ob.week = week;
 
@@ -2553,8 +2601,8 @@ namespace MissionPlanner.Utilities
                 const double NAV_OMEGAE_DOT = 7.2921151467e-005;
                 const double NAV_GM = 3.986005e14;
 
-                var toc = new gps_time_t(this.toc, (u16)(week+1024 ));
-                var toe = new gps_time_t(toes, (u16)(week+1024));
+                var toc = new gps_time_t(this.toc, (u16)(week));
+                var toe = new gps_time_t(toes, (u16)(week));
 
                 // Satellite clock terms
                 // Seconds from clock data reference time (toc)

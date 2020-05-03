@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using AltitudeAngelWings;
+﻿using AltitudeAngelWings;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Service;
 using MissionPlanner.GCSViews;
+using System;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
@@ -31,7 +31,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             }
             if (CustomMessageBox.Show(
                     "Do you wish to enable Altitude Angel airspace management data?\nFor more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]",
-                    "Altitude Angel - Enable", CustomMessageBox.MessageBoxButtons.YesNo) == (int)CustomMessageBox.DialogResult.Yes)
+                    "Altitude Angel - Enable", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
             {
                 await service.SignInAsync();
             }

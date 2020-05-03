@@ -5,8 +5,9 @@
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />
@@ -15,12 +16,8 @@
     <None Remove="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="ArduinoSTK.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="ArduinoSTKv2.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="ArduinoSTK.cs" />
+    <Compile Update="ArduinoSTKv2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

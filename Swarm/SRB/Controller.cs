@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MissionPlanner.Swarm.SRB
+﻿namespace MissionPlanner.Swarm.SRB
 {
     public class Controller
     {
@@ -27,7 +21,7 @@ namespace MissionPlanner.Swarm.SRB
                 return;
             }
 
-            new System.Threading.Thread(mainloop) {IsBackground = true}.Start();
+            new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
 
             DG.CurrentMode = DroneGroup.Mode.idle;
         }

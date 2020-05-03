@@ -1,0 +1,125 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <ApplicationIcon />
+    <Win32Resource />
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\test\FirmwareSelection.xaml.cs" Link="Linked\FirmwareSelection.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.35" />
+    <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="RtspClientSharp" Version="1.3.3" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+    <PackageReference Include="Xam.Plugin.TabView" Version="1.0.4" />
+    <PackageReference Include="Xamarin.Forms.DataGrid" Version="3.1.0" />
+    <PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.1.34" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\test\FirmwareSelection.xaml" Link="Linked\FirmwareSelection.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\7zip\7zip.csproj" />
+    <ProjectReference Include="..\..\alglibnet\alglibnet.csproj" />
+    <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj" />
+    <ProjectReference Include="..\..\BouncyCastle\BouncyCastle.csproj" />
+    <ProjectReference Include="..\..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\..\GeoUtility\GeoUtility.csproj" />
+    <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj" />
+    <ProjectReference Include="..\..\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj" />
+    <ProjectReference Include="..\..\Interfaces\Interfaces.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\..\px4uploader\px4uploader.csproj" />
+    <ProjectReference Include="..\..\Strings\MissionPlanner.Strings.csproj" />
+    <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OpenTK-1.0">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v4.4\OpenTK-1.0.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\AGauge.cs" />
+    <Compile Update="GMap.NET.WindowsForms\GMapControl.cs" />
+    <Compile Update="Controls\HUD.cs" />
+    <Compile Update="Controls\HUDT.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>HUDT.resx</DependentUpon>
+    </Compile>
+    <Compile Update="MainPage_old.xaml.cs">
+      <DependentUpon>MainPage_old.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MainPage.xaml.cs">
+      <DependentUpon>MainPage</DependentUpon>
+    </Compile>
+    <Compile Update="MasterDetailPage1MenuItem.cs" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Controls\AGauge.resx">
+      <DependentUpon>AGauge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\HUDT.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+   
+    <EmbeddedResource Update="GCSViews\Firmware.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+   
+    <EmbeddedResource Update="GCSViews\Video.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MasterDetailPage1Detail.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MasterDetailPage1Master.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

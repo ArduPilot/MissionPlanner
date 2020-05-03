@@ -1444,6 +1444,7 @@
             // 
             // Sikradio
             // 
+
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.Progressbar);
             this.Controls.Add(this.BUT_SetPPMFailSafe);

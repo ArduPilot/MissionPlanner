@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 public partial class MAVLink
 {
@@ -74,11 +71,11 @@ public partial class MAVLink
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        /// <param name="type"></param>
-        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE type)
+        /// <param name="wiretype"></param>
+        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE wiretype)
         {
             Name = name;
-            Type = type;
+            Type = wiretype;
             Value = value;
         }
 
@@ -87,12 +84,12 @@ public partial class MAVLink
         /// </summary>
         /// <param name="name"></param>
         /// <param name="inputwire"></param>
-        /// <param name="type"></param>
+        /// <param name="wiretype"></param>
         /// <param name="typeap"></param>
-        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE type, MAV_PARAM_TYPE typeap)
+        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE wiretype, MAV_PARAM_TYPE typeap)
         {
             Name = name;
-            Type = type;
+            Type = wiretype;
             TypeAP = typeap;
             Array.Copy(inputwire, _data, 4);
         }

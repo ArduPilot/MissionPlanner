@@ -105,6 +105,13 @@ namespace MissionPlanner.Comms
 
                                         if (connect)
                                         {
+                                            lock (runlock)
+                                            {
+                                                running--;
+
+                                                if (running == 0)
+                                                    run = 0;
+                                            }
                                             doConnect?.Invoke(port);
                                         }
 

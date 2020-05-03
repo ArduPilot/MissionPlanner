@@ -1,12 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 
 public partial class MAVLink
 {
+    public static string GetUnit(string fieldname, Type packetype = null, string name="", uint msgid = UInt32.MaxValue)
+    {
+        try
+        {
+            message_info msginfo = new message_info();
+            if(packetype != null)
+                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.type == packetype);
+            if (msgid != UInt32.MaxValue)
+                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.msgid == msgid);
+            if (!string.IsNullOrEmpty(name))
+                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.name == name);
+
+            if (msginfo.name == "")
+                return "";
+            
+            var typeofthing = msginfo.type.GetField(fieldname);
+            if (typeofthing != null)
+            {
+                var attrib = typeofthing.GetCustomAttributes(false);
+                if (attrib.Length > 0)
+                    return attrib.OfType<MAVLink.Units>().First().Unit;
+            }
+        }
+        catch
+        {
+        }
+
+        return "";
+    }
+
+    public class Units : Attribute
+    {
+        public Units(string unit)
+        {
+            Unit = unit;
+        }
+
+        public string Unit { get; set; }
+    }
+
+    public class Description : Attribute
+    {
+        public Description(string desc)
+        {
+            Text = desc;
+        }
+
+        public string Text { get; set; }
+    }
+
     public class MavlinkParse
     {
         public int packetcount = 0;
@@ -111,6 +159,7 @@ public partial class MAVLink
 
             if (readcount >= MAVLink.MAVLINK_MAX_PACKET_LEN)
             {
+                return null;
                 throw new InvalidDataException("No header found in data");
             }
 
@@ -118,7 +167,13 @@ public partial class MAVLink
             var headerlengthstx = headerlength + 1;
 
             // read header
-            ReadWithTimeout(BaseStream, buffer, 1, headerlength);
+            try {
+                ReadWithTimeout(BaseStream, buffer, 1, headerlength);
+            }
+            catch (EndOfStreamException)
+            {
+                return null;
+            }
 
             // packet length
             int lengthtoread = 0;
@@ -135,8 +190,15 @@ public partial class MAVLink
                 lengthtoread = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - U - length    
             }
 
-            //read rest of packet
-            ReadWithTimeout(BaseStream, buffer, headerlengthstx, lengthtoread - (headerlengthstx-2));
+            try
+            {
+                //read rest of packet
+                ReadWithTimeout(BaseStream, buffer, headerlengthstx, lengthtoread - (headerlengthstx - 2));
+            }
+            catch (EndOfStreamException)
+            {
+                return null;
+            }
 
             // resize the packet to the correct length
             Array.Resize<byte>(ref buffer, lengthtoread + 2);

@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using Acr.UserDialogs;
+using MissionPlanner.Utilities;
+
+namespace Xamarin
+{
+    internal class ProgressReporterDialogue : IProgressReporterDialogue, IDisposable
+    {
+        private string title;
+        private Timer _timer;
+
+        public ProgressReporterDialogue(string title)
+        {
+            this.title = title;
+
+            _timer = new Timer((c) =>
+            {
+                Console.WriteLine("ProgressReporterDialogue _timer run");
+                if (queue.Count == 0)
+                {
+                    Console.WriteLine("ProgressReporterDialogue _timer run queue = 0");
+                    return;
+                }
+
+                while (queue.Count >= 2)
+                {
+                    var item2 = queue.Dequeue();
+                    Console.WriteLine("Dequeue >=2 " + item2);
+                }
+
+                var item = queue.Dequeue();
+
+                Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.Toast(item, TimeSpan.FromSeconds(3));
+                });
+            }, this, 1000, 1000);
+        }
+
+        public ProgressWorkerEventArgs doWorkArgs { get; set; } = new ProgressWorkerEventArgs();
+
+        public event DoWorkEventHandler DoWork;
+
+        public IAsyncResult BeginInvoke(Delegate method)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            _timer.Stop();
+            //throw new NotImplementedException();
+        }
+
+        public void RunBackgroundOperationAsync()
+        {
+            DoWork?.Invoke(this);
+
+            _timer.Stop();
+            //throw new NotImplementedException();
+        }
+
+        Queue<string> queue = new Queue<string>();
+
+        public void UpdateProgressAndStatus(int progress, string status)
+        {
+            Console.WriteLine("Queue message " + status);
+            queue.Enqueue(status);
+        }
+    }
+}

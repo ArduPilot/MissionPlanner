@@ -1,13 +1,6 @@
 ﻿using MissionPlanner.Utilities;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using AltitudeAngelWings.Models;
 
 namespace MissionPlanner.Controls
 {
@@ -43,13 +36,13 @@ namespace MissionPlanner.Controls
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
-            Clearance.Value = (decimal) Settings.Instance.GetFloat("Propagation_Clearance", 5);
+            Clearance.Value = (decimal)Settings.Instance.GetFloat("Propagation_Clearance", 5);
             CMB_Resolution.Text = Settings.Instance.GetInt32("Propagation_Resolution", 4).ToString();
             CMB_Rotational.Text = Settings.Instance.GetInt32("Propagation_Rotational", 1).ToString();
             CMB_Angular.Text = Settings.Instance.GetInt32("Propagation_Converge", 1).ToString();
-            NUM_range.Value = (decimal) Settings.Instance.GetFloat("Propagation_Range", 2.0f);
-            NUM_height.Value = (decimal) Settings.Instance.GetFloat("Propagation_Height", 2.0f);
-            Tolerance.Value = (decimal) Settings.Instance.GetFloat("Propagation_Tolerance", 0.8f);
+            NUM_range.Value = (decimal)Settings.Instance.GetFloat("Propagation_Range", 2.0f);
+            NUM_height.Value = (decimal)Settings.Instance.GetFloat("Propagation_Height", 2.0f);
+            Tolerance.Value = (decimal)Settings.Instance.GetFloat("Propagation_Tolerance", 0.8f);
 
             chk_ele.Checked = Maps.Propagation.ele_run;
             chk_terrain.Checked = Maps.Propagation.ter_run;

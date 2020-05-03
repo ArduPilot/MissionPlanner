@@ -1,11 +1,7 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MissionPlanner.Utilities;
-using Newtonsoft.Json;
 
 namespace MissionPlanner.Swarm.Sequence
 {
@@ -23,7 +19,7 @@ namespace MissionPlanner.Swarm.Sequence
 
         public void Save(string filename)
         {
-            var json = JsonConvert.SerializeObject(this);
+            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
 
             File.WriteAllText(filename, json);
         }
@@ -32,6 +28,10 @@ namespace MissionPlanner.Swarm.Sequence
     public class Layout
     {
         public string Id { get; set; }
+
+        public int DelayStart { get; set; }
+
+        public int DelayEnd { get; set; }
 
         public Dictionary<int, Vector3> Offset = new Dictionary<int, Vector3>();
 

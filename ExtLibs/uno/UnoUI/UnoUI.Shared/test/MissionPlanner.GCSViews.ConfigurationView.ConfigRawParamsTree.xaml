@@ -1,0 +1,30 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigRawParamsTree" d:DesignHeight="349" d:DesignWidth="750"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><CheckBox Name="chk_modified" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,331,0,0" Width="66" Height="18">Modified</CheckBox>
+<Button Name="BUT_commitToFlash" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,143,0,0" Width="103" Height="23">Commit Params</Button>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="632,289,0,0" Width="40" Height="17">Search</TextBlock>
+<TextBox Name="txt_search" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="" FontSize="8.25" Margin="630,305,0,0" Width="104" Height="20"></TextBox>
+<Button Name="BUT_reset_params" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,261,0,0" Width="103" Height="21">Reset to Default</Button>
+<Button Name="BUT_paramfileload" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,234,0,0" Width="103" Height="21">Load Presaved</Button>
+<ComboBox Name="CMB_paramfiles" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="630,207,0,0" Width="104" Height="21"></ComboBox>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,169,0,0" Width="114" Height="30">All Units are in raw 
+format with no scaling</TextBlock>
+<Button Name="BUT_compare" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,119,0,0" Width="103" Height="19">Compare Params</Button>
+<Button Name="BUT_rerequestparams" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,94,0,0" Width="103" Height="19">Refresh Params</Button>
+<Button Name="BUT_writePIDS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,69,0,0" Width="103" Height="19">Write Params</Button>
+<Button Name="BUT_save" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,35,0,0" Width="104" Height="19">Save to file</Button>
+<Button Name="BUT_load" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="631,7,0,0" Width="104" Height="19">Load from file</Button>
+</Grid></UserControl>

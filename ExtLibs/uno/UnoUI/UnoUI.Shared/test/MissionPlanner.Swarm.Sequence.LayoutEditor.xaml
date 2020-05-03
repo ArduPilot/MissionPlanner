@@ -1,0 +1,28 @@
+<UserControl x:Class="MissionPlanner.Swarm.Sequence.LayoutEditor" d:DesignHeight="533" d:DesignWidth="915"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="but_setimage" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="690,26,0,0" Width="75" Height="23">set image</Button>
+<Button Name="but_takeoff" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="463,3,0,0" Width="59" Height="23">Takeoff</Button>
+<Custom:DecimalUpDown Name="num_drones" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="301,4,0,0" Width="75"></Custom:DecimalUpDown>
+<Button Name="BUT_resetstep" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="528,3,0,0" Width="75" Height="23">Reset</Button>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="691,10,0,0" Width="35" Height="17">label1</TextBlock>
+<Button Name="BUT_runstep" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="609,3,0,0" Width="75" Height="23">Run Step</Button>
+<Button Name="BUT_addstep" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="382,3,0,0" Width="75" Height="23">Add Step</Button>
+<Button Name="BUT_save" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="812,3,0,0" Width="75" Height="23">Save</Button>
+<Button Name="BUT_load" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,3,0,0" Width="75" Height="23">Load</Button>
+<Button Name="BUT_new" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="220,3,0,0" Width="75" Height="23">New Layout</Button>
+<ComboBox Name="comboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="93,3,0,0" Width="121" Height="21"></ComboBox>
+<CheckBox Name="CHK_vertical" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="661,412,0,0" Width="61" Height="18">Vertical</CheckBox>
+</Grid></UserControl>

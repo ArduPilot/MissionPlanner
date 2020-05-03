@@ -131,6 +131,11 @@ namespace MissionPlanner.Mavlink
            return  sysid*256 + compid;
         }
 
+        public static (byte sysid, byte compid) FromID(int id)
+        {
+            return ((byte)(id / 256), (byte)(id & 0xff));
+        }
+
         public void Dispose()
         {
             foreach (var MAV in hiddenlist)

@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class ServoOptions{public ServoOptions(){this.InitializeComponent();}}}

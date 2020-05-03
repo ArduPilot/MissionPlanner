@@ -1,0 +1,29 @@
+<UserControl x:Class="MissionPlanner.Swarm.Status" d:DesignHeight="128" d:DesignWidth="113"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="lbl_spd" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="46,112,0,0" Width="10" Height="17">0</TextBlock>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,112,0,0" Width="37" Height="17">Speed</TextBlock>
+<TextBlock Name="lbl_loc" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="47,82,0,0" Width="67" Height="30">0.00000,0.00000,0.00</TextBlock>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,82,0,0" Width="47" Height="17">Location</TextBlock>
+<TextBlock Name="lbl_guided" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="46,52,0,0" Width="67" Height="30">0.00000,0.00000,0.00</TextBlock>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,52,0,0" Width="41" Height="17">Guided</TextBlock>
+<TextBlock Name="lbl_mav" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,0,0,0" Width="28" Height="17">GPS</TextBlock>
+<TextBlock Name="lbl_mode" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="46,26,0,0" Width="33" Height="17">Mode</TextBlock>
+<TextBlock Name="lbl_armed" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="46,13,0,0" Width="38" Height="17">Armed</TextBlock>
+<TextBlock Name="lbl_gps" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="46,39,0,0" Width="28" Height="17">GPS</TextBlock>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,26,0,0" Width="33" Height="17">Mode</TextBlock>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,13,0,0" Width="38" Height="17">Armed</TextBlock>
+<TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,39,0,0" Width="28" Height="17">GPS</TextBlock>
+</Grid></UserControl>

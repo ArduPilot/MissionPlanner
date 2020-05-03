@@ -1,16 +1,9 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
-using GMap.NET;
-using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
-using System.Security.Cryptography.X509Certificates;
-using System.Net;
-using log4net;
+using System.Globalization;
 using System.Reflection;
-using MissionPlanner.Utilities;
-using System.IO;
-using MissionPlanner.Maps;
+using Flurl.Util;
 
 namespace MissionPlanner.ArduPilot
 {
@@ -18,9 +11,6 @@ namespace MissionPlanner.ArduPilot
 
     public class Common
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-
         // list of valid options enterd from https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Motors/AP_MotorsMatrix.cpp#L378
         public readonly static List<Tuple<motor_frame_class, motor_frame_type?>> ValidList =
             new List<Tuple<motor_frame_class, motor_frame_type?>>()
@@ -92,11 +82,11 @@ namespace MissionPlanner.ArduPilot
                 new Tuple<motor_frame_class, motor_frame_type?>(motor_frame_class.MOTOR_FRAME_UNDEFINED,
                     null),
             };
-   
 
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public static List<KeyValuePair<int, string>> getModesList(Firmwares firmware)
         {
-            log.Info("getModesList Called");
+            //log.Info("getModesList Called");
 
             if (firmware == Firmwares.PX4)
             {
@@ -155,12 +145,6 @@ union px4_custom_mode {
                     firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
 
-                flightModes.Add(new KeyValuePair<int, string>(17, "QStabilize"));
-                flightModes.Add(new KeyValuePair<int, string>(18, "QHover"));
-                flightModes.Add(new KeyValuePair<int, string>(19, "QLoiter"));
-                flightModes.Add(new KeyValuePair<int, string>(20, "QLand"));
-                flightModes.Add(new KeyValuePair<int, string>(21, "QRTL"));
-
                 return flightModes;
             }
             else if (firmware == Firmwares.Ateryx)
@@ -208,6 +192,10 @@ union px4_custom_mode {
                 input = input.Replace("{wpn}", MAV.cs.wpno.ToString());
             }
 
+            input = input.Replace("{sysid}", MAV.sysid.ToString("0"));
+
+            input = input.Replace("{compid}", MAV.compid.ToString("0"));
+
             input = input.Replace("{asp}", MAV.cs.airspeed.ToString("0"));
 
             input = input.Replace("{alt}", MAV.cs.alt.ToString("0"));
@@ -218,13 +206,13 @@ union px4_custom_mode {
 
             input = input.Replace("{mode}", MAV.cs.mode.ToString());
 
-            input = input.Replace("{batv}", MAV.cs.battery_voltage.ToString("0.00"));
+            input = input.Replace("{batv}", MAV.cs.battery_voltage.ToString("0.00", CultureInfo.InstalledUICulture));
 
             input = input.Replace("{batp}", (MAV.cs.battery_remaining).ToString("0"));
 
-            input = input.Replace("{vsp}", (MAV.cs.verticalspeed).ToString("0.0"));
+            input = input.Replace("{vsp}", (MAV.cs.verticalspeed).ToString("0.0", CultureInfo.InstalledUICulture));
 
-            input = input.Replace("{curr}", (MAV.cs.current).ToString("0.0"));
+            input = input.Replace("{curr}", (MAV.cs.current).ToString("0.0", CultureInfo.InstalledUICulture));
 
             input = input.Replace("{hdop}", (MAV.cs.gpshdop).ToString("0.00"));
 
@@ -265,7 +253,19 @@ union px4_custom_mode {
                     }
 
                     var fname = String.Format("{{{0}}}", field.Name);
-                    input = input.Replace(fname, fieldValue.ToString());
+
+                    if (typeCode == TypeCode.Double)
+                    {
+                        input = input.Replace(fname, ((double) fieldValue).ToString("F1"));
+                    }
+                    else if (typeCode == TypeCode.Single)
+                    {
+                        input = input.Replace(fname, ((float) fieldValue).ToString("F1"));
+                    }
+                    else
+                    {
+                        input = input.Replace(fname, fieldValue.ToInvariantString());
+                    }
                 }
             }
             catch
@@ -278,84 +278,5 @@ union px4_custom_mode {
 
        
 
-        public static GMapMarker getMAVMarker(MAVState MAV)
-        {
-            PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
-
-            if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
-            {
-                // colorise map marker/s based on their sysid, for common sysid/s used 1-6, 11-16, and 101-106
-                // its rare for ArduPilot to be used to fly more than 6 planes at a time from one console.
-                int which = 0; // default 0=red for other sysids
-                if ((MAV.sysid >= 1) && (MAV.sysid <= 6)) { which = MAV.sysid-1; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
-                if ((MAV.sysid >= 11) && (MAV.sysid <= 16)) { which = MAV.sysid-11; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
-                if ((MAV.sysid >= 101) && (MAV.sysid <= 106)) { which = MAV.sysid-101; }  //1=black, 2=blue, 3=green,4=yellow,5=orange,6=red
-
-                return (new GMapMarkerPlane(which, portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing,
-                    MAV.cs.radius * CurrentState.multiplierdist)
-                {
-                    ToolTipText = MAV.cs.alt.ToString("0") + CurrentState.AltUnit + " | " + (int) MAV.cs.airspeed +
-                                  CurrentState.SpeedUnit + " | id:" + (int) MAV.sysid,
-                    ToolTipMode = MarkerTooltipMode.Always
-                });
-            }
-            else if (MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
-            {
-                return  (new GMapMarkerRover(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing)
-                {
-                    ToolTipText = MAV.cs.alt.ToString("0") + "\n" + MAV.sysid.ToString("sysid: 0"),
-                    ToolTipMode = MarkerTooltipMode.Always
-                });
-            }
-            else if (MAV.aptype == MAVLink.MAV_TYPE.SURFACE_BOAT)
-            { 
-                return (new GMapMarkerBoat(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
-            }
-            else if (MAV.aptype == MAVLink.MAV_TYPE.SUBMARINE)
-            {
-                return (new GMapMarkerSub(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
-            }
-            else if (MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
-            {
-                return (new GMapMarkerHeli(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing));
-            }
-            else if (MAV.cs.firmware == Firmwares.ArduTracker)
-            {
-                return (new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw,
-                    MAV.cs.target_bearing));
-            }
-            else if (MAV.cs.firmware == Firmwares.ArduCopter2 || MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
-            {
-                if (MAV.param.ContainsKey("AVD_W_DIST_XY") && MAV.param.ContainsKey("AVD_F_DIST_XY"))
-                {
-                    var w = MAV.param["AVD_W_DIST_XY"].Value;
-                    var f = MAV.param["AVD_F_DIST_XY"].Value;
-                    return (new GMapMarkerQuad(portlocation, MAV.cs.yaw,
-                        MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid)
-                    {
-                        danger = (int)f,
-                        warn = (int)w
-                    });
-                }
-
-                return (new GMapMarkerQuad(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));
-            }
-            else if (MAV.aptype == MAVLink.MAV_TYPE.COAXIAL)
-            {
-                return (new GMapMarkerSingle(portlocation, MAV.cs.yaw,
-                   MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));
-            }
-            else
-            {
-                // unknown type
-                return (new GMarkerGoogle(portlocation, GMarkerGoogleType.green_dot));
-            }
-        }
-    }
+   }
 }

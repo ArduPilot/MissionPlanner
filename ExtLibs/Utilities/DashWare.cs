@@ -13,7 +13,7 @@ namespace MissionPlanner.Utilities
         public static void Create(string filein, string fileout, List<string> fmtList = null)
         {
             using (StreamReader tr = new StreamReader(filein))
-            using (CollectionBuffer logdata = new CollectionBuffer(tr.BaseStream))
+            using (DFLogBuffer logdata = new DFLogBuffer(tr.BaseStream))
             {
                 List<string> colList = new List<string>();
                 Dictionary<string, int> colStart = new Dictionary<string, int>();
@@ -35,8 +35,10 @@ namespace MissionPlanner.Utilities
                 using (StreamWriter sr = new StreamWriter(fileout))
                 {
                     // header
+                    var nCols = 0;
                     foreach (var item in colList)
                     {
+                        nCols++;
                         sr.Write(item + ",");
                     }
                     sr.WriteLine();
@@ -65,6 +67,12 @@ namespace MissionPlanner.Utilities
                         foreach (var item in dfitem.items.Skip(1))
                         {
                             sb.Append(item?.Trim());
+                            idx++;
+                            sb.Append(',');
+                        }
+
+                        while (idx < nCols)
+                        {
                             idx++;
                             sb.Append(',');
                         }

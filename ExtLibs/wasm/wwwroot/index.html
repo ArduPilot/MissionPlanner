@@ -1,0 +1,743 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-signin-client_id" content="231071795566-r5pjfa4o8c15407fiif3k764fccjv5tb.apps.googleusercontent.com">
+    <title>wasm</title>
+
+    <script data-pagespeed-no-defer>
+
+        assemblyReferences = [];
+
+        (function () {
+            var proxied = window.XMLHttpRequest.prototype.open;
+            window.XMLHttpRequest.prototype.open = function () {
+                console.log(arguments);
+                return proxied.apply(this, [].slice.call(arguments));
+            };
+        })();
+
+        (function () {
+            var fetchListener = window.fetch;
+            window.fetch = function () {
+                console.log(arguments);
+                var result = fetchListener.apply(this, arguments);
+                if (arguments[0] === '_framework/blazor.boot.json')
+                    result.then(function (response) {
+                        response.clone().json().then(function (bootConfig) {
+                            assemblyReferences = bootConfig.assemblyReferences;
+                        });
+                    });
+                return result;
+            };
+        })();
+    </script>
+
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+
+    <link href="_content/Sotsera.Blazor.Toaster/toastr.min.css" rel="stylesheet" />
+
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.6.0/two.js"></script>
+    
+    <script src="js/RotateIcon.js"></script>
+
+    <script src="radio_controller.js"></script>
+
+    <script src="hterm_all.js"></script>
+    <script src="serial.js"></script>
+    <script src="console.js"></script>
+
+    <script src="Cesium/Cesium.js"></script>
+    <style>
+        @import url(Cesium/Widgets/widgets.css);
+    </style>
+</head>
+<body>
+    <app>
+        <div>
+            <div class="loading-text">
+                <small id="Loading-text">Loading</small>
+                <small id="Progress-report">0%</small>
+            </div>
+        </div>
+    </app>
+
+    <script>
+        (function bootLoader() {
+            var perf = window.performance.timing,
+                el = document.getElementById('Progress-report'),
+                progress = 0,
+                timer = setInterval(function () {
+                    el.innerText = ++progress + '%';
+                    if (progress >= 100) {
+                        clearInterval(timer);
+                        bootSequence();
+                    }
+                }, Math.abs(Math.floor(((perf.loadEventEnd - perf.navigationStart) / 1e3) % 60)));
+
+            function bootSequence() {
+                if (window['MONO'] && MONO.mono_wasm_runtime_is_ready) return;
+                document.getElementById('Loading-text').style.display = 'none';
+                el.innerText = 'Initializing';
+                var bootWatch = setInterval(function () {
+                    if (assemblyReferences.length == 0 || !window['MONO']) return;
+                    el.innerText = 'Booting';
+                    if (!MONO.loaded_files) return;
+                    el.innerText = 'Fetching ' + MONO.loaded_files.length + '/' + assemblyReferences.length;
+                    if (assemblyReferences.length === MONO.loaded_files.length) {
+                        el.innerText = 'Rendering';
+                        clearInterval(bootWatch);
+                    }
+                }, 50);
+            }
+        })();
+    </script>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+
+    <script src="hud.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothie/1.34.0/smoothie.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.48.3/plotly.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <script>
+        function onFailure(error) {
+            console.log(error);
+        }
+        function renderButton() {
+            //gapi.signin2.go()
+            gapi.signin2.render('g-signin2', {
+                'scope': 'profile email',
+                'width': 240,
+                'height': 50,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': onSignIn,
+                'onfailure': onFailure
+            });
+        }
+
+        function evalline(line) {
+            try {
+                ans = eval(line);
+
+                $(window).trigger('resize');
+
+                if (typeof ans === 'object')
+                    return 0;
+
+                return ans;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+
+        function dotNetObjectRefSave(dotnetHelper) {
+            dotNetObjectRef = dotnetHelper;
+        }
+
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId());
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail());
+
+            var id_token = googleUser.getAuthResponse().id_token;
+
+            //https://www.googleapis.com/oauth2/v1/certs
+            //https://oauth2.googleapis.com/tokeninfo?id_token=
+
+            DotNet.invokeMethodAsync('wasm', 'SetGoogleID', profile.getId());
+        }
+
+        function initWebSocket(host) {
+            if (window["WebSocket"]) {
+                //var host = "ws://" + window.location.hostname + ":56781/websocket/raw";
+                if (host == "")
+                    host = "ws://localhost:56781/websocket/raw";
+                try {
+                    try {
+                        if (!(socket === null))
+                            socket.close();
+                    } catch (exception) {
+                        if (window.console) console.log(exception);
+                    }
+                    var blobToBase64 = function (blob, cb) {
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            var dataUrl = reader.result;
+                            var base64 = dataUrl.split(',')[1];
+                            cb(base64);
+                        };
+                        reader.readAsArrayBuffer(blob);
+                    };
+                    try {
+                        dotNetDispatcherInvokeMethodHandle = Blazor.platform.findMethod(
+                            'wasm',
+                            'wasm.Pages',
+                            'Websocket',
+                            'ProcessPacketStatic');
+                        dotNetDispatcherInvokeMethodHandle2 = Blazor.platform.findMethod(
+                            'wasm',
+                            'wasm.Pages',
+                            'Websocket',
+                            'ProcessPacketStaticBytes'
+                        );
+                    } catch (err) {
+                        return;
+                    }
+                    socket = new WebSocket(host);
+
+                    window.onbeforeunload = function () {
+                        socket.close();
+                    };
+                    console.log('WebSocket - status ' + socket.readyState);
+                    socket.onopen = function (msg) {
+
+                    };
+                    socket.onmessage = function (msg) {
+                        var arrayBuffer;
+                        var fileReader = new FileReader();
+                        fileReader.onload = function (r) {
+                            arrayBuffer = r.target.result;
+
+                            // dont want to overflow buffer
+                            if (arrayBuffer.byteLength >= 1024)
+                                return;
+
+                            var dotNetBuffer = {
+                                toUint8Array: function () { return Blazor.platform.toUint8Array(dotNetArrayPtr); }
+                            };
+                            var dotNetBufferView = dotNetBuffer.toUint8Array();
+                            dotNetBufferView.set(new Uint8Array(arrayBuffer));
+
+                            result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2,
+                                null,
+                                [Blazor.platform.toDotNetString('' + arrayBuffer.byteLength)]);
+
+                            //thingo = Blazor.platform.toDotNetString(msg.data);
+
+                            //result = Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle,null,[thingo]);
+                        };
+                        fileReader.readAsArrayBuffer(msg.data);
+
+                    };
+                } catch (exception) {
+                    if (window.console) console.log(exception);
+                }
+            }
+
+        }
+
+        function startChart() {
+            var smoothie = new SmoothieChart();
+
+            smoothie.streamTo(document.getElementById("graphcanvas"), 250);
+
+            // Data
+            line1 = new TimeSeries();
+            line2 = new TimeSeries();
+
+            // Add to SmoothieChart
+            smoothie.addTimeSeries(line1);
+            smoothie.addTimeSeries(line2);
+
+            drawChart();
+        }
+
+        var line1item = "roll";
+        var line2item = "pitch";
+
+        var line1 = new TimeSeries();
+        var line2 = new TimeSeries();
+        var dotNetArrayPtr = 0;
+
+        function setNetBuffer1024(dotNetArrayPtrI) {
+            dotNetArrayPtr = dotNetArrayPtrI;
+        }
+
+        function filebuffer(dotNetArrayPtrI, staticCallback) {
+            console.log(dotNetArrayPtrI);
+            console.log(Blazor.platform.toJavaScriptString(staticCallback));
+            var arrayBuffer;
+            var fileReader = new FileReader();
+            fileReader.onload = function (r) {
+                arrayBuffer = r.target.result;
+
+                var dotNetBuffer = { toUint8Array: function () { return Blazor.platform.toUint8Array(dotNetArrayPtrI); } };
+                var dotNetBufferView = dotNetBuffer.toUint8Array();
+                dotNetBufferView.set(new Uint8Array(arrayBuffer));
+
+                DotNet.invokeMethodAsync('wasm', Blazor.platform.toJavaScriptString(staticCallback));
+            };
+
+            var files = document.getElementById('files').files;
+            if (!files.length) {
+                alert('Please select a file!');
+                return;
+            }
+            var file = files[0];
+            fileReader.readAsArrayBuffer(file);
+        }
+
+        function websocketsend(data) {
+            socket.send(data);
+        }
+        /*
+        $(document).ready(function () {
+            setTimeout(function () {
+
+
+                setInterval(function () {
+                    //Blazor.platform.callMethod(dotNetDispatcherInvokeMethodHandle2, null, {});
+                }, 100);
+
+
+                initMap();
+
+                //var test = SOCKFS.createSocket(2, 1, 6);
+                worker.postMessage({'cmd': 'init', 'data': window.location.hostname,
+                    //'test1': Blazor.platform.toDotNetString,
+                    //'test2': Blazor.platform.callMethod,
+                    //'test3': Blazor.platform.findMethod
+                });
+
+                //test.sock_ops.connect(test, "127.0.0.1/websocket/raw", 56781);
+            }, 2000);
+        });*/
+
+    </script>
+
+
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        //google.charts.setOnLoadCallback(drawChart);
+        var options;
+        var data;
+        var chart;
+
+        function drawChart() {
+            data = new google.visualization.DataTable();
+            data.addColumn('date', 'Time');
+            data.addColumn('number', line1item);
+            data.addColumn('number', line2item);
+
+            data.addRows([]);
+
+            options = {
+                title: 'Graph',
+                curveType: 'function',
+                legend: { position: 'top' },
+                hAxis: {
+                    format: 'hh:mm:ss',
+                    gridlines: { count: 15 }
+                },
+                chartArea: { left: '5%', top: '15%', width: '90%', height: '80%' }
+            };
+
+            var id = document.getElementById('curve_chart');
+            chart = new google.visualization.LineChart(id);
+
+            chart.draw(data, options);
+
+            setTimeout("redrawchart()", 1000);
+        }
+
+        function addData() {
+            if (data === undefined)
+                return;
+            if (data.getNumberOfRows() > 200)
+                data.removeRow(0);
+
+            data.addRows([
+                [new Date(), eval(line1item), eval(line2item)]
+            ]);
+        }
+
+        function redrawchart() {
+            setTimeout("redrawchart()", 1000);
+
+            chart.draw(data, options);
+        }
+    </script>
+
+
+<script>
+    var map;
+    var viewer;
+    var markers = [];
+    var default_model_scale = 1.5;
+    var model_scale_factor = 0.06;
+    var takeoff_altitude = 0;
+
+    function initMap() {
+        try {
+            map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: { lat: -35, lng: 117.89 },
+                    zoom: 1,
+                    mapTypeId: 'satellite',
+                    maxZoom: 21
+                });
+
+            //map.setMapTypeId('satellite');
+
+            //map.setOptions({maxZoom: 21});
+        } catch (err) { console.log(err); }
+
+        Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjODdmODk4Yy0xZDhlLTQxNjAtOTkzNS02ZjNmOGRhM2I1MDgiLCJpZCI6NDYzOCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0MTMyMDQ4Nn0.GnXyBbMj8o8TZ2LeCxFB_SrdUiQodGmjT1AbNCvmezA';
+
+
+        viewer = new Cesium.Viewer('cesiumContainer', {
+            infoBox: false, //Disable InfoBox widget
+            selectionIndicator: true, //Disable selection indicator
+            navigationInstructionsInitiallyVisible: false,
+            shadows: false,
+            shouldAnimate: true,
+            requestRenderMode: true,
+            maximumRenderTimeChange: 1 / 15,
+            clockStep: Cesium.ClockStep.SYSTEM_CLOCK,
+        });
+
+        var terrainProvider = Cesium.createWorldTerrain({
+            requestWaterMask: true,
+            requestVertexNormals: true
+        });
+        viewer.terrainProvider = terrainProvider;
+
+        viewer.scene.globe.depthTestAgainstTerrain = true;
+
+        var scene = viewer.scene;
+        var ellipsoid = scene.globe.ellipsoid;
+        pickCartographicPosition(scene, ellipsoid);
+
+        markers = [];
+    }
+
+    var first = 0;
+    var ground_offset = 0;
+    var takeoff_altitude = 0;
+
+    missionmarkers = {};
+    flightPaths = {};
+
+    function setMission(sysid, compid, wps, fences, rallys) {
+        var mavno = indextosysidcompid.get(sysid * 256 + compid);
+        wps = JSON.parse(wps);
+        if (wps.length == 0)
+            return;
+        var list = [];
+        wps.forEach(wp => { list.push({ lat: (wp.x / 1e7), lng: (wp.y / 1e7) }) });
+
+        if (flightPaths[mavno] == undefined) {
+            var flightPath = new google.maps.Polyline({
+                path: list,
+                geodesic: true,
+                strokeColor: '#FFFF00',
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+                map: map
+            });
+            flightPaths[mavno] = flightPath;
+        }
+
+        flightPaths[mavno].setPath(list);
+
+        wps.forEach(wp => {
+                var offset = wp.seq * 512;
+                if (missionmarkers[mavno + offset] == undefined) {
+                    var marker = new google.maps.Marker({
+                        position: { lat: wp.x / 1e7, lng: wp.y / 1e7 },
+                        map: map,
+                        label: '' + wp.seq,
+                        icon: 'https://maps.google.com/mapfiles/ms/icons/green.png'
+                    });
+                    missionmarkers[mavno + offset] = marker;
+                }
+
+                missionmarkers[mavno + offset].setPosition({ lat: wp.x / 1e7, lng: wp.y / 1e7 });
+
+                if (map != missionmarkers[mavno + offset].map)
+                    missionmarkers[mavno + offset].setMap(map);
+            }
+        );
+
+        if (viewer) {
+            var list = [];
+            var home = wps[0];
+            wps.forEach(wp => {
+                list.push(wp.y / 1e7);
+                list.push(wp.x / 1e7);
+                list.push(wp.z + (wp.frame == 0 ? 0 : home.z));
+            });
+
+            var wppath = viewer.entities.getById('waypoints');
+
+            if (wppath == undefined) {
+                wppath = viewer.entities.add({
+                    name: 'Path',
+                    id: 'waypoints',
+                    polyline: {
+                        positions: Cesium.Cartesian3.fromDegreesArrayHeights(list),
+                        width: 2,
+                        material: new Cesium.PolylineOutlineMaterialProperty({
+                            color: Cesium.Color.YELLOW,
+                            outlineWidth: 0,
+                            outlineColor: Cesium.Color.BLACK
+                        })
+                    }
+                });
+            } else {
+                wppath.polyline.positions = Cesium.Cartesian3.fromDegreesArrayHeights(list);
+            }
+
+            var pinBuilder = new Cesium.PinBuilder();
+            wps.forEach(wp => {
+                var wpitem = viewer.entities.getById('Waypoint' + wp.seq);
+                if (wpitem == undefined) {
+                    wpitem = viewer.entities.add({
+                        name: 'Waypoint ' + wp.seq,
+                        id: 'Waypoint' + wp.seq,
+                        position: Cesium.Cartesian3.fromDegrees(wp.y / 1e7, wp.x / 1e7, wp.z + (wp.frame == 0 ? 0 : home.z)),
+                        billboard: {
+                            image: pinBuilder.fromText('' + wp.seq, Cesium.Color.BLACK, 48).toDataURL(),
+                            verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+                        }
+                    });
+                } else {
+                    wpitem.position = Cesium.Cartesian3.fromDegrees(wp.y / 1e7, wp.x / 1e7, wp.z + (wp.frame == 0 ? 0 : home.z));
+                }
+            });
+        }
+    }
+
+    function setAttitude(sysid, compid, roll, pitch, yaw) {
+
+        line1.append(new Date().getTime(), roll);
+        line2.append(new Date().getTime(), pitch);
+
+        addData();
+    }
+
+    var indextosysidcompid = new Map();
+
+    function setPosition(sysid, compid, lat, lng, altasl, roll, pitch, yaw) {
+        if (lat == 0 || lng == 0 || altasl == 0)
+            return;
+
+        if (first == 0 && altasl != 0) {
+            var takeoff_position = [Cesium.Cartographic.fromDegrees(
+                lng,
+                lat
+            )];
+
+            takeoff_altitude = altasl;
+
+            if (viewer) {
+                var promise = Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, takeoff_position);
+                Cesium.when(promise,
+                    function (updatedPositions) {
+                        ground_offset = takeoff_position[0].height - takeoff_altitude;
+                        console.log('Ground Offset in meters: ' + ground_offset);
+                        // re-compute the positions taking the ground offset into account.
+                        // add 2 meters more to allow for inaccuracies
+                        //var positionProperty = computePositionProperty(ground_offset + 2);
+                        //entity.position = positionProperty;
+                    });
+                first++;
+            }
+        }
+
+        // set the index map
+        if (indextosysidcompid.get(sysid * 256 + compid) == undefined)
+            indextosysidcompid.set(sysid * 256 + compid, indextosysidcompid.size || 0);
+        var mavno = indextosysidcompid.get(sysid * 256 + compid);
+
+        var myLatLng = { lat: lat, lng: lng };
+        if (markers.length >= (mavno + 1)) {
+            markers[mavno].setPosition(myLatLng);
+            markers[mavno].icon.url = RotateIcon.makeIcon("images/drone-icon-1.jpg")
+                .setRotation({ deg: yaw }).getUrl();
+            if (map != markers[mavno].map)
+                markers[mavno].setMap(map);
+        } else {
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'ArduPilot ' + sysid,
+                icon: {
+                    url: 'images/drone-icon-1.jpg',
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0,0), // origin
+                    anchor: new google.maps.Point(25, 25), // anchor
+                    rotation: yaw
+                }
+            });
+            markers.push(marker);
+        }
+        if (mavno === 0) {
+            if (map.zoom < 2) {
+                map.setCenter({ lat: lat, lng: lng });
+                map.setZoom(16);
+                //viewer.camera.zoomTo(Cesium.Cartesian3.fromDegrees(lng, lat, altasl));
+            }
+        }
+
+        if (viewer) {
+
+
+
+            var position = Cesium.Cartesian3.fromDegrees(myLatLng.lng, myLatLng.lat, altasl);
+            var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(yaw - 90),
+                Cesium.Math.toRadians(pitch),
+                Cesium.Math.toRadians(roll));
+            var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+
+            if (viewer.entities.values.length >= (mavno + 1)) {
+                viewer.entities.values[mavno].position = position;
+                viewer.entities.values[mavno].orientation = orientation;
+                // add a trail
+                viewer.entities.getById('path').position.addSample(Cesium.JulianDate.now(), position);
+            } else {
+                var pinBuilder = new Cesium.PinBuilder();
+                // add a new one
+                var entity = viewer.entities.add({
+                    name: 'ArduPilot ' + sysid,
+                    id: 'ArduPilot ' + sysid,
+                    position: position,
+                    orientation: orientation,
+                    billboard: {
+                        image: pinBuilder.fromText(sysid, Cesium.Color.BLACK, 48)
+                            .toDataURL(),
+                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+                    },
+                    model: {
+                        uri: 'iris.txt',
+                        minimumPixelSize: 64,
+                        scale: default_model_scale * model_scale_factor
+                    }
+                });
+
+                var pathPosition = new Cesium.SampledPositionProperty();
+                var entityPath = viewer.entities.add({
+                    position : pathPosition,
+                    name: 'path',
+                    id: 'path',
+                    path : {
+                        show : true,
+                        leadTime : 0,
+                        trailTime : 60,
+                        width : 10,
+                        resolution : 1,
+                        material : new Cesium.PolylineGlowMaterialProperty({
+                            glowPower : 0.3,
+                            taperPower : 0.3,
+                            color : Cesium.Color.PALEGOLDENROD
+                        })
+                    }
+                });
+            }
+
+            if (viewer.trackedEntity == undefined) {
+                viewer.scene.camera.lookAt(position, new Cesium.Cartesian3(30, 0, 10));
+                //viewer.flyTo(position).then(function(){
+                    viewer.trackedEntity = viewer.entities.values[0];
+                //});
+            }
+        }
+    }
+
+    function pickCartographicPosition(scene, ellipsoid) {
+        // Mouse over the globe to see the cartographic position
+        handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        handler.setInputAction(function (movement) {
+            var cartesian = scene.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+            if (cartesian) {
+                var ray = viewer.camera.getPickRay(movement.endPosition);
+                var cartesian = viewer.scene.globe.pick(ray, viewer.scene);
+
+                var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+                var position = new Cesium.Cartographic(cartographic.longitude, cartographic.latitude);
+                var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Cartesian Z: ' + cartesian.z.toFixed(2);
+
+                var ray = viewer.camera.getPickRay(movement.endPosition);
+                var position = viewer.scene.globe.pick(ray, viewer.scene);
+                if (Cesium.defined(position)) {
+                    // convert position to cartographic and display altitude
+                }
+
+                //or try to get the height value, result is very low value or zero
+                var coords = Cesium.Math.toDegrees(cartographic.longitude).toFixed(6) + ', ' + Cesium.Math.toDegrees(cartographic.latitude).toFixed(6) + ';<br/> Height: ' + cartographic.height;
+                document.getElementById('coords').innerHTML = '<p style="display: block;position: absolute;top: 30px;right: 6px" />' + coords + '<br/><p/>';
+            }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+    }
+
+    function testlog(mavlist) {
+        console.log(mavlist);
+    }
+
+
+
+    //map.setCenter({lat: cs.lat, lng: cs.lng});
+
+    //&callback=initMap
+
+    function plotData(div = "", line1 = "", line2 = "", line3 = "", line4 = "", line5 = "", line6 = "") {
+
+        var data = [];
+
+        if (line1 != "")
+            data.push(JSON.parse(line1));
+        if (line2 != "")
+            data.push(JSON.parse(line2));
+        if (line3 != "")
+            data.push(JSON.parse(line3));
+        if (line4 != "")
+            data.push(JSON.parse(line4));
+        if (line5 != "")
+            data.push(JSON.parse(line5));
+        if (line6 != "")
+            data.push(JSON.parse(line6));
+
+        var layout = {
+            yaxis: { title: '' },
+            yaxis2: {
+                title: '',
+                overlaying: 'y',
+                side: 'right'
+            }
+        };
+
+        //Plotly.newPlot
+        Plotly.plot(div, data, layout, { responsive: true });
+    }
+
+</script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async defer
+            onerror="    document.write('<script src="https:\/\/maps.google.cn\/maps\/api\/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc" async><\/script>');"></script>
+
+
+
+
+        <!--<input type="range"  min="0" max="100" />-->
+    <div id="coords"></div>
+
+</body>
+</html>

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MissionPlanner.Controls.PreFlight
@@ -28,7 +26,7 @@ namespace MissionPlanner.Controls.PreFlight
 
         // the text to display
         public string Text { get; set; }
-        
+
         // the value to trigger the change.
         public double TriggerValue { get; set; }
 
@@ -133,7 +131,7 @@ namespace MissionPlanner.Controls.PreFlight
 
                 try
                 {
-                    return (double) Convert.ChangeType(Item.GetValue(defaultsrc, null), typeof (double));
+                    return (double)Convert.ChangeType(Item.GetValue(defaultsrc, null), typeof(double));
                 }
                 catch (InvalidCastException)
                 {

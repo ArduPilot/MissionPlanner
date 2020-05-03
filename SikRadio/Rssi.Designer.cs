@@ -85,6 +85,7 @@ namespace SikRadio
             // Rssi
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+
             this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.zedGraphControl1);

@@ -64,7 +64,7 @@ namespace MissionPlanner.Utilities
         public Boolean displayFailSafe { get; set; }
         public Boolean displaySikRadio { get; set; }
         public Boolean displayBattMonitor { get; set; }
-        public Boolean displayUAVCAN { get; set; }
+        public Boolean displayCAN { get; set; }
         public Boolean displayCompassMotorCalib { get; set; }
         public Boolean displayRangeFinder { get; set; }
         public Boolean displayAirSpeed { get; set; }
@@ -143,7 +143,7 @@ namespace MissionPlanner.Utilities
             displayFailSafe = true;
             displaySikRadio = true;
             displayBattMonitor = true;
-            displayUAVCAN = true;
+            displayCAN = true;
             displayCompassMotorCalib = true;
             displayRangeFinder = true;
             displayAirSpeed = true;
@@ -251,7 +251,7 @@ namespace MissionPlanner.Utilities
                 displayFailSafe = true,
                 displaySikRadio = true,
                 displayBattMonitor = true,
-                displayUAVCAN = true,
+                displayCAN = true,
                 displayCompassMotorCalib = true,
                 displayRangeFinder = true,
                 displayAirSpeed = true,
@@ -329,7 +329,7 @@ namespace MissionPlanner.Utilities
                 displayFailSafe = true,
                 displaySikRadio = true,
                 displayBattMonitor = true,
-                displayUAVCAN = true,
+                displayCAN = true,
                 displayCompassMotorCalib = true,
                 displayRangeFinder = true,
                 displayAirSpeed = true,

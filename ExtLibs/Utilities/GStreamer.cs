@@ -1,35 +1,37 @@
-﻿using System;
+﻿using log4net;
+using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.Net.Sockets;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
-using log4net;
-using guint = System.UInt32;
-using GstClockTime = System.UInt64;
 using gsize = System.UInt64;
+using GstClockTime = System.UInt64;
+using guint = System.UInt32;
 
 namespace MissionPlanner.Utilities
 {
     public class GStreamer
     {
         private static readonly ILog log =
-            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private static List<Process> processList = new List<Process>();
 
         static object _lock = new object();
 
         private static event EventHandler<Image> _onNewImage;
+
         public static event EventHandler<Image> onNewImage
         {
             add { _onNewImage += value; }
@@ -80,7 +82,7 @@ namespace MissionPlanner.Utilities
             public static extern IntPtr gst_message_get_stream_status_object(IntPtr raw);
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-            public static extern void gst_element_set_state(IntPtr pipeline, GstState gST_STATE_PLAYING);
+            public static extern GstStateChangeReturn gst_element_set_state(IntPtr pipeline, GstState gST_STATE_PLAYING);
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_parse_launch(string cmdline, out IntPtr error);
@@ -93,8 +95,11 @@ namespace MissionPlanner.Utilities
             public static extern IntPtr gst_element_get_bus(IntPtr pipeline);
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-            public static extern void gst_message_set_stream_status_object(IntPtr raw, IntPtr value);
+            public static extern void gst_debug_bin_to_dot_file(IntPtr pipeline, GstDebugGraphDetails details,
+                string file_name);
 
+            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_message_set_stream_status_object(IntPtr raw, IntPtr value);
 
             [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_app_sink_try_pull_sample(IntPtr appsink,
@@ -167,6 +172,16 @@ namespace MissionPlanner.Utilities
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void
                 gst_mini_object_unref(IntPtr mini_object);
+
+            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern bool gst_app_sink_is_eos(IntPtr appsink);
+
+            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_app_sink_set_drop(IntPtr appsink, bool v);
+
+            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void gst_app_sink_set_callbacks(IntPtr appsink, GstAppSinkCallbacks callbacks,
+                ref int testdata, object p);
         }
 
         public const UInt64 GST_CLOCK_TIME_NONE = 18446744073709551615;
@@ -181,9 +196,75 @@ namespace MissionPlanner.Utilities
             public GstMapFlags flags;
             public IntPtr data;
             public gsize size;
+
             public gsize maxsize;
             //[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public IntPtr[] user_data; //4
             //[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public IntPtr[] _gst_reserved; //4
+        }
+
+        public delegate void eos(IntPtr sink, IntPtr user_data);
+
+        public delegate GstFlowReturn new_preroll(IntPtr sink, IntPtr user_data);
+
+        public delegate GstFlowReturn new_buffer(IntPtr sink, IntPtr user_data);
+
+        public delegate GstFlowReturn new_buffer_list(IntPtr sink, IntPtr user_data);
+
+        public struct GstAppSinkCallbacks
+        {
+            public eos eos; //void (* eos) (GstAppSink* sink, gpointer user_data);
+            public new_preroll new_preroll; //GstFlowReturn(*new_preroll)      (GstAppSink* sink, gpointer user_data);
+            public new_buffer new_buffer; //GstFlowReturn(*new_buffer)       (GstAppSink* sink, gpointer user_data);
+
+            public new_buffer_list
+                new_buffer_list; //GstFlowReturn(*new_buffer_list)  (GstAppSink* sink, gpointer user_data);
+        }
+
+        public enum GstFlowReturn
+        {
+            /* custom success starts here */
+            GST_FLOW_CUSTOM_SUCCESS_2 = 102,
+            GST_FLOW_CUSTOM_SUCCESS_1 = 101,
+            GST_FLOW_CUSTOM_SUCCESS = 100,
+
+            /* core predefined */
+            GST_FLOW_RESEND = 1,
+            GST_FLOW_OK = 0,
+
+            /* expected failures */
+            GST_FLOW_NOT_LINKED = -1,
+            GST_FLOW_WRONG_STATE = -2,
+
+            /* error cases */
+            GST_FLOW_UNEXPECTED = -3,
+            GST_FLOW_NOT_NEGOTIATED = -4,
+            GST_FLOW_ERROR = -5,
+            GST_FLOW_NOT_SUPPORTED = -6,
+
+            /* custom error starts here */
+            GST_FLOW_CUSTOM_ERROR = -100,
+            GST_FLOW_CUSTOM_ERROR_1 = -101,
+            GST_FLOW_CUSTOM_ERROR_2 = -102
+        }
+
+
+        public enum GstDebugGraphDetails
+        {
+
+            GST_DEBUG_GRAPH_SHOW_MEDIA_TYPE = (1 << 0),
+
+            GST_DEBUG_GRAPH_SHOW_CAPS_DETAILS = (1 << 1),
+
+            GST_DEBUG_GRAPH_SHOW_NON_DEFAULT_PARAMS = (1 << 2),
+
+            GST_DEBUG_GRAPH_SHOW_STATES = (1 << 3),
+
+            GST_DEBUG_GRAPH_SHOW_FULL_PARAMS = (1 << 4),
+
+            GST_DEBUG_GRAPH_SHOW_ALL = ((1 << 4) - 1),
+
+            GST_DEBUG_GRAPH_SHOW_VERBOSE = (-1)
+
         }
 
         public enum GstMapFlags
@@ -200,6 +281,14 @@ namespace MissionPlanner.Utilities
             GST_STATE_READY = 2,
             GST_STATE_PAUSED = 3,
             GST_STATE_PLAYING = 4
+        }
+
+        public enum GstStateChangeReturn
+        {
+            GST_STATE_CHANGE_FAILURE = 0,
+            GST_STATE_CHANGE_SUCCESS = 1,
+            GST_STATE_CHANGE_ASYNC = 2,
+            GST_STATE_CHANGE_NO_PREROLL = 3
         }
 
         public enum GstMessageType
@@ -257,12 +346,33 @@ namespace MissionPlanner.Utilities
             public string message;
         }
 
-        public static void StartA(string stringpipeline)
+        public static Thread StartA(string stringpipeline)
         {
             int argc = 1;
             string[] argv = new string[] {"-vvv"};
 
-            NativeMethods.gst_init(ref argc, argv);
+            try
+            {
+                //https://github.com/GStreamer/gstreamer/blob/master/tools/gst-launch.c#L1125
+                NativeMethods.gst_init(ref argc, argv);
+            }
+            catch (DllNotFoundException ex)
+            {
+                CustomMessageBox.Show("The file was not found at " + gstlaunch +
+                                      "\nPlease verify permissions " + ex.ToString());
+                return null;
+            }
+            catch (BadImageFormatException)
+            {
+                CustomMessageBox.Show("The incorrect exe architecture has been detected at " + gstlaunch +
+                                      "\nPlease install gstreamer for the correct architecture");
+                return null;
+            }
+
+            uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
+            NativeMethods.gst_version(ref v1, ref v2, ref v3, ref v4);
+
+            log.InfoFormat("GStreamer {0}.{1}.{2}.{3}", v1, v2, v3, v4);
 
             IntPtr error;
             NativeMethods.gst_init_check(IntPtr.Zero, IntPtr.Zero, out error);
@@ -271,13 +381,8 @@ namespace MissionPlanner.Utilities
             {
                 var er = Marshal.PtrToStructure<GError>(error);
                 log.Error("gst_init_check: " + er.message);
-                return;
+                return null;
             }
-
-            uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
-            NativeMethods.gst_version(ref v1, ref v2, ref v3, ref v4);
-
-            log.InfoFormat("GStreamer {0}.{1}.{2}.{3}", v1, v2, v3, v4);
 
             /* Set up the pipeline */
 
@@ -288,22 +393,44 @@ namespace MissionPlanner.Utilities
                 //@"rtspsrc location=rtsp://192.168.1.252/video1 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
                 out error);
 
+            //rtspsrc location=rtsp://192.168.1.21/live ! application/x-rtp ! rtph265depay ! avdec_h265 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink
+
+
             if (error != IntPtr.Zero)
             {
                 var er = Marshal.PtrToStructure<GError>(error);
                 log.Error("gst_parse_launch: " + er.message);
-                return;
+                return null;
             }
 
+            // appsink is part of the parse launch
             var appsink = NativeMethods.gst_bin_get_by_name(pipeline, "outsink");
 
-            /* Start playing */
-            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING);
+            //var appsink = NativeMethods.gst_element_factory_make("appsink", null);
 
-            NativeMethods.gst_app_sink_set_max_buffers(appsink, 5);
+            int testdata = 0;
+            bool newdata = false;
+            GstAppSinkCallbacks callbacks = new GstAppSinkCallbacks();
+            callbacks.new_buffer += (sink, data) =>
+            {
+                newdata = true; return GstFlowReturn.GST_FLOW_OK; };
+            //callbacks.new_preroll += (sink, data) => { return GstFlowReturn.GST_FLOW_OK; };
+            callbacks.eos += (sink, data) => { };
+
+            NativeMethods.gst_app_sink_set_drop(appsink, true);
+            NativeMethods.gst_app_sink_set_max_buffers(appsink, 1);
+            NativeMethods.gst_app_sink_set_callbacks(appsink, callbacks, ref testdata, null);
+
+            /* Start playing */
+            var running = NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING) != GstStateChangeReturn.GST_STATE_CHANGE_FAILURE;
 
             /* Wait until error or EOS */
             var bus = NativeMethods.gst_element_get_bus(pipeline);
+
+            NativeMethods.gst_debug_bin_to_dot_file(pipeline, GstDebugGraphDetails.GST_DEBUG_GRAPH_SHOW_ALL,
+                "pipeline");
+
+            log.Info("graphviz of pipeline is at " + Path.GetTempPath() + "pipeline.dot");
 
             //var msg = GStreamer.gst_bus_timed_pop_filtered(bus, GStreamer.GST_CLOCK_TIME_NONE, GStreamer.GstMessageType.GST_MESSAGE_ERROR | GStreamer.GstMessageType.GST_MESSAGE_EOS);
 
@@ -311,50 +438,78 @@ namespace MissionPlanner.Utilities
             int Height = 0;
             int trys = 0;
 
-            while (true)
+            var th = new Thread(delegate()
             {
-                var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND);
-                if (sample != IntPtr.Zero)
+                // prevent it falling out of scope
+                GstAppSinkCallbacks callbacks2 = callbacks;
+
+                Thread.Sleep(500);
+
+                run = true;
+
+                while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
                 {
-                    trys = 0;
-                    //var caps = gst_app_sink_get_caps(appsink);
-                    var caps = NativeMethods.gst_sample_get_caps(sample);
-                    var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
-                    NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
-                    NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
-
-                    //var capsstring = gst_caps_to_string(caps_s);
-                    //var structure = gst_sample_get_info(sample);
-                    //var structstring = gst_structure_to_string(structure);
-                    var buffer = NativeMethods.gst_sample_get_buffer(sample);
-                    if (buffer != IntPtr.Zero)
+                    try
                     {
-                        var info = new GstMapInfo();
-                        if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
+                        var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND);
+                        if (sample != IntPtr.Zero)
                         {
-                            var image = new Bitmap(Width, Height, 4 * Width, System.Drawing.Imaging.PixelFormat.Format32bppArgb, info.data);
+                            trys = 0;
+                            //var caps = gst_app_sink_get_caps(appsink);
+                            var caps = NativeMethods.gst_sample_get_caps(sample);
+                            var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
+                            NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
+                            NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
 
-                            _onNewImage?.Invoke(null, image);
+                            //var capsstring = gst_caps_to_string(caps_s);
+                            //var structure = gst_sample_get_info(sample);
+                            //var structstring = gst_structure_to_string(structure);
+                            var buffer = NativeMethods.gst_sample_get_buffer(sample);
+                            if (buffer != IntPtr.Zero)
+                            {
+                                var info = new GstMapInfo();
+                                if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
+                                {
+                                    var image = new Bitmap(Width, Height, 4 * Width,
+                                        SkiaSharp.SKColorType.Bgra8888, info.data);
 
-                            NativeMethods.gst_buffer_unmap(buffer, out info);
+                                    _onNewImage?.Invoke(null, image);
+                                } 
+                                NativeMethods.gst_buffer_unmap(buffer, out info);
+                            }
+
+                            NativeMethods.gst_sample_unref(sample);
+                        }
+                        else
+                        {
+                            log.Info("failed gst_app_sink_try_pull_sample "+ trys + "/60");
+                            trys++;
+                            if (trys > 60)
+                                break;
                         }
                     }
-                    NativeMethods.gst_sample_unref(sample);
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                        trys++;
+                        if (trys > 60)
+                            break;
+                    }
                 }
-                else
-                {
-                    log.Info("failed gst_app_sink_try_pull_sample");
-                    trys++;
-                    if(trys > 10)
-                        break;
-                }
-            }
 
-            NativeMethods.gst_buffer_unref(bus);
-            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
-            //NativeMethods.gst_buffer_unref(pipeline);
+                NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
+                NativeMethods.gst_buffer_unref(bus);
 
-            log.Info("Gstreamer Exit");
+                // cleanup
+                _onNewImage?.Invoke(null, null);
+
+                log.Info("Gstreamer Exit");
+
+            }) {IsBackground = true, Name = "gstreamer"};
+
+            th.Start();
+
+            return th;
         }
 
         ~GStreamer()
@@ -368,19 +523,45 @@ namespace MissionPlanner.Utilities
             OutputPort = 1235;
 
             var dataDirectory = Settings.GetDataDirectory();
-            var gstdir = Path.Combine(dataDirectory, @"gstreamer\1.0\x86_64");
+            var gstdir = Path.Combine(dataDirectory, @"gstreamer\1.0\x86_64\bin\libgstreamer-1.0-0.dll");
+
+       
+            SetGSTPath(gstdir);
+        }
+
+        private static void SetGSTPath(string gstdir)
+        {
+            //
+     //C:\gstreamer\1.0\x86_64\bin\gst-launch-1.0.exe
+
+            if (!File.Exists(gstdir))
+                return;
+
+            gstdir = Path.GetDirectoryName(gstdir);
+            gstdir = Path.GetDirectoryName(gstdir);
 
             // Prepend native path to environment path, to ensure the
             // right libs are being used.
             var path = Environment.GetEnvironmentVariable("PATH");
-            path = Path.Combine(gstdir, "bin") + ";" + Path.Combine(gstdir, "lib") + ";" + path;
-            Environment.SetEnvironmentVariable("PATH", path);
+            if (!path.Contains(gstdir))
+            {
+                path = Path.Combine(gstdir, "bin") + ";" + Path.Combine(gstdir, "lib") + ";" + path;
+
+                Environment.SetEnvironmentVariable("PATH", path);
+            }
+
+            Environment.SetEnvironmentVariable("GSTREAMER_ROOT", gstdir);
+
+            Environment.SetEnvironmentVariable("GSTREAMER_1_0_ROOT_X86_64", gstdir);
 
             Environment.SetEnvironmentVariable("GST_PLUGIN_PATH", Path.Combine(gstdir, "lib"));
+
+            Environment.SetEnvironmentVariable("GST_DEBUG_DUMP_DOT_DIR", Path.GetTempPath());
         }
 
-        //gst-launch-1.0.exe  videotestsrc pattern=ball ! video/x-raw,width=640,height=480 ! clockoverlay ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
+        //gst-launch-1.0.exe  videotestsrc pattern=ball  is-live=true ! video/x-raw,width=640,height=480 ! clockoverlay ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
         //gst-launch-1.0.exe -v udpsrc port=5600 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false
+        //udpsrc port=5600 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! video/x-raw,format=BGRx ! appsink name=outsink
 
         //gst-launch-1.0.exe -v videotestsrc !  video/x-raw,format=BGRA,framerate=25/1 ! videoconvert ! autovideosink
 
@@ -403,12 +584,12 @@ namespace MissionPlanner.Utilities
         {
             List<string> dirs = new List<string>();
 
+            dirs.Add("/usr/lib/x86_64-linux-gnu");
+
             dirs.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
-            dirs.Add(Settings.GetDataDirectory());
-
-            // packaged version only
-            /*
+            dirs.Add(Settings.GetDataDirectory());                    
+            
             DriveInfo[] allDrives = DriveInfo.GetDrives();
             foreach (DriveInfo d in allDrives)
             {
@@ -416,19 +597,25 @@ namespace MissionPlanner.Utilities
                 {
                     dirs.Add(d.RootDirectory.Name + "gstreamer");
                     dirs.Add(d.RootDirectory.Name + "Program Files" + Path.DirectorySeparatorChar + "gstreamer");
-                    dirs.Add(d.RootDirectory.Name + "Program Files (x86)" + Path.DirectorySeparatorChar + "gstreamer");
+                    dirs.Add(d.RootDirectory.Name + "Program Files (x86)" + Path.DirectorySeparatorChar + "gstreamer");                    
                 }
             }
-            */
+
+            var is64bit = Environment.Is64BitProcess;
+
             foreach (var dir in dirs)
             {
                 if (Directory.Exists(dir))
                 {
-                    var ans = Directory.GetFiles(dir, "gst-launch-1.0.exe", SearchOption.AllDirectories);
+                    var ans = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).Where(a => a.ToLower().Contains("libgstreamer-1.0-0.dll") || a.ToLower().Contains("libgstreamer-1.0.so.0")).ToArray();
+
+                    ans = ans.Where(a =>
+                        (!is64bit && !a.ToLower().Contains("_64")) || is64bit && a.ToLower().Contains("_64")).ToArray();
 
                     if (ans.Length > 0)
                     {
                         log.Info("Found gstreamer " + ans.First());
+                        SetGSTPath(ans.First());
                         return ans.First();
                     }
                 }
@@ -444,17 +631,20 @@ namespace MissionPlanner.Utilities
 
         private static bool isrunning
         {
-            get { return processList != null && processList.Count > 0 && !processList.Any(a =>
+            get
             {
-                try
+                return processList != null && processList.Count > 0 && !processList.Any(a =>
                 {
-                    return a.HasExited;
-                }
-                catch
-                {
-                    return true;
-                }
-            }); }
+                    try
+                    {
+                        return a.HasExited;
+                    }
+                    catch
+                    {
+                        return true;
+                    }
+                });
+            }
         }
 
         public static Process Start(string custompipelinesrc = "", bool externalpipeline = false,
@@ -537,6 +727,7 @@ namespace MissionPlanner.Utilities
                     log.Info("No gstreamer found");
                 }
             }
+
             return null;
         }
 
@@ -604,6 +795,7 @@ namespace MissionPlanner.Utilities
                                     bytestoread -= readJPGData(stream, ms);
                                     lastdata = DateTime.Now;
                                 }
+
                                 // up to 100 fps or 50 with 10ms process time
                                 System.Threading.Thread.Sleep(10);
 
@@ -612,6 +804,7 @@ namespace MissionPlanner.Utilities
                                     client.Client.Send(new byte[0]);
                                 }
                             }
+
                             //cleanup on disconnect
                             _onNewImage?.Invoke(null, null);
                         }
@@ -784,6 +977,7 @@ namespace MissionPlanner.Utilities
                         if (fileoffset != ms.Position)
                         {
                         }
+
                         ms.Seek(fileoffset, SeekOrigin.Begin);
 
                         int neededbytes = header.length + header.length2;
@@ -801,7 +995,7 @@ namespace MissionPlanner.Utilities
                             try
                             {
                                 if (img == null || img.Width < width || img.Height < header.lineno + 1)
-                                    img = new Bitmap(width, header.lineno + 1, PixelFormat.Format32bppArgb);
+                                    img = new Bitmap(width, header.lineno + 1, SKColorType.Bgra8888);
 
                                 lock (img)
                                 {
@@ -897,6 +1091,7 @@ namespace MissionPlanner.Utilities
                             if (datach == 0xd9)
                                 break;
                         }
+
                         last = datach;
                     } while (true);
 
@@ -952,7 +1147,10 @@ namespace MissionPlanner.Utilities
                         log.Info("StandardInput close");
                         run.StandardInput.Write('\x3');
                         run.StandardInput.Close();
-                    } catch { }
+                    }
+                    catch
+                    {
+                    }
 
                     if (!run.CloseMainWindow())
                     {
@@ -972,8 +1170,11 @@ namespace MissionPlanner.Utilities
             run = null;
         }
 
+        private static bool run = true;
         public static void StopAll()
         {
+            run = false;
+            Thread.Sleep(50);
             foreach (var process in processList)
             {
                 Stop(process);
@@ -982,17 +1183,43 @@ namespace MissionPlanner.Utilities
 
         public static void DownloadGStreamer(Action<int, string> status = null)
         {
-            var output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
+            string output = "";
+            string url = "";
+
+            if (System.Environment.Is64BitProcess)
+            {
+                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
+                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip";
+            }
+            else
+            {
+                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86-1.9.2.zip";
+                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86-1.9.2.zip";
+            }
+
 
             status?.Invoke(0, "Downloading..");
 
-            Download.ParallelDownloadFile(
-                "http://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip",
-                output, status: status);
+            try
+            {
+                Download.getFilefromNet(url, output, status: status);
 
-            status?.Invoke(50, "Extracting..");
-            ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
-            status?.Invoke(100, "Done.");
+                status?.Invoke(50, "Extracting..");
+                ZipFile.ExtractToDirectory(output, Settings.GetDataDirectory());
+                status?.Invoke(100, "Done.");
+            }
+            catch (WebException ex)
+            {
+                status?.Invoke(-1, "Error downloading file " + ex.ToString());
+                try
+                {
+                    if (File.Exists(output))
+                        File.Delete(output);
+                }
+                catch
+                {
+                }
+            }
         }
     }
 }

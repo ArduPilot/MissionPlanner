@@ -148,7 +148,7 @@
     <value>groupBoxGeneralSettings</value>
   </data>
   <data name="&gt;&gt;linkLabelmagdec.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
   </data>
   <data name="TXT_declination_deg.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -172,7 +172,7 @@
     <value>groupBoxGeneralSettings</value>
   </data>
   <data name="&gt;&gt;TXT_declination_deg.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="CHK_autodec.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -199,7 +199,7 @@
     <value>groupBoxGeneralSettings</value>
   </data>
   <data name="&gt;&gt;CHK_autodec.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
@@ -229,7 +229,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -253,7 +253,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -313,7 +313,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="TXT_declination_min.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -337,7 +337,7 @@
     <value>groupBoxGeneralSettings</value>
   </data>
   <data name="&gt;&gt;TXT_declination_min.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -367,7 +367,7 @@
     <value>groupBoxGeneralSettings</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -397,7 +397,7 @@
     <value>groupBoxGeneralSettings</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -478,7 +478,7 @@
     <value>mavlinkComboBoxfitness</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxfitness.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxfitness.Parent" xml:space="preserve">
     <value>groupBoxonboardcalib</value>
@@ -592,7 +592,7 @@
     <value>horizontalProgressBar3</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar3.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar3.Parent" xml:space="preserve">
     <value>groupBoxonboardcalib</value>
@@ -616,7 +616,7 @@
     <value>horizontalProgressBar2</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar2.Parent" xml:space="preserve">
     <value>groupBoxonboardcalib</value>
@@ -640,7 +640,7 @@
     <value>horizontalProgressBar1</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar1.Parent" xml:space="preserve">
     <value>groupBoxonboardcalib</value>
@@ -700,7 +700,7 @@
     <value>BUT_OBmagcalaccept</value>
   </data>
   <data name="&gt;&gt;BUT_OBmagcalaccept.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_OBmagcalaccept.Parent" xml:space="preserve">
     <value>groupBoxonboardcalib</value>
@@ -730,7 +730,7 @@
     <value>BUT_OBmagcalcancel</value>
   </data>
   <data name="&gt;&gt;BUT_OBmagcalcancel.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_OBmagcalcancel.Parent" xml:space="preserve">
     <value>groupBoxonboardcalib</value>
@@ -757,7 +757,7 @@
     <value>BUT_OBmagcalstart</value>
   </data>
   <data name="&gt;&gt;BUT_OBmagcalstart.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_OBmagcalstart.Parent" xml:space="preserve">
     <value>groupBoxonboardcalib</value>
@@ -787,7 +787,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBoxonboardcalib.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -811,7 +811,7 @@
     <value>BUT_MagCalibrationLive</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.Parent" xml:space="preserve">
     <value>groupBoxmpcalib</value>
@@ -841,7 +841,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBoxmpcalib.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -871,7 +871,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="CMB_primary_compass.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -889,7 +889,7 @@
     <value>CMB_primary_compass</value>
   </data>
   <data name="&gt;&gt;CMB_primary_compass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_primary_compass.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
@@ -949,43 +949,13 @@
     <value>CHK_compass_learn</value>
   </data>
   <data name="&gt;&gt;CHK_compass_learn.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass_learn.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
   </data>
   <data name="&gt;&gt;CHK_compass_learn.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="CHK_enablecompass.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_enablecompass.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_enablecompass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 18</value>
-  </data>
-  <data name="CHK_enablecompass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 23</value>
-  </data>
-  <data name="CHK_enablecompass.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CHK_enablecompass.Text" xml:space="preserve">
-    <value>Enable compasses</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.Name" xml:space="preserve">
-    <value>CHK_enablecompass</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="groupBoxGeneralSettings.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 62</value>
@@ -1009,7 +979,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBoxGeneralSettings.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="LBL_compass1_mot.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1093,7 +1063,7 @@
     <value>CHK_compass1_external</value>
   </data>
   <data name="&gt;&gt;CHK_compass1_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass1_external.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
@@ -1123,7 +1093,7 @@
     <value>CHK_compass1_use</value>
   </data>
   <data name="&gt;&gt;CHK_compass1_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass1_use.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
@@ -1147,7 +1117,7 @@
     <value>CMB_compass1_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass1_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass1_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
@@ -1177,7 +1147,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBoxCompass1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="LBL_compass2_mot.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1261,7 +1231,7 @@
     <value>CHK_compass2_external</value>
   </data>
   <data name="&gt;&gt;CHK_compass2_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass2_external.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
@@ -1291,7 +1261,7 @@
     <value>CHK_compass2_use</value>
   </data>
   <data name="&gt;&gt;CHK_compass2_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass2_use.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
@@ -1315,7 +1285,7 @@
     <value>CMB_compass2_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass2_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass2_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
@@ -1345,7 +1315,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBoxCompass2.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="LBL_compass3_mot.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1429,7 +1399,7 @@
     <value>CHK_compass3_external</value>
   </data>
   <data name="&gt;&gt;CHK_compass3_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass3_external.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
@@ -1459,7 +1429,7 @@
     <value>CHK_compass3_use</value>
   </data>
   <data name="&gt;&gt;CHK_compass3_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass3_use.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
@@ -1483,7 +1453,7 @@
     <value>CMB_compass3_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass3_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6293.15652, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7352.16082, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass3_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
@@ -1513,7 +1483,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBoxCompass3.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="buttonAPMExternal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1534,13 +1504,13 @@
     <value>buttonAPMExternal</value>
   </data>
   <data name="&gt;&gt;buttonAPMExternal.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;buttonAPMExternal.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonAPMExternal.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="QuickAPM25.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1561,13 +1531,13 @@
     <value>QuickAPM25</value>
   </data>
   <data name="&gt;&gt;QuickAPM25.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;QuickAPM25.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;QuickAPM25.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="buttonQuickPixhawk.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1588,13 +1558,40 @@
     <value>buttonQuickPixhawk</value>
   </data>
   <data name="&gt;&gt;buttonQuickPixhawk.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;buttonQuickPixhawk.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonQuickPixhawk.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
+  </data>
+  <data name="but_largemagcal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_largemagcal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>460, 372</value>
+  </data>
+  <data name="but_largemagcal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="but_largemagcal.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="but_largemagcal.Text" xml:space="preserve">
+    <value>Large Vehicle MagCal</value>
+  </data>
+  <data name="&gt;&gt;but_largemagcal.Name" xml:space="preserve">
+    <value>but_largemagcal</value>
+  </data>
+  <data name="&gt;&gt;but_largemagcal.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;but_largemagcal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;but_largemagcal.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -1615,6 +1612,6 @@
     <value>ConfigHWCompass</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

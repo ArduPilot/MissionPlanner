@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>LusoVU.XamarinUsbSerialForAndroid</id>
+        <version>0.2.3</version>
+        <title>Xamarin USB Serial for Android</title>
+        <authors>LusoVU</authors>
+        <owners>aalmada</owners>
+        <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
+        <projectUrl>https://bitbucket.org/lusovu/xamarinusbserial</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>usb-serial-for-android is a driver library for communication with Arduinos and other USB serial hardware on Android, using the Android USB Host API available on Android 3.1+.
+No root access, ADK, or special kernel drivers are required; all drivers are implemented in Java. You get a raw serial port with Read(), Write(), and other basic functions for use with your own protocols.</description>
+        <summary>This is a wrapper of the usb-serial-for-android for Xamarin.</summary>
+        <copyright>Copyright 2014 LusoVU. All rights reserved.</copyright>
+        <language>en-US</language>
+        <tags>xamarin android usb serial</tags>
+		<frameworkAssemblies>
+			  <frameworkAssembly assemblyName="System.Core" targetFramework="MonoAndroid" />
+			  <frameworkAssembly assemblyName="Mono.Android" targetFramework="MonoAndroid" />
+			  <frameworkAssembly assemblyName="Mono.Android.Export" targetFramework="MonoAndroid" />
+		</frameworkAssemblies>		
+		<releaseNotes>Improved internal thread management using Task and CancellationToken.</releaseNotes>
+    </metadata>
+	<files>
+		<file target="lib/MonoAndroid" src="bin/Release/UsbSerialForAndroid.dll" />
+	</files>
+</package>

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls.PreFlight
 {
@@ -46,7 +42,7 @@ namespace MissionPlanner.Controls.PreFlight
         {
             CMB_condition.Text = CheckListItem.ConditionType.ToString();
             CMB_Source.Text = CheckListItem.Name;
-            NUM_trigger.Value = (decimal) CheckListItem.TriggerValue;
+            NUM_trigger.Value = (decimal)CheckListItem.TriggerValue;
             TXT_text.Text = CheckListItem.Text;
             TXT_desc.Text = CheckListItem.Description;
             CMB_colour1.SelectedItem = CheckListItem.TrueColor;
@@ -219,7 +215,7 @@ namespace MissionPlanner.Controls.PreFlight
         private void NUM_warning_ValueChanged(object sender, EventArgs e)
         {
             if (CheckListItem != null)
-                CheckListItem.TriggerValue = (double) NUM_trigger.Value;
+                CheckListItem.TriggerValue = (double)NUM_trigger.Value;
         }
 
         private void TXT_warningtext_TextChanged(object sender, EventArgs e)

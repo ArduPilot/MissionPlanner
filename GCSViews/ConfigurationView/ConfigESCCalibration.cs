@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
-using System.Collections;
+﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigESCCalibration : UserControl, IActivate
+    public partial class ConfigESCCalibration : MyUserControl, IActivate
     {
         public ConfigESCCalibration()
         {
@@ -36,7 +29,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                if (!MainV2.comPort.setParam("ESC_CALIBRATION", 3))
+                if (!MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "ESC_CALIBRATION", 3))
                 {
                     CustomMessageBox.Show("Set param error. Please ensure your version is AC3.3+.");
                     return;
@@ -45,7 +38,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch
             {
                 CustomMessageBox.Show("Set param error. Please ensure your version is AC3.3+.");
-                    return;
+                return;
             }
 
             buttonStart.Enabled = false;
