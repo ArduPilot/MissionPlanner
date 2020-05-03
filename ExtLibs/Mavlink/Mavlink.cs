@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sun Mar 29 2020";
+    public const string MAVLINK_BUILD_DATE = "Sun May 03 2020";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -4387,6 +4387,412 @@ public partial class MAVLink
     
     };
     
+    ///<summary> Type of AIS vessel, enum duplicated from AIS standard, https://gpsd.gitlab.io/gpsd/AIVDM.html </summary>
+    public enum AIS_TYPE: byte
+    {
+            ///<summary> Not available (default). | </summary>
+        [Description("Not available (default).")]
+        UNKNOWN=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_1=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_2=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_3=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_4=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_5=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_6=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_7=7, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_8=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_9=9, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_10=10, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_11=11, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_12=12, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_13=13, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_14=14, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_15=15, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_16=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_17=17, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_18=18, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_19=19, 
+        ///<summary> Wing In Ground effect. | </summary>
+        [Description("Wing In Ground effect.")]
+        WIG=20, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_HAZARDOUS_A=21, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_HAZARDOUS_B=22, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_HAZARDOUS_C=23, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_HAZARDOUS_D=24, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_RESERVED_1=25, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_RESERVED_2=26, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_RESERVED_3=27, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_RESERVED_4=28, 
+        ///<summary>  | </summary>
+        [Description("")]
+        WIG_RESERVED_5=29, 
+        ///<summary>  | </summary>
+        [Description("")]
+        FISHING=30, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TOWING=31, 
+        ///<summary> Towing: length exceeds 200m or breadth exceeds 25m. | </summary>
+        [Description("Towing: length exceeds 200m or breadth exceeds 25m.")]
+        TOWING_LARGE=32, 
+        ///<summary> Dredging or other underwater ops. | </summary>
+        [Description("Dredging or other underwater ops.")]
+        DREDGING=33, 
+        ///<summary>  | </summary>
+        [Description("")]
+        DIVING=34, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MILITARY=35, 
+        ///<summary>  | </summary>
+        [Description("")]
+        SAILING=36, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PLEASURE=37, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_20=38, 
+        ///<summary>  | </summary>
+        [Description("")]
+        RESERVED_21=39, 
+        ///<summary> High Speed Craft. | </summary>
+        [Description("High Speed Craft.")]
+        HSC=40, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_HAZARDOUS_A=41, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_HAZARDOUS_B=42, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_HAZARDOUS_C=43, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_HAZARDOUS_D=44, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_RESERVED_1=45, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_RESERVED_2=46, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_RESERVED_3=47, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_RESERVED_4=48, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HSC_UNKNOWN=49, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PILOT=50, 
+        ///<summary> Search And Rescue vessel. | </summary>
+        [Description("Search And Rescue vessel.")]
+        SAR=51, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TUG=52, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PORT_TENDER=53, 
+        ///<summary> Anti-pollution equipment. | </summary>
+        [Description("Anti-pollution equipment.")]
+        ANTI_POLLUTION=54, 
+        ///<summary>  | </summary>
+        [Description("")]
+        LAW_ENFORCEMENT=55, 
+        ///<summary>  | </summary>
+        [Description("")]
+        SPARE_LOCAL_1=56, 
+        ///<summary>  | </summary>
+        [Description("")]
+        SPARE_LOCAL_2=57, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MEDICAL_TRANSPORT=58, 
+        ///<summary> Noncombatant ship according to RR Resolution No. 18. | </summary>
+        [Description("Noncombatant ship according to RR Resolution No. 18.")]
+        NONECOMBATANT=59, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER=60, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_HAZARDOUS_A=61, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_HAZARDOUS_B=62, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_HAZARDOUS_C=63, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_HAZARDOUS_D=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_RESERVED_1=65, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_RESERVED_2=66, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_RESERVED_3=67, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_RESERVED_4=68, 
+        ///<summary>  | </summary>
+        [Description("")]
+        PASSENGER_UNKNOWN=69, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO=70, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_HAZARDOUS_A=71, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_HAZARDOUS_B=72, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_HAZARDOUS_C=73, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_HAZARDOUS_D=74, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_RESERVED_1=75, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_RESERVED_2=76, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_RESERVED_3=77, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_RESERVED_4=78, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CARGO_UNKNOWN=79, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER=80, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_HAZARDOUS_A=81, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_HAZARDOUS_B=82, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_HAZARDOUS_C=83, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_HAZARDOUS_D=84, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_RESERVED_1=85, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_RESERVED_2=86, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_RESERVED_3=87, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_RESERVED_4=88, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TANKER_UNKNOWN=89, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER=90, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_HAZARDOUS_A=91, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_HAZARDOUS_B=92, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_HAZARDOUS_C=93, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_HAZARDOUS_D=94, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_RESERVED_1=95, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_RESERVED_2=96, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_RESERVED_3=97, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_RESERVED_4=98, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OTHER_UNKNOWN=99, 
+    
+    };
+    
+    ///<summary> Navigational status of AIS vessel, enum duplicated from AIS standard, https://gpsd.gitlab.io/gpsd/AIVDM.html </summary>
+    public enum AIS_NAV_STATUS: byte
+    {
+            ///<summary> Under way using engine. | </summary>
+        [Description("Under way using engine.")]
+        UNDER_WAY=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_ANCHORED=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_UN_COMMANDED=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_RESTRICTED_MANOEUVERABILITY=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_DRAUGHT_CONSTRAINED=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_MOORED=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_AGROUND=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_FISHING=7, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_SAILING=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_RESERVED_HSC=9, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_RESERVED_WIG=10, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_RESERVED_1=11, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_RESERVED_2=12, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AIS_RESERVED_3=13, 
+        ///<summary> Search And Rescue Transponder. | </summary>
+        [Description("Search And Rescue Transponder.")]
+        AIS_AIS_SART=14, 
+        ///<summary> Not available (default). | </summary>
+        [Description("Not available (default).")]
+        AIS_UNKNOWN=15, 
+    
+    };
+    
+    ///<summary> These flags are used in the AIS_VESSEL.fields bitmask to indicate validity of data in the other message fields. When set, the data is valid. </summary>
+    [Flags]
+	public enum AIS_FLAGS: ushort
+    {
+            ///<summary> 1 = Position accuracy less than 10m, 0 = position accuracy greater than 10m. | </summary>
+        [Description("1 = Position accuracy less than 10m, 0 = position accuracy greater than 10m.")]
+        POSITION_ACCURACY=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        VALID_COG=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        VALID_VELOCITY=4, 
+        ///<summary> 1 = Velocity over 52.5765m/s (102.2 knots) | </summary>
+        [Description("1 = Velocity over 52.5765m/s (102.2 knots)")]
+        HIGH_VELOCITY=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        VALID_TURN_RATE=16, 
+        ///<summary> Only the sign of the returned turn rate value is valid, either greater than 5deg/30s or less than -5deg/30s | </summary>
+        [Description("Only the sign of the returned turn rate value is valid, either greater than 5deg/30s or less than -5deg/30s")]
+        TURN_RATE_SIGN_ONLY=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        VALID_DIMENSIONS=64, 
+        ///<summary> Distance to bow is larger than 511m | </summary>
+        [Description("Distance to bow is larger than 511m")]
+        LARGE_BOW_DIMENSION=128, 
+        ///<summary> Distance to stern is larger than 511m | </summary>
+        [Description("Distance to stern is larger than 511m")]
+        LARGE_STERN_DIMENSION=256, 
+        ///<summary> Distance to port side is larger than 63m | </summary>
+        [Description("Distance to port side is larger than 63m")]
+        LARGE_PORT_DIMENSION=512, 
+        ///<summary> Distance to starboard side is larger than 63m | </summary>
+        [Description("Distance to starboard side is larger than 63m")]
+        LARGE_STARBOARD_DIMENSION=1024, 
+        ///<summary>  | </summary>
+        [Description("")]
+        VALID_CALLSIGN=2048, 
+        ///<summary>  | </summary>
+        [Description("")]
+        VALID_NAME=4096, 
+    
+    };
+    
     
     ///<summary> State flags for ADS-B transponder dynamic report </summary>
     public enum UAVIONIX_ADSB_OUT_DYNAMIC_STATE: ushort
@@ -6851,7 +7257,7 @@ public partial class MAVLink
     ///<summary> Read registers for a device. </summary>
     public struct mavlink_device_op_read_t
     {
-        public mavlink_device_op_read_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,char[] busname,byte regstart,byte count) 
+        public mavlink_device_op_read_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count) 
         {
               this.request_id = request_id;
               this.target_system = target_system;
@@ -6892,7 +7298,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of device on bus (for SPI).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=40)]
-		public char[] busname;
+		public byte[] busname;
             /// <summary>First register to read.   </summary>
         [Units("")]
         [Description("First register to read.")]
@@ -6947,7 +7353,7 @@ public partial class MAVLink
     ///<summary> Write registers for a device. </summary>
     public struct mavlink_device_op_write_t
     {
-        public mavlink_device_op_write_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,char[] busname,byte regstart,byte count,byte[] data) 
+        public mavlink_device_op_write_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte[] data) 
         {
               this.request_id = request_id;
               this.target_system = target_system;
@@ -6989,7 +7395,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of device on bus (for SPI).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=40)]
-		public char[] busname;
+		public byte[] busname;
             /// <summary>First register to write.   </summary>
         [Units("")]
         [Description("First register to write.")]
@@ -7320,7 +7726,7 @@ public partial class MAVLink
     ///<summary> Information about video stream </summary>
     public struct mavlink_video_stream_information_t
     {
-        public mavlink_video_stream_information_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,char[] uri) 
+        public mavlink_video_stream_information_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
         {
               this.framerate = framerate;
               this.bitrate = bitrate;
@@ -7364,7 +7770,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
-		public char[] uri;
+		public byte[] uri;
     
     };
 
@@ -7546,7 +7952,7 @@ public partial class MAVLink
     ///<summary> Request to control this MAV </summary>
     public struct mavlink_change_operator_control_t
     {
-        public mavlink_change_operator_control_t(byte target_system,byte control_request,byte version,char[] passkey) 
+        public mavlink_change_operator_control_t(byte target_system,byte control_request,byte version,byte[] passkey) 
         {
               this.target_system = target_system;
               this.control_request = control_request;
@@ -7570,7 +7976,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Password / Key, depending on version plaintext or encrypted. 25 or less characters, NULL terminated. The characters may involve A-Z, a-z, 0-9, and '!?,.-'")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=25)]
-		public char[] passkey;
+		public byte[] passkey;
     
     };
 
@@ -7606,7 +8012,7 @@ public partial class MAVLink
     ///<summary> Emit an encrypted signature / key identifying this system. PLEASE NOTE: This protocol has been kept simple, so transmitting the key requires an encrypted channel for true safety. </summary>
     public struct mavlink_auth_key_t
     {
-        public mavlink_auth_key_t(char[] key) 
+        public mavlink_auth_key_t(byte[] key) 
         {
               this.key = key;
             
@@ -7615,7 +8021,7 @@ public partial class MAVLink
         [Units("")]
         [Description("key")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
-		public char[] key;
+		public byte[] key;
     
     };
 
@@ -7651,7 +8057,7 @@ public partial class MAVLink
     ///<summary> Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const char*] -> value[float]. This allows to send a parameter to any other component (such as the GCS) without the need of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different autopilots. See also https://mavlink.io/en/services/parameter.html for a full documentation of QGroundControl and IMU code. </summary>
     public struct mavlink_param_request_read_t
     {
-        public mavlink_param_request_read_t(short param_index,byte target_system,byte target_component,char[] param_id) 
+        public mavlink_param_request_read_t(short param_index,byte target_system,byte target_component,byte[] param_id) 
         {
               this.param_index = param_index;
               this.target_system = target_system;
@@ -7675,7 +8081,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public char[] param_id;
+		public byte[] param_id;
     
     };
 
@@ -7706,7 +8112,7 @@ public partial class MAVLink
     ///<summary> Emit the value of a onboard parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows him to re-request missing parameters after a loss or timeout. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_value_t
     {
-        public mavlink_param_value_t(float param_value,ushort param_count,ushort param_index,char[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
+        public mavlink_param_value_t(float param_value,ushort param_count,ushort param_index,byte[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
         {
               this.param_value = param_value;
               this.param_count = param_count;
@@ -7731,7 +8137,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public char[] param_id;
+		public byte[] param_id;
             /// <summary>Onboard parameter type. MAV_PARAM_TYPE  </summary>
         [Units("")]
         [Description("Onboard parameter type.")]
@@ -7744,7 +8150,7 @@ public partial class MAVLink
     ///<summary> Set a parameter value (write new value to permanent storage). IMPORTANT: The receiving component should acknowledge the new parameter value by sending a PARAM_VALUE message to all communication partners. This will also ensure that multiple GCS all have an up-to-date list of all parameters. If the sending GCS did not receive a PARAM_VALUE message within its timeout time, it should re-send the PARAM_SET message. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_set_t
     {
-        public mavlink_param_set_t(float param_value,byte target_system,byte target_component,char[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
+        public mavlink_param_set_t(float param_value,byte target_system,byte target_component,byte[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
         {
               this.param_value = param_value;
               this.target_system = target_system;
@@ -7769,7 +8175,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public char[] param_id;
+		public byte[] param_id;
             /// <summary>Onboard parameter type. MAV_PARAM_TYPE  </summary>
         [Units("")]
         [Description("Onboard parameter type.")]
@@ -8644,105 +9050,6 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=58)]
-    ///<summary> The location and information of an AIS vessel </summary>
-    public struct mavlink_ais_vessel_t
-    {
-        public mavlink_ais_vessel_t(uint MMSI,int lat,int lon,ushort COG,ushort heading,ushort velocity,ushort dimension_bow,ushort dimension_stern,ushort tslc,/*AIS_FLAGS*/ushort flags,sbyte turn_rate,/*AIS_NAV_STATUS*/byte navigational_status,/*AIS_TYPE*/byte type,byte dimension_port,byte dimension_starboard,char[] callsign,char[] name) 
-        {
-              this.MMSI = MMSI;
-              this.lat = lat;
-              this.lon = lon;
-              this.COG = COG;
-              this.heading = heading;
-              this.velocity = velocity;
-              this.dimension_bow = dimension_bow;
-              this.dimension_stern = dimension_stern;
-              this.tslc = tslc;
-              this.flags = flags;
-              this.turn_rate = turn_rate;
-              this.navigational_status = navigational_status;
-              this.type = type;
-              this.dimension_port = dimension_port;
-              this.dimension_starboard = dimension_starboard;
-              this.callsign = callsign;
-              this.name = name;
-            
-        }
-        /// <summary>Mobile Marine Service Identifier, 9 decimal digits   </summary>
-        [Units("")]
-        [Description("Mobile Marine Service Identifier, 9 decimal digits")]
-        public  uint MMSI;
-            /// <summary>Latitude  [degE7] </summary>
-        [Units("[degE7]")]
-        [Description("Latitude")]
-        public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
-        [Units("[degE7]")]
-        [Description("Longitude")]
-        public  int lon;
-            /// <summary>Course over ground  [cdeg] </summary>
-        [Units("[cdeg]")]
-        [Description("Course over ground")]
-        public  ushort COG;
-            /// <summary>True heading  [cdeg] </summary>
-        [Units("[cdeg]")]
-        [Description("True heading")]
-        public  ushort heading;
-            /// <summary>Speed over ground  [cm/s] </summary>
-        [Units("[cm/s]")]
-        [Description("Speed over ground")]
-        public  ushort velocity;
-            /// <summary>Distance from lat/lon location to bow  [m] </summary>
-        [Units("[m]")]
-        [Description("Distance from lat/lon location to bow")]
-        public  ushort dimension_bow;
-            /// <summary>Distance from lat/lon location to stern  [m] </summary>
-        [Units("[m]")]
-        [Description("Distance from lat/lon location to stern")]
-        public  ushort dimension_stern;
-            /// <summary>Time since last communication in seconds  [s] </summary>
-        [Units("[s]")]
-        [Description("Time since last communication in seconds")]
-        public  ushort tslc;
-            /// <summary>Bitmask to indicate various statuses including valid data fields AIS_FLAGS  bitmask</summary>
-        [Units("")]
-        [Description("Bitmask to indicate various statuses including valid data fields")]
-        public  /*AIS_FLAGS*/ushort flags;
-            /// <summary>Turn rate  [cdeg/s] </summary>
-        [Units("[cdeg/s]")]
-        [Description("Turn rate")]
-        public  sbyte turn_rate;
-            /// <summary>Navigational status AIS_NAV_STATUS  </summary>
-        [Units("")]
-        [Description("Navigational status")]
-        public  /*AIS_NAV_STATUS*/byte navigational_status;
-            /// <summary>Type of vessels AIS_TYPE  </summary>
-        [Units("")]
-        [Description("Type of vessels")]
-        public  /*AIS_TYPE*/byte type;
-            /// <summary>Distance from lat/lon location to port side  [m] </summary>
-        [Units("[m]")]
-        [Description("Distance from lat/lon location to port side")]
-        public  byte dimension_port;
-            /// <summary>Distance from lat/lon location to starboard side  [m] </summary>
-        [Units("[m]")]
-        [Description("Distance from lat/lon location to starboard side")]
-        public  byte dimension_starboard;
-            /// <summary>The vessel callsign   </summary>
-        [Units("")]
-        [Description("The vessel callsign")]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=7)]
-		public char[] callsign;
-            /// <summary>The vessel name   </summary>
-        [Units("")]
-        [Description("The vessel name")]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
-		public char[] name;
-    
-    };
-
-
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
     ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). See also https://mavlink.io/en/services/mission.html. </summary>
     public struct mavlink_mission_item_t
@@ -9114,7 +9421,7 @@ public partial class MAVLink
     ///<summary> Bind a RC channel to a parameter. The parameter should change according to the RC channel value. </summary>
     public struct mavlink_param_map_rc_t
     {
-        public mavlink_param_map_rc_t(float param_value0,float scale,float param_value_min,float param_value_max,short param_index,byte target_system,byte target_component,char[] param_id,byte parameter_rc_channel_index) 
+        public mavlink_param_map_rc_t(float param_value0,float scale,float param_value_min,float param_value_max,short param_index,byte target_system,byte target_component,byte[] param_id,byte parameter_rc_channel_index) 
         {
               this.param_value0 = param_value0;
               this.scale = scale;
@@ -9159,7 +9466,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
-		public char[] param_id;
+		public byte[] param_id;
             /// <summary>Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on the RC.   </summary>
         [Units("")]
         [Description("Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on the RC.")]
@@ -14242,7 +14549,7 @@ public partial class MAVLink
     ///<summary> The location and information of an ADSB vehicle </summary>
     public struct mavlink_adsb_vehicle_t
     {
-        public mavlink_adsb_vehicle_t(uint ICAO_address,int lat,int lon,int altitude,ushort heading,ushort hor_velocity,short ver_velocity,/*ADSB_FLAGS*/ushort flags,ushort squawk,/*ADSB_ALTITUDE_TYPE*/byte altitude_type,char[] callsign,/*ADSB_EMITTER_TYPE*/byte emitter_type,byte tslc) 
+        public mavlink_adsb_vehicle_t(uint ICAO_address,int lat,int lon,int altitude,ushort heading,ushort hor_velocity,short ver_velocity,/*ADSB_FLAGS*/ushort flags,ushort squawk,/*ADSB_ALTITUDE_TYPE*/byte altitude_type,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitter_type,byte tslc) 
         {
               this.ICAO_address = ICAO_address;
               this.lat = lat;
@@ -14303,7 +14610,7 @@ public partial class MAVLink
         [Units("")]
         [Description("The callsign, 8+null")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
-		public char[] callsign;
+		public byte[] callsign;
             /// <summary>ADSB emitter type. ADSB_EMITTER_TYPE  </summary>
         [Units("")]
         [Description("ADSB emitter type.")]
@@ -14438,7 +14745,7 @@ public partial class MAVLink
     ///<summary> To debug something using a named 3D vector. </summary>
     public struct mavlink_debug_vect_t
     {
-        public mavlink_debug_vect_t(ulong time_usec,float x,float y,float z,char[] name) 
+        public mavlink_debug_vect_t(ulong time_usec,float x,float y,float z,byte[] name) 
         {
               this.time_usec = time_usec;
               this.x = x;
@@ -14467,7 +14774,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
-		public char[] name;
+		public byte[] name;
     
     };
 
@@ -14476,7 +14783,7 @@ public partial class MAVLink
     ///<summary> Send a key-value pair as float. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_named_value_float_t
     {
-        public mavlink_named_value_float_t(uint time_boot_ms,float value,char[] name) 
+        public mavlink_named_value_float_t(uint time_boot_ms,float value,byte[] name) 
         {
               this.time_boot_ms = time_boot_ms;
               this.value = value;
@@ -14495,7 +14802,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of the debug variable")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
-		public char[] name;
+		public byte[] name;
     
     };
 
@@ -14504,7 +14811,7 @@ public partial class MAVLink
     ///<summary> Send a key-value pair as integer. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_named_value_int_t
     {
-        public mavlink_named_value_int_t(uint time_boot_ms,int value,char[] name) 
+        public mavlink_named_value_int_t(uint time_boot_ms,int value,byte[] name) 
         {
               this.time_boot_ms = time_boot_ms;
               this.value = value;
@@ -14523,7 +14830,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of the debug variable")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
-		public char[] name;
+		public byte[] name;
     
     };
 
@@ -14532,7 +14839,7 @@ public partial class MAVLink
     ///<summary> Status text message. These messages are printed in yellow in the COMM console of QGroundControl. WARNING: They consume quite some bandwidth, so use only for important status and error messages. If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz). </summary>
     public struct mavlink_statustext_t
     {
-        public mavlink_statustext_t(/*MAV_SEVERITY*/byte severity,char[] text,ushort id,byte chunk_seq) 
+        public mavlink_statustext_t(/*MAV_SEVERITY*/byte severity,byte[] text,ushort id,byte chunk_seq) 
         {
               this.severity = severity;
               this.text = text;
@@ -14548,7 +14855,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Status text message, without null termination character")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
-		public char[] text;
+		public byte[] text;
             /// <summary>Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the message can be emitted immediately.   </summary>
         [Units("")]
         [Description("Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the message can be emitted immediately.")]
@@ -14652,7 +14959,7 @@ public partial class MAVLink
     ///<summary> Control vehicle tone generation (buzzer) </summary>
     public struct mavlink_play_tune_t
     {
-        public mavlink_play_tune_t(byte target_system,byte target_component,char[] tune,char[] tune2) 
+        public mavlink_play_tune_t(byte target_system,byte target_component,byte[] tune,byte[] tune2) 
         {
               this.target_system = target_system;
               this.target_component = target_component;
@@ -14672,12 +14979,12 @@ public partial class MAVLink
         [Units("")]
         [Description("tune in board specific format")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=30)]
-		public char[] tune;
+		public byte[] tune;
             /// <summary>tune extension (appended to tune)   </summary>
         [Units("")]
         [Description("tune extension (appended to tune)")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=200)]
-		public char[] tune2;
+		public byte[] tune2;
     
     };
 
@@ -14686,7 +14993,7 @@ public partial class MAVLink
     ///<summary> Information about a camera </summary>
     public struct mavlink_camera_information_t
     {
-        public mavlink_camera_information_t(uint time_boot_ms,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,/*CAMERA_CAP_FLAGS*/uint flags,ushort resolution_h,ushort resolution_v,ushort cam_definition_version,byte[] vendor_name,byte[] model_name,byte lens_id,char[] cam_definition_uri) 
+        public mavlink_camera_information_t(uint time_boot_ms,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,/*CAMERA_CAP_FLAGS*/uint flags,ushort resolution_h,ushort resolution_v,ushort cam_definition_version,byte[] vendor_name,byte[] model_name,byte lens_id,byte[] cam_definition_uri) 
         {
               this.time_boot_ms = time_boot_ms;
               this.firmware_version = firmware_version;
@@ -14757,7 +15064,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=140)]
-		public char[] cam_definition_uri;
+		public byte[] cam_definition_uri;
     
     };
 
@@ -14897,7 +15204,7 @@ public partial class MAVLink
     ///<summary> Information about a captured image </summary>
     public struct mavlink_camera_image_captured_t
     {
-        public mavlink_camera_image_captured_t(ulong time_utc,uint time_boot_ms,int lat,int lon,int alt,int relative_alt,float[] q,int image_index,byte camera_id,sbyte capture_result,char[] file_url) 
+        public mavlink_camera_image_captured_t(ulong time_utc,uint time_boot_ms,int lat,int lon,int alt,int relative_alt,float[] q,int image_index,byte camera_id,sbyte capture_result,byte[] file_url) 
         {
               this.time_utc = time_utc;
               this.time_boot_ms = time_boot_ms;
@@ -14957,7 +15264,7 @@ public partial class MAVLink
         [Units("")]
         [Description("URL of image taken. Either local storage or http://foo.jpg if camera provides an HTTP interface.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=205)]
-		public char[] file_url;
+		public byte[] file_url;
     
     };
 
@@ -15148,7 +15455,7 @@ public partial class MAVLink
     ///<summary> Configure AP SSID and Password. </summary>
     public struct mavlink_wifi_config_ap_t
     {
-        public mavlink_wifi_config_ap_t(char[] ssid,char[] password) 
+        public mavlink_wifi_config_ap_t(byte[] ssid,byte[] password) 
         {
               this.ssid = ssid;
               this.password = password;
@@ -15158,12 +15465,111 @@ public partial class MAVLink
         [Units("")]
         [Description("Name of Wi-Fi network (SSID). Leave it blank to leave it unchanged.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
-		public char[] ssid;
+		public byte[] ssid;
             /// <summary>Password. Leave it blank for an open AP.   </summary>
         [Units("")]
         [Description("Password. Leave it blank for an open AP.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=64)]
-		public char[] password;
+		public byte[] password;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=58)]
+    ///<summary> The location and information of an AIS vessel </summary>
+    public struct mavlink_ais_vessel_t
+    {
+        public mavlink_ais_vessel_t(uint MMSI,int lat,int lon,ushort COG,ushort heading,ushort velocity,ushort dimension_bow,ushort dimension_stern,ushort tslc,/*AIS_FLAGS*/ushort flags,sbyte turn_rate,/*AIS_NAV_STATUS*/byte navigational_status,/*AIS_TYPE*/byte type,byte dimension_port,byte dimension_starboard,byte[] callsign,byte[] name) 
+        {
+              this.MMSI = MMSI;
+              this.lat = lat;
+              this.lon = lon;
+              this.COG = COG;
+              this.heading = heading;
+              this.velocity = velocity;
+              this.dimension_bow = dimension_bow;
+              this.dimension_stern = dimension_stern;
+              this.tslc = tslc;
+              this.flags = flags;
+              this.turn_rate = turn_rate;
+              this.navigational_status = navigational_status;
+              this.type = type;
+              this.dimension_port = dimension_port;
+              this.dimension_starboard = dimension_starboard;
+              this.callsign = callsign;
+              this.name = name;
+            
+        }
+        /// <summary>Mobile Marine Service Identifier, 9 decimal digits   </summary>
+        [Units("")]
+        [Description("Mobile Marine Service Identifier, 9 decimal digits")]
+        public  uint MMSI;
+            /// <summary>Latitude  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude")]
+        public  int lat;
+            /// <summary>Longitude  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude")]
+        public  int lon;
+            /// <summary>Course over ground  [cdeg] </summary>
+        [Units("[cdeg]")]
+        [Description("Course over ground")]
+        public  ushort COG;
+            /// <summary>True heading  [cdeg] </summary>
+        [Units("[cdeg]")]
+        [Description("True heading")]
+        public  ushort heading;
+            /// <summary>Speed over ground  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("Speed over ground")]
+        public  ushort velocity;
+            /// <summary>Distance from lat/lon location to bow  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance from lat/lon location to bow")]
+        public  ushort dimension_bow;
+            /// <summary>Distance from lat/lon location to stern  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance from lat/lon location to stern")]
+        public  ushort dimension_stern;
+            /// <summary>Time since last communication in seconds  [s] </summary>
+        [Units("[s]")]
+        [Description("Time since last communication in seconds")]
+        public  ushort tslc;
+            /// <summary>Bitmask to indicate various statuses including valid data fields AIS_FLAGS  bitmask</summary>
+        [Units("")]
+        [Description("Bitmask to indicate various statuses including valid data fields")]
+        public  /*AIS_FLAGS*/ushort flags;
+            /// <summary>Turn rate  [cdeg/s] </summary>
+        [Units("[cdeg/s]")]
+        [Description("Turn rate")]
+        public  sbyte turn_rate;
+            /// <summary>Navigational status AIS_NAV_STATUS  </summary>
+        [Units("")]
+        [Description("Navigational status")]
+        public  /*AIS_NAV_STATUS*/byte navigational_status;
+            /// <summary>Type of vessels AIS_TYPE  </summary>
+        [Units("")]
+        [Description("Type of vessels")]
+        public  /*AIS_TYPE*/byte type;
+            /// <summary>Distance from lat/lon location to port side  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance from lat/lon location to port side")]
+        public  byte dimension_port;
+            /// <summary>Distance from lat/lon location to starboard side  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance from lat/lon location to starboard side")]
+        public  byte dimension_starboard;
+            /// <summary>The vessel callsign   </summary>
+        [Units("")]
+        [Description("The vessel callsign")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=7)]
+		public byte[] callsign;
+            /// <summary>The vessel name   </summary>
+        [Units("")]
+        [Description("The vessel name")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] name;
     
     };
 
@@ -15214,7 +15620,7 @@ public partial class MAVLink
     ///<summary> General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service 'uavcan.protocol.GetNodeInfo' for the background information. This message should be emitted by the system whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org. </summary>
     public struct mavlink_uavcan_node_info_t
     {
-        public mavlink_uavcan_node_info_t(ulong time_usec,uint uptime_sec,uint sw_vcs_commit,char[] name,byte hw_version_major,byte hw_version_minor,byte[] hw_unique_id,byte sw_version_major,byte sw_version_minor) 
+        public mavlink_uavcan_node_info_t(ulong time_usec,uint uptime_sec,uint sw_vcs_commit,byte[] name,byte hw_version_major,byte hw_version_minor,byte[] hw_unique_id,byte sw_version_major,byte sw_version_minor) 
         {
               this.time_usec = time_usec;
               this.uptime_sec = uptime_sec;
@@ -15243,7 +15649,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Node name string. For example, 'sapog.px4.io'.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)]
-		public char[] name;
+		public byte[] name;
             /// <summary>Hardware major version number.   </summary>
         [Units("")]
         [Description("Hardware major version number.")]
@@ -15483,7 +15889,7 @@ public partial class MAVLink
     ///<summary> Large debug/prototyping array. The message uses the maximum available payload for data. The array_id and name fields are used to discriminate between messages in code and in user interfaces (respectively). Do not use in production code. </summary>
     public struct mavlink_debug_float_array_t
     {
-        public mavlink_debug_float_array_t(ulong time_usec,ushort array_id,char[] name,float[] data) 
+        public mavlink_debug_float_array_t(ulong time_usec,ushort array_id,byte[] name,float[] data) 
         {
               this.time_usec = time_usec;
               this.array_id = array_id;
@@ -15503,7 +15909,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Name, for human-friendly display in a Ground Control Station")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
-		public char[] name;
+		public byte[] name;
             /// <summary>data   </summary>
         [Units("")]
         [Description("data")]
@@ -15517,7 +15923,7 @@ public partial class MAVLink
     ///<summary> Status text message (use only for important status and error messages). The full message payload can be used for status text, but we recommend that updates be kept concise. Note: The message is intended as a less restrictive replacement for STATUSTEXT. </summary>
     public struct mavlink_statustext_long_t
     {
-        public mavlink_statustext_long_t(/*MAV_SEVERITY*/byte severity,char[] text) 
+        public mavlink_statustext_long_t(/*MAV_SEVERITY*/byte severity,byte[] text) 
         {
               this.severity = severity;
               this.text = text;
@@ -15531,7 +15937,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Status text message, without null termination character.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=254)]
-		public char[] text;
+		public byte[] text;
     
     };
 
@@ -15596,7 +16002,7 @@ public partial class MAVLink
     ///<summary> Static data to configure the ADS-B transponder (send within 10 sec of a POR and every 10 sec thereafter) </summary>
     public struct mavlink_uavionix_adsb_out_cfg_t
     {
-        public mavlink_uavionix_adsb_out_cfg_t(uint ICAO,ushort stallSpeed,char[] callsign,/*ADSB_EMITTER_TYPE*/byte emitterType,/*UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE*/byte aircraftSize,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT*/byte gpsOffsetLat,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON*/byte gpsOffsetLon,/*UAVIONIX_ADSB_OUT_RF_SELECT*/byte rfSelect) 
+        public mavlink_uavionix_adsb_out_cfg_t(uint ICAO,ushort stallSpeed,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitterType,/*UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE*/byte aircraftSize,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT*/byte gpsOffsetLat,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON*/byte gpsOffsetLon,/*UAVIONIX_ADSB_OUT_RF_SELECT*/byte rfSelect) 
         {
               this.ICAO = ICAO;
               this.stallSpeed = stallSpeed;
@@ -15620,7 +16026,7 @@ public partial class MAVLink
         [Units("")]
         [Description("Vehicle identifier (8 characters, null terminated, valid characters are A-Z, 0-9, ' ' only)")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
-		public char[] callsign;
+		public byte[] callsign;
             /// <summary>Transmitting vehicle type. See ADSB_EMITTER_TYPE enum ADSB_EMITTER_TYPE  </summary>
         [Units("")]
         [Description("Transmitting vehicle type. See ADSB_EMITTER_TYPE enum")]

@@ -16,7 +16,7 @@ enumtypes = {}
 map = {
         'float'    : 'float',
         'double'   : 'double',
-        'char'     : 'char',
+        'char'     : 'byte',
         'int8_t'   : 'sbyte',
         'uint8_t'  : 'byte',
         'uint8_t_mavlink_version'  : 'B',
