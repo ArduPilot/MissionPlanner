@@ -2,6 +2,7 @@
 using MissionPlanner.Controls;
 using System;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -84,7 +85,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
             {
-                var message = new String(arg.ToStructure<MAVLink.mavlink_statustext_t>().text);
+                var message = Encoding.ASCII.GetString(arg.ToStructure<MAVLink.mavlink_statustext_t>().text);
 
                 UpdateUserMessage(message);
 

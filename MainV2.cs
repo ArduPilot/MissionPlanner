@@ -1223,7 +1223,7 @@ namespace MissionPlanner
 
                     packet.altitude = (int)(MainV2.instance.adsbPlanes[id].Alt * 1000);
                     packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
-                    packet.callsign = adsb.CallSign.ToCharArray();
+                    packet.callsign = adsb.CallSign.MakeBytes();
                     packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
                     packet.heading = (ushort)(MainV2.instance.adsbPlanes[id].Heading * 100);
                     packet.lat = (int)(MainV2.instance.adsbPlanes[id].Lat * 1e7);

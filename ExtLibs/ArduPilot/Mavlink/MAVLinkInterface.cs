@@ -664,11 +664,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 char[] temp = ("Mission Planner " + getAppVersion() + "\0").ToCharArray();
                 Array.Resize(ref temp, 50);
                 // 
-                generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT,
-                    new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp });
+                generatePacket((byte) MAVLINK_MSG_ID.STATUSTEXT,
+                    new mavlink_statustext_t() {severity = (byte) MAV_SEVERITY.INFO, text = temp.ToByteArray()});
                 // mavlink2
                 generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT,
-                    new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp }, sysidcurrent,
+                    new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp.ToByteArray() }, sysidcurrent,
                     compidcurrent, true, true);
 
                 // this ensures a mavlink2 change has been noticed
@@ -816,7 +816,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     request_id = request_id++,
                     bustype = (byte)bustype,
                     bus = bus,
-                    busname = name.MakeCharSize(40),
+                    busname = name.MakeBytesSize(40),
                     address = address,
                     regstart = regstart,
                     count = (byte)writebytes.Length,
@@ -834,7 +834,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     request_id = request_id++,
                     bustype = (byte)bustype,
                     bus = bus,
-                    busname = name.MakeCharSize(40),
+                    busname = name.MakeBytesSize(40),
                     address = address,
                     regstart = regstart,
                     count = count
@@ -1296,7 +1296,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             char[] temp = paramname.ToCharArray();
 
             Array.Resize(ref temp, 16);
-            req.param_id = temp;
+            req.param_id = temp.ToByteArray();
             if ((MAVlist[sysid, compid].cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.PARAM_FLOAT) > 0 || MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
             {
                 req.param_value = new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE.REAL32)).float_value;
@@ -1339,7 +1339,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
 
-                        string st = new String(par.param_id);
+                        string st = Encoding.ASCII.GetString(par.param_id);
 
                         int pos = st.IndexOf('\0');
 
@@ -1470,7 +1470,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 {
                     var msg = buffer.ToStructure<mavlink_statustext_t>();
 
-                    string logdata = new String(msg.text);
+                    string logdata = Encoding.ASCII.GetString(msg.text);
 
                     int ind = logdata.IndexOf('\0');
                     if (ind != -1)
@@ -1522,7 +1522,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (param_total == 0)
                         return true;
 
-                    string paramID = new String(par.param_id);
+                    string paramID = Encoding.ASCII.GetString(par.param_id);
 
                     int pos = paramID.IndexOf('\0');
                     if (pos != -1)
@@ -1641,7 +1641,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                     req2.target_system = sysid;
                                     req2.target_component = compid;
                                     req2.param_index = i;
-                                    req2.param_id = new char[] { '\0' };
+                                    req2.param_id = new byte[] { 0 };
 
                                     Array.Resize(ref req2.param_id, 16);
 
@@ -1758,10 +1758,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             req.target_system = sysid;
             req.target_component = compid;
             req.param_index = index;
-            req.param_id = new char[] { '\0' };
+            req.param_id = new byte[] { 0 };
             if (index == -1)
             {
-                req.param_id = (name.ToCharArray());
+                req.param_id = name.MakeBytes();
             }
 
             Array.Resize(ref req.param_id, 16);
@@ -1800,7 +1800,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
 
-                        string st = new String(par.param_id);
+                        string st = Encoding.ASCII.GetString(par.param_id);
 
                         int pos = st.IndexOf('\0');
 
@@ -1813,8 +1813,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (!(par.param_index == index || st == name))
                         {
                             log.ErrorFormat("Wrong Answer {0} - {1} - {2}    --- '{3}' vs '{4}'", par.param_index,
-                                new String(par.param_id), par.param_value,
-                                new String(req.param_id).TrimEnd(), st);
+                                Encoding.ASCII.GetString(par.param_id), par.param_value,
+                                Encoding.ASCII.GetString(req.param_id).TrimEnd(), st);
                             continue;
                         }
 
@@ -4387,7 +4387,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 _UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7,
                                         adsb.altitude / 1000.0, adsb.heading * 0.01f, adsb.hor_velocity * 0.01f, id,
                                         DateTime.Now)
-                                { CallSign = new String(adsb.callsign), Raw = adsb }
+                                { CallSign = Encoding.ASCII.GetString(adsb.callsign), Raw = adsb }
                                 );
                         }
 
@@ -4437,7 +4437,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         var cannode = message.ToStructure<mavlink_uavcan_node_info_t>();
 
-                        var name = new String(cannode.name);
+                        var name = Encoding.ASCII.GetString(cannode.name);
 
                         MAVlist[sysid, compid].VersionString = name;
 
@@ -4488,7 +4488,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         byte sev = msg.severity;
 
-                        string logdata = new String(msg.text);
+                        string logdata = Encoding.ASCII.GetString(msg.text);
                         int ind = logdata.IndexOf('\0');
                         if (ind != -1)
                             logdata = logdata.Substring(0, ind);
@@ -4841,7 +4841,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 mavlink_param_value_t value = buffer.ToStructure<mavlink_param_value_t>();
 
-                string st = new String(value.param_id);
+                string st = Encoding.ASCII.GetString(value.param_id);
 
                 int pos = st.IndexOf('\0');
 

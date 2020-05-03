@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace MissionPlanner
 {
@@ -2892,7 +2893,7 @@ namespace MissionPlanner
                         {
                             var named_float = mavLinkMessage.ToStructure<MAVLink.mavlink_named_value_float_t>();
 
-                            string mav_value_name = new string(named_float.name);
+                            string mav_value_name = Encoding.ASCII.GetString(named_float.name);
 
                             int ind = mav_value_name.IndexOf('\0');
                             if (ind != -1)

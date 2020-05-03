@@ -5,7 +5,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <Deterministic>false</Deterministic><StartupObject>MissionPlanner.Program</StartupObject><ApplicationIcon /><RootNamespace>MissionPlanner</RootNamespace>
-    <BaseIntermediateOutputPath>objcore</BaseIntermediateOutputPath>
+ 
   </PropertyGroup>  <ItemGroup>
     <Compile Remove="APMPlannerXplanes\**" />
     <Compile Remove="Msi\**" />
@@ -185,6 +185,7 @@
     <ProjectReference Include="ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
       <Project>{6974D22C-EDE6-4BB2-AAD2-FF23ED6EC165}</Project>
       <Name>MissionPlanner.Drawing</Name>
+      <Aliases>Drawing</Aliases>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\netDxf\netDxf.csproj">
       <Project>{785380e0-ceb9-4c34-82e5-60d0e33e848e}</Project>

@@ -42,6 +42,12 @@ namespace MissionPlanner.Utilities
         {
             timer.Change(intervalms, intervalms);
         }
+
+        public static byte[] ToByteArray(this char[] input)
+        {
+            return input.Select(a => (byte) a).ToArray();
+        }
+
         public static string ToJSON(this object msg, Formatting fmt)
         {
             return JsonConvert.SerializeObject(msg, fmt, new JsonSerializerSettings()
@@ -92,6 +98,11 @@ namespace MissionPlanner.Utilities
             if (buffer.Length == length)
                 return buffer;
             Array.Resize(ref buffer, length);
+            return buffer;
+        }
+        public static byte[] MakeBytes(this string item)
+        {
+            var buffer = ASCIIEncoding.ASCII.GetBytes(item);
             return buffer;
         }
 
