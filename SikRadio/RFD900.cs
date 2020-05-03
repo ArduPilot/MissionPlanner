@@ -573,6 +573,9 @@ namespace RFD.RFD900
         {
             try
             {
+                if (Line == "")
+                    return null;
+
                 int n = 0;
                 string Designator = ParseDesignator(Line, ref n);
                 if (Designator == null)
@@ -944,8 +947,34 @@ namespace RFD.RFD900
                     return new RFD900p(Session);
                 case uploader.Uploader.Board.DEVICE_ID_RFD900U:
                     return new RFD900u(Session);
+                case Uploader.Board.DEVICE_ID_RFD900:
+                    return new RFD900old(Session);
+                case Uploader.Board.DEVICE_ID_HM_TRP:
+                    return new HM_TRP(Session);
                 default:
                     return null;
+            }
+        }
+    }
+
+    public class RFD900old : RFD900APU
+    {
+        public RFD900old(TSession Session)
+            : base(Session)
+        {
+
+        }
+
+        protected override string[] GetFirmwareSearchTokens()
+        {
+            return new string[] { "RFD900" };
+        }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_RFD900;
             }
         }
     }
@@ -971,6 +1000,28 @@ namespace RFD.RFD900
             }
         }
     }
+    public class HM_TRP : RFD900APU
+    {
+        public HM_TRP(TSession Session)
+            : base(Session)
+        {
+
+        }
+
+        protected override string[] GetFirmwareSearchTokens()
+        {
+            return new string[] { "HM-TRP" };
+        }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_HM_TRP;
+            }
+        }
+    }
+
 
     public class RFD900p : RFD900APU
     {
