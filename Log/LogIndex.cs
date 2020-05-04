@@ -53,7 +53,7 @@ namespace MissionPlanner.Log
 
         private void queueRunner(object nothing)
         {
-            Parallel.ForEach(files, file => { ProcessFile(file); });
+            Parallel.ForEach(files, async (file) => { await ProcessFile(file).ConfigureAwait(false); });
 
             Loading.ShowLoading("Populating Data", this);
 
@@ -65,15 +65,15 @@ namespace MissionPlanner.Log
             Loading.Close();
         }
 
-        private void ProcessFile(string file)
+        private async Task ProcessFile(string file)
         {
             if (File.Exists(file))
-                processbg(file);
+                await processbg(file).ConfigureAwait(false);
         }
 
         List<object> logs = new List<object>();
         int a = 0;
-        void processbg(string file)
+        async Task processbg(string file)
         {
             a++;
             Loading.ShowLoading(a + "/" + files.Count + " " + file, this);
@@ -109,7 +109,8 @@ namespace MissionPlanner.Log
                     try
                     {
                         mine.logplaybackfile =
-                            new BinaryReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read));
+                            new BinaryReader(new BufferedStream(
+                                File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read), 1024 * 1024 * 5));
                     }
                     catch (Exception ex)
                     {
@@ -150,7 +151,7 @@ namespace MissionPlanner.Log
                     // abandon last 100 bytes
                     while (mine.logplaybackfile.BaseStream.Position < (length - 100))
                     {
-                        var packet = mine.readPacket();
+                        var packet = await mine.readPacketAsync().ConfigureAwait(false);
 
                         // gcs
                         if (packet.sysid == 255)
@@ -179,7 +180,7 @@ namespace MissionPlanner.Log
             }
             else if (file.ToLower().EndsWith(".bin") || file.ToLower().EndsWith(".log"))
             {
-                using (DFLogBuffer colbuf = new DFLogBuffer(File.OpenRead(file)))
+                using (DFLogBuffer colbuf = new DFLogBuffer(new BufferedStream(File.OpenRead(file), 1024 * 1024 * 5)))
                 {
                     PointLatLngAlt lastpos = null;
                     DateTime start = DateTime.MinValue;

@@ -695,7 +695,7 @@ namespace Xamarin
         bool playingLog;
         List<PointLatLng> trackPoints = new List<PointLatLng>();
 
-        private void mainloop()
+        private async void mainloop()
         {
             if (threadrun == true)
                 return;
@@ -774,7 +774,7 @@ namespace Xamarin
                     try
                     {
                         if (!MainV2.comPort.giveComport)
-                            MainV2.comPort.readPacket();
+                            await MainV2.comPort.readPacketAsync().ConfigureAwait(false);
 
                         // update currentstate of sysids on the port
                         foreach (var MAV in MainV2.comPort.MAVlist)

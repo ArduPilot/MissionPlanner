@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using log4net;
 using MissionPlanner.Comms;
 
@@ -74,7 +75,7 @@ namespace MissionPlanner.Utilities
         /// 
         /// and can't fall out
         /// </summary>
-        internal void SerialReader()
+        internal async Task SerialReader()
         {
             if (serialThread == true)
                 return;
@@ -461,7 +462,7 @@ namespace MissionPlanner.Utilities
                         {
                             try
                             {
-                                port.readPacket();
+                                await port.readPacketAsync().ConfigureAwait(false);
                             }
                             catch (Exception ex)
                             {

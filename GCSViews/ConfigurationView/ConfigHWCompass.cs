@@ -359,7 +359,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void BUT_MagCalibrationLog_Click(object sender, EventArgs e)
+        private async void BUT_MagCalibrationLog_Click(object sender, EventArgs e)
         {
             var minthro = "30";
             if (DialogResult.Cancel ==
@@ -369,7 +369,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var ans = 0;
             int.TryParse(minthro, out ans);
 
-            MagCalib.ProcessLog(ans);
+            await MagCalib.ProcessLog(ans).ConfigureAwait(true);
         }
 
         private void CHK_autodec_CheckedChanged(object sender, EventArgs e)

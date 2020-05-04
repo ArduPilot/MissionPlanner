@@ -172,6 +172,9 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    if(item.items == null || item.items.Length == 0)
+                        continue;
+
                     FMT[int.Parse(item["Type"])] = (
                         int.Parse(item["Length"].Trim()),
                         item["Name"].Trim(),
@@ -188,6 +191,9 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    if (item.items == null || item.items.Length == 0)
+                        continue;
+
                     FMTU[int.Parse(item["FmtType"])] =
                         new Tuple<string, string>(item["UnitIds"].Trim(), item["MultIds"].Trim());
 
@@ -243,7 +249,8 @@ namespace MissionPlanner.Utilities
             }))
             {
                 // must be the string version to do the firmware type detection - binarylog
-                Console.WriteLine(this[(int) item.lineno]);
+                var line = this[(int) item.lineno];
+                //Console.WriteLine();
             }
 
             // try get gps time - when a dfitem is created and no valid gpstime has been establish the messages are parsed to get a valid gpstime

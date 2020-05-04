@@ -405,9 +405,9 @@ namespace MissionPlanner
             }
         }
 
-        private void BUT_magfit2_Click(object sender, EventArgs e)
+        private async void BUT_magfit2_Click(object sender, EventArgs e)
         {
-            MagCalib.ProcessLog(0);
+            await MagCalib.ProcessLog(0).ConfigureAwait(false);
         }
 
         private void BUT_shptopoly_Click(object sender, EventArgs e)
@@ -816,7 +816,7 @@ namespace MissionPlanner
             frm.Show();
         }
 
-        private void but_gpsinj_Click(object sender, EventArgs e)
+        private async void but_gpsinj_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "tlog|*.tlog";
@@ -836,7 +836,7 @@ namespace MissionPlanner
 
                         while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                         {
-                            MAVLink.MAVLinkMessage packet = mine.readPacket();
+                            MAVLink.MAVLinkMessage packet = await mine.readPacketAsync().ConfigureAwait(true);
 
                             if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GPS_INJECT_DATA)
                             {

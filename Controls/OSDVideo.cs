@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MissionPlanner
@@ -128,9 +129,9 @@ namespace MissionPlanner
             }
         }
 
-        private void startup()
+        private async Task startup()
         {
-            dolog();
+            await dolog().ConfigureAwait(true);
 
             if (DSplugin)
             {
@@ -271,7 +272,7 @@ namespace MissionPlanner
             }
         }
 
-        void dolog()
+        async Task dolog()
         {
             flightdata.Clear();
 
@@ -290,7 +291,7 @@ namespace MissionPlanner
                 mine.logreadmode = true;
                 mine.speechenabled = false;
 
-                mine.readPacket();
+                await mine.readPacketAsync().ConfigureAwait(true);
 
                 startlogtime = mine.lastlogread;
 
@@ -300,7 +301,7 @@ namespace MissionPlanner
 
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
-                    MAVLink.MAVLinkMessage packet = mine.readPacket();
+                    MAVLink.MAVLinkMessage packet = await mine.readPacketAsync().ConfigureAwait(true);
 
                     cs.datetime = mine.lastlogread;
 
@@ -618,7 +619,7 @@ namespace MissionPlanner
             return ctl.Text.Substring(0, ctl.Text.LastIndexOf("\\") + 1);
         }
 
-        private void BUT_start_Click(object sender, EventArgs e)
+        private async void BUT_start_Click(object sender, EventArgs e)
         {
             saveconfig();
             try
@@ -655,7 +656,7 @@ namespace MissionPlanner
 
             //newManager.Close();
 
-            startup();
+            await startup().ConfigureAwait(true);
 
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;

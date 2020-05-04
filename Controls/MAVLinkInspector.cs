@@ -1,8 +1,10 @@
-﻿using MissionPlanner.Utilities;
+﻿using Microsoft.Scripting.Utils;
+using MissionPlanner.Utilities;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
 
@@ -143,11 +145,11 @@ namespace MissionPlanner.Controls
 
                         if (field.Name == "param_id") // param_value
                         {
-                            value = new String((char[])value2);
+                            value = Encoding.ASCII.GetString((byte[])value2);
                         }
                         else if (field.Name == "text") // statustext
                         {
-                            value = new String((char[])value);
+                            value = Encoding.ASCII.GetString((byte[])value2);
                         }
                         else
                         {

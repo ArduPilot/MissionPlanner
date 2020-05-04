@@ -501,17 +501,17 @@
             var txt = (MAVLink.mavlink_statustext_t) packet.data;
             if (txt.severity >= (byte) MAVLink.MAV_SEVERITY.NOTICE)
             {
-                Toaster.Info(new String(txt.text).TrimUnPrintable());
+                Toaster.Info(Encoding.ASCII.GetString(txt.text).TrimUnPrintable());
             }
             else if (txt.severity >= (byte) MAVLink.MAV_SEVERITY.WARNING)
             {
-                Toaster.Warning(new String(txt.text).TrimUnPrintable());
-                SpeechSynthesis.Speak(new String(txt.text).TrimUnPrintable());
+                Toaster.Warning(Encoding.ASCII.GetString(txt.text).TrimUnPrintable());
+                SpeechSynthesis.Speak(Encoding.ASCII.GetString(txt.text).TrimUnPrintable());
             }
             else if (txt.severity >= (byte) MAVLink.MAV_SEVERITY.EMERGENCY)
             {
-                Toaster.Error(new String(txt.text).TrimUnPrintable());
-                SpeechSynthesis.Speak(new String(txt.text).TrimUnPrintable());
+                Toaster.Error(Encoding.ASCII.GetString(txt.text).TrimUnPrintable());
+                SpeechSynthesis.Speak(Encoding.ASCII.GetString(txt.text).TrimUnPrintable());
             }
         }
 

@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MissionPlanner
@@ -89,7 +90,7 @@ namespace MissionPlanner
         /// <summary>
         /// Self contained process tlog and save/display offsets
         /// </summary>
-        public static void ProcessLog(int throttleThreshold = 0)
+        public static async Task ProcessLog(int throttleThreshold = 0)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
@@ -113,7 +114,7 @@ namespace MissionPlanner
 
                         if (openFileDialog1.FileName.ToLower().EndsWith("tlog"))
                         {
-                            ans = getOffsets(openFileDialog1.FileName, throttleThreshold);
+                            ans = await getOffsets(openFileDialog1.FileName, throttleThreshold).ConfigureAwait(true);
                         }
                         else
                         {
@@ -302,7 +303,7 @@ namespace MissionPlanner
             return true;
         }
 
-        public static void test()
+        public static async Task test()
         {
             getOffsets(@"C:\Users\michael\Downloads\2017-12-03 19-26-47.tlog");
 
@@ -341,7 +342,7 @@ namespace MissionPlanner
                 // gather data
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
-                    MAVLink.MAVLinkMessage packetraw = mine.readPacket();
+                    MAVLink.MAVLinkMessage packetraw = await mine.readPacketAsync().ConfigureAwait(false);
 
                     com.update(ref test);
 
@@ -910,7 +911,7 @@ namespace MissionPlanner
         /// </summary>
         /// <param name="fn">Filename</param>
         /// <returns>Offsets</returns>
-        public static double[] getOffsets(string fn, int throttleThreshold = 0)
+        public static async Task<double[]> getOffsets(string fn, int throttleThreshold = 0)
         {
             // based off tridge's work
             string logfile = fn;
@@ -960,7 +961,7 @@ namespace MissionPlanner
                 // gather data
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
-                    MAVLink.MAVLinkMessage packetraw = mine.readPacket();
+                    MAVLink.MAVLinkMessage packetraw = await mine.readPacketAsync().ConfigureAwait(false);
 
                     var packet = mine.DebugPacket(packetraw, false);
 

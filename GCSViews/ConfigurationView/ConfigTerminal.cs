@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SerialPort = MissionPlanner.Comms.SerialPort;
 
@@ -345,7 +346,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void start_Terminal(bool px4)
+        private async Task start_Terminal(bool px4)
         {
             setcomport();
 
@@ -390,7 +391,7 @@ namespace MissionPlanner.GCSViews
                         mine.BaseStream.Open();
 
                         // check if we are a mavlink stream
-                        var buffer = mine.readPacket();
+                        var buffer = await mine.readPacketAsync().ConfigureAwait(true);
 
                         if (buffer.Length > 0)
                         {
@@ -700,7 +701,7 @@ namespace MissionPlanner.GCSViews
             logbrowse.Show();
         }
 
-        private void BUT_RebootAPM_Click(object sender, EventArgs e)
+        private async void BUT_RebootAPM_Click(object sender, EventArgs e)
         {
             if (comPort.IsOpen)
             {
@@ -720,11 +721,11 @@ namespace MissionPlanner.GCSViews
             }
 
             if (CMB_boardtype.Text.Contains("APM"))
-                start_Terminal(false);
+                await start_Terminal(false).ConfigureAwait(true);
             if (CMB_boardtype.Text.Contains("PX4"))
-                start_Terminal(true);
+                await start_Terminal(true).ConfigureAwait(true);
             if (CMB_boardtype.Text.Contains("VRX"))
-                start_Terminal(true);
+                await start_Terminal(true).ConfigureAwait(true);
             if (CMB_boardtype.Text.Contains("SSH"))
             {
                 term = new SSHTerminal(TXT_terminal);

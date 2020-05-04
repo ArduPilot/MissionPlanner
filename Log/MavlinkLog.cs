@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZedGraph; // Graphs
 
@@ -49,7 +50,7 @@ namespace MissionPlanner.Log
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
-        private void BUT_redokml_Click(object sender, EventArgs e)
+        private async void BUT_redokml_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
@@ -126,7 +127,7 @@ namespace MissionPlanner.Log
                                     progressBar1.Refresh();
                                 }
 
-                                MAVLink.MAVLinkMessage packet = mine.readPacket();
+                                MAVLink.MAVLinkMessage packet = await mine.readPacketAsync().ConfigureAwait(true);
 
                                 mine.MAV.cs.datetime = mine.lastlogread;
 
@@ -196,7 +197,7 @@ namespace MissionPlanner.Log
 
 
 
-        private void BUT_humanreadable_Click(object sender, EventArgs e)
+        private async void BUT_humanreadable_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
@@ -248,7 +249,7 @@ namespace MissionPlanner.Log
                                     progressBar1.Refresh();
                                 }
 
-                                MAVLink.MAVLinkMessage packet = mine.readPacket();
+                                MAVLink.MAVLinkMessage packet = await mine.readPacketAsync().ConfigureAwait(true);
                                 string text = "";
                                 mine.DebugPacket(packet, ref text);
 
@@ -268,7 +269,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        private void BUT_graphmavlog_Click(object sender, EventArgs e)
+        private async void BUT_graphmavlog_Click(object sender, EventArgs e)
         {
             //http://devreminder.wordpress.com/net/net-framework-fundamentals/c-dynamic-math-expression-evaluation/
             //http://www.c-sharpcorner.com/UploadFile/mgold/CodeDomCalculator08082005003253AM/CodeDomCalculator.aspx
@@ -296,7 +297,7 @@ namespace MissionPlanner.Log
                 {
                     this.Text = "Log - " + Path.GetFileName(openFileDialog1.FileName);
 
-                    List<string> fields = GetLogFileValidFields(openFileDialog1.FileName);
+                    List<string> fields = await GetLogFileValidFields(openFileDialog1.FileName).ConfigureAwait(true);
 
                     zg1.GraphPane.CurveList.Clear();
 
@@ -331,7 +332,7 @@ namespace MissionPlanner.Log
             return result;
         }
 
-        private List<string> GetLogFileValidFields(string logfile)
+        private async Task<List<string>> GetLogFileValidFields(string logfile)
         {
             // if (selectform != null && !selectform.IsDisposed)
             //     selectform.Close();
@@ -349,11 +350,11 @@ namespace MissionPlanner.Log
 
             colorStep = 0;
 
-            using (MAVLinkInterface MavlinkInterface = new MAVLinkInterface())
+            using (MAVLinkInterface mine = new MAVLinkInterface())
             {
                 try
                 {
-                    MavlinkInterface.logplaybackfile =
+                    mine.logplaybackfile =
                         new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
                 }
                 catch (Exception ex)
@@ -362,36 +363,36 @@ namespace MissionPlanner.Log
                     CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
                     return options;
                 }
-                MavlinkInterface.logreadmode = true;
+                mine.logreadmode = true;
 
                 CurrentState cs = new CurrentState();
 
                 // to get first packet time
-                MavlinkInterface.getHeartBeat();
-                MavlinkInterface.setAPType(MavlinkInterface.MAV.sysid, MavlinkInterface.MAV.compid);
+                mine.getHeartBeat();
+                mine.setAPType(mine.MAV.sysid, mine.MAV.compid);
 
-                DateTime startlogtime = MavlinkInterface.lastlogread;
+                DateTime startlogtime = mine.lastlogread;
 
-                while (MavlinkInterface.logplaybackfile.BaseStream.Position <
-                       MavlinkInterface.logplaybackfile.BaseStream.Length)
+                while (mine.logplaybackfile.BaseStream.Position <
+                       mine.logplaybackfile.BaseStream.Length)
                 {
                     int percent =
                         (int)
-                            ((float)MavlinkInterface.logplaybackfile.BaseStream.Position /
-                             (float)MavlinkInterface.logplaybackfile.BaseStream.Length * 100.0f);
+                            ((float)mine.logplaybackfile.BaseStream.Position /
+                             (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
                     if (progressBar1.Value != percent)
                     {
                         progressBar1.Value = percent;
                         progressBar1.Refresh();
                     }
 
-                    MAVLink.MAVLinkMessage packet = MavlinkInterface.readPacket();
+                    MAVLink.MAVLinkMessage packet = await mine.readPacketAsync().ConfigureAwait(true);
 
-                    cs.datetime = MavlinkInterface.lastlogread;
+                    cs.datetime = mine.lastlogread;
 
-                    cs.UpdateCurrentSettings(null, true, MavlinkInterface);
+                    cs.UpdateCurrentSettings(null, true, mine);
 
-                    object data = MavlinkInterface.DebugPacket(packet, false);
+                    object data = mine.DebugPacket(packet, false);
 
                     if (data == null)
                     {
@@ -421,7 +422,7 @@ namespace MissionPlanner.Log
                         Dictionary<DateTime, object> temp = (Dictionary<DateTime, object>)packetdata[packetname];
 
                         //double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
-                        DateTime time = MavlinkInterface.lastlogread;
+                        DateTime time = mine.lastlogread;
 
                         temp[time] = data;
                     }
@@ -454,7 +455,7 @@ namespace MissionPlanner.Log
                             // seconds scale
                             //double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
 
-                            XDate time = new XDate(MavlinkInterface.lastlogread);
+                            XDate time = new XDate(mine.lastlogread);
 
                             if (value.GetType() == typeof(Single))
                             {
@@ -505,9 +506,9 @@ namespace MissionPlanner.Log
                     }
                 }
 
-                MavlinkInterface.logreadmode = false;
-                MavlinkInterface.logplaybackfile.Close();
-                MavlinkInterface.logplaybackfile = null;
+                mine.logreadmode = false;
+                mine.logplaybackfile.Close();
+                mine.logplaybackfile = null;
 
                 try
                 {
@@ -976,7 +977,7 @@ namespace MissionPlanner.Log
             return selectform;
         }
 
-        private void BUT_convertcsv_Click(object sender, EventArgs e)
+        private async void BUT_convertcsv_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
@@ -1027,7 +1028,7 @@ namespace MissionPlanner.Log
                                     progressBar1.Refresh();
                                 }
 
-                                MAVLink.MAVLinkMessage packet = mine.readPacket();
+                                MAVLink.MAVLinkMessage packet = await mine.readPacketAsync().ConfigureAwait(true);
                                 string text = "";
                                 mine.DebugPacket(packet, ref text, false, ",");
 
