@@ -1,11 +1,13 @@
 ﻿using BitMiracle.LibTiff.Classic;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using GMap.NET;
 using log4net;
 
@@ -17,6 +19,8 @@ namespace MissionPlanner.Utilities
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private static Dictionary<string, float[,]> cache = new Dictionary<string, float[,]>();
+
+        private static List<string> cacheloading = new List<string>();
 
         public static List<geotiffdata> index = new List<geotiffdata>();
 
@@ -150,7 +154,7 @@ namespace MissionPlanner.Utilities
                     }
 
                     var GeoAsciiParamsTag = tiff.GetField((TiffTag)34737);
-                    if (GeoAsciiParamsTag.Length == 2)
+                    if (GeoAsciiParamsTag != null && GeoAsciiParamsTag.Length == 2)
                         log.InfoFormat("GeoAsciiParamsTag {0}", GeoAsciiParamsTag[1]);
 
                     i = BitConverter.ToDouble(tiepoint[1].ToByteArray(), 0);
@@ -209,7 +213,8 @@ namespace MissionPlanner.Utilities
 
                     log.InfoFormat("Start Point ({0},{1},{2}) --> ({3},{4},{5})", i, j, k, x, y, z);
 
-                    GeoTiff.index.Add(this);
+                    lock (index)
+                        GeoTiff.index.Add(this);
 
                     /*
 
@@ -293,12 +298,13 @@ namespace MissionPlanner.Utilities
 
         public static srtm.altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
-            if (index.Count == 0)
+            lock (index)
+                if (index.Count == 0)
                 return srtm.altresponce.Invalid;
 
             var answer = new srtm.altresponce();
 
-            foreach (var geotiffdata in index)
+            foreach (var geotiffdata in index.ToArray())
             {
                 if (geotiffdata.Area.Contains(lat, lng))
                 {
@@ -308,79 +314,104 @@ namespace MissionPlanner.Utilities
                         if (!File.Exists(geotiffdata.FileName))
                             continue;
 
-                        float[,] altdata = new float[geotiffdata.height, geotiffdata.width];
-
-                        using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
+                        lock (cacheloading)
                         {
-                            if (tiff.GetField(TiffTag.TILEWIDTH) != null && tiff.GetField(TiffTag.TILEWIDTH).Length >= 1)
+                            if (cacheloading.Contains(geotiffdata.FileName))
+                                return srtm.altresponce.Invalid;
+
+                            cacheloading.Add(geotiffdata.FileName);
+                        }
+
+                        Task.Run(() => { 
+                        try
+                        {
+                            float[,] altdata = new float[geotiffdata.height, geotiffdata.width];
+
+                            using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
                             {
-                                FieldValue[] value = tiff.GetField(TiffTag.IMAGEWIDTH);
-                                int imageWidth = value[0].ToInt();
-
-                                value = tiff.GetField(TiffTag.IMAGELENGTH);
-                                int imageLength = value[0].ToInt();
-
-                                value = tiff.GetField(TiffTag.TILEWIDTH);
-                                int tileWidth = value[0].ToInt();
-
-                                value = tiff.GetField(TiffTag.TILELENGTH);
-                                int tileLength = value[0].ToInt();
-
-                                byte[] buf = new byte[tiff.TileSize()];
-                                for (int y = 0; y < imageLength; y += tileLength)
+                                if (tiff.GetField(TiffTag.TILEWIDTH) != null &&
+                                    tiff.GetField(TiffTag.TILEWIDTH).Length >= 1)
                                 {
-                                    for (int x = 0; x < imageWidth; x += tileWidth)
+                                    FieldValue[] value = tiff.GetField(TiffTag.IMAGEWIDTH);
+                                    int imageWidth = value[0].ToInt();
+
+                                    value = tiff.GetField(TiffTag.IMAGELENGTH);
+                                    int imageLength = value[0].ToInt();
+
+                                    value = tiff.GetField(TiffTag.TILEWIDTH);
+                                    int tileWidth = value[0].ToInt();
+
+                                    value = tiff.GetField(TiffTag.TILELENGTH);
+                                    int tileLength = value[0].ToInt();
+
+                                    byte[] buf = new byte[tiff.TileSize()];
+                                    for (int y = 0; y < imageLength; y += tileLength)
                                     {
-                                        tiff.ReadTile(buf, 0, x, y, 0, 0);
-
-                                        for (int row = 0; row < tileLength; row++)
+                                        for (int x = 0; x < imageWidth; x += tileWidth)
                                         {
-                                            for (int col = 0; col < tileWidth; col++)
-                                            {
-                                                if (x + col >= imageWidth || y + row >= imageLength)
-                                                    break;
+                                            tiff.ReadTile(buf, 0, x, y, 0, 0);
 
-                                                if (geotiffdata.bits == 16)
+                                            for (int row = 0; row < tileLength; row++)
+                                            {
+                                                for (int col = 0; col < tileWidth; col++)
                                                 {
-                                                    altdata[y + row, x + col] =
-                                                        (short) ((buf[row * tileWidth * 2 + col * 2 + 1] << 8) + buf[row * tileWidth * 2 + col * 2]);
-                                                }
-                                                else if (geotiffdata.bits == 32)
-                                                {
-                                                    altdata[y + row, x + col] =
-                                                        (float) BitConverter.ToSingle(buf, row * tileWidth * 4 + col * 4);
+                                                    if (x + col >= imageWidth || y + row >= imageLength)
+                                                        break;
+
+                                                    if (geotiffdata.bits == 16)
+                                                    {
+                                                        altdata[y + row, x + col] =
+                                                            (short) ((buf[row * tileWidth * 2 + col * 2 + 1] << 8) +
+                                                                     buf[row * tileWidth * 2 + col * 2]);
+                                                    }
+                                                    else if (geotiffdata.bits == 32)
+                                                    {
+                                                        altdata[y + row, x + col] =
+                                                            (float) BitConverter.ToSingle(buf,
+                                                                row * tileWidth * 4 + col * 4);
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            else
-                            {
-
-                                byte[] scanline = new byte[tiff.ScanlineSize()];
-
-                                for (int row = 0; row < geotiffdata.height; row++)
+                                else
                                 {
-                                    tiff.ReadScanline(scanline, row);
 
-                                    for (int col = 0; col < geotiffdata.width; col++)
+                                    byte[] scanline = new byte[tiff.ScanlineSize()];
+
+                                    for (int row = 0; row < geotiffdata.height; row++)
                                     {
-                                        if (geotiffdata.bits == 16)
+                                        tiff.ReadScanline(scanline, row);
+
+                                        for (int col = 0; col < geotiffdata.width; col++)
                                         {
-                                            altdata[row, col] =
-                                                (short) ((scanline[col * 2 + 1] << 8) + scanline[col * 2]);
-                                        }
-                                        else if (geotiffdata.bits == 32)
-                                        {
-                                            altdata[row, col] = (float) BitConverter.ToSingle(scanline, col * 4);
+                                            if (geotiffdata.bits == 16)
+                                            {
+                                                altdata[row, col] =
+                                                    (short) ((scanline[col * 2 + 1] << 8) + scanline[col * 2]);
+                                            }
+                                            else if (geotiffdata.bits == 32)
+                                            {
+                                                altdata[row, col] = (float) BitConverter.ToSingle(scanline, col * 4);
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        cache[geotiffdata.FileName] = altdata;
+                            cache[geotiffdata.FileName] = altdata;
+                        }
+                        finally
+                        {
+                            lock (cacheloading)
+                            {
+                                cacheloading.Remove(geotiffdata.FileName);
+                            }
+                        }
+                        });
+
+                        return srtm.altresponce.Invalid;
                     }
 
                     // get answer
