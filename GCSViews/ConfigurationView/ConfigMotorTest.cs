@@ -251,5 +251,50 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Bad default system association", Strings.ERROR);
             }
         }
+
+        private async void but_mot_spin_arm_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+
+            if (NUM_thr_percent.Value < 20)
+            {
+                var value = (int)NUM_thr_percent.Value + 2;
+                if (InputBox.Show(Strings.ChangeThrottle, "Enter arm throttle % (deadzone + 2%)", ref value) == DialogResult.OK)
+                {
+                    await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_ARM",
+                        (float)value).ConfigureAwait(true);
+                }
+            }
+            else
+            {
+                CustomMessageBox.Show("Throttle percent above 20, too high", Strings.ERROR);
+            }
+
+            this.Enabled = true;
+        }
+
+        private async void but_mot_spin_min_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+
+            if (NUM_thr_percent.Value < 20)
+            {
+                var value = (int)MainV2.comPort.MAV.param["MOT_SPIN_ARM"].Value + 3;
+                if (InputBox.Show(Strings.ChangeThrottle, "Enter min spin throttle % (arm min + 3%)", ref value) ==
+                    DialogResult.OK)
+                {
+                    await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_MIN",
+                        (float)value).ConfigureAwait(true);
+                }
+            }
+            else
+            {
+                CustomMessageBox.Show("Throttle percent above 20, too high", Strings.ERROR);
+            }
+
+            this.Enabled = true;
+        }
     }
 }
