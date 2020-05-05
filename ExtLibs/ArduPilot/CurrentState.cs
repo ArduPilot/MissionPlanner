@@ -2142,8 +2142,7 @@ namespace MissionPlanner
 
                         if (errors_count1 > 0 || errors_count2 > 0)
                         {
-                            messageHigh = "InternalError " + Enum.GetName(typeof(AP_InternalError.error_t),
-                                              (errors_count1 + (errors_count2 << 16)));
+                            messageHigh = "InternalError 0x" + (errors_count1 + (errors_count2 << 16)).ToString("X");
                             messageHighTime = DateTime.Now;
                         } 
                         
