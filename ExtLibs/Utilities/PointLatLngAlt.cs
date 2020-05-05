@@ -10,6 +10,7 @@ using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 using GeoUtility;
 using GeoUtility.GeoSystem;
+using System.Collections;
 
 namespace MissionPlanner.Utilities
 {
@@ -206,9 +207,7 @@ namespace MissionPlanner.Utilities
         // force a zone
         public double[] ToUTM(int utmzone)
         {
-            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), Lat < 0 ? false : true);
-
-            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
+            ICoordinateTransformation trans = TryGetTransform(utmzone, Lat);
 
             double[] pll = { Lng, Lat };
 
@@ -218,11 +217,30 @@ namespace MissionPlanner.Utilities
             return utmxy;
         }
 
+        private static Dictionary<int, ICoordinateTransformation> coordtrans = new Dictionary<int, ICoordinateTransformation>();
+
+        static ICoordinateTransformation TryGetTransform(int utmzone, double lat)
+        {
+            if (lat < 0 && utmzone > 0)
+                utmzone *= -1;
+
+            lock (coordtrans)
+                if (coordtrans.ContainsKey(utmzone))
+                    return coordtrans[utmzone];
+
+            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), lat < 0 ? false : true);
+            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
+
+            lock(coordtrans)
+                coordtrans[utmzone] = trans;
+
+            lock (coordtrans)
+                return coordtrans[utmzone];
+        }
+
         public static List<double[]> ToUTM(int utmzone, List<PointLatLngAlt> list)
         {
-            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), list[0].Lat < 0 ? false : true);
-
-            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
+            ICoordinateTransformation trans = TryGetTransform(utmzone, list[0].Lat);
 
             List<double[]> data = new List<double[]>();
 
