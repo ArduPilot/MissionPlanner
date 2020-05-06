@@ -1011,8 +1011,7 @@ namespace MissionPlanner
         private void but_3dmap_Click(object sender, EventArgs e)
         {
             var ogl = new OpenGLtest2();
-
-            ogl.ShowUserControl();
+            var frm = ogl.ShowUserControl();
         }
 
         private void but_anonlog_Click(object sender, EventArgs e)

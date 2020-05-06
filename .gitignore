@@ -24,3 +24,4 @@ packages/
 /Drivers/DriverCleanup.exe.config
 /Drivers/DriverCleanup.exe
 /objcore
+*.diagsession

@@ -92,7 +92,7 @@ namespace MissionPlanner.Utilities
         }
 
 
-        public static Form ShowUserControl(this Control ctl)
+        public static Form ShowUserControl(this Control ctl, bool showit = true)
         {
             Form frm = new Form();
             int header = frm.Height - frm.ClientRectangle.Height;
@@ -109,7 +109,8 @@ namespace MissionPlanner.Utilities
             frm.Controls.Add(ctl);
             frm.Load += Frm_Load;
             frm.Closing += Frm_Closing;
-            frm.Show();
+            if (showit)
+                frm.Show();
 
             return frm;
         }

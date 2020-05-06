@@ -50,7 +50,7 @@
     <OutputPath>bin\Debug\net461\</OutputPath>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <DefineConstants>DEBUG</DefineConstants>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>
