@@ -365,7 +365,7 @@ namespace MissionPlanner.Joystick
             butnumberlist.Size = new Size(70, 21);
             //butnumberlist.DataSource = getButtonNumbers();
 
-            butnumberlist.Items.AddRange(getButtonNumbers().Select(x => x.ToString()).ToArray());
+            butnumberlist.Items.AddRange(getButtonNumbers().Select(item => item.ToString()).ToArray());
             butnumberlist.SelectedIndex = 0;
 
 
