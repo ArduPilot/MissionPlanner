@@ -363,13 +363,24 @@ namespace MissionPlanner.Joystick
 
             butnumberlist.Location = new Point(butlabel.Right, y);
             butnumberlist.Size = new Size(70, 21);
-            butnumberlist.DataSource = getButtonNumbers();
+            //butnumberlist.DataSource = getButtonNumbers();
+
+            butnumberlist.Items.AddRange(getButtonNumbers().Select(x => x.ToString()).ToArray());
+            butnumberlist.SelectedIndex = 0;
+
+
             butnumberlist.DropDownStyle = ComboBoxStyle.DropDownList;
             butnumberlist.Name = "cmbbutton" + name;
+
+            //butnumberlist.SelectedItem = "-1";
+            butnumberlist.SelectedItem = config.buttonno.ToString();
+
             //if (Settings.Instance["butno" + name] != null)
-            //  butnumberlist.Text = (Settings.Instance["butno" + name].ToString());
+            //    butnumberlist.Text = (Settings.Instance["butno" + name].ToString());
             //if (config.buttonno != -1)
-            butnumberlist.Text = config.buttonno.ToString();
+
+            //butnumberlist.Text = config.buttonno.ToString();
+
             butnumberlist.SelectedIndexChanged += new EventHandler(cmbbutton_SelectedIndexChanged);
 
             but_detect.Location = new Point(butnumberlist.Right, y);
@@ -387,7 +398,10 @@ namespace MissionPlanner.Joystick
             cmbaction.Location = new Point(hbar.Right + 5, y);
             cmbaction.Size = new Size(100, 21);
 
-            cmbaction.DataSource = Enum.GetNames(typeof(Joystick.buttonfunction));
+            //cmbaction.DataSource = Enum.GetNames(typeof(Joystick.buttonfunction));
+            cmbaction.Items.AddRange(Enum.GetNames(typeof(Joystick.buttonfunction)));
+
+
             //Common.getModesList(MainV2.comPort.MAV.cs);
             //cmbaction.ValueMember = "Key";
             //cmbaction.DisplayMember = "Value";
