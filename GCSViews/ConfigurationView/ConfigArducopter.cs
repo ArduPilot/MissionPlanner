@@ -55,7 +55,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CH10_OPTION.setup(new[] { "CH10_OPT", "CH10_OPTION", "RC10_OPTION" }, MainV2.comPort.MAV.param);
 
             TUNE_LOW.setup(0, 10000, 1000, 0.01f, new[] { "TUNE_LOW", "TUNE_MIN" }, MainV2.comPort.MAV.param);
-            TUNE_HIGH.setup(0, 10000, 1000, 0.01f, new[] { "TUNE_HIGH", "TUNE_MIN" }, MainV2.comPort.MAV.param);
+            TUNE_HIGH.setup(0, 10000, 1000, 0.01f, new[] { "TUNE_HIGH", "TUNE_MAX" }, MainV2.comPort.MAV.param);
 
             HLD_LAT_P.setup(0, 0, 1, 0.001f, new[] { "HLD_LAT_P", "POS_XY_P", "PSC_POSXY_P" }, MainV2.comPort.MAV.param);
             LOITER_LAT_D.setup(0, 0, 1, 0.001f, new[] { "LOITER_LAT_D", "PSC_VELXY_D" }, MainV2.comPort.MAV.param);
