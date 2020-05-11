@@ -542,8 +542,9 @@ namespace MissionPlanner.GCSViews
             }
             else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
-                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString();
-                ChangeColumnHeader(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString());
+                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString();
+                Commands.Rows[selectedrow].Cells[Param1.Index].Value = 5;
+                ChangeColumnHeader(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString());
             }
             else if (splinemode)
             {
@@ -967,7 +968,7 @@ namespace MissionPlanner.GCSViews
             MainMap.UpdatePolygonLocalPosition(drawnpolygon);
 
             {
-                foreach (var pointLatLngAlt in drawnpolygon.Points.PrevNowNext())
+                foreach (var pointLatLngAlt in drawnpolygon.Points.CloseLoop().PrevNowNext())
                 {
                     var now = pointLatLngAlt.Item2;
                     var next = pointLatLngAlt.Item3;
@@ -1369,6 +1370,7 @@ namespace MissionPlanner.GCSViews
                     {
                         foreach (var pointLatLngAlt in pointlist.PrevNowNext())
                         {
+                            var prev = pointLatLngAlt.Item1;
                             var now = pointLatLngAlt.Item2;
                             var next = pointLatLngAlt.Item3;
 
@@ -1382,6 +1384,23 @@ namespace MissionPlanner.GCSViews
                             pnt.Tag = new midline() {now = now, next = next};
                             overlay.overlay.Markers.Add(pnt);
                         }
+                    }
+
+                    // draw fence
+                    {
+                        var fenceoverlay = new WPOverlay();
+                        fenceoverlay.overlay.Id = "fence";
+
+                        fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
+                            MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp)a).ToList(), 0, 0);
+
+                        fenceoverlay.overlay.Markers.Select(a => a.IsHitTestVisible = false).ToArray();
+                        var fence = MainMap.Overlays.Where(a => a.Id == "fence");
+                        if (fence.Count() > 0)
+                            MainMap.Overlays.Remove(fence.First());
+                        MainMap.Overlays.Add(fenceoverlay.overlay);
+
+                        fenceoverlay.overlay.ForceUpdate();
                     }
 
                     MainMap.Refresh();
@@ -1414,22 +1433,28 @@ namespace MissionPlanner.GCSViews
 
                     overlay.overlay.ForceUpdate();
 
-                    if (false) {
+                    if (true) {
                         foreach (var poly in overlay.overlay.Polygons)
                         {
-                            foreach (var pointLatLngAlt in poly.Points.PrevNowNext())
+                            var startwp = int.Parse(poly.Name);
+                            var a = 1;
+                            foreach (var pointLatLngAlt in poly.Points.CloseLoop().PrevNowNext())
                             {
                                 var now = pointLatLngAlt.Item2;
                                 var next = pointLatLngAlt.Item3;
 
                                 if (now == null || next == null)
-                                    continue;
+                                    continue;                              
 
                                 var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2, 0);
 
                                 var pnt = new GMapMarkerPlus(mid);
-                                pnt.Tag = new midline() {now = now, next = next};
-                                //overlay.overlay.Markers.Add(pnt);
+                                pnt.Tag = new midline() { now = now, next = next };
+                                ((midline)pnt.Tag).now.Tag = (startwp + a).ToString();
+                                ((midline)pnt.Tag).next.Tag = (startwp + a + 1).ToString();
+                                overlay.overlay.Markers.Add(pnt);
+
+                                a++;
                             }
                         }
                     }
@@ -1554,13 +1579,9 @@ namespace MissionPlanner.GCSViews
         {
             if (polygongridmode == false)
             {
-                CustomMessageBox.Show(
-                    "You will remain in polygon mode until you clear the polygon or create a grid/upload a fence");
                 polygongridmode = true;
                 return;
             }
-
-            polygongridmode = true;
 
             List<PointLatLng> polygonPoints = new List<PointLatLng>();
             if (drawnpolygonsoverlay.Polygons.Count == 0)
@@ -2230,7 +2251,7 @@ namespace MissionPlanner.GCSViews
             {
                 Commands.CurrentCell = Commands.Rows[e.RowIndex].Cells[0];
 
-                if (Commands.Rows.Count > 1)
+                if (Commands.Rows.Count > 1 && e.RowIndex != 0)
                 {
                     if (Commands.Rows[e.RowIndex - 1].Cells[Command.Index].Value.ToString() == "WAYPOINT")
                     {
@@ -2855,6 +2876,10 @@ namespace MissionPlanner.GCSViews
                 {
                     try
                     {
+                        if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue ==
+                            MAVLink.MAV_MISSION_TYPE.FENCE)
+                            ReCalcFence(no - 1, false, true);
+
                         Commands.Rows.RemoveAt(no - 1); // home is 0
                     }
                     catch (Exception ex)
@@ -2868,18 +2893,8 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         drawnpolygon.Points.RemoveAt(no - 1);
-                        drawnpolygonsoverlay.Markers.Clear();
 
-                        int a = 1;
-                        foreach (PointLatLng pnt in drawnpolygon.Points)
-                        {
-                            addpolygonmarkergrid(a.ToString(), pnt.Lng, pnt.Lat, 0);
-                            a++;
-                        }
-
-                        MainMap.UpdatePolygonLocalPosition(drawnpolygon);
-
-                        MainMap.Invalidate();
+                        redrawPolygonSurvey(drawnpolygon.Points.Select(a => new PointLatLngAlt(a)).ToList());
                     }
                     catch (Exception ex)
                     {
@@ -6534,8 +6549,26 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     {
                         if (int.TryParse(midline.next.Tag, out pnt2))
                         {
-                            InsertCommand(pnt2 - 1, MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, CurrentMidLine.Position.Lng,
-                                CurrentMidLine.Position.Lat, float.Parse(TXT_DefaultAlt.Text));
+                            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
+                                MAVLink.MAV_MISSION_TYPE.FENCE)
+                            {
+                                var prevtype = Commands.Rows[(int)Math.Max(pnt2 - 2, 0)].Cells[Command.Index].Value.ToString();
+                                // match type of prev row
+                                InsertCommand(pnt2 - 1, (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), prevtype),
+                                    0, 0, 0, 0,
+                                    CurrentMidLine.Position.Lng,
+                                    CurrentMidLine.Position.Lat, 0);
+
+                                ReCalcFence(pnt2 - 1, true, false);
+                            }
+                            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
+                                     MAVLink.MAV_MISSION_TYPE.MISSION)
+                            {
+
+                                InsertCommand(pnt2 - 1, MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0,
+                                    CurrentMidLine.Position.Lng,
+                                    CurrentMidLine.Position.Lat, float.Parse(TXT_DefaultAlt.Text));
+                            }
                         }
                     }
 
@@ -6659,6 +6692,99 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
 
             isMouseDraging = false;
+        }
+
+        private void ReCalcFence(int rowno, bool insert, bool delete)
+        {
+            if (insert)
+            {
+                var currentlist = GetCommandList();
+
+                var type = currentlist[rowno].id;
+
+                if (type == (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION ||
+                    type == (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION)
+                {
+                    var oldcount = int.Parse(Commands.Rows[rowno - 1].Cells[Param1.Index].Value.ToString());
+                    var newcount = oldcount + 1;
+
+                    var list = currentlist.Where((a, i) =>
+                        a.id == type && (a.p1 == 0 || a.p1 == oldcount));
+                    //&& i >= rowno - oldcount && i <= rowno + oldcount
+
+                    while (list.Count() > 0)
+                    {
+                        var length = (int) list.First().p1;
+                        if (length == 0)
+                            length = 1;
+                        int cnt = 0;
+                        var sublist = list.Where((a, i) =>
+                        {
+                            if (a.p1 == 0 && cnt <= length)
+                                return true;
+                            cnt++;
+                            return cnt <= length;
+                        }).ToList();
+
+                        if (sublist.Count() == newcount)
+                        {
+                            foreach (var locationwp in sublist)
+                            {
+                                var idx = currentlist.IndexOf(locationwp);
+                                Commands[Param1.Index, idx].Value = newcount;
+                            }
+
+                            return;
+                        }
+
+                        if (list.Count() < length)
+                            break;
+                        list = list.Skip(length);
+                    }
+                }
+            }
+
+            if (delete)
+            {
+                var currentlist = GetCommandList();
+
+                var type = currentlist[rowno].id;
+
+                if (type == (ushort)MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION ||
+                    type == (ushort)MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION)
+                {
+                    var rowdelete = currentlist[rowno];
+                    var oldcount = int.Parse(Commands.Rows[rowno].Cells[Param1.Index].Value.ToString());
+                    var newcount = oldcount - 1;
+
+                    var list = currentlist.Where((a, i) =>
+                        a.id == type && a.p1 == oldcount);
+
+                    while (list.Count() > 0)
+                    {
+                        var length = (int)list.First().p1;
+                        if (length == 0)
+                            length = 1;
+                        int cnt = 0;
+                        var sublist = list.Take(length).ToList();
+
+                        if (sublist.Contains(rowdelete))
+                        {
+                            foreach (var locationwp in sublist)
+                            {
+                                var idx = currentlist.IndexOf(locationwp);
+                                Commands[Param1.Index, idx].Value = newcount;
+                            }
+
+                            return;
+                        }
+
+                        if (list.Count() < length)
+                            break;
+                        list = list.Skip(length);
+                    }
+                }
+            }
         }
 
         private void MainMap_OnCurrentPositionChanged(PointLatLng point)

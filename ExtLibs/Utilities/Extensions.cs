@@ -367,6 +367,17 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static IEnumerable<T> CloseLoop<T>(this IEnumerable<T> list)
+        {
+            foreach (var item in list)
+            {
+                yield return item;
+            }
+
+            if (!list.First().Equals(list.Last()))
+                yield return list.First();
+        }
+
         public static IEnumerable<Tuple<T, T, T>> PrevNowNext<T>(this IEnumerable<T> list, T InitialValue = default(T), T InvalidValue = default(T))
         {
             T prev = InvalidValue;
