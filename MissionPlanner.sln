@@ -188,6 +188,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ntrip", "ExtLibs\Ntrip\Ntri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAndroid", "..\TestAndroid\TestAndroid.csproj", "{0E0D3844-8CBA-436C-8FAB-63843730889F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetDFULib", "ExtLibs\NetDFULib\NetDFULib.csproj", "{DC7BAD19-540A-4407-8E89-C15C899D74DF}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ExtLibs\uno\UnoUI\UnoUI.Shared\UnoUI.Shared.projitems*{06b132f9-524b-44c0-9ed6-e0348641ab3d}*SharedItemsImports = 5
@@ -491,6 +493,10 @@ Global
 		{CBB78367-91B7-4D53-AD31-429B71F867D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E0D3844-8CBA-436C-8FAB-63843730889F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E0D3844-8CBA-436C-8FAB-63843730889F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7BAD19-540A-4407-8E89-C15C899D74DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7BAD19-540A-4407-8E89-C15C899D74DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7BAD19-540A-4407-8E89-C15C899D74DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7BAD19-540A-4407-8E89-C15C899D74DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -572,6 +578,7 @@ Global
 		{3D787D5F-1DCA-4C2E-8D3A-93353E7BB62A} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 		{CBB78367-91B7-4D53-AD31-429B71F867D2} = {B35C7AA8-707D-4575-96CD-41ECFA439286}
 		{0E0D3844-8CBA-436C-8FAB-63843730889F} = {18AB4184-D4A3-4919-88CF-E25ABC76FEFA}
+		{DC7BAD19-540A-4407-8E89-C15C899D74DF} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}
