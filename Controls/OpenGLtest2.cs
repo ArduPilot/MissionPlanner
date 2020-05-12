@@ -314,9 +314,24 @@ namespace MissionPlanner.Controls
         {
             core.Zoom = minzoom;
 
+            while(started == false)
+                Thread.Sleep(20);
+
+            // shared context
+            IMGContext = new GraphicsContext(this.GraphicsMode, this.WindowInfo);
+
             while (!this.IsDisposed)
             {
                 System.Threading.Thread.Sleep(10);
+
+                if (sizeChanged)
+                {
+                    sizeChanged = false;
+                    core.OnMapSizeChanged(this.Width, this.Height);
+                }
+
+                if (DateTime.Now.Second % 3 == 0)
+                    core.Position = _center;
 
                 if (core.tileLoadQueue.Count > 0)
                 {
@@ -342,6 +357,9 @@ namespace MissionPlanner.Controls
         private Thread _imageloaderThread;
         private int mousex;
         private int mousey;
+        private GraphicsContext IMGContext;
+        private bool started;
+        private bool sizeChanged;
 
         double[] convertCoords(PointLatLngAlt plla)
         {
@@ -372,6 +390,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
+            started = true;
             try
             {
                 base.OnPaint(e);
@@ -394,11 +413,10 @@ namespace MissionPlanner.Controls
             if (area.LocationMiddle.Lat == 0 && area.LocationMiddle.Lng == 0)
                 return;
 
-            if (DateTime.Now.Second % 3 == 0)
-                core.Position = _center;
-
-            if (textureSemaphore.Wait(100) == false)
+            var beforewait = DateTime.Now;
+            if (textureSemaphore.Wait(1) == false)
                 return;
+            var afterwait = DateTime.Now;
             try
             {
                 double heightscale = 1; //(step/90.0)*5;
@@ -461,7 +479,7 @@ namespace MissionPlanner.Controls
                     GL.GetFloat(GetPName.ProjectionMatrix, out projMatrix);
                     GL.GetInteger(GetPName.Viewport, viewport);
                 }
-
+                var beforeclear = DateTime.Now;
                 //GL.Viewport(0, 0, Width, Height);
 
                 GL.ClearColor(Color.CornflowerBlue);
@@ -474,7 +492,7 @@ namespace MissionPlanner.Controls
 
                 Lighting.SetupAmbient(0.1f);
                 Lighting.SetDefaultMaterial(1f);
-                Lighting.SetupLightZero(new Vector3d(cameraX, cameraY, cameraZ + 100), 0f);
+                //Lighting.SetupLightZero(new Vector3d(cameraX, cameraY, cameraZ + 100), 0f);
 
 
                 GL.Fog(FogParameter.FogColor, new float[] {100 / 255.0f, 149 / 255.0f, 237 / 255.0f, 1f});
@@ -493,11 +511,12 @@ namespace MissionPlanner.Controls
 
                 int textureload = 0;
                 int lastzoom = texlist.Count == 0 ? 0 : texlist[0].Value.zoom;
-
+                var beforedraw = DateTime.Now;
                 foreach (var tidict in texlist)
                 {
                     if (lastzoom != tidict.Value.zoom)
                     {
+                        lastzoom = tidict.Value.zoom;
                     }
 
                     if (tidict.Value.indices.Count > 0)
@@ -506,6 +525,7 @@ namespace MissionPlanner.Controls
                     }
                 }
 
+                var beforewps = DateTime.Now;
                 GL.Disable(EnableCap.Texture2D);
 
                 // draw after terrain - need depth check
@@ -589,7 +609,7 @@ namespace MissionPlanner.Controls
                     });*/
 
                 }
-
+                var beforeswapbuffer = DateTime.Now;
                 try
                 {
                     this.SwapBuffers();
@@ -610,7 +630,16 @@ namespace MissionPlanner.Controls
                 //this.Invalidate();
 
                 var delta = DateTime.Now - start;
-                Console.Write("OpenGLTest2 {0}    \r", delta.TotalMilliseconds);
+                //Console.Write("OpenGLTest2 {0}    \r", delta.TotalMilliseconds);
+                if (delta.TotalMilliseconds > 20)
+                    Console.Write("OpenGLTest2 total {0} swap {1} wps {2} draw {3} clear {4} wait {5} bwait {6}    \n",
+                        delta.TotalMilliseconds,
+                        (beforeswapbuffer - start).TotalMilliseconds,
+                        (beforewps - start).TotalMilliseconds,
+                        (beforedraw - start).TotalMilliseconds,
+                        (beforeclear - start).TotalMilliseconds,
+                        (afterwait - start).TotalMilliseconds,
+                        (beforewait - start).TotalMilliseconds);
             }
             finally
             {
@@ -643,7 +672,7 @@ namespace MissionPlanner.Controls
 
                     // 200m at max zoom
                     // step at 0 zoom
-                    var distm = MathHelper.map(a, 0, zoom, 3000, 10);
+                    var distm = MathHelper.map(a, 0, zoom, 3000, 100);
 
                     //Console.WriteLine("tiles z {0} max {1} dist {2}", a, zoom, distm);
 
@@ -670,8 +699,7 @@ namespace MissionPlanner.Controls
             var totaltiles = 0;
             foreach (var a in tileArea) totaltiles += a.points.Count;
 
-            Console.WriteLine(DateTime.Now.Millisecond + " Total tiles " + totaltiles + "   ");
-
+            Console.Write(DateTime.Now.Millisecond + " Total tiles " + totaltiles + "   \r");
 
             if (DateTime.Now.Second % 3 == 1)
                 CleanupOldTextures(tileArea);
@@ -712,8 +740,8 @@ namespace MissionPlanner.Controls
 
                 foreach (var p in tilearea.points)
                 {
-                    //core.tileDrawingListLock.AcquireReaderLock();
-                    //core.Matrix.EnterReadLock();
+                    core.tileDrawingListLock.AcquireReaderLock();
+                    core.Matrix.EnterReadLock();
 
                     long xstart = p.X * prj.TileSize.Width;
                     long ystart = p.Y * prj.TileSize.Width;
@@ -723,7 +751,7 @@ namespace MissionPlanner.Controls
 
                     try
                     {
-                        GMap.NET.Internals.Tile t = core.Matrix.GetTileWithReadLock(tilearea.zoom, p);
+                        GMap.NET.Internals.Tile t = core.Matrix.GetTileWithNoLock(tilearea.zoom, p);
 
                         if (t.NotEmpty)
                         {
@@ -762,7 +790,6 @@ namespace MissionPlanner.Controls
                                                     break;
                                                 }
 
-
                                                 AddQuad(ti, latlng1, latlng2, latlng3, latlng4, xstart, x, xnext, xend,
                                                     ystart, y, ynext, yend);
                                             }
@@ -770,16 +797,20 @@ namespace MissionPlanner.Controls
 
                                         if (ti != null)
                                         {
-                                            textureSemaphore.Wait();
+                                            //textureSemaphore.Wait();
                                             try
                                             {
                                                 // do this on UI thread
-                                                if (!Context.IsCurrent)
-                                                    Context.MakeCurrent(this.WindowInfo);
+                                                //if (!Context.IsCurrent)
+                                                    //Context.MakeCurrent(this.WindowInfo);
+                                                // load it all
                                                 var temp = ti.idtexture;
+                                                var temp2 = ti.idEBO;
+                                                var temp3 = ti.idVBO;
+                                                var temp4 = ti.idVAO;
                                                 // release it
-                                                if (Context.IsCurrent)
-                                                    Context.MakeCurrent(null);
+                                                //if (Context.IsCurrent)
+                                                    //Context.MakeCurrent(null);
                                             }
                                             catch
                                             {
@@ -787,7 +818,7 @@ namespace MissionPlanner.Controls
                                             }
                                             finally
                                             {
-                                                textureSemaphore.Release();
+                                                //textureSemaphore.Release();
                                             }
 
                                             textureid[p] = ti;
@@ -803,10 +834,9 @@ namespace MissionPlanner.Controls
                     }
                     finally
                     {
-                        //core.Matrix.LeaveReadLock();
-                        //core.tileDrawingListLock.ReleaseReaderLock();
+                        core.Matrix.LeaveReadLock();
+                        core.tileDrawingListLock.ReleaseReaderLock();
                     }
-
                 }
             }
         }
@@ -903,7 +933,7 @@ namespace MissionPlanner.Controls
             {
                 this.BeginInvoke((MethodInvoker) delegate
                 {
-                    Console.WriteLine(DateTime.Now.Millisecond + " tile cleanup");
+                    Console.WriteLine(DateTime.Now.Millisecond + " tile cleanup    \r");
                     tileInfo temp;
                     textureid.TryRemove(c.Key, out temp);
                     temp?.Cleanup();
@@ -1046,7 +1076,7 @@ namespace MissionPlanner.Controls
                 textureSemaphore.Release();
             }
 
-            core.OnMapSizeChanged(this.Width, this.Height);
+            sizeChanged = true;
 
             this.Invalidate();
         }
