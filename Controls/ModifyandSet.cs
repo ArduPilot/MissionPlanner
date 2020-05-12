@@ -25,6 +25,20 @@ namespace MissionPlanner.Controls
         }
 
         [System.ComponentModel.Browsable(true)]
+        public Decimal Increment
+        {
+            get { return NumericUpDown.Increment; }
+            set { NumericUpDown.Increment = value; }
+        }
+
+        [System.ComponentModel.Browsable(true)]
+        public int DecimalPlaces
+        {
+            get { return NumericUpDown.DecimalPlaces; }
+            set { NumericUpDown.DecimalPlaces = value; }
+        }
+
+        [System.ComponentModel.Browsable(true)]
         public Decimal Value
         {
             get { return NumericUpDown.Value; }
