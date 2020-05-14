@@ -663,10 +663,18 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 char[] temp = ("Mission Planner " + getAppVersion() + "\0").ToCharArray();
                 Array.Resize(ref temp, 50);
+
                 // 
                 generatePacket((byte) MAVLINK_MSG_ID.STATUSTEXT,
                     new mavlink_statustext_t() {severity = (byte) MAV_SEVERITY.INFO, text = temp.ToByteArray()});
+
                 // mavlink2
+                generatePacket((byte) MAVLINK_MSG_ID.STATUSTEXT,
+                    new mavlink_statustext_t() {severity = (byte) MAV_SEVERITY.INFO, text = temp.ToByteArray()},
+                    sysidcurrent,
+                    compidcurrent, true, false);
+
+                // mavlink2 - signed
                 generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT,
                     new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp.ToByteArray() }, sysidcurrent,
                     compidcurrent, true, true);
