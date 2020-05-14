@@ -3890,6 +3890,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         private double t7 = 1.0e7;
 
         bool debug = false;
+
+        static bool ByteArrayCompare(ReadOnlySpan<byte> a1, ReadOnlySpan<byte> a2)
+        {
+            return a1.SequenceEqual(a2);
+        }
+
         /// <summary>
         /// used for a readlock on readpacket
         /// </summary>
@@ -4238,7 +4244,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 _mavlink2signed++;
 
-                bool valid = true;
+                bool valid = false;
 
                 foreach (var AuthKey in MAVAuthKeys.Keys.Values)
                 {
@@ -4252,15 +4258,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         //Console.WriteLine("rec linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6], message.sigTimestamp);
 
-                        for (int i = 0; i < ctx.Length; i++)
-                        {
-                            if (ctx[i] != message.sig[7 + i])
-                            {
-                                // not this key, check next
-                                valid = false;
-                                break;
-                            }
-                        }
+                        valid = ByteArrayCompare(ctx, new ReadOnlySpan<byte>(message.sig, 7, 6));
 
                         if (!valid)
                             continue;

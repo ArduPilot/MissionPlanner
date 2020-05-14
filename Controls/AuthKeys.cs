@@ -58,7 +58,7 @@ namespace MissionPlanner.Controls
 
                 string pass = "";
 
-                if (InputBox.Show("Input Seed", "Please enter your pass prase", ref pass) == DialogResult.OK)
+                if (InputBox.Show("Input Seed", "Please enter your pass phrase", ref pass) == DialogResult.OK)
                 {
                     var input = InputBox.value;
 
