@@ -3276,6 +3276,8 @@ namespace MissionPlanner.GCSViews
 
                                     if (a < (camcount - 4))
                                         ((GMapMarkerPhoto) mark).drawfootprint = false;
+                                    else
+                                        ((GMapMarkerPhoto)mark).drawfootprint = true;
                                 }
 
                                 a++;
@@ -3456,8 +3458,9 @@ namespace MissionPlanner.GCSViews
 
                     messagecount = newmsgcount;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
             }
 
