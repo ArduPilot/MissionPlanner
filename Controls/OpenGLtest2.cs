@@ -19,7 +19,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenTK.Input;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using Timer = System.Windows.Forms.Timer;
 using Vector3 = OpenTK.Vector3;
 
@@ -44,11 +46,13 @@ namespace MissionPlanner.Controls
         // image zoom level
         public int zoom { get; set; } = 20;
 
-        RectLatLng area = new RectLatLng(-35.04286, 117.84262, 0.1, 0.1);
         private NumericUpDown num_minzoom;
         private NumericUpDown num_maxzoom;
 
         private SemaphoreSlim textureSemaphore = new SemaphoreSlim(1, 1);
+        private CheckBox chk_locktomav;
+        private Timer timer1;
+        private System.ComponentModel.IContainer components;
 
         private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(-34.9807459, 117.8514028, 70);
 
@@ -72,7 +76,6 @@ namespace MissionPlanner.Controls
                     utmzone = value.GetUTMZone();
 
                     // set our pos
-                    llacenter = value;
                     utmcenter = new double[] {0, 0};
                     // update a virtual center bases on llacenter
                     utmcenter = convertCoords(value);
@@ -117,6 +120,8 @@ namespace MissionPlanner.Controls
             type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             prj = type.Projection;
 
+            LocationCenter = LocationCenter.newpos(0, 0.1);
+
             this.Invalidate();
 
             _imageloaderThread = new Thread(imageLoader)
@@ -136,7 +141,6 @@ namespace MissionPlanner.Controls
             MainV2.comPort.setGuidedModeWP(
                 new Locationwp().Set(mouseDownPos.Lat, mouseDownPos.Lng, MainV2.comPort.MAV.GuidedMode.z,
                     (ushort) MAVLink.MAV_CMD.WAYPOINT), false);
-            //MainV2.C
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
@@ -166,8 +170,8 @@ namespace MissionPlanner.Controls
             SwapBuffers();
             */
             //Thread.Sleep(1000);
-        } 
-        
+        }
+
         int[] viewport = new int[4];
         Matrix4 modelMatrix, projMatrix;
 
@@ -183,7 +187,10 @@ namespace MissionPlanner.Controls
             var plla = pos.ToLLA();
             plla.Alt = _end.Z;
 
-            var point = srtm.getIntersectionWithTerrain(_center, plla);
+            var camera = new utmpos(utmcenter[0] + cameraX, utmcenter[1] + cameraY, utmzone).ToLLA();
+            camera.Alt = cameraZ;
+
+            var point = srtm.getIntersectionWithTerrain(camera, plla);
 
             return point;
         }
@@ -314,7 +321,10 @@ namespace MissionPlanner.Controls
         {
             core.Zoom = minzoom;
 
-            while(started == false)
+            GMaps.Instance.CacheOnIdleRead = false;
+            GMaps.Instance.BoostCacheEngine = true;
+
+            while (started == false)
                 Thread.Sleep(20);
 
             // shared context
@@ -322,29 +332,44 @@ namespace MissionPlanner.Controls
 
             while (!this.IsDisposed)
             {
-                System.Threading.Thread.Sleep(10);
-
                 if (sizeChanged)
                 {
                     sizeChanged = false;
-                    core.OnMapSizeChanged(this.Width, this.Height);
+                    core.OnMapSizeChanged(1000, 1000);
                 }
 
-                if (DateTime.Now.Second % 3 == 0)
+                if (_center.GetDistance(core.Position) > 30)
+                {
                     core.Position = _center;
+                    core.Zoom = minzoom;
+                }
 
+                // wait for current to load
                 if (core.tileLoadQueue.Count > 0)
                 {
-                    System.Threading.Thread.Sleep(10);
+                    System.Threading.Thread.Sleep(100);
                     continue;
                 }
 
+                if (core.FailedLoads.Count > 0)
+                {
+
+                }
+
+                // current has loaded - process
+                generateTextures();
+
+                // change zoom and loop
                 if (core.Zoom >= zoom)
-                    core.Zoom = minzoom;
+                {
+
+                    System.Threading.Thread.Sleep(5000);
+                    continue;
+                }
 
                 core.Zoom = core.Zoom + 1;
 
-                generateTextures();
+                System.Threading.Thread.Sleep(100);
             }
         }
 
@@ -352,30 +377,19 @@ namespace MissionPlanner.Controls
 
         private int utmzone = -999;
         private double[] utmcenter = new double[2];
-        private PointLatLngAlt llacenter = PointLatLngAlt.Zero;
         private PointLatLngAlt mouseDownPos;
         private Thread _imageloaderThread;
         private int mousex;
         private int mousey;
         private GraphicsContext IMGContext;
         private bool started;
+        private bool onpaintrun;
         private bool sizeChanged;
+        private double[] mypos = new double[3];
+        Vector3 myrpy = Vector3.UnitX;
 
         double[] convertCoords(PointLatLngAlt plla)
         {
-            /*
-            var latMid = llacenter.Lat;
-            var lngMid = llacenter.Lng;
-
-            var m_per_deg_lat = 111132.954 - 559.822 * Math.Cos(2 * latMid) + 1.175 * Math.Cos(4 * latMid);
-            var m_per_deg_lon = 111132.954 * Math.Cos(latMid);
-
-            var deltaLat = (latMid - plla.Lat);
-            var deltaLon = (lngMid - plla.Lng);
-
-            return new[] { deltaLat * m_per_deg_lat, deltaLon * m_per_deg_lon,  plla.Alt};
-            */
-
             var utm = plla.ToUTM(utmzone);
 
             Array.Resize(ref utm, 3);
@@ -390,7 +404,11 @@ namespace MissionPlanner.Controls
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
+            if (!started)
+                timer1.Start();
+
             started = true;
+            onpaintrun = true;
             try
             {
                 base.OnPaint(e);
@@ -410,9 +428,6 @@ namespace MissionPlanner.Controls
             if (this.DesignMode)
                 return;
 
-            if (area.LocationMiddle.Lat == 0 && area.LocationMiddle.Lng == 0)
-                return;
-
             var beforewait = DateTime.Now;
             if (textureSemaphore.Wait(1) == false)
                 return;
@@ -422,6 +437,73 @@ namespace MissionPlanner.Controls
                 double heightscale = 1; //(step/90.0)*5;
 
                 var campos = convertCoords(_center);
+                var rpy = this.rpy;
+
+                // use mypos if we are not tracking the mav
+                if (!chk_locktomav.Checked)
+                {
+                    campos = mypos;
+                    rpy = myrpy;
+
+                    KeyboardState input = Keyboard.GetState();
+
+                    float speed = (1.5f);
+                    Vector3 position = new Vector3((float) campos[0], (float) campos[1], (float) campos[2]);
+                    Vector3 front = Vector3.Normalize(new Vector3((float) Math.Sin(MathHelper.Radians(rpy.Z)) * 1,
+                        (float) Math.Cos(MathHelper.Radians(rpy.Z)) * 1, 0));
+                    Vector3 up = new Vector3(0.0f, 0.0f, 1.0f);
+
+                    if (input.IsKeyDown(Key.W))
+                    {
+                        position += front * speed; //Forward 
+                    }
+
+                    if (input.IsKeyDown(Key.S))
+                    {
+                        position -= front * speed; //Backwards
+                    }
+
+                    if (input.IsKeyDown(Key.A))
+                    {
+                        position -= Vector3.Normalize(Vector3.Cross(front, up)) * speed; //Left
+                    }
+
+                    if (input.IsKeyDown(Key.D))
+                    {
+                        position += Vector3.Normalize(Vector3.Cross(front, up)) * speed; //Right
+                    }
+
+                    if (input.IsKeyDown(Key.Q))
+                    {
+                        rpy.Z -= speed;
+                    }
+
+                    if (input.IsKeyDown(Key.E))
+                    {
+                        rpy.Z += speed;
+                    }
+
+                    if (input.IsKeyDown(Key.R))
+                    {
+                        position.Z += speed / 2;
+                    }
+
+                    if (input.IsKeyDown(Key.F))
+                    {
+                        position.Z -= speed / 2;
+                    }
+
+                    campos[0] = position.X;
+                    campos[1] = position.Y;
+                    campos[2] = position.Z;
+
+                    _center.Alt = campos[2];
+                }
+
+                // save the state
+                mypos = campos;
+                myrpy = rpy;
+
 
                 cameraX = campos[0];
                 cameraY = campos[1];
@@ -432,25 +514,6 @@ namespace MissionPlanner.Controls
                 lookX = campos[0] + Math.Sin(MathHelper.Radians(rpy.Z)) * 100;
                 lookY = campos[1] + Math.Cos(MathHelper.Radians(rpy.Z)) * 100;
                 lookZ = cameraZ;
-
-                var size = 5000;
-
-                // in front
-                PointLatLngAlt front = _center.newpos(rpy.Z, size);
-                // behind
-                PointLatLngAlt behind = _center.newpos(rpy.Z, -50);
-                // left : 90 allows for 180 degree viewing angle
-                PointLatLngAlt left = _center.newpos(rpy.Z - 45, size);
-                // right
-                PointLatLngAlt right = _center.newpos(rpy.Z + 45, size);
-
-                double maxlat = Math.Max(left.Lat, Math.Max(right.Lat, Math.Max(front.Lat, behind.Lat)));
-                double minlat = Math.Min(left.Lat, Math.Min(right.Lat, Math.Min(front.Lat, behind.Lat)));
-
-                double maxlng = Math.Max(left.Lng, Math.Max(right.Lng, Math.Max(front.Lng, behind.Lng)));
-                double minlng = Math.Min(left.Lng, Math.Min(right.Lng, Math.Min(front.Lng, behind.Lng)));
-
-                area = RectLatLng.FromLTRB(minlng, maxlat, maxlng, minlat);
 
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(this.WindowInfo);
@@ -492,7 +555,7 @@ namespace MissionPlanner.Controls
 
                 Lighting.SetupAmbient(0.1f);
                 Lighting.SetDefaultMaterial(1f);
-                //Lighting.SetupLightZero(new Vector3d(cameraX, cameraY, cameraZ + 100), 0f);
+                //Lighting.SetupLightZero(new Vector3d(cameraX, cameraY, cameraZ + 1000), 0f);
 
 
                 GL.Fog(FogParameter.FogColor, new float[] {100 / 255.0f, 149 / 255.0f, 237 / 255.0f, 1f});
@@ -565,7 +628,8 @@ namespace MissionPlanner.Controls
                     GL.BindTexture(TextureTarget.Texture2D, green);
                     var list = FlightPlanner.instance.pointlist.ToList();
                     if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided")
-                        list.Add(new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode) { Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt} );
+                        list.Add(new PointLatLngAlt(MainV2.comPort.MAV.GuidedMode)
+                            {Alt = MainV2.comPort.MAV.GuidedMode.z + MainV2.comPort.MAV.cs.HomeAlt});
                     if (MainV2.comPort.MAV.cs.TargetLocation != PointLatLngAlt.Zero)
                         list.Add(MainV2.comPort.MAV.cs.TargetLocation);
                     foreach (var point in list)
@@ -670,20 +734,15 @@ namespace MissionPlanner.Controls
                 {
                     var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
 
-                    // 200m at max zoom
+                    // 50m at max zoom
                     // step at 0 zoom
-                    var distm = MathHelper.map(a, 0, zoom, 3000, 100);
+                    var distm = MathHelper.map(a, 0, zoom, 3000, 50);
 
-                    //Console.WriteLine("tiles z {0} max {1} dist {2}", a, zoom, distm);
-
-                    var offset = _center.newpos(rpy.Z, distm);
+                    var offset = _center.newpos(45, distm);
 
                     area2.Inflate(Math.Abs(_center.Lat - offset.Lat), Math.Abs(_center.Lng - offset.Lng));
 
                     var extratile = 0;
-
-                    if (a == zoom)
-                        extratile = 1;
 
                     var tiles = new tileZoomArea()
                     {
@@ -691,6 +750,9 @@ namespace MissionPlanner.Controls
                         points = prj.GetAreaTileList(area2, a, extratile),
                         area = area2
                     };
+
+                    //Console.WriteLine("tiles z {0} max {1} dist {2} tiles {3} pxper100m {4} - {5}", a, zoom, distm,
+                    //  tiles.points.Count, core.pxRes100m, core.Zoom);
 
                     tileArea.Add(tiles);
                 }
@@ -802,7 +864,7 @@ namespace MissionPlanner.Controls
                                             {
                                                 // do this on UI thread
                                                 //if (!Context.IsCurrent)
-                                                    //Context.MakeCurrent(this.WindowInfo);
+                                                //Context.MakeCurrent(this.WindowInfo);
                                                 // load it all
                                                 var temp = ti.idtexture;
                                                 var temp2 = ti.idEBO;
@@ -810,7 +872,7 @@ namespace MissionPlanner.Controls
                                                 var temp4 = ti.idVAO;
                                                 // release it
                                                 //if (Context.IsCurrent)
-                                                    //Context.MakeCurrent(null);
+                                                //Context.MakeCurrent(null);
                                             }
                                             catch
                                             {
@@ -943,70 +1005,104 @@ namespace MissionPlanner.Controls
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.num_minzoom = new System.Windows.Forms.NumericUpDown();
             this.num_maxzoom = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.num_minzoom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_maxzoom)).BeginInit();
+            this.chk_locktomav = new System.Windows.Forms.CheckBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize) (this.num_minzoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.num_maxzoom)).BeginInit();
             this.SuspendLayout();
             // 
             // num_minzoom
             // 
             this.num_minzoom.Location = new System.Drawing.Point(3, 3);
-            this.num_minzoom.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.num_minzoom.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.num_minzoom.Maximum = new decimal(new int[]
+            {
+                20,
+                0,
+                0,
+                0
+            });
+            this.num_minzoom.Minimum = new decimal(new int[]
+            {
+                1,
+                0,
+                0,
+                0
+            });
             this.num_minzoom.Name = "num_minzoom";
             this.num_minzoom.Size = new System.Drawing.Size(54, 20);
             this.num_minzoom.TabIndex = 0;
-            this.num_minzoom.Value = new decimal(new int[] {
-            12,
-            0,
-            0,
-            0});
+            this.num_minzoom.Value = new decimal(new int[]
+            {
+                12,
+                0,
+                0,
+                0
+            });
             this.num_minzoom.ValueChanged += new System.EventHandler(this.num_minzoom_ValueChanged);
             // 
             // num_maxzoom
             // 
             this.num_maxzoom.Location = new System.Drawing.Point(3, 29);
-            this.num_maxzoom.Maximum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.num_maxzoom.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.num_maxzoom.Maximum = new decimal(new int[]
+            {
+                20,
+                0,
+                0,
+                0
+            });
+            this.num_maxzoom.Minimum = new decimal(new int[]
+            {
+                1,
+                0,
+                0,
+                0
+            });
             this.num_maxzoom.Name = "num_maxzoom";
             this.num_maxzoom.Size = new System.Drawing.Size(54, 20);
             this.num_maxzoom.TabIndex = 1;
-            this.num_maxzoom.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
+            this.num_maxzoom.Value = new decimal(new int[]
+            {
+                20,
+                0,
+                0,
+                0
+            });
             this.num_maxzoom.ValueChanged += new System.EventHandler(this.num_maxzoom_ValueChanged);
+            // 
+            // chk_locktomav
+            // 
+            this.chk_locktomav.AutoSize = true;
+            this.chk_locktomav.Checked = true;
+            this.chk_locktomav.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_locktomav.Location = new System.Drawing.Point(63, 6);
+            this.chk_locktomav.Name = "chk_locktomav";
+            this.chk_locktomav.Size = new System.Drawing.Size(88, 17);
+            this.chk_locktomav.TabIndex = 2;
+            this.chk_locktomav.Text = "Lock to MAV";
+            this.chk_locktomav.UseVisualStyleBackColor = true;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 40;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // OpenGLtest2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Controls.Add(this.chk_locktomav);
             this.Controls.Add(this.num_maxzoom);
             this.Controls.Add(this.num_minzoom);
             this.Name = "OpenGLtest2";
             this.Size = new System.Drawing.Size(640, 480);
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.num_minzoom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_maxzoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.num_minzoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.num_maxzoom)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1035,6 +1131,15 @@ namespace MissionPlanner.Controls
         private void num_minzoom_ValueChanged(object sender, EventArgs e)
         {
             minzoom = (int) num_minzoom.Value;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (onpaintrun == true && IsHandleCreated && !IsDisposed && !Disposing)
+            {
+                this.Invalidate();
+                onpaintrun = false;
+            }
         }
 
         private void num_maxzoom_ValueChanged(object sender, EventArgs e)
@@ -1274,7 +1379,7 @@ namespace MissionPlanner.Controls
                     //GL.UseProgram(GLHandle);
 
                     //if (idtexture == 0)
-                        //return;
+                    //return;
 
                     if (idVAO == 0)
                         return;
@@ -1289,9 +1394,9 @@ namespace MissionPlanner.Controls
                         GL.BindTexture(TextureTarget.Texture2D, idtexture);
 
                         GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS,
-                            (int)TextureWrapMode.ClampToEdge);
+                            (int) TextureWrapMode.ClampToEdge);
                         GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
-                            (int)TextureWrapMode.ClampToEdge);
+                            (int) TextureWrapMode.ClampToEdge);
                     }
                     else
                     {
