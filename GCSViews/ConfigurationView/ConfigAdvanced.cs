@@ -108,5 +108,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
         }
+
+        private void but_fft_Click(object sender, EventArgs e)
+        {
+            new fftui().Show();
+        }
     }
 }

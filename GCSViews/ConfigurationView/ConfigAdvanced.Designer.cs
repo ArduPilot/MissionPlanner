@@ -37,20 +37,22 @@
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.BUT_follow_me = new MissionPlanner.Controls.MyButton();
             this.label8 = new System.Windows.Forms.Label();
-            this.BUT_paramgen = new MissionPlanner.Controls.MyButton();
             this.label9 = new System.Windows.Forms.Label();
-            this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
+            this.BUT_paramgen = new MissionPlanner.Controls.MyButton();
             this.label10 = new System.Windows.Forms.Label();
+            this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
-            this.label11 = new System.Windows.Forms.Label();
+            this.but_fft = new MissionPlanner.Controls.MyButton();
+            this.label12 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,6 +106,7 @@
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.but_fft, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.label7, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.label6, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.label5, 1, 3);
@@ -124,7 +127,28 @@
             this.tableLayoutPanel1.Controls.Add(this.label10, 1, 8);
             this.tableLayoutPanel1.Controls.Add(this.BUT_movingbase, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.but_anonlog, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label12, 1, 10);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
             // 
             // label2
             // 
@@ -136,25 +160,10 @@
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
-            // label4
+            // label11
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
             // 
             // BUT_follow_me
             // 
@@ -168,6 +177,11 @@
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
             // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
             // BUT_paramgen
             // 
             resources.ApplyResources(this.BUT_paramgen, "BUT_paramgen");
@@ -175,10 +189,10 @@
             this.BUT_paramgen.UseVisualStyleBackColor = true;
             this.BUT_paramgen.Click += new System.EventHandler(this.BUT_paramgen_Click);
             // 
-            // label9
+            // label10
             // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
             // 
             // BUT_movingbase
             // 
@@ -187,11 +201,6 @@
             this.BUT_movingbase.UseVisualStyleBackColor = true;
             this.BUT_movingbase.Click += new System.EventHandler(this.BUT_movingbase_Click);
             // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
             // but_anonlog
             // 
             resources.ApplyResources(this.but_anonlog, "but_anonlog");
@@ -199,10 +208,17 @@
             this.but_anonlog.UseVisualStyleBackColor = true;
             this.but_anonlog.Click += new System.EventHandler(this.but_anonlog_Click);
             // 
-            // label11
+            // but_fft
             // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
+            resources.ApplyResources(this.but_fft, "but_fft");
+            this.but_fft.Name = "but_fft";
+            this.but_fft.UseVisualStyleBackColor = true;
+            this.but_fft.Click += new System.EventHandler(this.but_fft_Click);
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
             // 
             // ConfigAdvanced
             // 
@@ -241,5 +257,7 @@
         private System.Windows.Forms.Label label10;
         private Controls.MyButton but_anonlog;
         private System.Windows.Forms.Label label11;
+        private Controls.MyButton but_fft;
+        private System.Windows.Forms.Label label12;
     }
 }
