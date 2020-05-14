@@ -71,11 +71,12 @@ namespace MissionPlanner.Controls
                 _center.Lng = value.Lng;
                 _center.Alt = value.Alt;
 
-                if (utmzone != value.GetUTMZone())
+                if (utmzone != value.GetUTMZone() || llacenter.GetDistance(_center) > 10000)
                 {
                     utmzone = value.GetUTMZone();
 
                     // set our pos
+                    llacenter = value;
                     utmcenter = new double[] {0, 0};
                     // update a virtual center bases on llacenter
                     utmcenter = convertCoords(value);
@@ -376,6 +377,7 @@ namespace MissionPlanner.Controls
         public int minzoom { get; set; } = 12;
 
         private int utmzone = -999;
+        private PointLatLngAlt llacenter = PointLatLngAlt.Zero;
         private double[] utmcenter = new double[2];
         private PointLatLngAlt mouseDownPos;
         private Thread _imageloaderThread;
