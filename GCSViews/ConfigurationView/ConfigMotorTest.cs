@@ -263,7 +263,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_ARM",
-                        (float)value).ConfigureAwait(true);
+                        (float)value / 100.0f).ConfigureAwait(true);
                 }
             }
             else
@@ -286,7 +286,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_MIN",
-                        (float)value).ConfigureAwait(true);
+                        (float)value/100.0f).ConfigureAwait(true);
                 }
             }
             else
