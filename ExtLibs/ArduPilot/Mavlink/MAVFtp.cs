@@ -585,6 +585,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -635,6 +636,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -668,6 +670,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -753,6 +756,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -786,6 +790,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -829,6 +834,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -902,6 +908,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -949,6 +956,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -979,6 +987,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1029,6 +1038,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1062,6 +1072,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     if (cancel != null && cancel.IsCancellationRequested)
                     {
                         timeout.RetriesCurrent = 999;
+                        log.Info($"cancel {payload.opcode}");
                         return true;
                     }
                     var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1166,6 +1177,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1199,6 +1211,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1249,6 +1262,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1279,6 +1293,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1305,13 +1320,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     }
 
                     if (errorcode == FTPErrorCode.kErrEOF)
-                    {
-                        if (ftphead.offset + ftphead.size >= size)
-                        {
-                            timeout.Complete = true;
-                            return true;
-                        }
-                    }
+                        timeout.Complete = true;
 
                     return true;
                 }
@@ -1353,6 +1362,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1383,6 +1393,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1421,7 +1432,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
-                    timeout.RetriesCurrent = 999;
+                    timeout.RetriesCurrent = 999; 
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1450,6 +1462,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1489,6 +1502,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1517,6 +1531,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1556,6 +1571,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1682,6 +1698,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return true;
                 }
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1721,6 +1738,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
+                    log.Info($"cancel {payload.opcode}");
                     return;
                 }
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1755,6 +1773,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     if (cancel != null && cancel.IsCancellationRequested)
                     {
                         timeout.RetriesCurrent = 999;
+                        log.Info($"cancel {payload.opcode}");
                         return true;
                     }
                     var msg = (MAVLink.mavlink_file_transfer_protocol_t)message.data;
@@ -1821,6 +1840,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     if (cancel != null && cancel.IsCancellationRequested)
                     {
                         timeout.RetriesCurrent = 999;
+                        log.Info($"cancel {payload.opcode}");
                         return;
                     }
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1863,6 +1883,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     if (cancel != null && cancel.IsCancellationRequested)
                     {
                         timeout.RetriesCurrent = 999;
+                        log.Info($"cancel {payload.opcode}");
                         return true;
                     }
                     var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
@@ -1930,6 +1951,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     if (cancel != null && cancel.IsCancellationRequested)
                     {
                         timeout.RetriesCurrent = 999;
+                        log.Info($"cancel {payload.opcode}");
                         return;
                     }
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);

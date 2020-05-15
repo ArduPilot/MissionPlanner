@@ -1610,9 +1610,22 @@ namespace MissionPlanner
                     prd.DoWork += (IProgressReporterDialogue sender) =>
                     {
                         sender.UpdateProgressAndStatus(-1, "Checking for Param MAVFTP");
-                        var paramfile =
-                            new MAVFtp(comPort, comPort.MAV.sysid, comPort.MAV.compid).GetFile("@PARAM/param.pck",
-                                new CancellationTokenSource(2500), true, 110);
+                        var cancel = new CancellationTokenSource();
+                        var paramfileTask = Task.Run<MemoryStream>(() =>
+                            {
+                                return new MAVFtp(comPort, comPort.MAV.sysid, comPort.MAV.compid).GetFile(
+                                    "@PARAM/param.pck", cancel, false, 110);
+                            });
+                        while (!paramfileTask.IsCompleted)
+                        {
+                            if (sender.doWorkArgs.CancelRequested)
+                            {
+                                cancel.Cancel();
+                                sender.doWorkArgs.CancelAcknowledged = true;
+                            }
+                        }
+
+                        var paramfile = paramfileTask.Result;
                         if (paramfile != null && paramfile.Length > 0)
                         {
                             var mavlist = parampck.unpack(paramfile.ToArray());
