@@ -1201,14 +1201,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             mavlink_setup_signing_t sign = new mavlink_setup_signing_t();
             if (!clearkey)
-            {
-                MAV.signingKey = shauser;
+            {               
                 sign.initial_timestamp = (UInt64)((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds * 100);
                 sign.secret_key = shauser;
             }
             else
             {
-                MAV.signingKey = new byte[32];
                 sign.initial_timestamp = 0;
                 sign.secret_key = new byte[32];
             }
@@ -1219,8 +1217,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             generatePacket((int)MAVLINK_MSG_ID.SETUP_SIGNING, sign, sysid, compid);
 
-            if (clearkey)
+            if (!clearkey)
             {
+                // we will auto adapt to this key - so no need to assign it
+                //MAVlist[sysid, compid].signingKey = shauser;
+            }
+            else
+            {
+                // clear the key
+                MAVlist[sysid, compid].signingKey = null;
                 return disableSigning(sysid, compid);
             }
 
@@ -4254,38 +4259,24 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 bool valid = false;
 
-                foreach (var AuthKey in MAVAuthKeys.Keys.Values)
-                {
-                    using (SHA256Managed signit = new SHA256Managed())
-                    {
-                        signit.TransformBlock(AuthKey.Key, 0, AuthKey.Key.Length, null, 0);
-                        signit.TransformFinalBlock(message.buffer, 0, message.Length - MAVLINK_SIGNATURE_BLOCK_LEN + 7);
-                        var ctx = signit.Hash;
-                        // trim to 48
-                        Array.Resize(ref ctx, 6);
-
-                        //Console.WriteLine("rec linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6], message.sigTimestamp);
-
-                        valid = ByteArrayCompare(ctx, new ReadOnlySpan<byte>(message.sig, 7, 6));
-
-                        if (!valid)
-                            continue;
-
-                        // got valid key
-                        MAVlist[sysid, compid].linkid = message.sig[0];
-
-                        MAVlist[sysid, compid].signingKey = AuthKey.Key;
-
-                        enableSigning(sysid, compid);
-
-                        break;
-                    }
-                }
+                // check existing key
+                if (MAVlist[sysid, compid].signingKey != null)
+                    valid = CheckSignature(MAVlist[sysid, compid].signingKey, message, sysid, compid);
 
                 if (!valid)
                 {
-                    log.InfoFormat("Packet failed signature but passed crc");
-                    return MAVLinkMessage.Invalid;
+                    foreach (var AuthKey in MAVAuthKeys.Keys.Values)
+                    {
+                        valid = CheckSignature(AuthKey.Key, message, sysid, compid);
+                        if (valid)
+                            break;
+                    }
+
+                    if (!valid)
+                    {
+                        log.InfoFormat("Packet failed signature but passed crc");
+                        return MAVLinkMessage.Invalid;
+                    }
                 }
             }
 
@@ -4319,7 +4310,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             try
             {
-                if ((message.header == 'U' || message.header == 0xfe || message.header == 0xfd) &&
+                if ((message.header == 'U' || message.header == MAVLINK_STX_MAVLINK1 || message.header == MAVLINK_STX) &&
                     buffer.Length >= message.payloadlength)
                 {
                     // check if we lost pacakets based on seqno
@@ -4329,7 +4320,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         // the second part is to work around a 3dr radio bug sending dup seqno's
                         if (packetSeqNo != expectedPacketSeqNo && packetSeqNo != MAVlist[sysid, compid].recvpacketcount)
                         {
-                            MAVlist[sysid, compid].synclost++; // actualy sync loss's
+                            MAVlist[sysid, compid].synclost++; // actual sync loss's
                             int numLost = 0;
 
                             if (packetSeqNo < ((MAVlist[sysid, compid].recvpacketcount + 1)))
@@ -4623,6 +4614,33 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             MAVlist[sysid, compid].lastvalidpacket = DateTime.Now;
 
             return message;
+        }
+
+        private bool CheckSignature(byte[] AuthKey, MAVLinkMessage message, byte sysid, byte compid)
+        {
+            bool valid;
+            using (SHA256Managed signit = new SHA256Managed())
+            {
+                signit.TransformBlock(AuthKey, 0, AuthKey.Length, null, 0);
+                signit.TransformFinalBlock(message.buffer, 0, message.Length - MAVLINK_SIGNATURE_BLOCK_LEN + 7);
+                var ctx = signit.Hash;
+
+                //Console.WriteLine("rec linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6], message.sigTimestamp);
+
+                valid = ByteArrayCompare(new ReadOnlySpan<byte>(ctx,0,6), new ReadOnlySpan<byte>(message.sig, 7, 6));
+
+                if (!valid)
+                    return valid;
+
+                // got valid key
+                MAVlist[sysid, compid].linkid = message.sig[0];
+
+                MAVlist[sysid, compid].signingKey = AuthKey;
+
+                enableSigning(sysid, compid);
+
+                return valid;
+            }
         }
 
         private void PacketReceived(MAVLinkMessage buffer)
