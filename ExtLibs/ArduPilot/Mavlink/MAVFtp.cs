@@ -611,6 +611,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         timeout.Retries = 0;
                     }
 
+                    if (errorcode == FTPErrorCode.kErrBusy)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
+                    }
+
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
                     {
                         kCmdResetSessions();
@@ -1232,6 +1238,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     }
 
                     if (errorcode == FTPErrorCode.kErrFail)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
+                    }
+
+                    if (errorcode == FTPErrorCode.kErrBusy)
                     {
                         //stop trying
                         timeout.Retries = 0;
