@@ -1,4 +1,4 @@
-namespace System.Drawing
+namespace System.Drawing.Text
 {
     public enum TextRenderingHint
     {
