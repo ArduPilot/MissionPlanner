@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -73,7 +74,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 px4uploader.Uploader up;
 
                 try
-                {
+                {                        
+                    // time to appear
+                    Thread.Sleep(20);
                     up = new px4uploader.Uploader(port, 115200);
                 }
                 catch (Exception ex)

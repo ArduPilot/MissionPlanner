@@ -23,7 +23,7 @@ namespace px4uploader
         public event LogEventHandler LogEvent;
         public event ProgressEventHandler ProgressEvent;
 
-        ICommsSerial port;
+        public ICommsSerial port;
         Uploader self;
 
         public bool skipotp = false;
