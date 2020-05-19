@@ -110,5 +110,10 @@ namespace System.Drawing
         {
             return nativeFont.Handle;
         }
+
+        public float GetHeight()
+        {
+            return nativeFont.FontSpacing;
+        }
     }
 }

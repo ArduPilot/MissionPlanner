@@ -39,5 +39,10 @@ namespace System.Drawing
         {
             return false;
         }
+
+        public int GetLineSpacing(FontStyle style)
+        {
+            return 0;
+        }
     }
 }

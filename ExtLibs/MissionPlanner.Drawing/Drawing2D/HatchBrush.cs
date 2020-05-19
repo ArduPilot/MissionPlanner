@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using SkiaSharp;
 
-namespace System.Drawing
+namespace System.Drawing.Drawing2D
 {
     public class HatchBrush : Brush
     {

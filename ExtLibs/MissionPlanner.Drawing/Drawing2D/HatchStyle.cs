@@ -1,4 +1,4 @@
-﻿namespace System.Drawing
+﻿namespace System.Drawing.Drawing2D
 {
     public enum HatchStyle
     {
