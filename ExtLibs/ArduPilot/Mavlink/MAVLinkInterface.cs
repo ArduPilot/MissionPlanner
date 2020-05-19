@@ -1282,7 +1282,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// </summary>
         /// <param name="paramname">name as a string</param>
         /// <param name="value"></param>
-        public async Task<bool> setParamAsync(byte sysid, byte compid, string paramname, double value, bool force = false)
+        public async Task<bool> setParamAsync(byte sysid, byte compid, string paramname, double value,
+            bool force = false)
         {
             if (!MAVlist[sysid, compid].param.ContainsKey(paramname))
             {
@@ -1303,113 +1304,123 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 target_system = sysid,
                 target_component = compid,
-                param_type = (byte)MAVlist[sysid, compid].param_types[paramname]
+                param_type = (byte) MAVlist[sysid, compid].param_types[paramname]
             };
 
             char[] temp = paramname.ToCharArray();
 
             Array.Resize(ref temp, 16);
             req.param_id = temp.ToByteArray();
-            if ((MAVlist[sysid, compid].cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.PARAM_FLOAT) > 0 || MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+            if ((MAVlist[sysid, compid].cs.capabilities & (uint) MAV_PROTOCOL_CAPABILITY.PARAM_FLOAT) > 0 ||
+                MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
             {
                 req.param_value = new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE.REAL32)).float_value;
             }
             else
             {
-                req.param_value = new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE)MAVlist[sysid, compid].param_types[paramname]).float_value;
+                req.param_value = new MAVLinkParam(paramname, value,
+                    (MAV_PARAM_TYPE) MAVlist[sysid, compid].param_types[paramname]).float_value;
             }
 
             int currentparamcount = MAVlist[sysid, compid].param.Count;
 
-            generatePacket((byte)MAVLINK_MSG_ID.PARAM_SET, req, sysid, compid);
+            bool complete = false;
 
-            log.InfoFormat("setParam '{0}' = '{1}' sysid {2} compid {3}", paramname, value, sysid,
-                compid);
-
-            DateTime start = DateTime.Now;
-            int retrys = 3;
-
-            while (true)
+            var sub1 = SubscribeToPacketType(MAVLINK_MSG_ID.PARAM_VALUE, buffer =>
             {
-                if (!(start.AddMilliseconds(700) > DateTime.Now))
+                if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE && buffer.sysid == req.target_system &&
+                    buffer.compid == req.target_component)
                 {
-                    if (retrys > 0)
+                    mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
+
+                    string st = Encoding.ASCII.GetString(par.param_id);
+
+                    int pos = st.IndexOf('\0');
+
+                    if (pos != -1)
                     {
-                        log.Info("setParam Retry " + retrys);
-                        generatePacket((byte)MAVLINK_MSG_ID.PARAM_SET, req, sysid, compid);
-                        start = DateTime.Now;
-                        retrys--;
-                        continue;
+                        st = st.Substring(0, pos);
                     }
-                    giveComport = false;
-                    throw new TimeoutException("Timeout on read - setParam " + paramname);
+
+                    if (st != paramname)
+                    {
+                        log.InfoFormat("MAVLINK bad param response - {0} vs {1}", paramname, st);
+                        return true;
+                    }
+
+                    if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                    {
+                        var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                        MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(par.param_value),
+                            MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
+                    }
+                    else
+                    {
+                        var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                        MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(par.param_value),
+                            (MAV_PARAM_TYPE) par.param_type, (MAV_PARAM_TYPE) par.param_type);
+                    }
+
+                    log.Info("setParam gotback " + st + " : " + MAVlist[sysid, compid].param[st]);
+
+                    lastparamset = DateTime.Now;
+
+                    // check if enabeling this param has added subparams, queue on gui thread
+                    if (currentparamcount < par.param_count)
+                    {
+                        /*
+                        MainV2.instance.BeginInvoke((Action) delegate
+                        {
+                            Loading.ShowLoading(String.Format(Strings.ParamRefreshRequired, currentparamcount,
+                                par.param_count));
+                        });
+                        */
+                    }
+
+                    complete = true;
                 }
 
-                MAVLinkMessage buffer = await readPacketAsync().ConfigureAwait(false);
-                if (buffer.Length > 5)
+                return true;
+            });
+
+            try
+            {
+                generatePacket((byte) MAVLINK_MSG_ID.PARAM_SET, req, sysid, compid);
+
+                log.InfoFormat("setParam '{0}' = '{1}' sysid {2} compid {3}", paramname, value, sysid,
+                    compid);
+
+                DateTime start = DateTime.Now;
+                int retrys = 3;
+                while (true)
                 {
-                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.PARAM_VALUE && buffer.sysid == req.target_system && buffer.compid == req.target_component)
+                    if (complete)
+                        return true;
+
+                    if (!(start.AddMilliseconds(700) > DateTime.Now))
                     {
-                        mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
-
-                        string st = Encoding.ASCII.GetString(par.param_id);
-
-                        int pos = st.IndexOf('\0');
-
-                        if (pos != -1)
+                        if (retrys > 0)
                         {
-                            st = st.Substring(0, pos);
-                        }
-
-                        if (st != paramname)
-                        {
-                            log.InfoFormat("MAVLINK bad param response - {0} vs {1}", paramname, st);
+                            log.Info("setParam Retry " + retrys);
+                            generatePacket((byte) MAVLINK_MSG_ID.PARAM_SET, req, sysid, compid);
+                            start = DateTime.Now;
+                            retrys--;
                             continue;
                         }
 
-                        if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
-                        {
-                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
-                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(par.param_value), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)par.param_type);
-                        }
-                        else
-                        {
-                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
-                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(par.param_value), (MAV_PARAM_TYPE)par.param_type, (MAV_PARAM_TYPE)par.param_type);
-                        }
-
-                        log.Info("setParam gotback " + st + " : " + MAVlist[sysid, compid].param[st]);
-
-                        lastparamset = DateTime.Now;
-
-                        giveComport = false;
-                        //System.Threading.Thread.Sleep(100);//(int)(8.5 * 5)); // 8.5ms per byte
-
-                        // check if enabeling this param has added subparams, queue on gui thread
-                        if (currentparamcount < par.param_count)
-                        {
-                            /*
-                            MainV2.instance.BeginInvoke((Action) delegate
-                            {
-                                Loading.ShowLoading(String.Format(Strings.ParamRefreshRequired, currentparamcount,
-                                    par.param_count));
-                            });
-                            */
-                        }
-
-                        return true;
+                        throw new TimeoutException("Timeout on read - setParam " + paramname);
                     }
+
+                    await readPacketAsync().ConfigureAwait(false);
                 }
+            }
+            finally
+            {
+                giveComport = false;
+                UnSubscribeToPacketType(sub1);
             }
         }
 
-        /*
-        public Bitmap getImage()
-        {
-            MemoryStream ms = new MemoryStream();
-
-        }
-        */
         /// <summary>
         /// With GUI
         /// </summary>
@@ -2667,51 +2678,58 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             return getHomePositionAsync((byte)sysidcurrent, (byte)compidcurrent).AwaitSync();
         }
+
         public async Task<Locationwp> getHomePositionAsync(byte sysid, byte compid)
         {
-            doCommand(sysid, compid, MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0, false);
+            Locationwp? ans = null;
 
-            giveComport = true;
-            MAVLinkMessage buffer;
-
-            DateTime start = DateTime.Now;
-            int retrys = 3;
-
-            while (true)
+            var sub1 = SubscribeToPacketType(MAVLINK_MSG_ID.HOME_POSITION, buffer =>
             {
-                if (!(start.AddMilliseconds(700) > DateTime.Now))
+                if (buffer.msgid == (byte) MAVLINK_MSG_ID.HOME_POSITION)
                 {
-                    if (retrys > 0)
+                    var home = buffer.ToStructure<mavlink_home_position_t>();
+
+                    ans = new Locationwp().Set(home.latitude / 1.0e7, home.longitude / 1.0e7, home.altitude / 1000.0,
+                        (byte) MAV_CMD.WAYPOINT);
+                }
+
+                return true;
+            });
+
+            try
+            {
+                doCommand(sysid, compid, MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0, false);
+
+                giveComport = true;
+                DateTime start = DateTime.Now;
+                int retrys = 3;
+
+                while (true)
+                {
+                    if (ans != null)
+                        return ans.Value;
+
+                    if (!(start.AddMilliseconds(700) > DateTime.Now))
                     {
-                        log.Info("getHomePosition Retry " + retrys + " - giv com " + giveComport);
-                        doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0, false);
-                        giveComport = true;
-                        start = DateTime.Now;
-                        retrys--;
-                        continue;
+                        if (retrys > 0)
+                        {
+                            log.Info("getHomePosition Retry " + retrys + " - giv com " + giveComport);
+                            doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0, false);
+                            start = DateTime.Now;
+                            retrys--;
+                            continue;
+                        }
+
+                        throw new TimeoutException("Timeout on read - getHomePosition");
                     }
-                    giveComport = false;
-                    //return (byte)int.Parse(param["WP_TOTAL"].ToString());
-                    throw new TimeoutException("Timeout on read - getHomePosition");
-                }
 
-                buffer = await readPacketAsync().ConfigureAwait(false);
-                if (buffer.Length > 5)
-                {
-                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.HOME_POSITION)
-                    {
-                        var home = buffer.ToStructure<mavlink_home_position_t>();
-
-                        var loc = new Locationwp().Set(home.latitude / 1.0e7, home.longitude / 1.0e7, home.altitude / 1000.0, (byte)MAV_CMD.WAYPOINT);
-
-                        giveComport = false;
-                        return loc; // should be ushort, but apm has limited wp count < byte
-                    }
+                    await readPacketAsync().ConfigureAwait(false);
                 }
-                else
-                {
-                    log.Info(DateTime.Now + " PC getHomePosition ");
-                }
+            }
+            finally
+            {
+                giveComport = false;
+                UnSubscribeToPacketType(sub1);
             }
         }
         [Obsolete]
@@ -4807,6 +4825,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 }
 
                 //Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
+            }
+            else if (buffer.msgid == (byte) MAVLINK_MSG_ID.HOME_POSITION)
+            {
+                var home = buffer.ToStructure<mavlink_home_position_t>();
+
+                var loc = new PointLatLngAlt(home.latitude / 1.0e7, home.longitude / 1.0e7, home.altitude / 1000.0);
+
+                MAVlist[buffer.sysid, buffer.compid].cs.HomeLocation = loc;
             }
             else if (buffer.msgid == (byte)MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT)
             {
