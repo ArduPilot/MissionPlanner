@@ -1286,7 +1286,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prearm check failed.
+        ///   Looks up a localized string similar to Prearm check failed - check messages.
         /// </summary>
         public static string Prearm_check_failed {
             get {

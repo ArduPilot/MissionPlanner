@@ -5296,7 +5296,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             SaveFile_Click(null, null);
         }
 
-        private void saveWPs(IProgressReporterDialogue sender)
+        private async void saveWPs(IProgressReporterDialogue sender)
         {
             try
             {
@@ -5349,7 +5349,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     }).ToList();
                 }
 
-                mav_mission.upload(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, type, commandlist,
+                await mav_mission.upload(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, type,
+                    commandlist,
                     (percent, status) =>
                     {
                         if (sender.doWorkArgs.CancelRequested)
@@ -5359,8 +5360,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             throw new Exception("User Canceled");
                         }
 
-                        sender.UpdateProgressAndStatus((int)(percent * 0.95), status);
-                    }).ConfigureAwait(false).GetAwaiter().GetResult();
+                        sender.UpdateProgressAndStatus((int) (percent * 0.95), status);
+                    }).ConfigureAwait(false);
+
+                await MainV2.comPort.getHomePositionAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent).ConfigureAwait(false);
 
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting params");
 
@@ -5585,11 +5589,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 MainV2.comPort.sendPacket(req, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
             }
-
+            
             MainV2.comPort.UnSubscribeToPacketType(sub1);
             MainV2.comPort.UnSubscribeToPacketType(sub2);
 
             MainV2.comPort.setWPACK();
+
+            MainV2.comPort.getHomePositionAsync((byte)MainV2.comPort.sysidcurrent,
+                (byte)MainV2.comPort.compidcurrent);
         }
 
         private void setgradanddistandaz(List<PointLatLngAlt> pointlist, PointLatLngAlt HomeLocation)
