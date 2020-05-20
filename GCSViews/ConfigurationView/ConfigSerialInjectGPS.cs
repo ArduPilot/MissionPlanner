@@ -257,6 +257,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 threadrun = false;
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
+                chk_sendgga.Enabled = true;
                 try
                 {
                     basedata.Close();
@@ -286,9 +287,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         case "NTRIP":
                             comPort = new CommsNTRIP();
                             CMB_baudrate.SelectedIndex = 0;
-                            ((CommsNTRIP)comPort).lat = MainV2.comPort.MAV.cs.HomeLocation.Lat;
-                            ((CommsNTRIP)comPort).lng = MainV2.comPort.MAV.cs.HomeLocation.Lng;
-                            ((CommsNTRIP)comPort).alt = MainV2.comPort.MAV.cs.HomeLocation.Alt;
+                            if (chk_sendgga.Checked)
+                            {
+                                ((CommsNTRIP) comPort).lat = MainV2.comPort.MAV.cs.HomeLocation.Lat;
+                                ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.HomeLocation.Lng;
+                                ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.HomeLocation.Alt;
+                            }
+
+                            chk_sendgga.Enabled = false;
                             chk_ubloxautoconfig.Checked = false;
                             break;
                         case "TCP Client":
@@ -340,6 +346,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         comPort.Open();
 
                     comPort.Write(new byte[] { (byte)'\r', (byte)'\r', (byte)'\r' }, 0, 3);
+                    Thread.Sleep(50);
                     comPort.Write(new byte[] { (byte)'O', (byte)'\r' }, 0, 2);
                 }
                 catch (ArgumentException ex)
@@ -445,7 +452,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private static void mainloop()
         {
-            DateTime lastrecv = DateTime.MinValue;
+            DateTime lastrecv = DateTime.Now;
             threadrun = true;
 
             bool isrtcm = false;
@@ -455,24 +462,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // feed the rtcm data into the rtcm parser if we get a can message
             can.MessageReceived += (frame, msg, id) =>
             {
-                if (frame.MsgTypeID == (ushort)uavcan.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                string msgname = "Can" + frame.MsgTypeID;
+                if (!msgseen.ContainsKey(msgname))
+                    msgseen[msgname] = 0;
+                msgseen[msgname] = (int) msgseen[msgname] + 1;
+
+                if (frame.MsgTypeID == (ushort) uavcan.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
                 {
-                    var rtcm = (uavcan.uavcan_equipment_gnss_RTCMStream)msg;
+                    var rtcm = (uavcan.uavcan_equipment_gnss_RTCMStream) msg;
+
                     for (int a = 0; a < rtcm.data_len; a++)
                     {
                         int seenmsg = -1;
 
                         if ((seenmsg = rtcm3.Read(rtcm.data[a])) > 0)
                         {
+                            sbp.resetParser();
                             ubx_m8p.resetParser();
                             nmea.resetParser();
                             iscan = true;
-                            sendData(rtcm3.packet, (ushort)rtcm3.length);
+                            sendData(rtcm3.packet, (ushort) rtcm3.length);
                             bpsusefull += rtcm3.length;
-                            string msgname = "Rtcm" + seenmsg;
+                            msgname = "Rtcm" + seenmsg;
                             if (!msgseen.ContainsKey(msgname))
                                 msgseen[msgname] = 0;
-                            msgseen[msgname] = (int)msgseen[msgname] + 1;
+                            msgseen[msgname] = (int) msgseen[msgname] + 1;
 
                             ExtractBasePos(seenmsg);
 
@@ -550,8 +564,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         for (int a = 0; a < read; a++)
                         {
                             int seenmsg = -1;
-                            // rtcm
-                            if ((seenmsg = rtcm3.Read(buffer[a])) > 0)
+                            // rtcm and not can
+                            if (!iscan && (seenmsg = rtcm3.Read(buffer[a])) > 0)
                             {
                                 sbp.resetParser();
                                 ubx_m8p.resetParser();
@@ -610,6 +624,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             {
                                 sbp.resetParser();
                                 ubx_m8p.resetParser();
+                                nmea.resetParser();
                                 string msgname = "CAN";
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;

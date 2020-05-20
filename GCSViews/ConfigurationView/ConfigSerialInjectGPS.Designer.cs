@@ -83,6 +83,7 @@
             this.labelbase = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.chk_sendgga = new System.Windows.Forms.CheckBox();
             this.groupBoxm8p.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -496,8 +497,18 @@
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
             // 
+            // chk_sendgga
+            // 
+            resources.ApplyResources(this.chk_sendgga, "chk_sendgga");
+            this.chk_sendgga.Checked = true;
+            this.chk_sendgga.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_sendgga.Name = "chk_sendgga";
+            this.toolTip1.SetToolTip(this.chk_sendgga, resources.GetString("chk_sendgga.ToolTip"));
+            this.chk_sendgga.UseVisualStyleBackColor = true;
+            // 
             // ConfigSerialInjectGPS
             // 
+            this.Controls.Add(this.chk_sendgga);
             this.Controls.Add(this.myGMAP1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -582,5 +593,6 @@
         private System.Windows.Forms.Label labelGall;
         private System.Windows.Forms.Label label16;
         private Controls.myGMAP myGMAP1;
+        private System.Windows.Forms.CheckBox chk_sendgga;
     }
 }
