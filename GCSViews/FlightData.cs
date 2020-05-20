@@ -3303,22 +3303,31 @@ namespace MissionPlanner.GCSViews
                             log.Error(ex);
                         }
 
-                        AIS.Vessels.ForEach(a =>
-                        {
-                            // all marker are cleard
-                            var boat = new GMapMarkerAISBoat(new PointLatLngAlt(a.lat/1e7,a.lon/1e7,0), a.heading / 100.0f)
+                        // draw AIS
+                        updateMarkersAsNeeded<MAVLink.mavlink_ais_vessel_t, GMapMarkerAISBoat>(AIS.Vessels, adsbais, (item) => { return item.MMSI.ToString(); },
+                            (marker) => { return ((MAVLink.mavlink_ais_vessel_t) marker.Tag).MMSI.ToString(); },
+                            (item) =>
                             {
-                                ToolTipText = "MMSI: " + a.MMSI + "\n" +
-                                              "Speed: " + (a.velocity/100).ToString("0 m/s") + "\n" +
-                                              "TurnRate: " + (a.turn_rate/100).ToString("0"),
-                                ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                                Tag = a
-                            }; 
-                            addMissionRouteMarker(boat);
-                        });
+                                return new GMapMarkerAISBoat(new PointLatLngAlt(item.lat / 1e7, item.lon / 1e7, 0),
+                                    item.heading / 100.0f)
+                                {
+                                    Tag = item
+                                };
+                            }, (item, markerin) =>
+                            {
+                                var marker = markerin as GMapMarkerAISBoat;
+                                marker.Position = new PointLatLngAlt(item.lat / 1e7, item.lon / 1e7, 0);
+                                marker.heading = item.heading / 100.0f;
+                                marker.ToolTipText = "MMSI: " + item.MMSI + "\n" +
+                                                     "Speed: " + (item.velocity / 100).ToString("0 m/s") + "\n" +
+                                                     "TurnRate: " + (item.turn_rate / 100).ToString("0");
+                                marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                                marker.Tag = item;
+                            });
 
                         lock (MainV2.instance.adsblock)
                         {
+                            // draw OA_DB
                             foreach (adsb.PointLatLngAltHdg plla in MainV2.instance.adsbPlanes.Values)
                             {
                                 if (plla.Raw != null)
@@ -3336,67 +3345,75 @@ namespace MissionPlanner.GCSViews
                                         continue;
                                     }
                                 }
-
-                                updateMarkerAsNeeded<adsb.PointLatLngAltHdg>(plla.Tag, adsbais,
-                                    plla, 
-                                    (marker) => { return ((adsb.PointLatLngAltHdg)marker?.Tag)?.Tag; }, 
-                                    (pllac) =>
-                                        {
-                                            return new GMapMarkerADSBPlane(pllac, pllac.Heading)
-                                            {
-                                                Tag = pllac,
-                                                IsHitTestVisible = true
-                                            };
-                                        }
-                                    , (pllau, marker) =>
-                                    {
-                                        var adsbplane = marker as GMapMarkerADSBPlane;
-
-                                        adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
-                                                                "CallSign: " + pllau.CallSign.ToString() + "\n" +
-                                                                "Squawk: " + Convert.ToString(pllau.Squawk) + "\n" +
-                                                                "Alt: " + pllau.Alt.ToString("0") + "\n" +
-                                                                "Speed: " + pllau.Speed.ToString("0") + "\n" +
-                                                                "Heading: " + pllau.Heading.ToString("0");
-                                        adsbplane.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                                        adsbplane.Position = pllau;
-                                        adsbplane.heading = pllau.Heading;
-                                        adsbplane.Tag = pllau;
-
-                                        if (((DateTime) pllau.Time) > DateTime.Now.AddSeconds(-30))
-                                        {
-                                            adsbplane.IsVisible = true;
-
-                                            if (pllau.DisplayICAO)
-                                                adsbplane.ToolTipMode = MarkerTooltipMode.Always;
-
-                                            switch (pllau.ThreatLevel)
-                                            {
-                                                case MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE:
-                                                    adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
-                                                    break;
-                                                case MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW:
-                                                    adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
-                                                    break;
-                                                case MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH:
-                                                    adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Red;
-                                                    break;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            adsbplane.IsVisible = false;
-                                        }
-                                    });
                             }
 
-                            // run cleanup
-                            var sourcelist = MainV2.instance.adsbPlanes.Values.Select(a => a.Tag);
-                            adsbais.Markers.ToArray().ForEach(a =>
+                            // filter out OA_DB adsb
+                            var adsbitems = MainV2.instance.adsbPlanes.Values.Where(a =>
                             {
-                                if (!sourcelist.Contains(((adsb.PointLatLngAltHdg) a?.Tag)?.Tag))
-                                    BeginInvoke((Action) delegate { adsbais.Markers.Remove(a); });
+                                if (a.Raw != null)
+                                {
+                                    var msg = ((MAVLink.mavlink_adsb_vehicle_t) a.Raw);
+                                    if (msg.emitter_type == 255 &&
+                                        Encoding.ASCII.GetString(msg.callsign).Trim('\0') == "OA_DB")
+                                    {
+                                        return false;
+                                    }
+                                }
+
+                                return true;
                             });
+
+                            //draw ADSB
+                            updateMarkersAsNeeded<adsb.PointLatLngAltHdg, GMapMarkerADSBPlane>(adsbitems, adsbais,
+                                (plla) => { return plla.Tag; },
+                                (marker) => { return ((adsb.PointLatLngAltHdg) marker?.Tag)?.Tag; },
+                                (pllac) =>
+                                {
+                                    return new GMapMarkerADSBPlane(pllac, pllac.Heading)
+                                    {
+                                        Tag = pllac
+                                    };
+                                },
+                                (pllau, marker) =>
+                                {
+                                    var adsbplane = marker as GMapMarkerADSBPlane;
+
+                                    adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
+                                                            "CallSign: " + pllau.CallSign.ToString() + "\n" +
+                                                            "Squawk: " + Convert.ToString(pllau.Squawk) + "\n" +
+                                                            "Alt: " + pllau.Alt.ToString("0") + "\n" +
+                                                            "Speed: " + pllau.Speed.ToString("0") + "\n" +
+                                                            "Heading: " + pllau.Heading.ToString("0");
+                                    adsbplane.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                                    adsbplane.Position = pllau;
+                                    adsbplane.heading = pllau.Heading;
+                                    adsbplane.Tag = pllau;
+
+                                    if (((DateTime) pllau.Time) > DateTime.Now.AddSeconds(-30))
+                                    {
+                                        adsbplane.IsVisible = true;
+
+                                        if (pllau.DisplayICAO)
+                                            adsbplane.ToolTipMode = MarkerTooltipMode.Always;
+
+                                        switch (pllau.ThreatLevel)
+                                        {
+                                            case MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE:
+                                                adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
+                                                break;
+                                            case MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW:
+                                                adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
+                                                break;
+                                            case MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH:
+                                                adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Red;
+                                                break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        adsbplane.IsVisible = false;
+                                    }
+                                });
                         }
 
 
@@ -3472,19 +3489,30 @@ namespace MissionPlanner.GCSViews
         }
 
 
-        private void updateMarkerAsNeeded<TBuilder>(string IDTag, GMapOverlay gMapOverlay, TBuilder item, Func<GMapMarker, string> GetTag, Func<TBuilder, GMapMarker> create, Action<TBuilder, GMapMarker> update)
+        private void updateMarkersAsNeeded<TBuilder, TMarker>(IEnumerable<TBuilder> list, GMapOverlay gMapOverlay, Func<TBuilder, string> GetTagSource, Func<GMapMarker, string> GetTagMarker, Func<TBuilder, GMapMarker> create, Action<TBuilder, GMapMarker> update)
         {
-            if (gMapOverlay.Markers.ToArray().Any(a => GetTag(a) == IDTag))
+            foreach (var item in list)
             {
-                update(item, gMapOverlay.Markers.ToArray().First(a => GetTag(a) == IDTag));
+                if (gMapOverlay.Markers.ToArray().Any(a => a is TMarker && GetTagMarker(a) == GetTagSource(item)))
+                {
+                    update(item, gMapOverlay.Markers.ToArray().First(a => GetTagMarker(a) == GetTagSource(item)));
+                }
+                else
+                {
+                    // new marker
+                    var marker = create(item);
+                    update(item, marker);
+                    BeginInvoke((Action) delegate { gMapOverlay.Markers.Add(marker); });
+                }
             }
-            else
+
+            // run cleanup
+            var sourcelist = list.Select(item => GetTagSource(item));
+            gMapOverlay.Markers.ToArray().ForEach(a =>
             {
-                // new marker
-                var marker = create(item);
-                update(item, marker);
-                BeginInvoke((Action)delegate { gMapOverlay.Markers.Add(marker); });
-            }
+                if (a is TMarker && !sourcelist.Contains(GetTagMarker(a)))
+                    BeginInvoke((Action) delegate { gMapOverlay.Markers.Remove(a); });
+            });
         }
 
         private void Messagetabtimer_Tick(object sender, EventArgs e)
