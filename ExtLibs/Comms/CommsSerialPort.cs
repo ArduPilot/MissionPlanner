@@ -232,10 +232,10 @@ namespace MissionPlanner.Comms
 
                 try
                 {
-                    ports = System.IO.Ports.SerialPort.GetPortNames()
-                        .Select(p => p.TrimEnd())
-                        .Select(FixBlueToothPortNameBug)
-                        .ToArray();
+                    ports = System.IO.Ports.SerialPort.GetPortNames();
+                    // any exceptions will still result in a list
+                    ports = ports.Select(p => p?.TrimEnd()).ToArray();
+                    ports = ports.Select(FixBlueToothPortNameBug).ToArray();
                 }
                 catch
                 {
@@ -329,6 +329,8 @@ namespace MissionPlanner.Comms
         // See http://connect.microsoft.com/VisualStudio/feedback/details/236183/system-io-ports-serialport-getportnames-error-with-bluetooth
         private static string FixBlueToothPortNameBug(string portName)
         {
+            if (portName == null)
+                return null;
             if (!portName.StartsWith("COM"))
                 return portName;
             var newPortName = "COM"; // Start over with "COM"
