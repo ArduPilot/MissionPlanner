@@ -1201,6 +1201,7 @@ namespace MissionPlanner
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Heading = adsb.Heading;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Time = DateTime.Now;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).CallSign = adsb.CallSign;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Squawk = adsb.Squawk;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Raw = adsb.Raw;
                 }
                 else
@@ -1210,7 +1211,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                        { CallSign = adsb.CallSign, Raw = adsb.Raw };
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw};
                 }
 
                 try
@@ -1224,6 +1225,7 @@ namespace MissionPlanner
                     packet.altitude = (int)(MainV2.instance.adsbPlanes[id].Alt * 1000);
                     packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
                     packet.callsign = adsb.CallSign.MakeBytes();
+                    packet.squawk = adsb.Squawk;
                     packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
                     packet.heading = (ushort)(MainV2.instance.adsbPlanes[id].Heading * 100);
                     packet.lat = (int)(MainV2.instance.adsbPlanes[id].Lat * 1e7);

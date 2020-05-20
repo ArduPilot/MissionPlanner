@@ -4399,10 +4399,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             var id = adsb.ICAO_address.ToString("X5");
 
                             if (_UpdateADSBPlanePosition != null)
-                                _UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7,
+                                _UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(adsb.lat / 1e7,
+                                        adsb.lon / 1e7,
                                         adsb.altitude / 1000.0, adsb.heading * 0.01f, adsb.hor_velocity * 0.01f, id,
                                         DateTime.Now)
-                                { CallSign = Encoding.ASCII.GetString(adsb.callsign), Raw = adsb }
+                                    {
+                                        CallSign = Encoding.ASCII.GetString(adsb.callsign),
+                                        Squawk = adsb.squawk,
+                                        Raw = adsb
+                                    }
                                 );
                         }
 

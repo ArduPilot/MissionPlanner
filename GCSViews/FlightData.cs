@@ -3342,6 +3342,8 @@ namespace MissionPlanner.GCSViews
                                     var adsbplane = new GMapMarkerADSBPlane(plla, plla.Heading)
                                     {
                                         ToolTipText = "ICAO: " + plla.Tag + "\n" +
+                                                      "CallSign: " + plla.CallSign.ToString() + "\n" +
+                                                      "Squawk: " + Convert.ToString(plla.Squawk) + "\n" +
                                                       "Alt: " + plla.Alt.ToString("0") + "\n" +
                                                       "Speed: " + plla.Speed.ToString("0") + "\n" +
                                                       "Heading: " + plla.Heading.ToString("0"),
