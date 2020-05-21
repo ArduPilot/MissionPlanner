@@ -41,6 +41,8 @@
             this.label22 = new System.Windows.Forms.Label();
             this.tabSimple = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.NUM_UpDownFlySpeed = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.NUM_spacing = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
@@ -62,11 +64,10 @@
             this.chk_markers = new System.Windows.Forms.CheckBox();
             this.chk_boundary = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.label24 = new System.Windows.Forms.Label();
-            this.NUM_UpDownFlySpeed = new System.Windows.Forms.NumericUpDown();
             this.groupBox5.SuspendLayout();
             this.tabSimple.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownFlySpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).BeginInit();
@@ -75,7 +76,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownFlySpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // map
@@ -188,6 +188,27 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
             // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            // 
+            // NUM_UpDownFlySpeed
+            // 
+            resources.ApplyResources(this.NUM_UpDownFlySpeed, "NUM_UpDownFlySpeed");
+            this.NUM_UpDownFlySpeed.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.NUM_UpDownFlySpeed.Name = "NUM_UpDownFlySpeed";
+            this.NUM_UpDownFlySpeed.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.NUM_UpDownFlySpeed.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
@@ -198,7 +219,7 @@
             this.NUM_spacing.DecimalPlaces = 2;
             resources.ApplyResources(this.NUM_spacing, "NUM_spacing");
             this.NUM_spacing.Maximum = new decimal(new int[] {
-            9999,
+            99999,
             0,
             0,
             0});
@@ -206,7 +227,7 @@
             1,
             0,
             0,
-            0});
+            65536});
             this.NUM_spacing.Name = "NUM_spacing";
             this.NUM_spacing.Value = new decimal(new int[] {
             50,
@@ -307,7 +328,7 @@
             this.NUM_Distance.DecimalPlaces = 2;
             resources.ApplyResources(this.NUM_Distance, "NUM_Distance");
             this.NUM_Distance.Maximum = new decimal(new int[] {
-            9999,
+            99999,
             0,
             0,
             0});
@@ -393,27 +414,6 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
-            // label24
-            // 
-            resources.ApplyResources(this.label24, "label24");
-            this.label24.Name = "label24";
-            // 
-            // NUM_UpDownFlySpeed
-            // 
-            resources.ApplyResources(this.NUM_UpDownFlySpeed, "NUM_UpDownFlySpeed");
-            this.NUM_UpDownFlySpeed.Maximum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-            this.NUM_UpDownFlySpeed.Name = "NUM_UpDownFlySpeed";
-            this.NUM_UpDownFlySpeed.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.NUM_UpDownFlySpeed.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
-            // 
             // GridUI
             // 
             resources.ApplyResources(this, "$this");
@@ -428,6 +428,7 @@
             this.tabSimple.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownFlySpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).EndInit();
@@ -437,7 +438,6 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownFlySpeed)).EndInit();
             this.ResumeLayout(false);
 
         }
