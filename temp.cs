@@ -38,6 +38,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using MissionPlanner.ArduPilot.Mavlink;
 using static MissionPlanner.Utilities.Firmware;
 using Formatting = Newtonsoft.Json.Formatting;
 using ILog = log4net.ILog;
@@ -924,7 +925,18 @@ namespace MissionPlanner
 
         private void but_td_Click(object sender, EventArgs e)
         {
-
+            string path = "@SYS/threads.txt";
+            if (InputBox.Show("path", "path", ref path) == DialogResult.OK)
+            {
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {
+                    var mavftp = new MAVFtp(MainV2.comPort, (byte) MainV2.comPort.sysidcurrent,
+                        (byte) MainV2.comPort.compidcurrent);
+                    var st = mavftp.GetFile(path, new CancellationTokenSource(5000), true);
+                    var output = Path.Combine(Settings.GetUserDataDirectory(), Path.GetFileName(path));
+                    File.WriteAllBytes(output, st.ToArray());
+                }
+            }
         }
 
         private void but_dem_Click(object sender, EventArgs e)

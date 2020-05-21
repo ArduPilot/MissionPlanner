@@ -259,7 +259,7 @@
     <value>88</value>
   </data>
   <data name="but_td.Text" xml:space="preserve">
-    <value>TD</value>
+    <value>grab threads.txt</value>
   </data>
   <data name="&gt;&gt;but_td.Name" xml:space="preserve">
     <value>but_td</value>
@@ -3496,7 +3496,7 @@
     <value>controlSensorsStatus1</value>
   </data>
   <data name="&gt;&gt;controlSensorsStatus1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ControlSensorsStatus, MissionPlanner, Version=1.3.7325.14658, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ControlSensorsStatus, MissionPlanner, Version=1.3.7446.18372, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;controlSensorsStatus1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -3515,9 +3515,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>1027, 593</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>temp</value>
