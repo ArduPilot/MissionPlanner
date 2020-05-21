@@ -9,6 +9,7 @@
     <LangVersion>7.3</LangVersion>
     <RazorLangVersion>3.0</RazorLangVersion>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,55 +34,39 @@
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.1.0-preview3" />
     <PackageReference Include="DotNetZip" Version="1.13.7" />
     <PackageReference Include="log4net" Version="2.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19457.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19457.4" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19457.4" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview3.20168.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Mono" Version="3.0.0-preview9.19456.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.0-preview.3.20215.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0-preview.3.20215.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.4" />
-    <PackageReference Include="Microsoft.JSInterop" Version="5.0.0-preview.3.20215.14" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.0-preview.3.20214.6" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.5" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Reshiru.Blazor.IndexedDB.Framework" Version="1.0.1" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="4.7.1" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="1.5.0.20109" />
+    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="1.1.1" />
     <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="8.0.0" />
-    <PackageReference Include="Uno.SkiaSharp.Wasm" Version="1.68.0-uno.298" />
-    <PackageReference Include="Uno.SkiaSharp.Wasm.Extended" Version="1.60.0-uno.173" />
+    <PackageReference Include="WebGLDotNET" Version="2.1.0" />
 
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\7zip\7zip.csproj" />
-    <ProjectReference Include="..\alglibnet\alglibnet.csproj" />
-    <ProjectReference Include="..\Arduino\Arduino.csproj" />
     <ProjectReference Include="..\ArduPilot\MissionPlanner.ArduPilot.csproj" />
     <ProjectReference Include="..\BouncyCastle\BouncyCastle.csproj" />
     <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
-    <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
-    <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
     <ProjectReference Include="..\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
-    <ProjectReference Include="..\KMLib\KMLib.csproj" />
-    <ProjectReference Include="..\LibVLC.NET\LibVLC.NET.csproj" />
-    <ProjectReference Include="..\ManagedNativeWifi.Simple\ManagedNativeWifi.Simple.csproj" />
     <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
-    <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj" />
     <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
       <Aliases>MPDrawing</Aliases>
     </ProjectReference>
-    <ProjectReference Include="..\ProjNet\ProjNET.csproj" />
-    <ProjectReference Include="..\SharpKml\SharpKml.csproj" />
     <ProjectReference Include="..\Strings\MissionPlanner.Strings.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>

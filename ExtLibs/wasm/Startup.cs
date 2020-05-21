@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Threading.Tasks;
 using Blazor.IndexedDB.Framework;
+using BlazorWorker.Core;
 using GMap.NET.MapProviders;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
@@ -33,6 +34,8 @@ namespace wasm
             services.AddSpeechSynthesis();
 
             services.AddScoped<IIndexedDbFactory, IndexedDbFactory>();
+
+            services.AddWorkerFactory();
 
             //services.Add(new ServiceDescriptor(typeof(IFileReaderService), typeof(FileReaderService), ServiceLifetime.Transient));
 
