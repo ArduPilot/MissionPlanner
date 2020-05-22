@@ -53,6 +53,7 @@ namespace MissionPlanner.Controls
         private CheckBox chk_locktomav;
         private Timer timer1;
         private System.ComponentModel.IContainer components;
+        private CheckBox chk_fog;
 
         private PointLatLngAlt _center { get; set; } = new PointLatLngAlt(-34.9807459, 117.8514028, 70);
 
@@ -389,6 +390,7 @@ namespace MissionPlanner.Controls
         private bool sizeChanged;
         private double[] mypos = new double[3];
         Vector3 myrpy = Vector3.UnitX;
+        private bool fogon = true;
 
         double[] convertCoords(PointLatLngAlt plla)
         {
@@ -552,7 +554,11 @@ namespace MissionPlanner.Controls
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit |
                          ClearBufferMask.AccumBufferBit);
 
-                GL.Enable(EnableCap.Fog);
+                if(fogon)
+                    GL.Enable(EnableCap.Fog);
+                else
+                    GL.Disable(EnableCap.Fog);
+
                 GL.Enable(EnableCap.Lighting);
 
                 Lighting.SetupAmbient(0.1f);
@@ -563,8 +569,8 @@ namespace MissionPlanner.Controls
                 GL.Fog(FogParameter.FogColor, new float[] {100 / 255.0f, 149 / 255.0f, 237 / 255.0f, 1f});
                 GL.Fog(FogParameter.FogDensity, 0.1f);
                 GL.Fog(FogParameter.FogMode, (int) FogMode.Linear);
-                GL.Fog(FogParameter.FogStart, (float) 300);
-                GL.Fog(FogParameter.FogEnd, (float) 2000);
+                GL.Fog(FogParameter.FogStart, (float) 5000);
+                GL.Fog(FogParameter.FogEnd, (float) 10000);
 
                 // clear the depth buffer
                 GL.Clear(ClearBufferMask.DepthBufferBit);
@@ -745,6 +751,8 @@ namespace MissionPlanner.Controls
                     area2.Inflate(Math.Abs(_center.Lat - offset.Lat), Math.Abs(_center.Lng - offset.Lng));
 
                     var extratile = 0;
+                    if (a == minzoom)
+                        extratile = 1;
 
                     var tiles = new tileZoomArea()
                     {
@@ -1012,66 +1020,55 @@ namespace MissionPlanner.Controls
             this.num_maxzoom = new System.Windows.Forms.NumericUpDown();
             this.chk_locktomav = new System.Windows.Forms.CheckBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize) (this.num_minzoom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.num_maxzoom)).BeginInit();
+            this.chk_fog = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.num_minzoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_maxzoom)).BeginInit();
             this.SuspendLayout();
             // 
             // num_minzoom
             // 
             this.num_minzoom.Location = new System.Drawing.Point(3, 3);
-            this.num_minzoom.Maximum = new decimal(new int[]
-            {
-                20,
-                0,
-                0,
-                0
-            });
-            this.num_minzoom.Minimum = new decimal(new int[]
-            {
-                1,
-                0,
-                0,
-                0
-            });
+            this.num_minzoom.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.num_minzoom.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.num_minzoom.Name = "num_minzoom";
             this.num_minzoom.Size = new System.Drawing.Size(54, 20);
             this.num_minzoom.TabIndex = 0;
-            this.num_minzoom.Value = new decimal(new int[]
-            {
-                12,
-                0,
-                0,
-                0
-            });
+            this.num_minzoom.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
             this.num_minzoom.ValueChanged += new System.EventHandler(this.num_minzoom_ValueChanged);
             // 
             // num_maxzoom
             // 
             this.num_maxzoom.Location = new System.Drawing.Point(3, 29);
-            this.num_maxzoom.Maximum = new decimal(new int[]
-            {
-                20,
-                0,
-                0,
-                0
-            });
-            this.num_maxzoom.Minimum = new decimal(new int[]
-            {
-                1,
-                0,
-                0,
-                0
-            });
+            this.num_maxzoom.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.num_maxzoom.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.num_maxzoom.Name = "num_maxzoom";
             this.num_maxzoom.Size = new System.Drawing.Size(54, 20);
             this.num_maxzoom.TabIndex = 1;
-            this.num_maxzoom.Value = new decimal(new int[]
-            {
-                20,
-                0,
-                0,
-                0
-            });
+            this.num_maxzoom.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
             this.num_maxzoom.ValueChanged += new System.EventHandler(this.num_maxzoom_ValueChanged);
             // 
             // chk_locktomav
@@ -1091,9 +1088,23 @@ namespace MissionPlanner.Controls
             this.timer1.Interval = 40;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // chk_fog
+            // 
+            this.chk_fog.AutoSize = true;
+            this.chk_fog.Checked = true;
+            this.chk_fog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_fog.Location = new System.Drawing.Point(63, 32);
+            this.chk_fog.Name = "chk_fog";
+            this.chk_fog.Size = new System.Drawing.Size(44, 17);
+            this.chk_fog.TabIndex = 3;
+            this.chk_fog.Text = "Fog";
+            this.chk_fog.UseVisualStyleBackColor = true;
+            this.chk_fog.CheckedChanged += new System.EventHandler(this.chk_fog_CheckedChanged);
+            // 
             // OpenGLtest2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Controls.Add(this.chk_fog);
             this.Controls.Add(this.chk_locktomav);
             this.Controls.Add(this.num_maxzoom);
             this.Controls.Add(this.num_minzoom);
@@ -1101,8 +1112,8 @@ namespace MissionPlanner.Controls
             this.Size = new System.Drawing.Size(640, 480);
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
-            ((System.ComponentModel.ISupportInitialize) (this.num_minzoom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.num_maxzoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_minzoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_maxzoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1144,6 +1155,11 @@ namespace MissionPlanner.Controls
             }
         }
 
+        private void chk_fog_CheckedChanged(object sender, EventArgs e)
+        {
+            fogon = chk_fog.Checked;
+        }
+
         private void num_maxzoom_ValueChanged(object sender, EventArgs e)
         {
             zoom = (int) num_maxzoom.Value;
@@ -1164,7 +1180,7 @@ namespace MissionPlanner.Controls
                 OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(
                     (float) (90 * MathHelper.deg2rad),
                     (float) Width / Height, 0.1f,
-                    (float) 5000);
+                    (float) 20000);
 
                 GL.LoadMatrix(ref projection);
 
