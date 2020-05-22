@@ -60,6 +60,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 y = 10;
                 tableLayoutPanel1.Enabled = false;
+                tableLayoutPanel1.SuspendLayout();
 
                 foreach (Control ctl in tableLayoutPanel1.Controls)
                 {
@@ -70,7 +71,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             rng.DescriptionText.ToLower().Contains(searchfor.ToLower()))
                         {
                             ctl.Visible = true;
-                            ctl.Location = new Point(ctl.Location.X, y);
+                            //ctl.Location = new Point(ctl.Location.X, y);
                             y += ctl.Height;
                         }
                         else
@@ -85,7 +86,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             vctl.DescriptionText.ToLower().Contains(searchfor.ToLower()))
                         {
                             ctl.Visible = true;
-                            ctl.Location = new Point(ctl.Location.X, y);
+                            //ctl.Location = new Point(ctl.Location.X, y);
                             y += ctl.Height;
                         }
                         else
@@ -100,7 +101,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             bctl.myLabel1.Text.ToLower().Contains(searchfor.ToLower()))
                         {
                             ctl.Visible = true;
-                            ctl.Location = new Point(ctl.Location.X, y);
+                            //ctl.Location = new Point(ctl.Location.X, y);
                             y += ctl.Height;
                         }
                         else
@@ -110,6 +111,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
 
+                tableLayoutPanel1.ResumeLayout();
                 tableLayoutPanel1.Enabled = true;
             }
         }
@@ -363,7 +365,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 AddControl(x, toadd); //,ref ypos);
                 Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("ss.fff"));
             });
-
+            
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel1.Visible = false;
             tableLayoutPanel1.Controls.AddRange(toadd.ToArray());
@@ -484,7 +486,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             rangeControl.ValueChanged += Control_ValueChanged;
 
                             // set pos
-                            rangeControl.Location = new Point(0, y);
+                         //   rangeControl.Location = new Point(0, y);
                             // add control - let it autosize height
                             toadd.Add(rangeControl);
                             // add height for next control
@@ -512,7 +514,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             ThemeManager.ApplyThemeTo(bitmask);
 
                             // set pos
-                            bitmask.Location = new Point(0, y);
+                            //bitmask.Location = new Point(0, y);
                             // add control - let it autosize height
                             toadd.Add(bitmask);
                             // add height for next control
@@ -560,7 +562,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 valueControl.ValueChanged += Control_ValueChanged;
 
                                 // set pos
-                                valueControl.Location = new Point(0, y);
+                                //valueControl.Location = new Point(0, y);
                                 // add control - let it autosize height
                                 toadd.Add(valueControl);
                                 // add height for next control

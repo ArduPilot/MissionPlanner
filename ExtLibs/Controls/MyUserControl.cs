@@ -28,10 +28,17 @@ namespace System.Windows.Forms
             if (FormClosed != null)
                 FormClosed(sender, new FormClosedEventArgs(e.CloseReason));
         }
-
+        
         public void Close()
         {
             Close(this, new FormClosingEventArgs(CloseReason.UserClosing, false));
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (e.ClipRectangle.IsEmpty)
+                return;
+            base.OnPaint(e);
         }
 
         protected override void WndProc(ref Message m)

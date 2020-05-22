@@ -43,6 +43,7 @@ namespace MissionPlanner.Controls
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(207, 21);
             this.comboBox1.TabIndex = 1;
+            this.comboBox1.Visible = false;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label1
@@ -70,7 +71,6 @@ namespace MissionPlanner.Controls
             // 
             // ValuesControl
             // 
-            
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.myLabel1);

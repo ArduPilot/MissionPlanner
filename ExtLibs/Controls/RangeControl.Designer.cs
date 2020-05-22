@@ -46,6 +46,7 @@
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(57, 20);
             this.numericUpDown1.TabIndex = 4;
+            this.numericUpDown1.Visible = false;
             // 
             // label1
             // 
@@ -103,7 +104,6 @@
             // 
             // RangeControl
             // 
-            
             this.Controls.Add(this.LBL_max);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LBL_min);

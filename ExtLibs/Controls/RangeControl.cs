@@ -164,6 +164,16 @@ namespace MissionPlanner.Controls
 
         #region Methods
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (e.ClipRectangle.IsEmpty)
+                return;
+            // this is to improve first render time when not onscreen.
+            if (!numericUpDown1.Visible)
+                numericUpDown1.Visible = true;
+            base.OnPaint(e);
+        }
+
         public void AttachEvents()
         {
             numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
