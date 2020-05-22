@@ -5973,14 +5973,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         public void TXT_homealt_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
-            try
-            {
-                MainV2.comPort.MAV.cs.HomeLocation.Alt = double.Parse(TXT_homealt.Text);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+    
             writeKML();
         }
 
@@ -5995,28 +5988,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         public void TXT_homelat_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
-            try
-            {
-                MainV2.comPort.MAV.cs.HomeLocation.Lat = double.Parse(TXT_homelat.Text);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+     
             writeKML();
         }
 
         public void TXT_homelng_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
-            try
-            {
-                MainV2.comPort.MAV.cs.HomeLocation.Lng = double.Parse(TXT_homelng.Text);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+    
             writeKML();
         }
 
