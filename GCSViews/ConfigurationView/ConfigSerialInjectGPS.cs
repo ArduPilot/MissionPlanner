@@ -345,9 +345,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (!comPort.IsOpen)
                         comPort.Open();
 
-                    comPort.Write(new byte[] { (byte)'\r', (byte)'\r', (byte)'\r' }, 0, 3);
-                    Thread.Sleep(50);
-                    comPort.Write(new byte[] { (byte)'O', (byte)'\r' }, 0, 2);
+                    if (comPort is SerialPort)
+                    {
+                        // this is for a CAN adapter
+                        comPort.Write(new byte[] {(byte) '\r', (byte) '\r', (byte) '\r'}, 0, 3);
+                        Thread.Sleep(50);
+                        comPort.Write(new byte[] {(byte) 'S', (byte) '8', (byte) '\r'}, 0, 3);
+                        Thread.Sleep(50);
+                        comPort.Write(new byte[] {(byte) 'O', (byte) '\r'}, 0, 2);
+                    }
                 }
                 catch (ArgumentException ex)
                 {
