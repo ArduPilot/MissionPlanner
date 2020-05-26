@@ -3613,7 +3613,7 @@ namespace MissionPlanner.GCSViews
         private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt(abs)' or 'lat;long'", ref location);
 
             var split = location.Split(';');
 
@@ -3623,18 +3623,19 @@ namespace MissionPlanner.GCSViews
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
                 var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
 
-                MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
-                    MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng,
-                    alt / CurrentState.multiplieralt);
+                MainV2.comPort.doCommandInt((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int)(lat * 1e7),
+                    (int)(lng * 1e7), (int)((alt / CurrentState.multiplieralt) * 100.0));
             }
             else if (split.Length == 2)
             {
                 var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
-                var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt / CurrentState.multiplieralt;
+                var alt = srtm.getAltitude(lat, lng).alt;
 
-                MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
-                    MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng, (float) alt);
+                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (lat * 1e7),
+                    (int) (lng * 1e7), (int) ((alt) * 100.0));
             }
             else
             {
@@ -3650,11 +3651,9 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            double srtmalt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
-
-            string alt = (srtmalt * CurrentState.multiplieralt).ToString("0");
+            string alt = "0";
             if (DialogResult.Cancel == InputBox.Show("Enter Alt",
-                    "Enter Target Alt (absolute, default value is ground alt)", ref alt))
+                    "Enter Target Alt (Relative to home)", ref alt))
                 return;
 
             float intalt = 0;
@@ -3672,9 +3671,10 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
-                    MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (float) MouseDownStart.Lat,
-                    (float) MouseDownStart.Lng, intalt / CurrentState.multiplieralt);
+                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (MouseDownStart.Lat * 1e7),
+                    (int) (MouseDownStart.Lng * 1e7), (int) ((intalt / CurrentState.multiplieralt) * 100.0),
+                    frame: MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
             }
             catch
             {
