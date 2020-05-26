@@ -2218,30 +2218,34 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         }
 
         public bool doCommandInt(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
-            int p5, int p6, int p7, bool requireack = true, Action uicallback = null)
+            int p5, int p6, int p7, bool requireack = true, Action uicallback = null, MAV_FRAME frame = MAV_FRAME.GLOBAL)
         {
-            return doCommandIntAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback).AwaitSync();
+            return doCommandIntAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback, frame).AwaitSync();
         }
 
         public async Task<bool> doCommandIntAsync(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
-        int p5, int p6, int p7, bool requireack = true, Action uicallback = null)
+        int p5, int p6, int p7, bool requireack = true, Action uicallback = null, MAV_FRAME frame = MAV_FRAME.GLOBAL)
         {
             MAVLinkMessage buffer;
 
-            mavlink_command_int_t req = new mavlink_command_int_t();
+            mavlink_command_int_t req = new mavlink_command_int_t()
+            {
+                target_system = sysid,
+                target_component = compid,
 
-            req.target_system = sysid;
-            req.target_component = compid;
+                command = (ushort) actionid,
 
-            req.command = (ushort)actionid;
-
-            req.param1 = p1;
-            req.param2 = p2;
-            req.param3 = p3;
-            req.param4 = p4;
-            req.x = p5;
-            req.y = p6;
-            req.z = p7;
+                param1 = p1,
+                param2 = p2,
+                param3 = p3,
+                param4 = p4,
+                x = p5,
+                y = p6,
+                z = p7,
+                autocontinue = 0,
+                current = 0,
+                frame = (byte)frame
+            };
 
             log.InfoFormat("doCommandIntAsync cmd {0} {1} {2} {3} {4} {5} {6} {7}", actionid.ToString(), p1, p2, p3, p4, p5, p6,
                 p7);
