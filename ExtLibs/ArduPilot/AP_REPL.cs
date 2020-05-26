@@ -44,7 +44,7 @@ namespace MissionPlanner.ArduPilot
 
         public void Start()
         {
-            if (_mavint.doCommandInt(_mavint.MAV.sysid, _mavint.MAV.compid, (MAVLink.MAV_CMD) 42701, 0, 0, 0, 0, 0, 0, 0))
+            if (_mavint.doCommandInt(_mavint.MAV.sysid, _mavint.MAV.compid, MAVLink.MAV_CMD.SCRIPTING, 0, 0, 0, 0, 0, 0, 0))
             {
                 _active = true;
                 _timer = new Timer(state =>
@@ -90,7 +90,7 @@ namespace MissionPlanner.ArduPilot
         {
             _active = false;
             _timer?.Dispose();
-            if (_mavint.doCommandInt(_mavint.MAV.sysid, _mavint.MAV.compid, (MAVLink.MAV_CMD) 42701, 1, 0, 0, 0, 0, 0, 0))
+            if (_mavint.doCommandInt(_mavint.MAV.sysid, _mavint.MAV.compid, MAVLink.MAV_CMD.SCRIPTING, 1, 0, 0, 0, 0, 0, 0))
             {
 
             }
