@@ -1,4 +1,416 @@
-﻿*Mission Planner 1.3.70 - 04-12-2019
+﻿*Mission Planner 1.3.71 - 26-05-2020
+* OpenGLtest2: add fog option and increase max distance
+* FlightPlanner: dont change MAV homelocation
+* Controls: change paint logic to improve first load time
+* SimpleGrid: fix scale on init for large area
+* temp: add threads.txt
+* GarminUSBGPS: fix the unbound loop
+* Plugins: add example2
+* FlightData: improve adsb and ais icon update
+* GMapMarkerADSBPlane: improve clickzone
+* ConfigSerialInjectGPS: option GGA output
+* CommsSerialPort: clean up port list
+* ADSB: add Squawk
+* FlightPlanner: add guard to set home #2389
+* Uploader: modify plugin scan timing
+* Drawing: move class's to match core
+* MAVLinkInterface: async setparam and getHomePosition
+* Drawing: namespace change
+* MAVFtp: handle kErrBusy on openfile
+* ConfigMotorTest: fix min scale
+* MAVFtp: tweak param.pck for lossy radios (no burst)
+* MAVLinkInterface: mavlink signing fix disable
+* OpenGLtest2: recenter on more than 10km distance
+* GMapMarkerPhoto: default to no footprint draw
+* OpenGLTest: add locktomav
+* FlightPlanner: remove autosize
+* ConfigAdvanced: add fft
+* MAVLinkInterface: send status text on connect of multiple types
+* MAVLinkInterface: resolve mav2 signing issue when using more than one key
+* Assembly: point release
+* ModifyAndSet: support decimal
+* OpenGLTest: BG texture load
+* NetDFULib: add
+* FlightPlanner: improve fence usage
+* ConfigArducopter: fix tune_max
+* OpenGLTest: improve
+* PointLatLngAlt: cache utm conversion
+* AP_InternalError: remove
+* GeoTiff: background load images
+* GeoTiff: support wgs84 utm zones
+* MainV2: async readPacket
+* ConfigMotorTest: add spin min and spin arm
+* Merge pull request #2381 from meee1/RFD900ToolsForPullRequest
+* RFD900 tools 2.0
+* Fixed problem in which couldn't get modems into AT command mode from transparent mode.  Now uses parameter range information read from modem using ATI5? query, if available.
+* Selecting serial baud rate is now more consistant across modem models.  User selects actual baud rate for RFD900au+, instead of the setting designator (e.g. 57600 instead of 57).
+* RFD900 tools 
+* Supports multipoint firmware as tested using RFD900u.
+* Tested and working OK for RFD900u multipoint, RFD900u p2p, RFD900x p2p and RFD900x async
+* Removed comms log window which didn't do anything yet anyway.
+* Brought across relevant changes from RFDesign master to go to pull request.
+* Added support for multipoint firmware on RFD900x
+* Before merging changes in ardupilot/missionplanner pull request back into here
+
+* Now has a connect/disconnect button.  Switching between settings and terminal windows while connected now working OK.
+* Switches between RSSI window and other windows OK now.
+* Fixed bug in modem mode switching in which it didn't remember it was in AT cmd mode.
+* Fixed bug in which old RSSI plot lines still there when switching from RSSI and then back into RSSI window.
+* Fixed issues related to serial port connection state.  Tested the sikradio utility in both stand-alone radio utility and embedded within in mission planner.  The stand-alone utility uses a connect/disconnect button.  The utility embedded in mission planner doesn't require connect/disconnect but does require the correct com port and baud rate to be selected in the top right corner of the main window.
+* SikRadio: support HM-TRP
+* Add possibility to use own GoogleAPI key
+* Ardupilot: change to mavlink char(16) to byte(8)
+* Mavlink: update - remove usage of char (16utf) type
+* wasm: cesium update
+* wasm: fix compile
+* MainV2: modify mavftp burst size on connect param fetch
+* SerialPort: dcb fixer
+* MAVLinkMessage: null check type
+* ConfigHWCompass: add confirm to large cal
+* QuickView: add some character buffer
+* Extension: async modify
+* UAVCan: add toggle checking
+* UAVCANParams: fix clearing just loaded params
+* Async: pump message loop when on gui context
+* UAVCANParams: remove mavlink code
+* ZedGraph: Line add decimal places
+* JoyStick: add to optional
+* parampck: update format
+* Firmware: add chip and chip_des
+* CurrentState: prevent exception on status screen draw
+* app: update for rover folder rename
+* Xamarin: params
+* UAVCan: 0 length check
+* ConfigRadioInput: fix reverse display issue on startup
+* Xamarin: video/hud overlay
+* ConfigRadioInput: min != max check
+* parampck: add magic
+* Drawing: rename namespace
+* MainV2: better mavftp check and option param BG download
+* InputBox: optimize usage
+* Settings: modify get/setlist encode
+* Controls: WndProc override
+* GDAL: directory exists check
+* MainV2: dont stop UI during mavftp param attempt
+* MainV2: Modify param via ftp timeout and bg param fetch
+* ConfigHWCompass2: always put existing prio's at the top and hide 0's
+* ntrip: reconnect on no data
+* MavFTPUI: add romfs
+* AIS: add
+* MainV2:  support params over ftp
+* GridUI: take photo at start of DO_SET_CAM_TRIGG_DIST
+* Custom fields for currentstate with support for NAMED_VALUE_FLOAT mavlink messages
+* MainV2: use param list UI on connect
+* ConfigUAVCAN: buffered read stream
+* CommsSerialPort: distinct portnames
+* Ntrip: symlink resolve
+* CurrentState: GetItemList add numbers only
+* Plugins: add plugin from code
+* Ntrip: add usage
+* Nuget: consolidate dotnetzip
+* UAVCan: fix uavcan message scanner
+* UAVCAN: update
+* Xamarin: firmware upload
+* MainV2: autoscan logic
+* Xamarin: prevent fatal crash on list change
+* Ntrip: add
+* px4uploader: android
+* Devopsui: add
+* temp: update default message list for DashWare
+* DashWare: add trailing commas to csv file
+* Mavlink: show inknown packet id
+* MAVLink: update + offspec msgs
+* FlightData: herelink ip request
+* FlightPlanner: polygon point inserts
+* ConfigHWCompass2: fix sorting/ordering
+* InitialSetup: add param loading screen
+* GMapMarkerPlus: fix mouse over offset
+* FlightPlanner: add midpoints
+* airports: update
+* Firmware: remove timeoutcall
+* UserPanel: template
+* HW: add device ids
+* FlightData: add fly to coords & poi at coords
+* Extension: skpaint dictionary lock
+* MAVLinkInterface: refactor device_op
+* MissionPlannerCore: change obj dir
+* FaceMap: add
+* GMAPCache: add remove all
+* FirmwareHistory: update
+* GDAL: downgrade to 2.3.2 - prevent issue with gstreamer
+* MainV2: dont miss detect scan on a cubeblack+
+* GStreamer: add DllNotFoundException handle
+* Program: remove trace
+* FlightData: error when do action fails
+* ConfigHWIDs: change to datagrid
+* ConfigSerialInjectGPS: add base map
+* ConfigAccelerometerCalibration: error when command is rejected
+* UAVCan: update read to better filter out bad messages
+* Capture: clean dispose thread
+* Edits to Accel Cal Screen
+* Created discrete DO_FENCE_ENABLE waypoint for Plane in Flight Plan screen.
+* Modified text bubble in Plane and Copter to include Sat Count, HDOP, and Voltage.
+* Sorting items in Status tab
+* accept the float value in "Modify Alt" on Flight Planner screen
+* Added PluginUI and DisabledPluigins setting
+* Strings: arhs message change #13457
+* LogBrowse: ensure filtered data shows evaluated data #2099
+* GridUI: blank cmpixel check
+* GMapControl: prevent update on draw
+* Grid: Spiral, include all children polygons
+* GeoTiff: DEM check file exists
+* GMapControl: prevent update during draw
+* ConfigHWCompass2: check reboot required
+* MainV2: load GDAL Image on startup
+* CommsNTRIP: add SOURCETABLE check
+* GStreamer: add x64/z86 check and download
+* MissionPlanner.Comms: switch to system.io.ports
+* MAVLink: update
+* ConfigREPL: cleanup line before send MONO
+* ConfigREPL: fix mono
+* ConfigArducopter: add ATC_ACCEL
+* UAVCANFileUI: enable
+* ConfigHWCompass: update large magcal message
+* ConfigHWCompass2: large vehicle magcal
+* Device: cleanup enum string
+* MAVLinkInterface: add char to mavlink debug
+* FlightData: fix moving base display
+* ConfigHWCompass2: add port open check and remove dev_type
+* SoftwareConfig: add loading screen
+* ConfigParamLoading: add
+* ConfigParamLoading: add
+* AP_REPL: partial file write
+* FlightData: prevent exception
+* Firmware: update for port that hangs
+* ConfigREPL: add
+* CheckListEditor: modify redraw
+* MP.Ardupilot: seperate class files
+* AP_REPL: add
+* PointLatLngAlt: add operator == for plla and pll
+* GeoTiff: srtm add tile support
+* Layout Chinese translation error modified (#2313)
+* keep the delay value of a waypoint when moving
+* Do not display waypoints with lat and lon 0
+* Program: fix exception description check #2330
+* GDAL: support 32bit geotiff as map source
+* MPCore: update
+* CodeGen: update reference code
+* log4net: change init type
+* MAVLinkInterface: getParamListAsync ensure readpacket is called
+* UAVCAN: dsdl add
+* MpCore
+* SITL: ensure file handle is closed
+* Recall Last directory on open file dialog
+* TestPlugin: update
+* GMaps: change to httpclient
+* Zoom: add zoom options
+* Update: quite force cancel
+* ConfigAdvanced: quite force cancel
+* ProgressReporterDialogue: support quite force cancel
+* APFirmware: use httpclient
+* srtm: useragent check
+* ConfigFirmware: remove redundant code
+* .gitattributes: add
+* InitialSetup: remove old heli config screen
+* ConfigFirmwareManifest: revert to official on leave screen #2321
+* SITL: async swarm fix, and terminate swarm on new/exit
+* SITL: add swarm buttons and parm to reduce cpu usage
+* SITL: create directory on download
+* SITL: create identity.parm and use for swarm (control-s/control-d)
+* FlightData: fix quickview total check
+* FlightData: quick view mono fix
+* FlightData: mono quickpanel fix
+* ConfigRadioInput: 0 check all inputs #2304
+* ConfigRawParams: restore old value on cancel #2318
+* LogBrowser: add semaphore around label updates #2315
+* BinaryLog: performance improvement
+* wasm: add websocket helper
+* TestPlugin: test
+* MainV2: add menu text
+* FlightPlanner: disable isselected on polygon
+* FlightPlanner: add fence note
+* ConfigTradHeli4: fix comboboxs
+* Terminal: move to advanced
+* Update: cleanup all dll/exe that are ot part of the checksum file #2312
+* Update: add http timeout
+* modifyandSetSpeed: update to use do command vs param #2311
+* Xamarin: update
+* WaypointFile: update file support
+* Program: cleanup libskiasharp.dll
+* APFirmware: add device null check (mono)
+* InputBox: remove DoEvents before show
+* FirmwareSelection: add null check
+* ParameterMetaDataBackup: update
+* InitialSetup: make firmware manifest default
+* ProximityControl: add null check for when not connected #2305
+* FlightData: fix quick view when decreasing number to be shown #2306
+* CurrentState: update sys_status flags
+* ControlSensorsStatus: add back to temp
+* Common: use F1 for speech tostring
+* CommsWebSocket: try socketio
+* FlightPlanner: use fileshare open #2303
+* Download: move to httpclient
+* Program: add process module debug
+* InitialSetup: dont display items that require params before they are fetched
+* WebSocket: dont autoreconnect on close
+* Status: add status and use
+* WebSocket: add WS
+* MAVLinkInterface: fix remove event
+* MAVlinkInterface: show no logs #2301
+* fix md5sum
+* appveyor: remove msi
+* ConfigAdvanced: add progress to param update
+* Installer: fix user Agent
+* MainV2: async paramget
+* MainV2: menu size
+* FlightData: change default map draw rate
+* gdal proj
+* DriverCleanup: change project style
+* FlightData: prevent hud resize loop under mono
+* ConfigFirmware: support force cancel
+* Projects: update and nuget
+* Color theme files and Theme Editor for editing those files (#2298)
+* Added ThemeEditor for editing theme files
+* Added file based themes
+* Removed old ThemeColors dialog
+* Update readme informations
+* BSE.Windows.Forms: Correct resource path
+* GMapControl: remove render time debug
+* CaptureMJPEG: add connect debug
+* Skia: update SkiaSharp.NativeAssets.Linux
+* ParameterMetaDataParser: fix typo and add time elapsed data
+* Update: always print a responce from MD5File
+* Program: make sure working directory is our root folder
+* Add possibility for custom icons in MainMenuStrip. If a correctly named png file exists in the Working directory it replace default icon on the Menu strip. (#2294)
+* ParameterMetaDataParser: limit to 3 threads
+* FlightPlanner: mono fix for datasource vs item list #2296
+* Update: fix mono update issue #2296
+* MainV2: remove simulation under Mono #2296
+* Program: add mono 6 checkand notification #2296
+* MAVLinkInterface: add null check to event info
+* SoftwareConfig: add MAVFtp
+* ConfigAdvanced: add more buttons
+* ConfigAdvanced: make buttons work
+* ElevationProfile: remove google. api cost
+* ConfigTradHeli4: add
+* LogBrowse: localization fixs #2293
+* DFLogBuffer: correct FMT parsing for .log files #2293
+* FlightPlanner: reenable keyboard shortcuts (undo(ctl-z)/load(ctl-o)/save(ctl-s))
+* FlightData: fix tuning graph selection list size
+* GMapControl: check invoke required on cursor change
+* MavlinkUtil: add length check
+* CommsNTRIP: add ssl support #2295
+* MAVLinkInterface: add DoOnPacketSent
+* MAVLinkMessage: add header length check
+* httpserver: raw websocket at /
+* ElevationGraph: use correct frame per wp
+* CodeCleanup
+* MAVLinkInterface: fix wp cache on upload
+* ConfigHWCompass2: add CheckReboot
+* ConfigUAVCAN: enable cancel param get
+* UAVCan: speedup param download
+* compile
+* wix: dont touch .bin
+* ParameterMetaDataGenerator: add
+* ConfigHWCompass2: move Use
+* ConfigUAVCAN: add null check
+* UAVCANInspector: fix missing elements
+* fixed vertical_speed_fpm display
+* Update MainV2.cs to correctly check for windows XP
+* ConfigurationView: resx update
+* ConfigHWCompass2: add mag cal
+* ConfigFirmwareManifest: add all
+* Drivers: add 1026 cubeorange
+* drivers: update msi
+* ConfigUserDefined: fix exclusion
+* ConfigFlightModes: use fltmode_ch for all frame types
+* ConfigArducopter: update tune min/max
+* Controls: TransparentPanel
+* ConfigHWCompass2: add reboot
+* Drivers: separate composite driver
+* ConfigHWCompass2: fix display of uavcan compass devtype
+* GCSViews: adjust min sizes
+* UAVCan: add progress reporter and fix inspector
+* FirmwareHistory: update
+* ConfigUAVCan: add mavlink connected message
+* UAVCan: add readline timeout
+* MainV2: icon size. bigger map etc
+* ConfigHWCompass2: add text
+* ConfigHWCompass2: update param names
+* Drivers: update
+* ConfigHWCompass2: add new test ui
+* FlightPlanner: fix fast wp upload on multicast udp
+* MainV2: menu size
+* MainV2: remove old serial check
+* AutoConnect: fix udp
+* MainV2: log playback
+* MAVLinkInterface: more event infomation
+* Mavlink: upstream update
+* FlightPlanner: fix exception on altmode
+* Download: httpclient async
+* SITL: add morse
+* mav_mission: async fix for dup download
+* MavFTPUI: add delete error message
+* MAVLinkInspector: add gcs checkbox
+* LogBrowse: fix filtering
+* GridUI: save spline setting
+* GridUI: change DO_SET_CAM_TRIGG_DIST turn off at end of leadout to prevent copter leach issue
+* MAVLinkInterface: support MISSION_REQUEST_INT
+* MAVLinkInterface: add event logging
+* LogSort: add bin/log sitl
+* ConfigBatteryMonitoring: fix tabindex/feature error
+* MAVLinkInterface: change from Obsolete functions
+* Nuget: Skia update - linux fix
+* MissionPlanner.Drawing: use skbitmap
+* temp: add lockup
+* ConfigAdvanced: stage
+* MainV2: add release note link to fw update check on connect
+* Common: add link support to MessageShowAgain
+* FlightData: add GeoRef to DF tab
+* ConfigFirmwareManifest: add All Options
+* ConfigFirmwareDisabled: add update bootloader
+* CustomMessageBox: inline click event
+* FlightData: add alt to guide mode text
+* editorconfig: add filters
+* DFLogBuffer: add this[string type, string col]
+* GridUI: fix cross thread
+* ConfigMotorTest: fix dead url
+* Font: add null check
+* MAVLinkInspector: fix string casts
+* ParameterMetaDataParser: switch to httpclient
+* Xamarin: add test buttons
+* LTM: parser
+* wasm: fix compile add wp's and history path
+* LogBrowse: add CAM to map and change wp icons
+* Mavlink: update to use char[]
+* nuget: update
+* CommsUDPSerialConnect: check full multicast range #2276
+* srtm: async
+* DFLogBuffer: rename
+* LogBrowse: support instances
+* FlightPlanner: add min to command list
+* Pen: fix pen constructor
+* MAVFtp: add message and percent feedback to dir list
+* wasm: dont log websocket packets
+* Coms rates update (#2277)
+* SITL: add sailboat and motorboat #2272
+* wasm: GraphicsWeb cache
+* Server: change to https
+* wasm: Hud/websockets/speech
+* MissionPlanner.Drawing: less verbose
+* MAVLinkInterface: use AwaitSync
+* Common: getModesList less verbose
+* Extensions: add AwaitSync
+* MavFTPUI: fix awaits
+* MAVLinkInterface: dtor dispose
+* raise max bl revsion
+* more hud values types
+* show milliseconds in dataflash logs
+* Update: exclude files.html
+* UdpSerialConnect: modify isopen to be manually controlled
+
+
+*Mission Planner 1.3.70 - 04-12-2019
 MAVLinkInterface: propagate radio/status across all mavs on the link
 inf2cat: update
 mavcmd: remove invalid cmd's #2249

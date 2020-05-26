@@ -321,6 +321,9 @@
     <PackageReference Include="Flurl" version="2.8.0" targetFramework="net462" />
     <PackageReference Include="Flurl.Http" version="2.3.2" targetFramework="net462" />
     <PackageReference Include="GDAL" Version="2.3.2" />
+    <PackageReference Include="GDAL.Native">
+      <Version>2.3.2</Version>
+    </PackageReference>
     <PackageReference Include="GeoidHeightsDotNet">
       <Version>1.0.1</Version>
     </PackageReference>
