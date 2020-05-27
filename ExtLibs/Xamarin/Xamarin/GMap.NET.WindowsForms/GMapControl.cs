@@ -1,4 +1,5 @@
 ﻿
+using System.Drawing.Text;
 using ExifLibrary;
 using MissionPlanner.Utilities;
 using OpenTK.Graphics;

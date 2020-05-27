@@ -11,6 +11,11 @@ namespace Xamarin
         private string title;
         private Timer _timer;
 
+        ~ProgressReporterDialogue()
+        {
+            Dispose();
+        }
+
         public ProgressReporterDialogue(string title)
         {
             this.title = title;
@@ -26,12 +31,20 @@ namespace Xamarin
 
                 while (queue.Count >= 2)
                 {
-                    var item2 = queue.Dequeue();
-                    Console.WriteLine("Dequeue >=2 " + item2);
+                    lock (queue)
+                    {
+                        var item2 = queue.Dequeue();
+                        Console.WriteLine("Dequeue >=2 " + item2);
+                    }
                 }
 
-                var item = queue.Dequeue();
+                var item = "";
 
+                lock (queue)
+                {
+                    item = queue.Dequeue();
+                }
+                
                 Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                 {
                     UserDialogs.Instance.Toast(item, TimeSpan.FromSeconds(3));
@@ -67,7 +80,8 @@ namespace Xamarin
         public void UpdateProgressAndStatus(int progress, string status)
         {
             Console.WriteLine("Queue message " + status);
-            queue.Enqueue(status);
+            lock(queue)
+                queue.Enqueue(status);
         }
     }
 }

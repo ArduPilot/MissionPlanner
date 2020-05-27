@@ -13,10 +13,12 @@ using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
+using NLog;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 using Device = Xamarin.Forms.Device;
+using LogManager = log4net.LogManager;
 
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -49,6 +51,19 @@ namespace Xamarin
 
             hierarchy.Root.Level = Level.Debug;
             hierarchy.Configured = true;
+
+            {
+                var config = new NLog.Config.LoggingConfiguration();
+
+                // Targets where to log to: File and Console
+                var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+
+                // Rules for mapping loggers to targets            
+                config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+
+                // Apply config           
+                NLog.LogManager.Configuration = config;
+            }
 
             MainPage = new MainPage();
         }

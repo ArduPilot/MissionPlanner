@@ -1,9 +1,5 @@
 ﻿using FormsVideoLibrary;
 using MissionPlanner.Utilities;
-using RtspClientSharp;
-using RtspClientSharp.RawFrames.Audio;
-using RtspClientSharp.RawFrames.Video;
-using RtspClientSharp.Rtsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -17,14 +17,15 @@ using Java.Interop;
 using Android.Runtime;
 using Android.Graphics;
 using Java.Nio;
-using RtspClientSharp;
+
 using System.Threading;
-using RtspClientSharp.Rtsp;
+
 using System.Threading.Tasks;
-using RtspClientSharp.RawFrames.Video;
-using RtspClientSharp.RawFrames.Audio;
+
 using static Android.Media.MediaCodec;
 using System.Collections.Generic;
+using Xamarin;
+using Stream = System.IO.Stream;
 
 [assembly: ExportRenderer(typeof(FormsVideoLibrary.VideoPlayer),
                           typeof(FormsVideoLibrary.Droid.VideoPlayerRenderer))]
@@ -38,9 +39,11 @@ namespace FormsVideoLibrary.Droid
         private CallBacks callbacks;
         MediaController mediaController;    // Used to display transport controls
         bool isPrepared;
-        private RtspClient rtspClient;
         private bool iframestart;
         private CancellationTokenSource rtspCancel;
+        private bool h264;
+        private bool h265;
+        private bool rtsprunning;
 
         public VideoPlayerRenderer(Context context) : base(context)
         {
@@ -87,21 +90,28 @@ namespace FormsVideoLibrary.Droid
 
         protected override void OnDraw(Canvas canvas)
         {
-            if (codec == null)
+            if (rtspCancel == null)
             {
-                codec = MediaCodec.CreateDecoderByType("video/avc");
+                rtspClientStart();
+            }
+
+            if (codec == null && (h264 || h265))
+            {
+                codec = MediaCodec.CreateDecoderByType(h265
+                    ? MediaFormat.MimetypeVideoHevc
+                    : MediaFormat.MimetypeVideoAvc);
 
                 callbacks = new CallBacks(this);
 
                 codec.SetCallback(callbacks);
 
-                var mediafmt = MediaFormat.CreateVideoFormat(MediaFormat.MimetypeVideoAvc, 1920, 1080);
+                var mediafmt = MediaFormat.CreateVideoFormat(h265
+                    ? MediaFormat.MimetypeVideoHevc
+                    : MediaFormat.MimetypeVideoAvc, 1920, 1080);
 
                 codec.Configure(mediafmt, videoView.Holder.Surface, null, MediaCodecConfigFlags.None);
 
                 codec.Start();
-
-                rtspClientStart();
             }
 
             base.OnDraw(canvas);
@@ -110,111 +120,185 @@ namespace FormsVideoLibrary.Droid
 
         public async void rtspClientStart()
         {
-            rtspClient = new RtspClientSharp.RtspClient(new RtspClientSharp.ConnectionParameters(new Uri("rtsp://192.168.0.10:8554/H264Video"))
-            {
-                RtpTransport = RtpTransportProtocol.TCP,
-                ConnectTimeout = TimeSpan.FromSeconds(3),
-                ReceiveTimeout = TimeSpan.FromSeconds(3)
-            });
-
-            rtspClient.FrameReceived += RtspClient_FrameReceived;
-
             rtspCancel = new CancellationTokenSource();
 
-            int delay = 200;
+            var url = "rtsp://192.168.0.10:8554/H264Video";
 
-            using (rtspClient)
-                while (true)
+            String now = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            MemoryStream fs_vps = null;   // used to write the video
+            MemoryStream fs_v = null;   // used to write the video
+            MemoryStream fs_a = null;   // used to write the audio
+            h264 = false;
+            h265 = false;
+            bool spsdone = false;
+
+            RTSPClient c = new RTSPClient();
+
+            // The SPS/PPS comes from the SDP data
+            // or it is the first SPS/PPS from the H264 video stream
+            c.Received_SPS_PPS += (byte[] sps, byte[] pps) => {
+                h264 = true;
+                if (fs_vps == null)
                 {
-                    if (rtspCancel.Token.IsCancellationRequested)
+                    String filename = "rtsp_capture_" + now + ".264";
+                    fs_vps = new MemoryStream();
+                }
+
+                if (fs_vps != null)
+                {
+                    fs_vps.SetLength(0);
+                    fs_vps.Write(new byte[] { 0x00, 0x00, 0x00, 0x01 }, 0, 4);  // Write Start Code
+                    fs_vps.Write(sps, 0, sps.Length);
+                    fs_vps.Write(new byte[] { 0x00, 0x00, 0x00, 0x01 }, 0, 4);  // Write Start Code
+                    fs_vps.Write(pps, 0, pps.Length);
+                }
+            };
+
+            c.Received_VPS_SPS_PPS += (byte[] vps, byte[] sps, byte[] pps) => {
+                h265 = true;
+                if (fs_vps == null)
+                {
+                    String filename = "rtsp_capture_" + now + ".265";
+                    fs_vps = new MemoryStream();
+                }
+
+                if (fs_vps != null)
+                {
+                    fs_vps.SetLength(0);
+                    fs_vps.Write(new byte[] { 0x00, 0x00, 0x00, 0x01 }, 0, 4);  // Write Start Code
+                    fs_vps.Write(vps, 0, vps.Length); // Video parameter set
+                    fs_vps.Write(new byte[] { 0x00, 0x00, 0x00, 0x01 }, 0, 4);  // Write Start Code
+                    fs_vps.Write(sps, 0, sps.Length); // Sequence Parameter Set
+                    fs_vps.Write(new byte[] { 0x00, 0x00, 0x00, 0x01 }, 0, 4);  // Write Start Code
+                    fs_vps.Write(pps, 0, pps.Length); // Picture Parameter Set
+                }
+            };
+
+            // Video NALs. May also include the SPS and PPS in-band for H264
+            c.Received_NALs += (List<byte[]> nal_units) =>
+            {
+                foreach (byte[] nal_unit in nal_units)
+                {
+                    // Output some H264 stream information
+                    if (h264 && nal_unit.Length > 0)
+                    {
+                        int nal_ref_idc = (nal_unit[0] >> 5) & 0x03;
+                        int nal_unit_type = nal_unit[0] & 0x1F;
+                        String description = "";
+                        if (nal_unit_type == 1) description = "NON IDR NAL";
+                        else if (nal_unit_type == 5) description = "IDR NAL";
+                        else if (nal_unit_type == 6) description = "SEI NAL";
+                        else if (nal_unit_type == 7) description = "SPS NAL";
+                        else if (nal_unit_type == 8) description = "PPS NAL";
+                        else if (nal_unit_type == 9) description = "ACCESS UNIT DELIMITER NAL";
+                        else description = "OTHER NAL";
+                        //Console.WriteLine("NAL Ref = " + nal_ref_idc + " NAL Type = " + nal_unit_type + " " + description);
+                    }
+
+                    // Output some H265 stream information
+                    if (h265 && nal_unit.Length > 0)
+                    {
+                        int nal_unit_type = (nal_unit[0] >> 1) & 0x3F;
+                        String description = "";
+                        if (nal_unit_type == 1) description = "NON IDR NAL";
+                        else if (nal_unit_type == 19) description = "IDR NAL";
+                        else if (nal_unit_type == 32) description = "VPS NAL";
+                        else if (nal_unit_type == 33) description = "SPS NAL";
+                        else if (nal_unit_type == 34) description = "PPS NAL";
+                        else if (nal_unit_type == 39) description = "SEI NAL";
+                        else description = "OTHER NAL";
+                        //Console.WriteLine("NAL Type = " + nal_unit_type + " " + description);
+                    }
+
+                    // we need sps... first
+                    if (!h264 && !h265)
                         return;
 
+                    if (!spsdone)
+                    {
+                        if (callbacks == null || callbacks.buffers.Count == 0)
+                            return;
+                        var index = callbacks.buffers.Pop();
+                        var buffer = codec.GetInputBuffer(index);
+                        buffer.Clear();
+                        buffer.Put(fs_vps.ToArray());
+                        codec.QueueInputBuffer(index, 0, (int)fs_vps.Length, 0, MediaCodecBufferFlags.CodecConfig);
+                        spsdone = true;
+
+                        fs_v = new MemoryStream();
+                    }
+
+                    if (fs_v != null)
+                    {
+                        fs_v.Write(new byte[] {0x00, 0x00, 0x00, 0x01}, 0, 4); // Write Start Code
+                        fs_v.Write(nal_unit, 0, nal_unit.Length); // Write NAL
+                    }
+
+                    if (callbacks == null || fs_v == null || callbacks.buffers.Count == 0)
+                        return;
                     try
                     {
-                        await rtspClient.ConnectAsync(rtspCancel.Token);
-                        iframestart = true;
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        return;
-                    }
-                    catch (RtspClientException e)
-                    {
-                        Console.WriteLine(e.ToString());
 
-                        await Task.Delay(delay, rtspCancel.Token);
-                        continue;
+                        var index = callbacks.buffers.Pop();
+                        var buffer = codec.GetInputBuffer(index);
+                        buffer.Clear();
+                        buffer.Put(fs_v.ToArray());
+                        codec.QueueInputBuffer(index, 0, (int) fs_v.Length, 0, MediaCodecBufferFlags.None);
+                        fs_v.SetLength(0);
                     }
-                    Console.WriteLine("Connected.");
+                    catch
+                    {
 
-                    try
-                    {
-                        await rtspClient.ReceiveAsync(rtspCancel.Token);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        return;
-                    }
-                    catch (RtspClientException e)
-                    {
-                        Console.WriteLine(e.ToString());
-                        await Task.Delay(delay, rtspCancel.Token);
                     }
                 }
-        }
+            };
 
-        private void RtspClient_FrameReceived(object sender, RtspClientSharp.RawFrames.RawFrame e)
-        {
-            if (rtspCancel.Token.IsCancellationRequested)
-                return;
-            //Console.WriteLine("Got Frame " + e.ToString());
-
-            switch (e)
+            // seperate and stay running
+            Task.Run(() =>
             {
-                case RawH264IFrame h264IFrame:
-                    {                      
-                        if (callbacks.buffers.Count == 0)
-                            return;
-                        var index = callbacks.buffers.Pop();
-                        var buffer = codec.GetInputBuffer(index);
-                        buffer.Clear();
-                        buffer.Put(h264IFrame.SpsPpsSegment.Array);
-                        codec.QueueInputBuffer(index, 0, h264IFrame.SpsPpsSegment.Count, 0, MediaCodecBufferFlags.CodecConfig);
-
-                        if (callbacks.buffers.Count == 0)
-                            return;
-                        index = callbacks.buffers.Pop();
-                        buffer = codec.GetInputBuffer(index);
-                        buffer.Clear();
-                        buffer.Put(h264IFrame.FrameSegment.Array);
-                        codec.QueueInputBuffer(index, 0, h264IFrame.FrameSegment.Count, 0, MediaCodecBufferFlags.None);
-
-                        iframestart = false;
-                        break;
-                    }
-                case RawH264PFrame h264PFrame:
+                while (rtspCancel != null && true)
+                {
+                    try
                     {
-                        if (iframestart)
+                        if (rtspCancel.Token.IsCancellationRequested)
                             return;
-                        if (callbacks.buffers.Count == 0)
-                            return;
-                        var index = callbacks.buffers.Pop();
-                        var buffer = codec.GetInputBuffer(index);
-                        buffer.Clear();
-                        buffer.Put(h264PFrame.FrameSegment.Array);
-                        codec.QueueInputBuffer(index, 0, h264PFrame.FrameSegment.Count, 0, 0);
-                        break;
+
+                        c.Connect(url, RTSPClient.RTP_TRANSPORT.UDP);
+                        var lastrtp = 0;
+                        int cnt = 0;
+                        while (!c.StreamingFinished())
+                        {
+                            rtsprunning = true;
+                            Thread.Sleep(500);
+                            // existing
+                            if (rtspCancel.Token.IsCancellationRequested)
+                            {
+                                c.Stop();
+                                return;
+                            }
+
+                            // no rtp in .5 sec
+                            if (lastrtp == c.rtp_count && cnt++ > 5)
+                            {
+                                c.Stop();
+                                rtspCancel = null;
+                                return;
+                            }
+
+                            lastrtp = c.rtp_count;
+                        }
+
+                        rtsprunning = false;
                     }
-                case RawJpegFrame jpegFrame:
-                case RawAACFrame aacFrame:
-                case RawG711AFrame g711AFrame:
-                case RawG711UFrame g711UFrame:
-                case RawPCMFrame pcmFrame:
-                case RawG726Frame g726Frame:
-                    break;
-            }
+                    catch
+                    {
+
+                    }
+                }
+            });
         }
 
+       
         protected override void OnElementChanged(ElementChangedEventArgs<VideoPlayer> args)
         {
             base.OnElementChanged(args);
@@ -272,6 +356,8 @@ namespace FormsVideoLibrary.Droid
             Thread.Sleep(100);
             codec.Stop();
             codec.Dispose();
+            rtspCancel = null;
+            codec = null;
 
             base.Dispose(disposing);
         }
