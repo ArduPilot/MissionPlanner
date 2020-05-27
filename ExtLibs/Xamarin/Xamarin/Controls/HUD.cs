@@ -143,7 +143,7 @@ namespace MissionPlanner.Controls
 
             displayAOASSA = false;
 
-            IgnorePixelScaling = true;
+            IgnorePixelScaling = false;
 
             this.Name = "Hud";
         }
@@ -1611,11 +1611,11 @@ namespace MissionPlanner.Controls
 
                     Point[] arrow = new Point[5];
 
-                    arrow[0] = new Point(0, -10);
-                    arrow[1] = new Point(scrollbg.Width - 10, -10);
+                    arrow[0] = new Point(0, -fontsize);
+                    arrow[1] = new Point(scrollbg.Width - 10, -fontsize);
                     arrow[2] = new Point(scrollbg.Width - 5, 0);
-                    arrow[3] = new Point(scrollbg.Width - 10, 10);
-                    arrow[4] = new Point(0, 10);
+                    arrow[3] = new Point(scrollbg.Width - 10, fontsize);
+                    arrow[4] = new Point(0, fontsize);
 
                     graphicsObject.TranslateTransform(0, this.Height / 2);
 
@@ -1668,7 +1668,7 @@ namespace MissionPlanner.Controls
 
                     graphicsObject.DrawPolygon(this._blackPen, arrow);
                     graphicsObject.FillPolygon(Brushes.Black, arrow);
-                    drawstring((speed).ToString("0") + speedunit, font, 10, (SolidBrush)Brushes.AliceBlue, 0, -9);
+                    drawstring((speed).ToString("0") + speedunit, font, fontsize, (SolidBrush)Brushes.AliceBlue, 0, -9);
 
                     graphicsObject.ResetTransform();
 
@@ -1711,11 +1711,11 @@ namespace MissionPlanner.Controls
 
                     Point[] arrow = new Point[5];
 
-                    arrow[0] = new Point(0, -10);
-                    arrow[1] = new Point(scrollbg.Width - 10, -10);
+                    arrow[0] = new Point(0, -fontsize);
+                    arrow[1] = new Point(scrollbg.Width - 10, -fontsize);
                     arrow[2] = new Point(scrollbg.Width - 5, 0);
-                    arrow[3] = new Point(scrollbg.Width - 10, 10);
-                    arrow[4] = new Point(0, 10);
+                    arrow[3] = new Point(scrollbg.Width - 10, fontsize);
+                    arrow[4] = new Point(0, fontsize);
 
                     graphicsObject.TranslateTransform(0, this.Height / 2);
 
@@ -1849,7 +1849,7 @@ namespace MissionPlanner.Controls
                     graphicsObject.ResetTransform();
                     graphicsObject.TranslateTransform(0, this.Height / 2);
 
-                    drawstring(((int)_alt).ToString("0 ") + altunit, font, 10, (SolidBrush)Brushes.AliceBlue,
+                    drawstring(((int)_alt).ToString("0 ") + altunit, font, fontsize, (SolidBrush)Brushes.AliceBlue,
                         scrollbg.Left + 10, -9);
                     graphicsObject.ResetTransform();
 
@@ -2157,8 +2157,9 @@ namespace MissionPlanner.Controls
             if (text == null || text == "")
                 return;
 
+            font.Size = fontsize;
+
             graphicsObject.DrawString(text, font, brush, x, y);
-           
         }
 
         float wrap360(float noin)

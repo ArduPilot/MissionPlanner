@@ -59,7 +59,7 @@ namespace Xamarin
                 var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
 
                 // Rules for mapping loggers to targets            
-                config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+               // config.AddRule(LogLevel.Warn, LogLevel.Fatal, logconsole);
 
                 // Apply config           
                 NLog.LogManager.Configuration = config;
