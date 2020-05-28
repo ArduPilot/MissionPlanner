@@ -28,6 +28,46 @@ namespace MissionPlanner.Utilities
             return tsk.GetAwaiter().GetResult();
         }
 
+        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
+        {
+            while (source.Any())
+            {
+                yield return source.Take(chunksize);
+                source = source.Skip(chunksize);
+            }
+        }
+
+        /// <summary>
+        /// Chunk based on a field selector from the type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="checkmatching"></param>
+        /// <returns></returns>
+        public static IEnumerable<IEnumerable<T>> ChunkByField<T>(this IEnumerable<T> source, Func<T,T, int, bool> checkmatching)
+        {
+            var pos = 0;
+            while (source.Skip(pos).Any())
+            {
+                // store the first element to compare against
+                T first = source.Skip(pos).First();
+                // build the list by comparing the first to all after it
+                var sublist = source.Skip(pos).TakeWhile((a,count) =>
+                {
+                    if (first.Equals(a))
+                    {
+                        return true;
+                    }
+
+                    var check = checkmatching(first, a, count);
+                    return check;
+                });
+                yield return sublist;
+                // continue on in the list
+                pos += sublist.Count();
+            }
+        }
+
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> extras )
         {
             extras.ForEach(a => list.Add(a));
