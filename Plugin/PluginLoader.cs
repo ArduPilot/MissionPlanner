@@ -187,7 +187,7 @@ namespace MissionPlanner.Plugin
                 // get all the compiler parameters
                 var parms = CodeGen.CreateCompilerParameters();
                 // compile the code into an assembly
-                var results = CodeGen.CompileCode(compiler, parms, File.ReadAllText(csFile));
+                var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
 
                 InitPlugin(results?.CompiledAssembly);
             }
