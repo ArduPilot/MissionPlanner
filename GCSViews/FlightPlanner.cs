@@ -792,7 +792,14 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show(Strings.PleaseConnect);
                     return;
                 }
-                mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE).AwaitSync();
+                try
+                {
+                    mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE).AwaitSync();
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Failed to get fence point", Strings.ERROR);
+                }
                 return;
             }
 
@@ -817,6 +824,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     var plla = MainV2.comPort.getFencePoint(a).AwaitSync();
+                    count = plla.total;
                     geofencepolygon.Points.Add(new PointLatLng(plla.plla.Lat, plla.plla.Lng));
                 }
                 catch
@@ -5296,7 +5304,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             SaveFile_Click(null, null);
         }
 
-        private async void saveWPs(IProgressReporterDialogue sender)
+        private void saveWPs(IProgressReporterDialogue sender)
         {
             try
             {
@@ -5349,22 +5357,25 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     }).ToList();
                 }
 
-                await mav_mission.upload(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, type,
-                    commandlist,
-                    (percent, status) =>
-                    {
-                        if (sender.doWorkArgs.CancelRequested)
+                Task.Run(async () =>
+                {
+                    await mav_mission.upload(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, type,
+                        commandlist,
+                        (percent, status) =>
                         {
-                            sender.doWorkArgs.CancelAcknowledged = true;
-                            sender.doWorkArgs.ErrorMessage = "User Canceled";
-                            throw new Exception("User Canceled");
-                        }
+                            if (sender.doWorkArgs.CancelRequested)
+                            {
+                                sender.doWorkArgs.CancelAcknowledged = true;
+                                sender.doWorkArgs.ErrorMessage = "User Canceled";
+                                throw new Exception("User Canceled");
+                            }
 
-                        sender.UpdateProgressAndStatus((int) (percent * 0.95), status);
-                    }).ConfigureAwait(false);
+                            sender.UpdateProgressAndStatus((int) (percent * 0.95), status);
+                        }).ConfigureAwait(false);
 
-                await MainV2.comPort.getHomePositionAsync((byte)MainV2.comPort.sysidcurrent,
-                    (byte)MainV2.comPort.compidcurrent).ConfigureAwait(false);
+                    await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+                        (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
+                }).GetAwaiter().GetResult();
 
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting params");
 
