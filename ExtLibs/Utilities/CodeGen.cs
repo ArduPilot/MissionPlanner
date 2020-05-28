@@ -102,6 +102,27 @@ namespace MissionPlanner
             return results;
         }
 
+        public static CompilerResults CompileCodeFile(CodeDomProvider compiler, CompilerParameters parms,
+            string filename)
+        {
+            //actually compile the code
+            CompilerResults results = compiler.CompileAssemblyFromFile(parms, new string[]
+            {
+                filename
+            });
+
+            //Do we have any compiler errors?
+            if (results.Errors.Count > 0)
+            {
+                foreach (CompilerError error in results.Errors)
+                    Console.WriteLine("Compile Error: Line: " + error.Line + ":" + error.Column + " " +
+                                      error.ErrorText);
+                return null;
+            }
+
+            return results;
+        }
+
         /// <summary>
         /// Need to change eval string to use .NET Math library
         /// </summary>
