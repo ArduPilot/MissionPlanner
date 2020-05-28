@@ -1197,13 +1197,13 @@ namespace MissionPlanner.Utilities
                     {
                         if (cellmask[sig] == 1)
                         {
-                            if (sigs[k] >=1 && sigs[k] <= 13)
+                            if (sigs[k] >=1 && sigs[k] <= 13 && sigs[k] != 10)
                             {
                                 ob.pr = r[j] + pr[cellmaskused];
                                 ob.cp = (r[j] + cp[cellmaskused]);
                                 ob.snr = (byte) (cnr[cellmaskused]);
                             }
-                            else if (sigs[k] >= 14 && sigs[k] <= 23)
+                            else if (sigs[k] >= 14 && sigs[k] <= 23 || sigs[k] == 10)
                             {
                                 ob.pr2 = r[j] + pr[cellmaskused];
                                 ob.cp2 = (r[j] + cp[cellmaskused]);

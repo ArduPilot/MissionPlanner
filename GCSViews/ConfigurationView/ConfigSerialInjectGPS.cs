@@ -135,6 +135,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                if (obs.Count == 0) return;
 
+               panel1.SuspendLayout();
+
                 // get system controls
                 Func<char, List<VerticalProgressBar2>> ctls = delegate (char sys)
                  {
@@ -163,6 +165,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                var tmp2 = ctls('R');
                var tmp3 = ctls('B');
                var tmp4 = ctls('E');
+               var tmp5 = ctls('Q');
 
                var start = 0;
 
@@ -174,9 +177,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                    start = tmp.Count + tmp2.Count;
                if (obs[0].sys == 'E')
                    start = tmp.Count + tmp2.Count + tmp3.Count;
+               if (obs[0].sys == 'Q')
+                   start = tmp.Count + tmp2.Count + tmp3.Count + tmp4.Count;
 
-                // if G 0, if R = G.count (2 system support)
-                var a = start;
+               // if G 0, if R = G.count (2 system support)
+               var a = start;
 
                var sysctls = ctls.Invoke(obs[0].sys);
                var cnt = 0;
@@ -198,6 +203,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                }
 
                ThemeManager.ApplyThemeTo(panel1);
+
+               panel1.ResumeLayout();
            }
             );
         }
