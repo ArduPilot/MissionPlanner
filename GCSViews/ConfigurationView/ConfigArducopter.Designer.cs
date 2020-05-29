@@ -387,6 +387,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownatc_input_tc.Min = 0F;
             this.mavlinkNumericUpDownatc_input_tc.Name = "mavlinkNumericUpDownatc_input_tc";
             this.mavlinkNumericUpDownatc_input_tc.ParamName = null;
+            this.mavlinkNumericUpDownatc_input_tc.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label23
             // 
@@ -424,6 +425,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownatc_accel_y_max.Min = 0F;
             this.mavlinkNumericUpDownatc_accel_y_max.Name = "mavlinkNumericUpDownatc_accel_y_max";
             this.mavlinkNumericUpDownatc_accel_y_max.ParamName = null;
+            this.mavlinkNumericUpDownatc_accel_y_max.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label21
             // 
@@ -461,6 +463,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownatc_accel_p_max.Min = 0F;
             this.mavlinkNumericUpDownatc_accel_p_max.Name = "mavlinkNumericUpDownatc_accel_p_max";
             this.mavlinkNumericUpDownatc_accel_p_max.ParamName = null;
+            this.mavlinkNumericUpDownatc_accel_p_max.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label20
             // 
@@ -498,6 +501,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownatc_accel_r_max.Min = 0F;
             this.mavlinkNumericUpDownatc_accel_r_max.Name = "mavlinkNumericUpDownatc_accel_r_max";
             this.mavlinkNumericUpDownatc_accel_r_max.ParamName = null;
+            this.mavlinkNumericUpDownatc_accel_r_max.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label19
             // 
