@@ -592,7 +592,7 @@ namespace MissionPlanner
                 return; // ignore
             }
 
-            log.Info("Th Name " + Thread.Name);
+            log.Info("Th Name " + Thread?.Name);
 
             var dr =
                 CustomMessageBox.Show("An error has occurred\n" + ex.ToString() + "\n\nReport this Error???",

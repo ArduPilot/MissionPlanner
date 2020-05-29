@@ -317,6 +317,23 @@ namespace MissionPlanner.Utilities
                 // parallel download
                 ParallelOptions opt = new ParallelOptions() { MaxDegreeOfParallelism = 3 };
 
+                tasklist.Sort((a, b) =>
+                {
+                    if (a == null || b == null) return 0;
+
+                    if (a.Item1.ToLower().EndsWith(".exe") && b.Item1.ToLower().EndsWith(".exe"))
+                        return a.Item1.CompareTo(b.Item1);
+                    if (a.Item1.ToLower().EndsWith(".exe")) return -1;
+                    if (b.Item1.ToLower().EndsWith(".exe")) return 1;
+
+                    if (a.Item1.ToLower().EndsWith(".dll") && b.Item1.ToLower().EndsWith(".dll"))
+                        return a.Item1.CompareTo(b.Item1);
+                    if (a.Item1.ToLower().EndsWith(".dll")) return -1;
+                    if (b.Item1.ToLower().EndsWith(".dll")) return 1;
+
+                    return a.Item1.CompareTo(b.Item1);
+                });
+
                 int done = 0;
 
                 Parallel.ForEach(tasklist, opt, task =>

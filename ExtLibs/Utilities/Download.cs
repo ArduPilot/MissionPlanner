@@ -20,7 +20,7 @@ namespace MissionPlanner.Utilities
         string _uri = "";
         public int chunksize { get; set; } = 1000 * 250;
 
-        HttpClient client = new HttpClient();
+        static HttpClient client = new HttpClient();
 
         private static object _lock = new object();
         /// <summary>
@@ -73,14 +73,14 @@ namespace MissionPlanner.Utilities
 
         private static Timer _timer;
 
-        internal DownloadStream()
+        static DownloadStream()
         {
             _timer = new Timer(a => { expireCache(); }, null, 1000 * 30, 1000 * 30);
             if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
                 client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
         }
 
-        public DownloadStream(string uri): this()
+        public DownloadStream(string uri)
         {
             _uri = uri;
             SetLength(Download.GetFileSize(uri));
@@ -220,7 +220,7 @@ namespace MissionPlanner.Utilities
                 var request = new HttpRequestMessage() {RequestUri = new Uri(_uri)};
                 request.Headers.Range = new RangeHeaderValue(start, end);
 
-                Console.WriteLine("{0}: {1} - {2}", _uri, start, end);
+                Console.WriteLine("{0}: {1} - {2} {3}", _uri, start, end, end-start);
 
                 MemoryStream ms = new MemoryStream();
                 using (Stream stream = client.SendAsync(request).GetAwaiter().GetResult().Content.ReadAsStreamAsync().GetAwaiter().GetResult())
@@ -616,18 +616,21 @@ namespace MissionPlanner.Utilities
             if (uri == null)
                 throw new ArgumentNullException("uri");
 
-            if (fileSizeCache.ContainsKey(uri) && fileSizeCache[uri] > 0)
-                return fileSizeCache[uri];
+            lock (fileSizeCache)
+            {
+                if (fileSizeCache.ContainsKey(uri) && fileSizeCache[uri] > 0)
+                    return fileSizeCache[uri];
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
-                ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
-            request.Method = "GET";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            var len = response.ContentLength;
-            response.Close();
-            fileSizeCache[uri] = len;
-            return len;
+                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(uri);
+                if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                    ((HttpWebRequest) request).UserAgent = Settings.Instance.UserAgent;
+                request.Method = "GET";
+                HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+                var len = response.ContentLength;
+                response.Close();
+                fileSizeCache[uri] = len;
+                return len;
+            }
         }
 
         private static IEnumerable<long> LongRange(long start, long count)
