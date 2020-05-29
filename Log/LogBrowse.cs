@@ -109,7 +109,7 @@ namespace MissionPlanner.Log
                     string param = strTrimmed.Substring(1);
                     double value = 0;
 
-                    if (double.TryParse(param, out value) == false)
+                    if (double.TryParse(param, NumberStyles.Number, CultureInfo.InvariantCulture, out value) == false)
                     {
                         return false;
                     }
