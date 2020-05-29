@@ -27,7 +27,8 @@ namespace MissionPlanner
         public static float multiplieralt = 1;
         public static string AltUnit = "";
 
-        private static PointLatLngAlt _homelocation = new PointLatLngAlt();
+        private PointLatLngAlt _homelocation = new PointLatLngAlt();
+        private static PointLatLngAlt _plannedhomelocation = new PointLatLngAlt();
 
         private static PointLatLngAlt _trackerloc = new PointLatLngAlt();
 
@@ -1162,7 +1163,17 @@ namespace MissionPlanner
         public PointLatLngAlt HomeLocation
         {
             get => _homelocation;
-            set => _homelocation = value;
+            set
+            {
+                _homelocation = value;
+            }
+        }
+
+        [GroupText("Position")]
+        public PointLatLngAlt PlannedHomeLocation
+        {
+            get => _plannedhomelocation;
+            set => _plannedhomelocation = value;
         }
 
         [GroupText("Position")]

@@ -296,9 +296,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             CMB_baudrate.SelectedIndex = 0;
                             if (chk_sendgga.Checked)
                             {
-                                ((CommsNTRIP) comPort).lat = MainV2.comPort.MAV.cs.HomeLocation.Lat;
-                                ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.HomeLocation.Lng;
-                                ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.HomeLocation.Alt;
+                                ((CommsNTRIP) comPort).lat = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat;
+                                ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng;
+                                ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt;
                             }
 
                             chk_sendgga.Enabled = false;

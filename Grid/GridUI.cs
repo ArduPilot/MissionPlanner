@@ -571,7 +571,7 @@ namespace MissionPlanner.Grid
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation).ConfigureAwait(true);
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.PlannedHomeLocation).ConfigureAwait(true);
             }
             else
             {
@@ -579,7 +579,7 @@ namespace MissionPlanner.Grid
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation).ConfigureAwait(true);
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.PlannedHomeLocation).ConfigureAwait(true);
             }
 
             map.HoldInvalidation = true;
@@ -605,7 +605,7 @@ namespace MissionPlanner.Grid
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value + 90.0,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     Utilities.Grid.StartPosition.Point, false,
-                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.HomeLocation).ConfigureAwait(true));
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.PlannedHomeLocation).ConfigureAwait(true));
             }
 
             if (CHK_boundary.Checked)
@@ -623,8 +623,8 @@ namespace MissionPlanner.Grid
             PointLatLngAlt prevprevpoint = grid[0];
             PointLatLngAlt prevpoint = grid[0];
             // distance to/from home
-            double routetotal = grid.First().GetDistance(MainV2.comPort.MAV.cs.HomeLocation) / 1000.0 +
-                               grid.Last().GetDistance(MainV2.comPort.MAV.cs.HomeLocation) / 1000.0;
+            double routetotal = grid.First().GetDistance(MainV2.comPort.MAV.cs.PlannedHomeLocation) / 1000.0 +
+                               grid.Last().GetDistance(MainV2.comPort.MAV.cs.PlannedHomeLocation) / 1000.0;
             List<PointLatLng> segment = new List<PointLatLng>();
             double maxgroundelevation = double.MinValue;
             double mingroundelevation = double.MaxValue;
@@ -1776,8 +1776,8 @@ namespace MissionPlanner.Grid
                         }
                         else
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng,
-                                plugin.Host.cs.HomeLocation.Lat, 0, gridobject);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.PlannedHomeLocation.Lng,
+                                plugin.Host.cs.PlannedHomeLocation.Lat, 0, gridobject);
                         }
                     }
                 }

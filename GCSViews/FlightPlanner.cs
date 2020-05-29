@@ -361,8 +361,8 @@ namespace MissionPlanner.GCSViews
             {
                 // get the command list from the datagrid
                 var commandlist = GetCommandList();
-                MainV2.comPort.MAV.wps[0] = new Locationwp().Set(MainV2.comPort.MAV.cs.HomeLocation.Lat,
-                    MainV2.comPort.MAV.cs.HomeLocation.Lng, MainV2.comPort.MAV.cs.HomeLocation.Alt, 0);
+                MainV2.comPort.MAV.wps[0] = new Locationwp().Set(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                    MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng, MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt, 0);
                 int a = 1;
                 commandlist.ForEach(i =>
                 {
@@ -1137,8 +1137,8 @@ namespace MissionPlanner.GCSViews
                                 ((int)(srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
                                  int.Parse(TXT_DefaultAlt.Text) -
                                  (int)
-                                 srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat,
-                                     MainV2.comPort.MAV.cs.HomeLocation.Lng).alt * CurrentState.multiplieralt)
+                                 srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                                     MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt)
                                 .ToString();
                         }
                     }
@@ -5894,12 +5894,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 prop.alt = MainV2.comPort.MAV.cs.alt;
                 prop.altasl = MainV2.comPort.MAV.cs.altasl;
                 prop.center = MainMap.Position;
-                prop.Update(MainV2.comPort.MAV.cs.HomeLocation, MainV2.comPort.MAV.cs.Location,
+                prop.Update(MainV2.comPort.MAV.cs.PlannedHomeLocation, MainV2.comPort.MAV.cs.Location,
                     MainV2.comPort.MAV.cs.battery_kmleft);
 
                 routesoverlay.Markers.Clear();
 
-                if (MainV2.comPort.MAV.cs.TrackerLocation != MainV2.comPort.MAV.cs.HomeLocation &&
+                if (MainV2.comPort.MAV.cs.TrackerLocation != MainV2.comPort.MAV.cs.PlannedHomeLocation &&
                     MainV2.comPort.MAV.cs.TrackerLocation.Lng != 0)
                 {
                     addpolygonmarker("Tracker Home", MainV2.comPort.MAV.cs.TrackerLocation.Lng,
@@ -5984,7 +5984,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         public void TXT_homealt_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
-    
+            try
+            {
+                MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt = double.Parse(TXT_homealt.Text);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             writeKML();
         }
 
@@ -5999,14 +6006,28 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         public void TXT_homelat_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
-     
+            try
+            {
+                MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat = double.Parse(TXT_homelat.Text);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             writeKML();
         }
 
         public void TXT_homelng_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
-    
+            try
+            {
+                MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng = double.Parse(TXT_homelng.Text);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             writeKML();
         }
 

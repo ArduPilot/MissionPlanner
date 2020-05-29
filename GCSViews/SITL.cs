@@ -101,7 +101,7 @@ namespace MissionPlanner.GCSViews
 
         public void Activate()
         {
-            homemarker.Position = MainV2.comPort.MAV.cs.HomeLocation;
+            homemarker.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
 
             myGMAP1.Position = homemarker.Position;
 

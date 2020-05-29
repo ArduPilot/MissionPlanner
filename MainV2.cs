@@ -992,18 +992,18 @@ namespace MissionPlanner
                 try
                 {
                     if (Settings.Instance["TXT_homelat"] != null)
-                        MainV2.comPort.MAV.cs.HomeLocation.Lat = Settings.Instance.GetDouble("TXT_homelat");
+                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat = Settings.Instance.GetDouble("TXT_homelat");
 
                     if (Settings.Instance["TXT_homelng"] != null)
-                        MainV2.comPort.MAV.cs.HomeLocation.Lng = Settings.Instance.GetDouble("TXT_homelng");
+                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng = Settings.Instance.GetDouble("TXT_homelng");
 
                     if (Settings.Instance["TXT_homealt"] != null)
-                        MainV2.comPort.MAV.cs.HomeLocation.Alt = Settings.Instance.GetDouble("TXT_homealt");
+                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt = Settings.Instance.GetDouble("TXT_homealt");
 
                     // remove invalid entrys
-                    if (Math.Abs(MainV2.comPort.MAV.cs.HomeLocation.Lat) > 90 ||
-                        Math.Abs(MainV2.comPort.MAV.cs.HomeLocation.Lng) > 180)
-                        MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt();
+                    if (Math.Abs(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat) > 90 ||
+                        Math.Abs(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng) > 180)
+                        MainV2.comPort.MAV.cs.PlannedHomeLocation = new PointLatLngAlt();
                 }
                 catch
                 {
@@ -3410,9 +3410,9 @@ namespace MissionPlanner
                             try
                             {
                                 nt.Open(cmds["rtk"]);
-                                nt.lat = MainV2.comPort.MAV.cs.HomeLocation.Lat;
-                                nt.lng = MainV2.comPort.MAV.cs.HomeLocation.Lng;
-                                nt.alt = MainV2.comPort.MAV.cs.HomeLocation.Alt;
+                                nt.lat = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat;
+                                nt.lng = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng;
+                                nt.alt = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt;
                                 this.BeginInvokeIfRequired(() => { inject.DoConnect(); });
                             }
                             catch (Exception ex)

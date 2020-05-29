@@ -295,7 +295,7 @@ namespace MissionPlanner
 
             grid = Utilities.Grid.CreateGrid(newlist, (double) NUM_altitude.Value, (double) NUM_Distance,
                 (double) NUM_spacing, (double) NUM_angle.Value, 0, 0, Utilities.Grid.StartPosition.Home, false, 0, 0,
-                plugin.Host.cs.HomeLocation);
+                plugin.Host.cs.PlannedHomeLocation);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -532,7 +532,7 @@ namespace MissionPlanner
 
                 if (chk_includeland.Checked)
                 {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng,plugin.Host.cs.HomeLocation.Lat, 0);
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.PlannedHomeLocation.Lng,plugin.Host.cs.PlannedHomeLocation.Lat, 0);
                 }
 
                 savesettings();

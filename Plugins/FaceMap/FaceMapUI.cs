@@ -1600,10 +1600,10 @@ namespace MissionPlanner
                             }
 
                             //fly home at constant alt before landing
-                            AddWP(plugin.Host.cs.HomeLocation.Lng, plugin.Host.cs.HomeLocation.Lat, exitAltitude, -1);
+                            AddWP(plugin.Host.cs.PlannedHomeLocation.Lng, plugin.Host.cs.PlannedHomeLocation.Lat, exitAltitude, -1);
 
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng,
-                                plugin.Host.cs.HomeLocation.Lat, 0, gridobject);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.PlannedHomeLocation.Lng,
+                                plugin.Host.cs.PlannedHomeLocation.Lat, 0, gridobject);
                         }
                     }
                 }
