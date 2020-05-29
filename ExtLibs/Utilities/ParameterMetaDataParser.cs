@@ -37,11 +37,16 @@ namespace MissionPlanner.Utilities
             {"ArduRover", "Rover"},
 
             {"APMrover2", "Rover"},
-            {"Rover", "Rover"},
             {"ArduSub", "Sub"},
             {"ArduCopter", "Copter"},
             {"ArduPlane", "Plane"},
             {"AntennaTracker", "Tracker"},
+
+            {"Copter", "Copter"},
+            {"Rover", "Rover"},
+            {"Plane", "Plane"},
+            {"Sub", "Sub"},
+            {"Tracker", "Tracker"},
         };
 
         /// <summary>
@@ -336,7 +341,8 @@ namespace MissionPlanner.Utilities
 
                             if (paramNameKeyMatch.Success && paramNameKeyMatch.Groups["MetaKey"].Value == nodeKey)
                             {
-                                string key = paramNameKeyMatch.Groups["MetaValue"].Value.Trim(new char[] {' '});
+                                string key = paramNameKeyMatch.Groups["MetaValue"].Value
+                                    .Trim(new char[] {' ', '\r', '\n'});
                                 var metaDict = new Dictionary<string, string>();
                                 if (!returnDict.ContainsKey(key))
                                 {
@@ -365,20 +371,30 @@ namespace MissionPlanner.Utilities
                                                 metaDict.Add(metaKey,
                                                     metaMatch.Groups["MetaValue"].Value.Trim(new char[] {' '}));
                                             }
-                                            else if (metaMatch?.Groups["MetaFrame"]?.Value != "")
+
+                                            if (metaMatch?.Groups["MetaFrame"]?.Value != "")
                                             {
                                                 var metaframe = metaMatch?.Groups["MetaFrame"]?.Value.ToString();
-                                                try
-                                                {
-                                                    var mapname = truename_map.First(a =>
-                                                        a.Value.ToLower() == metaframe.ToLower());
 
-                                                    if (mapname.Key.ToLower() == vehicleType.ToLower())
+                                                var vehicles = metaframe.Split(',');
+                                                foreach (var vehicle in vehicles)
+                                                {
+                                                    try
                                                     {
-                                                        metaDict[metaKey] = metaMatch.Groups["MetaValue"].Value
-                                                            .Trim(new char[] {' '});
+                                                        var mapname = truename_map.First(a =>
+                                                            a.Value.ToLower() == vehicle.ToLower().Trim());
+
+                                                        if (mapname.Key.ToLower() == vehicleType.ToLower())
+                                                        {
+                                                            metaDict[metaKey] = metaMatch.Groups["MetaValue"].Value
+                                                                .Trim(new char[] {' '});
+                                                        }
                                                     }
-                                                } catch { log.Error("Invalid MetaFrame " + metaframe); }
+                                                    catch
+                                                    {
+                                                        log.Error("Invalid MetaFrame " + vehicle);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
