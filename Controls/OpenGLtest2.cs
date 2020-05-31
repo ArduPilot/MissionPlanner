@@ -107,7 +107,7 @@ namespace MissionPlanner.Controls
 
         public List<Locationwp> WPs { get; set; }
 
-        public OpenGLtest2()
+        public OpenGLtest2() : base(new GraphicsMode(32,24,0,2))
         {
             instance = this;
 
