@@ -141,15 +141,13 @@ namespace MissionPlanner.Controls
                     {
                         var subtype = value.GetType();
 
-                        var value2 = (Array)value;
+                        var value2 = (Array) value;
 
-                        if (field.Name == "param_id") // param_value
+                        if (field.Name == "param_id" || field.Name == "text" || field.Name == "model_name" ||
+                            field.Name == "vendor_name" || field.Name == "uri" ||
+                            field.Name == "cam_definition_uri") // param_value
                         {
-                            value = Encoding.ASCII.GetString((byte[])value2);
-                        }
-                        else if (field.Name == "text") // statustext
-                        {
-                            value = Encoding.ASCII.GetString((byte[])value2);
+                            value = Encoding.ASCII.GetString((byte[]) value2);
                         }
                         else
                         {
