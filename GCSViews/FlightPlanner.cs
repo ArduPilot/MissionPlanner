@@ -1398,10 +1398,15 @@ namespace MissionPlanner.GCSViews
                     {
                         var fenceoverlay = new WPOverlay();
                         fenceoverlay.overlay.Id = "fence";
-
-                        fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
+                        try
+                        {
+                            fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                             MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp)a).ToList(), 0, 0);
-
+                        }
+                        catch
+                        {
+                            
+                        }
                         fenceoverlay.overlay.Markers.Select(a => a.IsHitTestVisible = false).ToArray();
                         var fence = MainMap.Overlays.Where(a => a.Id == "fence");
                         if (fence.Count() > 0)
