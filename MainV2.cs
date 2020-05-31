@@ -1651,7 +1651,10 @@ namespace MissionPlanner
                 if (!ftpfile)
                 {
                     if (Settings.Instance.GetBoolean("Params_BG", false))
-                        comPort.getParamList(comPort.MAV.sysid, comPort.MAV.compid);
+                        Task.Run(() =>
+                        {
+                            comPort.getParamList(comPort.MAV.sysid, comPort.MAV.compid);
+                        });
                     else
                         comPort.getParamList();
                 }
@@ -3798,7 +3801,7 @@ namespace MissionPlanner
             if (keyData == (Keys.Control | Keys.Z))
             {
                 //ScanHW.Scan(comPort);
-                new Camera().test(MainV2.comPort.MAV);
+                new Camera().test(MainV2.comPort);
                 return true;
             }
             if (keyData == (Keys.Control | Keys.T)) // for override connect
