@@ -43,53 +43,61 @@ namespace MissionPlanner.GCSViews
 
         public void Deactivate()
         {
-            AP_REPL.Stop();
+            try
+            {
+                AP_REPL.Stop();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
 
         private void addText(string data)
         {
-            BeginInvoke((MethodInvoker)delegate
-           {
-               if (this.Disposing)
-                   return;
+            BeginInvoke((MethodInvoker) delegate
+            {
+                if (this.Disposing)
+                    return;
 
-               if (inputStartPos > TXT_terminal.Text.Length)
-                   inputStartPos = TXT_terminal.Text.Length - 1;
+                if (inputStartPos > TXT_terminal.Text.Length)
+                    inputStartPos = TXT_terminal.Text.Length - 1;
 
-               if (inputStartPos == -1)
-                   inputStartPos = 0;
+                if (inputStartPos == -1)
+                    inputStartPos = 0;
 
-               // gather current typed data
-               string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
-                  TXT_terminal.Text.Length - inputStartPos);
+                // gather current typed data
+                string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
+                    TXT_terminal.Text.Length - inputStartPos);
 
-               // remove typed data
-               TXT_terminal.Text = TXT_terminal.Text.Remove(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
+                // remove typed data
+                TXT_terminal.Text = TXT_terminal.Text.Remove(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
 
-               TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+                TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
-               data = data.TrimEnd('\r'); // else added \n all by itself
-               data = data.Replace("\0", "");
-               data = data.Replace((char)0x1b + "[K", ""); // remove control code
-               TXT_terminal.AppendText(data);
+                data = data.TrimEnd('\r'); // else added \n all by itself
+                data = data.Replace("\0", "");
+                data = data.Replace((char) 0x1b + "[K", ""); // remove control code
+                TXT_terminal.AppendText(data);
 
-               if (data.Contains("\b"))
-               {
-                   TXT_terminal.Text = TXT_terminal.Text.Remove(TXT_terminal.Text.IndexOf('\b'));
-                   TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
-               }
+                if (data.Contains("\b"))
+                {
+                    TXT_terminal.Text = TXT_terminal.Text.Remove(TXT_terminal.Text.IndexOf('\b'));
+                    TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+                }
 
-               // erase to end of line. in our case jump to end of line
-               if (data.Contains((char)0x1b + "[K"))
-               {
-                   TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
-               }
-               inputStartPos = TXT_terminal.SelectionStart;
+                // erase to end of line. in our case jump to end of line
+                if (data.Contains((char) 0x1b + "[K"))
+                {
+                    TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+                }
 
-               //add back typed text
-               TXT_terminal.AppendText(currenttypedtext);
-           });
+                inputStartPos = TXT_terminal.SelectionStart;
+
+                //add back typed text
+                TXT_terminal.AppendText(currenttypedtext);
+            });
         }
 
         private void TXT_terminal_KeyDown(object sender, KeyEventArgs e)
@@ -110,6 +118,7 @@ namespace MissionPlanner.GCSViews
                             TXT_terminal.SelectedText = "";
                             TXT_terminal.AppendText(cmdHistory[--history]);
                         }
+
                         e.Handled = true;
                         break;
                     case Keys.Down:
@@ -119,6 +128,7 @@ namespace MissionPlanner.GCSViews
                             TXT_terminal.SelectedText = "";
                             TXT_terminal.AppendText(cmdHistory[++history]);
                         }
+
                         e.Handled = true;
                         break;
                     case Keys.Left:
@@ -127,8 +137,8 @@ namespace MissionPlanner.GCSViews
                             e.Handled = true;
                         break;
 
-                        //case Keys.Right:
-                        //    break;
+                    //case Keys.Right:
+                    //    break;
                 }
             }
         }
@@ -155,7 +165,7 @@ namespace MissionPlanner.GCSViews
                                     TXT_terminal.Text.Length - inputStartPos - 1);
                             }
 
-                            cmd = cmd.TrimEnd(new[] { '\r', '\n' }).TrimEnd(new[] { '\r', '\n' });
+                            cmd = cmd.TrimEnd(new[] {'\r', '\n'}).TrimEnd(new[] {'\r', '\n'});
 
                             TXT_terminal.Select(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
                             TXT_terminal.SelectedText = "";
@@ -197,12 +207,27 @@ namespace MissionPlanner.GCSViews
             TXT_terminal.Clear();
             addText("Starting REPL\n");
             BUT_disconnect.Enabled = true;
-            AP_REPL.Start();
+            try
+            {
+                AP_REPL.Start();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.ErrorCommunicating + ex.ToString(), Strings.ERROR);
+            }
         }
 
         private void BUT_disconnect_Click(object sender, EventArgs e)
         {
-            AP_REPL.Stop();
+            try
+            {
+                AP_REPL.Stop();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.ErrorCommunicating + ex.ToString(), Strings.ERROR);
+            }
+
             TXT_terminal.ReadOnly = true;
         }
     }
