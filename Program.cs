@@ -5,6 +5,7 @@ using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -17,6 +18,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Diagnostics.Runtime;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace MissionPlanner
@@ -620,7 +623,33 @@ namespace MissionPlanner
 
                     try
                     {
-                        processinfo = Process.GetCurrentProcess().Modules.ToJSON();
+                        var result = new Dictionary<int, string[]>();
+
+                        var pid = Process.GetCurrentProcess().Id;
+
+                        using (var dataTarget = DataTarget.AttachToProcess(pid, 5000, AttachFlag.Passive))
+                        {
+                            ClrInfo runtimeInfo = dataTarget.ClrVersions[0];
+                            var runtime = runtimeInfo.CreateRuntime();
+
+                            foreach (var t in runtime.Threads)
+                            {
+                                result.Add(
+                                    t.ManagedThreadId,
+                                    t.StackTrace.Select(f =>
+                                    {
+                                        if (f.Method != null)
+                                        {
+                                            return f.Method.Type.Name + "." + f.Method.Name;
+                                        }
+
+                                        return null;
+                                    }).ToArray()
+                                );
+                            }
+                        }
+
+                        processinfo = result.ToJSON(Formatting.Indented); //;Process.GetCurrentProcess().Modules.ToJSON();
                     }
                     catch
                     {
