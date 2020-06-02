@@ -785,7 +785,7 @@ namespace MissionPlanner.GCSViews
             polygongridmode = false;
             int count = 1;
 
-            if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) >= 0)
+            if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0)
             {
                 if (!MainV2.comPort.BaseStream.IsOpen)
                 {
