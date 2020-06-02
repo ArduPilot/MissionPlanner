@@ -4891,8 +4891,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 }
 
                 MAVlist[fencept.target_system, fencept.target_component].fencepoints[fencept.idx] =
-                    new mavlink_mission_item_int_t(fencept.count, 0, 0, 0, (int)(fencept.lat * 1e7),
-                        (int)(fencept.lng * 1e7), 0, fencept.idx, (ushort)MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION,
+                    new mavlink_mission_item_int_t(fencept.count-1, 0, 0, 0, (int)(fencept.lat * 1e7),
+                        (int)(fencept.lng * 1e7), 0, fencept.idx, fencept.idx==0 ? (ushort)MAV_CMD.FENCE_RETURN_POINT: (ushort)MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION,
                         fencept.target_system, fencept.target_component, (byte)MAV_FRAME.GLOBAL_RELATIVE_ALT, 0, 0,
                         (byte)MAV_MISSION_TYPE.FENCE);
             }
