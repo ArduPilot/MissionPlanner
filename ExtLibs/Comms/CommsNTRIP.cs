@@ -308,7 +308,13 @@ namespace MissionPlanner.Comms
             Port = remoteUri.Port.ToString();
 
             client = new TcpClient(host, int.Parse(Port));
-            client.Client.IOControl(IOControlCode.KeepAliveValues, TcpKeepAlive(true, 36000000, 3000), null);
+            try
+            {
+                // fails under mono
+                client.Client.IOControl(IOControlCode.KeepAliveValues, TcpKeepAlive(true, 36000000, 3000), null);
+            } catch
+            {
+            }
 
             if (Port == "443" || remoteUri.Scheme == "https")
             {
