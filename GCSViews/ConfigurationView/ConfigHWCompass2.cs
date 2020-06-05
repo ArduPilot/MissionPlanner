@@ -451,7 +451,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_reboot_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Reboot?") == CustomMessageBox.DialogResult.OK)
+            {
                 MainV2.comPort.doReboot(false, true);
+                rebootrequired = false;
+            }
         }
 
         private void myDataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
