@@ -24,13 +24,52 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public class CompassDeviceInfo : DeviceInfo
         {
+            private string _orient;
+            private bool _external;
+
             public CompassDeviceInfo(int index, string ParamName, uint id) : base(index, ParamName, id)
             {
+                //set initial state
+                var id1 = MainV2.comPort.MAV.param["COMPASS_DEV_ID"];
+                var id2 = MainV2.comPort.MAV.param["COMPASS_DEV_ID2"];
+                var id3 = MainV2.comPort.MAV.param["COMPASS_DEV_ID3"];
+
+                var idO1 = MainV2.comPort.MAV.param["COMPASS_ORIENT"];
+                var idO2 = MainV2.comPort.MAV.param["COMPASS_ORIENT2"];
+                var idO3 = MainV2.comPort.MAV.param["COMPASS_ORIENT3"];
+
+                var idE1 = MainV2.comPort.MAV.param["COMPASS_EXTERNAL"];
+                var idE2 = MainV2.comPort.MAV.param["COMPASS_EXTERN2"];
+                var idE3 = MainV2.comPort.MAV.param["COMPASS_EXTERN3"];
+
+                if (id1 != null && id1?.Value == id)
+                {
+                    _orient = idO1?.ToString();
+                    _external = idE1?.Value > 0 ? true : false;
+                }
+                if (id2 != null && id2?.Value == id)
+                {
+                    _orient = idO2?.ToString();
+                    _external = idE2?.Value > 0 ? true : false;
+                }
+                if (id3 != null && id3?.Value == id)
+                {
+                    _orient = idO3?.ToString();
+                    _external = idE3?.Value > 0 ? true : false;
+                }
             }
 
-            public string Orient { get; set; }
+            public string Orient
+            {
+                get => _orient;
+                set => _orient = value;
+            }
 
-            public bool External { get; set; }
+            public bool External
+            {
+                get => _external;
+                set => _external = value;
+            }
         }
 
         public ConfigHWCompass2()
@@ -73,41 +112,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // set the default items
                 var source = ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT", MainV2.comPort.MAV.cs.firmware.ToString());
                 Orientation.DataSource = source.Select(a => a.Value).ToList();
-
-                //set initial state
-                var id1 = MainV2.comPort.MAV.param["COMPASS_DEV_ID"]?.Value;
-                var id2 = MainV2.comPort.MAV.param["COMPASS_DEV_ID2"]?.Value;
-                var id3 = MainV2.comPort.MAV.param["COMPASS_DEV_ID3"]?.Value;
-
-                var idO1 = MainV2.comPort.MAV.param["COMPASS_ORIENT"]?.Value;
-                var idO2 = MainV2.comPort.MAV.param["COMPASS_ORIENT2"]?.Value;
-                var idO3 = MainV2.comPort.MAV.param["COMPASS_ORIENT3"]?.Value;
-
-                var idE1 = MainV2.comPort.MAV.param["COMPASS_EXTERNAL"]?.Value;
-                var idE2 = MainV2.comPort.MAV.param["COMPASS_EXTERN2"]?.Value;
-                var idE3 = MainV2.comPort.MAV.param["COMPASS_EXTERN3"]?.Value;
-
-                if (id1 != null && id1 != 0)
-                {
-                    var idx1 = list.FindIndex((a) => a.DevID == id1);
-
-                    myDataGridView1[Orientation.Index, idx1].Value = source.First(a => a.Key == idO1).Value;
-                    myDataGridView1[External.Index, idx1].Value = idE1;
-                }
-                if (id2 != null && id2 != 0)
-                {
-                    var idx2 = list.FindIndex((a) => a.DevID == id2);
-
-                    myDataGridView1[Orientation.Index, idx2].Value = source.First(a => a.Key == idO2).Value;
-                    myDataGridView1[External.Index, idx2].Value = idE2;
-                }
-                if (id3 != null && id3 != 0)
-                {
-                    var idx3 = list.FindIndex((a) => a.DevID == id3);
-
-                    myDataGridView1[Orientation.Index, idx3].Value = source.First(a => a.Key == idO3).Value;
-                    myDataGridView1[External.Index, idx3].Value = idE3;
-                }
             }
         }
 
