@@ -255,6 +255,9 @@ namespace MissionPlanner.Comms
             {
                 portnamenice = "";
 
+                if (port == "AUTO" || port == "UDP" || port == "UDPCl" || port == "TCP" || port == "WS")
+                    return "";
+
                 if (comportnamecache.ContainsKey(port))
                 {
                     log.Info("done GetNiceName cache " + port + " " + comportnamecache[port]);
