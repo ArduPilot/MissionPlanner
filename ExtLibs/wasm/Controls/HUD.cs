@@ -545,9 +545,6 @@ namespace MissionPlanner.Controls
         public string message { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public DateTime messagetime { get; set; }
-
-        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public string mode
         {
             get { return _mode; }
@@ -2053,7 +2050,7 @@ namespace MissionPlanner.Controls
                     statuslast = status;
                 }
 
-                if (message != "" && messagetime.AddSeconds(10) > DateTime.Now)
+                if (message != "")
                 {
                     drawstring(message, font, fontsize + 10, (SolidBrush)Brushes.Red, -halfwidth + 50,
                         halfheight / 3);

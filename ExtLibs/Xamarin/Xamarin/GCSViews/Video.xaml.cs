@@ -49,7 +49,6 @@ namespace Xamarin.GCSViews
                     hud1.heading = MainV2.comPort.MAV.cs.yaw;
                     hud1.linkqualitygcs = MainV2.comPort.MAV.cs.linkqualitygcs;
                     hud1.message = MainV2.comPort.MAV.cs.messageHigh;
-                    hud1.messagetime = MainV2.comPort.MAV.cs.messageHighTime;
                     hud1.mode = MainV2.comPort.MAV.cs.mode;
                     hud1.navpitch = MainV2.comPort.MAV.cs.nav_pitch;
                     hud1.navroll = MainV2.comPort.MAV.cs.nav_roll;

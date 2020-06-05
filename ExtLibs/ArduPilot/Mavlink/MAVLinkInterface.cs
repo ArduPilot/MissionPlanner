@@ -4552,7 +4552,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (printit)
                         {
                             MAVlist[sysid, compid].cs.messageHigh = logdata;
-                            MAVlist[sysid, compid].cs.messageHighTime = DateTime.Now;
 
                             if (Speech != null &&
                                 Speech.IsReady &&

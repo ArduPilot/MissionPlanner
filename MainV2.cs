@@ -746,7 +746,6 @@ namespace MissionPlanner
             Warnings.WarningEngine.WarningMessage += (sender, s) =>
             {
                 MainV2.comPort.MAV.cs.messageHigh = s;
-                MainV2.comPort.MAV.cs.messageHighTime = DateTime.Now;
             };
 
             // proxy loader - dll load now instead of on config form load

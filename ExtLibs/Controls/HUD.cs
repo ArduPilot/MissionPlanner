@@ -627,9 +627,6 @@ namespace MissionPlanner.Controls
         public string message { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public DateTime messagetime { get; set; }
-
-        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float vibex { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
@@ -2671,7 +2668,7 @@ namespace MissionPlanner.Controls
                     statuslast = status;
                 }
 
-                if (message != "" && messagetime.AddSeconds(10) > DateTime.Now)
+                if (message != "")
                 {
                     var newfontsize = calcsize(message, font, fontsize + 10, (SolidBrush) Brushes.Red, Width - 50 - 50);
 
