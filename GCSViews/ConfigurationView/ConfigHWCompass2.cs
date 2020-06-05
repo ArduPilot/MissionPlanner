@@ -12,7 +12,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWCompass2 : MyUserControl, IActivate, IDeactivate
     {
-        private List<DeviceInfo> list;
+        private List<CompassDeviceInfo> list;
 
         private bool rebootrequired = false;
 
@@ -22,6 +22,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> packetsub1;
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> packetsub2;
 
+        public class CompassDeviceInfo : DeviceInfo
+        {
+            public CompassDeviceInfo(int index, string ParamName, uint id) : base(index, ParamName, id)
+            {
+            }
+
+            public string Orient { get; set; }
+
+            public bool External { get; set; }
+        }
 
         public ConfigHWCompass2()
         {
@@ -32,12 +42,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             // COMPASS_DEV_ID get a list of all connected devices
             list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_DEV_ID") && a.Value != 0)
-                .Select((a, b) => new DeviceInfo(b, a.Name, (uint) a.Value))
+                .Select((a, b) => new CompassDeviceInfo(b, a.Name, (uint) a.Value))
                 .OrderBy((a) => a.ParamName).ToList();
 
             // COMPASS_PRIO get a list of all prios
             var prio = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_PRIO"))
-                .Select((a, b) => new DeviceInfo(b, a.Name, (uint)a.Value))
+                .Select((a, b) => new CompassDeviceInfo(b, a.Name, (uint)a.Value))
                 .OrderBy((a) => a.ParamName).ToList();
 
             //filter list removing prio dups from the list
@@ -56,6 +66,49 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkCheckBoxUseCompass1.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
             mavlinkCheckBoxUseCompass2.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param);
             mavlinkCheckBoxUseCompass3.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
+
+            CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
+
+            {
+                // set the default items
+                var source = ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT", MainV2.comPort.MAV.cs.firmware.ToString());
+                Orientation.DataSource = source.Select(a => a.Value).ToList();
+
+                //set initial state
+                var id1 = MainV2.comPort.MAV.param["COMPASS_DEV_ID"]?.Value;
+                var id2 = MainV2.comPort.MAV.param["COMPASS_DEV_ID2"]?.Value;
+                var id3 = MainV2.comPort.MAV.param["COMPASS_DEV_ID3"]?.Value;
+
+                var idO1 = MainV2.comPort.MAV.param["COMPASS_ORIENT"]?.Value;
+                var idO2 = MainV2.comPort.MAV.param["COMPASS_ORIENT2"]?.Value;
+                var idO3 = MainV2.comPort.MAV.param["COMPASS_ORIENT3"]?.Value;
+
+                var idE1 = MainV2.comPort.MAV.param["COMPASS_EXTERNAL"]?.Value;
+                var idE2 = MainV2.comPort.MAV.param["COMPASS_EXTERN2"]?.Value;
+                var idE3 = MainV2.comPort.MAV.param["COMPASS_EXTERN3"]?.Value;
+
+                if (id1 != null && id1 != 0)
+                {
+                    var idx1 = list.FindIndex((a) => a.DevID == id1);
+
+                    myDataGridView1[Orientation.Index, idx1].Value = source.First(a => a.Key == idO1).Value;
+                    myDataGridView1[External.Index, idx1].Value = idE1;
+                }
+                if (id2 != null && id2 != 0)
+                {
+                    var idx2 = list.FindIndex((a) => a.DevID == id2);
+
+                    myDataGridView1[Orientation.Index, idx2].Value = source.First(a => a.Key == idO2).Value;
+                    myDataGridView1[External.Index, idx2].Value = idE2;
+                }
+                if (id3 != null && id3 != 0)
+                {
+                    var idx3 = list.FindIndex((a) => a.DevID == id3);
+
+                    myDataGridView1[Orientation.Index, idx3].Value = source.First(a => a.Key == idO3).Value;
+                    myDataGridView1[External.Index, idx3].Value = idE3;
+                }
+            }
         }
 
         public void Deactivate()
@@ -97,7 +150,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private async void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == Up.Index)
+            if (e.ColumnIndex == Up.Index && e.RowIndex != 0)
             {
                 var item = list[e.RowIndex];
                 list.Remove(item);
@@ -106,7 +159,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 await UpdateFirst3();
             }
 
-            if (e.ColumnIndex == Down.Index)
+            if (e.ColumnIndex == Down.Index && e.RowIndex < (myDataGridView1.RowCount-1))
             {
                 var item = list[e.RowIndex];
                 list.Remove(item);
@@ -288,7 +341,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     message += "id:" + item.Key + " " + obj.completion_pct.ToString() + "% ";
                     compasscount++;
                 }
-                lbl_obmagresult.AppendText(message + "\n");
+                lbl_obmagresult.AppendText(message + "\r\n");
             }
 
             lock (mrep)
@@ -363,6 +416,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void myDataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
+            if (myDataGridView1.Rows[e.RowIndex].Cells[Priority.Index].Value?.ToString() != (e.RowIndex + 1).ToString())
+            {
+                myDataGridView1.Rows[e.RowIndex].Cells[Priority.Index].Value = (e.RowIndex + 1).ToString();
+
+
+            }
         }
 
         private void but_largemagcal_Click(object sender, EventArgs e)
@@ -387,6 +446,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
             }
+        }
+
+        private void but_reboot_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Reboot?") == CustomMessageBox.DialogResult.OK)
+                MainV2.comPort.doReboot(false, true);
+        }
+
+        private void myDataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }

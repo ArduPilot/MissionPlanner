@@ -29,15 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
-            this.devIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.busTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.busDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.devTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Up = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Down = new System.Windows.Forms.DataGridViewImageColumn();
-            this.compassInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -59,107 +50,34 @@
             this.BUT_OBmagcalcancel = new MissionPlanner.Controls.MyButton();
             this.BUT_OBmagcalstart = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.mavlinkCheckBoxUseCompass1 = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxUseCompass3 = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxUseCompass2 = new MissionPlanner.Controls.MavlinkCheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.but_largemagcal = new MissionPlanner.Controls.MyButton();
             this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.compassInfoBindingSource)).BeginInit();
+            this.but_reboot = new MissionPlanner.Controls.MyButton();
+            this.label5 = new System.Windows.Forms.Label();
+            this.mavlinkCheckBoxUseCompass3 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxUseCompass2 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_compass_learn = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxUseCompass1 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.devIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.busTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.busDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.devTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.External = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Orientation = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Up = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Down = new System.Windows.Forms.DataGridViewImageColumn();
+            this.compassDeviceInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBoxonboardcalib.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.compassDeviceInfoBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // myDataGridView1
-            // 
-            this.myDataGridView1.AllowUserToAddRows = false;
-            this.myDataGridView1.AllowUserToDeleteRows = false;
-            this.myDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.myDataGridView1.AutoGenerateColumns = false;
-            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.devIDDataGridViewTextBoxColumn,
-            this.busTypeDataGridViewTextBoxColumn,
-            this.busDataGridViewTextBoxColumn,
-            this.addressDataGridViewTextBoxColumn,
-            this.devTypeDataGridViewTextBoxColumn,
-            this.Up,
-            this.Down});
-            this.myDataGridView1.DataSource = this.compassInfoBindingSource;
-            this.myDataGridView1.Location = new System.Drawing.Point(3, 49);
-            this.myDataGridView1.MultiSelect = false;
-            this.myDataGridView1.Name = "myDataGridView1";
-            this.myDataGridView1.ReadOnly = true;
-            this.myDataGridView1.RowHeadersWidth = 20;
-            this.myDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.myDataGridView1.Size = new System.Drawing.Size(600, 209);
-            this.myDataGridView1.TabIndex = 0;
-            this.myDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellContentClick);
-            this.myDataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.myDataGridView1_RowPostPaint);
-            // 
-            // devIDDataGridViewTextBoxColumn
-            // 
-            this.devIDDataGridViewTextBoxColumn.DataPropertyName = "DevID";
-            this.devIDDataGridViewTextBoxColumn.HeaderText = "DevID";
-            this.devIDDataGridViewTextBoxColumn.Name = "devIDDataGridViewTextBoxColumn";
-            this.devIDDataGridViewTextBoxColumn.ReadOnly = true;
-            this.devIDDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // busTypeDataGridViewTextBoxColumn
-            // 
-            this.busTypeDataGridViewTextBoxColumn.DataPropertyName = "BusType";
-            this.busTypeDataGridViewTextBoxColumn.HeaderText = "BusType";
-            this.busTypeDataGridViewTextBoxColumn.Name = "busTypeDataGridViewTextBoxColumn";
-            this.busTypeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.busTypeDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // busDataGridViewTextBoxColumn
-            // 
-            this.busDataGridViewTextBoxColumn.DataPropertyName = "Bus";
-            this.busDataGridViewTextBoxColumn.HeaderText = "Bus";
-            this.busDataGridViewTextBoxColumn.Name = "busDataGridViewTextBoxColumn";
-            this.busDataGridViewTextBoxColumn.ReadOnly = true;
-            this.busDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // addressDataGridViewTextBoxColumn
-            // 
-            this.addressDataGridViewTextBoxColumn.DataPropertyName = "Address";
-            this.addressDataGridViewTextBoxColumn.HeaderText = "Address";
-            this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
-            this.addressDataGridViewTextBoxColumn.ReadOnly = true;
-            this.addressDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // devTypeDataGridViewTextBoxColumn
-            // 
-            this.devTypeDataGridViewTextBoxColumn.DataPropertyName = "DevType";
-            this.devTypeDataGridViewTextBoxColumn.HeaderText = "DevType";
-            this.devTypeDataGridViewTextBoxColumn.Name = "devTypeDataGridViewTextBoxColumn";
-            this.devTypeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.devTypeDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // Up
-            // 
-            this.Up.HeaderText = "Up";
-            this.Up.Image = global::MissionPlanner.Properties.Resources.up;
-            this.Up.Name = "Up";
-            this.Up.ReadOnly = true;
-            this.Up.Width = 40;
-            // 
-            // Down
-            // 
-            this.Down.HeaderText = "Down";
-            this.Down.Image = global::MissionPlanner.Properties.Resources.down;
-            this.Down.Name = "Down";
-            this.Down.ReadOnly = true;
-            this.Down.Width = 40;
-            // 
-            // compassInfoBindingSource
-            // 
-            this.compassInfoBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.DeviceInfo);
             // 
             // label1
             // 
@@ -187,7 +105,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Location = new System.Drawing.Point(-1, 18);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1125, 10);
+            this.groupBox5.Size = new System.Drawing.Size(1197, 10);
             this.groupBox5.TabIndex = 79;
             this.groupBox5.TabStop = false;
             // 
@@ -209,7 +127,7 @@
             this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalaccept);
             this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalcancel);
             this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalstart);
-            this.groupBoxonboardcalib.Location = new System.Drawing.Point(3, 313);
+            this.groupBoxonboardcalib.Location = new System.Drawing.Point(3, 355);
             this.groupBoxonboardcalib.Name = "groupBoxonboardcalib";
             this.groupBoxonboardcalib.Size = new System.Drawing.Size(600, 162);
             this.groupBoxonboardcalib.TabIndex = 81;
@@ -390,6 +308,96 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(0, 261);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(255, 13);
+            this.label3.TabIndex = 85;
+            this.label3.Text = "Do you want to disable any of the first 3 compasses?";
+            // 
+            // but_largemagcal
+            // 
+            this.but_largemagcal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.but_largemagcal.Location = new System.Drawing.Point(3, 523);
+            this.but_largemagcal.Name = "but_largemagcal";
+            this.but_largemagcal.Size = new System.Drawing.Size(75, 23);
+            this.but_largemagcal.TabIndex = 21;
+            this.but_largemagcal.Text = "Large Vehicle MagCal";
+            this.but_largemagcal.UseVisualStyleBackColor = true;
+            this.but_largemagcal.Click += new System.EventHandler(this.but_largemagcal_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(0, 339);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(281, 13);
+            this.label4.TabIndex = 86;
+            this.label4.Text = "A mag calibration is required to remap the above changes.";
+            // 
+            // but_reboot
+            // 
+            this.but_reboot.Location = new System.Drawing.Point(3, 313);
+            this.but_reboot.Name = "but_reboot";
+            this.but_reboot.Size = new System.Drawing.Size(75, 23);
+            this.but_reboot.TabIndex = 88;
+            this.but_reboot.Text = "Reboot";
+            this.but_reboot.UseVisualStyleBackColor = true;
+            this.but_reboot.Click += new System.EventHandler(this.but_reboot_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(0, 297);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(203, 13);
+            this.label5.TabIndex = 89;
+            this.label5.Text = "A reboot is required to adjust the ordering.\r\n";
+            // 
+            // mavlinkCheckBoxUseCompass3
+            // 
+            this.mavlinkCheckBoxUseCompass3.AutoSize = true;
+            this.mavlinkCheckBoxUseCompass3.Enabled = false;
+            this.mavlinkCheckBoxUseCompass3.Location = new System.Drawing.Point(215, 277);
+            this.mavlinkCheckBoxUseCompass3.Name = "mavlinkCheckBoxUseCompass3";
+            this.mavlinkCheckBoxUseCompass3.OffValue = 0D;
+            this.mavlinkCheckBoxUseCompass3.OnValue = 1D;
+            this.mavlinkCheckBoxUseCompass3.ParamName = null;
+            this.mavlinkCheckBoxUseCompass3.Size = new System.Drawing.Size(100, 17);
+            this.mavlinkCheckBoxUseCompass3.TabIndex = 83;
+            this.mavlinkCheckBoxUseCompass3.Text = "Use Compass 3";
+            this.mavlinkCheckBoxUseCompass3.UseVisualStyleBackColor = true;
+            // 
+            // mavlinkCheckBoxUseCompass2
+            // 
+            this.mavlinkCheckBoxUseCompass2.AutoSize = true;
+            this.mavlinkCheckBoxUseCompass2.Enabled = false;
+            this.mavlinkCheckBoxUseCompass2.Location = new System.Drawing.Point(109, 277);
+            this.mavlinkCheckBoxUseCompass2.Name = "mavlinkCheckBoxUseCompass2";
+            this.mavlinkCheckBoxUseCompass2.OffValue = 0D;
+            this.mavlinkCheckBoxUseCompass2.OnValue = 1D;
+            this.mavlinkCheckBoxUseCompass2.ParamName = null;
+            this.mavlinkCheckBoxUseCompass2.Size = new System.Drawing.Size(100, 17);
+            this.mavlinkCheckBoxUseCompass2.TabIndex = 84;
+            this.mavlinkCheckBoxUseCompass2.Text = "Use Compass 2";
+            this.mavlinkCheckBoxUseCompass2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_compass_learn
+            // 
+            this.CHK_compass_learn.AutoSize = true;
+            this.CHK_compass_learn.Enabled = false;
+            this.CHK_compass_learn.Location = new System.Drawing.Point(414, 277);
+            this.CHK_compass_learn.Name = "CHK_compass_learn";
+            this.CHK_compass_learn.OffValue = 0D;
+            this.CHK_compass_learn.OnValue = 1D;
+            this.CHK_compass_learn.ParamName = null;
+            this.CHK_compass_learn.Size = new System.Drawing.Size(148, 17);
+            this.CHK_compass_learn.TabIndex = 87;
+            this.CHK_compass_learn.Text = "Automatically learn offsets";
+            this.CHK_compass_learn.UseVisualStyleBackColor = true;
+            // 
             // mavlinkCheckBoxUseCompass1
             // 
             this.mavlinkCheckBoxUseCompass1.AutoSize = true;
@@ -404,87 +412,147 @@
             this.mavlinkCheckBoxUseCompass1.Text = "Use Compass 1";
             this.mavlinkCheckBoxUseCompass1.UseVisualStyleBackColor = true;
             // 
-            // mavlinkCheckBoxUseCompass3
+            // myDataGridView1
             // 
-            this.mavlinkCheckBoxUseCompass3.AutoSize = true;
-            this.mavlinkCheckBoxUseCompass3.Enabled = false;
-            this.mavlinkCheckBoxUseCompass3.Location = new System.Drawing.Point(248, 277);
-            this.mavlinkCheckBoxUseCompass3.Name = "mavlinkCheckBoxUseCompass3";
-            this.mavlinkCheckBoxUseCompass3.OffValue = 0D;
-            this.mavlinkCheckBoxUseCompass3.OnValue = 1D;
-            this.mavlinkCheckBoxUseCompass3.ParamName = null;
-            this.mavlinkCheckBoxUseCompass3.Size = new System.Drawing.Size(100, 17);
-            this.mavlinkCheckBoxUseCompass3.TabIndex = 83;
-            this.mavlinkCheckBoxUseCompass3.Text = "Use Compass 3";
-            this.mavlinkCheckBoxUseCompass3.UseVisualStyleBackColor = true;
+            this.myDataGridView1.AllowUserToAddRows = false;
+            this.myDataGridView1.AllowUserToDeleteRows = false;
+            this.myDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myDataGridView1.AutoGenerateColumns = false;
+            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Priority,
+            this.devIDDataGridViewTextBoxColumn,
+            this.busTypeDataGridViewTextBoxColumn,
+            this.busDataGridViewTextBoxColumn,
+            this.addressDataGridViewTextBoxColumn,
+            this.devTypeDataGridViewTextBoxColumn,
+            this.External,
+            this.Orientation,
+            this.Up,
+            this.Down});
+            this.myDataGridView1.DataSource = this.compassDeviceInfoBindingSource;
+            this.myDataGridView1.Location = new System.Drawing.Point(3, 49);
+            this.myDataGridView1.MultiSelect = false;
+            this.myDataGridView1.Name = "myDataGridView1";
+            this.myDataGridView1.ReadOnly = true;
+            this.myDataGridView1.RowHeadersWidth = 20;
+            this.myDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.myDataGridView1.Size = new System.Drawing.Size(672, 209);
+            this.myDataGridView1.TabIndex = 0;
+            this.myDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellContentClick);
+            this.myDataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.myDataGridView1_DataError);
+            this.myDataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.myDataGridView1_RowPostPaint);
             // 
-            // mavlinkCheckBoxUseCompass2
+            // Priority
             // 
-            this.mavlinkCheckBoxUseCompass2.AutoSize = true;
-            this.mavlinkCheckBoxUseCompass2.Enabled = false;
-            this.mavlinkCheckBoxUseCompass2.Location = new System.Drawing.Point(128, 277);
-            this.mavlinkCheckBoxUseCompass2.Name = "mavlinkCheckBoxUseCompass2";
-            this.mavlinkCheckBoxUseCompass2.OffValue = 0D;
-            this.mavlinkCheckBoxUseCompass2.OnValue = 1D;
-            this.mavlinkCheckBoxUseCompass2.ParamName = null;
-            this.mavlinkCheckBoxUseCompass2.Size = new System.Drawing.Size(100, 17);
-            this.mavlinkCheckBoxUseCompass2.TabIndex = 84;
-            this.mavlinkCheckBoxUseCompass2.Text = "Use Compass 2";
-            this.mavlinkCheckBoxUseCompass2.UseVisualStyleBackColor = true;
+            this.Priority.HeaderText = "Priority";
+            this.Priority.Name = "Priority";
+            this.Priority.ReadOnly = true;
+            this.Priority.Width = 50;
             // 
-            // label3
+            // devIDDataGridViewTextBoxColumn
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(0, 261);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(255, 13);
-            this.label3.TabIndex = 85;
-            this.label3.Text = "Do you want to disable any of the first 3 compasses?";
+            this.devIDDataGridViewTextBoxColumn.DataPropertyName = "DevID";
+            this.devIDDataGridViewTextBoxColumn.HeaderText = "DevID";
+            this.devIDDataGridViewTextBoxColumn.Name = "devIDDataGridViewTextBoxColumn";
+            this.devIDDataGridViewTextBoxColumn.ReadOnly = true;
+            this.devIDDataGridViewTextBoxColumn.Width = 50;
             // 
-            // but_largemagcal
+            // busTypeDataGridViewTextBoxColumn
             // 
-            this.but_largemagcal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.but_largemagcal.Location = new System.Drawing.Point(3, 481);
-            this.but_largemagcal.Name = "but_largemagcal";
-            this.but_largemagcal.Size = new System.Drawing.Size(75, 23);
-            this.but_largemagcal.TabIndex = 21;
-            this.but_largemagcal.Text = "Large Vehicle MagCal";
-            this.but_largemagcal.UseVisualStyleBackColor = true;
-            this.but_largemagcal.Click += new System.EventHandler(this.but_largemagcal_Click);
+            this.busTypeDataGridViewTextBoxColumn.DataPropertyName = "BusType";
+            this.busTypeDataGridViewTextBoxColumn.HeaderText = "BusType";
+            this.busTypeDataGridViewTextBoxColumn.Name = "busTypeDataGridViewTextBoxColumn";
+            this.busTypeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.busTypeDataGridViewTextBoxColumn.Width = 60;
             // 
-            // label4
+            // busDataGridViewTextBoxColumn
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(0, 297);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(281, 13);
-            this.label4.TabIndex = 86;
-            this.label4.Text = "A mag calibration is required to remap the above changes.";
+            this.busDataGridViewTextBoxColumn.DataPropertyName = "Bus";
+            this.busDataGridViewTextBoxColumn.HeaderText = "Bus";
+            this.busDataGridViewTextBoxColumn.Name = "busDataGridViewTextBoxColumn";
+            this.busDataGridViewTextBoxColumn.ReadOnly = true;
+            this.busDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // addressDataGridViewTextBoxColumn
+            // 
+            this.addressDataGridViewTextBoxColumn.DataPropertyName = "Address";
+            this.addressDataGridViewTextBoxColumn.HeaderText = "Address";
+            this.addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
+            this.addressDataGridViewTextBoxColumn.ReadOnly = true;
+            this.addressDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // devTypeDataGridViewTextBoxColumn
+            // 
+            this.devTypeDataGridViewTextBoxColumn.DataPropertyName = "DevType";
+            this.devTypeDataGridViewTextBoxColumn.HeaderText = "DevType";
+            this.devTypeDataGridViewTextBoxColumn.Name = "devTypeDataGridViewTextBoxColumn";
+            this.devTypeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.devTypeDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // External
+            // 
+            this.External.DataPropertyName = "External";
+            this.External.HeaderText = "External";
+            this.External.Name = "External";
+            this.External.ReadOnly = true;
+            this.External.Width = 50;
+            // 
+            // Orientation
+            // 
+            this.Orientation.DataPropertyName = "Orient";
+            this.Orientation.HeaderText = "Orientation";
+            this.Orientation.Name = "Orientation";
+            this.Orientation.ReadOnly = true;
+            // 
+            // Up
+            // 
+            this.Up.HeaderText = "Up";
+            this.Up.Image = global::MissionPlanner.Properties.Resources.up;
+            this.Up.Name = "Up";
+            this.Up.ReadOnly = true;
+            this.Up.Width = 40;
+            // 
+            // Down
+            // 
+            this.Down.HeaderText = "Down";
+            this.Down.Image = global::MissionPlanner.Properties.Resources.down;
+            this.Down.Name = "Down";
+            this.Down.ReadOnly = true;
+            this.Down.Width = 40;
+            // 
+            // compassDeviceInfoBindingSource
+            // 
+            this.compassDeviceInfoBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2.CompassDeviceInfo);
             // 
             // ConfigHWCompass2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.but_reboot);
+            this.Controls.Add(this.mavlinkCheckBoxUseCompass3);
+            this.Controls.Add(this.mavlinkCheckBoxUseCompass2);
+            this.Controls.Add(this.CHK_compass_learn);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.but_largemagcal);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.mavlinkCheckBoxUseCompass2);
-            this.Controls.Add(this.mavlinkCheckBoxUseCompass3);
-            this.Controls.Add(this.mavlinkCheckBoxUseCompass1);
             this.Controls.Add(this.groupBoxonboardcalib);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.mavlinkCheckBoxUseCompass1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.myDataGridView1);
             this.Name = "ConfigHWCompass2";
-            this.Size = new System.Drawing.Size(606, 753);
-            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.compassInfoBindingSource)).EndInit();
+            this.Size = new System.Drawing.Size(678, 582);
             this.groupBoxonboardcalib.ResumeLayout(false);
             this.groupBoxonboardcalib.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.compassDeviceInfoBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -493,7 +561,6 @@
         #endregion
 
         private Controls.MyDataGridView myDataGridView1;
-        private System.Windows.Forms.BindingSource compassInfoBindingSource;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox5;
@@ -512,13 +579,6 @@
         private Controls.MyButton BUT_OBmagcalcancel;
         private Controls.MyButton BUT_OBmagcalstart;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn devIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn busTypeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn busDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn devTypeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewImageColumn Up;
-        private System.Windows.Forms.DataGridViewImageColumn Down;
         private Controls.MavlinkCheckBox mavlinkCheckBoxUseCompass1;
         private Controls.MavlinkCheckBox mavlinkCheckBoxUseCompass3;
         private Controls.MavlinkCheckBox mavlinkCheckBoxUseCompass2;
@@ -528,5 +588,19 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private Controls.MyButton but_largemagcal;
         private System.Windows.Forms.Label label4;
+        private Controls.MavlinkCheckBox CHK_compass_learn;
+        private Controls.MyButton but_reboot;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.BindingSource compassDeviceInfoBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Priority;
+        private System.Windows.Forms.DataGridViewTextBoxColumn devIDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn busTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn busDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn devTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn External;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Orientation;
+        private System.Windows.Forms.DataGridViewImageColumn Up;
+        private System.Windows.Forms.DataGridViewImageColumn Down;
     }
 }
