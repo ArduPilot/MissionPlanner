@@ -748,12 +748,27 @@ namespace UAVCAN
             };
         }
 
-        public string LookForUpdate(string devicename, double hwversion)
+        public string LookForUpdate(string devicename, double hwversion, bool usebeta = false)
         {
-            string[] servers = new string[] { "http://firmware.cubepilot.org:81/UAVCAN/" };
-
-            foreach (var server in servers)
+            Dictionary<string, string> servers = new Dictionary<string, string>()
             {
+                {"com.hex.", "https://firmware.cubepilot.org/UAVCAN/"},
+                {"search.id", "http://localhost/url"}
+            };
+
+            if (usebeta)
+            {
+                servers.Clear();
+                servers.Add("com.hex.", "https://firmware.cubepilot.org/UAVCAN/beta/");
+            }
+
+            foreach (var serverinfo in servers)
+            {
+                if(!devicename.Contains(serverinfo.Key))
+                    continue;
+
+                var server = serverinfo.Value;
+
                 var url = String.Format("{0}{1}/{2}/{3}", server, devicename, hwversion.ToString("0.0##", CultureInfo.InvariantCulture), "firmware.bin");
                 Console.WriteLine("LookForUpdate at " + url);
                 var req = WebRequest.Create(url);

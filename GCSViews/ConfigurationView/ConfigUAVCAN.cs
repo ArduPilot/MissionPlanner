@@ -291,12 +291,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     prd.UpdateProgressAndStatus((int)percent, id + " " + file);
                 };
                 can.FileSendProgress += filesend;
-                if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update",
+                    CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                 {
                     var devicename = myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString();
-                    var hwversion = double.Parse(myDataGridView1[hardwareVersionDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), CultureInfo.InvariantCulture);
+                    var hwversion =
+                        double.Parse(
+                            myDataGridView1[hardwareVersionDataGridViewTextBoxColumn.Index, e.RowIndex].Value
+                                .ToString(), CultureInfo.InvariantCulture);
 
-                    var url = can.LookForUpdate(devicename, hwversion);
+                    var usebeta = false;
+
+                    if (CustomMessageBox.Show("Do you want to search for a beta firmware? (not recommended)", "Update",
+                        CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                    {
+                        usebeta = true;
+                    }
+
+                    var url = can.LookForUpdate(devicename, hwversion, usebeta);
 
                     if (url != string.Empty)
                     {

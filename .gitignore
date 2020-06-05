@@ -25,3 +25,4 @@ packages/
 /Drivers/DriverCleanup.exe
 /objcore
 *.diagsession
+/ExtLibs/WindowsStore/BundleArtifacts
