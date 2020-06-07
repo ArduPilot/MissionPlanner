@@ -42,9 +42,16 @@ namespace MissionPlanner.Controls
 
                 this.BeginInvokeIfRequired(() =>
                 {
-                    toolStripProgressBar1.Value = percent;
-                    toolStripStatusLabel1.Text = message;
-                    statusStrip1.Refresh();
+                    try
+                    {
+                        toolStripProgressBar1.Value = percent;
+                        toolStripStatusLabel1.Text = message;
+                        statusStrip1.Refresh();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
                 });
             };
             InitializeComponent();
