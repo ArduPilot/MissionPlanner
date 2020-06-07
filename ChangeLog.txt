@@ -1,4 +1,58 @@
-﻿*Mission Planner 1.3.71 - 26-05-2020
+﻿*Mission Planner 1.3.72 - 07-06-2020
+MatLabForms: exception around conversion
+FaceMapUI: check for invalid grid
+MavFTPUI: exception check on progress
+UAVCAN: add beta check
+appx update
+ConfigHWCompass2: rework source values
+ConfigHWCompass2: add rebootrequired
+CurrentState: remove messageHighTime
+SerialPort: filter getNiceName
+ConfigHWCompass2: add row counter
+LogMetaData: add parser
+ConfigArducopter: remove TUNE Scale
+CommsNTRIP: fix mono issue
+MAVLinkInterface: fix legacy fence display
+FlightPlanner: fix plane fence detection bug
+Advanced Tuning filed background color fix
+ACCEL ME and INPUT TC filed was missing change indication.
+Fixed x from outer scope test. Changed to item.
+Fixed joystic window not loading saved joystic buttons settings.
+UTMMGR: fix utm to mrgs conversion for zone N+
+OpenGLtest2: modify samples
+ConfigREPL: add exception check
+FlightPlanner: add shp file load exceptio check
+Camera: check for camera compid and example4
+MainV2: make param_bg use bg thread
+FlightPlanner: prevent bad fence on mission draw
+Program: add full stack trace on error
+MAVLinkInspector: add more strings
+Propagation: update color table
+Download: use single httpclient
+FlightPlanner: restore plannedhome is no valid home
+ParameterMetaDataParser: support multiple vehicle selector
+Set Mode dropdown fix
+Let the Set Mode dropdown in FlightData/Actions retain selected value if not clicked in, instead of go back to stabilize every time.
+LogBrowse: fix culture issue #2387
+FlightPlanner: add PlannedHomeLocation
+Plugin: add example3 - geofence shading
+GMapMarkerFill: add
+PluginLoader: use compile file
+CodeGen: add compile from filename - easy debug
+CurrentState: reenable GeoFenceDist
+ConfigSerialInjectGPS: add QZSS snr
+rtcm3: fix snr's and overrides
+FlightPlanner: prevent fatal exception on saveWPs
+Xamarin: fix hud font
+Xamarin: h265/h264
+MP: update beta Version no
+AP_REPL: update mav_cmd
+FlightData: update point camera here after breaking change #2392
+ConfigSerialInjectGPS: attempt slcan config on comport connect
+MAVLinkInterface: add frame to doCommandInt
+
+
+*Mission Planner 1.3.71 - 26-05-2020
 * OpenGLtest2: add fog option and increase max distance
 * FlightPlanner: dont change MAV homelocation
 * Controls: change paint logic to improve first load time
