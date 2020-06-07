@@ -615,6 +615,8 @@ namespace MissionPlanner
                      CHK_facedirection.Checked, (double)NUM_BermDepth.Value, (int)NUM_Benches.Value, (double)NUM_toeHeight.Value, (double)NUM_toepoint.Value, (double)NUM_toepoint_runs.Value,
                      CHK_FollowPathHome.Checked, startalt, (FlightPlanner.altmode)plugin.Host.MainForm.FlightPlanner.CMB_altmode.SelectedValue);
 
+            if (grid.Count == 0)
+                return;
 
             PointLatLngAlt prevprevpoint = grid[0];
             PointLatLngAlt prevpoint = grid[0];
