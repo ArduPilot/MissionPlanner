@@ -5394,8 +5394,24 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             sender.UpdateProgressAndStatus((int) (percent * 0.95), status);
                         }).ConfigureAwait(false);
 
-                    await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
-                        (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
+                    try
+                    {
+                        await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+                            (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
+                    }
+                    catch (Exception ex2)
+                    {
+                        log.Error(ex2);
+                        try
+                        {
+                            MainV2.comPort.getWP((byte) MainV2.comPort.sysidcurrent,
+                                (byte) MainV2.comPort.compidcurrent, 0);
+                        }
+                        catch (Exception ex3)
+                        {
+                            log.Error(ex3);
+                        }
+                    }
                 }).GetAwaiter().GetResult();
 
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting params");
