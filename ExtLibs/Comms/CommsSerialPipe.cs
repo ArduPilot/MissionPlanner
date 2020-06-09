@@ -149,6 +149,14 @@ namespace MissionPlanner.Comms
 
         public int Read(byte[] buffer, int offset, int count)
         {
+            var timeout = DateTime.Now.AddMilliseconds(ReadTimeout);
+
+            while (timeout > DateTime.Now)
+                Thread.Sleep(1);
+
+            if (BytesToRead == 0 && ReadTimeout > 0)
+                throw new TimeoutException();
+
             var toread = Math.Min(count, BytesToRead);
 
             return BaseStream.Read(buffer, offset, toread);
