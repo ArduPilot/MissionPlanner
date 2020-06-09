@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO.Ports;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Crypto.Parameters;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
 namespace px4uploader
@@ -83,7 +76,7 @@ namespace px4uploader
                         Console.WriteLine("Found board type {0} brdrev {1} blrev {2} fwmax {3} chip {5:X} chipdes {6} on {4}", up.board_type,
                         up.board_rev, up.bl_rev, up.fw_maxsize, port, up.chip, up.chip_desc);
                     }
-                    catch ( Exception)
+                    catch (Exception ex)
                     {
                         try
                         {
@@ -93,7 +86,7 @@ namespace px4uploader
                             //up.close();
                         }
 
-                        Console.WriteLine(DateTime.Now.Millisecond + " " + "Not There..");
+                        Console.WriteLine(DateTime.Now.Millisecond + " " + "Not There.. " + ex.Message);
                         //Console.WriteLine(ex.Message);
                         try
                         {

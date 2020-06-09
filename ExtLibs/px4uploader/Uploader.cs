@@ -702,8 +702,14 @@ namespace px4uploader
             self.board_rev = self.__getInfo(Info.BOARD_REV);
             self.fw_maxsize = self.__getInfo(Info.FLASH_SIZE);
 
-            self.chip = self.__getCHIP();
-            self.chip_desc = self.__getCHIPDES();
+            if (bl_rev >= 5)
+            {
+                try
+                {
+                    self.chip = self.__getCHIP();
+                    self.chip_desc = self.__getCHIPDES();
+                } catch {}
+            }
         }
 
         public void upload(Firmware fw)
