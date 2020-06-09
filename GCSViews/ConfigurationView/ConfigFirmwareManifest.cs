@@ -47,6 +47,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             this.Enabled = false;
 
+            flashdone = false;
+
             Task.Run(() =>
             {
                 APFirmware.GetList("https://firmware.oborne.me/manifest.json.gz");
@@ -103,11 +105,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // reset to official on any reload
             REL_Type = APFirmware.RELEASE_TYPES.OFFICIAL;
+
+            flashdone = false;
         }
 
         private void Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
         {
             if (cause != MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL)
+                return;
+
+            if (flashdone == true)
                 return;
 
             Task.Run(() =>
@@ -292,8 +299,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     var uploadstarttime = DateTime.Now;
 
-                    fw.UploadFlash(deviceInfo.name, tempfile, BoardDetect.boards.pass);
+                    flashdone = true;
 
+                    fw.UploadFlash(deviceInfo.name, tempfile, BoardDetect.boards.pass);
+                    
                     var uploadtime = (DateTime.Now - uploadstarttime).TotalMilliseconds;
 
                     Tracking.AddTiming("Firmware Upload", deviceInfo.board, uploadtime, deviceInfo.description);
@@ -357,6 +366,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         private string custom_fw_dir = Settings.Instance["FirmwareFileDirectory"] ?? "";
+        private bool flashdone = false;
 
         private void Lbl_Custom_firmware_label_Click(object sender, EventArgs e)
         {
