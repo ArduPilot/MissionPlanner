@@ -1820,7 +1820,8 @@ namespace MissionPlanner
                         lat = highlatency.latitude / 1e7;
                         lng = highlatency.longitude / 1e7;
                         altasl = highlatency.altitude_amsl;
-                        alt = highlatency.altitude_sp;
+                        alt = altasl - (float)HomeAlt;
+                        alt_error = highlatency.altitude_sp - alt;
                         airspeed = highlatency.airspeed;
                         targetairspeed = highlatency.airspeed_sp;
                         groundspeed = highlatency.groundspeed;
