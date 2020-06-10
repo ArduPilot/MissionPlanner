@@ -95,9 +95,13 @@ namespace MissionPlanner.Controls
                 base.Refresh();
         }
 
-        protected override void WndProc(ref Message m)
+        protected override void WndProc(ref Message m) // seems to crash here on linux... so try ignore it
         {
-            base.WndProc(ref m);
+            try
+            {
+                base.WndProc(ref m);
+            }
+            catch { }
         }
 
         protected override void OnInvalidated(InvalidateEventArgs e)
