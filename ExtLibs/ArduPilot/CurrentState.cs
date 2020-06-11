@@ -1980,7 +1980,7 @@ namespace MissionPlanner
                             messageHigh = Strings.ERROR + " " + Strings.terrain_alt_variance;
                         }
 
-                        for (var a = 1; a <= (int) MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS; a = a << 1)
+                        for (var a = 1; a <= (int) MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED; a = a << 1)
                         {
                             var currentbit = ekfstatusm.flags & a;
                             if (currentbit == 0)
@@ -2006,6 +2006,9 @@ namespace MissionPlanner
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS: // ekf has origin - post arm
                                         //messageHigh = Strings.ERROR + " " + currentflag.ToString().Replace("_", " ");
                                         //messageHighTime = DateTime.Now;
+                                        break;
+                                    case MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED:
+                                        ekfstatus = 1;
                                         break;
                                 }
                             }
