@@ -175,6 +175,8 @@ namespace MissionPlanner.Plugin
             string path = Settings.GetRunningDirectory() + "plugins" +
                           Path.DirectorySeparatorChar;
 
+            log.Info("Plugin path: "+path);
+
             if (!Directory.Exists(path))
                 return;
 
@@ -182,14 +184,22 @@ namespace MissionPlanner.Plugin
 
             foreach (var csFile in csFiles)
             {
-                // create a compiler
-                var compiler = CodeGen.CreateCompiler();
-                // get all the compiler parameters
-                var parms = CodeGen.CreateCompilerParameters();
-                // compile the code into an assembly
-                var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
+                log.Info("Plugin: " + csFile);
+                try
+                {
+                    // create a compiler
+                    var compiler = CodeGen.CreateCompiler();
+                    // get all the compiler parameters
+                    var parms = CodeGen.CreateCompilerParameters();
+                    // compile the code into an assembly
+                    var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
 
-                InitPlugin(results?.CompiledAssembly);
+                    InitPlugin(results?.CompiledAssembly);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
             }
 
             String[] files = Directory.GetFiles(path, "*.dll");
