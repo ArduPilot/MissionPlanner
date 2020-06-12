@@ -322,11 +322,12 @@ namespace UAVCAN
                         return;
                     }
 
-                    paramlist.Add(getsetreq);
-
                     var value = getsetreq.value;
 
                     var name = ASCIIEncoding.ASCII.GetString(getsetreq.name, 0, getsetreq.name_len);
+
+                    if (!paramlist.Any(a => ASCIIEncoding.ASCII.GetString(a.name, 0, a.name_len) == name))
+                        paramlist.Add(getsetreq);
 
                     Console.WriteLine("{0}: {1}", name, value);
 
@@ -355,7 +356,7 @@ namespace UAVCAN
                     WriteToStream(slcan);
                 }
 
-                wait.Wait(333);
+                wait.Wait(666);
             }
 
             MessageReceived -= paramdelegate;

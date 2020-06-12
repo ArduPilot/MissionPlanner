@@ -135,8 +135,16 @@ namespace UAVCAN
             }
             else if (bit_length <= 32)
             {
-                std_byte_length = 4;
-                storage.u32 = ((UInt32) (dynamic) value);
+                if (value is float)
+                {
+                    std_byte_length = 4;
+                    storage.f32 = ((float)(dynamic)value);
+                }
+                else
+                {
+                    std_byte_length = 4;
+                    storage.u32 = ((UInt32) (dynamic) value);
+                }
             }
             else if (bit_length <= 64)
             {
