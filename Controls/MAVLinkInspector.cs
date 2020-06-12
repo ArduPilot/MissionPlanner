@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
@@ -311,9 +312,7 @@ namespace MissionPlanner.Controls
         {
             public MyTreeView()
             {
-                SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-                SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-                //UpdateStyles();
+                DoubleBuffered = true;
             }
         }
 
