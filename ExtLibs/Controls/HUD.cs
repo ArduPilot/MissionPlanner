@@ -2439,12 +2439,14 @@ namespace MissionPlanner.Controls
                     graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 5,
                         scrollbg.Top - (int) (fontsize * 2.2) - 2 - 20, scrollbg.Left - 5,
                         scrollbg.Top - (int) (fontsize) - 2 - 20);
-                    graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 10,
-                        scrollbg.Top - (int) (fontsize * 2.2) - 2 - 15, scrollbg.Left - 10,
-                        scrollbg.Top - (int) (fontsize) - 2 - 20);
-                    graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 15,
-                        scrollbg.Top - (int) (fontsize * 2.2) - 2 - 10, scrollbg.Left - 15,
-                        scrollbg.Top - (int) (fontsize) - 2 - 20);
+                    if (_linkqualitygcs > 50)
+                        graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 10,
+                            scrollbg.Top - (int) (fontsize * 2.2) - 2 - 15, scrollbg.Left - 10,
+                            scrollbg.Top - (int) (fontsize) - 2 - 20);
+                    if (_linkqualitygcs > 80)
+                        graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 15,
+                            scrollbg.Top - (int) (fontsize * 2.2) - 2 - 10, scrollbg.Left - 15,
+                            scrollbg.Top - (int) (fontsize) - 2 - 20);
 
                     drawstring(_linkqualitygcs.ToString("0") + "%", font, fontsize, _whiteBrush,
                         scrollbg.Left, scrollbg.Top - (int) (fontsize * 2.2) - 2 - 20);
