@@ -114,10 +114,18 @@ namespace MissionPlanner
             //Do we have any compiler errors?
             if (results.Errors.Count > 0)
             {
+                bool iserror = false;
                 foreach (CompilerError error in results.Errors)
-                    Console.WriteLine("Compile Error: Line: " + error.Line + ":" + error.Column + " " +
+                {
+                    Console.WriteLine("Compile " + (error.IsWarning ? "Warning" : "Error") + ": Line: " + error.Line +
+                                      ":" + error.Column + " " +
                                       error.ErrorText);
-                return null;
+                    if (!error.IsWarning)
+                        iserror = true;
+                }
+
+                if(iserror)
+                    return null;
             }
 
             return results;
