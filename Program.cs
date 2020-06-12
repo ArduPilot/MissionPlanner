@@ -14,6 +14,7 @@ using System.Management;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -715,6 +716,36 @@ namespace MissionPlanner
             Exception ex = e.Exception;
 
             handleException(ex);
+        }
+
+        //kill -QUIT pid
+        [DllImport("__Internal")]
+        public static extern void mono_threads_request_thread_dump();
+
+        private static StackTrace GetStackTrace(Thread targetThread)
+        {
+            StackTrace stackTrace = null;
+            var ready = new ManualResetEventSlim();
+
+            new Thread(() =>
+            {
+                // Backstop to release thread in case of deadlock:
+                ready.Set();
+                Thread.Sleep(200);
+                try { targetThread.Resume(); } catch { }
+            }).Start();
+
+            ready.Wait();
+            targetThread.Suspend();
+            try { stackTrace = new StackTrace(targetThread, true); }
+            catch { /* Deadlock */ }
+            finally
+            {
+                try { targetThread.Resume(); }
+                catch { stackTrace = null;  /* Deadlock */  }
+            }
+
+            return stackTrace;
         }
     }
 }
