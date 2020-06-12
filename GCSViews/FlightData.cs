@@ -928,7 +928,8 @@ namespace MissionPlanner.GCSViews
                 StringBuilder sb = new StringBuilder();
                 var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
                 {
-                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text).TrimEnd('\0'));
+                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text)
+                        .TrimEnd('\0'));
                     return true;
                 });
                 bool ans = MainV2.comPort.doARM(!isitarmed);
@@ -1125,7 +1126,7 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_joystick_Click(object sender, EventArgs e)
         {
-            new JoystickSetup().ShowUserControl();            
+            new JoystickSetup().ShowUserControl();
         }
 
         private string tlogdir = Settings.Instance.LogDir;
@@ -1677,7 +1678,7 @@ namespace MissionPlanner.GCSViews
                         list1.Clear();
                         list1curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list1, Color.Red,
                             SymbolType.None);
-                        list1curve.Tag = ((CheckBox)sender).Name;
+                        list1curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list2item == null)
@@ -1687,7 +1688,7 @@ namespace MissionPlanner.GCSViews
                         list2.Clear();
                         list2curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list2, Color.Blue,
                             SymbolType.None);
-                        list2curve.Tag = ((CheckBox)sender).Name;
+                        list2curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list3item == null)
@@ -1697,7 +1698,7 @@ namespace MissionPlanner.GCSViews
                         list3.Clear();
                         list3curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list3, Color.Green,
                             SymbolType.None);
-                        list3curve.Tag = ((CheckBox)sender).Name;
+                        list3curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list4item == null)
@@ -1707,7 +1708,7 @@ namespace MissionPlanner.GCSViews
                         list4.Clear();
                         list4curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list4, Color.Orange,
                             SymbolType.None);
-                        list4curve.Tag = ((CheckBox)sender).Name;
+                        list4curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list5item == null)
@@ -1717,7 +1718,7 @@ namespace MissionPlanner.GCSViews
                         list5.Clear();
                         list5curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list5, Color.Yellow,
                             SymbolType.None);
-                        list5curve.Tag = ((CheckBox)sender).Name;
+                        list5curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list6item == null)
@@ -1727,7 +1728,7 @@ namespace MissionPlanner.GCSViews
                         list6.Clear();
                         list6curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list6, Color.Magenta,
                             SymbolType.None);
-                        list6curve.Tag = ((CheckBox)sender).Name;
+                        list6curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list7item == null)
@@ -1737,7 +1738,7 @@ namespace MissionPlanner.GCSViews
                         list7.Clear();
                         list7curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list7, Color.Purple,
                             SymbolType.None);
-                        list7curve.Tag = ((CheckBox)sender).Name;
+                        list7curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list8item == null)
@@ -1747,7 +1748,7 @@ namespace MissionPlanner.GCSViews
                         list8.Clear();
                         list8curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list8, Color.LimeGreen,
                             SymbolType.None);
-                        list8curve.Tag = ((CheckBox)sender).Name;
+                        list8curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list9item == null)
@@ -1757,7 +1758,7 @@ namespace MissionPlanner.GCSViews
                         list9.Clear();
                         list9curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list9, Color.Cyan,
                             SymbolType.None);
-                        list9curve.Tag = ((CheckBox)sender).Name;
+                        list9curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else if (list10item == null)
@@ -1767,7 +1768,7 @@ namespace MissionPlanner.GCSViews
                         list10.Clear();
                         list10curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list10, Color.Violet,
                             SymbolType.None);
-                        list10curve.Tag = ((CheckBox)sender).Name;
+                        list10curve.Tag = ((CheckBox) sender).Name;
                     }
                 }
                 else
@@ -2434,7 +2435,7 @@ namespace MissionPlanner.GCSViews
                     marker.ToolTipMode = MarkerTooltipMode.Always;
                     marker.ToolTipText = "Dist to Home: " +
                                          ((gMapControl1.MapProvider.Projection.GetDistance(point,
-                                               MainV2.comPort.MAV.cs.HomeLocation.Point()) * 1000) *
+                                              MainV2.comPort.MAV.cs.HomeLocation.Point()) * 1000) *
                                           CurrentState.multiplierdist).ToString("0");
 
                     routes.Markers.Add(marker);
@@ -2560,7 +2561,7 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance["herelinkip"] != null)
                 ipaddr = Settings.Instance["herelinkip"].ToString();
 
-            InputBox.Show("herelink ip","Enter herelink ip address", ref ipaddr);
+            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
 
             Settings.Instance["herelinkip"] = ipaddr;
 
@@ -3279,7 +3280,7 @@ namespace MissionPlanner.GCSViews
                                     if (a < (camcount - 4))
                                         ((GMapMarkerPhoto) mark).drawfootprint = false;
                                     else
-                                        ((GMapMarkerPhoto)mark).drawfootprint = true;
+                                        ((GMapMarkerPhoto) mark).drawfootprint = true;
                                 }
 
                                 a++;
@@ -3306,7 +3307,8 @@ namespace MissionPlanner.GCSViews
                         }
 
                         // draw AIS
-                        updateMarkersAsNeeded<MAVLink.mavlink_ais_vessel_t, GMapMarkerAISBoat>(AIS.Vessels, adsbais, (item) => { return item.MMSI.ToString(); },
+                        updateMarkersAsNeeded<MAVLink.mavlink_ais_vessel_t, GMapMarkerAISBoat>(AIS.Vessels, adsbais,
+                            (item) => { return item.MMSI.ToString(); },
                             (marker) => { return ((MAVLink.mavlink_ais_vessel_t) marker.Tag).MMSI.ToString(); },
                             (item) =>
                             {
@@ -3491,7 +3493,9 @@ namespace MissionPlanner.GCSViews
         }
 
 
-        private void updateMarkersAsNeeded<TBuilder, TMarker>(IEnumerable<TBuilder> list, GMapOverlay gMapOverlay, Func<TBuilder, string> GetTagSource, Func<GMapMarker, string> GetTagMarker, Func<TBuilder, GMapMarker> create, Action<TBuilder, GMapMarker> update)
+        private void updateMarkersAsNeeded<TBuilder, TMarker>(IEnumerable<TBuilder> list, GMapOverlay gMapOverlay,
+            Func<TBuilder, string> GetTagSource, Func<GMapMarker, string> GetTagMarker,
+            Func<TBuilder, GMapMarker> create, Action<TBuilder, GMapMarker> update)
         {
             foreach (var item in list)
             {
@@ -3574,7 +3578,8 @@ namespace MissionPlanner.GCSViews
             try
             {
                 await MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
-                    MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (float) modifyandSetSpeed.Value, 0, 0, 0, 0, 0).ConfigureAwait(true);
+                        MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (float) modifyandSetSpeed.Value, 0, 0, 0, 0, 0)
+                    .ConfigureAwait(true);
             }
             catch
             {
@@ -3625,9 +3630,9 @@ namespace MissionPlanner.GCSViews
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
                 var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
 
-                MainV2.comPort.doCommandInt((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
-                    MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int)(lat * 1e7),
-                    (int)(lng * 1e7), (int)((alt / CurrentState.multiplieralt) * 100.0));
+                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (lat * 1e7),
+                    (int) (lng * 1e7), (int) ((alt / CurrentState.multiplieralt) * 100.0));
             }
             else if (split.Length == 2)
             {
@@ -3655,7 +3660,7 @@ namespace MissionPlanner.GCSViews
 
             string alt = "0";
             if (DialogResult.Cancel == InputBox.Show("Enter Alt",
-                    "Enter Target Alt (Relative to home)", ref alt))
+                "Enter Target Alt (Relative to home)", ref alt))
                 return;
 
             float intalt = 0;
@@ -3707,7 +3712,7 @@ namespace MissionPlanner.GCSViews
             Type test = thisBoxed.GetType();
 
             int max_length = 0;
-            List<(string name, string desc)> fields = new List<(string,string)>();
+            List<(string name, string desc)> fields = new List<(string, string)>();
 
             foreach (var field in test.GetProperties())
             {
@@ -3725,13 +3730,13 @@ namespace MissionPlanner.GCSViews
                     {
                         string name = CurrentState.custom_field_names[field.Name];
                         max_length = Math.Max(max_length, TextRenderer.MeasureText(name, selectform.Font).Width);
-                        fields.Add((field.Name,name));
+                        fields.Add((field.Name, name));
                     }
                 }
                 else
                 {
                     max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
-                    fields.Add((field.Name,field.Name));
+                    fields.Add((field.Name, field.Name));
                 }
             }
 
@@ -3942,8 +3947,8 @@ namespace MissionPlanner.GCSViews
                 : @"rtspsrc location=rtsp://192.168.1.133:8554/video1 ! application/x-rtp ! rtpjpegdepay ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink";
 
             if (DialogResult.OK == InputBox.Show("GStreamer url",
-                    "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
-                    ref url))
+                "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                ref url))
             {
                 Settings.Instance["gstreamer_url"] = url;
 
@@ -3984,8 +3989,9 @@ namespace MissionPlanner.GCSViews
                     }
 
                     if (CustomMessageBox.Show(
-                        "This will reset the onboard home position (effects RTL etc). Are you Sure?",
-                        "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) == CustomMessageBox.DialogResult.OK)
+                            "This will reset the onboard home position (effects RTL etc). Are you Sure?",
+                            "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
+                        CustomMessageBox.DialogResult.OK)
                     {
                         MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
                             (byte) MainV2.comPort.compidcurrent,
@@ -4333,100 +4339,6 @@ namespace MissionPlanner.GCSViews
 
         void tabStatus_Resize(object sender, EventArgs e)
         {
-            // localise it
-            //Control tabStatus = sender as Control;
-
-            //  tabStatus.SuspendLayout();
-
-            //foreach (Control temp in tabStatus.Controls)
-            {
-                //  temp.DataBindings.Clear();
-                //temp.Dispose();
-            }
-            //tabStatus.Controls.Clear();
-
-            int x = 10;
-            int y = 10;
-
-            var list = MainV2.comPort.MAV.cs.GetItemList(true);
-
-            tabStatus.SuspendLayout();
-
-            foreach (var field in list)
-            {
-                MyLabel lbl1 = null;
-                MyLabel lbl2 = null;
-                try
-                {
-                    var temp = tabStatus.Controls.Find(field, false);
-
-                    if (temp.Length > 0)
-                        lbl1 = (MyLabel) temp[0];
-
-                    var temp2 = tabStatus.Controls.Find(field + "value", false);
-
-                    if (temp2.Length > 0)
-                        lbl2 = (MyLabel) temp2[0];
-                }
-                catch
-                {
-                }
-
-
-                if (lbl1 == null)
-                {
-                    lbl1 = new MyLabel();
-                    lbl1.Location = new Point(x, y);
-                    lbl1.Size = new Size(90, 13);
-                    lbl1.Text = field;
-                    lbl1.Name = field;
-                    lbl1.Visible = true;
-                }
-
-                if (lbl2 == null)
-                {
-                    lbl2 = new MyLabel();
-
-                    lbl2.AutoSize = false;
-
-                    lbl2.Location = new Point(lbl1.Right + 5, y);
-                    lbl2.Size = new Size(50, 13);
-
-                    lbl2.Name = field + "value";
-                    lbl2.Visible = true;
-                }
-
-                if (lbl2.DataBindings.Count == 0)
-                {
-                    lbl2.DataBindings.Add(new Binding("Text", bindingSourceStatusTab, field, false,
-                        DataSourceUpdateMode.Never, "0"));
-                }
-                //lbl2.Text = fieldValue.ToString();
-
-                if (!tabStatus.Controls.Contains(lbl1))
-                {
-                    tabStatus.Controls.Add(lbl1);
-                }
-
-                if (!tabStatus.Controls.Contains(lbl2))
-                {
-                    tabStatus.Controls.Add(lbl2);
-                }
-
-                x += 0;
-                y += 15;
-
-                if (y > tabStatus.Height - 30)
-                {
-                    x = lbl2.Right + 10; //+= 165;
-                    y = 10;
-                }
-            }
-
-            tabStatus.ResumeLayout();
-            tabStatus.Width = x;
-
-            ThemeManager.ApplyThemeTo(tabStatus);
         }
 
         private void takeOffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4631,6 +4543,7 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                             bindingSourceStatusTab.UpdateDataSource(MainV2.comPort.MAV.cs));
+                        this.tabStatus.Invalidate();
                     }
                     else if (tabControlactions.SelectedTab == tabQuick)
                     {
@@ -4708,7 +4621,7 @@ namespace MissionPlanner.GCSViews
                         // prevent event fire
                         tracklog.ValueChanged -= tracklog_Scroll;
                         tracklog.Value = (int) (MainV2.comPort.logplaybackfile.BaseStream.Position /
-                                                (double) MainV2.comPort.logplaybackfile.BaseStream.Length * 100);
+                            (double) MainV2.comPort.logplaybackfile.BaseStream.Length * 100);
                         tracklog.ValueChanged += tracklog_Scroll;
                     }
 
@@ -5017,8 +4930,8 @@ namespace MissionPlanner.GCSViews
 
                 Locationwp gotohere = new Locationwp();
 
-                gotohere.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
-                gotohere.alt = (float)plla.Alt / CurrentState.multiplieralt; // back to m
+                gotohere.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
+                gotohere.alt = (float) plla.Alt / CurrentState.multiplieralt; // back to m
                 gotohere.lat = (plla.Lat);
                 gotohere.lng = (plla.Lng);
 
@@ -5041,7 +4954,7 @@ namespace MissionPlanner.GCSViews
 
                 Locationwp gotohere = new Locationwp();
 
-                gotohere.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                gotohere.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                 gotohere.alt = MainV2.comPort.MAV.GuidedMode.z; // back to m
                 gotohere.lat = (plla.Lat);
                 gotohere.lng = (plla.Lng);
@@ -5093,6 +5006,50 @@ namespace MissionPlanner.GCSViews
         private void hud1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void tabStatus_Paint(object sender, PaintEventArgs e)
+        {
+            var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height);
+            var g = Graphics.FromImage(bmp);
+            g.Clear(Color.Transparent);
+
+            int x = 10;
+            int y = 10;
+
+            var list = MainV2.comPort.MAV.cs.GetItemList(true);
+            var cs = bindingSourceStatusTab.Current as CurrentState;
+            var br = new SolidBrush(tabStatus.ForeColor);
+
+            foreach (var field in list)
+            {
+                g.DrawString(field, this.Font, br, new RectangleF(x, y, 95, 15));
+
+                if (cs != null)
+                    g.DrawString(typeof(CurrentState).GetProperty(field).GetValue(cs)?.ToString(), this.Font,
+                        br, new RectangleF(x + 95, y, 50, 15));
+
+                x += 0;
+                y += 15;
+
+                if (y > tabStatus.Height - 30)
+                {
+                    x += 165;
+                    y = 10;
+                }
+            }
+
+            if (tabStatus.AutoScrollMinSize.Width < x)
+            {
+                typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+                                                             | BindingFlags.Instance | BindingFlags.NonPublic, null,
+                    tabStatus, new object[] { true });
+
+                tabStatus.AutoScrollMinSize = new Size(x + 164, 0);
+            }
+            e.Graphics.TranslateTransform(tabStatus.AutoScrollPosition.X,
+                tabStatus.AutoScrollPosition.Y);
+            e.Graphics.DrawImageUnscaled(bmp, 0, 0);
         }
     }
 }
