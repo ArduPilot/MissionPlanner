@@ -61,7 +61,7 @@ namespace MissionPlanner
         public static CompilerParameters CreateCompilerParameters()
         {
             var refs = AppDomain.CurrentDomain.GetAssemblies();
-            var refFiles = refs.Where(a => !a.IsDynamic && !a.FullName.Contains("mscorlib"))
+            var refFiles = refs.Where(a => !a.IsDynamic && !a.FullName.Contains("mscorlib") && !a.FullName.Contains("MissionPlanner.Drawing"))
                 .Select(a => a.Location);
 
             //add compiler parameters and assembly references
