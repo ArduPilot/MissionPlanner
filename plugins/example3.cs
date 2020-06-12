@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using MissionPlanner;
 using System.Drawing;
+using System.Threading.Tasks;
 using GMap.NET.WindowsForms;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Maps;
@@ -171,16 +172,16 @@ namespace FenceDist
             var spacingh = va.HeightLat / size;
             var loc = MainV2.comPort.MAV.cs.Location;
 
-            for (int x = 0; x < size; x++)
+            Parallel.For(0, size, (x) =>
             {
                 for (int y = 0; y < size; y++)
                 {
-                    var colindex = (int)MathHelper.mapConstrained(testCode(MainV2.comPort.MAV,
+                    var colindex = (int) MathHelper.mapConstrained(testCode(MainV2.comPort.MAV,
                         new PointLatLngAlt(va.Bottom + spacingh * y,
                             va.Left + spacingw * x)), 0, 100, 1, 255);
-                    bitmap[x, size - y - 1] = (byte)colindex;
+                    bitmap[x, size - y - 1] = (byte) colindex;
                 }
-            }
+            });
 
             marker = new GMapMarkerFill(bitmap, va, loc);
 
