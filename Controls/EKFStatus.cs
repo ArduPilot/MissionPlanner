@@ -40,7 +40,7 @@ namespace MissionPlanner.Controls
             }
 
             int idx = 0;
-            for (int bitvalue = 1; bitvalue <= (int)MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS; bitvalue = bitvalue << 1)
+            for (int bitvalue = 1; bitvalue <= (int)MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED; bitvalue = bitvalue << 1)
             {
                 int currentbit = (MainV2.comPort.MAV.cs.ekfflags & bitvalue);
 

@@ -1980,6 +1980,9 @@ namespace MissionPlanner
                             messageHigh = Strings.ERROR + " " + Strings.terrain_alt_variance;
                         }
 
+                        var flags = (MAVLink.EKF_STATUS_FLAGS) ekfstatusm.flags;
+                        Console.WriteLine(flags);
+
                         for (var a = 1; a <= (int) MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED; a = a << 1)
                         {
                             var currentbit = ekfstatusm.flags & a;
@@ -1992,9 +1995,20 @@ namespace MissionPlanner
                                 switch (currentflag)
                                 {
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_ATTITUDE: // step 1
+                                        ekfstatus = 1;
+                                        log.Info("EKF red has no EKF_ATTITUDE - " +
+                                                 (MAVLink.EKF_STATUS_FLAGS) ekfstatusm.flags);
+                                        break;
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_HORIZ: // with pos
-                                        if (gpsstatus > 0) // we have gps and dont have vel_hoz
+                                        if (gpsstatus > 0)
+                                        {
+                                            // we have gps and dont have vel_hoz
                                             ekfstatus = 1;
+                                            log.Info(
+                                                "EKF red has gps lock but no EKF_ATTITUDE and EKF_VELOCITY_HORIZ - " +
+                                                (MAVLink.EKF_STATUS_FLAGS) ekfstatusm.flags);
+                                        }
+
                                         break;
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_VERT: // with pos
                                     //case MAVLink.EKF_STATUS_FLAGS.EKF_POS_HORIZ_REL: // optical flow
@@ -2007,9 +2021,15 @@ namespace MissionPlanner
                                         //messageHigh = Strings.ERROR + " " + currentflag.ToString().Replace("_", " ");
                                         //messageHighTime = DateTime.Now;
                                         break;
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED:
-                                        ekfstatus = 1;
-                                        break;
+
+                                }
+                            }
+                            else
+                            {
+                                if (a == (int) MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED)
+                                {
+                                    ekfstatus = 1;
+                                    log.Info("EKF red uninit " + (MAVLink.EKF_STATUS_FLAGS) ekfstatusm.flags);
                                 }
                             }
                         }
