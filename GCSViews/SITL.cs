@@ -416,7 +416,7 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            System.Threading.Thread.Sleep(2000);
+            await Task.Delay(2000);
 
             MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
 
@@ -430,7 +430,7 @@ namespace MissionPlanner.GCSViews
 
                 SITLSEND = new UdpClient("127.0.0.1", 5501);
 
-                Thread.Sleep(200);
+                await Task.Delay(200);
 
                 MainV2.instance.doConnect(MainV2.comPort, "preset", "5760");
             }
