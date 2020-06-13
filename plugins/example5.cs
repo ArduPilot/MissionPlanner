@@ -85,8 +85,10 @@ namespace LatencyTracker
             pnl.Controls.Add(lbl);
             pnl.Location = new Point(350, 10);
             pnl.Size = new Size(60, 30);
-            Host.MainForm.Controls.Add(pnl);
-            Host.MainForm.Controls.SetChildIndex(pnl, 0);
+
+            // to enable change this
+            //Host.MainForm.Controls.Add(pnl);
+            //Host.MainForm.Controls.SetChildIndex(pnl, 0);
             
             return true;
         }
@@ -118,6 +120,7 @@ namespace LatencyTracker
                 if (!MainV2.instance.Disposing && !MainV2.instance.IsDisposed)
                     MainV2.instance.BeginInvoke((Action) delegate()
                     {
+                        lbl.ForeColor = Color.Black;
                         lbl.Text = delta.ToString("0.000");
                     });
 

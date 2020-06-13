@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using Flurl.Util;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot
 {
@@ -225,12 +227,18 @@ union px4_custom_mode {
             input = input.Replace("{timeinair}",
                 (new TimeSpan(0, 0, 0, (int)MAV.cs.timeInAir)).ToString());
 
+
+            input = input.Replace("{altunit}", CurrentState.AltUnit);
+            input = input.Replace("{speedunit}", CurrentState.SpeedUnit);
+
+
             try
             {
                 object thisBoxed = MAV.cs;
                 Type test = thisBoxed.GetType();
 
-                PropertyInfo[] props = test.GetProperties();
+                PropertyInfo[] props =
+                    test.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
 
                 //props
                 foreach (var field in props)

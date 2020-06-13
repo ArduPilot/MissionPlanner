@@ -59,19 +59,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="APMPlannerXplanes\**" />
-    <Compile Remove="Plugins\**" />
+    <Compile Remove="plugins\**" />
     <Compile Remove="resedit\**" />
     <Compile Remove="SikRadio\**" />
     <Compile Remove="Updater\**" />
     <Compile Remove="wix\**" />
     <EmbeddedResource Remove="APMPlannerXplanes\**" />
-    <EmbeddedResource Remove="Plugins\**" />
+    <EmbeddedResource Remove="plugins\**" />
     <EmbeddedResource Remove="resedit\**" />
     <EmbeddedResource Remove="SikRadio\**" />
     <EmbeddedResource Remove="Updater\**" />
     <EmbeddedResource Remove="wix\**" />
     <None Remove="APMPlannerXplanes\**" />
-    <None Remove="Plugins\**" />
+    <None Remove="plugins\**" />
     <None Remove="resedit\**" />
     <None Remove="SikRadio\**" />
     <None Remove="Updater\**" />
@@ -522,18 +522,21 @@
     </Compile>
     <Compile Include="NativeMethods.cs" />
     <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2+CompassDeviceInfo.datasource" />
-    <None Include="Plugins\example2.cs">
+    <None Include="plugins\example2.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Plugins\example3.cs">
+    <None Include="plugins\example3.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Plugins\example4.cs">
+    <None Include="plugins\example4.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="Plugins\example5.cs">
+    <None Include="plugins\example5.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="plugins\example6.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Radio\Models.cs" />
     <Compile Include="ResEdit.Designer.cs">
@@ -4361,7 +4364,7 @@
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Plugins\example.cs">
+    <None Include="plugins\example.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include=".editorconfig" />
