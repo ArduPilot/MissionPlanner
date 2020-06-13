@@ -199,7 +199,7 @@ def generate_message_enums(f, xml):
     for m in xml.enum:
         m.description = cleanText(m.description)
         m.flags = ""
-        if m.description.lower().find("bitmask") >= 0: # or m.name.lower().find("_flags") >= 0:
+        if m.description.lower().find("bitmask") >= 0 or m.name.lower().find("_flags") >= 0:
             m.flags = "[Flags]\n\t"
         m.enumtype = enumtypes.get(m.name,"int /*default*/")
         for fe in m.entry:

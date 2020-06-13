@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sun May 03 2020";
+    public const string MAVLINK_BUILD_DATE = "Sat Jun 13 2020";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -560,6 +560,30 @@ public partial class MAVLink
     
     };
     
+    ///<summary>  </summary>
+    public enum HEADING_TYPE: int /*default*/
+    {
+            ///<summary>  | </summary>
+        [Description("")]
+        COURSE_OVER_GROUND=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        HEADING=1, 
+    
+    };
+    
+    ///<summary>  </summary>
+    public enum SPEED_TYPE: int /*default*/
+    {
+            ///<summary>  | </summary>
+        [Description("")]
+        AIRSPEED=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        GROUNDSPEED=1, 
+    
+    };
+    
     ///<summary> Commands to be executed by the MAV. They can be executed on user request, or as part of a mission script. If the action is used in a mission, the parameter mapping to the waypoint/mission message is as follows: Param 1, Param 2, Param 3, Param 4, X: Param 5, Y:Param 6, Z:Param 7. This command list is similar what ARINC 424 is for commercial aircraft: A data format how to interpret waypoint/mission data. See https://mavlink.io/en/guide/xml_schema.html#MAV_CMD for information about the structure of the MAV_CMD entries </summary>
     public enum MAV_CMD: ushort
     {
@@ -614,7 +638,7 @@ public partial class MAVLink
         ///<summary> Navigate to waypoint using a spline path. |Hold time. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Empty| Empty| Empty| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
         [Description("Navigate to waypoint using a spline path.")]
         SPLINE_WAYPOINT=82, 
-        ///<summary> Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up. |Altitude (m).| Descent speed (m/s).| Wiggle Time (s).| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up. |Altitude.| Descent speed.| How long to wiggle the control surfaces to prevent them seizing up.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up.")]
         ALTITUDE_WAIT=83, 
         ///<summary> Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. |Empty| Front transition heading.| Empty| Yaw angle. NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
@@ -746,7 +770,7 @@ public partial class MAVLink
         ///<summary> Change to/from inverted flight. |Inverted flight. (0=normal, 1=inverted)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Change to/from inverted flight.")]
         DO_INVERTED_FLIGHT=210, 
-        ///<summary> Mission command to operate EPM gripper. |Gripper number (a number from 1 to max number of grippers on the vehicle).| Gripper action (0=release, 1=grab. See GRIPPER_ACTIONS enum).| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Mission command to operate EPM gripper. |Gripper instance number (from 1 to max number of grippers on the vehicle).| Gripper action.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Mission command to operate EPM gripper.")]
         DO_GRIPPER=211, 
         ///<summary> Enable/disable autotune. |Enable (1: enable, 0:disable).| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
@@ -983,46 +1007,46 @@ public partial class MAVLink
         ///<summary> PAUSE button has been clicked. |1 if Solo is in a shot mode, 0 otherwise.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("PAUSE button has been clicked.")]
         SOLO_BTN_PAUSE_CLICK=42003, 
-        ///<summary> Magnetometer calibration based on fixed position         in earth field given by inclination, declination and intensity. |MagDeclinationDegrees.| MagInclinationDegrees.| MagIntensityMilliGauss.| YawDegrees.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Magnetometer calibration based on fixed position         in earth field given by inclination, declination and intensity. |Magnetic declination.| Magnetic inclination.| Magnetic intensity.| Yaw.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on fixed position         in earth field given by inclination, declination and intensity.")]
         FIXED_MAG_CAL=42004, 
-        ///<summary> Magnetometer calibration based on fixed expected field values in milliGauss. |FieldX.| FieldY.| FieldZ.| Empty.| Empty.| Empty.| Empty.|  </summary>
-        [Description("Magnetometer calibration based on fixed expected field values in milliGauss.")]
+        ///<summary> Magnetometer calibration based on fixed expected field values. |Field strength X.| Field strength Y.| Field strength Z.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        [Description("Magnetometer calibration based on fixed expected field values.")]
         FIXED_MAG_CAL_FIELD=42005, 
         ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |Yaw of vehicle in earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location.")]
         FIXED_MAG_CAL_YAW=42006, 
-        ///<summary> Initiate a magnetometer calibration. |uint8_t bitmask of magnetometers (0 means all).| Automatically retry on failure (0=no retry, 1=retry).| Save without user input (0=require input, 1=autosave).| Delay (seconds).| Autoreboot (0=user reboot, 1=autoreboot).| Empty.| Empty.|  </summary>
+        ///<summary> Initiate a magnetometer calibration. |Bitmask of magnetometers to calibrate. Use 0 to calibrate all sensors that can be started (sensors may not start if disabled, unhealthy, etc.). The command will NACK if calibration does not start for a sensor explicitly specified by the bitmask.| Automatically retry on failure (0=no retry, 1=retry).| Save without user input (0=require input, 1=autosave).| Delay.| Autoreboot (0=user reboot, 1=autoreboot).| Empty.| Empty.|  </summary>
         [Description("Initiate a magnetometer calibration.")]
         DO_START_MAG_CAL=42424, 
-        ///<summary> Initiate a magnetometer calibration. |uint8_t bitmask of magnetometers (0 means all).| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
-        [Description("Initiate a magnetometer calibration.")]
+        ///<summary> Accept a magnetometer calibration. |Bitmask of magnetometers that calibration is accepted (0 means all).| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        [Description("Accept a magnetometer calibration.")]
         DO_ACCEPT_MAG_CAL=42425, 
-        ///<summary> Cancel a running magnetometer calibration. |uint8_t bitmask of magnetometers (0 means all).| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Cancel a running magnetometer calibration. |Bitmask of magnetometers to cancel a running calibration (0 means all).| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Cancel a running magnetometer calibration.")]
         DO_CANCEL_MAG_CAL=42426, 
-        ///<summary> Command autopilot to get into factory test/diagnostic mode. |0 means get out of test mode, 1 means get into test mode.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Command autopilot to get into factory test/diagnostic mode. |0: activate test mode, 1: exit test mode.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Command autopilot to get into factory test/diagnostic mode.")]
         SET_FACTORY_TEST_MODE=42427, 
         ///<summary> Reply with the version banner. |Empty.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Reply with the version banner.")]
         DO_SEND_BANNER=42428, 
-        ///<summary> Used when doing accelerometer calibration. When sent to the GCS tells it what position to put the vehicle in. When sent to the vehicle says what position the vehicle is in. |Position, one of the ACCELCAL_VEHICLE_POS enum values.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Used when doing accelerometer calibration. When sent to the GCS tells it what position to put the vehicle in. When sent to the vehicle says what position the vehicle is in. |Position.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Used when doing accelerometer calibration. When sent to the GCS tells it what position to put the vehicle in. When sent to the vehicle says what position the vehicle is in.")]
         ACCELCAL_VEHICLE_POS=42429, 
         ///<summary> Causes the gimbal to reset and boot as if it was just powered on. |Empty.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Causes the gimbal to reset and boot as if it was just powered on.")]
         GIMBAL_RESET=42501, 
-        ///<summary> Reports progress and success or failure of gimbal axis calibration procedure. |Gimbal axis we're reporting calibration progress for.| Current calibration progress for this axis, 0x64=100%.| Status of the calibration.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Reports progress and success or failure of gimbal axis calibration procedure. |Gimbal axis we're reporting calibration progress for.| Current calibration progress for this axis.| Status of the calibration.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Reports progress and success or failure of gimbal axis calibration procedure.")]
         GIMBAL_AXIS_CALIBRATION_STATUS=42502, 
         ///<summary> Starts commutation calibration on the gimbal. |Empty.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Starts commutation calibration on the gimbal.")]
         GIMBAL_REQUEST_AXIS_CALIBRATION=42503, 
-        ///<summary> Erases gimbal application and parameters. |Magic number.| Magic number.| Magic number.| Magic number.| Magic number.| .| Magic number.|  </summary>
+        ///<summary> Erases gimbal application and parameters. |Magic number.| Magic number.| Magic number.| Magic number.| Magic number.| Magic number.| Magic number.|  </summary>
         [Description("Erases gimbal application and parameters.")]
         GIMBAL_FULL_RESET=42505, 
-        ///<summary> Command to operate winch. |Winch number (0 for the default winch, otherwise a number from 1 to max number of winches on the vehicle).| Action (0=relax, 1=relative length control, 2=rate control. See WINCH_ACTIONS enum.).| Release length (cable distance to unwind in meters, negative numbers to wind in cable).| Release rate (meters/second).| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Command to operate winch. |Winch instance number (0 for the default winch, otherwise a number from 1 to max number of winches on the vehicle).| Action.| Release length (cable distance to unwind, negative numbers to wind in cable).| Release rate.| Empty.| Empty.| Empty.|  </summary>
         [Description("Command to operate winch.")]
         DO_WINCH=42600, 
         ///<summary> Update the bootloader |Empty| Empty| Empty| Empty| Magic number - set to 290876 to actually flash| Empty| Empty|  </summary>
@@ -1037,6 +1061,15 @@ public partial class MAVLink
         ///<summary> Control onboard scripting. |Scripting command to execute| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Control onboard scripting.")]
         SCRIPTING=42701, 
+        ///<summary> Change flight speed at a given rate. This slews the vehicle at a controllable rate between it's previous speed and the new one. (affects GUIDED only. Outside GUIDED, aircraft ignores these commands. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.) |Airspeed or groundspeed.| Target Speed| Acceleration rate, 0 to take effect instantly| Empty| Empty| Empty| Empty|  </summary>
+        [Description("Change flight speed at a given rate. This slews the vehicle at a controllable rate between it's previous speed and the new one. (affects GUIDED only. Outside GUIDED, aircraft ignores these commands. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.)")]
+        GUIDED_CHANGE_SPEED=43000, 
+        ///<summary> Change target altitude at a given rate. This slews the vehicle at a controllable rate between it's previous altitude and the new one. (affects GUIDED only. Outside GUIDED, aircraft ignores these commands. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.) |Empty| Empty| Rate of change, toward new altitude. 0 for maximum rate change. Positive numbers only, as negative numbers will not converge on the new target alt.| Empty| Empty| Empty| Target Altitude|  </summary>
+        [Description("Change target altitude at a given rate. This slews the vehicle at a controllable rate between it's previous altitude and the new one. (affects GUIDED only. Outside GUIDED, aircraft ignores these commands. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.)")]
+        GUIDED_CHANGE_ALTITUDE=43001, 
+        ///<summary> Change to target heading at a given rate, overriding previous heading/s. This slews the vehicle at a controllable rate between it's previous heading and the new one. (affects GUIDED only. Exiting GUIDED returns aircraft to normal behaviour defined elsewhere. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.) |course-over-ground or raw vehicle heading.| Target heading.| Maximum centripetal accelearation, ie rate of change,  toward new heading.| Empty| Empty| Empty| Empty|  </summary>
+        [Description("Change to target heading at a given rate, overriding previous heading/s. This slews the vehicle at a controllable rate between it's previous heading and the new one. (affects GUIDED only. Exiting GUIDED returns aircraft to normal behaviour defined elsewhere. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.)")]
+        GUIDED_CHANGE_HEADING=43002, 
     
     };
     
@@ -1092,7 +1125,8 @@ public partial class MAVLink
     };
     
     ///<summary> Flags in RALLY_POINT message. </summary>
-    public enum RALLY_FLAGS: byte
+    [Flags]
+	public enum RALLY_FLAGS: byte
     {
             ///<summary> Flag set when requiring favorable winds for landing. | </summary>
         [Description("Flag set when requiring favorable winds for landing.")]
@@ -1158,7 +1192,8 @@ public partial class MAVLink
     };
     
     ///<summary>  </summary>
-    public enum CAMERA_FEEDBACK_FLAGS: byte
+    [Flags]
+	public enum CAMERA_FEEDBACK_FLAGS: byte
     {
             ///<summary> Shooting photos, not video. | </summary>
         [Description("Shooting photos, not video.")]
@@ -1269,7 +1304,8 @@ public partial class MAVLink
     };
     
     ///<summary>  </summary>
-    public enum GOPRO_HEARTBEAT_FLAGS: byte
+    [Flags]
+	public enum GOPRO_HEARTBEAT_FLAGS: byte
     {
             ///<summary> GoPro is currently recording. | </summary>
         [Description("GoPro is currently recording.")]
@@ -1488,7 +1524,8 @@ public partial class MAVLink
     };
     
     ///<summary>  </summary>
-    public enum GOPRO_VIDEO_SETTINGS_FLAGS: int /*default*/
+    [Flags]
+	public enum GOPRO_VIDEO_SETTINGS_FLAGS: int /*default*/
     {
             ///<summary> 0=NTSC, 1=PAL. | </summary>
         [Description("0=NTSC, 1=PAL.")]
@@ -1737,7 +1774,8 @@ public partial class MAVLink
     };
     
     ///<summary> Flags in EKF_STATUS message. </summary>
-    public enum EKF_STATUS_FLAGS: ushort
+    [Flags]
+	public enum EKF_STATUS_FLAGS: ushort
     {
             ///<summary> Set if EKF's attitude estimate is good. | </summary>
         [Description("Set if EKF's attitude estimate is good.")]
@@ -3944,7 +3982,8 @@ public partial class MAVLink
     };
     
     ///<summary> These flags indicate status such as data validity of each data source. Set = data valid </summary>
-    public enum ADSB_FLAGS: ushort
+    [Flags]
+	public enum ADSB_FLAGS: ushort
     {
             ///<summary>  | </summary>
         [Description("")]
@@ -3980,7 +4019,8 @@ public partial class MAVLink
     };
     
     ///<summary> Bitmap of options for the MAV_CMD_DO_REPOSITION </summary>
-    public enum MAV_DO_REPOSITION_FLAGS: int /*default*/
+    [Flags]
+	public enum MAV_DO_REPOSITION_FLAGS: int /*default*/
     {
             ///<summary> The aircraft should immediately transition into guided. This should not be set for follow me applications | </summary>
         [Description("The aircraft should immediately transition into guided. This should not be set for follow me applications")]
@@ -3989,7 +4029,8 @@ public partial class MAVLink
     };
     
     ///<summary> Flags in EKF_STATUS message </summary>
-    public enum ESTIMATOR_STATUS_FLAGS: ushort
+    [Flags]
+	public enum ESTIMATOR_STATUS_FLAGS: ushort
     {
             ///<summary> True if the attitude estimate is good | </summary>
         [Description("True if the attitude estimate is good")]
@@ -4064,7 +4105,8 @@ public partial class MAVLink
     };
     
     ///<summary>  </summary>
-    public enum GPS_INPUT_IGNORE_FLAGS: ushort
+    [Flags]
+	public enum GPS_INPUT_IGNORE_FLAGS: ushort
     {
             ///<summary> ignore altitude field | </summary>
         [Description("ignore altitude field")]
@@ -4232,7 +4274,8 @@ public partial class MAVLink
     };
     
     ///<summary> Camera capability flags (Bitmap) </summary>
-    public enum CAMERA_CAP_FLAGS: uint
+    [Flags]
+	public enum CAMERA_CAP_FLAGS: uint
     {
             ///<summary> Camera is able to record video | </summary>
         [Description("Camera is able to record video")]
@@ -6757,12 +6800,12 @@ public partial class MAVLink
               this.axis = axis;
             
         }
-        /// <summary>Desired rate.  [deg/s] </summary>
-        [Units("[deg/s]")]
+        /// <summary>Desired rate.   </summary>
+        [Units("")]
         [Description("Desired rate.")]
         public  float desired;
-            /// <summary>Achieved rate.  [deg/s] </summary>
-        [Units("[deg/s]")]
+            /// <summary>Achieved rate.   </summary>
+        [Units("")]
         [Description("Achieved rate.")]
         public  float achieved;
             /// <summary>FF component.   </summary>
