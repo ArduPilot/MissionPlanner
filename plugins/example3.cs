@@ -11,6 +11,7 @@ using MissionPlanner;
 using System.Drawing;
 using System.Threading.Tasks;
 using GMap.NET.WindowsForms;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Maps;
 
@@ -78,7 +79,7 @@ namespace FenceDist
                             a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
                             return false;
 
-                        if (count > b.Value.param1)
+                        if (count >= b.Value.param1)
                             return false;
 
                         return a.Value.command == b.Value.command;
@@ -87,6 +88,51 @@ namespace FenceDist
                 // check all sublists
                 foreach (var sublist in list)
                 {
+                    // process circles
+                    if (sublist.Count() == 1)
+                    {
+                        var item = sublist.First().Value;
+                        if (item.command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION)
+                        {
+                            var lla = new PointLatLngAlt(item.x / 1e7,
+                                item.y / 1e7);
+                            var dist = lla.GetDistance(Location);
+                            if (dist < item.param1)
+                                return 0;
+                            disttotal = (float)Math.Min(dist - item.param1, disttotal);
+                        }
+                        else if (item.command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                        {
+                            var lla = new PointLatLngAlt(item.x / 1e7,
+                                item.y / 1e7);
+
+                            var dist = lla.GetDistance(Location);
+                            if (dist > item.param1)
+                                return 0;
+                            disttotal = (float) Math.Min(item.param1 - dist, disttotal);
+                        }
+                    }
+
+                    if (sublist == null || sublist.Count() < 3)
+                        continue;
+
+                    if (PolygonTools.isInside(
+                        sublist.CloseLoop().Select(a => new PolygonTools.Point(a.Value.y / 1e7, a.Value.x / 1e7)).ToList(),
+                        new PolygonTools.Point(Location.Lng, Location.Lat)))
+                    {
+                        if (sublist.First().Value.command == (ushort)MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION)
+                        {
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        if (sublist.First().Value.command == (ushort)MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION)
+                        {
+                            return 0;
+                        }
+                    }
+
                     PointLatLngAlt lineStartLatLngAlt = null;
                     // check all segments
                     foreach (var mavlinkFencePointT in sublist.CloseLoop())
@@ -135,6 +181,8 @@ namespace FenceDist
                 foreach (var sublist in list)
                 foreach (var mavlinkFencePointT in sublist)
                 {
+                    if (mavlinkFencePointT.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                        continue;
                     var pathpoint = new PointLatLngAlt(mavlinkFencePointT.Value.x / 1e7,
                         mavlinkFencePointT.Value.y / 1e7);
                     var dXt2 = pathpoint.GetDistance(Location);
@@ -148,6 +196,7 @@ namespace FenceDist
                 return 0;
             }
         }
+
 
         byte[] colors = { 220, 226, 232, 233, 244, 250, 214, 142, 106 };
         static GMapOverlay overlay;

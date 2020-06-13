@@ -1208,7 +1208,7 @@ namespace MissionPlanner
         [GroupText("Position")] public PointLatLngAlt Location => new PointLatLngAlt(lat, lng, altasl);
         [GroupText("Position")] public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
 
-        
+
         public float GeoFenceDist
         {
             get
@@ -1218,7 +1218,7 @@ namespace MissionPlanner
                     float disttotal = 99999;
                     var R = 6371e3;
 
-                    var list = parent.parent.MAV.fencepoints
+                    var list = parent.fencepoints
                         .Where(a => a.Value.command != (ushort) MAVLink.MAV_CMD.FENCE_RETURN_POINT)
                         .ChunkByField((a, b, count) =>
                         {
@@ -1227,15 +1227,62 @@ namespace MissionPlanner
                                 a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
                                 return false;
 
-                            if (count > b.Value.param1)
+                            if (count >= b.Value.param1)
                                 return false;
 
                             return a.Value.command == b.Value.command;
                         });
-                    
+
                     // check all sublists
                     foreach (var sublist in list)
                     {
+                        // process circles
+                        if (sublist.Count() == 1)
+                        {
+                            var item = sublist.First().Value;
+                            if (item.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION)
+                            {
+                                var lla = new PointLatLngAlt(item.x / 1e7,
+                                    item.y / 1e7);
+                                var dist = lla.GetDistance(Location);
+                                if (dist < item.param1)
+                                    return 0;
+                                disttotal = (float) Math.Min(dist - item.param1, disttotal);
+                            }
+                            else if (item.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                            {
+                                var lla = new PointLatLngAlt(item.x / 1e7,
+                                    item.y / 1e7);
+
+                                var dist = lla.GetDistance(Location);
+                                if (dist > item.param1)
+                                    return 0;
+                                disttotal = (float) Math.Min(item.param1 - dist, disttotal);
+                            }
+                        }
+
+                        if (sublist == null || sublist.Count() < 3)
+                            continue;
+
+                        if (PolygonTools.isInside(
+                            sublist.CloseLoop().Select(a => new PolygonTools.Point(a.Value.y / 1e7, a.Value.x / 1e7)).ToList(),
+                            new PolygonTools.Point(Location.Lng, Location.Lat)))
+                        {
+                            if (sublist.First().Value.command ==
+                                (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION)
+                            {
+                                return 0;
+                            }
+                        }
+                        else
+                        {
+                            if (sublist.First().Value.command ==
+                                (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION)
+                            {
+                                return 0;
+                            }
+                        }
+
                         PointLatLngAlt lineStartLatLngAlt = null;
                         // check all segments
                         foreach (var mavlinkFencePointT in sublist.CloseLoop())
@@ -1272,7 +1319,8 @@ namespace MissionPlanner
 
                             var dXt2 = Math.Sin(angle * MathHelper.deg2rad) * distToLocation;
 
-                            var dXt = Math.Asin(Math.Sin(distToLocation / R) * Math.Sin(angle * MathHelper.deg2rad)) * R;
+                            var dXt = Math.Asin(Math.Sin(distToLocation / R) * Math.Sin(angle * MathHelper.deg2rad)) *
+                                      R;
 
                             disttotal = (float) Math.Min(disttotal, Math.Abs(dXt2));
 
@@ -1284,6 +1332,8 @@ namespace MissionPlanner
                     foreach (var sublist in list)
                     foreach (var mavlinkFencePointT in sublist)
                     {
+                        if (mavlinkFencePointT.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                            continue;
                         var pathpoint = new PointLatLngAlt(mavlinkFencePointT.Value.x / 1e7,
                             mavlinkFencePointT.Value.y / 1e7);
                         var dXt2 = pathpoint.GetDistance(Location);
@@ -1298,7 +1348,7 @@ namespace MissionPlanner
                 }
             }
         }
-        
+
         [GroupText("Position")]
         [DisplayText("Dist to Home (dist)")]
         public float DistToHome
@@ -1979,9 +2029,6 @@ namespace MissionPlanner
                         {
                             messageHigh = Strings.ERROR + " " + Strings.terrain_alt_variance;
                         }
-
-                        var flags = (MAVLink.EKF_STATUS_FLAGS) ekfstatusm.flags;
-                        Console.WriteLine(flags);
 
                         for (var a = 1; a <= (int) MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED; a = a << 1)
                         {
