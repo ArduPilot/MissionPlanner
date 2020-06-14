@@ -62,6 +62,8 @@ namespace FenceDist
             return true;
         }
 
+
+
         float testCode(MAVState MAV, PointLatLngAlt Location)
         {
             // this is GeoFenceDist from currentstate
@@ -69,21 +71,26 @@ namespace FenceDist
             {
                 float disttotal = 99999;
                 var R = 6371e3;
-
-                var list = MAV.fencepoints
-                    .Where(a => a.Value.command != (ushort) MAVLink.MAV_CMD.FENCE_RETURN_POINT)
-                    .ChunkByField((a, b, count) =>
+                var currenthash = MAV.fencepoints.GetHashCode();
+                lock(this)
+                    if (currenthash != listhash)
                     {
-                        // these fields types stand alone
-                        if (a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION ||
-                            a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
-                            return false;
+                        list = MAV.fencepoints
+                            .Where(a => a.Value.command != (ushort) MAVLink.MAV_CMD.FENCE_RETURN_POINT)
+                            .ChunkByField((a, b, count) =>
+                            {
+                                // these fields types stand alone
+                                if (a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION ||
+                                    a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                                    return false;
 
-                        if (count >= b.Value.param1)
-                            return false;
+                                if (count >= b.Value.param1)
+                                    return false;
 
-                        return a.Value.command == b.Value.command;
-                    });
+                                return a.Value.command == b.Value.command;
+                            }).ToList();
+                        listhash = currenthash;
+                    }
 
                 // check all sublists
                 foreach (var sublist in list)
@@ -200,6 +207,8 @@ namespace FenceDist
 
         byte[] colors = { 220, 226, 232, 233, 244, 250, 214, 142, 106 };
         static GMapOverlay overlay;
+        private IEnumerable<IEnumerable<KeyValuePair<int, MAVLink.mavlink_mission_item_int_t>>> list;
+        private int listhash;
 
         void but_Click(object sender, EventArgs e)
         {
@@ -212,7 +221,7 @@ namespace FenceDist
 
             overlay.IsVisibile = !overlay.IsVisibile;
             
-            var size = 100;
+            var size = 400;
 
             byte[,] bitmap = new byte[size, size];
 
@@ -227,7 +236,7 @@ namespace FenceDist
                 {
                     var colindex = (int) MathHelper.mapConstrained(testCode(MainV2.comPort.MAV,
                         new PointLatLngAlt(va.Bottom + spacingh * y,
-                            va.Left + spacingw * x)), 0, 100, 1, 255);
+                            va.Left + spacingw * x)), 0, 10, 1, 255);
                     bitmap[x, size - y - 1] = (byte) colindex;
                 }
             });

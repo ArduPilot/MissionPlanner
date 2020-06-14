@@ -46,25 +46,28 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         public static IEnumerable<IEnumerable<T>> ChunkByField<T>(this IEnumerable<T> source, Func<T,T, int, bool> checkmatching)
         {
-            var pos = 0;
-            while (source.Skip(pos).Any())
+            while (source.Any())
             {
                 // store the first element to compare against
-                T first = source.Skip(pos).First();
+                T first = source.First();
+                int include = 0;
                 // build the list by comparing the first to all after it
-                var sublist = source.Skip(pos).TakeWhile((a,count) =>
+                var sublist = source.TakeWhile((a,count) =>
                 {
                     if (first.Equals(a))
                     {
+                        include++;
                         return true;
                     }
 
                     var check = checkmatching(first, a, count);
+                    if(check)
+                        include++;
                     return check;
-                });
+                }).ToList(); // tolist improves performance vs ienumerable requery on every access
                 yield return sublist;
                 // continue on in the list
-                pos += sublist.Count();
+                source = source.Skip(include);
             }
         }
 
