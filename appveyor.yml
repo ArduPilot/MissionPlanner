@@ -4,6 +4,7 @@ configuration: Release
 clone_folder: c:\MP\
 cache:
     - packages -> appveyor.yml
+    - C:\Users\appveyor\.nuget\packages -> appveyor.yml
 build_script:
 - cmd: >-
     rem git submodule update --init --recursive
@@ -23,8 +24,8 @@ build_script:
     dir c:\mp\bin\Release\net461
 
     cd bin\Release\net461
-
-    for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
+    
+    powershell -command "ls plugins -recurse | ForEach-Object { if (Test-Path ($_.fullname -replace '\\plugins\\','\') -PathType Leaf) { $_.fullname }} | ForEach-Object { del $_ }"
 
     copy version.txt c:\mp\
     
