@@ -627,6 +627,7 @@ SYSID_THISMAV={0}
 SIM_TERRAIN=0
 TERRAIN_ENABLE=0
 SCHED_LOOP_RATE=50
+SIM_RATE_HZ=400
 SIM_DRIFT_SPEED=0
 SIM_DRIFT_TIME=0
 ", a + 1));
@@ -668,19 +669,7 @@ SIM_DRIFT_TIME=0
 
                     Thread.Sleep(200);
 
-                    MainV2.instance.doConnect(mav, "preset", "5760");
-
-                    try
-                    {
-                        mav.GetParam((byte)mav.sysidcurrent, (byte)mav.compidcurrent, "SYSID_THISMAV");
-                        mav.setParam("SYSID_THISMAV", a + 1, true);
-
-                        mav.GetParam((byte)mav.sysidcurrent, (byte)mav.compidcurrent, "FRAME_CLASS");
-                        mav.setParam("FRAME_CLASS", 1, true);
-                    }
-                    catch
-                    {
-                    }
+                    MainV2.instance.doConnect(mav, "preset", "5760", false);
 
                     MainV2.Comports.Add(mav);
                 }
@@ -756,6 +745,7 @@ SYSID_THISMAV={0}
 SIM_TERRAIN=0
 TERRAIN_ENABLE=0
 SCHED_LOOP_RATE=50
+SIM_RATE_HZ=400
 SIM_DRIFT_SPEED=0
 SIM_DRIFT_TIME=0
 ", a + 1));
@@ -801,7 +791,15 @@ SIM_DRIFT_TIME=0
 
                 Thread.Sleep(200);
 
-                MainV2.instance.doConnect(MainV2.comPort, "preset", "5760");
+                MainV2.instance.doConnect(MainV2.comPort, "preset", "5760", false);
+
+                try
+                {
+                    MainV2.comPort.getParamListAsync((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }
+                catch
+                {
+                }
 
                 return;
             }

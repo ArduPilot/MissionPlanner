@@ -1604,58 +1604,58 @@ namespace MissionPlanner
                     return;
                 }
 
-                var ftpfile = false;
-                if ((MainV2.comPort.MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
+                if (getparams)
                 {
-                    var prd = new ProgressReporterDialogue();
-                    prd.DoWork += (IProgressReporterDialogue sender) =>
+                    var ftpfile = false;
+                    if ((MainV2.comPort.MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
                     {
-                        sender.UpdateProgressAndStatus(-1, "Checking for Param MAVFTP");
-                        var cancel = new CancellationTokenSource();
-                        var paramfileTask = Task.Run<MemoryStream>(() =>
+                        var prd = new ProgressReporterDialogue();
+                        prd.DoWork += (IProgressReporterDialogue sender) =>
+                        {
+                            sender.UpdateProgressAndStatus(-1, "Checking for Param MAVFTP");
+                            var cancel = new CancellationTokenSource();
+                            var paramfileTask = Task.Run<MemoryStream>(() =>
                             {
                                 return new MAVFtp(comPort, comPort.MAV.sysid, comPort.MAV.compid).GetFile(
                                     "@PARAM/param.pck", cancel, false, 110);
                             });
-                        while (!paramfileTask.IsCompleted)
-                        {
-                            if (sender.doWorkArgs.CancelRequested)
+                            while (!paramfileTask.IsCompleted)
                             {
-                                cancel.Cancel();
-                                sender.doWorkArgs.CancelAcknowledged = true;
+                                if (sender.doWorkArgs.CancelRequested)
+                                {
+                                    cancel.Cancel();
+                                    sender.doWorkArgs.CancelAcknowledged = true;
+                                }
                             }
-                        }
 
-                        var paramfile = paramfileTask.Result;
-                        if (paramfile != null && paramfile.Length > 0)
-                        {
-                            var mavlist = parampck.unpack(paramfile.ToArray());
-                            if (mavlist != null)
+                            var paramfile = paramfileTask.Result;
+                            if (paramfile != null && paramfile.Length > 0)
                             {
-                                comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
-                                comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported =
-                                    mavlist.Count;
-                                comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
-                                mavlist.ForEach(a =>
-                                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] =
-                                        a.Type);
-                                ftpfile = true;
+                                var mavlist = parampck.unpack(paramfile.ToArray());
+                                if (mavlist != null)
+                                {
+                                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
+                                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported =
+                                        mavlist.Count;
+                                    comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
+                                    mavlist.ForEach(a =>
+                                        comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] =
+                                            a.Type);
+                                    ftpfile = true;
+                                }
                             }
-                        }
-                    };
+                        };
 
-                    prd.RunBackgroundOperationAsync();
-                }
+                        prd.RunBackgroundOperationAsync();
+                    }
 
-                if (!ftpfile)
-                {
-                    if (Settings.Instance.GetBoolean("Params_BG", false))
-                        Task.Run(() =>
-                        {
-                            comPort.getParamList(comPort.MAV.sysid, comPort.MAV.compid);
-                        });
-                    else
-                        comPort.getParamList();
+                    if (!ftpfile)
+                    {
+                        if (Settings.Instance.GetBoolean("Params_BG", false))
+                            Task.Run(() => { comPort.getParamList(comPort.MAV.sysid, comPort.MAV.compid); });
+                        else
+                            comPort.getParamList();
+                    }
                 }
 
                 _connectionControl.UpdateSysIDS();             
