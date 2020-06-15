@@ -12,7 +12,7 @@ pause
 
 cd bin\release\net461
 
-for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f
+powershell -command "ls plugins -recurse | ForEach-Object { if (Test-Path ($_.fullname -replace '\\plugins\\','\') -PathType Leaf) { $_.fullname }} | ForEach-Object { del $_ }"
 
 cd ..
 cd ..
