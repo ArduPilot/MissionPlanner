@@ -87,8 +87,8 @@ namespace MissionPlanner.Joystick
                 };
 
                 ax.Detect = () => Joystick.getMovingAxis(CMB_joysticks.Text, 16000).ToString();
-                ax.Reverse = () => MainV2.joystick.setReverse(ax.ChannelNo, ax.ReverseValue);
-                ax.SetAxis = () => MainV2.joystick.setAxis(ax.ChannelNo,
+                ax.Reverse = () => MainV2.joystick?.setReverse(ax.ChannelNo, ax.ReverseValue);
+                ax.SetAxis = () => MainV2.joystick?.setAxis(ax.ChannelNo,
                     (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ax.ChannelValue));
                 ax.GetValue = () =>
                 {

@@ -236,13 +236,13 @@ namespace MissionPlanner.Joystick
                     {
                         JoyChannels = (JoyChannel[]) reader.Deserialize(sr);
                     }
-
-                    Array.Resize(ref JoyChannels, 20);
                 }
                 catch
                 {
                 }
             }
+
+            Array.Resize(ref JoyChannels, 20);
         }
 
         public void saveconfig()
