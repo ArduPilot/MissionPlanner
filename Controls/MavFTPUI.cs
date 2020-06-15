@@ -31,28 +31,35 @@ namespace MissionPlanner.Controls
             _mavftp = new MAVFtp(_mav, (byte)_mav.sysidcurrent, (byte)mav.compidcurrent);
             _mavftp.Progress += (message, percent) =>
             {
-                if (toolStripProgressBar1.Value == percent)
-                    return;
-
-                if (this.IsDisposed)
+                try
                 {
-                    _mavftp = null;
-                    return;
+                    if (toolStripProgressBar1.Value == percent)
+                        return;
+
+                    if (this.IsDisposed)
+                    {
+                        _mavftp = null;
+                        return;
+                    }
+
+                    this.BeginInvokeIfRequired(() =>
+                    {
+                        try
+                        {
+                            toolStripProgressBar1.Value = percent;
+                            toolStripStatusLabel1.Text = message;
+                            statusStrip1.Refresh();
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+                    });
                 }
-
-                this.BeginInvokeIfRequired(() =>
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        toolStripProgressBar1.Value = percent;
-                        toolStripStatusLabel1.Text = message;
-                        statusStrip1.Refresh();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-                });
+                    log.Error(ex);
+                }
             };
             InitializeComponent();
 

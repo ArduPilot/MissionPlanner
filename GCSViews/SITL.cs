@@ -133,8 +133,16 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-
-            StartSITL(await exepath, "plane", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), "", (int)num_simspeed.Value);
+            try
+            {
+                StartSITL(await exepath, "plane",
+                    BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value), "",
+                    (int) num_simspeed.Value);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to download and start sitl\n" + ex.ToString());
+            }
         }
 
         private async void pictureBoxrover_Click(object sender, EventArgs e)
@@ -144,9 +152,18 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.Invalid_home_location);
                 return;
             }
-            var exepath = CheckandGetSITLImage("APMrover2.elf");
 
-            StartSITL(await exepath, "rover", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), "", (int)num_simspeed.Value);
+            var exepath = CheckandGetSITLImage("APMrover2.elf");
+            try
+            {
+                StartSITL(await exepath, "rover",
+                    BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value), "",
+                    (int) num_simspeed.Value);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to download and start sitl\n" + ex.ToString());
+            }
         }
 
         private async void pictureBoxquad_Click(object sender, EventArgs e)
@@ -156,9 +173,18 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.Invalid_home_location);
                 return;
             }
-            var exepath = CheckandGetSITLImage("ArduCopter.elf");
 
-            StartSITL(await exepath, "+", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), "", (int)num_simspeed.Value);
+            var exepath = CheckandGetSITLImage("ArduCopter.elf");
+            try
+            {
+                StartSITL(await exepath, "+",
+                    BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value), "",
+                    (int) num_simspeed.Value);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to download and start sitl\n" + ex.ToString());
+            }
         }
 
         private async void pictureBoxheli_Click(object sender, EventArgs e)
@@ -168,9 +194,18 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.Invalid_home_location);
                 return;
             }
-            var exepath = CheckandGetSITLImage("ArduHeli.elf");
 
-            StartSITL(await exepath, "heli", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), "", (int)num_simspeed.Value);
+            var exepath = CheckandGetSITLImage("ArduHeli.elf");
+            try
+            {
+                StartSITL(await exepath, "heli",
+                    BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value), "",
+                    (int) num_simspeed.Value);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to download and start sitl\n" + ex.ToString());
+            }
         }
 
         string BuildHomeLocation(PointLatLng homelocation, int heading = 0)

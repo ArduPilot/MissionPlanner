@@ -30,6 +30,8 @@ namespace OSDConfigurator.GUI
 
         public Point ToOSDLocation(Point screenPoint)
         {
+            screenPoint.X = screenPoint.X < 0 ? 0 : screenPoint.X;
+            screenPoint.Y = screenPoint.Y < 0 ? 0 : screenPoint.Y;
             return new Point(screenPoint.X / charSizePix.Width, screenPoint.Y / charSizePix.Height);
         }
 

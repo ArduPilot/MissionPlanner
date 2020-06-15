@@ -451,7 +451,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.instance.doConnect(mav, MainV2._connectionControl.CMB_serialport.Text,
                 MainV2._connectionControl.CMB_baudrate.Text, false);
 
-            if (!mav.BaseStream.IsOpen)
+            if (mav.BaseStream == null || !mav.BaseStream.IsOpen)
                 return;
 
             if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board",

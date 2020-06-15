@@ -3382,7 +3382,7 @@ namespace MissionPlanner.GCSViews
                                 {
                                     var adsbplane = marker as GMapMarkerADSBPlane;
 
-                                    if (adsbplane == null)
+                                    if (adsbplane == null || pllau == null)
                                         return;
 
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
@@ -3500,22 +3500,27 @@ namespace MissionPlanner.GCSViews
             Func<TBuilder, string> GetTagSource, Func<GMapMarker, string> GetTagMarker,
             Func<TBuilder, GMapMarker> create, Action<TBuilder, GMapMarker> update)
         {
-            if (list == null || gMapOverlay == null || GetTagSource == null || GetTagMarker == null || create == null ||
-                update == null)
+            if (list == null || gMapOverlay == null || GetTagSource == null 
+                || GetTagMarker == null || create == null || update == null)
                 return;
+
+            var markers = gMapOverlay.Markers.ToArray();
 
             foreach (var item in list)
             {
                 if (item == null)
                     continue;
-                if (gMapOverlay.Markers.ToArray().Any(a => a is TMarker && GetTagMarker(a) == GetTagSource(item)))
+                
+                if (markers.Any(a => a is TMarker && GetTagMarker(a) == GetTagSource(item)))
                 {
-                    update(item, gMapOverlay.Markers.ToArray().First(a => a is TMarker && GetTagMarker(a) == GetTagSource(item)));
+                    update(item, markers.First(a => a is TMarker && GetTagMarker(a) == GetTagSource(item)));
                 }
                 else
                 {
                     // new marker
                     var marker = create(item);
+                    if (marker == null)
+                        continue;
                     update(item, marker);
                     BeginInvoke((Action) delegate { gMapOverlay.Markers.Add(marker); });
                 }

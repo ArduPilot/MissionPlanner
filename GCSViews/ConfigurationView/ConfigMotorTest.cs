@@ -256,6 +256,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             this.Enabled = false;
 
+            if (!MainV2.comPort.MAV.param.ContainsKey("MOT_SPIN_ARM"))
+            {
+                CustomMessageBox.Show("param MOT_SPIN_ARM missing", Strings.ERROR);
+                return;
+            }
+
             if (NUM_thr_percent.Value < 20)
             {
                 var value = (int)NUM_thr_percent.Value + 2;
@@ -278,9 +284,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             this.Enabled = false;
 
+            if (!MainV2.comPort.MAV.param.ContainsKey("MOT_SPIN_MIN"))
+            {
+                CustomMessageBox.Show("param MOT_SPIN_MIN missing", Strings.ERROR);
+                return;
+            }
+
             if (NUM_thr_percent.Value < 20)
             {
-                var value = (int)MainV2.comPort.MAV.param["MOT_SPIN_ARM"].Value + 3;
+                var value = (int)MainV2.comPort.MAV.param["MOT_SPIN_MIN"].Value + 3;
                 if (InputBox.Show(Strings.ChangeThrottle, "Enter min spin throttle % (arm min + 3%)", ref value) ==
                     DialogResult.OK)
                 {

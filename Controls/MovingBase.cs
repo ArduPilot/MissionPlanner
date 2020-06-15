@@ -151,7 +151,7 @@ namespace MissionPlanner
 
             DateTime nextrallypntupdate = DateTime.Now;
 
-            StreamWriter sw = new StreamWriter(Settings.GetUserDataDirectory() + File.OpenWrite("MovingBase.txt"));
+            StreamWriter sw = new StreamWriter(Settings.GetUserDataDirectory() + "MovingBase.txt");
 
             threadrun = true;
             while (threadrun)

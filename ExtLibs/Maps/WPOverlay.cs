@@ -188,7 +188,7 @@ namespace MissionPlanner.ArduPilot
                 {
                     pointlist.Add(null);
 
-                    int wpno = (int)item.p1;
+                    int wpno = (int) Math.Max(item.p1, 0);
                     int repeat = (int)item.p2;
 
                     List<PointLatLngAlt> list = new List<PointLatLngAlt>();

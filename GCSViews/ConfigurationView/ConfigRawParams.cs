@@ -155,7 +155,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         continue;
                     if (name == "FORMAT_VERSION")
                         continue;
-                    if (row.Cells[0].Value.ToString() == name)
+                    if (row.Cells[0].Value != null && row.Cells[0].Value?.ToString() == name)
                     {
                         set = true;
                         if (row.Cells[1].Value.ToString() != value)

@@ -1968,7 +1968,10 @@ red LED solid - in firmware update mode");
         {
             if (_Session != null)
             {
-                _Session.PutIntoTransparentMode();
+                try
+                {
+                    _Session.PutIntoTransparentMode();
+                } catch{}
                 _Session.Dispose();
                 _Session.Port.Close();
                 _Session = null;
