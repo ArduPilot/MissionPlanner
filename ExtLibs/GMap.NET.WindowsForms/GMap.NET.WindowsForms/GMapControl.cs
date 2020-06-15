@@ -1499,7 +1499,7 @@ namespace GMap.NET.WindowsForms
        public void doPaint(IGraphics e)
        {
          {
-            e.Clear(EmptyMapBackground);
+            //e.Clear(EmptyMapBackground);
 
 #if !PocketPC
             if(MapRenderTransform.HasValue)

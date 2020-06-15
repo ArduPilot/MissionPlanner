@@ -143,7 +143,7 @@ namespace MissionPlanner.Controls
                     string dist = traveleddist.ToString("0");
 
                     etemp.DrawString(dist, this.Font, new SolidBrush(this.ForeColor), bartrav.Right,
-                        bartrav.Bottom - this.Font.Height);
+                        bartrav.Bottom - FontHeight);
 
                     e.Graphics.DrawImageUnscaled(buffer, 0, 0);
                 }

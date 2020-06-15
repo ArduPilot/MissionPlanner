@@ -3382,6 +3382,9 @@ namespace MissionPlanner.GCSViews
                                 {
                                     var adsbplane = marker as GMapMarkerADSBPlane;
 
+                                    if (adsbplane == null)
+                                        return;
+
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
                                                             "CallSign: " + pllau.CallSign.ToString() + "\n" +
                                                             "Squawk: " + Convert.ToString(pllau.Squawk) + "\n" +
@@ -3497,11 +3500,17 @@ namespace MissionPlanner.GCSViews
             Func<TBuilder, string> GetTagSource, Func<GMapMarker, string> GetTagMarker,
             Func<TBuilder, GMapMarker> create, Action<TBuilder, GMapMarker> update)
         {
+            if (list == null || gMapOverlay == null || GetTagSource == null || GetTagMarker == null || create == null ||
+                update == null)
+                return;
+
             foreach (var item in list)
             {
+                if (item == null)
+                    continue;
                 if (gMapOverlay.Markers.ToArray().Any(a => a is TMarker && GetTagMarker(a) == GetTagSource(item)))
                 {
-                    update(item, gMapOverlay.Markers.ToArray().First(a => GetTagMarker(a) == GetTagSource(item)));
+                    update(item, gMapOverlay.Markers.ToArray().First(a => a is TMarker && GetTagMarker(a) == GetTagSource(item)));
                 }
                 else
                 {
