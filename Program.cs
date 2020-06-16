@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using Microsoft.Diagnostics.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Architecture = System.Runtime.InteropServices.Architecture;
 
 namespace MissionPlanner
 {
@@ -267,8 +268,8 @@ namespace MissionPlanner
 
             CleanupFiles();
 
-            log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
-                System.Environment.Is64BitProcess);
+            log.InfoFormat("64bit os {0}, 64bit process {1}, OS Arch {2}", System.Environment.Is64BitOperatingSystem,
+                System.Environment.Is64BitProcess, RuntimeInformation.OSArchitecture);
 
             log.InfoFormat("Runtime Version {0}",
                 System.Reflection.Assembly.GetExecutingAssembly().ImageRuntimeVersion);
