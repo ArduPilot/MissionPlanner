@@ -1,18 +1,16 @@
-﻿using System;
-using System.Text;
-using System.Collections;
-using System.CodeDom;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CSharp;
+using MissionPlanner.Utilities;
+using System;
+using System.CodeDom;
 using System.CodeDom.Compiler;
-using System.Reflection;
+using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
-using MissionPlanner.Utilities;
-using System.Runtime.Loader;
 
 namespace MissionPlanner
 {
