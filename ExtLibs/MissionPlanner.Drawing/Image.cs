@@ -98,7 +98,7 @@ namespace System.Drawing
         {
             MemoryStream ms = new MemoryStream();
             Save(ms, SKEncodedImageFormat.Png);
-            info.AddValue("pngdata", ms.ToArray());
+            info.AddValue("pngdata", ms.GetBuffer());
         }
 
         public void Save(string filename, SKEncodedImageFormat format)

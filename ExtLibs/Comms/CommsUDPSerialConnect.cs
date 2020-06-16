@@ -158,7 +158,7 @@ namespace MissionPlanner.Comms
                     }
 
                     // copy mem stream to byte array.
-                    rbuffer = r.ToArray();
+                    rbuffer = r.GetBuffer();
                     // reset head.
                     rbufferread = 0;
                 } while (rbuffer.Length < length && DateTime.Now < deadline);

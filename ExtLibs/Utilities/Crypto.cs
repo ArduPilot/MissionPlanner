@@ -117,7 +117,7 @@ namespace MissionPlanner.Utilities
             cryptor.Dispose();
             cryptor = null;
 
-            return memoryStream.ToArray();
+            return memoryStream.GetBuffer();
         }
 
         /// <summary>

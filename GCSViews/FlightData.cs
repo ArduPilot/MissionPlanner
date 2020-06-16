@@ -2771,7 +2771,7 @@ namespace MissionPlanner.GCSViews
 
                         //aviwriter.avi_start("test.avi");
                         // add a frame
-                        aviwriter.avi_add(hud1.streamjpg.ToArray(), (uint) hud1.streamjpg.Length);
+                        aviwriter.avi_add(hud1.streamjpg.GetBuffer(), (uint) hud1.streamjpg.Length);
                         // write header - so even partial files will play
                         aviwriter.avi_end(hud1.Width, hud1.Height, 25);
                     }

@@ -132,7 +132,7 @@ namespace MissionPlanner.Utilities
 
                 var maxcount = (int)Math.Min(chunkleft, count);
 
-                Array.Copy(chunk.Value.ToArray(), positioninchunk, buffer, offset, maxcount);
+                Array.Copy(chunk.Value.GetBuffer(), positioninchunk, buffer, offset, maxcount);
 
                 bytesgot += maxcount;
                 offset += maxcount;

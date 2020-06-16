@@ -1004,7 +1004,7 @@ namespace MissionPlanner.Utilities
 
                                     IntPtr ptr = bmpData.Scan0;
 
-                                    Marshal.Copy(ms.ToArray(), 0, ptr, (int) img.Width * img.Height * 4);
+                                    Marshal.Copy(ms.GetBuffer(), 0, ptr, (int) img.Width * img.Height * 4);
 
                                     img.UnlockBits(bmpData);
                                 }

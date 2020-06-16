@@ -56,14 +56,14 @@ namespace MissionPlanner.Utilities
 
                 var paramstring = ASCIIEncoding.ASCII.GetString(paramdata);
 
-                var new_fwms = new MemoryStream(fw_binary.ToArray());
+                var new_fwms = new MemoryStream(fw_binary.GetBuffer());
                 var new_fw = new BinaryWriter(new_fwms);
 
                 new_fw.Seek((int)foffset + 2, SeekOrigin.Begin);
                 new_fw.Write((short) param.Length);
                 new_fw.Write(ASCIIEncoding.ASCII.GetBytes(param), 0, param.Length);
 
-                fw_json["image"] = Convert.ToBase64String(ZlibStream.CompressBuffer(new_fwms.ToArray()));
+                fw_json["image"] = Convert.ToBase64String(ZlibStream.CompressBuffer(new_fwms.GetBuffer()));
 
                 //File.WriteAllBytes(filename + "orig.bin", fw_binary.ToArray());
                 //File.WriteAllBytes(filename + "new.bin", new_fwms.ToArray());

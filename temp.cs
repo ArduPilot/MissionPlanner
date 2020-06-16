@@ -135,7 +135,7 @@ namespace MissionPlanner
 
                     Application.DoEvents();
 
-                    GMaps.Instance.PrimaryCache.PutImageToCache(tile.ToArray(), Custom.Instance.DbId, pnt,
+                    GMaps.Instance.PrimaryCache.PutImageToCache(tile.GetBuffer(), Custom.Instance.DbId, pnt,
                         int.Parse(mat.Groups[1].Value));
 
                     // Application.DoEvents();
@@ -934,7 +934,7 @@ namespace MissionPlanner
                         (byte) MainV2.comPort.compidcurrent);
                     var st = mavftp.GetFile(path, new CancellationTokenSource(5000), true);
                     var output = Path.Combine(Settings.GetUserDataDirectory(), Path.GetFileName(path));
-                    File.WriteAllBytes(output, st.ToArray());
+                    File.WriteAllBytes(output, st.GetBuffer());
                 }
             }
         }
