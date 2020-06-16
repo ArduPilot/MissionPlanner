@@ -1,12 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ExtLibs\Utilities\MissionPlanner.Utilities.csproj" />
-    <ProjectReference Include="..\..\MissionPlanner.csproj" />
+    <ProjectReference Include="..\..\ExtLibs\Utilities\MissionPlanner.Utilities.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MissionPlanner.csproj">
+      <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>

@@ -159,7 +159,9 @@
       <Name>GMap.NET.Core</Name>
       <Private>false</Private>
     </ProjectReference>
-    <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
+    <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj">
+      <Private>false</Private>
+    </ProjectReference>
     <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
       <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
       <Name>GMap.NET.WindowsForms</Name>
@@ -172,8 +174,11 @@
     </ProjectReference>
     <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
       <Aliases>Drawing</Aliases>
+      <Private>false</Private>
     </ProjectReference>
-    <ProjectReference Include="..\ProjNet\ProjNET.csproj" />
+    <ProjectReference Include="..\ProjNet\ProjNET.csproj">
+      <Private>false</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
       <Name>MissionPlanner.Utilities</Name>
