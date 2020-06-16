@@ -14,6 +14,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN

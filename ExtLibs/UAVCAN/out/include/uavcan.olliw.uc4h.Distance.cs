@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -38,7 +39,7 @@ public class uavcan_olliw_uc4h_Distance: IUAVCANSerialize {
     public uint8_t sensor_sub_id = new uint8_t();
     public uint8_t range_flag = new uint8_t();
     public Single range = new Single();
-    public uint8_t sensor_property_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=1)] public uavcan_olliw_uc4h_DistanceSensorProperties[] sensor_property = new uavcan_olliw_uc4h_DistanceSensorProperties[1];
+    public uint8_t sensor_property_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=1)] public uavcan_olliw_uc4h_DistanceSensorProperties[] sensor_property = Enumerable.Repeat(new uavcan_olliw_uc4h_DistanceSensorProperties(),1).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

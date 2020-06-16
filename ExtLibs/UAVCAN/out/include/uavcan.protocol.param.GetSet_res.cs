@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -32,7 +33,7 @@ public class uavcan_protocol_param_GetSet_res: IUAVCANSerialize {
     public uavcan_protocol_param_Value default_value = new uavcan_protocol_param_Value();
     public uavcan_protocol_param_NumericValue max_value = new uavcan_protocol_param_NumericValue();
     public uavcan_protocol_param_NumericValue min_value = new uavcan_protocol_param_NumericValue();
-    public uint8_t name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] name = new uint8_t[92];
+    public uint8_t name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] name = Enumerable.Repeat(new uint8_t(),92).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

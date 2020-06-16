@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -27,7 +28,7 @@ public const ulong UAVCAN_PROTOCOL_FILE_PATH_DT_SIG = 0x12AEFC50878A43E2;
 public const double UAVCAN_PROTOCOL_FILE_PATH_SEPARATOR = 47; // saturated uint8
 
 public class uavcan_protocol_file_Path: IUAVCANSerialize {
-    public uint8_t path_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=200)] public uint8_t[] path = new uint8_t[200];
+    public uint8_t path_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=200)] public uint8_t[] path = Enumerable.Repeat(new uint8_t(),200).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

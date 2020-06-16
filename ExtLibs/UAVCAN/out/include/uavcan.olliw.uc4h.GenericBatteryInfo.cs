@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -37,7 +38,7 @@ public class uavcan_olliw_uc4h_GenericBatteryInfo: IUAVCANSerialize {
     public Single charge_consumed_mAh = new Single();
     public Single energy_consumed_Wh = new Single();
     public uint8_t status_flags = new uint8_t();
-    public uint8_t cell_voltages_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=12)] public Single[] cell_voltages = new Single[12];
+    public uint8_t cell_voltages_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=12)] public Single[] cell_voltages = Enumerable.Repeat(new Single(),12).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

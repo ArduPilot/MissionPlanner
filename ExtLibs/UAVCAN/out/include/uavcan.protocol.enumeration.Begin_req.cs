@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -30,7 +31,7 @@ public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_TIMEOUT_INFINITE = 655
 
 public class uavcan_protocol_enumeration_Begin_req: IUAVCANSerialize {
     public uint16_t timeout_sec = new uint16_t();
-    public uint8_t parameter_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] parameter_name = new uint8_t[92];
+    public uint8_t parameter_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] parameter_name = Enumerable.Repeat(new uint8_t(),92).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

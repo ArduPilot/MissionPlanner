@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -31,7 +32,7 @@ public const double UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_PROTOCOL_ID_RTCM3 = 3; // s
 
 public class uavcan_equipment_gnss_RTCMStream: IUAVCANSerialize {
     public uint8_t protocol_id = new uint8_t();
-    public uint8_t data_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] data = new uint8_t[128];
+    public uint8_t data_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] data = Enumerable.Repeat(new uint8_t(),128).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

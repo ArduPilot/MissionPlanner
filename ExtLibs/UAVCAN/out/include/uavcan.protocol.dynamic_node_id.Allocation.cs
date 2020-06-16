@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -36,7 +37,7 @@ public const double UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_ALLOCATION_ANY_NODE_ID = 0; 
 public class uavcan_protocol_dynamic_node_id_Allocation: IUAVCANSerialize {
     public uint8_t node_id = new uint8_t();
     public bool first_part_of_unique_id = new bool();
-    public uint8_t unique_id_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public uint8_t[] unique_id = new uint8_t[16];
+    public uint8_t unique_id_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public uint8_t[] unique_id = Enumerable.Repeat(new uint8_t(),16).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

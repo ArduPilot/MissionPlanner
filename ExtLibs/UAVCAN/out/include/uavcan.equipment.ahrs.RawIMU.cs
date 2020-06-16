@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -33,7 +34,7 @@ public class uavcan_equipment_ahrs_RawIMU: IUAVCANSerialize {
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] rate_gyro_integral = new Single[3];
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] accelerometer_latest = new Single[3];
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] accelerometer_integral = new Single[3];
-    public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] covariance = new Single[36];
+    public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] covariance = Enumerable.Repeat(new Single(),36).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

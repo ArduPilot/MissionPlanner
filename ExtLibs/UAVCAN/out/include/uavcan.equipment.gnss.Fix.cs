@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -49,8 +50,8 @@ public class uavcan_equipment_gnss_Fix: IUAVCANSerialize {
     public uint8_t sats_used = new uint8_t();
     public uint8_t status = new uint8_t();
     public Single pdop = new Single();
-    public uint8_t position_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] position_covariance = new Single[9];
-    public uint8_t velocity_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] velocity_covariance = new Single[9];
+    public uint8_t position_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] position_covariance = Enumerable.Repeat(new Single(),9).ToArray();
+    public uint8_t velocity_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] velocity_covariance = Enumerable.Repeat(new Single(),9).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

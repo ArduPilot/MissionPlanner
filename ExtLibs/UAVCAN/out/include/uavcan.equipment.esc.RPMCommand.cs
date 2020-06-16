@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -26,7 +27,7 @@ public const int UAVCAN_EQUIPMENT_ESC_RPMCOMMAND_DT_ID = 1031;
 
 
 public class uavcan_equipment_esc_RPMCommand: IUAVCANSerialize {
-    public uint8_t rpm_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public int32_t[] rpm = new int32_t[20];
+    public uint8_t rpm_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public int32_t[] rpm = Enumerable.Repeat(new int32_t(),20).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

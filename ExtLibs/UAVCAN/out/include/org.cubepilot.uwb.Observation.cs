@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -31,7 +32,7 @@ public class org_cubepilot_uwb_Observation: IUAVCANSerialize {
     public uint64_t timestamp_us = new uint64_t();
     public org_cubepilot_uwb_Node tx_node = new org_cubepilot_uwb_Node();
     public uint64_t tx_timestamp = new uint64_t();
-    public uint8_t rx_timestamps_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)] public org_cubepilot_uwb_ReceiveTimestamp[] rx_timestamps = new org_cubepilot_uwb_ReceiveTimestamp[10];
+    public uint8_t rx_timestamps_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)] public org_cubepilot_uwb_ReceiveTimestamp[] rx_timestamps = Enumerable.Repeat(new org_cubepilot_uwb_ReceiveTimestamp(),10).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -30,7 +31,7 @@ public class uavcan_protocol_GetTransportStats_res: IUAVCANSerialize {
     public uint64_t transfers_tx = new uint64_t();
     public uint64_t transfers_rx = new uint64_t();
     public uint64_t transfer_errors = new uint64_t();
-    public uint8_t can_iface_stats_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public uavcan_protocol_CANIfaceStats[] can_iface_stats = new uavcan_protocol_CANIfaceStats[3];
+    public uint8_t can_iface_stats_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public uavcan_protocol_CANIfaceStats[] can_iface_stats = Enumerable.Repeat(new uavcan_protocol_CANIfaceStats(),3).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

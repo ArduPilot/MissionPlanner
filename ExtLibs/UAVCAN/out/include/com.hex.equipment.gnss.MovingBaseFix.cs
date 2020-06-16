@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -34,9 +35,9 @@ public class com_hex_equipment_gnss_MovingBaseFix: IUAVCANSerialize {
     public uavcan_Timestamp timestamp = new uavcan_Timestamp();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public uint8_t[] base_in_use_hwid = new uint8_t[16];
     public uint8_t carrier_solution_type = new uint8_t();
-    public uint8_t pos_rel_body_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] pos_rel_body = new Single[3];
+    public uint8_t pos_rel_body_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] pos_rel_body = Enumerable.Repeat(new Single(),3).ToArray();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] pos_rel_ecef = new Single[3];
-    public uint8_t pos_rel_ned_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=6)] public Single[] pos_rel_ned_covariance = new Single[6];
+    public uint8_t pos_rel_ned_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=6)] public Single[] pos_rel_ned_covariance = Enumerable.Repeat(new Single(),6).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

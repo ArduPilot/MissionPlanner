@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -32,7 +33,7 @@ public const double UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_UNKNOWN =
 
 public class uavcan_protocol_file_BeginFirmwareUpdate_res: IUAVCANSerialize {
     public uint8_t error = new uint8_t();
-    public uint8_t optional_error_message_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=127)] public uint8_t[] optional_error_message = new uint8_t[127];
+    public uint8_t optional_error_message_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=127)] public uint8_t[] optional_error_message = Enumerable.Repeat(new uint8_t(),127).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -27,7 +28,7 @@ public const int UAVCAN_PROTOCOL_DEBUG_KEYVALUE_DT_ID = 16370;
 
 public class uavcan_protocol_debug_KeyValue: IUAVCANSerialize {
     public Single value = new Single();
-    public uint8_t key_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)] public uint8_t[] key = new uint8_t[58];
+    public uint8_t key_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)] public uint8_t[] key = Enumerable.Repeat(new uint8_t(),58).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

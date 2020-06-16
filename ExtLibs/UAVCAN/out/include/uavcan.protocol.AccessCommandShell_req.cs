@@ -12,6 +12,7 @@ using int64_t = System.Int64;
 using float32 = System.Single;
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace UAVCAN
@@ -34,7 +35,7 @@ public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_READ_STDERR = 12
 
 public class uavcan_protocol_AccessCommandShell_req: IUAVCANSerialize {
     public uint8_t flags = new uint8_t();
-    public uint8_t input_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] input = new uint8_t[128];
+    public uint8_t input_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] input = Enumerable.Repeat(new uint8_t(),128).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {
