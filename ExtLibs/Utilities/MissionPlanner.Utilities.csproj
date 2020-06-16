@@ -38,6 +38,7 @@
     <PackageReference Include="Flurl.Http" Version="2.3.2" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="MathParser.org-mXparser" Version="4.3.3" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0007" />
@@ -67,6 +68,12 @@
     <ProjectReference Include="..\ProjNet\ProjNET.csproj" />
     <ProjectReference Include="..\SharpKml\SharpKml.csproj" />
     <ProjectReference Include="..\Zeroconf\Zeroconf\Zeroconf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Runtime.Loader">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\Xamarin.iOS\v1.0\Facades\System.Runtime.Loader.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

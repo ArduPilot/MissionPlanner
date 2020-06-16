@@ -187,6 +187,22 @@ namespace MissionPlanner.Plugin
                 log.Info("Plugin: " + csFile);
                 try
                 {
+                    // csharp 8
+                    var ans = CodeGenRoslyn.BuildCode(csFile);
+
+                    InitPlugin(ans);
+
+                    continue;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+
+                try
+                {
+                    //csharp 5 max
+
                     // create a compiler
                     var compiler = CodeGen.CreateCompiler();
                     // get all the compiler parameters

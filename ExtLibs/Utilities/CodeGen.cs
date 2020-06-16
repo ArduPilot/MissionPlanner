@@ -8,9 +8,63 @@ using System.Reflection;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
+using MissionPlanner.Utilities;
+using System.Runtime.Loader;
 
 namespace MissionPlanner
 {
+    public static class CodeGenRoslyn
+    {
+        public static Assembly BuildCode(string filepath)
+        {
+            var syntaxTree =
+                CSharpSyntaxTree.ParseText(File.ReadAllText(filepath, Encoding.UTF8), path: filepath,
+                    encoding: Encoding.UTF8);
+            var assemblyName = Path.GetFileNameWithoutExtension(filepath); //Guid.NewGuid().ToString();
+
+            var refs = AppDomain.CurrentDomain.GetAssemblies();
+            var refFiles = refs.Where(a =>
+                    !a.IsDynamic && !a.FullName.Contains("MissionPlanner.Drawing"))
+                .Select(a => a.Location);
+            var refmeta = refFiles.Select(a =>
+            {
+                try
+                {
+                    return AssemblyMetadata.CreateFromFile(a).GetReference();
+                }
+                catch
+                {
+                    return null;
+                }
+            }).Where(a => a != null).ToArray();
+
+            CSharpCompilation compilation = CSharpCompilation.Create(
+                assemblyName,
+                new[] {syntaxTree}, refmeta,
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            using (var dllStream = new MemoryStream())
+            using (var pdbStream = new MemoryStream())
+            {
+                var emitResult = compilation.Emit(dllStream, pdbStream);
+                if (!emitResult.Success)
+                {
+                    // emitResult.Diagnostics
+                    emitResult.Diagnostics.ForEach(a => Console.WriteLine("{0}", a.ToString()));
+                }
+                else
+                {
+                    return Assembly.Load(dllStream.GetBuffer(), pdbStream.GetBuffer());
+                }
+
+                return null;
+            }
+        }
+    }
+
     public static class CodeGen
     {
         public static object runCode(string code)
