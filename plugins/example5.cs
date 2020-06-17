@@ -3,7 +3,9 @@ using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 
@@ -17,6 +19,7 @@ namespace LatencyTracker
         private UInt32 last_boot_ms = 0;
         private Panel pnl;
         private Label lbl;
+        private FileStream log;
 
         public override string Name
         {
@@ -35,7 +38,8 @@ namespace LatencyTracker
 
         public override bool Init()
         {
-            return true;
+            // to enable change this
+            return false;
         }
 
         public override bool Loaded()
@@ -86,10 +90,9 @@ namespace LatencyTracker
             pnl.Location = new Point(350, 10);
             pnl.Size = new Size(60, 30);
 
-            // to enable change this
-            //Host.MainForm.Controls.Add(pnl);
-            //Host.MainForm.Controls.SetChildIndex(pnl, 0);
-            
+            Host.MainForm.Controls.Add(pnl);
+            Host.MainForm.Controls.SetChildIndex(pnl, 0);
+
             return true;
         }
 
@@ -106,6 +109,35 @@ namespace LatencyTracker
                 var newtime = ((last_boot_ms + avgoffset)/1000.0).fromUnixTime();
 
                 var delta = (DateTime.UtcNow - newtime).TotalSeconds;
+
+                if (MainV2.comPort?.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
+                {
+                    if (log == null)
+                    {
+                        var dt = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+                        log = File.OpenWrite(Settings.GetDefaultLogDir() + Path.DirectorySeparatorChar + dt +
+                                             "-latency.csv");
+                        var headerline = "TimeNow,PacketTime,Delta(s),Boot_MS,SysTimeOffset\r\n";
+                        log.Write(ASCIIEncoding.ASCII.GetBytes(headerline), 0, headerline.Length);
+                    }
+
+                    var logline =
+                        new string[]
+                                {DateTime.UtcNow.ToString("O"), newtime.ToString("O"), delta.ToString(), last_boot_ms.ToString(), avgoffset.ToString()}
+                            .Aggregate((a, b) =>
+                                a + "," + b) + "\r\n";
+
+                    log.Write(ASCIIEncoding.ASCII.GetBytes(logline), 0, logline.Length);
+
+                    if (DateTime.Now.Second == 5 && log != null)
+                        log.Flush();
+                }
+                else
+                {
+                    if(log != null)
+                        log.Close();
+                    log = null;
+                }
 
                 if (delta < 0.35)
                     pnl.BackColor = Color.Green;
@@ -132,6 +164,8 @@ namespace LatencyTracker
 
         public override bool Exit()
         {
+            if (log != null)
+                log.Close();
             return true;
         }
     }
