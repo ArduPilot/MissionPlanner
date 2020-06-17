@@ -96,6 +96,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_baudrate.Text = Settings.Instance["SerialInjectGPS_baud"];
             }
+            else
+            {
+                CMB_baudrate.Text = "115200";
+            }
             if (Settings.Instance.ContainsKey("SerialInjectGPS_SIAcc"))
             {
                 txt_surveyinAcc.Text = Settings.Instance["SerialInjectGPS_SIAcc"];
