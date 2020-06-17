@@ -185,19 +185,6 @@ namespace MissionPlanner.Plugin
             foreach (var csFile in csFiles)
             {
                 log.Info("Plugin: " + csFile);
-                try
-                {
-                    // csharp 8
-                    var ans = CodeGenRoslyn.BuildCode(csFile);
-
-                    InitPlugin(ans);
-
-                    continue;
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
 
                 try
                 {
@@ -211,6 +198,23 @@ namespace MissionPlanner.Plugin
                     var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
 
                     InitPlugin(results?.CompiledAssembly);
+
+                    if(results?.CompiledAssembly != null)
+                        continue;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+
+                try
+                {
+                    // csharp 8
+                    var ans = CodeGenRoslyn.BuildCode(csFile);
+
+                    InitPlugin(ans);
+
+                    continue;
                 }
                 catch (Exception ex)
                 {
