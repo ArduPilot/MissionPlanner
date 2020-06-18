@@ -110,7 +110,7 @@ namespace LatencyTracker
 
                 var delta = (DateTime.UtcNow - newtime).TotalSeconds;
 
-                if (MainV2.comPort?.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
+                if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
                 {
                     if (log == null)
                     {
