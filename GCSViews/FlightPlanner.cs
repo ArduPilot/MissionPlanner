@@ -1332,7 +1332,7 @@ namespace MissionPlanner.GCSViews
                         overlay.CreateOverlay(home,
                             commandlist,
                             double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
-                            double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt);
+                            double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt, CurrentState.multiplieralt);
                     }
                     catch (FormatException ex)
                     {
@@ -1401,7 +1401,7 @@ namespace MissionPlanner.GCSViews
                         try
                         {
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
-                            MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp)a).ToList(), 0, 0);
+                            MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp)a).ToList(), 0, 0, CurrentState.multiplieralt);
                         }
                         catch
                         {
@@ -1427,7 +1427,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         overlay.CreateOverlay(PointLatLngAlt.Zero,
-                            commandlist, 0, 0);
+                            commandlist, 0, 0, CurrentState.multiplieralt);
                     }
                     catch (FormatException ex)
                     {
@@ -1483,7 +1483,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         overlay.CreateOverlay(PointLatLngAlt.Zero,
-                            commandlist, 0, 0);
+                            commandlist, 0, 0, CurrentState.multiplieralt);
                     }
                     catch (FormatException ex)
                     {

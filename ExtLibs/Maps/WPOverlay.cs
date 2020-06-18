@@ -22,7 +22,7 @@ namespace MissionPlanner.ArduPilot
         /// list of point as per mission including jump repeats
         public List<PointLatLngAlt> fullpointlist = new List<PointLatLngAlt>();
 
-        public void CreateOverlay(PointLatLngAlt home, List<Locationwp> missionitems, double wpradius, double loiterradius)
+        public void CreateOverlay(PointLatLngAlt home, List<Locationwp> missionitems, double wpradius, double loiterradius, double altunitmultiplier)
         {
             overlay.Clear();
 
@@ -42,7 +42,7 @@ namespace MissionPlanner.ArduPilot
                 home.Tag = "H";
                 pointlist.Add(home);
                 fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                addpolygonmarker("H", home.Lng, home.Lat, home.Alt, null, 0);
+                addpolygonmarker("H", home.Lng, home.Lat, home.Alt * altunitmultiplier, null, 0);
             }
 
             int a = 0;
@@ -152,7 +152,7 @@ namespace MissionPlanner.ArduPilot
                                 fullpointlist.Add(pointlist[pointlist.Count - 1]);
 
                             addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                                item.alt, Color.LightBlue, loiterradius);
+                                item.alt * altunitmultiplier, Color.LightBlue, loiterradius);
                         }
                     }
                     else if (command == (ushort) MAVLink.MAV_CMD.SPLINE_WAYPOINT)
@@ -163,7 +163,7 @@ namespace MissionPlanner.ArduPilot
                             {Tag2 = "spline"});
                         fullpointlist.Add(pointlist[pointlist.Count - 1]);
                         addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                            item.alt, Color.Green, wpradius);
+                            item.alt * altunitmultiplier, Color.Green, wpradius);
                     }
                     else if (command == (ushort) MAVLink.MAV_CMD.WAYPOINT && item.lat == 0 && item.lng == 0)
                     {
@@ -176,7 +176,7 @@ namespace MissionPlanner.ArduPilot
                             (a + 1).ToString()));
                         fullpointlist.Add(pointlist[pointlist.Count - 1]);
                         addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                            item.alt, null, wpradius);
+                            item.alt * altunitmultiplier, null, wpradius);
                     }
 
                     maxlong = Math.Max(item.lng, maxlong);

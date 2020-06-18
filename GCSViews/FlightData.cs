@@ -3075,13 +3075,13 @@ namespace MissionPlanner.GCSViews
                                     {
                                         overlay.CreateOverlay(homeplla,
                                             mission_items,
-                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt, CurrentState.multiplieralt);
                                     }
                                     else
                                     {
                                         overlay.CreateOverlay(homeplla,
                                             mission_items,
-                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt);
+                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt, CurrentState.multiplieralt);
 
                                     }
                                 }
@@ -3143,7 +3143,7 @@ namespace MissionPlanner.GCSViews
                             fenceoverlay.overlay.Id = "fence";
 
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
-                                MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0);
+                                MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0, CurrentState.multiplieralt);
 
                             var fence = mymap.Overlays.Where(a => a.Id == "fence");
                             if (fence.Count() > 0)
