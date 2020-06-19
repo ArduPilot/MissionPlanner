@@ -336,6 +336,7 @@ namespace MissionPlanner
         BinaryReader _logplaybackfile;
 
         public DateTime lastlogread { get; set; }
+        public DateTime lastlogreadwall { get; set; }
 
         public BinaryReader logplaybackfile
         {
@@ -5605,6 +5606,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             date1 = date1.AddMilliseconds(dateint / 1000);
 
                             lastlogread = date1.ToLocalTime();
+                            lastlogreadwall = DateTime.Now;
                         }
                     }
                 }
