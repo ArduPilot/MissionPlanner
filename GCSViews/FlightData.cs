@@ -2824,25 +2824,13 @@ namespace MissionPlanner.GCSViews
                     {
                         if (!MainV2.comPort.giveComport)
                             await MainV2.comPort.readPacketAsync().ConfigureAwait(false);
-
-                        // update currentstate of sysids on the port
-                        foreach (var MAV in MainV2.comPort.MAVlist)
-                        {
-                            try
-                            {
-                                MAV.cs.UpdateCurrentSettings(null, false, MainV2.comPort, MAV);
-                            }
-                            catch (Exception ex)
-                            {
-                                log.Error(ex);
-                            }
-                        }
                     }
                     catch
                     {
                         log.Error("Failed to read log packet");
                     }
 
+                    // time between packets
                     double act = (MainV2.comPort.lastlogread - logplayback).TotalMilliseconds;
 
                     if (act > 9999 || act < 0)
@@ -2885,6 +2873,19 @@ namespace MissionPlanner.GCSViews
 
                     if (ts > 0 && ts < 1000)
                         Thread.Sleep((int) ts);
+
+                    // update currentstate of sysids on the port
+                    foreach (var MAV in MainV2.comPort.MAVlist)
+                    {
+                        try
+                        {
+                            MAV.cs.UpdateCurrentSettings(null, false, MainV2.comPort, MAV);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+                    }
 
                     tracklast = tracklast.AddMilliseconds(ts - act);
                     tunning = tunning.AddMilliseconds(ts - act);
