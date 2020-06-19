@@ -130,8 +130,14 @@ namespace MissionPlanner.Controls
 
         private bool started = false;
 
+        static HUD()
+        {
+            log.Info("Static HUD ctor");
+        }
+
         public HUD()
         {
+            log.Info("Instance HUD ctor");
             opengl =
                 displayvibe =
                     displayekf =
@@ -995,9 +1001,6 @@ namespace MissionPlanner.Controls
 
             // Console.WriteLine("hud ms " + (DateTime.Now.Millisecond));
 
-            if (!started)
-                return;
-
             if (this.DesignMode)
             {
                 e.Graphics.Clear(this.BackColor);
@@ -1008,6 +1011,9 @@ namespace MissionPlanner.Controls
                 opengl = true;
                 return;
             }
+
+            if (!started)
+                return;
 
             if ((DateTime.Now - starttime).TotalMilliseconds < 30 && (_bgimage == null))
             {
@@ -2436,14 +2442,15 @@ namespace MissionPlanner.Controls
 
                 if (displayconninfo)
                 {
-                    graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 5,
+                    if (_linkqualitygcs > 80)
+                        graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 5,
                         scrollbg.Top - (int) (fontsize * 2.2) - 2 - 20, scrollbg.Left - 5,
                         scrollbg.Top - (int) (fontsize) - 2 - 20);
                     if (_linkqualitygcs > 50)
                         graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 10,
                             scrollbg.Top - (int) (fontsize * 2.2) - 2 - 15, scrollbg.Left - 10,
                             scrollbg.Top - (int) (fontsize) - 2 - 20);
-                    if (_linkqualitygcs > 80)
+                    if (_linkqualitygcs > 20)
                         graphicsObject.DrawLine(this._greenPen, scrollbg.Left - 15,
                             scrollbg.Top - (int) (fontsize * 2.2) - 2 - 10, scrollbg.Left - 15,
                             scrollbg.Top - (int) (fontsize) - 2 - 20);
@@ -2936,6 +2943,9 @@ namespace MissionPlanner.Controls
                     bitmap.UnlockBits(data);
 
                     charDict[charid].gltextureid = textureId;
+
+                    // tweak here for font generation
+                    huddrawtime = 0;
                 }
 
                 float scale = 1.0f;
