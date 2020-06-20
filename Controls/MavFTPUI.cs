@@ -89,6 +89,7 @@ namespace MissionPlanner.Controls
                 treeView1.Nodes.Add(rootNode);
             }
 
+            /*
             info = new DirectoryInfo(@"@ROMFS/", _mavftp);
             if (info.Exists)
             {
@@ -97,6 +98,7 @@ namespace MissionPlanner.Controls
                 await GetDirectories(await info.GetDirectories().ConfigureAwait(true), rootNode).ConfigureAwait(true);
                 treeView1.Nodes.Add(rootNode);
             }
+            */
 
             toolStripStatusLabel1.Text = "Ready";
 
