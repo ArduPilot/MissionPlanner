@@ -435,7 +435,11 @@ namespace MissionPlanner.Controls
             string folder = "";
             var dr = InputBox.Show("Folder Name", "Enter folder name", ref folder);
             if (dr == DialogResult.OK)
-                _mavftp.kCmdCreateDirectory(treeView1.SelectedNode.FullPath + "/" + folder, new CancellationTokenSource());
+                if (!_mavftp.kCmdCreateDirectory(treeView1.SelectedNode.FullPath + "/" + folder,
+                    new CancellationTokenSource()))
+                {
+                    CustomMessageBox.Show("Failed to create directory", Strings.ERROR);
+                }
 
             TreeView1_NodeMouseClick(null,
                 new TreeNodeMouseClickEventArgs(treeView1.SelectedNode, MouseButtons.Left, 1, 1, 1));

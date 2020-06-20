@@ -479,8 +479,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
             /// File exists already
             kErrFailFileProtected,
 
-            /// File is write protected
-            kErrBusy
+            /// File Not Found
+            kErrFileNotFound
         };
 
         /// Command opcodes
@@ -611,7 +611,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         timeout.Retries = 0;
                     }
 
-                    if (errorcode == FTPErrorCode.kErrBusy)
+                    if (errorcode == FTPErrorCode.kErrFileNotFound)
                     {
                         //stop trying
                         timeout.Retries = 0;
@@ -816,8 +816,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         log.Error(ftphead.req_opcode + " " + errorcode);
                     }
 
-                    if (errorcode == FTPErrorCode.kErrBusy)
-                        timeout.RetriesCurrent = 0;
+                    if (errorcode == FTPErrorCode.kErrFileNotFound)
+                        timeout.Retries = 0;
 
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
                         kCmdResetSessions();
@@ -930,10 +930,17 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                         if (_ftp_errno == errno.EEXIST)
                             timeout.Complete = true;
+
+                        timeout.Retries = 0;
                     }
                     else
                     {
                         log.Error(ftphead.req_opcode + " " + errorcode);
+                    }
+
+                    if (errorcode == FTPErrorCode.kErrFailFileExists)
+                    {
+                        timeout.Complete = true;
                     }
 
                     if (errorcode == FTPErrorCode.kErrFail)
@@ -1098,6 +1105,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                             log.Error(ftphead.req_opcode + " " + errorcode);
                         }
 
+                        if (errorcode == FTPErrorCode.kErrFileNotFound)
+                        {
+                            //stop trying
+                            timeout.Retries = 0;
+                        }
+
                         if (errorcode == FTPErrorCode.kErrEOF)
                             timeout.Complete = true;
 
@@ -1243,7 +1256,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         timeout.Retries = 0;
                     }
 
-                    if (errorcode == FTPErrorCode.kErrBusy)
+                    if (errorcode == FTPErrorCode.kErrFileNotFound)
                     {
                         //stop trying
                         timeout.Retries = 0;
@@ -1388,6 +1401,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdRemoveDirectory(string file, CancellationTokenSource cancel)
         {
+            file = file.Replace("//", "/");
             fileTransferProtocol.target_system = _sysid;
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
@@ -1425,6 +1439,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         log.Error(ftphead.req_opcode + " " + errorcode);
                     }
 
+                    if (errorcode == FTPErrorCode.kErrFileNotFound)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
+                    }
+
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
                         kCmdResetSessions();
                     return true;
@@ -1457,6 +1477,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdRemoveFile(string file, CancellationTokenSource cancel)
         {
+            file = file.Replace("//", "/");
             fileTransferProtocol.target_system = _sysid;
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
@@ -1492,6 +1513,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     else
                     {
                         log.Error(ftphead.req_opcode + " " + errorcode);
+                    }
+
+                    if (errorcode == FTPErrorCode.kErrFileNotFound)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
                     }
 
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
