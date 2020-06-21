@@ -524,6 +524,9 @@
       <DependentUpon>MainV2.cs</DependentUpon>
     </Compile>
     <Compile Include="NativeMethods.cs" />
+    <None Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2+CompassDeviceInfo.datasource" />
     <None Include="plugins\example2.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

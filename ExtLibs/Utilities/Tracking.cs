@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using log4net;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 
 namespace MissionPlanner.Utilities
 {
@@ -39,14 +41,38 @@ namespace MissionPlanner.Utilities
 
         public static bool OptOut = false;
 
+        //https://docs.microsoft.com/en-us/azure/azure-monitor/app/windows-desktop
+        static TelemetryClient tc = new TelemetryClient();
+
         static string version = "1";
         static string tid = "UA-43098846-1";
-        public static Guid cid = new Guid();
+
+        public static Guid cid
+        {
+            get => _cid;
+            set
+            {
+                _cid = value;
+                tc.Context.User.Id = cid.ToString();
+                tc.Context.Device.ScreenResolution = boundsWidth + "x" + boundsHeight + "x" + primaryScreenBitsPerPixel;
+                tc.Context.Component.Version = productVersion;
+                tc.Context.GlobalProperties["Culture"] = currentCultureName;
+                tc.Context.GlobalProperties["ProductName"] = productName;
+            }
+        }
 
         static bool sessionstart = false;
 
         private static readonly Uri trackingEndpoint = new Uri("http://www.google-analytics.com/collect");
         private static readonly Uri secureTrackingEndpoint = new Uri("https://ssl.google-analytics.com/collect");
+        private static Guid _cid = new Guid();
+
+        static Tracking()
+        {
+            tc.InstrumentationKey = "1a47f6b1-7552-40f2-b812-b4e5caad0f11";
+            tc.Context.Session.Id = Guid.NewGuid().ToString();
+            tc.Context.Device.OperatingSystem = Environment.OSVersion.ToString();
+        }
 
         public static void AddEvent(string cat, string action, string label, string value)
         {
@@ -145,6 +171,8 @@ namespace MissionPlanner.Utilities
             Console.WriteLine("Open "+page + " " + title);
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
+            if (!OptOut)
+                tc.TrackPageView(new PageViewTelemetry(page) {Name = title});
         }
 
         public static void AddException(Exception ex)
@@ -184,10 +212,6 @@ namespace MissionPlanner.Utilities
                             break;
                         }
                     }
-                    // 150 bytes
-
-                    reportline =
-                        reportline.Replace(@"c:\Users\hog\Documents\Visual Studio 2010\Projects\MissionPlanner.", "");
                 }
 
                 param.Add(new KeyValuePair<string, string>("exd", ex.Message + reportline));
@@ -210,6 +234,11 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
+            if (!OptOut)
+            {
+                tc.TrackException(ex);
+                tc.Flush();
+            }
         }
 
         public static void AddFW(string name, string board)
@@ -245,6 +274,8 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
+            if (!OptOut)
+                tc.TrackEvent(name, new Dictionary<string, string>() {{"board", board}});
         }
 
         public static void AddTiming(string cat, string name, double timeinms, string label)
@@ -278,6 +309,9 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("sr", boundsWidth + "x" + boundsHeight));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
+
+            if (!OptOut)
+                tc.TrackMetric(cat, timeinms, new Dictionary<string, string>() {{"label", label}, {"name", name}});
         }
 
         static void track(object temp)
