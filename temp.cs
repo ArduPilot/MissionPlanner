@@ -1248,5 +1248,11 @@ namespace MissionPlanner
                 .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                 .ToArray();
         }
+
+        private void but_remotedflogger_Click(object sender, EventArgs e)
+        {
+            RemoteLog.StartRemoteLog(MainV2.comPort, (byte) MainV2.comPort.sysidcurrent,
+                (byte) MainV2.comPort.compidcurrent);
+        }
     }
 }

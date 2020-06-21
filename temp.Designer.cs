@@ -142,6 +142,7 @@
             this.label54 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
             this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
+            this.but_remotedflogger = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -260,6 +261,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label53, 3, 26);
             this.tableLayoutPanel1.Controls.Add(this.label54, 3, 27);
             this.tableLayoutPanel1.Controls.Add(this.label55, 3, 28);
+            this.tableLayoutPanel1.Controls.Add(this.but_remotedflogger, 0, 15);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // but_proximity
@@ -934,6 +936,13 @@
             resources.ApplyResources(this.controlSensorsStatus1, "controlSensorsStatus1");
             this.controlSensorsStatus1.Name = "controlSensorsStatus1";
             // 
+            // but_remotedflogger
+            // 
+            resources.ApplyResources(this.but_remotedflogger, "but_remotedflogger");
+            this.but_remotedflogger.Name = "but_remotedflogger";
+            this.but_remotedflogger.UseVisualStyleBackColor = true;
+            this.but_remotedflogger.Click += new System.EventHandler(this.but_remotedflogger_Click);
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
@@ -1065,5 +1074,6 @@
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Label label55;
         private Controls.ControlSensorsStatus controlSensorsStatus1;
+        private Controls.MyButton but_remotedflogger;
     }
 }
