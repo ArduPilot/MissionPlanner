@@ -276,7 +276,7 @@ namespace MissionPlanner
 
             try
             {
-                log.Info(Process.GetCurrentProcess().Modules.ToJSON());
+                log.Debug(Process.GetCurrentProcess().Modules.ToJSON());
             }
             catch
             {
