@@ -57,20 +57,16 @@ namespace MissionPlanner.ArduPilot
 
         private void Port_OnPacketReceived(object sender, MAVLink.MAVLinkMessage message)
         {
-            if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_DATA_BLOCK)
+            if (message.msgid == (uint) MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_DATA_BLOCK)
             {
                 var data = (MAVLink.mavlink_remote_log_data_block_t) message.data;
 
-                // new data - save it
-                if (seq != data.seqno)
-                {
-                    seq = data.seqno;
+                seq = data.seqno;
 
-                    if (logfilestream.Position != data.seqno * 200)
-                        logfilestream.Seek(data.seqno * 200, SeekOrigin.Begin);
+                if (logfilestream.Position != data.seqno * 200)
+                    logfilestream.Seek(data.seqno * 200, SeekOrigin.Begin);
 
-                    logfilestream.Write(data.data, 0, data.data.Length);
-                }
+                logfilestream.Write(data.data, 0, data.data.Length);
 
                 var resp = new MAVLink.mavlink_remote_log_block_status_t(data.seqno, message.sysid, message.compid,
                     (byte) MAVLink.MAV_REMOTE_LOG_DATA_BLOCK_STATUSES.MAV_REMOTE_LOG_DATA_BLOCK_ACK);
