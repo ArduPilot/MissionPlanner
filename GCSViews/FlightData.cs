@@ -3387,7 +3387,7 @@ namespace MissionPlanner.GCSViews
                                         return;
 
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
-                                                            "CallSign: " + pllau.CallSign.ToString() + "\n" +
+                                                            "CallSign: " + pllau.CallSign + "\n" +
                                                             "Squawk: " + Convert.ToString(pllau.Squawk) + "\n" +
                                                             "Alt: " + pllau.Alt.ToString("0") + "\n" +
                                                             "Speed: " + pllau.Speed.ToString("0") + "\n" +
@@ -3518,6 +3518,9 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
+                    // skip invalid tags
+                    if (GetTagSource(item) == null)
+                        continue;
                     // new marker
                     var marker = create(item);
                     if (marker == null)
@@ -3529,10 +3532,17 @@ namespace MissionPlanner.GCSViews
 
             // run cleanup
             var sourcelist = list.Select(item => GetTagSource(item));
-            gMapOverlay.Markers.ToArray().ForEach(a =>
+            markers.ForEach(a =>
             {
                 if (a is TMarker && !sourcelist.Contains(GetTagMarker(a)))
                     BeginInvoke((Action) delegate { gMapOverlay.Markers.Remove(a); });
+            });
+            // remove dups - can happen because the delayed invoke on first create
+            sourcelist.Distinct().ForEach(a =>
+            {
+                var sublist = markers.Where(b => GetTagMarker(b) == a);
+                if (sublist.Count() > 1)
+                    BeginInvoke((Action) delegate { gMapOverlay.Markers.Remove(sublist.Last()); });
             });
         }
 
