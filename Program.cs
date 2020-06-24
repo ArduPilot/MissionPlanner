@@ -116,6 +116,12 @@ namespace MissionPlanner
                 Utilities.Update.DoUpdate();
                 return;
             }
+            if (args.Length > 0 && args[0] == "/updatebeta")
+            {
+                Utilities.Update.dobeta = true;
+                Utilities.Update.DoUpdate();
+                return;
+            }
 
             name = "Mission Planner";
 
