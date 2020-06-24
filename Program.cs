@@ -151,7 +151,13 @@ namespace MissionPlanner
             try
             {
                 var file = NativeLibrary.GetLibraryPathname("libSkiaSharp");
-                var ptr = NativeLibrary.LoadLibrary(file);
+                log.Info(file);
+                IntPtr ptr;
+                if(MONO)
+                    ptr = NativeLibrary.dlopen(file+".so", NativeLibrary.RTLD_NOW);
+                else
+                    ptr = NativeLibrary.LoadLibrary(file+".dll");
+
                 if (ptr != IntPtr.Zero)
                 {
                     log.Info("SkiaLoaded");

@@ -527,6 +527,12 @@
     <None Include="ApplicationInsights.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="arm64\libSkiaSharp.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="arm\libSkiaSharp.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2+CompassDeviceInfo.datasource" />
     <None Include="plugins\example2.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
