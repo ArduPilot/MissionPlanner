@@ -1,16 +1,14 @@
 ﻿using System.Collections;
-using SkiaSharp;
-using SvgNet.SvgGdi;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using SkiaSharp;
 using SvgNet;
 
 namespace System
@@ -48,7 +46,6 @@ namespace System
                 Typeface = SKTypeface.FromFamilyName(font.SystemFontName),
                 TextSize = font.Size * 1.4f,
                 StrokeWidth = 2
-
             };
         }
 
@@ -66,11 +63,11 @@ namespace System
         {
             if (brush is SolidBrush)
                 return new SKPaint
-                { Color = ((SolidBrush)brush).Color.SKColor(), IsAntialias = true, Style = SKPaintStyle.Fill };
+                    {Color = ((SolidBrush) brush).Color.SKColor(), IsAntialias = true, Style = SKPaintStyle.Fill};
 
             if (brush is LinearGradientBrush)
             {
-                var lgb = (LinearGradientBrush)brush;
+                var lgb = (LinearGradientBrush) brush;
                 return new SKPaint
                 {
                     IsAntialias = true,
@@ -103,7 +100,9 @@ namespace System
 
         private SKSurface _surface;
 
-        //SKPictureRecorder _rec = new SKPictureRecorder();
+        SKPictureRecorder _rec = new SKPictureRecorder();
+        private bool skpicture;
+        private SKRect _recsize;
 
         /*
         public static implicit operator SkiaGraphics(IGraphics g)
@@ -121,6 +120,38 @@ namespace System
         }
         */
 
+        public static implicit operator Image(SkiaGraphics g)
+        {
+            if (g.skpicture)
+            {
+                using (var pic = g._rec.EndRecording())
+                using (var img = SKImage.FromPicture(pic,
+                    new SKSizeI((int)g._recsize.Width, (int)g._recsize.Height)))
+                {
+                    if (img.IsLazyGenerated)
+                    {
+                        var bmp = SKBitmap.FromImage(img);
+                        var pixels = bmp.GetPixels();
+                        return new Bitmap(bmp.Width, bmp.Height, bmp.RowBytes,
+                            bmp.BytesPerPixel == 4 ? PixelFormat.Format32bppArgb : PixelFormat.DontCare, pixels);
+                    }
+
+                    return new Bitmap(img.Width, img.Height, img.Width * 4, PixelFormat.Format32bppArgb,
+                        img.PeekPixels().GetPixels());
+                }
+            }
+            else
+            {
+                using (var snap = g._surface.Snapshot())
+                using (var rast = snap.ToRasterImage())
+                using (var pxmap = rast.PeekPixels())
+                {
+                    var bmpdata = pxmap.GetPixels();
+                    return new Bitmap(rast.Width, rast.Height, rast.Width * 4, PixelFormat.Format32bppArgb, bmpdata);
+                }
+            }
+        }
+
         public SkiaGraphics()
         {
             _surface = SKSurface.Create(9999, 9999, SKColorType.Bgra8888, SKAlphaType.Opaque);
@@ -133,7 +164,6 @@ namespace System
 
         public SkiaGraphics(IntPtr handle, int width, int height)
         {
-
             /*
              * 
 GRGlInterface glInterface = GRGlInterface.AssembleGlInterface(GLFW.GetWGLContext(window), (contextHandle, name) => GLFW.GetProcAddress(name));
@@ -145,6 +175,34 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             _surface = SKSurface.Create(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Opaque);
 
             //_rec.BeginRecording(new SKRect(0, 0, width, height));
+        }
+
+        public SkiaGraphics(int width, int height)
+        {
+            _recsize = SKRect.Create(width, height);
+            _rec.BeginRecording(_recsize);
+            skpicture = true;
+        }
+
+        private SKCanvas _image
+        {
+            get
+            {
+                if (skpicture)
+                {
+                    if (_rec.RecordingCanvas == null) _rec.BeginRecording(_recsize);
+                    return _rec.RecordingCanvas;
+                }
+
+                return _surface.Canvas;
+            }
+        }
+
+
+        public void Dispose()
+        {
+            _surface?.Dispose();
+            _paint?.Dispose();
         }
 
         public Region Clip { get; set; }
@@ -172,47 +230,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         }
 
         public RectangleF VisibleClipBounds { get; }
-        private SKCanvas _image => _surface.Canvas;//_rec.RecordingCanvas;//_surface.Canvas;
-
-        public byte[] WriteImage()
-        {
-            /*
-            return SKImage.FromPicture(_rec.EndRecording(),
-                    new SKSizeI((int)_rec.RecordingCanvas.LocalClipBounds.Width,
-                        (int)_rec.RecordingCanvas.LocalClipBounds.Height))
-                .Encode().ToArray();
-                */
-            return _surface.Snapshot().Encode().ToArray();
-        }
-
-        public static SkiaGraphics FromImage(Bitmap bmp)
-        {
-            var ans = new SkiaGraphics();
-
-            var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite,
-                PixelFormat.Format32bppArgb);
-           /* var bm =
-                new SKBitmap(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Premul),
-                    bmp.Width * 4);
-            bm.SetPixels(data.Scan0);
-            */
-            ans._surface = SKSurface.Create(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Premul), data.Scan0, data.Stride);
-
-            bmp.UnlockBits(data);
-
-            return ans;
-        }
-
-        public static implicit operator Image(SkiaGraphics sk)
-        {
-            using (var snap = sk._surface.Snapshot())
-            using (var rast = snap.ToRasterImage())
-            using (var pxmap = rast.PeekPixels())
-            {
-                var bmpdata = pxmap.GetPixels();
-                return new Bitmap(rast.Width, rast.Height, rast.Width * 4, PixelFormat.Format32bppArgb, bmpdata);
-            }
-        }
 
         public void AddMetafileComment(byte[] data)
         {
@@ -240,14 +257,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             CompositingMode = CompositingMode.SourceOver;
         }
 
-   
-
-        public void Dispose()
-        {
-            _surface?.Dispose();
-            _paint?.Dispose();
-        }
-
         public void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
             var path = new SKPath();
@@ -255,16 +264,16 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             _image.DrawPath(path, pen.SKPaint());
         }
 
-        
+
         public void DrawArc(Pen pen, RectangleF rect, float startAngle, float sweepAngle)
         {
             DrawArc(pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
         }
 
-  
+
         public void DrawArc(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawArc(pen, x, y, width, height, startAngle, (float)sweepAngle);
+            DrawArc(pen, x, y, width, height, startAngle, (float) sweepAngle);
         }
 
         public void DrawArc(Pen pen, Rectangle rect, float startAngle, float sweepAngle)
@@ -275,7 +284,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void DrawBezier(Pen pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
         {
             DrawBeziers(pen,
-                new PointF[] {new PointF(x1, y1), new PointF(x2, y2), new PointF(x3, y3), new PointF(x4, y4)});
+                new[] {new PointF(x1, y1), new PointF(x2, y2), new PointF(x3, y3), new PointF(x4, y4)});
         }
 
         public void DrawBezier(Pen pen, PointF pt1, PointF pt2, PointF pt3, PointF pt4)
@@ -389,7 +398,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawEllipse(Pen pen, Rectangle rect)
         {
-            DrawEllipse(pen, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            DrawEllipse(pen, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         /// <summary>
@@ -397,7 +406,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawEllipse(Pen pen, int x, int y, int width, int height)
         {
-            DrawEllipse(pen, x, y, width, (float)height);
+            DrawEllipse(pen, x, y, width, (float) height);
         }
 
         public void DrawIcon(Icon icon, int x, int y)
@@ -441,28 +450,28 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawImage(Image image, float x, float y, float width, float height)
         {
-            DrawImage(image, (long)x, (long)y, (long)width, (long)height);
+            DrawImage(image, (long) x, (long) y, (long) width, (long) height);
             //throw new NotImplementedException();
         }
 
         public void DrawImage(Image image, Point point)
         {
-            DrawImage(image, point.X, (float)point.Y);
+            DrawImage(image, point.X, (float) point.Y);
         }
 
         public void DrawImage(Image image, int x, int y)
         {
-            DrawImage(image, x, (float)y);
+            DrawImage(image, x, (float) y);
         }
 
         public void DrawImage(Image image, Rectangle rect)
         {
-            DrawImage(image, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            DrawImage(image, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         public void DrawImage(Image image, int x, int y, int width, int height)
         {
-            DrawImage(image, (float)x, y, width, height);
+            DrawImage(image, (float) x, y, width, height);
         }
 
         public void DrawImage(Image image, PointF[] destPoints)
@@ -506,13 +515,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             throw new NotImplementedException();
         }
 
-        public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit,
-            ImageAttributes imageAttr,
-            Graphics.DrawImageAbort callback)
-        {
-            throw new NotImplementedException();
-        }
-
         public void DrawImage(Image image, Point[] destPoints, Rectangle srcRect, GraphicsUnit srcUnit)
         {
             throw new NotImplementedException();
@@ -534,28 +536,25 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             GraphicsUnit graphicsUnit, ImageAttributes tileFlipXYAttributes)
         {
             var coltype = SKColorType.Bgra8888;
-            ((Bitmap)img).MakeTransparent(Color.Transparent);
+            ((Bitmap) img).MakeTransparent(Color.Transparent);
             var data = ((Bitmap) img).LockBits(new Rectangle(0, 0, img.Width, img.Height),
                 ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
 
-            if(CompositingMode == CompositingMode.SourceOver)
+            if (CompositingMode == CompositingMode.SourceOver)
                 _paint.BlendMode = SKBlendMode.SrcOver;
             if (CompositingMode == CompositingMode.SourceCopy)
                 _paint.BlendMode = SKBlendMode.Src;
             //if(img.PixelFormat == PixelFormat.Format32bppArgb)
-               _paint.Color = SKColors.Black;
+            _paint.Color = SKColors.Black;
 
-               
+            var skimg = SKBitmap.FromImage(
+                SKImage.FromPixelCopy(new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Premul), data.Scan0));
 
 
-            var imginfo = new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Premul);
-
-            var pxmap = new SKPixmap(imginfo, data.Scan0, data.Stride);
-
-            _image.DrawImage(SKImage.FromPixels(pxmap), new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
+            _image.DrawBitmap(skimg, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
-            ((Bitmap)img).UnlockBits(data);
+            ((Bitmap) img).UnlockBits(data);
             data = null;
 
             return;
@@ -567,9 +566,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 {
                     skbmp.SetPixels(data.Scan0);
 
-         
 
-              
                     _image.DrawBitmap(skbmp, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                         new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
                 }
@@ -595,20 +592,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             throw new NotImplementedException();
         }
 
-        public void DrawImage(Image img, long i, long i1, long width, long height)
-        {
-            DrawImage(img, new Rectangle((int) i, (int) i1, (int) width, (int) height), 0.0f, 0, width, height,
-                GraphicsUnit.Pixel,
-                new ImageAttributes());
-        }
-
-        public void DrawImage(Image image, Rectangle rectangle, int p1, int p2, long p3, long p4,
-            GraphicsUnit graphicsUnit, ImageAttributes TileFlipXYAttributes)
-        {
-            DrawImage(image, rectangle, (float) rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height,
-                GraphicsUnit.Pixel, new ImageAttributes());
-        }
-
         public void DrawImageUnscaled(Image image, int x, int y, int width, int height)
         {
             throw new NotImplementedException();
@@ -616,7 +599,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawImageUnscaled(Image image, Point point)
         {
-            DrawImage(image, point.X, (float)point.Y);
+            DrawImage(image, point.X, (float) point.Y);
         }
 
         public void DrawImageUnscaled(Image image, int x, int y)
@@ -649,7 +632,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawLine(Pen pen, int x1, int y1, int x2, int y2)
         {
-            DrawLine(pen, x1, y1, x2, (float)y2);
+            DrawLine(pen, x1, y1, x2, (float) y2);
         }
 
         /// <summary>
@@ -657,7 +640,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawLine(Pen pen, Point pt1, Point pt2)
         {
-            DrawLine(pen, pt1.X, pt1.Y, pt2.X, (float)pt2.Y);
+            DrawLine(pen, pt1.X, pt1.Y, pt2.X, (float) pt2.Y);
         }
 
         public void DrawLines(Pen pen, PointF[] points)
@@ -708,7 +691,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 var start = new PointF(0, 0);
                 var origin = PathPoints[0];
                 var bezierCurvePointsIndex = 0;
-                var bezierCurvePoints = new PointF[4];                
+                var bezierCurvePoints = new PointF[4];
 
                 for (var i = 0; i < PathPoints.Length; i++)
                 {
@@ -768,8 +751,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 ) //If the subpath is closed and it is a linear figure then draw the last connecting line segment
                 {
                     var last = PathPoints[PathPoints.Length - 1];
-                    var originType = (PathPointType)subpath.PathTypes[0];
-                    var lastType = (PathPointType)subpath.PathTypes[subpath.PathPoints.Length - 1];
+                    var originType = (PathPointType) subpath.PathTypes[0];
+                    var lastType = (PathPointType) subpath.PathTypes[subpath.PathPoints.Length - 1];
 
                     if ((lastType & PathPointType.PathTypeMask) == PathPointType.Line &&
                         (originType & PathPointType.PathTypeMask) == PathPointType.Line)
@@ -802,7 +785,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawPie(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawPie(pen, x, y, width, height, startAngle, (float)sweepAngle);
+            DrawPie(pen, x, y, width, height, startAngle, (float) sweepAngle);
         }
 
         public void DrawPolygon(Pen pen, Point[] points)
@@ -835,7 +818,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawRectangle(Pen pen, int x, int y, int width, int height)
         {
-            DrawRectangle(pen, x, y, width, (float)height);
+            DrawRectangle(pen, x, y, width, (float) height);
         }
 
         public void DrawRectangles(Pen pen, RectangleF[] rects)
@@ -845,7 +828,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawRectangles(Pen pen, Rectangle[] rects)
         {
-            foreach (var rc in rects) DrawRectangle(pen, rc.Left, rc.Top, rc.Width, (float)rc.Height);
+            foreach (var rc in rects) DrawRectangle(pen, rc.Left, rc.Top, rc.Width, (float) rc.Height);
         }
 
         public void DrawString(string s, Font font, Brush brush, float x, float y)
@@ -881,102 +864,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             StringFormat format)
         {
             DrawText(s, font, brush, layoutRectangle, format, false);
-        }
-
-        public void DrawText(string s, Font font, Brush brush, RectangleF layoutRectangle,
-            StringFormat format, bool duno)
-        {
-            if (String.IsNullOrEmpty(s))
-                return;
-            var pnt = brush.SKPaint();
-            // Find the text bounds
-            var textBounds = SKRect.Empty;
-            var fnt = font.SKPaint();
-            fnt.MeasureText(s, ref textBounds);
-
-            pnt.TextSize = fnt.TextSize;
-            pnt.Typeface = fnt.Typeface;
-
-            pnt.StrokeWidth = 1;
-
-            if (textBounds.Width > layoutRectangle.Width-2 && layoutRectangle.Width != 0)
-            {
-                DrawText(_image, s,
-                    new SKRect(layoutRectangle.X, layoutRectangle.Y, layoutRectangle.Width, layoutRectangle.Height),
-                    pnt);
-                return;
-            }
-
-            if (format.Alignment == StringAlignment.Center)
-            {
-                layoutRectangle.X += layoutRectangle.Width / 2 - textBounds.MidX;
-            }
-            if (format.LineAlignment == StringAlignment.Center) // vertical
-            {
-                layoutRectangle.Y += layoutRectangle.Height / 2 -  textBounds.Height/2;
-            }
-            _image.DrawText(s, layoutRectangle.X, layoutRectangle.Y + textBounds.Height, pnt);
-        }
-
-        private void DrawText(SKCanvas canvas, string text, SKRect area, SKPaint paint)
-        {
-            float lineHeight = paint.TextSize * 1.1f;
-            var lines = SplitLines(text, paint, area.Width);
-            var height = lines.Count() * lineHeight;
-
-            var y = area.MidY-2 - height / 2;
-
-            foreach (var line in lines)
-            {
-                y += lineHeight;
-                var x = area.MidX - line.Width / 2;
-                canvas.DrawText(line.Value, x, y, paint);
-            }
-        }
-
-        public class Line
-        {
-            public string Value { get; set; }
-
-            public float Width { get; set; }
-        }
-
-        private Line[] SplitLines(string text, SKPaint paint, float maxWidth)
-        {
-            var spaceWidth = paint.MeasureText(" ");
-            var lines = text.Split('\n');
-
-            return lines.SelectMany((line) =>
-            {
-                var result = new List<Line>();
-
-                var words = line.Split(new[] { " " }, StringSplitOptions.None);
-
-                var lineResult = new StringBuilder();
-                float width = 0;
-                foreach (var word in words)
-                {
-                    var wordWidth = paint.MeasureText(word);
-                    var wordWithSpaceWidth = wordWidth + spaceWidth;
-                    var wordWithSpace = word + " ";
-
-                    if (width + wordWidth > maxWidth)
-                    {
-                        result.Add(new Line() { Value = lineResult.ToString(), Width = width });
-                        lineResult = new StringBuilder(wordWithSpace);
-                        width = wordWithSpaceWidth;
-                    }
-                    else
-                    {
-                        lineResult.Append(wordWithSpace);
-                        width += wordWithSpaceWidth;
-                    }
-                }
-
-                result.Add(new Line() { Value = lineResult.ToString(), Width = width });
-
-                return result.ToArray();
-            }).ToArray();
         }
 
         public void EndContainer(GraphicsContainer container)
@@ -1071,7 +958,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void FillEllipse(Brush brush, Rectangle rect)
         {
-            FillEllipse(brush, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            FillEllipse(brush, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         public void FillPath(Brush brush, GraphicsPath path)
@@ -1090,9 +977,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
                 var PathPoints = subpath.PathPoints;
 
-                var lastType = (PathPointType)subpath.PathTypes[PathPoints.Length - 1];
+                var lastType = (PathPointType) subpath.PathTypes[PathPoints.Length - 1];
                 if (subpath.PathTypes.Any(pt =>
-                    ((PathPointType)pt & PathPointType.PathTypeMask) == PathPointType.Line))
+                    ((PathPointType) pt & PathPointType.PathTypeMask) == PathPointType.Line))
                     FillPolygon(brush, PathPoints, path.FillMode);
                 else
                     FillBeziers(brush, PathPoints, path.FillMode);
@@ -1124,7 +1011,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillPolygon(Brush brush, Point[] points)
         {
-            throw new NotImplementedException();
+           FillPolygon(brush, points, FillMode.Alternate);
         }
 
         public void FillPolygon(Brush brush, Point[] points, FillMode fillMode)
@@ -1150,34 +1037,35 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             FillPolygon(brush, points);
         }
 
-        public void FillRectangle(Brush brush, RectangleF rect)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void FillRectangle(Brush brush, float x, float y, float width, float height)
         {
             _image.DrawRect(new SKRect(x, y, x + width, y + height), brush.SKPaint());
         }
 
+        public void FillRectangle(Brush brush, RectangleF rect)
+        {
+            FillRectangle(brush, rect.X, rect.Y, rect.Width, rect.Height);
+        }
         public void FillRectangle(Brush brush, Rectangle rect)
         {
-            FillRectangle(brush, (float)rect.X, rect.Y, rect.Width, rect.Height);
+            FillRectangle(brush, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         public void FillRectangle(Brush brush, int x, int y, int width, int height)
         {
-            FillRectangle(brush, (float)x, y, width, height);
+            FillRectangle(brush, x, y, width, (float) height);
         }
 
         public void FillRectangles(Brush brush, RectangleF[] rects)
         {
-            throw new NotImplementedException();
+            foreach (var rc in rects) FillRectangle(brush, rc);
         }
 
         public void FillRectangles(Brush brush, Rectangle[] rects)
         {
-            throw new NotImplementedException();
+            foreach (var rc in rects) FillRectangle(brush, rc);
         }
 
         public void FillRegion(Brush brush, Region region)
@@ -1267,11 +1155,11 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
         {
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
                 return new SizeF();
             var bound = new SKRect();
             font.SKPaint().MeasureText(text, ref bound);
-            return new SizeF(bound.Width+5, bound.Height);
+            return new SizeF(bound.Width + 5, bound.Height);
         }
 
         public SizeF MeasureString(string text, Font font)
@@ -1298,7 +1186,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public SizeF MeasureString(string text, Font font, PointF origin, StringFormat stringFormat)
         {
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
                 return new SizeF();
             var bound = new SKRect();
             font.SKPaint().MeasureText(text, ref bound);
@@ -1333,7 +1221,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void RotateTransform(float angle)
         {
-            _surface.Canvas.RotateDegrees(angle);
+            _image.RotateDegrees(angle);
         }
 
         public void RotateTransform(float angle, MatrixOrder order)
@@ -1374,16 +1262,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             }
         }
 
-        public void SetClip(Graphics g)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetClip(Graphics g, CombineMode combineMode)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetClip(Rectangle rect)
         {
             throw new NotImplementedException();
@@ -1401,8 +1279,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void SetClip(RectangleF rect, CombineMode mode)
         {
-            _image.ClipRect(new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom), SKClipOperation.Intersect,
-                false);
+            _image.ClipRect(new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom));
         }
 
         public void SetClip(GraphicsPath path)
@@ -1458,13 +1335,174 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             }
         }
 
+        public byte[] WriteImage()
+        {
+            /*
+            return SKImage.FromPicture(_rec.EndRecording(),
+                    new SKSizeI((int)_rec.RecordingCanvas.LocalClipBounds.Width,
+                        (int)_rec.RecordingCanvas.LocalClipBounds.Height))
+                .Encode().ToArray();
+                */
+            return _surface.Snapshot().Encode().ToArray();
+        }
+
+        public static SkiaGraphics FromImage(Bitmap bmp)
+        {
+            var ans = new SkiaGraphics();
+
+            var data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite,
+                PixelFormat.Format32bppArgb);
+            /* var bm =
+                 new SKBitmap(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Premul),
+                     bmp.Width * 4);
+             bm.SetPixels(data.Scan0);
+             */
+            ans._surface =
+                SKSurface.Create(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Premul),
+                    data.Scan0, data.Stride);
+
+            bmp.UnlockBits(data);
+
+            return ans;
+        }
+        /*
+        public static implicit operator Image(SkiaGraphics sk)
+        {
+            using (var snap = sk._surface.Snapshot())
+            using (var rast = snap.ToRasterImage())
+            using (var pxmap = rast.PeekPixels())
+            {
+                var bmpdata = pxmap.GetPixels();
+                return new Bitmap(rast.Width, rast.Height, rast.Width * 4, PixelFormat.Format32bppArgb, bmpdata);
+            }
+        }
+        */
+
+        public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit,
+            ImageAttributes imageAttr,
+            Graphics.DrawImageAbort callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawImage(Image img, long i, long i1, long width, long height)
+        {
+            DrawImage(img, new Rectangle((int) i, (int) i1, (int) width, (int) height), 0.0f, 0, width, height,
+                GraphicsUnit.Pixel,
+                new ImageAttributes());
+        }
+
+        public void DrawImage(Image image, Rectangle rectangle, int p1, int p2, long p3, long p4,
+            GraphicsUnit graphicsUnit, ImageAttributes TileFlipXYAttributes)
+        {
+            DrawImage(image, rectangle, (float) rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height,
+                GraphicsUnit.Pixel, new ImageAttributes());
+        }
+
+        public void DrawText(string s, Font font, Brush brush, RectangleF layoutRectangle,
+            StringFormat format, bool duno)
+        {
+            if (string.IsNullOrEmpty(s))
+                return;
+            var pnt = brush.SKPaint();
+            // Find the text bounds
+            var textBounds = SKRect.Empty;
+            var fnt = font.SKPaint();
+            fnt.MeasureText(s, ref textBounds);
+
+            pnt.TextSize = fnt.TextSize;
+            pnt.Typeface = fnt.Typeface;
+
+            pnt.StrokeWidth = 1;
+
+            if (textBounds.Width > layoutRectangle.Width - 2 && layoutRectangle.Width != 0)
+            {
+                DrawText(_image, s,
+                    new SKRect(layoutRectangle.X, layoutRectangle.Y, layoutRectangle.Width, layoutRectangle.Height),
+                    pnt);
+                return;
+            }
+
+            if (format.Alignment == StringAlignment.Center)
+                layoutRectangle.X += layoutRectangle.Width / 2 - textBounds.MidX;
+
+            if (format.LineAlignment == StringAlignment.Center) // vertical
+                layoutRectangle.Y += layoutRectangle.Height / 2 - textBounds.Height / 2;
+
+            _image.DrawText(s, layoutRectangle.X, layoutRectangle.Y + textBounds.Height, pnt);
+        }
+
+        private void DrawText(SKCanvas canvas, string text, SKRect area, SKPaint paint)
+        {
+            var lineHeight = paint.TextSize * 1.1f;
+            var lines = SplitLines(text, paint, area.Width);
+            var height = lines.Count() * lineHeight;
+
+            var y = area.MidY - 2 - height / 2;
+
+            foreach (var line in lines)
+            {
+                y += lineHeight;
+                var x = area.MidX - line.Width / 2;
+                canvas.DrawText(line.Value, x, y, paint);
+            }
+        }
+
+        private Line[] SplitLines(string text, SKPaint paint, float maxWidth)
+        {
+            var spaceWidth = paint.MeasureText(" ");
+            var lines = text.Split('\n');
+
+            return lines.SelectMany(line =>
+            {
+                var result = new List<Line>();
+
+                var words = line.Split(new[] {" "}, StringSplitOptions.None);
+
+                var lineResult = new StringBuilder();
+                float width = 0;
+                foreach (var word in words)
+                {
+                    var wordWidth = paint.MeasureText(word);
+                    var wordWithSpaceWidth = wordWidth + spaceWidth;
+                    var wordWithSpace = word + " ";
+
+                    if (width + wordWidth > maxWidth)
+                    {
+                        result.Add(new Line {Value = lineResult.ToString(), Width = width});
+                        lineResult = new StringBuilder(wordWithSpace);
+                        width = wordWithSpaceWidth;
+                    }
+                    else
+                    {
+                        lineResult.Append(wordWithSpace);
+                        width += wordWithSpaceWidth;
+                    }
+                }
+
+                result.Add(new Line {Value = lineResult.ToString(), Width = width});
+
+                return result.ToArray();
+            }).ToArray();
+        }
+
+        public void SetClip(Graphics g)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetClip(Graphics g, CombineMode combineMode)
+        {
+            throw new NotImplementedException();
+        }
+
         private static PointF ControlPoint(PointF l, PointF pt, float t)
         {
             var v = new PointF(l.X - pt.X, l.Y - pt.Y);
 
-            var vlen = (float)Math.Sqrt(v.X * v.X + v.Y * v.Y);
-            v.X /= (float)Math.Sqrt(vlen / (10 * t * t));
-            v.Y /= (float)Math.Sqrt(vlen / (10 * t * t));
+            var vlen = (float) Math.Sqrt(v.X * v.X + v.Y * v.Y);
+            v.X /= (float) Math.Sqrt(vlen / (10 * t * t));
+            v.Y /= (float) Math.Sqrt(vlen / (10 * t * t));
 
             return new PointF(pt.X + v.X, pt.Y + v.Y);
         }
@@ -1478,13 +1516,13 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var nlv = new PointF(lv.X - rv.X, lv.Y - rv.Y);
             var nrv = new PointF(rv.X - lv.X, rv.Y - lv.Y);
 
-            var nlvlen = (float)Math.Sqrt(nlv.X * nlv.X + nlv.Y * nlv.Y);
-            nlv.X /= (float)Math.Sqrt(nlvlen / (10 * t * t));
-            nlv.Y /= (float)Math.Sqrt(nlvlen / (10 * t * t));
+            var nlvlen = (float) Math.Sqrt(nlv.X * nlv.X + nlv.Y * nlv.Y);
+            nlv.X /= (float) Math.Sqrt(nlvlen / (10 * t * t));
+            nlv.Y /= (float) Math.Sqrt(nlvlen / (10 * t * t));
 
-            var nrvlen = (float)Math.Sqrt(nrv.X * nrv.X + nrv.Y * nrv.Y);
-            nrv.X /= (float)Math.Sqrt(nrvlen / (10 * t * t));
-            nrv.Y /= (float)Math.Sqrt(nrvlen / (10 * t * t));
+            var nrvlen = (float) Math.Sqrt(nrv.X * nrv.X + nrv.Y * nrv.Y);
+            nrv.X /= (float) Math.Sqrt(nrvlen / (10 * t * t));
+            nrv.Y /= (float) Math.Sqrt(nrvlen / (10 * t * t));
 
             var ret = new PointF[2];
 
@@ -1503,8 +1541,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var end = new PointF();
             var center = new PointF(x + width / 2f, y + height / 2f);
 
-            startAngle = startAngle / 360f * 2f * (float)Math.PI;
-            sweepAngle = sweepAngle / 360f * 2f * (float)Math.PI;
+            startAngle = startAngle / 360f * 2f * (float) Math.PI;
+            sweepAngle = sweepAngle / 360f * 2f * (float) Math.PI;
 
             sweepAngle += startAngle;
 
@@ -1517,11 +1555,11 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             if (sweepAngle - startAngle > Math.PI || startAngle - sweepAngle > Math.PI) longArc = 1;
 
-            start.X = (float)Math.Cos(startAngle) * (width / 2f) + center.X;
-            start.Y = (float)Math.Sin(startAngle) * (height / 2f) + center.Y;
+            start.X = (float) Math.Cos(startAngle) * (width / 2f) + center.X;
+            start.Y = (float) Math.Sin(startAngle) * (height / 2f) + center.Y;
 
-            end.X = (float)Math.Cos(sweepAngle) * (width / 2f) + center.X;
-            end.Y = (float)Math.Sin(sweepAngle) * (height / 2f) + center.Y;
+            end.X = (float) Math.Cos(sweepAngle) * (width / 2f) + center.X;
+            end.Y = (float) Math.Sin(sweepAngle) * (height / 2f) + center.Y;
 
             var s = "M " + start.X.ToString("F", CultureInfo.InvariantCulture) + "," +
                     start.Y.ToString("F", CultureInfo.InvariantCulture) +
@@ -1588,7 +1626,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 res.Add(pts[0]);
                 res.Add(points[0]);
 
-                return (PointF[])res.ToArray(typeof(PointF));
+                return (PointF[]) res.ToArray(typeof(PointF));
             }
 
             var subset = new ArrayList();
@@ -1597,13 +1635,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             subset.Add(res[(start + num) * 3]);
 
-            return (PointF[])subset.ToArray(typeof(PointF));
+            return (PointF[]) subset.ToArray(typeof(PointF));
         }
 
         private void FillBeziers(Brush brush, PointF[] points, FillMode fillmode)
         {
             throw new NotImplementedException();
         }
+
         private SKPath pathtopintfarr(GraphicsPath path)
         {
             var ans = new SKPath();
@@ -1642,6 +1681,13 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             }
 
             return ans;
+        }
+
+        public class Line
+        {
+            public string Value { get; set; }
+
+            public float Width { get; set; }
         }
     }
 }

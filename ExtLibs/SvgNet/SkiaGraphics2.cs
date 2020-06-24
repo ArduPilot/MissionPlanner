@@ -1,13 +1,12 @@
-﻿using SkiaSharp;
-using SvgNet;
-using SvgNet.SvgGdi;
-using System.Collections;
+﻿using System.Collections;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
+using SkiaSharp;
+using SvgNet;
 
 namespace System
 {
@@ -24,6 +23,14 @@ namespace System
 
         private SKSurface _surface;
         private MatrixStack _transforms;
+        private SKCanvas _image => _surface.Canvas;
+
+        public void Dispose()
+        {
+            _surface?.Dispose();
+            _paint?.Dispose();
+        }
+
         public Region Clip { get; set; }
         public RectangleF ClipBounds { get; }
         public CompositingMode CompositingMode { get; set; }
@@ -49,7 +56,6 @@ namespace System
         }
 
         public RectangleF VisibleClipBounds { get; }
-        private SKCanvas _image => _surface.Canvas;
 
         public void AddMetafileComment(byte[] data)
         {
@@ -76,12 +82,6 @@ namespace System
             _image.Clear(color.SKColor());
         }
 
-        public void Dispose()
-        {
-            _surface?.Dispose();
-            _paint?.Dispose();
-        }
-
         public void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
             var path = new SKPath();
@@ -89,19 +89,19 @@ namespace System
             _image.DrawPath(path, pen.SKPaint());
         }
 
-        
+
         public void DrawArc(Pen pen, RectangleF rect, float startAngle, float sweepAngle)
         {
             DrawArc(pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
         }
 
-  
+
         public void DrawArc(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawArc(pen, x, y, width, height, startAngle, (float)sweepAngle);
+            DrawArc(pen, x, y, width, height, startAngle, (float) sweepAngle);
         }
 
-      
+
         public void DrawArc(Pen pen, Rectangle rect, float startAngle, float sweepAngle)
         {
             DrawArc(pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
@@ -110,16 +110,16 @@ namespace System
         public void DrawBezier(Pen pen, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
         {
             DrawBeziers(pen,
-                new PointF[] {new PointF(x1, y1), new PointF(x2, y2), new PointF(x3, y3), new PointF(x4, y4)});
+                new[] {new PointF(x1, y1), new PointF(x2, y2), new PointF(x3, y3), new PointF(x4, y4)});
         }
 
-     
+
         public void DrawBezier(Pen pen, PointF pt1, PointF pt2, PointF pt3, PointF pt4)
         {
             DrawBezier(pen, pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
         }
 
-  
+
         public void DrawBezier(Pen pen, Point pt1, Point pt2, Point pt3, Point pt4)
         {
             DrawBezier(pen, pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
@@ -130,7 +130,7 @@ namespace System
             throw new NotImplementedException();
         }
 
-    
+
         public void DrawBeziers(Pen pen, Point[] points)
         {
             var pts = Point2PointF(points);
@@ -144,70 +144,70 @@ namespace System
             DrawBeziers(pen, pts);
         }
 
-    
+
         public void DrawClosedCurve(Pen pen, PointF[] points, float tension, FillMode fillmode)
         {
             var pts = Spline2Bez(points, 0, points.Length - 1, true, tension);
             DrawBeziers(pen, pts);
         }
 
-   
+
         public void DrawClosedCurve(Pen pen, Point[] points)
         {
             var pts = Spline2Bez(Point2PointF(points), 0, points.Length - 1, true, .5f);
             DrawBeziers(pen, pts);
         }
 
-   
+
         public void DrawClosedCurve(Pen pen, Point[] points, float tension, FillMode fillmode)
         {
             var pts = Spline2Bez(Point2PointF(points), 0, points.Length - 1, true, tension);
             DrawBeziers(pen, pts);
         }
 
-   
+
         public void DrawCurve(Pen pen, PointF[] points)
         {
             var pts = Spline2Bez(points, 0, points.Length - 1, false, .5f);
             DrawBeziers(pen, pts);
         }
 
-    
+
         public void DrawCurve(Pen pen, PointF[] points, float tension)
         {
             var pts = Spline2Bez(points, 0, points.Length - 1, false, tension);
             DrawBeziers(pen, pts);
         }
 
-      
+
         public void DrawCurve(Pen pen, PointF[] points, int offset, int numberOfSegments)
         {
             var pts = Spline2Bez(points, offset, numberOfSegments, false, .5f);
             DrawBeziers(pen, pts);
         }
 
-  
+
         public void DrawCurve(Pen pen, PointF[] points, int offset, int numberOfSegments, float tension)
         {
             var pts = Spline2Bez(points, offset, numberOfSegments, false, tension);
             DrawBeziers(pen, pts);
         }
 
-      
+
         public void DrawCurve(Pen pen, Point[] points)
         {
             var pts = Spline2Bez(Point2PointF(points), 0, points.Length - 1, false, .5f);
             DrawBeziers(pen, pts);
         }
 
-      
+
         public void DrawCurve(Pen pen, Point[] points, float tension)
         {
             var pts = Spline2Bez(Point2PointF(points), 0, points.Length - 1, false, tension);
             DrawBeziers(pen, pts);
         }
 
-   
+
         public void DrawCurve(Pen pen, Point[] points, int offset, int numberOfSegments, float tension)
         {
             var pts = Spline2Bez(Point2PointF(points), offset, numberOfSegments, false, tension);
@@ -232,7 +232,7 @@ namespace System
         /// </summary>
         public void DrawEllipse(Pen pen, Rectangle rect)
         {
-            DrawEllipse(pen, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            DrawEllipse(pen, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace System
         /// </summary>
         public void DrawEllipse(Pen pen, int x, int y, int width, int height)
         {
-            DrawEllipse(pen, x, y, width, (float)height);
+            DrawEllipse(pen, x, y, width, (float) height);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace System
         {
             if (image.GetType() != typeof(Bitmap))
                 return;
-            DrawBitmapData((Bitmap)image, x, y, width, height, true);
+            DrawBitmapData((Bitmap) image, x, y, width, height, true);
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace System
         /// </summary>
         public void DrawImage(Image image, Point point)
         {
-            DrawImage(image, point.X, (float)point.Y);
+            DrawImage(image, point.X, (float) point.Y);
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace System
         /// </summary>
         public void DrawImage(Image image, int x, int y)
         {
-            DrawImage(image, x, (float)y);
+            DrawImage(image, x, (float) y);
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace System
         /// </summary>
         public void DrawImage(Image image, Rectangle rect)
         {
-            DrawImage(image, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            DrawImage(image, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         /// <summary>
@@ -341,7 +341,7 @@ namespace System
         /// </summary>
         public void DrawImage(Image image, int x, int y, int width, int height)
         {
-            DrawImage(image, (float)x, y, width, height);
+            DrawImage(image, (float) x, y, width, height);
         }
 
         public void DrawImage(Image image, PointF[] destPoints)
@@ -381,13 +381,6 @@ namespace System
 
         public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit,
             ImageAttributes imageAttr)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit,
-            ImageAttributes imageAttr,
-            Graphics.DrawImageAbort callback)
         {
             throw new NotImplementedException();
         }
@@ -433,7 +426,7 @@ namespace System
         /// </summary>
         public void DrawImageUnscaled(Image image, Point point)
         {
-            DrawImage(image, point.X, (float)point.Y);
+            DrawImage(image, point.X, (float) point.Y);
         }
 
         /// <summary>
@@ -441,7 +434,7 @@ namespace System
         /// </summary>
         public void DrawImageUnscaled(Image image, int x, int y)
         {
-            DrawImage(image, x, (float)y);
+            DrawImage(image, x, (float) y);
         }
 
         /// <summary>
@@ -459,7 +452,7 @@ namespace System
         {
             if (image.GetType() != typeof(Bitmap))
                 return;
-            DrawBitmapData((Bitmap)image, x, y, width, height, false);
+            DrawBitmapData((Bitmap) image, x, y, width, height, false);
         }
 
         public void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
@@ -480,7 +473,7 @@ namespace System
         /// </summary>
         public void DrawLine(Pen pen, int x1, int y1, int x2, int y2)
         {
-            DrawLine(pen, x1, y1, x2, (float)y2);
+            DrawLine(pen, x1, y1, x2, (float) y2);
         }
 
         /// <summary>
@@ -488,7 +481,7 @@ namespace System
         /// </summary>
         public void DrawLine(Pen pen, Point pt1, Point pt2)
         {
-            DrawLine(pen, pt1.X, pt1.Y, pt2.X, (float)pt2.Y);
+            DrawLine(pen, pt1.X, pt1.Y, pt2.X, (float) pt2.Y);
         }
 
         public void DrawLines(Pen pen, PointF[] points)
@@ -547,7 +540,7 @@ namespace System
                          *The point is Bezier curve point
                          * Another point type like dash-mode
                          */
-                    switch ((PathPointType)subpath.PathTypes[i] & PathPointType.PathTypeMask
+                    switch ((PathPointType) subpath.PathTypes[i] & PathPointType.PathTypeMask
                     ) //Mask off non path-type types
                     {
                         case PathPointType.Start:
@@ -579,7 +572,7 @@ namespace System
 
                             continue;
                         default:
-                            switch ((PathPointType)subpath.PathTypes[i])
+                            switch ((PathPointType) subpath.PathTypes[i])
                             {
                                 case PathPointType.DashMode:
                                     pen.DashStyle = DashStyle.Dash;
@@ -588,11 +581,12 @@ namespace System
                                     throw new SvgException("Unknown path type value: " + subpath.PathTypes[i]);
                             }
                     }
+
                 if (isClosed
                 ) //If the subpath is closed and it is a linear figure then draw the last connecting line segment
                 {
-                    var originType = (PathPointType)subpath.PathTypes[0];
-                    var lastType = (PathPointType)subpath.PathTypes[subpath.PathPoints.Length - 1];
+                    var originType = (PathPointType) subpath.PathTypes[0];
+                    var lastType = (PathPointType) subpath.PathTypes[subpath.PathPoints.Length - 1];
 
                     if ((lastType & PathPointType.PathTypeMask) == PathPointType.Line &&
                         (originType & PathPointType.PathTypeMask) == PathPointType.Line)
@@ -625,7 +619,7 @@ namespace System
         /// </summary>
         public void DrawPie(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawPie(pen, x, y, width, height, startAngle, (float)sweepAngle);
+            DrawPie(pen, x, y, width, height, startAngle, (float) sweepAngle);
         }
 
         /// <summary>
@@ -662,7 +656,7 @@ namespace System
         /// </summary>
         public void DrawRectangle(Pen pen, Rectangle rect)
         {
-            DrawRectangle(pen, rect.Left, rect.Top, rect.Width, (float)rect.Height);
+            DrawRectangle(pen, rect.Left, rect.Top, rect.Width, (float) rect.Height);
         }
 
         /// <summary>
@@ -670,7 +664,7 @@ namespace System
         /// </summary>
         public void DrawRectangle(Pen pen, int x, int y, int width, int height)
         {
-            DrawRectangle(pen, x, y, width, (float)height);
+            DrawRectangle(pen, x, y, width, (float) height);
         }
 
         /// <summary>
@@ -686,7 +680,7 @@ namespace System
         /// </summary>
         public void DrawRectangles(Pen pen, Rectangle[] rects)
         {
-            foreach (var rc in rects) DrawRectangle(pen, rc.Left, rc.Top, rc.Width, (float)rc.Height);
+            foreach (var rc in rects) DrawRectangle(pen, rc.Left, rc.Top, rc.Width, (float) rc.Height);
         }
 
         /// <summary>
@@ -747,24 +741,6 @@ namespace System
             StringFormat format)
         {
             DrawText(s, font, brush, layoutRectangle, format, false);
-        }
-
-        public void DrawText(string s, Font font, Brush brush, RectangleF layoutRectangle,
-            StringFormat format, bool duno)
-        {
-            if (String.IsNullOrEmpty(s))
-                return;
-            var pnt = brush.SKPaint();
-            // Find the text bounds
-            var textBounds = SKRect.Empty;
-            var fnt = font.SKPaint();
-            fnt.MeasureText(s, ref textBounds);
-
-            pnt.TextSize = fnt.TextSize;
-            pnt.Typeface = fnt.Typeface;
-
-            pnt.StrokeWidth = 1;
-            _image.DrawText(s, layoutRectangle.X, layoutRectangle.Y + textBounds.Height, pnt);
         }
 
         public void EndContainer(GraphicsContainer container)
@@ -854,7 +830,7 @@ namespace System
         /// </summary>
         public void FillEllipse(Brush brush, Rectangle rect)
         {
-            FillEllipse(brush, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            FillEllipse(brush, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         /// <summary>
@@ -862,7 +838,7 @@ namespace System
         /// </summary>
         public void FillEllipse(Brush brush, int x, int y, int width, int height)
         {
-            FillEllipse(brush, x, y, width, (float)height);
+            FillEllipse(brush, x, y, width, (float) height);
         }
 
         /// <summary>
@@ -882,9 +858,9 @@ namespace System
                     //subpath.CloseAllFigures();
                 }
 
-                var lastType = (PathPointType)subpath.PathTypes[subpath.PathPoints.Length - 1];
+                var lastType = (PathPointType) subpath.PathTypes[subpath.PathPoints.Length - 1];
                 if (subpath.PathTypes.Any(pt =>
-                    ((PathPointType)pt & PathPointType.PathTypeMask) == PathPointType.Line))
+                    ((PathPointType) pt & PathPointType.PathTypeMask) == PathPointType.Line))
                     FillPolygon(brush, subpath.PathPoints, path.FillMode);
                 else
                     FillBeziers(brush, subpath.PathPoints, path.FillMode);
@@ -895,7 +871,7 @@ namespace System
         }
 
         public void FillPie(Brush brush, float x, float y, float width, float height, float startAngle,
-                                                                                                                                                                                                                    float sweepAngle)
+            float sweepAngle)
         {
             var path = new SKPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
@@ -917,7 +893,7 @@ namespace System
         public void FillPie(Brush brush, int x, int y, int width, int height, int startAngle,
             int sweepAngle)
         {
-            FillPie(brush, x, y, width, (float)height, startAngle, sweepAngle);
+            FillPie(brush, x, y, width, (float) height, startAngle, sweepAngle);
         }
 
         public void FillPolygon(Brush brushh, PointF[] list, FillMode fillMode)
@@ -971,7 +947,7 @@ namespace System
         /// </summary>
         public void FillRectangle(Brush brush, Rectangle rect)
         {
-            FillRectangle(brush, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            FillRectangle(brush, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         /// <summary>
@@ -979,7 +955,7 @@ namespace System
         /// </summary>
         public void FillRectangle(Brush brush, int x, int y, int width, int height)
         {
-            FillRectangle(brush, x, y, width, (float)height);
+            FillRectangle(brush, x, y, width, (float) height);
         }
 
         /// <summary>
@@ -1188,16 +1164,6 @@ namespace System
             _transforms.Top.Scale(sx, sy, order);
         }
 
-        public void SetClip(Graphics g)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetClip(Graphics g, CombineMode combineMode)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetClip(Rectangle rect)
         {
             throw new NotImplementedException();
@@ -1215,8 +1181,7 @@ namespace System
 
         public void SetClip(RectangleF rect, CombineMode mode)
         {
-            _image.ClipRect(new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom), SKClipOperation.Intersect,
-                false);
+            _image.ClipRect(new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom));
         }
 
         public void SetClip(GraphicsPath path)
@@ -1270,13 +1235,48 @@ namespace System
             _transforms.Top.Translate(dx, dy, order);
         }
 
+        public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit,
+            ImageAttributes imageAttr,
+            Graphics.DrawImageAbort callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawText(string s, Font font, Brush brush, RectangleF layoutRectangle,
+            StringFormat format, bool duno)
+        {
+            if (string.IsNullOrEmpty(s))
+                return;
+            var pnt = brush.SKPaint();
+            // Find the text bounds
+            var textBounds = SKRect.Empty;
+            var fnt = font.SKPaint();
+            fnt.MeasureText(s, ref textBounds);
+
+            pnt.TextSize = fnt.TextSize;
+            pnt.Typeface = fnt.Typeface;
+
+            pnt.StrokeWidth = 1;
+            _image.DrawText(s, layoutRectangle.X, layoutRectangle.Y + textBounds.Height, pnt);
+        }
+
+        public void SetClip(Graphics g)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetClip(Graphics g, CombineMode combineMode)
+        {
+            throw new NotImplementedException();
+        }
+
         private static PointF ControlPoint(PointF l, PointF pt, float t)
         {
             var v = new PointF(l.X - pt.X, l.Y - pt.Y);
 
-            var vlen = (float)Math.Sqrt(v.X * v.X + v.Y * v.Y);
-            v.X /= (float)Math.Sqrt(vlen / (10 * t * t));
-            v.Y /= (float)Math.Sqrt(vlen / (10 * t * t));
+            var vlen = (float) Math.Sqrt(v.X * v.X + v.Y * v.Y);
+            v.X /= (float) Math.Sqrt(vlen / (10 * t * t));
+            v.Y /= (float) Math.Sqrt(vlen / (10 * t * t));
 
             return new PointF(pt.X + v.X, pt.Y + v.Y);
         }
@@ -1290,13 +1290,13 @@ namespace System
             var nlv = new PointF(lv.X - rv.X, lv.Y - rv.Y);
             var nrv = new PointF(rv.X - lv.X, rv.Y - lv.Y);
 
-            var nlvlen = (float)Math.Sqrt(nlv.X * nlv.X + nlv.Y * nlv.Y);
-            nlv.X /= (float)Math.Sqrt(nlvlen / (10 * t * t));
-            nlv.Y /= (float)Math.Sqrt(nlvlen / (10 * t * t));
+            var nlvlen = (float) Math.Sqrt(nlv.X * nlv.X + nlv.Y * nlv.Y);
+            nlv.X /= (float) Math.Sqrt(nlvlen / (10 * t * t));
+            nlv.Y /= (float) Math.Sqrt(nlvlen / (10 * t * t));
 
-            var nrvlen = (float)Math.Sqrt(nrv.X * nrv.X + nrv.Y * nrv.Y);
-            nrv.X /= (float)Math.Sqrt(nrvlen / (10 * t * t));
-            nrv.Y /= (float)Math.Sqrt(nrvlen / (10 * t * t));
+            var nrvlen = (float) Math.Sqrt(nrv.X * nrv.X + nrv.Y * nrv.Y);
+            nrv.X /= (float) Math.Sqrt(nrvlen / (10 * t * t));
+            nrv.Y /= (float) Math.Sqrt(nrvlen / (10 * t * t));
 
             var ret = new PointF[2];
 
@@ -1315,8 +1315,8 @@ namespace System
             var end = new PointF();
             var center = new PointF(x + width / 2f, y + height / 2f);
 
-            startAngle = startAngle / 360f * 2f * (float)Math.PI;
-            sweepAngle = sweepAngle / 360f * 2f * (float)Math.PI;
+            startAngle = startAngle / 360f * 2f * (float) Math.PI;
+            sweepAngle = sweepAngle / 360f * 2f * (float) Math.PI;
 
             sweepAngle += startAngle;
 
@@ -1329,11 +1329,11 @@ namespace System
 
             if (sweepAngle - startAngle > Math.PI || startAngle - sweepAngle > Math.PI) longArc = 1;
 
-            start.X = (float)Math.Cos(startAngle) * (width / 2f) + center.X;
-            start.Y = (float)Math.Sin(startAngle) * (height / 2f) + center.Y;
+            start.X = (float) Math.Cos(startAngle) * (width / 2f) + center.X;
+            start.Y = (float) Math.Sin(startAngle) * (height / 2f) + center.Y;
 
-            end.X = (float)Math.Cos(sweepAngle) * (width / 2f) + center.X;
-            end.Y = (float)Math.Sin(sweepAngle) * (height / 2f) + center.Y;
+            end.X = (float) Math.Cos(sweepAngle) * (width / 2f) + center.X;
+            end.Y = (float) Math.Sin(sweepAngle) * (height / 2f) + center.Y;
 
             var s = "M " + start.X.ToString("F", CultureInfo.InvariantCulture) + "," +
                     start.Y.ToString("F", CultureInfo.InvariantCulture) +
@@ -1400,7 +1400,7 @@ namespace System
                 res.Add(pts[0]);
                 res.Add(points[0]);
 
-                return (PointF[])res.ToArray(typeof(PointF));
+                return (PointF[]) res.ToArray(typeof(PointF));
             }
 
             var subset = new ArrayList();
@@ -1409,7 +1409,7 @@ namespace System
 
             subset.Add(res[(start + num) * 3]);
 
-            return (PointF[])subset.ToArray(typeof(PointF));
+            return (PointF[]) subset.ToArray(typeof(PointF));
         }
 
         private void DrawBitmapData(Bitmap img, float x, float y, float width, float height, bool scale)
@@ -1493,7 +1493,7 @@ namespace System
                     //even though the caller might not even want to change the matrix.  This a typical
                     //problem with weaker languages that don't have const.
                     _result = null;
-                    return (Matrix)_mx[_mx.Count - 1];
+                    return (Matrix) _mx[_mx.Count - 1];
                 }
 
                 set
