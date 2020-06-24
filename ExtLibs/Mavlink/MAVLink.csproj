@@ -27,7 +27,7 @@
 
   <PropertyGroup>
     <Optimize>false</Optimize>
-    <DefineConstants>TRACE;UNSAFE1</DefineConstants>
+    <DefineConstants>TRACE;UNSAFE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
