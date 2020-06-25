@@ -13,6 +13,7 @@
     </PackageReference>
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="1.68.1.1" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />

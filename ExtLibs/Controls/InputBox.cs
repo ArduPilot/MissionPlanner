@@ -180,16 +180,19 @@ namespace MissionPlanner.Controls
                     textBox.AutoCompleteCustomSource.Add(textBox.Text);
                     Settings.Instance.SetList("InputBox" + title.CleanString() + promptText.CleanString(), textBox.AutoCompleteCustomSource.OfType<string>());
                 }
+                Console.WriteLine("Input Box 3 " + System.Threading.Thread.CurrentThread.Name);
                 value = textBox.Text;
                 InputBox.value = value;
             }
 
+            Console.WriteLine("Input Box 4 " + System.Threading.Thread.CurrentThread.Name);
             form.Dispose();
 
             TextChanged = null;
 
             form = null;
 
+            Console.WriteLine("Input Box 5 " + System.Threading.Thread.CurrentThread.Name);
             return dialogResult;
         }
 

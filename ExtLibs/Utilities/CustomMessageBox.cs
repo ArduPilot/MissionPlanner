@@ -35,6 +35,8 @@ namespace System
 
         public static DialogResult Show(string text, string caption = "", MessageBoxButtons MessageBoxButtons = MessageBoxButtons.OK, MessageBoxIcon MessageBoxIcon = MessageBoxIcon.None, string YesText = "Yes", string NoText = "No")
         {
+            Console.WriteLine("CustomMessageBox.Show");
+
             if (ShowEvent != null)
                 return ShowEvent.Invoke(text, caption, MessageBoxButtons, MessageBoxIcon, YesText, NoText);
 
