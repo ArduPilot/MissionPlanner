@@ -552,6 +552,9 @@
     <None Include="plugins\example7.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="plugins\InitialParamsCalculator.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Radio\Models.cs" />
     <Compile Include="ResEdit.Designer.cs">
