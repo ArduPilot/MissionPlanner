@@ -2240,7 +2240,8 @@ namespace MissionPlanner
                         
                         if (!sensors_health.prearm && sensors_enabled.prearm && sensors_present.prearm)
                         {
-                            messageHigh = Strings.Prearm_check_failed;
+                            messageHigh = messages.LastOrDefault(a => a.message.ToLower().Contains("prearm")).message
+                                ?.ToString();
                         }
                         else if (!sensors_health.gps && sensors_enabled.gps && sensors_present.gps)
                         {
