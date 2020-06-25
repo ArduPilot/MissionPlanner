@@ -138,7 +138,6 @@
             // uAVCANModelBindingSource
             // 
             this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.UAVCANModel);
-            this.uAVCANModelBindingSource.Sort = "ID";
             this.uAVCANModelBindingSource.CurrentChanged += new System.EventHandler(this.uAVCANModelBindingSource_CurrentChanged);
             // 
             // label1

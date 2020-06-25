@@ -70,6 +70,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 get => _external;
                 set => _external = value;
             }
+
+            public bool Missing
+            {
+                get;
+                set;
+            }
         }
 
         public ConfigHWCompass2()
@@ -88,6 +94,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var prio = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_PRIO"))
                 .Select((a, b) => new CompassDeviceInfo(b, a.Name, (uint)a.Value))
                 .OrderBy((a) => a.ParamName).ToList();
+
+            var anymissing = false;
+            // mark missing
+            prio.ForEach(a =>
+            {
+                if (list.Any(b => b.DevID == a.DevID))
+                    a.Missing = false;
+                else
+                {
+                    a.Missing = true;
+                    anymissing = true;
+                }
+            });
 
             //filter list removing prio dups from the list
             list = list.Where(a => !prio.Any(b => b.DevID == a.DevID)).ToList();
@@ -112,6 +131,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // set the default items
                 var source = ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT", MainV2.comPort.MAV.cs.firmware.ToString());
                 Orientation.DataSource = source.Select(a => a.Value).ToList();
+            }
+
+            if (anymissing)
+            {
+                CustomMessageBox.Show("Your compass configuration has changed, please review the missing compass", Strings.ERROR);
             }
         }
 
@@ -198,6 +222,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!p2)
                     CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
+            else
+            {
+                // clear it
+                await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
+                    "COMPASS_PRIO2_ID",
+                    0);
+            }
 
             if (myDataGridView1.Rows.Count >= 3)
             {
@@ -209,6 +241,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (!p3)
                     CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
+            }
+            else
+            {
+                //clear it
+                await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent,
+                    "COMPASS_PRIO3_ID",
+                    0);
             }
 
             rebootrequired = true;
@@ -464,6 +504,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void myDataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = true;
+        }
+
+        private void compassDeviceInfoBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void but_missing_ClickAsync(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow dataGridViewRow in myDataGridView1.Rows)
+            {
+                if (dataGridViewRow.Cells[Missing.Index].Value.Equals(true))
+                {
+                    myDataGridView1.Rows.Remove(dataGridViewRow);
+                    but_missing_ClickAsync(null, null);
+                    return;
+                }
+            }
+
+            await UpdateFirst3();
         }
     }
 }

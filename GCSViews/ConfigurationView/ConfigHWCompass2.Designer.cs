@@ -66,11 +66,13 @@
             this.busDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.devTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Missing = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.External = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Orientation = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Up = new System.Windows.Forms.DataGridViewImageColumn();
             this.Down = new System.Windows.Forms.DataGridViewImageColumn();
             this.compassDeviceInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.but_missing = new MissionPlanner.Controls.MyButton();
             this.groupBoxonboardcalib.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -427,6 +429,7 @@
             this.busDataGridViewTextBoxColumn,
             this.addressDataGridViewTextBoxColumn,
             this.devTypeDataGridViewTextBoxColumn,
+            this.Missing,
             this.External,
             this.Orientation,
             this.Up,
@@ -491,6 +494,14 @@
             this.devTypeDataGridViewTextBoxColumn.ReadOnly = true;
             this.devTypeDataGridViewTextBoxColumn.Width = 150;
             // 
+            // Missing
+            // 
+            this.Missing.DataPropertyName = "Missing";
+            this.Missing.HeaderText = "Missing";
+            this.Missing.Name = "Missing";
+            this.Missing.ReadOnly = true;
+            this.Missing.Width = 50;
+            // 
             // External
             // 
             this.External.DataPropertyName = "External";
@@ -525,11 +536,23 @@
             // compassDeviceInfoBindingSource
             // 
             this.compassDeviceInfoBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2.CompassDeviceInfo);
+            this.compassDeviceInfoBindingSource.CurrentChanged += new System.EventHandler(this.compassDeviceInfoBindingSource_CurrentChanged);
+            // 
+            // but_missing
+            // 
+            this.but_missing.Location = new System.Drawing.Point(321, 271);
+            this.but_missing.Name = "but_missing";
+            this.but_missing.Size = new System.Drawing.Size(75, 23);
+            this.but_missing.TabIndex = 90;
+            this.but_missing.Text = "Remove Missing";
+            this.but_missing.UseVisualStyleBackColor = true;
+            this.but_missing.Click += new System.EventHandler(this.but_missing_ClickAsync);
             // 
             // ConfigHWCompass2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_missing);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.but_reboot);
             this.Controls.Add(this.mavlinkCheckBoxUseCompass3);
@@ -598,9 +621,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn busDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn devTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Missing;
         private System.Windows.Forms.DataGridViewCheckBoxColumn External;
         private System.Windows.Forms.DataGridViewComboBoxColumn Orientation;
         private System.Windows.Forms.DataGridViewImageColumn Up;
         private System.Windows.Forms.DataGridViewImageColumn Down;
+        private Controls.MyButton but_missing;
     }
 }
