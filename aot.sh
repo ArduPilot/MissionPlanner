@@ -7,3 +7,8 @@ for i in *.dll; do sudo mono --aot $i; done
 
 sudo mono --aot 'MissionPlanner.exe'
 
+
+#gdb --args mono --debug 'MissionPlanner.exe'
+
+#handle SIGXCPU SIG33 SIG35 SIG36 SIG37 SIG38 SIGPWR nostop noprint
+

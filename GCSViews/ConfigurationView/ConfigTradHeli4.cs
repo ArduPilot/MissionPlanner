@@ -183,12 +183,4 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             tableLayoutPanel5.Controls.Clear();
         }
     }
-
-    public enum uitype  
-    {
-        Combo,
-        Num,
-        Check,
-        Mask
-    }
 }

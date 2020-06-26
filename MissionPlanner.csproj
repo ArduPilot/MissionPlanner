@@ -511,6 +511,8 @@
       <DependentUpon>ConfigUserDefined.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\DeviceInfo.cs" />
+    <Compile Include="GCSViews\ConfigurationView\UAVCANModel.cs" />
+    <Compile Include="GCSViews\ConfigurationView\uitype.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>

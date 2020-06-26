@@ -2488,15 +2488,15 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            if (MainV2.comPort.MAV.GuidedMode.z == 0)
+            if (MainV2.comPort.MAV.GuidedMode.z == 0f)
             {
                 flyToHereAltToolStripMenuItem_Click(null, null);
 
-                if (MainV2.comPort.MAV.GuidedMode.z == 0)
+                if (MainV2.comPort.MAV.GuidedMode.z == 0f)
                     return;
             }
 
-            if (MouseDownStart.Lat == 0 || MouseDownStart.Lng == 0)
+            if (MouseDownStart.Lat == 0.0 || MouseDownStart.Lng == 0.0)
             {
                 CustomMessageBox.Show(Strings.BadCoords, Strings.ERROR);
                 return;
@@ -3688,14 +3688,13 @@ namespace MissionPlanner.GCSViews
                 "Enter Target Alt (Relative to home)", ref alt))
                 return;
 
-            float intalt = 0;
-            if (!float.TryParse(alt, out intalt))
+            if (!float.TryParse(alt, out var intalt))
             {
                 CustomMessageBox.Show("Bad Alt");
                 return;
             }
 
-            if (MouseDownStart.Lat == 0 || MouseDownStart.Lng == 0)
+            if (MouseDownStart.Lat == 0.0 || MouseDownStart.Lng == 0.0)
             {
                 CustomMessageBox.Show("Bad Lat/Long");
                 return;
