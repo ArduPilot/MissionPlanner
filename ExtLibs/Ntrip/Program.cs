@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using UAVCAN;
 
 namespace Ntrip
 {
@@ -35,13 +36,34 @@ namespace Ntrip
 
             var ubx = new Ubx();
             var rtcm = new rtcm3();
+            var can = new UAVCAN.uavcan();
             Stream file = null;
             DateTime filetime = DateTime.MinValue;
             SerialPort port = null;
             everyminute = DateTime.Now.Minute;
 
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            
+
+            // feed the rtcm data into the rtcm parser if we get a can message
+            can.MessageReceived += (frame, msg, id) =>
+            {
+                if (frame.MsgTypeID == (ushort)uavcan.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                {
+                    var rtcmcan = (uavcan.uavcan_equipment_gnss_RTCMStream)msg;
+
+                    for (int a = 0; a < rtcmcan.data_len; a++)
+                    {
+                        int seenmsg = -1;
+
+                        if ((seenmsg = rtcm.Read(rtcmcan.data[a])) > 0)
+                        {
+                            gotRTCMData?.Invoke(rtcm.packet, rtcm.length);
+                            file.Write(rtcm.packet, 0, rtcm.length);
+                        }
+                    }
+                }
+            };
+
             while (!stop)
             {
                 try
@@ -101,12 +123,16 @@ namespace Ntrip
                                 rtcm.resetParser();
                                 //Console.WriteLine(DateTime.Now + " new ubx message");
                             }
-                            else if (by >= 0 && rtcm.Read((byte) by) > 0)
+                            if (by >= 0 && rtcm.Read((byte) by) > 0)
                             {
                                 ubx.resetParser();
                                 //Console.WriteLine(DateTime.Now + " new rtcm message");
                                 gotRTCMData?.Invoke(rtcm.packet, rtcm.length);
-                                file.Write(new ReadOnlySpan<byte>(rtcm.packet, 0, rtcm.length));
+                                file.Write(rtcm.packet, 0, rtcm.length);
+                            }
+                            if ((by >= 0 && can.Read(by) > 0))// can_rtcm
+                            {
+                                ubx.resetParser();
                             }
                         }
                     }
@@ -133,17 +159,19 @@ namespace Ntrip
                 catch (UnauthorizedAccessException ex)
                 {
                     Console.WriteLine(ex);
+                    Thread.Sleep(5000);
                 }
                 catch (IOException ex)
                 {
                     Console.WriteLine(ex);
+                    Thread.Sleep(1000);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
 
             if (file != null)
