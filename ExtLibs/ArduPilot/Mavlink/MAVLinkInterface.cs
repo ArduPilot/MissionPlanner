@@ -1484,7 +1484,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             DateTime lastmessage = DateTime.MinValue;
 
             //hires.Stopwatch stopwatch = new hires.Stopwatch();
-            int packets = 0;
             int retry = 0;
             bool onebyone = false;
             DateTime lastonebyone = DateTime.MinValue;
@@ -1690,7 +1689,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     }
                 }
 
-                readPacketAsync().AwaitSync();
+                await readPacketAsync();
 
                 if (logreadmode && logplaybackfile.BaseStream.Position >= logplaybackfile.BaseStream.Length)
                 {
@@ -1736,10 +1735,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 return;
             }
 
-            // if we are connected as primary to a vechile where we dont have all the params, poll for them
+            // if we are connected as primary to a vehicle where we dont have all the params, poll for them
             short i = (short)(_parampoll % MAV.param.TotalReported);
 
-            GetParam("", i, false);
+            GetParam((byte) sysidcurrent, (byte) compidcurrent, "", i, false);
 
             _parampoll++;
         }
@@ -1984,10 +1983,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             // reboot the current selected mav
             if (currentvehicle)
             {
-                var ans1 = doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
+                var ans1 = doCommand((byte)sysidcurrent, (byte)compidcurrent, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
                 if (ans1)
                     return true;
-                var ans2 = doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
+                var ans2 = doCommand((byte)sysidcurrent, (byte)compidcurrent, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
                 if (ans2)
                     return true;
 
@@ -2013,8 +2012,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 // reboot if we have seen hb
                 if (MAV.sysid != 0 && MAV.compid != 0)
                 {
-                    doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
-                    doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
+                    doCommand((byte)sysidcurrent, (byte)compidcurrent, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
+                    doCommand((byte)sysidcurrent, (byte)compidcurrent, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
                 }
             }
             giveComport = false;
@@ -2719,7 +2718,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (retrys > 0)
                         {
                             log.Info("getHomePosition Retry " + retrys + " - giv com " + giveComport);
-                            doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0, false);
+                            doCommand(sysid, compid, MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0, false);
                             start = DateTime.Now;
                             retrys--;
                             continue;
@@ -3843,9 +3842,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             req.target_component = MAV.compid;
             req.shot = (shot == true) ? (byte)1 : (byte)0;
 
-            if (!doCommand(MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 1, 0, 0))
+            if (!doCommand((byte)sysidcurrent, (byte)compidcurrent, MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 1, 0, 0))
             {
-                generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
+                generatePacket((byte) MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
             }
         }
 
@@ -4574,7 +4573,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                             if (BaseStream.IsOpen)
                             {
-                                doCommand(MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0, false);
+                                doCommand((byte)sysidcurrent, (byte)compidcurrent, MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0,
+                                    false);
                             }
                         }
                     }
@@ -5491,7 +5491,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             while (retry > 0)
             {
                 generatePacket((byte)MAVLINK_MSG_ID.FENCE_POINT, fp);
-                int counttemp = 0;
                 var newfp = getFencePoint(fp.idx).AwaitSync();
 
                 if (newfp.plla.GetDistance(plla) < 5)
@@ -5547,9 +5546,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             second_magnetometer = 5
         }
 
-        public bool SetSensorOffsets(sensoroffsetsenum sensor, float x, float y, float z)
+        public bool SetSensorOffsets(byte sysid, byte compid, sensoroffsetsenum sensor, float x, float y, float z)
         {
-            return doCommand(MAV_CMD.PREFLIGHT_SET_SENSOR_OFFSETS, (int)sensor, x, y, z, 0, 0, 0);
+            return doCommand(sysid, compid, MAV_CMD.PREFLIGHT_SET_SENSOR_OFFSETS, (int) sensor, x, y, z, 0, 0, 0);
         }
 
         Dictionary<Stream, Tuple<string, long>> streamfncache = new Dictionary<Stream, Tuple<string, long>>();
