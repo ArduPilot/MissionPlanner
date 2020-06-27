@@ -695,6 +695,8 @@ namespace px4uploader
                 throw new Exception("Bootloader protocol mismatch");
             }
 
+            print("Got BL Info - changing timeout");
+
             // revert to default write timeout
             port.WriteTimeout = 500;
 
@@ -720,7 +722,8 @@ namespace px4uploader
             if (self.board_type != fw.board_id)
             {
                 if (!(self.board_type == 33 && fw.board_id == 9))
-                    throw new Exception("Firmware not suitable for this board");
+                    throw new Exception("Firmware not suitable for this board fw:" + fw.board_id + " - board:" +
+                                        self.board_type);
             }
 
             if (self.fw_maxsize < fw.image_size && self.fw_maxsize != 0)
