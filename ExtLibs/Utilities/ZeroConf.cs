@@ -42,7 +42,7 @@ namespace MissionPlanner.Utilities
                     
                 }
 
-                Thread.Sleep(4000);
+                Thread.Sleep(30000);
             }
         }
 
