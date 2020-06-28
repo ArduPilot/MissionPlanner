@@ -73,8 +73,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         "CAN_SLCAN_TIMOUT", 2, true);
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                         "CAN_P" + canport + "_DRIVER", 1);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
-                        "CAN_SLCAN_SERNUM", 0, true); // usb
+                    //MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAN_SLCAN_SERNUM", 0, true); // usb
+                    // blind send
+                    var paramname = "CAN_SLCAN_SERNUM";
+                    var req = new MAVLink.mavlink_param_set_t
+                    {
+                        target_system = (byte) MainV2.comPort.sysidcurrent,
+                        target_component = (byte) MainV2.comPort.compidcurrent,
+                        param_type = (byte) MainV2.comPort
+                            .MAVlist[(byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent]
+                            .param_types[paramname],
+                        param_id = paramname.MakeBytesSize(16)
+                    };
+                    MainV2.comPort.sendPacket(req, (byte) MainV2.comPort.sysidcurrent,
+                        (byte) MainV2.comPort.compidcurrent);
+                    MainV2.comPort.sendPacket(req, (byte)MainV2.comPort.sysidcurrent,
+                        (byte)MainV2.comPort.compidcurrent);
                 }
             }
             catch
