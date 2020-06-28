@@ -231,24 +231,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <param name="status"></param>
         private void fw_Progress1(int progress, string status)
         {
-            var change = false;
-
-            if (progress != -1)
+            this.BeginInvokeIfRequired(() =>
             {
-                if (this.progress.Value != progress)
+                var change = false;
+
+                if (progress != -1)
                 {
-                    this.progress.Value = progress;
+                    if (this.progress.Value != progress)
+                    {
+                        this.progress.Value = progress;
+                        change = true;
+                    }
+                }
+
+                if (lbl_status.Text != status)
+                {
+                    lbl_status.Text = status;
                     change = true;
                 }
-            }
-            if (lbl_status.Text != status)
-            {
-                lbl_status.Text = status;
-                change = true;
-            }
 
-            if (change)
-                Refresh();
+                if (change)
+                    this.Refresh();
+            });
         }
 
         private void updateDisplayNameInvoke(Firmware.software temp)

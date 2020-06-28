@@ -448,7 +448,7 @@ namespace px4uploader
             while(port.BytesToRead == 0)
             {
                 if (DateTime.Now > deadline)
-                    throw new Exception("timeout waiting for responce");
+                    throw new TimeoutException("timeout waiting for responce");
             }
 
             byte c = __recv()[0];
