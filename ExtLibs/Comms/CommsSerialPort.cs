@@ -100,9 +100,9 @@ namespace MissionPlanner.Comms
                 // this causes element not found with bluetooth devices.
                 if (BaudRate >= 115200)
                 {
-                    Console.WriteLine("Doing SerialPortFixer");
-                    SerialPortFixer.Execute(PortName);
-                    Console.WriteLine("Done SerialPortFixer");
+                    //Console.WriteLine("Doing SerialPortFixer");
+                    //SerialPortFixer.Execute(PortName);
+                    //Console.WriteLine("Done SerialPortFixer");
                 }
             }
             catch (Exception ex)
