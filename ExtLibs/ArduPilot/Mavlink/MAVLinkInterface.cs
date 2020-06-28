@@ -405,6 +405,8 @@ namespace MissionPlanner
         {
             try
             {
+                giveComport = false;
+
                 if (logfile != null)
                     logfile.Close();
             }
@@ -1438,10 +1440,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             frmProgressReporter.Dispose();
 
-            if (_ParamListChanged != null)
-            {
-                _ParamListChanged(this, null);
-            }
+            _ParamListChanged?.Invoke(this, null);
         }
 
         void FrmProgressReporterGetParams(IProgressReporterDialogue sender)
@@ -1472,9 +1471,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             int param_total = 1;
 
-            mavlink_param_request_list_t req = new mavlink_param_request_list_t();
-            req.target_system = sysid;
-            req.target_component = compid;
+            mavlink_param_request_list_t req = new mavlink_param_request_list_t
+            {
+                target_system = sysid, target_component = compid
+            };
 
             generatePacket((byte)MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
 
@@ -1661,11 +1661,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 {
                                     queued++;
 
-                                    mavlink_param_request_read_t req2 = new mavlink_param_request_read_t();
-                                    req2.target_system = sysid;
-                                    req2.target_component = compid;
-                                    req2.param_index = i;
-                                    req2.param_id = new byte[] { 0 };
+                                    mavlink_param_request_read_t req2 = new mavlink_param_request_read_t
+                                    {
+                                        target_system = sysid,
+                                        target_component = compid,
+                                        param_index = i,
+                                        param_id = new byte[] {0}
+                                    };
 
                                     Array.Resize(ref req2.param_id, 16);
 
@@ -1778,11 +1780,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             MAVLinkMessage buffer;
             giveComport = true;
-            mavlink_param_request_read_t req = new mavlink_param_request_read_t();
-            req.target_system = sysid;
-            req.target_component = compid;
-            req.param_index = index;
-            req.param_id = new byte[] { 0 };
+            mavlink_param_request_read_t req = new mavlink_param_request_read_t
+            {
+                target_system = sysid, target_component = compid, param_index = index, param_id = new byte[] {0}
+            };
             if (index == -1)
             {
                 req.param_id = name.MakeBytes();
@@ -1872,13 +1873,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// </summary>
         public void stopall(bool forget)
         {
-            mavlink_request_data_stream_t req = new mavlink_request_data_stream_t();
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+            mavlink_request_data_stream_t req = new mavlink_request_data_stream_t
+            {
+                target_system = MAV.sysid,
+                target_component = MAV.compid,
+                req_message_rate = 10,
+                start_stop = 0,
+                req_stream_id = 0
+            };
 
-            req.req_message_rate = 10;
-            req.start_stop = 0; // stop
-            req.req_stream_id = 0; // all
 
             // no error on bad
             try
@@ -1902,11 +1905,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public void setWPACK(byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            mavlink_mission_ack_t req = new mavlink_mission_ack_t();
-            req.target_system = sysid;
-            req.target_component = compid;
-            req.type = 0;
-            req.mission_type = (byte)type;
+            mavlink_mission_ack_t req = new mavlink_mission_ack_t
+            {
+                target_system = sysid, target_component = compid, type = 0, mission_type = (byte) type
+            };
 
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_ACK, req);
         }
@@ -1920,11 +1922,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             giveComport = true;
             MAVLinkMessage buffer;
 
-            mavlink_mission_set_current_t req = new mavlink_mission_set_current_t();
+            mavlink_mission_set_current_t req = new mavlink_mission_set_current_t
+            {
+                target_system = sysid, target_component = compid, seq = index
+            };
 
-            req.target_system = sysid;
-            req.target_component = compid;
-            req.seq = index;
 
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_SET_CURRENT, req);
 
@@ -2083,21 +2085,23 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             MAVLinkMessage buffer;
 
-            mavlink_command_long_t req = new mavlink_command_long_t();
+            mavlink_command_long_t req = new mavlink_command_long_t
+            {
+                target_system = sysid,
+                target_component = compid,
+                command = (ushort) actionid,
+                confirmation = 0,
+                param1 = p1,
+                param2 = p2,
+                param3 = p3,
+                param4 = p4,
+                param5 = p5,
+                param6 = p6,
+                param7 = p7
+            };
 
-            req.target_system = sysid;
-            req.target_component = compid;
 
-            req.command = (ushort)actionid;
-            req.confirmation = 0;
 
-            req.param1 = p1;
-            req.param2 = p2;
-            req.param3 = p3;
-            req.param4 = p4;
-            req.param5 = p5;
-            req.param6 = p6;
-            req.param7 = p7;
 
             log.InfoFormat("doCommand cmd {0} {1} {2} {3} {4} {5} {6} {7}", actionid.ToString(), p1, p2, p3, p4, p5, p6,
                 p7);
@@ -2337,13 +2341,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         public void SendSerialControl(SERIAL_CONTROL_DEV port, ushort timeoutms, byte[] data, uint baudrate = 0,
             bool close = false)
         {
-            mavlink_serial_control_t ctl = new mavlink_serial_control_t();
+            mavlink_serial_control_t ctl = new mavlink_serial_control_t
+            {
+                baudrate = baudrate,
+                device = (byte) port,
+                timeout = timeoutms,
+                data = new byte[70],
+                count = 0
+            };
 
-            ctl.baudrate = baudrate; // no change
-            ctl.device = (byte)port;
-            ctl.timeout = timeoutms;
-            ctl.data = new byte[70];
-            ctl.count = 0;
             if (close)
             {
                 ctl.flags = 0;
@@ -2387,35 +2393,39 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public void SendRCOverride(byte sysid, byte compid, UInt16 rc1, UInt16 rc2, UInt16 rc3, UInt16 rc4, UInt16 rc5, UInt16 rc6, UInt16 rc7, UInt16 rc8)
         {
-            mavlink_rc_channels_override_t rc = new mavlink_rc_channels_override_t();
+            mavlink_rc_channels_override_t rc = new mavlink_rc_channels_override_t
+            {
+                target_component = compid,
+                target_system = sysid,
+                chan1_raw = rc1,
+                chan2_raw = rc2,
+                chan3_raw = rc3,
+                chan4_raw = rc4,
+                chan5_raw = rc5,
+                chan6_raw = rc6,
+                chan7_raw = rc7,
+                chan8_raw = rc8
+            };
 
-            rc.target_component = compid;
-            rc.target_system = sysid;
 
-            rc.chan1_raw = rc1;
-            rc.chan2_raw = rc2;
-            rc.chan3_raw = rc3;
-            rc.chan4_raw = rc4;
-            rc.chan5_raw = rc5;
-            rc.chan6_raw = rc6;
-            rc.chan7_raw = rc7;
-            rc.chan8_raw = rc8;
 
             sendPacket(rc, rc.target_system, rc.target_component);
         }
 
         public void SendManualControl(byte sysid, byte compid, Int16 x, Int16 y, Int16 z, Int16 r, UInt16 buttons)
         {
-            mavlink_manual_control_t mc = new mavlink_manual_control_t();
+            mavlink_manual_control_t mc = new mavlink_manual_control_t
+            {
+                target = sysid,
+                x = x,
+                y = y,
+                z = z,
+                r = r,
+                buttons = buttons
+            };
 
-            mc.target = sysid;
 
-            mc.x = x;
-            mc.y = y;
-            mc.z = z;
-            mc.r = r;
 
-            mc.buttons = buttons;
 
             sendPacket(mc, sysid, compid);
         }
@@ -2598,13 +2608,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             if (hzrate == -1)
                 return;
 
-            mavlink_request_data_stream_t req = new mavlink_request_data_stream_t();
-            req.target_system = sysid;
-            req.target_component = compid;
-
-            req.req_message_rate = (byte)hzrate;
-            req.start_stop = 1; // start
-            req.req_stream_id = (byte)id; // id
+            mavlink_request_data_stream_t req = new mavlink_request_data_stream_t
+            {
+                target_system = sysid,
+                target_component = compid,
+                req_message_rate = (byte) hzrate,
+                start_stop = 1,
+                req_stream_id = (byte) id
+            };
 
             // send each one twice.
             generatePacket((byte)MAVLINK_MSG_ID.REQUEST_DATA_STREAM, req, sysid, compid);
@@ -2629,11 +2640,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             giveComport = true;
             MAVLinkMessage buffer;
-            mavlink_mission_request_list_t req = new mavlink_mission_request_list_t();
+            mavlink_mission_request_list_t req = new mavlink_mission_request_list_t
+            {
+                target_system = sysid, target_component = compid, mission_type = (byte) type
+            };
 
-            req.target_system = sysid;
-            req.target_component = compid;
-            req.mission_type = (byte)type;
 
             // request list
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST_LIST, req);
@@ -2764,13 +2775,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             if (use_int)
             {
-                mavlink_mission_request_int_t reqi = new mavlink_mission_request_int_t();
+                mavlink_mission_request_int_t reqi = new mavlink_mission_request_int_t
+                {
+                    target_system = sysid, target_component = compid, mission_type = (byte) type, seq = index
+                };
 
-                reqi.target_system = sysid;
-                reqi.target_component = compid;
-                reqi.mission_type = (byte)type;
 
-                reqi.seq = index;
 
                 // request
                 generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT, reqi);
@@ -2779,13 +2789,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             }
             else
             {
-                mavlink_mission_request_t reqf = new mavlink_mission_request_t();
+                mavlink_mission_request_t reqf = new mavlink_mission_request_t
+                {
+                    target_system = sysid, target_component = compid, mission_type = (byte) type, seq = index
+                };
 
-                reqf.target_system = sysid;
-                reqf.target_component = compid;
-                reqf.mission_type = (byte)type;
 
-                reqf.seq = index;
 
                 // request
                 generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, reqf);
@@ -3063,14 +3072,16 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// <param name="endwp"></param>
         public async Task setWPPartialUpdateAsync(byte sysid, byte compid, ushort startwp, ushort endwp, MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
-            mavlink_mission_write_partial_list_t req = new mavlink_mission_write_partial_list_t();
+            mavlink_mission_write_partial_list_t req = new mavlink_mission_write_partial_list_t
+            {
+                target_system = sysid,
+                target_component = compid,
+                start_index = (short) startwp,
+                end_index = (short) endwp,
+                mission_type = (byte) type
+            };
 
-            req.target_system = sysid;
-            req.target_component = compid;
 
-            req.start_index = (short)startwp;
-            req.end_index = (short)endwp;
-            req.mission_type = (byte)type;
 
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_WRITE_PARTIAL_LIST, req);
         }
@@ -3088,13 +3099,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         public async Task setWPTotalAsync(byte sysid, byte compid, ushort wp_total, MAVLink.MAV_MISSION_TYPE type = MAV_MISSION_TYPE.MISSION)
         {
             giveComport = true;
-            mavlink_mission_count_t req = new mavlink_mission_count_t();
+            mavlink_mission_count_t req = new mavlink_mission_count_t
+            {
+                target_system = sysid, target_component = compid, count = wp_total, mission_type = (byte) type
+            };
 
-            req.target_system = sysid;
-            req.target_component = compid; // MSG_NAMES.MISSION_COUNT
-
-            req.count = wp_total;
-            req.mission_type = (byte)type;
 
             log.Info("setWPTotal req MISSION_COUNT " + req.ToJSON(Formatting.None));
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_COUNT, req);
@@ -3301,19 +3310,21 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             if (use_int)
             {
-                mavlink_mission_item_int_t req = new mavlink_mission_item_int_t();
+                mavlink_mission_item_int_t req = new mavlink_mission_item_int_t
+                {
+                    target_system = sysid,
+                    target_component = compid,
+                    command = loc.id,
+                    current = current,
+                    autocontinue = autocontinue,
+                    mission_type = (byte) mission_type,
+                    frame = (byte) frame
+                };
 
-                req.target_system = sysid;
-                req.target_component = compid;
 
-                req.command = loc.id;
 
-                req.current = current;
-                req.autocontinue = autocontinue;
 
-                req.mission_type = (byte)mission_type;
 
-                req.frame = (byte)frame;
                 if (loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONTROL || loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONFIGURE)
                 {
                     req.y = (int)(loc.lng);
@@ -3337,29 +3348,31 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             }
             else
             {
-                mavlink_mission_item_t req = new mavlink_mission_item_t();
+                mavlink_mission_item_t req = new mavlink_mission_item_t
+                {
+                    target_system = sysid,
+                    target_component = compid,
+                    command = loc.id,
+                    current = current,
+                    autocontinue = autocontinue,
+                    mission_type = (byte) mission_type,
+                    frame = (byte) frame,
+                    y = (float) (loc.lng),
+                    x = (float) (loc.lat),
+                    z = (float) (loc.alt),
+                    param1 = loc.p1,
+                    param2 = loc.p2,
+                    param3 = loc.p3,
+                    param4 = loc.p4,
+                    seq = index
+                };
 
-                req.target_system = sysid;
-                req.target_component = compid;
 
-                req.command = loc.id;
 
-                req.current = current;
-                req.autocontinue = autocontinue;
 
-                req.mission_type = (byte)mission_type;
 
-                req.frame = (byte)frame;
-                req.y = (float)(loc.lng);
-                req.x = (float)(loc.lat);
-                req.z = (float)(loc.alt);
 
-                req.param1 = loc.p1;
-                req.param2 = loc.p2;
-                req.param3 = loc.p3;
-                req.param4 = loc.p4;
 
-                req.seq = index;
 
                 return await setWPAsync(req).ConfigureAwait(false);
             }
@@ -3871,10 +3884,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public void setMountControl(byte sysid, byte compid, double pa, double pb, double pc, bool islatlng)
         {
-            mavlink_mount_control_t req = new mavlink_mount_control_t();
+            mavlink_mount_control_t req = new mavlink_mount_control_t
+            {
+                target_system = sysid, target_component = compid
+            };
 
-            req.target_system = sysid;
-            req.target_component = compid;
             if (!islatlng)
             {
                 req.input_a = (int)pa;
