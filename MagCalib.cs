@@ -305,7 +305,7 @@ namespace MissionPlanner
 
         public static async Task test()
         {
-            getOffsets(@"C:\Users\michael\Downloads\2017-12-03 19-26-47.tlog");
+            await getOffsets(@"C:\Users\michael\Downloads\2017-12-03 19-26-47.tlog");
 
             CompassCalibrator com = new CompassCalibrator();
 
@@ -1241,7 +1241,7 @@ namespace MissionPlanner
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_LEARN", 0);
 
                     if (
-                        !MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.magnetometer, (float)ofs[0],
+                        !MainV2.comPort.SetSensorOffsets((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLinkInterface.sensoroffsetsenum.magnetometer, (float)ofs[0],
                             (float)ofs[1], (float)ofs[2]))
                     {
                         // set values
@@ -1252,9 +1252,9 @@ namespace MissionPlanner
                     else
                     {
                         // Need to reload these params into the param list if SetSensorOffsets() was used
-                        MainV2.comPort.GetParam("COMPASS_OFS_X");
-                        MainV2.comPort.GetParam("COMPASS_OFS_Y");
-                        MainV2.comPort.GetParam("COMPASS_OFS_Z");
+                        MainV2.comPort.GetParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_X");
+                        MainV2.comPort.GetParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_Y");
+                        MainV2.comPort.GetParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS_Z");
                     }
 
                     if (ofs.Length > 5 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA_X"))
@@ -1297,7 +1297,7 @@ namespace MissionPlanner
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_LEARN", 0);
 
                     if (
-                        !MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.second_magnetometer,
+                        !MainV2.comPort.SetSensorOffsets((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLinkInterface.sensoroffsetsenum.second_magnetometer,
                             (float)ofs[0], (float)ofs[1], (float)ofs[2]))
                     {
                         // set values
@@ -1308,9 +1308,9 @@ namespace MissionPlanner
                     else
                     {
                         // Need to reload these params into the param list if SetSensorOffsets() was used
-                        MainV2.comPort.GetParam("COMPASS_OFS2_X");
-                        MainV2.comPort.GetParam("COMPASS_OFS2_Y");
-                        MainV2.comPort.GetParam("COMPASS_OFS2_Z");
+                        MainV2.comPort.GetParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_X");
+                        MainV2.comPort.GetParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_Y");
+                        MainV2.comPort.GetParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "COMPASS_OFS2_Z");
                     }
                     if (ofs.Length > 5 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA2_X"))
                     {
