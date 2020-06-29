@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using Org.BouncyCastle.Security;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Threading;
 using System.Xml;
 using MissionPlanner.Comms;
 
@@ -449,6 +450,7 @@ namespace px4uploader
             {
                 if (DateTime.Now > deadline)
                     throw new TimeoutException("timeout waiting for responce");
+                Thread.Sleep(5);
             }
 
             byte c = __recv()[0];
