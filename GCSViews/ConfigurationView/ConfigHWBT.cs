@@ -104,7 +104,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         Thread.Sleep(1100);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     CustomMessageBox.Show(Strings.SelectComport + " Invalid port", Strings.ERROR);
                     return;

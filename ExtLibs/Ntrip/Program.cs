@@ -192,7 +192,7 @@ namespace Ntrip
 
             Task.Run(() =>
             {
-                Program.DataEventHandler func = async (data, length) =>
+                Program.DataEventHandler func = (data, length) =>
                 {
                     try
                     {

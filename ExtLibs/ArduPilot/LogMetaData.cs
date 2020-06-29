@@ -28,7 +28,7 @@ namespace MissionPlanner.ArduPilot
         {
             List<Task> tlist = new List<Task>();
 
-            vehicles.ForEach(async a =>
+            vehicles.ForEach(a =>
             {
                 try
                 {
@@ -45,7 +45,7 @@ namespace MissionPlanner.ArduPilot
 
         public void ParseMetaData()
         {
-            vehicles.ForEach(async a =>
+            vehicles.ForEach(a =>
             {
                 var file = Path.Combine(Settings.GetDataDirectory(), a + ".xml");
 

@@ -485,7 +485,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                     }
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }

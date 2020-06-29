@@ -3080,9 +3080,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 end_index = (short) endwp,
                 mission_type = (byte) type
             };
-
-
-
+            
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_WRITE_PARTIAL_LIST, req);
         }
         [Obsolete]

@@ -62,7 +62,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     chthro = (int)(float)MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
                     chyaw = (int)(float)MainV2.comPort.MAV.param["RCMAP_YAW"];
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     CustomMessageBox.Show(Strings.ErrorReceivingParams, Strings.ERROR);
                     this.Enabled = false;

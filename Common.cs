@@ -200,7 +200,7 @@ namespace MissionPlanner
                     {
                         System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
                     }
-                    catch (Exception exception)
+                    catch (Exception)
                     {
                         CustomMessageBox.Show("Failed to open link " + ((LinkLabel)sender).Tag.ToString());
                     }

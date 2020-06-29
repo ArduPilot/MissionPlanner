@@ -580,7 +580,6 @@ namespace MissionPlanner.Controls
 
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
 
-                int textureload = 0;
                 int lastzoom = texlist.Count == 0 ? 0 : texlist[0].Value.zoom;
                 var beforedraw = DateTime.Now;
                 foreach (var tidict in texlist)

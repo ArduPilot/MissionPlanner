@@ -124,17 +124,6 @@ namespace MissionPlanner.Controls
                 nodeToAddTo.Nodes.Add(aNode);
                 info.Add(aNode);
             }
-
-            DirectoryInfo[] subSubDirs;
-            foreach (var treeNode in info)
-            {
-                //subSubDirs = await ((DirectoryInfo)treeNode.Tag).GetDirectories();
-                //if (subSubDirs.Length != 0)
-                {
-                    //  await GetDirectories(subSubDirs, treeNode);
-                }
-
-            }
         }
 
         private async void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

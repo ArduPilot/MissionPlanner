@@ -9,7 +9,7 @@
 
 
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0">
-      <Aliases>bad</Aliases>
+      <Aliases></Aliases>
     </PackageReference>
 
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />

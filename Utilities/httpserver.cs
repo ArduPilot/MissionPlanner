@@ -267,7 +267,7 @@ namespace MissionPlanner.Utilities
                             writer.Flush();
 
                             EventHandler<MAVLink.MAVLinkMessage> action = null;
-                            action = (sender, message) =>
+                            action = async (sender, message) =>
                             {
                                 var sendme = message.buffer;
                                 try
@@ -294,8 +294,8 @@ namespace MissionPlanner.Utilities
                                         packet[i++] = (byte)ch;
                                     }
 
-                                    stream.WriteAsync(packet, 0, i);
-                                    stream.FlushAsync();
+                                    await stream.WriteAsync(packet, 0, i);
+                                    await stream.FlushAsync();
                                 }
                                 catch
                                 {

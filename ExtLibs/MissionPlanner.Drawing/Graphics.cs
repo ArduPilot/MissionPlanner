@@ -2,10 +2,12 @@
 using SkiaSharp;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace System.Drawing
@@ -41,29 +43,31 @@ namespace System.Drawing
         }
         */
 
-        public Graphics()
-        {
-            _surface = SKSurface.Create(9999, 9999, SKColorType.Bgra8888, SKAlphaType.Opaque);
-        }
-
         public Graphics(SKSurface surface)
         {
             _surface = surface;
+
+            Debug.Assert(_surface != null);
         }
 
         public Graphics(IntPtr handle, int width, int height)
         {
-
+            if (width == 0)
+                width = 1;
+            if (height == 0)
+                height = 1;
             /*
              * 
 GRGlInterface glInterface = GRGlInterface.AssembleGlInterface(GLFW.GetWGLContext(window), (contextHandle, name) => GLFW.GetProcAddress(name));
 GRContext context = GRContext.Create(GRBackend.OpenGL, glInterface);
 GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTargetDesc
              */
-            //_surface = SKSurface.Create(GRContext.Create(GRBackend.OpenGL,GRGlInterface.AssembleInterface(handle,)))();
+            //_surface = SKSurface.Create(GRContext.Create(GRBackend.OpenGL), );
 
-            _surface = SKSurface.Create(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Opaque);
+            _surface = SKSurface.Create(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
 
+
+            Debug.Assert(_surface!=null);
             //_rec.BeginRecording(new SKRect(0, 0, width, height));
         }
 
@@ -118,10 +122,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             var bmpdata =((Bitmap) bmpDestination).LockBits(new Rectangle(0, 0, bmpDestination.Width, bmpDestination.Height),
                 null, SKColorType.Bgra8888);
-            return new Graphics()
-            {
-                _surface = SKSurface.Create(bmpDestination.nativeSkBitmap.Info, bmpdata.Scan0)
-            };
+            return new Graphics(SKSurface.Create(bmpDestination.nativeSkBitmap.Info, bmpdata.Scan0));
         }
 
         public static implicit operator Image(Graphics sk)
@@ -310,7 +311,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawIcon(Icon icon, int x, int y)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void DrawIcon(Icon icon, Rectangle targetRect)
@@ -1173,7 +1174,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void RotateTransform(float angle)
         {
-            _surface.Canvas.RotateDegrees(angle);
+            _image.RotateDegrees(angle);
         }
 
         public void RotateTransform(float angle, MatrixOrder order)
@@ -1479,34 +1480,42 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             throw new NotImplementedException();
         }
 
+        public static Func<IntPtr, Graphics> HwndToGraphics;
+
+        //A Windows window is identified by a "window handle" (HWND)
         public static Graphics FromHwnd(IntPtr windowHandle)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("FromHwnd");
+
+            //get client rect
+            //hwnd to hdc
+            return HwndToGraphics(windowHandle);
         }
 
         public void ReleaseHdc()
         {
-            throw new NotImplementedException();
+            
         }
 
         public IntPtr GetHdc()
         {
-            throw new NotImplementedException();
+            return _surface.Handle;
         }
+
+        public static Func<IntPtr, Graphics> GraphicsFromHdc;
 
         public static Graphics FromHdc(IntPtr getHdc)
         {
-            throw new NotImplementedException();
-        }
-
-        public static void FromHdcInternal(IntPtr zero)
-        {
-            throw new NotImplementedException();
+            Console.WriteLine("FromHdc");
+            return GraphicsFromHdc(getHdc);
         }
 
         public void ReleaseHdc(IntPtr hdc)
         {
-            throw new NotImplementedException();
+        }
+
+        public class DrawImageAbort
+        {
         }
     }
 }

@@ -64,7 +64,7 @@ namespace System.Drawing
             set { nativeFont.TextSize = value; }
         }
 
-        public FontFamily FontFamily { get; set; }
+        public FontFamily FontFamily { get; set; } = new FontFamily();
 
         private float _size = 7;
         public float Size

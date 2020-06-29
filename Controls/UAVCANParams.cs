@@ -595,9 +595,6 @@ namespace MissionPlanner.Controls
                         Params[e.ColumnIndex, e.RowIndex].Value = "-1";
                 }
 
-                double min = 0;
-                double max = 0;
-
                 var value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
 
                 Params[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Green;
