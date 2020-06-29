@@ -65,10 +65,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 tableLayoutPanel1.RowCount++;
                 tableLayoutPanel1.Controls.Add(new Label() { Text = option, Name = option });
                 var cmb = new MavlinkComboBox();
+                tableLayoutPanel1.Controls.Add(cmb);
                 cmb.setup(
                     ParameterMetaDataRepository.GetParameterOptionsInt(option,
                         MainV2.comPort.MAV.cs.firmware.ToString()), option, MainV2.comPort.MAV.param);
-                tableLayoutPanel1.Controls.Add(cmb);
             }
 
             tableLayoutPanel1.ResumeLayout(true);
