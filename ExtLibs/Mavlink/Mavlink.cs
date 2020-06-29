@@ -598,7 +598,7 @@ public partial class MAVLink
         ///<summary> Loiter around this waypoint for X turns |Number of turns.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle. NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint for X turns")]
         LOITER_TURNS=18, 
-        ///<summary> Loiter around this waypoint for X seconds |Loiter time.| Empty| e counter-clockwise.| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle.  NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Loiter around this waypoint for X seconds |Loiter time.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise.| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle.  NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint for X seconds")]
         LOITER_TIME=19, 
         ///<summary> Return to launch location |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -610,7 +610,7 @@ public partial class MAVLink
         ///<summary> Takeoff from ground / hand |Minimum pitch (if airspeed sensor present), desired pitch without sensor| Empty| Empty| Yaw angle (if magnetometer present), ignored without magnetometer. NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
         [Description("Takeoff from ground / hand")]
         TAKEOFF=22, 
-        ///<summary> Land at local position (local frame only) |Landing target number (if available)| Maximum accepted offset from desired landing position - computed magnitude from spherical coordinates: d = sqrt(x^2 + y^2 + z^2), which gives the maximum accepted distance between the desired landing position and the position where the vehicle is about to land| Landing descend rate| Desired yaw angle| Y-axis position| X-axis position| Z-axis / ground level position|  </summary>
+        ///<summary> Land at local position (local frame only) |vailable)| Maximum accepted offset from desired landing position - computed magnitude from spherical coordinates: d = sqrt(x^2 + y^2 + z^2), which gives the maximum accepted distance between the desired landing position and the position where the vehicle is about to land| Landing descend rate| Desired yaw angle| Y-axis position| X-axis position| Z-axis / ground level position|  </summary>
         [Description("Land at local position (local frame only)")]
         LAND_LOCAL=23, 
         ///<summary> Takeoff from local position (local frame only) |Minimum pitch (if airspeed sensor present), desired pitch without sensor| Empty| Takeoff ascend rate| Yaw angle (if magnetometer or another yaw estimation source present), ignored without one of these| Y-axis position| X-axis position| Z-axis position|  </summary>
@@ -634,7 +634,7 @@ public partial class MAVLink
         ///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of interest mode.| Waypoint index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         [Description("Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.")]
         ROI=80, 
-        ///<summary> Control autonomous path planning on the MAV. |e and reset local path planning| 0: Disable full path planning (without resetting map), 1: Enable, 2: Enable and reset map/occupancy grid, 3: Enable and reset planned route, but not occupancy grid| Empty| Yaw angle at goal| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
+        ///<summary> Control autonomous path planning on the MAV. |0: Disable local obstacle avoidance / local path planning (without resetting map), 1: Enable local path planning, 2: Enable and reset local path planning| 0: Disable full path planning (without resetting map), 1: Enable, 2: Enable and reset map/occupancy grid, 3: Enable and reset planned route, but not occupancy grid| Empty| Yaw angle at goal| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
         [Description("Control autonomous path planning on the MAV.")]
         PATHPLANNING=81, 
         ///<summary> Navigate to waypoint using a spline path. |Hold time. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Empty| Empty| Empty| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
@@ -709,7 +709,7 @@ public partial class MAVLink
         ///<summary> Change altitude set point. |Altitude.| Frame of new altitude.| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Change altitude set point.")]
         DO_CHANGE_ALTITUDE=186, 
-        ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. |Empty| Empty| Empty| Empty| tude| Longitude| Empty|  </summary>
+        ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. |Empty| Empty| Empty| Empty| Latitude| Longitude| Empty|  </summary>
         [Description("Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence.")]
         DO_LAND_START=189, 
         ///<summary> Mission command to perform a landing from a rally point. |Break altitude| Landing speed| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -721,7 +721,7 @@ public partial class MAVLink
         ///<summary> Reposition the vehicle to a specific WGS84 global position. |Ground speed, less than 0 (-1) for default| Bitmask of option flags.| Reserved| Yaw heading, NaN for unchanged. For planes indicates loiter direction (0: clockwise, 1: counter clockwise)| Latitude| Longitude| Altitude (meters)|  </summary>
         [Description("Reposition the vehicle to a specific WGS84 global position.")]
         DO_REPOSITION=192, 
-        ///<summary> If in a GPS controlled position mode, hold the current position or continue. |0: Pause current mission or reposition command, hold current position. 1: Continue mission. A VTOL capable vehicle should enter hover mode (multicopter and VTOL planes). A plane should loiter with the default loiter radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
+        ///<summary> If in a GPS controlled position mode, hold the current position or continue. |r radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("If in a GPS controlled position mode, hold the current position or continue.")]
         DO_PAUSE_CONTINUE=193, 
         ///<summary> Set moving direction to forward or reverse. |Direction (0=Forward, 1=Reverse)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -739,7 +739,7 @@ public partial class MAVLink
         ///<summary> Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means. |sysid| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means.")]
         DO_SET_ROI_SYSID=198, 
-        ///<summary> Control onboard camera system. |Camera ID (-1 for all)| 0: disabled, 1: enabled compressed, 2: enabled raw| 0: single images every n seconds| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
+        ///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| 0: single images every n seconds| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
         [Description("Control onboard camera system.")]
         DO_CONTROL_VIDEO=200, 
         ///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of interest mode.| Waypoint index/ target ID (depends on param 1).| Region of interest index. (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
@@ -751,7 +751,7 @@ public partial class MAVLink
         ///<summary> Control digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ). |Session control e.g. show/hide lens| Zoom's absolute position| Zooming step value to offset zoom from the current position| Focus Locking, Unlocking or Re-locking| Shooting Command| Command Identity| Test shot identifier. If set to 1, image will only be captured, but not counted towards internal frame count.|  </summary>
         [Description("Control digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ).")]
         DO_DIGICAM_CONTROL=203, 
-        ///<summary> Mission command to configure a camera or antenna mount |Mount operation mode| stabilize roll? (1 = yes, 0 = no)| stabilize pitch? (1 = yes, 0 = no)| stabilize yaw? (1 = yes, 0 = no)| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to configure a camera or antenna mount |Mount operation mode| stabilize roll? (1 = yes, 0 = no)| stabilize pitch? (1 = yes, 0 = no)| es, 0 = no)| Empty| Empty| Empty|  </summary>
         [Description("Mission command to configure a camera or antenna mount")]
         DO_MOUNT_CONFIGURE=204, 
         ///<summary> Mission command to control a camera or antenna mount |pitch (WIP: DEPRECATED: or lat in degrees) depending on mount mode.| roll (WIP: DEPRECATED: or lon in degrees) depending on mount mode.| yaw (WIP: DEPRECATED: or alt in meters) depending on mount mode.| WIP: alt in meters depending on mount mode.| WIP: latitude in degrees * 1E7, set if appropriate mount mode.| WIP: longitude in degrees * 1E7, set if appropriate mount mode.| Mount mode.|  </summary>
@@ -793,7 +793,7 @@ public partial class MAVLink
         ///<summary> set id of master controller |System ID| Component ID| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("set id of master controller")]
         DO_GUIDED_MASTER=221, 
-        ///<summary> Set limits for external control |Timeout - maximum time that external controller will be allowed to control vehicle. 0 means no timeout.| Altitude (MSL) min - if vehicle moves below this alt, the command will be aborted and the mission will continue. 0 means no lower altitude limit.| Altitude (MSL) max - if vehicle moves above this alt, the command will be aborted and the mission will continue. 0 means no upper altitude limit.| Horizontal move limit - if vehicle moves more than this distance from its location at the moment the command was executed, the command will be aborted and the mission will continue. 0 means no horizontal move limit.| Empty| Empty| Empty|  </summary>
+        ///<summary> Set limits for external control |Timeout - maximum time that external controller will be allowed to control vehicle. 0 means no timeout.| Altitude (MSL) min - if vehicle moves below this alt, the command will be aborted and the mission will continue. 0 means no lower altitude limit.| cle moves above this alt, the command will be aborted and the mission will continue. 0 means no upper altitude limit.| Horizontal move limit - if vehicle moves more than this distance from its location at the moment the command was executed, the command will be aborted and the mission will continue. 0 means no horizontal move limit.| Empty| Empty| Empty|  </summary>
         [Description("Set limits for external control")]
         DO_GUIDED_LIMITS=222, 
         ///<summary> Control vehicle engine. This is interpreted by the vehicles engine controller to change the target engine state. It is intended for vehicles with internal combustion engines |0: Stop engine, 1:Start Engine| 0: Warm start, 1:Cold start. Controls use of choke where applicable| Height delay. This is for commanding engine start only after the vehicle has gained the specified height. Used in VTOL vehicles during takeoff to start engine after the aircraft is off the ground. Zero for no delay.| Empty| Empty| Empty| Empty|  </summary>
@@ -817,7 +817,7 @@ public partial class MAVLink
         ///<summary> Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode. |Parameter storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| Mission storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| 1: logging rate (e.g. set to 1000 for 1000 Hz logging)| Reserved| Empty| Empty| Empty|  </summary>
         [Description("Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode.")]
         PREFLIGHT_STORAGE=245, 
-        ///<summary> Request the reboot or shutdown of system components. |0: Do nothing for autopilot, 1: Reboot autopilot, 2: Shutdown autopilot, 3: Reboot autopilot and keep it in the bootloader until upgraded.| computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.| WIP: 0: Do nothing for camera, 1: Reboot onboard camera, 2: Shutdown onboard camera, 3: Reboot onboard camera and keep it in the bootloader until upgraded| WIP: 0: Do nothing for mount (e.g. gimbal), 1: Reboot mount, 2: Shutdown mount, 3: Reboot mount and keep it in the bootloader until upgraded| Reserved, send 0| Reserved, send 0| WIP: ID (e.g. camera ID -1 for all IDs)|  </summary>
+        ///<summary> Request the reboot or shutdown of system components. |0: Do nothing for autopilot, 1: Reboot autopilot, 2: Shutdown autopilot, 3: Reboot autopilot and keep it in the bootloader until upgraded.| 0: Do nothing for onboard computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.| WIP: 0: Do nothing for camera, 1: Reboot onboard camera, 2: Shutdown onboard camera, 3: Reboot onboard camera and keep it in the bootloader until upgraded| oot mount, 2: Shutdown mount, 3: Reboot mount and keep it in the bootloader until upgraded| Reserved, send 0| Reserved, send 0| WIP: ID (e.g. camera ID -1 for all IDs)|  </summary>
         [Description("Request the reboot or shutdown of system components.")]
         PREFLIGHT_REBOOT_SHUTDOWN=246, 
         ///<summary> Override current mission with command to pause mission, pause mission and move to position, continue/resume mission. When param 1 indicates that the mission is paused (MAV_GOTO_DO_HOLD), param 2 defines whether it holds in place or moves to another position. |MAV_GOTO_DO_HOLD: pause mission and either hold or move to specified position (depending on param2), MAV_GOTO_DO_CONTINUE: resume mission.| MAV_GOTO_HOLD_AT_CURRENT_POSITION: hold at current position, MAV_GOTO_HOLD_AT_SPECIFIED_POSITION: hold at specified position.| Coordinate frame of hold point.| Desired yaw angle.| Latitude / X position.| Longitude / Y position.| Altitude / Z position.|  </summary>
@@ -835,7 +835,7 @@ public partial class MAVLink
         ///<summary> Starts receiver pairing. |0:Spektrum.| RC type.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Starts receiver pairing.")]
         START_RX_PAIR=500, 
-        ///<summary> Request the interval between messages for a particular MAVLink message ID. The receiver should ACK the command and then emit its response in a MESSAGE_INTERVAL message. |message ID| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        ///<summary> Request the interval between messages for a particular MAVLink message ID. The receiver should ACK the command and then emit its response in a MESSAGE_INTERVAL message. |The MAVLink message ID| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Request the interval between messages for a particular MAVLink message ID. The receiver should ACK the command and then emit its response in a MESSAGE_INTERVAL message.")]
         GET_MESSAGE_INTERVAL=510, 
         ///<summary> Set the interval between messages for a particular MAVLink message ID. This interface replaces REQUEST_DATA_STREAM. |The MAVLink message ID| The interval between two messages. Set to -1 to disable and 0 to request default rate.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Target address of message stream (if message has target address fields). 0: Flight-stack default (recommended), 1: address of requestor, 2: broadcast.|  </summary>
@@ -853,7 +853,7 @@ public partial class MAVLink
         ///<summary> Request camera settings (CAMERA_SETTINGS). |0: No Action 1: Request camera settings| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Request camera settings (CAMERA_SETTINGS).")]
         REQUEST_CAMERA_SETTINGS=522, 
-        ///<summary> Request storage information (STORAGE_INFORMATION). Use the command's target_component to target a specific component's storage. |Storage ID (0 for all, 1 for first, 2 for second, etc.)| n| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        ///<summary> Request storage information (STORAGE_INFORMATION). Use the command's target_component to target a specific component's storage. |Storage ID (0 for all, 1 for first, 2 for second, etc.)| 0: No Action 1: Request storage information| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Request storage information (STORAGE_INFORMATION). Use the command's target_component to target a specific component's storage.")]
         REQUEST_STORAGE_INFORMATION=525, 
         ///<summary> Format a storage medium. Once format is complete, a STORAGE_INFORMATION message is sent. Use the command's target_component to target a specific component's storage. |Storage ID (1 for first, 2 for second, etc.)| 0: No action 1: Format storage| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
@@ -865,7 +865,7 @@ public partial class MAVLink
         ///<summary> Request flight information (FLIGHT_INFORMATION) |1: Request flight information| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Request flight information (FLIGHT_INFORMATION)")]
         REQUEST_FLIGHT_INFORMATION=528, 
-        ///<summary> Reset all camera settings to Factory Default |0: No Action 1: Reset all settings| served (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        ///<summary> Reset all camera settings to Factory Default |0: No Action 1: Reset all settings| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Reset all camera settings to Factory Default")]
         RESET_CAMERA_SETTINGS=529, 
         ///<summary> Set camera running mode. Use NaN for reserved values. GCS will send a MAV_CMD_REQUEST_VIDEO_STREAM_STATUS command after a mode change if the camera supports video streaming. |Reserved (Set to 0)| Camera mode| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
@@ -877,7 +877,7 @@ public partial class MAVLink
         ///<summary> Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number. |Target tag to jump to.| Repeat count.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number.")]
         DO_JUMP_TAG=601, 
-        ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| y greater than 2 seconds).| Total number of images to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| Capture sequence number starting from 1. This is only valid for single-capture (param3 == 1). Increment the capture ID for each capture command to prevent double captures when a command is re-transmitted. Use 0 to ignore it.| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| Desired elapsed time between two consecutive pictures (in seconds). Minimum values depend on hardware (typically greater than 2 seconds).| Total number of images to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| apture command to prevent double captures when a command is re-transmitted. Use 0 to ignore it.| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.")]
         IMAGE_START_CAPTURE=2000, 
         ///<summary> Stop image capture sequence Use NaN for reserved values. |Reserved (Set to 0)| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
@@ -886,7 +886,7 @@ public partial class MAVLink
         ///<summary> Enable or disable on-board camera triggering system. |Trigger enable/disable (0 for disable, 1 for start), -1 to ignore| 1 to reset the trigger sequence, -1 or 0 to ignore| 1 to pause triggering, but without switching the camera off or retracting it. -1 to ignore| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Enable or disable on-board camera triggering system.")]
         DO_TRIGGER_CONTROL=2003, 
-        ///<summary> Starts video capture (recording). Use NaN for reserved values. |Video Stream ID (0 for all streams)| ages should be sent while recording (0 for no messages, otherwise frequency)| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        ///<summary> Starts video capture (recording). Use NaN for reserved values. |Video Stream ID (0 for all streams)| Frequency CAMERA_CAPTURE_STATUS messages should be sent while recording (0 for no messages, otherwise frequency)| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Starts video capture (recording). Use NaN for reserved values.")]
         VIDEO_START_CAPTURE=2500, 
         ///<summary> Stop the current video capture (recording). Use NaN for reserved values. |Video Stream ID (0 for all streams)| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
@@ -904,7 +904,7 @@ public partial class MAVLink
         ///<summary> Request to stop streaming log data over MAVLink |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Request to stop streaming log data over MAVLink")]
         LOGGING_STOP=2511, 
-        ///<summary>  |or all)| Landing gear position (Down: 0, Up: 1, NaN for no change)| Reserved, set to NaN| Reserved, set to NaN| Reserved, set to NaN| Reserved, set to NaN| Reserved, set to NaN|  </summary>
+        ///<summary>  |Landing gear ID (default: 0, -1 for all)| Landing gear position (Down: 0, Up: 1, NaN for no change)| Reserved, set to NaN| Reserved, set to NaN| Reserved, set to NaN| Reserved, set to NaN| Reserved, set to NaN|  </summary>
         [Description("")]
         AIRFRAME_CONFIGURATION=2520, 
         ///<summary> Request to start/stop transmitting over the high latency telemetry |Control transmission over high latency telemetry (0: stop, 1: start)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -943,10 +943,10 @@ public partial class MAVLink
         ///<summary> Rally point. You can have multiple rally points defined.          |Reserved| Reserved| Reserved| Reserved| Latitude| Longitude| Altitude|  </summary>
         [Description("Rally point. You can have multiple rally points defined.         ")]
         RALLY_POINT=5100, 
-        ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
+        ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| t to 0)| Reserved (set to 0)|  </summary>
         [Description("Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages.")]
         UAVCAN_GET_NODE_INFO=5200, 
-        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| .| Latitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Longitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Altitude (MSL), in meters|  </summary>
+        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Longitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Altitude (MSL), in meters|  </summary>
         [Description("Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity.")]
         PAYLOAD_PREPARE_DEPLOY=30001, 
         ///<summary> Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal mission. 1: switch to payload deployment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
@@ -2161,75 +2161,6 @@ public partial class MAVLink
     };
     
     
-    
-    ///<summary> Flags to report status/failure cases for a power generator (used in GENERATOR_STATUS). Note that FAULTS are conditions that cause the generator to fail. Warnings are conditions that require attention before the next use (they indicate the system is not operating properly). </summary>
-    public enum MAV_GENERATOR_STATUS_FLAG: ulong
-    {
-            ///<summary> Generator is off. | </summary>
-        [Description("Generator is off.")]
-        OFF=1, 
-        ///<summary> Generator is ready to start generating power. | </summary>
-        [Description("Generator is ready to start generating power.")]
-        READY=2, 
-        ///<summary> Generator is generating power. | </summary>
-        [Description("Generator is generating power.")]
-        GENERATING=4, 
-        ///<summary> Generator is charging the batteries (generating enough power to charge and provide the load). | </summary>
-        [Description("Generator is charging the batteries (generating enough power to charge and provide the load).")]
-        CHARGING=8, 
-        ///<summary> Generator is operating at a reduced maximum power. | </summary>
-        [Description("Generator is operating at a reduced maximum power.")]
-        REDUCED_POWER=16, 
-        ///<summary> Generator is providing the maximum output. | </summary>
-        [Description("Generator is providing the maximum output.")]
-        MAXPOWER=32, 
-        ///<summary> Generator is near the maximum operating temperature, cooling is insufficient. | </summary>
-        [Description("Generator is near the maximum operating temperature, cooling is insufficient.")]
-        OVERTEMP_WARNING=64, 
-        ///<summary> Generator hit the maximum operating temperature and shutdown. | </summary>
-        [Description("Generator hit the maximum operating temperature and shutdown.")]
-        OVERTEMP_FAULT=128, 
-        ///<summary> Power electronics are near the maximum operating temperature, cooling is insufficient. | </summary>
-        [Description("Power electronics are near the maximum operating temperature, cooling is insufficient.")]
-        ELECTRONICS_OVERTEMP_WARNING=256, 
-        ///<summary> Power electronics hit the maximum operating temperature and shutdown. | </summary>
-        [Description("Power electronics hit the maximum operating temperature and shutdown.")]
-        ELECTRONICS_OVERTEMP_FAULT=512, 
-        ///<summary> Power electronics experienced a fault and shutdown. | </summary>
-        [Description("Power electronics experienced a fault and shutdown.")]
-        ELECTRONICS_FAULT=1024, 
-        ///<summary> The power source supplying the generator failed e.g. mechanical generator stopped, tether is no longer providing power, solar cell is in shade, hydrogen reaction no longer happening. | </summary>
-        [Description("The power source supplying the generator failed e.g. mechanical generator stopped, tether is no longer providing power, solar cell is in shade, hydrogen reaction no longer happening.")]
-        POWERSOURCE_FAULT=2048, 
-        ///<summary> Generator controller having communication problems. | </summary>
-        [Description("Generator controller having communication problems.")]
-        COMMUNICATION_WARNING=4096, 
-        ///<summary> Power electronic or generator cooling system error. | </summary>
-        [Description("Power electronic or generator cooling system error.")]
-        COOLING_WARNING=8192, 
-        ///<summary> Generator controller power rail experienced a fault. | </summary>
-        [Description("Generator controller power rail experienced a fault.")]
-        POWER_RAIL_FAULT=16384, 
-        ///<summary> Generator controller exceeded the overcurrent threshold and shutdown to prevent damage. | </summary>
-        [Description("Generator controller exceeded the overcurrent threshold and shutdown to prevent damage.")]
-        OVERCURRENT_FAULT=32768, 
-        ///<summary> Generator controller detected a high current going into the batteries and shutdown to prevent battery damage. | </summary>
-        [Description("Generator controller detected a high current going into the batteries and shutdown to prevent battery damage.")]
-        BATTERY_OVERCHARGE_CURRENT_FAULT=65536, 
-        ///<summary> Generator controller exceeded it's overvoltage threshold and shutdown to prevent it exceeding the voltage rating. | </summary>
-        [Description("Generator controller exceeded it's overvoltage threshold and shutdown to prevent it exceeding the voltage rating.")]
-        OVERVOLTAGE_FAULT=131072, 
-        ///<summary> Batteries are under voltage. | </summary>
-        [Description("Batteries are under voltage.")]
-        BATTERY_UNDERVOLT_FAULT=262144, 
-        ///<summary> Generator start is inhibited by e.g. a safety switch. | </summary>
-        [Description("Generator start is inhibited by e.g. a safety switch.")]
-        START_INHIBITED=524288, 
-        ///<summary> Generator requires maintenance. | </summary>
-        [Description("Generator requires maintenance.")]
-        MAINTENANCE_REQUIRED=1048576, 
-    
-    };
     
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
     public enum MAV_AUTOPILOT: byte
@@ -3929,6 +3860,75 @@ public partial class MAVLink
         ///<summary> Battery is charging. | </summary>
         [Description("Battery is charging.")]
         CHARGING=7, 
+    
+    };
+    
+    ///<summary> Flags to report status/failure cases for a power generator (used in GENERATOR_STATUS). Note that FAULTS are conditions that cause the generator to fail. Warnings are conditions that require attention before the next use (they indicate the system is not operating properly). </summary>
+    public enum MAV_GENERATOR_STATUS_FLAG: ulong
+    {
+            ///<summary> Generator is off. | </summary>
+        [Description("Generator is off.")]
+        OFF=1, 
+        ///<summary> Generator is ready to start generating power. | </summary>
+        [Description("Generator is ready to start generating power.")]
+        READY=2, 
+        ///<summary> Generator is generating power. | </summary>
+        [Description("Generator is generating power.")]
+        GENERATING=4, 
+        ///<summary> Generator is charging the batteries (generating enough power to charge and provide the load). | </summary>
+        [Description("Generator is charging the batteries (generating enough power to charge and provide the load).")]
+        CHARGING=8, 
+        ///<summary> Generator is operating at a reduced maximum power. | </summary>
+        [Description("Generator is operating at a reduced maximum power.")]
+        REDUCED_POWER=16, 
+        ///<summary> Generator is providing the maximum output. | </summary>
+        [Description("Generator is providing the maximum output.")]
+        MAXPOWER=32, 
+        ///<summary> Generator is near the maximum operating temperature, cooling is insufficient. | </summary>
+        [Description("Generator is near the maximum operating temperature, cooling is insufficient.")]
+        OVERTEMP_WARNING=64, 
+        ///<summary> Generator hit the maximum operating temperature and shutdown. | </summary>
+        [Description("Generator hit the maximum operating temperature and shutdown.")]
+        OVERTEMP_FAULT=128, 
+        ///<summary> Power electronics are near the maximum operating temperature, cooling is insufficient. | </summary>
+        [Description("Power electronics are near the maximum operating temperature, cooling is insufficient.")]
+        ELECTRONICS_OVERTEMP_WARNING=256, 
+        ///<summary> Power electronics hit the maximum operating temperature and shutdown. | </summary>
+        [Description("Power electronics hit the maximum operating temperature and shutdown.")]
+        ELECTRONICS_OVERTEMP_FAULT=512, 
+        ///<summary> Power electronics experienced a fault and shutdown. | </summary>
+        [Description("Power electronics experienced a fault and shutdown.")]
+        ELECTRONICS_FAULT=1024, 
+        ///<summary> The power source supplying the generator failed e.g. mechanical generator stopped, tether is no longer providing power, solar cell is in shade, hydrogen reaction no longer happening. | </summary>
+        [Description("The power source supplying the generator failed e.g. mechanical generator stopped, tether is no longer providing power, solar cell is in shade, hydrogen reaction no longer happening.")]
+        POWERSOURCE_FAULT=2048, 
+        ///<summary> Generator controller having communication problems. | </summary>
+        [Description("Generator controller having communication problems.")]
+        COMMUNICATION_WARNING=4096, 
+        ///<summary> Power electronic or generator cooling system error. | </summary>
+        [Description("Power electronic or generator cooling system error.")]
+        COOLING_WARNING=8192, 
+        ///<summary> Generator controller power rail experienced a fault. | </summary>
+        [Description("Generator controller power rail experienced a fault.")]
+        POWER_RAIL_FAULT=16384, 
+        ///<summary> Generator controller exceeded the overcurrent threshold and shutdown to prevent damage. | </summary>
+        [Description("Generator controller exceeded the overcurrent threshold and shutdown to prevent damage.")]
+        OVERCURRENT_FAULT=32768, 
+        ///<summary> Generator controller detected a high current going into the batteries and shutdown to prevent battery damage. | </summary>
+        [Description("Generator controller detected a high current going into the batteries and shutdown to prevent battery damage.")]
+        BATTERY_OVERCHARGE_CURRENT_FAULT=65536, 
+        ///<summary> Generator controller exceeded it's overvoltage threshold and shutdown to prevent it exceeding the voltage rating. | </summary>
+        [Description("Generator controller exceeded it's overvoltage threshold and shutdown to prevent it exceeding the voltage rating.")]
+        OVERVOLTAGE_FAULT=131072, 
+        ///<summary> Batteries are under voltage. | </summary>
+        [Description("Batteries are under voltage.")]
+        BATTERY_UNDERVOLT_FAULT=262144, 
+        ///<summary> Generator start is inhibited by e.g. a safety switch. | </summary>
+        [Description("Generator start is inhibited by e.g. a safety switch.")]
+        START_INHIBITED=524288, 
+        ///<summary> Generator requires maintenance. | </summary>
+        [Description("Generator requires maintenance.")]
+        MAINTENANCE_REQUIRED=1048576, 
     
     };
     
@@ -7885,63 +7885,6 @@ public partial class MAVLink
         [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
 		public byte[] uri;
-    
-    };
-
-
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
-    ///<summary> Telemetry of power generation system. Alternator or mechanical generator. </summary>
-    public struct mavlink_generator_status_t
-    {
-        public mavlink_generator_status_t(/*MAV_GENERATOR_STATUS_FLAG*/ulong status,float battery_current,float load_current,float power_generated,float bus_voltage,float bat_current_setpoint,ushort generator_speed,short rectifier_temperature,short generator_temperature) 
-        {
-              this.status = status;
-              this.battery_current = battery_current;
-              this.load_current = load_current;
-              this.power_generated = power_generated;
-              this.bus_voltage = bus_voltage;
-              this.bat_current_setpoint = bat_current_setpoint;
-              this.generator_speed = generator_speed;
-              this.rectifier_temperature = rectifier_temperature;
-              this.generator_temperature = generator_temperature;
-            
-        }
-        /// <summary>Status flags. MAV_GENERATOR_STATUS_FLAG  bitmask</summary>
-        [Units("")]
-        [Description("Status flags.")]
-        public  /*MAV_GENERATOR_STATUS_FLAG*/ulong status;
-            /// <summary>Current into/out of battery. Positive for out. Negative for in. NaN: field not provided.  [A] </summary>
-        [Units("[A]")]
-        [Description("Current into/out of battery. Positive for out. Negative for in. NaN: field not provided.")]
-        public  float battery_current;
-            /// <summary>Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided  [A] </summary>
-        [Units("[A]")]
-        [Description("Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided")]
-        public  float load_current;
-            /// <summary>The power being generated. NaN: field not provided  [W] </summary>
-        [Units("[W]")]
-        [Description("The power being generated. NaN: field not provided")]
-        public  float power_generated;
-            /// <summary>Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a different voltage to main bus.  [V] </summary>
-        [Units("[V]")]
-        [Description("Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a different voltage to main bus.")]
-        public  float bus_voltage;
-            /// <summary>The target battery current. Positive for out. Negative for in. NaN: field not provided  [A] </summary>
-        [Units("[A]")]
-        [Description("The target battery current. Positive for out. Negative for in. NaN: field not provided")]
-        public  float bat_current_setpoint;
-            /// <summary>Speed of electrical generator or alternator. UINT16_MAX: field not provided.  [rpm] </summary>
-        [Units("[rpm]")]
-        [Description("Speed of electrical generator or alternator. UINT16_MAX: field not provided.")]
-        public  ushort generator_speed;
-            /// <summary>The temperature of the rectifier or power converter. INT16_MAX: field not provided.  [degC] </summary>
-        [Units("[degC]")]
-        [Description("The temperature of the rectifier or power converter. INT16_MAX: field not provided.")]
-        public  short rectifier_temperature;
-            /// <summary>The temperature of the mechanical motor, fuel cell core or generator. INT16_MAX: field not provided.  [degC] </summary>
-        [Units("[degC]")]
-        [Description("The temperature of the mechanical motor, fuel cell core or generator. INT16_MAX: field not provided.")]
-        public  short generator_temperature;
     
     };
 
@@ -16109,6 +16052,63 @@ public partial class MAVLink
         [Description("Status text message, without null termination character.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=254)]
 		public byte[] text;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
+    ///<summary> Telemetry of power generation system. Alternator or mechanical generator. </summary>
+    public struct mavlink_generator_status_t
+    {
+        public mavlink_generator_status_t(/*MAV_GENERATOR_STATUS_FLAG*/ulong status,float battery_current,float load_current,float power_generated,float bus_voltage,float bat_current_setpoint,ushort generator_speed,short rectifier_temperature,short generator_temperature) 
+        {
+              this.status = status;
+              this.battery_current = battery_current;
+              this.load_current = load_current;
+              this.power_generated = power_generated;
+              this.bus_voltage = bus_voltage;
+              this.bat_current_setpoint = bat_current_setpoint;
+              this.generator_speed = generator_speed;
+              this.rectifier_temperature = rectifier_temperature;
+              this.generator_temperature = generator_temperature;
+            
+        }
+        /// <summary>Status flags. MAV_GENERATOR_STATUS_FLAG  bitmask</summary>
+        [Units("")]
+        [Description("Status flags.")]
+        public  /*MAV_GENERATOR_STATUS_FLAG*/ulong status;
+            /// <summary>Current into/out of battery. Positive for out. Negative for in. NaN: field not provided.  [A] </summary>
+        [Units("[A]")]
+        [Description("Current into/out of battery. Positive for out. Negative for in. NaN: field not provided.")]
+        public  float battery_current;
+            /// <summary>Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided  [A] </summary>
+        [Units("[A]")]
+        [Description("Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided")]
+        public  float load_current;
+            /// <summary>The power being generated. NaN: field not provided  [W] </summary>
+        [Units("[W]")]
+        [Description("The power being generated. NaN: field not provided")]
+        public  float power_generated;
+            /// <summary>Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a different voltage to main bus.  [V] </summary>
+        [Units("[V]")]
+        [Description("Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a different voltage to main bus.")]
+        public  float bus_voltage;
+            /// <summary>The target battery current. Positive for out. Negative for in. NaN: field not provided  [A] </summary>
+        [Units("[A]")]
+        [Description("The target battery current. Positive for out. Negative for in. NaN: field not provided")]
+        public  float bat_current_setpoint;
+            /// <summary>Speed of electrical generator or alternator. UINT16_MAX: field not provided.  [rpm] </summary>
+        [Units("[rpm]")]
+        [Description("Speed of electrical generator or alternator. UINT16_MAX: field not provided.")]
+        public  ushort generator_speed;
+            /// <summary>The temperature of the rectifier or power converter. INT16_MAX: field not provided.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("The temperature of the rectifier or power converter. INT16_MAX: field not provided.")]
+        public  short rectifier_temperature;
+            /// <summary>The temperature of the mechanical motor, fuel cell core or generator. INT16_MAX: field not provided.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("The temperature of the mechanical motor, fuel cell core or generator. INT16_MAX: field not provided.")]
+        public  short generator_temperature;
     
     };
 
