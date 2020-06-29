@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
 
-    <PackageReference Include="Mono.Posix-4.5" Version="4.5.0" />
 
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0">
       <Aliases>bad</Aliases>
