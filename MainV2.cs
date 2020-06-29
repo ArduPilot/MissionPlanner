@@ -4264,8 +4264,11 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    item.BackColor = Color.Transparent;
-                    item.BackgroundImage = displayicons.bg; //.BackColor = Color.Black;
+                    try
+                    {
+                        item.BackColor = Color.Transparent;
+                        item.BackgroundImage = displayicons.bg; //.BackColor = Color.Black;
+                    } catch {}
                 }
             }
             //MainMenu.BackColor = Color.Black;
