@@ -58,17 +58,23 @@ namespace Updater
                     if (MAC)
                     {
                         P.StartInfo.FileName = "mono";
-                        P.StartInfo.Arguments = " \"" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "MissionPlanner.exe\"";
+                        P.StartInfo.Arguments =
+                            " \"" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                            Path.DirectorySeparatorChar + "MissionPlanner.exe\"";
                     }
                     else
                     {
-                        P.StartInfo.FileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
+                        P.StartInfo.FileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                                               Path.DirectorySeparatorChar + "MissionPlanner.exe";
                         P.StartInfo.Arguments = "";
                     }
+
                     Console.WriteLine("Start " + P.StartInfo.FileName + " with " + P.StartInfo.Arguments);
                     P.Start();
                 }
-                catch { } // likely file didnt exist
+                catch
+                {
+                } // likely file didnt exist
             }
         }
 
@@ -81,6 +87,31 @@ namespace Updater
 
                 Console.WriteLine("dir: " + directory);
 
+                //cleanup old
+                foreach (string file in files)
+                {
+                    if (file.ToLower().EndsWith(".old"))
+                    {
+                        try
+                        {
+                            File.Delete(file);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            try
+                            {
+                                File.SetAttributes(file, FileAttributes.Normal);
+                                File.Delete(file);
+                            }
+                            catch (Exception ex2)
+                            {
+                                Console.WriteLine(ex2);
+                            }
+                        }
+                    }
+                }
+
                 foreach (string file in files)
                 {
                     if (file.ToLower().EndsWith(".new") && file.ToLower() != ".new") // cant move ".new" to ""
@@ -88,30 +119,20 @@ namespace Updater
                         Console.WriteLine("\t file: " + file);
 
                         bool done = false;
-                        for (int try_count = 0; try_count < 10 && !done; try_count++)  // try no more than 5 times
+                        for (int try_count = 0; try_count < 10 && !done; try_count++) // try no more than 5 times
                         {
                             if (file.ToLower().Contains("updater.exe"))
-                            { // cant self update on windows
+                            {
+                                // cant self update on windows
                                 done = true;
                                 break;
                             }
+
                             try
                             {
                                 var oldfile = file.Remove(file.Length - 4) + ".old";
                                 var newfile = file.Remove(file.Length - 4);
 
-                                if (File.Exists(oldfile))
-                                {
-                                    try
-                                    {
-                                        File.SetAttributes(oldfile, FileAttributes.Normal);
-                                        File.Delete(oldfile);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine(ex);
-                                    }
-                                }
 
                                 Console.Write("Move: " + file + " TO " + newfile);
                                 // move existing to .old
@@ -132,11 +153,14 @@ namespace Updater
                                     done = true;
                             }
                         }
+
                         all_done = all_done && done;
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             foreach (string subdir in Directory.GetDirectories(directory))
                 all_done = all_done && UpdateFiles(subdir);
