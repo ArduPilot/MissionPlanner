@@ -86,31 +86,37 @@
 
  <graph name='Quadplane/Velocity XY'>
   <description></description>
+  <expression>QTUN.DVx QTUN.DVy NKF1[0].VN NKF1[0].VE</expression>
   <expression>QTUN.DVx QTUN.DVy NKF1.VN NKF1.VE</expression>
  </graph>
 
  <graph name='Quadplane/Leonard'>
   <description></description>
+  <expression>QTUN.DVx QTUN.DVy NKF1[0].VN NKF1[0].VE ATT.DesPitch:2 ATT.Pitch:2</expression>
   <expression>QTUN.DVx QTUN.DVy NKF1.VN NKF1.VE ATT.DesPitch:2 ATT.Pitch:2</expression>
  </graph>
 
  <graph name='Quadplane/Landing'>
   <description></description>
+  <expression>QTUN.DVx QTUN.DVy NKF1[0].VN NKF1[0].VE ATT.DesPitch ATT.Pitch NTUN.WpDist:2 BARO.Alt:2</expression>
   <expression>QTUN.DVx QTUN.DVy NKF1.VN NKF1.VE ATT.DesPitch ATT.Pitch NTUN.WpDist:2 BARO.Alt:2</expression>
  </graph>
 
  <graph name='Replay/Roll'>
   <description></description>
+  <expression>SIM.Roll ATT.Roll NKF1.Roll NKF1[1].Roll</expression>
   <expression>SIM.Roll ATT.Roll NKF1.Roll NKF6.Roll EKF1.Roll</expression>
  </graph>
 
  <graph name='Replay/Pitch'>
   <description></description>
+  <expression>SIM.Pitch ATT.Pitch NKF1[0].Pitch NKF1[1].Pitch</expression>
   <expression>SIM.Pitch ATT.Pitch NKF1.Pitch NKF6.Pitch EKF1.Pitch</expression>
  </graph>
 
  <graph name='Replay/Yaw'>
   <description></description>
+  <expression>SIM.Yaw ATT.Yaw NKF1[0].Yaw NKF1[1].Yaw</expression>
   <expression>SIM.Yaw ATT.Yaw NKF1.Yaw NKF6.Yaw EKF1.Yaw</expression>
  </graph>
 
@@ -157,6 +163,7 @@
 
  <graph name='Speed/GPS vs NKF1'>
   <description></description>
+  <expression>GPS.Spd sqrt(NKF1[0].VN**2+NKF1[0].VE**2)</expression>
   <expression>GPS.Spd sqrt(NKF1.VN**2+NKF1.VE**2)</expression>
  </graph>
 
@@ -269,6 +276,7 @@
 
  <graph name='Sensors/Wind Speed'>
   <description></description>
+  <expression>sqrt(NKF2[0].VWE**2+NKF2[0].VWN**2)</expression>
   <expression>sqrt(NKF2.VWE**2+NKF2.VWN**2)</expression>
  </graph>
 
@@ -289,6 +297,7 @@
 
  <graph name='EKF/PositionInnov1'>
   <description></description>
+  <expression>NKF3[0].IPN NKF3[0].IPE</expression>
   <expression>NKF3.IPN NKF3.IPE</expression>
  </graph>
 
@@ -329,11 +338,13 @@
 
  <graph name='EKF/GPS Vel NE'>
   <description></description>
+  <expression>GPS.Spd*sin(radians(GPS.GCrs)) NKF1[0].VE GPS.Spd*cos(radians(GPS.GCrs)) NKF1[0].VN</expression>
   <expression>GPS.Spd*sin(radians(GPS.GCrs)) NKF1.VE GPS.Spd*cos(radians(GPS.GCrs)) NKF1.VN</expression>
  </graph>
 
  <graph name='Flow/Flow vel vs EKF'>
   <description></description>
+  <expression>NKF1[0].VN NKF1[0].VE flow_vel_ef(OF,RFND,ATT).x flow_vel_ef(OF,RFND,ATT).y</expression>
   <expression>NKF1.VN NKF1.VE flow_vel_ef(OF,RFND,ATT).x flow_vel_ef(OF,RFND,ATT).y</expression>
  </graph>
 

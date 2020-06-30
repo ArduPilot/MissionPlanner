@@ -1,6 +1,7 @@
 <graphs>
   <graph name='EKF/Normalised GPS Innovations'>
     <description>Normalised GPS Innovations</description>
+    <expression>XKF4[0].SV XKF4[0].SP XKF4[1].SV XKF4[1].SP</expression>
     <expression>XKF4.SV XKF4.SP XKF9.SV XKF9.SP</expression>
     <expression>EKF4.SV EKF4.SP XKF4.SV XKF4.SP</expression>
     <expression>EKF4.SV EKF4.SP</expression>
@@ -12,8 +13,10 @@
   </graph>
 
   <graph name='EKF/Normalised GPS Innovations - EKF3'>
+  <expression>XKF4[0].SV XKF4[0].SP XKF4[1].SV XKF4[1].SP</expression>
   <expression>XKF4.SV XKF4.SP XKF9.SV XKF9.SP</expression>
     <description>Normalised GPS Innovations - EKF3</description>
+    <expression>XKF4[0].SV XKF4[0].SP</expression>
     <expression>XKF4.SV XKF4.SP</expression>
   </graph>
 
@@ -24,12 +27,15 @@
 
   <graph name='EKF/Normalised Innovations - EKF3'>
     <description>Normalised Innovations - EKF3</description>
+    <expression>XKF4[0].SV XKF4[0].SP XKF4[0].SH XKF4[0].SM XKF4[0].SVT XKF4[1].SV XKF4[1].SP XKF4[1].SH XKF4[1].SM XKF4[1].SVT</expression>
     <expression>XKF4.SV XKF4.SP XKF4.SH XKF4.SM XKF4.SVT XKF9.SV XKF9.SP XKF9.SH XKF9.SM XKF9.SVT</expression>
+    <expression>XKF4[0].SV XKF4[0].SP XKF4[0].SH XKF4[0].SM XKF4[0].SVT</expression>
     <expression>XKF4.SV XKF4.SP XKF4.SH XKF4.SM XKF4.SVT</expression>
   </graph>
 
   <graph name='EKF/Normalised Altimeter Innovations'>
     <description>Normalised Altimeter Innovations</description>
+    <expression>XKF4[0].SH XKF4[1].SH</expression>
     <expression>XKF4.SH XKF9.SH</expression>
     <expression>EKF4.SH XKF4.SH</expression>
     <expression>EKF4.SH</expression>
@@ -39,10 +45,12 @@
     <description>Normalised Airspeed Innovations</description>
     <expression>EKF4.SVT XKF4.SVT</expression>
     <expression>EKF4.SVT</expression>
+    <expression>XKF4[0].SVT XKF4[1].SVT</expression>
     <expression>XKF4.SVT XKF9.SVT</expression>
   </graph>
 
   <graph name='EKF/Normalised Magnetometer Innovations'>
+  <expression>XKF4[0].SMX XKF4[0].SMY EKF9.SMZ XKF4[1].SM</expression>
   <expression>XKF4.SMX XKF4.SMY EKF9.SMZ XKF9.SM</expression>
     <description>Normalised Magnetometer Innovations</description>
     <expression>EKF4.SMX EKF4.SMY EKF4.SMZ XKF4.SM</expression>
@@ -56,25 +64,33 @@
 
   <graph name='EKF/Normalised Magnetometer Innovations - EKF3'>
     <description>Normalised Magnetometer Innovations - EKF3</description>
+    <expression>XKF4[0].SM XKF4[1].SM</expression>
     <expression>XKF4.SM XKF9.SM</expression>
+    <expression>XKF4[0].SM</expression>
     <expression>XKF4.SM</expression>
   </graph>
 
   <graph name='EKF/Angular Alignment - EKF3'>
     <description>Angular Alignment - EKF3</description>
+    <expression>XKF4[0].errRP XKF3[0].IYAW:2</expression>
     <expression>XKF4.errRP XKF3.IYAW:2</expression>
+    <expression>XKF4[0].errRP XKF3[0].IYAW:2 XKF4[1].errRP XKF3[1].IYAW:2</expression>
     <expression>XKF4.errRP XKF3.IYAW:2 XKF9.errRP XKF8.IYAW:2</expression>
   </graph>
 
   <graph name='EKF/Airspeed Innovation'>
-  <expression>XKF3.IVT XKF8.IVT </expression>
     <description>Airspeed Innovation</description>
+    <expression>XKF3[0].IVT XKF3[1].IVT </expression>
+    <expression>XKF3.IVT XKF8.IVT </expression>
+    <expression>NKF3[0].IVT XKF3[0].IVT </expression>
     <expression>NKF3.IVT XKF3.IVT </expression>
+    <expression>NKF3[0].IVT</expression>
     <expression>NKF3.IVT</expression>
   </graph>
 
    <graph name='EKF/Velocity NE'>
     <description>Velocity NE</description>
+    <expression>XKF1[0].VN XKF1[0].VE XKF1[0].VN XKF1[0].VE</expression>
     <expression>XKF1.VN XKF1.VE XKF6.VN XKF6.VE</expression>
     <expression>EKF1.VN EKF1.VE XKF1.VN XKF1.VE</expression>
     <expression>EKF1.VN EKF1.V</expression>
@@ -82,6 +98,7 @@
 
   <graph name='EKF/Position NE'>
     <description>Velocity NE</description>
+    <expression>XKF1[0].PN XKF1[0].PE XKF1[1].PN XKF1[1].PE</expression>
     <expression>XKF1.PN XKF1.PE XKF6.PN XKF6.PE</expression>
     <expression>EKF1.PN EKF1.PE XKF1.PN XKF1.PE</expression>
     <expression>EKF1.PN EKF1.PE</expression>
@@ -89,6 +106,7 @@
 
   <graph name='EKF/Vertical Pos Vel'>
     <description>Vertical Pos Vel</description>
+    <expression>CTUN.BarAlt XKF1[0].PD*-1 XKF1[0].VD*-1:2 XKF1[1].PD*-1 XKF1[1].VD*-1:2</expression>
     <expression>CTUN.BarAlt XKF1.PD*-1 XKF1.VD*-1:2 XKF6.PD*-1 XKF6.VD*-1:2</expression>
     <expression>CTUN.BarAlt EKF1.PD*-1 EKF1.VD*-1:2 XKF1.PD*-1 XKF1.VD*-1:2</expression>
     <expression>CTUN.BarAlt EKF1.PD*-1 EKF1.VD*-1:2</expression>
@@ -96,6 +114,7 @@
 
   <graph name='EKF/Euler Roll and Pitch'>
     <description>Roll and Pitch</description>
+    <expression>AHR2.Roll AHR2.Pitch XKF1[0].Roll XKF1[0].Pitch XKF1[1].Roll XKF1[1].Pitch</expression>
     <expression>AHR2.Roll AHR2.Pitch XKF1.Roll XKF1.Pitch XKF6.Roll XKF6.Pitch</expression>
     <expression>EKF1.Roll EKF1.Pitch AHR2.Roll AHR2.Pitch XKF1.Roll XKF1.Pitch </expression>
     <expression>EKF1.Roll EKF1.Pitch AHR2.Roll AHR2.Pitch</expression>
@@ -103,6 +122,7 @@
 
   <graph name='EKF/Euler Roll'>
     <description>Euler Roll</description>
+    <expression>AHR2.Roll XKF1[0].Roll XKF1[1].Roll</expression>
     <expression>AHR2.Roll XKF1.Roll XKF6.Roll</expression>
     <expression>EKF1.Roll AHR2.Roll XKF1.Roll</expression>
     <expression>EKF1.Roll AHR2.Roll</expression>
@@ -110,6 +130,7 @@
 
   <graph name='EKF/Euler Pitch'>
     <description>Euler Pitch</description>
+    <expression> AHR2.Pitch XKF1[0].Pitch XKF1[1].Pitch </expression>
     <expression> AHR2.Pitch XKF1.Pitch XKF6.Pitch </expression>
     <expression> EKF1.Pitch AHR2.Pitch XKF1.Pitch </expression>
     <expression>EKF1.Pitch AHR2.Pitch</expression>
@@ -117,6 +138,7 @@
 
   <graph name='EKF/Euler Yaw'>
     <description>Euler Yaw</description>
+    <expression>AHR2.Yaw ATT.Yaw XKF1[0].Yaw XKF1[1].Yaw </expression>
     <expression>AHR2.Yaw ATT.Yaw XKF1.Yaw XKF6.Yaw </expression>
     <expression>EKF1.Yaw AHR2.Yaw ATT.Yaw XKF1.Yaw </expression>
     <expression>EKF1.Yaw AHR2.Yaw ATT.Yaw</expression>
@@ -124,6 +146,7 @@
 
   <graph name='EKF/Velocity Innovations'>
     <description>Velocity Innovations</description>
+    <expression>XKF3[0].IVN XKF3[0].IVE XKF3[0].IVD XKF3[1].IVN XKF3[1].IVE XKF3[1].IVD</expression>
     <expression>XKF3.IVN XKF3.IVE XKF3.IVD XKF8.IVN XKF8.IVE XKF8.IVD</expression>
     <expression>EKF3.IVN EKF3.IVE EKF3.IVD XKF3.IVN XKF3.IVE XKF3.IVD</expression>
     <expression>EKF3.IVN EKF3.IVE EKF3.IVD</expression>
@@ -131,6 +154,7 @@
 
   <graph name='EKF/Position Innovations'>
     <description>Position Innovations</description>
+    <expression>XKF3[0].IPN XKF3[0].IPE XKF3[1].IPN XKF3[1].IPE</expression>
     <expression>XKF3.IPN XKF3.IPE XKF8.IPN XKF8.IPE</expression>
     <expression>EKF3.IPN EKF3.IPE XKF3.IPN XKF3.IPE</expression>
     <expression>EKF3.IPN EKF3.IPE</expression>
@@ -138,6 +162,7 @@
 
   <graph name='EKF/Height Innovations'>
     <description>Height Innovations</description>
+    <expression>XKF3[0].IPD XKF3[1].IPD</expression>
     <expression>XKF3.IPD XKF8.IPD</expression>
     <expression>EKF3.IPD XKF3.IPD</expression>
     <expression>EKF3.IPD</expression>
@@ -145,6 +170,7 @@
 
   <graph name='EKF/Magnetometer Innovations'>
     <description>Magnetometer Innovations</description>
+    <expression>XKF3[0].IMX XKF3[0].IMY XKF3[0].IMZ XKF3[0].IYAW:2 XKF3[1].IMX XKF3[1].IMY XKF3[1].IMZ XKF3[1].IYAW:2 </expression>
     <expression>XKF3.IMX XKF3.IMY XKF3.IMZ XKF3.IYAW:2 XKF8.IMX XKF8.IMY XKF8.IMZ XKF8.IYAW:2 </expression>
     <expression>EKF3.IMX EKF3.IMY EKF3.IMZ XKF3.IMX XKF3.IMY XKF3.IMZ XKF3.IYAW:2</expression>
     <expression>EKF3.IMX EKF3.IMY EKF3.IMZ</expression>
@@ -152,6 +178,7 @@
 
   <graph name='EKF/Magnetometer Innovation X'>
     <description>Magnetometer Innovation X</description>
+    <expression>XKF3[0].IMX XKF3[1].IMX</expression>
     <expression>XKF3.IMX XKF8.IMX</expression>
     <expression>EKF3.IMX XKF3.IMX</expression>
     <expression>EKF3.IMX</expression>
@@ -159,6 +186,7 @@
 
   <graph name='EKF/Magnetometer Innovation Y'>
     <description>Magnetometer Innovation Y</description>
+    <expression>XKF3[0].IMY XKF3[1].IMY</expression>
     <expression>XKF3.IMY XKF8.IMY</expression>
     <expression>EKF3.IMY XKF3.IMY</expression>
     <expression>EKF3.IMY</expression>
@@ -166,6 +194,7 @@
 
   <graph name='EKF/Magnetometer Innovation Z'>
     <description>Magnetometer Innovation Z</description>
+    <expression>XKF3[0].IMZ XKF3[1].IMZ</expression>
     <expression>XKF3.IMZ XKF8.IMZ</expression>
     <expression>EKF3.IMZ XKF3.IMZ</expression>
     <expression>EKF3.IMZ</expression>
@@ -178,12 +207,15 @@
 
   <graph name='EKF/Magnetometer Innovations - EKF3'>
     <description>Magnetometer Innovations - EKF3</description>
+    <expression>XKF3[0].IMX XKF3[0].IMY XKF3[0].IMZ XKF3[0].IYAW:2 XKF3[1].IMX XKF3[1].IMY XKF3[1].IMZ XKF3[1].IYAW:2</expression>
     <expression>XKF3.IMX XKF3.IMY XKF3.IMZ XKF3.IYAW:2 XKF8.IMX XKF8.IMY XKF8.IMZ XKF8.IYAW:2</expression>
+    <expression>XKF3[0].IMX XKF3[0].IMY XKF3[0].IMZ XKF3[0].IYAW:2</expression>
     <expression>XKF3.IMX XKF3.IMY XKF3.IMZ XKF3.IYAW:2</expression>
   </graph>
 
   <graph name='EKF/Magnetometer Body Field'>
     <description>Magnetometer Body Field</description>
+    <expression>XKF[0].MX XKF[0].MY XKF[0].MZ XKF2[1].MX XKF2[1].MY XKF2[1].MZ </expression>
     <expression>XKF2.MX XKF2.MY XKF2.MZ XKF7.MX XKF7.MY XKF7.MZ </expression>
     <expression>EKF3.MX EKF3.MY EKF3.MZ XKF2.MX XKF2.MY XKF2.MZ </expression>
     <expression>EKF3.MX EKF3.MY EKF3.MZ</expression>
@@ -191,6 +223,7 @@
 
   <graph name='EKF/Magnetometer Earth Field'>
     <description>Magnetometer Earth Field</description>
+    <expression>XKF[0].MN XKF[0].ME XKF[0].MD XKF2[1].MN XKF2[1].ME XKF2[1].MD</expression>
     <expression>XKF2.MN XKF2.ME XKF2.MD XKF7.MN XKF7.ME XKF7.MD</expression>
     <expression>EKF3.MN EKF3.ME EKF3.MD XKF2.MN XKF2.ME XKF2.MD</expression>
     <expression>EKF3.MN EKF3.ME EKF3.MD</expression>
@@ -198,6 +231,7 @@
 
   <graph name='EKF/Magnetic Declination'>
     <description>Magnetic Declination</description>
+    <expression>degrees(atan2(XKF[0].ME,XKF[0].MN)) degrees(atan2(XKF2[1].ME,XKF2[1].MN))</expression>
     <expression>degrees(atan2(XKF2.ME,XKF2.MN)) degrees(atan2(XKF7.ME,XKF7.MN))</expression>
     <expression>degrees(atan2(EKF3.ME,EKF3.MN)) degrees(atan2(XKF2.ME,XKF2.MN))</expression>
     <expression>degrees(atan2(EKF3.ME,EKF3.MN))</expression>
@@ -205,6 +239,7 @@
 
   <graph name='EKF/Gyro Bias'>
     <description>Gyro Bias</description>
+    <expression>XKF1[0].GX XKF1[0].GY XKF1[0].GZ XKF1[1].GX XKF1[1].GY XKF1[1].GZ</expression>
     <expression>XKF1.GX XKF1.GY XKF1.GZ XKF6.GX XKF6.GY XKF6.GZ</expression>
     <expression>EKF1.GX EKF1.GY EKF1.GZ XKF1.GX XKF1.GY XKF1.GZ</expression>
     <expression>EKF1.GX EKF1.GY EKF1.GZ</expression>
@@ -212,12 +247,15 @@
 
   <graph name='EKF/Gyro Scale Factor'>
     <description>Gyro Scale Factor</description>
+    <expression>XKF[0].GSX XKF[0].GSY XKF[0].GSZ XKF2[1].GSX XKF2[1].GSY XKF2[1].GSZ</expression>
     <expression>XKF2.GSX XKF2.GSY XKF2.GSZ XKF7.GSX XKF7.GSY XKF7.GSZ</expression>
+    <expression>XKF[0].GSX XKF[0].GSY XKF[0].GSZ</expression>
     <expression>XKF2.GSX XKF2.GSY XKF2.GSZ</expression>
   </graph>
 
   <graph name='EKF/Wind Velocity NE'>
     <description>Wind Velocity NE</description>
+    <expression>XKF[0].VWN XKF[0].VWE XKF2[1].VWN XKF2[1].VWE</expression>
     <expression>XKF2.VWN XKF2.VWE XKF7.VWN XKF7.VWE</expression>
     <expression>EKF3.VWN EKF3.VWE XKF2.VWN XKF2.VWE</expression>
     <expression>EKF3.VWN EKF3.VWE</expression>
@@ -225,13 +263,15 @@
 
   <graph name='EKF/Wind Speed and Direction'>
     <description>Wind Velocity NE</description>
-    <expression>sqrt(sqrt(XKF2.VWN**2+XKF2.VWE**2) wrap_360(degrees(atan2(-XKF2.VWE,-XKF2.VWN))):2 sqrt(XKF7.VWN**2+XKF7.VWE**2) wrap_360(degrees(atan2(-XKF7.VWE,-XKF7.VWN))):2</expression>
+    <expression>sqrt(XKF[0].VWN**2+XKF[0].VWE**2) wrap_360(degrees(atan2(-XKF[0].VWE,-XKF[0].VWN))):2 sqrt(XKF2[1].VWN**2+XKF2[1].VWE**2) wrap_360(degrees(atan2(-XKF2[1].VWE,-XKF2[1].VWN))):2</expression>
+    <expression>sqrt(XKF2.VWN**2+XKF2.VWE**2) wrap_360(degrees(atan2(-XKF2.VWE,-XKF2.VWN))):2 sqrt(XKF7.VWN**2+XKF7.VWE**2) wrap_360(degrees(atan2(-XKF7.VWE,-XKF7.VWN))):2</expression>
     <expression>sqrt(EKF3.VWN**2+EKF3.VWE**2) wrap_360(degrees(atan2(-EKF3.VWE,-EKF3.VWN))):2 sqrt(XKF2.VWN**2+XKF2.VWE**2) wrap_360(degrees(atan2(-XKF2.VWE,-XKF2.VWN))):2</expression>
     <expression>sqrt(EKF3.VWN**2+EKF3.VWE**2) wrap_360(degrees(atan2(-EKF3.VWE,-EKF3.VWN))):2</expression>
   </graph>
 
   <graph name='EKF/Accel Bias'>
     <description>Accel Bias</description>
+    <expression>XKF[0].AZbias XKF2[1].AZbias </expression>
     <expression>XKF2.AZbias XKF7.AZbias </expression>
     <expression>EKF3.AZ1bias EKF3.AZ2bias EKF3.Ratio:2 XKF2.AZbias </expression>
     <expression>EKF3.AZ1bias EKF3.AZ2bias EKF3.Ratio:2</expression>
@@ -239,6 +279,7 @@
 
   <graph name='EKF/Solution Status'>
     <description>Solution Status</description>
+    <expression>XKF4[0].SS XKF4[1].SS </expression>
     <expression>XKF4.SS XKF9.SS </expression>
     <expression>EKF4.SS XKF4.SS </expression>
     <expression>EKF4.SS</expression>
@@ -246,6 +287,7 @@
 
   <graph name='EKF/GPS Check Status'>
     <description>GPS Check Status</description>
+    <expression>XKF4[0].GPS XKF4[1].GPS </expression>
     <expression>XKF4.GPS XKF9.GPS </expression>
     <expression>EKF4.GPS XKF4.GPS </expression>
     <expression>EKF4.GPS</expression>
@@ -253,6 +295,7 @@
 
   <graph name='EKF/Vertical Position Derivative'>
     <description>Vertical Position Derivative</description>
+    <expression>XKF1[0].dPD XKF1[0].VD XKF1[1].dPD XKF1[1].VD</expression>
     <expression>XKF1.dPD XKF1.VD XKF6.dPD XKF6.VD</expression>
     <expression>EKF1.dPD EKF1.VD XKF1.dPD XKF1.VD</expression>
     <expression>EKF1.dPD EKF1.VD</expression>
@@ -291,13 +334,17 @@
 
   <graph name='EKF/Magnetometer Selection - EKF3'>
     <description>Magnetometer Selection</description>
+    <expression>XKF[0].MI XKF2[1].MI</expression>
     <expression>XKF2.MI XKF7.MI</expression>
+    <expression>XKF[0].MI</expression>
     <expression>XKF2.MI</expression>
   </graph>
 
   <graph name='EKF/EKF3 Primary Core'>
     <description>Magnetometer Selection</description>
+    <expression>XKF4[0].PI XKF4[1].PI</expression>
     <expression>XKF4.PI XKF9.PI</expression>
+    <expression>XKF4[0].PI</expression>
     <expression>XKF4.PI</expression>
   </graph>
 

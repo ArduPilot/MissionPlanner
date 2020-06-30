@@ -167,7 +167,7 @@
 
   <graph name='Sensors/Compass/Compass(3)'>
     <description>Third Compass</description>
-    <expression>SCALED_IMU3.xmag SCALED_IMU3.ymag SCALED_IMU3.zmag mag_field(SCALED_IMU2)</expression>
+    <expression>SCALED_IMU3.xmag SCALED_IMU3.ymag SCALED_IMU3.zmag mag_field(SCALED_IMU3)</expression>
     <expression>MAG3.MagX MAG3.MagY MAG3.MagZ sqrt(MAG3.MagX**2+MAG3.MagY**2+MAG3.MagZ**2)</expression>
   </graph>
 
@@ -258,28 +258,45 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
  <graph name='Sensors/Compass/Compare Predicted'>
   <description></description>
   <expression>MAG.MagX expected_mag(GPS,ATT).x MAG.MagY expected_mag(GPS,ATT).y MAG.MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>RAW_IMU.xmag expected_mag(GPS_RAW_INT,ATTITUDE).x RAW_IMU.ymag expected_mag(GPS_RAW_INT,ATTITUDE).y RAW_IMU.zmag expected_mag(GPS_RAW_INT,ATTITUDE).z</expression>
  </graph>
 
  <graph name='Sensors/Compass/Compare Predicted2'>
   <description></description>
   <expression>MAG2.MagX expected_mag(GPS,ATT).x MAG2.MagY expected_mag(GPS,ATT).y MAG2.MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>SCALED_IMU2.xmag expected_mag(GPS_RAW_INT,ATTITUDE).x SCALED_IMU2.ymag expected_mag(GPS_RAW_INT,ATTITUDE).y SCALED_IMU2.zmag expected_mag(GPS_RAW_INT,ATTITUDE).z</expression>
  </graph>
 
  <graph name='Sensors/Compass/Compare Predicted3'>
   <description></description>
   <expression>MAG3.MagX expected_mag(GPS,ATT).x MAG3.MagY expected_mag(GPS,ATT).y MAG3.MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>SCALED_IMU3.xmag expected_mag(GPS_RAW_INT,ATTITUDE).x SCALED_IMU3.ymag expected_mag(GPS_RAW_INT,ATTITUDE).y SCALED_IMU3.zmag expected_mag(GPS_RAW_INT,ATTITUDE).z</expression>
  </graph>
 
  <graph name='Sensors/Compass/EarthField Error EK2 Lane1'>
   <description></description>
+  <expression>earth_field_error(GPS,NKF2[0]).x earth_field_error(GPS,NKF2[0]).y earth_field_error(GPS,NKF2[0]).z</expression>
   <expression>earth_field_error(GPS,NKF2).x earth_field_error(GPS,NKF2).y earth_field_error(GPS,NKF2).z</expression>
  </graph>
 
  <graph name='Sensors/Compass/EarthField Error EK2 Lane2'>
   <description></description>
+  <expression>earth_field_error(GPS,NKF2[1]).x earth_field_error(GPS,NKF2[1]).y earth_field_error(GPS,NKF2[1]).z</expression>
   <expression>earth_field_error(GPS,NKF7).x earth_field_error(GPS,NKF7).y earth_field_error(GPS,NKF7).z</expression>
  </graph>
 
+ <graph name='Sensors/Compass/EarthField Error EK3 Lane1'>
+  <description></description>
+  <expression>earth_field_error(GPS,XKF2).x earth_field_error(GPS,XKF2).y earth_field_error(GPS,XKF2).z</expression>
+  <expression>earth_field_error(GPS,XKF2[0]).x earth_field_error(GPS,XKF2[0]).y earth_field_error(GPS,XKF2[0]).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/EarthField Error EK3 Lane2'>
+  <description></description>
+  <expression>earth_field_error(GPS,XKF7).x earth_field_error(GPS,XKF7).y earth_field_error(GPS,XKF7).z</expression>
+  <expression>earth_field_error(GPS,XKF2[1]).x earth_field_error(GPS,XKF2[1]).y earth_field_error(GPS,XKF2[1]).z</expression>
+ </graph>
+ 
  <graph name='Copter/PID/PIDP'>
   <description></description>
   <expression>PIDP.P PIDP.I PIDP.D</expression>
@@ -298,6 +315,21 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
  <graph name='Copter/PID/PIDA'>
   <description></description>
   <expression>PIDA.P PIDA.I PIDA.D</expression>
+ </graph>
+
+  <graph name='SITL/SIM RollRate vs GyrX'>
+  <description></description>
+  <expression>IMU.GyrX sim_body_rates(SIM).x</expression>
+ </graph>
+
+ <graph name='SITL/SIM PitchRate vs GyrY'>
+  <description></description>
+  <expression>IMU.GyrY sim_body_rates(SIM).y</expression>
+ </graph>
+
+ <graph name='SITL/SIM YawRate vs GyrZ'>
+  <description></description>
+  <expression>IMU.GyrZ sim_body_rates(SIM).z</expression>
  </graph>
  
 </graphs>
