@@ -3194,7 +3194,7 @@ namespace MissionPlanner
                     {
                         lastsecondcounter = datetime;
 
-                        if (lastpos.Lat != 0 && lastpos.Lng != 0 && armed)
+                        if (lastpos.Lat != 0 && lastpos.Lng != 0 && armed && lat != 0 && lng != 0 && gpsstatus >= 3)
                         {
                             if (mavinterface.BaseStream != null && !mavinterface.BaseStream.IsOpen &&
                                 !mavinterface.logreadmode)

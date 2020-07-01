@@ -212,6 +212,7 @@ namespace MissionPlanner.Log
 
                                 // add distance
                                 loginfo.DistTraveled += (float)lastpos.GetDistance(pos);
+                                lastpos = pos;
 
                                 // set home
                                 if (loginfo.Home == null)
@@ -237,7 +238,7 @@ namespace MissionPlanner.Log
 
                     loginfo.Aircraft = 0;//colbuf.dflog.param[""];
 
-                    loginfo.Frame = "Unknown";//mine.MAV.aptype.ToString();
+                    loginfo.Frame = "DFLog Unknown";//mine.MAV.aptype.ToString();
                 }
             }
 
