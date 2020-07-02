@@ -6,6 +6,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.Plugin
 {
@@ -18,6 +20,7 @@ namespace MissionPlanner.Plugin
         // Plugin enable/disable settings changed not loaded but enabled plugins will not shown
         public static bool bRestartRequired = false;
 
+        public static List<Plugin> LoadingPlugins = new List<Plugin>();
         public static List<Plugin> Plugins = new List<Plugin>();
 
         public static Dictionary<string, string[]> filecache = new Dictionary<string, string[]>();
@@ -157,9 +160,9 @@ namespace MissionPlanner.Plugin
                     if (plugin.Init())
                     {
                         log.InfoFormat("Plugin Init {0} {1} by {2}", plugin.Name, plugin.Version, plugin.Author);
-                        lock (Plugins)
+                        lock (LoadingPlugins)
                         {
-                            Plugins.Add(plugin);
+                            LoadingPlugins.Add(plugin);
                         }
                     }
                 }
@@ -180,71 +183,89 @@ namespace MissionPlanner.Plugin
             if (!Directory.Exists(path))
                 return;
 
-            String[] csFiles = Directory.GetFiles(path, "*.cs");
-
-            foreach (var csFile in csFiles)
+            // cs plugins are background compiled, and loaded in the ui thread
+            Task.Run(() =>
             {
-                log.Info("Plugin: " + csFile);
+                String[] csFiles = Directory.GetFiles(path, "*.cs");
 
-                try
+                foreach (var csFile in csFiles)
                 {
-                    //csharp 5 max
+                    log.Info("Plugin: " + csFile);
 
-                    // create a compiler
-                    var compiler = CodeGen.CreateCompiler();
-                    // get all the compiler parameters
-                    var parms = CodeGen.CreateCompilerParameters();
-                    // compile the code into an assembly
-                    var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
+                    try
+                    {
+                        //csharp 5 max
 
-                    InitPlugin(results?.CompiledAssembly);
+                        // create a compiler
+                        var compiler = CodeGen.CreateCompiler();
+                        // get all the compiler parameters
+                        var parms = CodeGen.CreateCompilerParameters();
+                        // compile the code into an assembly
+                        var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
 
-                    if(results?.CompiledAssembly != null)
+                        InitPlugin(results?.CompiledAssembly);
+
+                        if (results?.CompiledAssembly != null)
+                            continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+
+                    try
+                    {
+                        // csharp 8
+                        var ans = CodeGenRoslyn.BuildCode(csFile);
+
+                        InitPlugin(ans);
+
                         continue;
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
                 }
 
-                try
+                MainV2.instance.BeginInvokeIfRequired(() =>
                 {
-                    // csharp 8
-                    var ans = CodeGenRoslyn.BuildCode(csFile);
-
-                    InitPlugin(ans);
-
-                    continue;
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
-            }
+                    PluginInit();
+                });
+            });
 
             String[] files = Directory.GetFiles(path, "*.dll");
             foreach (var s in files)
                 Load(Path.Combine(Environment.CurrentDirectory, s));
 
-            for (Int32 i = 0; i < Plugins.Count; ++i)
+            PluginInit();
+        }
+
+        private static void PluginInit()
+        {
+            List<Plugin> LoadingSnapshot;
+
+            lock (LoadingPlugins)
             {
-                lock (Plugins)
+                LoadingSnapshot = LoadingPlugins.ToList();
+                LoadingPlugins.Clear();
+            }
+
+            foreach (var p in LoadingSnapshot)
+            {
+                try
                 {
-                    Plugin p = Plugins.ElementAt(i);
-                    try
+                    if (p.Loaded())
                     {
-                        if (!p.Loaded())
+                        lock (Plugins)
                         {
-                            Plugins.RemoveAt(i);
-                            --i;
+                            Plugins.Add(p);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                        Plugins.RemoveAt(i);
-                        --i;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
                 }
             }
         }

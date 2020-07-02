@@ -42,9 +42,10 @@
             // 
             // bSave
             // 
-            this.bSave.Location = new System.Drawing.Point(127, 10);
+            this.bSave.Location = new System.Drawing.Point(95, 8);
+            this.bSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.bSave.Name = "bSave";
-            this.bSave.Size = new System.Drawing.Size(97, 38);
+            this.bSave.Size = new System.Drawing.Size(73, 31);
             this.bSave.TabIndex = 1;
             this.bSave.Text = "Save && Close";
             this.bSave.UseVisualStyleBackColor = true;
@@ -53,9 +54,10 @@
             // btnLoadPlugin
             // 
             this.btnLoadPlugin.Enabled = false;
-            this.btnLoadPlugin.Location = new System.Drawing.Point(12, 10);
+            this.btnLoadPlugin.Location = new System.Drawing.Point(9, 8);
+            this.btnLoadPlugin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnLoadPlugin.Name = "btnLoadPlugin";
-            this.btnLoadPlugin.Size = new System.Drawing.Size(97, 38);
+            this.btnLoadPlugin.Size = new System.Drawing.Size(73, 31);
             this.btnLoadPlugin.TabIndex = 3;
             this.btnLoadPlugin.Text = "Load Plugin";
             this.btnLoadPlugin.UseVisualStyleBackColor = true;
@@ -64,9 +66,10 @@
             // labelWarning
             // 
             this.labelWarning.AutoSize = true;
-            this.labelWarning.Location = new System.Drawing.Point(230, 10);
+            this.labelWarning.Location = new System.Drawing.Point(172, 8);
+            this.labelWarning.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelWarning.Name = "labelWarning";
-            this.labelWarning.Size = new System.Drawing.Size(296, 34);
+            this.labelWarning.Size = new System.Drawing.Size(224, 26);
             this.labelWarning.TabIndex = 4;
             this.labelWarning.Text = "Enable/Disable settings changed, till restart \rnot loaded but enabled plugins wil" +
     "l not shown!";
@@ -77,7 +80,8 @@
             this.dgvPlugins.AllowUserToAddRows = false;
             this.dgvPlugins.AllowUserToDeleteRows = false;
             this.dgvPlugins.AllowUserToResizeRows = false;
-            this.dgvPlugins.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvPlugins.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvPlugins.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dgvPlugins.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -87,11 +91,12 @@
             this.pluginVersion,
             this.pluginDll,
             this.pluginEnabled});
-            this.dgvPlugins.Location = new System.Drawing.Point(12, 63);
+            this.dgvPlugins.Location = new System.Drawing.Point(9, 51);
+            this.dgvPlugins.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgvPlugins.Name = "dgvPlugins";
             this.dgvPlugins.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgvPlugins.RowTemplate.Height = 24;
-            this.dgvPlugins.Size = new System.Drawing.Size(873, 373);
+            this.dgvPlugins.Size = new System.Drawing.Size(655, 303);
             this.dgvPlugins.TabIndex = 0;
             this.dgvPlugins.RowHeadersWidthChanged += new System.EventHandler(this.dgvPlugins_RowHeadersWidthChanged);
             this.dgvPlugins.SelectionChanged += new System.EventHandler(this.dgvPlugins_SelectionChanged);
@@ -103,7 +108,7 @@
             this.pluginName.MinimumWidth = 6;
             this.pluginName.Name = "pluginName";
             this.pluginName.ReadOnly = true;
-            this.pluginName.Width = 117;
+            this.pluginName.Width = 92;
             // 
             // pluginAuthor
             // 
@@ -112,7 +117,7 @@
             this.pluginAuthor.MinimumWidth = 6;
             this.pluginAuthor.Name = "pluginAuthor";
             this.pluginAuthor.ReadOnly = true;
-            this.pluginAuthor.Width = 79;
+            this.pluginAuthor.Width = 63;
             // 
             // pluginVersion
             // 
@@ -121,7 +126,7 @@
             this.pluginVersion.MinimumWidth = 6;
             this.pluginVersion.Name = "pluginVersion";
             this.pluginVersion.ReadOnly = true;
-            this.pluginVersion.Width = 85;
+            this.pluginVersion.Width = 67;
             // 
             // pluginDll
             // 
@@ -130,7 +135,7 @@
             this.pluginDll.MinimumWidth = 6;
             this.pluginDll.Name = "pluginDll";
             this.pluginDll.ReadOnly = true;
-            this.pluginDll.Width = 63;
+            this.pluginDll.Width = 52;
             // 
             // pluginEnabled
             // 
@@ -138,18 +143,19 @@
             this.pluginEnabled.HeaderText = "Enabled";
             this.pluginEnabled.MinimumWidth = 6;
             this.pluginEnabled.Name = "pluginEnabled";
-            this.pluginEnabled.Width = 66;
+            this.pluginEnabled.Width = 52;
             // 
             // PluginUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(897, 459);
+            this.ClientSize = new System.Drawing.Size(673, 373);
             this.Controls.Add(this.labelWarning);
             this.Controls.Add(this.btnLoadPlugin);
             this.Controls.Add(this.bSave);
             this.Controls.Add(this.dgvPlugins);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "PluginUI";
             this.Text = "PluginManager";
             this.Shown += new System.EventHandler(this.PluginUI_Shown);
