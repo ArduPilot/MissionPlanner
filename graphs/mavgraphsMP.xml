@@ -1,5 +1,11 @@
 ﻿<graphs>
 
+  <graph name="Builtin/Distance From EKF Origin">
+    <expression>sqrt(XKF1.PE**2+XKF1.PN**2) sqrt(NKF1.PE**2+NKF1.PN**2) sqrt(NKF6.PE**2+NKF6.PN**2)</expression>
+    <description>
+    </description>
+  </graph>
+
   <graph name="Builtin/Velocity vs Innovation Velocity E">
     <expression>NKF1.VE NKF3.IVE:2</expression>
     <description>
