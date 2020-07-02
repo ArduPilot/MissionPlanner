@@ -511,15 +511,21 @@ namespace MissionPlanner
                     lastlsq = DateTime.Now;
                     lock (_locker)
                     {
-                        var lsq = MagCalib.LeastSq(datacompass1, false);
-                        // simple validation
-                        if (Math.Abs(lsq[0]) < 999)
+                        try
                         {
-                            centre = new Vector3(lsq[0], lsq[1], lsq[2]);
-                            log.Info("new centre " + centre.ToString());
+                            var lsq = MagCalib.LeastSq(datacompass1, false);
+                            // simple validation
+                            if (Math.Abs(lsq[0]) < 999)
+                            {
+                                centre = new Vector3(lsq[0], lsq[1], lsq[2]);
+                                log.Info("new centre " + centre.ToString());
 
-                            prsphere.sphere1.CenterPoint = new OpenTK.Vector3(
-                                (float)centre.x, (float)centre.y, (float)centre.z);
+                                prsphere.sphere1.CenterPoint = new OpenTK.Vector3(
+                                    (float) centre.x, (float) centre.y, (float) centre.z);
+                            }
+                        }
+                        catch
+                        {
                         }
                     }
                 }
@@ -530,15 +536,21 @@ namespace MissionPlanner
                     lastlsq2 = DateTime.Now;
                     lock (_locker)
                     {
-                        var lsq = MagCalib.LeastSq(datacompass2, false);
-                        // simple validation
-                        if (Math.Abs(lsq[0]) < 999)
+                        try
                         {
-                            Vector3 centre2 = new Vector3(lsq[0], lsq[1], lsq[2]);
-                            log.Info("new centre2 " + centre2.ToString());
+                            var lsq = MagCalib.LeastSq(datacompass2, false);
+                            // simple validation
+                            if (Math.Abs(lsq[0]) < 999)
+                            {
+                                Vector3 centre2 = new Vector3(lsq[0], lsq[1], lsq[2]);
+                                log.Info("new centre2 " + centre2.ToString());
 
-                            prsphere.sphere2.CenterPoint = new OpenTK.Vector3(
-                                (float)centre2.x, (float)centre2.y, (float)centre2.z);
+                                prsphere.sphere2.CenterPoint = new OpenTK.Vector3(
+                                    (float) centre2.x, (float) centre2.y, (float) centre2.z);
+                            }
+                        }
+                        catch
+                        {
                         }
                     }
                 }
@@ -549,15 +561,21 @@ namespace MissionPlanner
                     lastlsq3 = DateTime.Now;
                     lock (_locker)
                     {
-                        var lsq = MagCalib.LeastSq(datacompass3, false);
-                        // simple validation
-                        if (Math.Abs(lsq[0]) < 999)
+                        try
                         {
-                            Vector3 centre3 = new Vector3(lsq[0], lsq[1], lsq[2]);
-                            log.Info("new centre2 " + centre3.ToString());
+                            var lsq = MagCalib.LeastSq(datacompass3, false);
+                            // simple validation
+                            if (Math.Abs(lsq[0]) < 999)
+                            {
+                                Vector3 centre3 = new Vector3(lsq[0], lsq[1], lsq[2]);
+                                log.Info("new centre2 " + centre3.ToString());
 
-                            prsphere.sphere3.CenterPoint = new OpenTK.Vector3(
-                                (float)centre3.x, (float)centre3.y, (float)centre3.z);
+                                prsphere.sphere3.CenterPoint = new OpenTK.Vector3(
+                                    (float) centre3.x, (float) centre3.y, (float) centre3.z);
+                            }
+                        }
+                        catch
+                        {
                         }
                     }
                 }
@@ -605,8 +623,9 @@ namespace MissionPlanner
                 for (int i = 0; i < datacompass1.Count; i++)
                 {
                     point = new Vector3(datacompass1[i].Item1, datacompass1[i].Item2, datacompass1[i].Item3);
-                    radius += (float)(point + centre).length();
+                    radius += (float) (point + centre).length();
                 }
+
                 radius /= datacompass1.Count;
 
                 //test that we can find one point near a set of points all around the sphere surface
@@ -624,9 +643,9 @@ namespace MissionPlanner
                         double phi = (2 * Math.PI * i) / factor2;
 
                         Vector3 point_sphere = new Vector3(
-                            (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
-                            (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
-                            (float)(Math.Cos(theta) * radius)) - centre;
+                            (float) (Math.Sin(theta) * Math.Cos(phi) * radius),
+                            (float) (Math.Sin(theta) * Math.Sin(phi) * radius),
+                            (float) (Math.Cos(theta) * radius)) - centre;
 
                         //log.InfoFormat("magcalib check - {0} {1} dist {2}", theta * MathHelper.rad2deg, phi * MathHelper.rad2deg, max_distance);
 
@@ -642,19 +661,22 @@ namespace MissionPlanner
                                 break;
                             }
                         }
+
                         // draw them all
                         //((ProgressReporterSphere)sender).sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x, (float)point_sphere.y, (float)point_sphere.z));
                         if (!found)
                         {
                             displayresult = "more data needed Aim For " +
-                                            GetColour((int)(theta * MathHelper.rad2deg), (int)(phi * MathHelper.rad2deg));
-                            prsphere.sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x,
-                                (float)point_sphere.y, (float)point_sphere.z));
+                                            GetColour((int) (theta * MathHelper.rad2deg),
+                                                (int) (phi * MathHelper.rad2deg));
+                            prsphere.sphere1.AimFor(new OpenTK.Vector3((float) point_sphere.x,
+                                (float) point_sphere.y, (float) point_sphere.z));
                             //j = factor;
                             //break;
                         }
                     }
                 }
+
                 extramsg = displayresult;
 
                 //Console.WriteLine("3 "+ DateTime.Now.Millisecond);
@@ -1175,7 +1197,14 @@ namespace MissionPlanner
 
             var t1 = new alglib.ndimensional_fvec(fitalgo);
 
-            alglib.minlmoptimize(state, t1, null, data);
+            try
+            {
+                alglib.minlmoptimize(state, t1, null, data);
+            }
+            catch
+            {
+
+            }
 
             alglib.minlmresults(state, out x, out rep);
 
