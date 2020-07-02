@@ -53,7 +53,7 @@ namespace Shortcuts
             inchange = true;
             try
             {
-                currentmode = modecmb.SelectedItem?.ToString();
+                currentmode = modecmb.SelectedItem.ToString();
                 MainV2.comPort.setMode((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     modecmb.SelectedItem?.ToString());
             }
