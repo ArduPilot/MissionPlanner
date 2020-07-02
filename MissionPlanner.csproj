@@ -1642,6 +1642,9 @@
     <EmbeddedResource Include="Controls\paramcompare.resx">
       <DependentUpon>paramcompare.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Plugin\PluginUI.resx">
+      <DependentUpon>PluginUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

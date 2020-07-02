@@ -1254,5 +1254,105 @@ namespace MissionPlanner
             RemoteLog.StartRemoteLog(MainV2.comPort, (byte) MainV2.comPort.sysidcurrent,
                 (byte) MainV2.comPort.compidcurrent);
         }
+
+        private void but_paramrestore_Click(object sender, EventArgs e)
+        {
+            CustomMessageBox.Show("This process make take a some time");
+
+            using (var ofd = new OpenFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = ".param",
+                RestoreDirectory = true,
+                Filter = ParamFile.FileMask
+            })
+            {
+                var dr = ofd.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    var param2 = ParamFile.loadParamFile(ofd.FileName);
+
+                    ProgressReporterDialogue prd = new ProgressReporterDialogue();
+
+                    prd.DoWork += dialogue =>
+                    {
+                        List<string> fails = new List<string>();
+                        var set = 0;
+                        var alreadyset = 0;
+                        dialogue.UpdateProgressAndStatus(-1, "Get All by Name");
+                        // prefeed
+                        foreach (var d in param2)
+                        {
+                            MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, d.Key,
+                                requireresponce: false);
+                        }
+
+                        dialogue.UpdateProgressAndStatus(-1, "Set Enable's");
+                        // enables
+                        foreach (var d in param2.Where(a=>a.Key.ToLower().Contains("enable")))
+                        {
+                            try
+                            {
+                                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, d.Key,
+                                    d.Value);
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+
+                        foreach (var d in param2)
+                        {
+                            dialogue.UpdateProgressAndStatus(-1, "Set " + d.Key);
+                            if (dialogue.doWorkArgs.CancelRequested)
+                            {
+                                dialogue.doWorkArgs.CancelAcknowledged = true;
+                                return;
+                            }
+
+                            try
+                            {
+                                if (MainV2.comPort.MAV.param.ContainsKey(d.Key) &&
+                                    MainV2.comPort.MAV.param[d.Key].Value == d.Value)
+                                {
+                                    alreadyset++;
+                                    continue;
+                                }
+
+                                MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, d.Key);
+                                
+                                if (d.Key.ToLower().Contains("_id"))
+                                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, d.Key,
+                                        0,
+                                        true);
+
+                                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, d.Key,
+                                    d.Value,
+                                    true);
+
+                                set++;
+                            }
+                            catch
+                            {
+                                fails.Add(d.Key);
+                            }
+                        }
+
+                        if (fails.Count > 0)
+                            CustomMessageBox.Show("Set " + set + " params \nAlready Set " 
+                                                  + alreadyset + " params \nFailed to set " 
+                                                  + fails.Aggregate((a, b) => a + "\n" + b));
+                        else
+                            CustomMessageBox.Show("Set " + set + " params \nAlready Set "
+                                                  + alreadyset + " params");
+
+                    };
+
+                    prd.RunBackgroundOperationAsync();
+                }
+            }
+        }
     }
 }

@@ -60,7 +60,7 @@
             this.but_blupdate = new MissionPlanner.Controls.MyButton();
             this.BUT_fft = new MissionPlanner.Controls.MyButton();
             this.but_disablearmswitch = new MissionPlanner.Controls.MyButton();
-            this.but_injectgps = new MissionPlanner.Controls.MyButton();
+            this.but_paramrestore = new MissionPlanner.Controls.MyButton();
             this.but_mavinspector = new MissionPlanner.Controls.MyButton();
             this.but_sitl_comb = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
@@ -141,8 +141,8 @@
             this.label53 = new System.Windows.Forms.Label();
             this.label54 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
-            this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
             this.but_remotedflogger = new MissionPlanner.Controls.MyButton();
+            this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -180,7 +180,7 @@
             this.tableLayoutPanel1.Controls.Add(this.but_blupdate, 2, 5);
             this.tableLayoutPanel1.Controls.Add(this.BUT_fft, 2, 17);
             this.tableLayoutPanel1.Controls.Add(this.but_disablearmswitch, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.but_injectgps, 2, 16);
+            this.tableLayoutPanel1.Controls.Add(this.but_paramrestore, 2, 16);
             this.tableLayoutPanel1.Controls.Add(this.but_mavinspector, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.but_sitl_comb, 2, 15);
             this.tableLayoutPanel1.Controls.Add(this.but_anonlog, 0, 11);
@@ -470,12 +470,12 @@
             this.but_disablearmswitch.UseVisualStyleBackColor = true;
             this.but_disablearmswitch.Click += new System.EventHandler(this.but_disablearmswitch_Click);
             // 
-            // but_injectgps
+            // but_paramrestore
             // 
-            resources.ApplyResources(this.but_injectgps, "but_injectgps");
-            this.but_injectgps.Name = "but_injectgps";
-            this.but_injectgps.UseVisualStyleBackColor = true;
-            this.but_injectgps.Click += new System.EventHandler(this.but_injectgps_Click);
+            resources.ApplyResources(this.but_paramrestore, "but_paramrestore");
+            this.but_paramrestore.Name = "but_paramrestore";
+            this.but_paramrestore.UseVisualStyleBackColor = true;
+            this.but_paramrestore.Click += new System.EventHandler(this.but_paramrestore_Click);
             // 
             // but_mavinspector
             // 
@@ -931,17 +931,17 @@
             resources.ApplyResources(this.label55, "label55");
             this.label55.Name = "label55";
             // 
-            // controlSensorsStatus1
-            // 
-            resources.ApplyResources(this.controlSensorsStatus1, "controlSensorsStatus1");
-            this.controlSensorsStatus1.Name = "controlSensorsStatus1";
-            // 
             // but_remotedflogger
             // 
             resources.ApplyResources(this.but_remotedflogger, "but_remotedflogger");
             this.but_remotedflogger.Name = "but_remotedflogger";
             this.but_remotedflogger.UseVisualStyleBackColor = true;
             this.but_remotedflogger.Click += new System.EventHandler(this.but_remotedflogger_Click);
+            // 
+            // controlSensorsStatus1
+            // 
+            resources.ApplyResources(this.controlSensorsStatus1, "controlSensorsStatus1");
+            this.controlSensorsStatus1.Name = "controlSensorsStatus1";
             // 
             // temp
             // 
@@ -1008,7 +1008,7 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
         private Controls.MyButton but_sitl_comb;
-        private Controls.MyButton but_injectgps;
+        private Controls.MyButton but_paramrestore;
         private Controls.MyButton BUT_fft;
         private Controls.MyButton but_reboot;
         private Controls.MyButton BUT_QNH;
