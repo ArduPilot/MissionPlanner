@@ -2997,6 +2997,7 @@ namespace MissionPlanner.Log
                 // Set the titles and axis labels
                 zg1.GraphPane.XAxis.Type = AxisType.Linear;
                 zg1.GraphPane.XAxis.Scale.Format = "f0";
+                zg1.GraphPane.XAxis.Scale.MagAuto = false;
                 zg1.GraphPane.Title.Text = "Value Graph";
                 zg1.GraphPane.XAxis.Title.Text = "Line Number";
                 zg1.GraphPane.YAxis.Title.Text = "Output";
