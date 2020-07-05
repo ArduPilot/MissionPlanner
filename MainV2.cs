@@ -2415,28 +2415,25 @@ namespace MissionPlanner
             {
                 try
                 {
-                    lock (Plugin.PluginLoader.Plugins)
+                    foreach (var plugin in Plugin.PluginLoader.Plugins.ToArray())
                     {
-                        foreach (var plugin in Plugin.PluginLoader.Plugins)
+                        if (!nextrun.ContainsKey(plugin))
+                            nextrun[plugin] = DateTime.MinValue;
+
+                        if (DateTime.Now > plugin.NextRun)
                         {
-                            if (!nextrun.ContainsKey(plugin))
-                                nextrun[plugin] = DateTime.MinValue;
+                            // get ms till next run
+                            int msnext = (int) (1000 / plugin.loopratehz);
+                            // allow the plug to modify this, if needed
+                            plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
 
-                            if (DateTime.Now > plugin.NextRun)
+                            try
                             {
-                                // get ms till next run
-                                int msnext = (int)(1000 / plugin.loopratehz);
-                                // allow the plug to modify this, if needed
-                                plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
-
-                                try
-                                {
-                                    bool ans = plugin.Loop();
-                                }
-                                catch (Exception ex)
-                                {
-                                    log.Error(ex);
-                                }
+                                bool ans = plugin.Loop();
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error(ex);
                             }
                         }
                     }
