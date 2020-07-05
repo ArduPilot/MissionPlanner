@@ -29,6 +29,7 @@ namespace Ntrip
                 Thread.Sleep(1000);
             };
             var tcp = TcpListener.Create(2101);
+            Console.WriteLine("Listerning on 2101");
 
             tcp.Start();
 
@@ -57,6 +58,7 @@ namespace Ntrip
 
                         if ((seenmsg = rtcm.Read(rtcmcan.data[a])) > 0)
                         {
+                            Console.WriteLine("CANRTCM" + seenmsg);
                             gotRTCMData?.Invoke(rtcm.packet, rtcm.length);
                             file.Write(rtcm.packet, 0, rtcm.length);
                         }
