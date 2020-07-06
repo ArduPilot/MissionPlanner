@@ -1705,6 +1705,14 @@ namespace MissionPlanner
 
         public byte vtol_state { get; private set; }
         public byte landed_state { get; private set; }
+        [GroupText("Generator")]
+        public float gen_status { get; set; }
+        [GroupText("Generator")]
+        public float gen_speed { get; set; }
+        [GroupText("Generator")]
+        public float gen_current { get; set; }
+        [GroupText("Generator")]
+        public float gen_voltage { get; set; }
 
         public object Clone()
         {
@@ -1831,6 +1839,18 @@ namespace MissionPlanner
                         }
                     }
 
+                        break;
+                    case (uint) MAVLink.MAVLINK_MSG_ID.GENERATOR_STATUS:
+
+
+                    {
+                        var gen = mavLinkMessage.ToStructure<MAVLink.mavlink_generator_status_t>();
+
+                        gen_status = gen.status;
+                        gen_speed = gen.generator_speed;
+                        gen_current = gen.load_current;
+                        gen_voltage = gen.bus_voltage;
+                    }
                         break;
                     case (uint) MAVLink.MAVLINK_MSG_ID.HIGH_LATENCY:
 
