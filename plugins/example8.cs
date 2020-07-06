@@ -10,7 +10,7 @@ using System.Drawing;
 using MissionPlanner;
 using MissionPlanner.Controls;
 
-namespace Shortcuts
+namespace ModeChange
 {
     public class Plugin : MissionPlanner.Plugin.Plugin
     {
@@ -75,7 +75,7 @@ namespace Shortcuts
             {
                 if (MainV2.comPort.GetHashCode() != hashcode)
                 {
-                    MainV2.instance.InvokeIfRequired(() =>
+                    MainV2.instance.BeginInvokeIfRequired(() =>
                     {
                         modecmb.Enabled = true;
 
@@ -91,7 +91,7 @@ namespace Shortcuts
                 if (MainV2.comPort.MAV.cs.mode != currentmode)
                 {
                     if (!inchange)
-                        MainV2.instance.InvokeIfRequired(() =>
+                        MainV2.instance.BeginInvokeIfRequired(() =>
                         {
                             modecmb.Text = MainV2.comPort.MAV.cs.mode;
                         });
@@ -100,7 +100,7 @@ namespace Shortcuts
             else
             {
                 if (modecmb.Enabled)
-                    MainV2.instance.InvokeIfRequired(() =>
+                    MainV2.instance.BeginInvokeIfRequired(() =>
                     {
                         modecmb.Enabled = false;
                     });
