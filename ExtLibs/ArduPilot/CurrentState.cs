@@ -2969,7 +2969,10 @@ namespace MissionPlanner
 
                     {
                         var mem = mavLinkMessage.ToStructure<MAVLink.mavlink_meminfo_t>();
-                        freemem = mem.freemem;
+                        if (mem.freemem32 > 0)
+                            freemem = mem.freemem32;
+                        else
+                            freemem = mem.freemem;
                         brklevel = mem.brkval;
                     }
 
