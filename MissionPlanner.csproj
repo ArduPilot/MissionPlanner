@@ -540,16 +540,16 @@
     </None>
     <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2+CompassDeviceInfo.datasource" />
     <None Include="plugins\example2.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="plugins\example3.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="plugins\example4.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="plugins\example5.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="plugins\example6.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -563,9 +563,10 @@
     <None Include="plugins\example8.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="plugins\generator.cs">
+    <None Include="plugins\generator.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+      <SubType>UserControl</SubType>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Radio\Models.cs" />
     <Compile Include="ResEdit.Designer.cs">
@@ -1644,6 +1645,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\paramcompare.resx">
       <DependentUpon>paramcompare.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="plugins\generator.resx">
+      <DependentUpon>generator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Plugin\PluginUI.resx">
       <DependentUpon>PluginUI.cs</DependentUpon>

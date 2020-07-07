@@ -10,7 +10,7 @@ using MissionPlanner;
 
 namespace Shortcuts
 {
-    public class Plugin : MissionPlanner.Plugin.Plugin
+    public class ButtonPlugin : MissionPlanner.Plugin.Plugin
     {
         public override string Name
         {
