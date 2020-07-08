@@ -612,6 +612,82 @@ S15: MAX_WINDOW=131
             }
         }
 
+        /// <summary>
+        /// Returns whether encryption is enabled, as per the given combo box.
+        /// </summary>
+        /// <param name="CB">The combo box which is used to set encryption level.  Must not be null.</param>
+        /// <returns>true if enabled, otherwise false.</returns>
+        bool GetIsEncryptionEnabled(ComboBox CB)
+        {
+            return GetEncryptionLevelValue(CB) != 0;
+        }
+
+        /// <summary>
+        /// Get the max encryption key length in hex numerals.
+        /// </summary>
+        /// <param name="CB">The encryption level setting combo box.  Must not be null.</param>
+        /// <returns>The max encryption key length, in hex numerals.</returns>
+        int GetEncryptionMaxKeyLength(ComboBox CB)
+        {
+            if (CB.Text.Contains("b"))
+            {
+                var Parts = CB.Text.Split('b');
+                if (Parts.Length >= 1)
+                {
+                    int QTYBits;
+
+                    if (int.TryParse(Parts[0], out QTYBits))
+                    {
+                        return QTYBits / 4;
+                    }
+                }
+
+                return 0;
+            }
+            else
+            {
+                if (CB.Text == "0")
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 32;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the encryption level setting number value.
+        /// </summary>
+        /// <param name="CB">The combo box to get number value for.  Must not be null.</param>
+        /// <returns>The level setting number value.</returns>
+        int GetEncryptionLevelValue(ComboBox CB)
+        {
+            if (CB.Tag != null)
+            {
+                RFD.RFD900.TSetting Setting = (RFD.RFD900.TSetting)CB.Tag;
+
+                if (Setting.Options != null)
+                {
+                    foreach (var O in Setting.Options)
+                    {
+                        if (O.OptionName == CB.Text)
+                        {
+                            return O.Value;
+                        }
+                    }
+                }
+            }
+
+            int Result;
+            if (int.TryParse(CB.Text, out Result))
+            {
+                return Result;
+            }
+            return 0;
+        }
+
         private void BUT_savesettings_Click(object sender, EventArgs e)
         {
             //EndSession();
@@ -679,32 +755,36 @@ S15: MAX_WINDOW=131
 
                     // set encryption keys at the same time, so if we are enabled we dont lose comms.
                     // we have set encryption to on for both radios, they will be using the default key atm
-                    if (RENCRYPTION_LEVEL.Checked)
+                    if (GetIsEncryptionEnabled(RENCRYPTION_LEVEL))
                     {
+                        int MaxKeyLength = GetEncryptionMaxKeyLength(RENCRYPTION_LEVEL);
+
                         if (System.Text.RegularExpressions.Regex.IsMatch(txt_Raeskey.Text, @"\A\b[0-9a-fA-F]+\b\Z")
-                            && (txt_Raeskey.Text.Length <= 32))
+                            && (txt_Raeskey.Text.Length <= MaxKeyLength))
                         {
-                            doCommand(Session.Port, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
+                            doCommand(Session.Port, "RT&E=" + txt_Raeskey.Text.PadRight(MaxKeyLength, '0'), true);
                         }
                         else
                         {
                             //Complain that encryption key invalid.
                             lbl_status.Text = "Fail";
-                            MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= 32 hex numerals");
+                            MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
                         }
                     }
-                    if (ENCRYPTION_LEVEL.Checked)
+                    if (GetIsEncryptionEnabled(ENCRYPTION_LEVEL))
                     {
+                        int MaxKeyLength = GetEncryptionMaxKeyLength(ENCRYPTION_LEVEL);
+
                         if (System.Text.RegularExpressions.Regex.IsMatch(txt_aeskey.Text, @"\A\b[0-9a-fA-F]+\b\Z")
-                            && (txt_aeskey.Text.Length <= 32))
+                            && (txt_aeskey.Text.Length <= MaxKeyLength))
                         {
-                            doCommand(Session.Port, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
+                            doCommand(Session.Port, "AT&E=" + txt_aeskey.Text.PadRight(MaxKeyLength, '0'), true);
                         }
                         else
                         {
                             //Complain that encryption key invalid.
                             lbl_status.Text = "Fail";
-                            MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= 32 hex numerals");
+                            MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
                         }
                     }
 
@@ -809,6 +889,13 @@ S15: MAX_WINDOW=131
 
                 throw e;
             }
+        }
+
+        private void SetupCBWithDefaultEncryptionOptions(ComboBox CB)
+        {
+            CB.Tag = null;
+            CB.DataSource = Range(0, 1, 1);
+            CB.Text = "0";
         }
 
         /// <summary>
@@ -1059,6 +1146,8 @@ S15: MAX_WINDOW=131
         /// <param name="e"></param>
         private void BUT_getcurrent_Click(object sender, EventArgs e)
         {
+            //System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
+            //SW.Start();
             //EndSession();
             var Session = GetSession();
 
@@ -1067,21 +1156,32 @@ S15: MAX_WINDOW=131
                 return;
             }
 
+            _AlreadyInEncCheckChangedEvtHdlr = true;
 
             ResetAllControls(groupBoxLocal);
             ResetAllControls(groupBoxRemote);
+            SetupCBWithDefaultEncryptionOptions(ENCRYPTION_LEVEL);
+            SetupCBWithDefaultEncryptionOptions(RENCRYPTION_LEVEL);
 
             EnableConfigControls(false, false);
             EnableProgrammingControls(false);
             lbl_status.Text = "Connecting";
 
+            //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Putting into AT CMD mode");
+
             try
             {
                 if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
                 {
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done putting into AT CMD mode");
+
                     bool SomeSettingsInvalid = false;
                     // cleanup
                     doCommand(Session.Port, "AT&T", false, 1);
+                    /*Session.ATCClient.Timeout = 100;
+                    Session.ATCClient.DoCommand("AT&T");
+                    Session.ATCClient.Timeout = 1000;*/
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done AT&T cmd");
 
                     Session.Port.DiscardInBuffer();
 
@@ -1089,7 +1189,9 @@ S15: MAX_WINDOW=131
 
                     //Set the text box to show the radio version
                     int multipoint_fix = -1;    //If this radio has multipoint firmware, the index within returned strings to use for returned values, otherwise -1.
-                    var ati_str = doCommand(Session.Port, "ATI").Trim();
+                    var ati_str = doCommand(Session.Port, "ATI").Trim(); //Session.ATCClient.DoQuery("ATI", true);// doCommand(Session.Port, "ATI").Trim();
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done ATI cmd");
+
                     if (ati_str.StartsWith("["))
                     {
                         multipoint_fix = ati_str.IndexOf(']') + 1;
@@ -1101,7 +1203,9 @@ S15: MAX_WINDOW=131
                     NumberStyles style = NumberStyles.Any;
 
                     //Get the board frequency.
-                    var freqstring = doCommand(Session.Port, "ATI3").Trim();
+                    var freqstring = doCommand(Session.Port, "ATI3").Trim(); //Session.ATCClient.DoQuery("ATI3", true);// doCommand(Session.Port, "ATI3").Trim();
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done ATI3 cmd");
+
                     if (multipoint_fix > 0)
                     {
                         freqstring = freqstring.Substring(multipoint_fix).Trim();
@@ -1119,7 +1223,9 @@ S15: MAX_WINDOW=131
 
                     style = NumberStyles.Any;
 
-                    var boardstring = doCommand(Session.Port, "ATI2").Trim();
+                    var boardstring = doCommand(Session.Port, "ATI2").Trim(); //Session.ATCClient.DoQuery("ATI2", true);// doCommand(Session.Port, "ATI2").Trim();
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done ATI2 cmd");
+
                     if (multipoint_fix > 0)
                     {
                         boardstring = boardstring.Substring(multipoint_fix).Trim();
@@ -1248,7 +1354,7 @@ S15: MAX_WINDOW=131
 
                     if (multipoint_fix == -1)
                     {
-                        var AESKey = doCommand(Session.Port, "AT&E?").Trim();
+                        var AESKey = doCommand(Session.Port, "AT&E?").Trim(); //Session.ATCClient.DoQuery("AT&E?", true);// doCommand(Session.Port, "AT&E?").Trim();
                         if (AESKey.Contains("ERROR"))
                         {
                             txt_aeskey.Text = "";
@@ -1268,16 +1374,19 @@ S15: MAX_WINDOW=131
                         SetupComboForMavlink(MAVLINK, true);
                     }
 
-                    RSSI.Text = doCommand(Session.Port, "ATI7").Trim();
+                    RSSI.Text = doCommand(Session.Port, "ATI7").Trim(); //Session.ATCClient.DoQuery("ATI7", true);// doCommand(Session.Port, "ATI7").Trim();
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done ATI7 cmd");
+
 
                     lbl_status.Text = "Doing Command ATI5";
 
-                    var answer = doCommand(Session.Port, "ATI5", true);
+                    var answer = doCommand(Session.Port, "ATI5", true); //Session.ATCClient.DoQueryWithMultiLineResponse("ATI5");// doCommand(Session.Port, "ATI5", true);
 
                     bool Junk;
 
-                    var Settings = Session.GetSettings(
-                        doCommand(Session.Port, "ATI5?", true),
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Parsing local settings");
+
+                    var Settings = Session.GetSettings(false,
                         Session.Board, answer, null, out Junk);
 
                     DisableRFD900xControls();
@@ -1311,8 +1420,13 @@ S15: MAX_WINDOW=131
                         }
                     }
 
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done getting info out of local modem");
+
                     //For each of the settings returned by the radio...
                     SetUpControlsWithValues(groupBoxLocal, false, ModifyReturnedStringsForMultipoint(items, multipoint_fix), Settings);
+
+                    btnRandom.Enabled = GetIsEncryptionEnabled(ENCRYPTION_LEVEL);
+                    //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done setting up controls for local modem");
 
                     // remote
                     foreach (Control ctl in groupBoxRemote.Controls)
@@ -1397,9 +1511,7 @@ S15: MAX_WINDOW=131
 
                         bool UsedAltRanges;
 
-                        var RemoteSettings = Session.GetSettings(
-                            doCommand(Session.Port, "RTI5?", true),
-                            Session.Board, answer, (LocalFWVer == RemoteFWVer) ? Settings : null, out UsedAltRanges);
+                        var RemoteSettings = Session.GetSettings(true, Session.Board, answer, (LocalFWVer == RemoteFWVer) ? Settings : null, out UsedAltRanges);
 
                         if ((RemoteFWVer != null) &&  (LocalFWVer != RemoteFWVer) && UsedAltRanges)
                         {
@@ -1430,7 +1542,12 @@ S15: MAX_WINDOW=131
                             }
                         }
 
+                        //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done getting info from remote modem");
+
                         SomeSettingsInvalid |= SetUpControlsWithValues(groupBoxRemote, true, items, RemoteSettings);
+
+                        //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done setting up controls for remote modem");
+
                     }
 
                     // off hook
@@ -1471,6 +1588,7 @@ S15: MAX_WINDOW=131
                 lbl_status.Text = "Error";
                 MsgBox.CustomMessageBox.Show("Error during read " + ex);
             }
+            _AlreadyInEncCheckChangedEvtHdlr = false;
 
             UpdateSetPPMFailSafeButtons();
         }
@@ -1656,7 +1774,7 @@ S15: MAX_WINDOW=131
             RMAX_FREQ.Text = MAX_FREQ.Text;
             RNUM_CHANNELS.Text = NUM_CHANNELS.Text;
             RMAX_WINDOW.Text = MAX_WINDOW.Text;
-            RENCRYPTION_LEVEL.Checked = ENCRYPTION_LEVEL.Checked;
+            RENCRYPTION_LEVEL.SelectedIndex = ENCRYPTION_LEVEL.SelectedIndex;
             txt_Raeskey.Text = txt_aeskey.Text;
         }
 
@@ -2070,7 +2188,7 @@ red LED solid - in firmware update mode");
             {
                 EncryptionCheckChangedEvtHdlr(ENCRYPTION_LEVEL, "ATI5", "AT&E?", txt_aeskey, false, "ATI5");
             }
-            btnRandom.Enabled = ENCRYPTION_LEVEL.Checked;
+            btnRandom.Enabled = GetIsEncryptionEnabled(ENCRYPTION_LEVEL);
         }
 
         /// <summary>
@@ -2094,7 +2212,7 @@ red LED solid - in firmware update mode");
         /// <param name="CB">The checkbox which was changed.  Must not be null.</param>
         /// <param name="ATCommand">The AT command to use to get the settings
         /// from the relevant modem.  Must not be null.</param>
-        void EncryptionCheckChangedEvtHdlr(CheckBox CB, string ATCommand, string EncKeyQuery,
+        void EncryptionCheckChangedEvtHdlr(ComboBox CB, string ATCommand, string EncKeyQuery,
             TextBox EncKeyTextBox, bool Remote, string ATI5Command)
         {
             if (_AlreadyInEncCheckChangedEvtHdlr)
@@ -2112,16 +2230,15 @@ red LED solid - in firmware update mode");
                     return;
                 }
                 Session.PutIntoATCommandMode();
-                var answer = doCommand(Session.Port, ATCommand, true);
                 var ATI5answer = doCommand(Session.Port, ATI5Command, true);
 
                 bool Junk;
 
-                var Settings = Session.GetSettings(answer, Session.Board, ATI5answer, null, out Junk);
+                var Settings = Session.GetSettings(Remote, Session.Board, ATI5answer, null, out Junk);
                 if (Settings.ContainsKey("ENCRYPTION_LEVEL"))
                 {
                     var Setting = Settings["ENCRYPTION_LEVEL"];
-                    if (!SetSetting(Setting.Designator, CB.Checked ? 1 : 0, Remote))
+                    if (!SetSetting(Setting.Designator, GetEncryptionLevelValue(CB), Remote))
                     {
                         return;
                     }
@@ -2135,10 +2252,6 @@ red LED solid - in firmware update mode");
                 //BUT_getcurrent_Click(this, null);
                 //txt_aeskey.Text = doCommand(Session.Port, "AT&E?").Trim();
                 EncKeyTextBox.Text = doCommand(Session.Port, EncKeyQuery).Trim();
-                if (CB.Checked && EncKeyTextBox.Text.Length == 0)
-                {
-                    //Console.WriteLine("Something wrong here");
-                }
                 lbl_status.Text = "Done.";
             }
             finally
@@ -2147,21 +2260,28 @@ red LED solid - in firmware update mode");
             }
         }
 
-        string GetRandom32BitKey()
+        /// <summary>
+        /// Get a random key as a hex numeral string, with the given QTY of hex numerals.
+        /// </summary>
+        /// <param name="QTYHexDigits">The QTY of hex numerals.</param>
+        /// <returns>The key.  Never null.</returns>
+        string GetRandomKey(int QTYHexDigits)
         {
-            System.Random R = new Random((int)(System.DateTime.Now.Ticks & 0xFFFFFFFF));
-            return R.Next().ToString("X8");
-        }
+            string Result = "";
 
-        string GetRandomKey()
-        {
-            return GetRandom32BitKey() + GetRandom32BitKey() + GetRandom32BitKey() + GetRandom32BitKey();
+            System.Random R = new Random((int)(System.DateTime.Now.Ticks & 0xFFFFFFFF));
+
+            for (; QTYHexDigits > 0; QTYHexDigits--)
+            {
+                Result += (((UInt32)R.Next()) & 0xF).ToString("X1");
+            }
+
+            return Result;
         }
 
         private void btnRandom_Click(object sender, EventArgs e)
         {
-            //Key is 16 binary bytes (32 hex digits)
-            txt_aeskey.Text = GetRandomKey();
+            txt_aeskey.Text = GetRandomKey(GetEncryptionMaxKeyLength(ENCRYPTION_LEVEL));
             txt_Raeskey.Text = txt_aeskey.Text;
         }
 

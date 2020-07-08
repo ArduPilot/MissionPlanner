@@ -63,7 +63,13 @@ namespace RFDLib.IO
 
             while (SW.ElapsedMilliseconds < MaxWait)
             {
+                //System.Diagnostics.Stopwatch StWa = new System.Diagnostics.Stopwatch();
+                //SW.Start();
                 string x = Port.ReadExisting();
+                //if (StWa.ElapsedMilliseconds > 10)
+                //{
+                //    System.Diagnostics.Debug.WriteLine("Read existing slow\n");
+                //}
                 Temp += x;
 
                 if ((Token != null) && Temp.Contains(Token))

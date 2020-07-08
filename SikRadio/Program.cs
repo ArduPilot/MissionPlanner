@@ -56,6 +56,8 @@
  *          local modem, then assumes the ranges specified by the local modem.  If the remote modem does not specify valid settings ranges
  *          and is a different firmware version to the local modem, informs the user in a message box and advises to use the same modem
  *          firmware version.  
+ * 2.42 - Now gets valid parameter ranges out of remote modem for newer firmware which doesn't support the RTI5? query.  Now supports the
+ *          specified available encryption levels given by the modems (e.g. None/128bit/256bit), instead of just enabled/disabled.  
  */
 
 using System;

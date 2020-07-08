@@ -68,6 +68,14 @@
             this.OPPRESEND = new System.Windows.Forms.CheckBox();
             this.GPO1_3SBUSIN = new System.Windows.Forms.CheckBox();
             this.RGPO1_3SBUSIN = new System.Windows.Forms.CheckBox();
+            this.GPO1_3STATLED = new System.Windows.Forms.CheckBox();
+            this.GPO1_0TXEN485 = new System.Windows.Forms.CheckBox();
+            this.RGPO1_0TXEN485 = new System.Windows.Forms.CheckBox();
+            this.RGPO1_3STATLED = new System.Windows.Forms.CheckBox();
+            this.ENCRYPTION_LEVEL = new System.Windows.Forms.ComboBox();
+            this.RENCRYPTION_LEVEL = new System.Windows.Forms.ComboBox();
+            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
+            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.RTI = new System.Windows.Forms.TextBox();
             this.ATI = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -75,6 +83,9 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBoxLocal = new System.Windows.Forms.GroupBox();
+            this.lbl245 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.GPO1_3SBUSOUT = new System.Windows.Forms.ComboBox();
             this.label49 = new System.Windows.Forms.Label();
             this.txtCountry = new System.Windows.Forms.TextBox();
             this.label45 = new System.Windows.Forms.Label();
@@ -111,7 +122,6 @@
             this.MAX_RETRIES = new System.Windows.Forms.ComboBox();
             this.MAX_DATA = new System.Windows.Forms.ComboBox();
             this.lblMAX_DATA = new System.Windows.Forms.Label();
-            this.ENCRYPTION_LEVEL = new System.Windows.Forms.CheckBox();
             this.label36 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
             this.txt_aeskey = new System.Windows.Forms.TextBox();
@@ -126,6 +136,9 @@
             this.label14 = new System.Windows.Forms.Label();
             this.ATI2 = new System.Windows.Forms.TextBox();
             this.groupBoxRemote = new System.Windows.Forms.GroupBox();
+            this.label44 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.RGPO1_3SBUSOUT = new System.Windows.Forms.ComboBox();
             this.label50 = new System.Windows.Forms.Label();
             this.txtRCountry = new System.Windows.Forms.TextBox();
             this.lblRSBUSOUT = new System.Windows.Forms.Label();
@@ -162,7 +175,6 @@
             this.RMAX_DATA = new System.Windows.Forms.ComboBox();
             this.lblRMAX_DATA = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
-            this.RENCRYPTION_LEVEL = new System.Windows.Forms.CheckBox();
             this.txt_Raeskey = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
@@ -175,24 +187,12 @@
             this.RTI2 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.GPO1_3SBUSOUT = new System.Windows.Forms.ComboBox();
-            this.RGPO1_3SBUSOUT = new System.Windows.Forms.ComboBox();
             this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
-            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
-            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.BUT_savesettings = new MissionPlanner.Controls.MyButton();
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
-            this.label43 = new System.Windows.Forms.Label();
-            this.GPO1_3STATLED = new System.Windows.Forms.CheckBox();
-            this.GPO1_0TXEN485 = new System.Windows.Forms.CheckBox();
-            this.lbl245 = new System.Windows.Forms.Label();
-            this.RGPO1_0TXEN485 = new System.Windows.Forms.CheckBox();
-            this.label44 = new System.Windows.Forms.Label();
-            this.RGPO1_3STATLED = new System.Windows.Forms.CheckBox();
-            this.label47 = new System.Windows.Forms.Label();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -779,6 +779,128 @@
             this.RGPO1_3SBUSIN.Name = "RGPO1_3SBUSIN";
             this.toolTip1.SetToolTip(this.RGPO1_3SBUSIN, resources.GetString("RGPO1_3SBUSIN.ToolTip"));
             // 
+            // GPO1_3STATLED
+            // 
+            resources.ApplyResources(this.GPO1_3STATLED, "GPO1_3STATLED");
+            this.GPO1_3STATLED.Name = "GPO1_3STATLED";
+            this.toolTip1.SetToolTip(this.GPO1_3STATLED, resources.GetString("GPO1_3STATLED.ToolTip"));
+            // 
+            // GPO1_0TXEN485
+            // 
+            resources.ApplyResources(this.GPO1_0TXEN485, "GPO1_0TXEN485");
+            this.GPO1_0TXEN485.Name = "GPO1_0TXEN485";
+            this.toolTip1.SetToolTip(this.GPO1_0TXEN485, resources.GetString("GPO1_0TXEN485.ToolTip"));
+            // 
+            // RGPO1_0TXEN485
+            // 
+            resources.ApplyResources(this.RGPO1_0TXEN485, "RGPO1_0TXEN485");
+            this.RGPO1_0TXEN485.Name = "RGPO1_0TXEN485";
+            this.toolTip1.SetToolTip(this.RGPO1_0TXEN485, resources.GetString("RGPO1_0TXEN485.ToolTip"));
+            // 
+            // RGPO1_3STATLED
+            // 
+            resources.ApplyResources(this.RGPO1_3STATLED, "RGPO1_3STATLED");
+            this.RGPO1_3STATLED.Name = "RGPO1_3STATLED";
+            this.toolTip1.SetToolTip(this.RGPO1_3STATLED, resources.GetString("RGPO1_3STATLED.ToolTip"));
+            // 
+            // ENCRYPTION_LEVEL
+            // 
+            this.ENCRYPTION_LEVEL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.ENCRYPTION_LEVEL, "ENCRYPTION_LEVEL");
+            this.ENCRYPTION_LEVEL.FormattingEnabled = true;
+            this.ENCRYPTION_LEVEL.Items.AddRange(new object[] {
+            resources.GetString("ENCRYPTION_LEVEL.Items"),
+            resources.GetString("ENCRYPTION_LEVEL.Items1"),
+            resources.GetString("ENCRYPTION_LEVEL.Items2"),
+            resources.GetString("ENCRYPTION_LEVEL.Items3"),
+            resources.GetString("ENCRYPTION_LEVEL.Items4"),
+            resources.GetString("ENCRYPTION_LEVEL.Items5"),
+            resources.GetString("ENCRYPTION_LEVEL.Items6"),
+            resources.GetString("ENCRYPTION_LEVEL.Items7"),
+            resources.GetString("ENCRYPTION_LEVEL.Items8"),
+            resources.GetString("ENCRYPTION_LEVEL.Items9"),
+            resources.GetString("ENCRYPTION_LEVEL.Items10"),
+            resources.GetString("ENCRYPTION_LEVEL.Items11"),
+            resources.GetString("ENCRYPTION_LEVEL.Items12"),
+            resources.GetString("ENCRYPTION_LEVEL.Items13"),
+            resources.GetString("ENCRYPTION_LEVEL.Items14"),
+            resources.GetString("ENCRYPTION_LEVEL.Items15"),
+            resources.GetString("ENCRYPTION_LEVEL.Items16"),
+            resources.GetString("ENCRYPTION_LEVEL.Items17"),
+            resources.GetString("ENCRYPTION_LEVEL.Items18"),
+            resources.GetString("ENCRYPTION_LEVEL.Items19"),
+            resources.GetString("ENCRYPTION_LEVEL.Items20"),
+            resources.GetString("ENCRYPTION_LEVEL.Items21"),
+            resources.GetString("ENCRYPTION_LEVEL.Items22"),
+            resources.GetString("ENCRYPTION_LEVEL.Items23"),
+            resources.GetString("ENCRYPTION_LEVEL.Items24"),
+            resources.GetString("ENCRYPTION_LEVEL.Items25"),
+            resources.GetString("ENCRYPTION_LEVEL.Items26"),
+            resources.GetString("ENCRYPTION_LEVEL.Items27"),
+            resources.GetString("ENCRYPTION_LEVEL.Items28"),
+            resources.GetString("ENCRYPTION_LEVEL.Items29"),
+            resources.GetString("ENCRYPTION_LEVEL.Items30")});
+            this.ENCRYPTION_LEVEL.Name = "ENCRYPTION_LEVEL";
+            this.toolTip1.SetToolTip(this.ENCRYPTION_LEVEL, resources.GetString("ENCRYPTION_LEVEL.ToolTip"));
+            this.ENCRYPTION_LEVEL.SelectedValueChanged += new System.EventHandler(this.ENCRYPTION_LEVEL_CheckedChanged);
+            // 
+            // RENCRYPTION_LEVEL
+            // 
+            this.RENCRYPTION_LEVEL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.RENCRYPTION_LEVEL, "RENCRYPTION_LEVEL");
+            this.RENCRYPTION_LEVEL.FormattingEnabled = true;
+            this.RENCRYPTION_LEVEL.Items.AddRange(new object[] {
+            resources.GetString("RENCRYPTION_LEVEL.Items"),
+            resources.GetString("RENCRYPTION_LEVEL.Items1"),
+            resources.GetString("RENCRYPTION_LEVEL.Items2"),
+            resources.GetString("RENCRYPTION_LEVEL.Items3"),
+            resources.GetString("RENCRYPTION_LEVEL.Items4"),
+            resources.GetString("RENCRYPTION_LEVEL.Items5"),
+            resources.GetString("RENCRYPTION_LEVEL.Items6"),
+            resources.GetString("RENCRYPTION_LEVEL.Items7"),
+            resources.GetString("RENCRYPTION_LEVEL.Items8"),
+            resources.GetString("RENCRYPTION_LEVEL.Items9"),
+            resources.GetString("RENCRYPTION_LEVEL.Items10"),
+            resources.GetString("RENCRYPTION_LEVEL.Items11"),
+            resources.GetString("RENCRYPTION_LEVEL.Items12"),
+            resources.GetString("RENCRYPTION_LEVEL.Items13"),
+            resources.GetString("RENCRYPTION_LEVEL.Items14"),
+            resources.GetString("RENCRYPTION_LEVEL.Items15"),
+            resources.GetString("RENCRYPTION_LEVEL.Items16"),
+            resources.GetString("RENCRYPTION_LEVEL.Items17"),
+            resources.GetString("RENCRYPTION_LEVEL.Items18"),
+            resources.GetString("RENCRYPTION_LEVEL.Items19"),
+            resources.GetString("RENCRYPTION_LEVEL.Items20"),
+            resources.GetString("RENCRYPTION_LEVEL.Items21"),
+            resources.GetString("RENCRYPTION_LEVEL.Items22"),
+            resources.GetString("RENCRYPTION_LEVEL.Items23"),
+            resources.GetString("RENCRYPTION_LEVEL.Items24"),
+            resources.GetString("RENCRYPTION_LEVEL.Items25"),
+            resources.GetString("RENCRYPTION_LEVEL.Items26"),
+            resources.GetString("RENCRYPTION_LEVEL.Items27"),
+            resources.GetString("RENCRYPTION_LEVEL.Items28"),
+            resources.GetString("RENCRYPTION_LEVEL.Items29"),
+            resources.GetString("RENCRYPTION_LEVEL.Items30")});
+            this.RENCRYPTION_LEVEL.Name = "RENCRYPTION_LEVEL";
+            this.toolTip1.SetToolTip(this.RENCRYPTION_LEVEL, resources.GetString("RENCRYPTION_LEVEL.ToolTip"));
+            this.RENCRYPTION_LEVEL.SelectedValueChanged += new System.EventHandler(this.RENCRYPTION_LEVEL_CheckedChanged);
+            // 
+            // BUT_SetPPMFailSafeRemote
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafeRemote, "BUT_SetPPMFailSafeRemote");
+            this.BUT_SetPPMFailSafeRemote.Name = "BUT_SetPPMFailSafeRemote";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafeRemote, resources.GetString("BUT_SetPPMFailSafeRemote.ToolTip"));
+            this.BUT_SetPPMFailSafeRemote.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafeRemote.Click += new System.EventHandler(this.BUT_SetPPMFailSafeRemote_Click);
+            // 
+            // BUT_SetPPMFailSafe
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
+            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
+            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
+            // 
             // RTI
             // 
             resources.ApplyResources(this.RTI, "RTI");
@@ -816,6 +938,7 @@
             // 
             // groupBoxLocal
             // 
+            this.groupBoxLocal.Controls.Add(this.ENCRYPTION_LEVEL);
             this.groupBoxLocal.Controls.Add(this.GPO1_0TXEN485);
             this.groupBoxLocal.Controls.Add(this.lbl245);
             this.groupBoxLocal.Controls.Add(this.GPO1_3STATLED);
@@ -868,7 +991,6 @@
             this.groupBoxLocal.Controls.Add(this.MAX_RETRIES);
             this.groupBoxLocal.Controls.Add(this.MAX_DATA);
             this.groupBoxLocal.Controls.Add(this.lblMAX_DATA);
-            this.groupBoxLocal.Controls.Add(this.ENCRYPTION_LEVEL);
             this.groupBoxLocal.Controls.Add(this.label36);
             this.groupBoxLocal.Controls.Add(this.label35);
             this.groupBoxLocal.Controls.Add(this.txt_aeskey);
@@ -897,6 +1019,23 @@
             resources.ApplyResources(this.groupBoxLocal, "groupBoxLocal");
             this.groupBoxLocal.Name = "groupBoxLocal";
             this.groupBoxLocal.TabStop = false;
+            // 
+            // lbl245
+            // 
+            resources.ApplyResources(this.lbl245, "lbl245");
+            this.lbl245.Name = "lbl245";
+            // 
+            // label43
+            // 
+            resources.ApplyResources(this.label43, "label43");
+            this.label43.Name = "label43";
+            // 
+            // GPO1_3SBUSOUT
+            // 
+            this.GPO1_3SBUSOUT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.GPO1_3SBUSOUT, "GPO1_3SBUSOUT");
+            this.GPO1_3SBUSOUT.FormattingEnabled = true;
+            this.GPO1_3SBUSOUT.Name = "GPO1_3SBUSOUT";
             // 
             // label49
             // 
@@ -1102,12 +1241,6 @@
             resources.ApplyResources(this.lblMAX_DATA, "lblMAX_DATA");
             this.lblMAX_DATA.Name = "lblMAX_DATA";
             // 
-            // ENCRYPTION_LEVEL
-            // 
-            resources.ApplyResources(this.ENCRYPTION_LEVEL, "ENCRYPTION_LEVEL");
-            this.ENCRYPTION_LEVEL.Name = "ENCRYPTION_LEVEL";
-            this.ENCRYPTION_LEVEL.CheckedChanged += new System.EventHandler(this.ENCRYPTION_LEVEL_CheckedChanged);
-            // 
             // label36
             // 
             resources.ApplyResources(this.label36, "label36");
@@ -1178,6 +1311,7 @@
             // 
             // groupBoxRemote
             // 
+            this.groupBoxRemote.Controls.Add(this.RENCRYPTION_LEVEL);
             this.groupBoxRemote.Controls.Add(this.RGPO1_0TXEN485);
             this.groupBoxRemote.Controls.Add(this.label44);
             this.groupBoxRemote.Controls.Add(this.RGPO1_3STATLED);
@@ -1230,7 +1364,6 @@
             this.groupBoxRemote.Controls.Add(this.RMAX_DATA);
             this.groupBoxRemote.Controls.Add(this.lblRMAX_DATA);
             this.groupBoxRemote.Controls.Add(this.label38);
-            this.groupBoxRemote.Controls.Add(this.RENCRYPTION_LEVEL);
             this.groupBoxRemote.Controls.Add(this.txt_Raeskey);
             this.groupBoxRemote.Controls.Add(this.label37);
             this.groupBoxRemote.Controls.Add(this.RRTSCTS);
@@ -1253,6 +1386,23 @@
             resources.ApplyResources(this.groupBoxRemote, "groupBoxRemote");
             this.groupBoxRemote.Name = "groupBoxRemote";
             this.groupBoxRemote.TabStop = false;
+            // 
+            // label44
+            // 
+            resources.ApplyResources(this.label44, "label44");
+            this.label44.Name = "label44";
+            // 
+            // label47
+            // 
+            resources.ApplyResources(this.label47, "label47");
+            this.label47.Name = "label47";
+            // 
+            // RGPO1_3SBUSOUT
+            // 
+            this.RGPO1_3SBUSOUT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RGPO1_3SBUSOUT.FormattingEnabled = true;
+            resources.ApplyResources(this.RGPO1_3SBUSOUT, "RGPO1_3SBUSOUT");
+            this.RGPO1_3SBUSOUT.Name = "RGPO1_3SBUSOUT";
             // 
             // label50
             // 
@@ -1456,12 +1606,6 @@
             resources.ApplyResources(this.label38, "label38");
             this.label38.Name = "label38";
             // 
-            // RENCRYPTION_LEVEL
-            // 
-            resources.ApplyResources(this.RENCRYPTION_LEVEL, "RENCRYPTION_LEVEL");
-            this.RENCRYPTION_LEVEL.Name = "RENCRYPTION_LEVEL";
-            this.RENCRYPTION_LEVEL.CheckedChanged += new System.EventHandler(this.RENCRYPTION_LEVEL_CheckedChanged);
-            // 
             // txt_Raeskey
             // 
             resources.ApplyResources(this.txt_Raeskey, "txt_Raeskey");
@@ -1523,20 +1667,6 @@
             resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
             // 
-            // GPO1_3SBUSOUT
-            // 
-            this.GPO1_3SBUSOUT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.GPO1_3SBUSOUT, "GPO1_3SBUSOUT");
-            this.GPO1_3SBUSOUT.FormattingEnabled = true;
-            this.GPO1_3SBUSOUT.Name = "GPO1_3SBUSOUT";
-            // 
-            // RGPO1_3SBUSOUT
-            // 
-            this.RGPO1_3SBUSOUT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.RGPO1_3SBUSOUT.FormattingEnabled = true;
-            resources.ApplyResources(this.RGPO1_3SBUSOUT, "RGPO1_3SBUSOUT");
-            this.RGPO1_3SBUSOUT.Name = "RGPO1_3SBUSOUT";
-            // 
             // BUT_loadcustom
             // 
             resources.ApplyResources(this.BUT_loadcustom, "BUT_loadcustom");
@@ -1550,22 +1680,6 @@
             this.BUT_resettodefault.Name = "BUT_resettodefault";
             this.BUT_resettodefault.UseVisualStyleBackColor = true;
             this.BUT_resettodefault.Click += new System.EventHandler(this.BUT_resettodefault_Click);
-            // 
-            // BUT_SetPPMFailSafeRemote
-            // 
-            resources.ApplyResources(this.BUT_SetPPMFailSafeRemote, "BUT_SetPPMFailSafeRemote");
-            this.BUT_SetPPMFailSafeRemote.Name = "BUT_SetPPMFailSafeRemote";
-            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafeRemote, resources.GetString("BUT_SetPPMFailSafeRemote.ToolTip"));
-            this.BUT_SetPPMFailSafeRemote.UseVisualStyleBackColor = true;
-            this.BUT_SetPPMFailSafeRemote.Click += new System.EventHandler(this.BUT_SetPPMFailSafeRemote_Click);
-            // 
-            // BUT_SetPPMFailSafe
-            // 
-            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
-            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
-            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
-            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
-            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
             // 
             // BUT_savesettings
             // 
@@ -1594,50 +1708,6 @@
             this.BUT_Syncoptions.Name = "BUT_Syncoptions";
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
-            // 
-            // label43
-            // 
-            resources.ApplyResources(this.label43, "label43");
-            this.label43.Name = "label43";
-            // 
-            // GPO1_3STATLED
-            // 
-            resources.ApplyResources(this.GPO1_3STATLED, "GPO1_3STATLED");
-            this.GPO1_3STATLED.Name = "GPO1_3STATLED";
-            this.toolTip1.SetToolTip(this.GPO1_3STATLED, resources.GetString("GPO1_3STATLED.ToolTip"));
-            // 
-            // GPO1_0TXEN485
-            // 
-            resources.ApplyResources(this.GPO1_0TXEN485, "GPO1_0TXEN485");
-            this.GPO1_0TXEN485.Name = "GPO1_0TXEN485";
-            this.toolTip1.SetToolTip(this.GPO1_0TXEN485, resources.GetString("GPO1_0TXEN485.ToolTip"));
-            // 
-            // lbl245
-            // 
-            resources.ApplyResources(this.lbl245, "lbl245");
-            this.lbl245.Name = "lbl245";
-            // 
-            // RGPO1_0TXEN485
-            // 
-            resources.ApplyResources(this.RGPO1_0TXEN485, "RGPO1_0TXEN485");
-            this.RGPO1_0TXEN485.Name = "RGPO1_0TXEN485";
-            this.toolTip1.SetToolTip(this.RGPO1_0TXEN485, resources.GetString("RGPO1_0TXEN485.ToolTip"));
-            // 
-            // label44
-            // 
-            resources.ApplyResources(this.label44, "label44");
-            this.label44.Name = "label44";
-            // 
-            // RGPO1_3STATLED
-            // 
-            resources.ApplyResources(this.RGPO1_3STATLED, "RGPO1_3STATLED");
-            this.RGPO1_3STATLED.Name = "RGPO1_3STATLED";
-            this.toolTip1.SetToolTip(this.RGPO1_3STATLED, resources.GetString("RGPO1_3STATLED.ToolTip"));
-            // 
-            // label47
-            // 
-            resources.ApplyResources(this.label47, "label47");
-            this.label47.Name = "label47";
             // 
             // Sikradio
             // 
@@ -1728,7 +1798,6 @@
         private System.Windows.Forms.ComboBox MAX_RETRIES;
         private System.Windows.Forms.ComboBox MAX_DATA;
         private System.Windows.Forms.Label lblMAX_DATA;
-        private System.Windows.Forms.CheckBox ENCRYPTION_LEVEL;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.TextBox txt_aeskey;
@@ -1787,7 +1856,6 @@
         private System.Windows.Forms.ComboBox RMAX_DATA;
         private System.Windows.Forms.Label lblRMAX_DATA;
         private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.CheckBox RENCRYPTION_LEVEL;
         private System.Windows.Forms.TextBox txt_Raeskey;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.CheckBox RRTSCTS;
@@ -1830,5 +1898,7 @@
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.CheckBox RGPO1_3STATLED;
         private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.ComboBox ENCRYPTION_LEVEL;
+        private System.Windows.Forms.ComboBox RENCRYPTION_LEVEL;
     }
 }
