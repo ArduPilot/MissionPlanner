@@ -99,7 +99,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // mark missing
             prio.ForEach(a =>
             {
-                if (list.Any(b => b.DevID == a.DevID))
+                if (a.DevID == 0 || list.Any(b => b.DevID == a.DevID))
                     a.Missing = false;
                 else
                 {
