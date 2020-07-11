@@ -62,7 +62,9 @@ namespace MissionPlanner.Utilities
                     float maxr = (float) comPort.MAV.param["RC" + rollchannel + "_MAX"];
                     float minroll = (float) comPort.MAV.param["MNT_ANGMIN_ROL"];
                     float maxroll = (float) comPort.MAV.param["MNT_ANGMAX_ROL"];
-                    float revr = (float) comPort.MAV.param["RC" + rollchannel + "_REV"];
+                    float revr = comPort.MAV.param.ContainsKey("RC" + rollchannel + "_REV")
+                        ? (float) comPort.MAV.param["RC" + rollchannel + "_REV"]
+                        : (float) comPort.MAV.param["RC" + rollchannel + "_REVERSED"];
 
                     return angle_input(revr != 1, pwmvalue, minr, maxr, minroll, maxroll)/100.0;
 
@@ -72,7 +74,9 @@ namespace MissionPlanner.Utilities
                     float maxp = (float) comPort.MAV.param["RC" + pitchchannel + "_MAX"];
                     float minpitch = (float) comPort.MAV.param["MNT_ANGMIN_TIL"];
                     float maxpitch = (float) comPort.MAV.param["MNT_ANGMAX_TIL"];
-                    float revp = (float) comPort.MAV.param["RC" + pitchchannel + "_REV"];
+                    float revp = comPort.MAV.param.ContainsKey("RC" + pitchchannel + "_REV")
+                        ? (float)comPort.MAV.param["RC" + pitchchannel + "_REV"]
+                        : (float)comPort.MAV.param["RC" + pitchchannel + "_REVERSED"];
 
 
                     return angle_input(revp != 1, pwmvalue, minp, maxp, minpitch, maxpitch)/100.0;
@@ -83,7 +87,9 @@ namespace MissionPlanner.Utilities
                     float maxy = (float) comPort.MAV.param["RC" + yawchannel + "_MAX"];
                     float minyaw = (float) comPort.MAV.param["MNT_ANGMIN_PAN"];
                     float maxyaw = (float) comPort.MAV.param["MNT_ANGMAX_PAN"];
-                    float revy = (float) comPort.MAV.param["RC" + yawchannel + "_REV"];
+                    float revy = comPort.MAV.param.ContainsKey("RC" + yawchannel + "_REV")
+                        ? (float)comPort.MAV.param["RC" + yawchannel + "_REV"]
+                        : (float)comPort.MAV.param["RC" + yawchannel + "_REVERSED"];
 
                     return angle_input(revy != 1, pwmvalue, miny, maxy, minyaw, maxyaw)/100.0;
             }

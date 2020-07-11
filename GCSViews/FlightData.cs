@@ -3076,13 +3076,15 @@ namespace MissionPlanner.GCSViews
                                     {
                                         overlay.CreateOverlay(homeplla,
                                             mission_items,
-                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt, CurrentState.multiplieralt);
+                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
+                                            CurrentState.multiplieralt);
                                     }
                                     else
                                     {
                                         overlay.CreateOverlay(homeplla,
                                             mission_items,
-                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt, CurrentState.multiplieralt);
+                                            0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
+                                            CurrentState.multiplieralt);
 
                                     }
                                 }
@@ -3144,7 +3146,8 @@ namespace MissionPlanner.GCSViews
                             fenceoverlay.overlay.Id = "fence";
 
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
-                                MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0, CurrentState.multiplieralt);
+                                MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
+                                CurrentState.multiplieralt);
 
                             var fence = mymap.Overlays.Where(a => a.Id == "fence");
                             if (fence.Count() > 0)
@@ -3192,6 +3195,7 @@ namespace MissionPlanner.GCSViews
                         }
 
                         // add gimbal point center
+
                         try
                         {
                             if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_TILT")
@@ -3223,7 +3227,14 @@ namespace MissionPlanner.GCSViews
                                     }
                                 }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
 
+                        try
+                        {
 
                             // cleanup old - no markers where added, so remove all old 
                             if (MainV2.comPort.MAV.camerapoints.Count < photosoverlay.Markers.Count)
