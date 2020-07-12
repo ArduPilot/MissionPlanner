@@ -91,7 +91,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 .OrderBy((a) => a.ParamName).ToList();
 
             // COMPASS_PRIO get a list of all prios
-            var prio = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_PRIO"))
+            var prio = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_PRIO") && a.Value != 0)
                 .Select((a, b) => new CompassDeviceInfo(b, a.Name, (uint)a.Value))
                 .OrderBy((a) => a.ParamName).ToList();
 
