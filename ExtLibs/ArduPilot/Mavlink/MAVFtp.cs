@@ -908,6 +908,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode + " " + file);
             var timeout = new RetryTimeout();
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
@@ -992,6 +993,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode + " " + file);
             var timeout = new RetryTimeout();
             size = -1;
             var localsize = size;
@@ -1064,7 +1066,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public List<FtpFileInfo> kCmdListDirectory(string dir, CancellationTokenSource cancel)
         {
-            log.Info("kCmdListDirectory: " + dir);
             List <FtpFileInfo> answer = new List<FtpFileInfo>();
             fileTransferProtocol.target_system = _sysid;
             fileTransferProtocol.target_component = _compid;
@@ -1077,6 +1078,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 offset = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode + " " + dir);
             Progress?.Invoke(dir + " Listing", 0);
             var timeout = new RetryTimeout(5);
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL,
@@ -1413,6 +1415,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode + " " + file);
             var timeout = new RetryTimeout();
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
@@ -1489,6 +1492,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode + " " + file);
             var timeout = new RetryTimeout();
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
@@ -1564,6 +1568,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode + " " + src + " to " + dest);
             var timeout = new RetryTimeout();
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
@@ -1629,6 +1634,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode);
             RetryTimeout timeout = new RetryTimeout();
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
@@ -1678,6 +1684,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode );
             RetryTimeout timeout = new RetryTimeout();
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
@@ -1731,6 +1738,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
+            log.Info("get " + payload.opcode + " " + file);
             var timeout = new RetryTimeout();
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
@@ -1799,7 +1807,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 session = 0
             };
             fileTransferProtocol.payload = payload;
-            log.Info("get " + payload.opcode + " " + friendlyname + " ");
+            log.Info("get " + payload.opcode + " " + friendlyname + " at " + destoffset);
 
             {
                 var size = data.Length;
