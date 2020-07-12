@@ -301,13 +301,13 @@
     <value>107, 322</value>
   </data>
   <data name="CHK_GDIPlus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 17</value>
+    <value>220, 17</value>
   </data>
   <data name="CHK_GDIPlus.TabIndex" type="System.Int32, mscorlib">
     <value>85</value>
   </data>
   <data name="CHK_GDIPlus.Text" xml:space="preserve">
-    <value>GDI+ (old type)</value>
+    <value>GDI+ (old type/no HW acceleration)</value>
   </data>
   <data name="&gt;&gt;CHK_GDIPlus.Name" xml:space="preserve">
     <value>CHK_GDIPlus</value>
@@ -499,13 +499,13 @@
     <value>107, 250</value>
   </data>
   <data name="CHK_resetapmonconnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>163, 17</value>
+    <value>217, 17</value>
   </data>
   <data name="CHK_resetapmonconnect.TabIndex" type="System.Int32, mscorlib">
     <value>46</value>
   </data>
   <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
-    <value>Reset on USB Connect</value>
+    <value>Reset on USB Connect (toggle DTR)</value>
   </data>
   <data name="&gt;&gt;CHK_resetapmonconnect.Name" xml:space="preserve">
     <value>CHK_resetapmonconnect</value>

@@ -219,8 +219,6 @@
             // 
             // CHK_resetapmonconnect
             // 
-            this.CHK_resetapmonconnect.Checked = true;
-            this.CHK_resetapmonconnect.CheckState = System.Windows.Forms.CheckState.Checked;
             resources.ApplyResources(this.CHK_resetapmonconnect, "CHK_resetapmonconnect");
             this.CHK_resetapmonconnect.Name = "CHK_resetapmonconnect";
             this.CHK_resetapmonconnect.UseVisualStyleBackColor = true;
