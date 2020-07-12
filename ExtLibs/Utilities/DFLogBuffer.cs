@@ -208,6 +208,8 @@ namespace MissionPlanner.Utilities
 
             foreach (var b in InstanceType)
             {
+                if(!FMT.ContainsKey(b.Key))
+                    continue;
                 int a = 0;
                 foreach (var item in GetEnumeratorType(FMT[b.Key].name))
                 {
