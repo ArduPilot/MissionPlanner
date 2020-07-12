@@ -721,7 +721,7 @@ namespace MissionPlanner.Log
             // Set the titles and axis labels
             myPane.Title.Text = "Value Graph";
             myPane.XAxis.Title.Text = "Line Number";
-            myPane.YAxis.Title.Text = "Output";
+            myPane.YAxis.Title.Text = "";
 
             // Show the x axis grid
             myPane.XAxis.MajorGrid.IsVisible = true;
@@ -913,7 +913,7 @@ namespace MissionPlanner.Log
                 List<Tuple<DFLog.DFItem, double>> list1 = null;
                 try
                 {
-                    list1 = TestPython(dflog, logdata, type);
+                    list1 = TestPython(dflog, logdata, type.Replace(":2", ""));
                 }
                 catch (Exception ex)
                 {
@@ -1175,7 +1175,54 @@ namespace MissionPlanner.Log
             myCurve = zg1.GraphPane.AddCurve(type + (instance != "" ? "[" + instance + "]" : "") + "." + header, list1,
                 pickColour(), SymbolType.None);
 
+            var rightclick = !left;
+
+            var index = zg1.GraphPane.YAxisList.IndexOf(unit);
+
+            var index2 = zg1.GraphPane.Y2AxisList.IndexOf(unit);
+
+            if (index != -1 && !rightclick)
+            {
+                myCurve.YAxisIndex = index;
+                myCurve.GetYAxis(zg1.GraphPane).IsVisible = true;
+            }
+            else if (index2 != -1 && rightclick)
+            {
+                myCurve.IsY2Axis = true;
+                myCurve.YAxisIndex = index2;
+                myCurve.GetYAxis(zg1.GraphPane).IsVisible = true;
+            }
+            else
+            {
+                if (rightclick)
+                {
+                    index = zg1.GraphPane.AddY2Axis(unit);
+                    myCurve.IsY2Axis = true;
+                    myCurve.YAxisIndex = index;
+                }
+                else
+                {
+                    index = zg1.GraphPane.AddYAxis(unit);
+                    myCurve.YAxisIndex = index;
+                }
+
+                // Make the Y axis scale red
+                myCurve.GetYAxis(zg1.GraphPane).Scale.FontSpec.FontColor = Color.Red;
+                myCurve.GetYAxis(zg1.GraphPane).Title.FontSpec.FontColor = Color.Red;
+                // turn off the opposite tics so the Y tics don't show up on the Y2 axis
+                myCurve.GetYAxis(zg1.GraphPane).MajorTic.IsOpposite = false;
+                myCurve.GetYAxis(zg1.GraphPane).MinorTic.IsOpposite = false;
+                // Don't display the Y zero line
+                myCurve.GetYAxis(zg1.GraphPane).MajorGrid.IsZeroLine = true;
+                // Align the Y axis labels so they are flush to the axis
+                myCurve.GetYAxis(zg1.GraphPane).Scale.Align = AlignP.Inside;
+
+                myCurve.GetYAxis(zg1.GraphPane).Title.FontSpec.Size = 10;
+            }
+
             leftorrightaxis(left, myCurve);
+
+            CleanupYAxis();
 
             // Make sure the Y axis is rescaled to accommodate actual data
             try
@@ -1194,6 +1241,36 @@ namespace MissionPlanner.Log
             // Force a redraw
             zg1.Refresh();
             Loading.Close();
+        }
+
+        private void CleanupYAxis()
+        {
+            try
+            {
+                // cleanup the displayed yaxis list
+                var ylist = zg1.GraphPane.YAxisList;
+                var y2list = zg1.GraphPane.Y2AxisList;
+                var curvelist = zg1.GraphPane.CurveList;
+
+                ylist.Where(axis =>
+                {
+                    if (curvelist.Select(a => a.GetYAxis(zg1.GraphPane)).Any(a => a == axis))
+                        return false;
+                    axis.IsVisible = false;
+                    return false;
+                }).ToList();
+
+                y2list.Where(axis =>
+                {
+                    if (curvelist.Select(a => a.GetYAxis(zg1.GraphPane)).Any(a => a == axis))
+                        return false;
+                    axis.IsVisible = false;
+                    return false;
+                }).ToList();
+            }
+            catch
+            {
+            }
         }
 
         async Task DrawErrors()
@@ -2570,6 +2647,7 @@ namespace MissionPlanner.Log
                         zg1.GraphPane.CurveList.Remove(item);
                 }
 
+                CleanupYAxis();
                 zg1.AxisChange();
                 zg1.Invalidate();
             }
@@ -2989,7 +3067,7 @@ namespace MissionPlanner.Log
                 zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
                 zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
                 zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
-                zg1.GraphPane.YAxis.Title.Text = "Output";
+                zg1.GraphPane.YAxis.Title.Text = "";
                 zg1.PointDateFormat = "HH:mm:ss.fff";
             }
             else
@@ -3000,9 +3078,10 @@ namespace MissionPlanner.Log
                 zg1.GraphPane.XAxis.Scale.MagAuto = false;
                 zg1.GraphPane.Title.Text = "Value Graph";
                 zg1.GraphPane.XAxis.Title.Text = "Line Number";
-                zg1.GraphPane.YAxis.Title.Text = "Output";
+                zg1.GraphPane.YAxis.Title.Text = "";
             }
 
+            CleanupYAxis();
             zg1.AxisChange();
             zg1.Invalidate();
         }
