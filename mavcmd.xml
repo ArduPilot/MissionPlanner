@@ -631,15 +631,15 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_DISTANCE>
-    <CONDITION_YAW>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+    <SET_YAW_SPEED>
+      <P1>angle(CD)</P1>
+      <P2>Speed(0..1)</P2>
+      <P3>0=Abs,1=Rel</P3>
       <P4></P4>
       <X></X>
       <Y></Y>
       <Z></Z>
-    </CONDITION_YAW>
+    </SET_YAW_SPEED>
     <DELAY>
       <P1>Seconds (or -1)</P1>
       <P2>Hour UTC (or -1)</P2>
