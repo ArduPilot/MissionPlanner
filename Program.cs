@@ -39,8 +39,17 @@ namespace MissionPlanner
             get { return Application.ExecutablePath.Contains("WindowsApps"); }
         }
 
+        /// <summary>
+        /// MissionPlanner text image
+        /// </summary>
         public static Image Logo = null;
+        /// <summary>
+        /// Ardupilot logo
+        /// </summary>
         public static Image Logo2 = null;
+        /// <summary>
+        /// icon
+        /// </summary>
         public static Image IconFile = null;
 
         public static Splash Splash;

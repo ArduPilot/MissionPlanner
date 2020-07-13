@@ -14,7 +14,8 @@ namespace MissionPlanner.Utilities
     public enum DisplayNames
     {
         Basic,
-        Advanced
+        Advanced,
+        Custom
     }
     [Serializable]
     public class DisplayView
@@ -180,7 +181,6 @@ namespace MissionPlanner.Utilities
             result = new DisplayView();
             var serializer = new XmlSerializer(result.GetType());
 
-
             using (TextReader reader = new StringReader(value))
             {
                 try
@@ -190,12 +190,24 @@ namespace MissionPlanner.Utilities
                 }
                 catch (Exception)
                 {
+                    try
+                    {
+                        result = value.FromJSON<DisplayView>();
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+
                     return false;
                 }
             }
         }
         public static string ConvertToString(this DisplayView v)
         {
+            return v.ToJSON();
+
             XmlSerializer xmlSerializer = new XmlSerializer(v.GetType());
             using (StringWriter textWriter = new StringWriter())
             {
@@ -358,6 +370,21 @@ namespace MissionPlanner.Utilities
                 autoHideMenuForce = false,
                 isAdvancedMode = true
             };
+        }
+
+        public static string custompath = Settings.GetRunningDirectory() + Path.DirectorySeparatorChar + "custom.displayview";
+
+        public static DisplayView Custom(this DisplayView v)
+        {
+            var result = new DisplayView().Advanced();
+
+            if (File.Exists(custompath) && TryParse(File.ReadAllText(custompath), out result))
+            {
+                result.displayName = DisplayNames.Custom;
+                return result;
+            }
+
+            return result;
         }
     }
 }

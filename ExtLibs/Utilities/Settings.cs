@@ -383,7 +383,7 @@ namespace MissionPlanner.Utilities
 
                 xmlwriter.WriteStartElement("Config");
 
-                foreach (string key in config.Keys)
+                foreach (string key in config.Keys.OrderBy(a=>a))
                 {
                     try
                     {

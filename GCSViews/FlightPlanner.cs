@@ -311,6 +311,8 @@ namespace MissionPlanner.GCSViews
 
             updateCMDParams();
 
+            updateDisplayView();
+
             try
             {
                 int.Parse(TXT_DefaultAlt.Text);
@@ -3245,7 +3247,6 @@ namespace MissionPlanner.GCSViews
             }
 
             Visible = true;
-            updateDisplayView();
 
             timer1.Start();
         }

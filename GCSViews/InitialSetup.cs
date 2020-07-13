@@ -152,10 +152,15 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigAccelerometerCalibration), rm.GetString("backstageViewPageaccel.Text"), isConnected && gotAllParams, mand);
             }
 
-            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIO1_ID"))
-                AddBackstageViewPage(typeof(ConfigHWCompass2), rm.GetString("backstageViewPagecompass.Text"), isConnected && gotAllParams, mand);
-            else
-                AddBackstageViewPage(typeof(ConfigHWCompass), rm.GetString("backstageViewPagecompass.Text"), isConnected && gotAllParams, mand);
+            if (MainV2.DisplayConfiguration.displayCompassConfiguration)
+            {
+                if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIO1_ID"))
+                    AddBackstageViewPage(typeof(ConfigHWCompass2), rm.GetString("backstageViewPagecompass.Text"),
+                        isConnected && gotAllParams, mand);
+                else
+                    AddBackstageViewPage(typeof(ConfigHWCompass), rm.GetString("backstageViewPagecompass.Text"),
+                        isConnected && gotAllParams, mand);
+            }
 
             if (MainV2.DisplayConfiguration.displayRadioCalibration)
             {
@@ -255,11 +260,14 @@ namespace MissionPlanner.GCSViews
 
             AddBackstageViewPage(typeof(ConfigFFT), "FFT Setup", isConnected && gotAllParams, opt);
 
-            var adv = AddBackstageViewPage(typeof(ConfigAdvanced), "Advanced");
+            if (MainV2.DisplayConfiguration.isAdvancedMode)
+            {
+                var adv = AddBackstageViewPage(typeof(ConfigAdvanced), "Advanced");
 
-            AddBackstageViewPage(typeof(GCSViews.ConfigTerminal), "Terminal", true, adv);
+                AddBackstageViewPage(typeof(GCSViews.ConfigTerminal), "Terminal", true, adv);
 
-            AddBackstageViewPage(typeof(ConfigREPL), "Script REPL", isConnected, adv);
+                AddBackstageViewPage(typeof(ConfigREPL), "Script REPL", isConnected, adv);
+            }
 
             // remeber last page accessed
             foreach (BackstageViewPage page in backstageView.Pages)

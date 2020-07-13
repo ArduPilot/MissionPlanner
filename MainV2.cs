@@ -331,7 +331,9 @@ namespace MissionPlanner
 
         Controls.MainSwitcher MyView;
 
-        private static DisplayView _displayConfiguration = new DisplayView().Advanced();
+        private static DisplayView _displayConfiguration = File.Exists(DisplayViewExtensions.custompath)
+            ? new DisplayView().Custom()
+            : new DisplayView().Advanced();
 
         public static event EventHandler LayoutChanged;
 
