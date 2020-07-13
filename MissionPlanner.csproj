@@ -4400,6 +4400,12 @@
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="quaternion.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="rotmat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="plugins\example.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

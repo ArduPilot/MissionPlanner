@@ -24,6 +24,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using IronPython.Runtime;
+using Microsoft.Scripting.Hosting;
 using ZedGraph; // Graphs
 
 [assembly: ExtensionType(typeof(Dictionary<string, object>), typeof(LogBrowse.ext))]
@@ -980,23 +982,93 @@ namespace MissionPlanner.Log
                     ans[fieldName] = 0;
                 }
 
-                scope.SetVariable(logformatKey, ans);
+                //scope.SetVariable(logformatKey, ans);
             }
-
-            var script = engine.CreateScriptSourceFromString("from mavextra import *;\r\n" + expression);
 
             List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
 
+            scope.SetVariable("answer", answer);
 
-            foreach (var line in logdata.GetEnumeratorType(expression.Split(new char[] { '(', ')', ',', ' ', '.' },
-                StringSplitOptions.RemoveEmptyEntries)))
+            scope.SetVariable("logdata", logdata);
+
+            var exp = "[" + expression
+                .Split(new char[] {'(', ')', ',', ' ', '.', '-', '+', '*', '/'},
+                    StringSplitOptions.RemoveEmptyEntries).Where(a => dflog.logformat.Keys.Any(b => a == b))
+                .Aggregate("", (a, b) => a + ",\"" + b + "\"").TrimStart(',') + "]";
+
+            var scriptsrc = String.Format(@"
+import clr
+import sys
+import os
+import System
+clr.AddReference('MissionPlanner.Utilities')
+from MissionPlanner.Utilities import DFLog
+from math import *
+from mavextra import *
+from rotmat import *
+
+exp_as_func = eval('lambda: ' + ""{1}"")
+
+class AttrDict(dict):
+    def __init__(self, *args, **kwargs):
+        super(AttrDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
+def evaluate_expression():
+    '''evaluation an expression'''
+    try:
+        v = exp_as_func()
+    except NameError as ne:
+        print ne
+        return None
+    except ZeroDivisionError:
+        print ZeroDivisionError
+        return None
+    except IndexError:
+        print IndexError
+        return None
+    return v
+
+def main():
+    vars = {{}}
+    a=0
+    for line in logdata.GetEnumeratorType(System.Array[System.String]({0})):
+        globals()[line.msgtype] = AttrDict(line.ToDictionary())
+        v = evaluate_expression()
+        a += 1
+        if (a % 10000) == 0:
+            print a
+        if v is not None:
+            answer.Add(System.Tuple[DFLog.DFItem, float](line, v))
+
+main()
+", exp, expression.Replace("\"", "\\\""));
+
+            var script = engine.CreateScriptSourceFromString(scriptsrc);
+
+            Loading.ShowLoading("Processing via Python", this);
+
+            try
             {
-                if (expression.Contains(line.msgtype))
+                script.Execute(scope);
+            }
+            catch (Exception ex)
+            {
+                log.Error(engine.GetService<ExceptionOperations>().FormatException(ex));
+                throw;
+            }
+
+            if (false)
+            {
+                foreach (var line in logdata.GetEnumeratorType(exp))
                 {
-                    var dict = line.ToDictionary();
-                    scope.SetVariable(line.msgtype, dict);
-                    var result = script.Execute(scope);
-                    answer.Add(line, (double)result);
+                    if (expression.Contains(line.msgtype))
+                    {
+                        var dict = line.ToDictionary();
+                        scope.SetVariable(line.msgtype, dict);
+                        var result = script.Execute(scope);
+                        answer.Add(line, (double) result);
+                    }
                 }
             }
 
