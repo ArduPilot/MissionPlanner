@@ -93,6 +93,7 @@ namespace ModeChange
                     if (!inchange)
                         MainV2.instance.BeginInvokeIfRequired(() =>
                         {
+                            modecmb.Enabled = true;
                             modecmb.Text = MainV2.comPort.MAV.cs.mode;
                         });
                 }
