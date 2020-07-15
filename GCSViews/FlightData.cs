@@ -3000,8 +3000,10 @@ namespace MissionPlanner.GCSViews
                             list10.Add(time, (list10item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                     }
 
-                    // update map
-                    if (tracklast.AddSeconds(Settings.Instance.GetDouble("FD_MapUpdateDelay", 0.3)) < DateTime.Now)
+                    // update map - 0.3sec if connected , 2 sec if not connected
+                    if (((MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode) && 
+                         tracklast.AddSeconds(Settings.Instance.GetDouble("FD_MapUpdateDelay", 0.3)) < DateTime.Now) ||
+                        tracklast.AddSeconds(2) < DateTime.Now)
                     {
                         // show disable joystick button
                         if (MainV2.joystick != null && MainV2.joystick.enabled)
