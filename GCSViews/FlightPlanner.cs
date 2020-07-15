@@ -3024,7 +3024,7 @@ namespace MissionPlanner.GCSViews
         {
             writeKML();
             double homealt = MainV2.comPort.MAV.cs.HomeAlt;
-            Form temp = new ElevationProfile(pointlist, homealt);
+            Form temp = new ElevationProfile(pointlist, homealt, (altmode)Enum.Parse(typeof(altmode), CMB_altmode.Text));
             ThemeManager.ApplyThemeTo(temp);
             temp.ShowDialog();
         }

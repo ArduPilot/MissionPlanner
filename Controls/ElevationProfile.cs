@@ -24,7 +24,7 @@ namespace MissionPlanner
         double homealt = 0;
         FlightPlanner.altmode altmode = FlightPlanner.altmode.Relative;
 
-        public ElevationProfile(List<PointLatLngAlt> locs, double homealt)
+        public ElevationProfile(List<PointLatLngAlt> locs, double homealt, FlightPlanner.altmode altmode)
         {
             InitializeComponent();
 
@@ -286,7 +286,7 @@ namespace MissionPlanner
             LineItem myCurve;
 
             myCurve = myPane.AddCurve("Planned Path", list1, Color.Red, SymbolType.None);
-            //myCurve = myPane.AddCurve("Google", list2, Color.Green, SymbolType.None);
+            myCurve = myPane.AddCurve("Google", list2, Color.Green, SymbolType.None);
             myCurve = myPane.AddCurve("DEM", list3, Color.Blue, SymbolType.None);
 
             foreach (PointPair pp in list1)
