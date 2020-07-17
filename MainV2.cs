@@ -1640,9 +1640,17 @@ namespace MissionPlanner
                                     comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported =
                                         mavlist.Count;
                                     comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
+                                    var gen = new MAVLink.MavlinkParse();
                                     mavlist.ForEach(a =>
+                                    {
                                         comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] =
-                                            a.Type);
+                                            a.Type;
+                                        MainV2.comPort.SaveToTlog(gen.GenerateMAVLinkPacket10(
+                                            MAVLink.MAVLINK_MSG_ID.PARAM_VALUE,
+                                            new MAVLink.mavlink_param_value_t(a.float_value, (ushort)mavlist.Count, 0,
+                                                a.Name.MakeBytesSize(16), (byte)a.Type)));
+                                    });
+
                                     ftpfile = true;
                                 }
                             }

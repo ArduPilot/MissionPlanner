@@ -1151,24 +1151,35 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 try
                 {
-                    if (logfile != null && logfile.CanWrite)
-                    {
-                        lock (logfile)
-                        {
-                            byte[] datearray =
-                                BitConverter.GetBytes(
-                                    (UInt64)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000));
-                            Array.Reverse(datearray);
-                            logfile.Write(datearray, 0, datearray.Length);
-                            logfile.Write(packet, 0, i);
-                        }
-                    }
+                    SaveToTlog(new Span<byte>(packet, 0, i));
 
                     _OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
                 }
                 catch
                 {
                 }
+            }
+        }
+
+        public void SaveToTlog(Span<byte> packet)
+        {
+            try
+            {
+                if (logfile != null && logfile.CanWrite && !logreadmode)
+                {
+                    lock (logfile)
+                    {
+                        byte[] datearray =
+                            BitConverter.GetBytes(
+                                (UInt64) ((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds * 1000));
+                        Array.Reverse(datearray);
+                        logfile.Write(datearray, 0, datearray.Length);
+                        logfile.Write(packet.ToArray(), 0, packet.Length);
+                    }
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -4593,18 +4604,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                     try
                     {
-                        if (logfile != null && logfile.CanWrite && !logreadmode)
+                        SaveToTlog(new Span<byte>(buffer));
+
+                        if (logfile != null)
                         {
                             lock (logfile)
                             {
-                                byte[] datearray =
-                                    BitConverter.GetBytes(
-                                        (UInt64)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds *
-                                                  1000));
-                                Array.Reverse(datearray);
-                                logfile.Write(datearray, 0, datearray.Length);
-                                logfile.Write(buffer, 0, buffer.Length);
-
                                 if (msgid == 0)
                                 {
                                     // flush on heartbeat - 1 seconds
