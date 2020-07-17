@@ -282,11 +282,11 @@ namespace MissionPlanner.Controls
             }
         }
 
-        public string distunit { get; set; }
+        public string distunit { get; set; } = "";
 
-        public string speedunit { get; set; }
+        public string speedunit { get; set; } = "";
 
-        public string altunit { get; set; }
+        public string altunit { get; set; } = "";
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float alt
@@ -630,7 +630,7 @@ namespace MissionPlanner.Controls
         public bool status { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public string message { get; set; }
+        public string message { get; set; } = "";
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float vibex { get; set; }
