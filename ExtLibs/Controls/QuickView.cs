@@ -22,7 +22,20 @@ namespace MissionPlanner.Controls
         double _number = -9999;
 
         [System.ComponentModel.Browsable(true)]
-        public double number { get { return _number; } set { if (_number == value) return; _number = value; Invalidate(); } }
+        public double number
+        {
+            get { return _number; }
+            set
+            {
+                lock (this)
+                {
+                    if (_number.Equals(value))
+                        return;
+                    _number = value;
+                    Invalidate();
+                }
+            }
+        }
 
         string _numberformat = "0.00";
         private string _desc = "";
