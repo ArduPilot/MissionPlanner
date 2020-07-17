@@ -1204,6 +1204,7 @@ namespace MissionPlanner
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).CallSign = adsb.CallSign;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Squawk = adsb.Squawk;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Raw = adsb.Raw;
+                    ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Speed = adsb.Speed;
                 }
                 else
                 {
