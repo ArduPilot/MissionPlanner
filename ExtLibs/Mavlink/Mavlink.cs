@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Mon Jun 29 2020";
+    public const string MAVLINK_BUILD_DATE = "Fri Jul 17 2020";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -246,7 +246,7 @@ public partial class MAVLink
         new message_info(335, "ISBD_LINK_STATUS", 225, 24, 24, typeof( mavlink_isbd_link_status_t )),
         new message_info(350, "DEBUG_FLOAT_ARRAY", 232, 20, 252, typeof( mavlink_debug_float_array_t )),
         new message_info(365, "STATUSTEXT_LONG", 36, 255, 255, typeof( mavlink_statustext_long_t )),
-        new message_info(373, "GENERATOR_STATUS", 192, 34, 34, typeof( mavlink_generator_status_t )),
+        new message_info(373, "GENERATOR_STATUS", 117, 42, 42, typeof( mavlink_generator_status_t )),
         new message_info(375, "ACTUATOR_OUTPUT_STATUS", 251, 140, 140, typeof( mavlink_actuator_output_status_t )),
         new message_info(9000, "WHEEL_DISTANCE", 113, 137, 137, typeof( mavlink_wheel_distance_t )),
         new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
@@ -2001,6 +2001,9 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         QAUTOTUNE=22, 
+        ///<summary>  | </summary>
+        [Description("")]
+        QACRO=23, 
     
     };
     
@@ -2064,6 +2067,21 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         SMART_RTL=21, 
+        ///<summary>  | </summary>
+        [Description("")]
+        FLOWHOLD=22, 
+        ///<summary>  | </summary>
+        [Description("")]
+        FOLLOW=23, 
+        ///<summary>  | </summary>
+        [Description("")]
+        ZIGZAG=24, 
+        ///<summary>  | </summary>
+        [Description("")]
+        SYSTEMID=25, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AUTOROTATE=26, 
     
     };
     
@@ -2118,6 +2136,12 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         LOITER=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        FOLLOW=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        SIMPLE=7, 
         ///<summary>  | </summary>
         [Description("")]
         AUTO=10, 
@@ -3929,6 +3953,12 @@ public partial class MAVLink
         ///<summary> Generator requires maintenance. | </summary>
         [Description("Generator requires maintenance.")]
         MAINTENANCE_REQUIRED=1048576, 
+        ///<summary> Generator is not ready to generate yet. | </summary>
+        [Description("Generator is not ready to generate yet.")]
+        WARMING_UP=2097152, 
+        ///<summary> Generator is idle. | </summary>
+        [Description("Generator is idle.")]
+        IDLE=4194304, 
     
     };
     
@@ -16056,11 +16086,11 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> Telemetry of power generation system. Alternator or mechanical generator. </summary>
     public struct mavlink_generator_status_t
     {
-        public mavlink_generator_status_t(/*MAV_GENERATOR_STATUS_FLAG*/ulong status,float battery_current,float load_current,float power_generated,float bus_voltage,float bat_current_setpoint,ushort generator_speed,short rectifier_temperature,short generator_temperature) 
+        public mavlink_generator_status_t(/*MAV_GENERATOR_STATUS_FLAG*/ulong status,float battery_current,float load_current,float power_generated,float bus_voltage,float bat_current_setpoint,uint runtime,int time_until_maintenance,ushort generator_speed,short rectifier_temperature,short generator_temperature) 
         {
               this.status = status;
               this.battery_current = battery_current;
@@ -16068,6 +16098,8 @@ public partial class MAVLink
               this.power_generated = power_generated;
               this.bus_voltage = bus_voltage;
               this.bat_current_setpoint = bat_current_setpoint;
+              this.runtime = runtime;
+              this.time_until_maintenance = time_until_maintenance;
               this.generator_speed = generator_speed;
               this.rectifier_temperature = rectifier_temperature;
               this.generator_temperature = generator_temperature;
@@ -16097,6 +16129,14 @@ public partial class MAVLink
         [Units("[A]")]
         [Description("The target battery current. Positive for out. Negative for in. NaN: field not provided")]
         public  float bat_current_setpoint;
+            /// <summary>Seconds this generator has run since it was rebooted. UINT32_MAX: field not provided.  [s] </summary>
+        [Units("[s]")]
+        [Description("Seconds this generator has run since it was rebooted. UINT32_MAX: field not provided.")]
+        public  uint runtime;
+            /// <summary>Seconds until this generator requires maintenance.  A negative value indicates maintenance is past-due. INT32_MAX: field not provided.  [s] </summary>
+        [Units("[s]")]
+        [Description("Seconds until this generator requires maintenance.  A negative value indicates maintenance is past-due. INT32_MAX: field not provided.")]
+        public  int time_until_maintenance;
             /// <summary>Speed of electrical generator or alternator. UINT16_MAX: field not provided.  [rpm] </summary>
         [Units("[rpm]")]
         [Description("Speed of electrical generator or alternator. UINT16_MAX: field not provided.")]
