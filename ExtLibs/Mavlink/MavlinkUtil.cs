@@ -197,6 +197,34 @@ public static class MavlinkUtil
     /// <remarks>Note - assumes little endian host order</remarks>
     public static byte[] StructureToByteArray(object obj)
     {
+        try
+        {
+            // fix's byte arrays that are too short or too long
+            obj.GetType().GetFields()
+                .Where(a => a.FieldType.IsArray && a.FieldType.UnderlyingSystemType == typeof(byte[]))
+                .Where(a =>
+                {
+                    var attributes = a.GetCustomAttributes(typeof(MarshalAsAttribute), false);
+                    if (attributes.Length > 0)
+                    {
+                        MarshalAsAttribute marshal = (MarshalAsAttribute) attributes[0];
+                        int sizeConst = marshal.SizeConst;
+                        var data = ((byte[]) a.GetValue(obj));
+                        if (data == null)
+                        {
+                            data = new byte[sizeConst];
+                        }
+                        else if (data.Length != sizeConst)
+                        {
+                            Array.Resize(ref data, sizeConst);
+                            a.SetValue(obj, data);
+                        }
+                    }
+
+                    return false;
+                }).ToList();
+        } catch {}
+
         int len = Marshal.SizeOf(obj);
         byte[] arr = new byte[len];
         IntPtr ptr = Marshal.AllocHGlobal(len);
