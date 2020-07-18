@@ -94,7 +94,7 @@ namespace MissionPlanner.Controls
 
         public List<Locationwp> WPs { get; set; }
 
-        public OpenGLtest2() : base(new GraphicsMode(32, 24, 0, 2))
+        public OpenGLtest2() : base()
         {
             instance = this;
             InitializeComponent();
@@ -106,12 +106,6 @@ namespace MissionPlanner.Controls
             prj = type.Projection;
             LocationCenter = LocationCenter.newpos(0, 0.1);
             this.Invalidate();
-            _imageloaderThread = new Thread(imageLoader)
-            {
-                IsBackground = true,
-                Name = "gl imageLoader"
-            };
-            _imageloaderThread.Start();
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e)
@@ -280,10 +274,11 @@ namespace MissionPlanner.Controls
             core.Zoom = minzoom;
             GMaps.Instance.CacheOnIdleRead = false;
             GMaps.Instance.BoostCacheEngine = true;
-            while (started == false)
-                Thread.Sleep(20);
             // shared context
-            IMGContext = new GraphicsContext(this.GraphicsMode, this.WindowInfo);
+            var win = new OpenTK.GameWindow(640, 480, Context.GraphicsMode);
+            win.Visible = false;
+            IMGContext = win.Context;
+
             while (!this.IsDisposed)
             {
                 if (sizeChanged)
@@ -331,7 +326,7 @@ namespace MissionPlanner.Controls
         private Thread _imageloaderThread;
         private int mousex;
         private int mousey;
-        private GraphicsContext IMGContext;
+        private IGraphicsContext IMGContext;
         private bool started;
         private bool onpaintrun;
         private bool sizeChanged;
@@ -642,7 +637,7 @@ namespace MissionPlanner.Controls
                     area2.Inflate(Math.Abs(_center.Lat - offset.Lat), Math.Abs(_center.Lng - offset.Lng));
                     var extratile = 0;
                     if (a == minzoom)
-                        extratile = 1;
+                        extratile = 4;
                     var tiles = new tileZoomArea()
                     {
                         zoom = a,
@@ -986,6 +981,14 @@ namespace MissionPlanner.Controls
         {
             if (!Context.IsCurrent)
                 Context.MakeCurrent(this.WindowInfo);
+
+            _imageloaderThread = new Thread(imageLoader)
+            {
+                IsBackground = true,
+                Name = "gl imageLoader"
+            };
+            _imageloaderThread.Start();
+
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.Light0);
