@@ -942,7 +942,7 @@ namespace MissionPlanner
                 // check against get
                 if (messageHigh == value)
                     return;
-
+                log.Info("messageHigh " + value);
                 _messageHighTime = DateTime.Now;
                 _messagehigh = value;
             }
