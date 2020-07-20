@@ -2677,7 +2677,7 @@ namespace MissionPlanner.Controls
                     statuslast = status;
                 }
 
-                if (message != "")
+                if (message != null && message != "")
                 {
                     var newfontsize = calcsize(message, font, fontsize + 10, (SolidBrush) Brushes.Red, Width - 50 - 50);
 
@@ -2816,6 +2816,8 @@ namespace MissionPlanner.Controls
 
         float calcsize(string text, Font font, float fontsize, SolidBrush brush, int targetwidth)
         {
+            if (text == null)
+                return fontsize;
             float size = 0;
             foreach (char cha in text)
             {
