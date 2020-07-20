@@ -258,15 +258,27 @@ namespace MissionPlanner.Controls
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, texture);
-            //GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (float)TextureEnvModeCombine.Replace); //Important, or wrong color on some computers
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int) TextureMinFilter.LinearMipmapLinear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int) TextureMagFilter.Linear);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
                 PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            if (isPowerOf2(data.Width) && isPowerOf2(data.Height))
+            {
+                // Yes, it's a power of 2. Generate mips.
+                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            }
+            else
+            {
+                // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            }
             return texture;
+        }
+
+        static bool isPowerOf2(int value)
+        {
+            return (value & (value - 1)) == 0;
         }
 
         void imageLoader()
@@ -463,26 +475,15 @@ namespace MissionPlanner.Controls
                     // for unproject - updated on every draw
                     GL.GetInteger(GetPName.Viewport, viewport);
                 }
+                GL.UniformMatrix4(tileInfo.projectionSlot, 1, false, ref projMatrix.Row0.X);
+
                 var beforeclear = DateTime.Now;
                 //GL.Viewport(0, 0, Width, Height);
                 GL.ClearColor(Color.CornflowerBlue);
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit |
                          ClearBufferMask.AccumBufferBit);
-                if (fogon)
-                    GL.Enable(EnableCap.Fog);
-                else
-                    GL.Disable(EnableCap.Fog);
-                GL.Enable(EnableCap.Lighting);
-                Lighting.SetupAmbient(0.1f);
-                Lighting.SetDefaultMaterial(1f);
-                GL.Fog(FogParameter.FogColor, new float[] {100 / 255.0f, 149 / 255.0f, 237 / 255.0f, 1f});
-                GL.Fog(FogParameter.FogDensity, 0.1f);
-                GL.Fog(FogParameter.FogMode, (int) FogMode.Linear);
-                GL.Fog(FogParameter.FogStart, (float) 5000);
-                GL.Fog(FogParameter.FogEnd, (float) 10000);
-                // clear the depth buffer
-                GL.Clear(ClearBufferMask.DepthBufferBit);
                 // enable the depth buffer
+                //GL.Enable(EnableCap.CullFace);
                 GL.Enable(EnableCap.DepthTest);
                 GL.DepthFunc(DepthFunction.Less);
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
@@ -731,6 +732,8 @@ namespace MissionPlanner.Controls
                                                 AddQuad(ti, latlng1, latlng2, latlng3, latlng4, xstart, x, xnext, xend,
                                                     ystart, y, ynext, yend);
                                             }
+                                            if (ti == null)
+                                                break;
                                         }
 
                                         if (ti != null)
@@ -742,7 +745,7 @@ namespace MissionPlanner.Controls
                                                 //if (!Context.IsCurrent)
                                                 //Context.MakeCurrent(this.WindowInfo);
                                                 // load it all
-                                                var temp = ti.idtexture;
+                                                //var temp = ti.idtexture; -- intel hd graphics cant share textures
                                                 var temp2 = ti.idEBO;
                                                 var temp3 = ti.idVBO;
                                                 //var temp4 = ti.idVAO;
@@ -1210,6 +1213,9 @@ namespace MissionPlanner.Controls
                 {
                     if (idVBO == 0 || idEBO == 0)
                         return;
+                    if (idtexture == 0)
+                        return;
+
                     if (Program == 0)
                         CreateShaders();
                     init = true;
@@ -1217,10 +1223,6 @@ namespace MissionPlanner.Controls
 
                 {
                     GL.UseProgram(Program);
-                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS,
-                        (int) TextureWrapMode.ClampToEdge);
-                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
-                        (int) TextureWrapMode.ClampToEdge);
                     if (textureReady)
                     {
                         GL.ActiveTexture(TextureUnit.Texture0);
@@ -1230,6 +1232,7 @@ namespace MissionPlanner.Controls
                     }
                     else
                     {
+                        GL.BindTexture(TextureTarget.Texture2D, 0);
                         GL.Disable(EnableCap.Texture2D);
                     }
 
@@ -1250,6 +1253,10 @@ namespace MissionPlanner.Controls
             {
                 VertexShader = GL.CreateShader(ShaderType.VertexShader);
                 FragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+
+                //https://webglfundamentals.org/webgl/lessons/webgl-fog.html
+                //http://www.ozone3d.net/tutorials/glsl_fog/p04.php
+
                 GL.ShaderSource(VertexShader, @"
 attribute vec3 Position;
 attribute vec4 SourceColor;
@@ -1259,7 +1266,6 @@ varying vec2 TexCoordOut;
 uniform mat4 Projection;
 uniform mat4 ModelView;
 void main(void) {
-    DestinationColor = SourceColor;
     gl_Position = Projection * ModelView * vec4(Position, 1.0);
     TexCoordOut = TexCoordIn;
 }
@@ -1269,7 +1275,11 @@ varying vec4 DestinationColor;
 varying vec2 TexCoordOut;
 uniform sampler2D Texture;
 void main(void) {
-    gl_FragColor = texture2D(Texture, TexCoordOut);
+    vec4 color = texture2D(Texture, TexCoordOut);
+    float z = gl_FragCoord.z / gl_FragCoord.w;
+    float fogAmount = smoothstep(0.8, 1.0, gl_FragCoord.w);
+    //if(fogAmount > 1.)         discard;
+    gl_FragColor = color;// mix(color, vec4(0.4,0.6,0.9,1), fogAmount);
 }
                 ");
                 GL.CompileShader(VertexShader);
@@ -1330,7 +1340,7 @@ void main(void) {
                     GL.DeleteTextures(1, ref _textid);
                     GL.DeleteBuffers(1, ref ID_VBO);
                     GL.DeleteBuffers(1, ref ID_EBO);
-                    GL.DeleteProgram(Program);
+                    //GL.DeleteProgram(Program);
                     try
                     {
                         img.Dispose();
