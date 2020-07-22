@@ -6,7 +6,7 @@ using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.ES20;
 using OpenTK.Input;
 using OpenTK.Platform;
 using System;
@@ -16,12 +16,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
-using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 using Timer = System.Windows.Forms.Timer;
 using Vector3 = OpenTK.Vector3;
 
@@ -124,7 +124,8 @@ namespace MissionPlanner.Controls
             mousey = ((MouseEventArgs) e).Y;
             try
             {
-                var point = getMousePos(mousex, mousey);
+                mousePosition = getMousePos(mousex, mousey);
+                /*
                 if (!Context.IsCurrent)
                     Context.MakeCurrent(WindowInfo);
                 GL.Color3(Color.White);
@@ -139,6 +140,7 @@ namespace MissionPlanner.Controls
                 GL.End();
                 SwapBuffers();
                 Context.MakeCurrent(null);
+                */
             } catch { }
 
             //Thread.Sleep(1000);
@@ -232,6 +234,7 @@ namespace MissionPlanner.Controls
             image.MakeTransparent();
             BitmapData data = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            ConvertColorSpace(data);
             int texture = CreateTexture(data);
             image.UnlockBits(data);
             if (texture == 0)
@@ -247,6 +250,20 @@ namespace MissionPlanner.Controls
             return texture;
         }
 
+        static void ConvertColorSpace(BitmapData _data)
+        {                             
+            // bgra to rgba
+            var x = 0; var y = 0; var width = _data.Width; var height = _data.Height;
+            for (y = 0; y < height; y++)
+            {
+                for (x = width - 1; x >= 0; x -= 1)
+                {
+                    var offset = y * _data.Stride + x * 4;
+                    Marshal.WriteInt32(_data.Scan0, offset, ColorBGRA2RGBA(Marshal.ReadInt32(_data.Scan0, offset)));
+                }
+            }
+        }
+
         static int CreateTexture(BitmapData data)
         {
             int texture = 0;
@@ -258,19 +275,22 @@ namespace MissionPlanner.Controls
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, texture);
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            GL.TexImage2D(TextureTarget2d.Texture2D, 0, TextureComponentCount.Rgba, data.Width, data.Height, 0, OpenTK.Graphics.ES20.PixelFormat.Rgba, PixelType.UnsignedByte, data.Scan0);
+
+            //https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/texParameter
+            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
 
             if (isPowerOf2(data.Width) && isPowerOf2(data.Height))
             {
                 // Yes, it's a power of 2. Generate mips.
-                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+                GL.GenerateMipmap(TextureTarget.Texture2D);
             }
             else
             {
-                // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+                // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge              
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             }
             return texture;
@@ -279,6 +299,22 @@ namespace MissionPlanner.Controls
         static bool isPowerOf2(int value)
         {
             return (value & (value - 1)) == 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static int ColorBGRA2RGBA(int x)
+        {
+            // bgra > rgba
+            unchecked
+            {
+                return
+                    // Source is in format: 0xAARRGGBB
+                    (int)((x & 0xFF000000) >> 0) |
+                    ((x & 0x00FF0000) >> 16) |
+                    ((x & 0x0000FF00) << 0) |
+                    ((x & 0x000000FF) << 16);
+                    // Return value is in format:  0xAABBGGRR
+            }
         }
 
         void imageLoader()
@@ -322,6 +358,7 @@ namespace MissionPlanner.Controls
                 if (core.Zoom >= zoom)
                 {
                     System.Threading.Thread.Sleep(5000);
+                    core.Zoom = minzoom;
                     continue;
                 }
 
@@ -331,6 +368,8 @@ namespace MissionPlanner.Controls
         }
 
         public int minzoom { get; set; } = 12;
+        public PointLatLngAlt mousePosition { get; private set; }
+
         private int utmzone = -999;
         private PointLatLngAlt llacenter = PointLatLngAlt.Zero;
         private double[] utmcenter = new double[2];
@@ -345,6 +384,7 @@ namespace MissionPlanner.Controls
         private double[] mypos = new double[3];
         Vector3 myrpy = Vector3.UnitX;
         private bool fogon = true;
+        private Lines _flightPlanLines;
 
         double[] convertCoords(PointLatLngAlt plla)
         {
@@ -448,6 +488,7 @@ namespace MissionPlanner.Controls
                 // save the state
                 mypos = campos;
                 myrpy = rpy;
+
                 cameraX = campos[0];
                 cameraY = campos[1];
                 cameraZ = (campos[2] < srtm.getAltitude(_center.Lat, _center.Lng).alt)
@@ -469,23 +510,27 @@ namespace MissionPlanner.Controls
                 modelMatrix = Matrix4.Mult(modelMatrix, Matrix4.CreateRotationZ((float) (rpy.X * MathHelper.deg2rad)));
                 // pitch
                 modelMatrix = Matrix4.Mult(modelMatrix, Matrix4.CreateRotationX((float) (rpy.Y * -MathHelper.deg2rad)));
-                //GL.LoadMatrix(ref modelview);
-                GL.UniformMatrix4(tileInfo.modelViewSlot, 1, false, ref modelMatrix.Row0.X);
+
                 {
                     // for unproject - updated on every draw
                     GL.GetInteger(GetPName.Viewport, viewport);
                 }
-                GL.UniformMatrix4(tileInfo.projectionSlot, 1, false, ref projMatrix.Row0.X);
+
 
                 var beforeclear = DateTime.Now;
                 //GL.Viewport(0, 0, Width, Height);
                 GL.ClearColor(Color.CornflowerBlue);
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit |
                          ClearBufferMask.AccumBufferBit);
-                // enable the depth buffer
-                //GL.Enable(EnableCap.CullFace);
-                GL.Enable(EnableCap.DepthTest);
-                GL.DepthFunc(DepthFunction.Less);
+                
+                // disable depth during terrain draw
+                GL.Disable(EnableCap.DepthTest);
+                GL.DepthFunc(DepthFunction.Lequal);
+
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.BlendEquation(BlendEquationMode.FuncAdd);
+
                 var texlist = textureid.ToArray().ToSortedList(Comparison);
                 int lastzoom = texlist.Count == 0 ? 0 : texlist[0].Value.zoom;
                 var beforedraw = DateTime.Now;
@@ -498,32 +543,35 @@ namespace MissionPlanner.Controls
 
                     if (tidict.Value.indices.Count > 0)
                     {
-                        tidict.Value.Draw();
+                        tidict.Value.Draw(projMatrix, modelMatrix);
                     }
                 }
 
                 var beforewps = DateTime.Now;
+                GL.Enable(EnableCap.DepthTest);
                 GL.Disable(EnableCap.Texture2D);
                 // draw after terrain - need depth check
                 {
                     GL.Enable(EnableCap.DepthTest);
                     if (FlightPlanner.instance.pointlist.Count > 1)
                     {
-                        GL.Color3(Color.Red);
-                        GL.LineWidth(3);
+                        if (_flightPlanLines != null)
+                            _flightPlanLines.Dispose();
+                        _flightPlanLines = new Lines();
+                        _flightPlanLines.Width = 3.0f;
                         // render wps
-                        GL.Begin(PrimitiveType.LineStrip);
                         foreach (var point in FlightPlanner.instance.pointlist)
                         {
                             if (point == null)
                                 continue;
                             var co = convertCoords(point);
-                            GL.Vertex3(co[0], co[1], co[2]);
+                            _flightPlanLines.Add(co[0], co[1], co[2], 1, 0, 0, 1);
                         }
 
-                        GL.End();
+                        _flightPlanLines.Draw(projMatrix, modelMatrix);
                     }
-
+                }
+                {
                     if (green == 0)
                     {
                         green = generateTexture(GMap.NET.Drawing.Properties.Resources.green.ToBitmap());
@@ -532,7 +580,7 @@ namespace MissionPlanner.Controls
                     GL.Enable(EnableCap.DepthTest);
                     GL.DepthMask(false);
                     GL.Enable(EnableCap.Blend);
-                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, green);
                     var list = FlightPlanner.instance.pointlist.ToList();
@@ -548,34 +596,38 @@ namespace MissionPlanner.Controls
                         if (point.Lat == 0 && point.Lng == 0)
                             continue;
                         var co = convertCoords(point);
-                        GL.Begin(PrimitiveType.TriangleStrip);
-                        GL.Color3(Color.Red); //tr
-                        GL.TexCoord2(0, 0);
-                        GL.Vertex3(Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2 + co[0],
-                            Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2 + co[1], co[2] + 10);
-                        GL.Color3(Color.Green); //tl
-                        GL.TexCoord2(1, 0);
-                        GL.Vertex3(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] + 10);
-                        GL.Color3(Color.Blue); // br
-                        GL.TexCoord2(0, 1);
-                        GL.Vertex3(co[0] + Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1);
-                        GL.Color3(Color.Yellow); // bl
-                        GL.TexCoord2(1, 1);
-                        GL.Vertex3(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1);
-                        GL.End();
+
+                        var wpmarker = new tileInfo(Context, WindowInfo, textureSemaphore);
+                        wpmarker.idtexture = green;
+
+                        //tr
+                        wpmarker.vertex.Add(new Vertex(Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2 + co[0],
+                            Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2 + co[1], co[2] + 10, 0, 0, 0, 1, 0, 0));
+                        //tl
+                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
+                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] + 10, 0, 0, 0, 1, 1, 0));
+                        //br
+                        wpmarker.vertex.Add(new Vertex(co[0] + Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
+                            co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1, 0, 0, 0, 1, 0, 1));
+                        //bl
+                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
+                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1, 0, 0, 0, 1, 1, 1));
+
+                        var startindex = (uint)wpmarker.vertex.Count - 4;
+                        wpmarker.indices.AddRange(new[]
+                                        {
+                                startindex + 0, startindex + 1, startindex + 3,
+                                startindex + 3, startindex + 2, startindex + 1
+                            });
+
+                        
+                        wpmarker.Draw(projMatrix, modelMatrix);
+
+                        wpmarker.Cleanup(true);
                     }
 
                     GL.Disable(EnableCap.Blend);
                     GL.DepthMask(true);
-                    /*
-                    WPs.ForEach(a =>
-                    {
-                        var co = convertCoords(new PointLatLngAlt(a.lat, a.lng, a.alt));
-                        GL.Vertex3(co[0], co[1], co[2]);
-                    });*/
                 }
                 var beforeswapbuffer = DateTime.Now;
                 try
@@ -831,16 +883,16 @@ namespace MissionPlanner.Controls
             //ti.vertex.Add(new tileInfo.Vertex((float)utm4[0], (float)utm4[1],(float)utm4[2]));
             var imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
             var imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
-            ti.vertex.Add(new tileInfo.Vertex(utm4[0], utm4[1], utm4[2] - zindexmod, 1, 0, 0, 1, imgx, imgy));
+            ti.vertex.Add(new Vertex(utm4[0], utm4[1], utm4[2] - zindexmod, 1, 0, 0, 1, imgx, imgy));
             imgx = MathHelper.map(xnext, xstart, xend, 0, 1);
             imgy = MathHelper.map(y, ystart, yend, 0, 1);
-            ti.vertex.Add(new tileInfo.Vertex(utm3[0], utm3[1], utm3[2] - zindexmod, 0, 1, 0, 1, imgx, imgy));
+            ti.vertex.Add(new Vertex(utm3[0], utm3[1], utm3[2] - zindexmod, 0, 1, 0, 1, imgx, imgy));
             imgx = MathHelper.map(x, xstart, xend, 0, 1);
             imgy = MathHelper.map(y, ystart, yend, 0, 1);
-            ti.vertex.Add(new tileInfo.Vertex(utm1[0], utm1[1], utm1[2] - zindexmod, 0, 0, 1, 1, imgx, imgy));
+            ti.vertex.Add(new Vertex(utm1[0], utm1[1], utm1[2] - zindexmod, 0, 0, 1, 1, imgx, imgy));
             imgx = MathHelper.map(x, xstart, xend, 0, 1);
             imgy = MathHelper.map(ynext, ystart, yend, 0, 1);
-            ti.vertex.Add(new tileInfo.Vertex(utm2[0], utm2[1], utm2[2] - zindexmod, 1, 1, 0, 1, imgx, imgy));
+            ti.vertex.Add(new Vertex(utm2[0], utm2[1], utm2[2] - zindexmod, 1, 1, 0, 1, imgx, imgy));
             var startindex = (uint) ti.vertex.Count - 4;
             ti.indices.AddRange(new[]
             {
@@ -1067,6 +1119,218 @@ namespace MissionPlanner.Controls
             public RectLatLng area { get; set; }
         }
 
+        public class Lines: IDisposable
+        {
+            private static int _program;
+            private static int VertexShader;
+            private static int FragmentShader;
+            private static int positionSlot;
+            private static int colorSlot;
+            private static int projectionSlot;
+            private static int modelViewSlot;
+            private static int textureSlot;
+            private static int texCoordSlot;
+            private int ID_VBO;
+            private int ID_EBO;
+            private bool disposedValue;
+
+            public List<Vertex> vertex { get; } = new List<Vertex>();
+            public List<uint> indices { get; } = new List<uint>();
+            public float Width { get; set; } = 1.0f;
+
+            public void Add(double x,double y, double z, double r, double g, double b, double a)
+            {
+                vertex.Add(new Vertex(x, y, z, r, g, b, a, 0, 0));
+                indices.Add((uint)(vertex.Count - 1));
+            }
+
+            /// <summary>
+            /// Vertex Buffer
+            /// </summary>
+            public int idVBO
+            {
+                get
+                {
+                    if (ID_VBO != 0)
+                        return ID_VBO;
+                    GL.GenBuffers(1, out ID_VBO);
+                    if (ID_VBO == 0)
+                        return ID_VBO;
+                    GL.BindBuffer(BufferTarget.ArrayBuffer, ID_VBO);
+                    GL.BufferData(BufferTarget.ArrayBuffer, (vertex.Count * Vertex.Stride), vertex.ToArray(),
+                        BufferUsageHint.DynamicDraw);
+                    int bufferSize;
+                    // Validate that the buffer is the correct size
+                    GL.GetBufferParameter(BufferTarget.ArrayBuffer, BufferParameterName.BufferSize, out bufferSize);
+                    if (vertex.Count * Vertex.Stride != bufferSize)
+                        throw new ApplicationException("Vertex array not uploaded correctly");
+                    GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+                    return ID_VBO;
+                }
+            }
+
+            /// <summary>
+            /// Element index Buffer
+            /// </summary>
+            public int idEBO
+            {
+                get
+                {
+                    if (ID_EBO != 0)
+                        return ID_EBO;
+                    GL.GenBuffers(1, out ID_EBO);
+                    if (ID_EBO == 0)
+                        return ID_EBO;
+                    GL.BindBuffer(BufferTarget.ElementArrayBuffer, ID_EBO);
+                    GL.BufferData(BufferTarget.ElementArrayBuffer, (indices.Count * sizeof(uint)), indices.ToArray(),
+                        BufferUsageHint.DynamicDraw);
+                    int bufferSize;
+                    // Validate that the buffer is the correct size
+                    GL.GetBufferParameter(BufferTarget.ElementArrayBuffer, BufferParameterName.BufferSize,
+                        out bufferSize);
+                    if (indices.Count * sizeof(int) != bufferSize)
+                        throw new ApplicationException("Element array not uploaded correctly");
+                    GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+                    return ID_EBO;
+                }
+            }
+
+            public void Draw(Matrix4 Projection, Matrix4 ModelView)
+            {
+                if (idVBO == 0 || idEBO == 0)
+                    return;
+
+                if (_program == 0)
+                    CreateShaders();
+
+                // use the shader
+                GL.UseProgram(_program);
+
+                // enable position
+                GL.EnableVertexAttribArray(positionSlot);
+                // enable color
+                GL.EnableVertexAttribArray(colorSlot);
+
+                // set matrix
+                GL.UniformMatrix4(modelViewSlot, 1, false, ref ModelView.Row0.X);
+                GL.UniformMatrix4(projectionSlot, 1, false, ref Projection.Row0.X);
+
+                // set linewidth in px
+                GL.LineWidth(Width);
+
+                // bind the vertex buffers
+                GL.BindBuffer(BufferTarget.ArrayBuffer, idVBO);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, idEBO);
+
+                // map the vertex buffers
+                GL.VertexAttribPointer(positionSlot, 3, VertexAttribPointerType.Float, false, Marshal.SizeOf(typeof(Vertex)), (IntPtr)0);
+                GL.VertexAttribPointer(colorSlot, 4, VertexAttribPointerType.Float, false, Marshal.SizeOf(typeof(Vertex)), (IntPtr)(sizeof(float) * 3));
+                GL.VertexAttribPointer(texCoordSlot, 2, VertexAttribPointerType.Float, false, Marshal.SizeOf(typeof(Vertex)), (IntPtr)(sizeof(float) * 7));
+
+                // draw it
+                GL.DrawArrays(PrimitiveType.LineStrip, 0, indices.Count);
+
+                // disable vertex array
+                GL.DisableVertexAttribArray(positionSlot);
+                GL.DisableVertexAttribArray(colorSlot);
+            }
+
+            private static void CreateShaders()
+            {
+                VertexShader = GL.CreateShader(ShaderType.VertexShader);
+                FragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+
+                //https://webglfundamentals.org/webgl/lessons/webgl-fog.html
+                //http://www.ozone3d.net/tutorials/glsl_fog/p04.php
+
+                GL.ShaderSource(VertexShader, @"
+attribute vec3 Position;
+attribute vec4 SourceColor;
+attribute vec2 TexCoordIn;
+varying vec4 DestinationColor;
+varying vec2 TexCoordOut;
+uniform mat4 Projection;
+uniform mat4 ModelView;
+void main(void) {
+    DestinationColor = SourceColor;
+    gl_Position = Projection * ModelView * vec4(Position, 1.0);
+    TexCoordOut = TexCoordIn;
+}
+                ");
+                GL.ShaderSource(FragmentShader, @"
+varying vec4 DestinationColor;
+varying vec2 TexCoordOut;
+uniform sampler2D Texture;
+void main(void) {
+    float z = gl_FragCoord.z / gl_FragCoord.w;
+    gl_FragColor = DestinationColor;
+}
+                ");
+                GL.CompileShader(VertexShader);
+                Debug.WriteLine(GL.GetShaderInfoLog(VertexShader));
+                GL.GetShader(VertexShader, ShaderParameter.CompileStatus, out var code);
+                if (code != (int)All.True)
+                {
+                    // We can use `GL.GetShaderInfoLog(shader)` to get information about the error.
+                    throw new Exception(
+                        $"Error occurred whilst compiling Shader({VertexShader}) {GL.GetShaderInfoLog(VertexShader)}");
+                }
+
+                GL.CompileShader(FragmentShader);
+                Debug.WriteLine(GL.GetShaderInfoLog(FragmentShader));
+                GL.GetShader(FragmentShader, ShaderParameter.CompileStatus, out code);
+                if (code != (int)All.True)
+                {
+                    // We can use `GL.GetShaderInfoLog(shader)` to get information about the error.
+                    throw new Exception(
+                        $"Error occurred whilst compiling Shader({FragmentShader}) {GL.GetShaderInfoLog(FragmentShader)}");
+                }
+
+                _program = GL.CreateProgram();
+                GL.AttachShader(_program, VertexShader);
+                GL.AttachShader(_program, FragmentShader);
+                GL.LinkProgram(_program);
+                Debug.WriteLine(GL.GetProgramInfoLog(_program));
+                GL.GetProgram(_program, GetProgramParameterName.LinkStatus, out code);
+                if (code != (int)All.True)
+                {
+                    // We can use `GL.GetProgramInfoLog(program)` to get information about the error.
+                    throw new Exception(
+                        $"Error occurred whilst linking Program({_program}) {GL.GetProgramInfoLog(_program)}");
+                }
+
+                GL.UseProgram(_program);
+                positionSlot = GL.GetAttribLocation(_program, "Position");
+                colorSlot = GL.GetAttribLocation(_program, "SourceColor");
+                texCoordSlot = GL.GetAttribLocation(_program, "TexCoordIn");
+                projectionSlot = GL.GetUniformLocation(_program, "Projection");
+                modelViewSlot = GL.GetUniformLocation(_program, "ModelView");
+                textureSlot = GL.GetUniformLocation(_program, "Texture");
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!disposedValue)
+                {
+                    if (disposing)
+                    {
+                        // TODO: dispose managed state (managed objects)
+                    }
+
+                    GL.DeleteBuffers(1, ref ID_VBO);
+                    GL.DeleteBuffers(1, ref ID_EBO);
+                    disposedValue = true;
+                }
+            }
+
+            public void Dispose()
+            {
+                // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+                Dispose(disposing: true);
+                GC.SuppressFinalize(this);
+            }
+        }
+
         /// <summary>
         /// inspired by https://github.com/jlyonsmith/GLES2Tutorial/blob/master/08/OpenGLView.cs
         /// </summary>
@@ -1104,6 +1368,10 @@ namespace MissionPlanner.Controls
                     {
                         try
                         {
+                            if (_data == null)
+                                return 0;
+
+                            ConvertColorSpace(_data);
                             _textid = CreateTexture(_data);
                         }
                         catch
@@ -1112,6 +1380,12 @@ namespace MissionPlanner.Controls
                     }
 
                     return _textid;
+                }
+
+                set
+                {
+                    _textmanual = true;
+                    _textid = value;
                 }
             }
 
@@ -1140,6 +1414,7 @@ namespace MissionPlanner.Controls
             internal static int projectionSlot;
             internal static int modelViewSlot;
             private static int textureSlot;
+            private bool _textmanual = false;
 
             public tileInfo(IGraphicsContext context, IWindowInfo windowInfo, SemaphoreSlim contextLock)
             {
@@ -1207,7 +1482,7 @@ namespace MissionPlanner.Controls
                 return String.Format("{1}-{0} {2}", point, zoom, textureReady);
             }
 
-            public void Draw()
+            public void Draw(Matrix4 Projection, Matrix4 ModelView)
             {
                 if (!init)
                 {
@@ -1223,6 +1498,15 @@ namespace MissionPlanner.Controls
 
                 {
                     GL.UseProgram(Program);
+
+                    GL.EnableVertexAttribArray(positionSlot);
+                    GL.EnableVertexAttribArray(colorSlot);
+                    GL.EnableVertexAttribArray(texCoordSlot);
+
+                    // set matrix
+                    GL.UniformMatrix4(modelViewSlot, 1, false, ref ModelView.Row0.X);
+                    GL.UniformMatrix4(projectionSlot, 1, false, ref Projection.Row0.X);
+
                     if (textureReady)
                     {
                         GL.ActiveTexture(TextureUnit.Texture0);
@@ -1246,6 +1530,10 @@ namespace MissionPlanner.Controls
                     GL.BindBuffer(BufferTarget.ElementArrayBuffer, idEBO);
                     GL.DrawElements(PrimitiveType.Triangles, indices.Count, DrawElementsType.UnsignedInt,
                         IntPtr.Zero);
+
+                    GL.DisableVertexAttribArray(positionSlot);
+                    GL.DisableVertexAttribArray(colorSlot);
+                    GL.DisableVertexAttribArray(texCoordSlot);
                 }
             }
 
@@ -1316,12 +1604,9 @@ void main(void) {
                 }
 
                 GL.UseProgram(_program);
-                positionSlot = GL.GetAttribLocation(_program, "Position");
-                GL.EnableVertexAttribArray(positionSlot);
-                colorSlot = GL.GetAttribLocation(_program, "SourceColor");
-                GL.EnableVertexAttribArray(colorSlot);
-                texCoordSlot = GL.GetAttribLocation(_program, "TexCoordIn");
-                GL.EnableVertexAttribArray(texCoordSlot);
+                positionSlot = GL.GetAttribLocation(_program, "Position");                
+                colorSlot = GL.GetAttribLocation(_program, "SourceColor");                
+                texCoordSlot = GL.GetAttribLocation(_program, "TexCoordIn");                
                 projectionSlot = GL.GetUniformLocation(_program, "Projection");
                 modelViewSlot = GL.GetUniformLocation(_program, "ModelView");
                 textureSlot = GL.GetUniformLocation(_program, "Texture");
@@ -1330,119 +1615,87 @@ void main(void) {
             public static int FragmentShader { get; set; }
             public static int VertexShader { get; set; }
 
-            public void Cleanup()
+            public void Cleanup(bool nolock = false)
             {
-                contextLock.Wait();
+                if (!nolock)
+                    contextLock.Wait();
                 try
                 {
-                    if (!Context.IsCurrent)
-                        Context.MakeCurrent(WindowInfo);
-                    GL.DeleteTextures(1, ref _textid);
+                    if (!nolock)
+                        if (!Context.IsCurrent)
+                            Context.MakeCurrent(WindowInfo);
+                    if (!_textmanual)
+                        GL.DeleteTextures(1, ref _textid);
                     GL.DeleteBuffers(1, ref ID_VBO);
                     GL.DeleteBuffers(1, ref ID_EBO);
                     //GL.DeleteProgram(Program);
                     try
                     {
-                        img.Dispose();
+                        if (img != null)
+                            img.Dispose();
                     }
                     catch
                     {
                     }
-
-                    if (Context.IsCurrent)
-                        Context.MakeCurrent(null);
+                    if (!nolock)
+                        if (Context.IsCurrent)
+                            Context.MakeCurrent(null);
                 }
                 finally
                 {
-                    contextLock.Release();
+                    if (!nolock)
+                        contextLock.Release();
                 }
             }
 
             public void Dispose()
             {
                 Cleanup();
-            }
-
-            [StructLayout(LayoutKind.Sequential, Pack = 1)]
-            public struct Vertex
-            {
-                //https://learnopengl.com/Getting-started/Textures
-                public float X;
-                public float Y;
-                public float Z;
-                public float R;
-                public float G;
-                public float B;
-                public float A;
-                public float S;
-                public float T;
-
-                public Vertex(double x, double y, double z, double r, double g, double b, double a, double s, double t)
-                {
-                    X = (float) x;
-                    Y = (float) y;
-                    Z = (float) z;
-                    R = (float) r;
-                    G = (float) g;
-                    B = (float) b;
-                    A = (float) a;
-                    S = (float) s;
-                    T = (float) t;
-                    if (S > 1 || S < 0 || T > 1 || T < 0)
-                    {
-                    }
-                }
-
-                public static readonly int Stride = System.Runtime.InteropServices.Marshal.SizeOf(new Vertex());
-            }
+            }            
         }
 
-        /// <summary>
-        /// A helper class with OpenGL lighting utility methods.
-        /// </summary>
-        public static class Lighting
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct Vertex
         {
+            //https://learnopengl.com/Getting-started/Textures
+            public float X;
+            public float Y;
+            public float Z;
+            public float R;
+            public float G;
+            public float B;
+            public float A;
+            public float S;
+            public float T;
             /// <summary>
-            /// Sets up ambient light.
+            /// Vertex
             /// </summary>
-            public static void SetupAmbient(float ambient)
+            /// <param name="x">position</param>
+            /// <param name="y">position</param>
+            /// <param name="z">position</param>
+            /// <param name="r">color</param>
+            /// <param name="g">color</param>
+            /// <param name="b">color</param>
+            /// <param name="a">color</param>
+            /// <param name="s">texture</param>
+            /// <param name="t">texture</param>
+            public Vertex(double x, double y, double z, double r, double g, double b, double a, double s, double t)
             {
-                float[] ambient_light = {ambient, ambient, ambient, 1};
-                GL.LightModel(LightModelParameter.LightModelAmbient, ambient_light);
+                X = (float)x;
+                Y = (float)y;
+                Z = (float)z;
+                R = (float)r;
+                G = (float)g;
+                B = (float)b;
+                A = (float)a;
+                S = (float)s;
+                T = (float)t;
+                if (S > 1 || S < 0 || T > 1 || T < 0)
+                {
+                }
             }
 
-            /// <summary>
-            /// Sets up and enables a light and a given position.
-            /// </summary>
-            public static void SetupLightZero(Vector3d position, float ambient)
-            {
-                float[] ambient_light = {ambient, ambient, ambient, 1.0f};
-                float[] spec = {0.5f, 0.5f, 0.5f, 1.0f};
-                float[] one = {1.0f, 1.0f, 1.0f, 1.0f};
-                GL.Light(LightName.Light0, LightParameter.Position,
-                    new float[] {(float) position.X, (float) position.Y, (float) position.Z});
-                GL.Light(LightName.Light0, LightParameter.Ambient, ambient_light);
-                GL.Light(LightName.Light0, LightParameter.Diffuse, one);
-                GL.Light(LightName.Light0, LightParameter.Specular, spec);
-                //GL.Light( LightName.Light0, LightParameter.SpotExponent, 100 );	// For directional lights.
-                GL.LightModel(LightModelParameter.LightModelTwoSide, 1);
-                GL.LightModel(LightModelParameter.LightModelLocalViewer, 1); // Needed for specular
-                GL.LightModel(LightModelParameter.LightModelColorControl, 0x81FA);
-                GL.Enable(EnableCap.Light0);
-            }
-
-            public static void SetDefaultMaterial(float ambient)
-            {
-                float[] ambient_light = {ambient, ambient, ambient, 1.0f};
-                float[] one = {1.0f, 1.0f, 1.0f, 1.0f};
-                float[] zero = {0.0f, 0.0f, 0.0f, 1.0f};
-                GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Ambient, ambient_light);
-                GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Diffuse, one);
-                GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Specular, one);
-                GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Emission,
-                    new float[] {0.1f, 0.1f, 0.1f, 1.0f});
-                GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Shininess, 128);
-            }
+            public static readonly int Stride = System.Runtime.InteropServices.Marshal.SizeOf(new Vertex());
         }
     }
 }
