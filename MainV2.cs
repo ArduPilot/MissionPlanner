@@ -2039,7 +2039,13 @@ namespace MissionPlanner
             pluginthreadrun = false;
 
             if (pluginthread != null)
+            {
+                try
+                {
+                    while (!PluginThreadrunner.WaitOne(100)) Application.DoEvents();
+                } catch { }
                 pluginthread.Join();
+            }
 
             log.Info("closing serialthread");
 
