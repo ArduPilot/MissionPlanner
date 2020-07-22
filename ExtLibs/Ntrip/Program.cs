@@ -1,5 +1,6 @@
 ﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using Mono.Unix;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -45,6 +46,10 @@ namespace Ntrip
 
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
+            // setup allocator
+            can.SourceNode = 127;
+            can.SetupDynamicNodeAllocator();
+
             // feed the rtcm data into the rtcm parser if we get a can message
             can.MessageReceived += (frame, msg, id) =>
             {
@@ -74,7 +79,7 @@ namespace Ntrip
                     {
                         var comport = args[0];
                         if (comport.Contains("/dev/"))
-                            comport = Mono.Unix.UnixPath.GetRealPath(comport);
+                            comport = UnixPath.GetRealPath(comport);
                         Console.WriteLine("Port: " + comport);
                         port = new SerialPort(comport, 115200);
 
