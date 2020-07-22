@@ -225,7 +225,8 @@ namespace MissionPlanner.Utilities
                                 }
                             }
 
-                            cache[filename] = altdata;
+                            lock(cache)
+                                cache[filename] = altdata;
                         }
                     }
 
