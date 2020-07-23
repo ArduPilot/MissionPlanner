@@ -1188,13 +1188,13 @@ namespace MissionPlanner.Utilities
 
             if (System.Environment.Is64BitProcess)
             {
-                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.12.4.zip";
-                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.12.4.zip";
+                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.14.4.zip";
+                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86_64-1.14.4.zip";
             }
             else
             {
-                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86-1.9.2.zip";
-                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86-1.9.2.zip";
+                output = Settings.GetDataDirectory() + "gstreamer-1.0-x86-1.14.4.zip";
+                url = "https://firmware.ardupilot.org/MissionPlanner/gstreamer/gstreamer-1.0-x86-1.14.4.zip";
             }
 
 
