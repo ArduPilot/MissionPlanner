@@ -381,7 +381,7 @@ namespace generator
             public override bool Init()
             {
                 // change to enable
-                return false;
+                return true;
             }
 
             public override bool Loaded()
@@ -437,10 +437,10 @@ namespace generator
                            }
                        }          
 
-                       gen.voltageTxt.Text = ((float)bus_voltage) / 100.0f + " V";
+                       gen.voltageTxt.Text = ((float)bus_voltage) + " V";
                        gen.powerTxt.Text =
-                           (((float)load_current) / 100.0f *
-                               ((float)bus_voltage) / 100.0f).ToString("F2") + "W";
+                           (((float)load_current) *
+                               ((float)bus_voltage)).ToString("F2") + "W";
                    });
                 }
                 else
