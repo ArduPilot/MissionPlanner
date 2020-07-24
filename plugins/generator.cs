@@ -1,23 +1,19 @@
 ﻿using MissionPlanner;
-using MissionPlanner.Utilities;
+using MissionPlanner.GCSViews;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.GCSViews;
-
+using static MAVLink;
 
 namespace generator
 {
-    public class generator : UserControl
+    public class generator : MyUserControl
     {
         public generator()
         {
             InitializeComponent();
-        }  
-        
+        }
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -40,14 +36,16 @@ namespace generator
         {
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.aGaugeSpeed = new AGaugeApp.AGauge();
-            this.statusTxt = new System.Windows.Forms.Label();
             this.powerTxt = new System.Windows.Forms.Label();
             this.voltageTxt = new System.Windows.Forms.Label();
             this.runStatusTxt = new System.Windows.Forms.Label();
-            this.statusLabel = new System.Windows.Forms.Label();
             this.powerLabel = new System.Windows.Forms.Label();
             this.voltageLabel = new System.Windows.Forms.Label();
             this.runstatusLabel = new System.Windows.Forms.Label();
+            this.runTimeTxt = new System.Windows.Forms.Label();
+            this.nextMainTimeTxt = new System.Windows.Forms.Label();
+            this.runTimeLabel = new System.Windows.Forms.Label();
+            this.nextMainTimeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
@@ -67,14 +65,16 @@ namespace generator
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.statusTxt);
             this.splitContainer3.Panel2.Controls.Add(this.powerTxt);
             this.splitContainer3.Panel2.Controls.Add(this.voltageTxt);
             this.splitContainer3.Panel2.Controls.Add(this.runStatusTxt);
-            this.splitContainer3.Panel2.Controls.Add(this.statusLabel);
             this.splitContainer3.Panel2.Controls.Add(this.powerLabel);
             this.splitContainer3.Panel2.Controls.Add(this.voltageLabel);
             this.splitContainer3.Panel2.Controls.Add(this.runstatusLabel);
+            this.splitContainer3.Panel2.Controls.Add(this.runTimeTxt);
+            this.splitContainer3.Panel2.Controls.Add(this.nextMainTimeTxt);
+            this.splitContainer3.Panel2.Controls.Add(this.runTimeLabel);
+            this.splitContainer3.Panel2.Controls.Add(this.nextMainTimeLabel);
             this.splitContainer3.Size = new System.Drawing.Size(357, 150);
             this.splitContainer3.SplitterDistance = 148;
             this.splitContainer3.TabIndex = 0;
@@ -112,6 +112,7 @@ namespace generator
         ""};
             this.aGaugeSpeed.CapText = "";
             this.aGaugeSpeed.Center = new System.Drawing.Point(75, 75);
+            this.aGaugeSpeed.Dock = System.Windows.Forms.DockStyle.Fill;
             this.aGaugeSpeed.Location = new System.Drawing.Point(0, 0);
             this.aGaugeSpeed.MaxValue = 15F;
             this.aGaugeSpeed.MinValue = 0F;
@@ -216,7 +217,7 @@ namespace generator
             this.aGaugeSpeed.ScaleNumbersRotation = 0;
             this.aGaugeSpeed.ScaleNumbersStartScaleLine = 1;
             this.aGaugeSpeed.ScaleNumbersStepScaleLines = 1;
-            this.aGaugeSpeed.Size = new System.Drawing.Size(152, 152);
+            this.aGaugeSpeed.Size = new System.Drawing.Size(150, 150);
             this.aGaugeSpeed.TabIndex = 0;
             this.aGaugeSpeed.Value = 0F;
             this.aGaugeSpeed.Value0 = 0F;
@@ -224,93 +225,110 @@ namespace generator
             this.aGaugeSpeed.Value2 = 0F;
             this.aGaugeSpeed.Value3 = 0F;
             // 
-            // statusTxt
-            // 
-            this.statusTxt.AutoSize = true;
-            this.statusTxt.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
-            this.statusTxt.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.statusTxt.Location = new System.Drawing.Point(136, 80);
-            this.statusTxt.Name = "statusTxt";
-            this.statusTxt.Size = new System.Drawing.Size(34, 17);
-            this.statusTxt.TabIndex = 11;
-            this.statusTxt.Text = "IDLE";
-            // 
             // powerTxt
             // 
             this.powerTxt.AutoSize = true;
-            this.powerTxt.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
+            this.powerTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.powerTxt.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.powerTxt.Location = new System.Drawing.Point(136, 57);
+            this.powerTxt.Location = new System.Drawing.Point(123, 83);
             this.powerTxt.Name = "powerTxt";
-            this.powerTxt.Size = new System.Drawing.Size(41, 17);
+            this.powerTxt.Size = new System.Drawing.Size(39, 15);
             this.powerTxt.TabIndex = 10;
             this.powerTxt.Text = "100W";
             // 
             // voltageTxt
             // 
             this.voltageTxt.AutoSize = true;
-            this.voltageTxt.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
+            this.voltageTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.voltageTxt.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.voltageTxt.Location = new System.Drawing.Point(136, 34);
+            this.voltageTxt.Location = new System.Drawing.Point(123, 60);
             this.voltageTxt.Name = "voltageTxt";
-            this.voltageTxt.Size = new System.Drawing.Size(30, 17);
+            this.voltageTxt.Size = new System.Drawing.Size(28, 15);
             this.voltageTxt.TabIndex = 9;
             this.voltageTxt.Text = "25V";
             // 
             // runStatusTxt
             // 
-            this.runStatusTxt.AutoSize = true;
-            this.runStatusTxt.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
+            this.runStatusTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.runStatusTxt.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.runStatusTxt.Location = new System.Drawing.Point(136, 13);
+            this.runStatusTxt.Location = new System.Drawing.Point(75, 5);
             this.runStatusTxt.Name = "runStatusTxt";
-            this.runStatusTxt.Size = new System.Drawing.Size(26, 17);
+            this.runStatusTxt.Size = new System.Drawing.Size(130, 55);
             this.runStatusTxt.TabIndex = 8;
             this.runStatusTxt.Text = "OK";
-            // 
-            // statusLabel
-            // 
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
-            this.statusLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.statusLabel.Location = new System.Drawing.Point(21, 80);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(43, 17);
-            this.statusLabel.TabIndex = 5;
-            this.statusLabel.Text = "Status";
             // 
             // powerLabel
             // 
             this.powerLabel.AutoSize = true;
-            this.powerLabel.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
+            this.powerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.powerLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.powerLabel.Location = new System.Drawing.Point(21, 57);
+            this.powerLabel.Location = new System.Drawing.Point(7, 83);
             this.powerLabel.Name = "powerLabel";
-            this.powerLabel.Size = new System.Drawing.Size(44, 17);
+            this.powerLabel.Size = new System.Drawing.Size(42, 15);
             this.powerLabel.TabIndex = 4;
             this.powerLabel.Text = "Power";
             // 
             // voltageLabel
             // 
             this.voltageLabel.AutoSize = true;
-            this.voltageLabel.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
+            this.voltageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.voltageLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.voltageLabel.Location = new System.Drawing.Point(21, 34);
+            this.voltageLabel.Location = new System.Drawing.Point(7, 60);
             this.voltageLabel.Name = "voltageLabel";
-            this.voltageLabel.Size = new System.Drawing.Size(53, 17);
+            this.voltageLabel.Size = new System.Drawing.Size(48, 15);
             this.voltageLabel.TabIndex = 3;
             this.voltageLabel.Text = "Voltage";
             // 
             // runstatusLabel
             // 
             this.runstatusLabel.AutoSize = true;
-            this.runstatusLabel.Font = new System.Drawing.Font("Microsoft YaHei", 9F);
+            this.runstatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.runstatusLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.runstatusLabel.Location = new System.Drawing.Point(21, 13);
+            this.runstatusLabel.Location = new System.Drawing.Point(7, 5);
             this.runstatusLabel.Name = "runstatusLabel";
-            this.runstatusLabel.Size = new System.Drawing.Size(69, 17);
+            this.runstatusLabel.Size = new System.Drawing.Size(67, 15);
             this.runstatusLabel.TabIndex = 2;
             this.runstatusLabel.Text = "Run Status";
+            // 
+            // runTimeTxt
+            // 
+            this.runTimeTxt.AutoSize = true;
+            this.runTimeTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runTimeTxt.Location = new System.Drawing.Point(123, 104);
+            this.runTimeTxt.Name = "runTimeTxt";
+            this.runTimeTxt.Size = new System.Drawing.Size(31, 15);
+            this.runTimeTxt.TabIndex = 0;
+            this.runTimeTxt.Text = "0:00";
+            // 
+            // nextMainTimeTxt
+            // 
+            this.nextMainTimeTxt.AutoSize = true;
+            this.nextMainTimeTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nextMainTimeTxt.Location = new System.Drawing.Point(123, 127);
+            this.nextMainTimeTxt.Name = "nextMainTimeTxt";
+            this.nextMainTimeTxt.Size = new System.Drawing.Size(14, 15);
+            this.nextMainTimeTxt.TabIndex = 0;
+            this.nextMainTimeTxt.Text = "0";
+            // 
+            // runTimeLabel
+            // 
+            this.runTimeLabel.AutoSize = true;
+            this.runTimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runTimeLabel.Location = new System.Drawing.Point(7, 104);
+            this.runTimeLabel.Name = "runTimeLabel";
+            this.runTimeLabel.Size = new System.Drawing.Size(101, 15);
+            this.runTimeLabel.TabIndex = 0;
+            this.runTimeLabel.Text = "Run Time(h:mm)";
+            // 
+            // nextMainTimeLabel
+            // 
+            this.nextMainTimeLabel.AutoSize = true;
+            this.nextMainTimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nextMainTimeLabel.Location = new System.Drawing.Point(7, 127);
+            this.nextMainTimeLabel.Name = "nextMainTimeLabel";
+            this.nextMainTimeLabel.Size = new System.Drawing.Size(84, 15);
+            this.nextMainTimeLabel.TabIndex = 0;
+            this.nextMainTimeLabel.Text = "Next Maint (h)";
             // 
             // generator
             // 
@@ -331,177 +349,121 @@ namespace generator
         private System.Windows.Forms.Label runstatusLabel;
         private System.Windows.Forms.Label powerLabel;
         private System.Windows.Forms.Label voltageLabel;
-        private System.Windows.Forms.Label statusLabel;
-        private System.Windows.Forms.Timer infoTimer;
-        internal System.Windows.Forms.Label statusTxt;
         internal System.Windows.Forms.Label powerTxt;
         internal System.Windows.Forms.Label voltageTxt;
         internal System.Windows.Forms.Label runStatusTxt;
-    }
 
-    public class Plugin : MissionPlanner.Plugin.Plugin
-    {
-        public override string Name
+        private System.Windows.Forms.Label runTimeLabel;
+        private System.Windows.Forms.Label nextMainTimeLabel;
+        internal System.Windows.Forms.Label runTimeTxt;
+        internal System.Windows.Forms.Label nextMainTimeTxt;
+
+
+        public class Plugin : MissionPlanner.Plugin.Plugin
         {
-            get { return "generator"; }
-        }
-
-        public override string Version
-        {
-            get { return "0.10"; }
-        }
-
-        public override string Author
-        {
-            get { return "Michael Oborne"; }
-        }
-
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub = null;
-
-        public override bool Init()
-        {
-            // change to enable
-            return false;
-        }
-
-        public override bool Loaded()
-        {
-            gen = new generator();
-            // force it to the top of the container to push down the tabcontrol
-            gen.Dock = DockStyle.Top;
-            FlightData.instance.tabControlactions.Parent.Controls.Add(gen);
-
-            return true;
-        }
-
-        public override bool Loop()
-        {
-
-            if (MainV2.comPort.BaseStream.IsOpen)
+            public override string Name
             {
-                if (sub == null)
-                    sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GENERATOR_STATUS, message =>
-                    {
-                        var gen = (MAVLink.mavlink_generator_status_t) message.data;
-                        status = gen.status;
-                        generator_speed = gen.generator_speed;
-                        load_current = gen.load_current;
-                        bus_voltage = gen.bus_voltage;
-                        return true;
-                    });
+                get { return "generator"; }
+            }
 
-                MainV2.instance.Invoke((MethodInvoker) delegate
+            public override string Version
+            {
+                get { return "0.11"; }
+            }
+
+            public override string Author
+            {
+                get { return "Michael Oborne"; }
+            }
+
+            private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub = null;
+
+            public override bool Init()
+            {
+                // change to enable
+                return false;
+            }
+
+            public override bool Loaded()
+            {
+                gen = new generator();
+                // force it to the top of the container to push down the tabcontrol
+                gen.Dock = DockStyle.Top;
+                
+
+                return true;
+            }
+
+            public override bool Loop()
+            {
+
+                if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    gen.aGaugeSpeed.Value1 = (float)(generator_speed/1000.0);
-                    //uint min = (run_time & 0x0000FFFF) / 256;
-                    //uint hour = ((run_time & 0xFFFF0000) >> 16);
-                    //runTimeTxt.Text = hour.ToString("D4") + ":" + min.ToString("D2");
-                    //uint nhour = next_time / 3600;
-                    //nextMainTimeTxt.Text = nhour.ToString("D4");
-                    if (status == 0)
-                    {
-                        gen.runStatusTxt.Text = "OK";
-                    }
-                    else
-                    {
-                        gen.runStatusTxt.Text = "ERROR";
-                        string cul = System.Globalization.CultureInfo.InstalledUICulture.Name;
-                        if (cul.ToLower() == "zh-cn")
+                    if (sub == null)
+                        sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GENERATOR_STATUS, message =>
                         {
-                            if ((status & 0x00000001) > 0)
-                            {
-                                gen.runStatusTxt.Text += " 请保养";
-                            }
+                            var gen = (MAVLink.mavlink_generator_status_t)message.data;
+                            status = gen.status;
+                            generator_speed = gen.generator_speed;
+                            load_current = gen.load_current;
+                            bus_voltage = gen.bus_voltage;
+                            run_time = gen.runtime;
+                            timemaint = gen.time_until_maintenance;
+                            return true;
+                        });
 
-                            if ((status & 0x00000002) > 0)
-                            {
-                                gen.runStatusTxt.Text += " 锁机";
-                            }
+                    MainV2.instance.BeginInvoke((MethodInvoker)delegate
+                   {
+                       if (!FlightData.instance.tabControlactions.Parent.Controls.Contains(gen))
+                           FlightData.instance.tabControlactions.Parent.Controls.Add(gen);
 
-                            if ((status & 0x00000004) > 0)
-                            {
-                                gen.runStatusTxt.Text += " 过载";
-                            }
+                       gen.aGaugeSpeed.Value1 = (float)(generator_speed / 1000.0);
+                       uint min = (run_time) / 60;
+                       uint hour = ((run_time) / 3600);
+                       gen.runTimeTxt.Text = hour.ToString("D4") + ":" + min.ToString("D2");
+                       int nhour = timemaint / 3600;
+                       gen.nextMainTimeTxt.Text = nhour.ToString("D4");
 
-                            if ((status & 0x00000008) > 0)
-                            {
-                                gen.runStatusTxt.Text += " 发电电压低";
-                            }
+                       gen.runStatusTxt.Text = "";
+                       for (ulong bitvalue = 1; bitvalue <= (int)MAVLink.MAV_GENERATOR_STATUS_FLAG.IDLE; bitvalue = bitvalue << 1)
+                       {
+                           ulong currentbit = (status & bitvalue);
 
-                            if ((status & 0x00000010) > 0)
-                            {
-                                gen.runStatusTxt.Text += " 电池电压低";
-                            }
-                        }
-                        else
-                        {
-                            if ((status & 0x00000001) > 0)
-                            {
-                                gen.runStatusTxt.Text += " maintenance required";
-                            }
+                           var currentflag = (MAVLink.MAV_GENERATOR_STATUS_FLAG)Enum.Parse(typeof(MAVLink.MAV_GENERATOR_STATUS_FLAG), bitvalue.ToString());
 
-                            if ((status & 0x00000002) > 0)
-                            {
-                                gen.runStatusTxt.Text += " start disenabled";
-                            }
+                           if (currentbit > 0)
+                           {
+                               gen.runStatusTxt.Text += currentflag.ToString().ToLower() + " ";
+                           }
+                       }          
 
-                            if ((status & 0x00000004) > 0)
-                            {
-                                gen.runStatusTxt.Text += " overload";
-                            }
+                       gen.voltageTxt.Text = ((float)bus_voltage) / 100.0f + " V";
+                       gen.powerTxt.Text =
+                           (((float)load_current) / 100.0f *
+                               ((float)bus_voltage) / 100.0f).ToString("F2") + "W";
+                   });
+                }
+                else
+                {
+                    if (sub != null)
+                        MainV2.comPort.UnSubscribeToPacketType(sub.Value);
+                }
 
-                            if ((status & 0x00000008) > 0)
-                            {
-                                gen.runStatusTxt.Text += " low voltage output";
-                            }
-
-                            if ((status & 0x00000010) > 0)
-                            {
-                                gen.runStatusTxt.Text += " battery low voltage";
-                            }
-                        }
-                    }
-
-                    gen.voltageTxt.Text = ((float)bus_voltage) / 100.0f + " V";
-                    gen.powerTxt.Text =
-                        (((float)load_current) / 100.0f *
-                            ((float)bus_voltage) / 100.0f).ToString("F2") + "W";
-                    switch (status)
-                    {
-                        case 0:
-                            gen.statusTxt.Text = "IDLE";
-                            break;
-                        case 1:
-                            gen.statusTxt.Text = "RUN";
-                            break;
-                        case 2:
-                            gen.statusTxt.Text = "CHARGE";
-                            break;
-                        case 3:
-                            gen.statusTxt.Text = "BALANCE";
-                            break;
-
-                    }
-                });
+                return true;
             }
-            else
+
+            ulong status;
+            private ushort generator_speed;
+            private float load_current;
+            private float bus_voltage;
+            private uint run_time;
+            private int timemaint;
+            private generator gen;
+
+            public override bool Exit()
             {
-                if (sub != null)
-                    MainV2.comPort.UnSubscribeToPacketType(sub.Value);
+                return true;
             }
-
-            return true;
-        }
-
-        ulong status;
-        private ushort generator_speed;
-        private float load_current;
-        private float bus_voltage;
-        private generator gen;
-
-        public override bool Exit()
-        {
-            return true;
         }
     }
 }
