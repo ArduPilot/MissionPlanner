@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Jul 17 2020";
+    public const string MAVLINK_BUILD_DATE = "Fri Jul 24 2020";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -54,7 +54,7 @@ public partial class MAVLink
         new message_info(26, "SCALED_IMU", 170, 22, 24, typeof( mavlink_scaled_imu_t )),
         new message_info(27, "RAW_IMU", 144, 26, 29, typeof( mavlink_raw_imu_t )),
         new message_info(28, "RAW_PRESSURE", 67, 16, 16, typeof( mavlink_raw_pressure_t )),
-        new message_info(29, "SCALED_PRESSURE", 115, 14, 14, typeof( mavlink_scaled_pressure_t )),
+        new message_info(29, "SCALED_PRESSURE", 115, 14, 16, typeof( mavlink_scaled_pressure_t )),
         new message_info(30, "ATTITUDE", 39, 28, 28, typeof( mavlink_attitude_t )),
         new message_info(31, "ATTITUDE_QUATERNION", 246, 32, 48, typeof( mavlink_attitude_quaternion_t )),
         new message_info(32, "LOCAL_POSITION_NED", 185, 28, 28, typeof( mavlink_local_position_ned_t )),
@@ -142,13 +142,13 @@ public partial class MAVLink
         new message_info(134, "TERRAIN_DATA", 229, 43, 43, typeof( mavlink_terrain_data_t )),
         new message_info(135, "TERRAIN_CHECK", 203, 8, 8, typeof( mavlink_terrain_check_t )),
         new message_info(136, "TERRAIN_REPORT", 1, 22, 22, typeof( mavlink_terrain_report_t )),
-        new message_info(137, "SCALED_PRESSURE2", 195, 14, 14, typeof( mavlink_scaled_pressure2_t )),
+        new message_info(137, "SCALED_PRESSURE2", 195, 14, 16, typeof( mavlink_scaled_pressure2_t )),
         new message_info(138, "ATT_POS_MOCAP", 109, 36, 120, typeof( mavlink_att_pos_mocap_t )),
         new message_info(139, "SET_ACTUATOR_CONTROL_TARGET", 168, 43, 43, typeof( mavlink_set_actuator_control_target_t )),
         new message_info(140, "ACTUATOR_CONTROL_TARGET", 181, 41, 41, typeof( mavlink_actuator_control_target_t )),
         new message_info(141, "ALTITUDE", 47, 32, 32, typeof( mavlink_altitude_t )),
         new message_info(142, "RESOURCE_REQUEST", 72, 243, 243, typeof( mavlink_resource_request_t )),
-        new message_info(143, "SCALED_PRESSURE3", 131, 14, 14, typeof( mavlink_scaled_pressure3_t )),
+        new message_info(143, "SCALED_PRESSURE3", 131, 14, 16, typeof( mavlink_scaled_pressure3_t )),
         new message_info(144, "FOLLOW_TARGET", 127, 93, 93, typeof( mavlink_follow_target_t )),
         new message_info(146, "CONTROL_SYSTEM_STATE", 103, 100, 100, typeof( mavlink_control_system_state_t )),
         new message_info(147, "BATTERY_STATUS", 154, 36, 41, typeof( mavlink_battery_status_t )),
@@ -8643,16 +8643,17 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> The pressure readings for the typical setup of one absolute and differential pressure sensor. The units are as specified in each field. </summary>
     public struct mavlink_scaled_pressure_t
     {
-        public mavlink_scaled_pressure_t(uint time_boot_ms,float press_abs,float press_diff,short temperature) 
+        public mavlink_scaled_pressure_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
               this.time_boot_ms = time_boot_ms;
               this.press_abs = press_abs;
               this.press_diff = press_diff;
               this.temperature = temperature;
+              this.temperature_press_diff = temperature_press_diff;
             
         }
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
@@ -8667,10 +8668,14 @@ public partial class MAVLink
         [Units("[hPa]")]
         [Description("Differential pressure 1")]
         public  float press_diff;
-            /// <summary>Temperature  [cdegC] </summary>
+            /// <summary>Absolute pressure temperature  [cdegC] </summary>
         [Units("[cdegC]")]
-        [Description("Temperature")]
+        [Description("Absolute pressure temperature")]
         public  short temperature;
+            /// <summary>Differential pressure temperature  [cdegC] </summary>
+        [Units("[cdegC]")]
+        [Description("Differential pressure temperature")]
+        public  short temperature_press_diff;
     
     };
 
@@ -13375,16 +13380,17 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> Barometer readings for 2nd barometer </summary>
     public struct mavlink_scaled_pressure2_t
     {
-        public mavlink_scaled_pressure2_t(uint time_boot_ms,float press_abs,float press_diff,short temperature) 
+        public mavlink_scaled_pressure2_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
               this.time_boot_ms = time_boot_ms;
               this.press_abs = press_abs;
               this.press_diff = press_diff;
               this.temperature = temperature;
+              this.temperature_press_diff = temperature_press_diff;
             
         }
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
@@ -13399,10 +13405,14 @@ public partial class MAVLink
         [Units("[hPa]")]
         [Description("Differential pressure")]
         public  float press_diff;
-            /// <summary>Temperature measurement  [cdegC] </summary>
+            /// <summary>Absolute pressure temperature  [cdegC] </summary>
         [Units("[cdegC]")]
-        [Description("Temperature measurement")]
+        [Description("Absolute pressure temperature")]
         public  short temperature;
+            /// <summary>Differential pressure temperature  [cdegC] </summary>
+        [Units("[cdegC]")]
+        [Description("Differential pressure temperature")]
+        public  short temperature_press_diff;
     
     };
 
@@ -13603,16 +13613,17 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> Barometer readings for 3rd barometer </summary>
     public struct mavlink_scaled_pressure3_t
     {
-        public mavlink_scaled_pressure3_t(uint time_boot_ms,float press_abs,float press_diff,short temperature) 
+        public mavlink_scaled_pressure3_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
               this.time_boot_ms = time_boot_ms;
               this.press_abs = press_abs;
               this.press_diff = press_diff;
               this.temperature = temperature;
+              this.temperature_press_diff = temperature_press_diff;
             
         }
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
@@ -13627,10 +13638,14 @@ public partial class MAVLink
         [Units("[hPa]")]
         [Description("Differential pressure")]
         public  float press_diff;
-            /// <summary>Temperature measurement  [cdegC] </summary>
+            /// <summary>Absolute pressure temperature  [cdegC] </summary>
         [Units("[cdegC]")]
-        [Description("Temperature measurement")]
+        [Description("Absolute pressure temperature")]
         public  short temperature;
+            /// <summary>Differential pressure temperature  [cdegC] </summary>
+        [Units("[cdegC]")]
+        [Description("Differential pressure temperature")]
+        public  short temperature_press_diff;
     
     };
 
