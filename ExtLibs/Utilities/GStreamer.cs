@@ -181,7 +181,7 @@ namespace MissionPlanner.Utilities
 
             [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_app_sink_set_callbacks(IntPtr appsink, GstAppSinkCallbacks callbacks,
-                ref int testdata, object p);
+                IntPtr user_data, IntPtr notify);
         }
 
         public const UInt64 GST_CLOCK_TIME_NONE = 18446744073709551615;
@@ -216,8 +216,10 @@ namespace MissionPlanner.Utilities
             public new_preroll new_preroll; //GstFlowReturn(*new_preroll)      (GstAppSink* sink, gpointer user_data);
             public new_buffer new_buffer; //GstFlowReturn(*new_buffer)       (GstAppSink* sink, gpointer user_data);
 
-            public new_buffer_list
-                new_buffer_list; //GstFlowReturn(*new_buffer_list)  (GstAppSink* sink, gpointer user_data);
+            public IntPtr _gst_reserved1;
+            public IntPtr _gst_reserved2;
+            public IntPtr _gst_reserved3;
+            public IntPtr _gst_reserved4;
         }
 
         public enum GstFlowReturn
@@ -408,18 +410,19 @@ namespace MissionPlanner.Utilities
 
             //var appsink = NativeMethods.gst_element_factory_make("appsink", null);
 
-            int testdata = 0;
             bool newdata = false;
             GstAppSinkCallbacks callbacks = new GstAppSinkCallbacks();
             callbacks.new_buffer += (sink, data) =>
             {
-                newdata = true; return GstFlowReturn.GST_FLOW_OK; };
-            //callbacks.new_preroll += (sink, data) => { return GstFlowReturn.GST_FLOW_OK; };
-            callbacks.eos += (sink, data) => { };
+                newdata = true;
+                return GstFlowReturn.GST_FLOW_OK;
+            };
+            callbacks.new_preroll += (sink, data) => { log.Info("new_preroll"); return GstFlowReturn.GST_FLOW_OK; };
+            callbacks.eos += (sink, data) => { log.Info("EOS"); };
 
             NativeMethods.gst_app_sink_set_drop(appsink, true);
             NativeMethods.gst_app_sink_set_max_buffers(appsink, 1);
-            NativeMethods.gst_app_sink_set_callbacks(appsink, callbacks, ref testdata, null);
+            NativeMethods.gst_app_sink_set_callbacks(appsink, callbacks, IntPtr.Zero, IntPtr.Zero);
 
             /* Start playing */
             var running = NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING) != GstStateChangeReturn.GST_STATE_CHANGE_FAILURE;
