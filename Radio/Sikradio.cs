@@ -70,14 +70,14 @@ S15: MAX_WINDOW=131
 
             _LocalExtraParams = new ExtraParamControlsSet(lblNODEID, NODEID,
                 lblDESTID, DESTID, lblTX_ENCAP_METHOD, TX_ENCAP_METHOD, lblRX_ENCAP_METHOD, RX_ENCAP_METHOD,
-                lblMAX_DATA, MAX_DATA,
-                new Control[] {lblMAX_RETRIES, MAX_RETRIES,
+                lblMAX_DATA, MAX_DATA, lblMAX_RETRIES, MAX_RETRIES,
+                new Control[] {
                 lblGLOBAL_RETRIES, GLOBAL_RETRIES, lblSER_BRK_DETMS, SER_BRK_DETMS}, false);
 
             _RemoteExtraParams = new ExtraParamControlsSet(lblRNODEID, RNODEID,
                 lblRDESTID, RDESTID, lblRTX_ENCAP_METHOD, RTX_ENCAP_METHOD, lblRRX_ENCAP_METHOD, RRX_ENCAP_METHOD,
-                lblRMAX_DATA, RMAX_DATA,
-                new Control[] {lblRMAX_RETRIES, RMAX_RETRIES,
+                lblRMAX_DATA, RMAX_DATA, lblRMAX_RETRIES, RMAX_RETRIES,
+                new Control[] {
                 lblRGLOBAL_RETRIES, RGLOBAL_RETRIES, lblRSER_BRK_DETMS, RSER_BRK_DETMS}, true);
 
             // setup netid
@@ -1111,7 +1111,7 @@ S15: MAX_WINDOW=131
                         {
                             ((TextBox)control).Text = values[2].Trim();
                         }
-                        else if (control.Name.Contains("MAVLINK")) //
+                        else if (control.Name.Contains("MAVLINK") && !(Settings.ContainsKey("MAVLINK") && (Settings["MAVLINK"].Options != null))) //
                         {
                             var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
                             ((ComboBox)control).Text = ans.ToString();
@@ -1400,23 +1400,23 @@ S15: MAX_WINDOW=131
 
                     if (ATI.Text.Contains("ASYNC"))
                     {
-                        _LocalExtraParams.SetModel(Model.ASYNC);
+                        _LocalExtraParams.SetModel(Model.ASYNC, Settings);
                     }
                     else
                     {
-                        if ((items.Length > 0) && items[0].StartsWith("["))
+                        if (ATI.Text.Contains("MP on") && (Session.Board == Uploader.Board.DEVICE_ID_RFD900X))
                         {
                             //This is multipoint firmware.
-                            _LocalExtraParams.SetModel(Model.MULTIPOINT);
+                            _LocalExtraParams.SetModel(Model.MULTIPOINT_X, Settings);
                         }
-                        else if (ATI.Text.Contains("MP on") && (Session.Board == Uploader.Board.DEVICE_ID_RFD900X))
+                        else if ((items.Length > 0) && items[0].StartsWith("["))
                         {
-                            _LocalExtraParams.SetModel(Model.MULTIPOINT_X);
+                            _LocalExtraParams.SetModel(Model.MULTIPOINT, Settings);
                         }
                         else
                         {
                             //This is p2p firmware.
-                            _LocalExtraParams.SetModel(Model.P2P);
+                            _LocalExtraParams.SetModel(Model.P2P, Settings);
                         }
                     }
 
@@ -1522,23 +1522,23 @@ S15: MAX_WINDOW=131
 
                         if (RTI.Text.Contains("ASYNC"))
                         {
-                            _RemoteExtraParams.SetModel(Model.ASYNC);
+                            _RemoteExtraParams.SetModel(Model.ASYNC, RemoteSettings);
                         }
                         else
                         {
-                            if ((items.Length > 0) && items[0].StartsWith("["))
+                            if (RTI.Text.Contains("MP on") && (Session.Board == Uploader.Board.DEVICE_ID_RFD900X))
+                            {
+                                _RemoteExtraParams.SetModel(Model.MULTIPOINT_X, RemoteSettings);
+                            }
+                            else if ((items.Length > 0) && items[0].StartsWith("["))
                             {
                                 //This is multipoint firmware.
-                                _RemoteExtraParams.SetModel(Model.MULTIPOINT);
-                            }
-                            else if (RTI.Text.Contains("MP on") && (Session.Board == Uploader.Board.DEVICE_ID_RFD900X))
-                            {
-                                _RemoteExtraParams.SetModel(Model.MULTIPOINT_X);
+                                _RemoteExtraParams.SetModel(Model.MULTIPOINT, RemoteSettings);
                             }
                             else
                             {
                                 //This is 2-point firmware.
-                                _RemoteExtraParams.SetModel(Model.P2P);
+                                _RemoteExtraParams.SetModel(Model.P2P, RemoteSettings);
                             }
                         }
 
@@ -2206,6 +2206,22 @@ red LED solid - in firmware update mode");
 
         bool _AlreadyInEncCheckChangedEvtHdlr = false;
 
+        string RemoveMultiPointLocalNodeID(string ATCReply)
+        {
+            ATCReply = ATCReply.Trim();
+
+            if ((ATCReply.Length > 1) && (ATCReply[0] == '[') && ATCReply.Contains(']'))
+            {
+                int StartIndex = ATCReply.IndexOf(']') + 1;
+
+                return ATCReply.Substring(StartIndex);
+            }
+            else
+            {
+                return ATCReply;
+            }
+        }
+
         /// <summary>
         /// Handles a change of an encryption level check box.
         /// </summary>
@@ -2251,7 +2267,7 @@ red LED solid - in firmware update mode");
                 //Read AES key back out of modem and display it.  
                 //BUT_getcurrent_Click(this, null);
                 //txt_aeskey.Text = doCommand(Session.Port, "AT&E?").Trim();
-                EncKeyTextBox.Text = doCommand(Session.Port, EncKeyQuery).Trim();
+                EncKeyTextBox.Text = RemoveMultiPointLocalNodeID(doCommand(Session.Port, EncKeyQuery).Trim());
                 lbl_status.Text = "Done.";
             }
             finally

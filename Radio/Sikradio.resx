@@ -225,7 +225,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RRTSCTS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 217</value>
+    <value>266, 207</value>
   </data>
   <data name="RRTSCTS.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 20</value>
@@ -345,7 +345,7 @@ red LED solid - in firmware update mode</value>
     <value>30</value>
   </data>
   <data name="RMAX_WINDOW.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 244</value>
+    <value>266, 232</value>
   </data>
   <data name="RMAX_WINDOW.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -399,7 +399,7 @@ red LED solid - in firmware update mode</value>
     <value>435000</value>
   </data>
   <data name="RMAX_FREQ.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 108</value>
+    <value>266, 107</value>
   </data>
   <data name="RMAX_FREQ.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -483,7 +483,7 @@ red LED solid - in firmware update mode</value>
     <value>50</value>
   </data>
   <data name="RNUM_CHANNELS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 135</value>
+    <value>266, 132</value>
   </data>
   <data name="RNUM_CHANNELS.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -540,7 +540,7 @@ red LED solid - in firmware update mode</value>
     <value>100</value>
   </data>
   <data name="RDUTY_CYCLE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 162</value>
+    <value>266, 157</value>
   </data>
   <data name="RDUTY_CYCLE.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -588,7 +588,7 @@ red LED solid - in firmware update mode</value>
     <value>250</value>
   </data>
   <data name="RLBT_RSSI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 189</value>
+    <value>266, 182</value>
   </data>
   <data name="RLBT_RSSI.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -642,7 +642,7 @@ red LED solid - in firmware update mode</value>
     <value>435000</value>
   </data>
   <data name="RMIN_FREQ.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 83</value>
+    <value>266, 82</value>
   </data>
   <data name="RMIN_FREQ.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -669,7 +669,7 @@ red LED solid - in firmware update mode</value>
     <value>False</value>
   </data>
   <data name="RMAVLINK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 243</value>
+    <value>88, 232</value>
   </data>
   <data name="RMAVLINK.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -699,7 +699,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RGPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 323</value>
+    <value>148, 307</value>
   </data>
   <data name="RGPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -729,7 +729,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RGPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 300</value>
+    <value>148, 282</value>
   </data>
   <data name="RGPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -783,7 +783,7 @@ red LED solid - in firmware update mode</value>
     <value>1</value>
   </data>
   <data name="RSERIAL_SPEED.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 109</value>
+    <value>88, 107</value>
   </data>
   <data name="RSERIAL_SPEED.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -850,7 +850,7 @@ red LED solid - in firmware update mode</value>
     <value>2</value>
   </data>
   <data name="RAIR_SPEED.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 136</value>
+    <value>88, 132</value>
   </data>
   <data name="RAIR_SPEED.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -967,7 +967,7 @@ red LED solid - in firmware update mode</value>
     <value>30</value>
   </data>
   <data name="RNETID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 163</value>
+    <value>88, 157</value>
   </data>
   <data name="RNETID.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1018,7 +1018,7 @@ red LED solid - in firmware update mode</value>
     <value>20</value>
   </data>
   <data name="RTXPOWER.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 191</value>
+    <value>88, 182</value>
   </data>
   <data name="RTXPOWER.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1049,7 +1049,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RECC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 217</value>
+    <value>88, 207</value>
   </data>
   <data name="RECC.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 20</value>
@@ -1080,10 +1080,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="ROPPRESEND.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 272</value>
+    <value>148, 257</value>
   </data>
   <data name="ROPPRESEND.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 21</value>
+    <value>20, 20</value>
   </data>
   <data name="ROPPRESEND.TabIndex" type="System.Int32, mscorlib">
     <value>120</value>
@@ -1111,7 +1111,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RTSCTS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 216</value>
+    <value>274, 207</value>
   </data>
   <data name="RTSCTS.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 20</value>
@@ -1231,7 +1231,7 @@ red LED solid - in firmware update mode</value>
     <value>30</value>
   </data>
   <data name="MAX_WINDOW.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 243</value>
+    <value>274, 232</value>
   </data>
   <data name="MAX_WINDOW.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1369,7 +1369,7 @@ red LED solid - in firmware update mode</value>
     <value>50</value>
   </data>
   <data name="NUM_CHANNELS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 134</value>
+    <value>274, 132</value>
   </data>
   <data name="NUM_CHANNELS.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1417,7 +1417,7 @@ red LED solid - in firmware update mode</value>
     <value>250</value>
   </data>
   <data name="LBT_RSSI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 188</value>
+    <value>274, 182</value>
   </data>
   <data name="LBT_RSSI.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1537,7 +1537,7 @@ red LED solid - in firmware update mode</value>
     <value>100</value>
   </data>
   <data name="DUTY_CYCLE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 161</value>
+    <value>274, 157</value>
   </data>
   <data name="DUTY_CYCLE.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1567,7 +1567,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="GPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 323</value>
+    <value>154, 307</value>
   </data>
   <data name="GPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 20</value>
@@ -1597,10 +1597,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="GPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 297</value>
+    <value>154, 282</value>
   </data>
   <data name="GPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 26</value>
+    <value>23, 20</value>
   </data>
   <data name="GPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
     <value>127</value>
@@ -1624,7 +1624,7 @@ red LED solid - in firmware update mode</value>
     <value>False</value>
   </data>
   <data name="MAVLINK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 244</value>
+    <value>96, 232</value>
   </data>
   <data name="MAVLINK.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1678,7 +1678,7 @@ red LED solid - in firmware update mode</value>
     <value>1</value>
   </data>
   <data name="SERIAL_SPEED.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 109</value>
+    <value>96, 107</value>
   </data>
   <data name="SERIAL_SPEED.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1745,7 +1745,7 @@ red LED solid - in firmware update mode</value>
     <value>2</value>
   </data>
   <data name="AIR_SPEED.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 136</value>
+    <value>96, 132</value>
   </data>
   <data name="AIR_SPEED.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1862,7 +1862,7 @@ red LED solid - in firmware update mode</value>
     <value>30</value>
   </data>
   <data name="NETID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 163</value>
+    <value>96, 157</value>
   </data>
   <data name="NETID.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1913,7 +1913,7 @@ red LED solid - in firmware update mode</value>
     <value>20</value>
   </data>
   <data name="TXPOWER.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 191</value>
+    <value>96, 182</value>
   </data>
   <data name="TXPOWER.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -1944,7 +1944,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="ECC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 217</value>
+    <value>96, 207</value>
   </data>
   <data name="ECC.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 20</value>
@@ -1975,10 +1975,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="OPPRESEND.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 274</value>
+    <value>154, 257</value>
   </data>
   <data name="OPPRESEND.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 19</value>
+    <value>23, 20</value>
   </data>
   <data name="OPPRESEND.TabIndex" type="System.Int32, mscorlib">
     <value>124</value>
@@ -2006,10 +2006,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="GPO1_3SBUSIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 346</value>
+    <value>154, 332</value>
   </data>
   <data name="GPO1_3SBUSIN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 23</value>
+    <value>23, 20</value>
   </data>
   <data name="GPO1_3SBUSIN.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -2036,7 +2036,7 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RGPO1_3SBUSIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 345</value>
+    <value>148, 332</value>
   </data>
   <data name="RGPO1_3SBUSIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 20</value>
@@ -2066,10 +2066,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="GPO1_3STATLED.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 404</value>
+    <value>154, 382</value>
   </data>
   <data name="GPO1_3STATLED.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 23</value>
+    <value>23, 20</value>
   </data>
   <data name="GPO1_3STATLED.TabIndex" type="System.Int32, mscorlib">
     <value>151</value>
@@ -2096,10 +2096,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="GPO1_0TXEN485.Location" type="System.Drawing.Point, System.Drawing">
-    <value>283, 404</value>
+    <value>283, 382</value>
   </data>
   <data name="GPO1_0TXEN485.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 23</value>
+    <value>23, 20</value>
   </data>
   <data name="GPO1_0TXEN485.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -2126,10 +2126,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RGPO1_0TXEN485.Location" type="System.Drawing.Point, System.Drawing">
-    <value>275, 404</value>
+    <value>275, 382</value>
   </data>
   <data name="RGPO1_0TXEN485.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 23</value>
+    <value>23, 20</value>
   </data>
   <data name="RGPO1_0TXEN485.TabIndex" type="System.Int32, mscorlib">
     <value>159</value>
@@ -2156,10 +2156,10 @@ red LED solid - in firmware update mode</value>
     <value>NoControl</value>
   </data>
   <data name="RGPO1_3STATLED.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 404</value>
+    <value>148, 382</value>
   </data>
   <data name="RGPO1_3STATLED.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 23</value>
+    <value>23, 20</value>
   </data>
   <data name="RGPO1_3STATLED.TabIndex" type="System.Int32, mscorlib">
     <value>157</value>
@@ -2276,7 +2276,7 @@ red LED solid - in firmware update mode</value>
     <value>30</value>
   </data>
   <data name="ENCRYPTION_LEVEL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 268</value>
+    <value>274, 257</value>
   </data>
   <data name="ENCRYPTION_LEVEL.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -2396,7 +2396,7 @@ red LED solid - in firmware update mode</value>
     <value>30</value>
   </data>
   <data name="RENCRYPTION_LEVEL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 271</value>
+    <value>266, 257</value>
   </data>
   <data name="RENCRYPTION_LEVEL.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -2418,72 +2418,6 @@ red LED solid - in firmware update mode</value>
   </data>
   <data name="&gt;&gt;RENCRYPTION_LEVEL.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="BUT_SetPPMFailSafeRemote.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BUT_SetPPMFailSafeRemote.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_SetPPMFailSafeRemote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>425, 400</value>
-  </data>
-  <data name="BUT_SetPPMFailSafeRemote.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
-  </data>
-  <data name="BUT_SetPPMFailSafeRemote.TabIndex" type="System.Int32, mscorlib">
-    <value>87</value>
-  </data>
-  <data name="BUT_SetPPMFailSafeRemote.Text" xml:space="preserve">
-    <value>Set PPM Fail Safe</value>
-  </data>
-  <data name="BUT_SetPPMFailSafeRemote.ToolTip" xml:space="preserve">
-    <value>Record default PPM stream for PPM output (vehicle side)</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Name" xml:space="preserve">
-    <value>BUT_SetPPMFailSafeRemote</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.41.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Parent" xml:space="preserve">
-    <value>groupBoxRemote</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.Location" type="System.Drawing.Point, System.Drawing">
-    <value>425, 400</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 29</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.TabIndex" type="System.Int32, mscorlib">
-    <value>86</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.Text" xml:space="preserve">
-    <value>Set PPM Fail Safe</value>
-  </data>
-  <data name="BUT_SetPPMFailSafe.ToolTip" xml:space="preserve">
-    <value>Record default PPM stream for PPM output (vehicle side)</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Name" xml:space="preserve">
-    <value>BUT_SetPPMFailSafe</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.41.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;BUT_SetPPMFailSafe.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="RTI.Location" type="System.Drawing.Point, System.Drawing">
     <value>60, 12</value>
@@ -2643,7 +2577,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lbl245.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 408</value>
+    <value>182, 386</value>
   </data>
   <data name="lbl245.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 13</value>
@@ -2673,7 +2607,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label43.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 408</value>
+    <value>18, 386</value>
   </data>
   <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 13</value>
@@ -2700,7 +2634,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="GPO1_3SBUSOUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>425, 347</value>
+    <value>425, 332</value>
   </data>
   <data name="GPO1_3SBUSOUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 21</value>
@@ -2750,6 +2684,39 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;label49.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="BUT_SetPPMFailSafe.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Location" type="System.Drawing.Point, System.Drawing">
+    <value>425, 400</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Text" xml:space="preserve">
+    <value>Set PPM Fail Safe</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.ToolTip" xml:space="preserve">
+    <value>Record default PPM stream for PPM output (vehicle side)</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Name" xml:space="preserve">
+    <value>BUT_SetPPMFailSafe</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.42.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <data name="txtCountry.Location" type="System.Drawing.Point, System.Drawing">
     <value>380, 38</value>
   </data>
@@ -2781,7 +2748,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label45.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 376</value>
+    <value>18, 361</value>
   </data>
   <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
@@ -2808,7 +2775,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="RATE_FREQBAND.Location" type="System.Drawing.Point, System.Drawing">
-    <value>128, 372</value>
+    <value>128, 357</value>
   </data>
   <data name="RATE_FREQBAND.Size" type="System.Drawing.Size, System.Drawing">
     <value>399, 21</value>
@@ -2835,7 +2802,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblSBUSOUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 333</value>
+    <value>360, 311</value>
   </data>
   <data name="lblSBUSOUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 13</value>
@@ -2865,7 +2832,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblSBUSIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 352</value>
+    <value>18, 336</value>
   </data>
   <data name="lblSBUSIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 13</value>
@@ -2895,7 +2862,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="btnRandom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>242, 292</value>
+    <value>242, 282</value>
   </data>
   <data name="btnRandom.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 24</value>
@@ -2925,7 +2892,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 196</value>
+    <value>360, 186</value>
   </data>
   <data name="lblRX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 13</value>
@@ -2955,7 +2922,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="RX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 193</value>
+    <value>447, 182</value>
   </data>
   <data name="RX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -2985,7 +2952,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblTX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 168</value>
+    <value>360, 161</value>
   </data>
   <data name="lblTX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 13</value>
@@ -3015,7 +2982,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="TX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 165</value>
+    <value>447, 157</value>
   </data>
   <data name="TX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -3045,7 +3012,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblDESTID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 140</value>
+    <value>360, 136</value>
   </data>
   <data name="lblDESTID.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 13</value>
@@ -3078,7 +3045,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblNODEID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 112</value>
+    <value>360, 111</value>
   </data>
   <data name="lblNODEID.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 13</value>
@@ -3108,7 +3075,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="DESTID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 137</value>
+    <value>447, 132</value>
   </data>
   <data name="DESTID.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -3135,7 +3102,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="NODEID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 109</value>
+    <value>447, 107</value>
   </data>
   <data name="NODEID.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -3165,7 +3132,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label40.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 326</value>
+    <value>18, 311</value>
   </data>
   <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 13</value>
@@ -3195,7 +3162,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label39.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 300</value>
+    <value>18, 286</value>
   </data>
   <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 13</value>
@@ -3225,7 +3192,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 87</value>
+    <value>18, 86</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 13</value>
@@ -3255,7 +3222,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 113</value>
+    <value>18, 111</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 13</value>
@@ -3279,7 +3246,7 @@ this ensures you wont lose radio link</value>
     <value>30</value>
   </data>
   <data name="FORMAT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 83</value>
+    <value>96, 82</value>
   </data>
   <data name="FORMAT.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 20</value>
@@ -3306,7 +3273,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 139</value>
+    <value>18, 136</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
@@ -3336,7 +3303,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 166</value>
+    <value>18, 161</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 13</value>
@@ -3366,7 +3333,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 193</value>
+    <value>18, 186</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 13</value>
@@ -3396,7 +3363,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 218</value>
+    <value>18, 211</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 13</value>
@@ -3426,7 +3393,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 274</value>
+    <value>18, 261</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -3456,7 +3423,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 247</value>
+    <value>18, 236</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 13</value>
@@ -3486,7 +3453,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 87</value>
+    <value>360, 86</value>
   </data>
   <data name="lblANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 13</value>
@@ -3513,7 +3480,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="ANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 83</value>
+    <value>447, 82</value>
   </data>
   <data name="ANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -3540,7 +3507,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblSER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 310</value>
+    <value>360, 286</value>
   </data>
   <data name="lblSER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 13</value>
@@ -3573,7 +3540,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblGLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 282</value>
+    <value>360, 261</value>
   </data>
   <data name="lblGLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 13</value>
@@ -3606,7 +3573,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblMAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 254</value>
+    <value>360, 236</value>
   </data>
   <data name="lblMAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 13</value>
@@ -3636,7 +3603,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="SER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 307</value>
+    <value>447, 282</value>
   </data>
   <data name="SER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -3663,7 +3630,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="GLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 279</value>
+    <value>447, 257</value>
   </data>
   <data name="GLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -3690,7 +3657,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="MAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 251</value>
+    <value>447, 232</value>
   </data>
   <data name="MAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -3717,7 +3684,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="MAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 223</value>
+    <value>447, 207</value>
   </data>
   <data name="MAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -3747,7 +3714,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblMAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 226</value>
+    <value>360, 211</value>
   </data>
   <data name="lblMAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
@@ -3780,7 +3747,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label36.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 271</value>
+    <value>181, 261</value>
   </data>
   <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
@@ -3810,7 +3777,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label35.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 299</value>
+    <value>182, 286</value>
   </data>
   <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 13</value>
@@ -3834,7 +3801,7 @@ this ensures you wont lose radio link</value>
     <value>54</value>
   </data>
   <data name="txt_aeskey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 320</value>
+    <value>180, 307</value>
   </data>
   <data name="txt_aeskey.MaxLength" type="System.Int32, mscorlib">
     <value>32</value>
@@ -3864,7 +3831,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 217</value>
+    <value>181, 211</value>
   </data>
   <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
@@ -3894,7 +3861,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="linkLabel_mavlink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 340</value>
+    <value>183, 327</value>
   </data>
   <data name="linkLabel_mavlink.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 13</value>
@@ -3924,7 +3891,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="linkLabel_lowlatency.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 353</value>
+    <value>182, 340</value>
   </data>
   <data name="linkLabel_lowlatency.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 13</value>
@@ -3954,7 +3921,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 246</value>
+    <value>182, 236</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 13</value>
@@ -4014,7 +3981,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 191</value>
+    <value>182, 186</value>
   </data>
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
@@ -4044,7 +4011,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 164</value>
+    <value>182, 161</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 13</value>
@@ -4074,7 +4041,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 138</value>
+    <value>182, 136</value>
   </data>
   <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 13</value>
@@ -4104,7 +4071,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 110</value>
+    <value>182, 111</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 13</value>
@@ -4182,7 +4149,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label44.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 408</value>
+    <value>174, 386</value>
   </data>
   <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 13</value>
@@ -4212,7 +4179,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label47.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 408</value>
+    <value>10, 386</value>
   </data>
   <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 13</value>
@@ -4235,8 +4202,11 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;label47.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="RGPO1_3SBUSOUT.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="RGPO1_3SBUSOUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>425, 348</value>
+    <value>425, 332</value>
   </data>
   <data name="RGPO1_3SBUSOUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 21</value>
@@ -4255,6 +4225,39 @@ this ensures you wont lose radio link</value>
   </data>
   <data name="&gt;&gt;RGPO1_3SBUSOUT.ZOrder" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.Location" type="System.Drawing.Point, System.Drawing">
+    <value>425, 400</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.TabIndex" type="System.Int32, mscorlib">
+    <value>87</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.Text" xml:space="preserve">
+    <value>Set PPM Fail Safe</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.ToolTip" xml:space="preserve">
+    <value>Record default PPM stream for PPM output (vehicle side)</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Name" xml:space="preserve">
+    <value>BUT_SetPPMFailSafeRemote</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.42.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="label50.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4317,7 +4320,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRSBUSOUT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 333</value>
+    <value>357, 311</value>
   </data>
   <data name="lblRSBUSOUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 13</value>
@@ -4347,7 +4350,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRSBUSIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 349</value>
+    <value>10, 336</value>
   </data>
   <data name="lblRSBUSIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 13</value>
@@ -4377,7 +4380,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 373</value>
+    <value>10, 361</value>
   </data>
   <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
@@ -4404,7 +4407,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="RRATE_FREQBAND.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 373</value>
+    <value>121, 357</value>
   </data>
   <data name="RRATE_FREQBAND.Size" type="System.Drawing.Size, System.Drawing">
     <value>406, 21</value>
@@ -4431,7 +4434,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRRX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 200</value>
+    <value>357, 186</value>
   </data>
   <data name="lblRRX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 13</value>
@@ -4458,7 +4461,7 @@ this ensures you wont lose radio link</value>
     <value>14</value>
   </data>
   <data name="RRX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 193</value>
+    <value>447, 182</value>
   </data>
   <data name="RRX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -4488,7 +4491,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRTX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 172</value>
+    <value>357, 161</value>
   </data>
   <data name="lblRTX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 13</value>
@@ -4515,7 +4518,7 @@ this ensures you wont lose radio link</value>
     <value>16</value>
   </data>
   <data name="RTX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 165</value>
+    <value>447, 157</value>
   </data>
   <data name="RTX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -4545,7 +4548,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRDESTID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 144</value>
+    <value>357, 136</value>
   </data>
   <data name="lblRDESTID.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 13</value>
@@ -4578,7 +4581,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRNODEID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 116</value>
+    <value>357, 111</value>
   </data>
   <data name="lblRNODEID.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 13</value>
@@ -4605,7 +4608,7 @@ this ensures you wont lose radio link</value>
     <value>19</value>
   </data>
   <data name="RDESTID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 137</value>
+    <value>447, 132</value>
   </data>
   <data name="RDESTID.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -4629,7 +4632,7 @@ this ensures you wont lose radio link</value>
     <value>20</value>
   </data>
   <data name="RNODEID.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 109</value>
+    <value>447, 107</value>
   </data>
   <data name="RNODEID.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -4659,7 +4662,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label41.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 326</value>
+    <value>10, 311</value>
   </data>
   <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 13</value>
@@ -4683,7 +4686,7 @@ this ensures you wont lose radio link</value>
     <value>22</value>
   </data>
   <data name="RFORMAT.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 83</value>
+    <value>88, 82</value>
   </data>
   <data name="RFORMAT.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 20</value>
@@ -4710,7 +4713,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label42.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 300</value>
+    <value>10, 286</value>
   </data>
   <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 13</value>
@@ -4740,7 +4743,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 274</value>
+    <value>11, 261</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -4770,7 +4773,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 247</value>
+    <value>11, 236</value>
   </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 13</value>
@@ -4800,7 +4803,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 220</value>
+    <value>11, 211</value>
   </data>
   <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 13</value>
@@ -4830,7 +4833,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label28.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 193</value>
+    <value>11, 186</value>
   </data>
   <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 13</value>
@@ -4860,7 +4863,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 166</value>
+    <value>11, 161</value>
   </data>
   <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 13</value>
@@ -4890,7 +4893,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label32.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 113</value>
+    <value>11, 111</value>
   </data>
   <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 13</value>
@@ -4920,7 +4923,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label30.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 139</value>
+    <value>11, 136</value>
   </data>
   <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
@@ -4950,7 +4953,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label31.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 87</value>
+    <value>11, 86</value>
   </data>
   <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 13</value>
@@ -4980,7 +4983,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 87</value>
+    <value>357, 86</value>
   </data>
   <data name="lblRANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 13</value>
@@ -5007,7 +5010,7 @@ this ensures you wont lose radio link</value>
     <value>False</value>
   </data>
   <data name="RANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 83</value>
+    <value>447, 82</value>
   </data>
   <data name="RANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -5034,7 +5037,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRSER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 312</value>
+    <value>357, 286</value>
   </data>
   <data name="lblRSER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 13</value>
@@ -5067,7 +5070,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRGLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 284</value>
+    <value>357, 261</value>
   </data>
   <data name="lblRGLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 13</value>
@@ -5100,7 +5103,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRMAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 256</value>
+    <value>357, 236</value>
   </data>
   <data name="lblRMAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 13</value>
@@ -5127,7 +5130,7 @@ this ensures you wont lose radio link</value>
     <value>46</value>
   </data>
   <data name="RSER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 305</value>
+    <value>447, 282</value>
   </data>
   <data name="RSER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -5151,7 +5154,7 @@ this ensures you wont lose radio link</value>
     <value>47</value>
   </data>
   <data name="RGLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 277</value>
+    <value>447, 257</value>
   </data>
   <data name="RGLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -5175,7 +5178,7 @@ this ensures you wont lose radio link</value>
     <value>48</value>
   </data>
   <data name="RMAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 249</value>
+    <value>447, 232</value>
   </data>
   <data name="RMAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -5199,7 +5202,7 @@ this ensures you wont lose radio link</value>
     <value>49</value>
   </data>
   <data name="RMAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 221</value>
+    <value>447, 207</value>
   </data>
   <data name="RMAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
@@ -5229,7 +5232,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="lblRMAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 228</value>
+    <value>357, 211</value>
   </data>
   <data name="lblRMAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
@@ -5262,7 +5265,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label38.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 300</value>
+    <value>174, 286</value>
   </data>
   <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 13</value>
@@ -5286,7 +5289,7 @@ this ensures you wont lose radio link</value>
     <value>52</value>
   </data>
   <data name="txt_Raeskey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 320</value>
+    <value>168, 307</value>
   </data>
   <data name="txt_Raeskey.MaxLength" type="System.Int32, mscorlib">
     <value>32</value>
@@ -5316,7 +5319,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label37.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 272</value>
+    <value>173, 261</value>
   </data>
   <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
@@ -5346,7 +5349,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 218</value>
+    <value>173, 211</value>
   </data>
   <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
@@ -5376,7 +5379,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label34.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 247</value>
+    <value>174, 236</value>
   </data>
   <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 13</value>
@@ -5406,7 +5409,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 87</value>
+    <value>174, 86</value>
   </data>
   <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 13</value>
@@ -5466,7 +5469,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 139</value>
+    <value>174, 136</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 13</value>
@@ -5496,7 +5499,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 165</value>
+    <value>174, 161</value>
   </data>
   <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 13</value>
@@ -5526,7 +5529,7 @@ this ensures you wont lose radio link</value>
     <value>NoControl</value>
   </data>
   <data name="label20.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 192</value>
+    <value>174, 186</value>
   </data>
   <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
@@ -5673,7 +5676,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_loadcustom</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.41.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.42.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -5700,7 +5703,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_resettodefault</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.41.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.42.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Parent" xml:space="preserve">
     <value>$this</value>
@@ -5730,7 +5733,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_savesettings</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.41.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.42.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Parent" xml:space="preserve">
     <value>$this</value>
@@ -5757,7 +5760,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_getcurrent</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.41.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.42.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Parent" xml:space="preserve">
     <value>$this</value>
@@ -5787,7 +5790,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_upload</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.41.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.42.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Parent" xml:space="preserve">
     <value>$this</value>
@@ -5817,7 +5820,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_Syncoptions</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.41.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.42.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Parent" xml:space="preserve">
     <value>$this</value>

@@ -1168,7 +1168,7 @@ namespace RFD.RFD900
                 {
                     return null;
                 }
-                else if (RFDLib.Text.Contains(Line, "eof"))
+                else if (RFDLib.Text.Contains(Line, "eof") || !Line.Contains("="))
                 {
                     return Result;
                 }
@@ -1191,7 +1191,7 @@ namespace RFD.RFD900
             Dictionary<string, TSetting> Ranges, out bool UseRanges)
         {
             string ATI5QR = UseATI10ToGetATI5QueryResponse(Remote);
-            if (ATI5QR == null)
+            if (ATI5QR == null || (ATI5QR.Length == 0))
             {
                 ATI5QR = ATCClient.DoQueryWithMultiLineResponse(Remote ? "RTI5?" : "ATI5?");
             }
