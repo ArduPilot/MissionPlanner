@@ -39,7 +39,9 @@ namespace MissionPlanner.Controls
             if (Screen == null)
                 return;
 
-            // add to list
+            // add to list - remove existing
+            if (screens.Any(a => a.Name == Screen.Name))
+                screens.Remove(screens.First(a => a.Name == Screen.Name));
             screens.Add(Screen);
 
             // hide it
