@@ -76,5 +76,10 @@ namespace Xamarin.GCSViews
                 return true;
             });            
         }
+
+        private void hud1_Touch(object sender, SkiaSharp.Views.Forms.SKTouchEventArgs e)
+        {
+            
+        }
     }
 }

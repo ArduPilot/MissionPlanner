@@ -136,10 +136,6 @@ namespace Xamarin
             gMapControl1.ScaleMode = ScaleModes.Fractional;
             gMapControl1.LevelsKeepInMemmory = 5;
 
-            TRK_zoom.Maximum = 24;
-            TRK_zoom.Minimum = 1;
-            TRK_zoom.Value = 3;
-
             gMapControl1.OnMapZoomChanged += gMapControl1_OnMapZoomChanged;
 
             gMapControl1.DisableFocusOnMouseEnter = true;
@@ -206,7 +202,6 @@ namespace Xamarin
                     {
                         // no zoom in
 
-                        TRK_zoom.Value = 3;
                     }
                     else
                     {
@@ -520,12 +515,7 @@ namespace Xamarin
             //this.Invoke((Action) delegate { preFlightChecklist1.BindData(); });
         }
 
-        private void CHK_autopan_CheckedChanged(object sender, EventArgs e)
-        {
-            Settings.Instance["CHK_autopan"] = CHK_autopan.IsToggled.ToString();
-
-            //GCSViews.FlightPlanner.instance.autopan = CHK_autopan.Checked;
-        }
+ 
 
         private void FlightData_Load(object sender, EventArgs e)
         {
@@ -536,9 +526,7 @@ namespace Xamarin
             //if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
             //NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
 
-            TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
-            TRK_zoom.Maximum = 24;
-            TRK_zoom.Value = (float) gMapControl1.Zoom;
+  
 
             gMapControl1.EmptyTileColor = Color.Gray;
 
@@ -559,8 +547,7 @@ namespace Xamarin
             //CMB_mountmode.DisplayMember = "Value";
             //CMB_mountmode.ValueMember = "Key";
 
-            if (Settings.Instance["CHK_autopan"] != null)
-                CHK_autopan.IsToggled = Settings.Instance.GetBoolean("CHK_autopan");
+
 
             //if (Settings.Instance.ContainsKey("HudSwap") && Settings.Instance["HudSwap"] == "true")
             //SwapHud1AndMap();
@@ -665,7 +652,7 @@ namespace Xamarin
             try
             {
                 // Exception System.Runtime.InteropServices.SEHException: External component has thrown an exception.
-                TRK_zoom.Value = gMapControl1.Zoom;
+       
                 //  Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
             }
             catch
@@ -1311,7 +1298,7 @@ namespace Xamarin
                             }
 
                             if (route.Points.Count == 0 || route.Points[route.Points.Count - 1].Lat != 0 &&
-                                (mapupdate.AddSeconds(3) < DateTime.Now) && CHK_autopan.IsToggled)
+                                (mapupdate.AddSeconds(3) < DateTime.Now))
                             {
                                 updateMapPosition(currentloc);
                                 mapupdate = DateTime.Now;
@@ -1518,25 +1505,6 @@ namespace Xamarin
             } // ignore any invalid 
         }
 
-        private void TRK_zoom_Scroll(object sender, EventArgs e)
-        {
-            try
-            {
-                if (gMapControl1.MaxZoom + 1 == (double) TRK_zoom.Value)
-                {
-                    gMapControl1.Zoom = TRK_zoom.Value - .1;
-                }
-                else
-                {
-                    gMapControl1.Zoom = TRK_zoom.Value;
-                }
-
-                UpdateOverlayVisibility();
-            }
-            catch
-            {
-            }
-        }
 
         private void updateBindingSource()
         {

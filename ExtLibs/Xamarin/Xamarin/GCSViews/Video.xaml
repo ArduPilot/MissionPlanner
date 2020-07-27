@@ -8,7 +8,7 @@
     <ContentPage.Content>
         <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <video:VideoPlayer AreTransportControlsEnabled="False" BackgroundColor="Black" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"  x:Name="videoPlayer" ></video:VideoPlayer>
-            <controls:HUD AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" x:Name="hud1"/>
+            <controls:HUD Touch="hud1_Touch" EnableTouchEvents="True" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" x:Name="hud1"/>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -191,7 +191,7 @@ namespace Rtsp
 
                     // We have an RTP frame.
                     // Fire the DataReceived event with 'frame'
-                    Console.WriteLine("Received RTP data on port " + data_port);
+                    //Console.WriteLine("Received RTP data on port " + data_port);
 
                     Rtsp.Messages.RtspChunk currentMessage = new Rtsp.Messages.RtspData();
                     // aMessage.SourcePort = ??

@@ -354,7 +354,10 @@ namespace FormsVideoLibrary.Droid
 
             rtspCancel.Cancel();
             Thread.Sleep(100);
-            codec.Stop();
+            try
+            {
+                codec.Stop();
+            } catch { }
             codec.Dispose();
             rtspCancel = null;
             codec = null;
