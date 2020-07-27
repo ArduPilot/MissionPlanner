@@ -2440,7 +2440,7 @@ namespace MissionPlanner
                         if (DateTime.Now > plugin.NextRun)
                         {
                             // get ms till next run
-                            int msnext = (int) (1000 / plugin.loopratehz);
+                            int msnext = (int)(1000 / plugin.loopratehz);
                             // allow the plug to modify this, if needed
                             plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
 
@@ -2476,8 +2476,11 @@ namespace MissionPlanner
                 }
                 Plugin.PluginLoader.Plugins.Remove(plugin);
             }
-
-            PluginThreadrunner.Set();
+            try
+            {
+                PluginThreadrunner.Set();
+            }
+            catch { }
 
             return;
         }
