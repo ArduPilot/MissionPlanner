@@ -37,6 +37,7 @@
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.but_fft = new MissionPlanner.Controls.MyButton();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
-            this.but_fft = new MissionPlanner.Controls.MyButton();
             this.label12 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -130,6 +130,13 @@
             this.tableLayoutPanel1.Controls.Add(this.label12, 1, 10);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
+            // but_fft
+            // 
+            resources.ApplyResources(this.but_fft, "but_fft");
+            this.but_fft.Name = "but_fft";
+            this.but_fft.UseVisualStyleBackColor = true;
+            this.but_fft.Click += new System.EventHandler(this.but_fft_Click);
+            // 
             // label7
             // 
             resources.ApplyResources(this.label7, "label7");
@@ -207,13 +214,6 @@
             this.but_anonlog.Name = "but_anonlog";
             this.but_anonlog.UseVisualStyleBackColor = true;
             this.but_anonlog.Click += new System.EventHandler(this.but_anonlog_Click);
-            // 
-            // but_fft
-            // 
-            resources.ApplyResources(this.but_fft, "but_fft");
-            this.but_fft.Name = "but_fft";
-            this.but_fft.UseVisualStyleBackColor = true;
-            this.but_fft.Click += new System.EventHandler(this.but_fft_Click);
             // 
             // label12
             // 
