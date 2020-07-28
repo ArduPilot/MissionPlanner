@@ -47,7 +47,7 @@ namespace CameraControl
         public override bool Loaded()
         {
             var rootbut = new ToolStripMenuItem("Herelink Video");
-            rootbut.Click += but_Click;
+            //rootbut.Click += but_Click;
             ToolStripItemCollection col = Host.FDMenuHud.Items;
             col.Add(rootbut);
 
