@@ -402,6 +402,12 @@ namespace generator
                     if (sub == null)
                         sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GENERATOR_STATUS, message =>
                         {
+                            MainV2.instance.BeginInvoke((MethodInvoker) delegate
+                            {
+                                if (!FlightData.instance.tabControlactions.Parent.Controls.Contains(gen))
+                                    FlightData.instance.tabControlactions.Parent.Controls.Add(gen);
+                            });
+                            
                             var gen = (MAVLink.mavlink_generator_status_t)message.data;
                             status = gen.status;
                             generator_speed = gen.generator_speed;
@@ -414,9 +420,6 @@ namespace generator
 
                     MainV2.instance.BeginInvoke((MethodInvoker)delegate
                    {
-                       if (!FlightData.instance.tabControlactions.Parent.Controls.Contains(gen))
-                           FlightData.instance.tabControlactions.Parent.Controls.Add(gen);
-
                        gen.aGaugeSpeed.Value1 = (float)(generator_speed / 1000.0);
                        uint min = (run_time) / 60;
                        uint hour = ((run_time) / 3600);
