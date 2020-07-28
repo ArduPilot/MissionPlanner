@@ -103,8 +103,10 @@ namespace px4uploader
             Console.WriteLine("image_size {0} size {1}",fw.image_size,size);
 
             // pad image to 4-byte length
-            //while ((fw.imagebyte.Length % 4) != 0) {
-            //fw.imagebyte. += b'\x00'
+            while ((fw.imagebyte.Length % 4) != 0)
+            {
+                Array.Resize(ref fw.imagebyte, fw.imagebyte.Length + (4 - (fw.imagebyte.Length % 4)));
+            }
 
             return fw;
         }
