@@ -146,11 +146,10 @@ namespace MissionPlanner.Utilities
                             int offset = 0;
                             int len = 0;
 
-                            while ((len = br.Read(buf1, offset, length)) > 0)
+                            while (length > 0 && (len = br.Read(buf1, offset, length)) >= 0)
                             {
                                 offset += len;
                                 length -= len;
-
                             }
                             /*
                             BinaryWriter sw = new BinaryWriter(File.OpenWrite("test.jpg"));
@@ -175,6 +174,10 @@ namespace MissionPlanner.Utilities
                                 _onNewImage?.Invoke(null, frame);
                             }
                             catch { }
+                        }
+                        else
+                        {
+                            throw new Exception("No mjpeg length header");
                         }
 
                         // blank line at end of data
