@@ -44,13 +44,14 @@ namespace Xamarin
 
         public MainPage()
         {
-         
+            Instance = this;
+
             InitializeComponent();
           
 
             try
             {
-                Instance = this;
+             
 
                 MasterPage.ListView.ItemSelected += ListView_ItemSelected;
 

@@ -25,12 +25,15 @@ using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Xamarin.Controls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Button = Xamarin.Forms.Button;
 using Color = System.Drawing.Color;
 using Device = Xamarin.Forms.Device;
 using Exception = System.Exception;
+using Label = Xamarin.Forms.Label;
 
 
 namespace Xamarin

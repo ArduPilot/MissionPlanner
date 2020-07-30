@@ -6,8 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Utilities
+namespace MissionPlanner
 {
     public class MainV2
     {
@@ -505,6 +506,11 @@ namespace MissionPlanner.Utilities
         internal void Invoke(Action methodInvoker)
         {
             Xamarin.Forms.Device.BeginInvokeOnMainThread(methodInvoker);
+        }
+
+        public class DisplayConfiguration
+        {
+            public static bool displayParamCommitButton;
         }
     }
 }

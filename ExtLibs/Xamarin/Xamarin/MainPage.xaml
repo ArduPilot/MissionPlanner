@@ -10,6 +10,6 @@
     <pages:MasterDetailPage1Master x:Name="MasterPage" />
   </MasterDetailPage.Master>
   <MasterDetailPage.Detail>
-        <gcsviews:Video></gcsviews:Video>
+      <gcsviews:WinForms></gcsviews:WinForms>
   </MasterDetailPage.Detail>
 </MasterDetailPage>
