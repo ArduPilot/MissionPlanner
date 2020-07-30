@@ -44,7 +44,14 @@ namespace MissionPlanner.Controls
 
         private void CMB_updaterate_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            try
+            {
+                updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.InvalidUpdateRate, Strings.ERROR);
+            }
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)

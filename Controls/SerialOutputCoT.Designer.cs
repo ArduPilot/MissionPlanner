@@ -82,7 +82,8 @@
             "2hz",
             "1hz",
             "0.5hz",
-            "0.25hz"});
+            "0.2hz",
+            "0.1hz"});
             this.CMB_updaterate.Location = new System.Drawing.Point(136, 46);
             this.CMB_updaterate.Name = "CMB_updaterate";
             this.CMB_updaterate.Size = new System.Drawing.Size(75, 21);
@@ -133,8 +134,8 @@
             this.TB_output.Multiline = true;
             this.TB_output.Name = "TB_output";
             this.TB_output.ReadOnly = true;
-            this.TB_output.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TB_output.Size = new System.Drawing.Size(486, 262);
+            this.TB_output.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.TB_output.Size = new System.Drawing.Size(412, 202);
             this.TB_output.TabIndex = 12;
             this.TB_output.WordWrap = false;
             // 
@@ -157,9 +158,9 @@
             // 
             // BTN_clear_TB
             // 
-            this.BTN_clear_TB.Location = new System.Drawing.Point(423, 440);
+            this.BTN_clear_TB.Location = new System.Drawing.Point(373, 380);
             this.BTN_clear_TB.Name = "BTN_clear_TB";
-            this.BTN_clear_TB.Size = new System.Drawing.Size(75, 23);
+            this.BTN_clear_TB.Size = new System.Drawing.Size(51, 23);
             this.BTN_clear_TB.TabIndex = 16;
             this.BTN_clear_TB.Text = "Clear";
             this.BTN_clear_TB.UseVisualStyleBackColor = true;
@@ -196,7 +197,7 @@
             this.GB_override.Controls.Add(this.CB_override_lat);
             this.GB_override.Location = new System.Drawing.Point(253, 21);
             this.GB_override.Name = "GB_override";
-            this.GB_override.Size = new System.Drawing.Size(245, 145);
+            this.GB_override.Size = new System.Drawing.Size(171, 145);
             this.GB_override.TabIndex = 19;
             this.GB_override.TabStop = false;
             this.GB_override.Text = "       Override Values";
@@ -204,7 +205,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(204, 119);
+            this.label3.Location = new System.Drawing.Point(125, 119);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 13);
             this.label3.TabIndex = 26;
@@ -213,7 +214,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(204, 99);
+            this.label2.Location = new System.Drawing.Point(125, 99);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 25;
@@ -222,7 +223,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(204, 73);
+            this.label1.Location = new System.Drawing.Point(125, 73);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 13);
             this.label1.TabIndex = 24;
@@ -242,7 +243,7 @@
             // 
             this.TB_override_speed.Location = new System.Drawing.Point(77, 116);
             this.TB_override_speed.Name = "TB_override_speed";
-            this.TB_override_speed.Size = new System.Drawing.Size(126, 20);
+            this.TB_override_speed.Size = new System.Drawing.Size(42, 20);
             this.TB_override_speed.TabIndex = 22;
             // 
             // CB_override_speed
@@ -259,7 +260,7 @@
             // 
             this.TB_override_heading.Location = new System.Drawing.Point(77, 93);
             this.TB_override_heading.Name = "TB_override_heading";
-            this.TB_override_heading.Size = new System.Drawing.Size(126, 20);
+            this.TB_override_heading.Size = new System.Drawing.Size(42, 20);
             this.TB_override_heading.TabIndex = 20;
             // 
             // CB_override_heading
@@ -276,7 +277,7 @@
             // 
             this.TB_override_alt.Location = new System.Drawing.Point(77, 70);
             this.TB_override_alt.Name = "TB_override_alt";
-            this.TB_override_alt.Size = new System.Drawing.Size(126, 20);
+            this.TB_override_alt.Size = new System.Drawing.Size(42, 20);
             this.TB_override_alt.TabIndex = 18;
             // 
             // CB_override_alt
@@ -293,7 +294,7 @@
             // 
             this.TB_override_lng.Location = new System.Drawing.Point(77, 47);
             this.TB_override_lng.Name = "TB_override_lng";
-            this.TB_override_lng.Size = new System.Drawing.Size(126, 20);
+            this.TB_override_lng.Size = new System.Drawing.Size(78, 20);
             this.TB_override_lng.TabIndex = 16;
             // 
             // CB_override_lng
@@ -310,7 +311,7 @@
             // 
             this.TB_override_lat.Location = new System.Drawing.Point(77, 24);
             this.TB_override_lat.Name = "TB_override_lat";
-            this.TB_override_lat.Size = new System.Drawing.Size(126, 20);
+            this.TB_override_lat.Size = new System.Drawing.Size(78, 20);
             this.TB_override_lat.TabIndex = 14;
             // 
             // CB_override_lat
@@ -344,7 +345,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 475);
+            this.ClientSize = new System.Drawing.Size(432, 408);
             this.Controls.Add(this.label_type);
             this.Controls.Add(this.TB_xml_type);
             this.Controls.Add(this.GB_override);
@@ -354,7 +355,7 @@
             this.Controls.Add(this.TB_xml_uid);
             this.Controls.Add(this.TB_output);
             this.Name = "SerialOutputCoT";
-            this.Text = "Cursor on Target";
+            this.Text = "Output Cursor on Target";
             this.GB_connection.ResumeLayout(false);
             this.GB_override.ResumeLayout(false);
             this.GB_override.PerformLayout();
