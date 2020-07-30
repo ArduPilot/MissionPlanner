@@ -135,105 +135,35 @@ namespace MissionPlanner.Controls
         void mainloop()
         {
             threadrun = true;
-            //CoTStream.NewLine = "\r\n";
+
             int counter = 0;
             while (threadrun)
             {
                 try
                 {
-                    if (!CoTStream.IsOpen)
+                    String xmlStr = getXmlString();
+
+                    TB_output.Invoke((Action)delegate
                     {
-                        Thread.Sleep(10);
-                        continue;
+                        TB_output.Text = xmlStr;
+                    });
+
+                    if (CoTStream.IsOpen)
+                    {
+                        CoTStream.WriteLine(xmlStr);
                     }
 
 
-                    //const String xmlStr = getXmlString("")
-
-
-
-                    /*
-                    //GGA
-                    double lat = (int)MainV2.comPort.MAV.cs.lat +
-                                    ((MainV2.comPort.MAV.cs.lat - (int)MainV2.comPort.MAV.cs.lat) * .6f);
-                    double lng = (int)MainV2.comPort.MAV.cs.lng +
-                                    ((MainV2.comPort.MAV.cs.lng - (int)MainV2.comPort.MAV.cs.lng) * .6f);
-                    string line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
-                        DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100).ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N",
-                        Math.Abs(lng * 100).ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E",
-                        MainV2.comPort.MAV.cs.gpsstatus >= 3 ? 1 : 0, MainV2.comPort.MAV.cs.satcount,
-                        MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.altasl, "M", 0, "M", "");
-
-                    string checksum = GetChecksum(line);
-                    CoTStream.WriteLine(line + "*" + checksum);
-
-                    //GLL
-                    line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "$GP{0},{1},{2},{3},{4},{5:HHmmss.fff},{6},{7}", "GLL",
-                        Math.Abs(lat * 100).ToString("0.00", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N",
-                        Math.Abs(lng * 100).ToString("0.00", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E",
-                        DateTime.Now.ToUniversalTime(), "A", "A");
-
-                    checksum = GetChecksum(line);
-                    CoTStream.WriteLine(line + "*" + checksum);
-
-                    //HDG
-                    line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "$GP{0},{1:0.0},{2},{3},{4},{5}", "HDG",
-                        MainV2.comPort.MAV.cs.yaw, 0, "E", 0, "E");
-
-                    checksum = GetChecksum(line);
-                    CoTStream.WriteLine(line + "*" + checksum);
-
-                    //VTG
-                    line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "$GP{0},{1},{2},{3},{4}", "VTG",
-                        MainV2.comPort.MAV.cs.groundcourse.ToString("000"), MainV2.comPort.MAV.cs.yaw.ToString("000"),
-                        (MainV2.comPort.MAV.cs.groundspeed * 1.943844).ToString("00.0", CultureInfo.InvariantCulture),
-                        (MainV2.comPort.MAV.cs.groundspeed * 3.6).ToString("00.0", CultureInfo.InvariantCulture));
-
-                    checksum = GetChecksum(line);
-                    CoTStream.WriteLine(line + "*" + checksum);
-
-                    //RMC
-                    line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9:ddMMyy},{10},{11},{12}", "RMC",
-                        DateTime.Now.ToUniversalTime(), "A", Math.Abs(lat * 100).ToString("0.00000", CultureInfo.InvariantCulture),
-                        MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng * 100).ToString("0.00000", CultureInfo.InvariantCulture),
-                        MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", (MainV2.comPort.MAV.cs.groundspeed * 1.943844).ToString("0.0", CultureInfo.InvariantCulture),
-                        MainV2.comPort.MAV.cs.groundcourse.ToString("0.0", CultureInfo.InvariantCulture), DateTime.Now, 0, "E", "A");
-
-                    checksum = GetChecksum(line);
-                    CoTStream.WriteLine(line + "*" + checksum);
-
-                    if (counter % 20 == 0 && HomeLoc.Lat != 0 && HomeLoc.Lng != 0)
-                    {
-                        line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                            "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},", "HOM", DateTime.Now.ToUniversalTime(),
-                            Math.Abs(HomeLoc.Lat * 100).ToString("0.00000", CultureInfo.InvariantCulture), HomeLoc.Lat < 0 ? "S" : "N", Math.Abs(HomeLoc.Lng * 100).ToString("0.00000", CultureInfo.InvariantCulture),
-                            HomeLoc.Lng < 0 ? "W" : "E", HomeLoc.Alt, "M");
-
-                        checksum = GetChecksum(line);
-                        CoTStream.WriteLine(line + "*" + checksum);
-                    }
-
-                    line = string.Format(System.Globalization.CultureInfo.InvariantCulture, "$GP{0},{1},{2},{3},", "RPY",
-                        MainV2.comPort.MAV.cs.roll.ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.pitch.ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.yaw.ToString("0.00000", CultureInfo.InvariantCulture));
-
-                    checksum = GetChecksum(line);
-                    CoTStream.WriteLine(line + "*" + checksum);
-                    */
-
-                        
                     var nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
                     var sleepfor = Math.Min((int)Math.Abs((nextsend - DateTime.Now).TotalMilliseconds), 4000);
-                    System.Threading.Thread.Sleep(sleepfor);
+                    Thread.Sleep(sleepfor);
                     counter++;
+
                         
                 }
                 catch
                 {
+                    Thread.Sleep(10);
                 }
             }
         }
@@ -254,6 +184,45 @@ namespace MissionPlanner.Controls
                 listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
             }
             catch { }
+        }
+
+        private String getXmlString()
+        {
+            bool hasOverrides = false;
+
+            double lat = MainV2.comPort.MAV.cs.lat;
+            double lng = MainV2.comPort.MAV.cs.lng;
+            if (CB_override_lat.Checked && TB_override_lat.Text.Length > 0)
+            {
+                hasOverrides |= Double.TryParse(TB_override_lat.Text, out lat);
+            }
+            if (CB_override_lng.Checked && TB_override_lng.Text.Length > 0)
+            {
+                hasOverrides |= Double.TryParse(TB_override_lng.Text, out lng);
+            }
+
+            double altitude = MainV2.comPort.MAV.cs.altasl;
+            if (CB_override_alt.Checked && TB_override_alt.Text.Length > 0)
+            {
+                hasOverrides |= Double.TryParse(TB_override_alt.Text, out altitude);
+            }
+
+            double groundSpeed = MainV2.comPort.MAV.cs.groundspeed;
+            if (CB_override_speed.Checked && TB_override_speed.Text.Length > 0)
+            {
+                hasOverrides |= Double.TryParse(TB_override_speed.Text, out groundSpeed);
+            }
+            double groundcourse = MainV2.comPort.MAV.cs.groundcourse;
+            if (CB_override_heading.Checked && TB_override_heading.Text.Length > 0)
+            {
+                hasOverrides |= Double.TryParse(TB_override_heading.Text, out groundcourse);
+            }
+
+            String how = hasOverrides ? "h-p" : "m-g";
+
+            String xmlStr = getXmlString(TB_xml_uid.Text, TB_xml_uid.Text, how, lat, lng, altitude, groundcourse, groundSpeed);
+
+            return xmlStr;
         }
 
         String getXmlString(String uid, String type, String how, double lat, double lng, double alt, double course = -1, double speed = -1)
@@ -323,6 +292,11 @@ namespace MissionPlanner.Controls
             CB_override_alt.Checked = checkedValue;
             CB_override_heading.Checked = checkedValue;
             CB_override_speed.Checked = checkedValue;
+        }
+
+        private void BTN_clear_TB_Click(object sender, EventArgs e)
+        {
+            TB_output.Text = "";
         }
     }
 }

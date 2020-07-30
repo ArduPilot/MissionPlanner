@@ -13,9 +13,23 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            try
             {
-                components.Dispose();
+                if (disposing && (components != null))
+                {
+                    components.Dispose();
+                }
+            }
+            catch
+            {
+                try
+                {
+                    if (disposing && (components != null))
+                    {
+                        components.Dispose();
+                    }
+                }
+                catch { }
             }
             base.Dispose(disposing);
         }
@@ -149,6 +163,7 @@
             this.BTN_clear_TB.TabIndex = 16;
             this.BTN_clear_TB.Text = "Clear";
             this.BTN_clear_TB.UseVisualStyleBackColor = true;
+            this.BTN_clear_TB.Click += new System.EventHandler(this.BTN_clear_TB_Click);
             // 
             // GB_connection
             // 
@@ -200,18 +215,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(204, 99);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 25;
-            this.label2.Text = "0-359";
+            this.label2.Text = "0-359°";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(204, 73);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(15, 13);
+            this.label1.Size = new System.Drawing.Size(40, 13);
             this.label1.TabIndex = 24;
-            this.label1.Text = "m";
+            this.label1.Text = "m MSL";
             // 
             // CB_overrides_enable
             // 
