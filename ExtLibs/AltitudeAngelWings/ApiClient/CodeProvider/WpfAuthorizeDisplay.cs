@@ -24,11 +24,15 @@ namespace AltitudeAngelWings.ApiClient.CodeProvider
             Width = 800;
             Height = 600;
 
-            _webBrowser = new WebBrowser();
-            _webBrowser.Navigating += WebBrowserOnNavigating;
-            _webBrowser.Navigated += WebBrowserOnNavigated;
-            _webBrowser.Dock = DockStyle.Fill;
-            Controls.Add(_webBrowser);
+            try
+            {
+                _webBrowser = new WebBrowser();
+                _webBrowser.Navigating += WebBrowserOnNavigating;
+                _webBrowser.Navigated += WebBrowserOnNavigated;
+                _webBrowser.Dock = DockStyle.Fill;
+                Controls.Add(_webBrowser);
+            }
+            catch { }
         }
 
         private void WebBrowserOnNavigated(object sender, WebBrowserNavigatedEventArgs e)
@@ -44,9 +48,11 @@ namespace AltitudeAngelWings.ApiClient.CodeProvider
         {
             _redirectUri = redirectUri;
 
-            _webBrowser.Navigate(authorizeUri);
-
-            ShowDialog();
+            if (_webBrowser != null)
+            {
+                _webBrowser.Navigate(authorizeUri);
+                ShowDialog();
+            }
 
             if(!seturl)
                 _tcs.SetResult(_redirectUri);
