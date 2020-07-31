@@ -227,7 +227,7 @@ namespace MissionPlanner.Controls
 
             String how = hasOverrides ? "h-p" : "m-g";
 
-            String xmlStr = getXmlString(TB_xml_uid.Text, TB_xml_uid.Text, how, lat, lng, altitude, groundcourse, groundSpeed);
+            String xmlStr = getXmlString(TB_xml_uid.Text, TB_xml_type.Text, how, lat, lng, altitude, groundcourse, groundSpeed);
 
             return xmlStr;
         }
