@@ -63,81 +63,96 @@ namespace MissionPlanner.Controls
                 listener = null;
             }
 
-            if (CoTStream.IsOpen)
+            if (threadrun)
             {
                 threadrun = false;
-                CoTStream.Close();
+                if (CoTStream != null && CoTStream.IsOpen)
+                {
+                    CoTStream.Close();
+                }
                 BUT_connect.Text = Strings.Connect;
+                return;
             }
-            else
+
+            try
             {
-                try
+                switch (CMB_serialport.Text)
                 {
-                    switch (CMB_serialport.Text)
-                    {
-                        case "TCP Host - 14551":
-                        case "TCP Host":
-                            CoTStream = new TcpSerial();
-                            CMB_baudrate.SelectedIndex = 0;
-                            listener = new TcpListener(System.Net.IPAddress.Any, 14551);
-                            listener.Start(0);
-                            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
-                            BUT_connect.Text = Strings.Stop;
-                            break;
-                        case "TCP Client":
-                            CoTStream = new TcpSerial() { retrys = 999999, autoReconnect = true };
-                            CMB_baudrate.SelectedIndex = 0;
-                            break;
-                        case "UDP Host - 14551":
-                            CoTStream = new UdpSerial();
-                            CMB_baudrate.SelectedIndex = 0;
-                            break;
-                        case "UDP Client":
-                            CoTStream = new UdpSerialConnect();
-                            CMB_baudrate.SelectedIndex = 0;
-                            break;
-                        default:
-                            CoTStream = new SerialPort();
-                            CoTStream.PortName = CMB_serialport.Text;
-                            break;
-                    }
+                    case "TCP Host - 14551":
+                    case "TCP Host":
+                        CoTStream = new TcpSerial();
+                        CMB_baudrate.SelectedIndex = 0;
+                        listener = new TcpListener(System.Net.IPAddress.Any, 14551);
+                        listener.Start(0);
+                        listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+                        BUT_connect.Text = Strings.Stop;
+                        break;
+                    case "TCP Client":
+                        CoTStream = new TcpSerial() { retrys = 999999, autoReconnect = true };
+                        CMB_baudrate.SelectedIndex = 0;
+                        break;
+                    case "UDP Host - 14551":
+                        CoTStream = new UdpSerial();
+                        CMB_baudrate.SelectedIndex = 0;
+                        break;
+                    case "UDP Client":
+                        CoTStream = new UdpSerialConnect();
+                        CMB_baudrate.SelectedIndex = 0;
+                        break;
+                    default:
+                        CoTStream = new SerialPort();
+                        CoTStream.PortName = CMB_serialport.Text;
+                        break;
                 }
-                catch
-                {
-                    CustomMessageBox.Show(Strings.InvalidPortName);
-                    return;
-                }
-                try
-                {
-                    CoTStream.BaudRate = int.Parse(CMB_baudrate.Text);
-                }
-                catch
-                {
-                    CustomMessageBox.Show(Strings.InvalidBaudRate);
-                    return;
-                }
-                try
-                {
-                    if (listener == null)
-                        CoTStream.Open();
-                }
-                catch
-                {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
-                    return;
-                }
-
-                t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
-                {
-                    IsBackground = true,
-                    Name = "CoT output"
-                };
-                t12.Start();
-
-                BUT_connect.Text = Strings.Stop;
             }
+            catch
+            {
+                CustomMessageBox.Show(Strings.InvalidPortName);
+                return;
+            }
+            try
+            {
+                CoTStream.BaudRate = int.Parse(CMB_baudrate.Text);
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.InvalidBaudRate);
+                return;
+            }
+            try
+            {
+                if (listener == null)
+                    System.Threading.ThreadPool.QueueUserWorkItem(background_DoOpen);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                return;
+            }
+
+            t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
+            {
+                IsBackground = true,
+                Name = "CoT output"
+            };
+            t12.Start();
+
+            BUT_connect.Text = Strings.Stop;
         }
 
+        void background_DoOpen(object state)
+        {
+            if (CoTStream == null)
+            {
+                return;
+            }
+
+            try
+            {
+                CoTStream.Open();
+            }
+            catch { CoTStream = null; } // don't care if we crash
+        }
 
         void mainloop()
         {
@@ -155,7 +170,7 @@ namespace MissionPlanner.Controls
                         TB_output.Text = xmlStr;
                     });
 
-                    if (CoTStream.IsOpen)
+                    if (CoTStream != null && CoTStream.IsOpen)
                     {
                         CoTStream.WriteLine(xmlStr);
                     }
@@ -250,7 +265,7 @@ namespace MissionPlanner.Controls
             CultureInfo culture = new CultureInfo("en-US");
             culture.NumberFormat.NumberGroupSeparator = "";
 
-            DateTime time = DateTime.Now;
+            DateTime time = DateTime.UtcNow;
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine  ("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>");
@@ -259,9 +274,9 @@ namespace MissionPlanner.Controls
             sb.AppendFormat("    uid=\"{0}\"", uid); sb.AppendLine();
             sb.AppendFormat("    type=\"{0}\"", type); sb.AppendLine();  // CoT spec section 2.3, additional values by MIL-STD-2525
 
-            sb.AppendFormat("    time=\"{0:yyyy-MM-dd}T{0:HH:mm:ss}.00Z\"", time); sb.AppendLine(); // time stamp: when the event was generated
-            sb.AppendFormat("    start=\"{0:yyyy-MM-dd}T{0:HH:mm:ss}.00Z\"", time.AddSeconds(-5)); sb.AppendLine(); // starting time when an event should be considered valid
-            sb.AppendFormat("    stale=\"{0:yyyy-MM-dd}T{0:HH:mm:ss}.00Z\"", time.AddSeconds(5)); sb.AppendLine(); // ending time when an event should no longer be considered valid
+            sb.AppendFormat("    time=\"{0}\"", time.ToString("o")); sb.AppendLine(); // time stamp: when the event was generated
+            sb.AppendFormat("    start=\"{0}\"", time.AddSeconds(-5).ToString("o")); sb.AppendLine(); // starting time when an event should be considered valid
+            sb.AppendFormat("    stale=\"{0}\"", time.AddSeconds(5).ToString("o")); sb.AppendLine(); // ending time when an event should no longer be considered valid
 
             // See Appendix A
             // where h- means human and m- means machine
