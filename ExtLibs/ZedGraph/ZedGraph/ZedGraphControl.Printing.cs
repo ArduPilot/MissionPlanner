@@ -29,7 +29,7 @@ namespace ZedGraph
 	{
 
 	#region Printing
-
+		/*
 		/// <summary>
 		/// Handler for the "Page Setup..." context menu item.   Displays a
 		/// <see cref="PageSetupDialog" />.
@@ -233,7 +233,7 @@ namespace ZedGraph
 				MessageBox.Show( exception.Message );
 			}
 		}
-
+		*/
 	#endregion
 
 	}
