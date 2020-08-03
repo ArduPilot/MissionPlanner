@@ -187,8 +187,12 @@ namespace WebCamService
             if (m_handle == IntPtr.Zero)
                 m_handle = Marshal.AllocCoTaskMem(m_stride * m_videoHeight);
 
+            if (m_PictureReady == null)
+                return m_handle;
+
             try
             {
+               
                 // get ready to wait for new image
                 m_PictureReady.Reset();
                 m_bGotOne = false;
