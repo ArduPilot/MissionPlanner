@@ -2,7 +2,13 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Security;
 using SkiaSharp;
+
 
 namespace System.Drawing
 {
@@ -18,7 +24,7 @@ namespace System.Drawing
             nativeSkBitmap.SetPixels(data);
         }
 
-        public Bitmap(int width, int height, int stride, PixelFormat bgra8888 = (Drawing.PixelFormat.Format32bppArgb),
+        public Bitmap(int width, int height, int stride, PixelFormat bgra8888 = Imaging.PixelFormat.Format32bppArgb,
             IntPtr data = default(IntPtr))
         {
             nativeSkBitmap = new SKBitmap(new SKImageInfo(width, height, SKColorType.Bgra8888));
@@ -67,6 +73,24 @@ namespace System.Drawing
             nativeSkBitmap = image.nativeSkBitmap.Copy();
         }
 
+        public static Bitmap FromFile(string filename)
+        {
+            using (var ms = File.OpenRead(filename))
+                return FromStream(ms);
+        }
+
+        public static Bitmap FromStream(Stream ms)
+        {
+            MemoryStream ms2 = new MemoryStream();
+            ms.CopyTo(ms2);
+            ms2.Position = 0;
+            var skimage = SKImage.FromEncodedData(ms2);
+            if (skimage == null)
+                return null;
+            var ans = new Bitmap() { nativeSkBitmap = SKBitmap.FromImage(skimage) };
+            return ans;
+        }
+
         public Bitmap(byte[] largeIconsImage, Size clientSizeHeight)
         {
             nativeSkBitmap = SKBitmap.Decode(SKData.CreateCopy(largeIconsImage)).Resize(
@@ -106,9 +130,24 @@ namespace System.Drawing
         {
         }
 
-        public SKColorType PixelFormat
+        public PixelFormat PixelFormat
         {
-            get { return nativeSkBitmap.ColorType; }
+            get
+            {
+                switch (nativeSkBitmap.ColorType)
+                {
+                    case SKColorType.Bgra8888:
+                        return PixelFormat.Format32bppArgb;
+                    case SKColorType.Rgb888x:
+                        return PixelFormat.Format32bppRgb;
+                    case SKColorType.Argb4444:
+                        return PixelFormat.Format16bppArgb1555;
+                    case SKColorType.Rgb565:
+                        return PixelFormat.Format16bppRgb565;
+                    default:
+                        return PixelFormat.Format32bppArgb;
+                }
+            }
 
             set { }
         }
@@ -155,7 +194,7 @@ namespace System.Drawing
         {
             SKBitmap ans = new SKBitmap(v1, v2, SKColorType.Bgra8888, SKAlphaType.Premul);
             nativeSkBitmap.ScalePixels(ans, SKFilterQuality.Medium);
-            return new Bitmap() {nativeSkBitmap = ans, PixelFormat = SKColorType.Bgra8888};
+            return new Bitmap() {nativeSkBitmap = ans, PixelFormat = PixelFormat.Format32bppArgb};
         }
 
         public BitmapData LockBits(Rectangle rectangle, ImageLockMode readWrite, PixelFormat format32BppArgb)
@@ -166,6 +205,21 @@ namespace System.Drawing
         public void RotateFlip(RotateFlipType rotateNoneFlipX)
         {
             //
+        }
+
+        public object GetHicon()
+        {
+            return nativeSkBitmap.Handle;
+        }
+
+        public void SetResolution(float imageHorizontalResolution, float imageVerticalResolution)
+        {
+            
+        }
+
+        public void Save(MemoryStream streamjpg, ImageCodecInfo ici, EncoderParameters eps)
+        {
+            Save(streamjpg, SKEncodedImageFormat.Jpeg);
         }
     }
 }

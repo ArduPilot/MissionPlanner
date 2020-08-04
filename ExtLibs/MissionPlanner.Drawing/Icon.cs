@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using SkiaSharp;
 
 namespace System.Drawing
 {
@@ -28,6 +29,11 @@ namespace System.Drawing
         public Bitmap ToBitmap()
         {
             return (Bitmap)this;
+        }
+
+        public static Icon FromHandle(object getHicon)
+        {
+            return null;
         }
     }
 }

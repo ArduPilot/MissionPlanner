@@ -13,5 +13,10 @@ namespace System.Drawing
         {
             nativeBrush?.Dispose();
         }
+
+        public Brush Clone()
+        {
+            return new SolidBrush() { nativeBrush = nativeBrush?.Clone() };
+        }
     }
 }

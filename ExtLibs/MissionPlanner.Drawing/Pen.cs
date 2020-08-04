@@ -65,6 +65,8 @@ namespace System.Drawing
 
         public int MiterLimit { get; set; }
 
+        public LineCap EndCap { get; set; }
+
         public object Clone()
         {
             return new Pen(nativePen.Color, Width);

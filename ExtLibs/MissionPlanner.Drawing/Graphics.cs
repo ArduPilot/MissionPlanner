@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
@@ -316,7 +317,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawIcon(Icon icon, Rectangle targetRect)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void DrawIconUnstretched(Icon icon, Rectangle targetRect)
@@ -515,7 +516,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             GraphicsUnit srcUnit,
             ImageAttributes imageAttr)
         {
-            throw new NotImplementedException();
+            DrawImageUnscaled(image, destRect.X, destRect.Y);
+            //throw new NotImplementedException();
         }
 
         public void DrawImage(Image img, long i, long i1, long width, long height)
@@ -1472,12 +1474,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void Restore(GraphicsState gstate)
         {
-            throw new NotImplementedException();
+            Transform = gstate.Matrix;
+            //throw new NotImplementedException();
         }
 
         public GraphicsState Save()
         {
-            throw new NotImplementedException();
+            return new GraphicsState() {Matrix = Transform};
+            //throw new NotImplementedException();
         }
 
         public static Func<IntPtr, Graphics> HwndToGraphics;
@@ -1516,6 +1520,11 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public class DrawImageAbort
         {
+        }
+
+        public void CopyFromScreen(int i, int i1, int i2, int i3, Size size)
+        {
+            
         }
     }
 }

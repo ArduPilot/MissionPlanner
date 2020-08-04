@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using SkiaSharp;
 
 namespace System.Drawing
@@ -15,6 +16,8 @@ namespace System.Drawing
           
         }
 
+        public Image Image;
+
         public Color Color
         {
             get
@@ -22,6 +25,19 @@ namespace System.Drawing
                 return Color.FromArgb(nativeBrush.Color.Alpha, nativeBrush.Color.Red, nativeBrush.Color.Green, nativeBrush.Color.Blue);
             }
             set { nativeBrush.Color = value.ToSKColor(); }
+        }
+        public Brush Clone()
+        {
+            return new TextureBrush() { nativeBrush = nativeBrush?.Clone() };
+        }
+        public void ScaleTransform(float rectangleWidth, float rectangleHeight, MatrixOrder append)
+        {
+
+        }
+
+        public void TranslateTransform(float rectangleLeft, float rectangleTop, MatrixOrder append)
+        {
+
         }
     }
 }

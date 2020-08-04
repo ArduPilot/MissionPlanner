@@ -5,6 +5,7 @@ namespace System.Drawing
     public class StringFormat:IDisposable,ICloneable
     {
         public CharacterRange[] ranges;
+        private HotkeyPrefix _hotkeyPrefix;
         public StringFormat(){}
         public StringFormat(StringFormat genericTypographic)
         {
@@ -16,7 +17,13 @@ namespace System.Drawing
         public StringAlignment Alignment { get; set; } = StringAlignment.Near;
         public static StringFormat GenericTypographic { get; set; } = new StringFormat();
         public StringTrimming Trimming { get; set; }
-        public HotkeyPrefix HotkeyPrefix { get; set; }
+
+        public HotkeyPrefix HotkeyPrefix
+        {
+            get => _hotkeyPrefix;
+            set => _hotkeyPrefix = value;
+        }
+
         public StringFormatFlags FormatFlags { get; set; }
 
         public void Dispose()

@@ -1986,5 +1986,10 @@ namespace System.Drawing.Drawing2D
 					fillMode = value;
 				}
 			}
-		}
+
+            public void AddString(string empty, FontFamily fontFontFamily, int i, float fontsize, PointF point, StringFormat genericTypographic)
+            {
+                
+            }
+        }
 }

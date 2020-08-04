@@ -1,4 +1,4 @@
-﻿namespace System.Drawing
+﻿namespace System.Drawing.Imaging
 {
     public enum ImageLockMode
     {

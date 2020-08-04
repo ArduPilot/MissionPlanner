@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.Serialization;
 using SkiaSharp;
@@ -21,6 +22,10 @@ namespace System.Drawing
             set { _skBitmap = value; }
         }
 
+        public SKImage ToSKImage()
+        {
+            return SKImage.FromBitmap(nativeSkBitmap);
+        }
 
         public int Width
         {
@@ -60,6 +65,10 @@ namespace System.Drawing
             get { return userData; }
             set { userData = value; }
         }
+
+        public int VerticalResolution = 72;
+
+        public int HorizontalResolution = 72;
 
 
         public static Image FromFile(string filename)
@@ -101,15 +110,29 @@ namespace System.Drawing
             info.AddValue("pngdata", ms.GetBuffer());
         }
 
+
+
         public void Save(string filename, SKEncodedImageFormat format)
         {
             using (var stream = File.OpenWrite(filename))
                 SKImage.FromBitmap(nativeSkBitmap).Encode(format, 100).SaveTo(stream);
         }
 
+
         public void Save(Stream stream, SKEncodedImageFormat format)
         {
             SKImage.FromBitmap(nativeSkBitmap).Encode(format, 100).SaveTo(stream);
+        }
+        public void Save(string filename, ImageFormat format)
+        {
+            using (var stream = File.OpenWrite(filename))
+                SKImage.FromBitmap(nativeSkBitmap).Encode(format.format, 100).SaveTo(stream);
+        }
+
+
+        public void Save(Stream stream, ImageFormat format)
+        {
+            SKImage.FromBitmap(nativeSkBitmap).Encode(format.format, 100).SaveTo(stream);
         }
 
         public void Save(string outputfilename)
@@ -120,6 +143,11 @@ namespace System.Drawing
         public void Dispose()
         {
             nativeSkBitmap?.Dispose();
+        }
+
+        public void RotateFlip(RotateFlipType rotateNoneFlipY)
+        {
+            
         }
     }
 }

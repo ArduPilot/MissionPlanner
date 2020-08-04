@@ -134,5 +134,12 @@ namespace System.Drawing
         {
             throw new NotImplementedException();
         }
+
+        public Region Clone()
+        {
+            var rect = new Region();
+            rect.SetRect(this.Bounds);
+            return rect;
+        }
     }
 }
