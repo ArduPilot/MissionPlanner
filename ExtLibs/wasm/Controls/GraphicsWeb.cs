@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using Blazor.Extensions.Canvas.Canvas2D;
 using MPDrawing::System.Drawing;
 using MPDrawing::System.Drawing.Drawing2D;
+using MPDrawing::System.Drawing.Imaging;
 using MPDrawing::System.Drawing.Text;
 using Color = System.Drawing.Color;
 using IGraphics = MPDrawing::System.Drawing.IGraphics;

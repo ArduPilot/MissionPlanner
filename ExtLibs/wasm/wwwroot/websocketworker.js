@@ -2357,7 +2357,7 @@ window.initMap = function () {
     }
 
 window.setPosition = function (mavno, lat, lng, altasl) {
-    self.postMessage("setPosition(" + mavno + "," + lat + "," + lng + "," + altasl + ");");
+    self.postMessage("setPosition(" + mavno + ",0," + lat + "," + lng + "," + altasl + ");");
         //console.log(mavno);
 }
 

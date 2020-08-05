@@ -16,7 +16,6 @@
 @using BlazorWebSocketHelper.Classes;
 @using static BlazorWebSocketHelper.Classes.BwsEnums;
 @using System.Security.Cryptography;
-@using Blazor.FileReader;
 @using System.Runtime.InteropServices
 @using Blazor.Extensions
 @using Microsoft.AspNetCore.Components
@@ -39,6 +38,7 @@
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
 @using Sotsera.Blazor.Toaster
+@using Tewr.Blazor.FileReader
 
 <button @onclick="@(async()=> {  mode = modes.map; })">map</button>
 <button @onclick="@(async()=> {  mode = modes.parmedit; })">param</button>

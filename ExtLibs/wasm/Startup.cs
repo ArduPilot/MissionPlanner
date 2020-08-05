@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using Blazor.Extensions.Storage;
-using Blazor.FileReader;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
@@ -18,6 +17,7 @@ using GMap.NET.MapProviders;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
 using Sotsera.Blazor.Toaster.Core.Models;
+using Tewr.Blazor.FileReader;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace wasm
