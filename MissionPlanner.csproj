@@ -531,9 +531,6 @@
       <DependentUpon>MainV2.cs</DependentUpon>
     </Compile>
     <Compile Include="NativeMethods.cs" />
-    <None Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="arm64\libSkiaSharp.so">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
