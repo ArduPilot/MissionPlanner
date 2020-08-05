@@ -539,11 +539,13 @@ namespace WebCamService
                     throw new Exception("Buffer is wrong size");
                 }
 
+#if !LIB
+
                 unsafe
                 {
                     Buffer.MemoryCopy(pBuffer.ToPointer(), m_handle.ToPointer(), iBufferLen, iBufferLen);
                 }
-
+#endif
                 // Picture is ready.
                 m_PictureReady.Set();
             }
@@ -560,11 +562,13 @@ namespace WebCamService
                 // The buffer should be long enought
                 if(BufferLen <= m_stride * m_videoHeight)
                 {
+#if !LIB
                     // Copy the frame to the buffer
                     unsafe
                     {
                         Buffer.MemoryCopy( pBuffer.ToPointer(), m_handle.ToPointer(), BufferLen, BufferLen);
                     }
+#endif
                 }
                 else
                 {

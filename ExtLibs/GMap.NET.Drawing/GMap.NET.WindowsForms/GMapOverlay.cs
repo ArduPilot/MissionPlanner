@@ -1,4 +1,5 @@
 ﻿
+using System.Drawing;
 using System.Linq;
 
 namespace GMap.NET.WindowsForms

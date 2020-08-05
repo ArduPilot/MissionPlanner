@@ -5,6 +5,7 @@ using System.Drawing.Text;
 
 namespace System
 {
+#if !LIB 
     public interface IGraphics : IGraphics<Region, CompositingMode, CompositingQuality, InterpolationMode,
         GraphicsUnit, PixelOffsetMode,
         SmoothingMode, TextRenderingHint, Matrix, GraphicsContainer, Pen, FillMode, Icon, Image, ImageAttributes,
@@ -13,5 +14,5 @@ namespace System
     {
 
     }
-    
+#endif
 }

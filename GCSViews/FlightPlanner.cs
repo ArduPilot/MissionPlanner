@@ -46,6 +46,7 @@ using Formatting = Newtonsoft.Json.Formatting;
 using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
+using Resources = MissionPlanner.Properties.Resources;
 
 namespace MissionPlanner.GCSViews
 {

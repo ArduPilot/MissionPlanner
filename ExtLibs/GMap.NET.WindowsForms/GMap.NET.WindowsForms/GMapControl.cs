@@ -2,7 +2,9 @@
 using System.Linq;
 using OpenTK.Graphics;
 using OpenTK.Platform;
+#if !LIB
 using SvgNet.SvgGdi;
+#endif
 
 namespace GMap.NET.WindowsForms
 {
@@ -1272,7 +1274,7 @@ namespace GMap.NET.WindowsForms
          }
       }
 
-      #region UserControl Events
+#region UserControl Events
 
 #if !PocketPC
       public readonly static bool IsDesignerHosted = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
@@ -1535,7 +1537,7 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
                if(IsRotated)
                {
-                  #region -- rotation --
+#region -- rotation --
 
                   e.TextRenderingHint = TextRenderingHint.AntiAlias;
                   e.SmoothingMode = SmoothingMode.AntiAlias;
@@ -1555,7 +1557,7 @@ namespace GMap.NET.WindowsForms
 
                   e.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
-                  #endregion
+#endregion
                }
                else
 #endif
@@ -1727,7 +1729,7 @@ namespace GMap.NET.WindowsForms
             g.DrawLine(CenterPen, Width / 2, Height / 2 - 5, Width / 2, Height / 2 + 5);
          }
 
-         #region -- copyright --
+#region -- copyright --
 
          if(!string.IsNullOrEmpty(Core.provider.Copyright))
          {
@@ -1738,9 +1740,9 @@ namespace GMap.NET.WindowsForms
 #endif
          }
 
-         #endregion
+#endregion
 
-         #region -- draw scale --
+#region -- draw scale --
 #if !PocketPC
          if(MapScaleInfoEnabled)
          {
@@ -1781,7 +1783,7 @@ namespace GMap.NET.WindowsForms
             }
          }
 #endif
-         #endregion
+#endregion
       }
 
 #if !PocketPC
@@ -1977,7 +1979,7 @@ namespace GMap.NET.WindowsForms
                   {
                      if(m.IsVisible && m.IsHitTestVisible)
                      {
-                        #region -- check --
+#region -- check --
 
                         if((MobileMode && m.LocalArea.Contains(e.X, e.Y)) || (!MobileMode && m.LocalAreaInControlSpace.Contains(e.X, e.Y)))
                         {
@@ -1988,7 +1990,7 @@ namespace GMap.NET.WindowsForms
                            break;
                         }
 
-                        #endregion
+#endregion
                      }
                   }
 
@@ -1996,7 +1998,7 @@ namespace GMap.NET.WindowsForms
                   {
                      if(m.IsVisible && m.IsHitTestVisible)
                      {
-                        #region -- check --
+#region -- check --
 
                         GPoint rp = new GPoint(e.X, e.Y);
 #if !PocketPC
@@ -2013,7 +2015,7 @@ namespace GMap.NET.WindowsForms
                            }
                            break;
                         }
-                        #endregion
+#endregion
                      }
                   }
 
@@ -2021,7 +2023,7 @@ namespace GMap.NET.WindowsForms
                   {
                      if(m.IsVisible && m.IsHitTestVisible)
                      {
-                        #region -- check --
+#region -- check --
                         if(m.IsInside(FromLocalToLatLng(e.X, e.Y)))
                         {
                            if(OnPolygonClick != null)
@@ -2030,7 +2032,7 @@ namespace GMap.NET.WindowsForms
                            }
                            break;
                         }
-                        #endregion
+#endregion
                      }
                   }
                }
@@ -2185,7 +2187,7 @@ namespace GMap.NET.WindowsForms
                         {
                            if(m.IsVisible && m.IsHitTestVisible)
                            {
-                              #region -- check --
+#region -- check --
 #if !PocketPC
                               if((MobileMode && m.LocalArea.Contains(e.X, e.Y)) || (!MobileMode && m.LocalAreaInControlSpace.Contains(e.X, e.Y)))
 #else
@@ -2222,7 +2224,7 @@ namespace GMap.NET.WindowsForms
 
                                  Invalidate();
                               }
-                              #endregion
+#endregion
                            }
                         }
 
@@ -2231,7 +2233,7 @@ namespace GMap.NET.WindowsForms
                         {
                            if(m.IsVisible && m.IsHitTestVisible)
                            {
-                              #region -- check --
+#region -- check --
 
                               GPoint rp = new GPoint(e.X, e.Y);
 #if !PocketPC
@@ -2275,7 +2277,7 @@ namespace GMap.NET.WindowsForms
                                     Invalidate();
                                  }
                               }
-                              #endregion
+#endregion
                            }
                         }
 #endif
@@ -2284,7 +2286,7 @@ namespace GMap.NET.WindowsForms
                         {
                            if(m.IsVisible && m.IsHitTestVisible)
                            {
-                              #region -- check --                               
+#region -- check --                               
 #if !PocketPC
                                GPoint rp = new GPoint(e.X, e.Y);
 
@@ -2331,7 +2333,7 @@ namespace GMap.NET.WindowsForms
                                     Invalidate();
                                  }
                               }
-                              #endregion
+#endregion
                            }
                         }
                      }
@@ -2472,9 +2474,9 @@ namespace GMap.NET.WindowsForms
          }
       }
 #endif
-      #endregion
+#endregion
 
-      #region IGControl Members
+#region IGControl Members
 
       /// <summary>
       /// Call it to empty tile cache & reload tiles
@@ -3063,9 +3065,9 @@ namespace GMap.NET.WindowsForms
          }
       }
 
-      #endregion
+#endregion
 
-      #region IGControl event Members
+#region IGControl event Members
 
       /// <summary>
       /// occurs when current position is changed
@@ -3172,10 +3174,10 @@ namespace GMap.NET.WindowsForms
          }
       }
 
-      #endregion
+#endregion
 
 #if !PocketPC
-      #region Serialization
+#region Serialization
 
       static readonly BinaryFormatter BinaryFormatter = new BinaryFormatter();
       private IWindowInfo _windowInfoinfo;
@@ -3227,7 +3229,7 @@ namespace GMap.NET.WindowsForms
          this.ForceUpdateOverlays();
       }
 
-      #endregion
+#endregion
 #endif
    }
 
