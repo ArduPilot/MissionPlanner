@@ -7,7 +7,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Build
         shell: pwsh
@@ -26,4 +26,25 @@ jobs:
         with:
           name: MissionPlannerBeta
           path: bin\Release\net461
-  
+
+  buildDebug:
+    name: Build
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Build
+        shell: pwsh
+        run: |
+          $msbuildPath = Split-Path (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\Current\Bin\amd64\MSBuild.exe | Select-Object -First 1) -Parent
+          $env:PATH = $msbuildPath + ';' + $env:PATH
+          msbuild -v:m -restore -t:Build -p:Configuration=Debug MissionPlanner.sln
+
+      - name: Cleanup
+        shell: pwsh
+        run: |
+          cd bin\Debug\net461
+          gci plugins | ForEach-Object {                 if (Test-Path $_.Name -PathType Leaf)                {                    Write-Host "Remove" $_.FullName   ;                 Remove-Item $_.FullName                            } else {                    Write-Host $_.Name                }            }
