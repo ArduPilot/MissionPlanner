@@ -17,6 +17,7 @@
     <Compile Remove="APMPlannerXplanes\**" />
     <Compile Remove="ExtLibs\7zip\**" />
     <Compile Remove="ExtLibs\alglibnet\**" />
+    <Compile Remove="ExtLibs\AltitudeAngelWings\**" />
     <Compile Remove="ExtLibs\Antenna\**" />
     <Compile Remove="ExtLibs\Arduino\**" />
     <Compile Remove="ExtLibs\ArduPilot\**" />
@@ -25,9 +26,13 @@
     <Compile Remove="ExtLibs\Comms\**" />
     <Compile Remove="ExtLibs\Core\**" />
     <Compile Remove="ExtLibs\CsAssortedWidgets\**" />
+    <Compile Remove="ExtLibs\DotNetOpenAuth.Core\**" />
+    <Compile Remove="ExtLibs\DotNetOpenAuth.OAuth.Common\**" />
+    <Compile Remove="ExtLibs\DotNetOpenAuth.OAuth2.ClientAuthorization\**" />
+    <Compile Remove="ExtLibs\DotNetOpenAuth.OAuth2.Client\**" />
+    <Compile Remove="ExtLibs\DotNetOpenAuth.OAuth2\**" />
     <Compile Remove="ExtLibs\DotSpatial\**" />
     <Compile Remove="ExtLibs\GeoUtility\**" />
-    <Compile Remove="ExtLibs\GLControl\**" />
     <Compile Remove="ExtLibs\GMap.NET.Core\**" />
     <Compile Remove="ExtLibs\GStreamerHud\**" />
     <Compile Remove="ExtLibs\HIL\**" />
@@ -55,6 +60,7 @@
     <Compile Remove="ExtLibs\SharpAdbClient\**" />
     <Compile Remove="ExtLibs\SharpKml\**" />
     <Compile Remove="ExtLibs\SimpleExample\**" />
+    <Compile Remove="ExtLibs\SkiaSharp.Views.Forms.WinForms\**" />
     <Compile Remove="ExtLibs\solo\**" />
     <Compile Remove="ExtLibs\Strings\**" />
     <Compile Remove="ExtLibs\SvgNet\**" />
@@ -77,11 +83,13 @@
     <Compile Remove="resedit\**" />
     <Compile Remove="SikRadio\**" />
     <Compile Remove="Updater\**" />
+    <Compile Remove="Utilities\AltitudeAngel\**" />
     <Compile Remove="wix\**" />
     <Compile Remove="**\AssemblyInfo.cs" />
     <EmbeddedResource Remove="APMPlannerXplanes\**" />
     <EmbeddedResource Remove="ExtLibs\7zip\**" />
     <EmbeddedResource Remove="ExtLibs\alglibnet\**" />
+    <EmbeddedResource Remove="ExtLibs\AltitudeAngelWings\**" />
     <EmbeddedResource Remove="ExtLibs\Antenna\**" />
     <EmbeddedResource Remove="ExtLibs\Arduino\**" />
     <EmbeddedResource Remove="ExtLibs\ArduPilot\**" />
@@ -90,9 +98,13 @@
     <EmbeddedResource Remove="ExtLibs\Comms\**" />
     <EmbeddedResource Remove="ExtLibs\Core\**" />
     <EmbeddedResource Remove="ExtLibs\CsAssortedWidgets\**" />
+    <EmbeddedResource Remove="ExtLibs\DotNetOpenAuth.Core\**" />
+    <EmbeddedResource Remove="ExtLibs\DotNetOpenAuth.OAuth.Common\**" />
+    <EmbeddedResource Remove="ExtLibs\DotNetOpenAuth.OAuth2.ClientAuthorization\**" />
+    <EmbeddedResource Remove="ExtLibs\DotNetOpenAuth.OAuth2.Client\**" />
+    <EmbeddedResource Remove="ExtLibs\DotNetOpenAuth.OAuth2\**" />
     <EmbeddedResource Remove="ExtLibs\DotSpatial\**" />
     <EmbeddedResource Remove="ExtLibs\GeoUtility\**" />
-    <EmbeddedResource Remove="ExtLibs\GLControl\**" />
     <EmbeddedResource Remove="ExtLibs\GMap.NET.Core\**" />
     <EmbeddedResource Remove="ExtLibs\GStreamerHud\**" />
     <EmbeddedResource Remove="ExtLibs\HIL\**" />
@@ -120,6 +132,7 @@
     <EmbeddedResource Remove="ExtLibs\SharpAdbClient\**" />
     <EmbeddedResource Remove="ExtLibs\SharpKml\**" />
     <EmbeddedResource Remove="ExtLibs\SimpleExample\**" />
+    <EmbeddedResource Remove="ExtLibs\SkiaSharp.Views.Forms.WinForms\**" />
     <EmbeddedResource Remove="ExtLibs\solo\**" />
     <EmbeddedResource Remove="ExtLibs\Strings\**" />
     <EmbeddedResource Remove="ExtLibs\SvgNet\**" />
@@ -142,10 +155,12 @@
     <EmbeddedResource Remove="resedit\**" />
     <EmbeddedResource Remove="SikRadio\**" />
     <EmbeddedResource Remove="Updater\**" />
+    <EmbeddedResource Remove="Utilities\AltitudeAngel\**" />
     <EmbeddedResource Remove="wix\**" />
     <None Remove="APMPlannerXplanes\**" />
     <None Remove="ExtLibs\7zip\**" />
     <None Remove="ExtLibs\alglibnet\**" />
+    <None Remove="ExtLibs\AltitudeAngelWings\**" />
     <None Remove="ExtLibs\Antenna\**" />
     <None Remove="ExtLibs\Arduino\**" />
     <None Remove="ExtLibs\ArduPilot\**" />
@@ -154,9 +169,13 @@
     <None Remove="ExtLibs\Comms\**" />
     <None Remove="ExtLibs\Core\**" />
     <None Remove="ExtLibs\CsAssortedWidgets\**" />
+    <None Remove="ExtLibs\DotNetOpenAuth.Core\**" />
+    <None Remove="ExtLibs\DotNetOpenAuth.OAuth.Common\**" />
+    <None Remove="ExtLibs\DotNetOpenAuth.OAuth2.ClientAuthorization\**" />
+    <None Remove="ExtLibs\DotNetOpenAuth.OAuth2.Client\**" />
+    <None Remove="ExtLibs\DotNetOpenAuth.OAuth2\**" />
     <None Remove="ExtLibs\DotSpatial\**" />
     <None Remove="ExtLibs\GeoUtility\**" />
-    <None Remove="ExtLibs\GLControl\**" />
     <None Remove="ExtLibs\GMap.NET.Core\**" />
     <None Remove="ExtLibs\GStreamerHud\**" />
     <None Remove="ExtLibs\HIL\**" />
@@ -184,6 +203,7 @@
     <None Remove="ExtLibs\SharpAdbClient\**" />
     <None Remove="ExtLibs\SharpKml\**" />
     <None Remove="ExtLibs\SimpleExample\**" />
+    <None Remove="ExtLibs\SkiaSharp.Views.Forms.WinForms\**" />
     <None Remove="ExtLibs\solo\**" />
     <None Remove="ExtLibs\Strings\**" />
     <None Remove="ExtLibs\SvgNet\**" />
@@ -206,6 +226,7 @@
     <None Remove="resedit\**" />
     <None Remove="SikRadio\**" />
     <None Remove="Updater\**" />
+    <None Remove="Utilities\AltitudeAngel\**" />
     <None Remove="wix\**" />
 
     <Compile Remove="ExtLibs\runtime\**" />   
@@ -275,8 +296,14 @@
  </ItemGroup>
 
  <ItemGroup>
+   <None Include="ExtLibs\GLControl\OpenTK.GLControl.csproj" />
+ </ItemGroup>
+
+ <ItemGroup>
    <PackageReference Include="DynamicLanguageRuntime" Version="1.2.3" />
+   <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="1.68.1.1" />
+   <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1" />
    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="1.68.1.1" />
    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
    <PackageReference Include="System.Reactive.Linq" Version="4.4.1" />
@@ -285,10 +312,7 @@
    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
    <PackageReference Include="TimeZoneConverter" Version="3.2.0" />
-   <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
-       <PackageReference Include="Xamarin.Forms.Platform.WinForms">
-      <Version>3.4.0-alpha</Version>
-    </PackageReference>  <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
+   <PackageReference Include="Xamarin.Forms" Version="4.5.0.530" />  <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" /> <PackageReference Include="SharpDX" version="4.1.0" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" />
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" /> <PackageReference Include="Crc32.NET">
@@ -328,13 +352,10 @@
     <PackageReference Include="Microsoft.Diagnostics.Runtime">
       <Version>1.1.127808</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" /><PackageReference Include="zlib.net" version="1.0.4.0" />   <PackageReference Include="OpenTK">
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />   <PackageReference Include="OpenTK">
       <Version>3.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="OpenTK.GLControl">
-      <Version>3.1.0</Version>
-    </PackageReference>  <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" /> <PackageReference Include="Autofac" Version="4.9.4" />
-    <PackageReference Include="DotNetOpenAuth.OAuth2.Client" Version="4.3.4.13329" /> 
+      <Aliases></Aliases>
+    </PackageReference> <PackageReference Include="Autofac" Version="4.9.4" /> 
     <PackageReference Include="GeoJSON.Net">
       <Version>1.1.64</Version>
     </PackageReference>
@@ -395,6 +416,9 @@
   <Reference Include="osr_csharp">
     <HintPath>..\..\..\.nuget\packages\gdal\2.3.2\lib\net40\osr_csharp.dll</HintPath>
   </Reference>
-</ItemGroup>
+</ItemGroup> 
+  <ItemGroup>
+    <Folder Include="ExtLibs\GLControl\Properties\" />
+  </ItemGroup>
 
 </Project>

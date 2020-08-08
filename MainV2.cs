@@ -1,5 +1,5 @@
 ﻿#if !LIB
-extern alias Drawing;
+extern alias Drawing;using AltitudeAngelWings;using MissionPlanner.Utilities.AltitudeAngel;
 #endif
 
 using GMap.NET.WindowsForms;
@@ -11,7 +11,7 @@ using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Log;
 using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.AltitudeAngel;
+
 using MissionPlanner.Warnings;
 using SkiaSharp;
 using System;
@@ -34,7 +34,7 @@ using System.Windows.Forms;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Utilities.HW;
 using Transitions;
-using AltitudeAngelWings;
+
 
 
 namespace MissionPlanner
@@ -1977,8 +1977,10 @@ namespace MissionPlanner
             Settings.Instance["MainLocY"] = this.Location.Y.ToString();
 
             log.Info("close logs");
-            AltitudeAngel.Dispose();
 
+#if !LIB
+            AltitudeAngel.Dispose();
+#endif
             // close bases connection
             try
             {
@@ -3306,10 +3308,12 @@ namespace MissionPlanner
             {
                 if (!MONO)
                 {
+#if !LIB
                     log.Info("Load AltitudeAngel");
                     AltitudeAngel.Configure();
                     AltitudeAngel.Initialize();
                     log.Info("Load AltitudeAngel... Done");
+#endif
                 }
             }
             catch (TypeInitializationException) // windows xp lacking patch level

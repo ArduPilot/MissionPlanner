@@ -884,7 +884,9 @@ namespace MissionPlanner.GCSViews
 
         private void altitudeAngelSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if !LIB
             new Utilities.AltitudeAngel.AASettings().Show(this);
+#endif
         }
 
         private void BUT_abort_script_Click(object sender, EventArgs e)
