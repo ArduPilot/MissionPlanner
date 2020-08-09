@@ -1,7 +1,7 @@
 ﻿//
 // The Open Toolkit Library License
 //
-// Copyright (c) 2006 - 2009 the Open Toolkit library, except where noted.
+// Copyright (c) 2006 - 2013 Stefanos Apostolopoulos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,46 +23,43 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using OpenTK.Graphics;
+using OpenTK.Platform;
 
 namespace OpenTK
 {
-    // Constructs GLControls.
-    internal class GLControlFactory
+    internal class Sdl2GLControl : IGLControl
     {
-        public IGLControl CreateGLControl(GraphicsMode mode, Control control)
-        {
-            if (mode == null)
-            {
-                throw new ArgumentNullException("mode");
-            }
-            if (control == null)
-            {
-                throw new ArgumentNullException("control");
-            }
+        private GraphicsMode mode;
 
-            if (Configuration.RunningOnSdl2)
-            {
-                return new Sdl2GLControl(mode, control);
-            }
-            else if (Configuration.RunningOnWindows)
-            {
-                return new WinGLControl(mode, control);
-            }
-            else if (Configuration.RunningOnMacOS)
-            {
-                return new CarbonGLControl(mode, control);
-            }
-            else if (Configuration.RunningOnX11)
-            {
-                return new X11GLControl(mode, control);
-            }
-            else
-            {
-                throw new PlatformNotSupportedException();
-            }
+        public Sdl2GLControl(GraphicsMode mode, Control control)
+        {
+            this.mode = mode;
+            WindowInfo = Utilities.CreateSdl2WindowInfo(control.Handle);
+            // Fixme: SDL2 will refuse to create an OpenGL context on
+            // a window with the SDL_WINDOW_FOREIGN flag (i.e. windows
+            // that are passed to SDL2 through SDL_CreateWindowFrom).
+            // This must be fixed upstream.
+        }
+
+        public Graphics.IGraphicsContext CreateContext(int major, int minor, Graphics.GraphicsContextFlags flags)
+        {
+            return new GraphicsContext(mode, WindowInfo, major, minor, flags);
+        }
+
+        public bool IsIdle
+        {
+            get { return NativeMethods.SDL_HasEvents(0, 0xffff); }
+        }
+
+        public Platform.IWindowInfo WindowInfo { get; }
+
+        private static class NativeMethods
+        {
+            [DllImport("SDL2.dll", CallingConvention = CallingConvention.Cdecl)]
+            public static extern bool SDL_HasEvents(int minType, int maxType);
         }
     }
 }

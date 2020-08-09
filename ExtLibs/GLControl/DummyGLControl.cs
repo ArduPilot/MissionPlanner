@@ -1,12 +1,11 @@
-﻿#region License
-//
+﻿//
 // The Open Toolkit Library License
 //
 // Copyright (c) 2006 - 2009 the Open Toolkit library, except where noted.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights to 
+// in the Software without restriction, including without limitation the rights to
 // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
 // the Software, and to permit persons to whom the Software is furnished to do
 // so, subject to the following conditions:
@@ -23,7 +22,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 //
-#endregion
 
 using System;
 using OpenTK.Graphics;
@@ -31,13 +29,11 @@ using OpenTK.Platform;
 
 namespace OpenTK
 {
-    class DummyGLControl : IGLControl
+    internal class DummyGLControl : IGLControl
     {
-        #region IGLControl Members
-
         public IGraphicsContext CreateContext(int major, int minor, GraphicsContextFlags flags)
         {
-            return new GraphicsContext(null, null);
+            return new DummyContext();
         }
 
         public bool IsIdle
@@ -50,6 +46,88 @@ namespace OpenTK
             get { return Utilities.CreateDummyWindowInfo(); }
         }
 
-        #endregion
+        private class DummyContext : IGraphicsContext, IGraphicsContextInternal
+        {
+            private static int instance_count;
+
+            private IWindowInfo current_window;
+
+            public void SwapBuffers()
+            {
+            }
+
+            public void MakeCurrent(IWindowInfo window)
+            {
+                current_window = window;
+            }
+
+            public bool IsCurrent
+            {
+                get { return current_window != null; }
+            }
+
+            public bool IsDisposed { get; private set; }
+
+            public bool VSync
+            {
+                get
+                {
+                    return SwapInterval != 0;
+                }
+                set
+                {
+                    SwapInterval = value ? 1 : 0;
+                }
+            }
+
+            public int SwapInterval { get; set; }
+
+            public void Update(IWindowInfo window)
+            {
+            }
+
+            public GraphicsMode GraphicsMode
+            {
+                get { return GraphicsMode.Default; }
+            }
+
+            public bool ErrorChecking
+            {
+                get
+                {
+                    return false;
+                }
+                set
+                {
+                }
+            }
+
+            public void LoadAll()
+            {
+            }
+
+            public void Dispose()
+            {
+                IsDisposed = true;
+            }
+
+            public ContextHandle Context { get; } = new ContextHandle(new IntPtr(
+                System.Threading.Interlocked.Increment(ref instance_count)));
+
+            public IntPtr GetAddress(IntPtr function)
+            {
+                return IntPtr.Zero;
+            }
+
+            public IntPtr GetAddress(string function)
+            {
+                return IntPtr.Zero;
+            }
+
+            public IGraphicsContext Implementation
+            {
+                get { return this; }
+            }
+        }
     }
 }
