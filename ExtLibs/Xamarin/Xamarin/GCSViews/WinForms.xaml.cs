@@ -1,4 +1,6 @@
-﻿using System;
+﻿//extern alias MPLib;
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -49,6 +51,11 @@ namespace Xamarin.GCSViews
 
             new Thread(() =>
             {
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+                //MPLib::MissionPlanner.Program.Main(new string[0]);
+
+                //return;
                 var frm = new Form()
                 {
                     Width = (int) Forms.Application.Current.MainPage.Width,

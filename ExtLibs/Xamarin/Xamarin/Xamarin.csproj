@@ -40,7 +40,7 @@
     <Compile Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.cs" Link="GCSViews\ConfigurationView\ConfigRawParams.cs" />
     <Compile Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.Designer.cs" Link="GCSViews\ConfigurationView\ConfigRawParams.Designer.cs" />
     <Compile Include="..\..\..\test\FirmwareSelection.xaml.cs" Link="Linked\FirmwareSelection.xaml.cs" />
-    <Compile Include="..\..\..\Utilities\ExtensionsMP.cs" Link="GCSViews\ExtensionsMP.cs" />
+    <None Include="..\..\..\Utilities\ExtensionsMP.cs" Link="GCSViews\ExtensionsMP.cs" />
     <Compile Include="..\..\Controls\IDynamicParameterControl.cs" Link="GCSViews\IDynamicParameterControl.cs" />
     <Compile Include="..\..\Controls\MyButton.cs" Link="GCSViews\MyButton.cs" />
     <Compile Include="..\..\Controls\MyUserControl.cs" Link="GCSViews\MyUserControl.cs" />
@@ -52,6 +52,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="NLog" Version="4.7.2" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
@@ -96,6 +97,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\MissionPlannerLib.csproj" />
     <ProjectReference Include="..\..\7zip\7zip.csproj" />
     <ProjectReference Include="..\..\alglibnet\alglibnet.csproj" />
     <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj" />

@@ -157,17 +157,13 @@
     <PackageReference Include="System.Drawing.Primitives">
       <Version>4.3.0</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.530" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.9" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
       <Name>GMap.NET.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Xamarin\Xamarin.csproj" NoWarn="NU1201">
-      <Project>{046987C6-A43A-45E6-AD0B-45F1A43005D0}</Project>
-      <Name>Xamarin</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

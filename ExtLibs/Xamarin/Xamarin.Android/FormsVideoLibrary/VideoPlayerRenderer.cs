@@ -347,6 +347,7 @@ namespace FormsVideoLibrary.Droid
             {
                 //videoView.Prepared -= OnVideoViewPrepared;
             }
+
             if (Element != null)
             {
                 Element.UpdateStatus -= OnUpdateStatus;
@@ -357,8 +358,19 @@ namespace FormsVideoLibrary.Droid
             try
             {
                 codec.Stop();
-            } catch { }
-            codec.Dispose();
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                codec.Dispose();
+            }
+            catch
+            {
+            }
+
             rtspCancel = null;
             codec = null;
 
