@@ -3859,7 +3859,38 @@ namespace MissionPlanner
 
                 return true;
             }
+            if (keyData == (Keys.Control | Keys.Left))
+            {
+                MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
 
+                rc.target_component = comPort.MAV.compid;
+                rc.target_system = comPort.MAV.sysid;
+                //new DevopsUI().ShowUserControl();
+                CustomMessageBox.Show("LEFT ARROW!!!");
+                // TODO: add right values
+                //if (!comPort.BaseStream.IsOpen)
+                //    continue;
+                if (comPort.BaseStream.BytesToWrite < 50)
+                {
+                    if (sitl)
+                    {
+                        MissionPlanner.GCSViews.SITL.rcinput();
+                    }
+                    else
+                    {
+                        comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                    }
+                    //count++;
+                    lastjoystick = DateTime.Now;
+                }
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.Right))
+            {
+                //new DevopsUI().ShowUserControl();
+                CustomMessageBox.Show("RIGHT ARROW!!!");
+                return true;
+            }
             if (ProcessCmdKeyCallback != null)
             {
                 return ProcessCmdKeyCallback(ref msg, keyData);

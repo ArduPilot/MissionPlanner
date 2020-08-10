@@ -120,6 +120,7 @@ namespace MissionPlanner.GCSViews
             this.BUT_saveWPFile = new MissionPlanner.Controls.MyButton();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panelMap = new System.Windows.Forms.Panel();
+            this.mainMenuWidget1 = new MissionPlanner.Controls.MainMenuWidget();
             this.lbl_homedist = new System.Windows.Forms.Label();
             this.lbl_prevdist = new System.Windows.Forms.Label();
             this.trackBar1 = new MissionPlanner.Controls.MyTrackBar();
@@ -216,7 +217,6 @@ namespace MissionPlanner.GCSViews
             this.zoomToVehicleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToMissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainMenuWidget1 = new MissionPlanner.Controls.MainMenuWidget();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -752,6 +752,12 @@ namespace MissionPlanner.GCSViews
             this.panelMap.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panelMap.Name = "panelMap";
             this.panelMap.Resize += new System.EventHandler(this.panelMap_Resize);
+            // 
+            // mainMenuWidget1
+            // 
+            this.mainMenuWidget1.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.mainMenuWidget1, "mainMenuWidget1");
+            this.mainMenuWidget1.Name = "mainMenuWidget1";
             // 
             // lbl_homedist
             // 
@@ -1438,12 +1444,6 @@ namespace MissionPlanner.GCSViews
             this.zoomToHomeToolStripMenuItem.Name = "zoomToHomeToolStripMenuItem";
             resources.ApplyResources(this.zoomToHomeToolStripMenuItem, "zoomToHomeToolStripMenuItem");
             this.zoomToHomeToolStripMenuItem.Click += new System.EventHandler(this.zoomToHomeToolStripMenuItem_Click);
-            // 
-            // mainMenuWidget1
-            // 
-            this.mainMenuWidget1.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.mainMenuWidget1, "mainMenuWidget1");
-            this.mainMenuWidget1.Name = "mainMenuWidget1";
             // 
             // FlightPlanner
             // 
