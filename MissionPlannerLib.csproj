@@ -32,6 +32,7 @@
     <Compile Remove="ExtLibs\DotNetOpenAuth.OAuth2.Client\**" />
     <Compile Remove="ExtLibs\DotNetOpenAuth.OAuth2\**" />
     <Compile Remove="ExtLibs\DotSpatial\**" />
+
     <Compile Remove="ExtLibs\GeoUtility\**" />
     <Compile Remove="ExtLibs\GMap.NET.Core\**" />
     <Compile Remove="ExtLibs\GStreamerHud\**" />
@@ -104,6 +105,7 @@
     <EmbeddedResource Remove="ExtLibs\DotNetOpenAuth.OAuth2.Client\**" />
     <EmbeddedResource Remove="ExtLibs\DotNetOpenAuth.OAuth2\**" />
     <EmbeddedResource Remove="ExtLibs\DotSpatial\**" />
+
     <EmbeddedResource Remove="ExtLibs\GeoUtility\**" />
     <EmbeddedResource Remove="ExtLibs\GMap.NET.Core\**" />
     <EmbeddedResource Remove="ExtLibs\GStreamerHud\**" />
@@ -175,6 +177,7 @@
     <None Remove="ExtLibs\DotNetOpenAuth.OAuth2.Client\**" />
     <None Remove="ExtLibs\DotNetOpenAuth.OAuth2\**" />
     <None Remove="ExtLibs\DotSpatial\**" />
+
     <None Remove="ExtLibs\GeoUtility\**" />
     <None Remove="ExtLibs\GMap.NET.Core\**" />
     <None Remove="ExtLibs\GStreamerHud\**" />
@@ -257,14 +260,6 @@
 
   </ItemGroup>
 
- <ItemGroup>
-   <Compile Remove="Log\LogIndex.cs" />
-   <Compile Remove="Log\LogIndex.Designer.cs" />
- </ItemGroup>
-
- <ItemGroup>
-   <EmbeddedResource Remove="Log\LogIndex.resx" />
- </ItemGroup>
 
  <ItemGroup>
    <None Remove="ExtLibs\AStar.dll" />
@@ -301,13 +296,15 @@
 
  <ItemGroup>
    <PackageReference Include="DynamicLanguageRuntime" Version="1.2.3" />
+   <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
+     <PrivateAssets>all</PrivateAssets>
+     <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+   </PackageReference>
    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="1.68.1.1" />
    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1" />
-   <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="1.68.1.1" />
    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
    <PackageReference Include="System.Reactive.Linq" Version="4.4.1" />
-   <PackageReference Include="System.Reactive.Windows.Threading" Version="4.4.1" />
    <PackageReference Include="System.Runtime" Version="4.3.1" />
    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
@@ -322,26 +319,11 @@
     <PackageReference Include="DotNetZip">
       <Version>1.13.7</Version>
     </PackageReference>
-   <PackageReference Include="DotSpatial.Data" version="1.9" />
-   <PackageReference Include="DotSpatial.Data.Forms" version="1.9" />
-   <PackageReference Include="DotSpatial.Extensions" version="1.9" />
-   <PackageReference Include="DotSpatial.Modeling.Forms" version="1.9" />
-   <PackageReference Include="DotSpatial.Mono" version="1.9" />
-   <PackageReference Include="DotSpatial.Positioning" Version="1.9.0" />
-   <PackageReference Include="DotSpatial.Projections" version="1.9" />
-   <PackageReference Include="DotSpatial.Projections.Forms" version="1.9" />
-   <PackageReference Include="DotSpatial.Serialization" version="1.9" />
-   <PackageReference Include="DotSpatial.Symbology" version="1.9" />
-   <PackageReference Include="DotSpatial.Symbology.Forms" version="1.9" />
-   <PackageReference Include="DotSpatial.Topology" version="1.9" />
     <PackageReference Include="Flurl" version="2.8.0" />
     <PackageReference Include="Flurl.Http" version="2.3.2" />
     <PackageReference Include="GDAL" Version="2.3.2" />
     <PackageReference Include="GDAL.Native">
       <Version>2.3.2</Version>
-    </PackageReference>
-    <PackageReference Include="GeoidHeightsDotNet">
-      <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="GeoJSON.Net" version="1.1.64" />
     <PackageReference Include="IronPython" version="2.7.10" />
@@ -352,10 +334,7 @@
     <PackageReference Include="Microsoft.Diagnostics.Runtime">
       <Version>1.1.127808</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />   <PackageReference Include="OpenTK">
-      <Version>3.1.0</Version>
-      <Aliases></Aliases>
-    </PackageReference> <PackageReference Include="Autofac" Version="4.9.4" /> 
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" /> <PackageReference Include="Autofac" Version="4.9.4" /> 
     <PackageReference Include="GeoJSON.Net">
       <Version>1.1.64</Version>
     </PackageReference>
@@ -411,7 +390,6 @@
   </Reference>
   <Reference Include="OpenTK-1.0">
     <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v4.4\OpenTK-1.0.dll</HintPath>
-    <Aliases>Android</Aliases>
   </Reference>
   <Reference Include="osr_csharp">
     <HintPath>..\..\..\.nuget\packages\gdal\2.3.2\lib\net40\osr_csharp.dll</HintPath>
