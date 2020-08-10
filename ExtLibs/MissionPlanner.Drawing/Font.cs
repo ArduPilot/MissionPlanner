@@ -10,13 +10,13 @@ namespace System.Drawing
 
         public Font(FontFamily family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet)
         {
-            nativeFont = new SKPaint() { Typeface = SKTypeface.Default, TextSize = emSize, TextAlign = SKTextAlign.Left };
+            nativeFont = new SKPaint() {Typeface = SKTypeface.Default, TextSize = emSize, TextAlign = SKTextAlign.Left};
         }
 
         public Font(string familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet,
             bool gdiVerticalFont = false)
         {
-            nativeFont = new SKPaint() { Typeface = SKTypeface.Default, TextSize = emSize, TextAlign = SKTextAlign.Left };
+            nativeFont = new SKPaint() {Typeface = SKTypeface.Default, TextSize = emSize, TextAlign = SKTextAlign.Left};
         }
 
         public Font(FontFamily genericSansSerif, float size, FontStyle bold, GraphicsUnit pixel = GraphicsUnit.Pixel)
@@ -26,7 +26,7 @@ namespace System.Drawing
 
         public Font(FontFamily genericSansSerif, float size)
         {
-            nativeFont = new SKPaint() { Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left };
+            nativeFont = new SKPaint() {Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left};
         }
 
         public Font(string genericSansSerif, float size)
@@ -36,7 +36,8 @@ namespace System.Drawing
 
             try
             {
-                nativeFont = new SKPaint() {Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left};
+                nativeFont = new SKPaint()
+                    {Typeface = SKTypeface.Default, TextSize = size, TextAlign = SKTextAlign.Left};
             }
             catch (Exception e)
             {
@@ -49,9 +50,9 @@ namespace System.Drawing
             nativeFont = genericSansSerif.nativeFont;
         }
 
-        public Font(string microsoftSansSerif, float captionRectHeight, FontStyle bold = FontStyle.Regular, GraphicsUnit pixel = GraphicsUnit.Pixel): this(microsoftSansSerif, captionRectHeight)
+        public Font(string microsoftSansSerif, float captionRectHeight, FontStyle bold = FontStyle.Regular,
+            GraphicsUnit pixel = GraphicsUnit.Pixel) : this(microsoftSansSerif, captionRectHeight)
         {
-           
         }
 
 
@@ -67,6 +68,7 @@ namespace System.Drawing
         public FontFamily FontFamily { get; set; } = new FontFamily();
 
         private float _size = 7;
+
         public float Size
         {
             get { return _size; }
@@ -75,7 +77,7 @@ namespace System.Drawing
                 _size = value;
                 try
                 {
-                    if(nativeFont != null)
+                    if (nativeFont != null)
                         nativeFont.TextSize = value;
                 }
                 catch (Exception e)
@@ -91,8 +93,7 @@ namespace System.Drawing
         public string Name { get; set; } = "Arial";
         public bool Strikeout { get; set; }
         public bool Underline { get; set; }
-        public GraphicsUnit Unit
-        { get; set; }
+        public GraphicsUnit Unit { get; set; }
 
         public int SizeInPoints { get; set; }
 
@@ -114,6 +115,11 @@ namespace System.Drawing
         public float GetHeight()
         {
             return nativeFont.FontSpacing;
+        }
+
+        public Font FromHfont(IntPtr hfont)
+        {
+            return new Font(FontFamily.GenericMonospace, 8);
         }
     }
 }

@@ -5,7 +5,6 @@ namespace System.Drawing.Drawing2D
 {
     public sealed class GraphicsPathIterator : MarshalByRefObject, IDisposable
     {
-
         GraphicsPath path;
         int markerPosition = 0;
         int subpathPosition = 0;
@@ -18,17 +17,14 @@ namespace System.Drawing.Drawing2D
                 path = new GraphicsPath();
             else
                 // We will clone the path so if things change it will not effect the iterator
-                this.path = (GraphicsPath)path.Clone();
+                this.path = (GraphicsPath) path.Clone();
         }
 
         // Public Properites
 
         public int Count
         {
-            get
-            {
-                return path.PointCount;
-            }
+            get { return path.PointCount; }
         }
 
         public int SubpathCount
@@ -37,7 +33,7 @@ namespace System.Drawing.Drawing2D
             {
                 int count = 0;
                 byte current;
-                byte start = (byte)PathPointType.Start;
+                byte start = (byte) PathPointType.Start;
 
                 for (int i = 0; i < path.types.Count; i++)
                 {
@@ -61,7 +57,6 @@ namespace System.Drawing.Drawing2D
 
         public int CopyData(ref PointF[] points, ref byte[] types, int startIndex, int endIndex)
         {
-
             // no null checks, MS throws a NullReferenceException here
             if (points.Length != types.Length)
                 throw new ArgumentException("Invalid arguments passed. Both arrays should have the same length.");
@@ -113,7 +108,6 @@ namespace System.Drawing.Drawing2D
             if (path == null || (this.path.points.Count == 0) ||
                 (markerPosition == this.path.points.Count))
             {
-
                 return resultCount;
             }
 
@@ -132,7 +126,7 @@ namespace System.Drawing.Drawing2D
                 path.types.Add(type);
 
                 // Copy the marker and stop copying the points when we reach a marker type 
-                if ((type & (byte)PathPointType.PathMarker) != 0)
+                if ((type & (byte) PathPointType.PathMarker) != 0)
                 {
                     index++;
                     break;
@@ -165,7 +159,7 @@ namespace System.Drawing.Drawing2D
             for (index = markerPosition; index < path.types.Count; index++)
             {
                 var type = path.types[index];
-                if ((type & (byte)PathPointType.PathMarker) != 0)
+                if ((type & (byte) PathPointType.PathMarker) != 0)
                 {
                     index++;
                     break;
@@ -174,7 +168,8 @@ namespace System.Drawing.Drawing2D
 
             startIndex = markerPosition;
             endIndex = index - 1;
-            resultCount = endIndex - startIndex + 1; ;
+            resultCount = endIndex - startIndex + 1;
+            ;
 
             markerPosition = index;
 
@@ -206,13 +201,13 @@ namespace System.Drawing.Drawing2D
             {
                 lastTypeSeen = path.types[pathTypePosition + 1];
                 // Mask the flags 
-                lastTypeSeen &= (byte)PathPointType.PathTypeMask;
+                lastTypeSeen &= (byte) PathPointType.PathTypeMask;
 
                 // Check for the change in type 
                 for (index = pathTypePosition + 2; index < subpathPosition; index++)
                 {
                     currentType = path.types[index];
-                    currentType &= (byte)PathPointType.PathTypeMask;
+                    currentType &= (byte) PathPointType.PathTypeMask;
 
                     if (currentType != lastTypeSeen)
                         break;
@@ -227,7 +222,7 @@ namespace System.Drawing.Drawing2D
                 // path type. We get this when we have connected figures. We need to step
                 // back in that case. We don't need to step back if we are finished with
                 // current subpath.
-                if ((lastTypeSeen == (byte)PathPointType.Line) && (index != subpathPosition))
+                if ((lastTypeSeen == (byte) PathPointType.Line) && (index != subpathPosition))
                     pathTypePosition = index - 1;
                 else
                     pathTypePosition = index;
@@ -279,7 +274,7 @@ namespace System.Drawing.Drawing2D
                 currentType = this.path.types[index];
 
                 // Copy the start point till next start point 
-                if (currentType == (byte)PathPointType.Start)
+                if (currentType == (byte) PathPointType.Start)
                     break;
 
                 point = this.path.points[index];
@@ -294,7 +289,7 @@ namespace System.Drawing.Drawing2D
 
             // Check if last subpath was closed
             currentType = this.path.types[index - 1];
-            if ((currentType & (byte)PathPointType.CloseSubpath) != 0)
+            if ((currentType & (byte) PathPointType.CloseSubpath) != 0)
                 isClosed = true;
             else
                 isClosed = false;
@@ -328,7 +323,7 @@ namespace System.Drawing.Drawing2D
             for (index = subpathPosition + 1; index < path.types.Count; index++)
             {
                 currentType = path.types[index];
-                if (currentType == (byte)PathPointType.Start)
+                if (currentType == (byte) PathPointType.Start)
                     break;
             }
 
@@ -341,7 +336,7 @@ namespace System.Drawing.Drawing2D
 
             // check if last subpath was closed 
             currentType = path.types[index - 1];
-            if ((currentType & (byte)PathPointType.CloseSubpath) != 0)
+            if ((currentType & (byte) PathPointType.CloseSubpath) != 0)
                 isClosed = true;
             else
                 isClosed = false;

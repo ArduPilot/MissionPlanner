@@ -7,7 +7,6 @@ namespace System.Drawing.Imaging
     {
         public EncoderParameter(object quality, long l)
         {
-            
         }
     }
 }

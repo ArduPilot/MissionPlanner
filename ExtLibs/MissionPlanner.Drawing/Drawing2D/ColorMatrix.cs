@@ -57,310 +57,157 @@ namespace System.Drawing.Imaging
 
         public float Matrix00
         {
-            get
-            {
-                return _matrix00;
-            }
-            set
-            {
-                _matrix00 = value;
-            }
+            get { return _matrix00; }
+            set { _matrix00 = value; }
         }
 
         public float Matrix01
         {
-            get
-            {
-                return _matrix01;
-            }
-            set
-            {
-                _matrix01 = value;
-            }
+            get { return _matrix01; }
+            set { _matrix01 = value; }
         }
 
         public float Matrix02
         {
-            get
-            {
-                return _matrix02;
-            }
-            set
-            {
-                _matrix02 = value;
-            }
+            get { return _matrix02; }
+            set { _matrix02 = value; }
         }
 
         public float Matrix03
         {
-            get
-            {
-                return _matrix03;
-            }
-            set
-            {
-                _matrix03 = value;
-            }
+            get { return _matrix03; }
+            set { _matrix03 = value; }
         }
 
         public float Matrix04
         {
-            get
-            {
-                return _matrix04;
-            }
-            set
-            {
-                _matrix04 = value;
-            }
+            get { return _matrix04; }
+            set { _matrix04 = value; }
         }
 
         public float Matrix10
         {
-            get
-            {
-                return _matrix10;
-            }
-            set
-            {
-                _matrix10 = value;
-            }
+            get { return _matrix10; }
+            set { _matrix10 = value; }
         }
 
         public float Matrix11
         {
-            get
-            {
-                return _matrix11;
-            }
-            set
-            {
-                _matrix11 = value;
-            }
+            get { return _matrix11; }
+            set { _matrix11 = value; }
         }
 
         public float Matrix12
         {
-            get
-            {
-                return _matrix12;
-            }
-            set
-            {
-                _matrix12 = value;
-            }
+            get { return _matrix12; }
+            set { _matrix12 = value; }
         }
 
         public float Matrix13
         {
-            get
-            {
-                return _matrix13;
-            }
-            set
-            {
-                _matrix13 = value;
-            }
+            get { return _matrix13; }
+            set { _matrix13 = value; }
         }
 
         public float Matrix14
         {
-            get
-            {
-                return _matrix14;
-            }
-            set
-            {
-                _matrix14 = value;
-            }
+            get { return _matrix14; }
+            set { _matrix14 = value; }
         }
 
         public float Matrix20
         {
-            get
-            {
-                return _matrix20;
-            }
-            set
-            {
-                _matrix20 = value;
-            }
+            get { return _matrix20; }
+            set { _matrix20 = value; }
         }
 
         public float Matrix21
         {
-            get
-            {
-                return _matrix21;
-            }
-            set
-            {
-                _matrix21 = value;
-            }
+            get { return _matrix21; }
+            set { _matrix21 = value; }
         }
 
         public float Matrix22
         {
-            get
-            {
-                return _matrix22;
-            }
-            set
-            {
-                _matrix22 = value;
-            }
+            get { return _matrix22; }
+            set { _matrix22 = value; }
         }
 
         public float Matrix23
         {
-            get
-            {
-                return _matrix23;
-            }
-            set
-            {
-                _matrix23 = value;
-            }
+            get { return _matrix23; }
+            set { _matrix23 = value; }
         }
 
         public float Matrix24
         {
-            get
-            {
-                return _matrix24;
-            }
-            set
-            {
-                _matrix24 = value;
-            }
+            get { return _matrix24; }
+            set { _matrix24 = value; }
         }
 
         public float Matrix30
         {
-            get
-            {
-                return _matrix30;
-            }
-            set
-            {
-                _matrix30 = value;
-            }
+            get { return _matrix30; }
+            set { _matrix30 = value; }
         }
 
         public float Matrix31
         {
-            get
-            {
-                return _matrix31;
-            }
-            set
-            {
-                _matrix31 = value;
-            }
+            get { return _matrix31; }
+            set { _matrix31 = value; }
         }
 
         public float Matrix32
         {
-            get
-            {
-                return _matrix32;
-            }
-            set
-            {
-                _matrix32 = value;
-            }
+            get { return _matrix32; }
+            set { _matrix32 = value; }
         }
 
         public float Matrix33
         {
-            get
-            {
-                return _matrix33;
-            }
-            set
-            {
-                _matrix33 = value;
-            }
+            get { return _matrix33; }
+            set { _matrix33 = value; }
         }
 
         public float Matrix34
         {
-            get
-            {
-                return _matrix34;
-            }
-            set
-            {
-                _matrix34 = value;
-            }
+            get { return _matrix34; }
+            set { _matrix34 = value; }
         }
 
         public float Matrix40
         {
-            get
-            {
-                return _matrix40;
-            }
-            set
-            {
-                _matrix40 = value;
-            }
+            get { return _matrix40; }
+            set { _matrix40 = value; }
         }
 
         public float Matrix41
         {
-            get
-            {
-                return _matrix41;
-            }
-            set
-            {
-                _matrix41 = value;
-            }
+            get { return _matrix41; }
+            set { _matrix41 = value; }
         }
 
         public float Matrix42
         {
-            get
-            {
-                return _matrix42;
-            }
-            set
-            {
-                _matrix42 = value;
-            }
+            get { return _matrix42; }
+            set { _matrix42 = value; }
         }
 
         public float Matrix43
         {
-            get
-            {
-                return _matrix43;
-            }
-            set
-            {
-                _matrix43 = value;
-            }
+            get { return _matrix43; }
+            set { _matrix43 = value; }
         }
 
         public float Matrix44
         {
-            get
-            {
-                return _matrix44;
-            }
-            set
-            {
-                _matrix44 = value;
-            }
+            get { return _matrix44; }
+            set { _matrix44 = value; }
         }
 
         public float this[int row, int column]
         {
-            get
-            {
-                return GetMatrix()[row][column];
-            }
+            get { return GetMatrix()[row][column]; }
             set
             {
                 float[][] matrix = GetMatrix();
@@ -421,6 +268,7 @@ namespace System.Drawing.Imaging
             {
                 array[i] = new float[5];
             }
+
             array[0][0] = _matrix00;
             array[0][1] = _matrix01;
             array[0][2] = _matrix02;

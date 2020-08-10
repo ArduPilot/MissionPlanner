@@ -8,26 +8,14 @@
 
         public Color OldColor
         {
-            get
-            {
-                return _oldColor;
-            }
-            set
-            {
-                _oldColor = value;
-            }
+            get { return _oldColor; }
+            set { _oldColor = value; }
         }
 
         public Color NewColor
         {
-            get
-            {
-                return _newColor;
-            }
-            set
-            {
-                _newColor = value;
-            }
+            get { return _newColor; }
+            set { _newColor = value; }
         }
     }
 }

@@ -22,14 +22,11 @@ namespace System.Drawing.Imaging
         public static ImageFormat Tiff { get; set; } = new ImageFormat(SKEncodedImageFormat.Jpeg);
 
 
-
         public static ImageFormat Gif { get; set; } = new ImageFormat(SKEncodedImageFormat.Gif);
 
         public static ImageFormat Jpeg { get; set; } = new ImageFormat(SKEncodedImageFormat.Jpeg);
 
 
         public static ImageFormat Icon { get; set; } = new ImageFormat(SKEncodedImageFormat.Ico);
-
-
     }
 }

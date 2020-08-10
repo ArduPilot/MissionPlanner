@@ -51,17 +51,18 @@
 //When enabled, code developed with earlier versions of Clipper 
 //(ie prior to ver 6) should compile without changes. 
 //In a future update, this compatability code will be removed.
+
 #define use_deprecated
 
 
 using System;
 using System.Collections.Generic;
+
 //using System.Text; //for Int128.AsString() & StringBuilder
 //using System.IO; //streamReader & StreamWriter
 
 namespace ClipperLib
 {
-
 #if use_int32
   using cInt = Int32;
 #else
@@ -75,17 +76,23 @@ namespace ClipperLib
     {
         public double X { get; set; }
         public double Y { get; set; }
+
         public DoublePoint(double x = 0, double y = 0)
         {
-            this.X = x; this.Y = y;
+            this.X = x;
+            this.Y = y;
         }
+
         public DoublePoint(DoublePoint dp)
         {
-            this.X = dp.X; this.Y = dp.Y;
+            this.X = dp.X;
+            this.Y = dp.Y;
         }
+
         public DoublePoint(IntPoint ip)
         {
-            this.X = ip.X; this.Y = ip.Y;
+            this.X = ip.X;
+            this.Y = ip.Y;
         }
     };
 
@@ -117,5 +124,4 @@ namespace ClipperLib
     //end Clipper
 
     //------------------------------------------------------------------------------
-
 } //end ClipperLib namespace

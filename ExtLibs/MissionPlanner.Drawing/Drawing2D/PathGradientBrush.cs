@@ -4,7 +4,6 @@
     {
         public PathGradientBrush(GraphicsPath ellipsePath)
         {
-            
         }
 
         public PointF CenterPoint { get; set; }

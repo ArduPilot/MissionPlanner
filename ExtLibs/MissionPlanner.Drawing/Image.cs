@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -31,6 +32,7 @@ namespace System.Drawing
         {
             get { return nativeSkBitmap.Width; }
         }
+
         public int Height
         {
             get { return nativeSkBitmap.Height; }
@@ -43,6 +45,7 @@ namespace System.Drawing
             get { return nativeSkBitmap.ColorType; }
         }
 
+        public PropertyItem[] PropertyItems { get; }
 
         // System.Drawing.Image
         /// <summary>Gets the width and height, in pixels, of this image.</summary>
@@ -65,6 +68,8 @@ namespace System.Drawing
             get { return userData; }
             set { userData = value; }
         }
+
+        public IEnumerable<Guid> FrameDimensionsList { get; set; } = new List<Guid>();
 
         public int VerticalResolution = 72;
 
@@ -96,8 +101,8 @@ namespace System.Drawing
 
         internal Image()
         {
-
         }
+
         protected Image(SerializationInfo info, StreamingContext context)
         {
             FromStream(new MemoryStream((byte[]) info.GetValue("pngdata", typeof(byte[]))));
@@ -111,7 +116,6 @@ namespace System.Drawing
         }
 
 
-
         public void Save(string filename, SKEncodedImageFormat format)
         {
             using (var stream = File.OpenWrite(filename))
@@ -123,6 +127,7 @@ namespace System.Drawing
         {
             SKImage.FromBitmap(nativeSkBitmap).Encode(format, 100).SaveTo(stream);
         }
+
         public void Save(string filename, ImageFormat format)
         {
             using (var stream = File.OpenWrite(filename))
@@ -147,7 +152,16 @@ namespace System.Drawing
 
         public void RotateFlip(RotateFlipType rotateNoneFlipY)
         {
-            
+        }
+
+        public int GetFrameCount(FrameDimension time)
+        {
+            return 1;
+        }
+
+        public int SelectActiveFrame(FrameDimension dimension, int frameIndex)
+        {
+            return 1;
         }
     }
 }

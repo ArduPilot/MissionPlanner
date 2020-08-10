@@ -46,6 +46,7 @@ namespace System.Drawing
         {
             return new Bitmap(new MemoryStream(data));
         }
+
         internal Bitmap()
         {
         }
@@ -87,7 +88,7 @@ namespace System.Drawing
             var skimage = SKImage.FromEncodedData(ms2);
             if (skimage == null)
                 return null;
-            var ans = new Bitmap() { nativeSkBitmap = SKBitmap.FromImage(skimage) };
+            var ans = new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skimage)};
             return ans;
         }
 
@@ -100,7 +101,8 @@ namespace System.Drawing
 
         public Bitmap(Image largeIconsImage, Size clientSizeHeight)
         {
-            SKBitmap ans = new SKBitmap(clientSizeHeight.Width, clientSizeHeight.Height, SKColorType.Bgra8888, SKAlphaType.Premul);
+            SKBitmap ans = new SKBitmap(clientSizeHeight.Width, clientSizeHeight.Height, SKColorType.Bgra8888,
+                SKAlphaType.Premul);
             largeIconsImage.nativeSkBitmap.ScalePixels(ans, SKFilterQuality.Medium);
             nativeSkBitmap = ans;
         }
@@ -112,7 +114,7 @@ namespace System.Drawing
             nativeSkBitmap = ans;
         }
 
-        public Bitmap(int width, int height, PixelFormat format4BppIndexed): this(width, height, SKColorType.Bgra8888)
+        public Bitmap(int width, int height, PixelFormat format4BppIndexed) : this(width, height, SKColorType.Bgra8888)
         {
         }
 
@@ -121,12 +123,11 @@ namespace System.Drawing
             // no idea
         }
 
-        public Bitmap(Bitmap bmp, Size size): this(bmp, size.Width,size.Height)
+        public Bitmap(Bitmap bmp, Size size) : this(bmp, size.Width, size.Height)
         {
-         
         }
 
-        public Bitmap(byte[] camera_icon_G, int v1, int v2): this(camera_icon_G, new Size(v1,v2))
+        public Bitmap(byte[] camera_icon_G, int v1, int v2) : this(camera_icon_G, new Size(v1, v2))
         {
         }
 
@@ -169,14 +170,16 @@ namespace System.Drawing
         {
             bmpData = null;
         }
+
         public void MakeTransparent()
         {
             if (nativeSkBitmap.IsEmpty)
                 nativeSkBitmap.Erase(SKColor.Empty);
         }
+
         public void MakeTransparent(Color transparent)
         {
-            if(nativeSkBitmap.IsEmpty)
+            if (nativeSkBitmap.IsEmpty)
                 nativeSkBitmap.Erase(SKColor.Empty);
         }
 
@@ -187,7 +190,7 @@ namespace System.Drawing
 
         public void SetPixel(int i, int i1, Color transparent)
         {
-            nativeSkBitmap.SetPixel(i,i1, transparent.ToSKColor());
+            nativeSkBitmap.SetPixel(i, i1, transparent.ToSKColor());
         }
 
         public Image GetThumbnailImage(int v1, int v2, GetThumbnailImageAbort myCallback, IntPtr zero)
@@ -214,12 +217,16 @@ namespace System.Drawing
 
         public void SetResolution(float imageHorizontalResolution, float imageVerticalResolution)
         {
-            
         }
 
         public void Save(MemoryStream streamjpg, ImageCodecInfo ici, EncoderParameters eps)
         {
             Save(streamjpg, SKEncodedImageFormat.Jpeg);
+        }
+
+        public IntPtr GetHbitmap()
+        {
+            return IntPtr.Zero;
         }
     }
 }

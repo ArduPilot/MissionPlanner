@@ -13,14 +13,8 @@
 
         public EncoderParameter[] Param
         {
-            get
-            {
-                return _param;
-            }
-            set
-            {
-                _param = value;
-            }
+            get { return _param; }
+            set { _param = value; }
         }
     }
 }

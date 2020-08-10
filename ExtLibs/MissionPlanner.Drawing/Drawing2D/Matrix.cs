@@ -49,7 +49,6 @@ namespace System.Drawing.Drawing2D
 
         public Matrix()
         {
-            
         }
 
         public Matrix(Rectangle rect, Point[] plgpts)
@@ -155,7 +154,6 @@ namespace System.Drawing.Drawing2D
                 bool retval;
                 throw new NotImplementedException();
                 return retval;
-
             }
             else
                 return false;

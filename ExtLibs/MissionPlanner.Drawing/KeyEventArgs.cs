@@ -2,5 +2,4 @@
 
 namespace System.Drawing
 {
-   
 }

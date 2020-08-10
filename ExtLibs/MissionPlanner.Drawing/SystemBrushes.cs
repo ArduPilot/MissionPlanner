@@ -1,4 +1,6 @@
 ﻿namespace System.Drawing
 {
-    public class  SystemBrushes: Brushes{}
+    public class SystemBrushes : Brushes
+    {
+    }
 }

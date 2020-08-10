@@ -1,5 +1,5 @@
 ﻿namespace System.Drawing
-{/*
+{ /*
     public enum MouseButtons
     {
         /// <summary>The left mouse button was pressed.</summary>

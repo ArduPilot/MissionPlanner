@@ -2,17 +2,9 @@
 {
     public sealed class Blend
     {
-        public float[] Factors
-        {
-            get;
-            set;
-        }
+        public float[] Factors { get; set; }
 
-        public float[] Positions
-        {
-            get;
-            set;
-        }
+        public float[] Positions { get; set; }
 
         public Blend()
         {

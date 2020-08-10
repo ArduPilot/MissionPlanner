@@ -18,6 +18,7 @@ namespace ClipperLib
                 result = !result;
                 node = node.m_Parent;
             }
+
             return result;
         }
 

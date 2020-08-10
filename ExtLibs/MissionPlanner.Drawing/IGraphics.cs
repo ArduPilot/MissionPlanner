@@ -1,5 +1,4 @@
-﻿
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 
@@ -11,6 +10,5 @@ namespace System.Drawing
         GraphicsPath, Font, Brush,
         StringFormat, FlushIntention, MatrixOrder, GraphicsState, CombineMode, CoordinateSpace>
     {
-
     }
 }

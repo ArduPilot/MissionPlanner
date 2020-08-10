@@ -178,7 +178,5 @@ namespace System.Drawing
         public static Brush Window { get; } = new SolidBrush(0xFFFFFFFF);
         public static Brush WindowFrame { get; } = new SolidBrush(0xFF646464);
         public static Brush WindowText { get; } = new SolidBrush(0xFF000000);
-
-
     }
 }

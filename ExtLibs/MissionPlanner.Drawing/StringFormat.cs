@@ -2,14 +2,22 @@
 
 namespace System.Drawing
 {
-    public class StringFormat:IDisposable,ICloneable
+    public class StringFormat : IDisposable, ICloneable
     {
         public CharacterRange[] ranges;
         private HotkeyPrefix _hotkeyPrefix;
-        public StringFormat(){}
+
+        public StringFormat()
+        {
+        }
+
         public StringFormat(StringFormat genericTypographic)
         {
-            
+        }
+
+        public StringFormat(StringFormatFlags flags)
+        {
+            FormatFlags = flags;
         }
 
         public static StringFormat GenericDefault { get; set; } = new StringFormat();
@@ -28,7 +36,6 @@ namespace System.Drawing
 
         public void Dispose()
         {
-           
         }
 
         public void SetTabStops(float f, float[] floats)

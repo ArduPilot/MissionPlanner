@@ -2,17 +2,9 @@
 {
     public sealed class ColorBlend
     {
-        public Color[] Colors
-        {
-            get;
-            set;
-        }
+        public Color[] Colors { get; set; }
 
-        public float[] Positions
-        {
-            get;
-            set;
-        }
+        public float[] Positions { get; set; }
 
         public ColorBlend()
         {

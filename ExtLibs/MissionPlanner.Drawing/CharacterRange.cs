@@ -10,28 +10,16 @@
         /// <returns>The first position of this <see cref="T:MissionPlanner.Drawing.CharacterRange" />.</returns>
         public int First
         {
-            get
-            {
-                return first;
-            }
-            set
-            {
-                first = value;
-            }
+            get { return first; }
+            set { first = value; }
         }
 
         /// <summary>Gets or sets the number of positions in this <see cref="T:MissionPlanner.Drawing.CharacterRange" />.</summary>
         /// <returns>The number of positions in this <see cref="T:MissionPlanner.Drawing.CharacterRange" />.</returns>
         public int Length
         {
-            get
-            {
-                return length;
-            }
-            set
-            {
-                length = value;
-            }
+            get { return length; }
+            set { length = value; }
         }
 
         /// <summary>Initializes a new instance of the <see cref="T:MissionPlanner.Drawing.CharacterRange" /> structure, specifying a range of character positions within a string.</summary>
@@ -53,11 +41,13 @@
             {
                 return false;
             }
-            CharacterRange characterRange = (CharacterRange)obj;
+
+            CharacterRange characterRange = (CharacterRange) obj;
             if (first == characterRange.First)
             {
                 return length == characterRange.Length;
             }
+
             return false;
         }
 
@@ -72,6 +62,7 @@
             {
                 return cr1.Length == cr2.Length;
             }
+
             return false;
         }
 

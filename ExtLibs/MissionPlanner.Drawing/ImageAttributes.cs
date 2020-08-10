@@ -7,8 +7,6 @@
 */
 
 
-
-
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -19,9 +17,9 @@ namespace System.Drawing.Imaging
     public class ImageAttributes : IDisposable
     {
         private ColorMatrix matrix;
+
         public void Dispose()
         {
-           
         }
 
         public void SetColorMatrix(ColorMatrix matrix)
@@ -31,12 +29,10 @@ namespace System.Drawing.Imaging
 
         public void SetWrapMode(WrapMode tileFlipXy)
         {
-            
         }
 
         public void SetColorKey(Color itemImageTransparentColor, Color imageTransparentColor)
         {
-          
         }
 
         public void ClearOutputChannelColorProfile()
@@ -45,7 +41,6 @@ namespace System.Drawing.Imaging
 
         public void SetRemapTable(ColorMap[] colorMaps)
         {
-            
         }
     }
 }
