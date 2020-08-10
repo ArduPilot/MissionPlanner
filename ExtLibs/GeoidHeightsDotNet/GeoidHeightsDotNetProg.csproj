@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>GeoidHeightsDotNetProg</PackageId>
+    <Version>1.0.2</Version>
+    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="GeoidHeights\**" />
+    <EmbeddedResource Remove="GeoidHeights\**" />
+    <None Remove="GeoidHeights\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="GeoidHeights\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="GeoidHeights\GeoidHeights.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+</Project>
