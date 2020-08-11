@@ -3859,14 +3859,26 @@ namespace MissionPlanner
 
                 return true;
             }
+            bool manualFlightMode = false;
+            int[] overrides = { 1500, 1500, 1500, 1500 };
+            if (keyData == (Keys.Control | Keys.ControlKey))
+            {
+                manualFlightMode = true;
+                //CustomMessageBox.Show("CTRL!!!");
+            }
             if (keyData == (Keys.Control | Keys.Left))
             {
-                MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
+                manualFlightMode = true;
+                //CustomMessageBox.Show("LEFT ARROW!!!");
+                if (manualFlightMode) 
+                {
+                    overrides[2] -= 200;
+                }
+                /*MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
 
                 rc.target_component = comPort.MAV.compid;
                 rc.target_system = comPort.MAV.sysid;
                 //new DevopsUI().ShowUserControl();
-                CustomMessageBox.Show("LEFT ARROW!!!");
                 // TODO: add right values
                 //if (!comPort.BaseStream.IsOpen)
                 //    continue;
@@ -3882,13 +3894,61 @@ namespace MissionPlanner
                     }
                     //count++;
                     lastjoystick = DateTime.Now;
-                }
-                return true;
+                }*/
+                //CustomMessageBox.Show("LEFT ARROW!!!");
+                //return true;
             }
             if (keyData == (Keys.Control | Keys.Right))
             {
+                manualFlightMode = true;
+                if (manualFlightMode)
+                {
+                    overrides[2] += 200;
+                }
+            }
+            if (keyData == (Keys.Control | Keys.Up))
+            {
+                manualFlightMode = true;
+                if (manualFlightMode)
+                {
+                    overrides[3] += 200;
+                }
+            }
+            if (keyData == (Keys.Control | Keys.Down))
+            {
+                manualFlightMode = true;
+                if (manualFlightMode)
+                {
+                    overrides[3] -= 200;
+                }
+            }
+            if (manualFlightMode) 
+            {
+                MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
+
+                rc.target_component = comPort.MAV.compid;
+                rc.target_system = comPort.MAV.sysid;
+                rc.chan2_raw = Convert.ToUInt16(overrides[2]);
+                rc.chan3_raw = Convert.ToUInt16(overrides[3]);
                 //new DevopsUI().ShowUserControl();
-                CustomMessageBox.Show("RIGHT ARROW!!!");
+                // TODO: add right values
+                if (comPort.BaseStream.IsOpen)
+                {
+                    if (comPort.BaseStream.BytesToWrite < 50)
+                    {
+                        if (sitl)
+                        {
+                            MissionPlanner.GCSViews.SITL.rcinput();
+                        }
+                        else
+                        {
+                            comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                        }
+                        //count++;
+                        //lastjoystick = DateTime.Now;
+                    }
+                }
+                System.Diagnostics.Debug.WriteLine("overrides " + overrides[2] + " " + overrides[3]);
                 return true;
             }
             if (ProcessCmdKeyCallback != null)
