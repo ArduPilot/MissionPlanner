@@ -3872,38 +3872,15 @@ namespace MissionPlanner
                 //CustomMessageBox.Show("LEFT ARROW!!!");
                 if (manualFlightMode) 
                 {
-                    overrides[2] -= 200;
+                    overrides[2] = 1300;
                 }
-                /*MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
-
-                rc.target_component = comPort.MAV.compid;
-                rc.target_system = comPort.MAV.sysid;
-                //new DevopsUI().ShowUserControl();
-                // TODO: add right values
-                //if (!comPort.BaseStream.IsOpen)
-                //    continue;
-                if (comPort.BaseStream.BytesToWrite < 50)
-                {
-                    if (sitl)
-                    {
-                        MissionPlanner.GCSViews.SITL.rcinput();
-                    }
-                    else
-                    {
-                        comPort.sendPacket(rc, rc.target_system, rc.target_component);
-                    }
-                    //count++;
-                    lastjoystick = DateTime.Now;
-                }*/
-                //CustomMessageBox.Show("LEFT ARROW!!!");
-                //return true;
             }
             if (keyData == (Keys.Control | Keys.Right))
             {
                 manualFlightMode = true;
                 if (manualFlightMode)
                 {
-                    overrides[2] += 200;
+                    overrides[2] = 1700;
                 }
             }
             if (keyData == (Keys.Control | Keys.Up))
@@ -3911,7 +3888,7 @@ namespace MissionPlanner
                 manualFlightMode = true;
                 if (manualFlightMode)
                 {
-                    overrides[3] += 200;
+                    overrides[3] = 1700;
                 }
             }
             if (keyData == (Keys.Control | Keys.Down))
@@ -3919,8 +3896,32 @@ namespace MissionPlanner
                 manualFlightMode = true;
                 if (manualFlightMode)
                 {
-                    overrides[3] -= 200;
+                    overrides[3] = 1300;
                 }
+            }
+            if (keyData == (Keys.Control | Keys.Right | Keys.Up))
+            {
+                //CustomMessageBox.Show("RIGHT + UP ARROW!!!");
+                overrides[2] = 1700;
+                overrides[3] = 1700;
+            }
+            if (keyData == (Keys.Control | Keys.Left | Keys.Down))
+            {
+                //CustomMessageBox.Show("RIGHT + UP ARROW!!!");
+                overrides[2] = 1300;
+                overrides[3] = 1300;
+            }
+            if (keyData == (Keys.Control | Keys.Right | Keys.Down))
+            {
+                //CustomMessageBox.Show("RIGHT + UP ARROW!!!");
+                overrides[2] = 1700;
+                overrides[3] = 1300;
+            }
+            if (keyData == (Keys.Control | Keys.Left | Keys.Up))
+            {
+                //CustomMessageBox.Show("RIGHT + UP ARROW!!!");
+                overrides[2] = 1300;
+                overrides[3] = 1700;
             }
             if (manualFlightMode) 
             {
