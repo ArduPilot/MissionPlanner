@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -12,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using IOException = System.IO.IOException;
 using size_t = System.Int32;
 
 namespace UAVCAN
@@ -65,28 +67,38 @@ namespace UAVCAN
         {
             StringBuilder sb = new StringBuilder();
 
-            char cha;
+            int cha;
 
-            var timeout = DateTime.Now.AddMilliseconds(timeoutms);
+            var timeout = DateTime.UtcNow.AddMilliseconds(timeoutms);
 
             try
             {
                 do
                 {
-                    cha = (char) st.ReadByte();
+                    cha = st.ReadByte();
                     if (cha == -1)
                         break;
-                    sb.Append(cha);
-                    if (DateTime.Now > timeout)
+                    sb.Append((char)cha);
+                    if (DateTime.UtcNow > timeout)
                         break;
                 } while (cha != '\r' && cha != '\a');
             }
-            catch 
+            catch (IOException)
+            {
+                throw;
+            }
+            catch (NotSupportedException)
+            {
+                throw;
+            }
+            catch
             {
             }
 
             return sb.ToString();
         }
+
+        public int bps { get; set; }
 
         /// <summary>
         /// Start slcan stream sending a nodestatus packet every second
@@ -94,44 +106,55 @@ namespace UAVCAN
         /// <param name="stream"></param>
         public void StartSLCAN(Stream stream)
         {
-            //cleanup
-            stream.Write(new byte[] { (byte)'\r', (byte)'\r', (byte)'\r' }, 0, 3);
-            Thread.Sleep(50);
-            stream.ReadTimeout = 1000;
-            stream.Read(new byte[1024 * 1024], 0, 1024 * 1024);
+            if (stream.CanWrite)
+            {
+                //cleanup
+                stream.Write(new byte[] {(byte) '\r', (byte) '\r', (byte) '\r'}, 0, 3);
+                Thread.Sleep(50);
+                stream.ReadTimeout = 1000;
+                try
+                {
+                    stream.Read(new byte[1024 * 1024], 0, 1024 * 1024);
+                }
+                catch
+                {
 
-            // \a = false;
-            // \r = true;
+                }
 
-            // close
-            stream.Write(new byte[] { (byte)'C', (byte)'\r' }, 0, 2);
+                // \a = false;
+                // \r = true;
 
-            var resp1 = ReadLine(stream);
-            // speed 
-            stream.Write(new byte[] { (byte)'S', (byte)'8', (byte)'\r' }, 0, 3);
+                // close
+                stream.Write(new byte[] {(byte) 'C', (byte) '\r'}, 0, 2);
 
-            var resp2 = ReadLine(stream);
-            //hwid
-            stream.Write(new byte[] { (byte)'N', (byte)'\r' }, 0, 2);
+                var resp1 = ReadLine(stream);
+                // speed 
+                stream.Write(new byte[] {(byte) 'S', (byte) '8', (byte) '\r'}, 0, 3);
 
-            var resp3 = ReadLine(stream);
-            // open
-            stream.Write(new byte[] { (byte)'O', (byte)'\r' }, 0, 2);
+                var resp2 = ReadLine(stream);
+                //hwid
+                stream.Write(new byte[] {(byte) 'N', (byte) '\r'}, 0, 2);
 
-            var resp4 = ReadLine(stream);
-            // clear status
-            stream.Write(new byte[] { (byte)'F', (byte)'\r' }, 0, 2);
+                var resp3 = ReadLine(stream);
+                // open
+                stream.Write(new byte[] {(byte) 'O', (byte) '\r'}, 0, 2);
 
-            var resp5 = ReadLine(stream);
+                var resp4 = ReadLine(stream);
+                // clear status
+                stream.Write(new byte[] {(byte) 'F', (byte) '\r'}, 0, 2);
 
-            sr = stream;
-            var srread = new BufferedStream(stream);
+                var resp5 = ReadLine(stream);
 
-            bool run = true;
+            }
+
+            sr = stream; 
+            run = true;
             Stream logfile = null;
 
             if (LogFile != null)
                 logfile = File.OpenWrite(LogFile);
+
+            queue = new ConcurrentQueue<string>();
 
             // read everything
             Task.Run(() =>
@@ -141,14 +164,21 @@ namespace UAVCAN
                 {
                     try
                     {
-                        var line = ReadLine(srread);
+                        var line = ReadLine(sr);
+                        if (line == "")
+                        {
+                            Thread.Sleep(1);
+                            continue;
+                        }
                         try
                         {
                             logfile?.Write(ASCIIEncoding.ASCII.GetBytes(line), 0, line.Length);
                         }
                         catch
                         { }
-                        ReadMessage(line);
+
+                        bps += line.Length;
+                        queue.Enqueue(line);
                         readfail = 0;
                     }
                     catch (ObjectDisposedException)
@@ -164,6 +194,35 @@ namespace UAVCAN
                         readfail++;
                         if (readfail > 500)
                             run = false;
+                    }
+                }
+
+                Stop();
+            });
+
+            // process packets
+            Task.Run(() =>
+            {
+                string line = "";
+                while (run)
+                {
+                    try
+                    {
+                        if (queue.TryDequeue(out line))
+                        {
+                            ReadMessage(line);
+                        }
+                        else
+                        {
+                            Thread.Sleep(1);
+                        }
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        run = false;
+                    }
+                    catch
+                    {
                     }
                 }
             });
@@ -186,6 +245,10 @@ namespace UAVCAN
                         }
                     }
                     catch (ObjectDisposedException)
+                    {
+                        run = false;
+                    }      
+                    catch (IOException)
                     {
                         run = false;
                     }
@@ -230,10 +293,19 @@ namespace UAVCAN
             };
         }
 
+        public ConcurrentQueue<string> queue { get; set; }
+
         public string LogFile { get; set; } = null;
 
         public void Stop(bool closestream = true)
         {
+            run = false;
+
+            foreach (var @delegate in MessageReceived.GetInvocationList())
+            {
+                MessageReceived -= (MessageRecievedDel) @delegate;
+            }
+
             if (sr != null && closestream)
             {
                 // close
@@ -273,6 +345,58 @@ namespace UAVCAN
             MessageReceived += configdelgate;
 
             var req = new uavcan.uavcan_protocol_param_ExecuteOpcode_req() { opcode = (byte)uavcan.UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_REQ_OPCODE_SAVE};
+
+            var trys = 0;
+            DateTime nextsend = DateTime.MinValue;
+
+            while (!ok.HasValue)
+            {
+                if (trys > 3)
+                    return false;
+
+                if (nextsend < DateTime.Now)
+                {
+                    var slcan = PackageMessage(node, 30, transferID++, req);
+
+                    WriteToStream(slcan);
+
+                    nextsend = DateTime.Now.AddSeconds(1);
+                    trys++;
+                }
+                Thread.Sleep(20);
+            }
+
+            MessageReceived -= configdelgate;
+
+            return ok.Value;
+        } 
+        
+        public bool ExecuteOpCode(byte node, byte UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE)
+        {
+            //TX  15:23:27.460269 1E0AF9FE    00 00 00 00 00 00 00 C1........    126 121 uavcan.protocol.param.ExecuteOpcode
+            //RX	15:23:27.471806	1E0A7EF9	00 00 00 00 00 00 80 C1 	........	121	126	uavcan.protocol.param.ExecuteOpcode
+
+            bool? ok = null;
+
+            MessageRecievedDel configdelgate = (frame, msg, transferID) =>
+            {
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                    return;
+
+                if (frame.SourceNode != node)
+                    return;
+
+                if (msg.GetType() == typeof(uavcan.uavcan_protocol_param_ExecuteOpcode_res))
+                {
+                    var exopres = msg as uavcan.uavcan_protocol_param_ExecuteOpcode_res;
+
+                    ok = exopres.ok;
+                }
+            };
+
+            MessageReceived += configdelgate;
+
+            var req = new uavcan.uavcan_protocol_param_ExecuteOpcode_req() { opcode = (byte)UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE};
 
             var trys = 0;
             DateTime nextsend = DateTime.MinValue;
@@ -716,6 +840,7 @@ namespace UAVCAN
                         dynamicBytes.AddRange(allocation.unique_id.Take(allocation.unique_id_len));
 
                         var slcan = PackageMessage(SourceNode, frame.Priority, transferID, allocation);
+                        Console.WriteLine(slcan);
                         lock (sr_lock)
                             WriteToStream(slcan);
                     }
@@ -729,18 +854,31 @@ namespace UAVCAN
 
                         if (allocation.unique_id_len >= 16)
                         {
-                            for (int a = 125; a >= 1; a--)
+                            if (allocated.Values.Any(a => a.unique_id.SequenceEqual(allocation.unique_id)))
                             {
-                                if (!NodeList.ContainsKey(a))
+                                allocation.node_id = allocated.Values
+                                    .First(a => a.unique_id.SequenceEqual(allocation.unique_id)).node_id;
+                                Console.WriteLine("Allocate again " + allocation.node_id);
+                            }
+                            else
+                            {
+                                for (byte a = 125; a >= 1; a--)
                                 {
-                                    allocation.node_id = (byte)a;
-                                    Console.WriteLine("Allocate " + a);
-                                    break;
+                                    if (!NodeList.ContainsKey(a))
+                                    {
+                                        allocation.node_id = (byte) a;
+                                        Console.WriteLine("Allocate " + a);
+                                        allocated[a] = allocation;
+                                        break;
+                                    }
                                 }
                             }
+
                             dynamicBytes.Clear();
                         }
+
                         var slcan = PackageMessage(SourceNode, frame.Priority, transferID, allocation);
+                        Console.WriteLine(slcan);
                         lock (sr_lock)
                             WriteToStream(slcan);
 
@@ -807,6 +945,9 @@ namespace UAVCAN
             MessageRecievedDel updatedelegate = (frame, msg, transferID) =>
             {
                 if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                    return;
+
+                if (frame.SourceNode != nodeid)
                     return;
 
                 if (msg.GetType() == typeof(uavcan.uavcan_protocol_file_BeginFirmwareUpdate_res))
@@ -988,8 +1129,11 @@ namespace UAVCAN
             {
                 lock (sr_lock)
                 {
-                    sr.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
-                    sr.Flush();
+                    if (sr.CanWrite)
+                    {
+                        sr.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
+                        sr.Flush();
+                    }
                 }
                 // var ans = sr.Peek();
                 // Console.WriteLine((char)ans);
@@ -1211,6 +1355,14 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             
         }
 
+        byte hextoint(char number)
+        {
+            if (number >= '0' && number <= '9') return (byte) (number - '0');
+            else if (number >= 'a' && number <= 'f') return (byte) (number - 'a' + 0x0a);
+            else if (number >= 'A' && number <= 'F') return (byte) (number - 'A' + 0X0a);
+            else return 0;
+        }
+
         public void ReadMessage(string line)
         {
             int id_len;
@@ -1219,7 +1371,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             if (line_len <= 4)
                 return;
 
-            if (line.StartsWith("\a"))
+            if (line[0] == '\a')
                 line = line.Replace("\a", "");
 
             if (line[0] == 'T') // 29 bit data frame
@@ -1241,7 +1393,8 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
 
             //T12ABCDEF2AA55 : extended can_id 0x12ABCDEF, can_dlc 2, data 0xAA 0x55
-            var packet_id = Convert.ToUInt32(new string(line.Skip(1).Take(id_len).ToArray()), 16); // id
+            var msgdata = line.Substring(1, id_len);// new string(line.Skip(1).Take(id_len).ToArray());
+            var packet_id = Convert.ToUInt32(msgdata, 16); // id
             var packet_len = line[1 + id_len] - 48; // dlc
             var with_timestamp = line_len > (2 + id_len + packet_len * 2);
 
@@ -1252,8 +1405,8 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             var packet_data = line.Skip(2 + id_len).Take(packet_len * 2).NowNextBy2().Select(a =>
             {
-                return Convert.ToByte(a.Item1 + "" + a.Item2, 16);
-            });
+                return (byte) ((hextoint(a.Item1) << 4) + hextoint(a.Item2));
+            }).ToArray();
 
             if (packet_data == null || packet_data.Count() == 0)
                 return;
@@ -1261,7 +1414,9 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             //Console.WriteLine(ASCIIEncoding.ASCII.GetString( packet_data));
             //Console.WriteLine("RX " + line.Replace("\r", "\r\n"));
 
-            var payload = new CANPayload(packet_data.ToArray());
+            //Console.WriteLine("RX " + line[0] + " " + msgdata + " " + line.Substring(2 + id_len,packet_len*2));
+
+            var payload = new CANPayload(packet_data);
 
             if (payload.SOT)
                 transfer[(packet_id, payload.TransferID)] = new List<byte>();
@@ -1333,14 +1488,17 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 }
 
                 var msgtype = uavcan.MSG_INFO.First(a =>
-                    a.Item2 == frame.MsgTypeID && frame.TransferType == CANFrame.FrameType.message &&
-                    !a.Item1.Name.EndsWith("_req") && !a.Item1.Name.EndsWith("_res") ||
-                    a.Item2 == frame.MsgTypeID && frame.TransferType == CANFrame.FrameType.anonymous &&
-                    !a.Item1.Name.EndsWith("_req") && !a.Item1.Name.EndsWith("_res") ||
-                    a.Item2 == frame.SvcTypeID && frame.TransferType == CANFrame.FrameType.service &&
-                    frame.SvcIsRequest && a.Item1.Name.EndsWith("_req") ||
-                    a.Item2 == frame.SvcTypeID && frame.TransferType == CANFrame.FrameType.service &&
-                    !frame.SvcIsRequest && a.Item1.Name.EndsWith("_res"));
+                {
+                    return
+                        a.Item2 == frame.MsgTypeID && frame.TransferType == CANFrame.FrameType.message &&
+                        !a.Item1.Name.EndsWith("_req") && !a.Item1.Name.EndsWith("_res") ||
+                        a.Item2 == frame.MsgTypeID && frame.TransferType == CANFrame.FrameType.anonymous &&
+                        !a.Item1.Name.EndsWith("_req") && !a.Item1.Name.EndsWith("_res") ||
+                        a.Item2 == frame.SvcTypeID && frame.TransferType == CANFrame.FrameType.service &&
+                        frame.SvcIsRequest && a.Item1.Name.EndsWith("_req") ||
+                        a.Item2 == frame.SvcTypeID && frame.TransferType == CANFrame.FrameType.service &&
+                        !frame.SvcIsRequest && a.Item1.Name.EndsWith("_res");
+                });
 
                 var dt_sig = BitConverter.GetBytes(msgtype.Item3);
 
@@ -1372,11 +1530,9 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 //Console.WriteLine(msgtype);
 
-                MethodInfo method = typeof(Extension).GetMethod("ByteArrayToUAVCANMsg");
-                MethodInfo generic = method.MakeGenericMethod(msgtype.Item1);
                 try
                 {
-                    var ans = generic.Invoke(null, new object[] { result, startbyte });
+                    var ans = msgtype.Item4.Invoke(null, new object[] {result, startbyte});
 
                     //Console.WriteLine(("RX") + " " + msgtype.Item1 + " " + JsonConvert.SerializeObject(ans));
 
@@ -1389,7 +1545,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
         }
 
-        public void SetParameter(byte node, string name, object value)
+        public bool SetParameter(byte node, string name, object value)
         {
             uavcan.uavcan_protocol_param_GetSet_req req = new uavcan.uavcan_protocol_param_GetSet_req()
             {
@@ -1400,7 +1556,9 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             var param = _paramlistcache.Where(a => ASCIIEncoding.ASCII.GetString(a.name, 0, a.name_len) == name);
 
             if (param.Count() == 0)
-                return;
+            {
+                return false;
+            }
 
             switch (param.First().value.uavcan_protocol_param_Value_type)
             {
@@ -1410,7 +1568,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                         uavcan_protocol_param_Value_type = uavcan.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE,
                         union = new uavcan.uavcan_protocol_param_Value.unions()
-                            {boolean_value = (float)value > 0 ? (byte) 1 : (byte) 0}
+                            {boolean_value = (float) value > 0 ? (byte) 1 : (byte) 0}
                     };
                     break;
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
@@ -1418,7 +1576,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     {
                         uavcan_protocol_param_Value_type = uavcan.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE,
-                        union = new uavcan.uavcan_protocol_param_Value.unions() {integer_value = (int)(float)value }
+                        union = new uavcan.uavcan_protocol_param_Value.unions() {integer_value = (int) (float) value}
                     };
                     break;
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
@@ -1445,16 +1603,61 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     break;
             }
 
-            var slcan = PackageMessage(node, 30, transferID++, req);
+            bool? ok = null;
 
-            lock (sr_lock)
+            MessageRecievedDel resp = (frame, msg, id) =>
             {
-                WriteToStream(slcan);
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                    return;
+
+                if (frame.SourceNode != node)
+                    return;
+
+                if (msg.GetType() == typeof(uavcan.uavcan_protocol_param_GetSet_res))
+                {
+                    var paramres = msg as uavcan.uavcan_protocol_param_GetSet_res;
+                    if (paramres.value == value)
+                    {
+                        ok = true;
+                    }
+                }
+            };
+
+            MessageReceived += resp;
+
+            var trys = 0;
+            DateTime nextsend = DateTime.MinValue;
+
+            while (!ok.HasValue)
+            {
+                if (trys > 3)
+                    return false;
+
+                if (nextsend < DateTime.Now)
+                {
+                    var slcan = PackageMessage(node, 30, transferID++, req);
+
+                    WriteToStream(slcan);
+
+                    nextsend = DateTime.Now.AddSeconds(1);
+                    trys++;
+                }
+
+                Thread.Sleep(20);
             }
 
+            MessageReceived -= resp;
+
+            return true;
         }
 
         StringBuilder readsb = new StringBuilder();
+
+        private Dictionary<byte, uavcan_protocol_dynamic_node_id_Allocation> allocated =
+            new Dictionary<byte, uavcan_protocol_dynamic_node_id_Allocation>();
+
+        private bool run;
+
         public int Read(byte b)
         {
             if (b >= '0' && b <= '9' || b >= 'a' && b <= 'f' || b >= 'A' && b <= 'F' || b == 't' || b == 'T' || b == 'n' || b == '\r' || b == '\a' || b == '\n')
@@ -1482,6 +1685,56 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
 
             return 0;
+        }
+
+        public bool RestartNode(byte node)
+        {
+            bool? ok = null;
+
+            MessageRecievedDel configdelgate = (frame, msg, transferID) =>
+            {
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                    return;
+
+                if (frame.SourceNode != node)
+                    return;
+
+                if (msg.GetType() == typeof(uavcan.uavcan_protocol_RestartNode_res))
+                {
+                    var exopres = msg as uavcan.uavcan_protocol_RestartNode_res;
+
+                    ok = exopres.ok;
+                }
+            };
+
+            MessageReceived += configdelgate;
+
+            var req = new uavcan.uavcan_protocol_RestartNode_req()
+                {magic_number = (ulong) UAVCAN_PROTOCOL_RESTARTNODE_REQ_MAGIC_NUMBER};
+
+            var trys = 0;
+            DateTime nextsend = DateTime.MinValue;
+
+            while (!ok.HasValue)
+            {
+                if (trys > 3)
+                    return false;
+
+                if (nextsend < DateTime.Now)
+                {
+                    var slcan = PackageMessage(node, 30, transferID++, req);
+
+                    WriteToStream(slcan);
+
+                    nextsend = DateTime.Now.AddSeconds(1);
+                    trys++;
+                }
+                Thread.Sleep(20);
+            }
+
+            MessageReceived -= configdelgate;
+
+            return ok.Value;
         }
     }
 }

@@ -96,11 +96,11 @@ if __name__ == '__main__':
             msg = message_dict[msg_name]
             #print (dir(msg))
             if not msg.default_dtid is None and msg.kind == msg.KIND_MESSAGE:
-                message_names_enum += '(typeof(%s), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
+                message_names_enum += '(typeof(%s), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(%s)),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
 
             if not msg.default_dtid is None and msg.kind == msg.KIND_SERVICE:
-                message_names_enum += '(typeof(%s_req), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
-                message_names_enum += '(typeof(%s_res), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
+                message_names_enum += '(typeof(%s_req), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(%s_req))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '(typeof(%s_res), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(%s_res))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
     else:
         for msg_name in [msg.full_name for msg in messages]:
             print ('building %s' % (msg_name,))
@@ -110,11 +110,11 @@ if __name__ == '__main__':
             msg = message_dict[msg_name]
             print (dir(msg))
             if not msg.default_dtid is None and msg.kind == msg.KIND_MESSAGE:
-                message_names_enum += '(typeof(%s), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
+                message_names_enum += '(typeof(%s), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(%s))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
 
             if not msg.default_dtid is None and msg.kind == msg.KIND_SERVICE:
-                message_names_enum += '(typeof(%s_req), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
-                message_names_enum += '(typeof(%s_res), %s, 0x%08X),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature())
+                message_names_enum += '(typeof(%s_req), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(%s_req))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
+                message_names_enum += '(typeof(%s_res), %s, 0x%08X, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(%s_res))),\n' % (msg.full_name.replace('.','_'), msg.default_dtid, msg.get_data_type_signature(),msg.full_name.replace('.','_'))
 
     pool.close()
     pool.join()
@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
     print ('test')
     with open('messages.cs', 'wb') as f:
-        f.write('using System; namespace UAVCAN {public partial class uavcan { public static readonly (Type,UInt16, ulong)[] MSG_INFO = {'+message_names_enum+'};}}')
+        f.write('using System;using System.Reflection; namespace UAVCAN {public partial class uavcan { public static readonly (Type,UInt16, ulong, MethodInfo)[] MSG_INFO = {'+message_names_enum+'};}}')
 
     print (message_names_enum)
 

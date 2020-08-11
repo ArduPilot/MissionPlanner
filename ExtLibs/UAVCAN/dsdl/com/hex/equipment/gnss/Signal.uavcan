@@ -1,0 +1,61 @@
+uint8 sv_id
+
+uint4 GNSS_ID_GPS      = 0
+uint4 GNSS_ID_GALILEO  = 2
+uint4 GNSS_ID_BEIDOU   = 3
+uint4 GNSS_ID_QZSS     = 5
+uint4 GNSS_ID_GLONASS  = 6
+uint4 gnss_id
+
+uint4 SIG_ID_L1 = 0
+uint4 SIG_ID_E1B = 1
+uint4 SIG_ID_L2_OF = 2
+uint4 SIG_ID_L2_CL = 3
+uint4 SIG_ID_L2_CM = 4
+uint4 SIG_ID_E5_BI = 5
+uint4 SIG_ID_E5_BQ = 6
+uint4 sig_id
+
+uint4 freq_id
+
+uint4 QUALITY_IND_NO_SIGNAL = 0
+uint4 QUALITY_IND_SEARCHING = 1
+uint4 QUALITY_IND_ACQUIRED  = 2
+uint4 QUALITY_IND_DETECTED_UNUSABLE = 3
+uint4 QUALITY_IND_CODE_LOCKED_TIME_SYNCED = 4
+uint4 QUALITY_IND_CODE_AND_CARRIER_LOCKED_TIME_SYNCED1 = 5
+uint4 QUALITY_IND_CODE_AND_CARRIER_LOCKED_TIME_SYNCED2 = 6
+uint4 QUALITY_IND_CODE_AND_CARRIER_LOCKED_TIME_SYNCED3 = 7
+uint4 quality_ind
+
+int16 pr_res
+
+uint8 cno
+
+uint4 CORR_SOURCE_NONE = 0
+uint4 CORR_SOURCE_SBAS = 1
+uint4 CORR_SOURCE_BEIDOU = 2
+uint4 CORR_SOURCE_RTCM2 = 3
+uint4 CORR_SOURCE_RTCM3_OCR = 4
+uint4 CORR_SOURCE_RTCM3_SSR = 5
+uint4 CORR_SOURCE_QZSS_SLAS = 6
+uint4 corr_source
+
+uint4 IONO_MODEL_NONE = 0
+uint4 IONO_MODEL_GPS_KLOBUCHAR = 1
+uint4 IONO_MODEL_SBAS = 2
+uint4 IONO_MODEL_BEIDOU_KLOBUCHAR = 3
+uint4 IONO_MODEL_DUAL_FREQ = 8
+uint4 iono_model
+
+uint2 HEALTH_UNKNOWN = 0
+uint2 HEALTH_HEALTHY = 1
+uint2 HEALTH_UNHEALTHY = 2
+uint2 health
+bool pr_smoothed
+bool pr_used
+bool cr_used
+bool do_used
+bool pr_corr_used
+bool cr_corr_used
+bool do_corr_used
