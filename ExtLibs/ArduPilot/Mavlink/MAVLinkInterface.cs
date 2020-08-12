@@ -687,6 +687,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 getVersion();
 
+                doCommand((byte) sysidcurrent, (byte) compidcurrent, MAV_CMD.DO_SEND_BANNER, 0, 0, 0, 0, 0, 0, 0,
+                    false);
+
                 if (getparams)
                 {
                     frmProgressReporter.UpdateProgressAndStatus(0,
