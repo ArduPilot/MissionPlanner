@@ -13,9 +13,11 @@ namespace MissionPlanner.Controls
     public partial class MainMenuWidget : MyUserControl
     {
         private bool active = false;
+        private int X = 0;
         public MainMenuWidget()
         {
             InitializeComponent();
+            
         }
 
         private void MainButton_Click(object sender, EventArgs e)
@@ -27,13 +29,36 @@ namespace MissionPlanner.Controls
 
         private void updateSize() 
         {
-            if (active)
+            if (!active)
             {
-                this.Size = new Size(71, 71);
+                this.Size = new Size(100, 100);
             }
             else {
-                this.Size = new Size(717, 71);
+                this.Size = new Size(750, 100);
             }
         }
+
+        private void MainMenuWidget_MouseEnter(object sender, EventArgs e)
+        {
+            active = true;
+            updateSize();
+            System.Diagnostics.Debug.WriteLine("active - true");
+        }
+
+        private void MainMenuWidget_MouseLeave(object sender, EventArgs e)
+        {
+            if (this.GetChildAtPoint(this.PointToClient(MousePosition)) == null)
+            {
+                active = false;
+                updateSize();
+                System.Diagnostics.Debug.WriteLine("active - false");
+            }
+        }
+
+        private void MapChoiseButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("WWWWWWWWWWWWWWWWWWWWWWW");
+        }
     }
+    
 }

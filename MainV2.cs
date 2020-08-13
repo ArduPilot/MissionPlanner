@@ -3013,10 +3013,12 @@ namespace MissionPlanner
             else
             {
                 this.PerformLayout();
-                log.Info("show FlightData");
+                /*log.Info("show FlightData");
                 MenuFlightData_Click(this, e);
                 log.Info("show FlightData... Done");
-                MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightData));
+                MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightData));*/
+                MenuFlightPlanner_Click(this, e);
+                MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightPlanner));
             }
 
             // for long running tasks using own threads.
@@ -3702,7 +3704,7 @@ namespace MissionPlanner
 
         private void checkupdate(object stuff)
         {
-            if (Program.WindowsStoreApp)
+            /*if (Program.WindowsStoreApp)
                 return;
 
             try
@@ -3712,7 +3714,7 @@ namespace MissionPlanner
             catch (Exception ex)
             {
                 log.Error("Update check failed", ex);
-            }
+            }*/
         }
 
         private void MainV2_Resize(object sender, EventArgs e)
