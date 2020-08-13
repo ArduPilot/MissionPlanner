@@ -31,8 +31,8 @@ using System.Runtime.InteropServices;
 [assembly: Dependency("System,", LoadHint.Always)]
 
 
-[assembly: AssemblyDelaySign(true)]
-[assembly: AssemblyKeyFile("ecma.pub")]
+//[assembly: AssemblyDelaySign(true)]
+//[assembly: AssemblyKeyFile("ecma.pub")]
 
 [assembly: TypeForwardedTo(typeof(Color))]
 //[assembly: TypeForwardedTo(typeof(ColorConverter))]
