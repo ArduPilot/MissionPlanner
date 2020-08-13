@@ -49,6 +49,8 @@ using Point = System.Drawing.Point;
 
 namespace MissionPlanner.GCSViews
 {
+
+    
     public partial class FlightPlanner : MyUserControl, IDeactivate, IActivate
     {
         public FlightPlanner()
@@ -128,7 +130,7 @@ namespace MissionPlanner.GCSViews
         public GMapOverlay top;
         public GMapPolygon wppolygon;
         private GMapMarker CurrentMidLine;
-
+        private bool menuActive = false;
 
         public void Init()
         {
@@ -277,6 +279,7 @@ namespace MissionPlanner.GCSViews
 
             timer.Start();
             */
+            
         }
 
         public static FlightPlanner instance { get; set; }
@@ -7276,5 +7279,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             if (MainMap.Zoom < 17)
                 MainMap.Zoom = 17;
         }
+
+        void testFunc() 
+        {
+            Console.WriteLine("SUCKSESS");
+        }
+
     }
+    
 }

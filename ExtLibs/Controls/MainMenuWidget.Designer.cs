@@ -68,6 +68,7 @@
             this.EKFButton.TabIndex = 2;
             this.EKFButton.Text = "EKF";
             this.EKFButton.UseVisualStyleBackColor = true;
+            this.EKFButton.Click += new System.EventHandler(this.EKFButton_Click);
             this.EKFButton.MouseEnter += new System.EventHandler(this.MainMenuWidget_MouseEnter);
             // 
             // ParamsButton
@@ -78,6 +79,7 @@
             this.ParamsButton.TabIndex = 3;
             this.ParamsButton.Text = "Params";
             this.ParamsButton.UseVisualStyleBackColor = true;
+            this.ParamsButton.Click += new System.EventHandler(this.ParamsButton_Click);
             this.ParamsButton.MouseEnter += new System.EventHandler(this.MainMenuWidget_MouseEnter);
             // 
             // RulerButton
@@ -88,6 +90,7 @@
             this.RulerButton.TabIndex = 4;
             this.RulerButton.Text = "RulerButton";
             this.RulerButton.UseVisualStyleBackColor = true;
+            this.RulerButton.Click += new System.EventHandler(this.RulerButton_Click);
             this.RulerButton.MouseEnter += new System.EventHandler(this.MainMenuWidget_MouseEnter);
             // 
             // centeringButton
@@ -98,6 +101,7 @@
             this.centeringButton.TabIndex = 5;
             this.centeringButton.Text = "Centering";
             this.centeringButton.UseVisualStyleBackColor = true;
+            this.centeringButton.Click += new System.EventHandler(this.centeringButton_Click);
             this.centeringButton.MouseEnter += new System.EventHandler(this.MainMenuWidget_MouseEnter);
             // 
             // myButton2
@@ -109,6 +113,7 @@
             this.myButton2.TabIndex = 6;
             this.myButton2.Text = "useless";
             this.myButton2.UseVisualStyleBackColor = true;
+            this.myButton2.Click += new System.EventHandler(this.myButton2_Click);
             this.myButton2.MouseEnter += new System.EventHandler(this.MainMenuWidget_MouseEnter);
             // 
             // homeButton
@@ -119,6 +124,7 @@
             this.homeButton.TabIndex = 7;
             this.homeButton.Text = "Home";
             this.homeButton.UseVisualStyleBackColor = true;
+            this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
             this.homeButton.MouseEnter += new System.EventHandler(this.MainMenuWidget_MouseEnter);
             // 
             // MainMenuWidget
