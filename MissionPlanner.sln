@@ -178,7 +178,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectShowLib", "ExtLibs\Di
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Drawing.Common", "ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj", "{3566E9FD-591D-4E42-BA38-11DBE2F13E82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Forms.Platform.WinForms", "ExtLibs\Xamarin.Forms.Platform.WinForms\Xamarin.Forms.Platform.WinForms.csproj", "{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xamarin.Forms.Platform.WinForms", "ExtLibs\Xamarin.Forms.Platform.WinForms\Xamarin.Forms.Platform.WinForms.csproj", "{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
