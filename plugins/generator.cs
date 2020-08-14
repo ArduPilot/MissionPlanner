@@ -408,13 +408,13 @@ namespace generator
                                     FlightData.instance.tabControlactions.Parent.Controls.Add(gen);
                             });
                             
-                            var gen = (MAVLink.mavlink_generator_status_t)message.data;
-                            status = gen.status;
-                            generator_speed = gen.generator_speed;
-                            load_current = gen.load_current;
-                            bus_voltage = gen.bus_voltage;
-                            run_time = gen.runtime;
-                            timemaint = gen.time_until_maintenance;
+                            var genmsg = (MAVLink.mavlink_generator_status_t)message.data;
+                            status = genmsg.status;
+                            generator_speed = genmsg.generator_speed;
+                            load_current = genmsg.load_current;
+                            bus_voltage = genmsg.bus_voltage;
+                            run_time = genmsg.runtime;
+                            timemaint = genmsg.time_until_maintenance;
                             return true;
                         });
 
