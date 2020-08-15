@@ -1305,7 +1305,7 @@ namespace MissionPlanner.GCSViews
             ((Control) sender).Enabled = true;
         }
 
-        private void BUT_quickrtl_Click(object sender, EventArgs e)
+        public void BUT_quickrtl_Click(object sender, EventArgs e)
         {
             try
             {

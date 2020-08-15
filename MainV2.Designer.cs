@@ -54,6 +54,27 @@ namespace MissionPlanner
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.MenuArduPilot = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.myButton3 = new MissionPlanner.Controls.MyButton();
+            this.myButton2 = new MissionPlanner.Controls.MyButton();
+            this.myButton1 = new MissionPlanner.Controls.MyButton();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.verticalProgressBar6 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar5 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.verticalProgressBar4 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar3 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.verticalProgressBar2 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar1 = new MissionPlanner.Controls.VerticalProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.p1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.p2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,30 +88,9 @@ namespace MissionPlanner
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.verticalProgressBar2 = new MissionPlanner.Controls.VerticalProgressBar();
-            this.verticalProgressBar1 = new MissionPlanner.Controls.VerticalProgressBar();
             this.menu = new MissionPlanner.Controls.MyButton();
-            this.verticalProgressBar3 = new MissionPlanner.Controls.VerticalProgressBar();
-            this.verticalProgressBar4 = new MissionPlanner.Controls.VerticalProgressBar();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.verticalProgressBar5 = new MissionPlanner.Controls.VerticalProgressBar();
-            this.verticalProgressBar6 = new MissionPlanner.Controls.VerticalProgressBar();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.myButton1 = new MissionPlanner.Controls.MyButton();
-            this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.status1 = new MissionPlanner.Controls.Status();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
             this.toolStripConnectionControl1 = new MissionPlanner.Controls.ToolStripConnectionControl();
@@ -236,6 +236,7 @@ namespace MissionPlanner
             // panel1
             // 
             this.panel1.Controls.Add(this.myButton3);
+            this.panel1.Controls.Add(this.label14);
             this.panel1.Controls.Add(this.myButton2);
             this.panel1.Controls.Add(this.myButton1);
             this.panel1.Controls.Add(this.label12);
@@ -262,6 +263,145 @@ namespace MissionPlanner
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
+            // 
+            // myButton3
+            // 
+            resources.ApplyResources(this.myButton3, "myButton3");
+            this.myButton3.Name = "myButton3";
+            this.myButton3.UseVisualStyleBackColor = true;
+            this.myButton3.Click += new System.EventHandler(this.myButton3_Click);
+            // 
+            // myButton2
+            // 
+            resources.ApplyResources(this.myButton2, "myButton2");
+            this.myButton2.Name = "myButton2";
+            this.myButton2.UseVisualStyleBackColor = true;
+            // 
+            // myButton1
+            // 
+            resources.ApplyResources(this.myButton1, "myButton1");
+            this.myButton1.Name = "myButton1";
+            this.myButton1.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // verticalProgressBar6
+            // 
+            this.verticalProgressBar6.DrawLabel = true;
+            resources.ApplyResources(this.verticalProgressBar6, "verticalProgressBar6");
+            this.verticalProgressBar6.Label = null;
+            this.verticalProgressBar6.maxline = 0;
+            this.verticalProgressBar6.minline = 0;
+            this.verticalProgressBar6.Name = "verticalProgressBar6";
+            this.verticalProgressBar6.Value = 20;
+            // 
+            // verticalProgressBar5
+            // 
+            this.verticalProgressBar5.DrawLabel = true;
+            resources.ApplyResources(this.verticalProgressBar5, "verticalProgressBar5");
+            this.verticalProgressBar5.Label = null;
+            this.verticalProgressBar5.maxline = 0;
+            this.verticalProgressBar5.minline = 0;
+            this.verticalProgressBar5.Name = "verticalProgressBar5";
+            this.verticalProgressBar5.Value = 20;
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // verticalProgressBar4
+            // 
+            this.verticalProgressBar4.DrawLabel = true;
+            resources.ApplyResources(this.verticalProgressBar4, "verticalProgressBar4");
+            this.verticalProgressBar4.Label = null;
+            this.verticalProgressBar4.maxline = 0;
+            this.verticalProgressBar4.minline = 0;
+            this.verticalProgressBar4.Name = "verticalProgressBar4";
+            this.verticalProgressBar4.Value = 20;
+            // 
+            // verticalProgressBar3
+            // 
+            this.verticalProgressBar3.DrawLabel = true;
+            resources.ApplyResources(this.verticalProgressBar3, "verticalProgressBar3");
+            this.verticalProgressBar3.Label = null;
+            this.verticalProgressBar3.maxline = 0;
+            this.verticalProgressBar3.minline = 0;
+            this.verticalProgressBar3.Name = "verticalProgressBar3";
+            this.verticalProgressBar3.Value = 20;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // verticalProgressBar2
+            // 
+            this.verticalProgressBar2.DrawLabel = true;
+            resources.ApplyResources(this.verticalProgressBar2, "verticalProgressBar2");
+            this.verticalProgressBar2.Label = null;
+            this.verticalProgressBar2.maxline = 0;
+            this.verticalProgressBar2.minline = 0;
+            this.verticalProgressBar2.Name = "verticalProgressBar2";
+            this.verticalProgressBar2.Value = 20;
+            // 
+            // verticalProgressBar1
+            // 
+            this.verticalProgressBar1.DrawLabel = true;
+            resources.ApplyResources(this.verticalProgressBar1, "verticalProgressBar1");
+            this.verticalProgressBar1.Label = null;
+            this.verticalProgressBar1.maxline = 0;
+            this.verticalProgressBar1.minline = 0;
+            this.verticalProgressBar1.Name = "verticalProgressBar1";
+            this.verticalProgressBar1.Value = 20;
             // 
             // menuStrip1
             // 
@@ -341,144 +481,12 @@ namespace MissionPlanner
             this.toolStripButton8.Name = "toolStripButton8";
             resources.ApplyResources(this.toolStripButton8, "toolStripButton8");
             // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // verticalProgressBar2
-            // 
-            this.verticalProgressBar2.DrawLabel = true;
-            resources.ApplyResources(this.verticalProgressBar2, "verticalProgressBar2");
-            this.verticalProgressBar2.Label = null;
-            this.verticalProgressBar2.maxline = 0;
-            this.verticalProgressBar2.minline = 0;
-            this.verticalProgressBar2.Name = "verticalProgressBar2";
-            this.verticalProgressBar2.Value = 20;
-            // 
-            // verticalProgressBar1
-            // 
-            this.verticalProgressBar1.DrawLabel = true;
-            resources.ApplyResources(this.verticalProgressBar1, "verticalProgressBar1");
-            this.verticalProgressBar1.Label = null;
-            this.verticalProgressBar1.maxline = 0;
-            this.verticalProgressBar1.minline = 0;
-            this.verticalProgressBar1.Name = "verticalProgressBar1";
-            this.verticalProgressBar1.Value = 20;
-            // 
             // menu
             // 
             resources.ApplyResources(this.menu, "menu");
             this.menu.Name = "menu";
             this.menu.UseVisualStyleBackColor = true;
             this.menu.MouseEnter += new System.EventHandler(this.menu_MouseEnter);
-            // 
-            // verticalProgressBar3
-            // 
-            this.verticalProgressBar3.DrawLabel = true;
-            resources.ApplyResources(this.verticalProgressBar3, "verticalProgressBar3");
-            this.verticalProgressBar3.Label = null;
-            this.verticalProgressBar3.maxline = 0;
-            this.verticalProgressBar3.minline = 0;
-            this.verticalProgressBar3.Name = "verticalProgressBar3";
-            this.verticalProgressBar3.Value = 20;
-            // 
-            // verticalProgressBar4
-            // 
-            this.verticalProgressBar4.DrawLabel = true;
-            resources.ApplyResources(this.verticalProgressBar4, "verticalProgressBar4");
-            this.verticalProgressBar4.Label = null;
-            this.verticalProgressBar4.maxline = 0;
-            this.verticalProgressBar4.minline = 0;
-            this.verticalProgressBar4.Name = "verticalProgressBar4";
-            this.verticalProgressBar4.Value = 20;
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // verticalProgressBar5
-            // 
-            this.verticalProgressBar5.DrawLabel = true;
-            resources.ApplyResources(this.verticalProgressBar5, "verticalProgressBar5");
-            this.verticalProgressBar5.Label = null;
-            this.verticalProgressBar5.maxline = 0;
-            this.verticalProgressBar5.minline = 0;
-            this.verticalProgressBar5.Name = "verticalProgressBar5";
-            this.verticalProgressBar5.Value = 20;
-            // 
-            // verticalProgressBar6
-            // 
-            this.verticalProgressBar6.DrawLabel = true;
-            resources.ApplyResources(this.verticalProgressBar6, "verticalProgressBar6");
-            this.verticalProgressBar6.Label = null;
-            this.verticalProgressBar6.maxline = 0;
-            this.verticalProgressBar6.minline = 0;
-            this.verticalProgressBar6.Name = "verticalProgressBar6";
-            this.verticalProgressBar6.Value = 20;
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // label11
-            // 
-            resources.ApplyResources(this.label11, "label11");
-            this.label11.Name = "label11";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
-            // 
-            // myButton1
-            // 
-            resources.ApplyResources(this.myButton1, "myButton1");
-            this.myButton1.Name = "myButton1";
-            this.myButton1.UseVisualStyleBackColor = true;
-            // 
-            // myButton2
-            // 
-            resources.ApplyResources(this.myButton2, "myButton2");
-            this.myButton2.Name = "myButton2";
-            this.myButton2.UseVisualStyleBackColor = true;
             // 
             // label13
             // 
@@ -489,13 +497,6 @@ namespace MissionPlanner
             // 
             resources.ApplyResources(this.label14, "label14");
             this.label14.Name = "label14";
-            // 
-            // myButton3
-            // 
-            resources.ApplyResources(this.myButton3, "myButton3");
-            this.myButton3.Name = "myButton3";
-            this.myButton3.UseVisualStyleBackColor = true;
-            this.myButton3.Click += new System.EventHandler(this.myButton3_Click);
             // 
             // status1
             // 
@@ -521,7 +522,6 @@ namespace MissionPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menu);

@@ -525,9 +525,25 @@ namespace MissionPlanner
 
 
         /// <summary>
-        /// MY NEW FORMS
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// MY NEW FORMS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
         private MapChangeForm mapChangeForm;
+        private string mapTitleStatus = "";
+
+
+
+
+
+
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// MY NEW FORMS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+
+
 
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
@@ -1201,7 +1217,7 @@ namespace MissionPlanner
             FlightPlanner.mainMenuWidget1.MapChoiseButton.Click += new EventHandler(mapChoiceButtonClick);
             FlightPlanner.mainMenuWidget1.ParamsButton.Click += new EventHandler(paramsButtonClick);
             FlightPlanner.mainMenuWidget1.RulerButton.Click += new EventHandler(rulerButtonsClick);
-
+            FlightPlanner.mainMenuWidget1.homeButton.Click += new EventHandler(homeButtonClick);
         }
 
 
@@ -1220,6 +1236,7 @@ namespace MissionPlanner
             FlightPlanner.MainMap.OnTileLoadStart += MainMap_OnTileLoadStart;
             mapChangeForm.chk_grid.CheckedChanged += chk_grid_CheckedChanged;
             mapChangeForm.comboBoxMapType.SelectedValueChanged += comboBoxMapType_SelectedValueChanged;
+            mapChangeForm.lbl_status.Text = mapTitleStatus;
             mapChangeForm.Show();
         }
 
@@ -1234,9 +1251,10 @@ namespace MissionPlanner
 
             MethodInvoker m = delegate
             {
+                mapTitleStatus = "Status: loaded tiles";
                 if (mapChangeForm != null)
                 {
-                    mapChangeForm.lbl_status.Text = "Status: loaded tiles";
+                    mapChangeForm.lbl_status.Text = mapTitleStatus;
                 }
                 //panelMenu.Text = "Menu, last load in " + MainMap.ElapsedMilliseconds + "ms";
 
@@ -1256,9 +1274,10 @@ namespace MissionPlanner
         {
             MethodInvoker m = delegate
             {
+                mapTitleStatus = "Status: loading tiles...";
                 if (mapChangeForm != null)
                 {
-                    mapChangeForm.lbl_status.Text = "Status: loading tiles..."; 
+                    mapChangeForm.lbl_status.Text = mapTitleStatus; 
                 }
             };
             try
@@ -1314,8 +1333,21 @@ namespace MissionPlanner
 
         void rulerButtonsClick(object sender, EventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine("SWConfig");
-            MyView.ShowScreen("SWConfig");
+            
+        }
+
+        void homeButtonClick(object sender, EventArgs e)
+        {
+            try
+            {
+                ((Control)sender).Enabled = false;
+                MainV2.comPort.setMode("RTL");
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            }
+            ((Control)sender).Enabled = true;
         }
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
