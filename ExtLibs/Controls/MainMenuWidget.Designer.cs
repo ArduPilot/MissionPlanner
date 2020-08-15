@@ -79,7 +79,7 @@
             this.ParamsButton.TabIndex = 3;
             this.ParamsButton.Text = "Params";
             this.ParamsButton.UseVisualStyleBackColor = true;
-            this.ParamsButton.Click += new System.EventHandler(this.ParamsButton_Click);
+            //this.ParamsButton.Click += new System.EventHandler(this.ParamsButton_Click);
             this.ParamsButton.MouseEnter += new System.EventHandler(this.MainMenuWidget_MouseEnter);
             // 
             // RulerButton
@@ -153,7 +153,7 @@
         private MyButton MainButton;
         private MyButton MapChoiseButton;
         private MyButton EKFButton;
-        private MyButton ParamsButton;
+        public MyButton ParamsButton;
         private MyButton RulerButton;
         private MyButton centeringButton;
         private MyButton myButton2;

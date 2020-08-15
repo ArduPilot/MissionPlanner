@@ -269,7 +269,7 @@ namespace MissionPlanner.GCSViews
             drawnpolygon = new GMapPolygon(polygonPoints2, "drawnpoly");
             drawnpolygon.Stroke = new Pen(Color.Red, 2);
             drawnpolygon.Fill = Brushes.Transparent;
-
+            
             /*
             var timer = new System.Timers.Timer();
 
@@ -279,7 +279,12 @@ namespace MissionPlanner.GCSViews
 
             timer.Start();
             */
-            
+
+        }
+
+        private void test_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("SuckSess");
         }
 
         public static FlightPlanner instance { get; set; }
@@ -7285,6 +7290,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             Console.WriteLine("SUCKSESS");
         }
 
+
     }
-    
 }

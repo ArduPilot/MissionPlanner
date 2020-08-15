@@ -1072,6 +1072,7 @@ namespace MissionPlanner
             // save config to test we have write access
             SaveConfig();
             //MyView.ShowScreen("FlightPlanner");
+            mainMenuInit();
         }
 
         void cmb_sysid_Click(object sender, EventArgs e)
@@ -1162,7 +1163,7 @@ namespace MissionPlanner
                 // dont update if no change
                 if (displayicons.GetType() == icons.GetType())
                     return;
-            }
+            }         
 
             displayicons = icons;
 
@@ -1186,6 +1187,17 @@ namespace MissionPlanner
             MenuConfigTune.ForeColor = ThemeManager.TextColor;
             MenuConnect.ForeColor = ThemeManager.TextColor;
             MenuHelp.ForeColor = ThemeManager.TextColor;
+        }
+
+        void mainMenuInit() 
+        {
+            FlightPlanner.mainMenuWidget1.ParamsButton.Click += new EventHandler(paramsButtonClick);
+        }
+
+        void paramsButtonClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("HWConfig");
+            MyView.ShowScreen("HWConfig");
         }
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)

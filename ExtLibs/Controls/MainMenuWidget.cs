@@ -65,12 +65,12 @@ namespace MissionPlanner.Controls
 
         private void MapChoiseButton_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("WWWWWWWWWWWWWWWWWWWWWWW");
+            //System.Diagnostics.Debug.WriteLine("WWWWWWWWWWWWWWWWWWWWWWW");
         }
 
         private void ParamsButton_Click(object sender, EventArgs e)
         {
-            
+            //System.Diagnostics.Debug.WriteLine("WWWWWWWWWWWWWWWWWWWWWWW");
         }
 
         private void myButton2_Click(object sender, EventArgs e)
