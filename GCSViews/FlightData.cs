@@ -23,6 +23,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Scripting.Utils;
 using WebCamService;
@@ -2743,19 +2744,19 @@ namespace MissionPlanner.GCSViews
             double timeerror = 0;
 
             while (!IsHandleCreated)
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
 
             while (threadrun)
             {
                 if (MainV2.comPort.giveComport)
                 {
-                    Thread.Sleep(50);
+                    await Task.Delay(50);
                     updateBindingSource();
                     continue;
                 }
 
                 if (!MainV2.comPort.logreadmode)
-                    Thread.Sleep(50); // max is only ever 10 hz but we go a little faster to empty the serial queue
+                    await Task.Delay(50); // max is only ever 10 hz but we go a little faster to empty the serial queue
 
                 if (this.IsDisposed)
                 {
@@ -3068,6 +3069,13 @@ namespace MissionPlanner.GCSViews
                                 var homeplla = new PointLatLngAlt(MainV2.comPort.MAV.cs.HomeLocation.Lat,
                                     MainV2.comPort.MAV.cs.HomeLocation.Lng,
                                     MainV2.comPort.MAV.cs.HomeLocation.Alt / CurrentState.multiplieralt, "H");
+
+                                if (homeplla.Lat == 0 && homeplla.Lng == 0)
+                                {
+                                    homeplla = new PointLatLngAlt(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng,
+                                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt / CurrentState.multiplieralt, "H");
+                                }
 
                                 var overlay = new WPOverlay();
 
