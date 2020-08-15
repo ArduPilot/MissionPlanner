@@ -46,6 +46,12 @@ namespace MissionPlanner.Controls
             }
         }
 
+        public void setState(bool _active) 
+        {
+            active = _active;
+            updateSize();
+        }
+        
         private void MainMenuWidget_MouseEnter(object sender, EventArgs e)
         {
             active = true;

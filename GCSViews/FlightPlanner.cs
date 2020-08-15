@@ -101,7 +101,7 @@ namespace MissionPlanner.GCSViews
         private bool fetchpathrip;
         public GMapOverlay geofenceoverlay;
         public GMapPolygon geofencepolygon;
-        private bool grid;
+        public bool grid;
         private List<int> groupmarkers = new List<int>();
         private List<List<Locationwp>> history = new List<List<Locationwp>>();
         private bool isMouseClickOffMenu;

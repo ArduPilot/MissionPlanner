@@ -33,7 +33,8 @@ using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Utilities.HW;
 using Transitions;
 using AltitudeAngelWings;
-
+using MissionPlanner.NewForms;
+using GMap.NET.MapProviders;
 
 namespace MissionPlanner
 {
@@ -521,6 +522,12 @@ namespace MissionPlanner
 
         public GCSViews.FlightPlanner FlightPlanner;
         GCSViews.SITL Simulation;
+
+
+        /// <summary>
+        /// MY NEW FORMS
+        /// </summary>
+        private MapChangeForm mapChangeForm;
 
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
@@ -1191,20 +1198,123 @@ namespace MissionPlanner
 
         void mainMenuInit() 
         {
+            FlightPlanner.mainMenuWidget1.MapChoiseButton.Click += new EventHandler(mapChoiceButtonClick);
             FlightPlanner.mainMenuWidget1.ParamsButton.Click += new EventHandler(paramsButtonClick);
             FlightPlanner.mainMenuWidget1.RulerButton.Click += new EventHandler(rulerButtonsClick);
 
         }
 
+
+        void mapChoiceButtonClick(object sender, EventArgs e)
+        {
+            FlightPlanner.mainMenuWidget1.setState(false);
+            if (mapChangeForm != null) 
+            {
+                mapChangeForm.Close();
+            }
+            mapChangeForm = new MapChangeForm();
+            mapChangeForm.comboBoxMapType.ValueMember = "Name";
+            mapChangeForm.comboBoxMapType.DataSource = GMapProviders.List.ToArray();
+            mapChangeForm.comboBoxMapType.SelectedItem = FlightPlanner.MainMap.MapProvider;
+            FlightPlanner.MainMap.OnTileLoadComplete += MainMap_OnTileLoadComplete;
+            FlightPlanner.MainMap.OnTileLoadStart += MainMap_OnTileLoadStart;
+            mapChangeForm.chk_grid.CheckedChanged += chk_grid_CheckedChanged;
+            mapChangeForm.comboBoxMapType.SelectedValueChanged += comboBoxMapType_SelectedValueChanged;
+            mapChangeForm.Show();
+        }
+
+        public void chk_grid_CheckedChanged(object sender, EventArgs e)
+        {
+            FlightPlanner.grid = mapChangeForm.chk_grid.Checked;
+        }
+
+        private void MainMap_OnTileLoadComplete(long ElapsedMilliseconds)
+        {
+            //MainMap.ElapsedMilliseconds = ElapsedMilliseconds;
+
+            MethodInvoker m = delegate
+            {
+                if (mapChangeForm != null)
+                {
+                    mapChangeForm.lbl_status.Text = "Status: loaded tiles";
+                }
+                //panelMenu.Text = "Menu, last load in " + MainMap.ElapsedMilliseconds + "ms";
+
+                //textBoxMemory.Text = string.Format(CultureInfo.InvariantCulture, "{0:0.00}MB of {1:0.00}MB", MainMap.Manager.MemoryCacheSize, MainMap.Manager.MemoryCacheCapacity);
+            };
+            try
+            {
+                if (!IsDisposed && IsHandleCreated) BeginInvoke(m);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+        private void MainMap_OnTileLoadStart()
+        {
+            MethodInvoker m = delegate
+            {
+                if (mapChangeForm != null)
+                {
+                    mapChangeForm.lbl_status.Text = "Status: loading tiles..."; 
+                }
+            };
+            try
+            {
+                if (IsHandleCreated) BeginInvoke(m);
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+        private void comboBoxMapType_SelectedValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // check if we are setting the initial state
+                if (FlightPlanner.MainMap.MapProvider != GMapProviders.EmptyProvider && (GMapProvider)mapChangeForm.comboBoxMapType.SelectedItem == MapboxUser.Instance)
+                {
+                    var url = Settings.Instance["MapBoxURL", ""];
+                    InputBox.Show("Enter MapBox Share URL", "Enter MapBox Share URL", ref url);
+                    var match = Regex.Matches(url, @"\/styles\/[^\/]+\/([^\/]+)\/([^\/\.]+).*access_token=([^#&=]+)");
+                    if (match != null)
+                    {
+                        MapboxUser.Instance.UserName = match[0].Groups[1].Value;
+                        MapboxUser.Instance.StyleId = match[0].Groups[2].Value;
+                        MapboxUser.Instance.MapKey = match[0].Groups[3].Value;
+                        Settings.Instance["MapBoxURL"] = url;
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
+                        return;
+                    }
+                }
+
+                FlightPlanner.MainMap.MapProvider = (GMapProvider)mapChangeForm.comboBoxMapType.SelectedItem;
+                //FlightData.mymap.MapProvider = (GMapProvider)mapChangeForm.comboBoxMapType.SelectedItem;
+                Settings.Instance["MapType"] = mapChangeForm.comboBoxMapType.Text;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                CustomMessageBox.Show("Map change failed. try zooming out first.");
+            }
+        }
+
         void paramsButtonClick(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("HWConfig");
+            //System.Diagnostics.Debug.WriteLine("HWConfig");
             MyView.ShowScreen("HWConfig");
         }
 
         void rulerButtonsClick(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("SWConfig");
+            //System.Diagnostics.Debug.WriteLine("SWConfig");
             MyView.ShowScreen("SWConfig");
         }
 
