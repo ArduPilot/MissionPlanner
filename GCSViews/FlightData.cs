@@ -3103,34 +3103,42 @@ namespace MissionPlanner.GCSViews
 
                                 overlay.overlay.ForceUpdate();
 
-                                distanceBar1.ClearWPDist();
-
-                                var i = -1;
-                                var travdist = 0.0;
-                                if (overlay.pointlist.Count > 0)
+                                try
                                 {
-                                    var lastplla = overlay.pointlist.First();
-                                    foreach (var plla in overlay.pointlist)
+                                    distanceBar1.ClearWPDist();
+
+                                    var i = -1;
+                                    var travdist = 0.0;
+                                    if (overlay.pointlist.Count > 0)
                                     {
-                                        i++;
-                                        if (plla == null)
-                                            continue;
-
-                                        var dist = lastplla.GetDistance(plla);
-
-                                        distanceBar1.AddWPDist((float) dist);
-
-                                        if (i <= MainV2.comPort.MAV.cs.wpno)
+                                        var lastplla = overlay.pointlist.Where(a => a != null).FirstOrDefault();
+                                        foreach (var plla in overlay.pointlist)
                                         {
-                                            travdist += dist;
+                                            i++;
+                                            if (plla == null)
+                                                continue;
+
+                                            var dist = lastplla.GetDistance(plla);
+
+                                            distanceBar1.AddWPDist((float) dist);
+
+                                            if (i <= MainV2.comPort.MAV.cs.wpno)
+                                            {
+                                                travdist += dist;
+                                            }
                                         }
                                     }
+
+                                    travdist -= MainV2.comPort.MAV.cs.wp_dist;
+
+                                    if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
+                                        distanceBar1.traveleddist = (float) travdist;
+
                                 }
-
-                                travdist -= MainV2.comPort.MAV.cs.wp_dist;
-
-                                if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
-                                    distanceBar1.traveleddist = (float) travdist;
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                }
                             }
 
                             RegeneratePolygon();
