@@ -1192,12 +1192,20 @@ namespace MissionPlanner
         void mainMenuInit() 
         {
             FlightPlanner.mainMenuWidget1.ParamsButton.Click += new EventHandler(paramsButtonClick);
+            FlightPlanner.mainMenuWidget1.RulerButton.Click += new EventHandler(rulerButtonsClick);
+
         }
 
         void paramsButtonClick(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("HWConfig");
             MyView.ShowScreen("HWConfig");
+        }
+
+        void rulerButtonsClick(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("SWConfig");
+            MyView.ShowScreen("SWConfig");
         }
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)

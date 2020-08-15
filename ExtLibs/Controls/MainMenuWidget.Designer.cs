@@ -151,12 +151,12 @@
         #endregion
 
         private MyButton MainButton;
-        private MyButton MapChoiseButton;
-        private MyButton EKFButton;
+        public MyButton MapChoiseButton;
+        public MyButton EKFButton;
         public MyButton ParamsButton;
-        private MyButton RulerButton;
-        private MyButton centeringButton;
-        private MyButton myButton2;
-        private MyButton homeButton;
+        public MyButton RulerButton;
+        public MyButton centeringButton;
+        public MyButton myButton2;
+        public MyButton homeButton;
     }
 }

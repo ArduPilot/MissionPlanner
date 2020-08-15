@@ -123,6 +123,17 @@ namespace MissionPlanner.GCSViews
                     AddBackstageViewPage(typeof(ConfigParamLoading), Strings.Loading);
             }
 
+            if (MainV2.DisplayConfiguration.displayFullParamList)
+            {
+                if (!MainV2.comPort.BaseStream.IsOpen || gotAllParams)
+                    AddBackstageViewPage(typeof(ConfigRawParams), Strings.FullParameterList);
+            }
+            if (MainV2.DisplayConfiguration.displayFullParamTree && !Program.MONO)
+            {
+                if (!MainV2.comPort.BaseStream.IsOpen || gotAllParams)
+                    AddBackstageViewPage(typeof(ConfigRawParamsTree), Strings.FullParameterTree);
+            }
+
             if (MainV2.DisplayConfiguration.displayInstallFirmware)
             {
                 // if (!Program.WindowsStoreApp)
