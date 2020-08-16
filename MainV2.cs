@@ -721,8 +721,12 @@ namespace MissionPlanner
             TCPConsole.Write((byte)'S');
 
             // define default basestream
+#if !LIB
             comPort.BaseStream = new SerialPort();
             comPort.BaseStream.BaudRate = 115200;
+#else
+            comPort.BaseStream = new UdpSerial();
+#endif
 
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;

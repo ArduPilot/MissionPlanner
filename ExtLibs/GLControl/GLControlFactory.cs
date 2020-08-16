@@ -42,7 +42,7 @@ namespace OpenTK
             {
                 throw new ArgumentNullException("control");
             }
-
+            /*
             if (Configuration.RunningOnSdl2)
             {
                 return new Sdl2GLControl(mode, control);
@@ -59,7 +59,7 @@ namespace OpenTK
             {
                 return new X11GLControl(mode, control);
             }
-            else
+            else*/
             {
                 throw new PlatformNotSupportedException();
             }

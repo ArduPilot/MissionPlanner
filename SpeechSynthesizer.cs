@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Scripting.Hosting;
+using MissionPlanner.Utilities;
 using SkiaSharp;
+using Vector3 = OpenTK.Vector3;
 
 namespace tlogThumbnailHandler
 {
@@ -19,8 +27,163 @@ namespace tlogThumbnailHandler
 
 public delegate int GetInt();
 
+namespace OpenTK.Graphics.ES20
+{
+    public enum BufferUsageHint
+    {
+        StreamDraw = 35040,
+        StreamRead = 35041,
+        StreamCopy = 35042,
+        StaticDraw = 35044,
+        StaticRead = 35045,
+        StaticCopy = 35046,
+        DynamicDraw = 35048,
+        DynamicRead = 35049,
+        DynamicCopy = 35050
+    }public enum PrimitiveType
+    {
+        Points = 0,
+        Lines = 1,
+        LineLoop = 2,
+        LineStrip = 3,
+        Triangles = 4,
+        TriangleStrip = 5,
+        TriangleFan = 6,
+        Quads = 7,
+        QuadsExt = 7,
+        QuadStrip = 8,
+        Polygon = 9,
+        LinesAdjacency = 10,
+        LinesAdjacencyArb = 10,
+        LinesAdjacencyExt = 10,
+        LineStripAdjacency = 11,
+        LineStripAdjacencyArb = 11,
+        LineStripAdjacencyExt = 11,
+        TrianglesAdjacency = 12,
+        TrianglesAdjacencyArb = 12,
+        TrianglesAdjacencyExt = 12,
+        TriangleStripAdjacency = 13,
+        TriangleStripAdjacencyArb = 13,
+        TriangleStripAdjacencyExt = 13,
+        Patches = 14,
+        PatchesExt = 14
+    }
+
+}
+namespace  IronPython.Runtime
+{
+
+}
+
+namespace SharpAdbClient
+{[Flags]
+    public enum UnixFileMode
+    {
+        TypeMask = 0x8000,
+        Socket = 0xC000,
+        SymbolicLink = 0xA000,
+        Regular = 0x8000,
+        Block = 0x6000,
+        Directory = 0x4000,
+        Character = 0x2000,
+        FIFO = 0x1000
+    }
+
+    public class AdbClient
+    {
+        public static IAdbClient Instance { get; set; }
+    }
+    public class AdbServer
+    {
+        public static AdbServer Instance { get; set; }
+
+        public void StartServer(string adbExe, bool b)
+        {
+           
+        }
+    }
+
+    public class DeviceData
+    {
+
+    }
+
+    public class ConsoleOutputReceiver
+    {
+
+    }
+
+    public class FileStatistics
+    {
+        public UnixFileMode FileMode { get; set; }
+
+        public DateTime Time { get; set; }
+    }
+    public class SyncService: IDisposable
+    {
+        public SyncService(DeviceData device)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Push(Stream stream, string dataFtpInternalApm, int p2, DateTime now, CancellationToken none)
+        {
+            
+        }
+
+        public FileStatistics Stat(string dataFtpInternalApmStartArdupilotSh)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Pull(string etcInitDRcsModeDefault, MemoryStream stream, CancellationToken none)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+        }
+    }
+    public interface IAdbClient
+    {
+        string Connect(DnsEndPoint p0);
+        List<DeviceData>  GetDevices();
+        void ExecuteRemoteCommand(string mountORemountRw, DeviceData device, ConsoleOutputReceiver consoleOut);
+        void KillAdb();
+    }
+}
+namespace IronPython.Hosting
+{
+    public class Python
+    {
+        public static ScriptEngine CreateEngine(Dictionary<string, object> options = null)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+public class OpenGLtest: UserControl
+{
+    public static OpenGLtest instance;   
+    public Vector3 rpy;
+
+    public PointLatLngAlt LocationCenter { get; set; }
+
+    public List<Locationwp> WPs { get; set; }
+}
+
+public class OpenGLtest2: OpenGLtest
+{
+    public static OpenGLtest2 instance;
+
+}
+
 namespace OpenTK.Graphics.OpenGL
-{public enum TextureTarget2d
+{
+
+
+    public enum TextureTarget2d
     {
         Texture2D = 3553,
         ProxyTexture2D = 32868,
@@ -2092,10 +2255,94 @@ namespace DotSpatial.Symbology {}
 
 namespace SkiaSharp.Views.Desktop
 {
-    public class SKControl: UserControl
-    {
-        public event EventHandler<SKPaintSurfaceEventArgs> PaintSurface;
-    }
+[DefaultEvent("PaintSurface")]
+[DefaultProperty("Name")]
+public class SKControl : Control
+{
+	private readonly bool designMode;
+
+	private Bitmap bitmap;
+
+	[Bindable(false)]
+	[Browsable(false)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public SKSize CanvasSize
+	{
+		get
+		{
+			if (bitmap != null)
+			{
+				return new SKSize(bitmap.Width, bitmap.Height);
+			}
+			return SKSize.Empty;
+		}
+	}
+
+	[Category("Appearance")]
+	public event EventHandler<SKPaintSurfaceEventArgs> PaintSurface;
+
+	public SKControl()
+	{
+		DoubleBuffered = true;
+		SetStyle(ControlStyles.ResizeRedraw, value: true);
+		designMode = (base.DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+	}
+
+	protected override void OnPaint(PaintEventArgs e)
+	{
+		if (!designMode)
+		{
+			base.OnPaint(e);
+			SKImageInfo info = CreateBitmap();
+			if (info.Width != 0 && info.Height != 0)
+			{
+				BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, base.Width, base.Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
+				using (SKSurface sKSurface = SKSurface.Create(info, bitmapData.Scan0, bitmapData.Stride))
+				{
+					OnPaintSurface(new SKPaintSurfaceEventArgs(sKSurface, info));
+					sKSurface.Canvas.Flush();
+				}
+				bitmap.UnlockBits(bitmapData);
+				e.Graphics.DrawImage(bitmap, 0, 0);
+			}
+		}
+	}
+
+	protected virtual void OnPaintSurface(SKPaintSurfaceEventArgs e)
+	{
+		this.PaintSurface?.Invoke(this, e);
+	}
+
+	protected override void Dispose(bool disposing)
+	{
+		base.Dispose(disposing);
+		FreeBitmap();
+	}
+
+	private SKImageInfo CreateBitmap()
+	{
+		SKImageInfo result = new SKImageInfo(base.Width, base.Height, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+		if (bitmap == null || bitmap.Width != result.Width || bitmap.Height != result.Height)
+		{
+			FreeBitmap();
+			if (result.Width != 0 && result.Height != 0)
+			{
+				bitmap = new Bitmap(result.Width, result.Height, PixelFormat.Format32bppPArgb);
+			}
+		}
+		return result;
+	}
+
+	private void FreeBitmap()
+	{
+		if (bitmap != null)
+		{
+			bitmap.Dispose();
+			bitmap = null;
+		}
+	}
+}
 }
 
 namespace MissionPlanner.Log
@@ -2190,9 +2437,8 @@ public class GdiGraphics: Graphics
     {
     }
 
-    public GdiGraphics(Graphics fromImage) : base(IntPtr.Zero,(int) fromImage.ClipBounds.Width, (int)fromImage.ClipBounds.Height)
+    public GdiGraphics(Graphics fromImage): base(fromImage.Surface)
     {
-        
     }
 }
 public class SkiaGraphics: Graphics
