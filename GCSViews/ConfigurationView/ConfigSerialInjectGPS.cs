@@ -27,7 +27,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static ILog log = LogManager.GetLogger(typeof(ConfigSerialInjectGPS));
 
         // serialport
-        internal static ICommsSerial comPort = new SerialPort();
+        internal static ICommsSerial comPort;
         // rtcm detection
         private static Utilities.rtcm3 rtcm3 = new Utilities.rtcm3();
         // sbp detection
@@ -66,6 +66,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private string basepostlistfile = Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar +
                                           "baseposlist.xml";
 
+        static ConfigSerialInjectGPS()
+        {
+            try
+            {
+                comPort = new SerialPort();
+            }
+            catch
+            {
+                comPort = new TcpSerial();
+            }
+        }
         public ConfigSerialInjectGPS()
         {
             InitializeComponent();
