@@ -1645,11 +1645,6 @@ namespace MissionPlanner.Grid
                                     if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
                                         plla.Alt != lastplla.Alt)
                                         AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
-
-                                    // to get around the copter leash length issue, add this here instead of ME
-                                    if (chk_stopstart.Checked && plla.Tag == "E")
-                                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 1, 0,
-                                            0, 0, 0, gridobject);
                                 }
 
                                 // check trigger method
@@ -1673,8 +1668,8 @@ namespace MissionPlanner.Grid
                                         {
                                             AddWP(plla.Lng, plla.Lat, plla.Alt, plla.Tag);
 
-                                            //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0,
-                                            //0, 0, 0, gridobject);
+                                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 1, 0,
+                                                0, 0, 0, gridobject);
                                         }
                                     }
                                     else
