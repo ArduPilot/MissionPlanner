@@ -24,6 +24,7 @@
     <Compile Remove="Controls\MouseEventArgs.cs" />
     <Compile Remove="Controls\PaintEventArgs.cs" />
     <Compile Remove="Linked\Control.cs" />
+    <Compile Remove="Linked\MainV2.cs" />
     <Compile Remove="Linked\UserControl.cs" />
     <Compile Remove="RTSP\Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,7 +53,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="NLog" Version="4.7.2" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
@@ -92,12 +92,15 @@
     <None Include="Controls\MouseEventArgs.cs" />
     <None Include="Controls\PaintEventArgs.cs" />
     <None Include="Linked\Control.cs" />
+    <None Include="Linked\MainV2.cs" />
     <None Include="Linked\UserControl.cs" />
     <None Include="RTSP\Properties\AssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MissionPlannerLib.csproj" />
+    <ProjectReference Include="..\..\..\MissionPlannerLib.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
     <ProjectReference Include="..\..\7zip\7zip.csproj" />
     <ProjectReference Include="..\..\alglibnet\alglibnet.csproj" />
     <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj" />

@@ -21,6 +21,11 @@ namespace Xamarin
 
         protected override bool OnBackButtonPressed()
         {
+            var ret = base.OnBackButtonPressed();
+
+            if (ret)
+                return ret;
+
             Device.BeginInvokeOnMainThread(async () =>
             {
                 var result = await DisplayAlert("", "Would you like to exit from application?", "Yes", "No");
@@ -38,8 +43,6 @@ namespace Xamarin
             });
 
             return true;
-
-            //return base.OnBackButtonPressed();
         }
 
         public MainPage()

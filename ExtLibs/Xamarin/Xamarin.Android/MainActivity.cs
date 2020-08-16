@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Android.App;
@@ -11,15 +12,16 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Provider;
+using Android.Support.V7.Widget;
 using Android.Telephony;
 using Android.Util;
 using Java.Interop;
 using Java.Lang.Reflect;
 using Mono.Unix;
-using SharpDX.Text;
 using Xamarin.Forms;
 using Application = Xamarin.Forms.Application;
 using Thread = System.Threading.Thread;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 [assembly: UsesFeature("android.hardware.usb.host")]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
@@ -64,6 +66,10 @@ namespace Xamarin.Droid
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+
+            SetSupportActionBar((Toolbar) FindViewById(ToolbarResource));
+
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.TurnScreenOn);
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 

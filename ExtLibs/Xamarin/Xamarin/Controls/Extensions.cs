@@ -6,7 +6,7 @@ namespace GMap.NET.Drawing
 {
     public static class Extensions
     {
-        public static Bitmap ToBitmap(this byte[] input)
+        public static Bitmap ToBitmap99(this byte[] input)
         {
             return (Bitmap)Image.FromStream(new MemoryStream(input));
         }
