@@ -59,7 +59,7 @@ namespace System.Drawing
         public DashStyle DashStyle { get; set; }
         public Color Color { get; set; } = Color.Black;
         public Brush Brush { get; set; }
-        public float[] DashPattern { get; set; }
+        public float[] DashPattern { get; set; } = new float[] {1, 0};
         public PenAlignment Alignment { get; set; }
 
         public int MiterLimit { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using ClipperLib;
+using SkiaSharp;
 
 namespace System.Drawing.Drawing2D
 {
@@ -1964,9 +1965,17 @@ namespace System.Drawing.Drawing2D
             set { fillMode = value; }
         }
 
-        public void AddString(string empty, FontFamily fontFontFamily, int i, float fontsize, PointF point,
+        public void AddString(string s, FontFamily fontFontFamily, int i, float fontsize, PointF point,
             StringFormat genericTypographic)
         {
+            var paint = new SKPaint()
+                {Typeface = SKTypeface.FromFamilyName(fontFontFamily?.Name), TextSize = fontsize * 1.3333f};
+            var path = paint.GetTextPath(s, point.X, point.Y + fontsize * 1.3333f);
+
+            if(path.Points.Length < 3)
+                AddLines(path.Points.Select(a => new PointF(a.X, a.Y)).ToArray());
+            else
+                AddPolygon(path.Points.Select(a => new PointF(a.X, a.Y)).ToArray());
         }
     }
 }

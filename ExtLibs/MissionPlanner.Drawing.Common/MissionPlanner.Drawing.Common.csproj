@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>System.Drawing</RootNamespace>
-    <AssemblyName>MissionPlanner.Drawing.Common</AssemblyName>
-    <AssemblyVersion>4.0.0.2</AssemblyVersion>
+    <AssemblyName>System.Drawing.Common</AssemblyName>
+    <AssemblyVersion>4.0.2.1</AssemblyVersion>
     <FileVersion>4.6.57.0</FileVersion>
     <PackageId>MissionPlanner.Drawing.Common</PackageId>
     <Authors>MissionPlanner.Drawing.Common</Authors>

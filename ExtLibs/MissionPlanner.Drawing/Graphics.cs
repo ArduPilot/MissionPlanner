@@ -90,23 +90,25 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public Matrix Transform
         {
-            get
-            {
-                return new Matrix()
-                {
-                    Data = _image.TotalMatrix.Values.Select(a => (double) a).ToArray()
-                };
-            }
+            get => new Matrix(_image.TotalMatrix.ScaleX,_image.TotalMatrix.SkewY, _image.TotalMatrix.SkewX, 
+                _image.TotalMatrix.ScaleY, _image.TotalMatrix.TransX, _image.TotalMatrix.TransY);
             set
             {
-                var matrix = _image.TotalMatrix;
-                matrix.Values = value.Data.Select(a => (float) a).ToArray();
-                _image.SetMatrix(matrix);
+                var values = value.Data;
+                _image.SetMatrix(new SKMatrix(values[0], values[2], values[4],
+                    values[1], values[3], values[5],
+                    0, 0, 1));
             }
         }
 
         public RectangleF VisibleClipBounds { get; }
         private SKCanvas _image => _surface.Canvas; //_rec.RecordingCanvas;//_surface.Canvas;
+
+        public SKSurface Surface
+        {
+            get => _surface;
+            set => _surface = value;
+        }
 
         public byte[] WriteImage()
         {
@@ -744,9 +746,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 return;
             var pnt = brush.ToSKPaint();
             // Find the text bounds
-            var textBounds = SKRect.Empty;
             var fnt = font.ToSKPaint();
-            fnt.MeasureText(s, ref textBounds);
+            var textBounds = MeasureString(s, font);
 
             pnt.TextSize = fnt.TextSize;
             pnt.Typeface = fnt.Typeface;
@@ -763,7 +764,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             if (format.Alignment == StringAlignment.Center)
             {
-                layoutRectangle.X += layoutRectangle.Width / 2 - textBounds.MidX;
+                layoutRectangle.X += layoutRectangle.Width / 2 - textBounds.Width / 2;
             }
 
             if (format.LineAlignment == StringAlignment.Center) // vertical
@@ -1018,7 +1019,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillRegion(Brush brush, Region region)
         {
-            throw new NotImplementedException();
+            FillRectangle(brush, region.GetBounds(this));
         }
 
         public void Flush()
@@ -1107,16 +1108,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea)
         {
-            throw new NotImplementedException();
+            return MeasureString(text, font, new PointF(0, 0), StringFormat.GenericDefault);
         }
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat)
         {
-            if (String.IsNullOrEmpty(text))
-                return new SizeF();
-            var bound = new SKRect();
-            font.ToSKPaint().MeasureText(text, ref bound);
-            return new SizeF(bound.Width + 5, bound.Height);
+            return MeasureString(text, font, new PointF(0, 0), StringFormat.GenericDefault);
         }
 
         public SizeF MeasureString(string text, Font font)
@@ -1146,8 +1143,17 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (String.IsNullOrEmpty(text))
                 return new SizeF();
             var bound = new SKRect();
-            font.ToSKPaint().MeasureText(text, ref bound);
-            return new SizeF(bound.Width /* + origin.X*/, bound.Height /* + origin.Y*/);
+            var width = 0.0f;
+            var height = 0.0f;
+            var lines = text.Split('\n');
+            foreach (var line in lines)
+            {
+                font.ToSKPaint().MeasureText(line, ref bound);
+                width = Math.Max(width, bound.Width);
+                height += bound.Height;
+            }
+
+            return new SizeF(width, height);
         }
 
         public void MultiplyTransform(Matrix matrix)
@@ -1235,7 +1241,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void SetClip(RectangleF rect)
         {
-            throw new NotImplementedException();
+            _image.ClipRect(new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom));
         }
 
         public void SetClip(RectangleF rect, CombineMode mode)

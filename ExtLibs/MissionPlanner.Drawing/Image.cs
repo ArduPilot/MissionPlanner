@@ -105,14 +105,15 @@ namespace System.Drawing
 
         protected Image(SerializationInfo info, StreamingContext context)
         {
-            FromStream(new MemoryStream((byte[]) info.GetValue("pngdata", typeof(byte[]))));
+            nativeSkBitmap = FromStream(new MemoryStream((byte[]) info.GetValue("Data", typeof(byte[]))))
+                .nativeSkBitmap;
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             MemoryStream ms = new MemoryStream();
             Save(ms, SKEncodedImageFormat.Png);
-            info.AddValue("pngdata", ms.GetBuffer());
+            info.AddValue("Data", ms.GetBuffer());
         }
 
 

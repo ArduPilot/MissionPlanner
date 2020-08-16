@@ -6,13 +6,15 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Security;
 using SkiaSharp;
 
 
 namespace System.Drawing
 {
-    public class Bitmap : Image
+    [Serializable]
+    public class Bitmap : Image, ISerializable, ICloneable, IDisposable
     {
         private object p;
         private Size size;
@@ -45,6 +47,10 @@ namespace System.Drawing
         public static implicit operator Bitmap(byte[] data)
         {
             return new Bitmap(new MemoryStream(data));
+        }
+
+        protected Bitmap(SerializationInfo info, StreamingContext context): base (info, context)
+        {
         }
 
         internal Bitmap()
