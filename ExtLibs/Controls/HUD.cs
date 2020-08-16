@@ -153,8 +153,15 @@ namespace MissionPlanner.Controls
 
             this.Name = "Hud";
 
-            eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 50L);
-            // or whatever other quality value you want
+            try
+            {
+                eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 50L);
+                // or whatever other quality value you want
+            }
+            catch
+            {
+
+            }
 
             objBitmap.MakeTransparent();
 
