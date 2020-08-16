@@ -188,9 +188,9 @@ namespace MissionPlanner.Utilities
         public static ThemeColorTable thmColor;
 
         public static List<String> ThemeNames;
-        
 
-        
+
+
         public static void GetThemesList()
         {
 
@@ -206,19 +206,33 @@ namespace MissionPlanner.Utilities
                 ThemeNames.Clear();
             }
 
-            //Get default themes from program directory (system themes are read only)
-            var themeFiles = Directory.EnumerateFiles(runningDir, "*.mpsystheme");
-            foreach (string currentFile in themeFiles)
+            try
             {
-                ThemeNames.Add(Path.GetFileName(currentFile));
+                //Get default themes from program directory (system themes are read only)
+                var themeFiles = Directory.EnumerateFiles(runningDir, "*.mpsystheme");
+                foreach (string currentFile in themeFiles)
+                {
+                    ThemeNames.Add(Path.GetFileName(currentFile));
+                }
             }
-            //Get theme files from user directory (user themes can be overwritten)
-            themeFiles = Directory.EnumerateFiles(userDir, "*.mpusertheme");
-            foreach (string currentFile in themeFiles)
+            catch (Exception ex)
             {
-                ThemeNames.Add(Path.GetFileName(currentFile));
+                log.Error(ex);
             }
 
+            try
+            {
+                //Get theme files from user directory (user themes can be overwritten)
+                var themeFiles = Directory.EnumerateFiles(userDir, "*.mpusertheme");
+                foreach (string currentFile in themeFiles)
+                {
+                    ThemeNames.Add(Path.GetFileName(currentFile));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
 
