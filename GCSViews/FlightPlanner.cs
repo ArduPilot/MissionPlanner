@@ -360,6 +360,12 @@ namespace MissionPlanner.GCSViews
                 return true;
             }
 
+            if (keyData == (Keys.Control | Keys.N))
+            {
+                GMapControl.GDI = !GMapControl.GDI;
+                return true;
+            }
+
             if (keyData == (Keys.Control | Keys.M))
             {
                 // get the command list from the datagrid
