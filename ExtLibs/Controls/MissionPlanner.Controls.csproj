@@ -47,10 +47,12 @@
     <EmbeddedResource Update="HUDT.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MissionPlanner.Controls</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MissionPlanner.Controls.Properties</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

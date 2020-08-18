@@ -38,6 +38,7 @@
     <EmbeddedResource Update="Properties\Resources.resx">
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>GMap.NET.Drawing.Properties</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 

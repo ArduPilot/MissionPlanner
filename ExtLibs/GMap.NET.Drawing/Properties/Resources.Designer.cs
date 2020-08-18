@@ -19,7 +19,7 @@ namespace GMap.NET.Drawing.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -148,7 +148,8 @@ namespace GMap.NET.Drawing.Properties {
         ///
         ///-- Foreign Key Preventing insert
         ///CREATE TRIGGER fki_TilesData_id_Tiles_id
-        ///BEFORE INSERT ON [TilesDat [rest of string was truncated]&quot;;.
+        ///BEFORE INSERT ON [TilesData]
+        ///FOR  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CreateTileDb {
             get {
