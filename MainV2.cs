@@ -35,6 +35,7 @@ using Transitions;
 using AltitudeAngelWings;
 using MissionPlanner.NewForms;
 using GMap.NET.MapProviders;
+using Flurl.Util;
 
 namespace MissionPlanner
 {
@@ -531,7 +532,7 @@ namespace MissionPlanner
         /// </summary>
         private MapChangeForm mapChangeForm;
         private string mapTitleStatus = "";
-
+        int centering = 0;          //0 - false, 1 - onse, 2 - always
 
 
 
@@ -1218,6 +1219,8 @@ namespace MissionPlanner
             FlightPlanner.mainMenuWidget1.ParamsButton.Click += new EventHandler(paramsButtonClick);
             FlightPlanner.mainMenuWidget1.RulerButton.Click += new EventHandler(rulerButtonsClick);
             FlightPlanner.mainMenuWidget1.homeButton.Click += new EventHandler(homeButtonClick);
+            FlightPlanner.mainMenuWidget1.centeringButton.MouseDown += new MouseEventHandler(centeringButtonClick);
+            
         }
 
 
@@ -1333,7 +1336,7 @@ namespace MissionPlanner
 
         void rulerButtonsClick(object sender, EventArgs e)
         {
-            
+            //System.Diagnostics.Debug.WriteLine("HERE");
         }
 
         void homeButtonClick(object sender, EventArgs e)
@@ -1349,6 +1352,40 @@ namespace MissionPlanner
             }
             ((Control)sender).Enabled = true;
         }
+
+        void centeringButtonClick(object sender, MouseEventArgs e)
+        {
+            //System.Diagnostics.Debug.WriteLine("HERE");
+            if (e.Button == MouseButtons.Right) 
+            {
+                if (centering != 2)
+                {
+                    centering = 2;
+                    FlightPlanner.mainMenuWidget1.centeringButton.BGGradBot = Color.LightBlue;
+                    FlightPlanner.mainMenuWidget1.centeringButton.BGGradTop = Color.Blue;
+                    //System.Diagnostics.Debug.WriteLine("Right");
+                }
+                else 
+                {
+                    centering = 0;
+                    FlightPlanner.mainMenuWidget1.centeringButton.BGGradBot = Color.GreenYellow;
+                    FlightPlanner.mainMenuWidget1.centeringButton.BGGradTop = Color.DarkOliveGreen;
+                }
+            }
+            if (e.Button == MouseButtons.Left)
+            {
+                centering = 1;
+                FlightPlanner.mainMenuWidget1.centeringButton.BGGradBot = Color.GreenYellow;
+                FlightPlanner.mainMenuWidget1.centeringButton.BGGradTop = Color.DarkOliveGreen;
+                //System.Diagnostics.Debug.WriteLine("Left");
+            }
+            //FlightPlanner.MainMap.Position = new GMap.NET.PointLatLng(adsb.Lat, adsb.Lng) ;
+        }
+
+
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////
+        /// </summary>
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
         {
@@ -1367,6 +1404,14 @@ namespace MissionPlanner
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).CallSign = adsb.CallSign;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Squawk = adsb.Squawk;
                     ((adsb.PointLatLngAltHdg)instance.adsbPlanes[id]).Raw = adsb.Raw;
+                    if (centering > 0) 
+                    {
+                        FlightPlanner.MainMap.Position = new GMap.NET.PointLatLng(adsb.Lat, adsb.Lng);
+                        if (centering == 0) 
+                        {
+                            centering = 0;
+                        }
+                    }
                 }
                 else
                 {

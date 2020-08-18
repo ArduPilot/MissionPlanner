@@ -79,7 +79,6 @@
             this.ParamsButton.TabIndex = 3;
             this.ParamsButton.Text = "Params";
             this.ParamsButton.UseVisualStyleBackColor = true;
-            //this.ParamsButton.Click += new System.EventHandler(this.ParamsButton_Click);
             this.ParamsButton.MouseEnter += new System.EventHandler(this.MainMenuWidget_MouseEnter);
             // 
             // RulerButton
@@ -106,6 +105,8 @@
             // 
             // myButton2
             // 
+            this.myButton2.BGGradBot = System.Drawing.Color.GreenYellow;
+            this.myButton2.BGGradTop = System.Drawing.Color.GreenYellow;
             this.myButton2.Enabled = false;
             this.myButton2.Location = new System.Drawing.Point(565, 13);
             this.myButton2.Name = "myButton2";
