@@ -3943,6 +3943,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             mode.base_mode |= (byte)base_mode;
 
+            // new
+            doCommand(sysid, compid, MAV_CMD.DO_SET_MODE, mode.base_mode, mode.custom_mode, 0, 0, 0, 0, 0, false);
+
+            // old
             generatePacket((byte)(byte)MAVLINK_MSG_ID.SET_MODE, mode, sysid, compid);
             Thread.Sleep(10);
             generatePacket((byte)(byte)MAVLINK_MSG_ID.SET_MODE, mode, sysid, compid);
