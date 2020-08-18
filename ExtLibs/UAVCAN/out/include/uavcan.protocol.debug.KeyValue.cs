@@ -28,7 +28,7 @@ public const int UAVCAN_PROTOCOL_DEBUG_KEYVALUE_DT_ID = 16370;
 
 public class uavcan_protocol_debug_KeyValue: IUAVCANSerialize {
     public Single value = new Single();
-    public uint8_t key_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)] public uint8_t[] key = Enumerable.Repeat(new uint8_t(),58).ToArray();
+    public uint8_t key_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)] public uint8_t[] key = Enumerable.Range(1, 58).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

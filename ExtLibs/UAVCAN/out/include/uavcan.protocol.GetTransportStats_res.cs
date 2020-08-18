@@ -31,7 +31,7 @@ public class uavcan_protocol_GetTransportStats_res: IUAVCANSerialize {
     public uint64_t transfers_tx = new uint64_t();
     public uint64_t transfers_rx = new uint64_t();
     public uint64_t transfer_errors = new uint64_t();
-    public uint8_t can_iface_stats_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public uavcan_protocol_CANIfaceStats[] can_iface_stats = Enumerable.Repeat(new uavcan_protocol_CANIfaceStats(),3).ToArray();
+    public uint8_t can_iface_stats_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public uavcan_protocol_CANIfaceStats[] can_iface_stats = Enumerable.Range(1, 3).Select(i => new uavcan_protocol_CANIfaceStats()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

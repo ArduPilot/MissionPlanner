@@ -74,7 +74,7 @@ public class uavcan_equipment_ice_reciprocating_Status: IUAVCANSerialize {
     public uint8_t throttle_position_percent = new uint8_t();
     public uint8_t ecu_index = new uint8_t();
     public uint8_t spark_plug_usage = new uint8_t();
-    public uint8_t cylinder_status_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public uavcan_equipment_ice_reciprocating_CylinderStatus[] cylinder_status = Enumerable.Repeat(new uavcan_equipment_ice_reciprocating_CylinderStatus(),16).ToArray();
+    public uint8_t cylinder_status_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public uavcan_equipment_ice_reciprocating_CylinderStatus[] cylinder_status = Enumerable.Range(1, 16).Select(i => new uavcan_equipment_ice_reciprocating_CylinderStatus()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

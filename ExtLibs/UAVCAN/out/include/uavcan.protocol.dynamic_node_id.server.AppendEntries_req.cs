@@ -35,7 +35,7 @@ public class uavcan_protocol_dynamic_node_id_server_AppendEntries_req: IUAVCANSe
     public uint32_t prev_log_term = new uint32_t();
     public uint8_t prev_log_index = new uint8_t();
     public uint8_t leader_commit = new uint8_t();
-    public uint8_t entries_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=1)] public uavcan_protocol_dynamic_node_id_server_Entry[] entries = Enumerable.Repeat(new uavcan_protocol_dynamic_node_id_server_Entry(),1).ToArray();
+    public uint8_t entries_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=1)] public uavcan_protocol_dynamic_node_id_server_Entry[] entries = Enumerable.Range(1, 1).Select(i => new uavcan_protocol_dynamic_node_id_server_Entry()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

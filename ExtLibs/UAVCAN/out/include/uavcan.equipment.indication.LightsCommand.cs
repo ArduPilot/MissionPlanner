@@ -28,7 +28,7 @@ public const int UAVCAN_EQUIPMENT_INDICATION_LIGHTSCOMMAND_DT_ID = 1081;
 
 
 public class uavcan_equipment_indication_LightsCommand: IUAVCANSerialize {
-    public uint8_t commands_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public uavcan_equipment_indication_SingleLightCommand[] commands = Enumerable.Repeat(new uavcan_equipment_indication_SingleLightCommand(),20).ToArray();
+    public uint8_t commands_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public uavcan_equipment_indication_SingleLightCommand[] commands = Enumerable.Range(1, 20).Select(i => new uavcan_equipment_indication_SingleLightCommand()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

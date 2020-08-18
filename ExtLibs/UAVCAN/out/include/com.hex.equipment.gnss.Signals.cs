@@ -31,7 +31,7 @@ public const int COM_HEX_EQUIPMENT_GNSS_SIGNALS_DT_ID = 20212;
 public class com_hex_equipment_gnss_Signals: IUAVCANSerialize {
     public uavcan_Timestamp timestamp = new uavcan_Timestamp();
     public uint32_t iTOW = new uint32_t();
-    public uint8_t signals_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=120)] public com_hex_equipment_gnss_Signal[] signals = Enumerable.Repeat(new com_hex_equipment_gnss_Signal(),120).ToArray();
+    public uint8_t signals_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=120)] public com_hex_equipment_gnss_Signal[] signals = Enumerable.Range(1, 120).Select(i => new com_hex_equipment_gnss_Signal()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

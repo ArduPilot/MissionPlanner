@@ -30,7 +30,7 @@ public const double UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_DISCOVERY_BROADCASTIN
 
 public class uavcan_protocol_dynamic_node_id_server_Discovery: IUAVCANSerialize {
     public uint8_t configured_cluster_size = new uint8_t();
-    public uint8_t known_nodes_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)] public uint8_t[] known_nodes = Enumerable.Repeat(new uint8_t(),5).ToArray();
+    public uint8_t known_nodes_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=5)] public uint8_t[] known_nodes = Enumerable.Range(1, 5).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

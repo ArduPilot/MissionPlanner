@@ -114,7 +114,7 @@ def field_cdef(field):
         if field.type.mode == field.type.MODE_STATIC:
             return '[MarshalAs(UnmanagedType.ByValArray,SizeConst=%u)] public %s[] %s = new %s[%u]' % (field.type.max_size, uavcan_type_to_ctype(field.type.value_type), field.name, uavcan_type_to_ctype(field.type.value_type), field.type.max_size)
         else:
-            return 'public uint%u_t %s_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=%u)] public %s[] %s = Enumerable.Repeat(new %s(),%u).ToArray()' % (c_int_type_bitlen(array_len_field_bitlen(field.type)), field.name, field.type.max_size, uavcan_type_to_ctype(field.type.value_type), field.name, uavcan_type_to_ctype(field.type.value_type), field.type.max_size)
+            return 'public uint%u_t %s_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=%u)] public %s[] %s = Enumerable.Range(1, %u).Select(i => new %s()).ToArray()' % (c_int_type_bitlen(array_len_field_bitlen(field.type)), field.name, field.type.max_size, uavcan_type_to_ctype(field.type.value_type), field.name, field.type.max_size, uavcan_type_to_ctype(field.type.value_type))
     else:
         return 'public %s %s = new %s()' % (uavcan_type_to_ctype(field.type), field.name, uavcan_type_to_ctype(field.type))
 

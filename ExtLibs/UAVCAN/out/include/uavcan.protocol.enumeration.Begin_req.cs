@@ -31,7 +31,7 @@ public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_TIMEOUT_INFINITE = 655
 
 public class uavcan_protocol_enumeration_Begin_req: IUAVCANSerialize {
     public uint16_t timeout_sec = new uint16_t();
-    public uint8_t parameter_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] parameter_name = Enumerable.Repeat(new uint8_t(),92).ToArray();
+    public uint8_t parameter_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] parameter_name = Enumerable.Range(1, 92).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

@@ -28,7 +28,7 @@ public const int UAVCAN_OLLIW_STORM32_COMMANDACK_DT_ID = 28303;
 
 public class uavcan_olliw_storm32_CommandAck: IUAVCANSerialize {
     public uint8_t gimbal_id = new uint8_t();
-    public uint8_t payload_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] payload = Enumerable.Repeat(new uint8_t(),128).ToArray();
+    public uint8_t payload_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] payload = Enumerable.Range(1, 128).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

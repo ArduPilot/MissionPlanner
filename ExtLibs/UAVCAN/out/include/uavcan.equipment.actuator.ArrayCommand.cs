@@ -28,7 +28,7 @@ public const int UAVCAN_EQUIPMENT_ACTUATOR_ARRAYCOMMAND_DT_ID = 1010;
 
 
 public class uavcan_equipment_actuator_ArrayCommand: IUAVCANSerialize {
-    public uint8_t commands_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=15)] public uavcan_equipment_actuator_Command[] commands = Enumerable.Repeat(new uavcan_equipment_actuator_Command(),15).ToArray();
+    public uint8_t commands_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=15)] public uavcan_equipment_actuator_Command[] commands = Enumerable.Range(1, 15).Select(i => new uavcan_equipment_actuator_Command()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

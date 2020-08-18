@@ -29,7 +29,7 @@ public const int UAVCAN_PROTOCOL_FILE_READ_RES_DT_ID = 48;
 
 public class uavcan_protocol_file_Read_res: IUAVCANSerialize {
     public uavcan_protocol_file_Error error = new uavcan_protocol_file_Error();
-    public uint16_t data_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=256)] public uint8_t[] data = Enumerable.Repeat(new uint8_t(),256).ToArray();
+    public uint16_t data_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=256)] public uint8_t[] data = Enumerable.Range(1, 256).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

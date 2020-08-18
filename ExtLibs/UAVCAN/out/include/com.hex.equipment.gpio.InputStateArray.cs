@@ -28,7 +28,7 @@ public const int COM_HEX_EQUIPMENT_GPIO_INPUTSTATEARRAY_DT_ID = 42455;
 
 
 public class com_hex_equipment_gpio_InputStateArray: IUAVCANSerialize {
-    public uint8_t input_states_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)] public com_hex_equipment_gpio_InputState[] input_states = Enumerable.Repeat(new com_hex_equipment_gpio_InputState(),32).ToArray();
+    public uint8_t input_states_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)] public com_hex_equipment_gpio_InputState[] input_states = Enumerable.Range(1, 32).Select(i => new com_hex_equipment_gpio_InputState()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

@@ -30,11 +30,11 @@ public const int UAVCAN_EQUIPMENT_AHRS_SOLUTION_DT_ID = 1000;
 public class uavcan_equipment_ahrs_Solution: IUAVCANSerialize {
     public uavcan_Timestamp timestamp = new uavcan_Timestamp();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)] public Single[] orientation_xyzw = new Single[4];
-    public uint8_t orientation_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] orientation_covariance = Enumerable.Repeat(new Single(),9).ToArray();
+    public uint8_t orientation_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] orientation_covariance = Enumerable.Range(1, 9).Select(i => new Single()).ToArray();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] angular_velocity = new Single[3];
-    public uint8_t angular_velocity_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] angular_velocity_covariance = Enumerable.Repeat(new Single(),9).ToArray();
+    public uint8_t angular_velocity_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] angular_velocity_covariance = Enumerable.Range(1, 9).Select(i => new Single()).ToArray();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] linear_acceleration = new Single[3];
-    public uint8_t linear_acceleration_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] linear_acceleration_covariance = Enumerable.Repeat(new Single(),9).ToArray();
+    public uint8_t linear_acceleration_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] linear_acceleration_covariance = Enumerable.Range(1, 9).Select(i => new Single()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {
