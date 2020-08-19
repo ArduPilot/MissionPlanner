@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:difx="http://schemas.microsoft.com/wix/DifxAppExtension" xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension' >
 
 
-	<Product Id="*" Name="UAV Drivers" Language="1033" Version="1.3.11" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF994370}">
+	<Product Id="*" Name="UAV Drivers" Language="1033" Version="1.3.12" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF994370}">
 
 		<Package Description="driver Installer" Comments="driver Installer" Manufacturer="Michael Oborne" InstallerVersion="200" Compressed="yes" />
 
@@ -10,8 +10,8 @@
 			<RemoveExistingProducts After="InstallInitialize" />
 		</InstallExecuteSequence>
         <Upgrade Id="{625389D7-EB3C-4d77-A5F6-A285CF994370}">
-            <UpgradeVersion OnlyDetect="yes" Minimum="1.3.10" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
-            <UpgradeVersion OnlyDetect="no" Minimum="0.0.0" Maximum="1.3.10" Property="OLDERVERSIONBEINGUPGRADED" IncludeMinimum="yes" IncludeMaximum="yes" />
+            <UpgradeVersion OnlyDetect="yes" Minimum="1.3.12" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
+            <UpgradeVersion OnlyDetect="no" Minimum="0.0.0" Maximum="1.3.12" Property="OLDERVERSIONBEINGUPGRADED" IncludeMinimum="yes" IncludeMaximum="yes" />
         </Upgrade>
 		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
 

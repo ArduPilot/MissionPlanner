@@ -9,7 +9,7 @@ ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
 Provider=%MFGNAME%
 LayoutFile=layout.inf
 CatalogFile=cubecomp.cat
-DriverVer=12/26/2019,2.0.0.10
+DriverVer=12/26/2019,2.0.0.11
 
 [Manufacturer]
 %MFGNAME%=DeviceList, NTamd64
@@ -44,10 +44,10 @@ Needs=Composite.Dev.NT.Services
 [SourceDisksFiles]
 [SourceDisksNames]
 [DeviceList]
-%DESCRIPTION%=CCGPDriverInstall, USB\VID_2DAE&PID_1016, USB\VID_2DAE&PID_1026
+%DESCRIPTION%=CCGPDriverInstall, USB\VID_2DAE&PID_1016&REV_0200, USB\VID_2DAE&PID_1026&REV_0200
 
 [DeviceList.NTamd64]
-%DESCRIPTION%=CCGPDriverInstall, USB\VID_2DAE&PID_1016, USB\VID_2DAE&PID_1026
+%DESCRIPTION%=CCGPDriverInstall, USB\VID_2DAE&PID_1016&REV_0200, USB\VID_2DAE&PID_1026&REV_0200
 
 ;------------------------------------------------------------------------------
 ;  String Definitions

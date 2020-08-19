@@ -22,7 +22,6 @@ namespace System.Drawing
 
         public FontFamily()
         {
-
         }
 
         public int GetCellAscent(FontStyle fontStyle)

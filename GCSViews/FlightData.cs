@@ -23,6 +23,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Scripting.Utils;
 using WebCamService;
@@ -884,7 +885,9 @@ namespace MissionPlanner.GCSViews
 
         private void altitudeAngelSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if !LIB
             new Utilities.AltitudeAngel.AASettings().Show(this);
+#endif
         }
 
         private void BUT_abort_script_Click(object sender, EventArgs e)
@@ -2742,19 +2745,19 @@ namespace MissionPlanner.GCSViews
             double timeerror = 0;
 
             while (!IsHandleCreated)
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
 
             while (threadrun)
             {
                 if (MainV2.comPort.giveComport)
                 {
-                    Thread.Sleep(50);
+                    await Task.Delay(50);
                     updateBindingSource();
                     continue;
                 }
 
                 if (!MainV2.comPort.logreadmode)
-                    Thread.Sleep(50); // max is only ever 10 hz but we go a little faster to empty the serial queue
+                    await Task.Delay(50); // max is only ever 10 hz but we go a little faster to empty the serial queue
 
                 if (this.IsDisposed)
                 {
@@ -3068,6 +3071,13 @@ namespace MissionPlanner.GCSViews
                                     MainV2.comPort.MAV.cs.HomeLocation.Lng,
                                     MainV2.comPort.MAV.cs.HomeLocation.Alt / CurrentState.multiplieralt, "H");
 
+                                if (homeplla.Lat == 0 && homeplla.Lng == 0)
+                                {
+                                    homeplla = new PointLatLngAlt(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng,
+                                        MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt / CurrentState.multiplieralt, "H");
+                                }
+
                                 var overlay = new WPOverlay();
 
                                 {
@@ -3102,34 +3112,42 @@ namespace MissionPlanner.GCSViews
 
                                 overlay.overlay.ForceUpdate();
 
-                                distanceBar1.ClearWPDist();
-
-                                var i = -1;
-                                var travdist = 0.0;
-                                if (overlay.pointlist.Count > 0)
+                                try
                                 {
-                                    var lastplla = overlay.pointlist.First();
-                                    foreach (var plla in overlay.pointlist)
+                                    distanceBar1.ClearWPDist();
+
+                                    var i = -1;
+                                    var travdist = 0.0;
+                                    if (overlay.pointlist.Count > 0)
                                     {
-                                        i++;
-                                        if (plla == null)
-                                            continue;
-
-                                        var dist = lastplla.GetDistance(plla);
-
-                                        distanceBar1.AddWPDist((float) dist);
-
-                                        if (i <= MainV2.comPort.MAV.cs.wpno)
+                                        var lastplla = overlay.pointlist.Where(a => a != null).FirstOrDefault();
+                                        foreach (var plla in overlay.pointlist)
                                         {
-                                            travdist += dist;
+                                            i++;
+                                            if (plla == null)
+                                                continue;
+
+                                            var dist = lastplla.GetDistance(plla);
+
+                                            distanceBar1.AddWPDist((float) dist);
+
+                                            if (i <= MainV2.comPort.MAV.cs.wpno)
+                                            {
+                                                travdist += dist;
+                                            }
                                         }
                                     }
+
+                                    travdist -= MainV2.comPort.MAV.cs.wp_dist;
+
+                                    if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
+                                        distanceBar1.traveleddist = (float) travdist;
+
                                 }
-
-                                travdist -= MainV2.comPort.MAV.cs.wp_dist;
-
-                                if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
-                                    distanceBar1.traveleddist = (float) travdist;
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                }
                             }
 
                             RegeneratePolygon();

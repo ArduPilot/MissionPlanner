@@ -2,25 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
-    <StartupObject />
     <DebugType>portable</DebugType>
     <DebugSymbols>True</DebugSymbols>
 
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <Optimize>true</Optimize>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <Optimize>false</Optimize>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputType>Library</OutputType>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-   <PackageReference Include="DirectShowLib" Version="1.0.0" />
-   <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-    </ItemGroup>
+   <ProjectReference Include="..\DirectShowLib\DirectShowLib.csproj" />
+  </ItemGroup>
 </Project>

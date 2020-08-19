@@ -1,9 +1,9 @@
-﻿
-using SkiaSharp;
+﻿using SkiaSharp;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
@@ -67,7 +67,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             _surface = SKSurface.Create(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
 
 
-            Debug.Assert(_surface!=null);
+            Debug.Assert(_surface != null);
             //_rec.BeginRecording(new SKRect(0, 0, width, height));
         }
 
@@ -106,7 +106,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         }
 
         public RectangleF VisibleClipBounds { get; }
-        private SKCanvas _image => _surface.Canvas;//_rec.RecordingCanvas;//_surface.Canvas;
+        private SKCanvas _image => _surface.Canvas; //_rec.RecordingCanvas;//_surface.Canvas;
 
         public byte[] WriteImage()
         {
@@ -118,9 +118,11 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 */
             return _surface.Snapshot().Encode().ToArray();
         }
+
         public static Graphics FromImage(Image bmpDestination)
         {
-            var bmpdata =((Bitmap) bmpDestination).LockBits(new Rectangle(0, 0, bmpDestination.Width, bmpDestination.Height),
+            var bmpdata = ((Bitmap) bmpDestination).LockBits(
+                new Rectangle(0, 0, bmpDestination.Width, bmpDestination.Height),
                 null, SKColorType.Bgra8888);
             return new Graphics(SKSurface.Create(bmpDestination.nativeSkBitmap.Info, bmpdata.Scan0));
         }
@@ -138,9 +140,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void AddMetafileComment(byte[] data)
         {
-          
         }
-
 
 
         public void Clear(Color color)
@@ -149,7 +149,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             CompositingMode = CompositingMode.SourceOver;
         }
 
-   
 
         public void Dispose()
         {
@@ -164,16 +163,16 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             _image.DrawPath(path, pen.ToSKPaint());
         }
 
-        
+
         public void DrawArc(Pen pen, RectangleF rect, float startAngle, float sweepAngle)
         {
             DrawArc(pen, rect.X, rect.Y, rect.Width, rect.Height, startAngle, sweepAngle);
         }
 
-  
+
         public void DrawArc(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawArc(pen, x, y, width, height, startAngle, (float)sweepAngle);
+            DrawArc(pen, x, y, width, height, startAngle, (float) sweepAngle);
         }
 
         public void DrawArc(Pen pen, Rectangle rect, float startAngle, float sweepAngle)
@@ -298,7 +297,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawEllipse(Pen pen, Rectangle rect)
         {
-            DrawEllipse(pen, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            DrawEllipse(pen, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         /// <summary>
@@ -306,7 +305,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawEllipse(Pen pen, int x, int y, int width, int height)
         {
-            DrawEllipse(pen, x, y, width, (float)height);
+            DrawEllipse(pen, x, y, width, (float) height);
         }
 
         public void DrawIcon(Icon icon, int x, int y)
@@ -316,7 +315,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawIcon(Icon icon, Rectangle targetRect)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void DrawIconUnstretched(Icon icon, Rectangle targetRect)
@@ -350,28 +349,28 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawImage(Image image, float x, float y, float width, float height)
         {
-            DrawImage(image, (long)x, (long)y, (long)width, (long)height);
+            DrawImage(image, (long) x, (long) y, (long) width, (long) height);
             //throw new NotImplementedException();
         }
 
         public void DrawImage(Image image, Point point)
         {
-            DrawImage(image, point.X, (float)point.Y);
+            DrawImage(image, point.X, (float) point.Y);
         }
 
         public void DrawImage(Image image, int x, int y)
         {
-            DrawImage(image, x, (float)y);
+            DrawImage(image, x, (float) y);
         }
 
         public void DrawImage(Image image, Rectangle rect)
         {
-            DrawImage(image, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            DrawImage(image, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         public void DrawImage(Image image, int x, int y, int width, int height)
         {
-            DrawImage(image, (float)x, y, width, height);
+            DrawImage(image, (float) x, y, width, height);
         }
 
         public void DrawImage(Image image, PointF[] destPoints)
@@ -445,12 +444,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             return;
 
             var coltype = SKColorType.Bgra8888;
-            ((Bitmap)img).MakeTransparent(Color.Transparent);
+            ((Bitmap) img).MakeTransparent(Color.Transparent);
             var data = ((Bitmap) img).LockBits(new Rectangle(0, 0, img.Width, img.Height),
                 ImageLockMode.ReadOnly,
                 SKColorType.Bgra8888);
-            
-            if(CompositingMode == CompositingMode.SourceOver)
+
+            if (CompositingMode == CompositingMode.SourceOver)
                 _paint.BlendMode = SKBlendMode.SrcOver;
             if (CompositingMode == CompositingMode.SourceCopy)
                 _paint.BlendMode = SKBlendMode.Src;
@@ -478,11 +477,11 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             */
             _image.DrawImage(image, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
-            ((Bitmap)img).UnlockBits(data);
+            ((Bitmap) img).UnlockBits(data);
             data = null;
 
             return;
-            
+
             try
             {
                 using (var skbmp =
@@ -490,11 +489,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 {
                     skbmp.SetPixels(data.Scan0);
 
-         
 
-              
                     _image.DrawBitmap(skbmp, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
-                        new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom)/*, _paint*/);
+                        new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom) /*, _paint*/);
                 }
             }
             catch
@@ -515,7 +512,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             GraphicsUnit srcUnit,
             ImageAttributes imageAttr)
         {
-            throw new NotImplementedException();
+            DrawImageUnscaled(image, destRect.X, destRect.Y);
+            //throw new NotImplementedException();
         }
 
         public void DrawImage(Image img, long i, long i1, long width, long height)
@@ -544,7 +542,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawImageUnscaled(Image image, Point point)
         {
-            DrawImage(image, point.X, (float)point.Y);
+            DrawImage(image, point.X, (float) point.Y);
         }
 
         public void DrawImageUnscaled(Image image, int x, int y)
@@ -577,7 +575,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawLine(Pen pen, int x1, int y1, int x2, int y2)
         {
-            DrawLine(pen, x1, y1, x2, (float)y2);
+            DrawLine(pen, x1, y1, x2, (float) y2);
         }
 
         /// <summary>
@@ -585,7 +583,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void DrawLine(Pen pen, Point pt1, Point pt2)
         {
-            DrawLine(pen, pt1.X, pt1.Y, pt2.X, (float)pt2.Y);
+            DrawLine(pen, pt1.X, pt1.Y, pt2.X, (float) pt2.Y);
         }
 
         public void DrawLines(Pen pen, PointF[] points)
@@ -621,7 +619,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             //Save the original pen dash style in case we need to change it
             var originalPenDashStyle = pen.DashStyle;
 
-            PointF last= PointF.Empty;
+            PointF last = PointF.Empty;
             foreach (var pathPathPoint in path.PathPoints)
             {
                 if (last == PointF.Empty)
@@ -658,7 +656,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawPie(Pen pen, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            DrawPie(pen, x, y, width, height, startAngle, (float)sweepAngle);
+            DrawPie(pen, x, y, width, height, startAngle, (float) sweepAngle);
         }
 
         public void DrawPolygon(Pen pen, Point[] points)
@@ -691,7 +689,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawRectangle(Pen pen, int x, int y, int width, int height)
         {
-            DrawRectangle(pen, x, y, width, (float)height);
+            DrawRectangle(pen, x, y, width, (float) height);
         }
 
         public void DrawRectangles(Pen pen, RectangleF[] rects)
@@ -701,7 +699,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawRectangles(Pen pen, Rectangle[] rects)
         {
-            foreach (var rc in rects) DrawRectangle(pen, rc.Left, rc.Top, rc.Width, (float)rc.Height);
+            foreach (var rc in rects) DrawRectangle(pen, rc.Left, rc.Top, rc.Width, (float) rc.Height);
         }
 
         public void DrawString(string s, Font font, Brush brush, float x, float y)
@@ -755,7 +753,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             pnt.StrokeWidth = 1;
 
-            if (textBounds.Width > layoutRectangle.Width-2 && layoutRectangle.Width != 0)
+            if (textBounds.Width > layoutRectangle.Width - 2 && layoutRectangle.Width != 0)
             {
                 DrawText(_image, s,
                     new SKRect(layoutRectangle.X, layoutRectangle.Y, layoutRectangle.Width, layoutRectangle.Height),
@@ -767,10 +765,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             {
                 layoutRectangle.X += layoutRectangle.Width / 2 - textBounds.MidX;
             }
+
             if (format.LineAlignment == StringAlignment.Center) // vertical
             {
-                layoutRectangle.Y += layoutRectangle.Height / 2 -  textBounds.Height/2;
+                layoutRectangle.Y += layoutRectangle.Height / 2 - textBounds.Height / 2;
             }
+
             _image.DrawText(s, layoutRectangle.X, layoutRectangle.Y + textBounds.Height, pnt);
         }
 
@@ -780,7 +780,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var lines = SplitLines(text, paint, area.Width);
             var height = lines.Count() * lineHeight;
 
-            var y = area.MidY-2 - height / 2;
+            var y = area.MidY - 2 - height / 2;
 
             foreach (var line in lines)
             {
@@ -806,7 +806,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             {
                 var result = new List<Line>();
 
-                var words = line.Split(new[] { " " }, StringSplitOptions.None);
+                var words = line.Split(new[] {" "}, StringSplitOptions.None);
 
                 var lineResult = new StringBuilder();
                 float width = 0;
@@ -818,7 +818,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
                     if (width + wordWidth > maxWidth)
                     {
-                        result.Add(new Line() { Value = lineResult.ToString(), Width = width });
+                        result.Add(new Line() {Value = lineResult.ToString(), Width = width});
                         lineResult = new StringBuilder(wordWithSpace);
                         width = wordWithSpaceWidth;
                     }
@@ -829,7 +829,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                     }
                 }
 
-                result.Add(new Line() { Value = lineResult.ToString(), Width = width });
+                result.Add(new Line() {Value = lineResult.ToString(), Width = width});
 
                 return result.ToArray();
             }).ToArray();
@@ -901,7 +901,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillEllipse(Brush brush, int x, int y, int width, int height)
         {
-            FillEllipse(brush, (float)x, y, width, height);
+            FillEllipse(brush, (float) x, y, width, height);
         }
 
         /// <summary>
@@ -924,7 +924,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </summary>
         public void FillEllipse(Brush brush, Rectangle rect)
         {
-            FillEllipse(brush, rect.X, rect.Y, rect.Width, (float)rect.Height);
+            FillEllipse(brush, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
 
         public void FillPath(Brush brush, GraphicsPath path)
@@ -992,19 +992,19 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillRectangle(Brush brush, Rectangle rect)
         {
-            FillRectangle(brush, (float)rect.X, rect.Y, rect.Width, rect.Height);
+            FillRectangle(brush, (float) rect.X, rect.Y, rect.Width, rect.Height);
         }
 
         public void FillRectangle(Brush brush, int x, int y, int width, int height)
         {
-            FillRectangle(brush, (float)x, y, width, height);
+            FillRectangle(brush, (float) x, y, width, height);
         }
 
         public void FillRectangles(Brush brush, RectangleF[] rects)
         {
             foreach (var rect in rects)
             {
-                FillRectangle(brush, (float)rect.X, rect.Y, rect.Width, rect.Height);
+                FillRectangle(brush, (float) rect.X, rect.Y, rect.Width, rect.Height);
             }
         }
 
@@ -1096,9 +1096,10 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             List<Region> ans = new List<Region>();
             foreach (var stringFormatRange in stringFormat.ranges)
             {
-                var size = MeasureString(new String(text.Skip(stringFormatRange.First).Take(stringFormatRange.Length).ToArray()),
+                var size = MeasureString(
+                    new String(text.Skip(stringFormatRange.First).Take(stringFormatRange.Length).ToArray()),
                     font, layoutRect.Size, stringFormat);
-                ans.Add(new Region(Rectangle.FromLTRB(0, 0, (int)size.Width, (int)size.Height)));
+                ans.Add(new Region(Rectangle.FromLTRB(0, 0, (int) size.Width, (int) size.Height)));
             }
 
             return ans.ToArray();
@@ -1115,7 +1116,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 return new SizeF();
             var bound = new SKRect();
             font.ToSKPaint().MeasureText(text, ref bound);
-            return new SizeF(bound.Width+5, bound.Height);
+            return new SizeF(bound.Width + 5, bound.Height);
         }
 
         public SizeF MeasureString(string text, Font font)
@@ -1161,7 +1162,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void ResetClip()
         {
-            _image.ClipRect(SKRect.Create(0,0,10000,10000), (SKClipOperation)5); // kReplace_Op
+            _image.ClipRect(SKRect.Create(0, 0, 10000, 10000), (SKClipOperation) 5); // kReplace_Op
             //_image.RestoreToCount(-1);
             //_image.ClipRect(SKRect.Create(0, 0, 10000, 10000), SKClipOperation.Intersect, false);
         }
@@ -1195,7 +1196,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void ScaleTransform(float sx, float sy)
         {
-            ScaleTransform(sx,sy, MatrixOrder.Prepend);
+            ScaleTransform(sx, sy, MatrixOrder.Prepend);
         }
 
         public void ScaleTransform(float sx, float sy, MatrixOrder order)
@@ -1302,9 +1303,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             var v = new PointF(l.X - pt.X, l.Y - pt.Y);
 
-            var vlen = (float)Math.Sqrt(v.X * v.X + v.Y * v.Y);
-            v.X /= (float)Math.Sqrt(vlen / (10 * t * t));
-            v.Y /= (float)Math.Sqrt(vlen / (10 * t * t));
+            var vlen = (float) Math.Sqrt(v.X * v.X + v.Y * v.Y);
+            v.X /= (float) Math.Sqrt(vlen / (10 * t * t));
+            v.Y /= (float) Math.Sqrt(vlen / (10 * t * t));
 
             return new PointF(pt.X + v.X, pt.Y + v.Y);
         }
@@ -1318,13 +1319,13 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var nlv = new PointF(lv.X - rv.X, lv.Y - rv.Y);
             var nrv = new PointF(rv.X - lv.X, rv.Y - lv.Y);
 
-            var nlvlen = (float)Math.Sqrt(nlv.X * nlv.X + nlv.Y * nlv.Y);
-            nlv.X /= (float)Math.Sqrt(nlvlen / (10 * t * t));
-            nlv.Y /= (float)Math.Sqrt(nlvlen / (10 * t * t));
+            var nlvlen = (float) Math.Sqrt(nlv.X * nlv.X + nlv.Y * nlv.Y);
+            nlv.X /= (float) Math.Sqrt(nlvlen / (10 * t * t));
+            nlv.Y /= (float) Math.Sqrt(nlvlen / (10 * t * t));
 
-            var nrvlen = (float)Math.Sqrt(nrv.X * nrv.X + nrv.Y * nrv.Y);
-            nrv.X /= (float)Math.Sqrt(nrvlen / (10 * t * t));
-            nrv.Y /= (float)Math.Sqrt(nrvlen / (10 * t * t));
+            var nrvlen = (float) Math.Sqrt(nrv.X * nrv.X + nrv.Y * nrv.Y);
+            nrv.X /= (float) Math.Sqrt(nrvlen / (10 * t * t));
+            nrv.Y /= (float) Math.Sqrt(nrvlen / (10 * t * t));
 
             var ret = new PointF[2];
 
@@ -1343,8 +1344,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var end = new PointF();
             var center = new PointF(x + width / 2f, y + height / 2f);
 
-            startAngle = startAngle / 360f * 2f * (float)Math.PI;
-            sweepAngle = sweepAngle / 360f * 2f * (float)Math.PI;
+            startAngle = startAngle / 360f * 2f * (float) Math.PI;
+            sweepAngle = sweepAngle / 360f * 2f * (float) Math.PI;
 
             sweepAngle += startAngle;
 
@@ -1357,11 +1358,11 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             if (sweepAngle - startAngle > Math.PI || startAngle - sweepAngle > Math.PI) longArc = 1;
 
-            start.X = (float)Math.Cos(startAngle) * (width / 2f) + center.X;
-            start.Y = (float)Math.Sin(startAngle) * (height / 2f) + center.Y;
+            start.X = (float) Math.Cos(startAngle) * (width / 2f) + center.X;
+            start.Y = (float) Math.Sin(startAngle) * (height / 2f) + center.Y;
 
-            end.X = (float)Math.Cos(sweepAngle) * (width / 2f) + center.X;
-            end.Y = (float)Math.Sin(sweepAngle) * (height / 2f) + center.Y;
+            end.X = (float) Math.Cos(sweepAngle) * (width / 2f) + center.X;
+            end.Y = (float) Math.Sin(sweepAngle) * (height / 2f) + center.Y;
 
             var s = "M " + start.X.ToString("F", CultureInfo.InvariantCulture) + "," +
                     start.Y.ToString("F", CultureInfo.InvariantCulture) +
@@ -1428,7 +1429,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 res.Add(pts[0]);
                 res.Add(points[0]);
 
-                return (PointF[])res.ToArray(typeof(PointF));
+                return (PointF[]) res.ToArray(typeof(PointF));
             }
 
             var subset = new ArrayList();
@@ -1437,7 +1438,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             subset.Add(res[(start + num) * 3]);
 
-            return (PointF[])subset.ToArray(typeof(PointF));
+            return (PointF[]) subset.ToArray(typeof(PointF));
         }
 
         private void FillBeziers(Brush brush, PointF[] points, FillMode fillmode)
@@ -1445,7 +1446,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             throw new NotImplementedException();
         }
 
-        public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat, int charactersFitted, int linesFilled)
+        public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat,
+            int charactersFitted, int linesFilled)
         {
             throw new NotImplementedException();
         }
@@ -1472,12 +1474,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void Restore(GraphicsState gstate)
         {
-            throw new NotImplementedException();
+            Transform = gstate.Matrix;
+            //throw new NotImplementedException();
         }
 
         public GraphicsState Save()
         {
-            throw new NotImplementedException();
+            return new GraphicsState() {Matrix = Transform};
+            //throw new NotImplementedException();
         }
 
         public static Func<IntPtr, Graphics> HwndToGraphics;
@@ -1494,7 +1498,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void ReleaseHdc()
         {
-            
         }
 
         public IntPtr GetHdc()
@@ -1515,6 +1518,10 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         }
 
         public class DrawImageAbort
+        {
+        }
+
+        public void CopyFromScreen(int i, int i1, int i2, int i3, Size size)
         {
         }
     }

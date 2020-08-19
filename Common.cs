@@ -135,7 +135,10 @@ namespace MissionPlanner
             Controls.MyButton buttonOk = new Controls.MyButton();
             System.ComponentModel.ComponentResourceManager resources =
                 new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
-            form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            try
+            {
+                form.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            } catch {}
 
             string link = "";
             string linktext = "";

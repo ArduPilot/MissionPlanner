@@ -31,6 +31,5 @@ namespace ClipperLib
         {
             get { return m_AllPolys.Count; }
         }
-
     }
 }

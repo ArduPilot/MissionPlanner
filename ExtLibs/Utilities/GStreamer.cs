@@ -30,9 +30,9 @@ namespace MissionPlanner.Utilities
 
         static object _lock = new object();
 
-        private static event EventHandler<Image> _onNewImage;
+        private static event EventHandler<Bitmap> _onNewImage;
 
-        public static event EventHandler<Image> onNewImage
+        public static event EventHandler<Bitmap> onNewImage
         {
             add { _onNewImage += value; }
             remove { _onNewImage -= value; }
@@ -1101,7 +1101,7 @@ namespace MissionPlanner.Utilities
                     ms.Seek(0, SeekOrigin.Begin);
                     try
                     {
-                        var temp = Image.FromStream(ms);
+                        var temp = Bitmap.FromStream(ms);
 
                         //File.WriteAllBytes(tempno + ".bmp", ms.ToArray());
 

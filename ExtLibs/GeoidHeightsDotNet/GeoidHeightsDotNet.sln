@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoidHeightsDotNetProg", "GeoidHeightsDotNetProg.csproj", "{206FF110-ECB1-4F98-A86E-CF95B736F765}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoidHeights", "GeoidHeights\GeoidHeights.csproj", "{FD7AC5FF-80F0-4E9F-A482-DF6065F8AD15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{206FF110-ECB1-4F98-A86E-CF95B736F765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{206FF110-ECB1-4F98-A86E-CF95B736F765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{206FF110-ECB1-4F98-A86E-CF95B736F765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{206FF110-ECB1-4F98-A86E-CF95B736F765}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD7AC5FF-80F0-4E9F-A482-DF6065F8AD15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD7AC5FF-80F0-4E9F-A482-DF6065F8AD15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD7AC5FF-80F0-4E9F-A482-DF6065F8AD15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD7AC5FF-80F0-4E9F-A482-DF6065F8AD15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

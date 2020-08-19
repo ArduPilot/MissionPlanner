@@ -24,16 +24,20 @@ namespace ClipperLib
 #else
         public IntPoint(Int64 X, Int64 Y)
         {
-            this.X = X; this.Y = Y;
+            this.X = X;
+            this.Y = Y;
         }
+
         public IntPoint(double x, double y)
         {
-            this.X = (Int64)x; this.Y = (Int64)y;
+            this.X = (Int64) x;
+            this.Y = (Int64) y;
         }
 
         public IntPoint(IntPoint pt)
         {
-            this.X = pt.X; this.Y = pt.Y;
+            this.X = pt.X;
+            this.Y = pt.Y;
         }
 #endif
 
@@ -52,7 +56,7 @@ namespace ClipperLib
             if (obj == null) return false;
             if (obj is IntPoint)
             {
-                IntPoint a = (IntPoint)obj;
+                IntPoint a = (IntPoint) obj;
                 return (X == a.X) && (Y == a.Y);
             }
             else return false;

@@ -1,4 +1,6 @@
-﻿extern alias Drawing;
+﻿#if !LIB
+extern alias Drawing;using AltitudeAngelWings;using MissionPlanner.Utilities.AltitudeAngel;
+#endif
 
 using GMap.NET.WindowsForms;
 using log4net;
@@ -9,7 +11,7 @@ using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Log;
 using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.AltitudeAngel;
+
 using MissionPlanner.Warnings;
 using SkiaSharp;
 using System;
@@ -36,6 +38,7 @@ using AltitudeAngelWings;
 using MissionPlanner.NewForms;
 using GMap.NET.MapProviders;
 using Flurl.Util;
+
 
 namespace MissionPlanner
 {
@@ -2183,8 +2186,10 @@ namespace MissionPlanner
             Settings.Instance["MainLocY"] = this.Location.Y.ToString();
 
             log.Info("close logs");
-            AltitudeAngel.Dispose();
 
+#if !LIB
+            AltitudeAngel.Dispose();
+#endif
             // close bases connection
             try
             {
@@ -3401,57 +3406,71 @@ namespace MissionPlanner
 
             GStreamer.onNewImage += (sender, image) =>
             {
-                if (image == null)
+                try
                 {
-                    GCSViews.FlightData.myhud.bgimage = null;
-                    return;
-                }
+                    if (image == null)
+                    {
+                        GCSViews.FlightData.myhud.bgimage = null;
+                        return;
+                    }
 
-                if (!(image is Drawing::System.Drawing.Bitmap bmp))
-                    return;
-                var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
-                    PixelFormat.Format32bppPArgb,
-                    bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888)
-                    .Scan0);
-                if (old != null)
-                    old.Dispose();
+                    var old = GCSViews.FlightData.myhud.bgimage;
+                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
+                        PixelFormat.Format32bppPArgb,
+                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888)
+                            .Scan0);
+                    if (old != null)
+                        old.Dispose();
+                }
+                catch
+                {
+                }
             };
 
             vlcrender.onNewImage += (sender, image) =>
             {
-                if (image == null)
+                try
                 {
-                    GCSViews.FlightData.myhud.bgimage = null;
-                    return;
+                    if (image == null)
+                    {
+                        GCSViews.FlightData.myhud.bgimage = null;
+                        return;
+                    }
+
+                    var old = GCSViews.FlightData.myhud.bgimage;
+                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width,
+                        image.Height,
+                        4 * image.Width,
+                        PixelFormat.Format32bppPArgb,
+                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                    if (old != null)
+                        old.Dispose();
                 }
-                if (!(image is Drawing::System.Drawing.Bitmap bmp))
-                    return;
-                var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width,
-                                                               image.Height,
-                                                               4 * image.Width,
-                                                               PixelFormat.Format32bppPArgb,
-                                                               bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
-                if (old != null)
-                    old.Dispose();
+                catch
+                {
+                }
             };
 
             CaptureMJPEG.onNewImage += (sender, image) =>
             {
-                if (image == null)
+                try
                 {
-                    GCSViews.FlightData.myhud.bgimage = null;
-                    return;
+                    if (image == null)
+                    {
+                        GCSViews.FlightData.myhud.bgimage = null;
+                        return;
+                    }
+
+                    var old = GCSViews.FlightData.myhud.bgimage;
+                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
+                        PixelFormat.Format32bppPArgb,
+                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                    if (old != null)
+                        old.Dispose();
                 }
-                if (!(image is Drawing::System.Drawing.Bitmap bmp))
-                    return;
-                var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
-                                                               PixelFormat.Format32bppPArgb,
-                                                               bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
-                if (old != null)
-                    old.Dispose();
+                catch
+                {
+                }
             };
 
             try
@@ -3491,10 +3510,12 @@ namespace MissionPlanner
             {
                 if (!MONO)
                 {
+#if !LIB
                     log.Info("Load AltitudeAngel");
                     AltitudeAngel.Configure();
                     AltitudeAngel.Initialize();
                     log.Info("Load AltitudeAngel... Done");
+#endif
                 }
             }
             catch (TypeInitializationException) // windows xp lacking patch level

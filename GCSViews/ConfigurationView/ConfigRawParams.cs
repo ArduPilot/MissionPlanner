@@ -1,5 +1,4 @@
 ﻿using log4net;
-using Microsoft.Scripting.Utils;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
@@ -232,7 +231,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
 
             // sort with enable at the bottom - this ensures params are set before the function is disabled
-            var temp = _changes.Keys.Select(a => (string)a).ToList();
+            var temp = _changes.Keys.Cast<string>().ToList();
 
             temp.SortENABLE();
 
@@ -839,4 +838,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             cellEditValue = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
         }
     }
+
 }

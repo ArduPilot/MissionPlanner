@@ -22,7 +22,7 @@ public partial class uavcan {
 //using uavcan.Timestamp.cs
 
 public const int COM_HEX_EQUIPMENT_GNSS_MOVINGBASEFIX_MAX_PACK_SIZE = 61;
-public const ulong COM_HEX_EQUIPMENT_GNSS_MOVINGBASEFIX_DT_SIG = 0x22930B91F2563B98;
+public const ulong COM_HEX_EQUIPMENT_GNSS_MOVINGBASEFIX_DT_SIG = 0x3B4274BABDEBC236;
 public const int COM_HEX_EQUIPMENT_GNSS_MOVINGBASEFIX_DT_ID = 20211;
 
 
@@ -37,7 +37,7 @@ public class com_hex_equipment_gnss_MovingBaseFix: IUAVCANSerialize {
     public uint8_t carrier_solution_type = new uint8_t();
     public uint8_t pos_rel_body_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] pos_rel_body = Enumerable.Repeat(new Single(),3).ToArray();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] pos_rel_ecef = new Single[3];
-    public uint8_t pos_rel_ned_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=6)] public Single[] pos_rel_ned_covariance = Enumerable.Repeat(new Single(),6).ToArray();
+    public uint8_t pos_rel_ecef_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=6)] public Single[] pos_rel_ecef_covariance = Enumerable.Repeat(new Single(),6).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

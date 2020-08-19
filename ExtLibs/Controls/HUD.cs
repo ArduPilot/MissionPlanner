@@ -17,7 +17,9 @@ using OpenTK.Graphics.OpenGL;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MissionPlanner.Utilities;
+#if !LIB
 using SvgNet.SvgGdi;
+#endif
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 

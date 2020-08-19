@@ -929,7 +929,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_AAsignin_Click(object sender, EventArgs e)
         {
+#if !LIB
             new Utilities.AltitudeAngel.AASettings().Show(this);
+#endif
         }
 
         private void CMB_Layout_SelectedIndexChanged(object sender, EventArgs e)

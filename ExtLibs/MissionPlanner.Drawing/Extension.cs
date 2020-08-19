@@ -23,6 +23,7 @@ namespace System.Drawing
         {
             return new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
+
         public static SKRectI ToSKRectI(this Rectangle rect)
         {
             return new SKRectI(rect.Left, rect.Top, rect.Right, rect.Bottom);
@@ -32,7 +33,7 @@ namespace System.Drawing
         {
             pen.nativePen.StrokeWidth = pen.Width;
             pen.nativePen.Color = pen.Color.ToSKColor();
-            pen.nativePen.Style = SKPaintStyle.Stroke; 
+            pen.nativePen.Style = SKPaintStyle.Stroke;
             if (pen.DashStyle != DashStyle.Solid)
                 pen.nativePen.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
             return pen.nativePen;
@@ -40,6 +41,7 @@ namespace System.Drawing
 
 
         static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
+
         public static SKPaint ToSKPaint(this Font font)
         {
             lock (fontcache)
@@ -67,11 +69,12 @@ namespace System.Drawing
         }
 
         static Dictionary<Color, SKPaint> brushcache = new Dictionary<Color, SKPaint>();
+
         public static SKPaint ToSKPaint(this Brush brush)
         {
             if (brush is SolidBrush)
             {
-                lock(brushcache)
+                lock (brushcache)
                     if (!brushcache.ContainsKey(((SolidBrush) brush).Color))
                         brushcache[((SolidBrush) brush).Color] = new SKPaint
                         {
@@ -84,7 +87,7 @@ namespace System.Drawing
 
             if (brush is LinearGradientBrush)
             {
-                var lgb = (LinearGradientBrush)brush;
+                var lgb = (LinearGradientBrush) brush;
                 return new SKPaint
                 {
                     IsAntialias = true,

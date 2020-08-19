@@ -808,20 +808,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return;
         }
 
-        private void Params_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
-        {
-
-
-        }
-
-        private void Params_CellOver(object sender, CellOverEventArgs e)
-        {
-            if (e.ColumnIndex == 4 || e.ColumnIndex == 5)
-            {
-                //     toolTip1.Show(e.HitTest.Item.Text, this.Parent, 3000);
-            }
-        }
-
         private void chk_modified_CheckedChanged(object sender, EventArgs e)
         {
             FilterTimerOnElapsed(null, null);

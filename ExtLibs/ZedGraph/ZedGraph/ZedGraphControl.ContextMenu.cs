@@ -137,15 +137,15 @@ namespace ZedGraph
 					item.Name = "page_setup";
 					item.Tag = "page_setup";
 					item.Text = _resourceManager.GetString( "page_setup" );
-					item.Click += new System.EventHandler( this.MenuClick_PageSetup );
-					menuStrip.Items.Add( item );
+					//item.Click += new System.EventHandler( this.MenuClick_PageSetup );
+					//menuStrip.Items.Add( item );
 
 					item = new ToolStripMenuItem();
 					item.Name = "print";
 					item.Tag = "print";
 					item.Text = _resourceManager.GetString( "print" );
-					item.Click += new System.EventHandler( this.MenuClick_Print );
-					menuStrip.Items.Add( item );
+					//item.Click += new System.EventHandler( this.MenuClick_Print );
+					//menuStrip.Items.Add( item );
 
 					item = new ToolStripMenuItem();
 					item.Name = "show_val";

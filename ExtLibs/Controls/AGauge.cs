@@ -29,7 +29,7 @@ using MissionPlanner.Controls;
 
 namespace AGaugeApp
 {
-    [ToolboxBitmapAttribute(typeof(AGauge), "AGauge.bmp"), 
+    [ToolboxBitmapAttribute(typeof(AGauge)), 
     DefaultEvent("ValueInRangeChanged"), 
     Description("Displays a value on an analog gauge. Raises an event if the value enters one of the definable ranges.")]
     public partial class AGauge : MyUserControl

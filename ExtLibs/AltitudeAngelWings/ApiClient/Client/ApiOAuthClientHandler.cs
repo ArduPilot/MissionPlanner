@@ -139,7 +139,7 @@ namespace AltitudeAngelWings.ApiClient.Client
             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
                 var text = BearerToken;
-                if (text == null)
+                if (text == null && Authorization != null && Authorization.AccessTokenExpirationUtc != null)
                 {
                     if (Authorization.AccessTokenExpirationUtc.HasValue && Authorization.AccessTokenExpirationUtc.Value < DateTime.UtcNow)
                     {

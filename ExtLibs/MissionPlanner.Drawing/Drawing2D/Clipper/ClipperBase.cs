@@ -9,7 +9,11 @@ namespace ClipperLib
         protected const int Skip = -2;
         protected const int Unassigned = -1;
         protected const double tolerance = 1.0E-20;
-        internal static bool near_zero(double val) { return (val > -tolerance) && (val < tolerance); }
+
+        internal static bool near_zero(double val)
+        {
+            return (val > -tolerance) && (val < tolerance);
+        }
 
 #if use_int32
       internal const cInt loRange = 46340;
@@ -27,11 +31,7 @@ namespace ClipperLib
 
         //------------------------------------------------------------------------------
 
-        public bool PreserveCollinear
-        {
-            get;
-            set;
-        }
+        public bool PreserveCollinear { get; set; }
         //------------------------------------------------------------------------------
 
         internal static bool IsHorizontal(TEdge e)
@@ -47,8 +47,8 @@ namespace ClipperLib
             {
                 if (pp2.Pt == pt) return true;
                 pp2 = pp2.Next;
-            }
-            while (pp2 != pp);
+            } while (pp2 != pp);
+
             return false;
         }
         //------------------------------------------------------------------------------
@@ -83,6 +83,7 @@ namespace ClipperLib
                 pp2 = pp2.Next;
                 if (pp2 == pp) break;
             }
+
             return false;
         }
         //------------------------------------------------------------------------------
@@ -102,8 +103,7 @@ namespace ClipperLib
                         new Int128(pp2.Prev.Pt.Y - pp2.Pt.Y))
                         result = !result;
                     pp2 = pp2.Next;
-                }
-                while (pp2 != pp);
+                } while (pp2 != pp);
             }
             else
             {
@@ -112,11 +112,11 @@ namespace ClipperLib
                     if ((((pp2.Pt.Y <= pt.Y) && (pt.Y < pp2.Prev.Pt.Y)) ||
                          ((pp2.Prev.Pt.Y <= pt.Y) && (pt.Y < pp2.Pt.Y))) &&
                         (pt.X - pp2.Pt.X < (pp2.Prev.Pt.X - pp2.Pt.X) * (pt.Y - pp2.Pt.Y) /
-                         (pp2.Prev.Pt.Y - pp2.Pt.Y))) result = !result;
+                            (pp2.Prev.Pt.Y - pp2.Pt.Y))) result = !result;
                     pp2 = pp2.Next;
-                }
-                while (pp2 != pp);
+                } while (pp2 != pp);
             }
+
             return result;
         }
         //------------------------------------------------------------------------------
@@ -126,8 +126,9 @@ namespace ClipperLib
             if (UseFullRange)
                 return Int128.Int128Mul(e1.Delta.Y, e2.Delta.X) ==
                        Int128.Int128Mul(e1.Delta.X, e2.Delta.Y);
-            else return (Int64)(e1.Delta.Y) * (e2.Delta.X) ==
-                        (Int64)(e1.Delta.X) * (e2.Delta.Y);
+            else
+                return (Int64) (e1.Delta.Y) * (e2.Delta.X) ==
+                       (Int64) (e1.Delta.X) * (e2.Delta.Y);
         }
         //------------------------------------------------------------------------------
 
@@ -137,8 +138,9 @@ namespace ClipperLib
             if (UseFullRange)
                 return Int128.Int128Mul(pt1.Y - pt2.Y, pt2.X - pt3.X) ==
                        Int128.Int128Mul(pt1.X - pt2.X, pt2.Y - pt3.Y);
-            else return
-                (Int64)(pt1.Y - pt2.Y) * (pt2.X - pt3.X) - (Int64)(pt1.X - pt2.X) * (pt2.Y - pt3.Y) == 0;
+            else
+                return
+                    (Int64) (pt1.Y - pt2.Y) * (pt2.X - pt3.X) - (Int64) (pt1.X - pt2.X) * (pt2.Y - pt3.Y) == 0;
         }
         //------------------------------------------------------------------------------
 
@@ -148,8 +150,9 @@ namespace ClipperLib
             if (UseFullRange)
                 return Int128.Int128Mul(pt1.Y - pt2.Y, pt3.X - pt4.X) ==
                        Int128.Int128Mul(pt1.X - pt2.X, pt3.Y - pt4.Y);
-            else return
-                (Int64)(pt1.Y - pt2.Y) * (pt3.X - pt4.X) - (Int64)(pt1.X - pt2.X) * (pt3.Y - pt4.Y) == 0;
+            else
+                return
+                    (Int64) (pt1.Y - pt2.Y) * (pt3.X - pt4.X) - (Int64) (pt1.X - pt2.X) * (pt3.Y - pt4.Y) == 0;
         }
         //------------------------------------------------------------------------------
 
@@ -170,6 +173,7 @@ namespace ClipperLib
                 for (int j = 0; j < m_edges[i].Count; ++j) m_edges[i][j] = null;
                 m_edges[i].Clear();
             }
+
             m_edges.Clear();
             m_UseFullRange = false;
             m_HasOpenPaths = false;
@@ -184,6 +188,7 @@ namespace ClipperLib
                 m_MinimaList = null;
                 m_MinimaList = tmpLm;
             }
+
             m_CurrentLM = null;
         }
         //------------------------------------------------------------------------------
@@ -225,6 +230,7 @@ namespace ClipperLib
                 e.Top = e.Curr;
                 e.Bot = e.Next.Curr;
             }
+
             SetDx(e);
             e.PolyTyp = polyType;
         }
@@ -240,7 +246,7 @@ namespace ClipperLib
                 throw new ClipperException("AddPath: Open paths have been disabled.");
 #endif
 
-            int highI = (int)pg.Count - 1;
+            int highI = (int) pg.Count - 1;
             bool ClosedOrSemiClosed = (highI > 0) && (Closed || (pg[0] == pg[highI]));
             while (highI > 0 && (pg[highI] == pg[0])) --highI;
             while (highI > 0 && (pg[highI] == pg[highI - 1])) --highI;
@@ -267,14 +273,16 @@ namespace ClipperLib
             catch
             {
                 return false; //almost certainly a vertex has exceeded range
-            };
+            }
+
+            ;
 
             TEdge eStart = edges[0];
             if (!ClosedOrSemiClosed) eStart.Prev.OutIdx = Skip;
 
             //2. Remove duplicate vertices, and collinear edges (when closed) ...
             TEdge E = eStart, eLoopStop = eStart;
-            for (; ; )
+            for (;;)
             {
                 if (E.Curr == E.Next.Curr)
                 {
@@ -284,6 +292,7 @@ namespace ClipperLib
                     eLoopStop = E;
                     continue;
                 }
+
                 if (E.Prev == E.Next)
                     break; //only two vertices
                 else if ((ClosedOrSemiClosed ||
@@ -305,6 +314,7 @@ namespace ClipperLib
                         continue;
                     }
                 }
+
                 E = E.Next;
                 if (E == eLoopStop) break;
             }
@@ -326,8 +336,7 @@ namespace ClipperLib
                 InitEdge2(E, polyType);
                 if (E.Top.Y < eHighest.Top.Y) eHighest = E;
                 E = E.Next;
-            }
-            while (E != eStart);
+            } while (E != eStart);
 
             //4. build the local minima list ...
             if (AllHorizontal(E))
@@ -369,6 +378,7 @@ namespace ClipperLib
                     }
                 }
             }
+
             E = eHighest;
             do
                 E = AddBoundsToLML(E, Closed);
@@ -381,7 +391,8 @@ namespace ClipperLib
         {
             bool result = false;
             for (int i = 0; i < ppg.Count; ++i)
-                if (AddPath(ppg[i], polyType, closed)) result = true;
+                if (AddPath(ppg[i], polyType, closed))
+                    result = true;
             return result;
         }
         //------------------------------------------------------------------------------
@@ -440,17 +451,23 @@ namespace ClipperLib
                 if (E.Top == E.Prev.Top)
                 {
                     if (E.Bot == E.Prev.Bot)
-                    { E = E.Prev; continue; }
+                    {
+                        E = E.Prev;
+                        continue;
+                    }
                     else result = true;
                 }
                 else result = false;
+
                 break;
             }
+
             while (E != Edge)
             {
                 result = !result;
                 E = E.Next;
             }
+
             return result;
         }
         //------------------------------------------------------------------------------
@@ -468,6 +485,7 @@ namespace ClipperLib
                     result = A;
                     break;
                 }
+
                 A = (E.Next.Top == E.Top);
                 B = (E.Prev.Top == E.Top);
                 if (A != B)
@@ -475,13 +493,16 @@ namespace ClipperLib
                     result = B;
                     break;
                 }
+
                 E = E.Prev;
             }
+
             while (E != Edge)
             {
                 result = !result;
                 E = E.Next;
             }
+
             return result;
         }
         //------------------------------------------------------------------------------
@@ -543,6 +564,7 @@ namespace ClipperLib
                 if (!IsHorizontal(E)) return false;
                 else E = E.Next;
             }
+
             return true;
         }
         //------------------------------------------------------------------------------
@@ -552,7 +574,7 @@ namespace ClipperLib
             e.Delta.X = (e.Top.X - e.Bot.X);
             e.Delta.Y = (e.Top.Y - e.Bot.Y);
             if (e.Delta.Y == 0) e.Dx = horizontal;
-            else e.Dx = (double)(e.Delta.X) / (e.Delta.Y);
+            else e.Dx = (double) (e.Delta.X) / (e.Delta.Y);
         }
         //---------------------------------------------------------------------------
 
@@ -591,6 +613,7 @@ namespace ClipperLib
                     NewLm.LeftBound = E2;
                     NewLm.RightBound = E1;
                 }
+
                 NewLm.LeftBound.Side = EdgeSide.esLeft;
                 NewLm.RightBound.Side = EdgeSide.esRight;
                 //set the winding state of the first edge in each bound
@@ -619,7 +642,8 @@ namespace ClipperLib
                 if (EHorz.Bot != EHorz.Next.Top)
                     ReverseHorizontal(E);
             }
-            for (; ; )
+
+            for (;;)
             {
                 E = E.Next;
                 if (E.OutIdx == Skip) break;
@@ -631,9 +655,9 @@ namespace ClipperLib
 
                     //look ahead is required in case of multiple consec. horizontals
                     EHorz = GetLastHorz(E);
-                    if (EHorz == E.Prev ||                    //horizontal line
-                        (EHorz.Next.Top.Y < E.Top.Y &&      //bottom horizontal
-                         EHorz.Next.Bot.X > E.Prev.Bot.X))  //approaching from the left
+                    if (EHorz == E.Prev || //horizontal line
+                        (EHorz.Next.Top.Y < E.Top.Y && //bottom horizontal
+                         EHorz.Next.Bot.X > E.Prev.Bot.X)) //approaching from the left
                         break;
                     if (E.Top.X != E.Prev.Bot.X) ReverseHorizontal(E);
                     if (EHorz.OutIdx == Skip) EHorz = EHorz.Prev;
@@ -645,8 +669,10 @@ namespace ClipperLib
                     }
                 }
                 else if (E.Bot.Y == E.Prev.Bot.Y) break;
+
                 E.NextInLML = E.Prev;
             }
+
             return E.Prev;
         }
         //----------------------------------------------------------------------
@@ -664,7 +690,7 @@ namespace ClipperLib
                 ReverseHorizontal(E);
             //now process the ascending bound ....
             TEdge EStart = E;
-            for (; ; )
+            for (;;)
             {
                 if (E.Next.OutIdx == Skip ||
                     ((E.Next.Top.Y == E.Top.Y) && !IsHorizontal(E.Next))) break;
@@ -680,6 +706,7 @@ namespace ClipperLib
                 if (EStart != E.Next)
                     DoMinimaLML(null, EStart, IsClosed);
             }
+
             E = E.Next;
         }
         //----------------------------------------------------------------------
@@ -706,10 +733,10 @@ namespace ClipperLib
             else
                 B = DescendToMin(ref E);
 
-            if (E.OutIdx == Skip)    //nb: may be BEFORE, AT or just THRU LM
+            if (E.OutIdx == Skip) //nb: may be BEFORE, AT or just THRU LM
             {
                 //do minima before Skip...
-                DoMinimaLML(null, B, Closed);      //store what we've got so far (if anything)
+                DoMinimaLML(null, B, Closed); //store what we've got so far (if anything)
                 AppendMaxima = false;
                 //finish off any minima ...
                 if (E.Bot != E.Prev.Bot && MoreBelow(E))
@@ -742,6 +769,7 @@ namespace ClipperLib
                 else if (E.Top == E.Next.Top || (IsHorizontal(E.Next) && (E.Top == E.Next.Bot)))
                     E = E.Next; //ie just before Maxima
             }
+
             return E;
         }
         //------------------------------------------------------------------------------
@@ -808,6 +836,7 @@ namespace ClipperLib
                     if (e.OutIdx != Skip)
                         e.OutIdx = Unassigned;
                 }
+
                 e = lm.RightBound;
                 e.Curr = e.Bot;
                 e.Side = EdgeSide.esRight;
@@ -833,7 +862,7 @@ namespace ClipperLib
                 if (lm.LeftBound.Bot.Y > result.bottom)
                     result.bottom = lm.LeftBound.Bot.Y;
                 TEdge e = lm.LeftBound;
-                for (; ; )
+                for (;;)
                 {
                     TEdge bottomE = e;
                     while (e.NextInLML != null)
@@ -842,6 +871,7 @@ namespace ClipperLib
                         if (e.Bot.X > result.right) result.right = e.Bot.X;
                         e = e.NextInLML;
                     }
+
                     if (e.Bot.X < result.left) result.left = e.Bot.X;
                     if (e.Bot.X > result.right) result.right = e.Bot.X;
                     if (e.Top.X < result.left) result.left = e.Top.X;
@@ -851,10 +881,11 @@ namespace ClipperLib
                     if (bottomE == lm.LeftBound) e = lm.RightBound;
                     else break;
                 }
+
                 lm = lm.Next;
             }
+
             return result;
         }
-
     }
 }

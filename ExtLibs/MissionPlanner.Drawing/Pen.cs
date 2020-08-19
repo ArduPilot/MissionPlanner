@@ -5,16 +5,15 @@ using SkiaSharp;
 
 namespace System.Drawing
 {
-    public class Pen: ICloneable, IDisposable
+    public class Pen : ICloneable, IDisposable
     {
         internal SKPaint nativePen;
 
         internal Pen()
         {
-
         }
 
-        public Pen(Color color): this(color.ToSKColor())
+        public Pen(Color color) : this(color.ToSKColor())
         {
         }
 
@@ -46,11 +45,11 @@ namespace System.Drawing
         {
         }
 
-        public Pen(Brush brush, float width): this(brush._color,width)
+        public Pen(Brush brush, float width) : this(brush._color, width)
         {
         }
 
-        public Pen(Brush brush): this(brush,1)
+        public Pen(Brush brush) : this(brush, 1)
         {
         }
 
@@ -60,10 +59,12 @@ namespace System.Drawing
         public DashStyle DashStyle { get; set; }
         public Color Color { get; set; } = Color.Black;
         public Brush Brush { get; set; }
-        public float[] DashPattern { get;  set; }
+        public float[] DashPattern { get; set; }
         public PenAlignment Alignment { get; set; }
 
         public int MiterLimit { get; set; }
+
+        public LineCap EndCap { get; set; }
 
         public object Clone()
         {
@@ -72,7 +73,7 @@ namespace System.Drawing
 
         public void Dispose()
         {
-           nativePen?.Dispose();
+            nativePen?.Dispose();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿namespace System.Drawing
 {
-    public class SystemPens: Pens { }
+    public class SystemPens : Pens
+    {
+    }
 }

@@ -687,6 +687,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 getVersion();
 
+                doCommand((byte) sysidcurrent, (byte) compidcurrent, MAV_CMD.DO_SEND_BANNER, 0, 0, 0, 0, 0, 0, 0,
+                    false);
+
                 if (getparams)
                 {
                     frmProgressReporter.UpdateProgressAndStatus(0,
@@ -4498,7 +4501,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         mavlink_heartbeat_t hb = message.ToStructure<mavlink_heartbeat_t>();
 
                         // not a gcs
-                        if (hb.type != (byte)MAV_TYPE.GCS)
+                        //if (hb.type != (byte)MAV_TYPE.GCS)
                         {
                             // add a seen sysid
                             if (!MAVlist.Contains(sysid, compid, false))

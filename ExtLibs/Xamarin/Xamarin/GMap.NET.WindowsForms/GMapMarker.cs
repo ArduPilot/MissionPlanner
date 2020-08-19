@@ -1,6 +1,8 @@
 ﻿#define PocketPC
 
 
+using System.Drawing.Imaging;
+
 namespace GMap.NET.WindowsForms
 {
     using System;

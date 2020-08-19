@@ -252,7 +252,7 @@ namespace ZedGraph
 		/// <remarks>
 		/// This is needed so that a "Print" action utilizes the settings from a prior
 		/// "Page Setup" action.</remarks>
-		private PrintDocument _pdSave = null;
+		//private PrintDocument _pdSave = null;
 		//private PrinterSettings printSave = null;
 		//private PageSettings pageSave = null;
 

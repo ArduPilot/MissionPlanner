@@ -19,6 +19,7 @@ namespace MissionPlanner.Utilities
         public directionState DirectionState => _dS;
 
         KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub;
+        KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub2;
 
         public bool DataAvailable { get; set; } = false;
 
@@ -26,12 +27,16 @@ namespace MissionPlanner.Utilities
         {
             _parent = mavInt;
             sub = mavInt.parent.SubscribeToPacketType(MAVLINK_MSG_ID.DISTANCE_SENSOR, messageReceived);
+
+            sub2 = mavInt.parent.SubscribeToPacketType(MAVLINK_MSG_ID.OBSTACLE_DISTANCE, messageReceived);
+
             log.InfoFormat("created for {0} - {1}", mavInt.sysid, mavInt.compid);
         }
 
         ~Proximity()
         {
             _parent?.parent?.UnSubscribeToPacketType(sub);
+            _parent?.parent?.UnSubscribeToPacketType(sub2);
         }
 
         private bool messageReceived(MAVLinkMessage arg)
@@ -53,6 +58,42 @@ namespace MissionPlanner.Utilities
                 _dS.Add(dist.id, (MAV_SENSOR_ORIENTATION)dist.orientation, dist.current_distance, DateTime.Now, 3);
 
                 DataAvailable = true;
+            } 
+            else if (arg.msgid == (uint) MAVLINK_MSG_ID.OBSTACLE_DISTANCE)
+            {
+                var dists = arg.ToStructure<mavlink_obstacle_distance_t>();
+
+                var inc = dists.increment == 0 ? dists.increment_f : dists.increment;
+
+                var rangestart = dists.angle_offset;
+
+                if (dists.frame == (byte) MAV_FRAME.BODY_FRD)
+                {
+                    // no action
+                } else if (dists.frame == (byte) MAV_FRAME.GLOBAL)
+                {
+                    rangestart += _parent.cs.yaw;
+                }
+
+                var rangeend = rangestart + inc * dists.distances.Length;
+
+                for (var a = 0; a < dists.distances.Length; a++)
+                {
+                    // not used
+                    if(dists.distances[a] == ushort.MaxValue)
+                        continue;
+                    if(dists.distances[a] > dists.max_distance)
+                        continue;    
+                    if(dists.distances[a] < dists.min_distance)
+                        continue;
+
+                    var dist = Math.Min(Math.Max(dists.distances[a], dists.min_distance), dists.max_distance);
+                    var angle = rangestart + inc * a;
+
+                    _dS.Add(dists.sensor_type, angle, inc, dist, DateTime.Now, 0.2);
+                }
+
+                DataAvailable = true;
             }
 
             return true;
@@ -72,6 +113,8 @@ namespace MissionPlanner.Utilities
             {
                 public uint SensorId;
                 public MAV_SENSOR_ORIENTATION Orientation;
+                public double Angle;
+                public double Size;
                 public double Distance;
                 public DateTime Received;
                 public double Age;
@@ -82,6 +125,18 @@ namespace MissionPlanner.Utilities
                 {
                     SensorId = id;
                     Orientation = orientation;
+                    Size = 45;
+                    Distance = distance;
+                    Received = received;
+                    Age = age;
+                }       
+
+                public data(uint id, double angle, double size, double distance, DateTime received, double age = 1)
+                {
+                    SensorId = id;
+                    Orientation = MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_CUSTOM;
+                    Angle = angle;
+                    Size = size;
                     Distance = distance;
                     Received = received;
                     Age = age;
@@ -90,7 +145,7 @@ namespace MissionPlanner.Utilities
 
             public void Add(uint id, MAV_SENSOR_ORIENTATION orientation, double distance, DateTime received, double age = 1)
             {
-                var existing = _dists.Where((a) => { return a.Orientation == orientation; });
+                var existing = _dists.Where((a) => { return a.SensorId == id && a.Orientation == orientation; });
 
                 foreach (var item in existing.ToList())
                 {
@@ -98,6 +153,20 @@ namespace MissionPlanner.Utilities
                 }
 
                 _dists.Add(new data(id, orientation, distance, received, age));
+
+                expire();
+            }      
+            
+            public void Add(uint id, double angle, double size, double distance, DateTime received, double age = 1)
+            {
+                var existing = _dists.Where((a) => { return a.SensorId == id && a.Angle == angle; });
+
+                foreach (var item in existing.ToList())
+                {
+                    _dists.Remove(item);
+                }
+
+                _dists.Add(new data(id, angle, size, distance, received, age));
 
                 expire();
             }

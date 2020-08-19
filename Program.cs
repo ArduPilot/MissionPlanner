@@ -165,13 +165,13 @@ namespace MissionPlanner
 
             try
             {
-                var file = NativeLibrary.GetLibraryPathname("libSkiaSharp");
+                var file = MissionPlanner.Utilities.NativeLibrary.GetLibraryPathname("libSkiaSharp");
                 log.Info(file);
                 IntPtr ptr;
                 if(MONO)
-                    ptr = NativeLibrary.dlopen(file+".so", NativeLibrary.RTLD_NOW);
+                    ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file+".so", MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
                 else
-                    ptr = NativeLibrary.LoadLibrary(file+".dll");
+                    ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file+".dll");
 
                 if (ptr != IntPtr.Zero)
                 {
@@ -744,30 +744,5 @@ namespace MissionPlanner
         [DllImport("__Internal")]
         public static extern void mono_threads_request_thread_dump();
 
-        private static StackTrace GetStackTrace(Thread targetThread)
-        {
-            StackTrace stackTrace = null;
-            var ready = new ManualResetEventSlim();
-
-            new Thread(() =>
-            {
-                // Backstop to release thread in case of deadlock:
-                ready.Set();
-                Thread.Sleep(200);
-                try { targetThread.Resume(); } catch { }
-            }).Start();
-
-            ready.Wait();
-            targetThread.Suspend();
-            try { stackTrace = new StackTrace(targetThread, true); }
-            catch { /* Deadlock */ }
-            finally
-            {
-                try { targetThread.Resume(); }
-                catch { stackTrace = null;  /* Deadlock */  }
-            }
-
-            return stackTrace;
-        }
     }
 }

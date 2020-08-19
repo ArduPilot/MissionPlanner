@@ -3,8 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>System.Drawing</RootNamespace>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
+
+    <AssemblyName>MissionPlanner.Drawing</AssemblyName>
+    <AssemblyVersion>4.0.0.2</AssemblyVersion>
+    <FileVersion>4.6.57.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,5 +17,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
   </ItemGroup>
-
 </Project>

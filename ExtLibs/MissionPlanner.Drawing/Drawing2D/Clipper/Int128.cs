@@ -9,7 +9,7 @@ namespace ClipperLib
 
         public Int128(Int64 _lo)
         {
-            lo = (UInt64)_lo;
+            lo = (UInt64) _lo;
             if (_lo < 0) hi = -1;
             else hi = 0;
         }
@@ -33,8 +33,8 @@ namespace ClipperLib
 
         public static bool operator ==(Int128 val1, Int128 val2)
         {
-            if ((object)val1 == (object)val2) return true;
-            else if ((object)val1 == null || (object)val2 == null) return false;
+            if ((object) val1 == (object) val2) return true;
+            else if ((object) val1 == null || (object) val2 == null) return false;
             return (val1.hi == val2.hi && val1.lo == val2.lo);
         }
 
@@ -47,7 +47,7 @@ namespace ClipperLib
         {
             if (obj == null || !(obj is Int128))
                 return false;
-            Int128 i128 = (Int128)obj;
+            Int128 i128 = (Int128) obj;
             return (i128.hi == hi && i128.lo == lo);
         }
 
@@ -102,10 +102,10 @@ namespace ClipperLib
             bool negate = (lhs < 0) != (rhs < 0);
             if (lhs < 0) lhs = -lhs;
             if (rhs < 0) rhs = -rhs;
-            UInt64 int1Hi = (UInt64)lhs >> 32;
-            UInt64 int1Lo = (UInt64)lhs & 0xFFFFFFFF;
-            UInt64 int2Hi = (UInt64)rhs >> 32;
-            UInt64 int2Lo = (UInt64)rhs & 0xFFFFFFFF;
+            UInt64 int1Hi = (UInt64) lhs >> 32;
+            UInt64 int1Lo = (UInt64) lhs & 0xFFFFFFFF;
+            UInt64 int2Hi = (UInt64) rhs >> 32;
+            UInt64 int2Lo = (UInt64) rhs & 0xFFFFFFFF;
 
             //nb: see comments in clipper.pas
             UInt64 a = int1Hi * int2Hi;
@@ -114,9 +114,13 @@ namespace ClipperLib
 
             UInt64 lo;
             Int64 hi;
-            hi = (Int64)(a + (c >> 32));
+            hi = (Int64) (a + (c >> 32));
 
-            unchecked { lo = (c << 32) + b; }
+            unchecked
+            {
+                lo = (c << 32) + b;
+            }
+
             if (lo < b) hi++;
             Int128 result = new Int128(hi, lo);
             return negate ? -result : result;
@@ -138,17 +142,18 @@ namespace ClipperLib
                 while (rhs.hi >= 0 && !(rhs > lhs))
                 {
                     rhs.hi <<= 1;
-                    if ((Int64)rhs.lo < 0) rhs.hi++;
+                    if ((Int64) rhs.lo < 0) rhs.hi++;
                     rhs.lo <<= 1;
 
                     cntr.hi <<= 1;
-                    if ((Int64)cntr.lo < 0) cntr.hi++;
+                    if ((Int64) cntr.lo < 0) cntr.hi++;
                     cntr.lo <<= 1;
                 }
+
                 rhs.lo >>= 1;
                 if ((rhs.hi & 1) == 1)
                     rhs.lo |= 0x8000000000000000;
-                rhs.hi = (Int64)((UInt64)rhs.hi >> 1);
+                rhs.hi = (Int64) ((UInt64) rhs.hi >> 1);
 
                 cntr.lo >>= 1;
                 if ((cntr.hi & 1) == 1)
@@ -163,6 +168,7 @@ namespace ClipperLib
                         result.hi |= cntr.hi;
                         result.lo |= cntr.lo;
                     }
+
                     rhs.lo >>= 1;
                     if ((rhs.hi & 1) == 1)
                         rhs.lo |= 0x8000000000000000;
@@ -173,6 +179,7 @@ namespace ClipperLib
                         cntr.lo |= 0x8000000000000000;
                     cntr.hi >>= 1;
                 }
+
                 return negate ? -result : result;
             }
             else if (rhs == lhs)
@@ -187,13 +194,12 @@ namespace ClipperLib
             if (hi < 0)
             {
                 if (lo == 0)
-                    return (double)hi * shift64;
+                    return (double) hi * shift64;
                 else
-                    return -(double)(~lo + ~hi * shift64);
+                    return -(double) (~lo + ~hi * shift64);
             }
             else
-                return (double)(lo + hi * shift64);
+                return (double) (lo + hi * shift64);
         }
-
     };
 }
