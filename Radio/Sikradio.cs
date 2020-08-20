@@ -573,22 +573,6 @@ S15: MAX_WINDOW=131
                                     }
                                 }
                             }
-                            else if (control.Name.Contains("MAVLINK")) //
-                            {
-                                if (((ComboBox)control).SelectedValue.ToString() != values[2].Trim())
-                                {
-                                    var cmdanswer = doCommand(Port,
-                                        CommandPrefix + "TS" + GetParamNumber(values[0]) + "=" + ((ComboBox)control).SelectedValue);
-
-                                    if (cmdanswer.Contains("OK"))
-                                    {
-                                    }
-                                    else
-                                    {
-                                        MsgBox.CustomMessageBox.Show("Set Command error");
-                                    }
-                                }
-                            }
                             else if (control is ComboBox)
                             {
                                 string CBValue = GetCBValue((ComboBox)control);
@@ -963,6 +947,18 @@ S15: MAX_WINDOW=131
                     }
                 }
             }
+
+            //If got to here, and it's a MAVLink setting, revert back to the old method...
+            if (CB.Name.Contains("MAVLINK"))
+            {
+                var Value = CB.SelectedValue;
+                if (Value != null)
+                {
+                    return Value.ToString();
+                }
+            }
+
+            //If got here, just return the text.
             return CB.Text;
         }
 

@@ -59,6 +59,7 @@
  * 2.42 - Now gets valid parameter ranges out of remote modem for newer firmware which doesn't support the RTI5? query.  Now supports the
  *          specified available encryption levels given by the modems (e.g. None/128bit/256bit), instead of just enabled/disabled.  
  * 2.43 - Resolved freezing-up issue which happened for older or non-SiK modem firmware which doesn't yet have ATI10/RTI10 command.  Tidied up GUI layout.
+ * 2.44 - Resolved mavlink setting problem.
  */
 
 using System;
