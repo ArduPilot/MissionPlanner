@@ -4934,16 +4934,20 @@ namespace MissionPlanner.GCSViews
             // do lang stuff here
 
             string file = Settings.GetRunningDirectory() + "mavcmd.xml";
+            Stream st;
 
             if (!File.Exists(file))
             {
-                CustomMessageBox.Show("Missing mavcmd.xml file");
-                return cmd;
+                st = new MemoryStream(Properties.Resources.mavcmd.Select(a => (byte) a).ToArray());
+            }
+            else
+            {
+                st = File.OpenRead(file);
             }
 
             log.Info("Reading MAV_CMD for " + MainV2.comPort.MAV.cs.firmware);
 
-            using (XmlReader reader = XmlReader.Create(file))
+            using (XmlReader reader = XmlReader.Create(st))
             {
                 reader.Read();
                 reader.ReadStartElement("CMD");
