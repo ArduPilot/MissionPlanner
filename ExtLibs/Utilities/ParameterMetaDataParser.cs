@@ -330,7 +330,7 @@ namespace MissionPlanner.Utilities
                         GetIndexOfMarkers(ref metaIndicies, subStringToSearch, ParameterMetaDataConstants.ParamDelimeter,
                             0);
 
-                        if (metaIndicies.Count > 0)
+                        if (metaIndicies.Count > 1)
                         {
                             // This meta param key
                             var paramNameKey = subStringToSearch.Substring(metaIndicies[0],
