@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461;netcoreapp3.1;netstandard2.0</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo><GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
@@ -14,22 +14,28 @@
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="1.68.1.1" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
     <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
     <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj" />
-    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' != 'netstandard2.0'" >
       <Aliases>Drawing</Aliases>
     </ProjectReference>
-    <ProjectReference Include="..\SvgNet\SvgNet.csproj" />
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <ProjectReference Include="..\SvgNet\SvgNet.csproj" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
       <HintPath>..\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="HUDT.Designer.cs">
