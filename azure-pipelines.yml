@@ -31,6 +31,9 @@ steps:
     path: $(NUGET_PACKAGES)
   displayName: Cache NuGet packages
 
+- script: git config -f .gitmodules submodule.mono.shallow true
+- script: git submodule update --init --depth 2 --no-single-branch 
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'

@@ -7,7 +7,9 @@ cache:
     - C:\Users\appveyor\.nuget\packages -> appveyor.yml
 build_script:
 - cmd: >-
-    rem git submodule update --init --recursive
+    git config -f .gitmodules submodule.mono.shallow true
+
+    git submodule update --init --depth 2 --no-single-branch 
 
     dotnet --info
 
