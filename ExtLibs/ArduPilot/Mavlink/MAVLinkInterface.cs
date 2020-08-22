@@ -4581,6 +4581,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (printit)
                         {
+                            // high severity msg publish to current selected mav
+                            if (sysid == sysidcurrent && compid != compidcurrent)
+                                MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + logdata;
+
                             MAVlist[sysid, compid].cs.messageHigh = logdata;
 
                             if (Speech != null &&
