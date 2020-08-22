@@ -26,6 +26,7 @@
     <Compile Remove="ExtLibs\BaseClasses\**" />
     <Compile Remove="ExtLibs\BouncyCastle\**" />
     <Compile Remove="ExtLibs\Comms\**" />
+    <Compile Remove="ExtLibs\Controls\**" />
     <Compile Remove="ExtLibs\Core\**" />
     <Compile Remove="ExtLibs\CsAssortedWidgets\**" />
     <Compile Remove="ExtLibs\DotNetOpenAuth.Core\**" />
@@ -104,6 +105,7 @@
     <EmbeddedResource Remove="ExtLibs\BaseClasses\**" />
     <EmbeddedResource Remove="ExtLibs\BouncyCastle\**" />
     <EmbeddedResource Remove="ExtLibs\Comms\**" />
+    <EmbeddedResource Remove="ExtLibs\Controls\**" />
     <EmbeddedResource Remove="ExtLibs\Core\**" />
     <EmbeddedResource Remove="ExtLibs\CsAssortedWidgets\**" />
     <EmbeddedResource Remove="ExtLibs\DotNetOpenAuth.Core\**" />
@@ -181,6 +183,7 @@
     <None Remove="ExtLibs\BaseClasses\**" />
     <None Remove="ExtLibs\BouncyCastle\**" />
     <None Remove="ExtLibs\Comms\**" />
+    <None Remove="ExtLibs\Controls\**" />
     <None Remove="ExtLibs\Core\**" />
     <None Remove="ExtLibs\CsAssortedWidgets\**" />
     <None Remove="ExtLibs\DotNetOpenAuth.Core\**" />
@@ -387,6 +390,7 @@
    <ProjectReference Include="ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj" />
    <ProjectReference Include="ExtLibs\BouncyCastle\BouncyCastle.csproj" />
    <ProjectReference Include="ExtLibs\Comms\MissionPlanner.Comms.csproj" />
+   <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj" />
    <ProjectReference Include="ExtLibs\Core\Core.csproj" />
    <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj" />
    <ProjectReference Include="ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj" />
@@ -441,16 +445,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="ExtLibs\Controls\HUDT.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>HUDT.resx</DependentUpon>
-    </Compile>
-    <Compile Update="ExtLibs\Controls\Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Update="ExtLibs\GMap.NET.Drawing\Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -482,19 +476,6 @@
       <CustomToolNamespace>BSE.Windows.Forms.Properties</CustomToolNamespace>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ExtLibs\Controls\HUDT.resx">
-      <CustomToolNamespace>MissionPlanner.Controls</CustomToolNamespace>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ExtLibs\Controls\ProgressReporterDialogue.resx">
-      <CustomToolNamespace>MissionPlanner.Controls</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ExtLibs\Controls\Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MissionPlanner.Controls.Properties</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="ExtLibs\GMap.NET.Drawing\Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

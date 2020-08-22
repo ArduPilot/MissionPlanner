@@ -30,8 +30,11 @@
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="OpenTK">
+    <Reference Include="OpenTK" Condition="'$(TargetFramework)' != 'netstandard2.0'">
       <HintPath>..\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK-1.0" Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v4.4\OpenTK-1.0.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
