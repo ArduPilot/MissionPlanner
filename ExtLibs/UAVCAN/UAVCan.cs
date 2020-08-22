@@ -81,29 +81,17 @@ namespace UAVCAN
                         break;
                     try
                     {
-                        logfile?.WriteByte((byte)cha);
+                        logfile?.WriteByte((byte) cha);
                     }
                     catch
-                    { }
-                    // skip Z's (cmd ack) \a = cmd nak
-                    if (cha == 'Z' || cha == 'z' || cha == '\a')
                     {
-                        cmdack = true;
-                        lastcha = cha;
-                        continue;
-                    }
-                    // msg send ack
-                    if ((lastcha == 'Z' || lastcha == 'z') && (cha == '\r'))
-                    {
-                        lastcha = cha;
-                        continue;
                     }
 
-                    sb.Append((char)cha);
+                    sb.Append((char) cha);
                     if (DateTime.UtcNow > timeout)
                         break;
                     lastcha = cha;
-                } while (cha != '\r');
+                } while (cha != '\r' && cha != '\a');
             }
             catch (IOException)
             {
@@ -116,13 +104,6 @@ namespace UAVCAN
             catch
             {
             }
-
-                    try
-                    {
-                        logfile?.Flush();
-                    }
-                    catch
-                    { }
 
             return sb.ToString();
         }
@@ -237,14 +218,7 @@ namespace UAVCAN
                     {
                         if (queue.TryDequeue(out line))
                         {
-                            if(line.IndexOf("T", 1) > 0) {
-                                var lines = line.Split('T');
-                                foreach (var subline in lines) {
-                                    ReadMessage("T"+subline);
-                                }                
-                            } else {
-                                ReadMessage(line);
-                            }
+                            ReadMessage(line);
                         }
                         else
                         {
@@ -1171,7 +1145,7 @@ namespace UAVCAN
             var lines = slcan.Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
             lines = lines.Select((x, i) => new {index = i, value = x})
-                .GroupBy(x => x.index / 5)
+                .GroupBy(x => x.index / 10)
                 .Select(x => x.Select(v => v.value).Aggregate((i, j) => i + "\r" + j)).ToArray();
 
             foreach (var line in lines)
@@ -1181,7 +1155,6 @@ namespace UAVCAN
                     if (sr.CanWrite)
                     {
                         sr.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
-                        sr.Flush();
 
                         // wait 50ms for a message send ack
                         /*DateTime deadline = DateTime.Now.AddMilliseconds(1);
@@ -1195,6 +1168,11 @@ namespace UAVCAN
                 }
                 // var ans = sr.Peek();
                 // Console.WriteLine((char)ans);
+            }
+
+            if (sr.CanWrite)
+            {
+                sr.Flush();
             }
         }
 
