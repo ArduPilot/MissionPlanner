@@ -36,7 +36,7 @@ namespace ModeChange
 
         public override bool Init()
         {
-            return true;
+            return false;
         }
 
         public override bool Loaded()
