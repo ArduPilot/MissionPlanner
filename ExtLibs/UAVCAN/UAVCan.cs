@@ -987,7 +987,7 @@ namespace UAVCAN
                                             source_node_id = SourceNode
                                         };
 
-                                    var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID, req_msg);
+                                    var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID++, req_msg);
                                
                                         WriteToStream(slcan);
                                 }
@@ -1047,18 +1047,7 @@ namespace UAVCAN
                     firmware_crc = BitConverter.ToUInt64(buf, 8);
                 }
             }
-
-
-            {
-                // get node info
-                uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new uavcan.uavcan_protocol_GetNodeInfo_req() { };
-
-
-                var slcan = PackageMessage((byte) nodeid, 30, transferID++, gnireq);
-          
-                    WriteToStream(slcan);
-            }
-
+            
 
             FileSendCompleteArgs filecomplete = delegate(byte id, string file)
             {
@@ -1077,12 +1066,21 @@ namespace UAVCAN
                     break;
                 }
 
-                if (NodeList.Values.Any(a => a.mode == uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
+                if (NodeList.Any(a => a.Key == nodeid && a.Value.mode == uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
                 {
                     b = 0;
                 }
                 else
                 {
+                    {
+                        // get node info
+                        uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new uavcan.uavcan_protocol_GetNodeInfo_req() { };
+
+                        var slcan = PackageMessage((byte) nodeid, 30, transferID++, gnireq);
+          
+                        WriteToStream(slcan);
+                    }
+
                     b++;
                     if (b > 100)
                         break;
