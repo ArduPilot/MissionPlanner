@@ -3031,8 +3031,6 @@ namespace GMap.NET.WindowsForms
         #region Serialization
 
         static readonly BinaryFormatter BinaryFormatter = new BinaryFormatter();
-        private IWindowInfo _windowInfoinfo;
-        private GraphicsContext _graphicsContextGraphicsContext;
         private SKSurface _skSurface;
         private SKSize _screenCanvasSize;
 

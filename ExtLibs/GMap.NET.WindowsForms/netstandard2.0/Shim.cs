@@ -7,7 +7,8 @@ using System.Drawing.Drawing2D;
 namespace SvgNet.SvgGdi
 {
 }
-
+namespace OpenTK.Graphics{}
+namespace OpenTK.Platform{}
 public class GdiGraphics : Graphics
 {
     public GdiGraphics(SKSurface surface) : base(surface)

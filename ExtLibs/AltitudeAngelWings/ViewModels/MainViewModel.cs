@@ -90,10 +90,7 @@ namespace AltitudeAngelWings.ViewModels
                                  .Subscribe(UpdateSignInState);
 
             _altitudeAngelService.WeatherReport
-#if !LIB
-                                 .ObserveOnDispatcher()
-#endif
-                                 .Subscribe(WeatherChanged);
+                .Subscribe(WeatherChanged);
 
             _altitudeAngelService.SentTelemetry
                                  .Subscribe(i => NewTelemetry());

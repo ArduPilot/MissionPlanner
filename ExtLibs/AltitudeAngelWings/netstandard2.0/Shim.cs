@@ -7,6 +7,67 @@ using System.Drawing.Drawing2D;
 namespace SvgNet.SvgGdi
 {
 }
+namespace System.Windows.Forms
+{
+
+
+ 
+
+    public class WebBrowser : Control
+    {
+        public bool CanGoBack { get; internal set; }
+
+        public object Url { get; set; }
+
+        public bool CanGoForward { get; set; }
+
+        public string DocumentText { get; set; }
+
+        public HtmlDocument Document { get; set; }
+
+        public event EventHandler<WebBrowserNavigatingEventArgs> Navigating;
+        public event EventHandler<WebBrowserNavigatedEventArgs> Navigated;
+
+        public void Navigate(Uri authorizeUri)
+        {
+            
+        }
+
+        public void GoBack()
+        {
+          
+        }
+
+        public void GoForward()
+        {
+         
+        }
+
+        public void Navigate(string authorizeUri)
+        {
+            
+        }
+    }
+
+    public class HtmlDocument
+    {
+        public void InvokeScript(string script)
+        {
+        }
+    }
+
+    public class WebBrowserNavigatedEventArgs : EventArgs
+    {
+        public Uri Url;
+    }
+
+    public class WebBrowserNavigatingEventArgs : EventArgs
+    {
+        public Uri Url;
+
+        public bool Cancel;
+    }
+}
 
 public class GdiGraphics : Graphics
 {
@@ -36,14 +97,14 @@ public class SkiaGraphics : Graphics
 
 public static class Extension
 {
-    internal static SKColor SKColor(this Color color)
+    public static SKColor SKColor(this Color color)
     {
         var skcol = SkiaSharp.SKColor.Empty.WithAlpha(color.A).WithRed(color.R).WithGreen(color.G)
             .WithBlue(color.B);
         return skcol;
     }
 
-    internal static SKPaint SKPaint(this Pen pen)
+    public static SKPaint SKPaint(this Pen pen)
     {
         var paint = new SKPaint
         {
@@ -60,7 +121,7 @@ public static class Extension
         return paint;
     }
 
-    internal static SKPaint SKPaint(this Font font)
+    public static SKPaint SKPaint(this Font font)
     {
         return new SKPaint
         {
