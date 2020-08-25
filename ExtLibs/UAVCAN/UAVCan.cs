@@ -240,6 +240,7 @@ namespace UAVCAN
             // 1 second nodestatus send
             Task.Run(() =>
             {
+                int nodeinfo = 0;
                 while (run)
                 {
                     try
@@ -248,10 +249,26 @@ namespace UAVCAN
                         {
                             var slcan = PackageMessage(SourceNode, 20, transferID++,
                                 new uavcan.uavcan_protocol_NodeStatus()
-                                { health = (byte)uavcan.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK, mode = (byte)uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0, uptime_sec = (uint)(DateTime.Now - uptime).TotalSeconds, vendor_specific_status_code = 0 });
+                                {
+                                    health = (byte) uavcan.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK,
+                                    mode = (byte) uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0,
+                                    uptime_sec = (uint) (DateTime.Now - uptime).TotalSeconds,
+                                    vendor_specific_status_code = 0
+                                });
 
-                           
+                            WriteToStream(slcan);
+
+                            // query all nodeinfo
+                            if (DateTime.Now.Second % 10 == 0)
+                            {
+                                slcan = PackageMessage((byte) NodeList.Keys.ToArray()[nodeinfo % NodeList.Count], 30,
+                                    transferID++,
+                                    new uavcan_protocol_GetNodeInfo_req());
+
                                 WriteToStream(slcan);
+
+                                nodeinfo++;
+                            }
                         }
                     }
                     catch (ObjectDisposedException)
@@ -311,10 +328,11 @@ namespace UAVCAN
         {
             run = false;
 
-            foreach (var @delegate in MessageReceived.GetInvocationList())
-            {
-                MessageReceived -= (MessageRecievedDel) @delegate;
-            }
+            if(MessageReceived!= null)
+                foreach (var @delegate in MessageReceived.GetInvocationList())
+                {
+                    MessageReceived -= (MessageRecievedDel) @delegate;
+                }
 
             if (sr != null && closestream)
             {
@@ -784,7 +802,7 @@ namespace UAVCAN
             try
             {
                 // keep requesting until we get an error
-                for (uint i = 0; i < counttosend; )
+                for (uint i = 0; i < counttosend;)
                 {
                     // retry count
                     for (int j = 0; j < 999; j++)
@@ -792,28 +810,35 @@ namespace UAVCAN
                         if (cancel.IsCancellationRequested)
                             break;
                         Console.WriteLine("FileWrite " + fileWriteReq.offset + " " + sourcefile.Length);
-                        sourcefile.Seek((long)fileWriteReq.offset, SeekOrigin.Begin);
+                        sourcefile.Seek((long) fileWriteReq.offset, SeekOrigin.Begin);
                         var read = sourcefile.Read(fileWriteReq.data, 0, fileWriteReq.data.Length);
-                        fileWriteReq.data_len = (byte)read;
+                        fileWriteReq.data_len = (byte) read;
 
                         var slcan = PackageMessage(DestNode, 30, transferID++, fileWriteReq);
-                     
-                            WriteToStream(slcan);
 
-                        if (wait.WaitOne(2000))
+                        WriteToStream(slcan);
+
+                        if (wait.WaitOne(300))
                         {
                             i += (uint) read;
-                            fileWriteReq.offset += (ulong)read;
+                            fileWriteReq.offset += (ulong) read;
                             wait.Reset();
                             //Thread.Sleep(100);
                             break;
                         }
                     }
+
                     if (cancel.IsCancellationRequested)
                         break;
 
                     if (sourcefile.Position == sourcefile.Length)
+                    {
+                        fileWriteReq.data_len = (byte) 0;
+                        fileWriteReq.offset = (ulong)sourcefile.Length;
+                        var slcan = PackageMessage(DestNode, 30, transferID++, fileWriteReq);
+                        WriteToStream(slcan);
                         break;
+                    }
                 }
             }
             finally
@@ -968,7 +993,7 @@ namespace UAVCAN
                     Console.WriteLine(frame.SourceNode + " " + "GetNodeInfo: seen '{0}' from {1}",
                         ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'), frame.SourceNode);
                     if (devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') ||
-                        devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') + "-BL")
+                        devicename == ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0') + "-BL" || gnires.name_len == 0)
                     {
                         if (firmware_crc != gnires.software_version.image_crc || firmware_crc == ulong.MaxValue)
                         {
