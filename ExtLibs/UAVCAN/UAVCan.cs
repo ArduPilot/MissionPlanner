@@ -945,6 +945,7 @@ namespace UAVCAN
             ulong firmware_crc = ulong.MaxValue;
             Exception exception = null;
             var done = false;
+            var inupdatemode = false;
 
             MessageRecievedDel updatedelegate = (frame, msg, transferID) =>
             {
@@ -993,7 +994,8 @@ namespace UAVCAN
                                 }
                                 else
                                 {
-                                    exception = new Exception(frame.SourceNode + " " + "already in update mode");
+                                    inupdatemode = true;
+                                    //exception = new Exception(frame.SourceNode + " " + "already in update mode");
                                     return;
                                 }
                             }
@@ -1072,12 +1074,13 @@ namespace UAVCAN
                 }
                 else
                 {
+                    if(!inupdatemode)
                     {
                         // get node info
                         uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new uavcan.uavcan_protocol_GetNodeInfo_req() { };
 
                         var slcan = PackageMessage((byte) nodeid, 30, transferID++, gnireq);
-          
+
                         WriteToStream(slcan);
                     }
 
@@ -1588,7 +1591,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
         }
 
-        public bool SetParameter(byte node, string name, object value)
+        public bool SetParameter(byte node, string name, object valuein)
         {
             uavcan.uavcan_protocol_param_GetSet_req req = new uavcan.uavcan_protocol_param_GetSet_req()
             {
@@ -1603,19 +1606,25 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 return false;
             }
 
+            double value = 0;
+            if (valuein is IConvertible)
+            {
+                value = ((IConvertible)valuein).ToDouble(null);
+            }
+            else
+            {
+                value = 0d;
+            }
+
             switch (param.First().value.uavcan_protocol_param_Value_type)
             {
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
-                    if (value is bool)
-                        value = (bool) value == true ? 1 : 0;
-                    if (value is float)
-                        value = (float) value > 0 ? 1 : 0;
                     req.value = new uavcan.uavcan_protocol_param_Value()
                     {
                         uavcan_protocol_param_Value_type = uavcan.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE,
                         union = new uavcan.uavcan_protocol_param_Value.unions()
-                            {boolean_value = ((int)(IConvertible) value) > 0 ? (byte) 1 : (byte) 0}
+                            {boolean_value = (value) > 0 ? (byte) 1 : (byte) 0}
                     };
                     break;
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
@@ -1623,7 +1632,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     {
                         uavcan_protocol_param_Value_type = uavcan.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE,
-                        union = new uavcan.uavcan_protocol_param_Value.unions() {integer_value = (int) (IConvertible) value}
+                        union = new uavcan.uavcan_protocol_param_Value.unions() {integer_value = (int) value}
                     };
                     break;
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
@@ -1631,7 +1640,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                         {
                             uavcan_protocol_param_Value_type = uavcan.uavcan_protocol_param_Value_type_t
                                 .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE,
-                            union = new uavcan.uavcan_protocol_param_Value.unions() {real_value = (float)(IConvertible) value}
+                            union = new uavcan.uavcan_protocol_param_Value.unions() {real_value = (float) value}
                         };
 
                     break;
@@ -1642,8 +1651,8 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE,
                         union = new uavcan.uavcan_protocol_param_Value.unions()
                         {
-                            string_value = ASCIIEncoding.ASCII.GetBytes(value.ToString()),
-                            string_value_len = (byte) value.ToString().Length
+                            string_value = ASCIIEncoding.ASCII.GetBytes(valuein.ToString()),
+                            string_value_len = (byte) valuein.ToString().Length
                         }
                     };
                     break;
