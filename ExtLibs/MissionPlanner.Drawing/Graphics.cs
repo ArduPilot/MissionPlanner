@@ -8,6 +8,7 @@ using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace System.Drawing
@@ -346,33 +347,65 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             DrawImage(image, rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        /// <summary>
-        ///     Implemented
-        /// </summary>
+/// <summary>Draws the specified <see cref="T:System.Drawing.Image" /> at the specified location and with the specified size.</summary>
+/// <param name="image">
+///   <see cref="T:System.Drawing.Image" /> to draw.</param>
+/// <param name="x">The x-coordinate of the upper-left corner of the drawn image.</param>
+/// <param name="y">The y-coordinate of the upper-left corner of the drawn image.</param>
+/// <param name="width">Width of the drawn image.</param>
+/// <param name="height">Height of the drawn image.</param>
+/// <exception cref="T:System.ArgumentNullException">
+///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, float x, float y, float width, float height)
         {
             DrawImage(image, (long) x, (long) y, (long) width, (long) height);
             //throw new NotImplementedException();
         }
-
+        /// <summary>Draws the specified <see cref="T:System.Drawing.Image" />, using its original physical size, at the specified location.</summary>
+/// <param name="image">
+///   <see cref="T:System.Drawing.Image" /> to draw.</param>
+/// <param name="point">
+///   <see cref="T:System.Drawing.Point" /> structure that represents the location of the upper-left corner of the drawn image.</param>
+/// <exception cref="T:System.ArgumentNullException">
+///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, Point point)
         {
             DrawImage(image, point.X, (float) point.Y);
         }
-
+        /// <summary>Draws the specified image, using its original physical size, at the location specified by a coordinate pair.</summary>
+/// <param name="image">
+///   <see cref="T:System.Drawing.Image" /> to draw.</param>
+/// <param name="x">The x-coordinate of the upper-left corner of the drawn image.</param>
+/// <param name="y">The y-coordinate of the upper-left corner of the drawn image.</param>
+/// <exception cref="T:System.ArgumentNullException">
+///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, int x, int y)
         {
             DrawImage(image, x, (float) y);
         }
-
+        /// <summary>Draws the specified <see cref="T:System.Drawing.Image" /> at the specified location and with the specified size.</summary>
+/// <param name="image">
+///   <see cref="T:System.Drawing.Image" /> to draw.</param>
+/// <param name="rect">
+///   <see cref="T:System.Drawing.Rectangle" /> structure that specifies the location and size of the drawn image.</param>
+/// <exception cref="T:System.ArgumentNullException">
+///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, Rectangle rect)
         {
             DrawImage(image, rect.X, rect.Y, rect.Width, (float) rect.Height);
         }
-
+        /// <summary>Draws the specified <see cref="T:System.Drawing.Image" /> at the specified location and with the specified size.</summary>
+/// <param name="image">
+///   <see cref="T:System.Drawing.Image" /> to draw.</param>
+/// <param name="x">The x-coordinate of the upper-left corner of the drawn image.</param>
+/// <param name="y">The y-coordinate of the upper-left corner of the drawn image.</param>
+/// <param name="width">Width of the drawn image.</param>
+/// <param name="height">Height of the drawn image.</param>
+/// <exception cref="T:System.ArgumentNullException">
+///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, int x, int y, int width, int height)
         {
-            DrawImage(image, (float) x, y, width, height);
+            DrawImage(image, new Rectangle(x,y,width,height),new Rectangle(0,0,image.Width,image.Height), GraphicsUnit.Pixel);
         }
 
         public void DrawImage(Image image, PointF[] destPoints)
@@ -397,9 +430,18 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawImage(Image image, RectangleF destRect, RectangleF srcRect, GraphicsUnit srcUnit)
         {
-            throw new NotImplementedException();
+            DrawImage(image, destRect.ToRectangle(),srcRect.ToRectangle(),srcUnit);
         }
-
+        /// <summary>Draws the specified portion of the specified <see cref="T:System.Drawing.Image" /> at the specified location and with the specified size.</summary>
+/// <param name="image">
+///   <see cref="T:System.Drawing.Image" /> to draw.</param>
+/// <param name="destRect">
+///   <see cref="T:System.Drawing.Rectangle" /> structure that specifies the location and size of the drawn image. The image is scaled to fit the rectangle.</param>
+/// <param name="srcRect">
+///   <see cref="T:System.Drawing.Rectangle" /> structure that specifies the portion of the <paramref name="image" /> object to draw.</param>
+/// <param name="srcUnit">Member of the <see cref="T:System.Drawing.GraphicsUnit" /> enumeration that specifies the units of measure used by the <paramref name="srcRect" /> parameter.</param>
+/// <exception cref="T:System.ArgumentNullException">
+///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, Rectangle destRect, Rectangle srcRect, GraphicsUnit srcUnit)
         {
             _image.DrawImage(SKImage.FromBitmap(image.nativeSkBitmap), srcRect.ToSKRect(), destRect.ToSKRect(), null);
@@ -432,7 +474,20 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>Draws the specified portion of the specified <see cref="T:System.Drawing.Image" /> at the specified location and with the specified size.</summary>
+/// <param name="image">
+///   <see cref="T:System.Drawing.Image" /> to draw.</param>
+/// <param name="destRect">
+///   <see cref="T:System.Drawing.Rectangle" /> structure that specifies the location and size of the drawn image. The image is scaled to fit the rectangle.</param>
+/// <param name="srcX">The x-coordinate of the upper-left corner of the portion of the source image to draw.</param>
+/// <param name="srcY">The y-coordinate of the upper-left corner of the portion of the source image to draw.</param>
+/// <param name="srcWidth">Width of the portion of the source image to draw.</param>
+/// <param name="srcHeight">Height of the portion of the source image to draw.</param>
+/// <param name="srcUnit">Member of the <see cref="T:System.Drawing.GraphicsUnit" /> enumeration that specifies the units of measure used to determine the source rectangle.</param>
+/// <param name="imageAttrs">
+///   <see cref="T:System.Drawing.Imaging.ImageAttributes" /> that specifies recoloring and gamma information for the <paramref name="image" /> object.</param>
+/// <exception cref="T:System.ArgumentNullException">
+///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image img, Rectangle rectangle, float srcX, float srcY, float srcWidth, float srcHeight,
             GraphicsUnit graphicsUnit, ImageAttributes tileFlipXYAttributes)
         {
@@ -520,7 +575,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawImage(Image img, long i, long i1, long width, long height)
         {
-            DrawImage(img, new Rectangle((int) i, (int) i1, (int) width, (int) height), 0.0f, 0, width, height,
+            DrawImage(img, new Rectangle((int) i, (int) i1, (int) img.Width, (int) img.Height), 0.0f, 0, width, height,
                 GraphicsUnit.Pixel,
                 new ImageAttributes());
         }
@@ -528,28 +583,31 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void DrawImage(Image image, Rectangle rectangle, int p1, int p2, long p3, long p4,
             GraphicsUnit graphicsUnit, ImageAttributes TileFlipXYAttributes)
         {
-            DrawImage(image, rectangle, (float) rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height,
+            DrawImage(image, rectangle, (float) p1,p2,p3,p4,
                 GraphicsUnit.Pixel, new ImageAttributes());
         }
 
         public void DrawImageUnscaled(Image image, int x, int y, int width, int height)
         {
-            throw new NotImplementedException();
+            DrawImageUnscaledAndClipped(image, new Rectangle(x,y,width,height));
         }
 
         public void DrawImageUnscaledAndClipped(Image image, Rectangle rect)
         {
+            _image.Save();
+            _image.ClipRect(rect.ToSKRect(), SKClipOperation.Intersect);
             _image.DrawImage(SKImage.FromBitmap(image.nativeSkBitmap), rect.X, rect.Y, null);
+            _image.Restore();
         }
 
         public void DrawImageUnscaled(Image image, Point point)
         {
-            DrawImage(image, point.X, (float) point.Y);
+            DrawImageUnscaled(image, point.X, point.Y);
         }
 
         public void DrawImageUnscaled(Image image, int x, int y)
         {
-            DrawImage(image, x, y, image.Width, image.Height);
+            _image.DrawImage(SKImage.FromBitmap(image.nativeSkBitmap), x, y, null);
         }
 
         public void DrawImageUnscaled(Image image, Rectangle rect)
@@ -1530,5 +1588,5 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void CopyFromScreen(int i, int i1, int i2, int i3, Size size)
         {
         }
-    }
+    } 
 }
