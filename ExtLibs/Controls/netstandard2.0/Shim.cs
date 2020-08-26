@@ -223,7 +223,7 @@ namespace OpenTK
         /// Constructs a new instance.
         /// </summary>
         public GLControl()
-            : this(GraphicsMode.Default)
+            //: this(GraphicsMode.Default)
         { }
 
         /// <summary>

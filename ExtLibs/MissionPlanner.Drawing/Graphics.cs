@@ -76,8 +76,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public RectangleF ClipBounds { get; }
         public CompositingMode CompositingMode { get; set; }
         public CompositingQuality CompositingQuality { get; set; }
-        public float DpiX { get; }
-        public float DpiY { get; }
+        public float DpiX { get; } = 72;
+        public float DpiY { get; } = 72;
         public InterpolationMode InterpolationMode { get; set; }
         public bool IsClipEmpty { get; }
         public bool IsVisibleClipEmpty { get; }
@@ -96,8 +96,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             set
             {
                 var values = value.Data;
-                _image.SetMatrix(new SKMatrix(values[0], values[2], values[4],
-                    values[1], values[3], values[5],
+                _image.SetMatrix(new SKMatrix(value.M11, value.M12, value.OffsetX,
+                    value.M21, value.M22, value.OffsetY,
                     0, 0, 1));
             }
         }
@@ -812,14 +812,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             pnt.StrokeWidth = 1;
 
-            if (textBounds.Width > layoutRectangle.Width - 2 && layoutRectangle.Width != 0)
-            {
-                DrawText(_image, s,
-                    new SKRect(layoutRectangle.X, layoutRectangle.Y, layoutRectangle.Width, layoutRectangle.Height),
-                    pnt);
-                return;
-            }
-
             if (format.Alignment == StringAlignment.Center)
             {
                 layoutRectangle.X += layoutRectangle.Width / 2 - textBounds.Width / 2;
@@ -828,9 +820,15 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (format.LineAlignment == StringAlignment.Center) // vertical
             {
                 layoutRectangle.Y += layoutRectangle.Height / 2 - textBounds.Height / 2;
-            }
+            }     
 
-            _image.DrawText(s, layoutRectangle.X, layoutRectangle.Y + textBounds.Height, pnt);
+            var lines = s.Split('\n');
+            int a=0;
+            foreach (var line in lines)
+            {
+                _image.DrawText(line, layoutRectangle.X, layoutRectangle.Y + textBounds.Height + a *font.Height, pnt);
+                a++;
+            }            
         }
 
         private void DrawText(SKCanvas canvas, string text, SKRect area, SKPaint paint)

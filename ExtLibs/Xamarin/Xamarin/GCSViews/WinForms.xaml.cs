@@ -44,14 +44,14 @@ namespace Xamarin.GCSViews
         }
         public class Keyboard: KeyboardXplat
         {
-            private readonly Forms.InputView _inputView;
+            private readonly Forms.Entry _inputView;
 
-            private InputView view;
+            private Entry view;
             private IntPtr _focusWindow;
 
-            public Keyboard(InputView skCanvasView)
+            public Keyboard(Entry inputView)
             {
-                _inputView = skCanvasView;
+                _inputView = inputView;
             }
 
             public void FocusIn(IntPtr focusWindow)
@@ -66,6 +66,10 @@ namespace Xamarin.GCSViews
                 var current = Control.FromHandle(_focusWindow).Text;
 
                 Console.WriteLine("TextChanged {0} {1} {2}", current, e.OldTextValue, e.NewTextValue);
+
+      
+
+                return;
 
                 if (e.OldTextValue == null)
                 {
@@ -95,18 +99,49 @@ namespace Xamarin.GCSViews
                 if (_focusWindow == handle && caret.Hwnd == _focusWindow)
                     Device.BeginInvokeOnMainThread(() =>
                     {
+                        if(caretptr == handle)
+                            return;
+
                         var focusctl = Control.FromHandle(_focusWindow);
                         var p = focusctl.PointToClient(Form.MousePosition);
 
-                        if (focusctl.Bounds.Contains(p))
+                        if (focusctl.ClientRectangle.Contains(p))
                         {
+                            // unbind
+                            _inputView.Unfocused -= _inputView_Unfocused;                            
+                            _inputView.TextChanged -= View_TextChanged;
+                            _inputView.Completed -= _inputView_Completed;
+                            // set                  
+                            
                             _inputView.Text = focusctl.Text;
+                            // rebind
+                            _inputView.Completed += _inputView_Completed;
                             _inputView.TextChanged += View_TextChanged;
-                            _inputView.Focus();
-                        }
+                            _inputView.Unfocused += _inputView_Unfocused;
+                            //show
+                            _inputView.IsVisible = true;
+                            _inputView.Focus();                            
 
-                        caretptr = handle;
+                             caretptr = handle;
+                        }                      
                     });
+            }
+
+            private void _inputView_Completed(object sender, EventArgs e)
+            {
+                var focusctl = Control.FromHandle(_focusWindow);
+                focusctl.Text = (sender as Entry)?.Text;
+                 Device.BeginInvokeOnMainThread(() =>
+                    {
+                _inputView.IsVisible = false; });
+            }
+
+            private void _inputView_Unfocused(object sender, FocusEventArgs e)
+            {
+                caretptr = IntPtr.Zero;   
+                         Device.BeginInvokeOnMainThread(() =>
+                    {
+                _inputView.IsVisible = false; });
             }
         }
 
@@ -146,6 +181,8 @@ namespace Xamarin.GCSViews
                 MissionPlanner.Program.Main(new string[0]);
 
                 MessageBox.Show("Application Exit");
+
+                Application.Exit();
 
                 return;
                 var frm = new Form()
