@@ -642,6 +642,9 @@ namespace MissionPlanner.Controls
         public string message { get; set; } = "";
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public MAVLink.MAV_SEVERITY messageSeverity { get; set; } = MAVLink.MAV_SEVERITY.EMERGENCY;
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float vibex { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
@@ -2686,10 +2689,17 @@ namespace MissionPlanner.Controls
 
                 if (message != null && message != "")
                 {
-                    var newfontsize = calcsize(message, font, fontsize + 10, (SolidBrush) Brushes.Red, Width - 50 - 50);
+                    Brush brush;
+                    if (messageSeverity <= MAVLink.MAV_SEVERITY.ERROR)
+                        brush = Brushes.Red;
+                    else if (messageSeverity <= MAVLink.MAV_SEVERITY.WARNING)
+                        brush = Brushes.Yellow;
+                    else
+                        brush = Brushes.White;
 
+                    var newfontsize = calcsize(message, font, fontsize + 10, (SolidBrush) brush, Width - 50 - 50);
 
-                    drawstring(message, font, newfontsize, (SolidBrush) Brushes.Red, -halfwidth + 50,
+                    drawstring(message, font, newfontsize, (SolidBrush) brush, -halfwidth + 50,
                         halfheight / 3);
                 }
 

@@ -951,6 +951,8 @@ namespace MissionPlanner
         string _messagehigh = "";
         DateTime _messageHighTime;
 
+        public MAVLink.MAV_SEVERITY messageHighSeverity { get; set; }
+
         //battery
         [GroupText("Battery")]
         [DisplayText("Bat Voltage (V)")]
