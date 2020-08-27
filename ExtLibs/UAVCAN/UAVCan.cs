@@ -547,8 +547,7 @@ namespace UAVCAN
                                   ASCIIEncoding.ASCII.GetString(frreq.path.path).TrimEnd('\0'));
 
                     using (var file = File.OpenRead(firmware.First().Value))
-                    {
-                        
+                    {                        
                         file.Seek((long)frreq.offset, SeekOrigin.Begin);
                         var buffer = new byte[256];
                         var read = file.Read(buffer, 0, 256);
@@ -560,7 +559,7 @@ namespace UAVCAN
                             { value = (short)uavcan.UAVCAN_PROTOCOL_FILE_ERROR_OK }
                         };
 
-                        var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID, readRes);
+                        var slcan = PackageMessage(frame.SourceNode, 0, transferID, readRes);
 
                         WriteToStream(slcan);
 
@@ -853,10 +852,15 @@ namespace UAVCAN
         {
             MessageReceived += (frame, msg, transferID) =>
             {
-                if (frame.TransferType != CANFrame.FrameType.anonymous)
-                    return;
+                if (frame.TransferType == CANFrame.FrameType.service &&
+                    msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_res))
+                {
+                    var gnires = msg as uavcan.uavcan_protocol_GetNodeInfo_res;
 
-                if (msg.GetType() == typeof(uavcan.uavcan_protocol_dynamic_node_id_Allocation))
+                    allocated[frame.SourceNode] = gnires.hardware_version.unique_id;
+
+                } else if (frame.TransferType == CANFrame.FrameType.anonymous &&
+                    msg.GetType() == typeof(uavcan.uavcan_protocol_dynamic_node_id_Allocation))
                 {
                     var allocation = msg as uavcan.uavcan_protocol_dynamic_node_id_Allocation;
 
@@ -882,10 +886,9 @@ namespace UAVCAN
 
                         if (allocation.unique_id_len >= 16)
                         {
-                            if (allocated.Values.Any(a => a.unique_id.SequenceEqual(allocation.unique_id)))
+                            if (allocated.Values.Any(a => a.SequenceEqual(allocation.unique_id)))
                             {
-                                allocation.node_id = allocated.Values
-                                    .First(a => a.unique_id.SequenceEqual(allocation.unique_id)).node_id;
+                                allocation.node_id = allocated.First(a => a.Value.SequenceEqual(allocation.unique_id)).Key;
                                 Console.WriteLine("Allocate again " + allocation.node_id);
                             }
                             else
@@ -896,7 +899,7 @@ namespace UAVCAN
                                     {
                                         allocation.node_id = (byte) a;
                                         Console.WriteLine("Allocate " + a);
-                                        allocated[a] = allocation;
+                                        allocated[a] = allocation.unique_id;
                                         break;
                                     }
                                 }
@@ -905,7 +908,7 @@ namespace UAVCAN
                             dynamicBytes.Clear();
                         }
 
-                        var slcan = PackageMessage(SourceNode, frame.Priority, transferID, allocation);
+                        var slcan = PackageMessage(SourceNode, 0, transferID, allocation);
                         Console.WriteLine(slcan);
                      
                             WriteToStream(slcan);
@@ -1740,8 +1743,8 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
         StringBuilder readsb = new StringBuilder();
 
-        private Dictionary<byte, uavcan_protocol_dynamic_node_id_Allocation> allocated =
-            new Dictionary<byte, uavcan_protocol_dynamic_node_id_Allocation>();
+        private Dictionary<byte, byte[]> allocated =
+            new Dictionary<byte, byte[]>();
 
         private bool run;
         private Stream logfile;
