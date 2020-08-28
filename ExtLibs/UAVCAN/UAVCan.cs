@@ -110,6 +110,25 @@ namespace UAVCAN
 
         public int bps { get; set; }
 
+        public void PrintDebugToConsole()
+        {
+            MessageReceived += (frame, msg, transferID) =>
+            {
+                if (msg.GetType() == typeof(uavcan.uavcan_protocol_debug_LogMessage))
+                {
+                    var dbg = msg as uavcan.uavcan_protocol_debug_LogMessage;
+
+                    Console.WriteLine("Node: {0} Level: {1} Source: {2} Text: {3}",frame.SourceNode, dbg.level.value, ASCIIEncoding.ASCII.GetString(dbg.source,0, dbg.source_len),ASCIIEncoding.ASCII.GetString(dbg.text,0, dbg.text_len));
+                } 
+                else if (msg.GetType() == typeof(uavcan.uavcan_protocol_debug_KeyValue))
+                {
+                    var dbg = msg as uavcan.uavcan_protocol_debug_KeyValue;
+
+                    Console.WriteLine("Node: {0} Key: {1} Value: {2}",frame.SourceNode, ASCIIEncoding.ASCII.GetString(dbg.key,0, dbg.key_len), dbg.value);
+                } 
+            };
+        }
+
         /// <summary>
         /// Start slcan stream sending a nodestatus packet every second
         /// </summary>
@@ -290,9 +309,6 @@ namespace UAVCAN
             // build nodelist
             MessageReceived += (frame, msg, transferID) =>
             {
-                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
-                    return;
-
                 if (msg.GetType() == typeof(uavcan.uavcan_protocol_NodeStatus))
                 {
                     if (!NodeList.ContainsKey(frame.SourceNode))
@@ -301,13 +317,13 @@ namespace UAVCAN
                     }
                     NodeList[frame.SourceNode] = msg as uavcan.uavcan_protocol_NodeStatus;
                 }
-                else if (msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_req) && frame.SvcDestinationNode == SourceNode)
+                else if (frame.IsServiceMsg && msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_req) && frame.SvcDestinationNode == SourceNode)
                 {
                     var gnires = new uavcan.uavcan_protocol_GetNodeInfo_res();
                     gnires.software_version.major = (byte)Assembly.GetExecutingAssembly().GetName().Version.Major;
                     gnires.software_version.minor = (byte)Assembly.GetExecutingAssembly().GetName().Version.Minor;
                     gnires.hardware_version.major = 0;
-                    gnires.hardware_version.unique_id = ASCIIEncoding.ASCII.GetBytes("MissionPlanner\x0\x0\x0\x0\x0\x0");
+                    gnires.hardware_version.unique_id = ASCIIEncoding.ASCII.GetBytes(("MissionPlanner").PadRight(16, '\x0'));
                     gnires.name = ASCIIEncoding.ASCII.GetBytes("org.missionplanner");
                     gnires.name_len = (byte)gnires.name.Length;
                     gnires.status = new uavcan.uavcan_protocol_NodeStatus()
