@@ -193,7 +193,11 @@ namespace RFD.RFD900
             Thread.Sleep(1500);
             _Port.DiscardInBuffer();
             //Console.WriteLine("Sending +++");
-            _Port.Write("+++");
+            _Port.Write("+");
+            Thread.Sleep(50);   //The 50ms inter-byte delay is required for modem firmware versions newer than 28/8/2020.
+            _Port.Write("+");
+            Thread.Sleep(50);
+            _Port.Write("+");
             //Console.WriteLine("Waiting up to 1.5s for OK");
             if (WaitForToken("OK\r\n", 1500))
             {
@@ -376,7 +380,11 @@ namespace RFD.RFD900
             Thread.Sleep(1500);
             _Port.DiscardInBuffer();
             //Console.WriteLine("Sending +++");
-            _Port.Write("+++");
+            _Port.Write("+");
+            Thread.Sleep(50);   //The 50ms inter-byte delay is required for modem firmware versions newer than 28/8/2020.
+            _Port.Write("+");
+            Thread.Sleep(50);
+            _Port.Write("+");
             //Console.WriteLine("Waiting up to 3s for OK");
             if (WaitForToken("OK\r\n", 3000))
             {
@@ -1334,6 +1342,15 @@ namespace RFD.RFD900
                 int[] list;
                 int index = 0;
                 bool GotEnd = false;
+
+                int Min = this.Min;
+                int Max = this.Max;
+
+                //Prevent exception for the case of the modem firmware erroneously specifiying a range in which max is less than min.
+                if (Max < Min)
+                {
+                    Max = Min;
+                }
 
                 if (Min == Max)
                 {
