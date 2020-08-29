@@ -1235,12 +1235,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             basepos = PointLatLngAlt.Zero;
             invalidateRTCMStatus();
-
+            updateSVINLabel(false,false,0,0,0);
             msgseen.Clear();
 
             if (comPort.IsOpen)
             {
                 ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true, chk_movingbase.Checked);
+
+                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
 
                 ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
                     double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false, chk_movingbase.Checked);
