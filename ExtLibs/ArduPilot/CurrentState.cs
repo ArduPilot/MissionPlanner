@@ -2138,6 +2138,15 @@ namespace MissionPlanner
                             try
                             {
                                 voltageflag = (uint)(MAVLink.MAV_POWER_STATUS)power.flags;
+
+                                if(voltageflag == (uint)MAVLink.MAV_POWER_STATUS.PERIPH_OVERCURRENT)
+                                {
+                                    messageHigh = "PERIPH_OVERCURRENT";
+                                } 
+                                else if(voltageflag == (uint)MAVLink.MAV_POWER_STATUS.PERIPH_HIPOWER_OVERCURRENT)
+                                {
+                                    messageHigh = "PERIPH_HIPOWER_OVERCURRENT";
+                                }
                             }
                             catch
                             {
