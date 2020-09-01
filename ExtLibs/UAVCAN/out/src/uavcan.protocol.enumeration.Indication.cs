@@ -55,6 +55,7 @@ static void _encode_uavcan_protocol_enumeration_Indication(uint8_t[] buffer, uav
         canardEncodeScalar(buffer, 0, 7, msg.parameter_name_len);
         chunk_cb(buffer, 7, ctx);
     }
+    msg.parameter_name = new uint8_t[msg.parameter_name_len];
     for (int i=0; i < msg.parameter_name_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.parameter_name[i]);
@@ -75,6 +76,7 @@ static void _decode_uavcan_protocol_enumeration_Indication(CanardRxTransfer tran
         msg.parameter_name_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.parameter_name = new uint8_t[msg.parameter_name_len];
     for (int i=0; i < msg.parameter_name_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.parameter_name[i]);
         bit_ofs += 8;

@@ -113,6 +113,7 @@ static void _encode_uavcan_equipment_power_BatteryInfo(uint8_t[] buffer, uavcan_
         canardEncodeScalar(buffer, 0, 5, msg.model_name_len);
         chunk_cb(buffer, 5, ctx);
     }
+    msg.model_name = new uint8_t[msg.model_name_len];
     for (int i=0; i < msg.model_name_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.model_name[i]);
@@ -196,6 +197,7 @@ static void _decode_uavcan_equipment_power_BatteryInfo(CanardRxTransfer transfer
         msg.model_name_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.model_name = new uint8_t[msg.model_name_len];
     for (int i=0; i < msg.model_name_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.model_name[i]);
         bit_ofs += 8;

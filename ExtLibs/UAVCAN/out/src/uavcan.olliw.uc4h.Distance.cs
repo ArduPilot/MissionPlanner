@@ -71,6 +71,7 @@ static void _encode_uavcan_olliw_uc4h_Distance(uint8_t[] buffer, uavcan_olliw_uc
         canardEncodeScalar(buffer, 0, 1, msg.sensor_property_len);
         chunk_cb(buffer, 1, ctx);
     }
+    msg.sensor_property = new uavcan_olliw_uc4h_DistanceSensorProperties[msg.sensor_property_len];
     for (int i=0; i < msg.sensor_property_len; i++) {
             _encode_uavcan_olliw_uc4h_DistanceSensorProperties(buffer, msg.sensor_property[i], chunk_cb, ctx, false);
     }
@@ -110,6 +111,7 @@ msg.sensor_property_len = 0;
             msg.sensor_property_len++;
         }
     } else {
+        msg.sensor_property = new uavcan_olliw_uc4h_DistanceSensorProperties[msg.sensor_property_len];
         for (int i=0; i < msg.sensor_property_len; i++) {
             _decode_uavcan_olliw_uc4h_DistanceSensorProperties(transfer, ref bit_ofs, msg.sensor_property[i], false);
         }

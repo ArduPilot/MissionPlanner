@@ -62,6 +62,7 @@ static void _encode_uavcan_protocol_GetTransportStats_res(uint8_t[] buffer, uavc
         canardEncodeScalar(buffer, 0, 2, msg.can_iface_stats_len);
         chunk_cb(buffer, 2, ctx);
     }
+    msg.can_iface_stats = new uavcan_protocol_CANIfaceStats[msg.can_iface_stats_len];
     for (int i=0; i < msg.can_iface_stats_len; i++) {
             _encode_uavcan_protocol_CANIfaceStats(buffer, msg.can_iface_stats[i], chunk_cb, ctx, false);
     }
@@ -91,6 +92,7 @@ msg.can_iface_stats_len = 0;
             msg.can_iface_stats_len++;
         }
     } else {
+        msg.can_iface_stats = new uavcan_protocol_CANIfaceStats[msg.can_iface_stats_len];
         for (int i=0; i < msg.can_iface_stats_len; i++) {
             _decode_uavcan_protocol_CANIfaceStats(transfer, ref bit_ofs, msg.can_iface_stats[i], false);
         }

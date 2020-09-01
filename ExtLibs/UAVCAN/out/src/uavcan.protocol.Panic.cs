@@ -53,6 +53,7 @@ static void _encode_uavcan_protocol_Panic(uint8_t[] buffer, uavcan_protocol_Pani
         canardEncodeScalar(buffer, 0, 3, msg.reason_text_len);
         chunk_cb(buffer, 3, ctx);
     }
+    msg.reason_text = new uint8_t[msg.reason_text_len];
     for (int i=0; i < msg.reason_text_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.reason_text[i]);
@@ -69,6 +70,7 @@ static void _decode_uavcan_protocol_Panic(CanardRxTransfer transfer,ref uint32_t
         msg.reason_text_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.reason_text = new uint8_t[msg.reason_text_len];
     for (int i=0; i < msg.reason_text_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.reason_text[i]);
         bit_ofs += 8;

@@ -65,6 +65,7 @@ static void _encode_uavcan_protocol_dynamic_node_id_server_AppendEntries_req(uin
         canardEncodeScalar(buffer, 0, 1, msg.entries_len);
         chunk_cb(buffer, 1, ctx);
     }
+    msg.entries = new uavcan_protocol_dynamic_node_id_server_Entry[msg.entries_len];
     for (int i=0; i < msg.entries_len; i++) {
             _encode_uavcan_protocol_dynamic_node_id_server_Entry(buffer, msg.entries[i], chunk_cb, ctx, false);
     }
@@ -97,6 +98,7 @@ msg.entries_len = 0;
             msg.entries_len++;
         }
     } else {
+        msg.entries = new uavcan_protocol_dynamic_node_id_server_Entry[msg.entries_len];
         for (int i=0; i < msg.entries_len; i++) {
             _decode_uavcan_protocol_dynamic_node_id_server_Entry(transfer, ref bit_ofs, msg.entries[i], false);
         }

@@ -86,6 +86,7 @@ static void _encode_uavcan_equipment_air_data_RawAirData(uint8_t[] buffer, uavca
         canardEncodeScalar(buffer, 0, 5, msg.covariance_len);
         chunk_cb(buffer, 5, ctx);
     }
+    msg.covariance = new Single[msg.covariance_len];
     for (int i=0; i < msg.covariance_len; i++) {
             memset(buffer,0,8);
             {
@@ -142,6 +143,7 @@ static void _decode_uavcan_equipment_air_data_RawAirData(CanardRxTransfer transf
         msg.covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
     }
 
+    msg.covariance = new Single[msg.covariance_len];
     for (int i=0; i < msg.covariance_len; i++) {
         {
             uint16_t float16_val = 0;

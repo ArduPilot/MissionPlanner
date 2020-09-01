@@ -56,6 +56,7 @@ static void _encode_uavcan_protocol_file_BeginFirmwareUpdate_res(uint8_t[] buffe
         canardEncodeScalar(buffer, 0, 7, msg.optional_error_message_len);
         chunk_cb(buffer, 7, ctx);
     }
+    msg.optional_error_message = new uint8_t[msg.optional_error_message_len];
     for (int i=0; i < msg.optional_error_message_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.optional_error_message[i]);
@@ -75,6 +76,7 @@ static void _decode_uavcan_protocol_file_BeginFirmwareUpdate_res(CanardRxTransfe
         msg.optional_error_message_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.optional_error_message = new uint8_t[msg.optional_error_message_len];
     for (int i=0; i < msg.optional_error_message_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.optional_error_message[i]);
         bit_ofs += 8;

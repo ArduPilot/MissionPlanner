@@ -60,6 +60,7 @@ static void _encode_org_cubepilot_uwb_Observation(uint8_t[] buffer, org_cubepilo
         canardEncodeScalar(buffer, 0, 4, msg.rx_timestamps_len);
         chunk_cb(buffer, 4, ctx);
     }
+    msg.rx_timestamps = new org_cubepilot_uwb_ReceiveTimestamp[msg.rx_timestamps_len];
     for (int i=0; i < msg.rx_timestamps_len; i++) {
             _encode_org_cubepilot_uwb_ReceiveTimestamp(buffer, msg.rx_timestamps[i], chunk_cb, ctx, false);
     }
@@ -88,6 +89,7 @@ msg.rx_timestamps_len = 0;
             msg.rx_timestamps_len++;
         }
     } else {
+        msg.rx_timestamps = new org_cubepilot_uwb_ReceiveTimestamp[msg.rx_timestamps_len];
         for (int i=0; i < msg.rx_timestamps_len; i++) {
             _decode_org_cubepilot_uwb_ReceiveTimestamp(transfer, ref bit_ofs, msg.rx_timestamps[i], false);
         }

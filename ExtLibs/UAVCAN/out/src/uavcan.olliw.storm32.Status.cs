@@ -70,6 +70,7 @@ static void _encode_uavcan_olliw_storm32_Status(uint8_t[] buffer, uavcan_olliw_s
         canardEncodeScalar(buffer, 0, 2, msg.angular_velocity_len);
         chunk_cb(buffer, 2, ctx);
     }
+    msg.angular_velocity = new Single[msg.angular_velocity_len];
     for (int i=0; i < msg.angular_velocity_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 32, msg.angular_velocity[i]);
@@ -104,6 +105,7 @@ static void _decode_uavcan_olliw_storm32_Status(CanardRxTransfer transfer,ref ui
         msg.angular_velocity_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/32);
     }
 
+    msg.angular_velocity = new Single[msg.angular_velocity_len];
     for (int i=0; i < msg.angular_velocity_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.angular_velocity[i]);
         bit_ofs += 32;

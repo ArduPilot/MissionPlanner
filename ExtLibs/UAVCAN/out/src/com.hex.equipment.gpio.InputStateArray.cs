@@ -53,6 +53,7 @@ static void _encode_com_hex_equipment_gpio_InputStateArray(uint8_t[] buffer, com
         canardEncodeScalar(buffer, 0, 6, msg.input_states_len);
         chunk_cb(buffer, 6, ctx);
     }
+    msg.input_states = new com_hex_equipment_gpio_InputState[msg.input_states_len];
     for (int i=0; i < msg.input_states_len; i++) {
             _encode_com_hex_equipment_gpio_InputState(buffer, msg.input_states[i], chunk_cb, ctx, false);
     }
@@ -73,6 +74,7 @@ msg.input_states_len = 0;
             msg.input_states_len++;
         }
     } else {
+        msg.input_states = new com_hex_equipment_gpio_InputState[msg.input_states_len];
         for (int i=0; i < msg.input_states_len; i++) {
             _decode_com_hex_equipment_gpio_InputState(transfer, ref bit_ofs, msg.input_states[i], false);
         }

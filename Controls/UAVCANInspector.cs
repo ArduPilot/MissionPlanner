@@ -154,9 +154,13 @@ namespace MissionPlanner.Controls
                     {
                         value = ASCIIEncoding.ASCII.GetString((byte[])value2);
                     }
-                    else
+                    else if (value2.Length > 0)
                     {
                         value = value2.Cast<object>().Aggregate((a, b) => a + "," + b);
+                    } 
+                    else if (value2.Length == 0)
+                    {
+                        value = null;
                     }
                 }
 

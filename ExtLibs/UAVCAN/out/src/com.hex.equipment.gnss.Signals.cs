@@ -57,6 +57,7 @@ static void _encode_com_hex_equipment_gnss_Signals(uint8_t[] buffer, com_hex_equ
         canardEncodeScalar(buffer, 0, 7, msg.signals_len);
         chunk_cb(buffer, 7, ctx);
     }
+    msg.signals = new com_hex_equipment_gnss_Signal[msg.signals_len];
     for (int i=0; i < msg.signals_len; i++) {
             _encode_com_hex_equipment_gnss_Signal(buffer, msg.signals[i], chunk_cb, ctx, false);
     }
@@ -82,6 +83,7 @@ msg.signals_len = 0;
             msg.signals_len++;
         }
     } else {
+        msg.signals = new com_hex_equipment_gnss_Signal[msg.signals_len];
         for (int i=0; i < msg.signals_len; i++) {
             _decode_com_hex_equipment_gnss_Signal(transfer, ref bit_ofs, msg.signals[i], false);
         }

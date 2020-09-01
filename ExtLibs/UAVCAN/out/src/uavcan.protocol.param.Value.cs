@@ -68,6 +68,7 @@ static void _encode_uavcan_protocol_param_Value(uint8_t[] buffer, uavcan_protoco
                 canardEncodeScalar(buffer, 0, 8, msg.union.string_value_len);
                 chunk_cb(buffer, 8, ctx);
             }
+            msg.union.string_value = new uint8_t[msg.union.string_value_len];
             for (int i=0; i < msg.union.string_value_len; i++) {
                     memset(buffer,0,8);
                     canardEncodeScalar(buffer, 0, 8, msg.union.string_value[i]);
@@ -117,6 +118,7 @@ static void _decode_uavcan_protocol_param_Value(CanardRxTransfer transfer,ref ui
                 msg.union.string_value_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
             }
 
+            msg.union.string_value = new uint8_t[msg.union.string_value_len];
             for (int i=0; i < msg.union.string_value_len; i++) {
                 canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.union.string_value[i]);
                 bit_ofs += 8;

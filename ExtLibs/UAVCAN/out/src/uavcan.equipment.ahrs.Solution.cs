@@ -61,6 +61,7 @@ static void _encode_uavcan_equipment_ahrs_Solution(uint8_t[] buffer, uavcan_equi
     memset(buffer,0,8);
     canardEncodeScalar(buffer, 0, 4, msg.orientation_covariance_len);
     chunk_cb(buffer, 4, ctx);
+    msg.orientation_covariance = new Single[msg.orientation_covariance_len];
     for (int i=0; i < msg.orientation_covariance_len; i++) {
             memset(buffer,0,8);
             {
@@ -81,6 +82,7 @@ static void _encode_uavcan_equipment_ahrs_Solution(uint8_t[] buffer, uavcan_equi
     memset(buffer,0,8);
     canardEncodeScalar(buffer, 0, 4, msg.angular_velocity_covariance_len);
     chunk_cb(buffer, 4, ctx);
+    msg.angular_velocity_covariance = new Single[msg.angular_velocity_covariance_len];
     for (int i=0; i < msg.angular_velocity_covariance_len; i++) {
             memset(buffer,0,8);
             {
@@ -102,6 +104,7 @@ static void _encode_uavcan_equipment_ahrs_Solution(uint8_t[] buffer, uavcan_equi
         canardEncodeScalar(buffer, 0, 4, msg.linear_acceleration_covariance_len);
         chunk_cb(buffer, 4, ctx);
     }
+    msg.linear_acceleration_covariance = new Single[msg.linear_acceleration_covariance_len];
     for (int i=0; i < msg.linear_acceleration_covariance_len; i++) {
             memset(buffer,0,8);
             {
@@ -130,6 +133,7 @@ static void _decode_uavcan_equipment_ahrs_Solution(CanardRxTransfer transfer,ref
 
     canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.orientation_covariance_len);
     bit_ofs += 4;
+    msg.orientation_covariance = new Single[msg.orientation_covariance_len];
     for (int i=0; i < msg.orientation_covariance_len; i++) {
         {
             uint16_t float16_val = 0;
@@ -153,6 +157,7 @@ static void _decode_uavcan_equipment_ahrs_Solution(CanardRxTransfer transfer,ref
 
     canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.angular_velocity_covariance_len);
     bit_ofs += 4;
+    msg.angular_velocity_covariance = new Single[msg.angular_velocity_covariance_len];
     for (int i=0; i < msg.angular_velocity_covariance_len; i++) {
         {
             uint16_t float16_val = 0;
@@ -179,6 +184,7 @@ static void _decode_uavcan_equipment_ahrs_Solution(CanardRxTransfer transfer,ref
         msg.linear_acceleration_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
     }
 
+    msg.linear_acceleration_covariance = new Single[msg.linear_acceleration_covariance_len];
     for (int i=0; i < msg.linear_acceleration_covariance_len; i++) {
         {
             uint16_t float16_val = 0;

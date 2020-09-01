@@ -278,7 +278,7 @@ namespace UAVCAN
                             WriteToStream(slcan);
 
                             // query all nodeinfo
-                            if (DateTime.Now.Second % 10 == 0)
+                            if (DateTime.Now.Second % 10 == 0 &&  NodeList.Count > 0)
                             {
                                 slcan = PackageMessage((byte) NodeList.Keys.ToArray()[nodeinfo % NodeList.Count], 30,
                                     transferID++,
@@ -990,6 +990,7 @@ namespace UAVCAN
             Exception exception = null;
             var done = false;
             var inupdatemode = false;
+            var acceptbegin = false;
 
             MessageRecievedDel updatedelegate = (frame, msg, transferID) =>
             {
@@ -1005,9 +1006,12 @@ namespace UAVCAN
                     if (bfures.error != uavcan.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_IN_PROGRESS &&
                         bfures.error != uavcan.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_OK)
                         exception = new Exception(frame.SourceNode + " " + "Begin Firmware Update returned an error");
+                    acceptbegin = true;
                 }
                 else if (msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_res))
                 {
+                    if (acceptbegin)
+                        return;
                     var gnires = msg as uavcan.uavcan_protocol_GetNodeInfo_res;
                     Console.WriteLine(frame.SourceNode + " " + "GetNodeInfo: seen '{0}' from {1}",
                         ASCIIEncoding.ASCII.GetString(gnires.name).TrimEnd('\0'), frame.SourceNode);
@@ -1035,6 +1039,7 @@ namespace UAVCAN
                                     var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID++, req_msg);
                                
                                         WriteToStream(slcan);
+                                        Console.WriteLine("Send uavcan_protocol_file_BeginFirmwareUpdate_req");
                                 }
                                 else
                                 {
