@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using UAVCAN;
@@ -101,9 +102,11 @@ namespace MissionPlanner.Controls
                 else
                     msgidnode = msgidnodes.First();
 
+                var seenrate = (pktinspect.SeenRate(uavcanMessage.frame.SourceNode, 0, uavcanMessage.frame.MsgTypeID));
+
                 var msgidheader = uavcanMessage.message.GetType().Name + " (" +
-                                  (pktinspect.SeenRate(uavcanMessage.frame.SourceNode, 0, uavcanMessage.frame.MsgTypeID))
-                                  .ToString("0.0 Hz") + ", #" + uavcanMessage.frame.MsgTypeID + ") ";
+                                  seenrate.ToString("0.0 Hz") + ", #" + uavcanMessage.frame.MsgTypeID + ") ~" +
+                                  (seenrate * uavcanMessage.frame.SizeofEntireMsg).ToString("0") + "bps";
 
                 if (msgidnode.Text != msgidheader)
                     msgidnode.Text = msgidheader;

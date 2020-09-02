@@ -428,6 +428,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             myDataGridView1[updateDataGridViewTextBoxColumn.Index, e.RowIndex].Value = "Update";
             myDataGridView1[Parameter.Index, e.RowIndex].Value = "Parameters";
+            myDataGridView1[Restart.Index, e.RowIndex].Value = "Restart";
         }
 
         private void uAVCANModelBindingSource_CurrentChanged(object sender, EventArgs e)

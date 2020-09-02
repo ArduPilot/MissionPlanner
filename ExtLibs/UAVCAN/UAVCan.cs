@@ -1629,6 +1629,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 {
                     var ans = msgtype.Item4.Invoke(null, new object[] {result, startbyte});
 
+                    frame.SizeofEntireMsg = result.Length - startbyte;
                     //Console.WriteLine(("RX") + " " + msgtype.Item1 + " " + JsonConvert.SerializeObject(ans));
 
                     MessageReceived?.Invoke(frame, ans, payload.TransferID);
