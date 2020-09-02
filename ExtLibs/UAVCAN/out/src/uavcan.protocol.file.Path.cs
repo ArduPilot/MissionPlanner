@@ -39,7 +39,6 @@ static void _encode_uavcan_protocol_file_Path(uint8_t[] buffer, uavcan_protocol_
         canardEncodeScalar(buffer, 0, 8, msg.path_len);
         chunk_cb(buffer, 8, ctx);
     }
-    msg.path = new uint8_t[msg.path_len];
     for (int i=0; i < msg.path_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.path[i]);

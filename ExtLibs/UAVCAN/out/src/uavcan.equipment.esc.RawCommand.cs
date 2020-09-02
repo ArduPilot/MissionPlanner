@@ -53,7 +53,6 @@ static void _encode_uavcan_equipment_esc_RawCommand(uint8_t[] buffer, uavcan_equ
         canardEncodeScalar(buffer, 0, 5, msg.cmd_len);
         chunk_cb(buffer, 5, ctx);
     }
-    msg.cmd = new int16_t[msg.cmd_len];
     for (int i=0; i < msg.cmd_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 14, msg.cmd[i]);

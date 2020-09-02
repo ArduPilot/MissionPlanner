@@ -52,7 +52,6 @@ static void _encode_uavcan_protocol_debug_LogMessage(uint8_t[] buffer, uavcan_pr
     memset(buffer,0,8);
     canardEncodeScalar(buffer, 0, 5, msg.source_len);
     chunk_cb(buffer, 5, ctx);
-    msg.source = new uint8_t[msg.source_len];
     for (int i=0; i < msg.source_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.source[i]);
@@ -63,7 +62,6 @@ static void _encode_uavcan_protocol_debug_LogMessage(uint8_t[] buffer, uavcan_pr
         canardEncodeScalar(buffer, 0, 7, msg.text_len);
         chunk_cb(buffer, 7, ctx);
     }
-    msg.text = new uint8_t[msg.text_len];
     for (int i=0; i < msg.text_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.text[i]);

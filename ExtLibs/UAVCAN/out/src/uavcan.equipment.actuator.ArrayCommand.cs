@@ -53,7 +53,6 @@ static void _encode_uavcan_equipment_actuator_ArrayCommand(uint8_t[] buffer, uav
         canardEncodeScalar(buffer, 0, 4, msg.commands_len);
         chunk_cb(buffer, 4, ctx);
     }
-    msg.commands = new uavcan_equipment_actuator_Command[msg.commands_len];
     for (int i=0; i < msg.commands_len; i++) {
             _encode_uavcan_equipment_actuator_Command(buffer, msg.commands[i], chunk_cb, ctx, false);
     }

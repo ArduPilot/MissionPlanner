@@ -129,7 +129,6 @@ static void _encode_uavcan_equipment_ice_reciprocating_Status(uint8_t[] buffer, 
         canardEncodeScalar(buffer, 0, 5, msg.cylinder_status_len);
         chunk_cb(buffer, 5, ctx);
     }
-    msg.cylinder_status = new uavcan_equipment_ice_reciprocating_CylinderStatus[msg.cylinder_status_len];
     for (int i=0; i < msg.cylinder_status_len; i++) {
             _encode_uavcan_equipment_ice_reciprocating_CylinderStatus(buffer, msg.cylinder_status[i], chunk_cb, ctx, false);
     }

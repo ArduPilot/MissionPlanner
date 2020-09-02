@@ -1,5 +1,7 @@
 ﻿using MissionPlanner.Utilities;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -313,23 +315,10 @@ namespace MissionPlanner.Controls
             InputBox.Show("Points", "Points of history?", ref history);
             var form = new Form() { Size = new Size(640, 480) };
             var zg1 = new ZedGraphControl() { Dock = DockStyle.Fill };
-            var msgid = int.Parse(selectedmsgid.msgid);
+            var msgid = ushort.Parse(selectedmsgid.msgid);
             var msgidfield = selectedmsgid.name;
             var line = new LineItem(msgidfield, new RollingPointPairList(history), Color.Red, SymbolType.None);
             zg1.GraphPane.Title.Text = "";
-            try
-            {
-                var msginfo = uavcan.MSG_INFO.First(a => a.Item2 == msgid);
-                var typeofthing = msginfo.Item1.GetField(
-                    msgidfield);
-                if (typeofthing != null)
-                {
-                    var attrib = typeofthing.GetCustomAttributes(false).OfType<MAVLink.Units>().ToArray();
-                    if (attrib.Length > 0)
-                        zg1.GraphPane.YAxis.Title.Text = attrib.OfType<MAVLink.Units>().First().Unit;
-                }
-            }
-            catch { }
 
             zg1.GraphPane.CurveList.Add(line);
 
@@ -338,11 +327,45 @@ namespace MissionPlanner.Controls
             zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
             zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
 
+            Color[] color = new Color[]
+                {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
+
             var timer = new Timer() { Interval = 100 };
             uavcan.MessageRecievedDel msgrecv = (frame, msg, id) =>
             {
-                line.AddPoint(new XDate(DateTime.Now),
-                    (double)(dynamic)msg.GetPropertyOrField(msgidfield));
+                if (frame.MsgTypeID == msgid)
+                {
+                    var item = msg.GetPropertyOrField(msgidfield);
+                    if (item is IEnumerable)
+                    {
+                        int a = 0;
+                        foreach (var subitem in (IEnumerable) item)
+                        {
+                            if (subitem is IConvertible)
+                            {
+                                while (zg1.GraphPane.CurveList.Count < (a + 1))
+                                {
+                                    zg1.GraphPane.CurveList.Add(new LineItem(msgidfield + "[" + a + "]",
+                                        new RollingPointPairList(history), color[a % color.Length], SymbolType.None));
+                                }
+
+                                zg1.GraphPane.CurveList[a].AddPoint(new XDate(DateTime.Now),
+                                    ((IConvertible) subitem).ToDouble(null));
+                                a++;
+                            }
+                        }
+                    }
+                    else if (item is IConvertible)
+                    {
+                        line.AddPoint(new XDate(DateTime.Now),
+                            ((IConvertible) item).ToDouble(null));
+                    }
+                    else
+                    {
+                        line.AddPoint(new XDate(DateTime.Now),
+                            (double) (dynamic) item);
+                    }
+                }
             };
             can.MessageReceived += msgrecv;
             timer.Tick += (o, args) =>

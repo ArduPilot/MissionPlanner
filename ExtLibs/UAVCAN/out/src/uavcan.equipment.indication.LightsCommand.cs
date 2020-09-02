@@ -53,7 +53,6 @@ static void _encode_uavcan_equipment_indication_LightsCommand(uint8_t[] buffer, 
         canardEncodeScalar(buffer, 0, 5, msg.commands_len);
         chunk_cb(buffer, 5, ctx);
     }
-    msg.commands = new uavcan_equipment_indication_SingleLightCommand[msg.commands_len];
     for (int i=0; i < msg.commands_len; i++) {
             _encode_uavcan_equipment_indication_SingleLightCommand(buffer, msg.commands[i], chunk_cb, ctx, false);
     }

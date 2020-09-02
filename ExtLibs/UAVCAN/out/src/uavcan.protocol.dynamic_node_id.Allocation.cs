@@ -59,7 +59,6 @@ static void _encode_uavcan_protocol_dynamic_node_id_Allocation(uint8_t[] buffer,
         canardEncodeScalar(buffer, 0, 5, msg.unique_id_len);
         chunk_cb(buffer, 5, ctx);
     }
-    msg.unique_id = new uint8_t[msg.unique_id_len];
     for (int i=0; i < msg.unique_id_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.unique_id[i]);

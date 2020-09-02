@@ -81,7 +81,6 @@ static void _encode_uavcan_navigation_GlobalNavigationSolution(uint8_t[] buffer,
     memset(buffer,0,8);
     canardEncodeScalar(buffer, 0, 6, msg.pose_covariance_len);
     chunk_cb(buffer, 6, ctx);
-    msg.pose_covariance = new Single[msg.pose_covariance_len];
     for (int i=0; i < msg.pose_covariance_len; i++) {
             memset(buffer,0,8);
             {
@@ -113,7 +112,6 @@ static void _encode_uavcan_navigation_GlobalNavigationSolution(uint8_t[] buffer,
         canardEncodeScalar(buffer, 0, 6, msg.velocity_covariance_len);
         chunk_cb(buffer, 6, ctx);
     }
-    msg.velocity_covariance = new Single[msg.velocity_covariance_len];
     for (int i=0; i < msg.velocity_covariance_len; i++) {
             memset(buffer,0,8);
             {

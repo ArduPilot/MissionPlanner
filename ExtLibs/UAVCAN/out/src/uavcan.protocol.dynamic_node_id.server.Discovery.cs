@@ -56,7 +56,6 @@ static void _encode_uavcan_protocol_dynamic_node_id_server_Discovery(uint8_t[] b
         canardEncodeScalar(buffer, 0, 3, msg.known_nodes_len);
         chunk_cb(buffer, 3, ctx);
     }
-    msg.known_nodes = new uint8_t[msg.known_nodes_len];
     for (int i=0; i < msg.known_nodes_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.known_nodes[i]);

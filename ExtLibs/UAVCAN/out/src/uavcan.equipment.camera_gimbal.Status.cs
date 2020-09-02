@@ -65,7 +65,6 @@ static void _encode_uavcan_equipment_camera_gimbal_Status(uint8_t[] buffer, uavc
         canardEncodeScalar(buffer, 0, 4, msg.camera_orientation_in_body_frame_covariance_len);
         chunk_cb(buffer, 4, ctx);
     }
-    msg.camera_orientation_in_body_frame_covariance = new Single[msg.camera_orientation_in_body_frame_covariance_len];
     for (int i=0; i < msg.camera_orientation_in_body_frame_covariance_len; i++) {
             memset(buffer,0,8);
             {

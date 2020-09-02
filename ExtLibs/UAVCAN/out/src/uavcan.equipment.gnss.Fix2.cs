@@ -89,7 +89,6 @@ static void _encode_uavcan_equipment_gnss_Fix2(uint8_t[] buffer, uavcan_equipmen
     memset(buffer,0,8);
     canardEncodeScalar(buffer, 0, 6, msg.covariance_len);
     chunk_cb(buffer, 6, ctx);
-    msg.covariance = new Single[msg.covariance_len];
     for (int i=0; i < msg.covariance_len; i++) {
             memset(buffer,0,8);
             {
@@ -109,7 +108,6 @@ static void _encode_uavcan_equipment_gnss_Fix2(uint8_t[] buffer, uavcan_equipmen
         canardEncodeScalar(buffer, 0, 1, msg.ecef_position_velocity_len);
         chunk_cb(buffer, 1, ctx);
     }
-    msg.ecef_position_velocity = new uavcan_equipment_gnss_ECEFPositionVelocity[msg.ecef_position_velocity_len];
     for (int i=0; i < msg.ecef_position_velocity_len; i++) {
             _encode_uavcan_equipment_gnss_ECEFPositionVelocity(buffer, msg.ecef_position_velocity[i], chunk_cb, ctx, false);
     }

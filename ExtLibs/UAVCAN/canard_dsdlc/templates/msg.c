@@ -103,7 +103,6 @@ static void _encode_@(msg_underscored_name)(uint8_t[] buffer, @(msg_c_type) msg,
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
 @[          end if]@
-@(ind)msg.@('union.' if msg_union else '')@(field.name) = new @(uavcan_type_to_ctype(field.type.value_type))[msg.@('union.' if msg_union else '')@(field.name)_len];
 @(ind)for (int i=0; i < msg.@('union.' if msg_union else '')@(field.name)_len; i++) {
 @[        else]@
 @(ind)for (int i=0; i < @(field.type.max_size); i++) {

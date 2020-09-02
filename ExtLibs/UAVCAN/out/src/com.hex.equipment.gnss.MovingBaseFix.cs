@@ -61,7 +61,6 @@ static void _encode_com_hex_equipment_gnss_MovingBaseFix(uint8_t[] buffer, com_h
     memset(buffer,0,8);
     canardEncodeScalar(buffer, 0, 2, msg.pos_rel_body_len);
     chunk_cb(buffer, 2, ctx);
-    msg.pos_rel_body = new Single[msg.pos_rel_body_len];
     for (int i=0; i < msg.pos_rel_body_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 32, msg.pos_rel_body[i]);
@@ -77,7 +76,6 @@ static void _encode_com_hex_equipment_gnss_MovingBaseFix(uint8_t[] buffer, com_h
         canardEncodeScalar(buffer, 0, 3, msg.pos_rel_ecef_covariance_len);
         chunk_cb(buffer, 3, ctx);
     }
-    msg.pos_rel_ecef_covariance = new Single[msg.pos_rel_ecef_covariance_len];
     for (int i=0; i < msg.pos_rel_ecef_covariance_len; i++) {
             memset(buffer,0,8);
             {

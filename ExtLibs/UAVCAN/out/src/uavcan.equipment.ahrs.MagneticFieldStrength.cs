@@ -61,7 +61,6 @@ static void _encode_uavcan_equipment_ahrs_MagneticFieldStrength(uint8_t[] buffer
         canardEncodeScalar(buffer, 0, 4, msg.magnetic_field_covariance_len);
         chunk_cb(buffer, 4, ctx);
     }
-    msg.magnetic_field_covariance = new Single[msg.magnetic_field_covariance_len];
     for (int i=0; i < msg.magnetic_field_covariance_len; i++) {
             memset(buffer,0,8);
             {

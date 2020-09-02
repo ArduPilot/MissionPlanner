@@ -56,7 +56,6 @@ static void _encode_uavcan_protocol_enumeration_Begin_req(uint8_t[] buffer, uavc
         canardEncodeScalar(buffer, 0, 7, msg.parameter_name_len);
         chunk_cb(buffer, 7, ctx);
     }
-    msg.parameter_name = new uint8_t[msg.parameter_name_len];
     for (int i=0; i < msg.parameter_name_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.parameter_name[i]);

@@ -56,7 +56,6 @@ static void _encode_uavcan_olliw_storm32_Command(uint8_t[] buffer, uavcan_olliw_
         canardEncodeScalar(buffer, 0, 8, msg.payload_len);
         chunk_cb(buffer, 8, ctx);
     }
-    msg.payload = new uint8_t[msg.payload_len];
     for (int i=0; i < msg.payload_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.payload[i]);

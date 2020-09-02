@@ -83,7 +83,6 @@ static void _encode_uavcan_olliw_uc4h_GenericBatteryInfo(uint8_t[] buffer, uavca
         canardEncodeScalar(buffer, 0, 4, msg.cell_voltages_len);
         chunk_cb(buffer, 4, ctx);
     }
-    msg.cell_voltages = new Single[msg.cell_voltages_len];
     for (int i=0; i < msg.cell_voltages_len; i++) {
             memset(buffer,0,8);
             {

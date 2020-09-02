@@ -50,7 +50,6 @@ static void _encode_uavcan_protocol_HardwareVersion(uint8_t[] buffer, uavcan_pro
         canardEncodeScalar(buffer, 0, 8, msg.certificate_of_authenticity_len);
         chunk_cb(buffer, 8, ctx);
     }
-    msg.certificate_of_authenticity = new uint8_t[msg.certificate_of_authenticity_len];
     for (int i=0; i < msg.certificate_of_authenticity_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.certificate_of_authenticity[i]);

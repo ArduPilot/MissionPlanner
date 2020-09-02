@@ -59,7 +59,6 @@ static void _encode_uavcan_protocol_AccessCommandShell_res(uint8_t[] buffer, uav
         canardEncodeScalar(buffer, 0, 9, msg.output_len);
         chunk_cb(buffer, 9, ctx);
     }
-    msg.output = new uint8_t[msg.output_len];
     for (int i=0; i < msg.output_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.output[i]);

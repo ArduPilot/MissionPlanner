@@ -50,7 +50,6 @@ static void _encode_uavcan_equipment_gnss_ECEFPositionVelocity(uint8_t[] buffer,
         canardEncodeScalar(buffer, 0, 6, msg.covariance_len);
         chunk_cb(buffer, 6, ctx);
     }
-    msg.covariance = new Single[msg.covariance_len];
     for (int i=0; i < msg.covariance_len; i++) {
             memset(buffer,0,8);
             {

@@ -270,7 +270,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         var debug = msg as UAVCAN.uavcan.uavcan_protocol_debug_LogMessage;
 
-                        DGDebug.Rows.Add(new object[] { frame.SourceNode, debug.level,ASCIIEncoding.ASCII.GetString(debug.source,0, debug.source_len), ASCIIEncoding.ASCII.GetString(debug.text,0, debug.text_len) });
+                        this.BeginInvoke((Action) delegate()
+                        {
+                            DGDebug.Rows.Insert(0, new object[]
+                            {
+                                frame.SourceNode, debug.level.value,
+                                ASCIIEncoding.ASCII.GetString(debug.source, 0, debug.source_len),
+                                ASCIIEncoding.ASCII.GetString(debug.text, 0, debug.text_len)
+                            });
+                            if (DGDebug.Rows.Count > 100)
+                            {
+                                DGDebug.Rows.RemoveAt(DGDebug.Rows.Count - 1);
+                                DGDebug.Refresh();
+                            }
+                        });
                     }
                 };
             }

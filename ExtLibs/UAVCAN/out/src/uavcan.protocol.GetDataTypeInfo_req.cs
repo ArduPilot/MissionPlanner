@@ -57,7 +57,6 @@ static void _encode_uavcan_protocol_GetDataTypeInfo_req(uint8_t[] buffer, uavcan
         canardEncodeScalar(buffer, 0, 7, msg.name_len);
         chunk_cb(buffer, 7, ctx);
     }
-    msg.name = new uint8_t[msg.name_len];
     for (int i=0; i < msg.name_len; i++) {
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 8, msg.name[i]);
