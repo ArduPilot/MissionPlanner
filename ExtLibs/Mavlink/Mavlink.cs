@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Jul 24 2020";
+    public const string MAVLINK_BUILD_DATE = "Thu Sep 03 2020";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -203,7 +203,7 @@ public partial class MAVLink
         new message_info(217, "GOPRO_GET_RESPONSE", 202, 6, 6, typeof( mavlink_gopro_get_response_t )),
         new message_info(218, "GOPRO_SET_REQUEST", 17, 7, 7, typeof( mavlink_gopro_set_request_t )),
         new message_info(219, "GOPRO_SET_RESPONSE", 162, 2, 2, typeof( mavlink_gopro_set_response_t )),
-        new message_info(225, "EFI_STATUS", 142, 53, 65, typeof( mavlink_efi_status_t )),
+        new message_info(225, "EFI_STATUS", 208, 65, 65, typeof( mavlink_efi_status_t )),
         new message_info(226, "RPM", 207, 8, 8, typeof( mavlink_rpm_t )),
         new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
         new message_info(231, "WIND_COV", 105, 40, 40, typeof( mavlink_wind_cov_t )),
@@ -245,16 +245,16 @@ public partial class MAVLink
         new message_info(331, "ODOMETRY", 91, 230, 232, typeof( mavlink_odometry_t )),
         new message_info(335, "ISBD_LINK_STATUS", 225, 24, 24, typeof( mavlink_isbd_link_status_t )),
         new message_info(350, "DEBUG_FLOAT_ARRAY", 232, 20, 252, typeof( mavlink_debug_float_array_t )),
-        new message_info(365, "STATUSTEXT_LONG", 36, 255, 255, typeof( mavlink_statustext_long_t )),
         new message_info(373, "GENERATOR_STATUS", 117, 42, 42, typeof( mavlink_generator_status_t )),
         new message_info(375, "ACTUATOR_OUTPUT_STATUS", 251, 140, 140, typeof( mavlink_actuator_output_status_t )),
         new message_info(9000, "WHEEL_DISTANCE", 113, 137, 137, typeof( mavlink_wheel_distance_t )),
+        new message_info(9005, "WINCH_STATUS", 117, 34, 34, typeof( mavlink_winch_status_t )),
         new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
         new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
         new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
-        new message_info(11000, "DEVICE_OP_READ", 134, 51, 51, typeof( mavlink_device_op_read_t )),
-        new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 135, typeof( mavlink_device_op_read_reply_t )),
-        new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 179, typeof( mavlink_device_op_write_t )),
+        new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
+        new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
+        new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
         new message_info(11003, "DEVICE_OP_WRITE_REPLY", 64, 5, 5, typeof( mavlink_device_op_write_reply_t )),
         new message_info(11010, "ADAP_TUNING", 46, 49, 49, typeof( mavlink_adap_tuning_t )),
         new message_info(11011, "VISION_POSITION_DELTA", 106, 44, 44, typeof( mavlink_vision_position_delta_t )),
@@ -262,6 +262,10 @@ public partial class MAVLink
         new message_info(11030, "ESC_TELEMETRY_1_TO_4", 144, 44, 44, typeof( mavlink_esc_telemetry_1_to_4_t )),
         new message_info(11031, "ESC_TELEMETRY_5_TO_8", 133, 44, 44, typeof( mavlink_esc_telemetry_5_to_8_t )),
         new message_info(11032, "ESC_TELEMETRY_9_TO_12", 85, 44, 44, typeof( mavlink_esc_telemetry_9_to_12_t )),
+        new message_info(11033, "OSD_PARAM_CONFIG", 195, 37, 37, typeof( mavlink_osd_param_config_t )),
+        new message_info(11034, "OSD_PARAM_CONFIG_REPLY", 79, 5, 5, typeof( mavlink_osd_param_config_reply_t )),
+        new message_info(11035, "OSD_PARAM_SHOW_CONFIG", 128, 8, 8, typeof( mavlink_osd_param_show_config_t )),
+        new message_info(11036, "OSD_PARAM_SHOW_CONFIG_REPLY", 177, 34, 34, typeof( mavlink_osd_param_show_config_reply_t )),
         new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
         new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
         new message_info(269, "VIDEO_STREAM_INFORMATION", 58, 246, 246, typeof( mavlink_video_stream_information_t )),
@@ -509,10 +513,10 @@ public partial class MAVLink
         ODOMETRY = 331,
         ISBD_LINK_STATUS = 335,
         DEBUG_FLOAT_ARRAY = 350,
-        STATUSTEXT_LONG = 365,
         GENERATOR_STATUS = 373,
         ACTUATOR_OUTPUT_STATUS = 375,
         WHEEL_DISTANCE = 9000,
+        WINCH_STATUS = 9005,
         UAVIONIX_ADSB_OUT_CFG = 10001,
         UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
         UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
@@ -526,6 +530,10 @@ public partial class MAVLink
         ESC_TELEMETRY_1_TO_4 = 11030,
         ESC_TELEMETRY_5_TO_8 = 11031,
         ESC_TELEMETRY_9_TO_12 = 11032,
+        OSD_PARAM_CONFIG = 11033,
+        OSD_PARAM_CONFIG_REPLY = 11034,
+        OSD_PARAM_SHOW_CONFIG = 11035,
+        OSD_PARAM_SHOW_CONFIG_REPLY = 11036,
         ICAROUS_HEARTBEAT = 42000,
         ICAROUS_KINEMATIC_BANDS = 42001,
         VIDEO_STREAM_INFORMATION = 269,
@@ -586,31 +594,31 @@ public partial class MAVLink
     
     };
     
-    ///<summary> Commands to be executed by the MAV. They can be executed on user request, or as part of a mission script. If the action is used in a mission, the parameter mapping to the waypoint/mission message is as follows: Param 1, Param 2, Param 3, Param 4, X: Param 5, Y:Param 6, Z:Param 7. This command list is similar what ARINC 424 is for commercial aircraft: A data format how to interpret waypoint/mission data. See https://mavlink.io/en/guide/xml_schema.html#MAV_CMD for information about the structure of the MAV_CMD entries </summary>
+    ///<summary> Commands to be executed by the MAV. They can be executed on user request, or as part of a mission script. If the action is used in a mission, the parameter mapping to the waypoint/mission message is as follows: Param 1, Param 2, Param 3, Param 4, X: Param 5, Y:Param 6, Z:Param 7. This command list is similar what ARINC 424 is for commercial aircraft: A data format how to interpret waypoint/mission data. NaN and INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the component's current yaw or latitude rather than a specific value). See https://mavlink.io/en/guide/xml_schema.html#MAV_CMD for information about the structure of the MAV_CMD entries </summary>
     public enum MAV_CMD: ushort
     {
-            ///<summary> Navigate to waypoint. |Hold time. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Acceptance radius (if the sphere with this radius is hit, the waypoint counts as reached)| 0 radius to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.| Desired yaw angle at waypoint (rotary wing). NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
+            ///<summary> Navigate to waypoint. |Hold time. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Acceptance radius (if the sphere with this radius is hit, the waypoint counts as reached)| t, negative value for counter-clockwise orbit. Allows trajectory control.| Desired yaw angle at waypoint (rotary wing). NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Navigate to waypoint.")]
         WAYPOINT=16, 
-        ///<summary> Loiter around this waypoint an unlimited amount of time |Empty| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise| Desired yaw angle. NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Loiter around this waypoint an unlimited amount of time |Empty| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise| Desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint an unlimited amount of time")]
         LOITER_UNLIM=17, 
-        ///<summary> Loiter around this waypoint for X turns |Number of turns.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle. NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Loiter around this waypoint for X turns |Number of turns.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint for X turns")]
         LOITER_TURNS=18, 
-        ///<summary> Loiter around this waypoint for X seconds |Loiter time.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise.| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle.  NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Loiter around this waypoint for X seconds |Loiter time.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise.| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle.  NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint for X seconds")]
         LOITER_TIME=19, 
         ///<summary> Return to launch location |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Return to launch location")]
         RETURN_TO_LAUNCH=20, 
-        ///<summary> Land at location. |Minimum target altitude if landing is aborted (0 = undefined/use system default).| Precision land mode.| Empty.| Desired yaw angle. NaN for unchanged.| Latitude.| Longitude.| Landing altitude (ground level in current frame).|  </summary>
+        ///<summary> Land at location. |Minimum target altitude if landing is aborted (0 = undefined/use system default).| Precision land mode.| Empty.| ystem yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude.| Longitude.| Landing altitude (ground level in current frame).|  </summary>
         [Description("Land at location.")]
         LAND=21, 
-        ///<summary> Takeoff from ground / hand |Minimum pitch (if airspeed sensor present), desired pitch without sensor| Empty| Empty| Yaw angle (if magnetometer present), ignored without magnetometer. NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Takeoff from ground / hand |Minimum pitch (if airspeed sensor present), desired pitch without sensor| Empty| Empty| Yaw angle (if magnetometer present), ignored without magnetometer. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Takeoff from ground / hand")]
         TAKEOFF=22, 
-        ///<summary> Land at local position (local frame only) |vailable)| Maximum accepted offset from desired landing position - computed magnitude from spherical coordinates: d = sqrt(x^2 + y^2 + z^2), which gives the maximum accepted distance between the desired landing position and the position where the vehicle is about to land| Landing descend rate| Desired yaw angle| Y-axis position| X-axis position| Z-axis / ground level position|  </summary>
+        ///<summary> Land at local position (local frame only) |Landing target number (if available)| Maximum accepted offset from desired landing position - computed magnitude from spherical coordinates: d = sqrt(x^2 + y^2 + z^2), which gives the maximum accepted distance between the desired landing position and the position where the vehicle is about to land| Landing descend rate| Desired yaw angle| Y-axis position| s position| Z-axis / ground level position|  </summary>
         [Description("Land at local position (local frame only)")]
         LAND_LOCAL=23, 
         ///<summary> Takeoff from local position (local frame only) |Minimum pitch (if airspeed sensor present), desired pitch without sensor| Empty| Takeoff ascend rate| Yaw angle (if magnetometer or another yaw estimation source present), ignored without one of these| Y-axis position| X-axis position| Z-axis position|  </summary>
@@ -643,10 +651,10 @@ public partial class MAVLink
         ///<summary> Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up. |Altitude.| Descent speed.| How long to wiggle the control surfaces to prevent them seizing up.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up.")]
         ALTITUDE_WAIT=83, 
-        ///<summary> Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. |Empty| Front transition heading.| Empty| Yaw angle. NaN for unchanged.| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. |Empty| Front transition heading.| Empty| Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Takeoff from ground using VTOL mode, and transition to forward flight with specified heading.")]
         VTOL_TAKEOFF=84, 
-        ///<summary> Land using VTOL mode |Empty| Empty| Approach altitude (with the same reference as the Altitude field). NaN if unspecified.| Yaw angle. NaN for unchanged.| Latitude| Longitude| Altitude (ground level)|  </summary>
+        ///<summary> Land using VTOL mode |Empty| Empty| Approach altitude (with the same reference as the Altitude field). NaN if unspecified.| Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude (ground level)|  </summary>
         [Description("Land using VTOL mode")]
         VTOL_LAND=85, 
         ///<summary> hand control over to an external controller |0.5f on)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -664,7 +672,7 @@ public partial class MAVLink
         ///<summary> Delay mission state machine. |Delay| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Delay mission state machine.")]
         CONDITION_DELAY=112, 
-        ///<summary> Ascend/descend at rate.  Delay mission state machine until desired altitude reached. |Descent / Ascend rate.| Empty| Empty| Empty| Empty| Empty| Finish Altitude|  </summary>
+        ///<summary> Ascend/descend at rate.  Delay mission state machine until desired altitude reached. |Descent / Ascend rate.| Empty| Empty| Empty| Empty| Empty| Target Altitude|  </summary>
         [Description("Ascend/descend at rate.  Delay mission state machine until desired altitude reached.")]
         CONDITION_CHANGE_ALT=113, 
         ///<summary> Delay mission state machine until within desired distance of next NAV point. |Distance.| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -676,7 +684,7 @@ public partial class MAVLink
         ///<summary> NOP - This command is only used to mark the upper limit of the CONDITION commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("NOP - This command is only used to mark the upper limit of the CONDITION commands in the enumeration")]
         CONDITION_LAST=159, 
-        ///<summary> Set system mode. |Mode| Custom mode - this is system specific, please refer to the individual autopilot specifications for details.| Custom sub mode - this is system specific, please refer to the individual autopilot specifications for details.| Empty| Empty| Empty| Empty|  </summary>
+        ///<summary> Set system mode. |Mode| lease refer to the individual autopilot specifications for details.| Custom sub mode - this is system specific, please refer to the individual autopilot specifications for details.| Empty| Empty| Empty| Empty|  </summary>
         [Description("Set system mode.")]
         DO_SET_MODE=176, 
         ///<summary> Jump to the desired command in the mission list.  Repeat this action only the specified number of times |Sequence number| Repeat count| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -712,16 +720,16 @@ public partial class MAVLink
         ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. |Empty| Empty| Empty| Empty| Latitude| Longitude| Empty|  </summary>
         [Description("Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence.")]
         DO_LAND_START=189, 
-        ///<summary> Mission command to perform a landing from a rally point. |Break altitude| Landing speed| Empty| Empty| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to perform a landing from a rally point. |Break altitude| speed| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to perform a landing from a rally point.")]
         DO_RALLY_LAND=190, 
         ///<summary> Mission command to safely abort an autonomous landing. |Altitude| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to safely abort an autonomous landing.")]
         DO_GO_AROUND=191, 
-        ///<summary> Reposition the vehicle to a specific WGS84 global position. |Ground speed, less than 0 (-1) for default| Bitmask of option flags.| Reserved| Yaw heading, NaN for unchanged. For planes indicates loiter direction (0: clockwise, 1: counter clockwise)| Latitude| Longitude| Altitude (meters)|  </summary>
+        ///<summary> Reposition the vehicle to a specific WGS84 global position. |Ground speed, less than 0 (-1) for default| Bitmask of option flags.| Reserved| Yaw heading. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.). For planes indicates loiter direction (0: clockwise, 1: counter clockwise)| Latitude| Longitude| Altitude|  </summary>
         [Description("Reposition the vehicle to a specific WGS84 global position.")]
         DO_REPOSITION=192, 
-        ///<summary> If in a GPS controlled position mode, hold the current position or continue. |r radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
+        ///<summary> If in a GPS controlled position mode, hold the current position or continue. |VTOL capable vehicle should enter hover mode (multicopter and VTOL planes). A plane should loiter with the default loiter radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("If in a GPS controlled position mode, hold the current position or continue.")]
         DO_PAUSE_CONTINUE=193, 
         ///<summary> Set moving direction to forward or reverse. |Direction (0=Forward, 1=Reverse)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -739,7 +747,7 @@ public partial class MAVLink
         ///<summary> Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means. |sysid| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means.")]
         DO_SET_ROI_SYSID=198, 
-        ///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| 0: single images every n seconds| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
+        ///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| 0: single images every n seconds| ording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
         [Description("Control onboard camera system.")]
         DO_CONTROL_VIDEO=200, 
         ///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of interest mode.| Waypoint index/ target ID (depends on param 1).| Region of interest index. (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
@@ -751,13 +759,13 @@ public partial class MAVLink
         ///<summary> Control digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ). |Session control e.g. show/hide lens| Zoom's absolute position| Zooming step value to offset zoom from the current position| Focus Locking, Unlocking or Re-locking| Shooting Command| Command Identity| Test shot identifier. If set to 1, image will only be captured, but not counted towards internal frame count.|  </summary>
         [Description("Control digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ).")]
         DO_DIGICAM_CONTROL=203, 
-        ///<summary> Mission command to configure a camera or antenna mount |Mount operation mode| stabilize roll? (1 = yes, 0 = no)| stabilize pitch? (1 = yes, 0 = no)| es, 0 = no)| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to configure a camera or antenna mount |Mount operation mode| stabilize roll? (1 = yes, 0 = no)| o)| stabilize yaw? (1 = yes, 0 = no)| Empty| Empty| Empty|  </summary>
         [Description("Mission command to configure a camera or antenna mount")]
         DO_MOUNT_CONFIGURE=204, 
         ///<summary> Mission command to control a camera or antenna mount |pitch (WIP: DEPRECATED: or lat in degrees) depending on mount mode.| roll (WIP: DEPRECATED: or lon in degrees) depending on mount mode.| yaw (WIP: DEPRECATED: or alt in meters) depending on mount mode.| WIP: alt in meters depending on mount mode.| WIP: latitude in degrees * 1E7, set if appropriate mount mode.| WIP: longitude in degrees * 1E7, set if appropriate mount mode.| Mount mode.|  </summary>
         [Description("Mission command to control a camera or antenna mount")]
         DO_MOUNT_CONTROL=205, 
-        ///<summary> Mission command to set camera trigger distance for this flight. The camera is triggered each time this distance is exceeded. This command can also be used to set the shutter integration time for the camera. |Camera trigger distance. 0 to stop triggering.| Camera shutter integration time. -1 or 0 to ignore| Trigger camera once immediately. (0 = no trigger, 1 = trigger)| Empty| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to set camera trigger distance for this flight. The camera is triggered each time this distance is exceeded. This command can also be used to set the shutter integration time for the camera. |Camera trigger distance. 0 to stop triggering.| Camera shutter integration time. -1 or 0 to ignore| Trigger camera once immediately. (0 = no trigger, 1 = trigger)| Empty| ty| Empty| Empty|  </summary>
         [Description("Mission command to set camera trigger distance for this flight. The camera is triggered each time this distance is exceeded. This command can also be used to set the shutter integration time for the camera.")]
         DO_SET_CAM_TRIGG_DIST=206, 
         ///<summary> Mission command to enable the geofence |enable? (0=disable, 1=enable, 2=disable_floor_only)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -766,7 +774,7 @@ public partial class MAVLink
         ///<summary> Mission command to trigger a parachute |action| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to trigger a parachute")]
         DO_PARACHUTE=208, 
-        ///<summary> Mission command to perform motor test. |Motor instance number. (from 1 to max number of motors on the vehicle)| Throttle type.| Throttle.| Timeout.| Motor count. (number of motors to test to test in sequence, waiting for the timeout above between them; 0=1 motor, 1=1 motor, 2=2 motors...)| Motor test order.| Empty|  </summary>
+        ///<summary> Mission command to perform motor test. |Motor instance number. (from 1 to max number of motors on the vehicle)| Throttle type.| Throttle.| Timeout.| Motor count. (number of motors to test to test in sequence, waiting for the timeout above between them; 0=1 motor, 1=1 motor, 2=2 motors...)| tor test order.| Empty|  </summary>
         [Description("Mission command to perform motor test.")]
         DO_MOTOR_TEST=209, 
         ///<summary> Change to/from inverted flight. |Inverted flight. (0=normal, 1=inverted)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -793,7 +801,7 @@ public partial class MAVLink
         ///<summary> set id of master controller |System ID| Component ID| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("set id of master controller")]
         DO_GUIDED_MASTER=221, 
-        ///<summary> Set limits for external control |Timeout - maximum time that external controller will be allowed to control vehicle. 0 means no timeout.| Altitude (MSL) min - if vehicle moves below this alt, the command will be aborted and the mission will continue. 0 means no lower altitude limit.| cle moves above this alt, the command will be aborted and the mission will continue. 0 means no upper altitude limit.| Horizontal move limit - if vehicle moves more than this distance from its location at the moment the command was executed, the command will be aborted and the mission will continue. 0 means no horizontal move limit.| Empty| Empty| Empty|  </summary>
+        ///<summary> Set limits for external control |Timeout - maximum time that external controller will be allowed to control vehicle. 0 means no timeout.| s no lower altitude limit.| Altitude (MSL) max - if vehicle moves above this alt, the command will be aborted and the mission will continue. 0 means no upper altitude limit.| Horizontal move limit - if vehicle moves more than this distance from its location at the moment the command was executed, the command will be aborted and the mission will continue. 0 means no horizontal move limit.| Empty| Empty| Empty|  </summary>
         [Description("Set limits for external control")]
         DO_GUIDED_LIMITS=222, 
         ///<summary> Control vehicle engine. This is interpreted by the vehicles engine controller to change the target engine state. It is intended for vehicles with internal combustion engines |0: Stop engine, 1:Start Engine| 0: Warm start, 1:Cold start. Controls use of choke where applicable| Height delay. This is for commanding engine start only after the vehicle has gained the specified height. Used in VTOL vehicles during takeoff to start engine after the aircraft is off the ground. Zero for no delay.| Empty| Empty| Empty| Empty|  </summary>
@@ -805,7 +813,7 @@ public partial class MAVLink
         ///<summary> NOP - This command is only used to mark the upper limit of the DO commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("NOP - This command is only used to mark the upper limit of the DO commands in the enumeration")]
         DO_LAST=240, 
-        ///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero. |1: gyro calibration, 3: gyro temperature calibration| 1: magnetometer calibration| 1: ground pressure calibration| 1: radio RC calibration, 2: RC trim calibration| 1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration, 4: simple accelerometer calibration| 1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration| 1: ESC calibration, 3: barometer temperature calibration|  </summary>
+        ///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero. |1: gyro calibration, 3: gyro temperature calibration| 1: magnetometer calibration| 1: ground pressure calibration| 1: radio RC calibration, 2: RC trim calibration| erature calibration, 4: simple accelerometer calibration| 1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration| 1: ESC calibration, 3: barometer temperature calibration|  </summary>
         [Description("Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero.")]
         PREFLIGHT_CALIBRATION=241, 
         ///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |Sensor to adjust the offsets for: 0: gyros, 1: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer, 6: third magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
@@ -817,7 +825,7 @@ public partial class MAVLink
         ///<summary> Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode. |Parameter storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| Mission storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| 1: logging rate (e.g. set to 1000 for 1000 Hz logging)| Reserved| Empty| Empty| Empty|  </summary>
         [Description("Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode.")]
         PREFLIGHT_STORAGE=245, 
-        ///<summary> Request the reboot or shutdown of system components. |0: Do nothing for autopilot, 1: Reboot autopilot, 2: Shutdown autopilot, 3: Reboot autopilot and keep it in the bootloader until upgraded.| 0: Do nothing for onboard computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.| WIP: 0: Do nothing for camera, 1: Reboot onboard camera, 2: Shutdown onboard camera, 3: Reboot onboard camera and keep it in the bootloader until upgraded| oot mount, 2: Shutdown mount, 3: Reboot mount and keep it in the bootloader until upgraded| Reserved, send 0| Reserved, send 0| WIP: ID (e.g. camera ID -1 for all IDs)|  </summary>
+        ///<summary> Request the reboot or shutdown of system components. |0: Do nothing for autopilot, 1: Reboot autopilot, 2: Shutdown autopilot, 3: Reboot autopilot and keep it in the bootloader until upgraded.| 0: Do nothing for onboard computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.| it in the bootloader until upgraded| WIP: 0: Do nothing for mount (e.g. gimbal), 1: Reboot mount, 2: Shutdown mount, 3: Reboot mount and keep it in the bootloader until upgraded| Reserved, send 0| Reserved, send 0| WIP: ID (e.g. camera ID -1 for all IDs)|  </summary>
         [Description("Request the reboot or shutdown of system components.")]
         PREFLIGHT_REBOOT_SHUTDOWN=246, 
         ///<summary> Override current mission with command to pause mission, pause mission and move to position, continue/resume mission. When param 1 indicates that the mission is paused (MAV_GOTO_DO_HOLD), param 2 defines whether it holds in place or moves to another position. |MAV_GOTO_DO_HOLD: pause mission and either hold or move to specified position (depending on param2), MAV_GOTO_DO_CONTINUE: resume mission.| MAV_GOTO_HOLD_AT_CURRENT_POSITION: hold at current position, MAV_GOTO_HOLD_AT_SPECIFIED_POSITION: hold at specified position.| Coordinate frame of hold point.| Desired yaw angle.| Latitude / X position.| Longitude / Y position.| Altitude / Z position.|  </summary>
@@ -877,7 +885,7 @@ public partial class MAVLink
         ///<summary> Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number. |Target tag to jump to.| Repeat count.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number.")]
         DO_JUMP_TAG=601, 
-        ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| Desired elapsed time between two consecutive pictures (in seconds). Minimum values depend on hardware (typically greater than 2 seconds).| Total number of images to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| apture command to prevent double captures when a command is re-transmitted. Use 0 to ignore it.| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| Desired elapsed time between two consecutive pictures (in seconds). Minimum values depend on hardware (typically greater than 2 seconds).| Total number of images to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| equence number starting from 1. This is only valid for single-capture (param3 == 1). Increment the capture ID for each capture command to prevent double captures when a command is re-transmitted. Use 0 to ignore it.| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.")]
         IMAGE_START_CAPTURE=2000, 
         ///<summary> Stop image capture sequence Use NaN for reserved values. |Reserved (Set to 0)| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
@@ -943,43 +951,43 @@ public partial class MAVLink
         ///<summary> Rally point. You can have multiple rally points defined.          |Reserved| Reserved| Reserved| Reserved| Latitude| Longitude| Altitude|  </summary>
         [Description("Rally point. You can have multiple rally points defined.         ")]
         RALLY_POINT=5100, 
-        ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| t to 0)| Reserved (set to 0)|  </summary>
+        ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages.")]
         UAVCAN_GET_NODE_INFO=5200, 
-        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Longitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Altitude (MSL), in meters|  </summary>
+        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Longitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Altitude (MSL)|  </summary>
         [Description("Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity.")]
         PAYLOAD_PREPARE_DEPLOY=30001, 
         ///<summary> Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal mission. 1: switch to payload deployment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("Control the payload deployment.")]
         PAYLOAD_CONTROL_DEPLOY=30002, 
-        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
         WAYPOINT_USER_1=31000, 
-        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
         WAYPOINT_USER_2=31001, 
-        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
         WAYPOINT_USER_3=31002, 
-        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
         WAYPOINT_USER_4=31003, 
-        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
         WAYPOINT_USER_5=31004, 
-        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
         SPATIAL_USER_1=31005, 
-        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
         SPATIAL_USER_2=31006, 
-        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| ser defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
         SPATIAL_USER_3=31007, 
-        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
         SPATIAL_USER_4=31008, 
-        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL), in meters|  </summary>
+        ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
         SPATIAL_USER_5=31009, 
         ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
@@ -2184,6 +2192,57 @@ public partial class MAVLink
     
     };
     
+    ///<summary> The type of parameter for the OSD parameter editor. </summary>
+    public enum OSD_PARAM_CONFIG_TYPE: byte
+    {
+            ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_NONE=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_SERIAL_PROTOCOL=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_SERVO_FUNCTION=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_AUX_FUNCTION=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_FLIGHT_MODE=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_FAILSAFE_ACTION=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_FAILSAFE_ACTION_1=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_FAILSAFE_ACTION_2=7, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_NUM_TYPES=8, 
+    
+    };
+    
+    ///<summary> The error type for the OSD parameter editor. </summary>
+    public enum OSD_PARAM_CONFIG_ERROR: byte
+    {
+            ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_SUCCESS=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_INVALID_SCREEN=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_INVALID_PARAMETER_INDEX=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        OSD_PARAM_INVALID_PARAMETER=3, 
+    
+    };
+    
     
     
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
@@ -2873,6 +2932,9 @@ public partial class MAVLink
         ///<summary> Component that provides position estimates using VIO techniques. | </summary>
         [Description("Component that provides position estimates using VIO techniques.")]
         MAV_COMP_ID_VISUAL_INERTIAL_ODOMETRY=197, 
+        ///<summary> Component that manages pairing of vehicle and GCS. | </summary>
+        [Description("Component that manages pairing of vehicle and GCS.")]
+        MAV_COMP_ID_PAIRING_MANAGER=198, 
         ///<summary> Inertial Measurement Unit (IMU) #1. | </summary>
         [Description("Inertial Measurement Unit (IMU) #1.")]
         MAV_COMP_ID_IMU=200, 
@@ -2990,6 +3052,9 @@ public partial class MAVLink
         ///<summary> 0x10000000 pre-arm check status. Always healthy when armed | </summary>
         [Description("0x10000000 pre-arm check status. Always healthy when armed")]
         MAV_SYS_STATUS_PREARM_CHECK=268435456, 
+        ///<summary> 0x20000000 Avoidance/collision prevention | </summary>
+        [Description("0x20000000 Avoidance/collision prevention")]
+        MAV_SYS_STATUS_OBSTACLE_AVOIDANCE=536870912, 
     
     };
     
@@ -4934,6 +4999,24 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         VALID_NAME=4096, 
+    
+    };
+    
+    ///<summary> Winch status flags used in WINCH_STATUS </summary>
+    public enum MAV_WINCH_STATUS_FLAG: uint
+    {
+            ///<summary> Winch is healthy | </summary>
+        [Description("Winch is healthy")]
+        MAV_WINCH_STATUS_HEALTHY=1, 
+        ///<summary> Winch thread is fully retracted | </summary>
+        [Description("Winch thread is fully retracted")]
+        MAV_WINCH_STATUS_FULLY_RETRACTED=2, 
+        ///<summary> Winch motor is moving | </summary>
+        [Description("Winch motor is moving")]
+        MAV_WINCH_STATUS_MOVING=4, 
+        ///<summary> Winch clutch is engaged allowing motor to move freely | </summary>
+        [Description("Winch clutch is engaged allowing motor to move freely")]
+        MAV_WINCH_STATUS_CLUTCH_ENGAGED=8, 
     
     };
     
@@ -7279,10 +7362,10 @@ public partial class MAVLink
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=65)]
-    ///<summary> EFI Status Output </summary>
+    ///<summary> EFI status output </summary>
     public struct mavlink_efi_status_t
     {
-        public mavlink_efi_status_t(float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,byte health,float exhaust_gas_temperature,float throttle_out,float pt_compensation) 
+        public mavlink_efi_status_t(float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,byte health) 
         {
               this.ecu_index = ecu_index;
               this.rpm = rpm;
@@ -7297,80 +7380,80 @@ public partial class MAVLink
               this.cylinder_head_temperature = cylinder_head_temperature;
               this.ignition_timing = ignition_timing;
               this.injection_time = injection_time;
-              this.health = health;
               this.exhaust_gas_temperature = exhaust_gas_temperature;
               this.throttle_out = throttle_out;
               this.pt_compensation = pt_compensation;
+              this.health = health;
             
         }
-        /// <summary>ECU Index   </summary>
+        /// <summary>ECU index   </summary>
         [Units("")]
-        [Description("ECU Index")]
+        [Description("ECU index")]
         public  float ecu_index;
             /// <summary>RPM   </summary>
         [Units("")]
         [Description("RPM")]
         public  float rpm;
-            /// <summary>Fuel Consumed  [g] </summary>
+            /// <summary>Fuel consumed  [g] </summary>
         [Units("[g]")]
-        [Description("Fuel Consumed")]
+        [Description("Fuel consumed")]
         public  float fuel_consumed;
-            /// <summary>Fuel Flow Rate  [g/min] </summary>
+            /// <summary>Fuel flow rate  [g/min] </summary>
         [Units("[g/min]")]
-        [Description("Fuel Flow Rate")]
+        [Description("Fuel flow rate")]
         public  float fuel_flow;
-            /// <summary>Engine Load  [%] </summary>
+            /// <summary>Engine load  [%] </summary>
         [Units("[%]")]
-        [Description("Engine Load")]
+        [Description("Engine load")]
         public  float engine_load;
-            /// <summary>Throttle Position  [%] </summary>
+            /// <summary>Throttle position  [%] </summary>
         [Units("[%]")]
-        [Description("Throttle Position")]
+        [Description("Throttle position")]
         public  float throttle_position;
-            /// <summary>Spark Dwell Time  [ms] </summary>
+            /// <summary>Spark dwell time  [ms] </summary>
         [Units("[ms]")]
-        [Description("Spark Dwell Time")]
+        [Description("Spark dwell time")]
         public  float spark_dwell_time;
-            /// <summary>Barometric Pressure  [kPa] </summary>
+            /// <summary>Barometric pressure  [kPa] </summary>
         [Units("[kPa]")]
-        [Description("Barometric Pressure")]
+        [Description("Barometric pressure")]
         public  float barometric_pressure;
-            /// <summary>Intake Manifold Pressure(  [kPa] </summary>
+            /// <summary>Intake manifold pressure(  [kPa] </summary>
         [Units("[kPa]")]
-        [Description("Intake Manifold Pressure(")]
+        [Description("Intake manifold pressure(")]
         public  float intake_manifold_pressure;
-            /// <summary>Intake Manifold Temperature  [degC] </summary>
+            /// <summary>Intake manifold temperature  [degC] </summary>
         [Units("[degC]")]
-        [Description("Intake Manifold Temperature")]
+        [Description("Intake manifold temperature")]
         public  float intake_manifold_temperature;
-            /// <summary>cylinder_head_temperature  [degC] </summary>
+            /// <summary>Cylinder head temperature  [degC] </summary>
         [Units("[degC]")]
-        [Description("cylinder_head_temperature")]
+        [Description("Cylinder head temperature")]
         public  float cylinder_head_temperature;
-            /// <summary>Ignition timing (Crank Angle degrees)  [deg] </summary>
+            /// <summary>Ignition timing (Crank angle degrees)  [deg] </summary>
         [Units("[deg]")]
-        [Description("Ignition timing (Crank Angle degrees)")]
+        [Description("Ignition timing (Crank angle degrees)")]
         public  float ignition_timing;
             /// <summary>Injection time  [ms] </summary>
         [Units("[ms]")]
         [Description("Injection time")]
         public  float injection_time;
-            /// <summary>EFI Health status   </summary>
-        [Units("")]
-        [Description("EFI Health status")]
-        public  byte health;
-            /// <summary>exhaust gas temperature  [degC] </summary>
+            /// <summary>Exhaust gas temperature  [degC] </summary>
         [Units("[degC]")]
-        [Description("exhaust gas temperature")]
+        [Description("Exhaust gas temperature")]
         public  float exhaust_gas_temperature;
-            /// <summary>output throttle  [%] </summary>
+            /// <summary>Output throttle  [%] </summary>
         [Units("[%]")]
-        [Description("output throttle")]
+        [Description("Output throttle")]
         public  float throttle_out;
-            /// <summary>pressure/temperature compensation   </summary>
+            /// <summary>Pressure/temperature compensation   </summary>
         [Units("")]
-        [Description("pressure/temperature compensation")]
+        [Description("Pressure/temperature compensation")]
         public  float pt_compensation;
+            /// <summary>EFI health status   </summary>
+        [Units("")]
+        [Description("EFI health status")]
+        public  byte health;
     
     };
 
@@ -7397,11 +7480,11 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=51)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=52)]
     ///<summary> Read registers for a device. </summary>
     public struct mavlink_device_op_read_t
     {
-        public mavlink_device_op_read_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count) 
+        public mavlink_device_op_read_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte bank) 
         {
               this.request_id = request_id;
               this.target_system = target_system;
@@ -7412,6 +7495,7 @@ public partial class MAVLink
               this.busname = busname;
               this.regstart = regstart;
               this.count = count;
+              this.bank = bank;
             
         }
         /// <summary>Request ID - copied to reply.   </summary>
@@ -7451,21 +7535,26 @@ public partial class MAVLink
         [Units("")]
         [Description("Count of registers to read.")]
         public  byte count;
+            /// <summary>Bank number.   </summary>
+        [Units("")]
+        [Description("Bank number.")]
+        public  byte bank;
     
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=135)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=136)]
     ///<summary> Read registers reply. </summary>
     public struct mavlink_device_op_read_reply_t
     {
-        public mavlink_device_op_read_reply_t(uint request_id,byte result,byte regstart,byte count,byte[] data) 
+        public mavlink_device_op_read_reply_t(uint request_id,byte result,byte regstart,byte count,byte[] data,byte bank) 
         {
               this.request_id = request_id;
               this.result = result;
               this.regstart = regstart;
               this.count = count;
               this.data = data;
+              this.bank = bank;
             
         }
         /// <summary>Request ID - copied from request.   </summary>
@@ -7489,15 +7578,19 @@ public partial class MAVLink
         [Description("Reply data.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
 		public byte[] data;
+            /// <summary>Bank number.   </summary>
+        [Units("")]
+        [Description("Bank number.")]
+        public  byte bank;
     
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=179)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=180)]
     ///<summary> Write registers for a device. </summary>
     public struct mavlink_device_op_write_t
     {
-        public mavlink_device_op_write_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte[] data) 
+        public mavlink_device_op_write_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte[] data,byte bank) 
         {
               this.request_id = request_id;
               this.target_system = target_system;
@@ -7509,6 +7602,7 @@ public partial class MAVLink
               this.regstart = regstart;
               this.count = count;
               this.data = data;
+              this.bank = bank;
             
         }
         /// <summary>Request ID - copied to reply.   </summary>
@@ -7553,6 +7647,10 @@ public partial class MAVLink
         [Description("Write data.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
 		public byte[] data;
+            /// <summary>Bank number.   </summary>
+        [Units("")]
+        [Description("Bank number.")]
+        public  byte bank;
     
     };
 
@@ -7866,6 +7964,176 @@ public partial class MAVLink
     };
 
 
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
+    ///<summary> Configure an OSD parameter slot. </summary>
+    public struct mavlink_osd_param_config_t
+    {
+        public mavlink_osd_param_config_t(uint request_id,float min_value,float max_value,float increment,byte target_system,byte target_component,byte osd_screen,byte osd_index,byte[] param_id,/*OSD_PARAM_CONFIG_TYPE*/byte config_type) 
+        {
+              this.request_id = request_id;
+              this.min_value = min_value;
+              this.max_value = max_value;
+              this.increment = increment;
+              this.target_system = target_system;
+              this.target_component = target_component;
+              this.osd_screen = osd_screen;
+              this.osd_index = osd_index;
+              this.param_id = param_id;
+              this.config_type = config_type;
+            
+        }
+        /// <summary>Request ID - copied to reply.   </summary>
+        [Units("")]
+        [Description("Request ID - copied to reply.")]
+        public  uint request_id;
+            /// <summary>OSD parameter minimum value.   </summary>
+        [Units("")]
+        [Description("OSD parameter minimum value.")]
+        public  float min_value;
+            /// <summary>OSD parameter maximum value.   </summary>
+        [Units("")]
+        [Description("OSD parameter maximum value.")]
+        public  float max_value;
+            /// <summary>OSD parameter increment.   </summary>
+        [Units("")]
+        [Description("OSD parameter increment.")]
+        public  float increment;
+            /// <summary>System ID.   </summary>
+        [Units("")]
+        [Description("System ID.")]
+        public  byte target_system;
+            /// <summary>Component ID.   </summary>
+        [Units("")]
+        [Description("Component ID.")]
+        public  byte target_component;
+            /// <summary>OSD parameter screen index.   </summary>
+        [Units("")]
+        [Description("OSD parameter screen index.")]
+        public  byte osd_screen;
+            /// <summary>OSD parameter display index.   </summary>
+        [Units("")]
+        [Description("OSD parameter display index.")]
+        public  byte osd_index;
+            /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+        [Units("")]
+        [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+            /// <summary>Config type. OSD_PARAM_CONFIG_TYPE  </summary>
+        [Units("")]
+        [Description("Config type.")]
+        public  /*OSD_PARAM_CONFIG_TYPE*/byte config_type;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
+    ///<summary> Configure OSD parameter reply. </summary>
+    public struct mavlink_osd_param_config_reply_t
+    {
+        public mavlink_osd_param_config_reply_t(uint request_id,/*OSD_PARAM_CONFIG_ERROR*/byte result) 
+        {
+              this.request_id = request_id;
+              this.result = result;
+            
+        }
+        /// <summary>Request ID - copied from request.   </summary>
+        [Units("")]
+        [Description("Request ID - copied from request.")]
+        public  uint request_id;
+            /// <summary>Config error type. OSD_PARAM_CONFIG_ERROR  </summary>
+        [Units("")]
+        [Description("Config error type.")]
+        public  /*OSD_PARAM_CONFIG_ERROR*/byte result;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
+    ///<summary> Read a configured an OSD parameter slot. </summary>
+    public struct mavlink_osd_param_show_config_t
+    {
+        public mavlink_osd_param_show_config_t(uint request_id,byte target_system,byte target_component,byte osd_screen,byte osd_index) 
+        {
+              this.request_id = request_id;
+              this.target_system = target_system;
+              this.target_component = target_component;
+              this.osd_screen = osd_screen;
+              this.osd_index = osd_index;
+            
+        }
+        /// <summary>Request ID - copied to reply.   </summary>
+        [Units("")]
+        [Description("Request ID - copied to reply.")]
+        public  uint request_id;
+            /// <summary>System ID.   </summary>
+        [Units("")]
+        [Description("System ID.")]
+        public  byte target_system;
+            /// <summary>Component ID.   </summary>
+        [Units("")]
+        [Description("Component ID.")]
+        public  byte target_component;
+            /// <summary>OSD parameter screen index.   </summary>
+        [Units("")]
+        [Description("OSD parameter screen index.")]
+        public  byte osd_screen;
+            /// <summary>OSD parameter display index.   </summary>
+        [Units("")]
+        [Description("OSD parameter display index.")]
+        public  byte osd_index;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
+    ///<summary> Read configured OSD parameter reply. </summary>
+    public struct mavlink_osd_param_show_config_reply_t
+    {
+        public mavlink_osd_param_show_config_reply_t(uint request_id,float min_value,float max_value,float increment,/*OSD_PARAM_CONFIG_ERROR*/byte result,byte[] param_id,/*OSD_PARAM_CONFIG_TYPE*/byte config_type) 
+        {
+              this.request_id = request_id;
+              this.min_value = min_value;
+              this.max_value = max_value;
+              this.increment = increment;
+              this.result = result;
+              this.param_id = param_id;
+              this.config_type = config_type;
+            
+        }
+        /// <summary>Request ID - copied from request.   </summary>
+        [Units("")]
+        [Description("Request ID - copied from request.")]
+        public  uint request_id;
+            /// <summary>OSD parameter minimum value.   </summary>
+        [Units("")]
+        [Description("OSD parameter minimum value.")]
+        public  float min_value;
+            /// <summary>OSD parameter maximum value.   </summary>
+        [Units("")]
+        [Description("OSD parameter maximum value.")]
+        public  float max_value;
+            /// <summary>OSD parameter increment.   </summary>
+        [Units("")]
+        [Description("OSD parameter increment.")]
+        public  float increment;
+            /// <summary>Config error type. OSD_PARAM_CONFIG_ERROR  </summary>
+        [Units("")]
+        [Description("Config error type.")]
+        public  /*OSD_PARAM_CONFIG_ERROR*/byte result;
+            /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+        [Units("")]
+        [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+            /// <summary>Config type. OSD_PARAM_CONFIG_TYPE  </summary>
+        [Units("")]
+        [Description("Config type.")]
+        public  /*OSD_PARAM_CONFIG_TYPE*/byte config_type;
+    
+    };
+
+
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
     ///<summary> Information about video stream </summary>
     public struct mavlink_video_stream_information_t
@@ -8072,9 +8340,9 @@ public partial class MAVLink
               this.target_component = target_component;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>PING sequence   </summary>
         [Units("")]
@@ -8352,9 +8620,9 @@ public partial class MAVLink
               this.yaw = yaw;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Latitude (WGS84, EGM96 ellipsoid)  [degE7] </summary>
         [Units("[degE7]")]
@@ -8396,17 +8664,17 @@ public partial class MAVLink
         [Units("[mm]")]
         [Description("Altitude (above WGS84, EGM96 ellipsoid). Positive for up.")]
         public  int alt_ellipsoid;
-            /// <summary>Position uncertainty. Positive for up.  [mm] </summary>
+            /// <summary>Position uncertainty.  [mm] </summary>
         [Units("[mm]")]
-        [Description("Position uncertainty. Positive for up.")]
+        [Description("Position uncertainty.")]
         public  uint h_acc;
-            /// <summary>Altitude uncertainty. Positive for up.  [mm] </summary>
+            /// <summary>Altitude uncertainty.  [mm] </summary>
         [Units("[mm]")]
-        [Description("Altitude uncertainty. Positive for up.")]
+        [Description("Altitude uncertainty.")]
         public  uint v_acc;
-            /// <summary>Speed uncertainty. Positive for up.  [mm] </summary>
+            /// <summary>Speed uncertainty.  [mm] </summary>
         [Units("[mm]")]
-        [Description("Speed uncertainty. Positive for up.")]
+        [Description("Speed uncertainty.")]
         public  uint vel_acc;
             /// <summary>Heading / track uncertainty  [degE5] </summary>
         [Units("[degE5]")]
@@ -8554,9 +8822,9 @@ public partial class MAVLink
               this.temperature = temperature;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>X acceleration (raw)   </summary>
         [Units("")]
@@ -8619,9 +8887,9 @@ public partial class MAVLink
               this.temperature = temperature;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Absolute pressure (raw)   </summary>
         [Units("")]
@@ -9049,9 +9317,9 @@ public partial class MAVLink
               this.servo16_raw = servo16_raw;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  uint time_usec;
             /// <summary>Servo output 1 value  [us] </summary>
         [Units("[us]")]
@@ -9200,7 +9468,7 @@ public partial class MAVLink
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
-    ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). See also https://mavlink.io/en/services/mission.html. </summary>
+    ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN may be used to indicate an optional/default value (e.g. to use the system's current latitude or yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html. </summary>
     public struct mavlink_mission_item_t
     {
         public mavlink_mission_item_t(float param1,float param2,float param3,float param4,float x,float y,float z,ushort seq,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue,/*MAV_MISSION_TYPE*/byte mission_type) 
@@ -9526,9 +9794,9 @@ public partial class MAVLink
         [Units("")]
         [Description("System ID")]
         public  byte target_system;
-            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
     
     };
@@ -9558,9 +9826,9 @@ public partial class MAVLink
         [Units("[mm]")]
         [Description("Altitude (MSL). Positive for up.")]
         public  int altitude;
-            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
     
     };
@@ -9774,9 +10042,9 @@ public partial class MAVLink
               this.covariance = covariance;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)   </summary>
         [Units("")]
@@ -9874,9 +10142,9 @@ public partial class MAVLink
               this.estimator_type = estimator_type;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
@@ -9939,9 +10207,9 @@ public partial class MAVLink
               this.estimator_type = estimator_type;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>X Position  [m] </summary>
         [Units("[m]")]
@@ -10328,7 +10596,7 @@ public partial class MAVLink
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
-    ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). See also https://mavlink.io/en/services/mission.html. </summary>
+    ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN or INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the component's current latitude, yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html. </summary>
     public struct mavlink_mission_item_int_t
     {
         public mavlink_mission_item_int_t(float param1,float param2,float param3,float param4,int x,int y,float z,ushort seq,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue,/*MAV_MISSION_TYPE*/byte mission_type) 
@@ -11194,9 +11462,9 @@ public partial class MAVLink
               this.zacc = zacc;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Roll angle  [rad] </summary>
         [Units("[rad]")]
@@ -11281,9 +11549,9 @@ public partial class MAVLink
               this.nav_mode = nav_mode;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Control output -1 .. 1   </summary>
         [Units("")]
@@ -11351,9 +11619,9 @@ public partial class MAVLink
               this.rssi = rssi;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>RC channel 1 value  [us] </summary>
         [Units("[us]")]
@@ -11423,13 +11691,13 @@ public partial class MAVLink
               this.mode = mode;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
-            /// <summary>Flags as bitfield, reserved for future use.   bitmask</summary>
+            /// <summary>Flags as bitfield, 1: indicate simulation using lockstep.   bitmask</summary>
         [Units("")]
-        [Description("Flags as bitfield, reserved for future use.")]
+        [Description("Flags as bitfield, 1: indicate simulation using lockstep.")]
         public  ulong flags;
             /// <summary>Control outputs -1 .. 1. Channel assignment depends on the simulated hardware.   </summary>
         [Units("")]
@@ -11462,9 +11730,9 @@ public partial class MAVLink
               this.flow_rate_y = flow_rate_y;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Flow in x-sensor direction, angular-speed compensated  [m/s] </summary>
         [Units("[m/s]")]
@@ -11742,9 +12010,9 @@ public partial class MAVLink
               this.id = id;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>X acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
@@ -11830,9 +12098,9 @@ public partial class MAVLink
               this.quality = quality;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.  [us] </summary>
         [Units("[us]")]
@@ -11905,9 +12173,9 @@ public partial class MAVLink
               this.fields_updated = fields_updated;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>X acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
@@ -12198,9 +12466,9 @@ public partial class MAVLink
               this.seq = seq;
             
         }
-        /// <summary>Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Image frame sequence   </summary>
         [Units("")]
@@ -12231,9 +12499,9 @@ public partial class MAVLink
               this.satellites_visible = satellites_visible;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
@@ -12307,9 +12575,9 @@ public partial class MAVLink
               this.quality = quality;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.  [us] </summary>
         [Units("[us]")]
@@ -12383,9 +12651,9 @@ public partial class MAVLink
               this.zacc = zacc;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Vehicle attitude expressed as normalized quaternion in w, x, y, z order (with 1 0 0 0 being the null-rotation)   </summary>
         [Units("")]
@@ -12756,9 +13024,9 @@ public partial class MAVLink
               this.yaw = yaw;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
@@ -13431,9 +13699,9 @@ public partial class MAVLink
               this.covariance = covariance;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
         [Units("")]
@@ -13474,9 +13742,9 @@ public partial class MAVLink
               this.target_component = target_component;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.   </summary>
         [Units("")]
@@ -13510,9 +13778,9 @@ public partial class MAVLink
               this.group_mlx = group_mlx;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.   </summary>
         [Units("")]
@@ -13542,9 +13810,9 @@ public partial class MAVLink
               this.bottom_clearance = bottom_clearance;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>This altitude measure is initialized on system boot and monotonic (it is never reset, but represents the local altitude change). The only guarantee on this field is that it will never be reset and is consistent within a flight. The recommended value for this field is the uncorrected barometric altitude at boot time. This altitude will also drift and vary between flights.  [m] </summary>
         [Units("[m]")]
@@ -13747,9 +14015,9 @@ public partial class MAVLink
               this.yaw_rate = yaw_rate;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>X acceleration in body frame  [m/s/s] </summary>
         [Units("[m/s/s]")]
@@ -13853,9 +14121,9 @@ public partial class MAVLink
         [Units("[cdegC]")]
         [Description("Temperature of the battery. INT16_MAX for unknown temperature.")]
         public  short temperature;
-            /// <summary>Battery voltage of cells. Cells above the valid cell count for this battery should have the UINT16_MAX value.  [mV] </summary>
+            /// <summary>Battery voltage of cells. Cells above the valid cell count for this battery should have the UINT16_MAX value. If individual cell voltages are unknown or not measured for this battery, then the overall battery voltage should be filled in cell 0, with all others set to UINT16_MAX. If the voltage of the battery is greater than (UINT16_MAX - 1), then cell 0 should be set to (UINT16_MAX - 1), and cell 1 to the remaining voltage. This can be extended to multiple cells if the total voltage is greater than 2 * (UINT16_MAX - 1).  [mV] </summary>
         [Units("[mV]")]
-        [Description("Battery voltage of cells. Cells above the valid cell count for this battery should have the UINT16_MAX value.")]
+        [Description("Battery voltage of cells. Cells above the valid cell count for this battery should have the UINT16_MAX value. If individual cell voltages are unknown or not measured for this battery, then the overall battery voltage should be filled in cell 0, with all others set to UINT16_MAX. If the voltage of the battery is greater than (UINT16_MAX - 1), then cell 0 should be set to (UINT16_MAX - 1), and cell 1 to the remaining voltage. This can be extended to multiple cells if the total voltage is greater than 2 * (UINT16_MAX - 1).")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
 		public ushort[] voltages;
             /// <summary>Battery current, -1: autopilot does not measure the current  [cA] </summary>
@@ -13988,9 +14256,9 @@ public partial class MAVLink
               this.position_valid = position_valid;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>X-axis angular offset of the target from the center of the image  [rad] </summary>
         [Units("[rad]")]
@@ -14104,9 +14372,9 @@ public partial class MAVLink
               this.flags = flags;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Velocity innovation test ratio   </summary>
         [Units("")]
@@ -14165,9 +14433,9 @@ public partial class MAVLink
               this.vert_accuracy = vert_accuracy;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Wind in X (NED) direction  [m/s] </summary>
         [Units("[m/s]")]
@@ -14232,9 +14500,9 @@ public partial class MAVLink
               this.yaw = yaw;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>GPS time (from start of GPS week)  [ms] </summary>
         [Units("[ms]")]
@@ -14487,9 +14755,9 @@ public partial class MAVLink
               this.clipping_2 = clipping_2;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Vibration levels on X-axis   </summary>
         [Units("")]
@@ -14520,7 +14788,7 @@ public partial class MAVLink
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=60)]
-    ///<summary> This message can be requested by sending the MAV_CMD_GET_HOME_POSITION command. The position the system will return to and land on. The position is set automatically by the system during the takeoff in case it was not explicitly set by the operator before or after. The position the system will return to and land on. The global and local positions encode the position in the respective coordinate frames, while the q parameter encodes the orientation of the surface. Under normal conditions it describes the heading and terrain slope, which can be used by the aircraft to adjust the approach. The approach 3D vector describes the point to which the system should fly in normal flight mode and then perform a landing sequence along the vector. </summary>
+    ///<summary> This message can be requested by sending the MAV_CMD_GET_HOME_POSITION command. The position the system will return to and land on. The position is set automatically by the system during the takeoff in case it was not explicitly set by the operator before or after. The global and local positions encode the position in the respective coordinate frames, while the q parameter encodes the orientation of the surface. Under normal conditions it describes the heading and terrain slope, which can be used by the aircraft to adjust the approach. The approach 3D vector describes the point to which the system should fly in normal flight mode and then perform a landing sequence along the vector. </summary>
     public struct mavlink_home_position_t
     {
         public mavlink_home_position_t(int latitude,int longitude,int altitude,float x,float y,float z,float[] q,float approach_x,float approach_y,float approach_z,ulong time_usec) 
@@ -14579,9 +14847,9 @@ public partial class MAVLink
         [Units("[m]")]
         [Description("Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.")]
         public  float approach_z;
-            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
     
     };
@@ -14652,9 +14920,9 @@ public partial class MAVLink
         [Units("")]
         [Description("System ID.")]
         public  byte target_system;
-            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
     
     };
@@ -14913,9 +15181,9 @@ public partial class MAVLink
               this.name = name;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>x   </summary>
         [Units("")]
@@ -15747,9 +16015,9 @@ public partial class MAVLink
               this.sub_mode = sub_mode;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Time since the start-up of the node.  [s] </summary>
         [Units("[s]")]
@@ -15792,9 +16060,9 @@ public partial class MAVLink
               this.sw_version_minor = sw_version_minor;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Time since the start-up of the node.  [s] </summary>
         [Units("[s]")]
@@ -15851,9 +16119,9 @@ public partial class MAVLink
               this.frame = frame;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.  [cm] </summary>
         [Units("[cm]")]
@@ -15917,9 +16185,9 @@ public partial class MAVLink
               this.estimator_type = estimator_type;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>X Position  [m] </summary>
         [Units("[m]")]
@@ -16008,13 +16276,13 @@ public partial class MAVLink
               this.rx_session_pending = rx_session_pending;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong timestamp;
-            /// <summary>Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+            /// <summary>Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong last_heartbeat;
             /// <summary>Number of failed SBD sessions.   </summary>
         [Units("")]
@@ -16056,9 +16324,9 @@ public partial class MAVLink
               this.data = data;
             
         }
-        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.  [us] </summary>
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
-        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.")]
+        [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
         public  ulong time_usec;
             /// <summary>Unique ID used to discriminate between arrays   </summary>
         [Units("")]
@@ -16074,29 +16342,6 @@ public partial class MAVLink
         [Description("data")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)]
 		public float[] data;
-    
-    };
-
-
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
-    ///<summary> Status text message (use only for important status and error messages). The full message payload can be used for status text, but we recommend that updates be kept concise. Note: The message is intended as a less restrictive replacement for STATUSTEXT. </summary>
-    public struct mavlink_statustext_long_t
-    {
-        public mavlink_statustext_long_t(/*MAV_SEVERITY*/byte severity,byte[] text) 
-        {
-              this.severity = severity;
-              this.text = text;
-            
-        }
-        /// <summary>Severity of status. Relies on the definitions within RFC-5424. MAV_SEVERITY  </summary>
-        [Units("")]
-        [Description("Severity of status. Relies on the definitions within RFC-5424.")]
-        public  /*MAV_SEVERITY*/byte severity;
-            /// <summary>Status text message, without null termination character.   </summary>
-        [Units("")]
-        [Description("Status text message, without null termination character.")]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=254)]
-		public byte[] text;
     
     };
 
@@ -16220,6 +16465,58 @@ public partial class MAVLink
         [Units("")]
         [Description("Number of wheels reported.")]
         public  byte count;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
+    ///<summary> Winch status. </summary>
+    public struct mavlink_winch_status_t
+    {
+        public mavlink_winch_status_t(ulong time_usec,float line_length,float speed,float tension,float voltage,float current,/*MAV_WINCH_STATUS_FLAG*/uint status,short temperature) 
+        {
+              this.time_usec = time_usec;
+              this.line_length = line_length;
+              this.speed = speed;
+              this.tension = tension;
+              this.voltage = voltage;
+              this.current = current;
+              this.status = status;
+              this.temperature = temperature;
+            
+        }
+        /// <summary>Timestamp (synced to UNIX time or since system boot).  [us] </summary>
+        [Units("[us]")]
+        [Description("Timestamp (synced to UNIX time or since system boot).")]
+        public  ulong time_usec;
+            /// <summary>Length of line released. NaN if unknown  [m] </summary>
+        [Units("[m]")]
+        [Description("Length of line released. NaN if unknown")]
+        public  float line_length;
+            /// <summary>Speed line is being released or retracted. Positive values if being released, negative values if being retracted, NaN if unknown  [m/s] </summary>
+        [Units("[m/s]")]
+        [Description("Speed line is being released or retracted. Positive values if being released, negative values if being retracted, NaN if unknown")]
+        public  float speed;
+            /// <summary>Tension on the line. NaN if unknown  [kg] </summary>
+        [Units("[kg]")]
+        [Description("Tension on the line. NaN if unknown")]
+        public  float tension;
+            /// <summary>Voltage of the battery supplying the winch. NaN if unknown  [V] </summary>
+        [Units("[V]")]
+        [Description("Voltage of the battery supplying the winch. NaN if unknown")]
+        public  float voltage;
+            /// <summary>Current draw from the winch. NaN if unknown  [A] </summary>
+        [Units("[A]")]
+        [Description("Current draw from the winch. NaN if unknown")]
+        public  float current;
+            /// <summary>Status flags MAV_WINCH_STATUS_FLAG  bitmask</summary>
+        [Units("")]
+        [Description("Status flags")]
+        public  /*MAV_WINCH_STATUS_FLAG*/uint status;
+            /// <summary>Temperature of the motor. INT16_MAX if unknown  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Temperature of the motor. INT16_MAX if unknown")]
+        public  short temperature;
     
     };
 
