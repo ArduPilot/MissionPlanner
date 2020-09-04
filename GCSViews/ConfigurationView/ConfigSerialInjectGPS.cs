@@ -5,6 +5,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -42,7 +43,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static System.Threading.Thread t12;
         private static bool threadrun = false;
         // track rtcm msg's seen
-        private static Hashtable msgseen = new Hashtable();
+        private static ConcurrentDictionary<string,int> msgseen = new ConcurrentDictionary<string, int>();
         // track bytes seen
         private static int bytes = 0;
         private static int bps = 0;
