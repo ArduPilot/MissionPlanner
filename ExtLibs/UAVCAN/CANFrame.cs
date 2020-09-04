@@ -106,7 +106,7 @@ namespace UAVCAN
         /// <summary>
         /// Message size excluding headers
         /// </summary>
-        public double SizeofEntireMsg
+        public int SizeofEntireMsg
         {
             get;
             internal set;

@@ -48,7 +48,7 @@ namespace MissionPlanner.Controls
 
         private void Can_MessageReceived(UAVCAN.CANFrame frame, object msg, byte transferID)
         {
-            pktinspect.Add(frame.SourceNode, 0, frame.MsgTypeID, (frame, msg), 0);
+            pktinspect.Add(frame.SourceNode, 0, frame.MsgTypeID, (frame, msg), frame.SizeofEntireMsg);
         }
 
         public new void Update()
@@ -74,7 +74,12 @@ namespace MissionPlanner.Controls
                     added = true;
                 }
                 else
+                {
                     sysidnode = sysidnodes.First();
+                    sysidnode.Text = "ID " + uavcanMessage.frame.SourceNode + " " + pktinspect
+                        .SeenBps(uavcanMessage.frame.SourceNode, 0)
+                        .ToString("~0Bps");
+                }
 
                 var compidnodes = sysidnode.Nodes.Find(0.ToString(), false);
                 if (compidnodes.Length == 0)
@@ -105,8 +110,8 @@ namespace MissionPlanner.Controls
                 var seenrate = (pktinspect.SeenRate(uavcanMessage.frame.SourceNode, 0, uavcanMessage.frame.MsgTypeID));
 
                 var msgidheader = uavcanMessage.message.GetType().Name + " (" +
-                                  seenrate.ToString("0.0 Hz") + ", #" + uavcanMessage.frame.MsgTypeID + ") ~" +
-                                  (seenrate * uavcanMessage.frame.SizeofEntireMsg).ToString("0") + "bps";
+                                  seenrate.ToString("0.0 Hz") + ", #" + uavcanMessage.frame.MsgTypeID + ") " +
+                                  pktinspect.SeenBps(uavcanMessage.frame.SourceNode, 0, uavcanMessage.frame.MsgTypeID).ToString("~0Bps");
 
                 if (msgidnode.Text != msgidheader)
                     msgidnode.Text = msgidheader;
