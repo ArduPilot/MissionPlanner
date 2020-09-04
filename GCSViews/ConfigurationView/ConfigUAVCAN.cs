@@ -281,7 +281,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             if (DGDebug.Rows.Count > 100)
                             {
                                 DGDebug.Rows.RemoveAt(DGDebug.Rows.Count - 1);
-                                DGDebug.Refresh();
                             }
                         });
                     }
