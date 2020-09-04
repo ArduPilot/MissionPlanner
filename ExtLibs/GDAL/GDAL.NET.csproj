@@ -28,19 +28,4 @@
 	
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="gdalconst_csharp">
-      <HintPath>bin\Debug\net461\gdalconst_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="gdal_csharp">
-      <HintPath>bin\Debug\net461\gdal_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="ogr_csharp">
-      <HintPath>bin\Debug\net461\ogr_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="osr_csharp">
-      <HintPath>bin\Debug\net461\osr_csharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
