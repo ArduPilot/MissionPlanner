@@ -4646,9 +4646,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                             while (MirrorStream.BytesToRead > 0)
                             {
-                                byte[] buf = new byte[1024];
+                                var len = MirrorStream.BytesToRead;
 
-                                int len = MirrorStream.Read(buf, 0, buf.Length);
+                                byte[] buf = new byte[len];
+
+                                len = MirrorStream.Read(buf, 0, len);
 
                                 if (MirrorStreamWrite)
                                     BaseStream.Write(buf, 0, len);
