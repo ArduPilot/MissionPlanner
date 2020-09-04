@@ -7,7 +7,18 @@ namespace System.Drawing
 {
     public class Pen : ICloneable, IDisposable
     {
-        internal SKPaint nativePen;
+        private SKPaint _nativePen;
+
+        internal SKPaint nativePen
+        {
+            get => _nativePen;
+            set
+            {
+                _nativePen = value;
+                Color = Color.FromArgb(_nativePen.Color.Red, _nativePen.Color.Green, _nativePen.Color.Blue);
+                Brush = new SolidBrush(Color);
+            }
+        }
 
         internal Pen()
         {

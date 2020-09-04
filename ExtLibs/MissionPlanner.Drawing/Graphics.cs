@@ -1232,6 +1232,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void ResetTransform()
         {
             _image.ResetMatrix();
+            ResetClip();
         }
 
 
@@ -1286,6 +1287,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void SetClip(Rectangle rect)
         {
+            ResetClip();
             _image.ClipRect(rect.ToSKRect());
         }
 
@@ -1297,6 +1299,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void SetClip(RectangleF rect)
         {
+            ResetClip();
             _image.ClipRect(new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom));
         }
 
@@ -1308,8 +1311,40 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void SetClip(GraphicsPath path)
         {
+            ResetClip();
             var skpath = new SKPath();
-            skpath.AddPoly(path.PathPoints.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            int startIndex = 0;
+            int endIndex = 0;
+            bool isClosed = false;
+            var pathData = path.PathData;
+            var iterator = new GraphicsPathIterator(path);
+            var subPaths = iterator.SubpathCount;
+            for (int sp = 0; sp < subPaths; sp++)
+            {
+                var numOfPoints = iterator.NextSubpath(out startIndex, out endIndex, out isClosed);
+                //Console.WriteLine("subPath {0} - from {1} to {2} closed {3}", sp+1, startIndex, endIndex, isClosed);
+
+                var subPoints = pathData.Points.Skip(startIndex).Take(numOfPoints).ToArray();
+                var subTypes = pathData.Types.Skip(startIndex).Take(numOfPoints).ToArray();
+
+                if (subTypes.Count() > 2 && subTypes[1] == 3)
+                {
+                    var temp = subPoints.Select(a => new SKPoint(a.X, a.Y)).ToArray();
+                    skpath.MoveTo(temp[0]);
+                    for (int i = 1; i < temp.Length - 2; i+=3)
+                    {
+                        skpath.CubicTo(temp[i],
+                            temp[i + 1],
+                            temp[i + 2]);
+                    }
+                }
+                else
+                {
+                    skpath.AddPoly(subPoints.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+                }
+            }
+
+            //skpath.AddPoly(path.PathPoints.Select(a => new SKPoint(a.X, a.Y)).ToArray());
             _image.ClipPath(skpath);
         }
 
