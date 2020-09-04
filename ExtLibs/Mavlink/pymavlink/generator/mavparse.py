@@ -284,6 +284,10 @@ class MAVXML(object):
                                                         minValue=attrs.get('minValue', ''), 
                                                         maxValue=attrs.get('maxValue', ''), default=attrs.get('default', '0'), 
                                                         reserved=attrs.get('reserved', False) ))
+            elif "mavlink.messages.message.deprecated" in in_element or "mavlink.messages.message.wip" in in_element:
+                self.message[-1].deprecated = True
+            elif "mavlink.enums.enum.entry.deprecated" in in_element or "mavlink.enums.enum.entry.wip" in in_element:
+                self.enum[-1].entry[-1].deprecated = True
 
         def is_target_system_field(m, f):
             if f.name == 'target_system':
