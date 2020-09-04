@@ -103,6 +103,15 @@ namespace UAVCAN
             set { packet_data[2] = value; }
         }
 
+        /// <summary>
+        /// Message size excluding headers
+        /// </summary>
+        public double SizeofEntireMsg
+        {
+            get;
+            internal set;
+        }
+
         public string ToHex()
         {
             var ans = "";

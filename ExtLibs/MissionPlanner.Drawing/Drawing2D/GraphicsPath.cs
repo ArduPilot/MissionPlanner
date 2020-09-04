@@ -1972,10 +1972,13 @@ namespace System.Drawing.Drawing2D
                 {Typeface = SKTypeface.FromFamilyName(fontFontFamily?.Name), TextSize = fontsize * 1.3333f};
             var path = paint.GetTextPath(s, point.X, point.Y + fontsize * 1.3333f);
 
-            if(path.Points.Length < 3)
-                AddLines(path.Points.Select(a => new PointF(a.X, a.Y)).ToArray());
-            else
-                AddPolygon(path.Points.Select(a => new PointF(a.X, a.Y)).ToArray());
+            if(path.Points.Length > 1) 
+            {
+                if(path.Points.Length < 3)
+                    AddLines(path.Points.Select(a => new PointF(a.X, a.Y)).ToArray());
+                else
+                    AddPolygon(path.Points.Select(a => new PointF(a.X, a.Y)).ToArray()); 
+            }
         }
     }
 }

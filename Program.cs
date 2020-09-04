@@ -167,11 +167,13 @@ namespace MissionPlanner
             {
                 var file = MissionPlanner.Utilities.NativeLibrary.GetLibraryPathname("libSkiaSharp");
                 log.Info(file);
-                IntPtr ptr;
-                if(MONO)
-                    ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file+".so", MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
-                else
-                    ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file+".dll");
+                IntPtr ptr = IntPtr.Zero;
+
+                if (MONO)
+                    ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
+                        MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
+                if (ptr == IntPtr.Zero)
+                    ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file + ".dll");
 
                 if (ptr != IntPtr.Zero)
                 {

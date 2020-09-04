@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Security.Cryptography.X509Certificates;
 using SkiaSharp;
 
 namespace System.Drawing
@@ -27,6 +28,16 @@ namespace System.Drawing
         public static SKRectI ToSKRectI(this Rectangle rect)
         {
             return new SKRectI(rect.Left, rect.Top, rect.Right, rect.Bottom);
+        }
+
+        public static Rectangle ToRectangle(this RectangleF rect)
+        {
+            return new Rectangle((int)rect.X,(int)rect.Y,(int)rect.Width,(int)rect.Height);
+        }
+
+        public static RectangleF ToRectangleF(this Rectangle rect)
+        {
+            return new Rectangle(rect.X,rect.Y,rect.Width,rect.Height);
         }
 
         public static SKPaint ToSKPaint(this Pen pen)

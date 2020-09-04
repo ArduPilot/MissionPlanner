@@ -33,14 +33,30 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpKml", "ExtLibs\SharpKml\SharpKml.csproj", "{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZedGraph", "ExtLibs\ZedGraph\ZedGraph.csproj", "{2541686B-1673-43BF-AF89-3163945DB009}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E4902330-74FE-45F6-86C3-0A5F73A1EEC0} = {E4902330-74FE-45F6-86C3-0A5F73A1EEC0}
+		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSE.Windows.Forms", "ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj", "{9CA367B8-0B98-49D1-84FB-735E612E3BA9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E4902330-74FE-45F6-86C3-0A5F73A1EEC0} = {E4902330-74FE-45F6-86C3-0A5F73A1EEC0}
+		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaDataExtractor", "ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj", "{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseClasses", "ExtLibs\BaseClasses\BaseClasses.csproj", "{2A8E8AF5-74E7-49DB-A42E-9360FA7A6CC4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E4902330-74FE-45F6-86C3-0A5F73A1EEC0} = {E4902330-74FE-45F6-86C3-0A5F73A1EEC0}
+		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Controls", "ExtLibs\Controls\MissionPlanner.Controls.csproj", "{C8B88795-6D01-494D-83AD-6944BD4C5023}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E4902330-74FE-45F6-86C3-0A5F73A1EEC0} = {E4902330-74FE-45F6-86C3-0A5F73A1EEC0}
+		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Comms", "ExtLibs\Comms\MissionPlanner.Comms.csproj", "{825E7A10-390C-4A2B-B3A8-491D14966912}"
 EndProject
@@ -74,6 +90,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAdbClient", "ExtLibs\SharpAdbClient\SharpAdbClient.csproj", "{65473257-E70F-410B-9269-D0C0F771EA87}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AltitudeAngelWings", "ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj", "{098F542C-7C70-4B9C-B2E2-AC5DC5E0294B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E4902330-74FE-45F6-86C3-0A5F73A1EEC0} = {E4902330-74FE-45F6-86C3-0A5F73A1EEC0}
+		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "solo", "ExtLibs\solo\solo.csproj", "{CF402948-A3F4-4962-8A57-E40B46759D25}"
 EndProject
@@ -120,6 +140,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.HIL", "ExtLibs\HIL\MissionPlanner.HIL.csproj", "{077E19BA-4129-4AAE-8FCD-34D6FAF85B78}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSDConfigurator", "ExtLibs\OSDConfigurator\OSDConfigurator.csproj", "{1442B805-D6B1-4729-89F8-3A5A1C7547AD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E4902330-74FE-45F6-86C3-0A5F73A1EEC0} = {E4902330-74FE-45F6-86C3-0A5F73A1EEC0}
+		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UAVCAN", "ExtLibs\UAVCAN\UAVCAN.csproj", "{3A413E59-A20E-477C-997E-64B1398E0E80}"
 EndProject
@@ -130,6 +154,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsbSerialForAndroid", "ExtLibs\UsbSerialForAndroid\UsbSerialForAndroid.csproj", "{B57854C8-5C63-4D79-96ED-ACD31815CB91}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GMap.NET.Drawing", "ExtLibs\GMap.NET.Drawing\GMap.NET.Drawing.csproj", "{D773ACCD-9C2D-4E94-A967-FAA7EA2D21CB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UAVCANFlasher", "ExtLibs\UAVCANFlasher\UAVCANFlasher.csproj", "{EECDFE74-6CDC-45E0-AA39-34FF55FFB49F}"
 EndProject
@@ -179,6 +206,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Drawing.Common", "ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj", "{3566E9FD-591D-4E42-BA38-11DBE2F13E82}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xamarin.Forms.Platform.WinForms", "ExtLibs\Xamarin.Forms.Platform.WinForms\Xamarin.Forms.Platform.WinForms.csproj", "{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Drawing.android", "ExtLibs\System.Drawing.android\System.Drawing.android.csproj", "{B66F428C-0419-438F-9303-C20A5E925257}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -474,6 +503,10 @@ Global
 		{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B66F428C-0419-438F-9303-C20A5E925257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66F428C-0419-438F-9303-C20A5E925257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66F428C-0419-438F-9303-C20A5E925257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66F428C-0419-438F-9303-C20A5E925257}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -551,6 +584,7 @@ Global
 		{637A5D55-908E-4AEE-B061-3981B66F1B9F} = {3CA4F989-80BA-4814-8CC1-6D0DC1F5FF52}
 		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18} = {82872363-B5AC-4ACE-9200-83F5EF9AF27A}
+		{B66F428C-0419-438F-9303-C20A5E925257} = {3CA4F989-80BA-4814-8CC1-6D0DC1F5FF52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}

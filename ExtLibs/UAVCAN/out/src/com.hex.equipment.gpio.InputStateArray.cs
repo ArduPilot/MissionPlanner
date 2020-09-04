@@ -73,6 +73,7 @@ msg.input_states_len = 0;
             msg.input_states_len++;
         }
     } else {
+        msg.input_states = new com_hex_equipment_gpio_InputState[msg.input_states_len];
         for (int i=0; i < msg.input_states_len; i++) {
             _decode_com_hex_equipment_gpio_InputState(transfer, ref bit_ofs, msg.input_states[i], false);
         }

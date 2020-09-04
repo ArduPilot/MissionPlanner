@@ -159,6 +159,7 @@ static void _decode_uavcan_navigation_GlobalNavigationSolution(CanardRxTransfer 
 
     canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.pose_covariance_len);
     bit_ofs += 6;
+    msg.pose_covariance = new Single[msg.pose_covariance_len];
     for (int i=0; i < msg.pose_covariance_len; i++) {
         {
             uint16_t float16_val = 0;
@@ -197,6 +198,7 @@ static void _decode_uavcan_navigation_GlobalNavigationSolution(CanardRxTransfer 
         msg.velocity_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
     }
 
+    msg.velocity_covariance = new Single[msg.velocity_covariance_len];
     for (int i=0; i < msg.velocity_covariance_len; i++) {
         {
             uint16_t float16_val = 0;

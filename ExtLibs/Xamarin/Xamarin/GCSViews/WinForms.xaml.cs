@@ -44,14 +44,14 @@ namespace Xamarin.GCSViews
         }
         public class Keyboard: KeyboardXplat
         {
-            private readonly Forms.InputView _inputView;
+            private readonly Forms.Entry _inputView;
 
-            private InputView view;
+            private Entry view;
             private IntPtr _focusWindow;
 
-            public Keyboard(InputView skCanvasView)
+            public Keyboard(Entry inputView)
             {
-                _inputView = skCanvasView;
+                _inputView = inputView;
             }
 
             public void FocusIn(IntPtr focusWindow)
@@ -59,13 +59,6 @@ namespace Xamarin.GCSViews
                 FocusOut(_focusWindow);
                 caretptr = IntPtr.Zero;
                 _focusWindow = focusWindow;
-                Device.BeginInvokeOnMainThread(()=>{
-                    _inputView.Text = Control.FromHandle(focusWindow).Text;
-                    _inputView.TextChanged += View_TextChanged;
-                });
-
-                if (Device.IsInvokeRequired)
-                    Thread.Sleep(50);
             }
 
             private void View_TextChanged(object sender, TextChangedEventArgs e)
@@ -73,6 +66,10 @@ namespace Xamarin.GCSViews
                 var current = Control.FromHandle(_focusWindow).Text;
 
                 Console.WriteLine("TextChanged {0} {1} {2}", current, e.OldTextValue, e.NewTextValue);
+
+      
+
+                return;
 
                 if (e.OldTextValue == null)
                 {
@@ -102,10 +99,49 @@ namespace Xamarin.GCSViews
                 if (_focusWindow == handle && caret.Hwnd == _focusWindow)
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        if(caretptr != handle)
-                            _inputView.Focus();
-                        caretptr = handle;
+                        if(caretptr == handle)
+                            return;
+
+                        var focusctl = Control.FromHandle(_focusWindow);
+                        var p = focusctl.PointToClient(Form.MousePosition);
+
+                        if (focusctl.ClientRectangle.Contains(p))
+                        {
+                            // unbind
+                            _inputView.Unfocused -= _inputView_Unfocused;                            
+                            _inputView.TextChanged -= View_TextChanged;
+                            _inputView.Completed -= _inputView_Completed;
+                            // set                  
+                            
+                            _inputView.Text = focusctl.Text;
+                            // rebind
+                            _inputView.Completed += _inputView_Completed;
+                            _inputView.TextChanged += View_TextChanged;
+                            _inputView.Unfocused += _inputView_Unfocused;
+                            //show
+                            _inputView.IsVisible = true;
+                            _inputView.Focus();                            
+
+                             caretptr = handle;
+                        }                      
                     });
+            }
+
+            private void _inputView_Completed(object sender, EventArgs e)
+            {
+                var focusctl = Control.FromHandle(_focusWindow);
+                focusctl.Text = (sender as Entry)?.Text;
+                 Device.BeginInvokeOnMainThread(() =>
+                    {
+                _inputView.IsVisible = false; });
+            }
+
+            private void _inputView_Unfocused(object sender, FocusEventArgs e)
+            {
+                caretptr = IntPtr.Zero;   
+                         Device.BeginInvokeOnMainThread(() =>
+                    {
+                _inputView.IsVisible = false; });
             }
         }
 
@@ -114,9 +150,10 @@ namespace Xamarin.GCSViews
             if (Application.OpenForms.Count > 1)
             {
                 Application.OpenForms[Application.OpenForms.Count - 1].Close();
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         protected override void OnDisappearing()
@@ -130,7 +167,7 @@ namespace Xamarin.GCSViews
             size = Device.Info.ScaledScreenSize;
             size = Device.Info.PixelScreenSize;
 
-            size = new Forms.Size(1280, 720);
+            size = new Forms.Size(1022, 575);
             scale = new Forms.Size((Device.Info.PixelScreenSize.Width / size.Width),
                 (Device.Info.PixelScreenSize.Height / size.Height));
 
@@ -144,6 +181,8 @@ namespace Xamarin.GCSViews
                 MissionPlanner.Program.Main(new string[0]);
 
                 MessageBox.Show("Application Exit");
+
+                Application.Exit();
 
                 return;
                 var frm = new Form()
@@ -194,10 +233,12 @@ namespace Xamarin.GCSViews
 
         //Double-clicking the left mouse button actually generates a sequence of four messages: WM_LBUTTONDOWN, WM_LBUTTONUP, WM_LBUTTONDBLCLK, and WM_LBUTTONUP.
         DateTime LastPressed = DateTime.MinValue;
+
         private int LastPressedX;
         private int LastPressedY;
         private Forms.Size size;
         private Forms.Size scale;
+        private (DateTime time, int x, int y) DownTime = (DateTime.MinValue, 0, 0);
 
         private void SkCanvasView_Touch(object sender, SkiaSharp.Views.Forms.SKTouchEventArgs e)
         {
@@ -224,6 +265,8 @@ namespace Xamarin.GCSViews
 
                 if (e.ActionType == SKTouchAction.Pressed && e.MouseButton == SKMouseButton.Left)
                 {
+                    DownTime = (DateTime.Now, x, y);
+                    
                     XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr(), (IntPtr)((y) << 16 | (x)));
 
                     if (LastPressed.AddMilliseconds(500) > DateTime.Now && Math.Abs(LastPressedX - x) < 10 &&
@@ -240,6 +283,18 @@ namespace Xamarin.GCSViews
 
                 if (e.ActionType == SKTouchAction.Released && e.MouseButton == SKMouseButton.Left)
                 {
+                    if ( Math.Abs(DownTime.x - x) < 10 && Math.Abs(DownTime.y - y) < 10 && DownTime.time.AddMilliseconds(2000) < DateTime.Now)
+                    {
+                        XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_RBUTTONDOWN,
+                            new IntPtr((int) MsgButtons.MK_RBUTTON), (IntPtr) ((y) << 16 | (x)));
+                        XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_RBUTTONUP,
+                            new IntPtr((int) MsgButtons.MK_RBUTTON), (IntPtr) ((y) << 16 | (x)));
+
+                        DownTime.time = DateTime.MinValue;
+                        return;
+                    }
+
+                    DownTime.time = DateTime.MinValue;
                     //XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr((int) MsgButtons.MK_LBUTTON), (IntPtr)((y) << 16 | (x)));
 
                     XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_LBUTTONUP, new IntPtr((int) MsgButtons.MK_LBUTTON), (IntPtr) ((y) << 16 | (x)));

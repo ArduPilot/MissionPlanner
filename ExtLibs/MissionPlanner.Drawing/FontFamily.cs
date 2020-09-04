@@ -6,11 +6,35 @@ namespace System.Drawing
 {
     public class FontFamily
     {
-        public static FontFamily GenericSansSerif { get; set; } =
-            new FontFamily() {Name = SKTypeface.Default.FamilyName};
+        public static FontFamily GenericSansSerif
+        {
+            get
+            {
+                try
+                {
+                    return new FontFamily() {Name = SKTypeface.Default.FamilyName};
+                }
+                catch
+                {
+                    return new FontFamily();
+                }
+            }
+        }
 
-        public static FontFamily GenericMonospace { get; set; } =
-            new FontFamily() {Name = SKTypeface.Default.FamilyName};
+        public static FontFamily GenericMonospace
+        {
+            get
+            {
+                try
+                {
+                    return new FontFamily() {Name = SKTypeface.Default.FamilyName};
+                }
+                catch
+                {
+                    return new FontFamily();
+                }
+            }
+        }
 
         public static IEnumerable<FontFamily> Families
         {

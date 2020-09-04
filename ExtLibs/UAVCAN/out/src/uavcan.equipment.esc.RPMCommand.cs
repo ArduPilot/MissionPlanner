@@ -69,6 +69,7 @@ static void _decode_uavcan_equipment_esc_RPMCommand(CanardRxTransfer transfer,re
         msg.rpm_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/18);
     }
 
+    msg.rpm = new int32_t[msg.rpm_len];
     for (int i=0; i < msg.rpm_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 18, true, ref msg.rpm[i]);
         bit_ofs += 18;

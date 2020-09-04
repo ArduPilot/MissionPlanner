@@ -110,6 +110,7 @@ msg.sensor_property_len = 0;
             msg.sensor_property_len++;
         }
     } else {
+        msg.sensor_property = new uavcan_olliw_uc4h_DistanceSensorProperties[msg.sensor_property_len];
         for (int i=0; i < msg.sensor_property_len; i++) {
             _decode_uavcan_olliw_uc4h_DistanceSensorProperties(transfer, ref bit_ofs, msg.sensor_property[i], false);
         }

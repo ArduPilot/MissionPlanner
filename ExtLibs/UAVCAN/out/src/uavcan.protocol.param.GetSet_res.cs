@@ -93,6 +93,7 @@ static void _decode_uavcan_protocol_param_GetSet_res(CanardRxTransfer transfer,r
         msg.name_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.name = new uint8_t[msg.name_len];
     for (int i=0; i < msg.name_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.name[i]);
         bit_ofs += 8;

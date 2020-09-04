@@ -4561,7 +4561,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         // copter 3.4+
                         // plane 3.4+
                         MAV_SEVERITY mavsev = MAV_SEVERITY.EMERGENCY;
-                        if (MAVlist[sysid, compid].cs.version.Major > 0 || MAVlist[sysid, compid].cs.version.Minor >= 4)
+                        if (MAVlist[sysid, compidcurrent].cs.version.Major > 0 || MAVlist[sysid, compidcurrent].cs.version.Minor >= 4)
                         {
                             if (sev <= (byte)MAV_SEVERITY.WARNING)
                             {

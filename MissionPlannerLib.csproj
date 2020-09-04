@@ -25,6 +25,7 @@
     <Compile Remove="ExtLibs\ArduPilot\**" />
     <Compile Remove="ExtLibs\BaseClasses\**" />
     <Compile Remove="ExtLibs\BouncyCastle\**" />
+    <Compile Remove="ExtLibs\BSE.Windows.Forms\**" />
     <Compile Remove="ExtLibs\Comms\**" />
     <Compile Remove="ExtLibs\Controls\**" />
     <Compile Remove="ExtLibs\Core\**" />
@@ -40,6 +41,8 @@
 
     <Compile Remove="ExtLibs\GeoUtility\**" />
     <Compile Remove="ExtLibs\GMap.NET.Core\**" />
+    <Compile Remove="ExtLibs\GMap.NET.Drawing\**" />
+    <Compile Remove="ExtLibs\GMap.NET.WindowsForms\**" />
     <Compile Remove="ExtLibs\GStreamerHud\**" />
     <Compile Remove="ExtLibs\HIL\**" />
     <Compile Remove="ExtLibs\ICSharpCode.SharpZipLib\**" />
@@ -49,6 +52,7 @@
     <Compile Remove="ExtLibs\LibTessDotNet\**" />
     <Compile Remove="ExtLibs\LibVLC.NET\**" />
     <Compile Remove="ExtLibs\ManagedNativeWifi.Simple\**" />
+    <Compile Remove="ExtLibs\Maps\**" />
     <Compile Remove="ExtLibs\MavlinkMessagePlugin\**" />
     <Compile Remove="ExtLibs\Mavlink\**" />
     <Compile Remove="ExtLibs\md5sum\**" />
@@ -61,6 +65,7 @@
     <Compile Remove="ExtLibs\NetDFULib\**" />
     <Compile Remove="ExtLibs\netDxf\**" />
     <Compile Remove="ExtLibs\Ntrip\**" />
+    <Compile Remove="ExtLibs\OSDConfigurator\**" />
     <Compile Remove="ExtLibs\ParameterMetaDataGenerator\**" />
     <Compile Remove="ExtLibs\ProjNet\**" />
     <Compile Remove="ExtLibs\px4uploader\**" />
@@ -104,6 +109,7 @@
     <EmbeddedResource Remove="ExtLibs\ArduPilot\**" />
     <EmbeddedResource Remove="ExtLibs\BaseClasses\**" />
     <EmbeddedResource Remove="ExtLibs\BouncyCastle\**" />
+    <EmbeddedResource Remove="ExtLibs\BSE.Windows.Forms\**" />
     <EmbeddedResource Remove="ExtLibs\Comms\**" />
     <EmbeddedResource Remove="ExtLibs\Controls\**" />
     <EmbeddedResource Remove="ExtLibs\Core\**" />
@@ -119,6 +125,8 @@
 
     <EmbeddedResource Remove="ExtLibs\GeoUtility\**" />
     <EmbeddedResource Remove="ExtLibs\GMap.NET.Core\**" />
+    <EmbeddedResource Remove="ExtLibs\GMap.NET.Drawing\**" />
+    <EmbeddedResource Remove="ExtLibs\GMap.NET.WindowsForms\**" />
     <EmbeddedResource Remove="ExtLibs\GStreamerHud\**" />
     <EmbeddedResource Remove="ExtLibs\HIL\**" />
     <EmbeddedResource Remove="ExtLibs\ICSharpCode.SharpZipLib\**" />
@@ -128,6 +136,7 @@
     <EmbeddedResource Remove="ExtLibs\LibTessDotNet\**" />
     <EmbeddedResource Remove="ExtLibs\LibVLC.NET\**" />
     <EmbeddedResource Remove="ExtLibs\ManagedNativeWifi.Simple\**" />
+    <EmbeddedResource Remove="ExtLibs\Maps\**" />
     <EmbeddedResource Remove="ExtLibs\MavlinkMessagePlugin\**" />
     <EmbeddedResource Remove="ExtLibs\Mavlink\**" />
     <EmbeddedResource Remove="ExtLibs\md5sum\**" />
@@ -140,6 +149,7 @@
     <EmbeddedResource Remove="ExtLibs\NetDFULib\**" />
     <EmbeddedResource Remove="ExtLibs\netDxf\**" />
     <EmbeddedResource Remove="ExtLibs\Ntrip\**" />
+    <EmbeddedResource Remove="ExtLibs\OSDConfigurator\**" />
     <EmbeddedResource Remove="ExtLibs\ParameterMetaDataGenerator\**" />
     <EmbeddedResource Remove="ExtLibs\ProjNet\**" />
     <EmbeddedResource Remove="ExtLibs\px4uploader\**" />
@@ -182,6 +192,7 @@
     <None Remove="ExtLibs\ArduPilot\**" />
     <None Remove="ExtLibs\BaseClasses\**" />
     <None Remove="ExtLibs\BouncyCastle\**" />
+    <None Remove="ExtLibs\BSE.Windows.Forms\**" />
     <None Remove="ExtLibs\Comms\**" />
     <None Remove="ExtLibs\Controls\**" />
     <None Remove="ExtLibs\Core\**" />
@@ -197,6 +208,8 @@
 
     <None Remove="ExtLibs\GeoUtility\**" />
     <None Remove="ExtLibs\GMap.NET.Core\**" />
+    <None Remove="ExtLibs\GMap.NET.Drawing\**" />
+    <None Remove="ExtLibs\GMap.NET.WindowsForms\**" />
     <None Remove="ExtLibs\GStreamerHud\**" />
     <None Remove="ExtLibs\HIL\**" />
     <None Remove="ExtLibs\ICSharpCode.SharpZipLib\**" />
@@ -206,6 +219,7 @@
     <None Remove="ExtLibs\LibTessDotNet\**" />
     <None Remove="ExtLibs\LibVLC.NET\**" />
     <None Remove="ExtLibs\ManagedNativeWifi.Simple\**" />
+    <None Remove="ExtLibs\Maps\**" />
     <None Remove="ExtLibs\MavlinkMessagePlugin\**" />
     <None Remove="ExtLibs\Mavlink\**" />
     <None Remove="ExtLibs\md5sum\**" />
@@ -218,6 +232,7 @@
     <None Remove="ExtLibs\NetDFULib\**" />
     <None Remove="ExtLibs\netDxf\**" />
     <None Remove="ExtLibs\Ntrip\**" />
+    <None Remove="ExtLibs\OSDConfigurator\**" />
     <None Remove="ExtLibs\ParameterMetaDataGenerator\**" />
     <None Remove="ExtLibs\ProjNet\**" />
     <None Remove="ExtLibs\px4uploader\**" />
@@ -389,11 +404,14 @@
    <ProjectReference Include="ExtLibs\Arduino\Arduino.csproj" />
    <ProjectReference Include="ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj" />
    <ProjectReference Include="ExtLibs\BouncyCastle\BouncyCastle.csproj" />
+   <ProjectReference Include="ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />
    <ProjectReference Include="ExtLibs\Comms\MissionPlanner.Comms.csproj" />
    <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj" />
    <ProjectReference Include="ExtLibs\Core\Core.csproj" />
    <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj" />
    <ProjectReference Include="ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj" />
+   <ProjectReference Include="ExtLibs\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
+   <ProjectReference Include="ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj" />
    <ProjectReference Include="ExtLibs\HIL\MissionPlanner.HIL.csproj" />
    <ProjectReference Include="ExtLibs\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj" />
    <ProjectReference Include="ExtLibs\Interfaces\Interfaces.csproj" />
@@ -401,12 +419,14 @@
    <ProjectReference Include="ExtLibs\LibTessDotNet\LibTessDotNet.csproj" />
    <ProjectReference Include="ExtLibs\LibVLC.NET\LibVLC.NET.csproj" />
    <ProjectReference Include="ExtLibs\ManagedNativeWifi.Simple\ManagedNativeWifi.Simple.csproj" />
+   <ProjectReference Include="ExtLibs\Maps\MissionPlanner.Maps.csproj" />
    <ProjectReference Include="ExtLibs\Mavlink\MAVLink.csproj" />
    <ProjectReference Include="ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj" />
    <ProjectReference Include="ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
    <ProjectReference Include="ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
    <ProjectReference Include="ExtLibs\NetDFULib\NetDFULib.csproj" />
    <ProjectReference Include="ExtLibs\netDxf\netDxf.csproj" />
+   <ProjectReference Include="ExtLibs\OSDConfigurator\OSDConfigurator.csproj" />
    <ProjectReference Include="ExtLibs\ProjNet\ProjNET.csproj" />
    <ProjectReference Include="ExtLibs\px4uploader\px4uploader.csproj" />
    <ProjectReference Include="ExtLibs\SharpKml\SharpKml.csproj" />
@@ -440,27 +460,7 @@
     <Folder Include="ExtLibs\GLControl\Properties\" />
   </ItemGroup> 
   <ItemGroup>
-    <Compile Update="ExtLibs\BSE.Windows.Forms\Resources\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="ExtLibs\GMap.NET.Drawing\Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="ExtLibs\Maps\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Update="ExtLibs\ObjectListView\Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="ExtLibs\OSDConfigurator\Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -472,28 +472,8 @@
     </Compile>
   </ItemGroup> 
   <ItemGroup>
-    <EmbeddedResource Update="ExtLibs\BSE.Windows.Forms\Resources\Resources.resx">
-      <CustomToolNamespace>BSE.Windows.Forms.Properties</CustomToolNamespace>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ExtLibs\GMap.NET.Drawing\Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>GMap.NET.Drawing.Properties</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ExtLibs\Maps\Resources.resx">
-      <CustomToolNamespace>MissionPlanner.Maps</CustomToolNamespace>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="ExtLibs\ObjectListView\Properties\Resources.resx">
       <CustomToolNamespace>BrightIdeasSoftware.Properties</CustomToolNamespace>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ExtLibs\OSDConfigurator\Properties\Resources.resx">
-      <CustomToolNamespace>OSDConfigurator.Properties</CustomToolNamespace>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>

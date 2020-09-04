@@ -142,6 +142,7 @@ static void _decode_uavcan_equipment_air_data_RawAirData(CanardRxTransfer transf
         msg.covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
     }
 
+    msg.covariance = new Single[msg.covariance_len];
     for (int i=0; i < msg.covariance_len; i++) {
         {
             uint16_t float16_val = 0;

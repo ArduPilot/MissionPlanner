@@ -69,6 +69,7 @@ static void _decode_uavcan_equipment_esc_RawCommand(CanardRxTransfer transfer,re
         msg.cmd_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/14);
     }
 
+    msg.cmd = new int16_t[msg.cmd_len];
     for (int i=0; i < msg.cmd_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 14, true, ref msg.cmd[i]);
         bit_ofs += 14;

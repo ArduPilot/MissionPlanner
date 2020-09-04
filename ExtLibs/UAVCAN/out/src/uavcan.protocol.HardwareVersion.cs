@@ -78,6 +78,7 @@ static void _decode_uavcan_protocol_HardwareVersion(CanardRxTransfer transfer,re
         msg.certificate_of_authenticity_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.certificate_of_authenticity = new uint8_t[msg.certificate_of_authenticity_len];
     for (int i=0; i < msg.certificate_of_authenticity_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.certificate_of_authenticity[i]);
         bit_ofs += 8;

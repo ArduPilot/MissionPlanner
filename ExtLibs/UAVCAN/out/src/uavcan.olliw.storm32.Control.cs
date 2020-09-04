@@ -98,6 +98,7 @@ static void _decode_uavcan_olliw_storm32_Control(CanardRxTransfer transfer,ref u
         msg.angular_velocity_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/32);
     }
 
+    msg.angular_velocity = new Single[msg.angular_velocity_len];
     for (int i=0; i < msg.angular_velocity_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.angular_velocity[i]);
         bit_ofs += 32;

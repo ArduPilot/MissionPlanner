@@ -91,6 +91,7 @@ msg.can_iface_stats_len = 0;
             msg.can_iface_stats_len++;
         }
     } else {
+        msg.can_iface_stats = new uavcan_protocol_CANIfaceStats[msg.can_iface_stats_len];
         for (int i=0; i < msg.can_iface_stats_len; i++) {
             _decode_uavcan_protocol_CANIfaceStats(transfer, ref bit_ofs, msg.can_iface_stats[i], false);
         }

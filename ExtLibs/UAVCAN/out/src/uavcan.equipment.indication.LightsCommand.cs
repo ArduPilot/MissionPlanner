@@ -73,6 +73,7 @@ msg.commands_len = 0;
             msg.commands_len++;
         }
     } else {
+        msg.commands = new uavcan_equipment_indication_SingleLightCommand[msg.commands_len];
         for (int i=0; i < msg.commands_len; i++) {
             _decode_uavcan_equipment_indication_SingleLightCommand(transfer, ref bit_ofs, msg.commands[i], false);
         }

@@ -234,6 +234,7 @@ msg.cylinder_status_len = 0;
             msg.cylinder_status_len++;
         }
     } else {
+        msg.cylinder_status = new uavcan_equipment_ice_reciprocating_CylinderStatus[msg.cylinder_status_len];
         for (int i=0; i < msg.cylinder_status_len; i++) {
             _decode_uavcan_equipment_ice_reciprocating_CylinderStatus(transfer, ref bit_ofs, msg.cylinder_status[i], false);
         }

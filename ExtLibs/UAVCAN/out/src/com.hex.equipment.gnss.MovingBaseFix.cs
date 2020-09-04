@@ -103,6 +103,7 @@ static void _decode_com_hex_equipment_gnss_MovingBaseFix(CanardRxTransfer transf
 
     canardDecodeScalar(transfer, bit_ofs, 2, false, ref msg.pos_rel_body_len);
     bit_ofs += 2;
+    msg.pos_rel_body = new Single[msg.pos_rel_body_len];
     for (int i=0; i < msg.pos_rel_body_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.pos_rel_body[i]);
         bit_ofs += 32;
@@ -121,6 +122,7 @@ static void _decode_com_hex_equipment_gnss_MovingBaseFix(CanardRxTransfer transf
         msg.pos_rel_ecef_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
     }
 
+    msg.pos_rel_ecef_covariance = new Single[msg.pos_rel_ecef_covariance_len];
     for (int i=0; i < msg.pos_rel_ecef_covariance_len; i++) {
         {
             uint16_t float16_val = 0;
