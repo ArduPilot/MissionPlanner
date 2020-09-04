@@ -1028,7 +1028,8 @@ namespace MissionPlanner.Joystick
             Hatud1,
             Hatlr2,
             Custom1,
-            Custom2
+            Custom2,
+            UINT16_MAX
         }
 
         const int RESXu = 1024;
@@ -1358,6 +1359,8 @@ namespace MissionPlanner.Joystick
                     working = (int)(((float)(custom1 - min) / range) * ushort.MaxValue);
                     working = (int)Constrain(working, 0, 65535);
                     break;
+                case joystickaxis.UINT16_MAX:
+                    return (short)-1;
             }
             // between 0 and 65535 - convert to int -500 to 500
             working = (int)map(working, 0, 65535, -500, 500);
