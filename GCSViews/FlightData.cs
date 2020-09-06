@@ -2935,8 +2935,47 @@ namespace MissionPlanner.GCSViews
                     // Console.WriteLine(DateTime.Now.Millisecond + " done ");
 
                     // battery warning.
-                    float warnvolt = Settings.Instance.GetFloat("speechbatteryvolt");
-                    float warnpercent = Settings.Instance.GetFloat("speechbatterypercent");
+                    // Use speech settings only if the following parameters are not set
+                    // BATT_LOW_VOLT
+                    // BATT_LOW_MAH
+                    // BATT_CRT_VOLT
+                    // BATT_CRT_MAH
+
+                    double warnvolt = 0;
+                    double warnpercent = 0;
+                    double critvolt = 0;
+                    double critpercent = 0;
+
+
+                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_LOW_VOLT")) warnvolt = MainV2.comPort.MAV.param["BATT_LOW_VOLT"].Value;
+                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_LOW_MAH") && MainV2.comPort.MAV.param.ContainsKey("BATT_CAPACITY"))
+                    {
+                        if (MainV2.comPort.MAV.param["BATT_LOW_MAH"].Value > 0)
+                        {
+                            warnpercent = MainV2.comPort.MAV.param["BATT_LOW_MAH"].Value / MainV2.comPort.MAV.param["BATT_CAPACITY"].Value * 100 ;
+                        }
+                    }
+
+                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_CRT_VOLT")) critvolt = MainV2.comPort.MAV.param["BATT_CRT_VOLT"].Value;
+                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_CRT_MAH") && MainV2.comPort.MAV.param.ContainsKey("BATT_CAPACITY"))
+                    {
+                        if (MainV2.comPort.MAV.param["BATT_CRT_MAH"].Value > 0) 
+                        {
+                            critpercent = MainV2.comPort.MAV.param["BATT_CRT_MAH"].Value / MainV2.comPort.MAV.param["BATT_CAPACITY"].Value * 100 ;
+                        }
+                    }
+
+                    if (warnvolt == 0)
+                    {
+                        warnvolt = Settings.Instance.GetDouble("speechbatteryvolt");
+                    }
+                    if (warnpercent == 0)
+                    {
+                        warnpercent = Settings.Instance.GetDouble("speechbatterypercent");
+                    }
+
+                    if (critvolt == 0) critvolt = warnvolt;
+                    if (critpercent == 0) critpercent = warnpercent;
 
                     if (MainV2.comPort.MAV.cs.battery_voltage <= warnvolt)
                     {
@@ -2950,6 +2989,20 @@ namespace MissionPlanner.GCSViews
                     {
                         hud1.lowvoltagealert = false;
                     }
+
+                    if (MainV2.comPort.MAV.cs.battery_voltage <= critvolt)
+                    {
+                        hud1.criticalvoltagealert = true;
+                    }
+                    else if ((MainV2.comPort.MAV.cs.battery_remaining) < critpercent)
+                    {
+                        hud1.criticalvoltagealert = true;
+                    }
+                    else
+                    {
+                        hud1.criticalvoltagealert = false;
+                    }
+
 
                     // update opengltest
                     if (OpenGLtest.instance != null)
