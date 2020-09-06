@@ -630,6 +630,9 @@ namespace MissionPlanner.Controls
         public bool lowvoltagealert { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool criticalvoltagealert { get; set; }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public bool connected { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
@@ -2529,9 +2532,14 @@ namespace MissionPlanner.Controls
                     text = HUDT.Bat + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " +
                            (_batteryremaining) + "%";
 
-                    if (lowvoltagealert)
+                    if (criticalvoltagealert)
                     {
                         drawstring(text, font, fontsize + 2, (SolidBrush) Brushes.Red, fontsize,
+                            this.Height - ((fontsize + 2) * 3) - fontoffset);
+                    }
+                    else if (lowvoltagealert)
+                    {
+                        drawstring(text, font, fontsize + 2, (SolidBrush)Brushes.Orange, fontsize,
                             this.Height - ((fontsize + 2) * 3) - fontoffset);
                     }
                     else
