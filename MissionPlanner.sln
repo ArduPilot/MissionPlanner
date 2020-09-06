@@ -209,6 +209,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xamarin.Forms.Platform.WinF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Drawing.android", "ExtLibs\System.Drawing.android\System.Drawing.android.csproj", "{B66F428C-0419-438F-9303-C20A5E925257}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accessibility-net_4_x", "ExtLibs\mono\mcs\class\Accessibility\Accessibility-net_4_x.csproj", "{E51283DC-7090-479E-B723-01C0953F18EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Runtime.Serialization.Formatters.Soap-net_4_x", "ExtLibs\mono\mcs\class\System.Runtime.Serialization.Formatters.Soap\System.Runtime.Serialization.Formatters.Soap-net_4_x.csproj", "{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -507,6 +511,14 @@ Global
 		{B66F428C-0419-438F-9303-C20A5E925257}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B66F428C-0419-438F-9303-C20A5E925257}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B66F428C-0419-438F-9303-C20A5E925257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E51283DC-7090-479E-B723-01C0953F18EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E51283DC-7090-479E-B723-01C0953F18EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E51283DC-7090-479E-B723-01C0953F18EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E51283DC-7090-479E-B723-01C0953F18EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -585,6 +597,8 @@ Global
 		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18} = {82872363-B5AC-4ACE-9200-83F5EF9AF27A}
 		{B66F428C-0419-438F-9303-C20A5E925257} = {3CA4F989-80BA-4814-8CC1-6D0DC1F5FF52}
+		{E51283DC-7090-479E-B723-01C0953F18EA} = {82872363-B5AC-4ACE-9200-83F5EF9AF27A}
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5} = {82872363-B5AC-4ACE-9200-83F5EF9AF27A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}
