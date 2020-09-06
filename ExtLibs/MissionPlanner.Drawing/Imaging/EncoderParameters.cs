@@ -9,7 +9,7 @@
             this.v = v;
         }
 
-        private EncoderParameter[] _param;
+        private EncoderParameter[] _param = new EncoderParameter[2];
 
         public EncoderParameter[] Param
         {

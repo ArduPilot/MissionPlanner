@@ -320,7 +320,7 @@ namespace Xamarin.GCSViews
             {
                 var surface = e.Surface;
 
-                e.Surface.Canvas.Clear();
+                e.Surface.Canvas.Clear(SKColors.Transparent);
 
                 e.Surface.Canvas.Scale((float) scale.Width, (float) scale.Height);
 
@@ -342,24 +342,77 @@ namespace Xamarin.GCSViews
                     Monitor.Enter(XplatUIMine.paintlock);
                     if (hwnd.hwndbmp != null && hwnd.Mapped && hwnd.Visible)
                     {
+                        // setup clip
+                        var parent = hwnd;
+                        surface.Canvas.ClipRect(
+                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
+                                Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+
+                        while (parent != null)
+                        {
+                            var xp = 0;
+                            var yp = 0;
+                            XplatUI.driver.ClientToScreen(parent.client_window, ref xp, ref yp);
+
+                            surface.Canvas.ClipRect(SKRect.Create(xp, yp, parent.Width, parent.Height),
+                                SKClipOperation.Intersect);
+                            /*
+                            surface.Canvas.DrawRect(xp, yp, parent.Width, parent.Height,
+                                new SKPaint()
+                                {
+
+                                    Color = new SKColor(255, 0, 0),
+                                    Style = SKPaintStyle.Stroke
+
+
+                                });
+                            */
+                            parent = parent.parent;
+                        }
+
                         if (hwnd.ClientWindow != hwnd.WholeWindow)
                         {
-                            surface.Canvas.DrawImage(hwnd.hwndbmpNC.ToSKImage(), new SKPoint(hwnd.X, hwnd.Y - XplatUI.CaptionHeight), new SKPaint() { FilterQuality = SKFilterQuality.Low });
+                            var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
+
+                            Hwnd.Borders borders = new Hwnd.Borders();
+
+                            if (frm != null)
+                            {
+                                borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
+
+                                surface.Canvas.ClipRect(
+                                    SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
+                                        Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+                            }
+
+                            surface.Canvas.DrawImage(hwnd.hwndbmpNC.ToSKImage(),
+                                new SKPoint(x - borders.left, y - borders.top),
+                                new SKPaint() {FilterQuality = SKFilterQuality.Low});
+
+                            surface.Canvas.DrawImage(hwnd.hwndbmp.ToSKImage(),
+                                new SKPoint(x + 0, y + 0),
+                                new SKPaint() {FilterQuality = SKFilterQuality.Low});
                         }
-                        surface.Canvas.DrawImage(hwnd.hwndbmp.ToSKImage(), new SKPoint(x + hwnd.ClientRect.X, y + hwnd.ClientRect.Y), new SKPaint() { FilterQuality = SKFilterQuality.Low });
+                        else
+                        {
+                            surface.Canvas.DrawImage(hwnd.hwndbmp.ToSKImage(),
+                                new SKPoint(x + 0, y + 0),
+                                new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                        }
                     }
+
                     Monitor.Exit(XplatUIMine.paintlock);
 
-                    surface.Canvas.DrawText(x + " " + y, x, y + 10, new SKPaint() { Color = SKColors.Red });
+                    //surface.Canvas.DrawText(x + " " + y, x, y + 10, new SKPaint() { Color = SKColors.Red });
 
                     if (hwnd.Mapped && hwnd.Visible)
                     {
                         var enumer = Hwnd.windows.GetEnumerator();
                         while (enumer.MoveNext())
                         {
-                            var hwnd2 = (System.Collections.DictionaryEntry)enumer.Current;
-                            var Key = (IntPtr)hwnd2.Key;
-                            var Value = (Hwnd)hwnd2.Value;
+                            var hwnd2 = (System.Collections.DictionaryEntry) enumer.Current;
+                            var Key = (IntPtr) hwnd2.Key;
+                            var Value = (Hwnd) hwnd2.Value;
                             if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible && Value.Mapped)
                                 func(Value.ClientWindow);
                         }

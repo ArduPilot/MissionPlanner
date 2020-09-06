@@ -73,7 +73,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         }
 
         public Region Clip { get; set; }
-        public RectangleF ClipBounds { get; }
+        public RectangleF ClipBounds {
+            get { return new RectangleF(_image.LocalClipBounds.Left,_image.LocalClipBounds.Top,_image.LocalClipBounds.Width,_image.LocalClipBounds.Height); }
+        }
         public CompositingMode CompositingMode { get; set; }
         public CompositingQuality CompositingQuality { get; set; }
         public float DpiX { get; } = 72;
@@ -820,13 +822,22 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (format.LineAlignment == StringAlignment.Center) // vertical
             {
                 layoutRectangle.Y += layoutRectangle.Height / 2 - textBounds.Height / 2;
-            }     
+            }
+
+            if (format.FormatFlags == StringFormatFlags.DirectionVertical)
+            {
+                pnt.IsVerticalText = true;
+            }
+            else
+            {
+                pnt.IsVerticalText = false;
+            }
 
             var lines = s.Split('\n');
             int a=0;
             foreach (var line in lines)
             {
-                _image.DrawText(line, layoutRectangle.X, layoutRectangle.Y + textBounds.Height + a *font.Height, pnt);
+                _image.DrawText(line.TrimEnd(), layoutRectangle.X, layoutRectangle.Y + (a+1) *font.Height, pnt);
                 a++;
             }            
         }
@@ -1206,7 +1217,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             {
                 font.ToSKPaint().MeasureText(line, ref bound);
                 width = Math.Max(width, bound.Width);
-                height += bound.Height;
+                height += font.Height;
             }
 
             return new SizeF(width, height);
@@ -1312,6 +1323,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void SetClip(GraphicsPath path)
         {
             ResetClip();
+
+            path.Flatten();
+
             var skpath = new SKPath();
             int startIndex = 0;
             int endIndex = 0;
@@ -1322,29 +1336,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             for (int sp = 0; sp < subPaths; sp++)
             {
                 var numOfPoints = iterator.NextSubpath(out startIndex, out endIndex, out isClosed);
-                //Console.WriteLine("subPath {0} - from {1} to {2} closed {3}", sp+1, startIndex, endIndex, isClosed);
 
                 var subPoints = pathData.Points.Skip(startIndex).Take(numOfPoints).ToArray();
                 var subTypes = pathData.Types.Skip(startIndex).Take(numOfPoints).ToArray();
 
-                if (subTypes.Count() > 2 && subTypes[1] == 3)
-                {
-                    var temp = subPoints.Select(a => new SKPoint(a.X, a.Y)).ToArray();
-                    skpath.MoveTo(temp[0]);
-                    for (int i = 1; i < temp.Length - 2; i+=3)
-                    {
-                        skpath.CubicTo(temp[i],
-                            temp[i + 1],
-                            temp[i + 2]);
-                    }
-                }
-                else
-                {
-                    skpath.AddPoly(subPoints.Select(a => new SKPoint(a.X, a.Y)).ToArray());
-                }
+
+                skpath.AddPoly(subPoints.Select(a => new SKPoint(a.X, a.Y)).ToArray());
             }
 
-            //skpath.AddPoly(path.PathPoints.Select(a => new SKPoint(a.X, a.Y)).ToArray());
             _image.ClipPath(skpath);
         }
 

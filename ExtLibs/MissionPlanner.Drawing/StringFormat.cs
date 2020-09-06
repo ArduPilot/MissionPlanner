@@ -20,10 +20,14 @@ namespace System.Drawing
             FormatFlags = flags;
         }
 
-        public static StringFormat GenericDefault { get; set; } = new StringFormat();
+        public static StringFormat GenericDefault {
+            get { return new StringFormat(); }
+        }
         public StringAlignment LineAlignment { get; set; } = StringAlignment.Near;
         public StringAlignment Alignment { get; set; } = StringAlignment.Near;
-        public static StringFormat GenericTypographic { get; set; } = new StringFormat();
+        public static StringFormat GenericTypographic {
+            get { return new StringFormat(); }
+        }
         public StringTrimming Trimming { get; set; }
 
         public HotkeyPrefix HotkeyPrefix
@@ -50,7 +54,8 @@ namespace System.Drawing
 
         public object Clone()
         {
-            return new StringFormat();
+            return new StringFormat()
+                {LineAlignment = this.LineAlignment, Alignment = this.Alignment, FormatFlags = this.FormatFlags};
         }
     }
 }

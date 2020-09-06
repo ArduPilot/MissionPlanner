@@ -271,6 +271,14 @@ namespace System.Drawing.Drawing2D
 
         public static bool operator ==(Matrix matrix1, Matrix matrix2)
         {
+            // both are null
+            if (matrix1 is null && matrix2 is null)
+                return true;
+
+            // only one is null
+            if (matrix1 is null || matrix2 is null)
+                return false;
+
             if (matrix1.IsDistinguishedIdentity || matrix2.IsDistinguishedIdentity)
             {
                 return matrix1.IsIdentity == matrix2.IsIdentity;
