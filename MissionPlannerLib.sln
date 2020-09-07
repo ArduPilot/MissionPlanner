@@ -33,6 +33,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AviFile", "ExtLibs\AviFile\AviFile.csproj", "{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Controls", "ExtLibs\Controls\MissionPlanner.Controls.csproj", "{C8B88795-6D01-494D-83AD-6944BD4C5023}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8069B18A-8F1C-4A77-8A3B-AED1081579D6} = {8069B18A-8F1C-4A77-8A3B-AED1081579D6}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "ExtLibs\Core\Core.csproj", "{59129078-7B12-4198-B93E-0AA08D0BB7ED}"
 EndProject
@@ -41,6 +44,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpKml", "ExtLibs\SharpKml\SharpKml.csproj", "{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BSE.Windows.Forms", "ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj", "{9CA367B8-0B98-49D1-84FB-735E612E3BA9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{958C175E-8E11-4872-B99B-648F72AFD3C1} = {958C175E-8E11-4872-B99B-648F72AFD3C1}
+		{9742006A-7ADF-4BAA-929F-A148AC85E45A} = {9742006A-7ADF-4BAA-929F-A148AC85E45A}
+		{8069B18A-8F1C-4A77-8A3B-AED1081579D6} = {8069B18A-8F1C-4A77-8A3B-AED1081579D6}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaDataExtractor", "ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj", "{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}"
 EndProject
@@ -136,6 +144,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectShowLib", "ExtLibs\DirectShowLib\DirectShowLib.csproj", "{637A5D55-908E-4AEE-B061-3981B66F1B9F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xamarin.Forms.Platform.WinForms", "ExtLibs\Xamarin.Forms.Platform.WinForms\Xamarin.Forms.Platform.WinForms.csproj", "{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accessibility-net_4_x", "ExtLibs\mono\mcs\class\Accessibility\Accessibility-net_4_x.csproj", "{E51283DC-7090-479E-B723-01C0953F18EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Runtime.Serialization.Formatters.Soap-net_4_x", "ExtLibs\mono\mcs\class\System.Runtime.Serialization.Formatters.Soap\System.Runtime.Serialization.Formatters.Soap-net_4_x.csproj", "{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -372,6 +384,14 @@ Global
 		{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E51283DC-7090-479E-B723-01C0953F18EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E51283DC-7090-479E-B723-01C0953F18EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E51283DC-7090-479E-B723-01C0953F18EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E51283DC-7090-479E-B723-01C0953F18EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

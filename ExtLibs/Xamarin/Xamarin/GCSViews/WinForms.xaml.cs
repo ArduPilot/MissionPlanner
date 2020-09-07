@@ -457,6 +457,8 @@ namespace Xamarin.GCSViews
                     }
                 }
 
+                surface.Canvas.ClipRect(new SKRect(0, 0, Screen.PrimaryScreen.Bounds.Right,
+                    Screen.PrimaryScreen.Bounds.Bottom));
 
                 surface.Canvas.DrawText("screen " + Screen.PrimaryScreen.ToString(), new SKPoint(50, 30), new SKPaint() { Color = SKColor.Parse("ffff00") });
 

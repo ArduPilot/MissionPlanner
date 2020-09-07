@@ -9,19 +9,18 @@ using Android.Content;
 using Android.Content.PM;
 using Android.Hardware.Usb;
 using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Android.Provider;
 using Android.Support.V7.Widget;
 using Android.Telephony;
 using Android.Util;
+
 using Java.Interop;
 using Java.Lang.Reflect;
 using Mono.Unix;
 using Xamarin.Forms;
 using Application = Xamarin.Forms.Application;
 using Thread = System.Threading.Thread;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 [assembly: UsesFeature("android.hardware.usb.host")]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
