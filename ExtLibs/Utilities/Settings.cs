@@ -245,6 +245,11 @@ namespace MissionPlanner.Utilities
 
             var path = Path.GetDirectoryName(location);
 
+            if (path == "")
+            {
+                path = Path.GetDirectoryName(GetDataDirectory());
+            }
+
             return path + Path.DirectorySeparatorChar;
         }
 
