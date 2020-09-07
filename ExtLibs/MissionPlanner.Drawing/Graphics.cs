@@ -72,7 +72,10 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             //_rec.BeginRecording(new SKRect(0, 0, width, height));
         }
 
-        public Region Clip { get; set; }
+        public Region Clip {
+            get { return new Region(Rectangle.FromLTRB((int)_image.LocalClipBounds.Left,(int) _image.LocalClipBounds.Top, (int)_image.LocalClipBounds.Right,(int) _image.LocalClipBounds.Bottom)); }
+            set { _image.ClipRect(value.Bounds, (SKClipOperation) 5); }
+        }
         public RectangleF ClipBounds {
             get { return new RectangleF(_image.LocalClipBounds.Left,_image.LocalClipBounds.Top,_image.LocalClipBounds.Width,_image.LocalClipBounds.Height); }
         }
@@ -571,13 +574,13 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             GraphicsUnit srcUnit,
             ImageAttributes imageAttr)
         {
-            DrawImageUnscaled(image, destRect.X, destRect.Y);
+            DrawImage(image, destRect, (float)srcX, srcY, srcWidth, srcHeight, srcUnit, imageAttr);
             //throw new NotImplementedException();
         }
 
         public void DrawImage(Image img, long i, long i1, long width, long height)
         {
-            DrawImage(img, new Rectangle((int) i, (int) i1, (int) img.Width, (int) img.Height), 0.0f, 0, width, height,
+            DrawImage(img, new Rectangle((int) i, (int) i1, (int)width, (int)height), 0.0f, 0, img.Width, img.Height,
                 GraphicsUnit.Pixel,
                 new ImageAttributes());
         }
@@ -837,7 +840,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             int a=0;
             foreach (var line in lines)
             {
-                _image.DrawText(line.TrimEnd(), layoutRectangle.X, layoutRectangle.Y + (a+1) *font.Height, pnt);
+                _image.DrawText(line.TrimEnd(), layoutRectangle.X, layoutRectangle.Y - 2 + (a+1) *font.Height, pnt);
                 a++;
             }            
         }

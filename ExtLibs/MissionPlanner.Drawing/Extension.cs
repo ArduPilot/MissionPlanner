@@ -96,6 +96,16 @@ namespace System.Drawing
                 return brushcache[((SolidBrush) brush).Color];
             }
 
+            if (brush is HatchBrush)
+            {
+                return brush.nativeBrush;
+            }
+
+            if (brush is TextureBrush)
+            {
+                return brush.nativeBrush;
+            }
+
             if (brush is LinearGradientBrush)
             {
                 var lgb = (LinearGradientBrush) brush;

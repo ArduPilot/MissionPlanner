@@ -13,6 +13,31 @@ namespace System.Drawing
 
         public TextureBrush(Image backgroundImage, WrapMode tile)
         {
+            Image = backgroundImage;
+            SKShader item;
+            switch (tile)
+            {
+                case WrapMode.Clamp:
+                    item = backgroundImage.ToSKImage().ToShader(SKShaderTileMode.Clamp, SKShaderTileMode.Clamp);
+                    nativeBrush = new SKPaint() {Shader = item};
+                    break;
+                case WrapMode.Tile:
+                    item = backgroundImage.ToSKImage().ToShader(SKShaderTileMode.Repeat, SKShaderTileMode.Repeat);
+                    nativeBrush = new SKPaint() {Shader = item};
+                    break;
+                case WrapMode.TileFlipXY:
+                    item = backgroundImage.ToSKImage().ToShader(SKShaderTileMode.Mirror, SKShaderTileMode.Mirror);
+                    nativeBrush = new SKPaint() {Shader = item};
+                    break;
+                case WrapMode.TileFlipX:
+                    item = backgroundImage.ToSKImage().ToShader(SKShaderTileMode.Mirror, SKShaderTileMode.Repeat);
+                    nativeBrush = new SKPaint() {Shader = item};
+                    break;
+                case WrapMode.TileFlipY:
+                    item = backgroundImage.ToSKImage().ToShader(SKShaderTileMode.Repeat, SKShaderTileMode.Mirror);
+                    nativeBrush = new SKPaint() {Shader = item};
+                    break;
+            }
         }
 
         public Image Image;

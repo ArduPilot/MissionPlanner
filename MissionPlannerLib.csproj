@@ -12,7 +12,7 @@
 
   <PropertyGroup>
     <DefineConstants>DEBUG;TRACE;LIB</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
 
  <ItemGroup>
