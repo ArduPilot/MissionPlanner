@@ -18,13 +18,11 @@
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 	<uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.SIGNAL_PERSISTENT_PROCESSES" />
 	<uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" />
 	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
-	<uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
 	<uses-feature android:name="android.hardware.usb.host" />
 	<uses-sdk android:minSdkVersion="12" />
 	<application android:label="MissionPlanner" android:icon="@mipmap/icon" />
