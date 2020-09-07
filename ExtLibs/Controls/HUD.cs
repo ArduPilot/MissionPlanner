@@ -835,6 +835,11 @@ namespace MissionPlanner.Controls
                 //  return;
             }
 
+            if (!Enabled)
+                return;
+            if (Disposing)
+                return;
+
             //base.Refresh();
             using (Graphics gg = this.CreateGraphics())
             {
