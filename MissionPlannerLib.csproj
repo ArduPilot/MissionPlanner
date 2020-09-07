@@ -10,7 +10,7 @@
     <NeutralLanguage>en</NeutralLanguage>   
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+  <PropertyGroup>
     <DefineConstants>DEBUG;TRACE;LIB</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -38,6 +38,7 @@
     <Compile Remove="ExtLibs\DotSpatial\**" />
     <Compile Remove="ExtLibs\DriverCleanup\**" />
     <Compile Remove="ExtLibs\ExtGuided\**" />
+    <Compile Remove="ExtLibs\GDAL\**" />
 
     <Compile Remove="ExtLibs\GeoUtility\**" />
     <Compile Remove="ExtLibs\GMap.NET.Core\**" />
@@ -122,6 +123,7 @@
     <EmbeddedResource Remove="ExtLibs\DotSpatial\**" />
     <EmbeddedResource Remove="ExtLibs\DriverCleanup\**" />
     <EmbeddedResource Remove="ExtLibs\ExtGuided\**" />
+    <EmbeddedResource Remove="ExtLibs\GDAL\**" />
 
     <EmbeddedResource Remove="ExtLibs\GeoUtility\**" />
     <EmbeddedResource Remove="ExtLibs\GMap.NET.Core\**" />
@@ -205,6 +207,7 @@
     <None Remove="ExtLibs\DotSpatial\**" />
     <None Remove="ExtLibs\DriverCleanup\**" />
     <None Remove="ExtLibs\ExtGuided\**" />
+    <None Remove="ExtLibs\GDAL\**" />
 
     <None Remove="ExtLibs\GeoUtility\**" />
     <None Remove="ExtLibs\GMap.NET.Core\**" />
@@ -377,10 +380,6 @@
     </PackageReference>
     <PackageReference Include="Flurl" version="2.8.0" />
     <PackageReference Include="Flurl.Http" version="2.3.2" />
-    <PackageReference Include="GDAL" Version="2.3.2" />
-    <PackageReference Include="GDAL.Native">
-      <Version>2.3.2</Version>
-    </PackageReference>
     <PackageReference Include="GeoJSON.Net" version="1.1.64" />
     <PackageReference Include="log4net" version="2.0.8" />   <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
       <Version>3.6.0</Version>
@@ -408,6 +407,7 @@
    <ProjectReference Include="ExtLibs\Comms\MissionPlanner.Comms.csproj" />
    <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj" />
    <ProjectReference Include="ExtLibs\Core\Core.csproj" />
+   <ProjectReference Include="ExtLibs\GDAL\GDAL.NET.csproj" />
    <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj" />
    <ProjectReference Include="ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj" />
    <ProjectReference Include="ExtLibs\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />

@@ -33,14 +33,19 @@ namespace Xamarin.GCSViews
         {
             InitializeComponent();
         }
-
+        
         protected override void OnAppearing()
         {
             base.OnAppearing();
             SkCanvasView.IgnorePixelScaling = false;
-            StartThreads();
-            
-            XplatUIMine.GetInstance().Keyboard = new Keyboard(Entry);
+
+            if (!start)
+            {
+                StartThreads();
+
+                XplatUIMine.GetInstance().Keyboard = new Keyboard(Entry);
+                start = true;
+            }
         }
         public class Keyboard: KeyboardXplat
         {
@@ -239,6 +244,7 @@ namespace Xamarin.GCSViews
         private Forms.Size size;
         private Forms.Size scale;
         private (DateTime time, int x, int y) DownTime = (DateTime.MinValue, 0, 0);
+        private bool start;
 
         private void SkCanvasView_Touch(object sender, SkiaSharp.Views.Forms.SKTouchEventArgs e)
         {
