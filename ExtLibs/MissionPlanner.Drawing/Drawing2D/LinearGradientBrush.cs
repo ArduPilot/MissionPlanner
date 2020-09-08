@@ -4,7 +4,7 @@ namespace System.Drawing.Drawing2D
 {
     public class LinearGradientBrush : Brush
     {
-        private LinearGradientMode _gradMode;
+        internal LinearGradientMode _gradMode;
 
         public LinearGradientBrush(RectangleF bg, Color skyColor1, Color skyColor2, LinearGradientMode gradMode)
         {

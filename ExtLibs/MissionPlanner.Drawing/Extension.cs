@@ -65,7 +65,7 @@ namespace System.Drawing
             {
                 Typeface = fontcache[font.SystemFontName],
                 TextSize = font.Size,
-                StrokeWidth = 2
+                StrokeWidth = 2,
             };
         }
 
@@ -109,19 +109,39 @@ namespace System.Drawing
             if (brush is LinearGradientBrush)
             {
                 var lgb = (LinearGradientBrush) brush;
-                return new SKPaint
+                if (lgb._gradMode == LinearGradientMode.Horizontal)
                 {
-                    IsAntialias = true,
-                    Style = SKPaintStyle.Fill,
-                    Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
-                        new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
-                        new[]
-                        {
-                            ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
-                            ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
-                        }
-                        , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
-                };
+                    return new SKPaint
+                    {
+                        IsAntialias = true,
+                        Style = SKPaintStyle.Fill,
+                        Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
+                            new SKPoint(lgb.Rectangle.Right, lgb.Rectangle.Y),
+                            new[]
+                            {
+                                ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
+                                ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
+                            }
+                            , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
+                    };
+                }
+
+                if (lgb._gradMode == LinearGradientMode.Vertical)
+                {
+                    return new SKPaint
+                    {
+                        IsAntialias = true,
+                        Style = SKPaintStyle.Fill,
+                        Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
+                            new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
+                            new[]
+                            {
+                                ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
+                                ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
+                            }
+                            , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
+                    };
+                }
             }
 
             return new SKPaint();

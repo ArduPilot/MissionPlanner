@@ -13,6 +13,7 @@
   <PropertyGroup>
     <DefineConstants>DEBUG;TRACE;LIB</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AssemblyName>MissionPlanner</AssemblyName>
   </PropertyGroup>
 
  <ItemGroup>

@@ -802,6 +802,38 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             DrawText(s, font, brush, layoutRectangle, format, false);
         }
 
+        private static string AddNewLinesToText(string text, int maximumSingleLineTooltipLength)
+        {
+            if (text.Length < maximumSingleLineTooltipLength)
+                return text;
+            int lineLength = maximumSingleLineTooltipLength;
+            StringBuilder sb = new StringBuilder();
+            int currentLinePosition = 0;
+            for (int textIndex = 0; textIndex < text.Length; textIndex++)
+            {
+                // If we have reached the target line length and the next      
+                // character is whitespace then begin a new line.   
+                if (currentLinePosition >= lineLength &&
+                    char.IsWhiteSpace(text[textIndex]))
+                {
+                    sb.Append(Environment.NewLine);
+                    currentLinePosition = 0;
+                }
+                // reset line lnegth counter on existing new line
+                if (text[textIndex] == Environment.NewLine[Environment.NewLine.Length -1])
+                {
+                    currentLinePosition = 1;
+                }
+                // If we have just started a new line, skip all the whitespace.    
+                if (currentLinePosition == 0)
+                    while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
+                        textIndex++;
+                // Append the next character.     
+                if (textIndex < text.Length) sb.Append(text[textIndex]);
+                currentLinePosition++;
+            }
+            return sb.ToString();
+        }
         public void DrawText(string s, Font font, Brush brush, RectangleF layoutRectangle,
             StringFormat format, bool duno)
         {
@@ -812,10 +844,19 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var fnt = font.ToSKPaint();
             var textBounds = MeasureString(s, font);
 
+            if (layoutRectangle.Width > 0 && textBounds.Width > layoutRectangle.Width)
+            {
+                s = AddNewLinesToText(s, (int) (layoutRectangle.Width / MeasureString("A", font).Width));
+                textBounds = MeasureString(s, font);
+            }
+
             pnt.TextSize = fnt.TextSize;
             pnt.Typeface = fnt.Typeface;
-
+            pnt.FakeBoldText = font.Bold;
+            
             pnt.StrokeWidth = 1;
+            if(font.Bold)
+                pnt.StrokeWidth = 2;
 
             if (format.Alignment == StringAlignment.Center)
             {
