@@ -395,9 +395,15 @@ namespace Xamarin.GCSViews
                                 new SKPoint(x - borders.left, y - borders.top),
                                 new SKPaint() {FilterQuality = SKFilterQuality.Low});
 
+                            surface.Canvas.ClipRect(
+                                SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
+                                    hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
+
                             surface.Canvas.DrawImage(hwnd.hwndbmp.ToSKImage(),
-                                new SKPoint(x + 0, y + 0),
+                                new SKPoint(x, y),
                                 new SKPaint() {FilterQuality = SKFilterQuality.Low});
+
+
                         }
                         else
                         {
@@ -409,7 +415,7 @@ namespace Xamarin.GCSViews
 
                     Monitor.Exit(XplatUIMine.paintlock);
 
-                    //surface.Canvas.DrawText(x + " " + y, x, y + 10, new SKPaint() { Color = SKColors.Red });
+                    //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
 
                     if (hwnd.Mapped && hwnd.Visible)
                     {
@@ -433,20 +439,23 @@ namespace Xamarin.GCSViews
                     {
                         if (form.Location.X < 0 || form.Location.Y < 0)
                         {
-                            form.Location = Point.Empty;
+                            form.Location = new Point(Math.Max(form.Location.X,0),Math.Max(form.Location.Y,0));
                         }
 
-                        if (form.Size.Width > size.Width || form.Size.Height > size.Height)
+                        var border = Hwnd.GetBorders(form.GetCreateParams(), null);
+
+                        if (form.Size.Width > Screen.PrimaryScreen.Bounds.Width || form.Size.Height > Screen.PrimaryScreen.Bounds.Height)
                         {
-                            form.Size = new System.Drawing.Size((int) size.Width, (int) size.Height);
+                            //form.Size = new System.Drawing.Size((int) Screen.PrimaryScreen.Bounds.Width, (int) Screen.PrimaryScreen.Bounds.Height);
+                            XplatUI.driver.SetWindowPos(form.Handle, 0, 0, (int) Screen.PrimaryScreen.Bounds.Width,
+                                (int) Screen.PrimaryScreen.Bounds.Height);
                         }
 
                         try
                         {
-
                             func(form.Handle);
                         }
-                        finally
+                        catch
                         {
 
                         }
@@ -463,8 +472,12 @@ namespace Xamarin.GCSViews
                     }
                 }
 
+                return;
                 surface.Canvas.ClipRect(new SKRect(0, 0, Screen.PrimaryScreen.Bounds.Right,
                     Screen.PrimaryScreen.Bounds.Bottom), (SKClipOperation)5);
+
+                surface.Canvas.DrawText("PixelScreenSize " + Device.Info.PixelScreenSize.ToString(), new SKPoint(50, 10), new SKPaint() { Color = SKColor.Parse("ffff00") });
+                
 
                 surface.Canvas.DrawText("screen " + Screen.PrimaryScreen.ToString(), new SKPoint(50, 30), new SKPaint() { Color = SKColor.Parse("ffff00") });
 
