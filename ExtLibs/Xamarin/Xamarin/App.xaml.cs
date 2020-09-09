@@ -120,8 +120,8 @@ namespace Xamarin
                 CustomMessageBox.Show(ex.ToString());
             }
 
-            CustomMessageBox.ShowEvent += CustomMessageBox_ShowEvent;
-            MAVLinkInterface.CreateIProgressReporterDialogue += CreateIProgressReporterDialogue;
+            //CustomMessageBox.ShowEvent += CustomMessageBox_ShowEvent;
+            //MAVLinkInterface.CreateIProgressReporterDialogue += CreateIProgressReporterDialogue;
 
             //Task.Run(() => { MainV2.instance.SerialReader(); });
 

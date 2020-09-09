@@ -33,11 +33,12 @@ namespace Xamarin
                 {
                     if (Device.OS == TargetPlatform.Android)
                     {
-                        System.Environment.Exit(0);
+                        System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
                     }
                     else if (Device.OS == TargetPlatform.iOS)
                     {
-                        System.Environment.Exit(0);
+                        System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+                        //System.Environment.Exit(0);
                     }
                 }
             });

@@ -135,6 +135,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             return new Graphics(SKSurface.Create(bmpDestination.nativeSkBitmap.Info, bmpdata.Scan0));
         }
 
+        public static Graphics FromSKImage(SKImage bmpDestination)
+        {
+            var pixels = bmpDestination.PeekPixels();
+            return new Graphics(SKSurface.Create(pixels));
+        }
+
         public static implicit operator Image(Graphics sk)
         {
             using (var snap = sk._surface.Snapshot())
@@ -449,7 +455,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 ///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, Rectangle destRect, Rectangle srcRect, GraphicsUnit srcUnit)
         {
-            _image.DrawImage(SKImage.FromBitmap(image.nativeSkBitmap), srcRect.ToSKRect(), destRect.ToSKRect(), null);
+            _image.DrawImage(SKImage.FromBitmap(image.nativeSkBitmap), srcRect.ToSKRect(), destRect.ToSKRect(), new SKPaint());
         }
 
         public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit)
@@ -850,7 +856,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 textBounds = MeasureString(s, font);
             }
 
-            pnt.TextSize = fnt.TextSize;
+            pnt.TextSize = fnt.TextSize-0.5f;
             pnt.Typeface = fnt.Typeface;
             pnt.FakeBoldText = font.Bold;
             
