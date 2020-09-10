@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.bSave = new MissionPlanner.Controls.MyButton();
-            this.btnLoadPlugin = new MissionPlanner.Controls.MyButton();
             this.labelWarning = new System.Windows.Forms.Label();
             this.dgvPlugins = new MissionPlanner.Controls.MyDataGridView();
             this.pluginName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,8 +41,8 @@
             // 
             // bSave
             // 
-            this.bSave.Location = new System.Drawing.Point(95, 8);
-            this.bSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.bSave.Location = new System.Drawing.Point(11, 8);
+            this.bSave.Margin = new System.Windows.Forms.Padding(2);
             this.bSave.Name = "bSave";
             this.bSave.Size = new System.Drawing.Size(73, 31);
             this.bSave.TabIndex = 1;
@@ -51,22 +50,10 @@
             this.bSave.UseVisualStyleBackColor = true;
             this.bSave.Click += new System.EventHandler(this.bSave_Click);
             // 
-            // btnLoadPlugin
-            // 
-            this.btnLoadPlugin.Enabled = false;
-            this.btnLoadPlugin.Location = new System.Drawing.Point(9, 8);
-            this.btnLoadPlugin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnLoadPlugin.Name = "btnLoadPlugin";
-            this.btnLoadPlugin.Size = new System.Drawing.Size(73, 31);
-            this.btnLoadPlugin.TabIndex = 3;
-            this.btnLoadPlugin.Text = "Load Plugin";
-            this.btnLoadPlugin.UseVisualStyleBackColor = true;
-            this.btnLoadPlugin.Click += new System.EventHandler(this.btnLoadPlugin_Click);
-            // 
             // labelWarning
             // 
             this.labelWarning.AutoSize = true;
-            this.labelWarning.Location = new System.Drawing.Point(172, 8);
+            this.labelWarning.Location = new System.Drawing.Point(88, 8);
             this.labelWarning.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelWarning.Name = "labelWarning";
             this.labelWarning.Size = new System.Drawing.Size(224, 26);
@@ -92,7 +79,7 @@
             this.pluginDll,
             this.pluginEnabled});
             this.dgvPlugins.Location = new System.Drawing.Point(9, 51);
-            this.dgvPlugins.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvPlugins.Margin = new System.Windows.Forms.Padding(2);
             this.dgvPlugins.Name = "dgvPlugins";
             this.dgvPlugins.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgvPlugins.RowTemplate.Height = 24;
@@ -131,11 +118,11 @@
             // pluginDll
             // 
             this.pluginDll.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.pluginDll.HeaderText = "DLL";
+            this.pluginDll.HeaderText = "FileName";
             this.pluginDll.MinimumWidth = 6;
             this.pluginDll.Name = "pluginDll";
             this.pluginDll.ReadOnly = true;
-            this.pluginDll.Width = 52;
+            this.pluginDll.Width = 76;
             // 
             // pluginEnabled
             // 
@@ -151,11 +138,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(673, 373);
             this.Controls.Add(this.labelWarning);
-            this.Controls.Add(this.btnLoadPlugin);
             this.Controls.Add(this.bSave);
             this.Controls.Add(this.dgvPlugins);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "PluginUI";
             this.Text = "PluginManager";
             this.Shown += new System.EventHandler(this.PluginUI_Shown);
@@ -169,7 +155,6 @@
 
         private MyDataGridView dgvPlugins;
         private MyButton bSave;
-        private MyButton btnLoadPlugin;
         private System.Windows.Forms.Label labelWarning;
         private System.Windows.Forms.DataGridViewTextBoxColumn pluginName;
         private System.Windows.Forms.DataGridViewTextBoxColumn pluginAuthor;

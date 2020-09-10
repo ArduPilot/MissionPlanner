@@ -125,12 +125,12 @@ namespace MissionPlanner.Plugin
                 return;
             }
 
-            InitPlugin(asm);
+            InitPlugin(asm, file);
 
             log.InfoFormat("Plugin Load {0} time {1} s", file, (DateTime.Now - startDateTime).TotalSeconds);
         }
 
-        public static void InitPlugin(Assembly asm)
+        public static void InitPlugin(Assembly asm, string pluginfilename)
         {
             if (asm == null)
                 return;
@@ -156,6 +156,7 @@ namespace MissionPlanner.Plugin
                     plugin.Assembly = asm;
 
                     plugin.Host = new PluginHost();
+                    plugin.FileName = Path.GetFileName(pluginfilename);
 
                     if (plugin.Init())
                     {
@@ -191,6 +192,13 @@ namespace MissionPlanner.Plugin
                 foreach (var csFile in csFiles)
                 {
                     log.Info("Plugin: " + csFile);
+                    //Check if it is disabled (moved out from the previous IF, to make it loggable)
+                    if (DisabledPluginNames.Contains(Path.GetFileName(csFile).ToLower()))
+                    { 
+                        log.InfoFormat("Plugin {0} is disabled in config.xml", Path.GetFileName(csFile));
+                        continue;
+                    }
+
 
                     try
                     {
@@ -203,7 +211,7 @@ namespace MissionPlanner.Plugin
                         // compile the code into an assembly
                         var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
 
-                        InitPlugin(results?.CompiledAssembly);
+                        InitPlugin(results?.CompiledAssembly, Path.GetFileName(csFile));
 
                         if (results?.CompiledAssembly != null)
                             continue;
@@ -218,7 +226,7 @@ namespace MissionPlanner.Plugin
                         // csharp 8
                         var ans = CodeGenRoslyn.BuildCode(csFile);
 
-                        InitPlugin(ans);
+                        InitPlugin(ans, Path.GetFileName(csFile));
 
                         continue;
                     }

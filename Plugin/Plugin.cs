@@ -15,6 +15,8 @@ namespace MissionPlanner.Plugin
         public Assembly Assembly = null;
 
         public PluginHost Host { get; internal set; }
+        public string FileName { get; set; }            //contains the filename of the plugin (.dll or .cs)
+
 
         public abstract string Name { get; }
         public abstract string Version { get; }
