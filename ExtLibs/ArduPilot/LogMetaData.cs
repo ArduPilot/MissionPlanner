@@ -18,13 +18,13 @@ namespace MissionPlanner.ArduPilot
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        string[] vehicles = new[] { "Copter", "Plane", "Rover", "Tracker" };
+        static string[] vehicles = new[] { "Copter", "Plane", "Rover", "Tracker" };
 
-        string url = "https://autotest.ardupilot.org/LogMessages/{0}/LogMessages.xml";
+        static string url = "https://autotest.ardupilot.org/LogMessages/{0}/LogMessages.xml";
 
-        public Dictionary<string, Dictionary<string, string>> MetaData { get; } = new Dictionary<string, Dictionary<string, string>>();
+        public static  Dictionary<string, Dictionary<string, string>> MetaData { get; } = new Dictionary<string, Dictionary<string, string>>();
 
-        public async Task GetMetaData()
+        public static async Task GetMetaData()
         {
             List<Task> tlist = new List<Task>();
 
@@ -33,7 +33,10 @@ namespace MissionPlanner.ArduPilot
                 try
                 {
                     var newurl = String.Format(url, a);
-                    var file = Path.Combine(Settings.GetDataDirectory(), a + ".xml");
+                    var file = Path.Combine(Settings.GetDataDirectory(), "LogMessages" + a + ".xml");
+                    if(File.Exists(file))
+                        if (new FileInfo(file).LastWriteTime.AddDays(7) > DateTime.Now)
+                            return;
                     var dltask = Download.getFilefromNetAsync(newurl, file);
                     tlist.Add(dltask);
                 }
@@ -43,11 +46,11 @@ namespace MissionPlanner.ArduPilot
             await Task.WhenAll(tlist);
         }
 
-        public void ParseMetaData()
+        public static void ParseMetaData()
         {
             vehicles.ForEach(a =>
             {
-                var file = Path.Combine(Settings.GetDataDirectory(), a + ".xml");
+                var file = Path.Combine(Settings.GetDataDirectory(), "LogMessages" + a + ".xml");
 
                 if (!File.Exists(file))
                 {
@@ -66,6 +69,8 @@ namespace MissionPlanner.ArduPilot
 
                     if (!MetaData.ContainsKey(type.Value))
                         MetaData[type.Value] = new Dictionary<string, string>();
+
+                    MetaData[type.Value]["description"] = typedesc.Value;
 
                     b.Descendants("fields").Descendants("field").ForEach(c => 
                     {

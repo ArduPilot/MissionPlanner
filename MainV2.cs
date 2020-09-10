@@ -3107,6 +3107,8 @@ namespace MissionPlanner
 
             //ThreadPool.QueueUserWorkItem(BGGetAlmanac);
 
+            ThreadPool.QueueUserWorkItem(BGLogMessagesMetaData);
+
             ThreadPool.QueueUserWorkItem(BGgetTFR);
 
             ThreadPool.QueueUserWorkItem(BGNoFly);
@@ -3570,6 +3572,12 @@ namespace MissionPlanner
             GMapMarkerBase.DisplayNavBearing = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
             GMapMarkerBase.DisplayRadius = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
             GMapMarkerBase.DisplayTarget = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
+        }
+
+        private async void BGLogMessagesMetaData(object nothing)
+        {
+            await LogMetaData.GetMetaData();
+            LogMetaData.ParseMetaData();
         }
 
         public void LoadGDALImages(object nothing)

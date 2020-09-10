@@ -3355,5 +3355,28 @@ main()
         {
             zg1_ZoomEvent(zg1, null, null);
         }
+
+        private void treeView1_MouseMove(object sender, MouseEventArgs e)
+        {
+            var pos = treeView1.PointToClient(Control.MousePosition);
+            var node = treeView1.GetNodeAt(pos);
+            if (node != null)
+            {
+                var items = node.FullPath.Split('\\');
+                if (items.Length >= 2 && LogMetaData.MetaData.ContainsKey(items[0]) &&
+                    LogMetaData.MetaData[items[0]].ContainsKey(items[items.Length - 1]))
+                {
+                    var desc = LogMetaData.MetaData[items[0]][items[items.Length - 1]];
+                    pos.Y -= 20;
+                    toolTip1.Show(desc, treeView1, pos, 2000);
+                } else if (items.Length == 1 && LogMetaData.MetaData.ContainsKey(items[0]) &&
+                           LogMetaData.MetaData[items[0]].ContainsKey("description"))
+                {
+                    var desc = LogMetaData.MetaData[items[0]]["description"];
+                    pos.Y -= 20;
+                    toolTip1.Show(desc, treeView1, pos, 2000);
+                }
+            }
+        }
     }
 }
