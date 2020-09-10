@@ -38,7 +38,7 @@
     <AndroidSupportedAbis>x86;arm64-v8a</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions>*.html</AndroidStoreUncompressedFileExtensions>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-    <MandroidI18n />
+    <MandroidI18n>West</MandroidI18n>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidUseAapt2>false</AndroidUseAapt2>
@@ -113,6 +113,15 @@
     <Compile Include="USBDevices.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\airports.csv">
+      <Link>Resources\drawable\airports.csv</Link>
+    </None>
+    <None Include="..\..\..\BurntKermit.mpsystheme">
+      <Link>Resources\drawable\BurntKermit.mpsystheme</Link>
+    </None>
+    <None Include="..\..\..\HighContrast.mpsystheme">
+      <Link>Resources\drawable\HighContrast.mpsystheme</Link>
+    </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -140,7 +149,6 @@
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
-    <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj">
@@ -175,6 +183,56 @@
       <Project>{567c5db1-9d8d-4a82-a89b-7e9357e7f6d8}</Project>
       <Name>Xamarin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\acsimplepids.xml">
+      <Link>Resources\drawable\acsimplepids.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\aircraft.xml">
+      <Link>Resources\drawable\aircraft.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\ArduCopterConfig.xml">
+      <Link>Resources\drawable\ArduCopterConfig.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\camerasBuiltin.xml">
+      <Link>Resources\drawable\camerasBuiltin.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\checklistDefault.xml">
+      <Link>Resources\drawable\checklistDefault.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\dataflashlog.xml">
+      <Link>Resources\drawable\dataflashlog.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\hud.html">
+      <Link>Resources\drawable\hud.html</Link>
+    </Content>
+    <Content Include="..\..\..\mavextra.py">
+      <Link>Resources\drawable\mavextra.py</Link>
+    </Content>
+    <Content Include="..\..\..\quaternion.py">
+      <Link>Resources\drawable\quaternion.py</Link>
+    </Content>
+    <Content Include="..\..\..\rotmat.py">
+      <Link>Resources\drawable\rotmat.py</Link>
+    </Content>
+    <TransformFile Include="..\..\..\ParameterMetaDataBackup.xml">
+      <Link>Resources\drawable\ParameterMetaDataBackup.xml</Link>
+    </TransformFile>
+    <TransformFile Include="..\..\..\mavcmd.xml">
+      <Link>Resources\drawable\mavcmd.xml</Link>
+    </TransformFile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

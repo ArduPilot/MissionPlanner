@@ -27,8 +27,8 @@ using Thread = System.Threading.Thread;
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
 
 namespace Xamarin.Droid
-{ 
- [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{global::Android.Content.Intent.CategoryHome, global::Android.Content.Intent.CategoryDefault, global::Android.Content.Intent.CategoryLauncher})]
+{ //global::Android.Content.Intent.CategoryLauncher
+ [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{global::Android.Content.Intent.CategoryHome, global::Android.Content.Intent.CategoryDefault})]
     [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.Landscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
