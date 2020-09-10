@@ -193,11 +193,7 @@ namespace RFD.RFD900
             Thread.Sleep(1500);
             _Port.DiscardInBuffer();
             //Console.WriteLine("Sending +++");
-            _Port.Write("+");
-            Thread.Sleep(50);   //The 50ms inter-byte delay is required for modem firmware versions newer than 28/8/2020.
-            _Port.Write("+");
-            Thread.Sleep(50);
-            _Port.Write("+");
+            _Port.Write("+++");
             //Console.WriteLine("Waiting up to 1.5s for OK");
             if (WaitForToken("OK\r\n", 1500))
             {
@@ -380,11 +376,7 @@ namespace RFD.RFD900
             Thread.Sleep(1500);
             _Port.DiscardInBuffer();
             //Console.WriteLine("Sending +++");
-            _Port.Write("+");
-            Thread.Sleep(50);   //The 50ms inter-byte delay is required for modem firmware versions newer than 28/8/2020.
-            _Port.Write("+");
-            Thread.Sleep(50);
-            _Port.Write("+");
+            _Port.Write("+++");
             //Console.WriteLine("Waiting up to 3s for OK");
             if (WaitForToken("OK\r\n", 3000))
             {
@@ -1435,6 +1427,30 @@ namespace RFD.RFD900
         }
 
         /// <summary>
+        /// Returns whether the firmware model is allowed to be different to the connected modem model.
+        /// </summary>
+        /// <returns></returns>
+        bool FirmwareDiffExempt()
+        {
+            if (SikRadio.Program.AllowDiffProg)
+            {
+                switch (System.Windows.Forms.MessageBox.Show("The firmware you selected appears to be for a different modem model than the modem connected.  " +
+                    "Are you sure you want to program this firmware into the modem?", "Firmware type different to modem type OK?", 
+                    System.Windows.Forms.MessageBoxButtons.YesNoCancel))
+                {
+                    case System.Windows.Forms.DialogResult.Yes:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Program firmware into modem, firstly doing necessary checks.
         /// </summary>
         /// <param name="FilePath">The path of the firmware.  Must not be null.</param>
@@ -1442,7 +1458,7 @@ namespace RFD.RFD900
         /// <returns>true if succeeded, false if failed.</returns>
         public virtual bool ProgramFirmware(string FilePath, Action<string, double> Progress)
         {
-            if (CheckFirmwareOK(FilePath))
+            if (CheckFirmwareOK(FilePath) || FirmwareDiffExempt())
             {
                 Progress("Putting into bootloader mode.", double.NaN);
                 var Mode = _Session.PutIntoBootloaderMode();
@@ -1550,27 +1566,30 @@ namespace RFD.RFD900
 
         protected void ShowWrongFirmwareMessageBox()
         {
-            string S = "File doesn't appear to be valid for this radio.  Could not find ";
-            var Tokens = GetFirmwareSearchTokens();
-            for (int n = 0; n < Tokens.Length; n++)
+            if (!SikRadio.Program.AllowDiffProg)
             {
-                if (n != 0)
+                string S = "File doesn't appear to be valid for this radio.  Could not find ";
+                var Tokens = GetFirmwareSearchTokens();
+                for (int n = 0; n < Tokens.Length; n++)
                 {
-                    if (n >= (Tokens.Length - 1))
+                    if (n != 0)
                     {
-                        S += " or ";
+                        if (n >= (Tokens.Length - 1))
+                        {
+                            S += " or ";
+                        }
+                        else
+                        {
+                            S += ", ";
+                        }
                     }
-                    else
-                    {
-                        S += ", ";
-                    }
+                    S += "\"" + Tokens[n] + "\"";
                 }
-                S += "\"" + Tokens[n] + "\"";
+
+                S += " in File.";
+
+                System.Windows.Forms.MessageBox.Show(S);
             }
-
-            S += " in File.";
-
-            System.Windows.Forms.MessageBox.Show(S);
         }
 
         public abstract uploader.Uploader.Board Board { get; }

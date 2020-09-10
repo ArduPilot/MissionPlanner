@@ -62,6 +62,9 @@
  * 2.44 - Resolved mavlink setting problem.
  * 2.45 - There is now a 50ms delay between '+' characters transmitted to modem when doing the "+++" sequence to change mode from transparent to AT command mode,
  *          as this is required by new and future modem firmware releases.  
+ * 2.46 - A command line switch is now available to force programming of firmware into modems regardless of type of modem.  Removed 50ms delay between '+' characters 
+ *          transmitted to modem when doing the "+++" sequence to change mode from transparent to AT command mode,
+ *          as this is not required by any firmware  
  */
 
 using System;
@@ -75,13 +78,23 @@ namespace SikRadio
     {
         private static readonly ILog log = LogManager.GetLogger("Program");
         private const string MANUFACTURER_PASSWORD = "--manufacturing";
+        private const string ALLOW_DIFF_PROG = "--allowdiffprog";
         private static bool _Manufacturer = false;
+        private static bool _AllowDiffProg = false;
 
         public static bool Manufacturer
         {
             get
             {
                 return _Manufacturer;
+            }
+        }
+
+        public static bool AllowDiffProg
+        {
+            get
+            {
+                return _AllowDiffProg;
             }
         }
 
@@ -96,7 +109,10 @@ namespace SikRadio
                 if (RFDLib.Text.Contains(arg, MANUFACTURER_PASSWORD))
                 {
                     _Manufacturer = true;
-                    break;
+                }
+                if (RFDLib.Text.Contains(arg, ALLOW_DIFF_PROG))
+                {
+                    _AllowDiffProg = true;
                 }
             }
 
