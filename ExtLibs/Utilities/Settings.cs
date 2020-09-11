@@ -43,7 +43,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public static Dictionary<string, string> config = new Dictionary<string, string>();
 
-        const string FileName = "config.xml";
+        public static string FileName { get; set; } = "config.xml";
 
         public string this[string key]
         {
