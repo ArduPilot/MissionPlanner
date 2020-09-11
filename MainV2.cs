@@ -34,8 +34,7 @@ using System.Windows.Forms;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Utilities.HW;
 using Transitions;
-
-
+using System.Linq;
 
 namespace MissionPlanner
 {
@@ -663,6 +662,18 @@ namespace MissionPlanner
 
             // create one here - but override on load
             Settings.Instance["guid"] = Guid.NewGuid().ToString();
+            
+            //Check for -config argument, and if it is an xml extension filename then use that for config
+            if (Program.args.Length > 0 && Program.args.Contains("-config"))
+            {
+                var cmds = ProcessCommandLine(Program.args);  //This will be called later as well, but we need it here and now
+                if (cmds.ContainsKey("config") &&
+                     (cmds["config"] != null) &&
+                     (String.Compare(Path.GetExtension(cmds["config"]), ".xml", true) == 0))
+                {
+                    Settings.FileName = cmds["config"];
+                }
+            }
 
             // load config
             LoadConfig();
