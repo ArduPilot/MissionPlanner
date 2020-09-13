@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?define ProductVersion = "0.8.0"?>
+<?define ProductUpgradeCode = "5a2e7ccd-6ced-4a6b-9745-d8d73ed070cc"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:VSExtension="http://schemas.microsoft.com/wix/VSExtension">
+  <Product Id="*" Name="Debugger Image Visualizer for Visual Studio" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Aleksander Berus" UpgradeCode="$(var.ProductUpgradeCode)">
+
+    <Package InstallerVersion="400" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine" Platform="x86" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!--<Upgrade Id="$(var.ProductUpgradeCode)">
+         <UpgradeVersion Minimum="$(var.ProductVersion)" OnlyDetect="yes" Property="NEWERVERSIONDETECTED"/>
+         <UpgradeVersion Minimum="0.0.0" Maximum="$(var.ProductVersion)" IncludeMinimum="yes" IncludeMaximum="no" Property="OLDERVERSIONBEINGUPGRADED"/>	  
+    </Upgrade>
+    <Condition Message="A newer version of this software is already installed.">NOT NEWERVERSIONDETECTED</Condition>-->
+
+    <Property Id="ARPCONTACT" Value="Aleksander Berus" />
+    <Property Id="ARPREADME" Value="https://github.com/aberus/ImageVisualizer/blob/master/README.md"/>
+    <Property Id="ARPHELPLINK" Value="https://marketplace.visualstudio.com/items?itemName=AleksanderBerus.DebuggerImageVisualizerPreview"/>
+
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="bannrbmp.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="dlgbmp.bmp" />
+
+    <PropertyRef Id="VS2010_ROOT_FOLDER" />
+    <PropertyRef Id="VS2012_ROOT_FOLDER" />
+    <PropertyRef Id="VS2013_ROOT_FOLDER" />
+    <PropertyRef Id="VS2015_ROOT_FOLDER" />
+    <PropertyRef Id="VS2017_ROOT_FOLDER" />
+    <PropertyRef Id="VS2019_ROOT_FOLDER" />
+
+    <PropertyRef Id="VS2010_EXTENSIONS_DIR" />
+    <PropertyRef Id="VS2012_EXTENSIONS_DIR" />
+    <PropertyRef Id="VS2013_EXTENSIONS_DIR" />
+    <PropertyRef Id="VS2015_EXTENSIONS_DIR" />
+    <PropertyRef Id="VS2017_EXTENSIONS_DIR" />
+    <PropertyRef Id="VS2019_EXTENSIONS_DIR" />
+
+    <PropertyRef Id="VS2010DEVENV" />
+    <PropertyRef Id="VS2012DEVENV" />
+    <PropertyRef Id="VS2013DEVENV" />
+    <PropertyRef Id="VS2015DEVENV" />
+    <PropertyRef Id="VS2017DEVENV" />
+    <PropertyRef Id="VS2019DEVENV" />
+
+
+    <CustomAction Id="VS2019TouchExtensions"
+              Directory='VS2019_EXTENSIONS_DIR'
+              Execute="deferred"
+              Impersonate="no"
+              ExeCommand="[SystemFolder]cmd.exe /c &quot;copy /b extensions.configurationchanged +,,&quot;"
+              Return="ignore" />
+
+    <Feature Id="ProductFeature" Title="Install Image Visualizer for" Display="expand"  InstallDefault="local" Absent="disallow" AllowAdvertise="no">
+     
+      <Feature Id="ProductFeature16" Title="Microsoft Visual Studio 2019" Level="2">
+        <Condition Level="1"><![CDATA[VS2019_ROOT_FOLDER AND VS2019DEVENV]]></Condition>
+        <ComponentGroupRef Id="ImageVisualizer2019Components" />
+        <ComponentGroupRef Id="ImageVisualizer2019Net20Components" />
+        <ComponentGroupRef Id="ImageVisualizer2019NetCoreAppComponents" />
+        <ComponentGroupRef Id="ImageVisualizer2019VsixComponents"/>
+      </Feature>
+    </Feature>
+
+    <UIRef Id="WixUI_FeatureTree" />
+
+    <InstallExecuteSequence>
+    
+      <Custom Action="VS2019TouchExtensions" After="InstallFiles">
+        <![CDATA[&ProductFeature16=3]]>
+      </Custom>
+    </InstallExecuteSequence>
+
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder" Name="Program Files">
+        <Directory Id="VS2019_ROOT_FOLDER" Name="Microsoft Visual Studio 16.0">
+          <Directory Id="Common7_2019" Name="Common7">
+            <Directory Id="Packages_2019" Name="Packages">
+              <Directory Id="Debugger_2019" Name="Debugger">
+                <Directory Id="Visualizers_2019" Name="Visualizers">
+                  <Directory Id="Visualizers_2019_Net20" Name="net2.0" />
+                  <Directory Id="Visualizers_2019_NetCoreApp" Name="netcoreapp" />
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+        <Directory Id="VS2019_EXTENSIONS_DIR" Name="Extensions">
+          <Directory Id="ImageVisualizer_2019" Name="ImageVisualizer" />
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+
+  <Fragment>
+    <ComponentGroup Id="ImageVisualizer2019Components" Directory="Visualizers_2019">
+      <Component Id="ImageVisualizer2019DllComponent" Guid="4d0a23a3-0a10-45f0-9619-d335c833ec67" Transitive="yes">
+        <File Id="ImageVisualizer2019Dll" Name="Aberus.VisualStudio.Debugger.ImageVisualizer.UI.dll" Source="$(var.ImageVisualizer16.UI.TargetPath)" KeyPath="yes" Checksum="yes" />
+        <File Id="ImageVisualizer2019CommonDll" Name="Aberus.VisualStudio.Debugger.ImageVisualizer.Common.dll" Source="$(var.ImageVisualizer16.UI.TargetDir)Aberus.VisualStudio.Debugger.ImageVisualizer.Common.dll" Checksum="yes" />
+      </Component>
+    </ComponentGroup>
+      <ComponentGroup Id="ImageVisualizer2019Net20Components" Directory="Visualizers_2019_Net20">
+      <Component Id="ImageVisualizer2019Net20DllComponent" Guid="f848f4f0-a046-45ff-8cfc-e6b6e776115b" Transitive="yes">
+        <File Id="ImageVisualizer2019Net20CommonDll" Name="Aberus.VisualStudio.Debugger.ImageVisualizer.Common.dll" Source="$(var.ImageVisualizer16.DebuggeeSide.ProjectDir)bin\$(var.ImageVisualizer16.DebuggeeSide.Configuration)\net461\Aberus.VisualStudio.Debugger.ImageVisualizer.Common.dll" Checksum="yes" />
+        <File Id="ImageVisualizer2019Net20DebuggeeSideDll" Name="Aberus.VisualStudio.Debugger.ImageVisualizer.DebuggeeSide.dll" Source="$(var.ImageVisualizer16.DebuggeeSide.ProjectDir)bin\$(var.ImageVisualizer16.DebuggeeSide.Configuration)\net461\Aberus.VisualStudio.Debugger.ImageVisualizer.DebuggeeSide.dll" KeyPath="yes" Checksum="yes" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="ImageVisualizer2019NetCoreAppComponents" Directory="Visualizers_2019_NetCoreApp">
+      <Component Id="ImageVisualizer2019NetCoreAppDllComponent" Guid="90a281a5-7ee4-4ab2-85bb-bd187b3e8fde" Transitive="yes">
+        <File Id="ImageVisualizer2019NetCoreAppCommonDll" Name="Aberus.VisualStudio.Debugger.ImageVisualizer.Common.dll" Source="$(var.ImageVisualizer16.DebuggeeSide.ProjectDir)bin\$(var.ImageVisualizer16.DebuggeeSide.Configuration)\netcoreapp3.0\Aberus.VisualStudio.Debugger.ImageVisualizer.Common.dll" Checksum="yes" />
+        <File Id="ImageVisualizer2019NetCoreAppDebuggeeSideDll" Name="Aberus.VisualStudio.Debugger.ImageVisualizer.DebuggeeSide.dll" Source="$(var.ImageVisualizer16.DebuggeeSide.ProjectDir)bin\$(var.ImageVisualizer16.DebuggeeSide.Configuration)\netcoreapp3.0\Aberus.VisualStudio.Debugger.ImageVisualizer.DebuggeeSide.dll" KeyPath="yes" Checksum="yes" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="ImageVisualizer2019VsixComponents" Directory="ImageVisualizer_2019">
+      <Component Id="ImageVisualizer2019PkgdefComponent" Guid="13d39860-f035-4e9a-ba98-adc6ec7c3435">
+        <File Id="ImageVisualizer2019Pkgdef" Name="ImageVisualizer.pkgdef" Source="$(var.ImageVisualizerPackage.TargetDir)ImageVisualizer.pkgdef" Vital="yes" KeyPath="yes"/>
+      </Component>
+      <Component Id="ImageVisualizer2019VsixManifestComponent" Guid="c83791d8-3438-4258-9d97-1f5a395335da">
+        <File Id="ImageVisualizer2019VsixManifest" Name="extension.vsixmanifest" Source="$(var.ImageVisualizerPackage.TargetDir)extension.vsixmanifest" Vital="yes" KeyPath="yes"/>
+      </Component>
+      <Component Id="ImageVisualizer2019VsixIconComponent" Guid="c3af7402-83b5-4709-9aee-3202f108bc8d">
+        <File Id="ImageVisualizer2019VsixIcon" Source="$(var.ImageVisualizerPackage.TargetDir)Logo_128x.png" KeyPath="yes"/>
+      </Component>
+      <Component Id="ImageVisualizer2019VsixPreviewComponent" Guid="bb225d4a-dc91-468a-a27b-b0548dfac489">
+        <File Id="ImageVisualizer2019VsixPreview" Source="$(var.ImageVisualizerPackage.TargetDir)Preview_200x.png" KeyPath="yes"/>
+      </Component>
+      <Component Id="ImageVisualizer2019VsixDllComponent" Guid="e6274b19-1a72-4e22-a068-a11b754e4242">
+        <File Id="ImageVisualizer2019VsixDll" Name="ImageVisualizer.dll" Source="$(var.ImageVisualizerPackage.TargetDir)ImageVisualizer.dll" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

@@ -48,6 +48,7 @@
     <Compile Remove="ExtLibs\GStreamerHud\**" />
     <Compile Remove="ExtLibs\HIL\**" />
     <Compile Remove="ExtLibs\ICSharpCode.SharpZipLib\**" />
+    <Compile Remove="ExtLibs\ImageVisualizer\**" />
     <Compile Remove="ExtLibs\Installer\**" />
     <Compile Remove="ExtLibs\Interfaces\**" />
     <Compile Remove="ExtLibs\KMLib\**" />
@@ -133,6 +134,7 @@
     <EmbeddedResource Remove="ExtLibs\GStreamerHud\**" />
     <EmbeddedResource Remove="ExtLibs\HIL\**" />
     <EmbeddedResource Remove="ExtLibs\ICSharpCode.SharpZipLib\**" />
+    <EmbeddedResource Remove="ExtLibs\ImageVisualizer\**" />
     <EmbeddedResource Remove="ExtLibs\Installer\**" />
     <EmbeddedResource Remove="ExtLibs\Interfaces\**" />
     <EmbeddedResource Remove="ExtLibs\KMLib\**" />
@@ -217,6 +219,7 @@
     <None Remove="ExtLibs\GStreamerHud\**" />
     <None Remove="ExtLibs\HIL\**" />
     <None Remove="ExtLibs\ICSharpCode.SharpZipLib\**" />
+    <None Remove="ExtLibs\ImageVisualizer\**" />
     <None Remove="ExtLibs\Installer\**" />
     <None Remove="ExtLibs\Interfaces\**" />
     <None Remove="ExtLibs\KMLib\**" />
