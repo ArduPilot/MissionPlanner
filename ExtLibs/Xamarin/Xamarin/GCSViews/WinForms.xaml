@@ -12,7 +12,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-        <forms:SKCanvasView x:Name="SkCanvasView" IgnorePixelScaling="true" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></forms:SKCanvasView>
+        <forms:SKCanvasView x:Name="SkCanvasView" EnableTouchEvents="True" Touch="SkCanvasView_Touch" PaintSurface="SkCanvasView_PaintSurface" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></forms:SKCanvasView>
         <Entry x:Name="Entry" IsVisible="false"></Entry>
         </StackLayout>
     </ContentPage.Content>

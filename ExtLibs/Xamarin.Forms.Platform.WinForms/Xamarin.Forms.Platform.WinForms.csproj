@@ -22,15 +22,9 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Controls\WFormsCarouselPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Controls\WFormsSearchBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="PlatformRenderer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Controls\WFormsCarouselPage.cs" />
+    <Compile Update="Controls\WFormsSearchBar.cs" />
+    <Compile Update="PlatformRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="3.1.0" />
