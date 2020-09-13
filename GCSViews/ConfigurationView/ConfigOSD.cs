@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -55,6 +56,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         private OSDSetting[] parameters;
+        private OSD_Param osd_params;
 
         public ConfigOSD()
         {
@@ -86,6 +88,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (parameters.Any())
             {
                 panel1.Enabled = true;
+
+                osd_params = new OSD_Param();
+                for (byte a = 0; a < 10; a++)
+                {
+                    osd_params.show(5, a);
+                    osd_params.show(6, a);
+                }
             }
             else
             {
@@ -181,6 +190,75 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Activate();
 
                 this.Enabled = true;
+            }
+        }
+
+        public class OSD_Param
+        {
+            static uint request_id = 0;
+            private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub1;
+            private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub2;
+
+            List<object> @params = new List<object>();
+            
+            public OSD_Param()
+            {
+                sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OSD_PARAM_CONFIG_REPLY,
+                    PacketResponse);
+                sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OSD_PARAM_CONFIG_REPLY,
+                    PacketResponse);
+            }
+
+            private bool PacketResponse(MAVLink.MAVLinkMessage arg)
+            {
+                if (arg.msgid == (uint) MAVLink.MAVLINK_MSG_ID.OSD_PARAM_CONFIG_REPLY)
+                {
+                    var rep = (MAVLink.mavlink_osd_param_config_reply_t) arg.data;
+                    if (rep.result != (byte)MAVLink.OSD_PARAM_CONFIG_ERROR.OSD_PARAM_SUCCESS)
+                    {
+                        CustomMessageBox.Show("OSD Config set Error", Strings.ERROR);
+                    }
+                }
+                else if(arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.OSD_PARAM_SHOW_CONFIG_REPLY)
+                {
+                    var rep = (MAVLink.mavlink_osd_param_show_config_reply_t) arg.data;
+                    if (rep.result != (byte)MAVLink.OSD_PARAM_CONFIG_ERROR.OSD_PARAM_SUCCESS)
+                    {
+                        CustomMessageBox.Show("OSD Config show Error", Strings.ERROR);
+                    }
+                    else
+                    {
+                        var param = (rep.param_id, rep.config_type, rep.min_value, rep.max_value, rep.increment);
+                        @params.Add(param);
+                    }
+                }
+
+                return true;
+            }
+
+            ~OSD_Param()
+            {
+                MainV2.comPort.UnSubscribeToPacketType(sub1);
+                MainV2.comPort.UnSubscribeToPacketType(sub2);
+            }
+
+            public void show(byte osd_screen, byte osd_index)
+            {
+                request_id++;
+                MainV2.comPort.sendPacket(new MAVLink.mavlink_osd_param_show_config_t(request_id,
+                        (byte) MainV2.comPort.sysidcurrent,
+                        (byte) MainV2.comPort.compidcurrent, osd_screen, osd_index), (byte) MainV2.comPort.sysidcurrent,
+                    (byte) MainV2.comPort.compidcurrent);
+            }
+
+            public void set(byte osd_screen, byte osd_index, string name, MAVLink.OSD_PARAM_CONFIG_TYPE type, float min, float max, float increment)
+            {
+                request_id++;
+                MainV2.comPort.sendPacket(new MAVLink.mavlink_osd_param_config_t(request_id, min, max, increment,
+                        (byte) MainV2.comPort.sysidcurrent,
+                        (byte) MainV2.comPort.compidcurrent, osd_screen, osd_index, name.ToCharArray().ToByteArray(),
+                        (byte)MAVLink.OSD_PARAM_CONFIG_TYPE.OSD_PARAM_NONE), (byte) MainV2.comPort.sysidcurrent,
+                    (byte) MainV2.comPort.compidcurrent);
             }
         }
     }
