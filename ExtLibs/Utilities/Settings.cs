@@ -163,6 +163,12 @@ namespace MissionPlanner.Utilities
             SetList(key, list);
         }
 
+        public void RemoveList(string key, string item)
+        {
+            var list = GetList(key).ToList().Where(a => a != item);
+            SetList(key, list);
+        }
+
         public int GetInt32(string key, int defaulti = 0)
         {
             int result = defaulti;
