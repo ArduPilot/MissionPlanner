@@ -1969,8 +1969,8 @@ namespace System.Drawing.Drawing2D
             StringFormat genericTypographic)
         {
             var paint = new SKPaint()
-                {Typeface = SKTypeface.FromFamilyName(fontFontFamily?.Name), TextSize = fontsize * 1.3333f};
-            var path = paint.GetTextPath(s, point.X, point.Y + fontsize * 1.3333f);
+                {Typeface = SKTypeface.FromFamilyName(fontFontFamily?.Name), TextSize = fontsize};
+            var path = paint.GetTextPath(s, point.X, point.Y + fontsize);
 
             if(path.Points.Length > 1) 
             {

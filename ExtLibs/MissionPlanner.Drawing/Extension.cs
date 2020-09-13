@@ -57,13 +57,13 @@ namespace System.Drawing
         {
             lock (fontcache)
             {
-                if (!fontcache.ContainsKey(font.SystemFontName))
-                    fontcache[font.SystemFontName] = SKTypeface.FromFamilyName(font.SystemFontName);
+                if (!fontcache.ContainsKey(font.Name))
+                    fontcache[font.Name] = SKTypeface.FromFamilyName(font.Name);
             }
 
             return new SKPaint
             {
-                Typeface = fontcache[font.SystemFontName],
+                Typeface = fontcache[font.Name],
                 TextSize = font.Size,
                 StrokeWidth = 2,
             };

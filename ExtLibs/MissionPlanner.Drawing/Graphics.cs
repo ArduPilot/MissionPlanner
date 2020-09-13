@@ -856,7 +856,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 textBounds = MeasureString(s, font);
             }
 
-            pnt.TextSize = fnt.TextSize-0.5f;
+            pnt.TextSize = fnt.TextSize;
             pnt.Typeface = fnt.Typeface;
             pnt.FakeBoldText = font.Bold;
             
@@ -883,7 +883,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 pnt.IsVerticalText = false;
             }
 
-            var lines = s.Split('\n');
+            var lines = s.Trim().Split('\n');
             int a=0;
             foreach (var line in lines)
             {
@@ -1262,7 +1262,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var bound = new SKRect();
             var width = 0.0f;
             var height = 0.0f;
-            var lines = text.Split('\n');
+            var lines = text.Trim().Split('\n');
             foreach (var line in lines)
             {
                 font.ToSKPaint().MeasureText(line, ref bound);
