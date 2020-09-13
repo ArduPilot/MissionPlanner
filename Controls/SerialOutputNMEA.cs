@@ -11,7 +11,7 @@ namespace MissionPlanner.Controls
     public partial class SerialOutputNMEA : Form
     {
         static TcpListener listener;
-        static ICommsSerial NmeaStream = new SerialPort();
+        static ICommsSerial NmeaStream = new TcpSerial();
         static double updaterate = 5;
         System.Threading.Thread t12;
         static bool threadrun = false;
