@@ -408,6 +408,10 @@ namespace MissionPlanner.Utilities
                                     log.Error("Duplicate Key " + key);
                                 }
                             }
+                        } 
+                        else
+                        {
+                            log.Error("Bad Key - Value " + subStringToSearch);
                         }
                     }
                 }
