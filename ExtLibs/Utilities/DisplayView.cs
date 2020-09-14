@@ -183,23 +183,26 @@ namespace MissionPlanner.Utilities
 
             using (TextReader reader = new StringReader(value))
             {
-                try
-                {
-                    result = (DisplayView)serializer.Deserialize(reader);
-                    return true;
-                }
-                catch (Exception)
+                if (!value.StartsWith("{"))
                 {
                     try
                     {
-                        result = value.FromJSON<DisplayView>();
+                        result = (DisplayView) serializer.Deserialize(reader);
                         return true;
                     }
-                    catch
+                    catch (Exception)
                     {
                         return false;
                     }
+                }
 
+                try
+                {
+                    result = value.FromJSON<DisplayView>();
+                    return true;
+                }
+                catch
+                {
                     return false;
                 }
             }
