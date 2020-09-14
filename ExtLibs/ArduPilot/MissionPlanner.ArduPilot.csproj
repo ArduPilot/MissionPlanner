@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SharpCompress" Version="0.26.0" />
     <PackageReference Include="SharpDX.DirectInput" Version="4.1.0" />
   </ItemGroup>
 

@@ -11,6 +11,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SharpCompress.Archives;
+using SharpCompress.Compressors.Xz;
+using SharpCompress.Readers;
 
 namespace MissionPlanner.ArduPilot
 {
@@ -20,7 +23,7 @@ namespace MissionPlanner.ArduPilot
 
         static string[] vehicles = new[] { "Copter", "Plane", "Rover", "Tracker" };
 
-        static string url = "https://autotest.ardupilot.org/LogMessages/{0}/LogMessages.xml";
+        static string url = "https://autotest.ardupilot.org/LogMessages/{0}/LogMessages.xml.xz";
 
         public static  Dictionary<string, Dictionary<string, string>> MetaData { get; } = new Dictionary<string, Dictionary<string, string>>();
 
@@ -33,7 +36,7 @@ namespace MissionPlanner.ArduPilot
                 try
                 {
                     var newurl = String.Format(url, a);
-                    var file = Path.Combine(Settings.GetDataDirectory(), "LogMessages" + a + ".xml");
+                    var file = Path.Combine(Settings.GetDataDirectory(), "LogMessages" + a + ".xml.xz");
                     if(File.Exists(file))
                         if (new FileInfo(file).LastWriteTime.AddDays(7) > DateTime.Now)
                             return;
@@ -44,6 +47,39 @@ namespace MissionPlanner.ArduPilot
             });
 
             await Task.WhenAll(tlist);
+
+            vehicles.ForEach(a =>
+            {
+                try
+                {
+                    var fileout = Path.Combine(Settings.GetDataDirectory(), "LogMessages" + a + ".xml");
+                    var file = Path.Combine(Settings.GetDataDirectory(), "LogMessages" + a + ".xml.xz");
+                    if (File.Exists(file))
+                        using (var read = File.OpenRead(file))
+                        {
+                            if (XZStream.IsXZStream(read))
+                            {
+                                read.Position = 0;
+                                var stream = new XZStream(read);
+                                using (var outst = File.OpenWrite(fileout))
+                                {
+                                    try
+                                    {
+                                        stream.CopyTo(outst);
+                                    }
+                                    catch (XZIndexMarkerReachedException)
+                                    {
+                                        // ignore
+                                    }
+                                }
+                            }
+                        }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            });
         }
 
         public static void ParseMetaData()
@@ -57,29 +93,36 @@ namespace MissionPlanner.ArduPilot
                     return;
                 }
 
-                var xml = XDocument.Load(file);
-
-                xml.Root.Descendants("logformat").ForEach<XElement>(b =>
+                try
                 {
-                    if (b == null)
-                        return;
+                    var xml = XDocument.Load(file);
 
-                    var type = b.Attribute("name");
-                    var typedesc = b.Descendants("description").FirstOrDefault();
-
-                    if (!MetaData.ContainsKey(type.Value))
-                        MetaData[type.Value] = new Dictionary<string, string>();
-
-                    MetaData[type.Value]["description"] = typedesc.Value;
-
-                    b.Descendants("fields").Descendants("field").ForEach(c => 
+                    xml.Root.Descendants("logformat").ForEach<XElement>(b =>
                     {
-                        var name = c.Attribute("name");
-                        var desc = c.Descendants("description").FirstOrDefault();
+                        if (b == null)
+                            return;
 
-                        MetaData[type.Value][name.Value] = desc.Value;
+                        var type = b.Attribute("name");
+                        var typedesc = b.Descendants("description").FirstOrDefault();
+
+                        if (!MetaData.ContainsKey(type.Value))
+                            MetaData[type.Value] = new Dictionary<string, string>();
+
+                        MetaData[type.Value]["description"] = typedesc.Value;
+
+                        b.Descendants("fields").Descendants("field").ForEach(c =>
+                        {
+                            var name = c.Attribute("name");
+                            var desc = c.Descendants("description").FirstOrDefault();
+
+                            MetaData[type.Value][name.Value] = desc.Value;
+                        });
                     });
-                });
+                }   
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
             });
         }
     }
