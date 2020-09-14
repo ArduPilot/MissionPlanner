@@ -19,10 +19,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using JetBrains.Profiler.Api;
+using JetBrains.Profiler.SelfApi;
 using Microsoft.Diagnostics.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Architecture = System.Runtime.InteropServices.Architecture;
+using Trace = System.Diagnostics.Trace;
 
 namespace MissionPlanner
 {
@@ -84,6 +87,23 @@ namespace MissionPlanner
             Start(args);
         }
 
+        public static async void TraceMe(bool start = true)
+        {
+            if (start)
+            {
+                await DotTrace.EnsurePrerequisiteAsync();
+                Directory.CreateDirectory("C:\\Temp\\Snapshot");
+                var config = new DotTrace.Config();
+                config.SaveToDir("C:\\Temp\\Snapshot");
+                DotTrace.Attach(config);
+                DotTrace.StartCollectingData();
+            }
+            else
+            {
+                DotTrace.StopCollectingData();
+                DotTrace.SaveData();
+            }
+        }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Start(string[] args)
