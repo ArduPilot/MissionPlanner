@@ -344,10 +344,12 @@ namespace MissionPlanner.Controls
             var temp = new List<string>();
             foreach (var item in _changes.Keys)
             {
-                temp.Add((string)item);
+                temp.Add((string) item);
             }
 
             temp.SortENABLE();
+
+            int failed = 0;
 
             foreach (string value in temp)
             {
@@ -385,15 +387,20 @@ namespace MissionPlanner.Controls
                     {
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Set " + value + " Failed");
+                    log.Error(ex);
+                    failed++;
+                    CustomMessageBox.Show("Set " + value + " Failed " + ex.ToString());
                 }
             }
 
             _can.SaveConfig(_node);
 
-            CustomMessageBox.Show("Parameters successfully saved.", "Saved");
+            if (failed > 0)
+                CustomMessageBox.Show("Some Parameters Failed to be saved.", "Saved");
+            else
+                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
         }
 
         private void chk_modified_CheckedChanged(object sender, EventArgs e)

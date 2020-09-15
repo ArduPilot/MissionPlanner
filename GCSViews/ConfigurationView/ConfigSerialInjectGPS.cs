@@ -5,6 +5,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -27,7 +28,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static ILog log = LogManager.GetLogger(typeof(ConfigSerialInjectGPS));
 
         // serialport
-        internal static ICommsSerial comPort = new SerialPort();
+        internal static ICommsSerial comPort;
         // rtcm detection
         private static Utilities.rtcm3 rtcm3 = new Utilities.rtcm3();
         // sbp detection
@@ -42,7 +43,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static System.Threading.Thread t12;
         private static bool threadrun = false;
         // track rtcm msg's seen
-        private static Hashtable msgseen = new Hashtable();
+        private static ConcurrentDictionary<string,int> msgseen = new ConcurrentDictionary<string, int>();
         // track bytes seen
         private static int bytes = 0;
         private static int bps = 0;
@@ -66,6 +67,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private string basepostlistfile = Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar +
                                           "baseposlist.xml";
 
+        static ConfigSerialInjectGPS()
+        {
+            try
+            {
+                comPort = new SerialPort();
+            }
+            catch
+            {
+                comPort = new TcpSerial();
+            }
+        }
         public ConfigSerialInjectGPS()
         {
             InitializeComponent();
@@ -1224,12 +1236,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             basepos = PointLatLngAlt.Zero;
             invalidateRTCMStatus();
-
+            updateSVINLabel(false,false,0,0,0);
             msgseen.Clear();
 
             if (comPort.IsOpen)
             {
                 ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true, chk_movingbase.Checked);
+
+                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
 
                 ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
                     double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false, chk_movingbase.Checked);

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
+    <RootNamespace>Aberus.VisualStudio.Debugger.ImageVisualizer</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Aberus.VisualStudio.Debugger.ImageVisualizer.Common</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ImageVisualizer14\SerializableBitmapImage.cs" Link="SerializableBitmapImage.cs" />
+  </ItemGroup>
+
+  <ItemGroup >
+    <PackageReference Include="SkiaSharp">
+      <Version>2.80.2</Version>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

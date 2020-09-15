@@ -1,25 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
     <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
-    <ProjectReference Include="..\SvgNet\SvgNet.csproj" />
+    <ProjectReference Include="..\SvgNet\SvgNet.csproj" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
+  </ItemGroup>  <ItemGroup>
+    <ProjectReference Include="..\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+  </ItemGroup><ItemGroup>
+    <Reference Include="System.Windows.Forms" Condition="'$(TargetFramework)' == 'net461'" />
+  </ItemGroup>  <ItemGroup>
+    <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="OpenTK">
+    <Reference Include="OpenTK" Condition="'$(TargetFramework)' != 'netstandard2.0'">
       <HintPath>..\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="OpenTK-1.0" Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <HintPath>..\OpenTK-1.0.dll</HintPath>
+    </Reference>
+
   </ItemGroup>
 </Project>

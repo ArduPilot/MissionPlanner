@@ -60,9 +60,9 @@ public class uavcan_equipment_gnss_Fix2: IUAVCANSerialize {
     public uint8_t status = new uint8_t();
     public uint8_t mode = new uint8_t();
     public uint8_t sub_mode = new uint8_t();
-    public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] covariance = Enumerable.Repeat(new Single(),36).ToArray();
+    public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] covariance = Enumerable.Range(1, 36).Select(i => new Single()).ToArray();
     public Single pdop = new Single();
-    public uint8_t ecef_position_velocity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=1)] public uavcan_equipment_gnss_ECEFPositionVelocity[] ecef_position_velocity = Enumerable.Repeat(new uavcan_equipment_gnss_ECEFPositionVelocity(),1).ToArray();
+    public uint8_t ecef_position_velocity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=1)] public uavcan_equipment_gnss_ECEFPositionVelocity[] ecef_position_velocity = Enumerable.Range(1, 1).Select(i => new uavcan_equipment_gnss_ECEFPositionVelocity()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

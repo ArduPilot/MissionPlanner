@@ -43,7 +43,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public static Dictionary<string, string> config = new Dictionary<string, string>();
 
-        const string FileName = "config.xml";
+        public static string FileName { get; set; } = "config.xml";
 
         public string this[string key]
         {
@@ -163,6 +163,12 @@ namespace MissionPlanner.Utilities
             SetList(key, list);
         }
 
+        public void RemoveList(string key, string item)
+        {
+            var list = GetList(key).ToList().Where(a => a != item);
+            SetList(key, list);
+        }
+
         public int GetInt32(string key, int defaulti = 0)
         {
             int result = defaulti;
@@ -244,6 +250,11 @@ namespace MissionPlanner.Utilities
             var location = ass.Location;
 
             var path = Path.GetDirectoryName(location);
+
+            if (path == "")
+            {
+                path = Path.GetDirectoryName(GetDataDirectory());
+            }
 
             return path + Path.DirectorySeparatorChar;
         }

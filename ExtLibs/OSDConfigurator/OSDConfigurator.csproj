@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo><GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
@@ -12,8 +12,23 @@
     </PackageReference>
     <PackageReference Include="System.Resources.Extensions" Version="4.6.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+  </ItemGroup>  <ItemGroup>
+    <ProjectReference Include="..\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+  </ItemGroup> <ItemGroup>
+    <Reference Include="System.Windows.Forms" Condition="'$(TargetFramework)' == 'net461'" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

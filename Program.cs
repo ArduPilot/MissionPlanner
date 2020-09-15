@@ -19,10 +19,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+#if !LIB
+using JetBrains.Profiler.Api;
+using JetBrains.Profiler.SelfApi;
+#endif
 using Microsoft.Diagnostics.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Architecture = System.Runtime.InteropServices.Architecture;
+using Trace = System.Diagnostics.Trace;
 
 namespace MissionPlanner
 {
@@ -84,6 +89,25 @@ namespace MissionPlanner
             Start(args);
         }
 
+        public static async void TraceMe(bool start = true)
+        {
+#if !LIB
+            if (start)
+            {
+                await DotTrace.EnsurePrerequisiteAsync();
+                Directory.CreateDirectory("C:\\Temp\\Snapshot");
+                var config = new DotTrace.Config();
+                config.SaveToDir("C:\\Temp\\Snapshot");
+                DotTrace.Attach(config);
+                DotTrace.StartCollectingData();
+            }
+            else
+            {
+                DotTrace.StopCollectingData();
+                DotTrace.SaveData();
+            }
+#endif
+        }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Start(string[] args)
@@ -165,13 +189,15 @@ namespace MissionPlanner
 
             try
             {
-                var file = NativeLibrary.GetLibraryPathname("libSkiaSharp");
+                var file = MissionPlanner.Utilities.NativeLibrary.GetLibraryPathname("libSkiaSharp");
                 log.Info(file);
-                IntPtr ptr;
-                if(MONO)
-                    ptr = NativeLibrary.dlopen(file+".so", NativeLibrary.RTLD_NOW);
-                else
-                    ptr = NativeLibrary.LoadLibrary(file+".dll");
+                IntPtr ptr = IntPtr.Zero;
+
+                if (MONO)
+                    ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
+                        MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
+                if (ptr == IntPtr.Zero)
+                    ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file + ".dll");
 
                 if (ptr != IntPtr.Zero)
                 {
@@ -744,30 +770,5 @@ namespace MissionPlanner
         [DllImport("__Internal")]
         public static extern void mono_threads_request_thread_dump();
 
-        private static StackTrace GetStackTrace(Thread targetThread)
-        {
-            StackTrace stackTrace = null;
-            var ready = new ManualResetEventSlim();
-
-            new Thread(() =>
-            {
-                // Backstop to release thread in case of deadlock:
-                ready.Set();
-                Thread.Sleep(200);
-                try { targetThread.Resume(); } catch { }
-            }).Start();
-
-            ready.Wait();
-            targetThread.Suspend();
-            try { stackTrace = new StackTrace(targetThread, true); }
-            catch { /* Deadlock */ }
-            finally
-            {
-                try { targetThread.Resume(); }
-                catch { stackTrace = null;  /* Deadlock */  }
-            }
-
-            return stackTrace;
-        }
     }
 }

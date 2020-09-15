@@ -1,4 +1,6 @@
-﻿extern alias Drawing;
+﻿#if !LIB
+extern alias Drawing;using AltitudeAngelWings;using MissionPlanner.Utilities.AltitudeAngel;
+#endif
 
 using GMap.NET.WindowsForms;
 using log4net;
@@ -9,7 +11,7 @@ using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Log;
 using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.AltitudeAngel;
+
 using MissionPlanner.Warnings;
 using SkiaSharp;
 using System;
@@ -32,8 +34,7 @@ using System.Windows.Forms;
 using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Utilities.HW;
 using Transitions;
-using AltitudeAngelWings;
-
+using System.Linq;
 
 namespace MissionPlanner
 {
@@ -661,6 +662,18 @@ namespace MissionPlanner
 
             // create one here - but override on load
             Settings.Instance["guid"] = Guid.NewGuid().ToString();
+            
+            //Check for -config argument, and if it is an xml extension filename then use that for config
+            if (Program.args.Length > 0 && Program.args.Contains("-config"))
+            {
+                var cmds = ProcessCommandLine(Program.args);  //This will be called later as well, but we need it here and now
+                if (cmds.ContainsKey("config") &&
+                     (cmds["config"] != null) &&
+                     (String.Compare(Path.GetExtension(cmds["config"]), ".xml", true) == 0))
+                {
+                    Settings.FileName = cmds["config"];
+                }
+            }
 
             // load config
             LoadConfig();
@@ -719,8 +732,12 @@ namespace MissionPlanner
             TCPConsole.Write((byte)'S');
 
             // define default basestream
+#if !LIB
             comPort.BaseStream = new SerialPort();
             comPort.BaseStream.BaudRate = 115200;
+#else
+            comPort.BaseStream = new UdpSerial();
+#endif
 
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
@@ -1975,8 +1992,10 @@ namespace MissionPlanner
             Settings.Instance["MainLocY"] = this.Location.Y.ToString();
 
             log.Info("close logs");
-            AltitudeAngel.Dispose();
 
+#if !LIB
+            AltitudeAngel.Dispose();
+#endif
             // close bases connection
             try
             {
@@ -3088,6 +3107,8 @@ namespace MissionPlanner
 
             //ThreadPool.QueueUserWorkItem(BGGetAlmanac);
 
+            ThreadPool.QueueUserWorkItem(BGLogMessagesMetaData);
+
             ThreadPool.QueueUserWorkItem(BGgetTFR);
 
             ThreadPool.QueueUserWorkItem(BGNoFly);
@@ -3200,57 +3221,71 @@ namespace MissionPlanner
 
             GStreamer.onNewImage += (sender, image) =>
             {
-                if (image == null)
+                try
                 {
-                    GCSViews.FlightData.myhud.bgimage = null;
-                    return;
-                }
+                    if (image == null)
+                    {
+                        GCSViews.FlightData.myhud.bgimage = null;
+                        return;
+                    }
 
-                if (!(image is Drawing::System.Drawing.Bitmap bmp))
-                    return;
-                var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
-                    PixelFormat.Format32bppPArgb,
-                    bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888)
-                    .Scan0);
-                if (old != null)
-                    old.Dispose();
+                    var old = GCSViews.FlightData.myhud.bgimage;
+                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
+                        PixelFormat.Format32bppPArgb,
+                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888)
+                            .Scan0);
+                    if (old != null)
+                        old.Dispose();
+                }
+                catch
+                {
+                }
             };
 
             vlcrender.onNewImage += (sender, image) =>
             {
-                if (image == null)
+                try
                 {
-                    GCSViews.FlightData.myhud.bgimage = null;
-                    return;
+                    if (image == null)
+                    {
+                        GCSViews.FlightData.myhud.bgimage = null;
+                        return;
+                    }
+
+                    var old = GCSViews.FlightData.myhud.bgimage;
+                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width,
+                        image.Height,
+                        4 * image.Width,
+                        PixelFormat.Format32bppPArgb,
+                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                    if (old != null)
+                        old.Dispose();
                 }
-                if (!(image is Drawing::System.Drawing.Bitmap bmp))
-                    return;
-                var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width,
-                                                               image.Height,
-                                                               4 * image.Width,
-                                                               PixelFormat.Format32bppPArgb,
-                                                               bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
-                if (old != null)
-                    old.Dispose();
+                catch
+                {
+                }
             };
 
             CaptureMJPEG.onNewImage += (sender, image) =>
             {
-                if (image == null)
+                try
                 {
-                    GCSViews.FlightData.myhud.bgimage = null;
-                    return;
+                    if (image == null)
+                    {
+                        GCSViews.FlightData.myhud.bgimage = null;
+                        return;
+                    }
+
+                    var old = GCSViews.FlightData.myhud.bgimage;
+                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
+                        PixelFormat.Format32bppPArgb,
+                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                    if (old != null)
+                        old.Dispose();
                 }
-                if (!(image is Drawing::System.Drawing.Bitmap bmp))
-                    return;
-                var old = GCSViews.FlightData.myhud.bgimage;
-                GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
-                                                               PixelFormat.Format32bppPArgb,
-                                                               bmp.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
-                if (old != null)
-                    old.Dispose();
+                catch
+                {
+                }
             };
 
             try
@@ -3290,10 +3325,12 @@ namespace MissionPlanner
             {
                 if (!MONO)
                 {
+#if !LIB
                     log.Info("Load AltitudeAngel");
                     AltitudeAngel.Configure();
                     AltitudeAngel.Initialize();
                     log.Info("Load AltitudeAngel... Done");
+#endif
                 }
             }
             catch (TypeInitializationException) // windows xp lacking patch level
@@ -3535,6 +3572,12 @@ namespace MissionPlanner
             GMapMarkerBase.DisplayNavBearing = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayNavBearing", true);
             GMapMarkerBase.DisplayRadius = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayRadius", true);
             GMapMarkerBase.DisplayTarget = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
+        }
+
+        private async void BGLogMessagesMetaData(object nothing)
+        {
+            await LogMetaData.GetMetaData();
+            LogMetaData.ParseMetaData();
         }
 
         public void LoadGDALImages(object nothing)

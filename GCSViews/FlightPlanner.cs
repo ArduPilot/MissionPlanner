@@ -46,6 +46,7 @@ using Formatting = Newtonsoft.Json.Formatting;
 using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
+using Resources = MissionPlanner.Properties.Resources;
 
 namespace MissionPlanner.GCSViews
 {
@@ -249,7 +250,7 @@ namespace MissionPlanner.GCSViews
             Frame.DisplayMember = "Value";
             Frame.ValueMember = "Key";
             Frame.DataSource = EnumTranslator.EnumToList<altmode>();
-
+ 
             updateMapType(null, null);
 
             // hide the map to prevent redraws when its loaded
@@ -356,6 +357,12 @@ namespace MissionPlanner.GCSViews
             if (keyData == (Keys.Control | Keys.S))
             {
                 saveWPFileToolStripMenuItem_Click(null, null);
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.N))
+            {
+                GMapControl.GDI = !GMapControl.GDI;
                 return true;
             }
 
@@ -4927,16 +4934,20 @@ namespace MissionPlanner.GCSViews
             // do lang stuff here
 
             string file = Settings.GetRunningDirectory() + "mavcmd.xml";
+            Stream st;
 
             if (!File.Exists(file))
             {
-                CustomMessageBox.Show("Missing mavcmd.xml file");
-                return cmd;
+                st = new MemoryStream(Properties.Resources.mavcmd.Select(a => (byte) a).ToArray());
+            }
+            else
+            {
+                st = File.OpenRead(file);
             }
 
             log.Info("Reading MAV_CMD for " + MainV2.comPort.MAV.cs.firmware);
 
-            using (XmlReader reader = XmlReader.Create(file))
+            using (XmlReader reader = XmlReader.Create(st))
             {
                 reader.Read();
                 reader.ReadStartElement("CMD");

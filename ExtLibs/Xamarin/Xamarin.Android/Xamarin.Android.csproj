@@ -35,19 +35,18 @@
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
-    <AndroidSupportedAbis>arm64-v8a</AndroidSupportedAbis>
+    <AndroidSupportedAbis>x86;arm64-v8a</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions>*.html</AndroidStoreUncompressedFileExtensions>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-    <MandroidI18n />
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <MandroidI18n>West</MandroidI18n>
+    <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
+    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
     <AndroidUseAapt2>false</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
-    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
     <AndroidHttpClientHandlerType>System.Net.Http.HttpClientHandler</AndroidHttpClientHandlerType>
     <AndroidDexTool>d8</AndroidDexTool>
-    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,12 +59,15 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Export" />
     <Reference Include="Mono.Posix" />
     <Reference Include="OpenTK-1.0" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -74,13 +76,19 @@
       <Version>0.3.0.3</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views">
-      <Version>1.68.1.1</Version>
+      <Version>2.80.1</Version>
+    </PackageReference>
+    <PackageReference Include="SkiaSharp.Views.Forms">
+      <Version>2.80.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.IO.Ports">
+      <Version>4.7.0</Version>
     </PackageReference>
     <PackageReference Include="System.Security.Permissions">
       <Version>4.7.0</Version>
     </PackageReference>
     <PackageReference Include="System.Threading.Tasks.Extensions">
-      <Version>4.5.3</Version>
+      <Version>4.5.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Annotations">
       <Version>28.0.0.3</Version>
@@ -107,6 +115,15 @@
     <Compile Include="USBDevices.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\airports.csv">
+      <Link>Resources\drawable\airports.csv</Link>
+    </None>
+    <None Include="..\..\..\BurntKermit.mpsystheme">
+      <Link>Resources\drawable\BurntKermit.mpsystheme</Link>
+    </None>
+    <None Include="..\..\..\HighContrast.mpsystheme">
+      <Link>Resources\drawable\HighContrast.mpsystheme</Link>
+    </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -134,7 +151,6 @@
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
-    <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj">
@@ -149,6 +165,14 @@
       <Project>{fd4d2994-9bea-41a1-8c51-2e02d1e8503e}</Project>
       <Name>Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Project>{6974d22c-ede6-4bb2-aad2-ff23ed6ec165}</Project>
+      <Name>MissionPlanner.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\System.Drawing.android\System.Drawing.android.csproj">
+      <Project>{958c175e-8e11-4872-b99b-648f72afd3c1}</Project>
+      <Name>System.Drawing.android</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\UsbSerialForAndroid\UsbSerialForAndroid.csproj">
       <Project>{B57854C8-5C63-4D79-96ED-ACD31815CB91}</Project>
       <Name>UsbSerialForAndroid</Name>
@@ -158,9 +182,59 @@
       <Name>MissionPlanner.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Xamarin\Xamarin.csproj">
-      <Project>{cad00b0a-9c73-4c96-ba96-748b974d3ac3}</Project>
+      <Project>{567c5db1-9d8d-4a82-a89b-7e9357e7f6d8}</Project>
       <Name>Xamarin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\acsimplepids.xml">
+      <Link>Resources\drawable\acsimplepids.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\aircraft.xml">
+      <Link>Resources\drawable\aircraft.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\ArduCopterConfig.xml">
+      <Link>Resources\drawable\ArduCopterConfig.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\camerasBuiltin.xml">
+      <Link>Resources\drawable\camerasBuiltin.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\checklistDefault.xml">
+      <Link>Resources\drawable\checklistDefault.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="..\..\..\dataflashlog.xml">
+      <Link>Resources\drawable\dataflashlog.xml</Link>
+    </TransformFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\hud.html">
+      <Link>Resources\drawable\hud.html</Link>
+    </Content>
+    <Content Include="..\..\..\mavextra.py">
+      <Link>Resources\drawable\mavextra.py</Link>
+    </Content>
+    <Content Include="..\..\..\quaternion.py">
+      <Link>Resources\drawable\quaternion.py</Link>
+    </Content>
+    <Content Include="..\..\..\rotmat.py">
+      <Link>Resources\drawable\rotmat.py</Link>
+    </Content>
+    <TransformFile Include="..\..\..\ParameterMetaDataBackup.xml">
+      <Link>Resources\drawable\ParameterMetaDataBackup.xml</Link>
+    </TransformFile>
+    <TransformFile Include="..\..\..\mavcmd.xml">
+      <Link>Resources\drawable\mavcmd.xml</Link>
+    </TransformFile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

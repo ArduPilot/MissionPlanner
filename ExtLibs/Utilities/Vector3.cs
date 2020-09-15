@@ -1,6 +1,7 @@
 ﻿using GMap.NET;
 using Newtonsoft.Json;
 using System;
+using static System.Math;
 
 namespace MissionPlanner.Utilities
 {
@@ -228,7 +229,7 @@ namespace MissionPlanner.Utilities
 
         public T length()
         {
-            return (T) (IConvertible) Math.Sqrt((xd * xd + yd * yd + zd * zd));
+            return (T) (IConvertible) Sqrt((xd * xd + yd * yd + zd * zd));
         }
 
         public void zero()
@@ -254,9 +255,24 @@ namespace MissionPlanner.Utilities
             z = v.z;
         }
 
+        const double rad2deg = (180 / PI);
+        const double deg2rad = (1.0 / rad2deg);
+
         private double HALF_SQRT_2
         {
             get { return 0.70710678118654757; }
+        }
+
+        public Vector3<T> rotate(double rotation)
+        {
+            rotation *= deg2rad;
+            var x1 = xd * Cos(rotation) - yd * Sin(rotation);
+            var y1 = xd * Sin(rotation) + yd * Cos(rotation);
+
+            x = (T) (IConvertible) x1;
+            y = (T) (IConvertible) y1;
+
+            return this;
         }
 
         public Vector3<T> rotate(Rotation rotation)

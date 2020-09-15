@@ -12,7 +12,7 @@ using UAVCAN;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigUAVCAN : UserControl, MissionPlanner.Controls.IDeactivate, IActivate
+    public partial class ConfigUAVCAN : MyUserControl, MissionPlanner.Controls.IDeactivate, IActivate
     {
         public ConfigUAVCAN()
         {
@@ -129,7 +129,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             Name = "?",
                             Health = msg.health.ToString(),
                             Mode = msg.mode.ToString(),
-                            Uptime = TimeSpan.FromSeconds(msg.uptime_sec)
+                            Uptime = TimeSpan.FromSeconds(msg.uptime_sec),
+                            VSC = msg.vendor_specific_status_code
                         });
                     });
                 };
@@ -252,6 +253,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                       return a + " " + b;
                                   });
                             item.RawMsg = gnires;
+                            item.VSC = gnires.status.vendor_specific_status_code;
                         }
 
                         _updatePending = true;
@@ -261,6 +263,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             {
                                 _updatePending = false;
                                 uAVCANModelBindingSource.ResetBindings(false);
+                            }
+                        });
+                    } 
+                    else if (msg.GetType() == typeof(UAVCAN.uavcan.uavcan_protocol_debug_LogMessage))
+                    {
+                        var debug = msg as UAVCAN.uavcan.uavcan_protocol_debug_LogMessage;
+
+                        this.BeginInvoke((Action) delegate()
+                        {
+                            DGDebug.Rows.Insert(0, new object[]
+                            {
+                                frame.SourceNode, debug.level.value,
+                                ASCIIEncoding.ASCII.GetString(debug.source, 0, debug.source_len),
+                                ASCIIEncoding.ASCII.GetString(debug.text, 0, debug.text_len)
+                            });
+                            if (DGDebug.Rows.Count > 100)
+                            {
+                                DGDebug.Rows.RemoveAt(DGDebug.Rows.Count - 1);
                             }
                         });
                     }
@@ -274,119 +294,126 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private async void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Ignore clicks that are not on button cells. 
-            if (e.RowIndex < 0 || e.ColumnIndex !=
-                myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index &&
-                e.ColumnIndex != myDataGridView1.Columns["Parameter"].Index) return;
+            if (e.RowIndex < 0) return;
 
-            byte nodeID = (byte)myDataGridView1[iDDataGridViewTextBoxColumn.Index, e.RowIndex].Value;
+            try {
+                byte nodeID = (byte)myDataGridView1[iDDataGridViewTextBoxColumn.Index, e.RowIndex].Value;
 
-            if (e.ColumnIndex == myDataGridView1.Columns["Parameter"].Index)
-            {
-                IProgressReporterDialogue prd = new ProgressReporterDialogue();
-                List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
-                    new List<uavcan.uavcan_protocol_param_GetSet_res>();
-                prd.doWorkArgs.ForceExit = true;
-                prd.doWorkArgs.CancelRequestChanged += (sender2, args) => { prd.doWorkArgs.CancelAcknowledged = true; };
-                prd.DoWork += dialogue =>
+                if (e.ColumnIndex == myDataGridView1.Columns["Parameter"].Index)
                 {
-                    paramlist = can.GetParameters(nodeID);
-                };
-                prd.UpdateProgressAndStatus(-1, Strings.GettingParams);
-                prd.RunBackgroundOperationAsync();
+                    IProgressReporterDialogue prd = new ProgressReporterDialogue();
+                    List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
+                        new List<uavcan.uavcan_protocol_param_GetSet_res>();
+                    prd.doWorkArgs.ForceExit = true;
+                    prd.doWorkArgs.CancelRequestChanged += (sender2, args) => { prd.doWorkArgs.CancelAcknowledged = true; };
+                    prd.DoWork += dialogue =>
+                    {
+                        paramlist = can.GetParameters(nodeID);
+                    };
+                    prd.UpdateProgressAndStatus(-1, Strings.GettingParams);
+                    prd.RunBackgroundOperationAsync();
 
-                if (!prd.doWorkArgs.CancelRequested)
-                    new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
-            }
-            else if (e.ColumnIndex == myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index)
-            {
-                ProgressReporterDialogue prd = new ProgressReporterDialogue();
-                uavcan.FileSendProgressArgs filesend = (id, file, percent) =>
+                    if (!prd.doWorkArgs.CancelRequested)
+                        new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
+                }
+                else if (e.ColumnIndex == myDataGridView1.Columns["Restart"].Index)
                 {
-                    prd.UpdateProgressAndStatus((int)percent, id + " " + file);
-                };
-                can.FileSendProgress += filesend;
-                if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update",
-                    CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                    can.RestartNode(nodeID);
+                }
+                else if (e.ColumnIndex == myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index)
                 {
-                    var devicename = myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString();
-                    var hwversion =
-                        double.Parse(
-                            myDataGridView1[hardwareVersionDataGridViewTextBoxColumn.Index, e.RowIndex].Value
-                                .ToString(), CultureInfo.InvariantCulture);
-
-                    var usebeta = false;
-
-                    if (CustomMessageBox.Show("Do you want to search for a beta firmware? (not recommended)", "Update",
+                    ProgressReporterDialogue prd = new ProgressReporterDialogue();
+                    uavcan.FileSendProgressArgs filesend = (id, file, percent) =>
+                    {
+                        prd.UpdateProgressAndStatus((int)percent, id + " " + file);
+                    };
+                    can.FileSendProgress += filesend;
+                    if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update",
                         CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                     {
-                        usebeta = true;
-                    }
+                        var devicename = myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString();
+                        var hwversion =
+                            double.Parse(
+                                myDataGridView1[hardwareVersionDataGridViewTextBoxColumn.Index, e.RowIndex].Value
+                                    .ToString(), CultureInfo.InvariantCulture);
 
-                    var url = can.LookForUpdate(devicename, hwversion, usebeta);
+                        var usebeta = false;
 
-                    if (url != string.Empty)
-                    {
-                        try
+                        if (CustomMessageBox.Show("Do you want to search for a beta firmware? (not recommended)", "Update",
+                            CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                         {
-                            prd.DoWork += dialogue =>
-                            {
-                                var tempfile = Path.GetTempFileName();
-                                Download.getFilefromNet(url, tempfile);
-
-                                try
-                                {
-                                    can.Update(nodeID, devicename, hwversion, tempfile);
-                                }
-                                catch (Exception ex)
-                                {
-                                    throw;
-                                }
-
-                                return;
-                            };
-
-                            prd.RunBackgroundOperationAsync();
+                            usebeta = true;
                         }
-                        catch (Exception ex)
+
+                        var url = can.LookForUpdate(devicename, hwversion, usebeta);
+
+                        if (url != string.Empty)
                         {
-                            CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                            try
+                            {
+                                prd.DoWork += dialogue =>
+                                {
+                                    var tempfile = Path.GetTempFileName();
+                                    Download.getFilefromNet(url, tempfile);
+
+                                    try
+                                    {
+                                        can.Update(nodeID, devicename, hwversion, tempfile);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        throw;
+                                    }
+
+                                    return;
+                                };
+
+                                prd.RunBackgroundOperationAsync();
+                            }
+                            catch (Exception ex)
+                            {
+                                CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                            }
+                        }
+                        else
+                        {
+                            CustomMessageBox.Show(Strings.UpdateNotFound, Strings.UpdateNotFound);
                         }
                     }
                     else
                     {
-                        CustomMessageBox.Show(Strings.UpdateNotFound, Strings.UpdateNotFound);
-                    }
-                }
-                else
-                {
 
-                    FileDialog fd = new OpenFileDialog();
-                    fd.RestoreDirectory = true;
-                    fd.Filter = "*.bin|*.bin";
-                    var dia = fd.ShowDialog();
+                        FileDialog fd = new OpenFileDialog();
+                        fd.RestoreDirectory = true;
+                        fd.Filter = "*.bin|*.bin";
+                        var dia = fd.ShowDialog();
 
-                    if (fd.CheckFileExists && dia == DialogResult.OK)
-                    {
-                        try
+                        if (fd.CheckFileExists && dia == DialogResult.OK)
                         {
-                            prd.DoWork += dialogue =>
+                            try
                             {
-                                can.Update(nodeID, myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0,
-                                fd.FileName);
+                                prd.DoWork += dialogue =>
+                                {
+                                    can.Update(nodeID, myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0,
+                                    fd.FileName);
 
-                                return;
-                            };
+                                    return;
+                                };
 
-                            prd.RunBackgroundOperationAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                                prd.RunBackgroundOperationAsync();
+                            }
+                            catch (Exception ex)
+                            {
+                                CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                            }
                         }
                     }
+                    can.FileSendProgress -= filesend;
+                    prd.Dispose();
                 }
-                can.FileSendProgress -= filesend;
-                prd.Dispose();
+            } catch
+            {
+
             }
         }
 
@@ -400,6 +427,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             myDataGridView1[updateDataGridViewTextBoxColumn.Index, e.RowIndex].Value = "Update";
             myDataGridView1[Parameter.Index, e.RowIndex].Value = "Parameters";
+            myDataGridView1[Restart.Index, e.RowIndex].Value = "Restart";
         }
 
         private void uAVCANModelBindingSource_CurrentChanged(object sender, EventArgs e)

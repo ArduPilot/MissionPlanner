@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Security.Cryptography.X509Certificates;
 using SkiaSharp;
 
 namespace System.Drawing
@@ -23,16 +24,27 @@ namespace System.Drawing
         {
             return new SKRect(rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
+
         public static SKRectI ToSKRectI(this Rectangle rect)
         {
             return new SKRectI(rect.Left, rect.Top, rect.Right, rect.Bottom);
+        }
+
+        public static Rectangle ToRectangle(this RectangleF rect)
+        {
+            return new Rectangle((int)rect.X,(int)rect.Y,(int)rect.Width,(int)rect.Height);
+        }
+
+        public static RectangleF ToRectangleF(this Rectangle rect)
+        {
+            return new Rectangle(rect.X,rect.Y,rect.Width,rect.Height);
         }
 
         public static SKPaint ToSKPaint(this Pen pen)
         {
             pen.nativePen.StrokeWidth = pen.Width;
             pen.nativePen.Color = pen.Color.ToSKColor();
-            pen.nativePen.Style = SKPaintStyle.Stroke; 
+            pen.nativePen.Style = SKPaintStyle.Stroke;
             if (pen.DashStyle != DashStyle.Solid)
                 pen.nativePen.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
             return pen.nativePen;
@@ -40,19 +52,20 @@ namespace System.Drawing
 
 
         static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
+
         public static SKPaint ToSKPaint(this Font font)
         {
             lock (fontcache)
             {
-                if (!fontcache.ContainsKey(font.SystemFontName))
-                    fontcache[font.SystemFontName] = SKTypeface.FromFamilyName(font.SystemFontName);
+                if (!fontcache.ContainsKey(font.Name))
+                    fontcache[font.Name] = SKTypeface.FromFamilyName(font.Name);
             }
 
             return new SKPaint
             {
-                Typeface = fontcache[font.SystemFontName],
-                TextSize = font.Size * 1.4f,
-                StrokeWidth = 2
+                Typeface = fontcache[font.Name],
+                TextSize = font.Size,
+                StrokeWidth = 2,
             };
         }
 
@@ -67,11 +80,12 @@ namespace System.Drawing
         }
 
         static Dictionary<Color, SKPaint> brushcache = new Dictionary<Color, SKPaint>();
+
         public static SKPaint ToSKPaint(this Brush brush)
         {
             if (brush is SolidBrush)
             {
-                lock(brushcache)
+                lock (brushcache)
                     if (!brushcache.ContainsKey(((SolidBrush) brush).Color))
                         brushcache[((SolidBrush) brush).Color] = new SKPaint
                         {
@@ -82,22 +96,52 @@ namespace System.Drawing
                 return brushcache[((SolidBrush) brush).Color];
             }
 
+            if (brush is HatchBrush)
+            {
+                return brush.nativeBrush;
+            }
+
+            if (brush is TextureBrush)
+            {
+                return brush.nativeBrush;
+            }
+
             if (brush is LinearGradientBrush)
             {
-                var lgb = (LinearGradientBrush)brush;
-                return new SKPaint
+                var lgb = (LinearGradientBrush) brush;
+                if (lgb._gradMode == LinearGradientMode.Horizontal)
                 {
-                    IsAntialias = true,
-                    Style = SKPaintStyle.Fill,
-                    Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
-                        new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
-                        new[]
-                        {
-                            ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
-                            ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
-                        }
-                        , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
-                };
+                    return new SKPaint
+                    {
+                        IsAntialias = true,
+                        Style = SKPaintStyle.Fill,
+                        Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
+                            new SKPoint(lgb.Rectangle.Right, lgb.Rectangle.Y),
+                            new[]
+                            {
+                                ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
+                                ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
+                            }
+                            , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
+                    };
+                }
+
+                if (lgb._gradMode == LinearGradientMode.Vertical)
+                {
+                    return new SKPaint
+                    {
+                        IsAntialias = true,
+                        Style = SKPaintStyle.Fill,
+                        Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
+                            new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
+                            new[]
+                            {
+                                ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
+                                ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
+                            }
+                            , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
+                    };
+                }
             }
 
             return new SKPaint();

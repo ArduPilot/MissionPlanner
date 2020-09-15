@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>System.Drawing</RootNamespace>
+    <AssemblyName>System.Drawing.Common</AssemblyName>
+    <AssemblyVersion>4.0.2.0</AssemblyVersion>
+    <FileVersion>4.6.57.0</FileVersion>
+    <PackageId>MissionPlanner.Drawing.Common</PackageId>
+    <Authors>MissionPlanner.Drawing.Common</Authors>
+    <Company>MissionPlanner.Drawing.Common</Company>
+    <Product>MissionPlanner.Drawing.Common</Product>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>open.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
+  </ItemGroup>
+</Project>

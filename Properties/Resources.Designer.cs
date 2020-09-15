@@ -816,7 +816,7 @@ namespace MissionPlanner.Properties {
         ///{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\sa200\sl276\slmult1\f0\fs22\par
         ///\tab Welcome to the \b Mission Planner\b0 , mission planning for Unmanned Aerial Vehicles (\b UAV\b0 ).\par
         ///\pard\nowidctlpar\fi720\b Help:\par
-        ///Arduplane: {\field{\*\fldinst{HYPERLINK &quot;http://ardupilot.org/plane&quot;}}{\fldrslt{\ul\cf1 http://ardupilot.org/plane}}}\f0\fs2 [rest of string was truncated]&quot;;.
+        ///Arduplane: {\field{\*\fldinst{HYPERLINK &quot;http://ardupilot.org/plane&quot;}}{\fldrslt{\ul\cf1 http://ardupilot.org/plane}}}\f0\fs22\par [rest of string was truncated]&quot;;.
         /// </summary>
         public static string help_text {
             get {
@@ -1121,6 +1121,44 @@ namespace MissionPlanner.Properties {
             get {
                 object obj = ResourceManager.GetObject("marker_07", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
+        ///
+        ///&lt;!-- TAGS ARE CASE SENSATIVE --&gt;
+        ///&lt;CMD&gt;
+        ///  &lt;AC2&gt;
+        ///    &lt;WAYPOINT&gt;
+        ///      &lt;P1&gt;Delay&lt;/P1&gt;
+        ///      &lt;P2&gt;&lt;/P2&gt;
+        ///      &lt;P3&gt;&lt;/P3&gt;
+        ///      &lt;P4&gt;&lt;/P4&gt;
+        ///      &lt;X&gt;Lat&lt;/X&gt;
+        ///      &lt;Y&gt;Long&lt;/Y&gt;
+        ///      &lt;Z&gt;Alt&lt;/Z&gt;
+        ///    &lt;/WAYPOINT&gt;
+        ///    &lt;SPLINE_WAYPOINT&gt;
+        ///      &lt;P1&gt;Delay&lt;/P1&gt;
+        ///      &lt;P2&gt;&lt;/P2&gt;
+        ///      &lt;P3&gt;&lt;/P3&gt;
+        ///      &lt;P4&gt;&lt;/P4&gt;
+        ///      &lt;X&gt;Lat&lt;/X&gt;
+        ///      &lt;Y&gt;Long&lt;/Y&gt;
+        ///      &lt;Z&gt;Alt&lt;/Z&gt;
+        ///    &lt;/SPLINE_WAYPOINT&gt;
+        ///    &lt;LOITER_TURNS&gt;
+        ///      &lt;P1&gt;Turns&lt;/P1&gt;
+        ///      &lt;P2&gt;&lt;/P2&gt;
+        ///      &lt;P3&gt;Radius&lt;/P3&gt;
+        ///      &lt;P4&gt;&lt;/P4&gt;
+        ///      &lt;X&gt;Lat&lt;/X&gt;
+        ///      &lt;Y&gt;Long [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string mavcmd {
+            get {
+                return ResourceManager.GetString("mavcmd", resourceCulture);
             }
         }
         

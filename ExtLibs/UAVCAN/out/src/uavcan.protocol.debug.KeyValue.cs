@@ -75,6 +75,7 @@ static void _decode_uavcan_protocol_debug_KeyValue(CanardRxTransfer transfer,ref
         msg.key_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.key = new uint8_t[msg.key_len];
     for (int i=0; i < msg.key_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.key[i]);
         bit_ofs += 8;

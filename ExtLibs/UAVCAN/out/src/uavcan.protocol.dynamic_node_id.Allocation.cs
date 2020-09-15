@@ -81,6 +81,7 @@ static void _decode_uavcan_protocol_dynamic_node_id_Allocation(CanardRxTransfer 
         msg.unique_id_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.unique_id = new uint8_t[msg.unique_id_len];
     for (int i=0; i < msg.unique_id_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.unique_id[i]);
         bit_ofs += 8;

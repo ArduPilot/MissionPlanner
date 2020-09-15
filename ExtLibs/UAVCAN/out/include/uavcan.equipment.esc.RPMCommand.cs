@@ -27,7 +27,7 @@ public const int UAVCAN_EQUIPMENT_ESC_RPMCOMMAND_DT_ID = 1031;
 
 
 public class uavcan_equipment_esc_RPMCommand: IUAVCANSerialize {
-    public uint8_t rpm_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public int32_t[] rpm = Enumerable.Repeat(new int32_t(),20).ToArray();
+    public uint8_t rpm_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public int32_t[] rpm = Enumerable.Range(1, 20).Select(i => new int32_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

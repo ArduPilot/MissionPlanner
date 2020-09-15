@@ -36,7 +36,7 @@ namespace ModeChange
 
         public override bool Init()
         {
-            return true;
+            return false;
         }
 
         public override bool Loaded()
@@ -113,13 +113,16 @@ namespace ModeChange
 
         private void ComPort_MavChanged(object sender, EventArgs e)
         {
-            modecmb.Items.Clear();
+            MainV2.instance.BeginInvokeIfRequired(() =>
+            {
+                modecmb.Items.Clear();
 
-            ParameterMetaDataRepository
-                .GetParameterOptionsInt("FLTMODE1", MainV2.comPort.MAV.cs.firmware.ToString())
-                .ForEach(a => modecmb.Items.Add(a.Value));
+                ParameterMetaDataRepository
+                    .GetParameterOptionsInt("FLTMODE1", MainV2.comPort.MAV.cs.firmware.ToString())
+                    .ForEach(a => modecmb.Items.Add(a.Value));
 
-            ThemeManager.ApplyThemeTo(modecmb);
+                ThemeManager.ApplyThemeTo(modecmb);
+            });
         }
 
         public override bool Exit()

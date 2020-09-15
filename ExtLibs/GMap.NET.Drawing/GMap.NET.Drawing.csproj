@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
@@ -16,14 +16,15 @@
 
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+      <ProjectReference Include="..\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
-    <ProjectReference Include="..\SvgNet\SvgNet.csproj" />
+    <ProjectReference Include="..\SvgNet\SvgNet.csproj" Condition="'$(TargetFramework)' != 'netstandard2.0'"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,7 @@
     <EmbeddedResource Update="Properties\Resources.resx">
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>GMap.NET.Drawing.Properties</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 

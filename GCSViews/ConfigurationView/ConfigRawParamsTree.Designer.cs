@@ -98,8 +98,6 @@
             this.Params.VirtualMode = true;
             this.Params.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.Params_CellEditFinishing);
             this.Params.CellClick += new System.EventHandler<BrightIdeasSoftware.CellClickEventArgs>(this.Params_CellClick);
-            this.Params.CellOver += new System.EventHandler<BrightIdeasSoftware.CellOverEventArgs>(this.Params_CellOver);
-            this.Params.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.Params_CellToolTipShowing);
             this.Params.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.Params_FormatRow);
             // 
             // olvColumn1

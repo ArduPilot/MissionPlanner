@@ -26,3 +26,4 @@ packages/
 /objcore
 *.diagsession
 /ExtLibs/WindowsStore/BundleArtifacts
+/ExtLibs/runtime

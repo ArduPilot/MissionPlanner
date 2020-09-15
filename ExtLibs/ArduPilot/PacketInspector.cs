@@ -100,6 +100,28 @@ namespace MissionPlanner
             }
         }
 
+        public double SeenBps(byte sysid, byte compid)
+        {
+            var id = GetID(sysid, compid);
+            var end = DateTime.Now;
+            var start = end.AddSeconds(-3);
+            var data = _bps[id].SelectMany(a => toArray(a.Value));
+            try
+            {
+                var starttime = data.First().dateTime;
+                starttime = starttime < start ? start : starttime;
+                var msgbps = data.Where(a =>
+                {
+                    return (a.dateTime > start && a.dateTime < end);
+                }).Sum(a => a.value / (end - starttime).TotalSeconds);
+                return msgbps;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         public void Add(byte sysid, byte compid, uint msgid, T message, int size)
         {
             var id = GetID(sysid, compid);

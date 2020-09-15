@@ -38,8 +38,8 @@ namespace MissionPlanner.Controls
                 row.Cells["pluginName"].Value = p.Name;
                 row.Cells["pluginAuthor"].Value = p.Author;
                 row.Cells["pluginVersion"].Value = p.Version;
-                row.Cells["pluginDll"].Value = Path.GetFileName(p.Assembly.Location).ToLower();
-                bool bEnabled = !Plugin.PluginLoader.DisabledPluginNames.Contains(Path.GetFileName(p.Assembly.Location), StringComparer.OrdinalIgnoreCase);
+                row.Cells["pluginDll"].Value = p.FileName.ToLower();
+                bool bEnabled = !Plugin.PluginLoader.DisabledPluginNames.Contains(p.FileName, StringComparer.OrdinalIgnoreCase);
                 row.Cells["pluginEnabled"].Value = bEnabled;
                 if (bEnabled) row.DefaultCellStyle.BackColor = Color.Green;
                 else row.DefaultCellStyle.BackColor = Color.DarkOrange;
@@ -52,7 +52,7 @@ namespace MissionPlanner.Controls
                 bool isLoaded = false;
 
                 foreach (Plugin.Plugin p in Plugin.PluginLoader.Plugins)
-                    if (Path.GetFileName(p.Assembly.Location).ToLower().Contains(s)) isLoaded = true;
+                    if (p.FileName.ToLower().Contains(s)) isLoaded = true;
 
                 if (File.Exists(path + s) && !isLoaded)
                 {
@@ -95,6 +95,8 @@ namespace MissionPlanner.Controls
             Control vertical = dgvPlugins.Controls[1];
             dgvPlugins.Width = dgvPlugins.PreferredSize.Width - vertical.Width + 1;
             this.Width = dgvPlugins.Width + 15;
+            this.Height = dgvPlugins.PreferredSize.Height + 80;
+            //this.Height = dgvPlugins.RowCount * 30 + 40;
             this.ResumeLayout(true);
         }
 
@@ -107,7 +109,6 @@ namespace MissionPlanner.Controls
         {
             int selectedRow = dgvPlugins.CurrentCell.RowIndex;
             string r = (string)dgvPlugins.Rows[selectedRow].Cells["pluginName"].Value;
-            if (r != null) btnLoadPlugin.Enabled = r.ToLower().Contains("not loaded");
         }
 
         private void btnLoadPlugin_Click(object sender, EventArgs e)

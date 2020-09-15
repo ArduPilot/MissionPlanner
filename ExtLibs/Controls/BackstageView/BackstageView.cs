@@ -494,7 +494,14 @@ namespace MissionPlanner.Controls.BackstageView
             // so plain old user controls can be added
             if (associatedPage.Page is IActivate)
             {
-                ((IActivate)(associatedPage.Page)).Activate();
+                try
+                {
+                    ((IActivate) (associatedPage.Page)).Activate();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
             }
 
             try

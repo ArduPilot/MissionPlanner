@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using System.Drawing.Imaging;
+using SkiaSharp;
 
 namespace GMap.NET.WindowsForms
 {

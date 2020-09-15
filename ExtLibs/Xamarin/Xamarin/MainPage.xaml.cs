@@ -21,6 +21,11 @@ namespace Xamarin
 
         protected override bool OnBackButtonPressed()
         {
+            var ret = base.OnBackButtonPressed();
+
+            if (ret)
+                return ret;
+
             Device.BeginInvokeOnMainThread(async () =>
             {
                 var result = await DisplayAlert("", "Would you like to exit from application?", "Yes", "No");
@@ -28,29 +33,29 @@ namespace Xamarin
                 {
                     if (Device.OS == TargetPlatform.Android)
                     {
-                        System.Environment.Exit(0);
+                        System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
                     }
                     else if (Device.OS == TargetPlatform.iOS)
                     {
-                        System.Environment.Exit(0);
+                        System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+                        //System.Environment.Exit(0);
                     }
                 }
             });
 
             return true;
-
-            //return base.OnBackButtonPressed();
         }
 
         public MainPage()
         {
-         
+            Instance = this;
+
             InitializeComponent();
           
 
             try
             {
-                Instance = this;
+             
 
                 MasterPage.ListView.ItemSelected += ListView_ItemSelected;
 

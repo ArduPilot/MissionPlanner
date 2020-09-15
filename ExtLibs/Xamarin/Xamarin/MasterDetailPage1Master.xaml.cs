@@ -13,7 +13,7 @@ using Xamarin.GCSViews;
 
 namespace Xamarin
 {
-    [XamlCompilation(XamlCompilationOptions.Skip)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MasterDetailPage1Master : ContentPage
     {
         public ListView ListView;
@@ -40,6 +40,7 @@ namespace Xamarin
                     new MasterDetailPage1MenuItem { Id = 3, Title = "Initial Setup", TargetType = typeof(MasterDetailPage1Detail)  },
                     new MasterDetailPage1MenuItem { Id = 4, Title = "Configuration", TargetType = typeof(MasterDetailPage1Detail)  },
                     new MasterDetailPage1MenuItem { Id = 5, Title = "Simulation", TargetType = typeof(MasterDetailPage1Detail)  },
+                    new MasterDetailPage1MenuItem { Id = 5, Title = "WinForms", TargetType = typeof(WinForms)  },
                     new MasterDetailPage1MenuItem { Id = 6, Title = "Firmware", TargetType = typeof(Firmware)  }
                 });
             }

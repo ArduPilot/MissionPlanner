@@ -56,6 +56,32 @@ def altitude2(SCALED_PRESSURE, ground_pressure=None, ground_temp=None):
     temp = ground_temp + 273.15
     return 153.8462 * temp * (1.0 - exp(0.190259 * log(scaling)))
 
+def mag_heading_df(MAG, ATT, declination=None, ofs=None, diagonals=(1.0,1.0,1.0), offdiagonals=(0.0,0.0,0.0)):
+    '''calculate heading from raw magnetometer'''
+    if declination is None:
+        import mavutil
+        declination = degrees(mavutil.mavfile_global.param('COMPASS_DEC', 0))
+    mag = Vector3(MAG.MagX,MAG.MagY,MAG.MagZ)
+    if ofs is not None:
+        mag += Vector3(ofs[0],ofs[1],ofs[2]) - Vector3(MAG.OfsX, MAG.OfsY, MAG.OfsZ)
+        diagonals = Vector3(diagonals[0], diagonals[1], diagonals[2])
+        offdiagonals = Vector3(offdiagonals[0], offdiagonals[1], offdiagonals[2])
+        rot = Matrix3(Vector3(diagonals.x,    offdiagonals.x, offdiagonals.y),
+                      Vector3(offdiagonals.x, diagonals.y,    offdiagonals.z),
+                      Vector3(offdiagonals.y, offdiagonals.z, diagonals.z))
+        mag = rot * mag
+
+    # go via a DCM matrix to match the APM calculation
+    dcm_matrix = rotation_df(ATT)
+    cos_pitch_sq = 1.0-(dcm_matrix.c.x*dcm_matrix.c.x)
+    headY = mag.y * dcm_matrix.c.z - mag.z * dcm_matrix.c.y
+    headX = mag.x * cos_pitch_sq - dcm_matrix.c.x * (mag.y * dcm_matrix.c.y + mag.z * dcm_matrix.c.z)
+
+    heading = degrees(atan2(-headY,headX)) + declination
+    if heading < 0:
+        heading += 360
+    return heading
+
 def mag_heading(RAW_IMU, ATTITUDE, declination=None, SENSOR_OFFSETS=None, ofs=None):
     '''calculate heading from raw magnetometer'''
     if declination is None:

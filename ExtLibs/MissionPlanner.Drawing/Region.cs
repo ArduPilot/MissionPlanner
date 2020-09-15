@@ -10,15 +10,17 @@ namespace System.Drawing
     // Clipper lib definitions
     using Path = List<IntPoint>;
     using Paths = List<List<IntPoint>>;
-    public class Region: SKRegion
+
+    public class Region : SKRegion
     {
         internal static Path PointFArrayToIntArray(PointF[] points, float scale)
         {
             Path result = new Path();
             for (int i = 0; i < points.Length; ++i)
             {
-                result.Add(new IntPoint((int)points[i].X * scale, (int)points[i].Y * scale));
+                result.Add(new IntPoint((int) points[i].X * scale, (int) points[i].Y * scale));
             }
+
             return result;
         }
 
@@ -28,11 +30,13 @@ namespace System.Drawing
             PointF[] result = new PointF[pg.Count];
             for (int i = 0; i < pg.Count; ++i)
             {
-                result[i].X = (float)pg[i].X / scale;
-                result[i].Y = (float)pg[i].Y / scale;
+                result[i].X = (float) pg[i].X / scale;
+                result[i].Y = (float) pg[i].Y / scale;
             }
+
             return result;
         }
+
         public Region()
         {
         }
@@ -81,7 +85,6 @@ namespace System.Drawing
                         clipRectangle.Location.Y + clipRectangle.Height) ||
                     base.Contains(clipRectangle.Location.X + clipRectangle.Width / 2, clipRectangle.Location.Y) ||
                     base.Contains(clipRectangle.Location.X, clipRectangle.Location.Y + clipRectangle.Height / 2));
-
         }
 
         public bool IsInfinite(Graphics graphics)
@@ -106,7 +109,8 @@ namespace System.Drawing
 
         public void Translate(float paddingLeft, float paddingTop)
         {
-            base.Op((int)paddingLeft, (int)paddingTop, base.Bounds.Right + (int)paddingLeft, base.Bounds.Bottom + (int)paddingTop,
+            base.Op((int) paddingLeft, (int) paddingTop, base.Bounds.Right + (int) paddingLeft,
+                base.Bounds.Bottom + (int) paddingTop,
                 SKRegionOperation.Replace);
         }
 
@@ -133,6 +137,17 @@ namespace System.Drawing
         public bool IsVisible(PointF clipRectangle)
         {
             throw new NotImplementedException();
+        }
+
+        public Region Clone()
+        {
+            var rect = new Region();
+            rect.SetRect(this.Bounds);
+            return rect;
+        }
+
+        public void Exclude(GraphicsPath peClipRectangle)
+        {
         }
     }
 }

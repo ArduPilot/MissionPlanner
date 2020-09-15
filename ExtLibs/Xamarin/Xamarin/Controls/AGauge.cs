@@ -21,7 +21,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-using Xamarin.Controls;
+using System.Windows.Forms;
+
 
 
 namespace MissionPlanner.Controls

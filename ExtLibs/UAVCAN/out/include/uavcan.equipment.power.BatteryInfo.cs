@@ -53,7 +53,7 @@ public class uavcan_equipment_power_BatteryInfo: IUAVCANSerialize {
     public uint8_t state_of_charge_pct_stdev = new uint8_t();
     public uint8_t battery_id = new uint8_t();
     public uint32_t model_instance_id = new uint32_t();
-    public uint8_t model_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=31)] public uint8_t[] model_name = Enumerable.Repeat(new uint8_t(),31).ToArray();
+    public uint8_t model_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=31)] public uint8_t[] model_name = Enumerable.Range(1, 31).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

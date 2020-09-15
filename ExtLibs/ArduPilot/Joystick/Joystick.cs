@@ -4,6 +4,8 @@ using System.Collections;
 using log4net;
 using System.Reflection;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
@@ -11,12 +13,131 @@ using SharpDX.DirectInput;
 
 namespace MissionPlanner.Joystick
 {
+    public class JoystickLinux
+    {
+        private FileStream fs;
+
+        [StructLayout(LayoutKind.Explicit, Pack = 1)]
+        public struct js_event
+        {
+            [FieldOffset(0)] public UInt32 time; /* event timestamp in milliseconds */
+            [FieldOffset(4)] public short value; /* value */
+            [FieldOffset(6)] public byte type; /* event type */
+            [FieldOffset(7)] public byte number; /* axis/button number */
+            [FieldOffset(0)] public byte[] raw;
+        }
+
+        public void Start(string deviceFile)
+        {
+            // Read loop.
+            using (FileStream fs = new FileStream(deviceFile, FileMode.Open))
+            {
+                var buff = new js_event() {raw = new byte [8]};
+                Joystick j = new Joystick();
+
+                while (true)
+                {
+                    // Read 8 bytes from file and analyze.
+                    fs.Read(buff.raw, 0, 8);
+                    j.DetectChange(buff);
+
+                    var data = new JoystickState();
+                    data.X = j.Axis[0];
+                    data.Y = j.Axis[1];
+                    data.Z = j.Axis[2];
+                    /*
+                    data.Buttons = Enumerable.Range(0, 128).Select(a =>
+                    {
+                        if (j.Button.ContainsKey((byte) a))
+                            return j.Button[(byte) a];
+                        return false;
+                    }).ToArray();
+                    */
+                    MyJoystickState state = new MyJoystickState(data);
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// https://www.kernel.org/doc/html/latest/input/joydev/joystick-api.html
+        /// </summary>
+        public class Joystick
+        {
+            public Joystick()
+            {
+                Button = new Dictionary<byte, bool>();
+                Axis = new Dictionary<byte, short>();
+            }
+
+            enum STATE : byte
+            {
+                PRESSED = 0x01,
+                RELEASED = 0x00
+            }
+
+            enum TYPE : byte
+            {
+                AXIS = 0x02,
+                BUTTON = 0x01,
+                CONFIGURATION = 0x80
+            }
+
+            public Dictionary<byte, bool> Button;
+
+            public Dictionary<byte, short> Axis;
+
+            public void DetectChange(js_event buff)
+            {
+                // JS_EVENT_INIT           
+                if (checkBit(buff.type, (byte) TYPE.CONFIGURATION))
+                {
+                    if (checkBit(buff.type, (byte) TYPE.AXIS))
+                    {
+                        byte key = (byte) buff.number;
+                        if (!Axis.ContainsKey(key))
+                        {
+                            Axis.Add(key, 0);
+                            return;
+                        }
+                    }
+                    else if (checkBit(buff.type, (byte) TYPE.BUTTON))
+                    {
+                        byte key = (byte) buff.number;
+                        if (!Button.ContainsKey(key))
+                        {
+                            Button.Add((byte) buff.number, false);
+                            return;
+                        }
+                    }
+                }
+
+                if (checkBit(buff.type, (byte) TYPE.AXIS))
+                {
+                    short value = buff.value;
+                    Axis[(byte) buff.number] = value;
+                    return;
+                }
+                else if (checkBit(buff.type, (byte) TYPE.BUTTON))
+                {
+                    Button[(byte) buff.number] = buff.value == (byte) STATE.PRESSED;
+                    return;
+                }
+            }
+
+            bool checkBit(byte value, byte flag)
+            {
+                byte c = (byte) (value & flag);
+                return c == (byte) flag;
+            }
+        }
+    }
+
     public class Joystick : IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         SharpDX.DirectInput.Joystick joystick;
         MyJoystickState state;
-        static DirectInput directInput = new DirectInput();
         public bool enabled = false;
         bool[] buttonpressed = new bool[128];
         public string name;
@@ -271,18 +392,18 @@ namespace MissionPlanner.Joystick
 
         public static IList<DeviceInstance> getDevices()
         {
-            return directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
+            return new DirectInput().GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
         }
 
         public static SharpDX.DirectInput.Joystick getJoyStickByName(string name)
         {
-            var joysticklist = directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
+            var joysticklist = getDevices();
 
             foreach (DeviceInstance device in joysticklist)
             {
                 if (device.ProductName.TrimUnPrintable() == name)
                 {
-                    return new SharpDX.DirectInput.Joystick(directInput, device.InstanceGuid);
+                    return new SharpDX.DirectInput.Joystick(new DirectInput(), device.InstanceGuid);
                 }
             }
 
@@ -1028,7 +1149,8 @@ namespace MissionPlanner.Joystick
             Hatud1,
             Hatlr2,
             Custom1,
-            Custom2
+            Custom2,
+            UINT16_MAX
         }
 
         const int RESXu = 1024;
@@ -1358,6 +1480,8 @@ namespace MissionPlanner.Joystick
                     working = (int)(((float)(custom1 - min) / range) * ushort.MaxValue);
                     working = (int)Constrain(working, 0, 65535);
                     break;
+                case joystickaxis.UINT16_MAX:
+                    return (short)-1;
             }
             // between 0 and 65535 - convert to int -500 to 500
             working = (int)map(working, 0, 65535, -500, 500);

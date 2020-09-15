@@ -1,4 +1,5 @@
-﻿using MissionPlanner.Controls;
+﻿using System.Windows.Forms;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.Log
 {
@@ -59,6 +60,7 @@ namespace MissionPlanner.Log
             this.dataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.splitContainerAllTree = new System.Windows.Forms.SplitContainer();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerZgGrid)).BeginInit();
             this.splitContainerZgGrid.Panel1.SuspendLayout();
@@ -94,7 +96,6 @@ namespace MissionPlanner.Log
             // 
             // BUT_Graphit
             // 
-            this.BUT_Graphit.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_Graphit, "BUT_Graphit");
             this.BUT_Graphit.Name = "BUT_Graphit";
             this.BUT_Graphit.UseVisualStyleBackColor = true;
@@ -102,7 +103,6 @@ namespace MissionPlanner.Log
             // 
             // BUT_cleargraph
             // 
-            this.BUT_cleargraph.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_cleargraph, "BUT_cleargraph");
             this.BUT_cleargraph.Name = "BUT_cleargraph";
             this.BUT_cleargraph.UseVisualStyleBackColor = true;
@@ -110,7 +110,6 @@ namespace MissionPlanner.Log
             // 
             // BUT_loadlog
             // 
-            this.BUT_loadlog.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_loadlog, "BUT_loadlog");
             this.BUT_loadlog.Name = "BUT_loadlog";
             this.BUT_loadlog.UseVisualStyleBackColor = true;
@@ -295,7 +294,6 @@ namespace MissionPlanner.Log
             // 
             // BUT_Graphit_R
             // 
-            this.BUT_Graphit_R.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_Graphit_R, "BUT_Graphit_R");
             this.BUT_Graphit_R.Name = "BUT_Graphit_R";
             this.BUT_Graphit_R.UseVisualStyleBackColor = true;
@@ -327,7 +325,6 @@ namespace MissionPlanner.Log
             // 
             // BUT_removeitem
             // 
-            this.BUT_removeitem.DialogResult = System.Windows.Forms.DialogResult.None;
             resources.ApplyResources(this.BUT_removeitem, "BUT_removeitem");
             this.BUT_removeitem.Name = "BUT_removeitem";
             this.BUT_removeitem.UseVisualStyleBackColor = true;
@@ -347,7 +344,6 @@ namespace MissionPlanner.Log
             this.dataGridView1.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGridView1_CellValueNeeded);
             this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseClick);
             this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
-
             // 
             // treeView1
             // 
@@ -361,6 +357,7 @@ namespace MissionPlanner.Log
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            this.treeView1.NodeMouseHover += new TreeNodeMouseHoverEventHandler(this.treeView1_TreeNodeMouseHover);
             // 
             // splitContainerAllTree
             // 
@@ -436,6 +433,7 @@ namespace MissionPlanner.Log
         private System.Windows.Forms.SplitContainer splitContainerButGrid;
         private System.Windows.Forms.CheckBox chk_datagrid;
         private System.Windows.Forms.CheckBox chk_events;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

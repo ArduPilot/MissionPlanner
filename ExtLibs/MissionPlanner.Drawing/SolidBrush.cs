@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using SkiaSharp;
 
 namespace System.Drawing
@@ -44,6 +45,19 @@ namespace System.Drawing
                     //Console.WriteLine(e);
                 }
             }
+        }
+
+        public Brush Clone()
+        {
+            return new SolidBrush() {nativeBrush = nativeBrush?.Clone()};
+        }
+
+        public void ScaleTransform(float rectangleWidth, float rectangleHeight, MatrixOrder append)
+        {
+        }
+
+        public void TranslateTransform(float rectangleLeft, float rectangleTop, MatrixOrder append)
+        {
         }
     }
 }

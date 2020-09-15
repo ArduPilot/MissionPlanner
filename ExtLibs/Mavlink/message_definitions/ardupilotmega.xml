@@ -133,7 +133,7 @@
         <description>Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location.</description>
         <param index="1" label="Yaw" units="deg">Yaw of vehicle in earth frame.</param>
         <param index="2" label="CompassMask">CompassMask, 0 for all.</param>
-        <param index="3" label="Lattitude" units="deg">Latitude.</param>
+        <param index="3" label="Latitude" units="deg">Latitude.</param>
         <param index="4" label="Longitude" units="deg">Longitude.</param>
         <param index="5">Empty.</param>
         <param index="6">Empty.</param>
@@ -1096,6 +1096,25 @@
       <entry value="10" name="TRACKER_MODE_AUTO"/>
       <entry value="16" name="TRACKER_MODE_INITIALIZING"/>
     </enum>
+    <enum name="OSD_PARAM_CONFIG_TYPE">
+      <description>The type of parameter for the OSD parameter editor.</description>
+      <entry value="0" name="OSD_PARAM_NONE"/>
+      <entry value="1" name="OSD_PARAM_SERIAL_PROTOCOL"/>
+      <entry value="2" name="OSD_PARAM_SERVO_FUNCTION"/>
+      <entry value="3" name="OSD_PARAM_AUX_FUNCTION"/>
+      <entry value="4" name="OSD_PARAM_FLIGHT_MODE"/>
+      <entry value="5" name="OSD_PARAM_FAILSAFE_ACTION"/>
+      <entry value="6" name="OSD_PARAM_FAILSAFE_ACTION_1"/>
+      <entry value="7" name="OSD_PARAM_FAILSAFE_ACTION_2"/>
+      <entry value="8" name="OSD_PARAM_NUM_TYPES"/>
+    </enum>
+    <enum name="OSD_PARAM_CONFIG_ERROR">
+      <description>The error type for the OSD parameter editor.</description>
+      <entry value="0" name="OSD_PARAM_SUCCESS"/>
+      <entry value="1" name="OSD_PARAM_INVALID_SCREEN"/>
+      <entry value="2" name="OSD_PARAM_INVALID_PARAMETER_INDEX"/>
+      <entry value="3" name="OSD_PARAM_INVALID_PARAMETER"/>
+    </enum>
   </enums>
   <messages>
     <message id="150" name="SENSOR_OFFSETS">
@@ -1578,25 +1597,24 @@
     </message>
     <!-- 219 to 224 RESERVED for more GOPRO-->
     <message id="225" name="EFI_STATUS">
-     <description>EFI Status Output</description>
-     <field type="uint8_t" name="health">EFI Health status</field>
-     <field type="float"   name="ecu_index">ECU Index</field>
-     <field type="float"   name="rpm">RPM</field>
-     <field type="float"   name="fuel_consumed" units="g">Fuel Consumed</field>
-     <field type="float"   name="fuel_flow" units="g/min">Fuel Flow Rate</field>
-     <field type="float"   name="engine_load" units="%">Engine Load</field>
-     <field type="float"   name="throttle_position" units="%">Throttle Position</field>
-     <field type="float"   name="spark_dwell_time" units="ms">Spark Dwell Time</field>
-     <field type="float"   name="barometric_pressure" units="kPa">Barometric Pressure</field>
-     <field type="float"   name="intake_manifold_pressure" units="kPa">Intake Manifold Pressure(</field>
-     <field type="float"   name="intake_manifold_temperature" units="degC">Intake Manifold Temperature</field>
-     <field type="float"   name="cylinder_head_temperature" units="degC">cylinder_head_temperature</field>
-     <field type="float"   name="ignition_timing" units="deg">Ignition timing (Crank Angle degrees)</field>
-     <field type="float"   name="injection_time" units="ms">Injection time</field>
-     <extensions/>
-     <field type="float"   name="exhaust_gas_temperature" units="degC">exhaust gas temperature</field>
-     <field type="float"   name="throttle_out" units="%">output throttle</field>
-     <field type="float"   name="pt_compensation">pressure/temperature compensation</field>
+      <description>EFI status output</description>
+      <field type="uint8_t" name="health">EFI health status</field>
+      <field type="float" name="ecu_index">ECU index</field>
+      <field type="float" name="rpm">RPM</field>
+      <field type="float" name="fuel_consumed" units="g">Fuel consumed</field>
+      <field type="float" name="fuel_flow" units="g/min">Fuel flow rate</field>
+      <field type="float" name="engine_load" units="%">Engine load</field>
+      <field type="float" name="throttle_position" units="%">Throttle position</field>
+      <field type="float" name="spark_dwell_time" units="ms">Spark dwell time</field>
+      <field type="float" name="barometric_pressure" units="kPa">Barometric pressure</field>
+      <field type="float" name="intake_manifold_pressure" units="kPa">Intake manifold pressure(</field>
+      <field type="float" name="intake_manifold_temperature" units="degC">Intake manifold temperature</field>
+      <field type="float" name="cylinder_head_temperature" units="degC">Cylinder head temperature</field>
+      <field type="float" name="ignition_timing" units="deg">Ignition timing (Crank angle degrees)</field>
+      <field type="float" name="injection_time" units="ms">Injection time</field>
+      <field type="float" name="exhaust_gas_temperature" units="degC">Exhaust gas temperature</field>
+      <field type="float" name="throttle_out" units="%">Output throttle</field>
+      <field type="float" name="pt_compensation">Pressure/temperature compensation</field>
     </message>
     <message id="226" name="RPM">
       <description>RPM sensor output.</description>
@@ -1615,6 +1633,8 @@
       <field type="char[40]" name="busname">Name of device on bus (for SPI).</field>
       <field type="uint8_t" name="regstart">First register to read.</field>
       <field type="uint8_t" name="count">Count of registers to read.</field>
+      <extensions/>
+      <field type="uint8_t" name="bank">Bank number.</field>
     </message>
     <message id="11001" name="DEVICE_OP_READ_REPLY">
       <description>Read registers reply.</description>
@@ -1623,6 +1643,8 @@
       <field type="uint8_t" name="regstart">Starting register.</field>
       <field type="uint8_t" name="count">Count of bytes read.</field>
       <field type="uint8_t[128]" name="data">Reply data.</field>
+      <extensions/>
+      <field type="uint8_t" name="bank">Bank number.</field>
     </message>
     <message id="11002" name="DEVICE_OP_WRITE">
       <description>Write registers for a device.</description>
@@ -1636,6 +1658,8 @@
       <field type="uint8_t" name="regstart">First register to write.</field>
       <field type="uint8_t" name="count">Count of registers to write.</field>
       <field type="uint8_t[128]" name="data">Write data.</field>
+      <extensions/>
+      <field type="uint8_t" name="bank">Bank number.</field>
     </message>
     <message id="11003" name="DEVICE_OP_WRITE_REPLY">
       <description>Write registers reply.</description>
@@ -1701,6 +1725,42 @@
       <field type="uint16_t[4]" name="totalcurrent" units="mAh">Total current.</field>
       <field type="uint16_t[4]" name="rpm" units="rpm">RPM (eRPM).</field>
       <field type="uint16_t[4]" name="count">count of telemetry packets received (wraps at 65535).</field>
+    </message>
+    <message id="11033" name="OSD_PARAM_CONFIG">
+      <description>Configure an OSD parameter slot.</description>
+      <field type="uint8_t" name="target_system">System ID.</field>
+      <field type="uint8_t" name="target_component">Component ID.</field>
+      <field type="uint32_t" name="request_id">Request ID - copied to reply.</field>
+      <field type="uint8_t" name="osd_screen">OSD parameter screen index.</field>
+      <field type="uint8_t" name="osd_index">OSD parameter display index.</field>
+      <field type="char[16]" name="param_id">Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="uint8_t" name="config_type" enum="OSD_PARAM_CONFIG_TYPE">Config type.</field>
+      <field type="float" name="min_value">OSD parameter minimum value.</field>
+      <field type="float" name="max_value">OSD parameter maximum value.</field>
+      <field type="float" name="increment">OSD parameter increment.</field>
+    </message>
+    <message id="11034" name="OSD_PARAM_CONFIG_REPLY">
+      <description>Configure OSD parameter reply.</description>
+      <field type="uint32_t" name="request_id">Request ID - copied from request.</field>
+      <field type="uint8_t" name="result" enum="OSD_PARAM_CONFIG_ERROR">Config error type.</field>
+    </message>
+    <message id="11035" name="OSD_PARAM_SHOW_CONFIG">
+      <description>Read a configured an OSD parameter slot.</description>
+      <field type="uint8_t" name="target_system">System ID.</field>
+      <field type="uint8_t" name="target_component">Component ID.</field>
+      <field type="uint32_t" name="request_id">Request ID - copied to reply.</field>
+      <field type="uint8_t" name="osd_screen">OSD parameter screen index.</field>
+      <field type="uint8_t" name="osd_index">OSD parameter display index.</field>
+    </message>
+    <message id="11036" name="OSD_PARAM_SHOW_CONFIG_REPLY">
+      <description>Read configured OSD parameter reply.</description>
+      <field type="uint32_t" name="request_id">Request ID - copied from request.</field>
+      <field type="uint8_t" name="result" enum="OSD_PARAM_CONFIG_ERROR">Config error type.</field>
+      <field type="char[16]" name="param_id">Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="uint8_t" name="config_type" enum="OSD_PARAM_CONFIG_TYPE">Config type.</field>
+      <field type="float" name="min_value">OSD parameter minimum value.</field>
+      <field type="float" name="max_value">OSD parameter maximum value.</field>
+      <field type="float" name="increment">OSD parameter increment.</field>
     </message>
   </messages>
 </mavlink>

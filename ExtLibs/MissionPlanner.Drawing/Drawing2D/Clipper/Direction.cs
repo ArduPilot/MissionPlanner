@@ -1,4 +1,8 @@
 ﻿namespace ClipperLib
 {
-    internal enum Direction { dRightToLeft, dLeftToRight };
+    internal enum Direction
+    {
+        dRightToLeft,
+        dLeftToRight
+    };
 }

@@ -30,7 +30,7 @@ public const double UAVCAN_PROTOCOL_PANIC_MIN_MESSAGES = 3; // saturated uint8
 public const double UAVCAN_PROTOCOL_PANIC_MAX_INTERVAL_MS = 500; // saturated uint16
 
 public class uavcan_protocol_Panic: IUAVCANSerialize {
-    public uint8_t reason_text_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=7)] public uint8_t[] reason_text = Enumerable.Repeat(new uint8_t(),7).ToArray();
+    public uint8_t reason_text_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=7)] public uint8_t[] reason_text = Enumerable.Range(1, 7).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

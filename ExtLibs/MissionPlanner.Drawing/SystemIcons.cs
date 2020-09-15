@@ -8,5 +8,9 @@ namespace System.Drawing
         public static Icon Warning { get; set; }
         public static Icon Information { get; set; }
         public static Icon Question { get; set; }
+
+        public static Icon Asterisk { get; set; }
+
+        public static Icon Exclamation { get; set; }
     }
 }

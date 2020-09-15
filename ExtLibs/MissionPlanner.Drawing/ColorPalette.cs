@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace System.Drawing
+namespace System.Drawing.Imaging
 {
     public sealed class ColorPalette
     {
@@ -31,11 +31,11 @@ namespace System.Drawing
         internal void ConvertFromMemory(IntPtr memory)
         {
             flags = Marshal.ReadInt32(memory);
-            int num = Marshal.ReadInt32((IntPtr)((long)memory + 4));
+            int num = Marshal.ReadInt32((IntPtr) ((long) memory + 4));
             entries = new Color[num];
             for (int i = 0; i < num; i++)
             {
-                int argb = Marshal.ReadInt32((IntPtr)((long)memory + 8 + i * 4));
+                int argb = Marshal.ReadInt32((IntPtr) ((long) memory + 8 + i * 4));
                 entries[i] = Color.FromArgb(argb);
             }
         }
@@ -48,12 +48,14 @@ namespace System.Drawing
             {
                 intPtr = Marshal.AllocHGlobal(4 * (2 + num));
                 Marshal.WriteInt32(intPtr, 0, flags);
-                Marshal.WriteInt32((IntPtr)((long)intPtr + 4), 0, num);
+                Marshal.WriteInt32((IntPtr) ((long) intPtr + 4), 0, num);
             }
+
             for (int i = 0; i < num; i++)
             {
-                Marshal.WriteInt32((IntPtr)((long)intPtr + 4 * (i + 2)), 0, entries[i].ToArgb());
+                Marshal.WriteInt32((IntPtr) ((long) intPtr + 4 * (i + 2)), 0, entries[i].ToArgb());
             }
+
             return intPtr;
         }
     }

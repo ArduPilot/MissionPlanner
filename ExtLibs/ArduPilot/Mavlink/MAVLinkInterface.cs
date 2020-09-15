@@ -687,6 +687,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 getVersion();
 
+                doCommand((byte) sysidcurrent, (byte) compidcurrent, MAV_CMD.DO_SEND_BANNER, 0, 0, 0, 0, 0, 0, 0,
+                    false);
+
                 if (getparams)
                 {
                     frmProgressReporter.UpdateProgressAndStatus(0,
@@ -3940,6 +3943,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         {
             mode.base_mode |= (byte)base_mode;
 
+            // new
+            doCommand(sysid, compid, MAV_CMD.DO_SET_MODE, mode.base_mode, mode.custom_mode, 0, 0, 0, 0, 0, false);
+
+            // old
             generatePacket((byte)(byte)MAVLINK_MSG_ID.SET_MODE, mode, sysid, compid);
             Thread.Sleep(10);
             generatePacket((byte)(byte)MAVLINK_MSG_ID.SET_MODE, mode, sysid, compid);
@@ -4498,7 +4505,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         mavlink_heartbeat_t hb = message.ToStructure<mavlink_heartbeat_t>();
 
                         // not a gcs
-                        if (hb.type != (byte)MAV_TYPE.GCS)
+                        //if (hb.type != (byte)MAV_TYPE.GCS)
                         {
                             // add a seen sysid
                             if (!MAVlist.Contains(sysid, compid, false))
@@ -4553,11 +4560,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         // the change of severity and the autopilot version where introduced at the same time, so any version non 0 can be used
                         // copter 3.4+
                         // plane 3.4+
-                        if (MAVlist[sysid, compid].cs.version.Major > 0 || MAVlist[sysid, compid].cs.version.Minor >= 4)
+                        MAV_SEVERITY mavsev = MAV_SEVERITY.EMERGENCY;
+                        if (MAVlist[sysid, compidcurrent].cs.version.Major > 0 || MAVlist[sysid, compidcurrent].cs.version.Minor >= 4)
                         {
                             if (sev <= (byte)MAV_SEVERITY.WARNING)
                             {
                                 printit = true;
+                                mavsev = (MAV_SEVERITY)sev;
                             }
                         }
                         else
@@ -4574,7 +4583,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         if (printit)
                         {
+                            // high severity msg publish to current selected mav
+                            if (sysid == sysidcurrent && compid != compidcurrent)
+                            {
+                                MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + logdata;
+                                MAVlist[sysid, compidcurrent].cs.messageHighSeverity = mavsev;
+                            }
+
                             MAVlist[sysid, compid].cs.messageHigh = logdata;
+                            MAVlist[sysid, compid].cs.messageHighSeverity = mavsev;
 
                             if (Speech != null &&
                                 Speech.IsReady &&
@@ -4635,9 +4652,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                             while (MirrorStream.BytesToRead > 0)
                             {
-                                byte[] buf = new byte[1024];
+                                var len = MirrorStream.BytesToRead;
 
-                                int len = MirrorStream.Read(buf, 0, buf.Length);
+                                byte[] buf = new byte[len];
+
+                                len = MirrorStream.Read(buf, 0, len);
 
                                 if (MirrorStreamWrite)
                                     BaseStream.Write(buf, 0, len);

@@ -56,6 +56,11 @@ namespace UAVCAN
             }
         }
 
+        public bool SingleFrameTransfer
+        {
+            get { return EOT && SOT; }
+        }
+
         public byte[] Payload
         {
             get { return packet_data.Take(packet_data.Length - 1).ToArray(); }

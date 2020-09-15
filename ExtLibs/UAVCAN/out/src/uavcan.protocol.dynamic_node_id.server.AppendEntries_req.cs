@@ -97,6 +97,7 @@ msg.entries_len = 0;
             msg.entries_len++;
         }
     } else {
+        msg.entries = new uavcan_protocol_dynamic_node_id_server_Entry[msg.entries_len];
         for (int i=0; i < msg.entries_len; i++) {
             _decode_uavcan_protocol_dynamic_node_id_server_Entry(transfer, ref bit_ofs, msg.entries[i], false);
         }

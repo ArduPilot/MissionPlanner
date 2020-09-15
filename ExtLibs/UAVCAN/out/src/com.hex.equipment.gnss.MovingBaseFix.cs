@@ -73,13 +73,13 @@ static void _encode_com_hex_equipment_gnss_MovingBaseFix(uint8_t[] buffer, com_h
     }
     if (!tao) {
         memset(buffer,0,8);
-        canardEncodeScalar(buffer, 0, 3, msg.pos_rel_ned_covariance_len);
+        canardEncodeScalar(buffer, 0, 3, msg.pos_rel_ecef_covariance_len);
         chunk_cb(buffer, 3, ctx);
     }
-    for (int i=0; i < msg.pos_rel_ned_covariance_len; i++) {
+    for (int i=0; i < msg.pos_rel_ecef_covariance_len; i++) {
             memset(buffer,0,8);
             {
-                uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.pos_rel_ned_covariance[i]);
+                uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.pos_rel_ecef_covariance[i]);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
             chunk_cb(buffer, 16, ctx);
@@ -103,6 +103,7 @@ static void _decode_com_hex_equipment_gnss_MovingBaseFix(CanardRxTransfer transf
 
     canardDecodeScalar(transfer, bit_ofs, 2, false, ref msg.pos_rel_body_len);
     bit_ofs += 2;
+    msg.pos_rel_body = new Single[msg.pos_rel_body_len];
     for (int i=0; i < msg.pos_rel_body_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.pos_rel_body[i]);
         bit_ofs += 32;
@@ -115,17 +116,18 @@ static void _decode_com_hex_equipment_gnss_MovingBaseFix(CanardRxTransfer transf
     }
 
     if (!tao) {
-        canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.pos_rel_ned_covariance_len);
+        canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.pos_rel_ecef_covariance_len);
         bit_ofs += 3;
     } else {
-        msg.pos_rel_ned_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
+        msg.pos_rel_ecef_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
     }
 
-    for (int i=0; i < msg.pos_rel_ned_covariance_len; i++) {
+    msg.pos_rel_ecef_covariance = new Single[msg.pos_rel_ecef_covariance_len];
+    for (int i=0; i < msg.pos_rel_ecef_covariance_len; i++) {
         {
             uint16_t float16_val = 0;
             canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
-            msg.pos_rel_ned_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
+            msg.pos_rel_ecef_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
         }
         bit_ofs += 16;
     }

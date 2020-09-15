@@ -159,6 +159,7 @@ static void _decode_uavcan_equipment_gnss_Fix2(CanardRxTransfer transfer,ref uin
 
     canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.covariance_len);
     bit_ofs += 6;
+    msg.covariance = new Single[msg.covariance_len];
     for (int i=0; i < msg.covariance_len; i++) {
         {
             uint16_t float16_val = 0;
@@ -188,6 +189,7 @@ msg.ecef_position_velocity_len = 0;
             msg.ecef_position_velocity_len++;
         }
     } else {
+        msg.ecef_position_velocity = new uavcan_equipment_gnss_ECEFPositionVelocity[msg.ecef_position_velocity_len];
         for (int i=0; i < msg.ecef_position_velocity_len; i++) {
             _decode_uavcan_equipment_gnss_ECEFPositionVelocity(transfer, ref bit_ofs, msg.ecef_position_velocity[i], false);
         }

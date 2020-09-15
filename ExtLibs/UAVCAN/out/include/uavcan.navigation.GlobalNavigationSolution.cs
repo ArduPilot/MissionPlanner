@@ -37,11 +37,11 @@ public class uavcan_navigation_GlobalNavigationSolution: IUAVCANSerialize {
     public Single height_baro = new Single();
     public Single qnh_hpa = new Single();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)] public Single[] orientation_xyzw = new Single[4];
-    public uint8_t pose_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] pose_covariance = Enumerable.Repeat(new Single(),36).ToArray();
+    public uint8_t pose_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] pose_covariance = Enumerable.Range(1, 36).Select(i => new Single()).ToArray();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] linear_velocity_body = new Single[3];
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] angular_velocity_body = new Single[3];
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] linear_acceleration_body = new Single[3];
-    public uint8_t velocity_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] velocity_covariance = Enumerable.Repeat(new Single(),36).ToArray();
+    public uint8_t velocity_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] velocity_covariance = Enumerable.Range(1, 36).Select(i => new Single()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

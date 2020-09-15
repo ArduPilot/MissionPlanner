@@ -7,13 +7,15 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
+using System.Windows.Forms;
 using Xamarin.Forms;
 using Color = System.Drawing.Color;
 using Image = System.Drawing.Image;
+
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = System.Drawing.Size;
+using Timer = System.Threading.Timer;
 
 namespace Xamarin.Controls
 {
@@ -47,6 +49,12 @@ namespace Xamarin.Controls
             base.SizeChanged += MySKGLView_SizeChanged;
 
             OnLoad(null);
+        }
+
+        public object Invoke(Action p0)
+        {
+            Forms.Device.BeginInvokeOnMainThread(p0);
+            return null;
         }
 
         public event MouseEventHandler MouseDown
@@ -98,7 +106,7 @@ namespace Xamarin.Controls
 
         public Size ClientSize { get; set; }
 
-        public Cursor Cursor { get; set; } = new Cursor();
+        public Cursor Cursor { get; set; } = Cursors.Arrow;
 
         public Cursor DefaultCursor { get; set; }
 
@@ -151,6 +159,11 @@ namespace Xamarin.Controls
                 }
                 return events;
             }
+        }
+
+        public bool InvokeRequired
+        {
+            get { return Forms.Device.IsInvokeRequired; }
         }
 
         public virtual void Dispose()
@@ -379,7 +392,7 @@ namespace Xamarin.Controls
                 Delta = 0 // mouse wheel
             };
 
-            Form.MousePosition = new Point((int)e.Location.X, (int)e.Location.Y);
+            //Form.MousePosition = new Point((int)e.Location.X, (int)e.Location.Y);
 
             // pinching - multiple paths at once
             if (temporaryPaths.Count > 1)

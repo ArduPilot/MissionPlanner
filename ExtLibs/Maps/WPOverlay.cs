@@ -167,7 +167,8 @@ namespace MissionPlanner.ArduPilot
                     }
                     else if (command == (ushort) MAVLink.MAV_CMD.WAYPOINT && item.lat == 0 && item.lng == 0)
                     {
-                        fullpointlist.Add(pointlist[pointlist.Count - 1]);
+                        if(pointlist.Count > 0)
+                            fullpointlist.Add(pointlist[pointlist.Count - 1]);
                     }
                     else
                     {

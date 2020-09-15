@@ -39,7 +39,7 @@ public class uavcan_equipment_air_data_RawAirData: IUAVCANSerialize {
     public Single differential_pressure_sensor_temperature = new Single();
     public Single static_air_temperature = new Single();
     public Single pitot_temperature = new Single();
-    public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public Single[] covariance = Enumerable.Repeat(new Single(),16).ToArray();
+    public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public Single[] covariance = Enumerable.Range(1, 16).Select(i => new Single()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

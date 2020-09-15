@@ -11,12 +11,12 @@
 @using System.Text;
 
 @using System.Security.Cryptography;
-@using Blazor.FileReader;
 @using System.IO;
 @using System.Net.Sockets
 @using Microsoft.AspNetCore.Components
 @using Newtonsoft.Json
 @using Org.BouncyCastle.Utilities.Encoders
+@using Tewr.Blazor.FileReader
 @implements IDisposable
 @inject IFileReaderService fileReaderService;
 @inject HttpClient Http
@@ -206,8 +206,11 @@
                 foreach (var mavd in mav.MAVlist)
                 {
                     mavd.cs.UpdateCurrentSettings(null, false, mav, mavd);
-                    await JSRuntime.InvokeAsync<object>
-                        ("setPosition", new object[] {a, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw}).ConfigureAwait(false);
+                    try
+                    {
+                        await JSRuntime.InvokeAsync<object>
+                            ("setPosition", new object[] {mavd.sysid, mavd.compid, mavd.cs.lat, mavd.cs.lng, mavd.cs.altasl, mavd.cs.roll, mavd.cs.pitch, mavd.cs.yaw}).ConfigureAwait(false);
+                    } catch {}
                     a++;
                 }
 

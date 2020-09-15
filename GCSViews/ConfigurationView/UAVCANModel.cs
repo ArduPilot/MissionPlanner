@@ -15,5 +15,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ulong SoftwareCRC { get; set; }
         public uavcan.uavcan_protocol_GetNodeInfo_res RawMsg { get; set; }
         public string HardwareUID { get; set; }
+        public ushort VSC { get; set; }
     }
 }

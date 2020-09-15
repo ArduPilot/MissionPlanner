@@ -32,7 +32,7 @@ public class uavcan_olliw_storm32_Status: IUAVCANSerialize {
     public uint32_t status = new uint32_t();
     public uint8_t orientation_type = new uint8_t();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)] public Single[] orientation = new Single[4];
-    public uint8_t angular_velocity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] angular_velocity = Enumerable.Repeat(new Single(),3).ToArray();
+    public uint8_t angular_velocity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] angular_velocity = Enumerable.Range(1, 3).Select(i => new Single()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

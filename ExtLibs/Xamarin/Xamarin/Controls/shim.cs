@@ -33,9 +33,18 @@ namespace System.Drawing
 }
 */
 
+namespace Xamarin.Properties
+{
+    internal class Resources : MissionPlanner.Properties.Resources
+    {
+
+
+    }
+}
+
 namespace GMap.NET.Drawing.Properties
 {
-    internal class Resources : Xamarin.Properties.Resources
+    internal class Resources : MissionPlanner.Properties.Resources
     {
 
     }
@@ -43,7 +52,7 @@ namespace GMap.NET.Drawing.Properties
 
 namespace MissionPlanner.Maps
 {
-    internal class Resources: Xamarin.Properties.Resources
+    internal class Resources: MissionPlanner.Properties.Resources
     {
 
     }

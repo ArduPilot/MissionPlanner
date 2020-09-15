@@ -21,8 +21,8 @@ namespace MissionPlanner.Utilities
         LibVLCLibrary.libvlc_video_format_cb vlc_video_format_delegate;
         LibVLCLibrary.libvlc_video_cleanup_cb vlc_video_cleanup_delegate;
 
-        private static event EventHandler<Image> _onNewImage;
-        public static event EventHandler<Image> onNewImage
+        private static event EventHandler<Bitmap> _onNewImage;
+        public static event EventHandler<Bitmap> onNewImage
         {
             add { _onNewImage += value; }
             remove { _onNewImage -= value; }

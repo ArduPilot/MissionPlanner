@@ -87,7 +87,7 @@ namespace MissionPlanner.Comms
         {
             get
             {
-                if (client.Client == null) return false;
+                if (client?.Client == null) return false;
                 return _isopen;
             }
             set => _isopen = value;

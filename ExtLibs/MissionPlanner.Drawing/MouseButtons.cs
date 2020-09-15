@@ -1,5 +1,5 @@
 ﻿namespace System.Drawing
-{
+{ /*
     public enum MouseButtons
     {
         /// <summary>The left mouse button was pressed.</summary>
@@ -14,5 +14,5 @@
         XButton1 = 0x800000,
         /// <summary>The second XButton was pressed.</summary>
         XButton2 = 0x1000000
-    }
+    }*/
 }

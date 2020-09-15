@@ -27,7 +27,7 @@ public const int UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_DT_ID = 1030;
 
 
 public class uavcan_equipment_esc_RawCommand: IUAVCANSerialize {
-    public uint8_t cmd_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public int16_t[] cmd = Enumerable.Repeat(new int16_t(),20).ToArray();
+    public uint8_t cmd_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public int16_t[] cmd = Enumerable.Range(1, 20).Select(i => new int16_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

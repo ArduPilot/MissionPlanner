@@ -30,10 +30,9 @@ steps:
        nuget
     path: $(NUGET_PACKAGES)
   displayName: Cache NuGet packages
-- script: .nuget\nuget.exe update -self
-  workingDirectory: $(Build.Repository.LocalPath)
-- script: .nuget\nuget.exe restore
-  workingDirectory: $(Build.Repository.LocalPath)
+
+- script: git config -f .gitmodules submodule.mono.shallow true
+- script: git submodule update --init --depth 2 --no-single-branch 
 
 - task: VSBuild@1
   inputs:

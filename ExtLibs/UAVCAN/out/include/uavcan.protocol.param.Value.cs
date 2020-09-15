@@ -47,7 +47,7 @@ public class uavcan_protocol_param_Value: IUAVCANSerialize {
 		//[FieldOffset(0)]
         public uint8_t boolean_value = new uint8_t();
 		//[FieldOffset(0)]
-        public uint8_t string_value_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] string_value = Enumerable.Repeat(new uint8_t(),128).ToArray();
+        public uint8_t string_value_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] string_value = Enumerable.Range(1, 128).Select(i => new uint8_t()).ToArray();
     };
 	public unions union = new unions();
 

@@ -4,7 +4,7 @@ using System.Linq;
 namespace UAVCAN
 {
     /// <summary>
-    /// https://uavcan.org/Specification/4._CAN_bus_transport_layer/
+    /// https://legacy.uavcan.org/Specification/4._CAN_bus_transport_layer/
     /// </summary>
     public class CANFrame
     {
@@ -22,6 +22,7 @@ namespace UAVCAN
             this.packet_data = packet_data;
         }
 
+        //[JsonConverter(typeof(StringEnumConverter))]
         public FrameType TransferType
         {
             get
@@ -53,14 +54,14 @@ namespace UAVCAN
         {
             get
             {
-                if (TransferType == FrameType.anonymous) return (UInt16)(BitConverter.ToUInt16(packet_data, 1) & 0x3);
+                if (TransferType == FrameType.anonymous) return (UInt16) (BitConverter.ToUInt16(packet_data, 1) & 0x3);
                 if (TransferType == FrameType.message) return BitConverter.ToUInt16(packet_data, 1);
                 return SvcTypeID;
             }
             set
             {
-                packet_data[1] = (byte)value;
-                packet_data[2] = (byte)(value >> 8);
+                packet_data[1] = (byte) value;
+                packet_data[2] = (byte) (value >> 8);
             }
         }
 
@@ -100,6 +101,15 @@ namespace UAVCAN
                 return 0;
             }
             set { packet_data[2] = value; }
+        }
+
+        /// <summary>
+        /// Message size excluding headers
+        /// </summary>
+        public int SizeofEntireMsg
+        {
+            get;
+            internal set;
         }
 
         public string ToHex()

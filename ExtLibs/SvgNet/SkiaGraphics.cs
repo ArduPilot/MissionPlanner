@@ -224,9 +224,15 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public Matrix Transform
         {
-            get => new Matrix(_image.TotalMatrix.Persp0, _image.TotalMatrix.Persp1, _image.TotalMatrix.ScaleX,
+            get => new Matrix(_image.TotalMatrix.ScaleX,_image.TotalMatrix.SkewY, _image.TotalMatrix.SkewX, 
                 _image.TotalMatrix.ScaleY, _image.TotalMatrix.TransX, _image.TotalMatrix.TransY);
-            set { }
+            set
+            {
+                var values = value.Elements;
+                _image.SetMatrix(new SKMatrix(values[0], values[2], values[4],
+                    values[1], values[3], values[5],
+                    0, 0, 1));
+            }
         }
 
         public RectangleF VisibleClipBounds { get; }
@@ -1246,7 +1252,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void ScaleTransform(float sx, float sy)
         {
-            throw new NotImplementedException();
+            _image.Scale(sx, sy);
         }
 
         public void ScaleTransform(float sx, float sy, MatrixOrder order)

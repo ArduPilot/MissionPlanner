@@ -6,9 +6,9 @@ using SkiaSharp;
 
 namespace System.Drawing.Drawing2D
 {
-    public class GraphicsPath_old: IDisposable
+    public class GraphicsPath_old : IDisposable
     {
-        private List<PointF> _pathPoints= new List<PointF>();
+        private List<PointF> _pathPoints = new List<PointF>();
 
         public void AddLines(Point[] toArray)
         {
@@ -17,25 +17,26 @@ namespace System.Drawing.Drawing2D
 
         public void AddPolygon(Point[] toArray)
         {
-            _pathPoints.AddRange(toArray.Select(a => (PointF)a));
+            _pathPoints.AddRange(toArray.Select(a => (PointF) a));
         }
 
         public void Dispose()
         {
-            
         }
 
-        public int PointCount {
-            get { return PathPoints.Length; } }
+        public int PointCount
+        {
+            get { return PathPoints.Length; }
+        }
 
         public PointF[] PathPoints
         {
             get => _pathPoints.ToArray();
         }
 
-        public int[] PathTypes {
+        public int[] PathTypes
+        {
             get { return Enumerable.Repeat(1, PointCount).ToArray(); }
-            
         }
 
         public bool IsVisible(int i, int i1)

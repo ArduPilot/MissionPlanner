@@ -33,7 +33,7 @@ public class uavcan_protocol_GetNodeInfo_res: IUAVCANSerialize {
     public uavcan_protocol_NodeStatus status = new uavcan_protocol_NodeStatus();
     public uavcan_protocol_SoftwareVersion software_version = new uavcan_protocol_SoftwareVersion();
     public uavcan_protocol_HardwareVersion hardware_version = new uavcan_protocol_HardwareVersion();
-    public uint8_t name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)] public uint8_t[] name = Enumerable.Repeat(new uint8_t(),80).ToArray();
+    public uint8_t name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)] public uint8_t[] name = Enumerable.Range(1, 80).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

@@ -7,7 +7,9 @@ cache:
     - C:\Users\appveyor\.nuget\packages -> appveyor.yml
 build_script:
 - cmd: >-
-    rem git submodule update --init --recursive
+    git config -f .gitmodules submodule.mono.shallow true
+
+    git submodule update --init --depth 2 --no-single-branch 
 
     dotnet --info
 
@@ -15,7 +17,7 @@ build_script:
 
     appveyor-retry c:\mp\.nuget\nuget.exe update -self
     
-    appveyor-retry c:\mp\.nuget\nuget.exe restore
+    appveyor-retry c:\mp\.nuget\nuget.exe restore MissionPlanner.sln
     
     msbuild -v:m -restore /m -t:Build -p:Configuration=Release MissionPlanner.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     

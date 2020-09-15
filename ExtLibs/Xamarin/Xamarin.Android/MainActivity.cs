@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using Android.App;
@@ -8,15 +9,15 @@ using Android.Content;
 using Android.Content.PM;
 using Android.Hardware.Usb;
 using Android.Views;
-using Android.Widget;
 using Android.OS;
 using Android.Provider;
+using Android.Support.V7.Widget;
 using Android.Telephony;
 using Android.Util;
+
 using Java.Interop;
 using Java.Lang.Reflect;
 using Mono.Unix;
-using SharpDX.Text;
 using Xamarin.Forms;
 using Application = Xamarin.Forms.Application;
 using Thread = System.Threading.Thread;
@@ -26,9 +27,9 @@ using Thread = System.Threading.Thread;
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
 
 namespace Xamarin.Droid
-{ 
- [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{global::Android.Content.Intent.CategoryHome, global::Android.Content.Intent.CategoryDefault, global::Android.Content.Intent.CategoryLauncher})]
-    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.Landscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true)]
+{ //global::Android.Content.Intent.CategoryLauncher
+ [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{global::Android.Content.Intent.CategoryHome, global::Android.Content.Intent.CategoryDefault})]
+    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.Landscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, HardwareAccelerated = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         readonly string TAG = typeof(MainActivity).FullName;
@@ -64,6 +65,10 @@ namespace Xamarin.Droid
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+
+            SetSupportActionBar((Toolbar) FindViewById(ToolbarResource));
+
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.TurnScreenOn);
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 

@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
+    <TargetFramework>net461</TargetFramework>
+    <RootNamespace>Aberus.VisualStudio.Debugger.ImageVisualizer</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Aberus.VisualStudio.Debugger.ImageVisualizer.DebuggeeSide</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ImageVisualizer14\ImageVisualizerObjectSource.cs" Link="ImageVisualizerObjectSource.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers">
+      <Private>False</Private>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\Packages\Debugger\Visualizers\netstandard2.0\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers">
+      <Private>False</Private>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\Packages\Debugger\Visualizers\net2.0\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp">
+      <Version>2.80.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\ImageVisualizer16.Common\ImageVisualizer16.Common.csproj" />
+  </ItemGroup>
+
+</Project>

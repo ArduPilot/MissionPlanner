@@ -1,4 +1,9 @@
 ﻿namespace ClipperLib
 {
-    internal enum JoinType { jtSquare, jtRound, jtMiter };
+    internal enum JoinType
+    {
+        jtSquare,
+        jtRound,
+        jtMiter
+    };
 }

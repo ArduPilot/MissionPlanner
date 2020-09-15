@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo><GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
@@ -11,24 +11,55 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="OpenTK.GLControl" Version="3.1.0" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
-    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="1.68.1.1" />
+    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="1.68.1.1" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
     <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
     <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj" />
-    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' != 'netstandard2.0'">
       <Aliases>Drawing</Aliases>
     </ProjectReference>
-    <ProjectReference Include="..\SvgNet\SvgNet.csproj" />
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <ProjectReference Include="..\SvgNet\SvgNet.csproj" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="OpenTK">
-      <HintPath>..\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="OpenTK-1.0" Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <HintPath>..\OpenTK-1.0.dll</HintPath>
+    </Reference>    
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="HUDT.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>HUDT.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="HUDT.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MissionPlanner.Controls</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MissionPlanner.Controls.Properties</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

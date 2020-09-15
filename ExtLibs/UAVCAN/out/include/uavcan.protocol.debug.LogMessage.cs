@@ -29,8 +29,8 @@ public const int UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_DT_ID = 16383;
 
 public class uavcan_protocol_debug_LogMessage: IUAVCANSerialize {
     public uavcan_protocol_debug_LogLevel level = new uavcan_protocol_debug_LogLevel();
-    public uint8_t source_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=31)] public uint8_t[] source = Enumerable.Repeat(new uint8_t(),31).ToArray();
-    public uint8_t text_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=90)] public uint8_t[] text = Enumerable.Repeat(new uint8_t(),90).ToArray();
+    public uint8_t source_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=31)] public uint8_t[] source = Enumerable.Range(1, 31).Select(i => new uint8_t()).ToArray();
+    public uint8_t text_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=90)] public uint8_t[] text = Enumerable.Range(1, 90).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

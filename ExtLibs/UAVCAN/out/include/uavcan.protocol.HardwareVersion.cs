@@ -29,7 +29,7 @@ public class uavcan_protocol_HardwareVersion: IUAVCANSerialize {
     public uint8_t major = new uint8_t();
     public uint8_t minor = new uint8_t();
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public uint8_t[] unique_id = new uint8_t[16];
-    public uint8_t certificate_of_authenticity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=255)] public uint8_t[] certificate_of_authenticity = Enumerable.Repeat(new uint8_t(),255).ToArray();
+    public uint8_t certificate_of_authenticity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=255)] public uint8_t[] certificate_of_authenticity = Enumerable.Range(1, 255).Select(i => new uint8_t()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {

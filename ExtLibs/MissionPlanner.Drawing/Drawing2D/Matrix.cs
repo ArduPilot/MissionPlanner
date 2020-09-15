@@ -33,295 +33,699 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
+using SkiaSharp;
 
 namespace System.Drawing.Drawing2D
 {
     public sealed class Matrix : MarshalByRefObject, IDisposable
     {
-        internal IntPtr nativeMatrix;
-
-        // constructors
-        internal Matrix(IntPtr ptr)
+        public void Dispose()
         {
-            nativeMatrix = ptr;
+        }
+
+        [Flags]
+        internal enum MatrixTypes
+        {
+            TRANSFORM_IS_IDENTITY = 0x0,
+            TRANSFORM_IS_TRANSLATION = 0x1,
+            TRANSFORM_IS_SCALING = 0x2,
+            TRANSFORM_IS_UNKNOWN = 0x4
         }
 
         public Matrix()
         {
-            
+            Reset();
         }
 
-        public Matrix(Rectangle rect, Point[] plgpts)
+        public Matrix(double m11, double m12, double m21, double m22, double offsetX, double offsetY)
         {
-            if (plgpts == null)
-                throw new ArgumentNullException("plgpts");
-            if (plgpts.Length != 3)
-                throw new ArgumentException("plgpts");
-            throw new NotImplementedException();
+            _m11 = m11;
+            _m12 = m12;
+            _m21 = m21;
+            _m22 = m22;
+            _offsetX = offsetX;
+            _offsetY = offsetY;
+            _type = MatrixTypes.TRANSFORM_IS_UNKNOWN;
+            //_padding = 0;
+            DeriveMatrixType();
         }
 
-        public Matrix(RectangleF rect, PointF[] plgpts)
+        private void DeriveMatrixType()
         {
-            if (plgpts == null)
-                throw new ArgumentNullException("plgpts");
-            if (plgpts.Length != 3)
-                throw new ArgumentException("plgpts");
-
-            throw new NotImplementedException();
-        }
-
-        public Matrix(float m11, float m12, float m21, float m22, float dx, float dy)
-        {
-            Data = new double[] {m11, m12, m21, m22, dx, dy};
-        }
-
-        // properties
-        public float[] Elements
-        {
-            get
+            _type = MatrixTypes.TRANSFORM_IS_IDENTITY;
+            if (_m21 != 0.0 || _m12 != 0.0)
             {
-                float[] retval = new float [6];
-                IntPtr tmp = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(float)) * 6);
-                try
-                {
-                    throw new NotImplementedException();
-                    Marshal.Copy(tmp, retval, 0, 6);
-                }
-                finally
-                {
-                    Marshal.FreeHGlobal(tmp);
-                }
+                _type = MatrixTypes.TRANSFORM_IS_UNKNOWN;
+                return;
+            }
 
-                return retval;
+            if (_m11 != 1.0 || _m22 != 1.0)
+            {
+                _type = MatrixTypes.TRANSFORM_IS_SCALING;
+            }
+
+            if (_offsetX != 0.0 || _offsetY != 0.0)
+            {
+                _type |= MatrixTypes.TRANSFORM_IS_TRANSLATION;
+            }
+
+            if ((_type & (MatrixTypes.TRANSFORM_IS_TRANSLATION | MatrixTypes.TRANSFORM_IS_SCALING)) == 0)
+            {
+                _type = MatrixTypes.TRANSFORM_IS_IDENTITY;
             }
         }
+
+        public void RotateAt(double angle, PointF center)
+        {
+            RotateAt(angle, center.X, center.Y);
+        }
+
+        public void RotateAt(double angle, double centerX, double centerY)
+        {
+            angle %= 360.0;
+            var middle = this * CreateRotationRadians(angle * (Math.PI / 180.0), centerX, centerY);
+            this.SetMatrix(middle.M11, middle.M12, middle.M21, middle.M22, middle.OffsetX, middle.OffsetY,
+                middle._type);
+        }
+
+        public void RotateAtPrepend(double angle, double centerX, double centerY)
+        {
+            angle %= 360.0;
+            var middle = CreateRotationRadians(angle * (Math.PI / 180.0), centerX, centerY) * this;
+            this.SetMatrix(middle.M11, middle.M12, middle.M21, middle.M22, middle.OffsetX, middle.OffsetY,
+                middle._type);
+        }
+
+        public void RotatePrepend(double angle)
+        {
+            angle %= 360.0;
+            var middle = CreateRotationRadians(angle * (Math.PI / 180.0)) * this;
+            this.SetMatrix(middle.M11, middle.M12, middle.M21, middle.M22, middle.OffsetX, middle.OffsetY,
+                middle._type);
+        }
+
+        internal static Matrix CreateRotationRadians(double angle)
+        {
+            return CreateRotationRadians(angle, 0.0, 0.0);
+        }
+
+
+        internal static Matrix CreateRotationRadians(double angle, double centerX, double centerY)
+        {
+            Matrix result = new Matrix();
+            double num = Math.Sin(angle);
+            double num2 = Math.Cos(angle);
+            double offsetX = centerX * (1.0 - num2) + centerY * num;
+            double offsetY = centerY * (1.0 - num2) - centerX * num;
+            result.SetMatrix(num2, num, 0.0 - num, num2, offsetX, offsetY, MatrixTypes.TRANSFORM_IS_UNKNOWN);
+            return result;
+        }
+
+        internal static Matrix CreateTranslation(double offsetX, double offsetY)
+        {
+            Matrix result = new Matrix();
+            result.SetMatrix(1.0, 0.0, 0.0, 1.0, offsetX, offsetY, MatrixTypes.TRANSFORM_IS_TRANSLATION);
+            return result;
+        }
+
+        public void TranslatePrepend(double offsetX, double offsetY)
+        {
+            var middle = CreateTranslation(offsetX, offsetY) * this;
+            this.SetMatrix(middle.M11, middle.M12, middle.M21, middle.M22, middle.OffsetX, middle.OffsetY,
+                middle._type);
+        }
+
+        public void TransformPoints(Point[] points)
+        {
+            if (points != null)
+            {
+                for (int i = 0; i < points.Length; i++)
+                {
+                    var output = points[i];
+                    var X = (double) output.X;
+                    var Y = (double) output.Y;
+                    MultiplyPoint(ref X, ref Y);
+                    output.X = (int) X;
+                    output.Y = (int) Y;
+                }
+            }
+        }
+
+        public void TransformPoints(PointF[] points)
+        {
+            if (points != null)
+            {
+                for (int i = 0; i < points.Length; i++)
+                {
+                    var output = points[i];
+                    var X = (double) output.X;
+                    var Y = (double) output.Y;
+                    MultiplyPoint(ref X, ref Y);
+                    output.X = (float) X;
+                    output.Y = (float) Y;
+                }
+            }
+        }
+
+        public void TransformPoints(List<PointF> points)
+        {
+            if (points != null)
+            {
+                for (int i = 0; i < points.Count; i++)
+                {
+                    var output = points[i];
+                    var X = (double) output.X;
+                    var Y = (double) output.Y;
+                    MultiplyPoint(ref X, ref Y);
+                    output.X = (float) X;
+                    output.Y = (float) Y;
+                }
+            }
+        }
+
+        internal void MultiplyPoint(ref double x, ref double y)
+        {
+            switch (_type)
+            {
+                case MatrixTypes.TRANSFORM_IS_IDENTITY:
+                    break;
+                case MatrixTypes.TRANSFORM_IS_TRANSLATION:
+                    x += _offsetX;
+                    y += _offsetY;
+                    break;
+                case MatrixTypes.TRANSFORM_IS_SCALING:
+                    x *= _m11;
+                    y *= _m22;
+                    break;
+                case MatrixTypes.TRANSFORM_IS_TRANSLATION | MatrixTypes.TRANSFORM_IS_SCALING:
+                    x *= _m11;
+                    x += _offsetX;
+                    y *= _m22;
+                    y += _offsetY;
+                    break;
+                default:
+                {
+                    double num = y * _m21 + _offsetX;
+                    double num2 = x * _m12 + _offsetY;
+                    x *= _m11;
+                    x += num;
+                    y *= _m22;
+                    y += num2;
+                    break;
+                }
+            }
+        }
+
+        public static Matrix operator *(Matrix trans1, Matrix trans2)
+        {
+            MatrixUtil.MultiplyMatrix(ref trans1, ref trans2);
+            return trans1;
+        }
+
+        public static bool operator !=(Matrix matrix1, Matrix matrix2)
+        {
+            return !(matrix1 == matrix2);
+        }
+
+        private bool IsDistinguishedIdentity => _type == MatrixTypes.TRANSFORM_IS_IDENTITY;
 
         public bool IsIdentity
         {
             get
             {
-                bool retval;
-                throw new NotImplementedException();
-                return retval;
+                if (_type != 0)
+                {
+                    if (_m11 == 1.0 && _m12 == 0.0 && _m21 == 0.0 && _m22 == 1.0 && _offsetX == 0.0)
+                    {
+                        return _offsetY == 0.0;
+                    }
+
+                    return false;
+                }
+
+                return true;
             }
         }
 
-        public bool IsInvertible
+        public static bool operator ==(Matrix matrix1, Matrix matrix2)
+        {
+            // both are null
+            if (matrix1 is null && matrix2 is null)
+                return true;
+
+            // only one is null
+            if (matrix1 is null || matrix2 is null)
+                return false;
+
+            if (matrix1.IsDistinguishedIdentity || matrix2.IsDistinguishedIdentity)
+            {
+                return matrix1.IsIdentity == matrix2.IsIdentity;
+            }
+
+            if (matrix1.M11 == matrix2.M11 && matrix1.M12 == matrix2.M12 && matrix1.M21 == matrix2.M21 &&
+                matrix1.M22 == matrix2.M22 && matrix1.OffsetX == matrix2.OffsetX)
+            {
+                return matrix1.OffsetY == matrix2.OffsetY;
+            }
+
+            return false;
+        }
+
+        internal static class MatrixUtil
+        {
+
+            internal static void MultiplyMatrix(ref Matrix matrix1, ref Matrix matrix2)
+            {
+                MatrixTypes type = matrix1._type;
+                MatrixTypes type2 = matrix2._type;
+                if (type2 == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    return;
+                }
+
+                if (type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    matrix1 = matrix2;
+                    return;
+                }
+
+                if (type2 == MatrixTypes.TRANSFORM_IS_TRANSLATION)
+                {
+                    matrix1._offsetX += matrix2._offsetX;
+                    matrix1._offsetY += matrix2._offsetY;
+                    if (type != MatrixTypes.TRANSFORM_IS_UNKNOWN)
+                    {
+                        matrix1._type |= MatrixTypes.TRANSFORM_IS_TRANSLATION;
+                    }
+
+                    return;
+                }
+
+                if (type == MatrixTypes.TRANSFORM_IS_TRANSLATION)
+                {
+                    double offsetX = matrix1._offsetX;
+                    double offsetY = matrix1._offsetY;
+                    matrix1 = matrix2;
+                    matrix1._offsetX = offsetX * matrix2._m11 + offsetY * matrix2._m21 + matrix2._offsetX;
+                    matrix1._offsetY = offsetX * matrix2._m12 + offsetY * matrix2._m22 + matrix2._offsetY;
+                    if (type2 == MatrixTypes.TRANSFORM_IS_UNKNOWN)
+                    {
+                        matrix1._type = MatrixTypes.TRANSFORM_IS_UNKNOWN;
+                    }
+                    else
+                    {
+                        matrix1._type = (MatrixTypes.TRANSFORM_IS_TRANSLATION | MatrixTypes.TRANSFORM_IS_SCALING);
+                    }
+
+                    return;
+                }
+
+                switch (((int) type << 4) | (int) type2)
+                {
+                    case 34:
+                        matrix1._m11 *= matrix2._m11;
+                        matrix1._m22 *= matrix2._m22;
+                        break;
+                    case 35:
+                        matrix1._m11 *= matrix2._m11;
+                        matrix1._m22 *= matrix2._m22;
+                        matrix1._offsetX = matrix2._offsetX;
+                        matrix1._offsetY = matrix2._offsetY;
+                        matrix1._type = (MatrixTypes.TRANSFORM_IS_TRANSLATION | MatrixTypes.TRANSFORM_IS_SCALING);
+                        break;
+                    case 50:
+                        matrix1._m11 *= matrix2._m11;
+                        matrix1._m22 *= matrix2._m22;
+                        matrix1._offsetX *= matrix2._m11;
+                        matrix1._offsetY *= matrix2._m22;
+                        break;
+                    case 51:
+                        matrix1._m11 *= matrix2._m11;
+                        matrix1._m22 *= matrix2._m22;
+                        matrix1._offsetX = matrix2._m11 * matrix1._offsetX + matrix2._offsetX;
+                        matrix1._offsetY = matrix2._m22 * matrix1._offsetY + matrix2._offsetY;
+                        break;
+                    case 36:
+                    case 52:
+                    case 66:
+                    case 67:
+                    case 68:
+                        matrix1 = new Matrix(matrix1._m11 * matrix2._m11 + matrix1._m12 * matrix2._m21,
+                            matrix1._m11 * matrix2._m12 + matrix1._m12 * matrix2._m22,
+                            matrix1._m21 * matrix2._m11 + matrix1._m22 * matrix2._m21,
+                            matrix1._m21 * matrix2._m12 + matrix1._m22 * matrix2._m22,
+                            matrix1._offsetX * matrix2._m11 + matrix1._offsetY * matrix2._m21 + matrix2._offsetX,
+                            matrix1._offsetX * matrix2._m12 + matrix1._offsetY * matrix2._m22 + matrix2._offsetY);
+                        break;
+                }
+            }
+
+            internal static void PrependOffset(ref Matrix matrix, double offsetX, double offsetY)
+            {
+                if (matrix._type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    matrix = new Matrix(1.0, 0.0, 0.0, 1.0, offsetX, offsetY);
+                    matrix._type = MatrixTypes.TRANSFORM_IS_TRANSLATION;
+                    return;
+                }
+
+                matrix._offsetX += matrix._m11 * offsetX + matrix._m21 * offsetY;
+                matrix._offsetY += matrix._m12 * offsetX + matrix._m22 * offsetY;
+                if (matrix._type != MatrixTypes.TRANSFORM_IS_UNKNOWN)
+                {
+                    matrix._type |= MatrixTypes.TRANSFORM_IS_TRANSLATION;
+                }
+            }
+        }
+
+
+
+        public void Translate(double offsetX, double offsetY)
+        {
+            if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+            {
+                SetMatrix(1.0, 0.0, 0.0, 1.0, offsetX, offsetY, MatrixTypes.TRANSFORM_IS_TRANSLATION);
+            }
+            else if (_type == MatrixTypes.TRANSFORM_IS_UNKNOWN)
+            {
+                _offsetX += offsetX;
+                _offsetY += offsetY;
+            }
+            else
+            {
+                _offsetX += offsetX;
+                _offsetY += offsetY;
+                _type |= MatrixTypes.TRANSFORM_IS_TRANSLATION;
+            }
+        }
+
+        private void SetMatrix(double m11, double m12, double m21, double m22, double offsetX, double offsetY,
+            MatrixTypes type)
+        {
+            _m11 = m11;
+            _m12 = m12;
+            _m21 = m21;
+            _m22 = m22;
+            _offsetX = offsetX;
+            _offsetY = offsetY;
+            _type = type;
+        }
+
+        internal double _m11;
+
+        internal double _m12;
+
+        internal double _m21;
+
+        internal double _m22;
+
+        internal double _offsetX;
+
+        internal double _offsetY;
+
+        internal MatrixTypes _type;
+
+        /// <summary>Gets or sets the value of the first row and first column of this <see cref="T:System.Windows.Media.Matrix" /> structure. </summary>
+        /// <returns>The value of the first row and first column of this <see cref="T:System.Windows.Media.Matrix" />. The default value is 1.</returns>
+        public float M11
         {
             get
             {
-                bool retval;
-                throw new NotImplementedException();
-                return retval;
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    return 1.0f;
+                }
+
+                return (float) _m11;
+            }
+            set
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    SetMatrix(value, 0.0, 0.0, 1.0, 0.0, 0.0, MatrixTypes.TRANSFORM_IS_SCALING);
+                    return;
+                }
+
+                _m11 = value;
+                if (_type != MatrixTypes.TRANSFORM_IS_UNKNOWN)
+                {
+                    _type |= MatrixTypes.TRANSFORM_IS_SCALING;
+                }
             }
         }
 
+        /// <summary> Gets or sets the value of the first row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure. </summary>
+        /// <returns>The value of the first row and second column of this <see cref="T:System.Windows.Media.Matrix" />. The default value is 0.</returns>
+        public float M12
+        {
+            get
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    return 0.0f;
+                }
+
+                return (float) _m12;
+            }
+            set
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    SetMatrix(1.0, value, 0.0, 1.0, 0.0, 0.0, MatrixTypes.TRANSFORM_IS_UNKNOWN);
+                    return;
+                }
+
+                _m12 = value;
+                _type = MatrixTypes.TRANSFORM_IS_UNKNOWN;
+            }
+        }
+
+        /// <summary> Gets or sets the value of the second row and first column of this <see cref="T:System.Windows.Media.Matrix" /> structure.</summary>
+        /// <returns>The value of the second row and first column of this <see cref="T:System.Windows.Media.Matrix" />. The default value is 0.</returns>
+        public float M21
+        {
+            get
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    return 0.0f;
+                }
+
+                return (float) _m21;
+            }
+            set
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    SetMatrix(1.0, 0.0, value, 1.0, 0.0, 0.0, MatrixTypes.TRANSFORM_IS_UNKNOWN);
+                    return;
+                }
+
+                _m21 = value;
+                _type = MatrixTypes.TRANSFORM_IS_UNKNOWN;
+            }
+        }
+
+        /// <summary>Gets or sets the value of the second row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure. </summary>
+        /// <returns>The value of the second row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure. The default value is 1.</returns>
+        public float M22
+        {
+            get
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    return 1.0f;
+                }
+
+                return (float) _m22;
+            }
+            set
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    SetMatrix(1.0, 0.0, 0.0, value, 0.0, 0.0, MatrixTypes.TRANSFORM_IS_SCALING);
+                    return;
+                }
+
+                _m22 = value;
+                if (_type != MatrixTypes.TRANSFORM_IS_UNKNOWN)
+                {
+                    _type |= MatrixTypes.TRANSFORM_IS_SCALING;
+                }
+            }
+        }
+
+        /// <summary>Gets or sets the value of the third row and first column of this <see cref="T:System.Windows.Media.Matrix" /> structure.  </summary>
+        /// <returns>The value of the third row and first column of this <see cref="T:System.Windows.Media.Matrix" /> structure. The default value is 0.</returns>
         public float OffsetX
         {
-            get { return this.Elements[4]; }
+            get
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    return 0.0f;
+                }
+
+                return (float) _offsetX;
+            }
+            set
+            {
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    SetMatrix(1.0, 0.0, 0.0, 1.0, value, 0.0, MatrixTypes.TRANSFORM_IS_TRANSLATION);
+                    return;
+                }
+
+                _offsetX = value;
+                if (_type != MatrixTypes.TRANSFORM_IS_UNKNOWN)
+                {
+                    _type |= MatrixTypes.TRANSFORM_IS_TRANSLATION;
+                }
+            }
         }
 
+        /// <summary>Gets or sets the value of the third row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure. </summary>
+        /// <returns>The value of the third row and second column of this <see cref="T:System.Windows.Media.Matrix" /> structure. The default value is 0.</returns>
         public float OffsetY
         {
-            get { return this.Elements[5]; }
-        }
-
-        public Matrix Clone()
-        {
-            IntPtr retval;
-            throw new NotImplementedException();
-            return new Matrix(retval);
-        }
-
-
-        public void Dispose()
-        {
-            if (nativeMatrix != IntPtr.Zero)
+            get
             {
-                throw new NotImplementedException();
-                nativeMatrix = IntPtr.Zero;
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    return 0.0f;
+                }
+
+                return (float) _offsetY;
             }
-
-            GC.SuppressFinalize(this);
-        }
-
-        public override bool Equals(object obj)
-        {
-            Matrix m = obj as Matrix;
-
-            if (m != null)
+            set
             {
-                bool retval;
-                throw new NotImplementedException();
-                return retval;
+                if (_type == MatrixTypes.TRANSFORM_IS_IDENTITY)
+                {
+                    SetMatrix(1.0, 0.0, 0.0, 1.0, 0.0, value, MatrixTypes.TRANSFORM_IS_TRANSLATION);
+                    return;
+                }
 
+                _offsetY = value;
+                if (_type != MatrixTypes.TRANSFORM_IS_UNKNOWN)
+                {
+                    _type |= MatrixTypes.TRANSFORM_IS_TRANSLATION;
+                }
             }
-            else
-                return false;
         }
 
-        ~Matrix()
+        private SKMatrix matrix;
+
+        public float[] Data
         {
-            Dispose();
+            get { return matrix.Values; }
+            set
+            {
+                matrix = new SKMatrix() {Values = value};
+                SetMatrix(matrix.ScaleX, matrix.SkewX,  matrix.SkewY,matrix.ScaleY, matrix.TransX, matrix.TransY,
+                    MatrixTypes.TRANSFORM_IS_UNKNOWN);
+            }
         }
 
-        public override int GetHashCode()
+        public double Determinant
         {
-            return base.GetHashCode();
+            get
+            {
+                switch (_type)
+                {
+                    case MatrixTypes.TRANSFORM_IS_IDENTITY:
+                    case MatrixTypes.TRANSFORM_IS_TRANSLATION:
+                        return 1.0;
+                    case MatrixTypes.TRANSFORM_IS_SCALING:
+                    case MatrixTypes.TRANSFORM_IS_TRANSLATION | MatrixTypes.TRANSFORM_IS_SCALING:
+                        return _m11 * _m22;
+                    default:
+                        return _m11 * _m22 - _m12 * _m21;
+                }
+            }
+        }
+
+        public static bool IsZero(double value)
+        {
+            return Math.Abs(value) < 2.2204460492503131E-15;
         }
 
         public void Invert()
         {
-            throw new NotImplementedException();
-        }
+            double determinant = Determinant;
+            if (IsZero(determinant))
+            {
+                throw new InvalidOperationException("Transform_NotInvertible");
+            }
 
-        public void Multiply(Matrix matrix)
-        {
-            Multiply(matrix, MatrixOrder.Prepend);
-        }
-
-        public void Multiply(Matrix matrix, MatrixOrder order)
-        {
-            if (matrix == null)
-                throw new ArgumentNullException("matrix");
-
-            throw new NotImplementedException();
+            switch (_type)
+            {
+                case MatrixTypes.TRANSFORM_IS_IDENTITY:
+                    break;
+                case MatrixTypes.TRANSFORM_IS_SCALING:
+                    _m11 = 1.0 / _m11;
+                    _m22 = 1.0 / _m22;
+                    break;
+                case MatrixTypes.TRANSFORM_IS_TRANSLATION:
+                    _offsetX = 0.0 - _offsetX;
+                    _offsetY = 0.0 - _offsetY;
+                    break;
+                case MatrixTypes.TRANSFORM_IS_TRANSLATION | MatrixTypes.TRANSFORM_IS_SCALING:
+                    _m11 = 1.0 / _m11;
+                    _m22 = 1.0 / _m22;
+                    _offsetX = (0.0 - _offsetX) * _m11;
+                    _offsetY = (0.0 - _offsetY) * _m22;
+                    break;
+                default:
+                {
+                    double num = 1.0 / determinant;
+                    SetMatrix(_m22 * num, (0.0 - _m12) * num, (0.0 - _m21) * num, _m11 * num,
+                        (_m21 * _offsetY - _offsetX * _m22) * num, (_offsetX * _m12 - _m11 * _offsetY) * num,
+                        MatrixTypes.TRANSFORM_IS_UNKNOWN);
+                    break;
+                }
+            }
         }
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            SetMatrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0, MatrixTypes.TRANSFORM_IS_IDENTITY);
         }
 
-        public void Rotate(float angle)
+        public void Scale(double scaleX, double scaleY)
         {
-            Rotate(angle, MatrixOrder.Prepend);
+            var middle = this * CreateScaling(scaleX, scaleY);
+            this.SetMatrix(middle.M11, middle.M12, middle.M21, middle.M22, middle.OffsetX, middle.OffsetY,
+                middle._type);
         }
 
-        public void Rotate(float angle, MatrixOrder order)
+        internal static Matrix CreateScaling(double scaleX, double scaleY)
         {
-            throw new NotImplementedException();
+            Matrix result = new Matrix();
+            result.SetMatrix(scaleX, 0.0, 0.0, scaleY, 0.0, 0.0, MatrixTypes.TRANSFORM_IS_SCALING);
+            return result;
         }
 
-        public void RotateAt(float angle, PointF point)
+
+        public void Scale(float scale, float f, MatrixOrder append)
         {
-            RotateAt(angle, point, MatrixOrder.Prepend);
+            Scale(scale, f);
         }
 
-        public void RotateAt(float angle, PointF point, MatrixOrder order)
+        public void Rotate(float elementRotation, MatrixOrder append)
         {
-            if ((order < MatrixOrder.Prepend) || (order > MatrixOrder.Append))
-                throw new ArgumentException("order");
-
-            angle *= (float) (Math.PI / 180.0); // degrees to radians
-            float cos = (float) Math.Cos(angle);
-            float sin = (float) Math.Sin(angle);
-            float e4 = -point.X * cos + point.Y * sin + point.X;
-            float e5 = -point.X * sin - point.Y * cos + point.Y;
-            float[] m = this.Elements;
-
-            throw new NotImplementedException();
-            /*
-            Status status;
-
-            if (order == MatrixOrder.Prepend)
-                status = GDIPlus.GdipSetMatrixElements(nativeMatrix,
-                    cos * m[0] + sin * m[2],
-                    cos * m[1] + sin * m[3],
-                    -sin * m[0] + cos * m[2],
-                    -sin * m[1] + cos * m[3],
-                    e4 * m[0] + e5 * m[2] + m[4],
-                    e4 * m[1] + e5 * m[3] + m[5]);
-            else
-                status = GDIPlus.GdipSetMatrixElements(nativeMatrix,
-                    m[0] * cos + m[1] * -sin,
-                    m[0] * sin + m[1] * cos,
-                    m[2] * cos + m[3] * -sin,
-                    m[2] * sin + m[3] * cos,
-                    m[4] * cos + m[5] * -sin + e4,
-                    m[4] * sin + m[5] * cos + e5);
-            GDIPlus.CheckStatus(status);
-            */
+            RotateAt(elementRotation, 0, 0);
         }
 
-        public void Scale(float scaleX, float scaleY)
+        public void Rotate(float elementRotation)
         {
-            Scale(scaleX, scaleY, MatrixOrder.Prepend);
+            RotateAt(elementRotation, 0, 0);
         }
 
-        public void Scale(float scaleX, float scaleY, MatrixOrder order)
+        public void Translate(float elementTranslationX, float elementTranslationY, MatrixOrder append)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Shear(float shearX, float shearY)
-        {
-            Shear(shearX, shearY, MatrixOrder.Prepend);
-        }
-
-        public void Shear(float shearX, float shearY, MatrixOrder order)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TransformPoints(Point[] pts)
-        {
-            if (pts == null)
-                throw new ArgumentNullException("pts");
-
-            throw new NotImplementedException();
-        }
-
-        public void TransformPoints(PointF[] pts)
-        {
-            if (pts == null)
-                throw new ArgumentNullException("pts");
-            throw new NotImplementedException();
-        }
-
-        public void TransformVectors(Point[] pts)
-        {
-            if (pts == null)
-                throw new ArgumentNullException("pts");
-
-            throw new NotImplementedException();
-        }
-
-        public void TransformVectors(PointF[] pts)
-        {
-            if (pts == null)
-                throw new ArgumentNullException("pts");
-
-            throw new NotImplementedException();
-        }
-
-        public void Translate(float offsetX, float offsetY)
-        {
-            Translate(offsetX, offsetY, MatrixOrder.Prepend);
-        }
-
-        public void Translate(float offsetX, float offsetY, MatrixOrder order)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void VectorTransformPoints(Point[] pts)
-        {
-            TransformVectors(pts);
-        }
-
-        internal IntPtr NativeObject
-        {
-            get { return nativeMatrix; }
-            set { nativeMatrix = value; }
-        }
-
-        public double[] Data { get; set; }
-
-        internal void TransformPoints(List<PointF> points)
-        {
-            throw new NotImplementedException();
+            Translate(elementTranslationX, elementTranslationY);
         }
     }
 }

@@ -75,6 +75,7 @@ static void _decode_uavcan_protocol_debug_LogMessage(CanardRxTransfer transfer,r
 
     canardDecodeScalar(transfer, bit_ofs, 5, false, ref msg.source_len);
     bit_ofs += 5;
+    msg.source = new uint8_t[msg.source_len];
     for (int i=0; i < msg.source_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.source[i]);
         bit_ofs += 8;
@@ -87,6 +88,7 @@ static void _decode_uavcan_protocol_debug_LogMessage(CanardRxTransfer transfer,r
         msg.text_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
     }
 
+    msg.text = new uint8_t[msg.text_len];
     for (int i=0; i < msg.text_len; i++) {
         canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.text[i]);
         bit_ofs += 8;

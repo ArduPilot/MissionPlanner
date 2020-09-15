@@ -28,7 +28,7 @@ public const ulong UAVCAN_EQUIPMENT_GNSS_ECEFPOSITIONVELOCITY_DT_SIG = 0x24A5DA4
 public class uavcan_equipment_gnss_ECEFPositionVelocity: IUAVCANSerialize {
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] velocity_xyz = new Single[3];
     [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public int64_t[] position_xyz_mm = new int64_t[3];
-    public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] covariance = Enumerable.Repeat(new Single(),36).ToArray();
+    public uint8_t covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)] public Single[] covariance = Enumerable.Range(1, 36).Select(i => new Single()).ToArray();
 
 public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
 {
