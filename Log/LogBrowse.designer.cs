@@ -357,7 +357,7 @@ namespace MissionPlanner.Log
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
-            this.treeView1.MouseMove += new MouseEventHandler(this.treeView1_MouseMove);
+            this.treeView1.NodeMouseHover += new TreeNodeMouseHoverEventHandler(this.treeView1_TreeNodeMouseHover);
             // 
             // splitContainerAllTree
             // 
