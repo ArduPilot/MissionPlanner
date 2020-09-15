@@ -129,8 +129,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             {
                 // set the default items
-                var source = ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT", MainV2.comPort.MAV.cs.firmware.ToString());
-                Orientation.DataSource = source.Select(a => a.Value).ToList();
+                var source = ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT",
+                        MainV2.comPort.MAV.cs.firmware.ToString())
+                    .Select(a => new KeyValuePair<string, string>(a.Key.ToString(), a.Value)).ToList();
+                Orientation.DataSource = source;
+                Orientation.DisplayMember = "Value";
+                Orientation.ValueMember = "Key";
             }
 
             if (anymissing)
