@@ -19,8 +19,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+#if !LIB
 using JetBrains.Profiler.Api;
 using JetBrains.Profiler.SelfApi;
+#endif
 using Microsoft.Diagnostics.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -89,6 +91,7 @@ namespace MissionPlanner
 
         public static async void TraceMe(bool start = true)
         {
+#if !LIB
             if (start)
             {
                 await DotTrace.EnsurePrerequisiteAsync();
@@ -103,6 +106,7 @@ namespace MissionPlanner
                 DotTrace.StopCollectingData();
                 DotTrace.SaveData();
             }
+#endif
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
