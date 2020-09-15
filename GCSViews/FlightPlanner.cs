@@ -250,7 +250,7 @@ namespace MissionPlanner.GCSViews
             Frame.DisplayMember = "Value";
             Frame.ValueMember = "Key";
             Frame.DataSource = EnumTranslator.EnumToList<altmode>();
-
+ 
             updateMapType(null, null);
 
             // hide the map to prevent redraws when its loaded

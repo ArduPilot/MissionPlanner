@@ -1,4 +1,98 @@
-﻿*Mission Planner 1.3.73 - 13-08-2020
+﻿*Mission Planner 1.3.74 - 15-09-2020
+ConfigHWCompass2: fix orient display
+LogBrowse: tooltips for msgs
+Program: fix LIB compile
+Xamarin: add posible hardwareAccelerated
+Drawing: use drawbitmap
+BackStageView: handle activate exception
+MissionPlanner: add self-profile options
+ParameterMetaDataRepositoryAPMpdef: update to seperate files (not used)
+DisplayView: prevent exception
+CodeGen: fix exception
+ParameterMetaDataParser: log bad entry
+LogMetaData: add xz support
+mavcmd: add do_winch
+Plugins: add example9 - hud items
+ConfigOSD: osd params
+Xamarin: refresh rate change
+JoystickLinux: add base class
+MavFTPUI: fix crc error #2464
+Drawing: text fix
+CommsUdpSerial: fix posible exception
+SerialOutputNMEA: change default port to tcp
+ImageVisualizer
+LogBrowse: add LogMessagesMetaData
+Xamarin: remove launcher and add I18n West
+mavextra: add mag_heading_df
+Xamarin: tweak
+FlightData: add tablelayout to action tab
+PluginManager: Update PluginManager to handle runtime compiled c# plugins
+Xamarin: cliprect
+Drawing: LinearGradientMode and AddNewLinesToText
+HUD: refresh - check enabled and dispose state
+Settings: GetRunningDirectory use alternate if blank
+Drawing: Brush Fixs
+WPOverlay: fix exception on no home and invalid first wp
+GMapControl: clear background
+Lib: gdal mod
+Lib: remove direct gdal refs
+Xamarin: lib
+Xamarin: remove phone perm
+Drawing: fix text draw
+GDAL: fix bad hint paths
+Joystick: add uint16_max
+Mavlink: add Obsolete
+ConfigSerialInjectGPS: fix exception
+MAVLinkInterface: prevent io timeout on mirrorstream
+ConfigUAVCAN: improve redraw performance
+UAVCANInspector: add bps
+Mavlink: update upstream
+UAVCAN: add bps
+UAVCANInspector: support graphing arrays
+UAVCAN: fix encode bug/ui exception
+fix sub-component statustext
+Fix this comparing the of the "current" component version to 0.4 instead.
+UAVCAN: init to array len on decode
+UAVCAN: ui update
+CurrentState: warn about overcurrent
+ConfigSerialInject: ensure Restart works on F9P
+UAVCan: add PrintDebugToConsole
+Solution: more build order changes
+Fix OpenTK-1.0 ref
+Solution: fix build order
+UAVCAN: fix possible double allocation
+Drawing: fix image scale
+Controls: SKControl
+Program: libSkiaSharp mod for wine
+UAVCan: file write timeout and Stop exception fix
+Drawing: fix exception on failed load
+UAVCAN: fix param conversion
+plugins: disable modecahnge by default
+OSDConfig: fix resource
+ParameterMetaDataBackup: update
+UAVCAN: update tweaks
+CI Submodules
+UAVCAN: improve IO
+MAVLinkInterface: print high prio msgs for components to hud
+Controls: compile under net461;netcoreapp3.1;netstandard2.0
+ParameterMetaDataParser: prevent null exception on bad source file
+FlightPlanner: use internal mavcmd as backup
+UAVCAN: fix array bug, setparam bool, log everything to file and filter out Z/z/\a
+GMapControl: skiadraw
+Resource: update names
+DFItem: null check input
+MAVLinkInterface: add set mode by commandlong - backwards compatable
+Controls: HUD/resource
+ThemeManager: ignore directory errors
+ConfigSerialInjectGPS: fallback port type
+SvgNet: fix matrix
+GridUI: DO_SET_CAM_TRIGG_DIST only within polygon.
+FlightData: map - used planned home if real home is 0 (no gps)
+plugin : example8 fix cross thread call
+FlightData: fix distancebar with takeoff as first cmd
+Generator: fix scope issue
+
+*Mission Planner 1.3.73 - 13-08-2020
 UAVCAN update, bps stats, performance
 Drawing: change name
 MAVLinkInterface: add banner request on open
