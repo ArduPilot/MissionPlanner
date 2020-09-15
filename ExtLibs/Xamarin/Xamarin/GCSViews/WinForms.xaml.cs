@@ -188,6 +188,8 @@ namespace Xamarin.GCSViews
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+                Application.Idle += (sender, args) => Thread.Sleep(0);
+
                 MissionPlanner.Program.Main(new string[0]);
              
             }).Start();

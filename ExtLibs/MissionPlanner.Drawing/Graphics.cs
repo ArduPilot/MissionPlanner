@@ -108,7 +108,17 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         }
 
         public RectangleF VisibleClipBounds { get; }
-        private SKCanvas _image => _surface.Canvas; //_rec.RecordingCanvas;//_surface.Canvas;
+
+        private SKCanvas _overridecanvas = null;
+        public SKCanvas _image
+        {
+            get
+            {
+                if (_overridecanvas != null)
+                    return _overridecanvas;
+                return _surface.Canvas;
+            }
+        }
 
         public SKSurface Surface
         {
@@ -1611,6 +1621,13 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void CopyFromScreen(int i, int i1, int i2, int i3, Size size)
         {
+        }
+
+        public static Graphics FromCanvas(SKCanvas beginRecording)
+        {
+            var nullsurface = SKSurface.CreateNull(1,1);
+            return new Graphics(nullsurface) {_overridecanvas = beginRecording};
+
         }
     } 
 }

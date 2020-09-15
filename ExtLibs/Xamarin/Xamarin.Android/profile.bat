@@ -12,4 +12,6 @@ pause
 adb root
 adb pull /data/data/com.michaeloborne.MissionPlanner/files/.__override__
 
+adb shell setprop debug.mono.profile \"\"
+
 pause
