@@ -945,11 +945,14 @@ namespace MissionPlanner
                 log.Info("messageHigh " + value);
                 _messageHighTime = DateTime.Now;
                 _messagehigh = value;
+                messageHighSeverity = MAVLink.MAV_SEVERITY.EMERGENCY;
             }
         }
 
         string _messagehigh = "";
         DateTime _messageHighTime;
+
+        public MAVLink.MAV_SEVERITY messageHighSeverity { get; set; }
 
         //battery
         [GroupText("Battery")]
