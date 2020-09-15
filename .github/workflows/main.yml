@@ -70,4 +70,4 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: com.michaeloborne.MissionPlanner.apk
-          path: ExtLibs\Xamarin\Xamarin.Android\bin\Debug\com.michaeloborne.MissionPlanner-Signed.apk
+          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.apk
