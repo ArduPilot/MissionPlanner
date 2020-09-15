@@ -24,6 +24,7 @@ using Label = System.Windows.Forms.Label;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Size = Xamarin.Forms.Size;
+using View = Xamarin.Forms.View;
 
 namespace Xamarin.GCSViews
 {
@@ -38,15 +39,6 @@ namespace Xamarin.GCSViews
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //SkCanvasView.IgnorePixelScaling = false;
-
-            if (!start)
-            {
-                StartThreads();
-
-                XplatUIMine.GetInstance().Keyboard = new Keyboard(Entry);
-                start = true;
-            }
         }
         public class Keyboard: KeyboardXplat
         {
@@ -303,11 +295,18 @@ namespace Xamarin.GCSViews
             } catch {}
         }
 
-        private void SkCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
+        private void SkCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e) // .SKPaintSurfaceEventArgs // SKPaintGLSurfaceEventArgs
         {
+            if (!start)
+            {
+                StartThreads();
+
+                XplatUIMine.GetInstance().Keyboard = new Keyboard(Entry);
+                start = true;
+            }
+
             try
             {
-                Monitor.Enter(XplatUIMine.paintlock);
 
                 var surface = e.Surface;
 
@@ -363,6 +362,8 @@ namespace Xamarin.GCSViews
                             parent = parent.parent;
                         }
 
+                        Monitor.Enter(XplatUIMine.paintlock);
+
                         if (hwnd.ClientWindow != hwnd.WholeWindow)
                         {
                             var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
@@ -398,8 +399,9 @@ namespace Xamarin.GCSViews
                                 new SKPoint(x + 0, y + 0),
                                 new SKPaint() {FilterQuality = SKFilterQuality.Low});
                         }
-                    }
 
+                        Monitor.Exit(XplatUIMine.paintlock);
+                    }
 
                     //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
 
@@ -530,7 +532,7 @@ namespace Xamarin.GCSViews
             }
             finally
             {
-                Monitor.Exit(XplatUIMine.paintlock);
+               
             }
         }
     }

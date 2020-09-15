@@ -29,7 +29,7 @@ using Thread = System.Threading.Thread;
 namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
  [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{global::Android.Content.Intent.CategoryHome, global::Android.Content.Intent.CategoryDefault})]
-    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.Landscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true)]
+    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.Landscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, HardwareAccelerated = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         readonly string TAG = typeof(MainActivity).FullName;

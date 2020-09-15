@@ -25,5 +25,5 @@
 	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
 	<uses-feature android:name="android.hardware.usb.host" />
 	<uses-sdk android:minSdkVersion="12" />
-	<application android:label="MissionPlanner" android:icon="@mipmap/icon" />
+	<application android:label="MissionPlanner" android:hardwareAccelerated="true" android:icon="@mipmap/icon" />
 </manifest>
