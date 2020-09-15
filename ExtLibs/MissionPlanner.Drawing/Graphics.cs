@@ -455,7 +455,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 ///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, Rectangle destRect, Rectangle srcRect, GraphicsUnit srcUnit)
         {
-            _image.DrawImage(SKImage.FromBitmap(image.nativeSkBitmap), srcRect.ToSKRect(), destRect.ToSKRect(), new SKPaint());
+            _image.DrawBitmap(image.nativeSkBitmap, srcRect.ToSKRect(), destRect.ToSKRect(), new SKPaint());
         }
 
         public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit)
@@ -509,65 +509,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
 
-            return;
 
-            var coltype = SKColorType.Bgra8888;
-            ((Bitmap) img).MakeTransparent(Color.Transparent);
-            var data = ((Bitmap) img).LockBits(new Rectangle(0, 0, img.Width, img.Height),
-                ImageLockMode.ReadOnly,
-                SKColorType.Bgra8888);
-
-            if (CompositingMode == CompositingMode.SourceOver)
-                _paint.BlendMode = SKBlendMode.SrcOver;
-            if (CompositingMode == CompositingMode.SourceCopy)
-                _paint.BlendMode = SKBlendMode.Src;
-            //if(img.PixelFormat == PixelFormat.Format32bppArgb)
-            _paint.Color = SKColors.Black;
-
-            var pxmap = new SKPixmap(img.nativeSkBitmap.Info, data.Scan0, data.Stride);
-
-            var image = SKImage.FromPixels(pxmap);
-
-            if (image == null)
-                return;
-            /*
-            lock (this)
-            {
-                img.Save(File.OpenWrite(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "img.jpg"),
-                    SKEncodedImageFormat.Jpeg);
-
-                pxmap.Encode(SKEncodedImageFormat.Jpeg, 100)
-                    .SaveTo(File.OpenWrite(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "pxmap.jpg"));
-
-                image.Encode(SKEncodedImageFormat.Jpeg, 100)
-                    .SaveTo(File.OpenWrite(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "image.jpg"));
-            }
-            */
-            _image.DrawImage(image, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
-                new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
-            ((Bitmap) img).UnlockBits(data);
-            data = null;
-
-            return;
-
-            try
-            {
-                using (var skbmp =
-                    new SKBitmap(new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Unpremul)))
-                {
-                    skbmp.SetPixels(data.Scan0);
-
-
-                    _image.DrawBitmap(skbmp, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
-                        new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom) /*, _paint*/);
-                }
-            }
-            catch
-            {
-            }
-
-            ((Bitmap) img).UnlockBits(data);
-            data = null;
         }
 
         public void DrawImage(Image image, Rectangle destRect, int srcX, int srcY, int srcWidth, int srcHeight,
