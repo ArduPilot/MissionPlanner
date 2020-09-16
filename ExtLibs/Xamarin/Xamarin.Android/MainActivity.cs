@@ -20,6 +20,8 @@ using Java.Lang.Reflect;
 using Mono.Unix;
 using Xamarin.Forms;
 using Application = Xamarin.Forms.Application;
+using Environment = Android.OS.Environment;
+using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 
 [assembly: UsesFeature("android.hardware.usb.host")]
@@ -29,7 +31,8 @@ using Thread = System.Threading.Thread;
 namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
  [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{global::Android.Content.Intent.CategoryHome, global::Android.Content.Intent.CategoryDefault})]
-    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.Landscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, HardwareAccelerated = true)]
+    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.Landscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+        MainLauncher = true, HardwareAccelerated = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         readonly string TAG = typeof(MainActivity).FullName;
@@ -71,6 +74,8 @@ namespace Xamarin.Droid
             this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.TurnScreenOn);
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            Settings.CustomUserDataDirectory = Environment.ExternalStorageDirectory.ToString();
 
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
