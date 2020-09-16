@@ -57,6 +57,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <MandroidI18n>West</MandroidI18n>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
