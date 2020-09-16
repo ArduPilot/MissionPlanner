@@ -66,24 +66,22 @@ namespace MissionPlanner.Controls
             // update local name
             Name = ParamName;
             // set min and max of both are equal
-            if (Min == Max)
+            double mint = Min, maxt = Max;
+            if (ParameterMetaDataRepository.GetParameterRange(ParamName, ref mint, ref maxt,
+                MainV2.comPort.MAV.cs.firmware.ToString()))
             {
-                double mint = Min, maxt = Max;
-                ParameterMetaDataRepository.GetParameterRange(ParamName, ref mint, ref maxt,
-                    MainV2.comPort.MAV.cs.firmware.ToString());
-                Min = (float)mint;
-                Max = (float)maxt;
-                if (Min == Max)
-                    log.InfoFormat("{0} {1} = {2}", ParamName, Min, Max);
+                Min = (float) mint;
+                Max = (float) maxt;
             }
 
-            if (Increment == 0)
-            {
-                double Inc = 0;
-                if (ParameterMetaDataRepository.GetParameterIncrement(ParamName, ref Inc,
-                    MainV2.comPort.MAV.cs.firmware.ToString()))
-                    Increment = (float)Inc;
-            }
+            if (Min == Max)
+                log.InfoFormat("{0} {1} = {2}", ParamName, Min, Max);
+
+            double Inc = 0;
+            if (ParameterMetaDataRepository.GetParameterIncrement(ParamName, ref Inc,
+                MainV2.comPort.MAV.cs.firmware.ToString()))
+                if (Inc > this.DecimalPlaces)
+                    Increment = (float) Inc;
 
             _scale = Scale;
             this.Minimum = (decimal)(Min);
