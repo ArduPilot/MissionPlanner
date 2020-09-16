@@ -282,12 +282,18 @@ namespace MissionPlanner.Utilities
             return path;
         }
 
+        public static string CustomUserDataDirectory = "";
+
         /// <summary>
         /// User specific data
         /// </summary>
         /// <returns></returns>
         public static string GetUserDataDirectory()
         {
+            if (CustomUserDataDirectory != "")
+                return CustomUserDataDirectory + Path.DirectorySeparatorChar + AppConfigName +
+                       Path.DirectorySeparatorChar;
+
             var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + AppConfigName +
                           Path.DirectorySeparatorChar;
 
