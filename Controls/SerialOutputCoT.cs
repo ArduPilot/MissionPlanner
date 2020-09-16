@@ -210,37 +210,12 @@ namespace MissionPlanner.Controls
 
         private String getXmlString()
         {
-            bool hasOverrides = false;
-
             double lat = MainV2.comPort.MAV.cs.lat;
             double lng = MainV2.comPort.MAV.cs.lng;
-            if (CB_override_lat.Checked && TB_override_lat.Text.Length > 0)
-            {
-                hasOverrides |= Double.TryParse(TB_override_lat.Text, out lat);
-            }
-            if (CB_override_lng.Checked && TB_override_lng.Text.Length > 0)
-            {
-                hasOverrides |= Double.TryParse(TB_override_lng.Text, out lng);
-            }
-
             double altitude = MainV2.comPort.MAV.cs.altasl;
-            if (CB_override_alt.Checked && TB_override_alt.Text.Length > 0)
-            {
-                hasOverrides |= Double.TryParse(TB_override_alt.Text, out altitude);
-            }
-
             double groundSpeed = MainV2.comPort.MAV.cs.groundspeed;
-            if (CB_override_speed.Checked && TB_override_speed.Text.Length > 0)
-            {
-                hasOverrides |= Double.TryParse(TB_override_speed.Text, out groundSpeed);
-            }
             double groundcourse = MainV2.comPort.MAV.cs.groundcourse;
-            if (CB_override_heading.Checked && TB_override_heading.Text.Length > 0)
-            {
-                hasOverrides |= Double.TryParse(TB_override_heading.Text, out groundcourse);
-            }
-
-            String how = hasOverrides ? "h-p" : "m-g";
+            String how = "m-g";
 
             String xmlStr = getXmlString(TB_xml_uid.Text, TB_xml_type.Text, how, lat, lng, altitude, groundcourse, groundSpeed);
 
@@ -304,21 +279,25 @@ namespace MissionPlanner.Controls
             return sb.ToString();
         }
 
-        private void CB_overrides_enable_CheckedChanged(object sender, EventArgs e)
-        {
-            // this just changed. Set all internal checkboxes to same value
-            bool checkedValue = CB_overrides_enable.Checked;
-
-            CB_override_lat.Checked = checkedValue;
-            CB_override_lng.Checked = checkedValue;
-            CB_override_alt.Checked = checkedValue;
-            CB_override_heading.Checked = checkedValue;
-            CB_override_speed.Checked = checkedValue;
-        }
-
         private void BTN_clear_TB_Click(object sender, EventArgs e)
         {
             TB_output.Text = "";
+        }
+
+        private void SerialOutputCoT_Load(object sender, EventArgs e)
+        {
+            String uid = Settings.Instance["SerialOutputCot_TB_xml_uid"];
+            if (uid == null)
+            {
+                uid = "";
+            }
+
+            TB_xml_uid.Text = uid;
+        }
+
+        private void SerialOutputCoT_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Settings.Instance["SerialOutputCot_TB_xml_uid"] = TB_xml_uid.Text;
         }
     }
 }
