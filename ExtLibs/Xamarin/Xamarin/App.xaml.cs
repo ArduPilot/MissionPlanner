@@ -3,6 +3,7 @@ using MissionPlanner;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -126,6 +127,18 @@ namespace Xamarin
             //Task.Run(() => { MainV2.instance.SerialReader(); });
 
             var mp = MainPage;
+
+            File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
+                MissionPlanner.Properties.Resources.airports);
+
+            File.WriteAllBytes(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "BurntKermit.mpsystheme",
+                MissionPlanner.Properties.Resources.BurntKermit);
+
+            File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "ParameterMetaData.xml",
+                MissionPlanner.Properties.Resources.ParameterMetaDataBackup);
+
+            File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "camerasBuiltin.xml",
+                MissionPlanner.Properties.Resources.camerasBuiltin);
         }
 
         private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "",

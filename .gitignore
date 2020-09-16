@@ -27,3 +27,4 @@ packages/
 *.diagsession
 /ExtLibs/WindowsStore/BundleArtifacts
 /ExtLibs/runtime
+/ExtLibs/Xamarin/Xamarin.Android/.__override__
