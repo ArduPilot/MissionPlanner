@@ -4560,11 +4560,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         // the change of severity and the autopilot version where introduced at the same time, so any version non 0 can be used
                         // copter 3.4+
                         // plane 3.4+
+                        MAV_SEVERITY mavsev = MAV_SEVERITY.EMERGENCY;
                         if (MAVlist[sysid, compidcurrent].cs.version.Major > 0 || MAVlist[sysid, compidcurrent].cs.version.Minor >= 4)
                         {
                             if (sev <= (byte)MAV_SEVERITY.WARNING)
                             {
                                 printit = true;
+                                mavsev = (MAV_SEVERITY)sev;
                             }
                         }
                         else
@@ -4583,9 +4585,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         {
                             // high severity msg publish to current selected mav
                             if (sysid == sysidcurrent && compid != compidcurrent)
+                            {
                                 MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + logdata;
+                                MAVlist[sysid, compidcurrent].cs.messageHighSeverity = mavsev;
+                            }
 
                             MAVlist[sysid, compid].cs.messageHigh = logdata;
+                            MAVlist[sysid, compid].cs.messageHighSeverity = mavsev;
 
                             if (Speech != null &&
                                 Speech.IsReady &&

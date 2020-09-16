@@ -65,4 +65,9 @@ jobs:
         run: |
           $msbuildPath = Split-Path (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\Current\Bin\amd64\MSBuild.exe | Select-Object -First 1) -Parent
           $env:PATH = $msbuildPath + ';' + $env:PATH
-          msbuild -v:m -restore -t:Build -p:Configuration=Release MissionPlannerLib.sln
+          msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: com.michaeloborne.MissionPlanner.apk
+          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.apk
