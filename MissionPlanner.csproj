@@ -402,6 +402,12 @@
     <Compile Include="Controls\DigitalSkyUI.Designer.cs">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SerialOutputCoT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\SerialOutputCoT.Designer.cs">
+      <DependentUpon>SerialOutputCoT.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\GMAPCache.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -716,6 +722,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DigitalSkyUI.resx">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SerialOutputCoT.resx">
+      <DependentUpon>SerialOutputCoT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\GMAPCache.resx">
       <DependentUpon>GMAPCache.cs</DependentUpon>
