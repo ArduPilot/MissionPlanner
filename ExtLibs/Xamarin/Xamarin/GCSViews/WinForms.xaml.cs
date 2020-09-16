@@ -384,25 +384,41 @@ namespace Xamarin.GCSViews
                                         Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
                             }
 
-                            surface.Canvas.DrawImage(hwnd.hwndbmpNC,
-                                new SKPoint(x - borders.left, y - borders.top),
-                                new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                            if (surface.Canvas.DeviceClipBounds.Width > 0 &&
+                                surface.Canvas.DeviceClipBounds.Height > 0)
+                            {
+                                surface.Canvas.DrawImage(hwnd.hwndbmpNC,
+                                    new SKPoint(x - borders.left, y - borders.top),
+                                    new SKPaint() {FilterQuality = SKFilterQuality.Low});
 
-                            surface.Canvas.ClipRect(
-                                SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
-                                    hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
-
-                            surface.Canvas.DrawImage(hwnd.hwndbmp,
-                                new SKPoint(x, y),
-                                new SKPaint() {FilterQuality = SKFilterQuality.Low});
-
-
+                                surface.Canvas.ClipRect(
+                                    SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
+                                        hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
+                                
+                                surface.Canvas.DrawImage(hwnd.hwndbmp,
+                                    new SKPoint(x, y),
+                                    new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                            } 
+                            else
+                            {
+                                Monitor.Exit(XplatUIMine.paintlock);
+                                return true;
+                            }
                         }
                         else
                         {
-                            surface.Canvas.DrawImage(hwnd.hwndbmp,
-                                new SKPoint(x + 0, y + 0),
-                                new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                            if (surface.Canvas.DeviceClipBounds.Width > 0 &&
+                                surface.Canvas.DeviceClipBounds.Height > 0)
+                            {
+                                surface.Canvas.DrawImage(hwnd.hwndbmp,
+                                    new SKPoint(x + 0, y + 0),
+                                    new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                            } 
+                            else
+                            {
+                                Monitor.Exit(XplatUIMine.paintlock);
+                                return true;
+                            }
                         }
 
                         Monitor.Exit(XplatUIMine.paintlock);
