@@ -1657,7 +1657,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
 
             double value = 0;
-            if (valuein is IConvertible)
+            if (valuein is IConvertible && !(valuein is String))
             {
                 value = ((IConvertible)valuein).ToDouble(null);
             }
