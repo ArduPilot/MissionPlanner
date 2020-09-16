@@ -148,6 +148,7 @@ namespace Xamarin.GCSViews
             if (Application.OpenForms.Count > 1)
             {
                 Application.OpenForms[Application.OpenForms.Count - 1].Close();
+                XplatUIMine.PaintPending = true;
                 return true;
             }
             else if (Application.OpenForms.Count == 1)
@@ -157,6 +158,7 @@ namespace Xamarin.GCSViews
                     if (result.Result)
                     {
                         Application.OpenForms[Application.OpenForms.Count - 1].Close();
+                        XplatUIMine.PaintPending = true;
                     }
                 });
 
@@ -177,7 +179,7 @@ namespace Xamarin.GCSViews
             size = Device.Info.ScaledScreenSize;
             size = Device.Info.PixelScreenSize;
 
-            size = new Forms.Size(885, 500); // 1.77
+            size = new Forms.Size(950, 536); // 1.77
             scale = new Forms.Size((Device.Info.PixelScreenSize.Width / size.Width),
                 (Device.Info.PixelScreenSize.Height / size.Height));
 
@@ -231,6 +233,7 @@ namespace Xamarin.GCSViews
                 var y = (int) (e.Location.Y / scale.Height);
 
                 Console.WriteLine(Extensions.ToJSON(e, Formatting.None));
+                XplatUIMine.PaintPending = true;
 
                 if (e.ActionType == SKTouchAction.Moved)
                 {
@@ -297,7 +300,7 @@ namespace Xamarin.GCSViews
             } catch {}
         }
 
-        private void SkCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e) // .SKPaintSurfaceEventArgs // SKPaintGLSurfaceEventArgs
+        private void SkCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintGLSurfaceEventArgs e) // .SKPaintSurfaceEventArgs // SKPaintGLSurfaceEventArgs
         {
             if (!start)
             {

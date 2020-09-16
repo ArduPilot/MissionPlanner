@@ -6,8 +6,8 @@
              x:Class="Xamarin.GCSViews.WinForms">
  
         <StackLayout>
-        <forms:SKCanvasView x:Name="SkCanvasView" EnableTouchEvents="True" Touch="SkCanvasView_Touch" PaintSurface="SkCanvasView_PaintSurface" 
-                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></forms:SKCanvasView>
+        <forms:SKGLView x:Name="SkCanvasView" EnableTouchEvents="True" Touch="SkCanvasView_Touch" PaintSurface="SkCanvasView_PaintSurface" 
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></forms:SKGLView>
         <Entry x:Name="Entry" IsVisible="false"></Entry>
         </StackLayout>
 
