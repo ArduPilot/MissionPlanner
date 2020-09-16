@@ -1,15 +1,11 @@
-﻿using fastJSON;
-using MissionPlanner.Comms;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System;
 using System.Globalization;
-using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace MissionPlanner.Controls
 {
