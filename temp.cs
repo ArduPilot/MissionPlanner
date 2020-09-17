@@ -1357,6 +1357,7 @@ namespace MissionPlanner
 
         private void BUT_CoT_Click(object sender, EventArgs e)
         {
+            //[DCH]
             new SerialOutputCoT().Show();
         }
     }
