@@ -128,17 +128,28 @@ namespace Xamarin
 
             var mp = MainPage;
 
-            File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
-                MissionPlanner.Properties.Resources.airports);
+            try
+            {
+                Directory.CreateDirectory(Settings.GetUserDataDirectory());
 
-            File.WriteAllBytes(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "BurntKermit.mpsystheme",
-                MissionPlanner.Properties.Resources.BurntKermit);
+                File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
+                    MissionPlanner.Properties.Resources.airports);
 
-            File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "ParameterMetaData.xml",
-                MissionPlanner.Properties.Resources.ParameterMetaDataBackup);
+                File.WriteAllBytes(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "BurntKermit.mpsystheme",
+                    MissionPlanner.Properties.Resources.BurntKermit);
 
-            File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "camerasBuiltin.xml",
-                MissionPlanner.Properties.Resources.camerasBuiltin);
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "ParameterMetaData.xml",
+                    MissionPlanner.Properties.Resources.ParameterMetaDataBackup);
+
+                File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "camerasBuiltin.xml",
+                    MissionPlanner.Properties.Resources.camerasBuiltin);
+            }
+            catch (Exception ex)
+            {
+                MainPage.DisplayAlert("Error", "Failed to save to storage " + ex.ToString(), "OK");
+            }
         }
 
         private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "",
