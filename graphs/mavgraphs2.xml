@@ -45,12 +45,7 @@
   <expression>PM.NLon PM.MaxT:2</expression>
  </graph>
 
- <graph name='Radio/RSSI_Distance'>
-  <description></description>
-  <expression>RADIO_STATUS.rssi RADIO_STATUS.noise RADIO_STATUS.remrssi RADIO_STATUS.remnoise distance_home(GPS_RAW_INT):2</expression>
- </graph>
-
- <graph name='Servos/Servos 5-8'>
+  <graph name='Servos/Servos 5-8'>
   <description></description>
   <expression>RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8</expression>
   <expression>RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8</expression>
@@ -212,14 +207,10 @@
  <graph name='RADIO/RSSI_Distance'>
   <description></description>
   <expression>RAD.RSSI RAD.Noise RAD.RemRSSI RAD.RemNoise distance_home(GPS):2</expression>
+  <expression>RADIO_STATUS.rssi RADIO_STATUS.noise RADIO_STATUS.remrssi RADIO_STATUS.remnoise distance_home(GPS_RAW_INT):2</expression>
  </graph>
 
- <graph name='Radio/RSSI_Noise'>
-  <description></description>
-  <expression>RAD.RSSI RAD.Noise RAD.RemRSSI RAD.RemNoise</expression>
- </graph>
-
- <graph name='Flow/FlowAGL vs Terrain'>
+  <graph name='Flow/FlowAGL vs Terrain'>
   <description></description>
   <expression>lowpass(max((GPS.Spd/(OF.flowY-OF.bodyY)),0)*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch)),"flowheight",0.95) TERR.CHeight</expression>
  </graph>
