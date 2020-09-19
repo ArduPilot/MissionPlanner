@@ -419,7 +419,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            can?.Stop();
+            can?.Stop(chk_canonclose.Checked);
             can = null;
         }
 

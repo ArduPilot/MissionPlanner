@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -72,6 +72,7 @@
             this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Text = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chk_canonclose = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -204,9 +205,9 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle3.Format = "X";
-            dataGridViewCellStyle3.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Format = "X";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
             this.SoftwareCRC.HeaderText = "SW CRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
@@ -517,10 +518,24 @@
             this.Text.Name = "Text";
             this.Text.ReadOnly = true;
             // 
+            // chk_canonclose
+            // 
+            this.chk_canonclose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chk_canonclose.AutoSize = true;
+            this.chk_canonclose.Checked = true;
+            this.chk_canonclose.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_canonclose.Location = new System.Drawing.Point(583, 3);
+            this.chk_canonclose.Name = "chk_canonclose";
+            this.chk_canonclose.Size = new System.Drawing.Size(131, 17);
+            this.chk_canonclose.TabIndex = 90;
+            this.chk_canonclose.Text = "Exit SLCAN on leave?";
+            this.chk_canonclose.UseVisualStyleBackColor = true;
+            // 
             // ConfigUAVCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chk_canonclose);
             this.Controls.Add(this.DGDebug);
             this.Controls.Add(this.chk_log);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -587,5 +602,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Level;
         private System.Windows.Forms.DataGridViewTextBoxColumn Source;
         private System.Windows.Forms.DataGridViewTextBoxColumn Text;
+        private System.Windows.Forms.CheckBox chk_canonclose;
     }
 }
