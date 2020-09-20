@@ -2375,6 +2375,7 @@ namespace MissionPlanner.GCSViews
         private void gMapControl1_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDownStart = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+            Console.WriteLine("gMapControl1_MouseDown "+ MouseDownStart);
 
             if (ModifierKeys == Keys.Control)
             {
@@ -5158,6 +5159,21 @@ namespace MissionPlanner.GCSViews
             e.Graphics.TranslateTransform(tabStatus.AutoScrollPosition.X,
                 tabStatus.AutoScrollPosition.Y);
             e.Graphics.DrawImageUnscaled(bmp, 0, 0);
+        }
+
+        private void gMapControl1_MouseUp(object sender, MouseEventArgs e)
+        {
+            var posstart = gMapControl1.FromLatLngToLocal(MouseDownStart);
+            var MouseDownEnd = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+            Console.WriteLine("gMapControl1_MouseUp "+ MouseDownEnd);
+
+            if (gMapControl1.Core.IsDragging)
+                return;
+
+            if (Math.Abs(posstart.X - e.X) <=2 && Math.Abs(posstart.Y - e.Y) <=2 && e.Button == MouseButtons.Left)
+            {
+               // contextMenuStripMap.Show(gMapControl1, e.Location);
+            }
         }
     }
 }
