@@ -75,6 +75,7 @@ namespace MissionPlanner.GeoRef
 
             var inv = new MethodInvoker(delegate
             {
+                text.Replace("\n", Environment.NewLine);
                 TXT_outputlog.AppendText(text);
                 TXT_outputlog.Refresh();
             });
@@ -176,14 +177,14 @@ namespace MissionPlanner.GeoRef
                                 AppendText, httpGeoRefKML);
                         break;
                     case PROCESSING_MODE.CAM_MSG:
-                        georef.picturesInfo = georef.doworkCAM(logFilePath, dirPictures, UseGpsorGPS2(), AppendText);
+                        georef.picturesInfo = georef.doworkCAM(logFilePath, dirPictures, UseGpsorGPS2(), AppendText, (int)num_dropfromstart.Value, (int)num_dropend.Value);
                         if (georef.picturesInfo != null)
                             georef.CreateReportFiles(georef.picturesInfo, dirPictures, seconds,
                                 (double)num_camerarotation.Value, (double)num_hfov.Value, (double)num_vfov.Value,
                                 AppendText, httpGeoRefKML, chk_camusegpsalt.Checked);
                         break;
                     case PROCESSING_MODE.TRIG:
-                        georef.picturesInfo = georef.doworkTRIG(logFilePath, dirPictures, UseGpsorGPS2(), AppendText);
+                        georef.picturesInfo = georef.doworkTRIG(logFilePath, dirPictures, UseGpsorGPS2(), AppendText, (int)num_dropfromstart.Value, (int)num_dropend.Value);
                         if (georef.picturesInfo != null)
                             georef.CreateReportFiles(georef.picturesInfo, dirPictures, seconds,
                                 (double)num_camerarotation.Value, (double)num_hfov.Value, (double)num_vfov.Value,

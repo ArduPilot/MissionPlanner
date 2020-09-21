@@ -712,7 +712,7 @@ namespace MissionPlanner.GeoRef
             return ans1 != 0 ? ans1 : x.CompareTo(y);
         }
 
-        public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages, string UseGpsorGPS2, Action<string> AppendText)
+        public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages, string UseGpsorGPS2, Action<string> AppendText, int dropstart, int dropend)
         {
             // Lets start over 
             Dictionary<string, PictureInformation> picturesInformationTemp =
@@ -752,20 +752,25 @@ namespace MissionPlanner.GeoRef
 
             AppendText("Log Read with - " + list.Count + " - CAM Messages found\n");
 
+            list = list.Take(list.Count - dropend).Skip(dropstart).ToDictionary(a => a.Key, a => a.Value);
+
+            AppendText("Filtered - " + list.Count + " - CAM Messages found\n");
+
             AppendText("Read images\n");
 
-            string[] files = Directory.GetFiles(dirWithImages, "*.jpg");
+            var files = Directory.GetFiles(dirWithImages, "*.jpg").ToList();
+            files.AddRange(Directory.GetFiles(dirWithImages, "*.tif"));
 
-            AppendText("Images read : " + files.Length + "\n");
+            AppendText("Images read : " + files.Count + "\n");
 
             // Check that we have same number of CAMs than files
-            if (files.Length != list.Count)
+            if (files.Count != list.Count)
             {
-                AppendText(string.Format("CAM Msgs and Files discrepancy. Check it! files: {0} vs CAM msg: {1}\n",files.Length,list.Count));
+                AppendText(string.Format("CAM Msgs and Files discrepancy. Check it! files: {0} vs CAM msg: {1}\n",files.Count,list.Count));
                 return null;
             }
 
-            Array.Sort(files, compareFileByPhotoTime);
+            files.Sort(compareFileByPhotoTime);
 
             // Each file corresponds to one CAM message
             // We assume that picture names are in ascending order in time
@@ -915,7 +920,7 @@ namespace MissionPlanner.GeoRef
             return picturesInformationTemp;
         }
 
-        public Dictionary<string, PictureInformation> doworkTRIG(string logFile, string dirWithImages, string UseGpsorGPS2, Action<string> AppendText)
+        public Dictionary<string, PictureInformation> doworkTRIG(string logFile, string dirWithImages, string UseGpsorGPS2, Action<string> AppendText, int dropstart, int dropend)
         {
             // Lets start over 
             Dictionary<string, PictureInformation> picturesInformationTemp =
@@ -935,20 +940,25 @@ namespace MissionPlanner.GeoRef
 
             AppendText("Log Read with - " + vehicleLocations.Count + " - TRIG Messages found\n");
 
+            vehicleLocations = vehicleLocations.Take(vehicleLocations.Count - dropend).Skip(dropstart).ToDictionary(a => a.Key, a => a.Value);
+
+            AppendText("Filtered - " + vehicleLocations.Count + " - TRIG Messages found\n");
+
             AppendText("Read images\n");
 
-            string[] files = Directory.GetFiles(dirWithImages, "*.jpg");
+            var files = Directory.GetFiles(dirWithImages, "*.jpg").ToList();
+            files.AddRange(Directory.GetFiles(dirWithImages, "*.tif"));
 
-            AppendText("Images read : " + files.Length + "\n");
+            AppendText("Images read : " + files.Count + "\n");
 
             // Check that we have same number of CAMs than files
-            if (files.Length != vehicleLocations.Count)
+            if (files.Count != vehicleLocations.Count)
             {
-                AppendText(string.Format("TRIG Msgs and Files discrepancy. Check it! files: {0} vs TRIG msg: {1}\n", files.Length, vehicleLocations.Count));
+                AppendText(string.Format("TRIG Msgs and Files discrepancy. Check it! files: {0} vs TRIG msg: {1}\n", files.Count, vehicleLocations.Count));
                 return null;
             }
 
-            Array.Sort(files, compareFileByPhotoTime);
+            files.Sort(compareFileByPhotoTime);
 
             // Each file corresponds to one CAM message
             // We assume that picture names are in ascending order in time
@@ -1117,7 +1127,7 @@ namespace MissionPlanner.GeoRef
                     {
                         var test = Enum.GetName(typeof(IFD), ExifTagFactory.GetTagIFD(item.Tag));
                         StringBuilder s = new StringBuilder();
-                        s.AppendFormat("Tag: {0}{1}", item.Tag, Environment.NewLine);
+                        s.AppendFormat("## Tag: {0}{1}", item.Tag, Environment.NewLine);
                         string val = item.ToString();
                         //if (val.Length > 50) val = val.Substring(0, 50) + " ...";
                         s.AppendFormat("Value: {0}{1}", val, Environment.NewLine);
@@ -1132,7 +1142,9 @@ namespace MissionPlanner.GeoRef
 
                         if (item.Tag == ExifTag.GPSLongitude || item.Tag == ExifTag.GPSLatitude ||
                             item.Tag == ExifTag.GPSAltitude || item.Tag == ExifTag.GPSLatitudeRef ||
-                            item.Tag == ExifTag.GPSLongitudeRef)
+                            item.Tag == ExifTag.GPSLongitudeRef || item.Tag == ExifTag.MakerNote || 
+                            item.Tag == ExifTag.ThumbnailYResolution || item.Tag == ExifTag.ThumbnailXResolution ||
+                            item.Tag == ExifTag.FlashpixVersion || item.Tag == ExifTag.ThumbnailXResolution)
                             data.Properties.Remove(item);
 
                     }
@@ -1147,7 +1159,7 @@ namespace MissionPlanner.GeoRef
 
                     data.Properties.Add(ExifTag.GPSLatitudeRef, dLat < 0 ? "S" : "N");
                     data.Properties.Add(ExifTag.GPSLongitudeRef, dLong < 0 ? "W" : "E");
-
+                    
                     // Save file into Geotag folder
                     string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
 
@@ -1160,71 +1172,7 @@ namespace MissionPlanner.GeoRef
                         File.Delete(outputfilename);
 
                     data.Save(outputfilename);
-                    /*
-                    using (Image Pic = Image.FromStream(ms))
-                    {
-                        PropertyItem[] pi = Pic.PropertyItems;
-
-                        pi[0].Id = 0x0004;
-                        pi[0].Type = 5;
-                        pi[0].Len = sizeof (ulong)*3;
-                        pi[0].Value = coordtobytearray(dLong);
-                        Pic.SetPropertyItem(pi[0]);
-
-                        pi[0].Id = 0x0002;
-                        pi[0].Type = 5;
-                        pi[0].Len = sizeof (ulong)*3;
-                        pi[0].Value = coordtobytearray(dLat);
-                        Pic.SetPropertyItem(pi[0]);
-
-                        pi[0].Id = 0x0006;
-                        pi[0].Type = 5;
-                        pi[0].Len = 8;
-                        pi[0].Value = new Rational(alt).GetBytes();
-                        Pic.SetPropertyItem(pi[0]);
-
-                        pi[0].Id = 1;
-                        pi[0].Len = 2;
-                        pi[0].Type = 2;
-
-                        if (dLat < 0)
-                        {
-                            pi[0].Value = new byte[] {(byte) 'S', 0};
-                        }
-                        else
-                        {
-                            pi[0].Value = new byte[] {(byte) 'N', 0};
-                        }
-
-                        Pic.SetPropertyItem(pi[0]);
-
-                        pi[0].Id = 3;
-                        pi[0].Len = 2;
-                        pi[0].Type = 2;
-                        if (dLong < 0)
-                        {
-                            pi[0].Value = new byte[] {(byte) 'W', 0};
-                        }
-                        else
-                        {
-                            pi[0].Value = new byte[] {(byte) 'E', 0};
-                        }
-                        Pic.SetPropertyItem(pi[0]);
-
-                        // Save file into Geotag folder
-                        string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
-
-                        string outputfilename = geoTagFolder + Path.DirectorySeparatorChar +
-                                                Path.GetFileNameWithoutExtension(Filename) + "_geotag" +
-                                                Path.GetExtension(Filename);
-
-                        // Just in case
-                        if (File.Exists(outputfilename))
-                            File.Delete(outputfilename);
-
-                        Pic.Save(outputfilename);
-                    }
-                   */
+                  
                 }
                 catch
                 {
