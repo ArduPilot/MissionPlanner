@@ -67,7 +67,7 @@ jobs:
           $env:PATH = $msbuildPath + ';' + $env:PATH
           msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
         with:
-          name: com.michaeloborne.MissionPlanner.apk
-          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.apk
+          name: com.michaeloborne.MissionPlanner.apk.zip
+          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*.apk
