@@ -160,7 +160,7 @@
             this.hud1.Russian = false;
             this.hud1.Size = new System.Drawing.Size(832, 448);
             this.hud1.status = false;
-            this.hud1.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("hud1.streamjpg")));
+            
             this.hud1.TabIndex = 4;
             this.hud1.targetalt = 0F;
             this.hud1.targetheading = 0F;

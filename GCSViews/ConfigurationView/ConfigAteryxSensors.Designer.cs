@@ -109,7 +109,7 @@
             this.hud1.pitch = 0F;
             this.hud1.roll = 0F;
             this.hud1.status = false;
-            this.hud1.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("hud1.streamjpg")));
+            
             this.hud1.targetalt = 0F;
             this.hud1.targetheading = 0F;
             this.hud1.targetspeed = 0F;

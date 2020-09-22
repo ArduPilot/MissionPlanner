@@ -39,7 +39,9 @@ namespace MissionPlanner.Controls
 
         private MemoryStream _streamjpg = new MemoryStream();
 
-        //[System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public MemoryStream streamjpg
         {
             get
