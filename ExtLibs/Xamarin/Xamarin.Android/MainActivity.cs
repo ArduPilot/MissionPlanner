@@ -8,9 +8,11 @@ using Android.Util;
 using Android.Views;
 using Mono.Unix;
 using System;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Runtime;
 using AndroidX.AppCompat.Widget;
 using Environment = Android.OS.Environment;
 using Settings = MissionPlanner.Utilities.Settings;
@@ -76,9 +78,19 @@ namespace Xamarin.Droid
 
             UserDialogs.Init(this);
 
+            AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
+
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+        }
+
+        private void AndroidEnvironment_UnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
+        {
+            Log.Error("MP", e.Exception.ToString());
+            Debugger.Break();
+            e.Handled = true;
+            throw e.Exception;
         }
 
         protected override void OnResume()

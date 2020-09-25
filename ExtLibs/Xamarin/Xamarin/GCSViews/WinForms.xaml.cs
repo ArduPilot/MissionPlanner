@@ -10,9 +10,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Scripting.Utils;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 using Application = System.Windows.Forms.Application;
 using Device = Xamarin.Forms.Device;
 using Extensions = MissionPlanner.Utilities.Extensions;
@@ -25,9 +28,14 @@ namespace Xamarin.GCSViews
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WinForms : ContentPage
     {
+        static WinForms Instance;
+
         public WinForms()
         {
             InitializeComponent();
+
+            Instance = this;
+            MainV2.speechEngine = new Speech();
         }
         
         protected override void OnAppearing()
@@ -39,6 +47,8 @@ namespace Xamarin.GCSViews
                 XplatUIMine.GetInstance().Keyboard = new Keyboard(Entry);
                 start = true;
             }
+
+            SkCanvasView.InvalidateSurface();
 
             base.OnAppearing();
         }
@@ -160,7 +170,7 @@ namespace Xamarin.GCSViews
             size = Device.Info.ScaledScreenSize;
             size = Device.Info.PixelScreenSize;
 
-            size = new Forms.Size(950, 536); // 1.77
+            size = new Forms.Size(900, 540); // 1.66 - remove back and home pane
             scale = new Forms.Size((Device.Info.PixelScreenSize.Width / size.Width),
                 (Device.Info.PixelScreenSize.Height / size.Height));
 
@@ -183,14 +193,19 @@ namespace Xamarin.GCSViews
                 Monitor.Enter(XplatUIMine.paintlock);
                 if (XplatUIMine.PaintPending)
                 {
-                    scale = new Forms.Size( (SkCanvasView.CanvasSize.Width / size.Width),
-                        (SkCanvasView.CanvasSize.Height / size.Height));
+                    if (SkCanvasView != null)
+                    {
+                        scale = new Forms.Size((Instance.SkCanvasView.CanvasSize.Width / size.Width),
+                            (Instance.SkCanvasView.CanvasSize.Height / size.Height));
 
-                    XplatUIMine.GetInstance()._virtualScreen = new Rectangle(0, 0, (int) size.Width, (int) size.Height);
-                    XplatUIMine.GetInstance()._workingArea = new Rectangle(0, 0, (int) size.Width, (int) size.Height);
+                        XplatUIMine.GetInstance()._virtualScreen =
+                            new Rectangle(0, 0, (int) size.Width, (int) size.Height);
+                        XplatUIMine.GetInstance()._workingArea =
+                            new Rectangle(0, 0, (int) size.Width, (int) size.Height);
 
-                    this.SkCanvasView.InvalidateSurface();
-                    XplatUIMine.PaintPending = false;
+                        Device.BeginInvokeOnMainThread(() => { Instance.SkCanvasView.InvalidateSurface(); });
+                        XplatUIMine.PaintPending = false;
+                    }
                 }
                 Monitor.Exit(XplatUIMine.paintlock);
 
@@ -481,10 +496,11 @@ namespace Xamarin.GCSViews
                             if (surface.Canvas.DeviceClipBounds.Width > 0 &&
                                 surface.Canvas.DeviceClipBounds.Height > 0)
                             {
+                             
                                 surface.Canvas.DrawImage(hwnd.hwndbmpNC,
                                     new SKPoint(x - borders.left, y - borders.top),
                                     new SKPaint() {FilterQuality = SKFilterQuality.Low});
-
+                                
                                 surface.Canvas.ClipRect(
                                     SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                         hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
@@ -492,6 +508,7 @@ namespace Xamarin.GCSViews
                                 surface.Canvas.DrawImage(hwnd.hwndbmp,
                                     new SKPoint(x, y),
                                     new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                             
                             } 
                             else
                             {
@@ -504,9 +521,11 @@ namespace Xamarin.GCSViews
                             if (surface.Canvas.DeviceClipBounds.Width > 0 &&
                                 surface.Canvas.DeviceClipBounds.Height > 0)
                             {
+                                
                                 surface.Canvas.DrawImage(hwnd.hwndbmp,
                                     new SKPoint(x + 0, y + 0),
                                     new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                                
                             } 
                             else
                             {
@@ -522,21 +541,29 @@ namespace Xamarin.GCSViews
 
                     if (hwnd.Mapped && hwnd.Visible)
                     {
-                        var enumer = Hwnd.windows.GetEnumerator();
-                        while (enumer.MoveNext())
+                        IEnumerable<Hwnd> children;
+                        lock (Hwnd.windows)
+                            children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
+                                .Where(hwnd2 =>
+                                {
+                                    var Key = (IntPtr) hwnd2.Key;
+                                    var Value = (Hwnd) hwnd2.Value;
+                                    if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
+                                        Value.Mapped && !Value.zombie)
+                                        return true;
+                                    return false;
+                                }).Select(a => (Hwnd) a.Value).ToArray();
+
+                        foreach (var child in children)
                         {
-                            var hwnd2 = (System.Collections.DictionaryEntry) enumer.Current;
-                            var Key = (IntPtr) hwnd2.Key;
-                            var Value = (Hwnd) hwnd2.Value;
-                            if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible && Value.Mapped)
-                                func(Value.ClientWindow);
+                            func(child.ClientWindow);
                         }
                     }
 
                     return true;
                 };
 
-                foreach (Form form in Application.OpenForms)
+                foreach (Form form in Application.OpenForms.Select(a=>a).ToArray())
                 {
                     if (form.IsHandleCreated)
                     {
@@ -571,14 +598,18 @@ namespace Xamarin.GCSViews
                         {
                             func(form.Handle);
                         }
-                        catch
+                        catch (Exception ex)
                         {
-
+                            Console.WriteLine(ex);
                         }
                     }
                 }
 
-                foreach (Hwnd hw in Hwnd.windows.Values)
+                IEnumerable<Hwnd> menu;
+                lock(Hwnd.windows)
+                    menu = Hwnd.windows.Values.OfType<Hwnd>()
+                    .Where(hw => hw.topmost && hw.Mapped && hw.Visible).ToArray();
+                foreach (Hwnd hw in menu)
                 {
                     if (hw.topmost && hw.Mapped && hw.Visible)
                     {
@@ -662,8 +693,9 @@ namespace Xamarin.GCSViews
                         XplatUI.driver.MousePosition.Y),
                     new SKPaint() {Color = SKColor.Parse("ffff00")});
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
             }
             finally
             {
@@ -694,5 +726,45 @@ namespace Xamarin.GCSViews
         public SKTouchEventArgs now;
         public bool hasmoved = false;
         public bool wasright = false;
+    }
+
+    public class Speech : ISpeech
+    {
+        public bool speechEnable { get; set; }
+
+        public bool IsReady
+        {
+            get { return !isBusy; }
+        }
+
+        CancellationTokenSource cts;
+        bool isBusy = false;
+
+        public void SpeakAsync(string text)
+        {
+            if (!speechEnable)
+                return;
+            cts = new CancellationTokenSource();
+            isBusy = true;
+            TextToSpeech.SpeakAsync(text, cts.Token).ContinueWith((t) => { isBusy = false; },
+                TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        public void SpeakAsyncCancelAll()
+        {
+            if (cts?.IsCancellationRequested ?? true)
+                return;
+
+            cts.Cancel();
+        }
+    }
+
+    public class Browser : IBrowserOpen
+    {
+        public bool OpenURL(Uri uri)
+        {
+            Xamarin.Essentials.Browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+            return true;
+        }
     }
 }

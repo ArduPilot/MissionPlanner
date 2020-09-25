@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="3" android:versionName="1.0" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="4" android:versionName="MP" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -24,6 +24,5 @@
 	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
 	<uses-feature android:name="android.hardware.usb.host" />
-	<uses-sdk android:minSdkVersion="12" />
-	<application android:label="Mission Planner" android:hardwareAccelerated="true" android:icon="@mipmap/icon" />
+  <application android:label="Mission Planner" android:hardwareAccelerated="true" android:icon="@mipmap/icon" />
 </manifest>
