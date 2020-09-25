@@ -754,7 +754,8 @@ namespace MissionPlanner
 
             try
             {
-                speechEngine = new Speech();
+                if(speechEngine == null)
+                    speechEngine = new Speech();
                 MAVLinkInterface.Speech = speechEngine;
                 CurrentState.Speech = speechEngine;
             }
