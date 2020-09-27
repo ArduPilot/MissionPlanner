@@ -564,9 +564,6 @@ namespace MissionPlanner.Utilities
 
         static async Task get3secfile(object name)
         {
-            string baseurl1sec = "https://firmware.ardupilot.org/SRTM/USGS/SRTM1/version2_1/SRTM1/";
-            string baseurl = "https://firmware.ardupilot.org/SRTM/";
-
             // check file doesnt already exist
             if (File.Exists(datadirectory + Path.DirectorySeparatorChar + (string) name))
             {
@@ -610,6 +607,10 @@ namespace MissionPlanner.Utilities
                 oceantile.Add((string) name);
             }
         }
+
+        public static string baseurl1sec { get; set; }= "https://firmware.ardupilot.org/SRTM/USGS/SRTM1/version2_1/SRTM1/";
+
+        public static string baseurl { get; set; }= "https://firmware.ardupilot.org/SRTM/";
 
         static HttpClient client = new HttpClient();
 
