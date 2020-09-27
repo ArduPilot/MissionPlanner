@@ -34,6 +34,11 @@ namespace Xamarin.GCSViews
         {
             InitializeComponent();
 
+            size = Device.Info.ScaledScreenSize;
+            size = Device.Info.PixelScreenSize;
+
+            size = new Forms.Size(900, 540); // 1.66 - remove back and home pane
+
             Instance = this;
             MainV2.speechEngine = new Speech();
         }
@@ -167,13 +172,6 @@ namespace Xamarin.GCSViews
 
         private void StartThreads()
         {
-            size = Device.Info.ScaledScreenSize;
-            size = Device.Info.PixelScreenSize;
-
-            size = new Forms.Size(900, 540); // 1.66 - remove back and home pane
-            scale = new Forms.Size((Device.Info.PixelScreenSize.Width / size.Width),
-                (Device.Info.PixelScreenSize.Height / size.Height));
-
             XplatUIMine.GetInstance()._virtualScreen = new Rectangle(0, 0, (int) size.Width, (int) size.Height);
             XplatUIMine.GetInstance()._workingArea = new Rectangle(0, 0, (int) size.Width, (int) size.Height);
 
@@ -181,7 +179,10 @@ namespace Xamarin.GCSViews
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-                Application.Idle += (sender, args) => Thread.Sleep(0);
+                Application.Idle += (sender, args) =>
+                {
+                    Thread.Sleep(0);
+                };
 
                 MissionPlanner.Program.Main(new string[0]);
              
@@ -193,15 +194,15 @@ namespace Xamarin.GCSViews
                 Monitor.Enter(XplatUIMine.paintlock);
                 if (XplatUIMine.PaintPending)
                 {
-                    if (SkCanvasView != null)
+                    if (Instance.SkCanvasView != null)
                     {
-                        scale = new Forms.Size((Instance.SkCanvasView.CanvasSize.Width / size.Width),
-                            (Instance.SkCanvasView.CanvasSize.Height / size.Height));
+                        Instance.scale = new Forms.Size((Instance.SkCanvasView.CanvasSize.Width / Instance.size.Width),
+                            (Instance.SkCanvasView.CanvasSize.Height / Instance.size.Height));
 
                         XplatUIMine.GetInstance()._virtualScreen =
-                            new Rectangle(0, 0, (int) size.Width, (int) size.Height);
+                            new Rectangle(0, 0, (int) Instance.size.Width, (int) Instance.size.Height);
                         XplatUIMine.GetInstance()._workingArea =
-                            new Rectangle(0, 0, (int) size.Width, (int) size.Height);
+                            new Rectangle(0, 0, (int) Instance.size.Width, (int) Instance.size.Height);
 
                         Device.BeginInvokeOnMainThread(() => { Instance.SkCanvasView.InvalidateSurface(); });
                         XplatUIMine.PaintPending = false;
@@ -412,6 +413,139 @@ namespace Xamarin.GCSViews
             } catch {}
         }
 
+        private bool DrawOntoSurface(IntPtr handle, SKSurface surface)
+        {
+
+            var hwnd = Hwnd.ObjectFromHandle(handle);
+
+            var x = 0;
+            var y = 0;
+
+            XplatUI.driver.ClientToScreen(hwnd.client_window, ref x, ref y);
+
+            var width = 0;
+            var height = 0;
+            var client_width = 0;
+            var client_height = 0;
+
+
+            if (hwnd.hwndbmp != null && hwnd.Mapped && hwnd.Visible && !hwnd.zombie)
+            {
+                // setup clip
+                var parent = hwnd;
+                surface.Canvas.ClipRect(
+                    SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
+                        Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+
+                while (parent != null)
+                {
+                    var xp = 0;
+                    var yp = 0;
+                    XplatUI.driver.ClientToScreen(parent.client_window, ref xp, ref yp);
+
+                    surface.Canvas.ClipRect(SKRect.Create(xp, yp, parent.Width, parent.Height),
+                        SKClipOperation.Intersect);
+                    /*
+                    surface.Canvas.DrawRect(xp, yp, parent.Width, parent.Height,
+                        new SKPaint()
+                        {
+
+                            Color = new SKColor(255, 0, 0),
+                            Style = SKPaintStyle.Stroke
+
+
+                        });
+                    */
+                    parent = parent.parent;
+                }
+
+                Monitor.Enter(XplatUIMine.paintlock);
+
+                if (hwnd.ClientWindow != hwnd.WholeWindow)
+                {
+                    var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
+
+                    Hwnd.Borders borders = new Hwnd.Borders();
+
+                    if (frm != null)
+                    {
+                        borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
+
+                        surface.Canvas.ClipRect(
+                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
+                                Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+                    }
+
+                    if (surface.Canvas.DeviceClipBounds.Width > 0 &&
+                        surface.Canvas.DeviceClipBounds.Height > 0)
+                    {
+
+                        surface.Canvas.DrawImage(hwnd.hwndbmpNC,
+                            new SKPoint(x - borders.left, y - borders.top),
+                            new SKPaint() {FilterQuality = SKFilterQuality.Low});
+
+                        surface.Canvas.ClipRect(
+                            SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
+                                hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
+
+                        surface.Canvas.DrawImage(hwnd.hwndbmp,
+                            new SKPoint(x, y),
+                            new SKPaint() {FilterQuality = SKFilterQuality.Low});
+
+                    }
+                    else
+                    {
+                        Monitor.Exit(XplatUIMine.paintlock);
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (surface.Canvas.DeviceClipBounds.Width > 0 &&
+                        surface.Canvas.DeviceClipBounds.Height > 0)
+                    {
+
+                        surface.Canvas.DrawImage(hwnd.hwndbmp,
+                            new SKPoint(x + 0, y + 0),
+                            new SKPaint() {FilterQuality = SKFilterQuality.Low});
+
+                    }
+                    else
+                    {
+                        Monitor.Exit(XplatUIMine.paintlock);
+                        return true;
+                    }
+                }
+
+                Monitor.Exit(XplatUIMine.paintlock);
+            }
+
+            //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
+
+            if (hwnd.Mapped && hwnd.Visible)
+            {
+                IEnumerable<Hwnd> children;
+                lock (Hwnd.windows)
+                    children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
+                        .Where(hwnd2 =>
+                        {
+                            var Key = (IntPtr) hwnd2.Key;
+                            var Value = (Hwnd) hwnd2.Value;
+                            if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
+                                Value.Mapped && !Value.zombie)
+                                return true;
+                            return false;
+                        }).Select(a => (Hwnd) a.Value).ToArray();
+
+                foreach (var child in children)
+                {
+                    DrawOntoSurface(child.ClientWindow, surface);
+                }
+            }
+
+            return true;
+        }
+
         private void SkCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
         {
             SkCanvasView_PaintSurface(sender, new SKPaintGLSurfaceEventArgs(e.Surface, null));
@@ -424,144 +558,11 @@ namespace Xamarin.GCSViews
 
                 var surface = e.Surface;
 
-                e.Surface.Canvas.Clear(SKColors.Gray);
+                surface.Canvas.Clear(SKColors.Gray);
 
                 surface.Canvas.DrawCircle(0, 0, 50, new SKPaint() {Color = SKColor.Parse("ff0000")});
 
-                e.Surface.Canvas.Scale((float) scale.Width, (float) scale.Height);
-
-                Func<IntPtr, bool> func = null;
-                func = (handle) =>
-                {
-                    var hwnd = Hwnd.ObjectFromHandle(handle);
-
-                    var x = 0;
-                    var y = 0;
-
-                    XplatUI.driver.ClientToScreen(hwnd.client_window, ref x, ref y);
-
-                    var width = 0;
-                    var height = 0;
-                    var client_width = 0;
-                    var client_height = 0;
-
-
-                    if (hwnd.hwndbmp != null && hwnd.Mapped && hwnd.Visible && !hwnd.zombie)
-                    {
-                        // setup clip
-                        var parent = hwnd;
-                        surface.Canvas.ClipRect(
-                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
-                                Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
-
-                        while (parent != null)
-                        {
-                            var xp = 0;
-                            var yp = 0;
-                            XplatUI.driver.ClientToScreen(parent.client_window, ref xp, ref yp);
-
-                            surface.Canvas.ClipRect(SKRect.Create(xp, yp, parent.Width, parent.Height),
-                                SKClipOperation.Intersect);
-                            /*
-                            surface.Canvas.DrawRect(xp, yp, parent.Width, parent.Height,
-                                new SKPaint()
-                                {
-
-                                    Color = new SKColor(255, 0, 0),
-                                    Style = SKPaintStyle.Stroke
-
-
-                                });
-                            */
-                            parent = parent.parent;
-                        }
-
-                        Monitor.Enter(XplatUIMine.paintlock);
-
-                        if (hwnd.ClientWindow != hwnd.WholeWindow)
-                        {
-                            var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
-
-                            Hwnd.Borders borders = new Hwnd.Borders();
-
-                            if (frm != null)
-                            {
-                                borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
-
-                                surface.Canvas.ClipRect(
-                                    SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
-                                        Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
-                            }
-
-                            if (surface.Canvas.DeviceClipBounds.Width > 0 &&
-                                surface.Canvas.DeviceClipBounds.Height > 0)
-                            {
-                             
-                                surface.Canvas.DrawImage(hwnd.hwndbmpNC,
-                                    new SKPoint(x - borders.left, y - borders.top),
-                                    new SKPaint() {FilterQuality = SKFilterQuality.Low});
-                                
-                                surface.Canvas.ClipRect(
-                                    SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
-                                        hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
-                                
-                                surface.Canvas.DrawImage(hwnd.hwndbmp,
-                                    new SKPoint(x, y),
-                                    new SKPaint() {FilterQuality = SKFilterQuality.Low});
-                             
-                            } 
-                            else
-                            {
-                                Monitor.Exit(XplatUIMine.paintlock);
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (surface.Canvas.DeviceClipBounds.Width > 0 &&
-                                surface.Canvas.DeviceClipBounds.Height > 0)
-                            {
-                                
-                                surface.Canvas.DrawImage(hwnd.hwndbmp,
-                                    new SKPoint(x + 0, y + 0),
-                                    new SKPaint() {FilterQuality = SKFilterQuality.Low});
-                                
-                            } 
-                            else
-                            {
-                                Monitor.Exit(XplatUIMine.paintlock);
-                                return true;
-                            }
-                        }
-
-                        Monitor.Exit(XplatUIMine.paintlock);
-                    }
-
-                    //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
-
-                    if (hwnd.Mapped && hwnd.Visible)
-                    {
-                        IEnumerable<Hwnd> children;
-                        lock (Hwnd.windows)
-                            children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
-                                .Where(hwnd2 =>
-                                {
-                                    var Key = (IntPtr) hwnd2.Key;
-                                    var Value = (Hwnd) hwnd2.Value;
-                                    if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
-                                        Value.Mapped && !Value.zombie)
-                                        return true;
-                                    return false;
-                                }).Select(a => (Hwnd) a.Value).ToArray();
-
-                        foreach (var child in children)
-                        {
-                            func(child.ClientWindow);
-                        }
-                    }
-
-                    return true;
-                };
+                surface.Canvas.Scale((float) scale.Width, (float) scale.Height);
 
                 foreach (Form form in Application.OpenForms.Select(a=>a).ToArray())
                 {
@@ -596,7 +597,7 @@ namespace Xamarin.GCSViews
 
                         try
                         {
-                            func(form.Handle);
+                            DrawOntoSurface(form.Handle, surface);
                         }
                         catch (Exception ex)
                         {
@@ -615,7 +616,7 @@ namespace Xamarin.GCSViews
                     {
                         var ctlmenu = Control.FromHandle(hw.ClientWindow);
                         if (ctlmenu != null)
-                            func(hw.ClientWindow);
+                            DrawOntoSurface(hw.ClientWindow, surface);
                     }
                 }
 
