@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="4" android:versionName="MP" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="8" android:versionName="MP" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -23,6 +23,21 @@
 	<uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" />
 	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
-	<uses-feature android:name="android.hardware.usb.host" />
-  <application android:label="Mission Planner" android:hardwareAccelerated="true" android:icon="@mipmap/icon" />
+    <supports-screens android:smallScreens="false" android:normalScreens="true" android:largeScreens="true"    />
+ <uses-feature
+  android:name="android.hardware.touchscreen"
+  android:required="false"/>
+ <uses-feature
+  android:name="android.hardware.location"
+  android:required="true"/>
+ <uses-feature
+  android:name="android.hardware.telephony"
+  android:required="false"/>
+ <uses-feature   
+   android:glEsVersion="0x00020000"  
+   android:required="true"/>` 
+ <uses-feature
+  android:name="android.hardware.faketouch"
+  android:required="true"/>
+    <application android:label="Mission Planner" android:hardwareAccelerated="true" android:icon="@mipmap/icon" />
 </manifest>

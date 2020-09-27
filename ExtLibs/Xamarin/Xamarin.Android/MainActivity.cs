@@ -18,7 +18,7 @@ using Environment = Android.OS.Environment;
 using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 
-[assembly: UsesFeature("android.hardware.usb.host")]
+//[assembly: UsesFeature("android.hardware.usb.host")]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
 
@@ -26,7 +26,7 @@ namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
   //global::Android.Content.Intent.CategoryHome,
     [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{ global::Android.Content.Intent.CategoryDefault})]
-    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.Landscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
         MainLauncher = true, HardwareAccelerated = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
