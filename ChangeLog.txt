@@ -3,6 +3,7 @@ ConfigHWCompass2: fix orient display
 LogBrowse: tooltips for msgs
 Program: fix LIB compile
 Xamarin: add posible hardwareAccelerated
+use javascript with it as well
 Drawing: use drawbitmap
 BackStageView: handle activate exception
 MissionPlanner: add self-profile options
