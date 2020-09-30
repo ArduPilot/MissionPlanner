@@ -51,7 +51,8 @@ namespace Xamarin
             Instance = this;
 
             InitializeComponent();
-          
+
+            MasterBehavior = MasterBehavior.Popover;
             IsPresented = false;
 
             try
