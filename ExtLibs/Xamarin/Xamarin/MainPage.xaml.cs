@@ -52,6 +52,7 @@ namespace Xamarin
 
             InitializeComponent();
           
+            IsPresented = false;
 
             try
             {

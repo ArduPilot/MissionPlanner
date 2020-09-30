@@ -12,11 +12,16 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Android;
 using Android.Runtime;
 using AndroidX.AppCompat.Widget;
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
+using Xamarin.Essentials;
 using Environment = Android.OS.Environment;
 using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
+using Android.Content;
 
 //[assembly: UsesFeature("android.hardware.usb.host")]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
@@ -26,7 +31,7 @@ namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
   //global::Android.Content.Intent.CategoryHome,
     [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{ global::Android.Content.Intent.CategoryDefault})]
-    [Activity(Label = "MissionPlanner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
+    [Activity(Label = "Mission Planner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
         MainLauncher = true, HardwareAccelerated = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -71,7 +76,7 @@ namespace Xamarin.Droid
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            Settings.CustomUserDataDirectory = Environment.ExternalStorageDirectory.ToString();
+            Settings.CustomUserDataDirectory = Application.Context.GetExternalFilesDir(null).ToString();
 
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
@@ -81,8 +86,64 @@ namespace Xamarin.Droid
             AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
 
             base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+
+            {
+                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) !=
+                    (int) Permission.Granted ||
+                    ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) !=
+                    (int) Permission.Granted)
+                {
+                    ActivityCompat.RequestPermissions(this,
+                        new String[]
+                        {
+                            Manifest.Permission.AccessFineLocation, Manifest.Permission.LocationHardware,
+                            Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage
+                        }, 1);
+                }
+
+                while (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) !=
+                       (int) Permission.Granted)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public async Task<PermissionStatus> CheckAndRequestPermissionAsync<T>(T permission)
+            where T : Permissions.BasePermission
+        {
+            Console.WriteLine("Check Perm " + permission.ToString());
+            var status = await permission.CheckStatusAsync();
+            if (status != PermissionStatus.Granted)
+            {
+                Console.WriteLine("Request Perm " + permission.ToString());
+                status = await permission.RequestAsync();
+            }
+
+            Console.WriteLine("Status Perm " + permission.ToString() + " " + status);
+            return status;
+        }
+
+        private async Task CheckPerm()
+        {
+            await CheckAndRequestPermissionAsync((new Permissions.LocationWhenInUse()));
+            await CheckAndRequestPermissionAsync((new Permissions.StorageWrite()));
         }
 
         private void AndroidEnvironment_UnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
