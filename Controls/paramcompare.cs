@@ -21,7 +21,7 @@ namespace MissionPlanner.Controls
             this.param = param;
             this.param2 = param2;
             this.dgv = dgv;
-
+			this.DialogResult = DialogResult.Cancel;
             processToScreen();
         }
 
@@ -104,6 +104,7 @@ namespace MissionPlanner.Controls
                     }
                 }
             }
+			this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
