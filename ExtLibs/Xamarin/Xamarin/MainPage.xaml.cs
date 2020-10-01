@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using MissionPlanner.Controls;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.Xaml;
@@ -54,6 +55,8 @@ namespace Xamarin
 
             MasterBehavior = MasterBehavior.Popover;
             IsPresented = false;
+
+            DeviceDisplay.KeepScreenOn = true;
 
             try
             {

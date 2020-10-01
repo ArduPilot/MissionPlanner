@@ -10,6 +10,7 @@ using Mono.Unix;
 using System;
 using System.Diagnostics;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Android;
@@ -18,12 +19,18 @@ using AndroidX.AppCompat.Widget;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using Xamarin.Essentials;
+using MissionPlanner.GCSViews;
 using Environment = Android.OS.Environment;
 using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 using Android.Content;
+using Java.Lang;
+using Xamarin.GCSViews;
+using Exception = System.Exception;
+using Process = Android.OS.Process;
+using String = System.String;
 
-//[assembly: UsesFeature("android.hardware.usb.host")]
+[assembly: UsesFeature("android.hardware.usb.host", Required = false)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
 
@@ -77,6 +84,8 @@ namespace Xamarin.Droid
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             Settings.CustomUserDataDirectory = Application.Context.GetExternalFilesDir(null).ToString();
+
+            WinForms.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
 
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();

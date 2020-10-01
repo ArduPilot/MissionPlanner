@@ -40,8 +40,8 @@
     </AndroidStoreUncompressedFileExtensions>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <MandroidI18n>West</MandroidI18n>
-    <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
-    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
@@ -154,6 +154,14 @@
     <Compile Include="USBDevices.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidNativeLibrary Include="lib\arm64-v8a\libarduplane.so" />
+    <AndroidNativeLibrary Include="lib\arm64-v8a\libardurover.so" />
+    <AndroidNativeLibrary Include="lib\arm64-v8a\libardusub.so" />
+    <AndroidNativeLibrary Include="lib\arm64-v8a\libarducopter.so" />
+    <AndroidNativeLibrary Include="lib\armeabi-v7a\libarducopter.so" />
+    <AndroidNativeLibrary Include="lib\armeabi-v7a\libarduplane.so" />
+    <AndroidNativeLibrary Include="lib\armeabi-v7a\libardurover.so" />
+    <AndroidNativeLibrary Include="lib\armeabi-v7a\libardusub.so" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -216,6 +224,9 @@
       <Project>{567c5db1-9d8d-4a82-a89b-7e9357e7f6d8}</Project>
       <Name>Xamarin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="Resources\raw\ParameterMetaDataBackup.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

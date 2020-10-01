@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Scripting.Utils;
+using MissionPlanner.GCSViews;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
@@ -42,7 +43,13 @@ namespace Xamarin.GCSViews
             Instance = this;
             MainV2.speechEngine = new Speech();
         }
-        
+
+        public static string BundledPath
+        {
+            get { return SITL.BundledPath; }
+            set { SITL.BundledPath = value; }
+        }
+
         protected override void OnAppearing()
         {
             if (!start)
@@ -154,7 +161,12 @@ namespace Xamarin.GCSViews
                 {
                     if (result.Result)
                     {
-                        Application.OpenForms[Application.OpenForms.Count - 1].Close();
+                        // ensure we run on the right thread
+                        Application.Idle += (sender, args) =>
+                        {
+                            Application.Exit();
+                            
+                        };
                         XplatUIMine.PaintPending = true;
                     }
                 });
@@ -185,7 +197,8 @@ namespace Xamarin.GCSViews
                 };
 
                 MissionPlanner.Program.Main(new string[0]);
-             
+                
+                System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
             });
             winforms.Start();
 
