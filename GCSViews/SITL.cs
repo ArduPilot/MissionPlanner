@@ -29,6 +29,8 @@ namespace MissionPlanner.GCSViews
         string sitldirectory = Settings.GetUserDataDirectory() + "sitl" +
                                Path.DirectorySeparatorChar;
 
+        public static string BundledPath = "";
+
         GMapOverlay markeroverlay;
 
         GMapMarkerWP homemarker = new GMapMarkerWP(new PointLatLng(-34.98106, 117.85201), "H");
@@ -216,6 +218,28 @@ namespace MissionPlanner.GCSViews
 
         private async Task<string> CheckandGetSITLImage(string filename)
         {
+            if (BundledPath != "")
+            {
+                var file = filename;
+                if (!File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
+                {
+                    file = file.ToLower();
+                    file = file.Replace("apmrover2", "ardurover");
+                    file = file.Replace(".exe","");
+                    file = file.Replace(".elf","");
+                    if (!File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
+                    {
+                        file = "lib" + file + ".so";
+                        if (!File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
+                        {
+                            return "";
+                        }
+                    }
+                }
+
+                return BundledPath + System.IO.Path.DirectorySeparatorChar + file;
+            }
+
             Uri fullurl = new Uri(sitlurl, filename);
 
             var load = Common.LoadingBox("Downloading", "Downloading sitl software");
