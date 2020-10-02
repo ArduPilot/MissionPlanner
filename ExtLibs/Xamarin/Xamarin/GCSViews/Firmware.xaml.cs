@@ -18,6 +18,7 @@ using px4uploader;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Acr.UserDialogs;
+using Device = Xamarin.Forms.Device;
 
 namespace Xamarin.GCSViews
 {
@@ -96,12 +97,12 @@ namespace Xamarin.GCSViews
 
             var accept = await DisplayAlert(Strings.AreYouSureYouWantToUpload,
                 Strings.AreYouSureYouWantToUpload + (sender as ImageCell)?.Text + Strings.QuestionMark, Strings.OK,
-                Strings.Cancel).ConfigureAwait(false);
+                Strings.Cancel);
             if (accept)
             {
                 var mavtype = ((APFirmware.MAV_TYPE)(sender as ImageCell).CommandParameter);
 
-                await LookForPort(mavtype).ConfigureAwait(false);
+                await LookForPort(mavtype);
             }
         }
         APFirmware.RELEASE_TYPES REL_Type = APFirmware.RELEASE_TYPES.OFFICIAL;
@@ -110,7 +111,7 @@ namespace Xamarin.GCSViews
         private long? detectedboardid;
         private async Task LookForPort(APFirmware.MAV_TYPE mavtype)
         {
-            var ports = await Test.UsbDevices.GetDeviceInfoList().ConfigureAwait(false);
+            var ports = await Test.UsbDevices.GetDeviceInfoList();
 
             foreach (var deviceInfo in ports)
             {
@@ -131,11 +132,12 @@ namespace Xamarin.GCSViews
                         a.BoardId == devid && a.MavType == mavtype.ToString() &&
                         a.MavFirmwareVersionType == REL_Type.ToString()).ToList();
 
+                    log.InfoFormat("fwitems.count = {0}", fwitems?.Count);
                     if (fwitems?.Count == 1)
                     {
                         baseurl = fwitems[0].Url.ToString();
 
-                        await DownloadAndUpload(baseurl).ConfigureAwait(false);
+                        await DownloadAndUpload(baseurl);
                     }
                     else if (fwitems?.Count > 0)
                     {
@@ -145,22 +147,16 @@ namespace Xamarin.GCSViews
                             Navigation.PopModalAsync();
                             baseurl = fws.FinalResult;
 
-                            await DownloadAndUpload(baseurl).ConfigureAwait(false);
+                            await DownloadAndUpload(baseurl);
 
                             return;
                         };
-                        await this.Navigation.PushModalAsync(fws).ConfigureAwait(false);
-                        Debug.WriteLine(fws.FinalResult);
-                        baseurl = fws.FinalResult;
-                        if (fws.FinalResult == null)
-                        {
-                            // user canceled
-                            return;
-                        }
+                        await this.Navigation.PushModalAsync(fws);
+                        return;
                     }
                     else
                     {
-                        CustomMessageBox.Show(Strings.No_firmware_available_for_this_board, Strings.ERROR);
+                        await DisplayAlert(Strings.No_firmware_available_for_this_board, Strings.ERROR, "OK");
                         return;
                     }
                     
@@ -168,12 +164,12 @@ namespace Xamarin.GCSViews
                 }
                 else
                 {
-                    CustomMessageBox.Show("Failed to discover board id. Please reconnect via usb and try again.", Strings.ERROR);
+                    await DisplayAlert("Failed to discover board id. Please reconnect via usb and try again.", Strings.ERROR, "OK");
                     return;
                 }
             }
 
-            CustomMessageBox.Show("Failed to detect port to upload to", Strings.ERROR);
+            await DisplayAlert("Failed to detect port to upload to", Strings.ERROR, "OK");
             return;
 
         }
@@ -254,7 +250,7 @@ namespace Xamarin.GCSViews
             }
             catch
             {
-                CustomMessageBox.Show(Strings.FailedDownload, Strings.ERROR);
+                DisplayAlert(Strings.FailedDownload, Strings.ERROR, "OK");
                 return;
             }
             finally
@@ -269,7 +265,7 @@ namespace Xamarin.GCSViews
 
             var uploadstarttime = DateTime.Now;
 
-            await UploadPX4(tempfile).ConfigureAwait(false);
+            await UploadPX4(tempfile);
             //fw.UploadFlash(deviceInfo.name, tempfile, BoardDetect.boards.pass);
 
             var uploadtime = (DateTime.Now - uploadstarttime).TotalMilliseconds;
@@ -281,16 +277,25 @@ namespace Xamarin.GCSViews
 
         public event ProgressEventHandler Progress;
 
-        void updateProgress(int percent, string status)
+        async void updateProgress(int percent, string status)
         {
             log.Info(status);
 
-            UserDialogs.Instance.Toast(status, TimeSpan.FromSeconds(3));
-
-            if (Progress != null)
+            Device.BeginInvokeOnMainThread(()=>
             {
-                Progress(percent, status);
-            }
+                {
+                    var newstatus = status;
+                    if (percent >= 0)
+                        newstatus += " " + percent + "%";
+
+                    UserDialogs.Instance.Toast(newstatus, TimeSpan.FromSeconds(3));
+                }
+
+                if (Progress != null)
+                {
+                    Progress(percent, status);
+                }
+            });
         }
         /// <summary>
         /// upload to px4 standalone
@@ -307,13 +312,13 @@ namespace Xamarin.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show(Strings.ErrorFirmwareFile + "\n\n" + ex.ToString(), Strings.ERROR);
+                await DisplayAlert(Strings.ErrorFirmwareFile + "\n\n" + ex.ToString(), Strings.ERROR, "OK");
                 return false;
             }
 
             SetLoading(true);
 
-            await AttemptRebootToBootloader().ConfigureAwait(false);
+            await AttemptRebootToBootloader();
 
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
@@ -322,13 +327,13 @@ namespace Xamarin.GCSViews
             while (DateTime.Now < DEADLINE)
             {
                 //string[] allports = SerialPort.GetPortNames();
-                var di = await Test.UsbDevices.GetDeviceInfoList().ConfigureAwait(false);
+                var di = await Test.UsbDevices.GetDeviceInfoList();
 
                 foreach (var port in di)
                 {
                     log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
 
-                    var portUsb = await Test.UsbDevices.GetUSB(port).ConfigureAwait(false);
+                    var portUsb = await Test.UsbDevices.GetUSB(port);
 
                     if(portUsb == null)
                         continue;
@@ -375,7 +380,7 @@ namespace Xamarin.GCSViews
                     catch (IOException ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("lost communication with the board.", "lost comms");
+                        await DisplayAlert("lost communication with the board.", "lost comms","OK");
                         SetLoading(false);
                         up.close();
                         return false;
@@ -384,7 +389,7 @@ namespace Xamarin.GCSViews
                     {
                         up.__reboot();
                         up.close();
-                        CustomMessageBox.Show(Strings.NoNeedToUpload);
+                        await DisplayAlert(Strings.NoNeedToUpload,"","OK");
                         SetLoading(false);
                         return true;
                     }
@@ -392,7 +397,9 @@ namespace Xamarin.GCSViews
                     try
                     {
                         updateProgress(0, "Upload");
-                        up.upload(fw);
+                        await Task.Run(() => { 
+                            up.upload(fw);
+                        });
                         updateProgress(100, "Upload Done");
                     }
                     catch (Exception ex)
@@ -409,7 +416,7 @@ namespace Xamarin.GCSViews
                     }
 
                     // wait for IO firmware upgrade and boot to a mavlink state
-                    CustomMessageBox.Show(Strings.PleaseWaitForTheMusicalTones);
+                    await DisplayAlert(Strings.PleaseWaitForTheMusicalTones,"","OK");
 
                     return true;
                 }
@@ -427,13 +434,13 @@ namespace Xamarin.GCSViews
             List<Task<bool>> tasklist = new List<Task<bool>>();
 
             //string[] allports = SerialPort.GetPortNames();
-            var di = await Test.UsbDevices.GetDeviceInfoList().ConfigureAwait(false);
+            var di = await Test.UsbDevices.GetDeviceInfoList();
 
             foreach (var port in di)
             {
                 log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
 
-                var portUsb = await Test.UsbDevices.GetUSB(port).ConfigureAwait(false);
+                var portUsb = await Test.UsbDevices.GetUSB(port);
 
                 if (portUsb == null)
                     continue;
@@ -465,7 +472,7 @@ namespace Xamarin.GCSViews
             {
                 try
                 {
-                    if (task.Wait(TimeSpan.FromSeconds(3)) && await task.ConfigureAwait(false) == true)
+                    if (task.Wait(TimeSpan.FromSeconds(3)) && await task == true)
                         return;
                     else
                     {
@@ -485,7 +492,7 @@ namespace Xamarin.GCSViews
                     updateProgress(-1, "Look for HeartBeat");
 
                     MainV2.comPort.BaseStream =
-                        await Test.UsbDevices.GetUSB((await Test.UsbDevices.GetDeviceInfoList().ConfigureAwait(false)).First()).ConfigureAwait(false);
+                        await Test.UsbDevices.GetUSB((await Test.UsbDevices.GetDeviceInfoList()).First());
 
                     var task = Task.Run(() =>
                     {
@@ -510,26 +517,26 @@ namespace Xamarin.GCSViews
                     }
                     else
                     {
-                        CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+                        await DisplayAlert(Strings.PleaseUnplugTheBoardAnd,"","OK");
                         return;
                     }
                 }
                 catch (Exception ex)
                 {
                     log.Error(ex);
-                    CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+                    await DisplayAlert(Strings.PleaseUnplugTheBoardAnd,"","OK");
                     return;
                 }
             }
         }
 
-        public void DeviceAttached(object USBDevice, object usbdevice)
+        public void DeviceAttached(object USBDevice, DeviceInfo usbdevice)
         {
             Task.Run(async () =>
             {
                 Parallel.ForEach(await Test.UsbDevices.GetDeviceInfoList(), async (port)=>
                 {
-                    var portUsb = await Test.UsbDevices.GetUSB(port).ConfigureAwait(false);
+                    var portUsb = await Test.UsbDevices.GetUSB(port);
 
                     if (portUsb == null)
                         return;

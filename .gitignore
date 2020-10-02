@@ -28,3 +28,4 @@ packages/
 /ExtLibs/WindowsStore/BundleArtifacts
 /ExtLibs/runtime
 /ExtLibs/Xamarin/Xamarin.Android/.__override__
+/ExtLibs/UsbSerialForAndroid/usb-serial-for-android-3.2.0

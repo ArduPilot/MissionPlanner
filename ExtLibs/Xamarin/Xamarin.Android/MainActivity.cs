@@ -9,11 +9,14 @@ using Android.Views;
 using Mono.Unix;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Android;
+using Android.Bluetooth;
 using Android.Runtime;
 using AndroidX.AppCompat.Widget;
 using AndroidX.Core.App;
@@ -31,15 +34,17 @@ using Process = Android.OS.Process;
 using String = System.String;
 
 [assembly: UsesFeature("android.hardware.usb.host", Required = false)]
+[assembly: UsesPermission("android.hardware.usb.host")]
+[assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
 
 namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
   //global::Android.Content.Intent.CategoryHome,
-    [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached }, Categories = new []{ global::Android.Content.Intent.CategoryDefault})]
+    [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached, BluetoothDevice.ActionAclConnected, UsbManager.ActionUsbAccessoryAttached }, Categories = new []{ global::Android.Content.Intent.CategoryDefault})]
     [Activity(Label = "Mission Planner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
-        MainLauncher = true, HardwareAccelerated = true)]
+        MainLauncher = true, HardwareAccelerated = true, DirectBootAware = true, Immersive = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         readonly string TAG = typeof(MainActivity).FullName;
@@ -84,8 +89,10 @@ namespace Xamarin.Droid
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             Settings.CustomUserDataDirectory = Application.Context.GetExternalFilesDir(null).ToString();
+            Log.Info("MP", "Settings.CustomUserDataDirectory " + Settings.CustomUserDataDirectory);
 
             WinForms.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
+            Log.Info("MP", "WinForms.BundledPath " + WinForms.BundledPath);
 
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
@@ -93,6 +100,15 @@ namespace Xamarin.Droid
             UserDialogs.Init(this);
 
             AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
+
+            var pr1 = System.Diagnostics.Process.Start(WinForms.BundledPath + Path.DirectorySeparatorChar + "libarducopter.so", " -M+");
+
+            var pr2 = System.Diagnostics.Process.Start("ls");
+
+            var pr3 = System.Diagnostics.Process.Start("sh", "-c ls");
+
+            var pr4 = System.Diagnostics.Process.Start("sh", "-c "+
+                WinForms.BundledPath + Path.DirectorySeparatorChar + "libarducopter.so" + " -M+");
 
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -157,7 +173,7 @@ namespace Xamarin.Droid
 
         private void AndroidEnvironment_UnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
         {
-            Log.Error("MP", e.Exception.ToString());
+            Log.Error("MP", e.Exception.StackTrace.ToString());
             Debugger.Break();
             e.Handled = true;
             throw e.Exception;

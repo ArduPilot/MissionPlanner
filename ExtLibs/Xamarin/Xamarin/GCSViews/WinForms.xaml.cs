@@ -62,6 +62,8 @@ namespace Xamarin.GCSViews
 
             SkCanvasView.InvalidateSurface();
 
+            Activate();
+
             base.OnAppearing();
         }
         public class Keyboard: KeyboardXplat
@@ -179,6 +181,7 @@ namespace Xamarin.GCSViews
 
         protected override void OnDisappearing()
         {
+            Deactivate();
             base.OnDisappearing();
         }
 
@@ -261,8 +264,8 @@ namespace Xamarin.GCSViews
                 {
                     if (touchDictionary.ContainsKey(e.Id))
                     {
-                        if (Math.Abs(touchDictionary[e.Id].atdown.Location.X / scale.Width - x) > 5 &&
-                            Math.Abs(touchDictionary[e.Id].atdown.Location.Y / scale.Height - y) > 5)
+                        if (Math.Abs(touchDictionary[e.Id].atdown.Location.X / scale.Width - x) > 2 &&
+                            Math.Abs(touchDictionary[e.Id].atdown.Location.Y / scale.Height - y) > 2)
                         {
                             //Console.WriteLine("Mouse has moved");
                             touchDictionary[e.Id].hasmoved = true;
@@ -730,6 +733,43 @@ namespace Xamarin.GCSViews
         };
 
         static private Thread winforms;
+
+        public void Activate()
+        {
+            Test.UsbDevices.USBEvent += DeviceAttached;
+        }
+
+        private async void DeviceAttached(object sender, MissionPlanner.ArduPilot.DeviceInfo e)
+        {
+            var ans = await DisplayAlert("Connect", "Connect to USB Device?", "Yes", "No");
+
+            if (ans)
+                Parallel.ForEach(await Test.UsbDevices.GetDeviceInfoList(), async (port) =>
+                {
+                    var portUsb = await Test.UsbDevices.GetUSB(port);
+
+                    if (portUsb == null)
+                        return;
+
+                    if (MainV2.comPort.BaseStream.IsOpen)
+                        return;
+
+                    if (!port.board.ToLower().Contains("-bl"))
+                    {
+                        MainV2.comPort.BaseStream = portUsb;
+                        MainV2.instance.BeginInvoke((Action) delegate()
+                        {
+                            MainV2.instance.doConnect(MainV2.comPort, "preset", port.name);
+                        });
+                    }
+                });
+
+        }
+
+        public void Deactivate()
+        {
+            Test.UsbDevices.USBEvent -= DeviceAttached;
+        }
     }
 
     public class TouchInfo

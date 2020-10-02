@@ -17,7 +17,7 @@ namespace Xamarin.Droid
 {
     public class USBDevices: IUSBDevices
     {
-        static readonly string TAG = typeof(MainActivity).Name;
+        static readonly string TAG = "MP";
 
 
         public async Task<List<DeviceInfo>> GetDeviceInfoList()
@@ -26,14 +26,14 @@ namespace Xamarin.Droid
 
             foreach (var deviceListValue in usbManager.DeviceList.Values)
             {
-                Log.Info(TAG, deviceListValue.ToJSON());
+                Log.Info(TAG, deviceListValue.DeviceName);
             }
 
             Log.Info(TAG, "Refreshing device list ...");
 
             var drivers = await AndroidSerialBase.GetPorts(usbManager);
 
-            if (drivers.Count == 0)
+            if (drivers == null || drivers.Count == 0)
             {
                 Log.Info(TAG, "No usb devices");
                 return new List<DeviceInfo>();
@@ -41,17 +41,27 @@ namespace Xamarin.Droid
 
             List<DeviceInfo> ans = new List<DeviceInfo>();
 
-            foreach (var driver in drivers)
+            foreach (var driver in drivers.ToArray())
             {
-                Log.Info(TAG, string.Format("+ {0}: {1} port{2}", driver, drivers.Count, drivers.Count == 1 ? string.Empty : "s"));
+                try
+                {
+                    Log.Info(TAG,
+                        string.Format("+ {0}: {1} port{2}", driver, drivers.Count,
+                            drivers.Count == 1 ? string.Empty : "s"));
 
-                Log.Info(TAG, string.Format("+ {0}: {1} ", driver.Device.ProductName, driver.Device.ManufacturerName));
+                    Log.Info(TAG,
+                        string.Format("+ {0}: {1} ", driver.Device.ProductName, driver.Device.ManufacturerName));
 
-                var deviceInfo = GetDeviceInfo(driver.Device);
+                    var deviceInfo = GetDeviceInfo(driver.Device);
 
-                ans.Add(deviceInfo);
+                    ans.Add(deviceInfo);
 
-                await usbManager.RequestPermissionAsync(driver.Device, Application.Context);
+                    await usbManager.RequestPermissionAsync(driver.Device, Application.Context);
+                }
+                catch (Exception e)
+                {
+                    Log.Error("MP", e.StackTrace);
+                }
             }
 
             return ans;
@@ -59,10 +69,10 @@ namespace Xamarin.Droid
 
         public void USBEventCallBack(object usbDeviceReceiver, object device)
         {
-            USBEvent?.Invoke(usbDeviceReceiver, device);
+            USBEvent?.Invoke(usbDeviceReceiver, GetDeviceInfo(device));
         }
 
-        public event EventHandler<object> USBEvent;
+        public event EventHandler<DeviceInfo> USBEvent;
 
         /// <summary>
         /// UsbDevice to DeviceInfo
@@ -86,7 +96,7 @@ namespace Xamarin.Droid
         public async Task<ICommsSerial> GetUSB(DeviceInfo di)
         {
             var usbManager = (UsbManager) Application.Context.GetSystemService(Context.UsbService);
-
+            
             foreach (var deviceListValue in usbManager.DeviceList.Values)
             {
                 Log.Info(TAG, deviceListValue.ToJSON());
@@ -102,7 +112,7 @@ namespace Xamarin.Droid
                 return null;
             }
 
-            foreach (var driver in drivers)
+            foreach (var driver in drivers.ToArray())
             {
                 Log.Info(TAG, string.Format("+ {0}: {1} port{2}", driver, drivers.Count, drivers.Count == 1 ? string.Empty : "s"));
 

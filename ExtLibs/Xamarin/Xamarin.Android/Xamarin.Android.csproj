@@ -35,7 +35,7 @@
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
-    <AndroidSupportedAbis>x86;arm64-v8a</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions>
     </AndroidStoreUncompressedFileExtensions>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
@@ -162,6 +162,15 @@
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libarduplane.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libardurover.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libardusub.so" />
+    <AndroidResource Include="..\..\..\airports.csv">
+      <Link>Resources\raw\airports.csv</Link>
+    </AndroidResource>
+    <AndroidResource Include="..\..\..\BurntKermit.mpsystheme">
+      <Link>Resources\raw\BurntKermit.mpsystheme</Link>
+    </AndroidResource>
+    <AndroidResource Include="..\..\..\HighContrast.mpsystheme">
+      <Link>Resources\raw\HighContrast.mpsystheme</Link>
+    </AndroidResource>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -226,7 +235,60 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <TransformFile Include="Resources\raw\ParameterMetaDataBackup.xml" />
+    <AndroidResource Include="Resources\raw\ParameterMetaDataBackup.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\device_filter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\acsimplepids.xml">
+      <Link>Resources\raw\acsimplepids.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\aircraft.xml">
+      <Link>Resources\raw\aircraft.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\ArduCopterConfig.xml">
+      <Link>Resources\raw\ArduCopterConfig.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\camerasBuiltin.xml">
+      <Link>Resources\raw\camerasBuiltin.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\ChangeLog.txt">
+      <Link>Resources\raw\ChangeLog.txt</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\checklistDefault.xml">
+      <Link>Resources\raw\checklistDefault.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\dataflashlog.xml">
+      <Link>Resources\raw\dataflashlog.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\FirmwareHistory.txt">
+      <Link>Resources\raw\FirmwareHistory.txt</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\mavcmd.xml">
+      <Link>Resources\raw\mavcmd.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\..\..\mavextra.py">
+      <Link>Resources\raw\mavextra.py</Link>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

@@ -44,6 +44,6 @@ namespace Xamarin
         /// </summary>
         void USBEventCallBack(object usbDeviceReceiver, object device);
 
-        event EventHandler<object> USBEvent;
+        event EventHandler<DeviceInfo> USBEvent;
     }
 }
