@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -467,6 +468,8 @@ namespace MissionPlanner.GCSViews
 
             try
             {
+                Console.WriteLine("sitl: {0} {1} {2}", exestart.WorkingDirectory, exestart.FileName,
+                    exestart.Arguments);
                 simulator.Add(System.Diagnostics.Process.Start(exestart));
             }
             catch (Exception ex)
