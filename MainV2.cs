@@ -1499,17 +1499,29 @@ namespace MissionPlanner
                     // do autoscan
                     Comms.CommsSerialScan.Scan(true);
                     DateTime deadline = DateTime.Now.AddSeconds(50);
-                    while (Comms.CommsSerialScan.foundport == false || Comms.CommsSerialScan.run == 1)
+                    ProgressReporterDialogue prd = new ProgressReporterDialogue();
+                    prd.UpdateProgressAndStatus(-1, "Waiting for ports");
+                    prd.DoWork += sender =>
                     {
-                        System.Threading.Thread.Sleep(500);
-                        Console.WriteLine("wait for port " + CommsSerialScan.foundport + " or " + CommsSerialScan.run);
-                        if (DateTime.Now > deadline)
+                        while (Comms.CommsSerialScan.foundport == false || Comms.CommsSerialScan.run == 1)
                         {
-                            CustomMessageBox.Show(Strings.Timeout);
-                            _connectionControl.IsConnected(false);
-                            return;
+                            System.Threading.Thread.Sleep(500);
+                            Console.WriteLine("wait for port " + CommsSerialScan.foundport + " or " +
+                                              CommsSerialScan.run);
+                            if (sender.doWorkArgs.CancelRequested)
+                            {
+                                sender.doWorkArgs.CancelAcknowledged = true;
+                                return;
+                            }
+
+                            if (DateTime.Now > deadline)
+                            {
+                                _connectionControl.IsConnected(false);
+                                throw new Exception(Strings.Timeout);
+                            }
                         }
-                    }
+                    };
+                    prd.RunBackgroundOperationAsync();
                     return;
                 default:
                     comPort.BaseStream = new SerialPort();
