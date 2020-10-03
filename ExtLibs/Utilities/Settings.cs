@@ -240,12 +240,17 @@ namespace MissionPlanner.Utilities
         /// </summary>
         /// <returns></returns>
         public static string GetRunningDirectory()
-        {     
-            
+        {
             var ass = Assembly.GetEntryAssembly();
 
             if (ass == null)
+            {
+                if (CustomUserDataDirectory != "")
+                    return CustomUserDataDirectory + Path.DirectorySeparatorChar + AppConfigName +
+                           Path.DirectorySeparatorChar;
+
                 return "." + Path.DirectorySeparatorChar;
+            }
 
             var location = ass.Location;
 
