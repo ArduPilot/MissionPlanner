@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
 
 namespace System.Drawing
 {
@@ -55,7 +57,10 @@ namespace System.Drawing
             {
                 try
                 {
-                    //return ColorConverterCommon.ConvertFromString(htmlColor, CultureInfo.CurrentCulture);
+                    return typeof(SystemColors).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                        .Where(a => a.PropertyType == typeof(Color) && a.Name.ToLower() == htmlColor.ToLower())
+                        .Select(a => (Color) a.GetValue(null)).First();
+
                 }
                 catch (Exception ex)
                 {
@@ -100,9 +105,7 @@ namespace System.Drawing
 
         private static void InitializeHtmlSysColorTable()
         {
-            s_htmlSysColorTable = new Dictionary<string, Color>(27)
-            {
-            };
+            s_htmlSysColorTable = new Dictionary<string, Color>(27);
         }
     }
 }

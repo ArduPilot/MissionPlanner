@@ -48,7 +48,7 @@ namespace System.Drawing
 
         public Region(GraphicsPath parentClientRectangle)
         {
-            throw new NotImplementedException();
+            base.SetPath(parentClientRectangle);
         }
 
         public RectangleF GetBounds(Graphics graphics)
@@ -116,12 +116,13 @@ namespace System.Drawing
 
         public IEnumerable<RectangleF> GetRegionScans(Matrix dcTransform)
         {
-            return new RectangleF[0];
+            return new RectangleF[]
+                {RectangleF.FromLTRB(base.Bounds.Left, base.Bounds.Top, base.Bounds.Right, base.Bounds.Bottom)};
         }
 
         public void Union(Region clientRectangle)
         {
-            throw new NotImplementedException();
+            base.Op(clientRectangle, SKRegionOperation.Union);
         }
 
         public IntPtr GetHrgn(Graphics graphics)
@@ -136,7 +137,7 @@ namespace System.Drawing
 
         public bool IsVisible(PointF clipRectangle)
         {
-            throw new NotImplementedException();
+            return base.Contains((int)clipRectangle.X, (int)clipRectangle.Y);
         }
 
         public Region Clone()
@@ -148,6 +149,7 @@ namespace System.Drawing
 
         public void Exclude(GraphicsPath peClipRectangle)
         {
+            base.Op(peClipRectangle, SKRegionOperation.Difference);
         }
     }
 }

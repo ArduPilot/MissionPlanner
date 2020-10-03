@@ -147,8 +147,16 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public static Graphics FromSKImage(SKImage bmpDestination)
         {
-            var pixels = bmpDestination.PeekPixels();
-            return new Graphics(SKSurface.Create(pixels));
+            if (bmpDestination.IsLazyGenerated)
+            {
+                var pixels = bmpDestination.ToRasterImage().PeekPixels();
+                return new Graphics(SKSurface.Create(pixels));
+            }
+            else
+            {
+                var pixels = bmpDestination.PeekPixels();
+                return new Graphics(SKSurface.Create(pixels));
+            }
         }
 
         public static implicit operator Image(Graphics sk)
