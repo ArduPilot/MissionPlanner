@@ -11,53 +11,23 @@ namespace Hoho.Android.UsbSerial
 {
     public class AndroidSerialBase
     {
+        public static List<(int Vid, int Pid)> cdcacmTuples = new List<(int Vid, int Pid)>()
+        {
+            (0x0483, 0x5740), // ST
+            (0x1209, 0x5740), // Ardu comp
+            (0x1209, 0x5741), // Ardu non-comp
+            (0x26AC, 0x11), // 3dr
+        };
+
         public static Task<IList<IUsbSerialDriver>> GetPorts(UsbManager usbManager)
         {
-            var cdcacmTuples = new[]
-            {
-                (0x2dae, 0x1001),
-                (0x2dae, 0x1002),
-                (0x2dae, 0x1003),
-                (0x2dae, 0x1004),
-                (0x2dae, 0x1005),
-                (0x2dae, 0x1006),
-                (0x2dae, 0x1007),
-                (0x2dae, 0x1008),
-                (0x2dae, 0x1009),
-                (0x2dae, 0x1010),
-                (0x2dae, 0x1011),
-                (0x2dae, 0x1015),
-                (0x2dae, 0x1016),
-
-                (0x2dae, 0x0001),
-                (0x2dae, 0x0002),
-                (0x2dae, 0x0003),
-                (0x2dae, 0x0004),
-                (0x2dae, 0x0005),
-                (0x2dae, 0x0006),
-                (0x2dae, 0x0007),
-                (0x2dae, 0x0008),
-                (0x2dae, 0x0009),
-                (0x2dae, 0x0010),
-                (0x2dae, 0x0011),
-                (0x2dae, 0x0015),
-                (0x2dae, 0x0016),
-
-                (0x0483, 0x5740),
-                (0x1209, 0x5740),
-                (0x26AC, 0x11),
-                (0x20A0, 0x415E),
-                (0x20A0, 0x415C),
-                (0x20A0, 0x41D0),
-                (0x20A0, 0x415D),
-            };
-
-            var table = new ProbeTable();
+            var table = UsbSerialProber.DefaultProbeTable;
 
             foreach (var cdcacmTuple in cdcacmTuples)
             {
-                table.AddProduct(cdcacmTuple.Item1, cdcacmTuple.Item2,
-                    Java.Lang.Class.FromType(typeof(CdcAcmSerialDriver)));
+                if (table.FindDriver(cdcacmTuple.Item1, cdcacmTuple.Item2) == null)
+                    table.AddProduct(cdcacmTuple.Item1, cdcacmTuple.Item2,
+                        Java.Lang.Class.FromType(typeof(CdcAcmSerialDriver)));
             }
 
             var prober = new UsbSerialProber(table);

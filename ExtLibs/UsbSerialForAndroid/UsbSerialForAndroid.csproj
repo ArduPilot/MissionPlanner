@@ -63,6 +63,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Xamarin.Android.Bindings.targets" />
   <ItemGroup>
-    <EmbeddedJar Include="Jars\usb-serial-for-android-v020-pre.jar" />
+    <EmbeddedJar Include="Jars\classes.jar" />
   </ItemGroup>
 </Project>
