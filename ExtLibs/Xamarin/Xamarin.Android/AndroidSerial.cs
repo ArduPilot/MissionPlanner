@@ -12,6 +12,7 @@ namespace MissionPlanner.Comms
     {
         MemoryStream readbuffer = new MemoryStream(1024*10);
         private SerialInputOutputManager serialIoManager;
+        private string _portName;
 
         public AndroidSerial(SerialInputOutputManager serialIoManager)
         {
@@ -43,7 +44,11 @@ namespace MissionPlanner.Comms
 
         public Stream BaseStream => this;
 
-        public int BaudRate { get; set; }
+        public int BaudRate
+        {
+            get { return serialIoManager.BaudRate;}
+            set { serialIoManager.BaudRate = value; }
+        }
 
         public int BytesToRead { get; internal set; }
 
@@ -54,7 +59,12 @@ namespace MissionPlanner.Comms
 
         public bool IsOpen => serialIoManager.IsOpen;
 
-        public string PortName { get; set; }
+        public string PortName
+        {
+            get => _portName;
+            set => _portName = value;
+        }
+
         public int ReadBufferSize { get; set; }
         public override int ReadTimeout { get; set; }
         public bool RtsEnable { get; set; }

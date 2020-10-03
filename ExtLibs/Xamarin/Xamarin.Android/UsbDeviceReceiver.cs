@@ -35,9 +35,9 @@ namespace Xamarin.Droid
                 if (device.DeviceClass == UsbClass.Comm ||
                     device.DeviceClass == UsbClass.Misc && device.DeviceSubclass == UsbClass.Comm)
                 {
-                    var item = (device.VendorId, device.DeviceId);
+                    var item = (device.VendorId, device.ProductId);
                     if(!AndroidSerialBase.cdcacmTuples.Contains(item))
-                        AndroidSerialBase.cdcacmTuples.Add((device.VendorId, device.DeviceId));
+                        AndroidSerialBase.cdcacmTuples.Add((device.VendorId, device.ProductId));
                 }
 
                 Test.UsbDevices.USBEventCallBack(this, device);

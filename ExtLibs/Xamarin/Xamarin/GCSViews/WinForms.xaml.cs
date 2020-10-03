@@ -741,9 +741,9 @@ namespace Xamarin.GCSViews
 
         private async void DeviceAttached(object sender, MissionPlanner.ArduPilot.DeviceInfo e)
         {
-            var ans = await DisplayAlert("Connect", "Connect to USB Device?", "Yes", "No");
+            //var ans = await DisplayAlert("Connect", "Connect to USB Device?", "Yes", "No");
+            //if (ans)
 
-            if (ans)
                 Parallel.ForEach(await Test.UsbDevices.GetDeviceInfoList(), async (port) =>
                 {
                     var portUsb = await Test.UsbDevices.GetUSB(port);

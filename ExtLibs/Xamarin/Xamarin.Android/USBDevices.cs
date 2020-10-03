@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Hardware.Usb;
+using Android.OS;
 using Android.Util;
 using Hoho.Android.UsbSerial;
 using Hoho.Android.UsbSerial.Driver;
 using Hoho.Android.UsbSerial.Util;
+using Java.Lang;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using Exception = System.Exception;
+using String = System.String;
 
 namespace Xamarin.Droid
 {
@@ -127,7 +132,38 @@ namespace Xamarin.Droid
                 await usbManager.RequestPermissionAsync(usbdevice.Device, Application.Context);
             if (permissionGranted)
             {
-                var portInfo = new UsbSerialPortInfo(drivers.First().Ports.First());
+                var defaultport = drivers.First().Ports.First();
+                if (drivers.First().Ports.Count > 1)
+                {
+                    ManualResetEvent mre = new ManualResetEvent(false);
+
+                    var handler = new Handler(MainActivity.Current.MainLooper);
+
+                    handler.Post(() =>
+                    {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.Current);
+                        alert.SetTitle("Multiple Ports");
+                        alert.SetMessage("Please select a port");
+                        alert.SetCancelable(false);
+                        var items = drivers.First().Ports.Select(a =>
+                                a.Device.GetInterface(a.PortNumber).Name ?? a.PortNumber.ToString())
+                            .ToArray();
+                        alert.SetSingleChoiceItems(items, 0, (sender, args) =>
+                        {
+                            defaultport = drivers.First().Ports[args.Which];
+                        });
+
+                        alert.SetNeutralButton("OK", (senderAlert, args) => { mre.Set(); });
+
+                        Dialog dialog = alert.Create();
+                        if(!MainActivity.Current.IsFinishing)
+                            dialog.Show();
+                    });
+
+                    mre.WaitOne();
+                }
+
+                var portInfo = new UsbSerialPortInfo(defaultport);
 
                 int vendorId = portInfo.VendorId;
                 int deviceId = portInfo.DeviceId;
@@ -138,15 +174,9 @@ namespace Xamarin.Droid
                 var driver = drivers.Where((d) => d.Device.VendorId == vendorId && d.Device.DeviceId == deviceId).FirstOrDefault();
                 var port = driver.Ports[portNumber];
 
-                var serialIoManager = new SerialInputOutputManager(usbManager, port)
-                {
-                    BaudRate = 57600,
-                    DataBits = 8,
-                    StopBits = StopBits.One,
-                    Parity = Parity.None,
-                };
+                var serialIoManager = new SerialInputOutputManager(usbManager, port);
 
-                return new AndroidSerial(serialIoManager);
+                return new AndroidSerial(serialIoManager) {PortName = usbdevice.Device.ProductName};
             }
 
             return null;
