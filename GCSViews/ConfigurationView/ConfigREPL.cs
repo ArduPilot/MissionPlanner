@@ -1,14 +1,14 @@
-﻿using log4net;
-using MissionPlanner.ArduPilot;
-using MissionPlanner.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using log4net;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
 
-namespace MissionPlanner.GCSViews
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigREPL : MyUserControl, IActivate, IDeactivate
     {

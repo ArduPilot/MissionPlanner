@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace uploader
+namespace MissionPlanner.Radio
 {
     public class IHex : SortedList<uint, byte[]>
     {

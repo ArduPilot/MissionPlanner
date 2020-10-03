@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SerialPort = MissionPlanner.Comms.SerialPort;
 
-namespace MissionPlanner.GCSViews
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigTerminal : MyUserControl, IActivate, IDeactivate
     {

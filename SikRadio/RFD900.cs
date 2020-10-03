@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using uploader;
+using MissionPlanner.Radio;
 
 namespace RFD.RFD900
 {
@@ -12,7 +12,7 @@ namespace RFD.RFD900
     {
         TMode _Mode = TMode.INIT;
         MissionPlanner.Comms.ICommsSerial _Port;
-        public uploader.Uploader.Board Board = uploader.Uploader.Board.FAILED;
+        public Uploader.Board Board = Uploader.Board.FAILED;
         const int BOOTLOADER_BAUD = 115200;
 
         public TSession(MissionPlanner.Comms.ICommsSerial Port)
@@ -76,7 +76,7 @@ namespace RFD.RFD900
             return -1;
         }
 
-        void WriteBootloaderCode(uploader.Uploader.Code Code)
+        void WriteBootloaderCode(Uploader.Code Code)
         {
             byte[] ToSend = new byte[] { (byte)Code };
             _Port.Write(ToSend, 0, 1);
@@ -87,15 +87,15 @@ namespace RFD.RFD900
             int PrevBaud = _Port.BaudRate;
             _Port.BaudRate = BOOTLOADER_BAUD;
             Thread.Sleep(100);
-            WriteBootloaderCode(uploader.Uploader.Code.EOC);
+            WriteBootloaderCode(Uploader.Code.EOC);
             Thread.Sleep(100);
             _Port.DiscardInBuffer();
-            WriteBootloaderCode(uploader.Uploader.Code.GET_SYNC);
-            WriteBootloaderCode(uploader.Uploader.Code.EOC);
+            WriteBootloaderCode(Uploader.Code.GET_SYNC);
+            WriteBootloaderCode(Uploader.Code.EOC);
             bool Result;
             try
             {
-                Result = (_Port.ReadByte() == (int)uploader.Uploader.Code.INSYNC);
+                Result = (_Port.ReadByte() == (int)Uploader.Code.INSYNC);
             }
             catch
             {
@@ -233,7 +233,7 @@ namespace RFD.RFD900
                 case TMode.BOOTLOADER:
                     int PrevBaud = _Port.BaudRate;
                     _Port.BaudRate = BOOTLOADER_BAUD;
-                    WriteBootloaderCode(uploader.Uploader.Code.REBOOT);
+                    WriteBootloaderCode(Uploader.Code.REBOOT);
                     _Port.BaudRate = PrevBaud;
                     _Mode = TMode.INIT;
                     break;
@@ -649,11 +649,11 @@ namespace RFD.RFD900
             return Options.ToArray();
         }
 
-        TSetting.TOption[] GetDefaultBaudRateSettingForBoard(uploader.Uploader.Board Board)
+        TSetting.TOption[] GetDefaultBaudRateSettingForBoard(Uploader.Board Board)
         {
             switch (Board)
             {
-                case uploader.Uploader.Board.DEVICE_ID_RFD900X:
+                case Uploader.Board.DEVICE_ID_RFD900X:
                     return GetBaudRateOptionsGivenRawBaudRates(
                         new int[] { 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800 });
                 default:
@@ -684,7 +684,7 @@ namespace RFD.RFD900
         }
 
         public Dictionary<string, TSetting> GetSettings(string ATI5Response,
-            uploader.Uploader.Board Board)
+            Uploader.Board Board)
         {
             Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
             ParseATI5QueryResponse(ATI5Response, Result);
@@ -841,7 +841,7 @@ namespace RFD.RFD900
         /// <param name="File">The file to search.  Must not be null.</param>
         /// <param name="Tokens">The tokens to search for.  Must not be null.</param>
         /// <returns>true if at least one found, false if not found.</returns>
-        protected static bool SearchHex(uploader.IHex File, string[] Tokens)
+        protected static bool SearchHex(IHex File, string[] Tokens)
         {
             foreach (var Token in Tokens)
             {
@@ -889,7 +889,7 @@ namespace RFD.RFD900
             System.Windows.Forms.MessageBox.Show(S);
         }
 
-        public abstract uploader.Uploader.Board Board { get; }
+        public abstract Uploader.Board Board { get; }
     }
 
     public abstract class RFD900APU : RFD900
@@ -904,12 +904,12 @@ namespace RFD.RFD900
         {
             try
             {
-                uploader.IHex Hex = new uploader.IHex();
+                IHex Hex = new IHex();
                 Hex.load(FilePath);
 
                 if (SearchHex(Hex, GetFirmwareSearchTokens()))
                 {
-                    uploader.Uploader UL = new uploader.Uploader();
+                    Uploader UL = new Uploader();
                     UL.ProgressEvent += (d) => Progress(d);
                     UL.upload(_Session.Port, Hex);
                     return true;
@@ -933,19 +933,19 @@ namespace RFD.RFD900
         /// <returns>null if could not generate modem object</returns>
         public static RFD900APU GetObjectForModem(TSession Session)
         {
-            uploader.Uploader U = new uploader.Uploader();
+            Uploader U = new Uploader();
             U.port = Session.Port;
-            uploader.Uploader.Board Board = uploader.Uploader.Board.FAILED;
-            uploader.Uploader.Frequency Freq = uploader.Uploader.Frequency.FAILED;
+            Uploader.Board Board = Uploader.Board.FAILED;
+            Uploader.Frequency Freq = Uploader.Frequency.FAILED;
 
             U.getDevice(ref Board, ref Freq);
             switch (Board)
             {
-                case uploader.Uploader.Board.DEVICE_ID_RFD900A:
+                case Uploader.Board.DEVICE_ID_RFD900A:
                     return new RFD900a(Session);
-                case uploader.Uploader.Board.DEVICE_ID_RFD900P:
+                case Uploader.Board.DEVICE_ID_RFD900P:
                     return new RFD900p(Session);
-                case uploader.Uploader.Board.DEVICE_ID_RFD900U:
+                case Uploader.Board.DEVICE_ID_RFD900U:
                     return new RFD900u(Session);
                 case Uploader.Board.DEVICE_ID_RFD900:
                     return new RFD900old(Session);

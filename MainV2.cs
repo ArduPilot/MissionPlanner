@@ -2559,12 +2559,12 @@ namespace MissionPlanner
 
                     try
                     {
-                        if (GCSViews.ConfigTerminal.comPort is MAVLinkSerialPort)
+                        if (ConfigTerminal.comPort is MAVLinkSerialPort)
                         {
                         }
                         else
                         {
-                            if (GCSViews.ConfigTerminal.comPort != null && GCSViews.ConfigTerminal.comPort.IsOpen)
+                            if (ConfigTerminal.comPort != null && ConfigTerminal.comPort.IsOpen)
                                 continue;
                         }
                     }
@@ -3803,7 +3803,7 @@ namespace MissionPlanner
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (GCSViews.ConfigTerminal.SSHTerminal) { return false; }
+            if (ConfigTerminal.SSHTerminal) { return false; }
             if (keyData == Keys.F12)
             {
                 MenuConnect_Click(null, null);

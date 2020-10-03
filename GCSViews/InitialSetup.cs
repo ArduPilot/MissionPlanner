@@ -264,7 +264,7 @@ namespace MissionPlanner.GCSViews
             {
                 var adv = AddBackstageViewPage(typeof(ConfigAdvanced), "Advanced");
 
-                AddBackstageViewPage(typeof(GCSViews.ConfigTerminal), "Terminal", true, adv);
+                AddBackstageViewPage(typeof(ConfigTerminal), "Terminal", true, adv);
 
                 AddBackstageViewPage(typeof(ConfigREPL), "Script REPL", isConnected, adv);
             }

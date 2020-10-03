@@ -16,7 +16,6 @@ using MissionPlanner.Controls;
 using MissionPlanner.MsgBox;
 using MissionPlanner.Radio;
 using MissionPlanner.Utilities;
-using uploader;
 using Microsoft.VisualBasic;
 
 namespace MissionPlanner.Radio

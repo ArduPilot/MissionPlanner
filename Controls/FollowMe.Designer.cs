@@ -1,4 +1,4 @@
-﻿namespace MissionPlanner
+﻿namespace MissionPlanner.Controls
 {
     partial class FollowMe
     {

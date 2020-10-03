@@ -1,13 +1,12 @@
-﻿using MissionPlanner.ArduPilot;
-using MissionPlanner.Comms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
 
-namespace MissionPlanner
+namespace MissionPlanner.Controls
 {
     public partial class FollowMe : Form
     {

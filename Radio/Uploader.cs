@@ -1,8 +1,8 @@
-using MissionPlanner.Comms;
 using System;
 using System.Threading;
+using MissionPlanner.Comms;
 
-namespace uploader
+namespace MissionPlanner.Radio
 {
     public class Uploader
     {

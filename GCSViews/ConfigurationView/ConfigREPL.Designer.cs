@@ -1,4 +1,4 @@
-﻿namespace MissionPlanner.GCSViews
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigREPL
     {

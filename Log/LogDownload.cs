@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using MissionPlanner.GCSViews.ConfigurationView;
 
 namespace MissionPlanner.Log
 {
@@ -89,7 +90,7 @@ namespace MissionPlanner.Log
         {
             status = serialstatus.Connecting;
 
-            comPort = GCSViews.ConfigTerminal.comPort;
+            comPort = ConfigTerminal.comPort;
 
             try
             {

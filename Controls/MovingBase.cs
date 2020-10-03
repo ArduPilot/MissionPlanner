@@ -1,12 +1,12 @@
-﻿using MissionPlanner.Comms;
-using MissionPlanner.Utilities;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
 
-namespace MissionPlanner
+namespace MissionPlanner.Controls
 {
     public partial class MovingBase : Form
     {

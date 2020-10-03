@@ -1,10 +1,10 @@
-﻿using MissionPlanner.Comms;
-using MissionPlanner.Utilities;
-using System;
+﻿using System;
 using System.Threading;
 using System.Windows.Forms;
+using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
 
-namespace MissionPlanner
+namespace MissionPlanner.Controls
 {
     public partial class ConnectionOptions : Form
     {
