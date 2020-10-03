@@ -131,18 +131,6 @@ namespace MissionPlanner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;id&quot;,&quot;ident&quot;,&quot;type&quot;,&quot;name&quot;,&quot;latitude_deg&quot;,&quot;longitude_deg&quot;,&quot;elevation_ft&quot;,&quot;continent&quot;,&quot;iso_country&quot;,&quot;iso_region&quot;,&quot;municipality&quot;,&quot;scheduled_service&quot;,&quot;gps_code&quot;,&quot;iata_code&quot;,&quot;local_code&quot;,&quot;home_link&quot;,&quot;wikipedia_link&quot;,&quot;keywords&quot;
-        ///6523,&quot;00A&quot;,&quot;heliport&quot;,&quot;Total Rf Heliport&quot;,40.07080078125,-74.93360137939453,11,&quot;NA&quot;,&quot;US&quot;,&quot;US-PA&quot;,&quot;Bensalem&quot;,&quot;no&quot;,&quot;00A&quot;,,&quot;00A&quot;,,,
-        ///323361,&quot;00AA&quot;,&quot;small_airport&quot;,&quot;Aero B Ranch Airport&quot;,38.704022,-101.473911,3435,&quot;NA&quot;,&quot;US&quot;,&quot;US-KS&quot;,&quot;Leoti&quot;,&quot;no&quot;,&quot;00AA&quot;,,&quot;00AA&quot;,,,
-        ///6524,&quot;00AK&quot;,&quot;small_airport&quot;,&quot;Lo [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string airports {
-            get {
-                return ResourceManager.GetString("airports", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] Antenna_Tracker_01 {
@@ -475,16 +463,6 @@ namespace MissionPlanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] BurntKermit {
-            get {
-                object obj = ResourceManager.GetObject("BurntKermit", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         internal static byte[] calibration01 {
             get {
                 object obj = ResourceManager.GetObject("calibration01", resourceCulture);
@@ -599,39 +577,6 @@ namespace MissionPlanner.Properties {
             get {
                 object obj = ResourceManager.GetObject("cameraGimalYaw", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;us-ascii&quot;?&gt;
-        ///&lt;Cameras&gt;
-        ///  &lt;Camera&gt;
-        ///    &lt;name&gt;Nikon aw100&lt;/name&gt;
-        ///    &lt;flen&gt;5&lt;/flen&gt;
-        ///    &lt;imgh&gt;3456&lt;/imgh&gt;
-        ///    &lt;imgw&gt;4608&lt;/imgw&gt;
-        ///    &lt;senh&gt;4.62&lt;/senh&gt;
-        ///    &lt;senw&gt;6.16&lt;/senw&gt;
-        ///  &lt;/Camera&gt;
-        ///  &lt;Camera&gt;
-        ///    &lt;name&gt;Canon SX230 HS&lt;/name&gt;
-        ///    &lt;flen&gt;5&lt;/flen&gt;
-        ///    &lt;imgh&gt;3000&lt;/imgh&gt;
-        ///    &lt;imgw&gt;4000&lt;/imgw&gt;
-        ///    &lt;senh&gt;4.62&lt;/senh&gt;
-        ///    &lt;senw&gt;6.16&lt;/senw&gt;
-        ///  &lt;/Camera&gt;
-        ///  &lt;Camera&gt;
-        ///    &lt;name&gt;Samsung s860&lt;/name&gt;
-        ///    &lt;flen&gt;6.3&lt;/flen&gt;
-        ///    &lt;imgh&gt;2448&lt;/imgh&gt;
-        ///    &lt;imgw&gt;3264&lt;/imgw&gt;
-        ///    &lt;senh&gt;4.29&lt;/senh&gt;
-        ///    &lt;senw&gt;5 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string camerasBuiltin {
-            get {
-                return ResourceManager.GetString("camerasBuiltin", resourceCulture);
             }
         }
         
@@ -1586,44 +1531,6 @@ namespace MissionPlanner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
-        ///
-        ///&lt;!-- TAGS ARE CASE SENSATIVE --&gt;
-        ///&lt;CMD&gt;
-        ///  &lt;AC2&gt;
-        ///    &lt;WAYPOINT&gt;
-        ///      &lt;P1&gt;Delay&lt;/P1&gt;
-        ///      &lt;P2&gt;&lt;/P2&gt;
-        ///      &lt;P3&gt;&lt;/P3&gt;
-        ///      &lt;P4&gt;&lt;/P4&gt;
-        ///      &lt;X&gt;Lat&lt;/X&gt;
-        ///      &lt;Y&gt;Long&lt;/Y&gt;
-        ///      &lt;Z&gt;Alt&lt;/Z&gt;
-        ///    &lt;/WAYPOINT&gt;
-        ///    &lt;SPLINE_WAYPOINT&gt;
-        ///      &lt;P1&gt;Delay&lt;/P1&gt;
-        ///      &lt;P2&gt;&lt;/P2&gt;
-        ///      &lt;P3&gt;&lt;/P3&gt;
-        ///      &lt;P4&gt;&lt;/P4&gt;
-        ///      &lt;X&gt;Lat&lt;/X&gt;
-        ///      &lt;Y&gt;Long&lt;/Y&gt;
-        ///      &lt;Z&gt;Alt&lt;/Z&gt;
-        ///    &lt;/SPLINE_WAYPOINT&gt;
-        ///    &lt;LOITER_TURNS&gt;
-        ///      &lt;P1&gt;Turns&lt;/P1&gt;
-        ///      &lt;P2&gt;&lt;/P2&gt;
-        ///      &lt;P3&gt;Radius&lt;/P3&gt;
-        ///      &lt;P4&gt;&lt;/P4&gt;
-        ///      &lt;X&gt;Lat&lt;/X&gt;
-        ///      &lt;Y&gt;Long [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string mavcmd {
-            get {
-                return ResourceManager.GetString("mavcmd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] MinimOSD {
@@ -1820,23 +1727,6 @@ namespace MissionPlanner.Properties {
             get {
                 object obj = ResourceManager.GetObject("Parachute", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;Params&gt;
-        ///  &lt;ArduCopter2&gt;
-        ///    &lt;ACRO_BAL_PITCH&gt;
-        ///      &lt;DisplayName&gt;Acro Balance Pitch&lt;/DisplayName&gt;
-        ///      &lt;Description&gt;rate at which pitch angle returns to level in acro and sport mode.  A higher value causes the vehicle to return to level faster. For helicopter sets the decay rate of the virtual flybar in the pitch axis. A higher value causes faster decay of desired to actual attitude.&lt;/Description&gt;
-        ///      &lt;Range&gt;0 3&lt;/Range&gt;
-        ///      &lt;Increment&gt;0.1&lt;/Increment&gt;
-        ///      [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ParameterMetaDataBackup {
-            get {
-                return ResourceManager.GetString("ParameterMetaDataBackup", resourceCulture);
             }
         }
         

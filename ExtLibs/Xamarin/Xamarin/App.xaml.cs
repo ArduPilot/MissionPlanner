@@ -104,52 +104,11 @@ namespace Xamarin
                 }
             });
 
-            // setup http server
-            try
-            {
-                log.Info("start http");
-                httpthread = new Thread(new httpserver().listernforclients)
-                {
-                    Name = "motion jpg stream-network kml",
-                    IsBackground = true
-                };
-                httpthread.Start();
-            }
-            catch (Exception ex)
-            {
-                log.Error("Error starting TCP listener thread: ", ex);
-                CustomMessageBox.Show(ex.ToString());
-            }
-
             //CustomMessageBox.ShowEvent += CustomMessageBox_ShowEvent;
             //MAVLinkInterface.CreateIProgressReporterDialogue += CreateIProgressReporterDialogue;
 
             //Task.Run(() => { MainV2.instance.SerialReader(); });
 
-            var mp = MainPage;
-
-            try
-            {
-                Directory.CreateDirectory(Settings.GetUserDataDirectory());
-
-                File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
-                    MissionPlanner.Properties.Resources.airports);
-
-                File.WriteAllBytes(
-                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "BurntKermit.mpsystheme",
-                    MissionPlanner.Properties.Resources.BurntKermit);
-
-                File.WriteAllText(
-                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "ParameterMetaData.xml",
-                    MissionPlanner.Properties.Resources.ParameterMetaDataBackup);
-
-                File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "camerasBuiltin.xml",
-                    MissionPlanner.Properties.Resources.camerasBuiltin);
-            }
-            catch (Exception ex)
-            {
-                MainPage.DisplayAlert("Error", "Failed to save to storage " + ex.ToString(), "OK");
-            }
         }
 
         private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "",

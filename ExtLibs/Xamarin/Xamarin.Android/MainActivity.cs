@@ -101,15 +101,6 @@ namespace Xamarin.Droid
 
             AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
 
-            var pr1 = System.Diagnostics.Process.Start(WinForms.BundledPath + Path.DirectorySeparatorChar + "libarducopter.so", " -M+");
-
-            var pr2 = System.Diagnostics.Process.Start("ls");
-
-            var pr3 = System.Diagnostics.Process.Start("sh", "-c ls");
-
-            var pr4 = System.Diagnostics.Process.Start("sh", "-c "+
-                WinForms.BundledPath + Path.DirectorySeparatorChar + "libarducopter.so" + " -M+");
-
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
@@ -131,6 +122,60 @@ namespace Xamarin.Droid
                        (int) Permission.Granted)
                 {
                     Thread.Sleep(1000);
+                }
+            }
+
+            {
+                try
+                {
+                    Directory.CreateDirectory(Settings.GetUserDataDirectory());
+
+                    File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
+                        new StreamReader(Resources.OpenRawResource(
+                            Xamarin.Droid.Resource.Raw.airports)).ReadToEnd());
+
+                    File.WriteAllText(
+                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "BurntKermit.mpsystheme",
+                        new StreamReader(
+                            Resources.OpenRawResource(
+                                Droid.Resource.Raw.BurntKermit)).ReadToEnd());
+
+                    File.WriteAllText(
+                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "ParameterMetaData.xml",
+                        new StreamReader(
+                            Resources.OpenRawResource(
+                                Droid.Resource.Raw.ParameterMetaDataBackup)).ReadToEnd());
+
+                    File.WriteAllText(
+                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "camerasBuiltin.xml",
+                        new StreamReader(
+                            Resources.OpenRawResource(
+                                Droid.Resource.Raw.camerasBuiltin)).ReadToEnd());
+
+                    File.WriteAllText(
+                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "checklistDefault.xml",
+                        new StreamReader(
+                            Resources.OpenRawResource(
+                                Droid.Resource.Raw.checklistDefault)).ReadToEnd());
+
+                    File.WriteAllText(
+                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "mavcmd.xml", new StreamReader(
+                            Resources.OpenRawResource(
+                                Droid.Resource.Raw.mavcmd)).ReadToEnd());
+                }
+                catch (Exception ex)
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.SetTitle("Error");
+                    alert.SetMessage("Failed to save to storage " + ex.ToString());
+
+                    alert.SetNeutralButton("OK", (senderAlert, args) =>
+                    {
+                        
+                    });
+
+                    Dialog dialog = alert.Create();
+                    dialog.Show();
                 }
             }
 

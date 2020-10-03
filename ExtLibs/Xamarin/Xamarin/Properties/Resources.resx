@@ -930,19 +930,5 @@ END;</value>
   <data name="plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\plus.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="airports" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\airports.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="BurntKermit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BurntKermit.mpsystheme;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="camerasBuiltin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\camerasBuiltin.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="mavcmd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mavcmd.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="ParameterMetaDataBackup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ParameterMetaDataBackup.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
+
 </root>
