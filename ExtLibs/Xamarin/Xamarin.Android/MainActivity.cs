@@ -34,7 +34,6 @@ using Process = Android.OS.Process;
 using String = System.String;
 
 [assembly: UsesFeature("android.hardware.usb.host", Required = false)]
-[assembly: UsesPermission("android.hardware.usb.host")]
 [assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]

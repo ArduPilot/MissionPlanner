@@ -277,6 +277,7 @@ namespace Xamarin.GCSViews
 
         public event ProgressEventHandler Progress;
 
+        private string laststatus = "";
         async void updateProgress(int percent, string status)
         {
             log.Info(status);
@@ -288,7 +289,11 @@ namespace Xamarin.GCSViews
                     if (percent >= 0)
                         newstatus += " " + percent + "%";
 
-                    UserDialogs.Instance.Toast(newstatus, TimeSpan.FromSeconds(3));
+                    if (laststatus != newstatus)
+                    {
+                        laststatus = newstatus;
+                        UserDialogs.Instance.Toast(newstatus, TimeSpan.FromSeconds(10));
+                    }
                 }
 
                 if (Progress != null)

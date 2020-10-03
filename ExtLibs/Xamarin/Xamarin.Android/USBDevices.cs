@@ -31,16 +31,16 @@ namespace Xamarin.Droid
 
             foreach (var deviceListValue in usbManager.DeviceList.Values)
             {
-                Log.Info(TAG, deviceListValue.DeviceName);
+                Log.Info(TAG,"GetDeviceInfoList "+ deviceListValue.DeviceName);
             }
 
-            Log.Info(TAG, "Refreshing device list ...");
+            Log.Info(TAG,"GetDeviceInfoList "+ "Refreshing device list ...");
 
             var drivers = await AndroidSerialBase.GetPorts(usbManager);
 
             if (drivers == null || drivers.Count == 0)
             {
-                Log.Info(TAG, "No usb devices");
+                Log.Info(TAG, "GetDeviceInfoList "+"No usb devices");
                 return new List<DeviceInfo>();
             }
 
@@ -51,11 +51,11 @@ namespace Xamarin.Droid
                 try
                 {
                     Log.Info(TAG,
-                        string.Format("+ {0}: {1} port{2}", driver, drivers.Count,
+                        string.Format("GetDeviceInfoList "+"+ {0}: {1} port{2}", driver, drivers.Count,
                             drivers.Count == 1 ? string.Empty : "s"));
 
                     Log.Info(TAG,
-                        string.Format("+ {0}: {1} ", driver.Device.ProductName, driver.Device.ManufacturerName));
+                        string.Format("GetDeviceInfoList "+"+ {0}: {1} ", driver.Device.ProductName, driver.Device.ManufacturerName));
 
                     var deviceInfo = GetDeviceInfo(driver.Device);
 
@@ -65,7 +65,7 @@ namespace Xamarin.Droid
                 }
                 catch (Exception e)
                 {
-                    Log.Error("MP", e.StackTrace);
+                    Log.Error("MP", "GetDeviceInfoList "+e.StackTrace);
                 }
             }
 
@@ -104,24 +104,24 @@ namespace Xamarin.Droid
             
             foreach (var deviceListValue in usbManager.DeviceList.Values)
             {
-                Log.Info(TAG, deviceListValue.ToJSON());
+                Log.Info(TAG,"GetUSB "+ deviceListValue.DeviceName);
             }
 
-            Log.Info(TAG, "Refreshing device list ...");
+            Log.Info(TAG, "GetUSB "+"Refreshing device list ...");
 
             var drivers = await AndroidSerialBase.GetPorts(usbManager);
 
             if (drivers.Count == 0)
             {
-                Log.Info(TAG, "No usb devices");
+                Log.Info(TAG, "GetUSB "+"No usb devices");
                 return null;
             }
 
             foreach (var driver in drivers.ToArray())
             {
-                Log.Info(TAG, string.Format("+ {0}: {1} port{2}", driver, drivers.Count, drivers.Count == 1 ? string.Empty : "s"));
+                Log.Info(TAG, string.Format("GetUSB "+"+ {0}: {1} ports {2}", driver, drivers.Count, driver.Ports.Count));
 
-                Log.Info(TAG, string.Format("+ {0}: {1} ", driver.Device.ProductName, driver.Device.ManufacturerName));
+                Log.Info(TAG, string.Format("GetUSB "+"+ {0}: {1} ", driver.Device.ProductName, driver.Device.ManufacturerName));
             }
 
             var usbdevice = drivers.First(a =>
@@ -143,7 +143,6 @@ namespace Xamarin.Droid
                     {
                         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.Current);
                         alert.SetTitle("Multiple Ports");
-                        alert.SetMessage("Please select a port");
                         alert.SetCancelable(false);
                         var items = drivers.First().Ports.Select(a =>
                                 a.Device.GetInterface(a.PortNumber).Name ?? a.PortNumber.ToString())
@@ -169,7 +168,7 @@ namespace Xamarin.Droid
                 int deviceId = portInfo.DeviceId;
                 int portNumber = portInfo.PortNumber;
 
-                Log.Info(TAG, string.Format("VendorId: {0} DeviceId: {1} PortNumber: {2}", vendorId, deviceId, portNumber));
+                Log.Info(TAG, string.Format("GetUSB "+"VendorId: {0} DeviceId: {1} PortNumber: {2}", vendorId, deviceId, portNumber));
 
                 var driver = drivers.Where((d) => d.Device.VendorId == vendorId && d.Device.DeviceId == deviceId).FirstOrDefault();
                 var port = driver.Ports[portNumber];
