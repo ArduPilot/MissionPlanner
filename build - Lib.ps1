@@ -9,6 +9,7 @@ $days = [int]((New-TimeSpan -Start 2020-01-01 -End (Get-Date)).totaldays * 100)
 $manifest = [xml](Get-Content -Path ExtLibs\Xamarin\Xamarin.Android\Properties\AndroidManifest.xml -Raw)
 
 $manifest.SelectNodes("manifest") | % { $_.versionCode = ""+$days }
+$manifest.SelectNodes("manifest") | % { $_.versionName = ""+$days }
           
 $manifest.Save($current.Path + "\ExtLibs\Xamarin\Xamarin.Android\Properties\AndroidManifest.xml")
 

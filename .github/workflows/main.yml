@@ -73,6 +73,7 @@ jobs:
           $manifest = [xml](Get-Content -Path ExtLibs\Xamarin\Xamarin.Android\Properties\AndroidManifest.xml -Raw)
 
           $manifest.SelectNodes("manifest") | % { $_.versionCode = ""+$days }
+          $manifest.SelectNodes("manifest") | % { $_.versionName = ""+$days }
           
           $manifest.Save($current.Path + "\ExtLibs\Xamarin\Xamarin.Android\Properties\AndroidManifest.xml")
 

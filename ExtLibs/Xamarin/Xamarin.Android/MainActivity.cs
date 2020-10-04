@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Android;
 using Android.Bluetooth;
@@ -28,6 +29,7 @@ using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 using Android.Content;
 using Java.Lang;
+using MissionPlanner.Utilities;
 using Xamarin.GCSViews;
 using Exception = System.Exception;
 using Process = Android.OS.Process;
@@ -41,12 +43,16 @@ using String = System.String;
 namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
   //global::Android.Content.Intent.CategoryHome,
-    [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached, BluetoothDevice.ActionAclConnected, UsbManager.ActionUsbAccessoryAttached }, Categories = new []{ global::Android.Content.Intent.CategoryDefault})]
+    [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , 
+        global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached, 
+        BluetoothDevice.ActionAclConnected, UsbManager.ActionUsbAccessoryAttached}, 
+        Categories = new []{ global::Android.Content.Intent.CategoryLauncher})]
+    [MetaData("android.hardware.usb.action.USB_DEVICE_ATTACHED", Resource = "@xml/device_filter")]
     [Activity(Label = "Mission Planner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
         MainLauncher = true, HardwareAccelerated = true, DirectBootAware = true, Immersive = true)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        readonly string TAG = typeof(MainActivity).FullName;
+        readonly string TAG = "MP";
         private Socket server;
         public UsbDeviceReceiver UsbBroadcastReceiver;
 
@@ -125,8 +131,22 @@ namespace Xamarin.Droid
             }
 
             {
+                // print some info
+                var pm = this.PackageManager;
+                var name = this.PackageName;
+
+                var pi = pm.GetPackageInfo(name, PackageInfoFlags.Activities);
+
+                Console.WriteLine("pi.ApplicationInfo.DataDir " + pi?.ApplicationInfo?.DataDir);
+                Console.WriteLine("pi.ApplicationInfo.DeviceProtectedDataDir " +
+                                  pi?.ApplicationInfo?.DeviceProtectedDataDir);
+                Console.WriteLine("pi.ApplicationInfo.NativeLibraryDir " + pi?.ApplicationInfo?.NativeLibraryDir);
+            }
+
+            {
                 try
                 {
+                    // restore assets
                     Directory.CreateDirectory(Settings.GetUserDataDirectory());
 
                     File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
@@ -179,7 +199,36 @@ namespace Xamarin.Droid
             }
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            {
+                // clean start, see if it was an intent/usb attach
+                if (savedInstanceState == null)
+                {
+                    proxyIfUsbAttached(this.Intent);
+                }
+            }
+
             LoadApplication(new App());
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+            Console.WriteLine("OnNewIntent " + intent.Action);
+        }
+
+        private void proxyIfUsbAttached(Intent intent) {
+
+            if (intent == null) return;
+
+            if (!UsbManager.ActionUsbDeviceAttached.Equals(intent.Action)) return;
+
+            Log.Verbose(TAG, "usb device attached");
+
+            WinForms.InitDevice = ()=>
+            {
+                UsbBroadcastReceiver.OnReceive(this.ApplicationContext, intent);
+            };
         }
 
         protected override void OnStart()

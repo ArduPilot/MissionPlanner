@@ -50,6 +50,12 @@ namespace Xamarin.GCSViews
             set { SITL.BundledPath = value; }
         }
 
+        public static Action InitDevice
+        {
+            get => _initDevice;
+            set => _initDevice = value;
+        }
+
         protected override void OnAppearing()
         {
             if (!start)
@@ -194,8 +200,19 @@ namespace Xamarin.GCSViews
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+                var init = true;
+
                 Application.Idle += (sender, args) =>
                 {
+                    if (MainV2.instance != null && MainV2.instance.IsHandleCreated)
+                    {
+                        if (init)
+                        {
+                            Device.BeginInvokeOnMainThread(() => { InitDevice?.Invoke(); });
+                            init = false;
+                        }
+                    }
+
                     Thread.Sleep(0);
                 };
 
@@ -733,6 +750,7 @@ namespace Xamarin.GCSViews
         };
 
         static private Thread winforms;
+        private static Action _initDevice;
 
         public void Activate()
         {
