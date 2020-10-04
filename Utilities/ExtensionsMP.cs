@@ -109,6 +109,7 @@ namespace MissionPlanner.Utilities
             frm.Controls.Add(ctl);
             frm.Load += Frm_Load;
             frm.Closing += Frm_Closing;
+            ThemeManager.ApplyThemeTo(frm);
             if (showit)
                 frm.Show();
 

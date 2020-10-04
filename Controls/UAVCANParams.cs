@@ -51,6 +51,8 @@ namespace MissionPlanner.Controls
         {
             startup = true;
 
+            ThemeManager.ApplyThemeTo(this);
+
             _changes.Clear();
 
             BUT_writePIDS.Enabled = true;
