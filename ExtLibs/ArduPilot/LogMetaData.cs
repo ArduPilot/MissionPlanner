@@ -65,6 +65,7 @@ namespace MissionPlanner.ArduPilot
                                 {
                                     try
                                     {
+                                        outst.SetLength(0);
                                         stream.CopyTo(outst);
                                     }
                                     catch (XZIndexMarkerReachedException)
