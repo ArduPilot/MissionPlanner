@@ -5443,6 +5443,18 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 {
                 }
 
+                commandlist?.ForEach(pnt =>
+                {
+                    try
+                    {
+                        if(pnt.lat != 0 && pnt.lng != 0)
+                            port.Terrain.checkTerrain(pnt.lat, pnt.lng);
+                    }
+                    catch
+                    {
+                    }
+                });
+
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(100, "Done.");
             }
             catch (Exception ex)
@@ -5657,6 +5669,18 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             MainV2.comPort.getHomePositionAsync((byte)MainV2.comPort.sysidcurrent,
                 (byte)MainV2.comPort.compidcurrent);
+
+            commandlist?.ForEach(pnt =>
+            {
+                try
+                {
+                    if(pnt.lat != 0 && pnt.lng != 0)
+                        MainV2.comPort.Terrain.checkTerrain(pnt.lat, pnt.lng);
+                }
+                catch
+                {
+                }
+            });
         }
 
         private void setgradanddistandaz(List<PointLatLngAlt> pointlist, PointLatLngAlt HomeLocation)
