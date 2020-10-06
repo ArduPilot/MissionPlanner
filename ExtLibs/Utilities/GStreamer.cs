@@ -485,10 +485,10 @@ namespace MissionPlanner.Utilities
                         }
                         else
                         {
-                            log.Info("failed gst_app_sink_try_pull_sample "+ trys + "/60");
-                            trys++;
-                            if (trys > 60)
-                                break;
+                            log.Info("failed gst_app_sink_try_pull_sample "+ trys + "");
+                            //trys++;
+                            //if (trys > 60)
+                                //break;
                         }
                     }
                     catch (Exception ex)
