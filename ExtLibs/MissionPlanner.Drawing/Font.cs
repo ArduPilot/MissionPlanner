@@ -45,10 +45,10 @@ namespace System.Drawing
             //Initialize(familyName, emSize, style, unit, 1, IsVerticalName(familyName));
             if (unit == GraphicsUnit.Point)
                 emSize *= 1.333f;
-
+            
             nativeFont = new SKPaint()
             {
-                Typeface = SKTypeface.Default, TextSize = emSize, Style = SKPaintStyle.Fill,
+                Typeface = SKTypeface.FromFamilyName(familyName), TextSize = emSize, Style = SKPaintStyle.Fill,
                 TextAlign = SKTextAlign.Left, IsVerticalText = IsVerticalName(familyName),
                 TextEncoding = SKTextEncoding.Utf8
             };
@@ -269,31 +269,7 @@ namespace System.Drawing
             GraphicsUnit pixel = GraphicsUnit.Point, byte gdiCharSet = 0,
             bool gdiVerticalFont = false)
         {
-            try
-            {
-                nativeFont = new SKPaint()
-                {
-                    Typeface = SKTypeface.FromFamilyName(genericSansSerif), TextSize = size,
-                    TextAlign = SKTextAlign.Left
-                };
-
-                FontFamily = nativeFont?.Typeface?.FamilyName != null
-                    ? new FontFamily() {Name = nativeFont?.Typeface?.FamilyName}
-                    : new FontFamily() {Name = SKTypeface.Default.FamilyName};
-                Name = genericSansSerif;
-                Style = bold;
-                Unit = GraphicsUnit.Pixel;
-
-                if (pixel == GraphicsUnit.Pixel)
-                    Size = size;
-                if (pixel == GraphicsUnit.Point)
-                    Size = size * 1;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            Initialize((FontFamily) null, size, bold, pixel, gdiCharSet, gdiVerticalFont);
         }
 
         /// <summary>
