@@ -24,7 +24,7 @@ namespace MissionPlanner.Utilities
 
         public class FileInfo
         {
-            public string type = "";
+            public TypeEnum type;
             public string encoding = "";
             public long size = 0;
             public string name { get; set; }
@@ -34,7 +34,16 @@ namespace MissionPlanner.Utilities
             public string url = "";
             public string git_url = "";
             public string html_url = "";
-            public Dictionary<string, object> _links = new Dictionary<string, object>();
+            public Links _links { get; set; }
+
+            public partial class Links
+            {
+                public Uri Self { get; set; }
+                public Uri Git { get; set; }
+                public Uri Html { get; set; }
+            }
+
+            public enum TypeEnum { Dir, File };
         }
 
         static T GetObject<T>(Dictionary<string, object> dict)
