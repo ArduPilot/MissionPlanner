@@ -24,11 +24,14 @@ using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using Xamarin.Essentials;
 using MissionPlanner.GCSViews;
+using MissionPlanner.GCSViews.ConfigurationView;
 using Environment = Android.OS.Environment;
 using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 using Android.Content;
+using Hoho.Android.UsbSerial.Util;
 using Java.Lang;
+using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using Xamarin.GCSViews;
 using Exception = System.Exception;
@@ -39,6 +42,7 @@ using String = System.String;
 [assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
+//[assembly: UsesPermission("android.permission.MANAGE_EXTERNAL_STORAGE")]
 
 namespace Xamarin.Droid
 { //global::Android.Content.Intent.CategoryLauncher
@@ -102,6 +106,33 @@ namespace Xamarin.Droid
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
 
+            SerialPort.DefaultType = (self, s, i) =>
+            {
+                return Task.Run(async () =>
+                {
+                    var dil = await Test.UsbDevices.GetDeviceInfoList();
+
+                    var di = dil.Where(a => a.board == s);
+
+                    if (di.Count() > 0)
+                        return await Test.UsbDevices.GetUSB(di.First());
+
+                    return await Test.UsbDevices.GetUSB(dil.First());
+                }).Result;
+            };
+
+            // report back device list
+            SerialPort.GetCustomPorts = () =>
+            {
+                return Task.Run(async () =>
+                {
+                    var list = await Test.UsbDevices.GetDeviceInfoList();
+                    return list.Select(a => a.board).ToList();
+                }).Result;
+            };
+            
+            //ConfigFirmwareManifest.ExtraDeviceInfo
+            
             UserDialogs.Init(this);
 
             AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
