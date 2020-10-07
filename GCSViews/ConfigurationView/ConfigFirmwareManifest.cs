@@ -5,6 +5,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.test;
 using MissionPlanner.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -172,6 +173,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var ports = Win32DeviceMgmt.GetAllCOMPorts();
 
+            if (ExtraDeviceInfo != null)
+            {
+                try
+                {
+                    ports.AddRange(ExtraDeviceInfo.Invoke());
+                }
+                catch
+                {
+
+                }
+            }
+
             if (alloptions)
                 ports.Add(default(ArduPilot.DeviceInfo));
 
@@ -320,6 +333,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CustomMessageBox.Show("Failed to detect port to upload to", Strings.ERROR);
             return;
         }
+
+        public Func<List<ArduPilot.DeviceInfo>> ExtraDeviceInfo;
 
         /// <summary>
         ///     for when updating fw to hardware
