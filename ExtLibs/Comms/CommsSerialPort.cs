@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -10,169 +11,168 @@ using Microsoft.Win32.SafeHandles;
 
 namespace MissionPlanner.Comms
 {
-    public class SerialPort : System.IO.Ports.SerialPort, ICommsSerial
+    public class SerialPort : ICommsSerial
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(SerialPort));
+
+        public static Func<ICommsSerial, string, int, ICommsSerial> DefaultType { get; set; } = (self, portname, baudrate) =>
+        {
+            return new WinSerialPort();
+        };
+
+        private ICommsSerial _baseport;
+
+        public SerialPort()
+        {
+            _baseport = DefaultType.Invoke(this, null, 0);
+        }
+
+        public SerialPort(string portname, int baudrate)
+        {
+            _baseport = DefaultType.Invoke(this, portname, baudrate);
+            PortName = portname;
+            BaudRate = baudrate;
+        }
+
+        public SerialPort(string portname)
+        {
+            _baseport = DefaultType.Invoke(this, portname, 0);
+            PortName = portname;
+        }
+
+        public void Dispose()
+        {
+            _baseport.Dispose();
+        }
+
+        public Stream BaseStream => _baseport.BaseStream;
+
+        public int BaudRate
+        {
+            get => _baseport.BaudRate;
+            set => _baseport.BaudRate = value;
+        }
+
+        public int BytesToRead => _baseport.BytesToRead;
+
+        public int BytesToWrite => _baseport.BytesToWrite;
+
+        public int DataBits
+        {
+            get => _baseport.DataBits;
+            set => _baseport.DataBits = value;
+        }
+
+        public bool DtrEnable
+        {
+            get => _baseport.DtrEnable;
+            set => _baseport.DtrEnable = value;
+        }
+
+        public bool IsOpen => _baseport.IsOpen;
+
+        public string PortName
+        {
+            get => _baseport.PortName;
+            set => _baseport.PortName = value;
+        }
+
+        public int ReadBufferSize
+        {
+            get => _baseport.ReadBufferSize;
+            set => _baseport.ReadBufferSize = value;
+        }
+
+        public int ReadTimeout
+        {
+            get => _baseport.ReadTimeout;
+            set => _baseport.ReadTimeout = value;
+        }
+
+        public bool RtsEnable
+        {
+            get => _baseport.RtsEnable;
+            set => _baseport.RtsEnable = value;
+        }
+
+        public int WriteBufferSize
+        {
+            get => _baseport.WriteBufferSize;
+            set => _baseport.WriteBufferSize = value;
+        }
+
+        public int WriteTimeout
+        {
+            get => _baseport.WriteTimeout;
+            set => _baseport.WriteTimeout = value;
+        }
+
+        public void Close()
+        {
+            _baseport.Close();
+        }
+
+        public void DiscardInBuffer()
+        {
+            _baseport.DiscardInBuffer();
+        }
+
+        public void Open()
+        {
+            _baseport.Open();
+        }
+
+        public int Read(byte[] buffer, int offset, int count)
+        {
+            return _baseport.Read(buffer, offset, count);
+        }
+
+        public int ReadByte()
+        {
+            return _baseport.ReadByte();
+        }
+
+        public int ReadChar()
+        {
+            return _baseport.ReadChar();
+        }
+
+        public string ReadExisting()
+        {
+            return _baseport.ReadExisting();
+        }
+
+        public string ReadLine()
+        {
+            return _baseport.ReadLine();
+        }
+
+        public void Write(string text)
+        {
+            _baseport.Write(text);
+        }
+
+        public void Write(byte[] buffer, int offset, int count)
+        {
+            _baseport.Write(buffer, offset, count);
+        }
+
+        public void WriteLine(string text)
+        {
+            _baseport.WriteLine(text);
+        }
+
+        public void toggleDTR()
+        {
+            _baseport.toggleDTR();
+        }
+
 
         private static readonly object locker = new object();
 
         private static readonly Dictionary<string, string> comportnamecache = new Dictionary<string, string>();
 
         private static string portnamenice = "";
-
-        public SerialPort(string comPortName, int baudrate): base(comPortName, baudrate)
-        {
-        }
-
-        public SerialPort(string comPortName) : base(comPortName)
-        {
-        }
-
-        public SerialPort()
-        {
-        }
-
-        public new bool DtrEnable
-        {
-            get => base.DtrEnable;
-            set
-            {
-                log.Info(PortName + " DtrEnable " + value);
-                if (base.DtrEnable == value) return;
-                base.DtrEnable = value;
-            }
-        }
-
-        public new bool RtsEnable
-        {
-            get => base.RtsEnable;
-            set
-            {
-                log.Info(PortName + " RtsEnable " + value);
-                if (base.RtsEnable == value) return;
-                base.RtsEnable = value;
-            }
-        }
-
-        /*
-        protected override void Dispose(bool disposing)
-        {
-            try
-            {
-                try
-                {
-                    Type mytype = typeof(System.IO.Ports.SerialPort);
-                    FieldInfo field = mytype.GetField("internalSerialStream", BindingFlags.Instance | BindingFlags.NonPublic);
-
-                    if (field != null)
-                    {
-                        Stream stream = (Stream)field.GetValue(this);
-
-                        if (stream != null)
-                        {
-                            try
-                            {
-                                stream.Dispose();
-                            }
-                            catch (Exception ex) { Console.WriteLine("1 " + ex.ToString()); }
-                            stream = null;
-                        }
-                    }
-                }
-                catch (Exception ex) { Console.WriteLine("2 " + ex.ToString()); }
-
-                base.Dispose(disposing);
-            }
-            catch (Exception ex) { Console.WriteLine("3 " + ex.ToString()); }
-        }
-        */
-
-        public new void Open()
-        {
-            // 500ms write timeout - win32 api default
-            WriteTimeout = 500;
-
-            if (IsOpen)
-                return;
-
-            try
-            {
-                // this causes element not found with bluetooth devices.
-                if (BaudRate >= 115200)
-                {
-                    //Console.WriteLine("Doing SerialPortFixer");
-                    //SerialPortFixer.Execute(PortName);
-                    //Console.WriteLine("Done SerialPortFixer");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-
-            if (PortName.StartsWith("/"))
-                if (!File.Exists(PortName))
-                    throw new Exception("No such device");
-
-            try
-            {
-                base.Open();
-                WriteTimeout = -1;
-            }
-            catch
-            {
-                try
-                {
-                    Close();
-                }
-                catch
-                {
-                }
-
-                throw;
-            }
-        }
-
-        public new void Close()
-        {
-            log.Info("Closing port " + PortName);
-            base.Close();
-        }
-
-        public void toggleDTR()
-        {
-            var open = IsOpen;
-            Console.WriteLine("toggleDTR " + IsOpen);
-            try
-            {
-                if (!open)
-                    Open();
-            }
-            catch
-            {
-            }
-
-            base.DtrEnable = false;
-            base.RtsEnable = false;
-
-            Thread.Sleep(50);
-
-            base.DtrEnable = true;
-            base.RtsEnable = true;
-
-            Thread.Sleep(50);
-
-            try
-            {
-                if (!open)
-                    Close();
-            }
-            catch
-            {
-            }
-
-            Console.WriteLine("toggleDTR done " + IsOpen);
-        }
 
         public new static string[] GetPortNames()
         {
@@ -244,9 +244,22 @@ namespace MissionPlanner.Comms
                 if (ports != null)
                     allPorts.AddRange(ports);
 
+                if (GetCustomPorts != null)
+                {
+                    try
+                    {
+                        allPorts.AddRange(GetCustomPorts.Invoke());
+                    }
+                    catch
+                    {
+                    }
+                }
+
                 return allPorts.Distinct().ToArray();
             }
         }
+
+        public static Func<List<string>> GetCustomPorts;
 
         public static string GetNiceName(string port)
         {
@@ -345,6 +358,157 @@ namespace MissionPlanner.Comms
             //log.WarnFormat("Bad (Non Numeric) character in port name '{0}' - removing", portName);
 
             return newPortName;
+        }
+    }
+
+    public class WinSerialPort : System.IO.Ports.SerialPort, ICommsSerial
+    {
+        private static readonly ILog log = LogManager.GetLogger(typeof(WinSerialPort));
+
+        public WinSerialPort()
+        {
+        }
+
+        public new bool DtrEnable
+        {
+            get => base.DtrEnable;
+            set
+            {
+                log.Info(base.PortName + " DtrEnable " + value);
+                if (base.DtrEnable == value) return;
+                base.DtrEnable = value;
+            }
+        }
+
+        public new bool RtsEnable
+        {
+            get => base.RtsEnable;
+            set
+            {
+                log.Info(PortName + " RtsEnable " + value);
+                if (base.RtsEnable == value) return;
+                base.RtsEnable = value;
+            }
+        }
+
+        /*
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                try
+                {
+                    Type mytype = typeof(System.IO.Ports.SerialPort);
+                    FieldInfo field = mytype.GetField("internalSerialStream", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                    if (field != null)
+                    {
+                        Stream stream = (Stream)field.GetValue(this);
+
+                        if (stream != null)
+                        {
+                            try
+                            {
+                                stream.Dispose();
+                            }
+                            catch (Exception ex) { Console.WriteLine("1 " + ex.ToString()); }
+                            stream = null;
+                        }
+                    }
+                }
+                catch (Exception ex) { Console.WriteLine("2 " + ex.ToString()); }
+
+                base.Dispose(disposing);
+            }
+            catch (Exception ex) { Console.WriteLine("3 " + ex.ToString()); }
+        }
+        */
+
+        public new void Open()
+        {
+            // 500ms write timeout - win32 api default
+            base.WriteTimeout = 500;
+
+            if (base.IsOpen)
+                return;
+
+            try
+            {
+                // this causes element not found with bluetooth devices.
+                if (base.BaudRate >= 115200)
+                {
+                    //Console.WriteLine("Doing SerialPortFixer");
+                    //SerialPortFixer.Execute(PortName);
+                    //Console.WriteLine("Done SerialPortFixer");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            if (PortName.StartsWith("/"))
+                if (!File.Exists(PortName))
+                    throw new Exception("No such device");
+
+            try
+            {
+                base.Open();
+                base.WriteTimeout = -1;
+            }
+            catch
+            {
+                try
+                {
+                    Close();
+                }
+                catch
+                {
+                }
+
+                throw;
+            }
+        }
+
+        public new void Close()
+        {
+            log.Info("Closing port " + PortName);
+            base.Close();
+        }
+
+        public void toggleDTR()
+        {
+            var open = base.IsOpen;
+            Console.WriteLine("toggleDTR " + IsOpen);
+            try
+            {
+                if (!open)
+                    Open();
+            }
+            catch
+            {
+            }
+
+            base.DtrEnable = false;
+            base.RtsEnable = false;
+
+            Thread.Sleep(50);
+
+            base.DtrEnable = true;
+            base.RtsEnable = true;
+
+            Thread.Sleep(50);
+
+            try
+            {
+                if (!open)
+                    Close();
+            }
+            catch
+            {
+            }
+
+            Console.WriteLine("toggleDTR done " + IsOpen);
         }
     }
 
