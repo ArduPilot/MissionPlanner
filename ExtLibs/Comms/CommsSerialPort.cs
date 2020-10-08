@@ -15,12 +15,12 @@ namespace MissionPlanner.Comms
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(SerialPort));
 
-        public static Func<ICommsSerial, string, int, ICommsSerial> DefaultType { get; set; } = (self, portname, baudrate) =>
+        public static Func<SerialPort, string, int, ICommsSerial> DefaultType { get; set; } = (self, portname, baudrate) =>
         {
             return new WinSerialPort();
         };
 
-        private ICommsSerial _baseport;
+        public ICommsSerial _baseport;
 
         public SerialPort()
         {
@@ -49,8 +49,15 @@ namespace MissionPlanner.Comms
 
         public int BaudRate
         {
-            get => _baseport.BaudRate;
-            set => _baseport.BaudRate = value;
+            get
+            {
+                if (_baseport == null) return 0; return _baseport.BaudRate; }
+            set
+            {
+                if (_baseport == null)
+                    _baseport = DefaultType.Invoke(this, PortName, value);
+                _baseport.BaudRate = value;
+            }
         }
 
         public int BytesToRead => _baseport.BytesToRead;
@@ -69,12 +76,29 @@ namespace MissionPlanner.Comms
             set => _baseport.DtrEnable = value;
         }
 
-        public bool IsOpen => _baseport.IsOpen;
+        public bool IsOpen
+        {
+            get
+            {
+                if (_baseport == null) return false;
+                return _baseport.IsOpen;
+            }
+        }
 
         public string PortName
         {
-            get => _baseport.PortName;
-            set => _baseport.PortName = value;
+            get
+            {
+                if (_baseport == null) return "";
+                return _baseport.PortName;
+            }
+            set
+            {
+                if (_baseport != null)
+                    _baseport.PortName = value;
+                if (_baseport == null)
+                    _baseport = DefaultType.Invoke(this, value, 0);
+            }
         }
 
         public int ReadBufferSize
