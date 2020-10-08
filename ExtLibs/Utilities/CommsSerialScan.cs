@@ -50,7 +50,7 @@ namespace MissionPlanner.Comms
 
             try
             {
-                SerialPort port = new SerialPort();
+                ICommsSerial port = new SerialPort();
                 {
                     port.PortName = portname;
 
@@ -161,7 +161,7 @@ namespace MissionPlanner.Comms
 
         public static event doconnect doConnect;
 
-        public delegate void doconnect(SerialPort port);
+        public delegate void doconnect(ICommsSerial port);
 
     }
 }

@@ -13,7 +13,7 @@ namespace MissionPlanner.Controls
         System.Threading.Thread t12;
         static bool threadrun = false;
         static FollowMe Instance;
-        static internal SerialPort comPort = new SerialPort();
+        static internal ICommsSerial comPort = new SerialPort();
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
         static internal int intalt = 100;

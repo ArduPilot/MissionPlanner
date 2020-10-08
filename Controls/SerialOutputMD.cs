@@ -9,7 +9,7 @@ namespace MissionPlanner.Controls
     {
         System.Threading.Thread t12;
         static bool threadrun = false;
-        static internal SerialPort comPort = new SerialPort();
+        static internal ICommsSerial comPort = new SerialPort();
         static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0, 0, 0, "Home");
 
         public SerialOutputMD()
