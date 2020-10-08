@@ -2469,7 +2469,7 @@ namespace MissionPlanner
                         if (!nextrun.ContainsKey(plugin))
                             nextrun[plugin] = DateTime.MinValue;
 
-                        if (DateTime.Now > plugin.NextRun)
+                        if ((DateTime.Now > plugin.NextRun) && (plugin.loopratehz > 0))
                         {
                             // get ms till next run
                             int msnext = (int)(1000 / plugin.loopratehz);
