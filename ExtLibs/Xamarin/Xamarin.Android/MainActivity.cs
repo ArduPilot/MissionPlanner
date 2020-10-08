@@ -29,6 +29,7 @@ using Environment = Android.OS.Environment;
 using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 using Android.Content;
+using Android.Provider;
 using Hoho.Android.UsbSerial.Util;
 using Java.Lang;
 using MissionPlanner.Comms;
@@ -110,14 +111,29 @@ namespace Xamarin.Droid
             {
                 return Task.Run(async () =>
                 {
-                    var dil = await Test.UsbDevices.GetDeviceInfoList();
+                    Log.Info(TAG, "SerialPort.DefaultType in " + s + " " + i);
 
-                    var di = dil.Where(a => a.board == s);
+                    // no valid portname to start
+                    if (String.IsNullOrEmpty(s))
+                    {
+                        Log.Info(TAG, "SerialPort.DefaultType passthrough s = null");
+                        return self._baseport;
+                    }
+                    else
+                    {
+                        var dil = await Test.UsbDevices.GetDeviceInfoList();
 
-                    if (di.Count() > 0)
-                        return await Test.UsbDevices.GetUSB(di.First());
+                        var di = dil.Where(a => a.board == s);
 
-                    return await Test.UsbDevices.GetUSB(dil.First());
+                        if (di.Count() > 0)
+                        {
+                            Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board);
+                            return await Test.UsbDevices.GetUSB(di.First());
+                        }
+                    }
+
+                    Log.Info(TAG, "SerialPort.DefaultType passthrough no board match");
+                    return self._baseport;
                 }).Result;
             };
 
@@ -132,7 +148,15 @@ namespace Xamarin.Droid
             };
             
             //ConfigFirmwareManifest.ExtraDeviceInfo
-            
+            /*
+            var intent = new global::Android.Content.Intent(Intent.ActionOpenDocumentTree);
+
+            intent.AddFlags(ActivityFlags.GrantWriteUriPermission | ActivityFlags.GrantReadUriPermission);
+            intent.PutExtra(DocumentsContract.ExtraInitialUri, "Mission Planner");
+
+            StartActivityForResult(intent, 1);
+            */
+
             UserDialogs.Init(this);
 
             AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
@@ -258,6 +282,7 @@ namespace Xamarin.Droid
 
             WinForms.InitDevice = ()=>
             {
+                Log.Info(TAG, "WinForms.InitDevice");
                 UsbBroadcastReceiver.OnReceive(this.ApplicationContext, intent);
             };
         }

@@ -777,7 +777,7 @@ namespace Xamarin.GCSViews
                         MainV2.comPort.BaseStream = portUsb;
                         MainV2.instance.BeginInvoke((Action) delegate()
                         {
-                            MainV2.instance.doConnect(MainV2.comPort, "preset", port.name);
+                            MainV2.instance.doConnect(MainV2.comPort, "preset", "0");
                         });
                     }
                 });
