@@ -60,7 +60,7 @@ namespace MissionPlanner.Utilities
             var t = Type.GetType("Mono.Runtime");
             var MONO = (t != null);
 
-            SerialPort serialPort = new SerialPort();
+            ICommsSerial serialPort = new SerialPort();
             serialPort.PortName = port;
 
             if (!MONO)
@@ -564,7 +564,7 @@ namespace MissionPlanner.Utilities
         /// <param name="serialPort"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        static byte[] genstkv2packet(SerialPort serialPort, byte[] message)
+        static byte[] genstkv2packet(ICommsSerial serialPort, byte[] message)
         {
             byte[] data = new byte[300];
             byte ck = 0;
@@ -608,7 +608,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         /// <param name="serialPort"></param>
         /// <returns></returns>
-        static byte[] readpacket(SerialPort serialPort)
+        static byte[] readpacket(ICommsSerial serialPort)
         {
             byte[] temp = new byte[4000];
             byte[] mes = new byte[2] { 0x0, 0xC0 }; // fail
