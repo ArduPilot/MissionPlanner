@@ -29,9 +29,20 @@ namespace Xamarin.Droid
         {
             var usbManager = (UsbManager)Application.Context.GetSystemService(Context.UsbService);
 
-            foreach (var deviceListValue in usbManager.DeviceList.Values)
+            foreach (var device in usbManager.DeviceList.Values)
             {
-                Log.Info(TAG,"GetDeviceInfoList "+ deviceListValue.DeviceName);
+                Log.Info(TAG,
+                    "GetDeviceInfoList " + device.DeviceName + " " + device.ProductName + " " +
+                    device.VendorId + " " + device.ProductId);
+
+                // cdc and composite
+                if (device.DeviceClass == UsbClass.Comm ||
+                    device.DeviceClass == UsbClass.Misc && device.DeviceSubclass == UsbClass.Comm)
+                {
+                    var item = (device.VendorId, device.ProductId);
+                    if(!AndroidSerialBase.cdcacmTuples.Contains(item))
+                        AndroidSerialBase.cdcacmTuples.Add((device.VendorId, device.ProductId));
+                }
             }
 
             Log.Info(TAG,"GetDeviceInfoList "+ "Refreshing device list ...");
