@@ -419,7 +419,7 @@ namespace MissionPlanner
 
         public ConcurrentDictionary<string, adsb.PointLatLngAltHdg> adsbPlanes = new ConcurrentDictionary<string, adsb.PointLatLngAltHdg>();
 
-        string titlebar;
+        public static string titlebar;
 
         /// <summary>
         /// Comport name
