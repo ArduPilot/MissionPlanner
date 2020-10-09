@@ -2669,6 +2669,8 @@ main()
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            toolTip1.Hide(treeView1);
+
             if (e.Node != null && e.Node.Parent != null)
             {
                 // set the check if we right click
@@ -3368,12 +3370,14 @@ main()
                 {
                     var desc = LogMetaData.MetaData[items[0]][items[items.Length - 1]];
                     pos.Y -= 30;
+                    pos.X += 30;
                     toolTip1.Show(desc, treeView1, pos, 2000);
                 } else if (items.Length == 1 && LogMetaData.MetaData.ContainsKey(items[0]) &&
                            LogMetaData.MetaData[items[0]].ContainsKey("description"))
                 {
                     var desc = LogMetaData.MetaData[items[0]]["description"];
                     pos.Y -= 30;
+                    pos.X += 30;
                     toolTip1.Show(desc, treeView1, pos, 2000);
                 }
             }
