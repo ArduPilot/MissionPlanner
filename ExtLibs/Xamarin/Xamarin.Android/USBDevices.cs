@@ -67,9 +67,18 @@ namespace Xamarin.Droid
 
                     var deviceInfo = GetDeviceInfo(driver.Device);
 
-                    ans.Add(deviceInfo);
-
-                    //await usbManager.RequestPermissionAsync(driver.Device, Application.Context);
+                    // support one more
+                    if (driver.Ports.Count > 1)
+                    {
+                        var deviceInfo2 = GetDeviceInfo(driver.Device);
+                        deviceInfo2.board += "-P2";
+                        ans.Add(deviceInfo);
+                        ans.Add(deviceInfo2);
+                    }
+                    else
+                    {
+                        ans.Add(deviceInfo);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -99,7 +108,7 @@ namespace Xamarin.Droid
             {
                 board = device.ProductName,
                 description = device.ProductName,
-                hardwareid = String.Format("USB\\VID_{0:X4}&PID_{1:X4}", device.VendorId, device.ProductId),
+                hardwareid = String.Format("USB\\VID_{0:X4}&PID_{1:X4}&", device.VendorId, device.ProductId),
                 name = device.DeviceName
             };
             return deviceInfo;
@@ -145,6 +154,17 @@ namespace Xamarin.Droid
                 if (!hasPermission)
                     return await GetUSB(di);
 
+                var portnumber = 0;
+                var port = usbdevice.Ports.First();
+                if (usbdevice.Ports.Count > 1)
+                {
+                    if (di.board.EndsWith("-P2"))
+                    {
+                        port = usbdevice.Ports[1];
+                        portnumber = 1;
+                    }
+                }
+                /*
                 var defaultport = usbdevice.Ports.First();
                 if (usbdevice.Ports.Count > 1)
                 {
@@ -174,16 +194,16 @@ namespace Xamarin.Droid
 
                     mre.WaitOne();
                 }
+                */
 
-                var portInfo = new UsbSerialPortInfo(defaultport);
+                var portInfo = new UsbSerialPortInfo(port);
 
                 int vendorId = portInfo.VendorId;
                 int deviceId = portInfo.DeviceId;
-                int portNumber = portInfo.PortNumber;
 
-                Log.Info(TAG, string.Format("GetUSB "+"VendorId: {0} DeviceId: {1} PortNumber: {2}", vendorId, deviceId, portNumber));
-
-                var port = usbdevice.Ports[portNumber];
+                Log.Info(TAG,
+                    string.Format("GetUSB " + "VendorId: {0} DeviceId: {1} PortNumber: {2}", vendorId, deviceId,
+                        portnumber));
 
                 var serialIoManager = new SerialInputOutputManager(usbManager, port);
 

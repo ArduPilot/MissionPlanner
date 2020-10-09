@@ -34,7 +34,9 @@ using Hoho.Android.UsbSerial.Util;
 using Java.Lang;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using Xamarin.Forms;
 using Xamarin.GCSViews;
+using Application = Android.App.Application;
 using Exception = System.Exception;
 using Process = Android.OS.Process;
 using String = System.String;
@@ -94,7 +96,6 @@ namespace Xamarin.Droid
             SetSupportActionBar((Toolbar) FindViewById(ToolbarResource));
 
             this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.TurnScreenOn | WindowManagerFlags.HardwareAccelerated);
-            this.Window.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -127,7 +128,7 @@ namespace Xamarin.Droid
 
                         if (di.Count() > 0)
                         {
-                            Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board);
+                            Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board + " search " + s);
                             return await Test.UsbDevices.GetUSB(di.First());
                         }
                     }
@@ -331,6 +332,13 @@ namespace Xamarin.Droid
         protected override void OnResume()
         {
             base.OnResume();
+
+            this.Window.DecorView.SystemUiVisibility =
+                (StatusBarVisibility) (SystemUiFlags.LowProfile
+                                       | SystemUiFlags.Fullscreen
+                                       | SystemUiFlags.HideNavigation
+                                       | SystemUiFlags.Immersive
+                                       | SystemUiFlags.ImmersiveSticky);
 
             StartD2DInfo();
 

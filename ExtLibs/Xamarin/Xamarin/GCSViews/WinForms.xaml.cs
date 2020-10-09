@@ -759,29 +759,27 @@ namespace Xamarin.GCSViews
 
         private async void DeviceAttached(object sender, MissionPlanner.ArduPilot.DeviceInfo e)
         {
-            //var ans = await DisplayAlert("Connect", "Connect to USB Device?", "Yes", "No");
-            //if (ans)
+            var portUsb = await Test.UsbDevices.GetUSB(e);
 
-                Parallel.ForEach(await Test.UsbDevices.GetDeviceInfoList(), async (port) =>
+            if (portUsb == null)
+                return;
+
+            if (MainV2.comPort.BaseStream.IsOpen)
+                return;
+
+            // autoconnect
+            if (!e.board.ToLower().Contains("-bl") && !e.board.ToLower().Contains("-P2"))
+            {
+                var ans = await DisplayAlert("Connect", "Connect to USB Device? " + e.board, "Yes", "No");
+                if (ans)
                 {
-                    var portUsb = await Test.UsbDevices.GetUSB(port);
-
-                    if (portUsb == null)
-                        return;
-
-                    if (MainV2.comPort.BaseStream.IsOpen)
-                        return;
-
-                    if (!port.board.ToLower().Contains("-bl"))
+                    MainV2.comPort.BaseStream = portUsb;
+                    MainV2.instance.BeginInvoke((Action) delegate()
                     {
-                        MainV2.comPort.BaseStream = portUsb;
-                        MainV2.instance.BeginInvoke((Action) delegate()
-                        {
-                            MainV2.instance.doConnect(MainV2.comPort, "preset", "0");
-                        });
-                    }
-                });
-
+                        MainV2.instance.doConnect(MainV2.comPort, "preset", "0");
+                    });
+                }
+            }
         }
 
         public void Deactivate()

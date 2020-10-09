@@ -11,7 +11,7 @@ namespace Xamarin.Droid
     public class UsbDeviceReceiver
         : BroadcastReceiver
     {
-        readonly string TAG = typeof(UsbDeviceReceiver).Name;
+        readonly string TAG = "MP-"+typeof(UsbDeviceReceiver).Name;
         readonly Activity activity;
             
 
