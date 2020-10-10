@@ -20,6 +20,7 @@ namespace GDAL
         GDALProvider()
         {
             MaxZoom = 24;
+            BypassCache = true;
         }
 
         static GDALProvider()
