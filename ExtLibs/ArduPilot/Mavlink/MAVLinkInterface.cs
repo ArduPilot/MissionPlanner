@@ -2236,13 +2236,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         }
 
         public bool doCommandInt(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
-            int p5, int p6, int p7, bool requireack = true, Action uicallback = null, MAV_FRAME frame = MAV_FRAME.GLOBAL)
+            int p5, int p6, float p7, bool requireack = true, Action uicallback = null, MAV_FRAME frame = MAV_FRAME.GLOBAL)
         {
             return doCommandIntAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback, frame).AwaitSync();
         }
 
         public async Task<bool> doCommandIntAsync(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
-        int p5, int p6, int p7, bool requireack = true, Action uicallback = null, MAV_FRAME frame = MAV_FRAME.GLOBAL)
+        int p5, int p6, float p7, bool requireack = true, Action uicallback = null, MAV_FRAME frame = MAV_FRAME.GLOBAL)
         {
             MAVLinkMessage buffer;
 

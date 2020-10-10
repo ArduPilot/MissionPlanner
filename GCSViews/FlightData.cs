@@ -3742,17 +3742,17 @@ namespace MissionPlanner.GCSViews
 
                 MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (lat * 1e7),
-                    (int) (lng * 1e7), (int) ((alt / CurrentState.multiplieralt) * 100.0));
+                    (int) (lng * 1e7),  ((alt / CurrentState.multiplieralt) ));
             }
             else if (split.Length == 2)
             {
                 var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
-                var alt = srtm.getAltitude(lat, lng).alt;
+                var alt = (float)srtm.getAltitude(lat, lng).alt;
 
                 MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (lat * 1e7),
-                    (int) (lng * 1e7), (int) ((alt) * 100.0));
+                    (int) (lng * 1e7),  ((alt)));
             }
             else
             {
@@ -3789,7 +3789,7 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (MouseDownStart.Lat * 1e7),
-                    (int) (MouseDownStart.Lng * 1e7), (int) ((intalt / CurrentState.multiplieralt) * 100.0),
+                    (int) (MouseDownStart.Lng * 1e7),  ((intalt / CurrentState.multiplieralt)),
                     frame: MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
             }
             catch
