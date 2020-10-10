@@ -139,6 +139,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public static Graphics FromImage(Image bmpDestination)
         {
+            if (bmpDestination.Width == 0 || bmpDestination.Height == 0)
+                return new Graphics(SKSurface.CreateNull(1, 1));
+
             var bmpdata = ((Bitmap) bmpDestination).LockBits(
                 new Rectangle(0, 0, bmpDestination.Width, bmpDestination.Height),
                 null, SKColorType.Bgra8888);
@@ -150,6 +153,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (bmpDestination.IsLazyGenerated)
             {
                 var pixels = bmpDestination.ToRasterImage().PeekPixels();
+                if (pixels == null)
+                    return new Graphics(SKSurface.CreateNull(1,1));
                 return new Graphics(SKSurface.Create(pixels));
             }
             else
