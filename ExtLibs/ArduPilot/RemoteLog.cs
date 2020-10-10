@@ -86,6 +86,15 @@ namespace MissionPlanner.ArduPilot
 
             port.OnPacketReceived -= Port_OnPacketReceived;
 
+            try
+            {
+                if (logfilestream != null)
+                    logfilestream.Close();
+            }
+            catch
+            {
+            }
+
             running = false;
         }
 
