@@ -56,7 +56,7 @@ namespace Xamarin.Droid
         Categories = new []{ global::Android.Content.Intent.CategoryLauncher})]
     [MetaData("android.hardware.usb.action.USB_DEVICE_ATTACHED", Resource = "@xml/device_filter")]
     [Activity(Label = "Mission Planner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
-        MainLauncher = true, HardwareAccelerated = true, DirectBootAware = true, Immersive = true)]
+        MainLauncher = true, HardwareAccelerated = true, DirectBootAware = true, Immersive = true, LaunchMode = LaunchMode.SingleInstance)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         readonly string TAG = "MP";
@@ -108,45 +108,7 @@ namespace Xamarin.Droid
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
 
-            SerialPort.DefaultType = (self, s, i) =>
-            {
-                return Task.Run(async () =>
-                {
-                    Log.Info(TAG, "SerialPort.DefaultType in " + s + " " + i);
-
-                    // no valid portname to start
-                    if (String.IsNullOrEmpty(s))
-                    {
-                        Log.Info(TAG, "SerialPort.DefaultType passthrough s = null");
-                        return self._baseport;
-                    }
-                    else
-                    {
-                        var dil = await Test.UsbDevices.GetDeviceInfoList();
-
-                        var di = dil.Where(a => a.board == s);
-
-                        if (di.Count() > 0)
-                        {
-                            Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board + " search " + s);
-                            return await Test.UsbDevices.GetUSB(di.First());
-                        }
-                    }
-
-                    Log.Info(TAG, "SerialPort.DefaultType passthrough no board match");
-                    return self._baseport;
-                }).Result;
-            };
-
-            // report back device list
-            SerialPort.GetCustomPorts = () =>
-            {
-                return Task.Run(async () =>
-                {
-                    var list = await Test.UsbDevices.GetDeviceInfoList();
-                    return list.Select(a => a.board).ToList();
-                }).Result;
-            };
+          
             
             //ConfigFirmwareManifest.ExtraDeviceInfo
             /*

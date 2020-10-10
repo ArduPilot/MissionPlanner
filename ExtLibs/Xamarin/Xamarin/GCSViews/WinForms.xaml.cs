@@ -9,10 +9,14 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Acr.UserDialogs.Infrastructure;
 using Microsoft.Scripting.Utils;
+using MissionPlanner.Comms;
 using MissionPlanner.GCSViews;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -29,6 +33,8 @@ namespace Xamarin.GCSViews
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WinForms : ContentPage
     {
+        readonly string TAG = "MP";
+
         static WinForms Instance;
 
         public WinForms()
@@ -38,10 +44,64 @@ namespace Xamarin.GCSViews
             size = Device.Info.ScaledScreenSize;
             size = Device.Info.PixelScreenSize;
 
-            size = new Forms.Size(900, 540); // 1.66 - remove back and home pane
+            var scale = size.Width / size.Height; // 1.77 1.6  1.33
 
+            size = new Forms.Size(960, 960/scale);
+            
             Instance = this;
             MainV2.speechEngine = new Speech();
+
+            // init seril port type
+            SerialPort.DefaultType = (self, s, i) =>
+            {
+                return Task.Run(async () =>
+                {
+                    Log.Info(TAG, "SerialPort.DefaultType in " + s + " " + i);
+
+                    // no valid portname to start
+                    if (String.IsNullOrEmpty(s))
+                    {
+                        Log.Info(TAG, "SerialPort.DefaultType passthrough s = null");
+                        return self._baseport;
+                    }
+                    else
+                    {
+                        var dil = await Test.UsbDevices.GetDeviceInfoList();
+
+                        var di = dil.Where(a => a.board == s);
+
+                        if (di.Count() > 0)
+                        {
+                            Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board + " search " + s);
+                            return await Test.UsbDevices.GetUSB(di.First());
+                        }
+                    }
+
+                    Log.Info(TAG, "SerialPort.DefaultType passthrough no board match");
+                    return self._baseport;
+                }).Result;
+            };
+
+            // report back device list
+            SerialPort.GetCustomPorts = () =>
+            {
+                return Task.Run(async () =>
+                {
+                    var list = await Test.UsbDevices.GetDeviceInfoList();
+                    return list.Select(a => a.board).ToList();
+                }).Result;
+            };
+
+            // support for fw upload
+            MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>
+            {
+                return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
+            };
+
+            MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =>
+            {
+                return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
+            };
         }
 
         public static string BundledPath
@@ -520,7 +580,7 @@ namespace Xamarin.GCSViews
                         surface.Canvas.ClipRect(
                             SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                 hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
-
+                       
                         surface.Canvas.DrawImage(hwnd.hwndbmp,
                             new SKPoint(x, y),
                             new SKPaint() {FilterQuality = SKFilterQuality.Low});
@@ -766,6 +826,28 @@ namespace Xamarin.GCSViews
 
             if (MainV2.comPort.BaseStream.IsOpen)
                 return;
+
+            try
+            {
+                // send hook
+                const int DBT_DEVTYP_PORT = 0x00000003;
+
+                var prt = new MainV2.DEV_BROADCAST_PORT();
+                prt.dbcp_devicetype = DBT_DEVTYP_PORT;
+                prt.dbcp_name = ASCIIEncoding.Unicode.GetBytes(e.board);
+                prt.dbcp_size = prt.dbcp_name.Length * 2 + 4 * 3;
+
+                IntPtr tosend;
+                tosend = Marshal.AllocHGlobal(Marshal.SizeOf(prt));
+                Marshal.StructureToPtr(prt, tosend, true);
+
+                XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_DEVICECHANGE,
+                    (IntPtr) MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL, tosend);
+            }
+            catch
+            {
+
+            }
 
             // autoconnect
             if (!e.board.ToLower().Contains("-bl") && !e.board.ToLower().Contains("-P2"))
