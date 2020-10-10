@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    partial class ConfigFirmware : MyUserControl, IActivate, IDeactivate
+    public partial class ConfigFirmware : MyUserControl, IActivate, IDeactivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static List<Firmware.software> softwares = new List<Firmware.software>();
@@ -388,6 +388,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        public static Func<List<ArduPilot.DeviceInfo>> ExtraDeviceInfo;
+
         private void findfirmware(Firmware.software fwtoupload)
         {
             var dr = CustomMessageBox.Show(Strings.AreYouSureYouWantToUpload + fwtoupload.name + Strings.QuestionMark,
@@ -427,7 +429,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //history = "";
                 }
 
-                var updated = fw.update(MainV2.comPortName, fwtoupload, history, Win32DeviceMgmt.GetAllCOMPorts());
+                var ports = Win32DeviceMgmt.GetAllCOMPorts();
+
+                if (ExtraDeviceInfo != null)
+                {
+                    try
+                    {
+                        ports.AddRange(ExtraDeviceInfo.Invoke());
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+                var updated = fw.update(MainV2.comPortName, fwtoupload, history, ports);
 
                 if (updated)
                 {
@@ -533,7 +549,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                         else
                         {
-                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName, Win32DeviceMgmt.GetAllCOMPorts());
+                            var ports = Win32DeviceMgmt.GetAllCOMPorts();
+
+                            if (ExtraDeviceInfo != null)
+                            {
+                                try
+                                {
+                                    ports.AddRange(ExtraDeviceInfo.Invoke());
+                                }
+                                catch
+                                {
+
+                                }
+                            }
+
+                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName, ports);
                         }
 
                         if (boardtype == BoardDetect.boards.none)

@@ -334,7 +334,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return;
         }
 
-        public Func<List<ArduPilot.DeviceInfo>> ExtraDeviceInfo;
+        public static Func<List<ArduPilot.DeviceInfo>> ExtraDeviceInfo;
 
         /// <summary>
         ///     for when updating fw to hardware
@@ -420,7 +420,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                         else
                         {
-                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName, Win32DeviceMgmt.GetAllCOMPorts());
+                            var ports = Win32DeviceMgmt.GetAllCOMPorts();
+
+                            if (ExtraDeviceInfo != null)
+                            {
+                                try
+                                {
+                                    ports.AddRange(ExtraDeviceInfo.Invoke());
+                                }
+                                catch
+                                {
+
+                                }
+                            }
+
+                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName, ports);
                         }
 
                         if (boardtype == BoardDetect.boards.none)

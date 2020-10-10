@@ -732,12 +732,8 @@ namespace MissionPlanner
             TCPConsole.Write((byte)'S');
 
             // define default basestream
-#if !LIB
             comPort.BaseStream = new SerialPort();
             comPort.BaseStream.BaudRate = 115200;
-#else
-            comPort.BaseStream = new UdpSerial();
-#endif
 
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
@@ -4155,15 +4151,15 @@ namespace MissionPlanner
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal class DEV_BROADCAST_HDR
+        public class DEV_BROADCAST_HDR
         {
-            internal Int32 dbch_size;
-            internal Int32 dbch_devicetype;
-            internal Int32 dbch_reserved;
+            public Int32 dbch_size;
+            public Int32 dbch_devicetype;
+            public Int32 dbch_reserved;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        internal class DEV_BROADCAST_PORT
+        public class DEV_BROADCAST_PORT
         {
             public int dbcp_size;
             public int dbcp_devicetype;
@@ -4172,17 +4168,17 @@ namespace MissionPlanner
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        internal class DEV_BROADCAST_DEVICEINTERFACE
+        public class DEV_BROADCAST_DEVICEINTERFACE
         {
             public Int32 dbcc_size;
             public Int32 dbcc_devicetype;
             public Int32 dbcc_reserved;
 
             [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 16)]
-            internal Byte[]
+            public Byte[]
                 dbcc_classguid;
 
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 255)] internal Byte[] dbcc_name;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 255)] public Byte[] dbcc_name;
         }
 
 

@@ -56,6 +56,8 @@ namespace MissionPlanner.Comms
             {
                 if (_baseport == null)
                     _baseport = DefaultType.Invoke(this, PortName, value);
+                if(_baseport == null) // we are trying to set baudrate on a port that has no portname/doesnt exist
+                    return;
                 _baseport.BaudRate = value;
             }
         }
