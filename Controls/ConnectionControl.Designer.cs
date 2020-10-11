@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectionControl));
             this.cmb_Baud = new System.Windows.Forms.ComboBox();
-   
             this.cmb_Connection = new System.Windows.Forms.ComboBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.cmb_sysid = new System.Windows.Forms.ComboBox();
@@ -40,6 +39,7 @@
             // 
             this.cmb_Baud.BackColor = System.Drawing.Color.Black;
             this.cmb_Baud.DropDownWidth = 150;
+            resources.ApplyResources(this.cmb_Baud, "cmb_Baud");
             this.cmb_Baud.ForeColor = System.Drawing.Color.White;
             this.cmb_Baud.FormattingEnabled = true;
             this.cmb_Baud.Items.AddRange(new object[] {
@@ -55,19 +55,18 @@
             resources.GetString("cmb_Baud.Items9"),
             resources.GetString("cmb_Baud.Items10"),
             resources.GetString("cmb_Baud.Items11"),
-            resources.GetString("cmb_Baud.Items12")});
-            resources.ApplyResources(this.cmb_Baud, "cmb_Baud");
+            resources.GetString("cmb_Baud.Items12"),
+            resources.GetString("cmb_Baud.Items13")});
             this.cmb_Baud.Name = "cmb_Baud";
-
             // 
             // cmb_Connection
             // 
             this.cmb_Connection.BackColor = System.Drawing.Color.Black;
             this.cmb_Connection.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmb_Connection.DropDownWidth = 200;
+            resources.ApplyResources(this.cmb_Connection, "cmb_Connection");
             this.cmb_Connection.ForeColor = System.Drawing.Color.White;
             this.cmb_Connection.FormattingEnabled = true;
-            resources.ApplyResources(this.cmb_Connection, "cmb_Connection");
             this.cmb_Connection.Name = "cmb_Connection";
             this.cmb_Connection.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cmb_Connection_DrawItem);
             // 
@@ -84,9 +83,9 @@
             // 
             this.cmb_sysid.BackColor = System.Drawing.Color.Black;
             this.cmb_sysid.DropDownWidth = 160;
+            resources.ApplyResources(this.cmb_sysid, "cmb_sysid");
             this.cmb_sysid.ForeColor = System.Drawing.Color.White;
             this.cmb_sysid.FormattingEnabled = true;
-            resources.ApplyResources(this.cmb_sysid, "cmb_sysid");
             this.cmb_sysid.Name = "cmb_sysid";
             this.cmb_sysid.SelectedIndexChanged += new System.EventHandler(this.CMB_sysid_SelectedIndexChanged);
             this.cmb_sysid.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.cmb_sysid_Format);

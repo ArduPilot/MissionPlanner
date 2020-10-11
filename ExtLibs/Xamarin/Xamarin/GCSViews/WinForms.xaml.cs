@@ -46,7 +46,7 @@ namespace Xamarin.GCSViews
 
             var scale = size.Width / size.Height; // 1.77 1.6  1.33
 
-            size = new Forms.Size(960, 960/scale);
+            size = new Forms.Size(960, 540/*960/scale*/);
             
             Instance = this;
             MainV2.speechEngine = new Speech();

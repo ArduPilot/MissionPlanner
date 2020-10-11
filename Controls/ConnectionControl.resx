@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cmb_Baud.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
   <data name="cmb_Baud.Items" xml:space="preserve">
     <value>1200</value>
   </data>
@@ -145,23 +149,25 @@
     <value>115200</value>
   </data>
   <data name="cmb_Baud.Items9" xml:space="preserve">
-    <value>500000</value>
+    <value>460800</value>
   </data>
   <data name="cmb_Baud.Items10" xml:space="preserve">
-    <value>625000</value>
+    <value>500000</value>
   </data>
   <data name="cmb_Baud.Items11" xml:space="preserve">
-    <value>921600</value>
+    <value>625000</value>
   </data>
   <data name="cmb_Baud.Items12" xml:space="preserve">
+    <value>921600</value>
+  </data>
+  <data name="cmb_Baud.Items13" xml:space="preserve">
     <value>1500000</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cmb_Baud.Location" type="System.Drawing.Point, System.Drawing">
-    <value>130, 0</value>
+    <value>127, 0</value>
   </data>
   <data name="cmb_Baud.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 21</value>
+    <value>70, 28</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="cmb_Baud.TabIndex" type="System.Int32, mscorlib">
@@ -177,37 +183,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cmb_Baud.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="cmb_ConnectionType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 0</value>
-  </data>
-  <data name="cmb_ConnectionType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 21</value>
-  </data>
-  <data name="cmb_ConnectionType.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="cmb_ConnectionType.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;cmb_ConnectionType.Name" xml:space="preserve">
-    <value>cmb_ConnectionType</value>
-  </data>
-  <data name="&gt;&gt;cmb_ConnectionType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cmb_ConnectionType.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;cmb_ConnectionType.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="cmb_Connection.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
   <data name="cmb_Connection.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 0</value>
+    <value>0, 0</value>
   </data>
   <data name="cmb_Connection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
+    <value>121, 27</value>
   </data>
   <data name="cmb_Connection.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -228,7 +213,7 @@
     <value>True</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 25</value>
+    <value>3, 37</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 13</value>
@@ -254,11 +239,14 @@
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="cmb_sysid.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
   <data name="cmb_sysid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 21</value>
+    <value>49, 30</value>
   </data>
   <data name="cmb_sysid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 21</value>
+    <value>148, 28</value>
   </data>
   <data name="cmb_sysid.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -279,10 +267,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>230, 40</value>
+    <value>200, 60</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 40</value>
+    <value>200, 60</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConnectionControl</value>
