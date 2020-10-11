@@ -2460,7 +2460,7 @@ public static class Extension
         return new SKPaint
         {
             Typeface = SKTypeface.FromFamilyName(font.SystemFontName),
-            TextSize = font.Size * 1.4f,
+            TextSize = font.SizeInPoints * 1.33334f,
             StrokeWidth = 2
         };
     }

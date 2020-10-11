@@ -10,6 +10,10 @@ namespace System.Drawing
     public class Font : ISerializable, IDisposable, ICloneable
     {
         internal SKPaint nativeFont;
+
+        /// <summary>Gets style information for this <see cref="T:System.Drawing.Font" />.</summary>
+        /// <returns>A <see cref="T:System.Drawing.FontStyle" /> enumeration that contains style information for this <see cref="T:System.Drawing.Font" />.</returns>
+        [Browsable(false)]
         public FontStyle Style { get; set; }
 
         private Font(SerializationInfo info, StreamingContext context)
@@ -24,34 +28,22 @@ namespace System.Drawing
             {
                 if (string.Equals(enumerator.Name, "Name", StringComparison.OrdinalIgnoreCase))
                 {
-                    familyName = (string) enumerator.Value;
+                    familyName = (string)enumerator.Value;
                 }
                 else if (string.Equals(enumerator.Name, "Size", StringComparison.OrdinalIgnoreCase))
                 {
-                    emSize = ((!(enumerator.Value is string))
-                        ? ((float) enumerator.Value)
-                        : ((float) singleConverter.ConvertFrom(enumerator.Value)));
+                    emSize = ((!(enumerator.Value is string)) ? ((float)enumerator.Value) : ((float)singleConverter.ConvertFrom(enumerator.Value)));
                 }
                 else if (string.Compare(enumerator.Name, "Style", ignoreCase: true, CultureInfo.InvariantCulture) == 0)
                 {
-                    style = (FontStyle) enumerator.Value;
+                    style = (FontStyle)enumerator.Value;
                 }
                 else if (string.Compare(enumerator.Name, "Unit", ignoreCase: true, CultureInfo.InvariantCulture) == 0)
                 {
-                    unit = (GraphicsUnit) enumerator.Value;
+                    unit = (GraphicsUnit)enumerator.Value;
                 }
             }
-
-            //Initialize(familyName, emSize, style, unit, 1, IsVerticalName(familyName));
-            if (unit == GraphicsUnit.Point)
-                emSize *= 1.333f;
-            
-            nativeFont = new SKPaint()
-            {
-                Typeface = SKTypeface.FromFamilyName(familyName), TextSize = emSize, Style = SKPaintStyle.Fill,
-                TextAlign = SKTextAlign.Left, IsVerticalText = IsVerticalName(familyName),
-                TextEncoding = SKTextEncoding.Utf8
-            };
+            Initialize(familyName, emSize, style, unit, 1, IsVerticalName(familyName));
         }
 
         void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)
@@ -60,6 +52,18 @@ namespace System.Drawing
             si.AddValue("Size", Size);
             si.AddValue("Style", Style);
             si.AddValue("Unit", Unit);
+        }
+
+        private byte gdiCharSet = 1;
+
+        private bool gdiVerticalFont;
+
+
+        /// <summary>Returns a human-readable string representation of this <see cref="T:System.Drawing.Font" />.</summary>
+        /// <returns>A string that represents this <see cref="T:System.Drawing.Font" />.</returns>
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.CurrentCulture, "[{0}: Name={1}, Size={2}, Units={3}, GdiCharSet={4}, GdiVerticalFont={5}]", GetType().Name, FontFamily.Name, Size, (int)Unit, gdiCharSet, gdiVerticalFont);
         }
 
 
@@ -249,42 +253,38 @@ namespace System.Drawing
         {
             nativeFont = new SKPaint()
             {
-                Typeface = SKTypeface.FromFamilyName(genericSansSerif?.Name), TextSize = Size,
+                Typeface = SKTypeface.FromFamilyName(genericSansSerif?.Name), TextSize = size,
                 TextAlign = SKTextAlign.Left
             };
 
             FontFamily = new FontFamily() {Name = nativeFont.Typeface.FamilyName};
             Name = nativeFont.Typeface.FamilyName;
             Style = bold;
-            Unit = GraphicsUnit.Pixel;
-
-            if (pixel == GraphicsUnit.Pixel)
-                Size = size;
-            if (pixel == GraphicsUnit.Point)
-                Size = size * 1;
-
+            Unit = pixel;
+            Size = size;
         }
 
         internal void Initialize(string genericSansSerif, float size, FontStyle bold = FontStyle.Regular,
             GraphicsUnit pixel = GraphicsUnit.Point, byte gdiCharSet = 0,
             bool gdiVerticalFont = false)
         {
-            Initialize((FontFamily) null, size, bold, pixel, gdiCharSet, gdiVerticalFont);
+            Initialize(FontFamily.GenericSansSerif, size, bold, pixel, gdiCharSet, gdiVerticalFont);
         }
 
-        /// <summary>
-        /// pixels
-        /// </summary>
+
+        /// <summary>Gets the line spacing of this font.</summary>
+        /// <returns>The line spacing, in pixels, of this font.</returns>
+        [Browsable(false)]
         public int Height
         {
-            get { return (int) nativeFont.TextSize; }
-            set { nativeFont.TextSize = value; }
+            get { return (int) Math.Ceiling(GetHeight()); }
         }
 
         public FontFamily FontFamily { get; set; } = new FontFamily();
 
         private float _size = 12;
-
+        /// <summary>Gets the em-size of this <see cref="T:System.Drawing.Font" /> measured in the units specified by the <see cref="P:System.Drawing.Font.Unit" /> property.</summary>
+        /// <returns>The em-size of this <see cref="T:System.Drawing.Font" />.</returns>
         public float Size
         {
             get { return _size; }
@@ -294,7 +294,12 @@ namespace System.Drawing
                 try
                 {
                     if (nativeFont != null)
-                        nativeFont.TextSize = value;
+                    {
+                        if (Unit == GraphicsUnit.Pixel)
+                            nativeFont.TextSize = value;
+                        else
+                            nativeFont.TextSize = value * 1.33334f;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -316,13 +321,16 @@ namespace System.Drawing
         /// <summary>
         /// WinForms (GDI) fonts are points (pt)
         /// SkiaSharp is pixels (px)
-        /// </summary>
+        /// 12pt = 16px
+        /// 
+        /// Gets the em-size, in points, of this <see cref="T:System.Drawing.Font" />.</summary>
+        /// <returns>The em-size, in points, of this <see cref="T:System.Drawing.Font" />.</returns>
         public float SizeInPoints
         {
             get
             {
                 if (Unit == GraphicsUnit.Pixel)
-                    return Size * 1.3333f;
+                    return Size * 1.33334f;
                 return Size;
             }
         }
@@ -342,6 +350,8 @@ namespace System.Drawing
             return nativeFont.Handle;
         }
 
+        /// <summary>Returns the line spacing, in pixels, of this font.</summary>
+        /// <returns>The line spacing, in pixels, of this font.</returns>
         public float GetHeight()
         {
             return nativeFont.FontSpacing;

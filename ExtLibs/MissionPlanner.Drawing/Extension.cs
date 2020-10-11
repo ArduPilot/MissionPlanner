@@ -89,7 +89,7 @@ namespace System.Drawing
             return new SKPaint
             {
                 Typeface = fontcache[id],
-                TextSize = font.Size,
+                TextSize = font.SizeInPoints * 1.33334f,
                 StrokeWidth = 2,
             };
         }

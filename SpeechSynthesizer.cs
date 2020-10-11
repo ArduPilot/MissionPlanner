@@ -2451,65 +2451,7 @@ public class SkiaGraphics: Graphics
     {
     }
 }
-/*
-namespace OSGeo.GDAL
-{
-    public class Gdal
-    {
-        internal static string GetConfigOption(string v, string notSet)
-        {
-            throw new NotImplementedException();
-        }
 
-        internal static void SetConfigOption(string v, string gdalData)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static void AllRegister()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static int GetDriverCount()
-        {
-            return 0;
-        }
-
-        internal static (string ShortName, string LongName) GetDriver(int i)
-        {
-            throw new NotImplementedException();
-        }
-    }
-}
-namespace OSGeo.OGR
-{
-    public class Ogr
-    {
-        internal static void RegisterAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static int GetDriverCount()
-        {
-            return 0;
-        }
-
-        internal static Driver GetDriver(int i)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class Driver
-    {
-        internal string GetName()
-        {
-            throw new NotImplementedException();
-        }
-    }
-}*/
 namespace System.Speech.Synthesis
 {
     public class SpeechSynthesizer
@@ -2539,79 +2481,6 @@ namespace System.Speech.Synthesis
     }
 }
 
-public static class Extension
-{
-    public static SKColor SKColor(this Color color)
-    {
-        var skcol = SkiaSharp.SKColor.Empty.WithAlpha(color.A).WithRed(color.R).WithGreen(color.G)
-            .WithBlue(color.B);
-        return skcol;
-    }
-
-    public static SKPaint SKPaint(this Pen pen)
-    {
-        var paint = new SKPaint
-        {
-            Color = pen.Color.SKColor(),
-            StrokeWidth = pen.Width,
-            IsAntialias = true,
-            Style = SKPaintStyle.Stroke,
-            BlendMode = SKBlendMode.SrcOver,
-            FilterQuality = SKFilterQuality.High
-        };
-
-        if (pen.DashStyle != DashStyle.Solid)
-            paint.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
-        return paint;
-    }
-
-    public static SKPaint SKPaint(this Font font)
-    {
-        return new SKPaint
-        {
-            Typeface = SKTypeface.FromFamilyName(font.SystemFontName),
-            TextSize = font.Size * 1.4f,
-            StrokeWidth = 2
-        };
-    }
-
-    public static SKPoint SKPoint(this PointF pnt)
-    {
-        return new SKPoint(pnt.X, pnt.Y);
-    }
-
-    public static SKPoint SKPoint(this Point pnt)
-    {
-        return new SKPoint(pnt.X, pnt.Y);
-    }
-
-    public static SKPaint SKPaint(this Brush brush)
-    {
-        if (brush is SolidBrush)
-            return new SKPaint
-            { Color = ((SolidBrush)brush).Color.SKColor(), IsAntialias = true, Style = SKPaintStyle.Fill };
-
-        if (brush is LinearGradientBrush)
-        {
-            var lgb = (LinearGradientBrush)brush;
-            return new SKPaint
-            {
-                IsAntialias = true,
-                Style = SKPaintStyle.Fill,
-                Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
-                    new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
-                    new[]
-                    {
-                            ((LinearGradientBrush) brush).LinearColors[0].SKColor(),
-                            ((LinearGradientBrush) brush).LinearColors[1].SKColor()
-                    }
-                    , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
-            };
-        }
-
-        return new SKPaint();
-    }
-}
 
 
 namespace System.Management

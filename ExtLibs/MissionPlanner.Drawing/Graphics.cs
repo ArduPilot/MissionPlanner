@@ -81,8 +81,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         }
         public CompositingMode CompositingMode { get; set; }
         public CompositingQuality CompositingQuality { get; set; }
-        public float DpiX { get; } = 72;
-        public float DpiY { get; } = 72;
+        public float DpiX { get; } = 96;
+        public float DpiY { get; } = 96;
         public InterpolationMode InterpolationMode { get; set; }
         public bool IsClipEmpty { get; }
         public bool IsVisibleClipEmpty { get; }
@@ -855,22 +855,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 _image.DrawText(line.TrimEnd(), layoutRectangle.X, layoutRectangle.Y - 2 + (a+1) *font.Height, pnt);
                 a++;
             }            
-        }
-
-        private void DrawText(SKCanvas canvas, string text, SKRect area, SKPaint paint)
-        {
-            float lineHeight = paint.TextSize * 1.1f;
-            var lines = SplitLines(text, paint, area.Width);
-            var height = lines.Count() * lineHeight;
-
-            var y = area.MidY - 2 - height / 2;
-
-            foreach (var line in lines)
-            {
-                y += lineHeight;
-                var x = area.MidX - line.Width / 2;
-                canvas.DrawText(line.Value, x, y, paint);
-            }
         }
 
         public class Line
