@@ -94,9 +94,11 @@ namespace MissionPlanner.MsgBox
 
             // ensure we are always in a known state
             _state = DialogResult.None;
-
+            
+            SizeF sz = TextRenderer.MeasureText ("The quick brown Fox", SystemFonts.DefaultFont);
+            var perchar = sz.Width / 20;
             // convert to nice wrapped lines.
-            text = AddNewLinesToText(text);
+            text = AddNewLinesToText(text, Screen.PrimaryScreen.Bounds.Width / (int)perchar);
             // get pixel width and height
             Size textSize = TextRenderer.MeasureText(text, SystemFonts.DefaultFont);
             // allow for icon
@@ -205,13 +207,12 @@ namespace MissionPlanner.MsgBox
         }
 
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
-        private static int maximumSingleLineTooltipLength = 85;
 
-        private static string AddNewLinesToText(string text)
+        private static string AddNewLinesToText(string text, int length = 85)
         {
-            if (text.Length < maximumSingleLineTooltipLength)
+            if (text.Length < length)
                 return text;
-            int lineLength = maximumSingleLineTooltipLength;
+            int lineLength = length;
             StringBuilder sb = new StringBuilder();
             int currentLinePosition = 0;
             for (int textIndex = 0; textIndex < text.Length; textIndex++)
