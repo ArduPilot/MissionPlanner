@@ -1,4 +1,4 @@
-name: GitHub CI
+name: DotNet Build
 on: push
 
 jobs:
@@ -50,36 +50,3 @@ jobs:
         run: |
           cd bin\Debug\net461
           gci plugins | ForEach-Object {                 if (Test-Path $_.Name -PathType Leaf)                {                    Write-Host "Remove" $_.FullName   ;                 Remove-Item $_.FullName                            } else {                    Write-Host $_.Name                }            }
-
-  buildLib:
-    name: Build Release Lib
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-
-      - name: Build
-        shell: pwsh
-        run: |
-          $msbuildPath = Split-Path (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\Current\Bin\amd64\MSBuild.exe | Select-Object -First 1) -Parent
-          $env:PATH = $msbuildPath + ';' + $env:PATH
-          
-          $current = Get-Location
-          
-          $days = [int]((New-TimeSpan -Start 2020-01-01 -End (Get-Date)).totaldays * 100)
-          
-          $manifest = [xml](Get-Content -Path ExtLibs\Xamarin\Xamarin.Android\Properties\AndroidManifest.xml -Raw)
-
-          $manifest.SelectNodes("manifest") | % { $_.versionCode = ""+$days }
-          $manifest.SelectNodes("manifest") | % { $_.versionName = ""+$days }
-          
-          $manifest.Save($current.Path + "\ExtLibs\Xamarin\Xamarin.Android\Properties\AndroidManifest.xml")
-
-          msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: com.michaeloborne.MissionPlanner.apk.zip
-          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*.apk
