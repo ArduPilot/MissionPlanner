@@ -201,7 +201,7 @@ namespace Xamarin.Droid
                                 Droid.Resource.Raw.mavcmd)).ReadToEnd());
 
                     {
-                        var pluginsdir = Settings.GetRunningDirectory() + Path.DirectorySeparatorChar + "plugins";
+                        var pluginsdir = Settings.GetRunningDirectory() + "plugins";
                         Directory.CreateDirectory(pluginsdir);
 
                         string[] files = new[]
@@ -215,12 +215,43 @@ namespace Xamarin.Droid
                         {
                             try
                             {
+                                var id = (int) typeof(Droid.Resource.Raw)
+                                    .GetField(file)
+                                    .GetValue(null);
+
                                 File.WriteAllText(
                                     pluginsdir + Path.DirectorySeparatorChar + file + ".cs",
                                     new StreamReader(
-                                        Resources.OpenRawResource((int) typeof(Droid.Resource.Raw)
-                                            .GetProperty(file)
-                                            .GetValue(null))).ReadToEnd());
+                                        Resources.OpenRawResource(id)).ReadToEnd());
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    }
+
+                    {
+                        var graphsdir = Settings.GetRunningDirectory() + "graphs";
+                        Directory.CreateDirectory(graphsdir);
+
+                        string[] files = new[]
+                        {
+                            "ekf3Graphs", "ekfGraphs", "mavgraphs", "mavgraphs2", "mavgraphsMP"
+                        };
+
+                        foreach (var file in files)
+                        {
+                            try
+                            {
+                                var id = (int) typeof(Droid.Resource.Raw)
+                                    .GetField(file)
+                                    .GetValue(null);
+
+                                File.WriteAllText(
+                                    graphsdir + Path.DirectorySeparatorChar + file + ".xml",
+                                    new StreamReader(
+                                        Resources.OpenRawResource(id)).ReadToEnd());
                             }
                             catch
                             {

@@ -46,7 +46,10 @@ namespace Xamarin.GCSViews
 
             var scale = size.Width / size.Height; // 1.77 1.6  1.33
 
-            size = new Forms.Size(960, Math.Max(540, 960 / scale));
+
+            size = new Forms.Size(540 * scale, 540);
+            if (size.Width < 960)
+                size = new Forms.Size(960, 960 / scale);
             
             Instance = this;
             MainV2.speechEngine = new Speech();
@@ -599,7 +602,11 @@ namespace Xamarin.GCSViews
                         surface.Canvas.DrawImage(hwnd.hwndbmp,
                             new SKPoint(x + 0, y + 0),
                             new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                        /*
+                        surface.Canvas.DrawLine(x, y, x + 50, y + 50, Pens.Red.ToSKPaint());
 
+                        surface.Canvas.DrawText("  " + x + " " + y, new SKPoint(x, y+15),
+                            new SKPaint() {Color = SKColor.Parse("ffff00")});*/
                     }
                     else
                     {
