@@ -409,7 +409,9 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        if (key == "" || key.Contains("/")) // "/dev/blah"
+                        if (key == "" || key.Contains("/") || key.Contains(" ")
+                            || key.Contains("-")|| key.Contains(":")
+                            || key.Contains(";")|| key.Contains("."))
                             continue;
 
                         xmlwriter.WriteElementString(key, ""+config[key]);
