@@ -60,11 +60,8 @@ namespace Xamarin
 
             try
             {
-             
-
                 MasterPage.ListView.ItemSelected += ListView_ItemSelected;
 
-                AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                 TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
             } catch
             {

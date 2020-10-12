@@ -36,8 +36,6 @@ namespace Xamarin
         {
             InitializeComponent();
 
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
             log4net.Repository.Hierarchy.Hierarchy hierarchy =
                 (Hierarchy)log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(App)));
 

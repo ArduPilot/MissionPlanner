@@ -18572,19 +18572,67 @@ namespace Xamarin.Droid
 			public const int dataflashlog = 2131558408;
 			
 			// aapt resource value: 0x7F0D0009
-			public const int FirmwareHistory = 2131558409;
+			public const int ekf3Graphs = 2131558409;
 			
 			// aapt resource value: 0x7F0D000A
-			public const int HighContrast = 2131558410;
+			public const int ekfGraphs = 2131558410;
 			
 			// aapt resource value: 0x7F0D000B
-			public const int mavcmd = 2131558411;
+			public const int example2menu = 2131558411;
 			
 			// aapt resource value: 0x7F0D000C
-			public const int mavextra = 2131558412;
+			public const int example3fencedist = 2131558412;
 			
 			// aapt resource value: 0x7F0D000D
-			public const int ParameterMetaDataBackup = 2131558413;
+			public const int example4herelink = 2131558413;
+			
+			// aapt resource value: 0x7F0D000E
+			public const int example5latencytracker = 2131558414;
+			
+			// aapt resource value: 0x7F0D000F
+			public const int example6mapicondesc = 2131558415;
+			
+			// aapt resource value: 0x7F0D0010
+			public const int example7canrtcm = 2131558416;
+			
+			// aapt resource value: 0x7F0D0011
+			public const int example8modechange = 2131558417;
+			
+			// aapt resource value: 0x7F0D0012
+			public const int example9hudonoff = 2131558418;
+			
+			// aapt resource value: 0x7F0D0013
+			public const int examplewatchbutton = 2131558419;
+			
+			// aapt resource value: 0x7F0D0014
+			public const int FirmwareHistory = 2131558420;
+			
+			// aapt resource value: 0x7F0D0015
+			public const int generator = 2131558421;
+			
+			// aapt resource value: 0x7F0D0016
+			public const int HighContrast = 2131558422;
+			
+			// aapt resource value: 0x7F0D0017
+			public const int InitialParamsCalculator = 2131558423;
+			
+			// aapt resource value: 0x7F0D0018
+			public const int mavcmd = 2131558424;
+			
+			// aapt resource value: 0x7F0D0019
+			public const int mavextra = 2131558425;
+			
+			// aapt resource value: 0x7F0D001A
+			public const int mavgraphs = 2131558426;
+			
+			// aapt resource value: 0x7F0D001B
+			public const int mavgraphs2 = 2131558427;
+			
+			// aapt resource value: 0x7F0D001C
+			public const int mavgraphsMP = 2131558428;
+			
+			// aapt resource value: 0x7F0D001D
+			public const int ParameterMetaDataBackup = 2131558429;
 			
 			static Raw()
 			{

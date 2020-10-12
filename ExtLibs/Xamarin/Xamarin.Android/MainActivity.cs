@@ -199,6 +199,35 @@ namespace Xamarin.Droid
                         Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "mavcmd.xml", new StreamReader(
                             Resources.OpenRawResource(
                                 Droid.Resource.Raw.mavcmd)).ReadToEnd());
+
+                    {
+                        var pluginsdir = Settings.GetRunningDirectory() + Path.DirectorySeparatorChar + "plugins";
+                        Directory.CreateDirectory(pluginsdir);
+
+                        string[] files = new[]
+                        {
+                            "example2menu", "example3fencedist", "example4herelink", "example5latencytracker",
+                            "example6mapicondesc", "example7canrtcm", "example8modechange", "example9hudonoff",
+                            "examplewatchbutton", "generator", "InitialParamsCalculator"
+                        };
+
+                        foreach (var file in files)
+                        {
+                            try
+                            {
+                                File.WriteAllText(
+                                    pluginsdir + Path.DirectorySeparatorChar + file + ".cs",
+                                    new StreamReader(
+                                        Resources.OpenRawResource((int) typeof(Droid.Resource.Raw)
+                                            .GetProperty(file)
+                                            .GetValue(null))).ReadToEnd());
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -372,9 +401,8 @@ namespace Xamarin.Droid
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Log.Warn(TAG, e.ExceptionObject.ToString());
+            Log.Error(TAG, e.ExceptionObject.ToString());
         }
-
 
     }
 }

@@ -24,9 +24,9 @@ msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xa
 
 #rem keytool -v -list -keystore %USERPROFILE%\key.keystore
 
-del ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-signed2.apk
+del ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.aab
 
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore $env:USERPROFILE\key.keystore ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner.apk key
-zipalign -v 4 ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner.apk ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-signed2.apk
+jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore $env:USERPROFILE\key.keystore ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner.aab key
+zipalign -v 4 ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner.aab ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.aab
 
 pause

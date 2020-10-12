@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="28374" android:versionName="28374" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="28542" android:versionName="28542" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
   <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -24,4 +24,4 @@
   <uses-feature android:name="android.hardware.location" android:required="false" />
   <uses-feature android:name="android.hardware.telephony" android:required="false" />
   <uses-feature android:glEsVersion="0x00020000" android:required="true" />` 
-  <uses-feature android:name="android.hardware.faketouch" android:required="true" /><application android:label="Mission Planner" android:hardwareAccelerated="true" android:extractNativeLibs="true" android:killAfterRestore="true" android:hasFragileUserData="true" android:icon="@mipmap/icon" /></manifest>
+  <uses-feature android:name="android.hardware.faketouch" android:required="true" /><application android:label="Mission Planner" android:requestLegacyExternalStorage="true" android:hardwareAccelerated="true" android:extractNativeLibs="true" android:killAfterRestore="true" android:hasFragileUserData="true" android:icon="@mipmap/icon" /></manifest>
