@@ -7,8 +7,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using UAVCAN;
+using Timer = System.Windows.Forms.Timer;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -30,6 +32,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (MainV2.comPort.MAV.param.Count > 5 && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
                 this.Enabled = false;
+
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (_updatePending)
+            {
+                _updatePending = false;
+                uAVCANModelBindingSource.ResetBindings(false);
+            }
         }
 
         private void but_slcanmode_Click(object sender, EventArgs e)
@@ -132,6 +148,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             Uptime = TimeSpan.FromSeconds(msg.uptime_sec),
                             VSC = msg.vendor_specific_status_code
                         });
+
+                        uAVCANModelBindingSource.ResetBindings(false);
                     });
                 };
 
@@ -227,14 +245,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
 
                         _updatePending = true;
-                        this.BeginInvoke((Action)delegate
-                        {
-                            if (_updatePending)
-                            {
-                                _updatePending = false;
-                                uAVCANModelBindingSource.ResetBindings(false);
-                            }
-                        });
                     }
                     else if (msg.GetType() == typeof(UAVCAN.uavcan.uavcan_protocol_GetNodeInfo_res))
                     {
@@ -257,14 +267,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
 
                         _updatePending = true;
-                        this.BeginInvoke((Action)delegate
-                        {
-                            if (_updatePending)
-                            {
-                                _updatePending = false;
-                                uAVCANModelBindingSource.ResetBindings(false);
-                            }
-                        });
                     } 
                     else if (msg.GetType() == typeof(UAVCAN.uavcan.uavcan_protocol_debug_LogMessage))
                     {
@@ -290,6 +292,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         UAVCAN.uavcan can = new UAVCAN.uavcan();
         private bool _updatePending;
+        private Timer timer;
 
         private async void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -421,6 +424,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             can?.Stop(chk_canonclose.Checked);
             can = null;
+            timer?.Stop();
         }
 
         private void myDataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
