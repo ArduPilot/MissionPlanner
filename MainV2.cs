@@ -3128,6 +3128,17 @@ namespace MissionPlanner
             // update firmware version list - only once per day
             ThreadPool.QueueUserWorkItem(BGFirmwareCheck);
 
+            ThreadPool.QueueUserWorkItem((s) =>
+            {
+                try
+                {
+                    UserAlertRoot.GetAlerts();
+                }
+                catch
+                {
+                }
+            });
+
             log.Info("start AutoConnect");
             AutoConnect.NewMavlinkConnection += (sender, serial) =>
             {
