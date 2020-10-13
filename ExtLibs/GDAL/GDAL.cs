@@ -199,7 +199,7 @@ namespace GDAL
 
                 bool cleared = false;
 
-                foreach (var image in _cache)
+                foreach (var image in _cache.ToArray())
                 {
                     // calc the pixel coord within the image rect
                     var ImageTop = (float)map(request.Top, image.Rect.Top, image.Rect.Bottom, 0, image.RasterYSize);
