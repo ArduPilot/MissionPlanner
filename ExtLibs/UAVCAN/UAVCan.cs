@@ -183,7 +183,7 @@ namespace UAVCAN
 
             }
 
-            sr = stream; 
+            sr = stream;
             run = true;
 
             queue = new ConcurrentQueue<string>();
@@ -192,11 +192,12 @@ namespace UAVCAN
             Task.Run(() =>
             {
                 int readfail = 0;
+                var readstream = new BufferedStream(stream);
                 while (run)
                 {
                     try
                     {
-                        var line = ReadLine(sr);
+                        var line = ReadLine(readstream);
                         if (line == "")
                         {
                             Thread.Sleep(1);
