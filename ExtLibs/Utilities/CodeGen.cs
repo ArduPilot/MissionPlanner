@@ -53,7 +53,7 @@ namespace MissionPlanner
                 if (!emitResult.Success)
                 {
                     // emitResult.Diagnostics
-                    emitResult.Diagnostics.ForEach(a => Console.WriteLine("{0}", a.ToString()));
+                    emitResult.Diagnostics.ForEach(a => Console.WriteLine("CodeGenRoslyn: {0}", a.ToString()));
                 }
                 else
                 {
@@ -149,7 +149,7 @@ namespace MissionPlanner
             if (results.Errors.Count > 0)
             {
                 foreach (CompilerError error in results.Errors)
-                    Console.WriteLine("Compile Error: Line: " + error.Line + ":" + error.Column + " " + error.ErrorText);
+                    Console.WriteLine("CodeGen: Compile Error: Line: " + error.Line + ":" + error.Column + " " + error.ErrorText);
                 return null;
             }
 
@@ -171,7 +171,7 @@ namespace MissionPlanner
                 bool iserror = false;
                 foreach (CompilerError error in results.Errors)
                 {
-                    Console.WriteLine("Compile " + (error.IsWarning ? "Warning" : "Error") + ": Line: " + error.Line +
+                    Console.WriteLine("CodeGen: Compile " + (error.IsWarning ? "Warning" : "Error") + ": Line: " + error.Line +
                                       ":" + error.Column + " " +
                                       error.ErrorText);
                     if (!error.IsWarning)
