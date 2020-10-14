@@ -245,7 +245,7 @@ def generate_message_h(f, directory, m):
 
     t.write(f, '''
     ${obsolete}
-    /// extensions_start ${extensions_start} linenumber ${linenumber}
+    /// extensions_start ${extensions_start}
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=${wire_length})]
     ///<summary> ${description} </summary>
     public struct mavlink_${name_lower}_t

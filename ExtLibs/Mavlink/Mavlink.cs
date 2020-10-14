@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Sep 04 2020";
+    public const string MAVLINK_BUILD_DATE = "Wed Oct 14 2020";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -2017,6 +2017,9 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         QACRO=23, 
+        ///<summary>  | </summary>
+        [Description("")]
+        THERMAL=24, 
         
     };
     
@@ -5281,7 +5284,7 @@ public partial class MAVLink
     };
     
     
-    /// extensions_start 0 linenumber 1120
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> Offsets and calibrations values for hardware sensors. This makes it easier to debug the calibration process. </summary>
     public struct mavlink_sensor_offsets_t
@@ -5354,7 +5357,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 1135
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
     ///<summary> Set the magnetometer offsets </summary>
     public struct mavlink_set_mag_offsets_t
@@ -5392,7 +5395,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 2 linenumber 1144
+    /// extensions_start 2
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
     ///<summary> State of APM memory. </summary>
     public struct mavlink_meminfo_t
@@ -5420,7 +5423,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1151
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=12)]
     ///<summary> Raw ADC output. </summary>
     public struct mavlink_ap_adc_t
@@ -5463,7 +5466,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1161
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=15)]
     ///<summary> Configure on-board Camera Control System. </summary>
     public struct mavlink_digicam_configure_t
@@ -5531,7 +5534,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1175
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=13)]
     ///<summary> Control on-board Camera Control System to take shots. </summary>
     public struct mavlink_digicam_control_t
@@ -5594,7 +5597,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1189
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
     ///<summary> Message to configure a camera mount, directional antenna, etc. </summary>
     public struct mavlink_mount_configure_t
@@ -5637,7 +5640,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1198
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=15)]
     ///<summary> Message to control a camera mount, directional antenna, etc. </summary>
     public struct mavlink_mount_control_t
@@ -5680,7 +5683,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1207
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
     ///<summary> Message with some status from APM to GCS about camera or antenna mount. </summary>
     public struct mavlink_mount_status_t
@@ -5718,7 +5721,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1216
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=12)]
     ///<summary> A fence point. Used to set a point when from GCS -> MAV. Also used to return a point from MAV -> GCS. </summary>
     public struct mavlink_fence_point_t
@@ -5761,7 +5764,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1225
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Request a current fence point from MAV. </summary>
     public struct mavlink_fence_fetch_point_t
@@ -5789,7 +5792,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1231
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> Status of DCM attitude estimator. </summary>
     public struct mavlink_ahrs_t
@@ -5837,7 +5840,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1241
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
     ///<summary> Status of simulation environment, if used. </summary>
     public struct mavlink_simstate_t
@@ -5905,7 +5908,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1255
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Status of key hardware. </summary>
     public struct mavlink_hwstatus_t
@@ -5928,7 +5931,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1260
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     ///<summary> Status generated by radio. </summary>
     public struct mavlink_radio_t
@@ -5976,7 +5979,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1271
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=22)]
     ///<summary> Status of AP_Limits. Sent in extended status stream when AP_Limits is enabled. </summary>
     public struct mavlink_limits_status_t
@@ -6034,7 +6037,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1283
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=12)]
     ///<summary> Wind estimation. </summary>
     public struct mavlink_wind_t
@@ -6062,7 +6065,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1289
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
     ///<summary> Data packet, size 16. </summary>
     public struct mavlink_data16_t
@@ -6091,7 +6094,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1295
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
     ///<summary> Data packet, size 32. </summary>
     public struct mavlink_data32_t
@@ -6120,7 +6123,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1301
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=66)]
     ///<summary> Data packet, size 64. </summary>
     public struct mavlink_data64_t
@@ -6149,7 +6152,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1307
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=98)]
     ///<summary> Data packet, size 96. </summary>
     public struct mavlink_data96_t
@@ -6178,7 +6181,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1313
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
     ///<summary> Rangefinder reporting. </summary>
     public struct mavlink_rangefinder_t
@@ -6201,7 +6204,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1318
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=48)]
     ///<summary> Airspeed auto-calibration. </summary>
     public struct mavlink_airspeed_autocal_t
@@ -6274,7 +6277,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1334
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=19)]
     ///<summary> A rally point. Used to set a point when from GCS -> MAV. Also used to return a point from MAV -> GCS. </summary>
     public struct mavlink_rally_point_t
@@ -6337,7 +6340,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1348
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Request a current rally point from MAV. MAV should respond with a RALLY_POINT message. MAV should not respond if the request is invalid. </summary>
     public struct mavlink_rally_fetch_point_t
@@ -6365,7 +6368,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1354
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
     ///<summary> Status of compassmot calibration. </summary>
     public struct mavlink_compassmot_status_t
@@ -6408,7 +6411,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1363
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
     ///<summary> Status of secondary AHRS filter if available. </summary>
     public struct mavlink_ahrs2_t
@@ -6451,7 +6454,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1373
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=29)]
     ///<summary> Camera Event. </summary>
     public struct mavlink_camera_status_t
@@ -6509,7 +6512,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 13 linenumber 1389
+    /// extensions_start 13
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=47)]
     ///<summary> Camera Capture Feedback. </summary>
     public struct mavlink_camera_feedback_t
@@ -6592,7 +6595,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 1415
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
     ///<summary> 2nd Battery status </summary>
     public struct mavlink_battery2_t
@@ -6615,7 +6618,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1421
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=40)]
     ///<summary> Status of third AHRS filter if available. This is for ANU research group (Ali and Sean). </summary>
     public struct mavlink_ahrs3_t
@@ -6678,7 +6681,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1434
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
     ///<summary> Request the autopilot version from the system/component. </summary>
     public struct mavlink_autopilot_version_request_t
@@ -6701,7 +6704,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1440
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=206)]
     ///<summary> Send a block of log data to remote location. </summary>
     public struct mavlink_remote_log_data_block_t
@@ -6735,7 +6738,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1447
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=7)]
     ///<summary> Send Status of each log block that autopilot board might have sent. </summary>
     public struct mavlink_remote_log_block_status_t
@@ -6768,7 +6771,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1454
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=29)]
     ///<summary> Control vehicle LEDs. </summary>
     public struct mavlink_led_control_t
@@ -6812,7 +6815,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1463
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=27)]
     ///<summary> Reports progress of compass calibration. </summary>
     public struct mavlink_mag_cal_progress_t
@@ -6871,7 +6874,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 14 linenumber 1475
+    /// extensions_start 14
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=54)]
     ///<summary> Reports results of completed compass calibration. Sent until MAG_CAL_ACK received. </summary>
     public struct mavlink_mag_cal_report_t
@@ -6974,7 +6977,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 6 linenumber 1498
+    /// extensions_start 6
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=26)]
     ///<summary> EKF Status message including flags and variances. </summary>
     public struct mavlink_ekf_status_report_t
@@ -7022,7 +7025,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1512
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=25)]
     ///<summary> PID tuning information. </summary>
     public struct mavlink_pid_tuning_t
@@ -7070,7 +7073,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1522
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
     ///<summary> Deepstall path planning. </summary>
     public struct mavlink_deepstall_t
@@ -7133,7 +7136,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1535
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> 3 axis gimbal measurements. </summary>
     public struct mavlink_gimbal_report_t
@@ -7206,7 +7209,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1550
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
     ///<summary> Control message for rate gimbal. </summary>
     public struct mavlink_gimbal_control_t
@@ -7244,7 +7247,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1558
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
     ///<summary> 100 Hz gimbal torque command telemetry. </summary>
     public struct mavlink_gimbal_torque_cmd_report_t
@@ -7282,7 +7285,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1567
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Heartbeat from a HeroBus attached GoPro. </summary>
     public struct mavlink_gopro_heartbeat_t
@@ -7310,7 +7313,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1574
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Request a GOPRO_COMMAND response from the GoPro. </summary>
     public struct mavlink_gopro_get_request_t
@@ -7338,7 +7341,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1580
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
     ///<summary> Response from a GOPRO_COMMAND get request. </summary>
     public struct mavlink_gopro_get_response_t
@@ -7367,7 +7370,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1586
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=7)]
     ///<summary> Request to set a GOPRO_COMMAND with a desired. </summary>
     public struct mavlink_gopro_set_request_t
@@ -7401,7 +7404,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1593
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
     ///<summary> Response from a GOPRO_COMMAND set request. </summary>
     public struct mavlink_gopro_set_response_t
@@ -7424,7 +7427,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1599
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=65)]
     ///<summary> EFI status output </summary>
     public struct mavlink_efi_status_t
@@ -7522,7 +7525,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1619
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
     ///<summary> RPM sensor output. </summary>
     public struct mavlink_rpm_t
@@ -7545,7 +7548,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 9 linenumber 1625
+    /// extensions_start 9
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=52)]
     ///<summary> Read registers for a device. </summary>
     public struct mavlink_device_op_read_t
@@ -7609,7 +7612,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 5 linenumber 1639
+    /// extensions_start 5
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=136)]
     ///<summary> Read registers reply. </summary>
     public struct mavlink_device_op_read_reply_t
@@ -7653,7 +7656,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 1649
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=180)]
     ///<summary> Write registers for a device. </summary>
     public struct mavlink_device_op_write_t
@@ -7723,7 +7726,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1664
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
     ///<summary> Write registers reply. </summary>
     public struct mavlink_device_op_write_reply_t
@@ -7746,7 +7749,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1670
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=49)]
     ///<summary> Adaptive Controller tuning information. </summary>
     public struct mavlink_adap_tuning_t
@@ -7824,7 +7827,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1687
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
     ///<summary> Camera vision based attitude and position deltas. </summary>
     public struct mavlink_vision_position_delta_t
@@ -7864,7 +7867,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1696
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> Angle of Attack and Side Slip Angle. </summary>
     public struct mavlink_aoa_ssa_t
@@ -7892,7 +7895,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1702
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
     ///<summary> ESC Telemetry Data for ESCs 1 to 4, matching data sent by BLHeli ESCs. </summary>
     public struct mavlink_esc_telemetry_1_to_4_t
@@ -7941,7 +7944,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1711
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
     ///<summary> ESC Telemetry Data for ESCs 5 to 8, matching data sent by BLHeli ESCs. </summary>
     public struct mavlink_esc_telemetry_5_to_8_t
@@ -7990,7 +7993,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1720
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
     ///<summary> ESC Telemetry Data for ESCs 9 to 12, matching data sent by BLHeli ESCs. </summary>
     public struct mavlink_esc_telemetry_9_to_12_t
@@ -8039,7 +8042,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1729
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
     ///<summary> Configure an OSD parameter slot. </summary>
     public struct mavlink_osd_param_config_t
@@ -8103,7 +8106,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1742
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
     ///<summary> Configure OSD parameter reply. </summary>
     public struct mavlink_osd_param_config_reply_t
@@ -8126,7 +8129,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1747
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
     ///<summary> Read a configured an OSD parameter slot. </summary>
     public struct mavlink_osd_param_show_config_t
@@ -8164,7 +8167,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 1755
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
     ///<summary> Read configured OSD parameter reply. </summary>
     public struct mavlink_osd_param_show_config_reply_t
@@ -8213,7 +8216,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 24
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
     ///<summary> Information about video stream </summary>
     public struct mavlink_video_stream_information_t
@@ -8267,7 +8270,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3527
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     ///<summary> The heartbeat message shows that a system or component is present and responding. The type and autopilot fields (along with the message component id), allow the receiving system to treat further messages from this system appropriately (e.g. by laying out the user interface based on the autopilot). This microservice is documented at https://mavlink.io/en/services/heartbeat.html </summary>
     public struct mavlink_heartbeat_t
@@ -8310,7 +8313,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3536
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=31)]
     ///<summary> The general system state. If the system is following the MAVLink standard, the system state is mainly defined by three orthogonal states/modes: The system mode, which is either LOCKED (motors shut down and locked), MANUAL (system under RC control), GUIDED (system with autonomous position control, position setpoint controlled manually) or AUTO (system guided by path/waypoint planner). The NAV_MODE defined the current flight state: LIFTOFF (often an open-loop maneuver), LANDING, WAYPOINTS or VECTOR. This represents the internal navigation state machine. The system status shows whether the system is currently active or not and if an emergency occurred. During the CRITICAL and EMERGENCY states the MAV is still considered to be active, but should start emergency procedures autonomously. After a failure occurred it should first move from active to critical to allow manual intervention and then move to emergency after a certain timeout. </summary>
     public struct mavlink_sys_status_t
@@ -8388,7 +8391,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3552
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=12)]
     ///<summary> The system time is the time of the master clock, typically the computer clock of the main onboard computer. </summary>
     public struct mavlink_system_time_t
@@ -8411,7 +8414,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 3557
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
     ///<summary> A ping message either requesting or responding to a ping. This allows to measure the system latencies, including serial port, radio modem and UDP connections. The ping microservice is documented at https://mavlink.io/en/services/ping.html </summary>
     public struct mavlink_ping_t
@@ -8444,7 +8447,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3565
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> Request to control this MAV </summary>
     public struct mavlink_change_operator_control_t
@@ -8478,7 +8481,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3572
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Accept / deny control of this MAV </summary>
     public struct mavlink_change_operator_control_ack_t
@@ -8506,7 +8509,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3578
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
     ///<summary> Emit an encrypted signature / key identifying this system. PLEASE NOTE: This protocol has been kept simple, so transmitting the key requires an encrypted channel for true safety. </summary>
     public struct mavlink_auth_key_t
@@ -8525,7 +8528,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 3582
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
     ///<summary> Set the system mode, as defined by enum MAV_MODE. There is no target component id as the mode is by definition for the overall aircraft, not only for one component. </summary>
     public struct mavlink_set_mode_t
@@ -8553,7 +8556,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3590
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
     ///<summary> Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const char*] -> value[float]. This allows to send a parameter to any other component (such as the GCS) without the need of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different autopilots. See also https://mavlink.io/en/services/parameter.html for a full documentation of QGroundControl and IMU code. </summary>
     public struct mavlink_param_request_read_t
@@ -8587,7 +8590,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3597
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
     ///<summary> Request all parameters of this component. After this request, all parameters are emitted. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_request_list_t
@@ -8610,7 +8613,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3602
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=25)]
     ///<summary> Emit the value of a onboard parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows him to re-request missing parameters after a loss or timeout. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_value_t
@@ -8649,7 +8652,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3610
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=23)]
     ///<summary> Set a parameter value (write new value to permanent storage). IMPORTANT: The receiving component should acknowledge the new parameter value by sending a PARAM_VALUE message to all communication partners. This will also ensure that multiple GCS all have an up-to-date list of all parameters. If the sending GCS did not receive a PARAM_VALUE message within its timeout time, it should re-send the PARAM_SET message. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html </summary>
     public struct mavlink_param_set_t
@@ -8688,7 +8691,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 3618
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=52)]
     ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                 NOT the global position estimate of the system, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. </summary>
     public struct mavlink_gps_raw_int_t
@@ -8781,7 +8784,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3639
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=101)]
     ///<summary> The positioning status, as reported by GPS. This message is intended to display status information about each satellite visible to the receiver. See message GLOBAL_POSITION for the global position estimate. This message can contain information for up to 20 satellites. </summary>
     public struct mavlink_gps_status_t
@@ -8829,7 +8832,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 3648
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
     ///<summary> The RAW IMU readings for the usual 9DOF sensor setup. This message should contain the scaled values to the described units </summary>
     public struct mavlink_scaled_imu_t
@@ -8897,7 +8900,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 3663
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=29)]
     ///<summary> The RAW IMU readings for a 9DOF sensor, which is identified by the id (default IMU1). This message should always contain the true raw values without any scaling to allow data capture and system debugging. </summary>
     public struct mavlink_raw_imu_t
@@ -8970,7 +8973,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3679
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> The RAW pressure readings for the typical setup of one absolute pressure and one differential pressure sensor. The sensor values should be the raw, UNSCALED ADC values. </summary>
     public struct mavlink_raw_pressure_t
@@ -9008,7 +9011,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 3687
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> The pressure readings for the typical setup of one absolute and differential pressure sensor. The units are as specified in each field. </summary>
     public struct mavlink_scaled_pressure_t
@@ -9046,7 +9049,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3696
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right). </summary>
     public struct mavlink_attitude_t
@@ -9094,7 +9097,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 8 linenumber 3706
+    /// extensions_start 8
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=48)]
     ///<summary> The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0). </summary>
     public struct mavlink_attitude_quaternion_t
@@ -9153,7 +9156,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3719
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> The filtered local position (e.g. fused computer vision and accelerometers). Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention) </summary>
     public struct mavlink_local_position_ned_t
@@ -9201,7 +9204,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3729
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed, Z-up). It                is designed as scaled integer message since the resolution of float is not sufficient. </summary>
     public struct mavlink_global_position_int_t
@@ -9259,7 +9262,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3742
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=22)]
     ///<summary> The scaled values of the RC channels received: (-100%) -10000, (0%) 0, (100%) 10000. Channels that are inactive should be set to UINT16_MAX. </summary>
     public struct mavlink_rc_channels_scaled_t
@@ -9327,7 +9330,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3756
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=22)]
     ///<summary> The RAW values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. A value of UINT16_MAX implies the channel is unused. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_rc_channels_raw_t
@@ -9395,7 +9398,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 3770
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
     ///<summary> Superseded by ACTUATOR_OUTPUT_STATUS. The RAW values of the servo outputs (for RC input from the remote, use the RC_CHANNELS messages). The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. </summary>
     public struct mavlink_servo_output_raw_t
@@ -9498,7 +9501,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 3792
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=7)]
     ///<summary> Request a partial list of mission items from the system/component. https://mavlink.io/en/services/mission.html. If start and end index are the same, just send one waypoint. </summary>
     public struct mavlink_mission_request_partial_list_t
@@ -9536,7 +9539,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 3801
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=7)]
     ///<summary> This message is sent to the MAV to write a partial list. If start index == end index, only one item will be transmitted / updated. If the start index is NOT 0 and above the current list size, this request should be REJECTED! </summary>
     public struct mavlink_mission_write_partial_list_t
@@ -9574,7 +9577,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 14 linenumber 3810
+    /// extensions_start 14
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
     ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN may be used to indicate an optional/default value (e.g. to use the system's current latitude or yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html. </summary>
     public struct mavlink_mission_item_t
@@ -9662,7 +9665,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 3 linenumber 3830
+    /// extensions_start 3
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
     ///<summary> Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM message. https://mavlink.io/en/services/mission.html </summary>
     public struct mavlink_mission_request_t
@@ -9695,7 +9698,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3838
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
     ///<summary> Set the mission item with sequence number seq as current item. This means that the MAV will continue to this mission item on the shortest path (not following the mission items in-between). </summary>
     public struct mavlink_mission_set_current_t
@@ -9723,7 +9726,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3844
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
     ///<summary> Message that announces the sequence number of the current active mission item. The MAV will fly towards this mission item. </summary>
     public struct mavlink_mission_current_t
@@ -9741,7 +9744,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 2 linenumber 3848
+    /// extensions_start 2
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Request the overall list of mission items from the system/component. </summary>
     public struct mavlink_mission_request_list_t
@@ -9769,7 +9772,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 3 linenumber 3855
+    /// extensions_start 3
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
     ///<summary> This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction. The GCS can then request the individual mission item based on the knowledge of the total number of waypoints. </summary>
     public struct mavlink_mission_count_t
@@ -9802,7 +9805,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 2 linenumber 3863
+    /// extensions_start 2
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Delete all mission items at once. </summary>
     public struct mavlink_mission_clear_all_t
@@ -9830,7 +9833,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3870
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
     ///<summary> A certain mission item has been reached. The system will either hold this position (or circle on the orbit) or (if the autocontinue on the WP was set) continue to the next waypoint. </summary>
     public struct mavlink_mission_item_reached_t
@@ -9848,7 +9851,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 3 linenumber 3874
+    /// extensions_start 3
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
     ///<summary> Acknowledgment message during waypoint handling. The type field states if this message is a positive ack (type=0) or if an error happened (type=non-zero). </summary>
     public struct mavlink_mission_ack_t
@@ -9881,7 +9884,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 3882
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=21)]
     ///<summary> Sets the GPS co-ordinates of the vehicle local origin (0,0,0) position. Vehicle should emit GPS_GLOBAL_ORIGIN irrespective of whether the origin is changed. This enables transform between the local coordinate frame and the global (GPS) coordinate frame, which may be necessary when (for example) indoor and outdoor settings are connected and the MAV should move from in- to outdoor. </summary>
     public struct mavlink_set_gps_global_origin_t
@@ -9919,7 +9922,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 3 linenumber 3891
+    /// extensions_start 3
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
     ///<summary> Publishes the GPS co-ordinates of the vehicle local origin (0,0,0) position. Emitted whenever a new GPS-Local position mapping is requested or set - e.g. following SET_GPS_GLOBAL_ORIGIN message. </summary>
     public struct mavlink_gps_global_origin_t
@@ -9952,7 +9955,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3899
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
     ///<summary> Bind a RC channel to a parameter. The parameter should change according to the RC channel value. </summary>
     public struct mavlink_param_map_rc_t
@@ -10011,7 +10014,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 3 linenumber 3911
+    /// extensions_start 3
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
     ///<summary> Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM_INT message. https://mavlink.io/en/services/mission.html </summary>
     public struct mavlink_mission_request_int_t
@@ -10044,7 +10047,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3919
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=27)]
     ///<summary> Set a safety zone (volume), which is defined by two corners of a cube. This message can be used to tell the MAV which setpoints/waypoints to accept and which to reject. Safety areas are often enforced by national or competition regulations. </summary>
     public struct mavlink_safety_set_allowed_area_t
@@ -10102,7 +10105,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3931
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=25)]
     ///<summary> Read out the safety zone the MAV currently assumes. </summary>
     public struct mavlink_safety_allowed_area_t
@@ -10150,7 +10153,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3941
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=72)]
     ///<summary> The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0). </summary>
     public struct mavlink_attitude_quaternion_cov_t
@@ -10195,7 +10198,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3950
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=26)]
     ///<summary> The state of the fixed wing navigation and position controller. </summary>
     public struct mavlink_nav_controller_output_t
@@ -10248,7 +10251,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3961
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=181)]
     ///<summary> The filtered global position (e.g. fused GPS and accelerometers). The position is in GPS-frame (right-handed, Z-up). It  is designed as scaled integer message since the resolution of float is not sufficient. NOTE: This message is intended for onboard networks / companion computers and higher-bandwidth links and optimized for accuracy and completeness. Please use the GLOBAL_POSITION_INT message for a minimal subset. </summary>
     public struct mavlink_global_position_int_cov_t
@@ -10312,7 +10315,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3974
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=225)]
     ///<summary> The filtered local position (e.g. fused computer vision and accelerometers). Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention) </summary>
     public struct mavlink_local_position_ned_cov_t
@@ -10386,7 +10389,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 3989
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> The PPM values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%.  A value of UINT16_MAX implies the channel is unused. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_rc_channels_t
@@ -10504,7 +10507,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4013
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
     ///<summary> Request a data stream. </summary>
     public struct mavlink_request_data_stream_t
@@ -10542,7 +10545,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4021
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
     ///<summary> Data stream status information. </summary>
     public struct mavlink_data_stream_t
@@ -10570,7 +10573,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4027
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=11)]
     ///<summary> This message provides an API for manually controlling the vehicle using standard joystick axes nomenclature, along with a joystick-like input device. Unused axes can be disabled an buttons are also transmit as boolean values of their  </summary>
     public struct mavlink_manual_control_t
@@ -10613,7 +10616,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 4036
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
     ///<summary> The RAW values of the RC channels sent to the MAV to override info received from the RC radio. A value of UINT16_MAX means no change to that channel. A value of 0 means control of that channel should be released back to the RC radio. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_rc_channels_override_t
@@ -10726,7 +10729,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 14 linenumber 4060
+    /// extensions_start 14
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
     ///<summary> Message encoding a mission item. This message is emitted to announce                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN or INT32_MAX may be used in float/integer params (respectively) to indicate optional/default values (e.g. to use the component's current latitude, yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html. </summary>
     public struct mavlink_mission_item_int_t
@@ -10814,7 +10817,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4080
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
     ///<summary> Metrics typically displayed on a HUD for fixed wing aircraft. </summary>
     public struct mavlink_vfr_hud_t
@@ -10857,7 +10860,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4089
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=35)]
     ///<summary> Message encoding a command with parameters as scaled integers. Scaling depends on the actual command value. The command microservice is documented at https://mavlink.io/en/services/command.html </summary>
     public struct mavlink_command_int_t
@@ -10935,7 +10938,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4105
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=33)]
     ///<summary> Send a command with up to seven parameters to the MAV. The command microservice is documented at https://mavlink.io/en/services/command.html </summary>
     public struct mavlink_command_long_t
@@ -11003,7 +11006,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4119
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=3)]
     ///<summary> Report status of a command. Includes feedback whether the command was executed. The command microservice is documented at https://mavlink.io/en/services/command.html </summary>
     public struct mavlink_command_ack_t
@@ -11026,7 +11029,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4124
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=22)]
     ///<summary> Setpoint in roll, pitch, yaw and thrust from the operator </summary>
     public struct mavlink_manual_setpoint_t
@@ -11074,7 +11077,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4134
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=39)]
     ///<summary> Sets a desired vehicle attitude. Used by an external controller to command the vehicle (manual controller or other system). </summary>
     public struct mavlink_set_attitude_target_t
@@ -11133,7 +11136,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4146
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
     ///<summary> Reports the current commanded attitude of the vehicle as specified by the autopilot. This should match the commands sent in a SET_ATTITUDE_TARGET message if the vehicle is being controlled this way. </summary>
     public struct mavlink_attitude_target_t
@@ -11182,7 +11185,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4156
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=53)]
     ///<summary> Sets a desired vehicle position in a local north-east-down coordinate frame. Used by an external controller to command the vehicle (manual controller or other system). </summary>
     public struct mavlink_set_position_target_local_ned_t
@@ -11275,7 +11278,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4175
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=51)]
     ///<summary> Reports the current commanded vehicle position, velocity, and acceleration as specified by the autopilot. This should match the commands sent in SET_POSITION_TARGET_LOCAL_NED if the vehicle is being controlled this way. </summary>
     public struct mavlink_position_target_local_ned_t
@@ -11358,7 +11361,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4192
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=53)]
     ///<summary> Sets a desired vehicle position, velocity, and/or acceleration in a global coordinate system (WGS84). Used by an external controller to command the vehicle (manual controller or other system). </summary>
     public struct mavlink_set_position_target_global_int_t
@@ -11451,7 +11454,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4211
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=51)]
     ///<summary> Reports the current commanded vehicle position, velocity, and acceleration as specified by the autopilot. This should match the commands sent in SET_POSITION_TARGET_GLOBAL_INT if the vehicle is being controlled this way. </summary>
     public struct mavlink_position_target_global_int_t
@@ -11534,7 +11537,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4228
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> The offset in X, Y, Z and yaw between the LOCAL_POSITION_NED messages of MAV X and the global coordinate frame in NED coordinates. Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention) </summary>
     public struct mavlink_local_position_ned_system_global_offset_t
@@ -11582,7 +11585,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 4238
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=56)]
     ///<summary> Sent from simulation to autopilot. This packet is useful for high throughput applications such as hardware in the loop simulations. </summary>
     public struct mavlink_hil_state_t
@@ -11675,7 +11678,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4258
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> Sent from autopilot to simulation. Hardware in the loop control outputs </summary>
     public struct mavlink_hil_controls_t
@@ -11743,7 +11746,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4272
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=33)]
     ///<summary> Sent from simulation to autopilot. The RAW values of the RC channels received. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification. </summary>
     public struct mavlink_hil_rc_inputs_raw_t
@@ -11826,7 +11829,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4289
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=81)]
     ///<summary> Sent from autopilot to simulation. Hardware in the loop control outputs (replacement for HIL_CONTROLS) </summary>
     public struct mavlink_hil_actuator_controls_t
@@ -11860,7 +11863,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 8 linenumber 4296
+    /// extensions_start 8
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
     ///<summary> Optical flow from a flow sensor (e.g. optical mouse sensor) </summary>
     public struct mavlink_optical_flow_t
@@ -11923,7 +11926,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 7 linenumber 4310
+    /// extensions_start 7
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=117)]
     ///<summary> Global position/attitude estimate from a vision source. </summary>
     public struct mavlink_global_vision_position_estimate_t
@@ -11982,7 +11985,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 7 linenumber 4323
+    /// extensions_start 7
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=117)]
     ///<summary> Local position/attitude estimate from a vision source. </summary>
     public struct mavlink_vision_position_estimate_t
@@ -12041,7 +12044,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 4336
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=57)]
     ///<summary> Speed estimate from a vision source. </summary>
     public struct mavlink_vision_speed_estimate_t
@@ -12085,7 +12088,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 7 linenumber 4346
+    /// extensions_start 7
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=116)]
     ///<summary> Global position estimate from a Vicon motion system source. </summary>
     public struct mavlink_vicon_position_estimate_t
@@ -12139,7 +12142,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 15 linenumber 4358
+    /// extensions_start 15
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=63)]
     ///<summary> The IMU readings in SI units in NED body frame </summary>
     public struct mavlink_highres_imu_t
@@ -12232,7 +12235,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4378
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
     ///<summary> Optical flow from an angular rate flow sensor (e.g. PX4FLOW or mouse sensor) </summary>
     public struct mavlink_optical_flow_rad_t
@@ -12305,7 +12308,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4393
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=64)]
     ///<summary> The IMU readings in SI units in NED body frame </summary>
     public struct mavlink_hil_sensor_t
@@ -12393,7 +12396,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4411
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=84)]
     ///<summary> Status of simulation environment, if used </summary>
     public struct mavlink_sim_state_t
@@ -12511,7 +12514,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4435
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     ///<summary> Status generated by radio and injected into MAVLink stream. </summary>
     public struct mavlink_radio_status_t
@@ -12559,7 +12562,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4445
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=254)]
     ///<summary> File transfer message </summary>
     public struct mavlink_file_transfer_protocol_t
@@ -12593,7 +12596,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4452
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> Time synchronization message. </summary>
     public struct mavlink_timesync_t
@@ -12616,7 +12619,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4457
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=12)]
     ///<summary> Camera-IMU triggering and synchronisation message. </summary>
     public struct mavlink_camera_trigger_t
@@ -12639,7 +12642,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4462
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=36)]
     ///<summary> The global position, as returned by the Global Positioning System (GPS). This is                  NOT the global position estimate of the sytem, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. </summary>
     public struct mavlink_hil_gps_t
@@ -12717,7 +12720,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4479
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
     ///<summary> Simulated optical flow from a flow sensor (e.g. PX4FLOW or optical mouse sensor) </summary>
     public struct mavlink_hil_optical_flow_t
@@ -12790,7 +12793,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4494
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=64)]
     ///<summary> Sent from simulation to autopilot, avoids in contrast to HIL_STATE singularities. This packet is useful for high throughput applications such as hardware in the loop simulations. </summary>
     public struct mavlink_hil_state_quaternion_t
@@ -12884,7 +12887,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 4513
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
     ///<summary> The RAW IMU readings for secondary 9DOF sensor setup. This message should contain the scaled values to the described units </summary>
     public struct mavlink_scaled_imu2_t
@@ -12952,7 +12955,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4528
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
     ///<summary> Request a list of available logs. On some systems calling this may stop on-board logging until LOG_REQUEST_END is called. </summary>
     public struct mavlink_log_request_list_t
@@ -12985,7 +12988,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4535
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
     ///<summary> Reply to LOG_REQUEST_LIST </summary>
     public struct mavlink_log_entry_t
@@ -13023,7 +13026,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4543
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=12)]
     ///<summary> Request a chunk of a log </summary>
     public struct mavlink_log_request_data_t
@@ -13061,7 +13064,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4551
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=97)]
     ///<summary> Reply to LOG_REQUEST_DATA </summary>
     public struct mavlink_log_data_t
@@ -13095,7 +13098,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4558
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
     ///<summary> Erase all logs </summary>
     public struct mavlink_log_erase_t
@@ -13118,7 +13121,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4563
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
     ///<summary> Stop log transfer and resume normal logging </summary>
     public struct mavlink_log_request_end_t
@@ -13141,7 +13144,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4568
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=113)]
     ///<summary> Data for injecting into the onboard GPS (used for DGPS) </summary>
     public struct mavlink_gps_inject_data_t
@@ -13175,7 +13178,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 12 linenumber 4575
+    /// extensions_start 12
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
     ///<summary> Second GPS data. </summary>
     public struct mavlink_gps2_raw_t
@@ -13253,7 +13256,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4592
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
     ///<summary> Power supply status </summary>
     public struct mavlink_power_status_t
@@ -13281,7 +13284,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4598
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=79)]
     ///<summary> Control a serial port. This can be used for raw access to an onboard serial peripheral such as a GPS or telemetry radio. It is designed to make it possible to update the devices firmware via MAVLink messages or change the devices settings. A message with zero bytes can be used to change just the baudrate. </summary>
     public struct mavlink_serial_control_t
@@ -13325,7 +13328,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4607
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=35)]
     ///<summary> RTK GPS data. Gives information on the relative baseline calculation the GPS is reporting </summary>
     public struct mavlink_gps_rtk_t
@@ -13403,7 +13406,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4623
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=35)]
     ///<summary> RTK GPS data. Gives information on the relative baseline calculation the GPS is reporting </summary>
     public struct mavlink_gps2_rtk_t
@@ -13481,7 +13484,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 4639
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
     ///<summary> The RAW IMU readings for 3rd 9DOF sensor setup. This message should contain the scaled values to the described units </summary>
     public struct mavlink_scaled_imu3_t
@@ -13549,7 +13552,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4654
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=13)]
     ///<summary> Handshake message to initiate, control and stop image streaming when using the Image Transmission Protocol: https://mavlink.io/en/services/image_transmission.html. </summary>
     public struct mavlink_data_transmission_handshake_t
@@ -13597,7 +13600,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4664
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
     ///<summary> Data packet for images sent using the Image Transmission Protocol: https://mavlink.io/en/services/image_transmission.html. </summary>
     public struct mavlink_encapsulated_data_t
@@ -13621,7 +13624,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 8 linenumber 4669
+    /// extensions_start 8
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
     ///<summary> Distance sensor information for an onboard rangefinder. </summary>
     public struct mavlink_distance_sensor_t
@@ -13690,7 +13693,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4684
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
     ///<summary> Request for terrain data and terrain status </summary>
     public struct mavlink_terrain_request_t
@@ -13723,7 +13726,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4691
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=43)]
     ///<summary> Terrain data sent from GCS. The lat/lon and grid_spacing must be the same as a lat/lon from a TERRAIN_REQUEST </summary>
     public struct mavlink_terrain_data_t
@@ -13762,7 +13765,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4699
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
     ///<summary> Request that the vehicle report terrain height at the given location. Used by GCS to check if vehicle has all terrain data needed for a mission. </summary>
     public struct mavlink_terrain_check_t
@@ -13785,7 +13788,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4704
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=22)]
     ///<summary> Response from a TERRAIN_CHECK request </summary>
     public struct mavlink_terrain_report_t
@@ -13833,7 +13836,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 4714
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> Barometer readings for 2nd barometer </summary>
     public struct mavlink_scaled_pressure2_t
@@ -13871,7 +13874,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 5 linenumber 4723
+    /// extensions_start 5
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=120)]
     ///<summary> Motion capture attitude and position </summary>
     public struct mavlink_att_pos_mocap_t
@@ -13916,7 +13919,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4733
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=43)]
     ///<summary> Set the vehicle attitude and body angular rates. </summary>
     public struct mavlink_set_actuator_control_target_t
@@ -13955,7 +13958,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4741
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=41)]
     ///<summary> Set the vehicle attitude and body angular rates. </summary>
     public struct mavlink_actuator_control_target_t
@@ -13984,7 +13987,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4747
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
     ///<summary> The current system altitude. </summary>
     public struct mavlink_altitude_t
@@ -14032,7 +14035,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4757
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=243)]
     ///<summary> The autopilot is requesting a resource (file, binary, other type of data) </summary>
     public struct mavlink_resource_request_t
@@ -14072,7 +14075,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 4765
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> Barometer readings for 3rd barometer </summary>
     public struct mavlink_scaled_pressure3_t
@@ -14110,7 +14113,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4774
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=93)]
     ///<summary> Current motion information from a designated system </summary>
     public struct mavlink_follow_target_t
@@ -14183,7 +14186,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4788
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=100)]
     ///<summary> The smoothed, monotonic system state used to feed the control loops of the system. </summary>
     public struct mavlink_control_system_state_t
@@ -14284,7 +14287,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 9 linenumber 4808
+    /// extensions_start 9
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=41)]
     ///<summary> Battery information </summary>
     public struct mavlink_battery_status_t
@@ -14353,7 +14356,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 11 linenumber 4823
+    /// extensions_start 11
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=78)]
     ///<summary> Version and capability of autopilot software. This should be emitted in response to a MAV_CMD_REQUEST_AUTOPILOT_CAPABILITIES command. </summary>
     public struct mavlink_autopilot_version_t
@@ -14430,7 +14433,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 8 linenumber 4839
+    /// extensions_start 8
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=60)]
     ///<summary> The location of a landing target. See: https://mavlink.io/en/services/landing_target.html </summary>
     public struct mavlink_landing_target_t
@@ -14514,7 +14517,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 4858
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     ///<summary> Status of geo-fencing. Sent in extended status stream when fencing enabled. </summary>
     public struct mavlink_fence_status_t
@@ -14552,7 +14555,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4868
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> Estimator status message including flags, innovation test ratios and estimated accuracies. The flags message is an integer bitmask containing information on which EKF outputs are valid. See the ESTIMATOR_STATUS_FLAGS enum definition for further information. The innovation test ratios show the magnitude of the sensor innovation divided by the innovation check threshold. Under normal operation the innovation test ratios should be below 0.5 with occasional values up to 1.0. Values greater than 1.0 should be rare under normal operation and indicate that a measurement has been rejected by the filter. The user should be notified if an innovation test ratio greater than 1.0 is recorded. Notifications for values in the range between 0.5 and 1.0 should be optional and controllable by the user. </summary>
     public struct mavlink_estimator_status_t
@@ -14615,7 +14618,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4881
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=40)]
     ///<summary> Wind covariance estimate from vehicle. </summary>
     public struct mavlink_wind_cov_t
@@ -14673,7 +14676,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 18 linenumber 4893
+    /// extensions_start 18
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=65)]
     ///<summary> GPS sensor input message.  This is a raw sensor value sent by the GPS. This is NOT the global position estimate of the system. </summary>
     public struct mavlink_gps_input_t
@@ -14781,7 +14784,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4916
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=182)]
     ///<summary> RTCM message for injecting into the onboard GPS (used for DGPS) </summary>
     public struct mavlink_gps_rtcm_data_t
@@ -14810,7 +14813,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4922
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=40)]
     ///<summary> Message appropriate for high latency connections like Iridium </summary>
     public struct mavlink_high_latency_t
@@ -14943,7 +14946,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4949
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
     ///<summary> Vibration levels and accelerometer clipping </summary>
     public struct mavlink_vibration_t
@@ -14991,7 +14994,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 10 linenumber 4959
+    /// extensions_start 10
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=60)]
     ///<summary> This message can be requested by sending the MAV_CMD_GET_HOME_POSITION command. The position the system will return to and land on. The position is set automatically by the system during the takeoff in case it was not explicitly set by the operator before or after. The global and local positions encode the position in the respective coordinate frames, while the q parameter encodes the orientation of the surface. Under normal conditions it describes the heading and terrain slope, which can be used by the aircraft to adjust the approach. The approach 3D vector describes the point to which the system should fly in normal flight mode and then perform a landing sequence along the vector. </summary>
     public struct mavlink_home_position_t
@@ -15060,7 +15063,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 11 linenumber 4974
+    /// extensions_start 11
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=61)]
     ///<summary> The position the system will return to and land on. The position is set automatically by the system during the takeoff in case it was not explicitly set by the operator before or after. The global and local positions encode the position in the respective coordinate frames, while the q parameter encodes the orientation of the surface. Under normal conditions it describes the heading and terrain slope, which can be used by the aircraft to adjust the approach. The approach 3D vector describes the point to which the system should fly in normal flight mode and then perform a landing sequence along the vector. </summary>
     public struct mavlink_set_home_position_t
@@ -15134,7 +15137,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4990
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
     ///<summary> The interval between messages for a particular MAVLink message ID. This message is the response to the MAV_CMD_GET_MESSAGE_INTERVAL command. This interface replaces DATA_STREAM. </summary>
     public struct mavlink_message_interval_t
@@ -15157,7 +15160,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 4995
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
     ///<summary> Provides state for additional features </summary>
     public struct mavlink_extended_sys_state_t
@@ -15180,7 +15183,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5000
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
     ///<summary> The location and information of an ADSB vehicle </summary>
     public struct mavlink_adsb_vehicle_t
@@ -15259,7 +15262,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5016
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=19)]
     ///<summary> Information about a potential collision </summary>
     public struct mavlink_collision_t
@@ -15307,7 +15310,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5026
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=254)]
     ///<summary> Message implementing parts of the V2 payload specs in V1 frames for transitional support. </summary>
     public struct mavlink_v2_extension_t
@@ -15346,7 +15349,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5034
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=36)]
     ///<summary> Send raw controller memory. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_memory_vect_t
@@ -15380,7 +15383,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5041
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=30)]
     ///<summary> To debug something using a named 3D vector. </summary>
     public struct mavlink_debug_vect_t
@@ -15419,7 +15422,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5049
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
     ///<summary> Send a key-value pair as float. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_named_value_float_t
@@ -15448,7 +15451,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5055
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
     ///<summary> Send a key-value pair as integer. The use of this message is discouraged for normal packets, but a quite efficient way for testing new messages and getting experimental debug output. </summary>
     public struct mavlink_named_value_int_t
@@ -15477,7 +15480,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 2 linenumber 5061
+    /// extensions_start 2
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=54)]
     ///<summary> Status text message. These messages are printed in yellow in the COMM console of QGroundControl. WARNING: They consume quite some bandwidth, so use only for important status and error messages. If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz). </summary>
     public struct mavlink_statustext_t
@@ -15511,7 +15514,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5069
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     ///<summary> Send a debug value. The index is used to discriminate between values. These values show up in the plot of QGroundControl as DEBUG N. </summary>
     public struct mavlink_debug_t
@@ -15539,7 +15542,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5076
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> Setup a MAVLink2 signing key. If called with secret_key of all zero and zero initial_timestamp will disable signing </summary>
     public struct mavlink_setup_signing_t
@@ -15573,7 +15576,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5083
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     ///<summary> Report button state change. </summary>
     public struct mavlink_button_change_t
@@ -15601,7 +15604,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 3 linenumber 5089
+    /// extensions_start 3
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=232)]
     ///<summary> Control vehicle tone generation (buzzer) </summary>
     public struct mavlink_play_tune_t
@@ -15636,7 +15639,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5097
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=235)]
     ///<summary> Information about a camera </summary>
     public struct mavlink_camera_information_t
@@ -15717,7 +15720,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 2 linenumber 5113
+    /// extensions_start 2
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=13)]
     ///<summary> Settings of a camera, can be requested using MAV_CMD_REQUEST_CAMERA_SETTINGS. </summary>
     public struct mavlink_camera_settings_t
@@ -15750,7 +15753,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5121
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=27)]
     ///<summary> Information about a storage medium. This message is sent in response to a request and whenever the status of the storage changes (STORAGE_STATUS). </summary>
     public struct mavlink_storage_information_t
@@ -15808,7 +15811,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5133
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
     ///<summary> Information about the status of a capture. </summary>
     public struct mavlink_camera_capture_status_t
@@ -15851,7 +15854,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5142
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
     ///<summary> Information about a captured image </summary>
     public struct mavlink_camera_image_captured_t
@@ -15921,7 +15924,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 5156
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
     ///<summary> Information about flight since last arming. </summary>
     public struct mavlink_flight_information_t
@@ -15954,7 +15957,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 4 linenumber 5165
+    /// extensions_start 4
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
     ///<summary> Orientation of a mount </summary>
     public struct mavlink_mount_orientation_t
@@ -15992,7 +15995,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5174
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
     ///<summary> A message containing logged data (see also MAV_CMD_LOGGING_START) </summary>
     public struct mavlink_logging_data_t
@@ -16036,7 +16039,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5183
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
     ///<summary> A message containing logged data which requires a LOGGING_ACK to be sent back </summary>
     public struct mavlink_logging_data_acked_t
@@ -16080,7 +16083,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5192
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
     ///<summary> An ack for a LOGGING_DATA_ACKED message </summary>
     public struct mavlink_logging_ack_t
@@ -16108,7 +16111,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5198
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=96)]
     ///<summary> Configure AP SSID and Password. </summary>
     public struct mavlink_wifi_config_ap_t
@@ -16133,7 +16136,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 5203
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=58)]
     ///<summary> The location and information of an AIS vessel </summary>
     public struct mavlink_ais_vessel_t
@@ -16233,7 +16236,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5226
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=17)]
     ///<summary> General status information of an UAVCAN node. Please refer to the definition of the UAVCAN message 'uavcan.protocol.NodeStatus' for the background information. The UAVCAN specification is available at http://uavcan.org. </summary>
     public struct mavlink_uavcan_node_status_t
@@ -16276,7 +16279,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5235
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=116)]
     ///<summary> General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service 'uavcan.protocol.GetNodeInfo' for the background information. This message should be emitted by the system whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org. </summary>
     public struct mavlink_uavcan_node_info_t
@@ -16336,7 +16339,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 6 linenumber 5247
+    /// extensions_start 6
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=167)]
     ///<summary> Obstacle distances in front of the sensor, starting from the left in increment degrees to the right </summary>
     public struct mavlink_obstacle_distance_t
@@ -16395,7 +16398,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 15 linenumber 5260
+    /// extensions_start 15
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=232)]
     ///<summary> Odometry message to communicate odometry information with an external interface. Fits ROS REP 147 standard for aerial vehicles (http://www.ros.org/reps/rep-0147.html). </summary>
     public struct mavlink_odometry_t
@@ -16496,7 +16499,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5281
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=24)]
     ///<summary> Status of the Iridium SBD link. </summary>
     public struct mavlink_isbd_link_status_t
@@ -16549,7 +16552,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 3 linenumber 5292
+    /// extensions_start 3
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=252)]
     ///<summary> Large debug/prototyping array. The message uses the maximum available payload for data. The array_id and name fields are used to discriminate between messages in code and in user interfaces (respectively). Do not use in production code. </summary>
     public struct mavlink_debug_float_array_t
@@ -16584,7 +16587,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 5300
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> Telemetry of power generation system. Alternator or mechanical generator. </summary>
     public struct mavlink_generator_status_t
@@ -16652,7 +16655,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5316
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=140)]
     ///<summary> The raw values of the actuator outputs (e.g. on Pixhawk, from MAIN, AUX ports). This message supersedes SERVO_OUTPUT_RAW. </summary>
     public struct mavlink_actuator_output_status_t
@@ -16681,7 +16684,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 5323
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=137)]
     ///<summary> Cumulative distance traveled for each reported wheel. </summary>
     public struct mavlink_wheel_distance_t
@@ -16710,7 +16713,7 @@ public partial class MAVLink
     };
 
     [Obsolete]
-    /// extensions_start 0 linenumber 5329
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
     ///<summary> Winch status. </summary>
     public struct mavlink_winch_status_t
@@ -16763,7 +16766,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 86
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
     ///<summary> Static data to configure the ADS-B transponder (send within 10 sec of a POR and every 10 sec thereafter) </summary>
     public struct mavlink_uavionix_adsb_out_cfg_t
@@ -16817,7 +16820,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 97
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=41)]
     ///<summary> Dynamic data used to generate ADS-B out transponder data (send at 5Hz) </summary>
     public struct mavlink_uavionix_adsb_out_dynamic_t
@@ -16910,7 +16913,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 116
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
     ///<summary> Transceiver heartbeat with health report (updated every 10s) </summary>
     public struct mavlink_uavionix_adsb_transceiver_health_report_t
@@ -16928,7 +16931,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 24
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
     ///<summary> ICAROUS heartbeat </summary>
     public struct mavlink_icarous_heartbeat_t
@@ -16946,7 +16949,7 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0 linenumber 28
+    /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=46)]
     ///<summary> Kinematic multi bands (track) output from Daidalus </summary>
     public struct mavlink_icarous_kinematic_bands_t
