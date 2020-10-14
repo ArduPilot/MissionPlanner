@@ -21,6 +21,7 @@ using Android.Bluetooth;
 using Android.Runtime;
 using AndroidX.AppCompat.Widget;
 using AndroidX.Core.App;
+using Android.Bluetooth;
 using AndroidX.Core.Content;
 using Xamarin.Essentials;
 using MissionPlanner.GCSViews;
@@ -52,7 +53,7 @@ namespace Xamarin.Droid
   //global::Android.Content.Intent.CategoryHome,
     [IntentFilter(new[] { global::Android.Content.Intent.ActionMain, global::Android.Content.Intent.ActionAirplaneModeChanged , 
         global::Android.Content.Intent.ActionBootCompleted , UsbManager.ActionUsbDeviceAttached, UsbManager.ActionUsbDeviceDetached, 
-        BluetoothDevice.ActionAclConnected, UsbManager.ActionUsbAccessoryAttached}, 
+        global::Android.Bluetooth.BluetoothDevice.ActionFound, global::Android.Bluetooth.BluetoothDevice.ActionAclConnected, UsbManager.ActionUsbAccessoryAttached}, 
         Categories = new []{ global::Android.Content.Intent.CategoryLauncher})]
     [MetaData("android.hardware.usb.action.USB_DEVICE_ATTACHED", Resource = "@xml/device_filter")]
     [Activity(Label = "Mission Planner", ScreenOrientation = ScreenOrientation.SensorLandscape, Icon = "@mipmap/icon", Theme = "@style/MainTheme", 
@@ -65,6 +66,7 @@ namespace Xamarin.Droid
 
         public static MainActivity Current { private set; get; }
         public static readonly int PickImageId = 1000;
+        private DeviceDiscoveredReceiver BTBroadcastReceiver;
 
         public TaskCompletionSource<string> PickImageTaskCompletionSource { set; get; }
 
@@ -105,6 +107,7 @@ namespace Xamarin.Droid
             WinForms.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
             Log.Info("MP", "WinForms.BundledPath " + WinForms.BundledPath);
 
+            Test.BlueToothDevice = new BTDevice();
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
 
@@ -131,13 +134,16 @@ namespace Xamarin.Droid
                 if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) !=
                     (int) Permission.Granted ||
                     ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) !=
+                    (int) Permission.Granted ||
+                    ContextCompat.CheckSelfPermission(this, Manifest.Permission.Bluetooth) !=
                     (int) Permission.Granted)
                 {
                     ActivityCompat.RequestPermissions(this,
                         new String[]
                         {
                             Manifest.Permission.AccessFineLocation, Manifest.Permission.LocationHardware,
-                            Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage
+                            Manifest.Permission.WriteExternalStorage, Manifest.Permission.ReadExternalStorage,
+                            Manifest.Permission.Bluetooth
                         }, 1);
                 }
 
@@ -164,6 +170,9 @@ namespace Xamarin.Droid
             {
                 try
                 {
+                    // nofly dir
+                    Directory.CreateDirectory(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "NoFly");
+
                     // restore assets
                     Directory.CreateDirectory(Settings.GetUserDataDirectory());
 
@@ -286,6 +295,8 @@ namespace Xamarin.Droid
                 }
             }
 
+            GC.Collect();
+
             LoadApplication(new App());
         }
 
@@ -368,6 +379,11 @@ namespace Xamarin.Droid
             UsbBroadcastReceiver = new UsbDeviceReceiver(this);
             RegisterReceiver(UsbBroadcastReceiver, new IntentFilter(UsbManager.ActionUsbDeviceDetached));
             RegisterReceiver(UsbBroadcastReceiver, new IntentFilter(UsbManager.ActionUsbDeviceAttached));
+
+            // Register for broadcasts when a device is discovered
+            BTBroadcastReceiver = new DeviceDiscoveredReceiver(this);
+            RegisterReceiver(BTBroadcastReceiver, new IntentFilter(BluetoothDevice.ActionFound));
+            RegisterReceiver(BTBroadcastReceiver, new IntentFilter(BluetoothAdapter.ActionDiscoveryFinished));
         }
 
         protected override void OnPause()
@@ -376,7 +392,9 @@ namespace Xamarin.Droid
 
             StopD2DInfo();
 
-            UnregisterReceiver(UsbBroadcastReceiver);            
+            UnregisterReceiver(UsbBroadcastReceiver);
+
+            UnregisterReceiver(BTBroadcastReceiver);
         }
 
         public void StopD2DInfo()

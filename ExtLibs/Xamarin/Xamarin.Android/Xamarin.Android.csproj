@@ -41,8 +41,8 @@
     </AndroidStoreUncompressedFileExtensions>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <MandroidI18n>West</MandroidI18n>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
+    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
@@ -151,6 +151,10 @@
       <Link>Resources\raw\InitialParamsCalculator.cs</Link>
     </AndroidResource>
     <Compile Include="AndroidSerial.cs" />
+    <Compile Include="BTDevice.cs" />
+    <Compile Include="BluetoothDiscoveryModeArgs.cs" />
+    <Compile Include="DeviceDiscoveredReceiver.cs" />
+    <Compile Include="DiscoverableModeReceiver.cs" />
     <Compile Include="FormsVideoLibrary\VideoPicker.cs" />
     <Compile Include="FormsVideoLibrary\VideoPlayerRenderer.cs" />
     <Compile Include="MainActivity.cs" />

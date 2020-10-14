@@ -27,6 +27,7 @@ using Extensions = MissionPlanner.Utilities.Extensions;
 using Form = System.Windows.Forms.Form;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
+using MissionPlanner.Controls;
 
 namespace Xamarin.GCSViews
 {
@@ -88,11 +89,20 @@ namespace Xamarin.GCSViews
             // report back device list
             SerialPort.GetCustomPorts = () =>
             {
-                return Task.Run(async () =>
+                var list1 = Task.Run(async () =>
+                {
+                    var list = await Test.BlueToothDevice.GetDeviceInfoList();
+                    return list.Select(a => a.board).ToList();
+                }).Result;
+
+                var list2 = Task.Run(async () =>
                 {
                     var list = await Test.UsbDevices.GetDeviceInfoList();
                     return list.Select(a => a.board).ToList();
                 }).Result;
+
+                list1.AddRange(list2);
+                return list1;
             };
 
             // support for fw upload
@@ -581,7 +591,7 @@ namespace Xamarin.GCSViews
                         surface.Canvas.ClipRect(
                             SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                 hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
-                       
+
                         surface.Canvas.DrawImage(hwnd.hwndbmp,
                             new SKPoint(x, y),
                             new SKPaint() {FilterQuality = SKFilterQuality.Low});
@@ -616,28 +626,28 @@ namespace Xamarin.GCSViews
                 }
 
                 Monitor.Exit(XplatUIMine.paintlock);
-            }
 
-            //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
+                //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
 
-            if (hwnd.Mapped && hwnd.Visible)
-            {
-                IEnumerable<Hwnd> children;
-                lock (Hwnd.windows)
-                    children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
-                        .Where(hwnd2 =>
-                        {
-                            var Key = (IntPtr) hwnd2.Key;
-                            var Value = (Hwnd) hwnd2.Value;
-                            if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
-                                Value.Mapped && !Value.zombie)
-                                return true;
-                            return false;
-                        }).Select(a => (Hwnd) a.Value).ToArray();
-
-                foreach (var child in children)
+                if (hwnd.Mapped && hwnd.Visible)
                 {
-                    DrawOntoSurface(child.ClientWindow, surface);
+                    IEnumerable<Hwnd> children;
+                    lock (Hwnd.windows)
+                        children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
+                            .Where(hwnd2 =>
+                            {
+                                var Key = (IntPtr) hwnd2.Key;
+                                var Value = (Hwnd) hwnd2.Value;
+                                if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
+                                    Value.Mapped && !Value.zombie)
+                                    return true;
+                                return false;
+                            }).Select(a => (Hwnd) a.Value).ToArray();
+
+                    foreach (var child in children)
+                    {
+                        DrawOntoSurface(child.ClientWindow, surface);
+                    }
                 }
             }
 
@@ -667,7 +677,7 @@ namespace Xamarin.GCSViews
                     if (form.IsHandleCreated)
                     {
                         if (form is MainV2 && form.WindowState != FormWindowState.Maximized)
-                            form.WindowState = FormWindowState.Maximized;
+                            form.BeginInvokeIfRequired(() => { form.WindowState = FormWindowState.Maximized; });
 
                         if (form.WindowState == FormWindowState.Maximized)
                         {
@@ -679,7 +689,11 @@ namespace Xamarin.GCSViews
                         {
                             if (form.Location.X < 0 || form.Location.Y < 0)
                             {
-                                form.Location = new Point(Math.Max(form.Location.X, 0), Math.Max(form.Location.Y, 0));
+                                form.BeginInvokeIfRequired(() =>
+                                {
+                                    form.Location = new Point(Math.Max(form.Location.X, 0),
+                                        Math.Max(form.Location.Y, 0));
+                                });
                             }
 
                             var border = Hwnd.GetBorders(form.GetCreateParams(), null);
@@ -687,9 +701,11 @@ namespace Xamarin.GCSViews
                             if (form.Size.Width > Screen.PrimaryScreen.Bounds.Width ||
                                 form.Size.Height > Screen.PrimaryScreen.Bounds.Height)
                             {
-                                //form.Size = new System.Drawing.Size((int) Screen.PrimaryScreen.Bounds.Width, (int) Screen.PrimaryScreen.Bounds.Height);
-                                XplatUI.driver.SetWindowPos(form.Handle, 0, 0, (int) Screen.PrimaryScreen.Bounds.Width,
-                                    (int) Screen.PrimaryScreen.Bounds.Height);
+                                form.BeginInvokeIfRequired(() => {
+                                    //form.Size = new System.Drawing.Size((int) Screen.PrimaryScreen.Bounds.Width, (int) Screen.PrimaryScreen.Bounds.Height);
+                                    XplatUI.driver.SetWindowPos(form.Handle, 0, 0, (int) Screen.PrimaryScreen.Bounds.Width,
+                                        (int) Screen.PrimaryScreen.Bounds.Height);
+                                });
                             }
                         }
 
@@ -737,6 +753,9 @@ namespace Xamarin.GCSViews
                         new SKPaint()
                             {Color = SKColors.Black, Style = SKPaintStyle.Stroke, StrokeJoin = SKStrokeJoin.Miter, IsAntialias = true});
                 }
+
+                surface.Canvas.DrawText("" + DateTime.Now.ToString("HH:mm:ss.fff"),
+                    new SKPoint(10, 10), new SKPaint() {Color = SKColor.Parse("ffff00")});
 
                 surface.Canvas.Flush();
 

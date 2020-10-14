@@ -19,6 +19,7 @@ namespace Xamarin.GCSViews
         {
             InitializeComponent();
 
+            // false so the bg is transparent
             hud1.bgon = false;
 
             // 10hz hud
