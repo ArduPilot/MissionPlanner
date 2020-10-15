@@ -31,7 +31,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    if (a == "")
+                    if (a == "" || !File.Exists(a))
                         return null;
                     return AssemblyMetadata.CreateFromFile(a).GetReference();
                 }
