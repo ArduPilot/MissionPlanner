@@ -3236,7 +3236,7 @@ namespace MissionPlanner.Controls
             {
             }
 
-            Invalidate();
+            Refresh();
         }
 
         [Browsable(false)]

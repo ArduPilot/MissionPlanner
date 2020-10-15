@@ -4623,6 +4623,9 @@ namespace MissionPlanner.GCSViews
                     updateBindingSourceThreadName = Thread.CurrentThread.Name;
                 }
 
+                if(Disposing)
+                    return;
+
                 this.BeginInvokeIfRequired(delegate
                 {
                     updateBindingSourceWork();
