@@ -227,11 +227,12 @@ namespace Xamarin.Droid
                                 var id = (int) typeof(Droid.Resource.Raw)
                                     .GetField(file)
                                     .GetValue(null);
-
+                                /*
                                 File.WriteAllText(
                                     pluginsdir + Path.DirectorySeparatorChar + file + ".cs",
                                     new StreamReader(
                                         Resources.OpenRawResource(id)).ReadToEnd());
+                                */
                             }
                             catch
                             {

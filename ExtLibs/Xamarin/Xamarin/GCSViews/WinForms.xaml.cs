@@ -517,7 +517,9 @@ namespace Xamarin.GCSViews
             } catch {}
         }
 
-       private bool DrawOntoSurface(IntPtr handle, SKSurface surface)
+        private SKPaint paint = new SKPaint() {FilterQuality = SKFilterQuality.Low};
+
+        private bool DrawOntoSurface(IntPtr handle, SKSurface surface)
         {
             var hwnd = Hwnd.ObjectFromHandle(handle);
 
@@ -584,16 +586,14 @@ namespace Xamarin.GCSViews
                     {
                         if (hwnd.hwndbmpNC != null)
                             surface.Canvas.DrawImage(hwnd.hwndbmpNC,
-                                new SKPoint(x - borders.left, y - borders.top),
-                                new SKPaint() {FilterQuality = SKFilterQuality.Low});
-                       
+                                new SKPoint(x - borders.left, y - borders.top), paint);
+
                         surface.Canvas.ClipRect(
                             SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                 hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
 
                         surface.Canvas.DrawImage(hwnd.hwndbmp,
-                            new SKPoint(x, y),
-                            new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                            new SKPoint(x, y), paint);
 
                     }
                     else
@@ -609,8 +609,7 @@ namespace Xamarin.GCSViews
                     {
 
                         surface.Canvas.DrawImage(hwnd.hwndbmp,
-                            new SKPoint(x + 0, y + 0),
-                            new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                            new SKPoint(x + 0, y + 0), paint);
 
                         /*surface.Canvas.DrawText(hwnd.ClientWindow.ToString(), new SKPoint(x,y+15),
                             new SKPaint() {Color = SKColor.Parse("ffff00")});*/
@@ -624,28 +623,27 @@ namespace Xamarin.GCSViews
                 }
 
                 Monitor.Exit(XplatUIMine.paintlock);
+            }
+            //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
 
-                //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
+            if (hwnd.Mapped && hwnd.Visible)
+            {
+                IEnumerable<Hwnd> children;
+                lock (Hwnd.windows)
+                    children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
+                        .Where(hwnd2 =>
+                        {
+                            var Key = (IntPtr) hwnd2.Key;
+                            var Value = (Hwnd) hwnd2.Value;
+                            if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
+                                Value.Mapped && !Value.zombie)
+                                return true;
+                            return false;
+                        }).Select(a => (Hwnd) a.Value).ToArray();
 
-                if (hwnd.Mapped && hwnd.Visible)
+                foreach (var child in children)
                 {
-                    IEnumerable<Hwnd> children;
-                    lock (Hwnd.windows)
-                        children = Hwnd.windows.OfType<System.Collections.DictionaryEntry>()
-                            .Where(hwnd2 =>
-                            {
-                                var Key = (IntPtr) hwnd2.Key;
-                                var Value = (Hwnd) hwnd2.Value;
-                                if (Value.ClientWindow == Key && Value.Parent == hwnd && Value.Visible &&
-                                    Value.Mapped && !Value.zombie)
-                                    return true;
-                                return false;
-                            }).Select(a => (Hwnd) a.Value).ToArray();
-
-                    foreach (var child in children)
-                    {
-                        DrawOntoSurface(child.ClientWindow, surface);
-                    }
+                    DrawOntoSurface(child.ClientWindow, surface);
                 }
             }
 
