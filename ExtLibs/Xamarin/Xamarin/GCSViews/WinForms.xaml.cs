@@ -517,9 +517,8 @@ namespace Xamarin.GCSViews
             } catch {}
         }
 
-        private bool DrawOntoSurface(IntPtr handle, SKSurface surface)
+       private bool DrawOntoSurface(IntPtr handle, SKSurface surface)
         {
-
             var hwnd = Hwnd.ObjectFromHandle(handle);
 
             var x = 0;
@@ -583,11 +582,11 @@ namespace Xamarin.GCSViews
                     if (surface.Canvas.DeviceClipBounds.Width > 0 &&
                         surface.Canvas.DeviceClipBounds.Height > 0)
                     {
-
-                        surface.Canvas.DrawImage(hwnd.hwndbmpNC,
-                            new SKPoint(x - borders.left, y - borders.top),
-                            new SKPaint() {FilterQuality = SKFilterQuality.Low});
-
+                        if (hwnd.hwndbmpNC != null)
+                            surface.Canvas.DrawImage(hwnd.hwndbmpNC,
+                                new SKPoint(x - borders.left, y - borders.top),
+                                new SKPaint() {FilterQuality = SKFilterQuality.Low});
+                       
                         surface.Canvas.ClipRect(
                             SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                 hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
@@ -612,11 +611,10 @@ namespace Xamarin.GCSViews
                         surface.Canvas.DrawImage(hwnd.hwndbmp,
                             new SKPoint(x + 0, y + 0),
                             new SKPaint() {FilterQuality = SKFilterQuality.Low});
-                        /*
-                        surface.Canvas.DrawLine(x, y, x + 50, y + 50, Pens.Red.ToSKPaint());
 
-                        surface.Canvas.DrawText("  " + x + " " + y, new SKPoint(x, y+15),
+                        /*surface.Canvas.DrawText(hwnd.ClientWindow.ToString(), new SKPoint(x,y+15),
                             new SKPaint() {Color = SKColor.Parse("ffff00")});*/
+
                     }
                     else
                     {

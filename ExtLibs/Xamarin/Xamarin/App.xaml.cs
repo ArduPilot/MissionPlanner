@@ -75,7 +75,7 @@ namespace Xamarin
         protected override void OnStart()
         {
             // Handle when your app starts
-
+            /*
             Task.Run(async () =>
             {
                 try
@@ -101,12 +101,7 @@ namespace Xamarin
                     Log.Warning("", ex.ToString());
                 }
             });
-
-            //CustomMessageBox.ShowEvent += CustomMessageBox_ShowEvent;
-            //MAVLinkInterface.CreateIProgressReporterDialogue += CreateIProgressReporterDialogue;
-
-            //Task.Run(() => { MainV2.instance.SerialReader(); });
-
+            */
         }
 
         private CustomMessageBox.DialogResult CustomMessageBox_ShowEvent(string text, string caption = "",
@@ -179,8 +174,6 @@ namespace Xamarin
                 mav.Open(false, true);
 
                 mav.getParamList();
-                //mav.getParamListAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
-
             }
             catch (Exception ex)
             {
