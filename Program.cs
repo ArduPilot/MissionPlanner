@@ -705,12 +705,6 @@ namespace MissionPlanner
                        
                     }
 
-                    // Create a request using a URL that can receive a post.
-                    WebRequest request = WebRequest.Create("http://vps.oborne.me/mail.php");
-                    request.Timeout = 10000; // 10 sec
-                    // Set the Method property of the request to POST.
-                    request.Method = "POST";
-                    // Create POST data and convert it to a byte array.
                     string postData = "message=" + Environment.OSVersion.VersionString + " " +
                                       System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()
                                       + " " + Application.ProductVersion
@@ -720,35 +714,7 @@ namespace MissionPlanner
                                       + "\ndata " + data
                                       + "\nmessage " + message.Replace('&', ' ').Replace('=', ' ')
                                       + "\n\n" + processinfo;
-                    byte[] byteArray = Encoding.ASCII.GetBytes(postData);
-                    // Set the ContentType property of the WebRequest.
-                    request.ContentType = "application/x-www-form-urlencoded";
-                    // Set the ContentLength property of the WebRequest.
-                    request.ContentLength = byteArray.Length;
-                    // Get the request stream.
-                    using (Stream dataStream = request.GetRequestStream())
-                    {
-                        // Write the data to the request stream.
-                        dataStream.Write(byteArray, 0, byteArray.Length);
-                    }
-                    // Get the response.
-                    using (WebResponse response = request.GetResponse())
-                    {
-                        // Display the status.
-                        Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-                        // Get the stream containing content returned by the server.
-                        using (Stream dataStream = response.GetResponseStream())
-                        {
-                            // Open the stream using a StreamReader for easy access.
-                            using (StreamReader reader = new StreamReader(dataStream))
-                            {
-                                // Read the content.
-                                string responseFromServer = reader.ReadToEnd();
-                                // Display the content.
-                                Console.WriteLine(responseFromServer);
-                            }
-                        }
-                    }
+                    Download.PostAsync("http://vps.oborne.me/mail.php", postData).AwaitSync();
                 }
                 catch (Exception exp)
                 {

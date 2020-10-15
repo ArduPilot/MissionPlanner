@@ -393,6 +393,8 @@ namespace MissionPlanner
                 if (_comPort == value)
                     return;
                 _comPort = value;
+                if (instance == null)
+                    return;
                 _comPort.MavChanged -= instance.comPort_MavChanged;
                 _comPort.MavChanged += instance.comPort_MavChanged;
                 instance.comPort_MavChanged(null, null);
