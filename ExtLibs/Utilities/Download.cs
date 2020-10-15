@@ -280,6 +280,24 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public static async Task<string> PostAsync(string uri, string data)
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.PostAsync(uri, new StringContent(data));
+
+            response.EnsureSuccessStatusCode();
+
+            string content = await response.Content.ReadAsStringAsync();
+            return await Task.Run(() => (content));
+        }
+
+        public static async Task<string> GetAsync(string uri)
+        {
+            var httpClient = new HttpClient();
+            var content = await httpClient.GetStringAsync(uri);
+            return await Task.Run(() => (content));
+        }
+
         public static async Task<bool> getFilefromNetAsync(string url, string saveto, Action<int, string> status = null)
         {
             try
