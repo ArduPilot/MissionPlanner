@@ -93,16 +93,18 @@ namespace Xamarin.Droid
         {
             Current = this;
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             SetSupportActionBar((Toolbar) FindViewById(ToolbarResource));
 
             this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.TurnScreenOn | WindowManagerFlags.HardwareAccelerated);
-
-            DoToastMessage("Starting App");
-
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            
+            base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
             Settings.CustomUserDataDirectory = Application.Context.GetExternalFilesDir(null).ToString();
             Log.Info("MP", "Settings.CustomUserDataDirectory " + Settings.CustomUserDataDirectory);
@@ -129,9 +131,6 @@ namespace Xamarin.Droid
             UserDialogs.Init(this);
 
             AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
-
-            base.OnCreate(savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
             {
                 if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) !=
@@ -236,9 +235,17 @@ namespace Xamarin.Droid
                                 var id = (int) typeof(Droid.Resource.Raw)
                                     .GetField(file)
                                     .GetValue(null);
+
+                                var filename = pluginsdir + Path.DirectorySeparatorChar + file + ".cs";
+
+                                if (File.Exists(filename))
+                                {
+                                    File.Delete(filename);
+                                }
+
                                 /*
-                                File.WriteAllText(
-                                    pluginsdir + Path.DirectorySeparatorChar + file + ".cs",
+                                File.WriteAllText(filename
+                                    ,
                                     new StreamReader(
                                         Resources.OpenRawResource(id)).ReadToEnd());
                                 */
@@ -313,10 +320,33 @@ namespace Xamarin.Droid
             LoadApplication(new App());
         }
 
+        private void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
+        {
+            Log.Error(TAG, e.Exception.ToString());
+            Debugger.Break();
+        }
+
         private void DoToastMessage(string text, ToastLength toastLength = ToastLength.Short)
         {
-            Toast toast = Toast.MakeText(this.ApplicationContext, text, toastLength);
-            toast.Show();
+            try
+            {
+                // thread to force invoke into ui thread
+                Task.Run(() =>
+                {
+                    if (!this.IsFinishing)
+                    {
+                        //if (Looper.MainLooper.IsCurrentThread)
+                        {
+                            // On UI thread.
+                            RunOnUiThread(() =>
+                            {
+                                Toast toast = Toast.MakeText(this, text, toastLength);
+                                toast.Show();
+                            });
+                        }
+                    }
+                });
+            } catch {}
         }
 
         protected override void OnNewIntent(Intent intent)
@@ -471,6 +501,7 @@ namespace Xamarin.Droid
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Log.Error(TAG, e.ExceptionObject.ToString());
+            Debugger.Break();
         }
 
     }
