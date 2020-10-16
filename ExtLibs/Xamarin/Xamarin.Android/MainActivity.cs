@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using Android;
 using Android.Bluetooth;
 using Android.Runtime;
-using AndroidX.AppCompat.Widget;
 using AndroidX.Core.App;
 using Android.Bluetooth;
 using AndroidX.Core.Content;
@@ -31,6 +30,7 @@ using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 using Android.Content;
 using Android.Provider;
+using Android.Widget;
 using Hoho.Android.UsbSerial.Util;
 using Java.Lang;
 using MissionPlanner.Comms;
@@ -41,6 +41,7 @@ using Application = Android.App.Application;
 using Exception = System.Exception;
 using Process = Android.OS.Process;
 using String = System.String;
+using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
 [assembly: UsesFeature("android.hardware.usb.host", Required = false)]
 [assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
@@ -99,6 +100,8 @@ namespace Xamarin.Droid
 
             this.Window.AddFlags(WindowManagerFlags.Fullscreen | WindowManagerFlags.TurnScreenOn | WindowManagerFlags.HardwareAccelerated);
 
+            DoToastMessage("Starting App");
+
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             Settings.CustomUserDataDirectory = Application.Context.GetExternalFilesDir(null).ToString();
@@ -151,10 +154,13 @@ namespace Xamarin.Droid
                        (int) Permission.Granted)
                 {
                     Thread.Sleep(1000);
+                    var text = "Checking Permissions - " + DateTime.Now.ToString("T");
+
+                    DoToastMessage(text);
                 }
             }
 
-            {
+            try {
                 // print some info
                 var pm = this.PackageManager;
                 var name = this.PackageName;
@@ -162,12 +168,15 @@ namespace Xamarin.Droid
                 var pi = pm.GetPackageInfo(name, PackageInfoFlags.Activities);
 
                 Console.WriteLine("pi.ApplicationInfo.DataDir " + pi?.ApplicationInfo?.DataDir);
+                Console.WriteLine("pi.ApplicationInfo.NativeLibraryDir " + pi?.ApplicationInfo?.NativeLibraryDir);
+
+                // api level 24 - android 7
                 Console.WriteLine("pi.ApplicationInfo.DeviceProtectedDataDir " +
                                   pi?.ApplicationInfo?.DeviceProtectedDataDir);
-                Console.WriteLine("pi.ApplicationInfo.NativeLibraryDir " + pi?.ApplicationInfo?.NativeLibraryDir);
-            }
+            } catch {}
 
             {
+                DoToastMessage("Staging Files");
                 try
                 {
                     // nofly dir
@@ -292,13 +301,22 @@ namespace Xamarin.Droid
                 // clean start, see if it was an intent/usb attach
                 if (savedInstanceState == null)
                 {
+                    DoToastMessage("Init Saved State");
                     proxyIfUsbAttached(this.Intent);
                 }
             }
 
             GC.Collect();
 
+            DoToastMessage("Launch App");
+
             LoadApplication(new App());
+        }
+
+        private void DoToastMessage(string text, ToastLength toastLength = ToastLength.Short)
+        {
+            Toast toast = Toast.MakeText(this.ApplicationContext, text, toastLength);
+            toast.Show();
         }
 
         protected override void OnNewIntent(Intent intent)
@@ -360,6 +378,7 @@ namespace Xamarin.Droid
             Log.Error("MP", e.Exception.StackTrace.ToString());
             Debugger.Break();
             e.Handled = true;
+            DoToastMessage("ERROR " + e.Exception.Message, ToastLength.Long);
             throw e.Exception;
         }
 
