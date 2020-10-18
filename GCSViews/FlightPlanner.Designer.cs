@@ -1238,7 +1238,7 @@ namespace MissionPlanner.GCSViews
             this.panelBASE.Controls.Add(this.panelMap);
             this.panelBASE.Controls.Add(this.panelWaypoints);
             this.panelBASE.Controls.Add(this.panelAction);
-            this.panelBASE.Controls.Add(this.label6);
+            
             resources.ApplyResources(this.panelBASE, "panelBASE");
             this.panelBASE.Name = "panelBASE";
             // 

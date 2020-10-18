@@ -714,7 +714,7 @@ namespace MissionPlanner
                                       + "\ndata " + data
                                       + "\nmessage " + message.Replace('&', ' ').Replace('=', ' ')
                                       + "\n\n" + processinfo;
-                    Download.PostAsync("http://vps.oborne.me/mail.php", postData).AwaitSync();
+                    Download.PostAsync("http://vps.oborne.me/mail.php", postData);
                 }
                 catch (Exception exp)
                 {
