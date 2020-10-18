@@ -641,9 +641,9 @@ namespace Xamarin.GCSViews
                             return false;
                         }).Select(a => (Hwnd) a.Value).ToArray();
 
-                children = children.OrderBy((hwnd) =>
+                children = children.OrderBy((hwnd2) =>
                 {
-                    var info = XplatUIMine.GetInstance().GetZOrder(hwnd.client_window);
+                    var info = XplatUIMine.GetInstance().GetZOrder(hwnd2.client_window);
                     if (info.top)
                         return 1000;
                     if (info.bottom)
