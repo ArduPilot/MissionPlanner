@@ -641,6 +641,17 @@ namespace Xamarin.GCSViews
                             return false;
                         }).Select(a => (Hwnd) a.Value).ToArray();
 
+                children = children.OrderBy((hwnd) =>
+                {
+                    var info = XplatUIMine.GetInstance().GetZOrder(hwnd.client_window);
+                    if (info.top)
+                        return 1000;
+                    if (info.bottom)
+                        return 0;
+                    return 500;
+
+                });
+
                 foreach (var child in children)
                 {
                     DrawOntoSurface(child.ClientWindow, surface);
@@ -674,36 +685,6 @@ namespace Xamarin.GCSViews
                     {
                         if (form is MainV2 && form.WindowState != FormWindowState.Maximized)
                             form.BeginInvokeIfRequired(() => { form.WindowState = FormWindowState.Maximized; });
-
-                        if (form.WindowState == FormWindowState.Maximized)
-                        {
-                            var border = Hwnd.GetBorders(form.GetCreateParams(), null);
-
-                            //XplatUI.driver.SetWindowPos(form.Handle, 0, 0, (int) Screen.PrimaryScreen.Bounds.Width + border.right + border.left,                            (int) Screen.PrimaryScreen.Bounds.Height + border.top + border.bottom);
-                        }
-                        else
-                        {
-                            if (form.Location.X < 0 || form.Location.Y < 0)
-                            {
-                                form.BeginInvokeIfRequired(() =>
-                                {
-                                    form.Location = new Point(Math.Max(form.Location.X, 0),
-                                        Math.Max(form.Location.Y, 0));
-                                });
-                            }
-
-                            var border = Hwnd.GetBorders(form.GetCreateParams(), null);
-
-                            if (form.Size.Width > Screen.PrimaryScreen.Bounds.Width ||
-                                form.Size.Height > Screen.PrimaryScreen.Bounds.Height)
-                            {
-                                form.BeginInvokeIfRequired(() => {
-                                    //form.Size = new System.Drawing.Size((int) Screen.PrimaryScreen.Bounds.Width, (int) Screen.PrimaryScreen.Bounds.Height);
-                                    XplatUI.driver.SetWindowPos(form.Handle, 0, 0, (int) Screen.PrimaryScreen.Bounds.Width,
-                                        (int) Screen.PrimaryScreen.Bounds.Height);
-                                });
-                            }
-                        }
 
                         try
                         {
