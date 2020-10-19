@@ -4253,7 +4253,8 @@ namespace MissionPlanner.GCSViews
             {
                 if (InputBox.Show("Rows", "Enter number of rows to have.", ref rows) == DialogResult.OK)
                 {
-                    setQuickViewRowsCols(cols, rows);
+                    if (rows.IsNumber() && cols.IsNumber())
+                        setQuickViewRowsCols(cols, rows);
 
                     Activate();
                 }

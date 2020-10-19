@@ -1122,7 +1122,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             signingKey = new byte[32];
                         }
 
-                        using (SHA256Managed signit = new SHA256Managed())
+                        using (SHA256CryptoServiceProvider signit = new SHA256CryptoServiceProvider())
                         {
                             signit.TransformBlock(signingKey, 0, signingKey.Length, null, 0);
                             signit.TransformBlock(packet, 0, i, null, 0);
@@ -1206,9 +1206,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 clearkey = String.IsNullOrEmpty(userseed);
 
                 // sha the user input string
-                SHA256Managed signit = new SHA256Managed();
-                shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(userseed));
-                Array.Resize(ref shauser, 32);
+                using (SHA256CryptoServiceProvider signit = new SHA256CryptoServiceProvider())
+                {
+                    shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(userseed));
+                    Array.Resize(ref shauser, 32);
+                }
             }
             else
             {
@@ -4682,7 +4684,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         private bool CheckSignature(byte[] AuthKey, MAVLinkMessage message, byte sysid, byte compid)
         {
             bool valid;
-            using (SHA256Managed signit = new SHA256Managed())
+            using (SHA256CryptoServiceProvider signit = new SHA256CryptoServiceProvider())
             {
                 signit.TransformBlock(AuthKey, 0, AuthKey.Length, null, 0);
                 signit.TransformFinalBlock(message.buffer, 0, message.Length - MAVLINK_SIGNATURE_BLOCK_LEN + 7);

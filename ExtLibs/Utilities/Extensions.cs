@@ -284,6 +284,12 @@ namespace MissionPlanner.Utilities
             input.Add(new Tuple<T, T2, T3>(in1, in2, in3));
         }
 
+        public static bool IsNumber(this string value)
+        {
+            decimal num;
+            return decimal.TryParse(value, out num);
+        }
+
         public static bool IsNumber(this object value)
         {
             return IsNumber(value?.GetType());
