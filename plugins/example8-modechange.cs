@@ -18,6 +18,7 @@ namespace ModeChange
         private ToolStripComboBox modecmb;
         private string currentmode;
         private bool inchange;
+        private bool setwithnosend;
 
         public override string Name
         {
@@ -54,6 +55,8 @@ namespace ModeChange
             try
             {
                 currentmode = modecmb.SelectedItem.ToString();
+                if(setwithnosend)
+                    return;
                 MainV2.comPort.setMode((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     modecmb.SelectedItem?.ToString());
             }
@@ -93,8 +96,10 @@ namespace ModeChange
                     if (!inchange)
                         MainV2.instance.BeginInvokeIfRequired(() =>
                         {
+                            setwithnosend = true;
                             modecmb.Enabled = true;
                             modecmb.Text = MainV2.comPort.MAV.cs.mode;
+                            setwithnosend = false;
                         });
                 }
             }
@@ -107,7 +112,7 @@ namespace ModeChange
                     });
             }
 
-            loopratehz = 1;
+            loopratehz = 0.3f;
             return true;
         }
 
