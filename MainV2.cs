@@ -3134,7 +3134,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    UserAlertRoot.GetAlerts();
+                    UserAlert.GetAlerts();
                 }
                 catch
                 {
