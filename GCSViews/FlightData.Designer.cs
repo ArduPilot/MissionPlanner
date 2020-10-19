@@ -64,6 +64,8 @@
             this.CMB_modes = new System.Windows.Forms.ComboBox();
             this.BUT_quickauto = new MissionPlanner.Controls.MyButton();
             this.BUT_setmode = new MissionPlanner.Controls.MyButton();
+            this.tabPagemessages = new System.Windows.Forms.TabPage();
+            this.txt_messagebox = new System.Windows.Forms.TextBox();
             this.tabActionsSimple = new System.Windows.Forms.TabPage();
             this.myButton1 = new MissionPlanner.Controls.MyButton();
             this.myButton2 = new MissionPlanner.Controls.MyButton();
@@ -93,6 +95,27 @@
             this.relayOptions2 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions3 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions4 = new MissionPlanner.Controls.RelayOptions();
+            this.tabScripts = new System.Windows.Forms.TabPage();
+            this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
+            this.BUT_edit_selected = new MissionPlanner.Controls.MyButton();
+            this.labelSelectedScript = new System.Windows.Forms.Label();
+            this.BUT_run_script = new MissionPlanner.Controls.MyButton();
+            this.BUT_abort_script = new MissionPlanner.Controls.MyButton();
+            this.labelScriptStatus = new System.Windows.Forms.Label();
+            this.BUT_select_script = new MissionPlanner.Controls.MyButton();
+            this.tabPayload = new System.Windows.Forms.TabPage();
+            this.BUT_PayloadFolder = new MissionPlanner.Controls.MyButton();
+            this.groupBoxRoll = new System.Windows.Forms.GroupBox();
+            this.TXT_gimbalRollPos = new System.Windows.Forms.TextBox();
+            this.bindingSourcePayloadTab = new System.Windows.Forms.BindingSource(this.components);
+            this.trackBarRoll = new System.Windows.Forms.TrackBar();
+            this.groupBoxYaw = new System.Windows.Forms.GroupBox();
+            this.TXT_gimbalYawPos = new System.Windows.Forms.TextBox();
+            this.trackBarYaw = new System.Windows.Forms.TrackBar();
+            this.BUT_resetGimbalPos = new MissionPlanner.Controls.MyButton();
+            this.groupBoxPitch = new System.Windows.Forms.GroupBox();
+            this.trackBarPitch = new System.Windows.Forms.TrackBar();
+            this.TXT_gimbalPitchPos = new System.Windows.Forms.TextBox();
             this.tabTLogs = new System.Windows.Forms.TabPage();
             this.tableLayoutPaneltlogs = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_loadtelem = new MissionPlanner.Controls.MyButton();
@@ -112,36 +135,14 @@
             this.BUT_speed1_4 = new MissionPlanner.Controls.MyButton();
             this.BUT_speed1_10 = new MissionPlanner.Controls.MyButton();
             this.tablogbrowse = new System.Windows.Forms.TabPage();
-            this.BUT_georefimage = new MissionPlanner.Controls.MyButton();
-            this.BUT_loganalysis = new MissionPlanner.Controls.MyButton();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_DFMavlink = new MissionPlanner.Controls.MyButton();
-            this.but_dflogtokml = new MissionPlanner.Controls.MyButton();
-            this.but_bintolog = new MissionPlanner.Controls.MyButton();
-            this.BUT_matlab = new MissionPlanner.Controls.MyButton();
+            this.BUT_georefimage = new MissionPlanner.Controls.MyButton();
             this.BUT_logbrowse = new MissionPlanner.Controls.MyButton();
-            this.tabScripts = new System.Windows.Forms.TabPage();
-            this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
-            this.BUT_edit_selected = new MissionPlanner.Controls.MyButton();
-            this.labelSelectedScript = new System.Windows.Forms.Label();
-            this.BUT_run_script = new MissionPlanner.Controls.MyButton();
-            this.BUT_abort_script = new MissionPlanner.Controls.MyButton();
-            this.labelScriptStatus = new System.Windows.Forms.Label();
-            this.BUT_select_script = new MissionPlanner.Controls.MyButton();
-            this.tabPagemessages = new System.Windows.Forms.TabPage();
-            this.txt_messagebox = new System.Windows.Forms.TextBox();
-            this.tabPayload = new System.Windows.Forms.TabPage();
-            this.BUT_PayloadFolder = new MissionPlanner.Controls.MyButton();
-            this.groupBoxRoll = new System.Windows.Forms.GroupBox();
-            this.TXT_gimbalRollPos = new System.Windows.Forms.TextBox();
-            this.bindingSourcePayloadTab = new System.Windows.Forms.BindingSource(this.components);
-            this.trackBarRoll = new System.Windows.Forms.TrackBar();
-            this.groupBoxYaw = new System.Windows.Forms.GroupBox();
-            this.TXT_gimbalYawPos = new System.Windows.Forms.TextBox();
-            this.trackBarYaw = new System.Windows.Forms.TrackBar();
-            this.BUT_resetGimbalPos = new MissionPlanner.Controls.MyButton();
-            this.groupBoxPitch = new System.Windows.Forms.GroupBox();
-            this.trackBarPitch = new System.Windows.Forms.TrackBar();
-            this.TXT_gimbalPitchPos = new System.Windows.Forms.TextBox();
+            this.BUT_matlab = new MissionPlanner.Controls.MyButton();
+            this.but_bintolog = new MissionPlanner.Controls.MyButton();
+            this.but_dflogtokml = new MissionPlanner.Controls.MyButton();
+            this.BUT_loganalysis = new MissionPlanner.Controls.MyButton();
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
@@ -188,7 +189,6 @@
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -207,19 +207,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).BeginInit();
             this.tabActions.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tabPagemessages.SuspendLayout();
             this.tabActionsSimple.SuspendLayout();
             this.tabPagePreFlight.SuspendLayout();
             this.tabGauges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).BeginInit();
             this.tabServo.SuspendLayout();
             this.flowLayoutPanelServos.SuspendLayout();
-            this.tabTLogs.SuspendLayout();
-            this.tableLayoutPaneltlogs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tracklog)).BeginInit();
-            this.panel2.SuspendLayout();
-            this.tablogbrowse.SuspendLayout();
             this.tabScripts.SuspendLayout();
-            this.tabPagemessages.SuspendLayout();
             this.tabPayload.SuspendLayout();
             this.groupBoxRoll.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePayloadTab)).BeginInit();
@@ -228,6 +223,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarYaw)).BeginInit();
             this.groupBoxPitch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPitch)).BeginInit();
+            this.tabTLogs.SuspendLayout();
+            this.tableLayoutPaneltlogs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tracklog)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.tablogbrowse.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.tableMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -239,7 +240,6 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceStatusTab)).BeginInit();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainH
@@ -361,7 +361,6 @@
             this.hud1.speedunit = null;
             this.hud1.SSA = 0F;
             this.hud1.status = false;
-            this.hud1.streamjpg = null;
             this.hud1.targetalt = 0F;
             this.hud1.targetheading = 0F;
             this.hud1.targetspeed = 0F;
@@ -798,6 +797,7 @@
             // 
             resources.ApplyResources(this.CMB_setwp, "CMB_setwp");
             this.CMB_setwp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_setwp.DropDownWidth = 150;
             this.CMB_setwp.FormattingEnabled = true;
             this.CMB_setwp.Items.AddRange(new object[] {
             resources.GetString("CMB_setwp.Items")});
@@ -874,6 +874,7 @@
             // 
             resources.ApplyResources(this.CMB_mountmode, "CMB_mountmode");
             this.CMB_mountmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_mountmode.DropDownWidth = 150;
             this.CMB_mountmode.FormattingEnabled = true;
             this.CMB_mountmode.Name = "CMB_mountmode";
             // 
@@ -914,6 +915,7 @@
             // 
             resources.ApplyResources(this.CMB_modes, "CMB_modes");
             this.CMB_modes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_modes.DropDownWidth = 150;
             this.CMB_modes.FormattingEnabled = true;
             this.CMB_modes.Name = "CMB_modes";
             this.CMB_modes.Click += new System.EventHandler(this.CMB_modes_Click);
@@ -939,6 +941,18 @@
             this.toolTip1.SetToolTip(this.BUT_setmode, resources.GetString("BUT_setmode.ToolTip"));
             this.BUT_setmode.UseVisualStyleBackColor = true;
             this.BUT_setmode.Click += new System.EventHandler(this.BUT_setmode_Click);
+            // 
+            // tabPagemessages
+            // 
+            this.tabPagemessages.Controls.Add(this.txt_messagebox);
+            resources.ApplyResources(this.tabPagemessages, "tabPagemessages");
+            this.tabPagemessages.Name = "tabPagemessages";
+            this.tabPagemessages.UseVisualStyleBackColor = true;
+            // 
+            // txt_messagebox
+            // 
+            resources.ApplyResources(this.txt_messagebox, "txt_messagebox");
+            this.txt_messagebox.Name = "txt_messagebox";
             // 
             // tabActionsSimple
             // 
@@ -1566,6 +1580,178 @@
             this.relayOptions4.Name = "relayOptions4";
             this.relayOptions4.thisrelay = 3;
             // 
+            // tabScripts
+            // 
+            this.tabScripts.Controls.Add(this.checkBoxRedirectOutput);
+            this.tabScripts.Controls.Add(this.BUT_edit_selected);
+            this.tabScripts.Controls.Add(this.labelSelectedScript);
+            this.tabScripts.Controls.Add(this.BUT_run_script);
+            this.tabScripts.Controls.Add(this.BUT_abort_script);
+            this.tabScripts.Controls.Add(this.labelScriptStatus);
+            this.tabScripts.Controls.Add(this.BUT_select_script);
+            resources.ApplyResources(this.tabScripts, "tabScripts");
+            this.tabScripts.Name = "tabScripts";
+            this.tabScripts.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRedirectOutput
+            // 
+            resources.ApplyResources(this.checkBoxRedirectOutput, "checkBoxRedirectOutput");
+            this.checkBoxRedirectOutput.Checked = true;
+            this.checkBoxRedirectOutput.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRedirectOutput.Name = "checkBoxRedirectOutput";
+            this.checkBoxRedirectOutput.UseVisualStyleBackColor = true;
+            // 
+            // BUT_edit_selected
+            // 
+            this.BUT_edit_selected.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_edit_selected.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_edit_selected.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_edit_selected, "BUT_edit_selected");
+            this.BUT_edit_selected.Name = "BUT_edit_selected";
+            this.BUT_edit_selected.UseVisualStyleBackColor = true;
+            this.BUT_edit_selected.Click += new System.EventHandler(this.BUT_edit_selected_Click);
+            // 
+            // labelSelectedScript
+            // 
+            resources.ApplyResources(this.labelSelectedScript, "labelSelectedScript");
+            this.labelSelectedScript.Name = "labelSelectedScript";
+            // 
+            // BUT_run_script
+            // 
+            this.BUT_run_script.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_run_script.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_run_script.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_run_script, "BUT_run_script");
+            this.BUT_run_script.Name = "BUT_run_script";
+            this.BUT_run_script.UseVisualStyleBackColor = true;
+            this.BUT_run_script.Click += new System.EventHandler(this.BUT_run_script_Click);
+            // 
+            // BUT_abort_script
+            // 
+            this.BUT_abort_script.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_abort_script.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_abort_script.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_abort_script, "BUT_abort_script");
+            this.BUT_abort_script.Name = "BUT_abort_script";
+            this.BUT_abort_script.UseVisualStyleBackColor = true;
+            this.BUT_abort_script.Click += new System.EventHandler(this.BUT_abort_script_Click);
+            // 
+            // labelScriptStatus
+            // 
+            resources.ApplyResources(this.labelScriptStatus, "labelScriptStatus");
+            this.labelScriptStatus.Name = "labelScriptStatus";
+            // 
+            // BUT_select_script
+            // 
+            this.BUT_select_script.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_select_script.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_select_script.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_select_script, "BUT_select_script");
+            this.BUT_select_script.Name = "BUT_select_script";
+            this.BUT_select_script.UseVisualStyleBackColor = true;
+            this.BUT_select_script.Click += new System.EventHandler(this.BUT_select_script_Click);
+            // 
+            // tabPayload
+            // 
+            this.tabPayload.Controls.Add(this.BUT_PayloadFolder);
+            this.tabPayload.Controls.Add(this.groupBoxRoll);
+            this.tabPayload.Controls.Add(this.groupBoxYaw);
+            this.tabPayload.Controls.Add(this.BUT_resetGimbalPos);
+            this.tabPayload.Controls.Add(this.groupBoxPitch);
+            resources.ApplyResources(this.tabPayload, "tabPayload");
+            this.tabPayload.Name = "tabPayload";
+            this.tabPayload.UseVisualStyleBackColor = true;
+            // 
+            // BUT_PayloadFolder
+            // 
+            resources.ApplyResources(this.BUT_PayloadFolder, "BUT_PayloadFolder");
+            this.BUT_PayloadFolder.Name = "BUT_PayloadFolder";
+            this.BUT_PayloadFolder.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxRoll
+            // 
+            this.groupBoxRoll.Controls.Add(this.TXT_gimbalRollPos);
+            this.groupBoxRoll.Controls.Add(this.trackBarRoll);
+            resources.ApplyResources(this.groupBoxRoll, "groupBoxRoll");
+            this.groupBoxRoll.Name = "groupBoxRoll";
+            this.groupBoxRoll.TabStop = false;
+            // 
+            // TXT_gimbalRollPos
+            // 
+            this.TXT_gimbalRollPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointb", true));
+            resources.ApplyResources(this.TXT_gimbalRollPos, "TXT_gimbalRollPos");
+            this.TXT_gimbalRollPos.Name = "TXT_gimbalRollPos";
+            // 
+            // bindingSourcePayloadTab
+            // 
+            this.bindingSourcePayloadTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // trackBarRoll
+            // 
+            resources.ApplyResources(this.trackBarRoll, "trackBarRoll");
+            this.trackBarRoll.LargeChange = 10;
+            this.trackBarRoll.Maximum = 45;
+            this.trackBarRoll.Minimum = -45;
+            this.trackBarRoll.Name = "trackBarRoll";
+            this.trackBarRoll.TickFrequency = 10;
+            this.trackBarRoll.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
+            // 
+            // groupBoxYaw
+            // 
+            this.groupBoxYaw.Controls.Add(this.TXT_gimbalYawPos);
+            this.groupBoxYaw.Controls.Add(this.trackBarYaw);
+            resources.ApplyResources(this.groupBoxYaw, "groupBoxYaw");
+            this.groupBoxYaw.Name = "groupBoxYaw";
+            this.groupBoxYaw.TabStop = false;
+            // 
+            // TXT_gimbalYawPos
+            // 
+            this.TXT_gimbalYawPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointc", true));
+            resources.ApplyResources(this.TXT_gimbalYawPos, "TXT_gimbalYawPos");
+            this.TXT_gimbalYawPos.Name = "TXT_gimbalYawPos";
+            // 
+            // trackBarYaw
+            // 
+            resources.ApplyResources(this.trackBarYaw, "trackBarYaw");
+            this.trackBarYaw.LargeChange = 10;
+            this.trackBarYaw.Maximum = 45;
+            this.trackBarYaw.Minimum = -45;
+            this.trackBarYaw.Name = "trackBarYaw";
+            this.trackBarYaw.TickFrequency = 10;
+            this.trackBarYaw.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
+            // 
+            // BUT_resetGimbalPos
+            // 
+            resources.ApplyResources(this.BUT_resetGimbalPos, "BUT_resetGimbalPos");
+            this.BUT_resetGimbalPos.Name = "BUT_resetGimbalPos";
+            this.BUT_resetGimbalPos.UseVisualStyleBackColor = true;
+            this.BUT_resetGimbalPos.Click += new System.EventHandler(this.BUT_resetGimbalPos_Click);
+            // 
+            // groupBoxPitch
+            // 
+            this.groupBoxPitch.Controls.Add(this.trackBarPitch);
+            this.groupBoxPitch.Controls.Add(this.TXT_gimbalPitchPos);
+            resources.ApplyResources(this.groupBoxPitch, "groupBoxPitch");
+            this.groupBoxPitch.Name = "groupBoxPitch";
+            this.groupBoxPitch.TabStop = false;
+            // 
+            // trackBarPitch
+            // 
+            resources.ApplyResources(this.trackBarPitch, "trackBarPitch");
+            this.trackBarPitch.LargeChange = 10;
+            this.trackBarPitch.Maximum = 45;
+            this.trackBarPitch.Minimum = -45;
+            this.trackBarPitch.Name = "trackBarPitch";
+            this.trackBarPitch.SmallChange = 5;
+            this.trackBarPitch.TickFrequency = 10;
+            this.trackBarPitch.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
+            // 
+            // TXT_gimbalPitchPos
+            // 
+            this.TXT_gimbalPitchPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointa", true));
+            resources.ApplyResources(this.TXT_gimbalPitchPos, "TXT_gimbalPitchPos");
+            this.TXT_gimbalPitchPos.Name = "TXT_gimbalPitchPos";
+            // 
             // tabTLogs
             // 
             this.tabTLogs.Controls.Add(this.tableLayoutPaneltlogs);
@@ -1745,21 +1931,17 @@
             this.tablogbrowse.Name = "tablogbrowse";
             this.tablogbrowse.UseVisualStyleBackColor = true;
             // 
-            // BUT_georefimage
+            // tableLayoutPanel2
             // 
-            resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
-            this.BUT_georefimage.Name = "BUT_georefimage";
-            this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
-            // 
-            // BUT_loganalysis
-            // 
-            this.BUT_loganalysis.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_loganalysis.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_loganalysis.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_loganalysis, "BUT_loganalysis");
-            this.BUT_loganalysis.Name = "BUT_loganalysis";
-            this.BUT_loganalysis.UseVisualStyleBackColor = true;
-            this.BUT_loganalysis.Click += new System.EventHandler(this.BUT_loganalysis_Click);
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.BUT_DFMavlink, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.BUT_georefimage, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.BUT_logbrowse, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.BUT_matlab, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.but_bintolog, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.but_dflogtokml, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.BUT_loganalysis, 2, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // BUT_DFMavlink
             // 
@@ -1771,35 +1953,11 @@
             this.BUT_DFMavlink.UseVisualStyleBackColor = true;
             this.BUT_DFMavlink.Click += new System.EventHandler(this.BUT_DFMavlink_Click);
             // 
-            // but_dflogtokml
+            // BUT_georefimage
             // 
-            this.but_dflogtokml.ColorMouseDown = System.Drawing.Color.Empty;
-            this.but_dflogtokml.ColorMouseOver = System.Drawing.Color.Empty;
-            this.but_dflogtokml.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.but_dflogtokml, "but_dflogtokml");
-            this.but_dflogtokml.Name = "but_dflogtokml";
-            this.but_dflogtokml.UseVisualStyleBackColor = true;
-            this.but_dflogtokml.Click += new System.EventHandler(this.but_dflogtokml_Click);
-            // 
-            // but_bintolog
-            // 
-            this.but_bintolog.ColorMouseDown = System.Drawing.Color.Empty;
-            this.but_bintolog.ColorMouseOver = System.Drawing.Color.Empty;
-            this.but_bintolog.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.but_bintolog, "but_bintolog");
-            this.but_bintolog.Name = "but_bintolog";
-            this.but_bintolog.UseVisualStyleBackColor = true;
-            this.but_bintolog.Click += new System.EventHandler(this.but_bintolog_Click);
-            // 
-            // BUT_matlab
-            // 
-            this.BUT_matlab.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_matlab.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_matlab.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_matlab, "BUT_matlab");
-            this.BUT_matlab.Name = "BUT_matlab";
-            this.BUT_matlab.UseVisualStyleBackColor = true;
-            this.BUT_matlab.Click += new System.EventHandler(this.BUT_matlab_Click);
+            resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
+            this.BUT_georefimage.Name = "BUT_georefimage";
+            this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
             // 
             // BUT_logbrowse
             // 
@@ -1811,189 +1969,45 @@
             this.BUT_logbrowse.UseVisualStyleBackColor = true;
             this.BUT_logbrowse.Click += new System.EventHandler(this.BUT_logbrowse_Click);
             // 
-            // tabScripts
+            // BUT_matlab
             // 
-            this.tabScripts.Controls.Add(this.checkBoxRedirectOutput);
-            this.tabScripts.Controls.Add(this.BUT_edit_selected);
-            this.tabScripts.Controls.Add(this.labelSelectedScript);
-            this.tabScripts.Controls.Add(this.BUT_run_script);
-            this.tabScripts.Controls.Add(this.BUT_abort_script);
-            this.tabScripts.Controls.Add(this.labelScriptStatus);
-            this.tabScripts.Controls.Add(this.BUT_select_script);
-            resources.ApplyResources(this.tabScripts, "tabScripts");
-            this.tabScripts.Name = "tabScripts";
-            this.tabScripts.UseVisualStyleBackColor = true;
+            this.BUT_matlab.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_matlab.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_matlab.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_matlab, "BUT_matlab");
+            this.BUT_matlab.Name = "BUT_matlab";
+            this.BUT_matlab.UseVisualStyleBackColor = true;
+            this.BUT_matlab.Click += new System.EventHandler(this.BUT_matlab_Click);
             // 
-            // checkBoxRedirectOutput
+            // but_bintolog
             // 
-            resources.ApplyResources(this.checkBoxRedirectOutput, "checkBoxRedirectOutput");
-            this.checkBoxRedirectOutput.Checked = true;
-            this.checkBoxRedirectOutput.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRedirectOutput.Name = "checkBoxRedirectOutput";
-            this.checkBoxRedirectOutput.UseVisualStyleBackColor = true;
+            this.but_bintolog.ColorMouseDown = System.Drawing.Color.Empty;
+            this.but_bintolog.ColorMouseOver = System.Drawing.Color.Empty;
+            this.but_bintolog.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.but_bintolog, "but_bintolog");
+            this.but_bintolog.Name = "but_bintolog";
+            this.but_bintolog.UseVisualStyleBackColor = true;
+            this.but_bintolog.Click += new System.EventHandler(this.but_bintolog_Click);
             // 
-            // BUT_edit_selected
+            // but_dflogtokml
             // 
-            this.BUT_edit_selected.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_edit_selected.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_edit_selected.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_edit_selected, "BUT_edit_selected");
-            this.BUT_edit_selected.Name = "BUT_edit_selected";
-            this.BUT_edit_selected.UseVisualStyleBackColor = true;
-            this.BUT_edit_selected.Click += new System.EventHandler(this.BUT_edit_selected_Click);
+            this.but_dflogtokml.ColorMouseDown = System.Drawing.Color.Empty;
+            this.but_dflogtokml.ColorMouseOver = System.Drawing.Color.Empty;
+            this.but_dflogtokml.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.but_dflogtokml, "but_dflogtokml");
+            this.but_dflogtokml.Name = "but_dflogtokml";
+            this.but_dflogtokml.UseVisualStyleBackColor = true;
+            this.but_dflogtokml.Click += new System.EventHandler(this.but_dflogtokml_Click);
             // 
-            // labelSelectedScript
+            // BUT_loganalysis
             // 
-            resources.ApplyResources(this.labelSelectedScript, "labelSelectedScript");
-            this.labelSelectedScript.Name = "labelSelectedScript";
-            // 
-            // BUT_run_script
-            // 
-            this.BUT_run_script.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_run_script.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_run_script.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_run_script, "BUT_run_script");
-            this.BUT_run_script.Name = "BUT_run_script";
-            this.BUT_run_script.UseVisualStyleBackColor = true;
-            this.BUT_run_script.Click += new System.EventHandler(this.BUT_run_script_Click);
-            // 
-            // BUT_abort_script
-            // 
-            this.BUT_abort_script.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_abort_script.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_abort_script.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_abort_script, "BUT_abort_script");
-            this.BUT_abort_script.Name = "BUT_abort_script";
-            this.BUT_abort_script.UseVisualStyleBackColor = true;
-            this.BUT_abort_script.Click += new System.EventHandler(this.BUT_abort_script_Click);
-            // 
-            // labelScriptStatus
-            // 
-            resources.ApplyResources(this.labelScriptStatus, "labelScriptStatus");
-            this.labelScriptStatus.Name = "labelScriptStatus";
-            // 
-            // BUT_select_script
-            // 
-            this.BUT_select_script.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_select_script.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_select_script.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.BUT_select_script, "BUT_select_script");
-            this.BUT_select_script.Name = "BUT_select_script";
-            this.BUT_select_script.UseVisualStyleBackColor = true;
-            this.BUT_select_script.Click += new System.EventHandler(this.BUT_select_script_Click);
-            // 
-            // tabPagemessages
-            // 
-            this.tabPagemessages.Controls.Add(this.txt_messagebox);
-            resources.ApplyResources(this.tabPagemessages, "tabPagemessages");
-            this.tabPagemessages.Name = "tabPagemessages";
-            this.tabPagemessages.UseVisualStyleBackColor = true;
-            // 
-            // txt_messagebox
-            // 
-            resources.ApplyResources(this.txt_messagebox, "txt_messagebox");
-            this.txt_messagebox.Name = "txt_messagebox";
-            // 
-            // tabPayload
-            // 
-            this.tabPayload.Controls.Add(this.BUT_PayloadFolder);
-            this.tabPayload.Controls.Add(this.groupBoxRoll);
-            this.tabPayload.Controls.Add(this.groupBoxYaw);
-            this.tabPayload.Controls.Add(this.BUT_resetGimbalPos);
-            this.tabPayload.Controls.Add(this.groupBoxPitch);
-            resources.ApplyResources(this.tabPayload, "tabPayload");
-            this.tabPayload.Name = "tabPayload";
-            this.tabPayload.UseVisualStyleBackColor = true;
-            // 
-            // BUT_PayloadFolder
-            // 
-            resources.ApplyResources(this.BUT_PayloadFolder, "BUT_PayloadFolder");
-            this.BUT_PayloadFolder.Name = "BUT_PayloadFolder";
-            this.BUT_PayloadFolder.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxRoll
-            // 
-            this.groupBoxRoll.Controls.Add(this.TXT_gimbalRollPos);
-            this.groupBoxRoll.Controls.Add(this.trackBarRoll);
-            resources.ApplyResources(this.groupBoxRoll, "groupBoxRoll");
-            this.groupBoxRoll.Name = "groupBoxRoll";
-            this.groupBoxRoll.TabStop = false;
-            // 
-            // TXT_gimbalRollPos
-            // 
-            this.TXT_gimbalRollPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointb", true));
-            resources.ApplyResources(this.TXT_gimbalRollPos, "TXT_gimbalRollPos");
-            this.TXT_gimbalRollPos.Name = "TXT_gimbalRollPos";
-            // 
-            // bindingSourcePayloadTab
-            // 
-            this.bindingSourcePayloadTab.DataSource = typeof(MissionPlanner.CurrentState);
-            // 
-            // trackBarRoll
-            // 
-            resources.ApplyResources(this.trackBarRoll, "trackBarRoll");
-            this.trackBarRoll.LargeChange = 10;
-            this.trackBarRoll.Maximum = 45;
-            this.trackBarRoll.Minimum = -45;
-            this.trackBarRoll.Name = "trackBarRoll";
-            this.trackBarRoll.TickFrequency = 10;
-            this.trackBarRoll.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
-            // 
-            // groupBoxYaw
-            // 
-            this.groupBoxYaw.Controls.Add(this.TXT_gimbalYawPos);
-            this.groupBoxYaw.Controls.Add(this.trackBarYaw);
-            resources.ApplyResources(this.groupBoxYaw, "groupBoxYaw");
-            this.groupBoxYaw.Name = "groupBoxYaw";
-            this.groupBoxYaw.TabStop = false;
-            // 
-            // TXT_gimbalYawPos
-            // 
-            this.TXT_gimbalYawPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointc", true));
-            resources.ApplyResources(this.TXT_gimbalYawPos, "TXT_gimbalYawPos");
-            this.TXT_gimbalYawPos.Name = "TXT_gimbalYawPos";
-            // 
-            // trackBarYaw
-            // 
-            resources.ApplyResources(this.trackBarYaw, "trackBarYaw");
-            this.trackBarYaw.LargeChange = 10;
-            this.trackBarYaw.Maximum = 45;
-            this.trackBarYaw.Minimum = -45;
-            this.trackBarYaw.Name = "trackBarYaw";
-            this.trackBarYaw.TickFrequency = 10;
-            this.trackBarYaw.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
-            // 
-            // BUT_resetGimbalPos
-            // 
-            resources.ApplyResources(this.BUT_resetGimbalPos, "BUT_resetGimbalPos");
-            this.BUT_resetGimbalPos.Name = "BUT_resetGimbalPos";
-            this.BUT_resetGimbalPos.UseVisualStyleBackColor = true;
-            this.BUT_resetGimbalPos.Click += new System.EventHandler(this.BUT_resetGimbalPos_Click);
-            // 
-            // groupBoxPitch
-            // 
-            this.groupBoxPitch.Controls.Add(this.trackBarPitch);
-            this.groupBoxPitch.Controls.Add(this.TXT_gimbalPitchPos);
-            resources.ApplyResources(this.groupBoxPitch, "groupBoxPitch");
-            this.groupBoxPitch.Name = "groupBoxPitch";
-            this.groupBoxPitch.TabStop = false;
-            // 
-            // trackBarPitch
-            // 
-            resources.ApplyResources(this.trackBarPitch, "trackBarPitch");
-            this.trackBarPitch.LargeChange = 10;
-            this.trackBarPitch.Maximum = 45;
-            this.trackBarPitch.Minimum = -45;
-            this.trackBarPitch.Name = "trackBarPitch";
-            this.trackBarPitch.SmallChange = 5;
-            this.trackBarPitch.TickFrequency = 10;
-            this.trackBarPitch.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
-            // 
-            // TXT_gimbalPitchPos
-            // 
-            this.TXT_gimbalPitchPos.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourcePayloadTab, "campointa", true));
-            resources.ApplyResources(this.TXT_gimbalPitchPos, "TXT_gimbalPitchPos");
-            this.TXT_gimbalPitchPos.Name = "TXT_gimbalPitchPos";
+            this.BUT_loganalysis.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_loganalysis.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_loganalysis.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_loganalysis, "BUT_loganalysis");
+            this.BUT_loganalysis.Name = "BUT_loganalysis";
+            this.BUT_loganalysis.UseVisualStyleBackColor = true;
+            this.BUT_loganalysis.Click += new System.EventHandler(this.BUT_loganalysis_Click);
             // 
             // tableMap
             // 
@@ -2398,18 +2412,6 @@
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.BUT_DFMavlink, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.BUT_georefimage, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.BUT_logbrowse, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.BUT_matlab, 2, 1);
-            this.tableLayoutPanel2.Controls.Add(this.but_bintolog, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.but_dflogtokml, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.BUT_loganalysis, 2, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
             // FlightData
             // 
             this.Controls.Add(this.MainH);
@@ -2438,23 +2440,16 @@
             this.tabActions.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tabPagemessages.ResumeLayout(false);
+            this.tabPagemessages.PerformLayout();
             this.tabActionsSimple.ResumeLayout(false);
             this.tabPagePreFlight.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).EndInit();
             this.tabServo.ResumeLayout(false);
             this.flowLayoutPanelServos.ResumeLayout(false);
-            this.tabTLogs.ResumeLayout(false);
-            this.tableLayoutPaneltlogs.ResumeLayout(false);
-            this.tableLayoutPaneltlogs.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tracklog)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.tablogbrowse.ResumeLayout(false);
             this.tabScripts.ResumeLayout(false);
             this.tabScripts.PerformLayout();
-            this.tabPagemessages.ResumeLayout(false);
-            this.tabPagemessages.PerformLayout();
             this.tabPayload.ResumeLayout(false);
             this.groupBoxRoll.ResumeLayout(false);
             this.groupBoxRoll.PerformLayout();
@@ -2466,6 +2461,14 @@
             this.groupBoxPitch.ResumeLayout(false);
             this.groupBoxPitch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPitch)).EndInit();
+            this.tabTLogs.ResumeLayout(false);
+            this.tableLayoutPaneltlogs.ResumeLayout(false);
+            this.tableLayoutPaneltlogs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tracklog)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.tablogbrowse.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.tableMap.ResumeLayout(false);
             this.tableMap.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -2480,7 +2483,6 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceStatusTab)).EndInit();
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
