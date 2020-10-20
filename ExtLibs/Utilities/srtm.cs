@@ -576,9 +576,11 @@ namespace MissionPlanner.Utilities
             List<string> list = new List<string>();
 
             // load 1 arc seconds first
-            //list.AddRange(getListing(baseurl1sec));
+            list.AddRange(await getListing(baseurl1sec));
+            log.Info("srtm1sec " + list.Count);
             // load 3 arc second
             list.AddRange(await getListing(baseurl));
+            log.Info("srtm1esc+3sec " + list.Count);
 
             foreach (string item in list)
             {
@@ -601,7 +603,7 @@ namespace MissionPlanner.Utilities
 
             // if there are no http exceptions, and the list is >= 20, then everything above is valid
             // 15760 is all srtm3 and srtm1
-            if (list.Count >= 12 && checkednames > 14000 && !oceantile.Contains((string) name))
+            if (list.Count >= 21 && checkednames > 15000 && !oceantile.Contains((string) name))
             {
                 // we must be an ocean tile - no matchs
                 oceantile.Add((string) name);
