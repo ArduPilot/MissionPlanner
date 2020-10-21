@@ -63,6 +63,12 @@ namespace UAVCAN
         private Stream sr;
         DateTime uptime = DateTime.Now;
 
+        /// <summary>
+        /// Read a line from the underlying stream
+        /// </summary>
+        /// <param name="st">input stream</param>
+        /// <param name="timeoutms">timeout</param>
+        /// <returns>a single slcan line</returns>
         string ReadLine(Stream st, int timeoutms = 1100)
         {
             StringBuilder sb = new StringBuilder();
@@ -108,8 +114,14 @@ namespace UAVCAN
             return sb.ToString();
         }
 
+        /// <summary>
+        /// slcan byte count
+        /// </summary>
         public int bps { get; set; }
 
+        /// <summary>
+        /// Setup printing debug text to the console
+        /// </summary>
         public void PrintDebugToConsole()
         {
             MessageReceived += (frame, msg, transferID) =>
@@ -1191,6 +1203,10 @@ namespace UAVCAN
 
         }
 
+        /// <summary>
+        /// Write the slcan string to the underlying stream
+        /// </summary>
+        /// <param name="slcan">slcan encoded string</param>
         public void WriteToStream(string slcan)
         {
             var lines = slcan.Split(new[] { '\r' }, StringSplitOptions.RemoveEmptyEntries);
@@ -1226,7 +1242,14 @@ namespace UAVCAN
                 sr.Flush();
             }
         }
-
+        /// <summary>
+        /// create a slcan string with the encoded @msg
+        /// </summary>
+        /// <param name="destNode">Destination node - service message, else it does not matter</param>
+        /// <param name="priority">A positive integer value that defines the message urgency (0 is the highest priority). Higher priority transfers can delay transmission of lower priority transfers.</param>
+        /// <param name="transferID">An integer value that allows receiving nodes to distinguish this transfer from all others</param>
+        /// <param name="msg">A IUAVCANSerialize message for packaging</param>
+        /// <returns></returns>
         public string PackageMessage(byte destNode, byte priority, byte transferID, IUAVCANSerialize msg)
         {
             var state = new statetracking();
@@ -1312,7 +1335,13 @@ namespace UAVCAN
 
         Dictionary<(uint, int), List<byte>> transfer = new Dictionary<(uint, int), List<byte>>();
 
+        /// <summary>
+        /// Source Node
+        /// </summary>
         public byte SourceNode { get; set; } = 127;
+        /// <summary>
+        /// Enable Sending Node Status
+        /// </summary>
         public bool NodeStatus { get; set; } = true;
 
         public delegate void FileSendCompleteArgs(byte NodeID, string file);
@@ -1450,6 +1479,10 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             else return 0;
         }
 
+        /// <summary>
+        /// Process a single CAN Frame
+        /// </summary>
+        /// <param name="line">A Single CAN frame</param>
         public void ReadMessage(string line)
         {
             int id_len;
@@ -1654,6 +1687,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             if (param.Count() == 0)
             {
+                Console.WriteLine("SetParameter fail because {0} is not known", name);
                 return false;
             }
 
