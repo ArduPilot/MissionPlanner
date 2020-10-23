@@ -93,6 +93,9 @@ namespace AltitudeAngelWings.Service
 
         private async Task SubmitFlightReport(Models.FlightData flightData)
         {
+            if (!IsSignedIn)
+                return;
+
             await _messagesService.AddMessageAsync(new Message($"ARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
             if (!_settings.FlightReportEnable || _settings.CurrentFlightReportId != null)
             {
