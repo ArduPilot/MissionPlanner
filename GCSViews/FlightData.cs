@@ -1448,9 +1448,12 @@ namespace MissionPlanner.GCSViews
                             timeout = 0;
                             while (MainV2.comPort.MAV.cs.alt < (lastwpdata.alt - 2))
                             {
-                                MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
+                                if(!MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
                                     (byte) MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0,
-                                    lastwpdata.alt);
+                                    lastwpdata.alt)) {
+                                        CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                                        return;
+                                    }
                                 Thread.Sleep(1000);
                                 Application.DoEvents();
                                 timeout++;
