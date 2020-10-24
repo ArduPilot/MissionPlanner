@@ -129,6 +129,9 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayAOASSA { get; set; }
 
+        [System.ComponentModel.Browsable(true), DefaultValue(true)]
+        public bool displayCellVoltage { get; set; }
+
         private static ImageCodecInfo ici = GetImageCodec("image/jpeg");
         private static EncoderParameters eps = new EncoderParameters(1);
 
@@ -185,6 +188,7 @@ namespace MissionPlanner.Controls
         private bool _lowairspeed = false;
         private float _targetspeed = 0;
         private float _batterylevel = 0;
+        private int _batterycellcount = 0;
         private float _current = 0;
         private float _batteryremaining = 0;
         private float _gpsfix = 0;
@@ -406,6 +410,20 @@ namespace MissionPlanner.Controls
                 if (_batterylevel != value)
                 {
                     _batterylevel = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public int batterycellcount
+        {
+            get { return _batterycellcount; }
+            set
+            {
+                if (_batterycellcount != value)
+                {
+                    _batterycellcount = value;
                     this.Invalidate();
                 }
             }
@@ -2539,23 +2557,31 @@ namespace MissionPlanner.Controls
 
                     string text = HUDT.Bat + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A");
 
-                    text = HUDT.Bat + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " +
-                           (_batteryremaining) + "%";
+                    text = HUDT.Bat + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
 
                     if (criticalvoltagealert)
                     {
                         drawstring(text, font, fontsize + 2, (SolidBrush) Brushes.Red, fontsize,
                             this.Height - ((fontsize + 2) * 3) - fontoffset);
+
+                        if (displayCellVoltage & (_batterycellcount != 0))
+                            drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, _whiteBrush, fontsize, this.Height - (fontsize * 2) - fontoffset);
                     }
                     else if (lowvoltagealert)
                     {
                         drawstring(text, font, fontsize + 2, (SolidBrush)Brushes.Orange, fontsize,
                             this.Height - ((fontsize + 2) * 3) - fontoffset);
+
+                        if (displayCellVoltage & (_batterycellcount != 0))
+                            drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, _whiteBrush, fontsize, this.Height - (fontsize * 2) - fontoffset);
                     }
                     else
                     {
                         drawstring(text, font, fontsize + 2, _whiteBrush, fontsize,
                             this.Height - ((fontsize + 2) * 3) - fontoffset);
+
+                        if (displayCellVoltage & (_batterycellcount!=0)) 
+                            drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"),font, fontsize + 2, _whiteBrush, fontsize, this.Height - (fontsize * 2) - fontoffset);
                     }
                 }
 

@@ -126,6 +126,9 @@
   <data name="Bat" xml:space="preserve">
     <value>Bat </value>
   </data>
+  <data name="Cell" xml:space="preserve">
+    <value>Cell</value>
+  </data>
   <data name="DISARMED" xml:space="preserve">
     <value>DISARMED</value>
   </data>

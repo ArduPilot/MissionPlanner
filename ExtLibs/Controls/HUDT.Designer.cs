@@ -88,6 +88,15 @@ namespace MissionPlanner.Controls {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cell.
+        /// </summary>
+        public static string Cell {
+            get {
+                return ResourceManager.GetString("Cell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DISARMED.
         /// </summary>
         public static string DISARMED {
