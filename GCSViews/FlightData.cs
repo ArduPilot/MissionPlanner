@@ -476,6 +476,10 @@ namespace MissionPlanner.GCSViews
             {
                 hud1.batteryon = false;
             }
+
+            //Check if we want to display calculated battery cell voltage
+            hud1.displayCellVoltage = Settings.Instance.GetBoolean("HUD_showbatterycell", false);
+            hud1.batterycellcount = Settings.Instance.GetInt32("HUD_batterycellcount", 0);
         }
 
         public void CreateChart(ZedGraphControl zgc)
@@ -5181,6 +5185,33 @@ namespace MissionPlanner.GCSViews
             {
                // contextMenuStripMap.Show(gMapControl1, e.Location);
             }
+        }
+
+        private void setBatteryCellCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (hud1.displayCellVoltage)
+            {
+                hud1.displayCellVoltage = false;
+                Settings.Instance["HUD_showbatterycell"] = false.ToString();
+                return;
+            }
+
+            string CellCount = "4";
+            int iCellCount;
+
+            if (DialogResult.Cancel == InputBox.Show("Battery Cell Count", "Cell Count", ref CellCount))
+                return;
+            
+            if (!int.TryParse(CellCount, out iCellCount))
+            {
+                CustomMessageBox.Show("Bad Radius");
+                return;
+            }
+            Settings.Instance["HUD_batterycellcount"] = iCellCount.ToString();
+            Settings.Instance["HUD_showbatterycell"] = true.ToString();
+
+            hud1.displayCellVoltage = true;
+            hud1.batterycellcount = iCellCount;
         }
     }
 }
