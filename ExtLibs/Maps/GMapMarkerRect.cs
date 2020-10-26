@@ -78,20 +78,21 @@ namespace GMap.NET.WindowsForms
             GPoint loc = new GPoint((int) (LocalPosition.X - (m2pixelwidth*wprad*2)), LocalPosition.Y);
             // MainMap.FromLatLngToLocal(wpradposition);
 
-            if (m2pixelheight > 0.5 && !double.IsInfinity(m2pixelheight))
+            if (m2pixelheight > 0.001 && !double.IsInfinity(m2pixelheight))
             {
-                g.DrawArc(Pen,
-                    new System.Drawing.Rectangle(
-                        LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2),
-                        LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2,
-                        (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+                var rect = new System.Drawing.Rectangle(
+                    LocalPosition.X - Offset.X - (int) (Math.Abs(loc.X - LocalPosition.X) / 2),
+                    LocalPosition.Y - Offset.Y - (int) Math.Abs(loc.X - LocalPosition.X) / 2,
+                    (int) Math.Abs(loc.X - LocalPosition.X), (int) Math.Abs(loc.X - LocalPosition.X));
+
+                if (rect.Height == 0 || rect.Width == 0)
+                    return;
+
+                g.DrawArc(Pen, rect, 0, 360);
 
                 if (FillColor.HasValue)
                 {
-                    g.FillPie(new SolidBrush(FillColor.Value), new System.Drawing.Rectangle(
-                                LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2),
-                                LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2,
-                                (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+                    g.FillPie(new SolidBrush(FillColor.Value), rect, 0, 360);
                 }
             }
         }
