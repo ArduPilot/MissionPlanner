@@ -234,6 +234,10 @@
       <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
       <Name>MissionPlanner.Comms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Interfaces\Interfaces.csproj">
       <Project>{fd4d2994-9bea-41a1-8c51-2e02d1e8503e}</Project>
       <Name>Interfaces</Name>
@@ -253,6 +257,14 @@
     <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
       <Name>MissionPlanner.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GDALForAndroid\GDALForAndroid.csproj">
+      <Project>{e1d67c23-0cdd-4835-a1e2-4634c0dd4c34}</Project>
+      <Name>GDALForAndroid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GDAL\GDALMPAndroid.csproj">
+      <Project>{6a3ba3a7-7d66-4292-90db-05e6a765127a}</Project>
+      <Name>GDALMPAndroid</Name>
     </ProjectReference>
     <ProjectReference Include="..\Xamarin\Xamarin.csproj">
       <Project>{567c5db1-9d8d-4a82-a89b-7e9357e7f6d8}</Project>
