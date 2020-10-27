@@ -2189,7 +2189,7 @@ namespace MissionPlanner
                                 // saftey switch
                                 if (armed && sensors_enabled.motor_control == false && sensors_enabled.seen)
                                 {
-                                    messageHigh = "(SAFE)";
+                                    messageHigh = "(SAFETY)";
                                 }
 
                                 // for future use

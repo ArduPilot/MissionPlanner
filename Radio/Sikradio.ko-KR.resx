@@ -1,0 +1,4961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Progressbar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Progressbar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 447</value>
+  </data>
+  <data name="Progressbar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1072, 36</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Progressbar.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Progressbar.Name" xml:space="preserve">
+    <value>Progressbar</value>
+  </data>
+  <data name="&gt;&gt;Progressbar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Progressbar.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Progressbar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 17</value>
+  </data>
+  <data name="RSSI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>59, 38</value>
+  </data>
+  <data name="RSSI.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RSSI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 39</value>
+  </data>
+  <data name="RSSI.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="RSSI.ToolTip" xml:space="preserve">
+    <value>RSSI -&gt; dBm 그래프 사양은 다음과 같습니다. 다음 숫자 값은: 
+txe: 송신 오류 횟수 (eg. 송신 제한 시간 초과) 
+rxe: 수신 오류 횟수 (CRC 오류, 프레이밍 오류 등) 
+stx: 직렬 전송량 초과 횟수 
+rrx: 직렬 수신량 초과 횟수
+ecc: 유효 패킷 CRC 결과를 내며
+고레이코드로 12비트 워드를 수정 성공한 횟수 
+</value>
+  </data>
+  <data name="&gt;&gt;RSSI.Name" xml:space="preserve">
+    <value>RSSI</value>
+  </data>
+  <data name="&gt;&gt;RSSI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RSSI.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;RSSI.ZOrder" xml:space="preserve">
+    <value>63</value>
+  </data>
+  <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>836, 11</value>
+  </data>
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 13</value>
+  </data>
+  <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>상태 LED</value>
+  </data>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>3DR 무선 통신시 상태 LED 2개를, 하나는 적색, 하나는 녹색을 활용합니다.
+녹 LED 점멸 - 다른 통신 대상 검색 
+녹 LED 점등 - 통신 대상 연결 완료 
+적 LED 점멸 - 데이터 전송 중 
+적 LED 점등 - 펌웨어 업데이트 모드</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
+    <value>linkLabel1</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RRTSCTS.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RRTSCTS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RRTSCTS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 217</value>
+  </data>
+  <data name="RRTSCTS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="RRTSCTS.TabIndex" type="System.Int32, mscorlib">
+    <value>98</value>
+  </data>
+  <data name="RRTSCTS.ToolTip" xml:space="preserve">
+    <value>하드웨어 흐름 제어 비/활성</value>
+  </data>
+  <data name="&gt;&gt;RRTSCTS.Name" xml:space="preserve">
+    <value>RRTSCTS</value>
+  </data>
+  <data name="&gt;&gt;RRTSCTS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RRTSCTS.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RRTSCTS.ZOrder" xml:space="preserve">
+    <value>42</value>
+  </data>
+  <data name="RMAX_WINDOW.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RMAX_WINDOW.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RMAX_WINDOW.Items1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RMAX_WINDOW.Items2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RMAX_WINDOW.Items3" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="RMAX_WINDOW.Items4" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RMAX_WINDOW.Items5" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RMAX_WINDOW.Items6" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="RMAX_WINDOW.Items7" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="RMAX_WINDOW.Items8" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RMAX_WINDOW.Items9" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RMAX_WINDOW.Items10" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RMAX_WINDOW.Items11" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="RMAX_WINDOW.Items12" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="RMAX_WINDOW.Items13" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="RMAX_WINDOW.Items14" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RMAX_WINDOW.Items15" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="RMAX_WINDOW.Items16" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RMAX_WINDOW.Items17" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="RMAX_WINDOW.Items18" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="RMAX_WINDOW.Items19" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RMAX_WINDOW.Items20" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RMAX_WINDOW.Items21" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="RMAX_WINDOW.Items22" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="RMAX_WINDOW.Items23" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="RMAX_WINDOW.Items24" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="RMAX_WINDOW.Items25" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="RMAX_WINDOW.Items26" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="RMAX_WINDOW.Items27" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="RMAX_WINDOW.Items28" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="RMAX_WINDOW.Items29" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="RMAX_WINDOW.Items30" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="RMAX_WINDOW.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 244</value>
+  </data>
+  <data name="RMAX_WINDOW.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RMAX_WINDOW.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="RMAX_WINDOW.ToolTip" xml:space="preserve">
+    <value>노드 ID 입니다. 기본 노드 ID 값은 0입니다. 하나의 노드는 다중 지점 통신의 중심점 처럼 동작합니다.</value>
+  </data>
+  <data name="&gt;&gt;RMAX_WINDOW.Name" xml:space="preserve">
+    <value>RMAX_WINDOW</value>
+  </data>
+  <data name="&gt;&gt;RMAX_WINDOW.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RMAX_WINDOW.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RMAX_WINDOW.ZOrder" xml:space="preserve">
+    <value>45</value>
+  </data>
+  <data name="RMAX_FREQ.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RMAX_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="RMAX_FREQ.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data>
+  <data name="RMAX_FREQ.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data>
+  <data name="RMAX_FREQ.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data>
+  <data name="RMAX_FREQ.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data>
+  <data name="RMAX_FREQ.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data>
+  <data name="RMAX_FREQ.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data>
+  <data name="RMAX_FREQ.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data>
+  <data name="RMAX_FREQ.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data>
+  <data name="RMAX_FREQ.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 108</value>
+  </data>
+  <data name="RMAX_FREQ.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RMAX_FREQ.TabIndex" type="System.Int32, mscorlib">
+    <value>82</value>
+  </data>
+  <data name="RMAX_FREQ.ToolTip" xml:space="preserve">
+    <value>kHz 단위 최대 주파수</value>
+  </data>
+  <data name="&gt;&gt;RMAX_FREQ.Name" xml:space="preserve">
+    <value>RMAX_FREQ</value>
+  </data>
+  <data name="&gt;&gt;RMAX_FREQ.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RMAX_FREQ.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RMAX_FREQ.ZOrder" xml:space="preserve">
+    <value>47</value>
+  </data>
+  <data name="RNUM_CHANNELS.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items1" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items2" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items3" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items4" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items5" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items6" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items7" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items8" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items9" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items10" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items11" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items12" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items13" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items14" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items15" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items16" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items17" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items18" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="RNUM_CHANNELS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 135</value>
+  </data>
+  <data name="RNUM_CHANNELS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RNUM_CHANNELS.TabIndex" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="RNUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>주파수 도약 채널 수</value>
+  </data>
+  <data name="&gt;&gt;RNUM_CHANNELS.Name" xml:space="preserve">
+    <value>RNUM_CHANNELS</value>
+  </data>
+  <data name="&gt;&gt;RNUM_CHANNELS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RNUM_CHANNELS.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RNUM_CHANNELS.ZOrder" xml:space="preserve">
+    <value>48</value>
+  </data>
+  <data name="RDUTY_CYCLE.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items1" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items2" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items3" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items4" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items5" xml:space="preserve">
+    <value>60</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items6" xml:space="preserve">
+    <value>70</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items7" xml:space="preserve">
+    <value>80</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items8" xml:space="preserve">
+    <value>90</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items9" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="RDUTY_CYCLE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 162</value>
+  </data>
+  <data name="RDUTY_CYCLE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RDUTY_CYCLE.TabIndex" type="System.Int32, mscorlib">
+    <value>84</value>
+  </data>
+  <data name="RDUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>전송 허용 시간 백분율</value>
+  </data>
+  <data name="&gt;&gt;RDUTY_CYCLE.Name" xml:space="preserve">
+    <value>RDUTY_CYCLE</value>
+  </data>
+  <data name="&gt;&gt;RDUTY_CYCLE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RDUTY_CYCLE.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RDUTY_CYCLE.ZOrder" xml:space="preserve">
+    <value>49</value>
+  </data>
+  <data name="RLBT_RSSI.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RLBT_RSSI.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RLBT_RSSI.Items1" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="RLBT_RSSI.Items2" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="RLBT_RSSI.Items3" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="RLBT_RSSI.Items4" xml:space="preserve">
+    <value>150</value>
+  </data>
+  <data name="RLBT_RSSI.Items5" xml:space="preserve">
+    <value>200</value>
+  </data>
+  <data name="RLBT_RSSI.Items6" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="RLBT_RSSI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 189</value>
+  </data>
+  <data name="RLBT_RSSI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RLBT_RSSI.TabIndex" type="System.Int32, mscorlib">
+    <value>85</value>
+  </data>
+  <data name="RLBT_RSSI.ToolTip" xml:space="preserve">
+    <value>송신 전 수신 임계</value>
+  </data>
+  <data name="&gt;&gt;RLBT_RSSI.Name" xml:space="preserve">
+    <value>RLBT_RSSI</value>
+  </data>
+  <data name="&gt;&gt;RLBT_RSSI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RLBT_RSSI.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RLBT_RSSI.ZOrder" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="RMIN_FREQ.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RMIN_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="RMIN_FREQ.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data>
+  <data name="RMIN_FREQ.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data>
+  <data name="RMIN_FREQ.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data>
+  <data name="RMIN_FREQ.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data>
+  <data name="RMIN_FREQ.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data>
+  <data name="RMIN_FREQ.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data>
+  <data name="RMIN_FREQ.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data>
+  <data name="RMIN_FREQ.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data>
+  <data name="RMIN_FREQ.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 83</value>
+  </data>
+  <data name="RMIN_FREQ.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RMIN_FREQ.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="RMIN_FREQ.ToolTip" xml:space="preserve">
+    <value>kHz 단위 최소 주파수</value>
+  </data>
+  <data name="&gt;&gt;RMIN_FREQ.Name" xml:space="preserve">
+    <value>RMIN_FREQ</value>
+  </data>
+  <data name="&gt;&gt;RMIN_FREQ.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RMIN_FREQ.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RMIN_FREQ.ZOrder" xml:space="preserve">
+    <value>51</value>
+  </data>
+  <data name="RMAVLINK.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RMAVLINK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 243</value>
+  </data>
+  <data name="RMAVLINK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RMAVLINK.TabIndex" type="System.Int32, mscorlib">
+    <value>111</value>
+  </data>
+  <data name="RMAVLINK.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED 는 kbps로 단위 매김한 무선 신호간 데이터 전송율입니다. 128 은 128kbps 입니다. 최대값은 192, 최소값은 2 입니다. 16 미만 값은 주파수 단계 값이며, TDM 동기화 시간이 길어지므로 추천하지 않습니다.</value>
+  </data>
+  <data name="&gt;&gt;RMAVLINK.Name" xml:space="preserve">
+    <value>RMAVLINK</value>
+  </data>
+  <data name="&gt;&gt;RMAVLINK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RMAVLINK.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RMAVLINK.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RGPO1_1R_COUT.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPO1_1R_COUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 323</value>
+  </data>
+  <data name="RGPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 20</value>
+  </data>
+  <data name="RGPO1_1R_COUT.TabIndex" type="System.Int32, mscorlib">
+    <value>119</value>
+  </data>
+  <data name="RGPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND는 "우발적 재전송" 기능을 활용하거나 중단합니다. 이 기능을 활용할 경우 무선 통신 수행시 직렬 입력 버퍼 길이가 256 바이트 이내일 경우 패킷을 두번 보냅니다. 앞서 보낸 패킷에 문제가 없다면, 두번째 보낸 패킷을 "재전송" 패킷으로 간주하고, 수신 측에서 무시합니다. 이 정책으로 하여금 연결 품질, 특히 업링크 명령에 큰 차이를 보여줍니다. 
+</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_1R_COUT.Name" xml:space="preserve">
+    <value>RGPO1_1R_COUT</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_1R_COUT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_1R_COUT.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_1R_COUT.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RGPI1_1R_CIN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPI1_1R_CIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 297</value>
+  </data>
+  <data name="RGPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="RGPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
+    <value>115</value>
+  </data>
+  <data name="RGPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND는 "우발적 재전송" 기능을 활용하거나 중단합니다. 이 기능을 활용할 경우 무선 통신 수행시 직렬 입력 버퍼 길이가 256 바이트 이내일 경우 패킷을 두번 보냅니다. 앞서 보낸 패킷에 문제가 없다면, 두번째 보낸 패킷을 "재전송" 패킷으로 간주하고, 수신 측에서 무시합니다. 이 정책으로 하여금 연결 품질, 특히 업링크 명령에 큰 차이를 보여줍니다. 
+</value>
+  </data>
+  <data name="&gt;&gt;RGPI1_1R_CIN.Name" xml:space="preserve">
+    <value>RGPI1_1R_CIN</value>
+  </data>
+  <data name="&gt;&gt;RGPI1_1R_CIN.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPI1_1R_CIN.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RGPI1_1R_CIN.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="RSERIAL_SPEED.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items" xml:space="preserve">
+    <value>115</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items1" xml:space="preserve">
+    <value>111</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items2" xml:space="preserve">
+    <value>57</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items3" xml:space="preserve">
+    <value>38</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items4" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items5" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items6" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items7" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items8" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RSERIAL_SPEED.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 109</value>
+  </data>
+  <data name="RSERIAL_SPEED.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RSERIAL_SPEED.TabIndex" type="System.Int32, mscorlib">
+    <value>110</value>
+  </data>
+  <data name="RSERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>직렬 포트 전송율 단위는 kbps로 매깁니다. 57 은 57600bps입니다. 
+</value>
+  </data>
+  <data name="&gt;&gt;RSERIAL_SPEED.Name" xml:space="preserve">
+    <value>RSERIAL_SPEED</value>
+  </data>
+  <data name="&gt;&gt;RSERIAL_SPEED.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RSERIAL_SPEED.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RSERIAL_SPEED.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RAIR_SPEED.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RAIR_SPEED.Items" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="RAIR_SPEED.Items1" xml:space="preserve">
+    <value>192</value>
+  </data>
+  <data name="RAIR_SPEED.Items2" xml:space="preserve">
+    <value>128</value>
+  </data>
+  <data name="RAIR_SPEED.Items3" xml:space="preserve">
+    <value>96</value>
+  </data>
+  <data name="RAIR_SPEED.Items4" xml:space="preserve">
+    <value>64</value>
+  </data>
+  <data name="RAIR_SPEED.Items5" xml:space="preserve">
+    <value>48</value>
+  </data>
+  <data name="RAIR_SPEED.Items6" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="RAIR_SPEED.Items7" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="RAIR_SPEED.Items8" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RAIR_SPEED.Items9" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RAIR_SPEED.Items10" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RAIR_SPEED.Items11" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RAIR_SPEED.Items12" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RAIR_SPEED.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 136</value>
+  </data>
+  <data name="RAIR_SPEED.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RAIR_SPEED.TabIndex" type="System.Int32, mscorlib">
+    <value>113</value>
+  </data>
+  <data name="RAIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED 는 kbps로 단위 매김한 무선 신호간 데이터 전송율입니다. 128 은 128kbps 입니다. 최대값은 192, 최소값은 2 입니다. 16 미만 값은 주파수 단계 값이며, TDM 동기화 시간이 길어지므로 추천하지 않습니다.</value>
+  </data>
+  <data name="&gt;&gt;RAIR_SPEED.Name" xml:space="preserve">
+    <value>RAIR_SPEED</value>
+  </data>
+  <data name="&gt;&gt;RAIR_SPEED.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RAIR_SPEED.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RAIR_SPEED.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="RNETID.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RNETID.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RNETID.Items1" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RNETID.Items2" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="RNETID.Items3" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RNETID.Items4" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RNETID.Items5" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="RNETID.Items6" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="RNETID.Items7" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RNETID.Items8" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RNETID.Items9" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RNETID.Items10" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="RNETID.Items11" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="RNETID.Items12" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="RNETID.Items13" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RNETID.Items14" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="RNETID.Items15" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RNETID.Items16" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="RNETID.Items17" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="RNETID.Items18" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="RNETID.Items19" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RNETID.Items20" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="RNETID.Items21" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="RNETID.Items22" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="RNETID.Items23" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="RNETID.Items24" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="RNETID.Items25" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="RNETID.Items26" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="RNETID.Items27" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="RNETID.Items28" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="RNETID.Items29" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="RNETID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 163</value>
+  </data>
+  <data name="RNETID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RNETID.TabIndex" type="System.Int32, mscorlib">
+    <value>114</value>
+  </data>
+  <data name="RNETID.ToolTip" xml:space="preserve">
+    <value>NETID는 16비트 '네트워크 ID' 입니다. 주파수 도약 시퀀스를 방출하고 적절한 무선 신호로 오는 패킷을 식별하는 용도로 활용합니다. 같은 영역에서 동일한 무선 신호 환경을 다른 누군가가 사용할 경우 서로 다른 NETID를 사용중인지 확인하십시오. </value>
+  </data>
+  <data name="&gt;&gt;RNETID.Name" xml:space="preserve">
+    <value>RNETID</value>
+  </data>
+  <data name="&gt;&gt;RNETID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RNETID.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RNETID.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="RTXPOWER.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RTXPOWER.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RTXPOWER.Items1" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="RTXPOWER.Items2" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RTXPOWER.Items3" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RTXPOWER.Items4" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="RTXPOWER.Items5" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="RTXPOWER.Items6" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="RTXPOWER.Items7" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="RTXPOWER.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 191</value>
+  </data>
+  <data name="RTXPOWER.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RTXPOWER.TabIndex" type="System.Int32, mscorlib">
+    <value>116</value>
+  </data>
+  <data name="RTXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER 는 dBm 단위 전송세기입니다. 20dBm은 100mW 입니다. 짧은 거리에서의 약한 신호 전송을 시험할 때 쓸만합니다.
+</value>
+  </data>
+  <data name="&gt;&gt;RTXPOWER.Name" xml:space="preserve">
+    <value>RTXPOWER</value>
+  </data>
+  <data name="&gt;&gt;RTXPOWER.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RTXPOWER.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RTXPOWER.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="RECC.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RECC.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RECC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 217</value>
+  </data>
+  <data name="RECC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="RECC.TabIndex" type="System.Int32, mscorlib">
+    <value>117</value>
+  </data>
+  <data name="RECC.ToolTip" xml:space="preserve">
+    <value>ECC는 고레이 오류 수정 코드 동작을 비/활성합니다. 기본 설정은 꺼둔 상태입니다. 이 기능을 켜두면 두배 용량을 전송하여 대역폭 반을 유실합니다만, 12비트 데이터 당 3비트의 오류를 잡아낼 수 있습니다. 저속 전송율로 장거리 데이터 전송을하려면 이 기능을 활용하십시오. 전송 바이트 당 20 마이크로초의 고레이 디코딩 시간을 소요합니다(사용자 데이터 바이트에 대해 40 마이크로초). CPU 또한 최고 무선 전송율에 영향을 미침을 의미합니다. 따라서 128kbps이하로 전송할 때 보통 고레이를 활용하십시오. 
+</value>
+  </data>
+  <data name="&gt;&gt;RECC.Name" xml:space="preserve">
+    <value>RECC</value>
+  </data>
+  <data name="&gt;&gt;RECC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RECC.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RECC.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="ROPPRESEND.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ROPPRESEND.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ROPPRESEND.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 271</value>
+  </data>
+  <data name="ROPPRESEND.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="ROPPRESEND.TabIndex" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="ROPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND는 "우발적 재전송" 기능을 활용하거나 중단합니다. 이 기능을 활용할 경우 무선 통신 수행시 직렬 입력 버퍼 길이가 256 바이트 이내일 경우 패킷을 두번 보냅니다. 앞서 보낸 패킷에 문제가 없다면, 두번째 보낸 패킷을 "재전송" 패킷으로 간주하고, 수신 측에서 무시합니다. 이 정책으로 하여금 연결 품질, 특히 업링크 명령에 큰 차이를 보여줍니다. 
+</value>
+  </data>
+  <data name="&gt;&gt;ROPPRESEND.Name" xml:space="preserve">
+    <value>ROPPRESEND</value>
+  </data>
+  <data name="&gt;&gt;ROPPRESEND.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ROPPRESEND.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;ROPPRESEND.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="RTSCTS.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RTSCTS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RTSCTS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 216</value>
+  </data>
+  <data name="RTSCTS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="RTSCTS.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="RTSCTS.ToolTip" xml:space="preserve">
+    <value>하드웨어 흐름 제어 비/활성</value>
+  </data>
+  <data name="&gt;&gt;RTSCTS.Name" xml:space="preserve">
+    <value>RTSCTS</value>
+  </data>
+  <data name="&gt;&gt;RTSCTS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RTSCTS.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;RTSCTS.ZOrder" xml:space="preserve">
+    <value>43</value>
+  </data>
+  <data name="MAX_WINDOW.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MAX_WINDOW.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="MAX_WINDOW.Items1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="MAX_WINDOW.Items2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="MAX_WINDOW.Items3" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="MAX_WINDOW.Items4" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="MAX_WINDOW.Items5" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="MAX_WINDOW.Items6" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="MAX_WINDOW.Items7" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="MAX_WINDOW.Items8" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="MAX_WINDOW.Items9" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="MAX_WINDOW.Items10" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="MAX_WINDOW.Items11" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="MAX_WINDOW.Items12" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="MAX_WINDOW.Items13" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="MAX_WINDOW.Items14" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="MAX_WINDOW.Items15" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="MAX_WINDOW.Items16" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="MAX_WINDOW.Items17" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="MAX_WINDOW.Items18" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="MAX_WINDOW.Items19" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="MAX_WINDOW.Items20" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="MAX_WINDOW.Items21" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="MAX_WINDOW.Items22" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="MAX_WINDOW.Items23" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="MAX_WINDOW.Items24" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="MAX_WINDOW.Items25" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="MAX_WINDOW.Items26" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="MAX_WINDOW.Items27" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="MAX_WINDOW.Items28" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="MAX_WINDOW.Items29" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="MAX_WINDOW.Items30" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="MAX_WINDOW.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 243</value>
+  </data>
+  <data name="MAX_WINDOW.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="MAX_WINDOW.TabIndex" type="System.Int32, mscorlib">
+    <value>92</value>
+  </data>
+  <data name="MAX_WINDOW.ToolTip" xml:space="preserve">
+    <value>노드 ID 입니다. 기본 노드 ID 값은 0입니다. 하나의 노드는 다중 지점 통신의 중심점 처럼 동작합니다. </value>
+  </data>
+  <data name="&gt;&gt;MAX_WINDOW.Name" xml:space="preserve">
+    <value>MAX_WINDOW</value>
+  </data>
+  <data name="&gt;&gt;MAX_WINDOW.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MAX_WINDOW.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;MAX_WINDOW.ZOrder" xml:space="preserve">
+    <value>48</value>
+  </data>
+  <data name="MAX_FREQ.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MAX_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="MAX_FREQ.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data>
+  <data name="MAX_FREQ.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data>
+  <data name="MAX_FREQ.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data>
+  <data name="MAX_FREQ.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data>
+  <data name="MAX_FREQ.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data>
+  <data name="MAX_FREQ.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data>
+  <data name="MAX_FREQ.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data>
+  <data name="MAX_FREQ.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data>
+  <data name="MAX_FREQ.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 107</value>
+  </data>
+  <data name="MAX_FREQ.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="MAX_FREQ.TabIndex" type="System.Int32, mscorlib">
+    <value>82</value>
+  </data>
+  <data name="MAX_FREQ.ToolTip" xml:space="preserve">
+    <value>kHz 단위 최대 주파수</value>
+  </data>
+  <data name="&gt;&gt;MAX_FREQ.Name" xml:space="preserve">
+    <value>MAX_FREQ</value>
+  </data>
+  <data name="&gt;&gt;MAX_FREQ.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MAX_FREQ.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;MAX_FREQ.ZOrder" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="NUM_CHANNELS.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NUM_CHANNELS.Items" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="NUM_CHANNELS.Items1" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="NUM_CHANNELS.Items2" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="NUM_CHANNELS.Items3" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="NUM_CHANNELS.Items4" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="NUM_CHANNELS.Items5" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="NUM_CHANNELS.Items6" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="NUM_CHANNELS.Items7" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="NUM_CHANNELS.Items8" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="NUM_CHANNELS.Items9" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="NUM_CHANNELS.Items10" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="NUM_CHANNELS.Items11" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="NUM_CHANNELS.Items12" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="NUM_CHANNELS.Items13" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="NUM_CHANNELS.Items14" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="NUM_CHANNELS.Items15" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="NUM_CHANNELS.Items16" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="NUM_CHANNELS.Items17" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="NUM_CHANNELS.Items18" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="NUM_CHANNELS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 134</value>
+  </data>
+  <data name="NUM_CHANNELS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="NUM_CHANNELS.TabIndex" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="NUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>주파수 도약 채널 수</value>
+  </data>
+  <data name="&gt;&gt;NUM_CHANNELS.Name" xml:space="preserve">
+    <value>NUM_CHANNELS</value>
+  </data>
+  <data name="&gt;&gt;NUM_CHANNELS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CHANNELS.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;NUM_CHANNELS.ZOrder" xml:space="preserve">
+    <value>51</value>
+  </data>
+  <data name="LBT_RSSI.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="LBT_RSSI.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LBT_RSSI.Items1" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="LBT_RSSI.Items2" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="LBT_RSSI.Items3" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="LBT_RSSI.Items4" xml:space="preserve">
+    <value>150</value>
+  </data>
+  <data name="LBT_RSSI.Items5" xml:space="preserve">
+    <value>200</value>
+  </data>
+  <data name="LBT_RSSI.Items6" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="LBT_RSSI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 188</value>
+  </data>
+  <data name="LBT_RSSI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="LBT_RSSI.TabIndex" type="System.Int32, mscorlib">
+    <value>85</value>
+  </data>
+  <data name="LBT_RSSI.ToolTip" xml:space="preserve">
+    <value>송신 전 수신 임계</value>
+  </data>
+  <data name="&gt;&gt;LBT_RSSI.Name" xml:space="preserve">
+    <value>LBT_RSSI</value>
+  </data>
+  <data name="&gt;&gt;LBT_RSSI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBT_RSSI.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;LBT_RSSI.ZOrder" xml:space="preserve">
+    <value>53</value>
+  </data>
+  <data name="MIN_FREQ.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MIN_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="MIN_FREQ.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data>
+  <data name="MIN_FREQ.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data>
+  <data name="MIN_FREQ.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data>
+  <data name="MIN_FREQ.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data>
+  <data name="MIN_FREQ.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data>
+  <data name="MIN_FREQ.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data>
+  <data name="MIN_FREQ.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data>
+  <data name="MIN_FREQ.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data>
+  <data name="MIN_FREQ.Items9" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MIN_FREQ.Items10" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MIN_FREQ.Items11" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MIN_FREQ.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 82</value>
+  </data>
+  <data name="MIN_FREQ.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="MIN_FREQ.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="MIN_FREQ.ToolTip" xml:space="preserve">
+    <value>kHz 단위 최소 주파수</value>
+  </data>
+  <data name="&gt;&gt;MIN_FREQ.Name" xml:space="preserve">
+    <value>MIN_FREQ</value>
+  </data>
+  <data name="&gt;&gt;MIN_FREQ.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MIN_FREQ.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;MIN_FREQ.ZOrder" xml:space="preserve">
+    <value>55</value>
+  </data>
+  <data name="DUTY_CYCLE.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="DUTY_CYCLE.Items" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="DUTY_CYCLE.Items1" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="DUTY_CYCLE.Items2" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="DUTY_CYCLE.Items3" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="DUTY_CYCLE.Items4" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="DUTY_CYCLE.Items5" xml:space="preserve">
+    <value>60</value>
+  </data>
+  <data name="DUTY_CYCLE.Items6" xml:space="preserve">
+    <value>70</value>
+  </data>
+  <data name="DUTY_CYCLE.Items7" xml:space="preserve">
+    <value>80</value>
+  </data>
+  <data name="DUTY_CYCLE.Items8" xml:space="preserve">
+    <value>90</value>
+  </data>
+  <data name="DUTY_CYCLE.Items9" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="DUTY_CYCLE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 161</value>
+  </data>
+  <data name="DUTY_CYCLE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="DUTY_CYCLE.TabIndex" type="System.Int32, mscorlib">
+    <value>84</value>
+  </data>
+  <data name="DUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>전송 허용 시간 백분율</value>
+  </data>
+  <data name="&gt;&gt;DUTY_CYCLE.Name" xml:space="preserve">
+    <value>DUTY_CYCLE</value>
+  </data>
+  <data name="&gt;&gt;DUTY_CYCLE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DUTY_CYCLE.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;DUTY_CYCLE.ZOrder" xml:space="preserve">
+    <value>58</value>
+  </data>
+  <data name="GPO1_1R_COUT.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPO1_1R_COUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>110, 323</value>
+  </data>
+  <data name="GPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 20</value>
+  </data>
+  <data name="GPO1_1R_COUT.TabIndex" type="System.Int32, mscorlib">
+    <value>129</value>
+  </data>
+  <data name="GPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND는 "우발적 재전송" 기능을 활용하거나 중단합니다. 이 기능을 활용할 경우 무선 통신 수행시 직렬 입력 버퍼 길이가 256 바이트 이내일 경우 패킷을 두번 보냅니다. 앞서 보낸 패킷에 문제가 없다면, 두번째 보낸 패킷을 "재전송" 패킷으로 간주하고, 수신 측에서 무시합니다. 이 정책으로 하여금 연결 품질, 특히 업링크 명령에 큰 차이를 보여줍니다. 
+</value>
+  </data>
+  <data name="&gt;&gt;GPO1_1R_COUT.Name" xml:space="preserve">
+    <value>GPO1_1R_COUT</value>
+  </data>
+  <data name="&gt;&gt;GPO1_1R_COUT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPO1_1R_COUT.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;GPO1_1R_COUT.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="GPI1_1R_CIN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPI1_1R_CIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 297</value>
+  </data>
+  <data name="GPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="GPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
+    <value>127</value>
+  </data>
+  <data name="GPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND는 "우발적 재전송" 기능을 활용하거나 중단합니다. 이 기능을 활용할 경우 무선 통신 수행시 직렬 입력 버퍼 길이가 256 바이트 이내일 경우 패킷을 두번 보냅니다. 앞서 보낸 패킷에 문제가 없다면, 두번째 보낸 패킷을 "재전송" 패킷으로 간주하고, 수신 측에서 무시합니다. 이 정책으로 하여금 연결 품질, 특히 업링크 명령에 큰 차이를 보여줍니다.
+</value>
+  </data>
+  <data name="&gt;&gt;GPI1_1R_CIN.Name" xml:space="preserve">
+    <value>GPI1_1R_CIN</value>
+  </data>
+  <data name="&gt;&gt;GPI1_1R_CIN.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPI1_1R_CIN.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;GPI1_1R_CIN.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="MAVLINK.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MAVLINK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 244</value>
+  </data>
+  <data name="MAVLINK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="MAVLINK.TabIndex" type="System.Int32, mscorlib">
+    <value>126</value>
+  </data>
+  <data name="MAVLINK.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED 는 kbps로 단위 매김한 무선 신호간 데이터 전송율입니다. 128 은 128kbps 입니다. 최대값은 192, 최소값은 2 입니다. 16 미만 값은 주파수 단계 값이며, TDM 동기화 시간이 길어지므로 추천하지 않습니다.</value>
+  </data>
+  <data name="&gt;&gt;MAVLINK.Name" xml:space="preserve">
+    <value>MAVLINK</value>
+  </data>
+  <data name="&gt;&gt;MAVLINK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MAVLINK.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;MAVLINK.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="SERIAL_SPEED.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="SERIAL_SPEED.Items" xml:space="preserve">
+    <value>115</value>
+  </data>
+  <data name="SERIAL_SPEED.Items1" xml:space="preserve">
+    <value>111</value>
+  </data>
+  <data name="SERIAL_SPEED.Items2" xml:space="preserve">
+    <value>57</value>
+  </data>
+  <data name="SERIAL_SPEED.Items3" xml:space="preserve">
+    <value>38</value>
+  </data>
+  <data name="SERIAL_SPEED.Items4" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="SERIAL_SPEED.Items5" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="SERIAL_SPEED.Items6" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="SERIAL_SPEED.Items7" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="SERIAL_SPEED.Items8" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SERIAL_SPEED.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 109</value>
+  </data>
+  <data name="SERIAL_SPEED.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="SERIAL_SPEED.TabIndex" type="System.Int32, mscorlib">
+    <value>111</value>
+  </data>
+  <data name="SERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>직렬 포트 전송율 단위는 kbps로 매깁니다. 57 은 57600bps입니다. 
+</value>
+  </data>
+  <data name="&gt;&gt;SERIAL_SPEED.Name" xml:space="preserve">
+    <value>SERIAL_SPEED</value>
+  </data>
+  <data name="&gt;&gt;SERIAL_SPEED.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SERIAL_SPEED.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;SERIAL_SPEED.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="AIR_SPEED.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="AIR_SPEED.Items" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="AIR_SPEED.Items1" xml:space="preserve">
+    <value>192</value>
+  </data>
+  <data name="AIR_SPEED.Items2" xml:space="preserve">
+    <value>128</value>
+  </data>
+  <data name="AIR_SPEED.Items3" xml:space="preserve">
+    <value>96</value>
+  </data>
+  <data name="AIR_SPEED.Items4" xml:space="preserve">
+    <value>64</value>
+  </data>
+  <data name="AIR_SPEED.Items5" xml:space="preserve">
+    <value>48</value>
+  </data>
+  <data name="AIR_SPEED.Items6" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="AIR_SPEED.Items7" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="AIR_SPEED.Items8" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="AIR_SPEED.Items9" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="AIR_SPEED.Items10" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="AIR_SPEED.Items11" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="AIR_SPEED.Items12" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="AIR_SPEED.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 136</value>
+  </data>
+  <data name="AIR_SPEED.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="AIR_SPEED.TabIndex" type="System.Int32, mscorlib">
+    <value>115</value>
+  </data>
+  <data name="AIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED 는 kbps로 단위 매김한 무선 신호간 데이터 전송율입니다. 128 은 128kbps 입니다. 최대값은 192, 최소값은 2 입니다. 16 미만 값은 주파수 단계 값이며, TDM 동기화 시간이 길어지므로 추천하지 않습니다. </value>
+  </data>
+  <data name="&gt;&gt;AIR_SPEED.Name" xml:space="preserve">
+    <value>AIR_SPEED</value>
+  </data>
+  <data name="&gt;&gt;AIR_SPEED.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AIR_SPEED.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;AIR_SPEED.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="NETID.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NETID.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NETID.Items1" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="NETID.Items2" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="NETID.Items3" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NETID.Items4" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="NETID.Items5" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="NETID.Items6" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="NETID.Items7" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="NETID.Items8" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="NETID.Items9" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="NETID.Items10" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="NETID.Items11" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="NETID.Items12" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="NETID.Items13" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="NETID.Items14" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="NETID.Items15" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="NETID.Items16" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="NETID.Items17" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="NETID.Items18" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="NETID.Items19" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="NETID.Items20" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="NETID.Items21" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="NETID.Items22" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="NETID.Items23" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="NETID.Items24" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="NETID.Items25" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="NETID.Items26" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="NETID.Items27" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="NETID.Items28" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="NETID.Items29" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="NETID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 163</value>
+  </data>
+  <data name="NETID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="NETID.TabIndex" type="System.Int32, mscorlib">
+    <value>117</value>
+  </data>
+  <data name="NETID.ToolTip" xml:space="preserve">
+    <value>NETID는 16비트 '네트워크 ID' 입니다. 주파수 도약 시퀀스를 방출하고 적절한 무선 신호로 오는 패킷을 식별하는 용도로 활용합니다. 같은 영역에서 동일한 무선 신호 환경을 다른 누군가가 사용할 경우 서로 다른 NETID를 사용중인지 확인하십시오.</value>
+  </data>
+  <data name="&gt;&gt;NETID.Name" xml:space="preserve">
+    <value>NETID</value>
+  </data>
+  <data name="&gt;&gt;NETID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NETID.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;NETID.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="TXPOWER.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TXPOWER.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TXPOWER.Items1" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TXPOWER.Items2" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="TXPOWER.Items3" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="TXPOWER.Items4" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="TXPOWER.Items5" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="TXPOWER.Items6" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="TXPOWER.Items7" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="TXPOWER.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 191</value>
+  </data>
+  <data name="TXPOWER.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="TXPOWER.TabIndex" type="System.Int32, mscorlib">
+    <value>119</value>
+  </data>
+  <data name="TXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER 는 dBm 단위 전송세기입니다. 20dBm은 100mW 입니다. 짧은 거리에서의 약한 신호 전송을 시험할 때 쓸만합니다.
+</value>
+  </data>
+  <data name="&gt;&gt;TXPOWER.Name" xml:space="preserve">
+    <value>TXPOWER</value>
+  </data>
+  <data name="&gt;&gt;TXPOWER.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TXPOWER.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;TXPOWER.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="ECC.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ECC.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ECC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 217</value>
+  </data>
+  <data name="ECC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="ECC.TabIndex" type="System.Int32, mscorlib">
+    <value>121</value>
+  </data>
+  <data name="ECC.ToolTip" xml:space="preserve">
+    <value>ECC는 고레이 오류 수정 코드 동작을 비/활성합니다. 기본 설정은 꺼둔 상태입니다. 이 기능을 켜두면 두배 용량을 전송하여 대역폭 반을 유실합니다만, 12비트 데이터 당 3비트의 오류를 잡아낼 수 있습니다. 저속 전송율로 장거리 데이터 전송을하려면 이 기능을 활용하십시오. 전송 바이트 당 20 마이크로초의 고레이 디코딩 시간을 소요합니다(사용자 데이터 바이트에 대해 40 마이크로초). CPU 또한 최고 무선 전송율에 영향을 미침을 의미합니다. 따라서 128kbps이하로 전송할 때 보통 고레이를 활용하십시오. 
+</value>
+  </data>
+  <data name="&gt;&gt;ECC.Name" xml:space="preserve">
+    <value>ECC</value>
+  </data>
+  <data name="&gt;&gt;ECC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ECC.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;ECC.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="OPPRESEND.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="OPPRESEND.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OPPRESEND.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 271</value>
+  </data>
+  <data name="OPPRESEND.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="OPPRESEND.TabIndex" type="System.Int32, mscorlib">
+    <value>124</value>
+  </data>
+  <data name="OPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND는 "우발적 재전송" 기능을 활용하거나 중단합니다. 이 기능을 활용할 경우 무선 통신 수행시 직렬 입력 버퍼 길이가 256 바이트 이내일 경우 패킷을 두번 보냅니다. 앞서 보낸 패킷에 문제가 없다면, 두번째 보낸 패킷을 "재전송" 패킷으로 간주하고, 수신 측에서 무시합니다. 이 정책으로 하여금 연결 품질, 특히 업링크 명령에 큰 차이를 보여줍니다. 
+</value>
+  </data>
+  <data name="&gt;&gt;OPPRESEND.Name" xml:space="preserve">
+    <value>OPPRESEND</value>
+  </data>
+  <data name="&gt;&gt;OPPRESEND.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OPPRESEND.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;OPPRESEND.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="RTI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 12</value>
+  </data>
+  <data name="RTI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 20</value>
+  </data>
+  <data name="RTI.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="&gt;&gt;RTI.Name" xml:space="preserve">
+    <value>RTI</value>
+  </data>
+  <data name="&gt;&gt;RTI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RTI.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RTI.ZOrder" xml:space="preserve">
+    <value>58</value>
+  </data>
+  <data name="ATI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>59, 12</value>
+  </data>
+  <data name="ATI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 20</value>
+  </data>
+  <data name="ATI.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;ATI.Name" xml:space="preserve">
+    <value>ATI</value>
+  </data>
+  <data name="&gt;&gt;ATI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ATI.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;ATI.ZOrder" xml:space="preserve">
+    <value>62</value>
+  </data>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 15</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 13</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>버전</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>61</value>
+  </data>
+  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 50</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 13</value>
+  </data>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>수신 신호 세기</value>
+  </data>
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
+  </data>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>64</value>
+  </data>
+  <data name="lbl_status.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_status.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 412</value>
+  </data>
+  <data name="lbl_status.Size" type="System.Drawing.Size, System.Drawing">
+    <value>442, 28</value>
+  </data>
+  <data name="lbl_status.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>참고: 무선 통신 연결이 끊어지지 않는지 확인할 때 항상 "요구값 원격으로 복사"를 누르십시오</value>
+  </data>
+  <data name="&gt;&gt;lbl_status.Name" xml:space="preserve">
+    <value>lbl_status</value>
+  </data>
+  <data name="&gt;&gt;lbl_status.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_status.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbl_status.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="ATI3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>207, 12</value>
+  </data>
+  <data name="ATI3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 20</value>
+  </data>
+  <data name="ATI3.TabIndex" type="System.Int32, mscorlib">
+    <value>79</value>
+  </data>
+  <data name="&gt;&gt;ATI3.Name" xml:space="preserve">
+    <value>ATI3</value>
+  </data>
+  <data name="&gt;&gt;ATI3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ATI3.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;ATI3.ZOrder" xml:space="preserve">
+    <value>60</value>
+  </data>
+  <data name="&gt;&gt;btnRandom.Name" xml:space="preserve">
+    <value>btnRandom</value>
+  </data>
+  <data name="&gt;&gt;btnRandom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnRandom.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;btnRandom.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lblRX_ENCAP_METHOD.Name" xml:space="preserve">
+    <value>lblRX_ENCAP_METHOD</value>
+  </data>
+  <data name="&gt;&gt;lblRX_ENCAP_METHOD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRX_ENCAP_METHOD.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblRX_ENCAP_METHOD.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;RX_ENCAP_METHOD.Name" xml:space="preserve">
+    <value>RX_ENCAP_METHOD</value>
+  </data>
+  <data name="&gt;&gt;RX_ENCAP_METHOD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RX_ENCAP_METHOD.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;RX_ENCAP_METHOD.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;lblTX_ENCAP_METHOD.Name" xml:space="preserve">
+    <value>lblTX_ENCAP_METHOD</value>
+  </data>
+  <data name="&gt;&gt;lblTX_ENCAP_METHOD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblTX_ENCAP_METHOD.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblTX_ENCAP_METHOD.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TX_ENCAP_METHOD.Name" xml:space="preserve">
+    <value>TX_ENCAP_METHOD</value>
+  </data>
+  <data name="&gt;&gt;TX_ENCAP_METHOD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TX_ENCAP_METHOD.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;TX_ENCAP_METHOD.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lblDESTID.Name" xml:space="preserve">
+    <value>lblDESTID</value>
+  </data>
+  <data name="&gt;&gt;lblDESTID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDESTID.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblDESTID.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;lblNODEID.Name" xml:space="preserve">
+    <value>lblNODEID</value>
+  </data>
+  <data name="&gt;&gt;lblNODEID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblNODEID.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblNODEID.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;DESTID.Name" xml:space="preserve">
+    <value>DESTID</value>
+  </data>
+  <data name="&gt;&gt;DESTID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DESTID.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;DESTID.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;NODEID.Name" xml:space="preserve">
+    <value>NODEID</value>
+  </data>
+  <data name="&gt;&gt;NODEID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NODEID.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;NODEID.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;label40.Name" xml:space="preserve">
+    <value>label40</value>
+  </data>
+  <data name="&gt;&gt;label40.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label40.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;label39.Name" xml:space="preserve">
+    <value>label39</value>
+  </data>
+  <data name="&gt;&gt;label39.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label39.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label39.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;FORMAT.Name" xml:space="preserve">
+    <value>FORMAT</value>
+  </data>
+  <data name="&gt;&gt;FORMAT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FORMAT.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;FORMAT.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;lblANT_MODE.Name" xml:space="preserve">
+    <value>lblANT_MODE</value>
+  </data>
+  <data name="&gt;&gt;lblANT_MODE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblANT_MODE.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblANT_MODE.ZOrder" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="&gt;&gt;ANT_MODE.Name" xml:space="preserve">
+    <value>ANT_MODE</value>
+  </data>
+  <data name="&gt;&gt;ANT_MODE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ANT_MODE.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;ANT_MODE.ZOrder" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="&gt;&gt;lblSER_BRK_DETMS.Name" xml:space="preserve">
+    <value>lblSER_BRK_DETMS</value>
+  </data>
+  <data name="&gt;&gt;lblSER_BRK_DETMS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSER_BRK_DETMS.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblSER_BRK_DETMS.ZOrder" xml:space="preserve">
+    <value>31</value>
+  </data>
+  <data name="&gt;&gt;lblGLOBAL_RETRIES.Name" xml:space="preserve">
+    <value>lblGLOBAL_RETRIES</value>
+  </data>
+  <data name="&gt;&gt;lblGLOBAL_RETRIES.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblGLOBAL_RETRIES.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblGLOBAL_RETRIES.ZOrder" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;lblMAX_RETRIES.Name" xml:space="preserve">
+    <value>lblMAX_RETRIES</value>
+  </data>
+  <data name="&gt;&gt;lblMAX_RETRIES.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblMAX_RETRIES.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblMAX_RETRIES.ZOrder" xml:space="preserve">
+    <value>33</value>
+  </data>
+  <data name="&gt;&gt;SER_BRK_DETMS.Name" xml:space="preserve">
+    <value>SER_BRK_DETMS</value>
+  </data>
+  <data name="&gt;&gt;SER_BRK_DETMS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SER_BRK_DETMS.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;SER_BRK_DETMS.ZOrder" xml:space="preserve">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;GLOBAL_RETRIES.Name" xml:space="preserve">
+    <value>GLOBAL_RETRIES</value>
+  </data>
+  <data name="&gt;&gt;GLOBAL_RETRIES.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GLOBAL_RETRIES.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;GLOBAL_RETRIES.ZOrder" xml:space="preserve">
+    <value>35</value>
+  </data>
+  <data name="&gt;&gt;MAX_RETRIES.Name" xml:space="preserve">
+    <value>MAX_RETRIES</value>
+  </data>
+  <data name="&gt;&gt;MAX_RETRIES.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MAX_RETRIES.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;MAX_RETRIES.ZOrder" xml:space="preserve">
+    <value>36</value>
+  </data>
+  <data name="&gt;&gt;MAX_DATA.Name" xml:space="preserve">
+    <value>MAX_DATA</value>
+  </data>
+  <data name="&gt;&gt;MAX_DATA.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MAX_DATA.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;MAX_DATA.ZOrder" xml:space="preserve">
+    <value>37</value>
+  </data>
+  <data name="&gt;&gt;lblMAX_DATA.Name" xml:space="preserve">
+    <value>lblMAX_DATA</value>
+  </data>
+  <data name="&gt;&gt;lblMAX_DATA.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblMAX_DATA.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;lblMAX_DATA.ZOrder" xml:space="preserve">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;ENCRYPTION_LEVEL.Name" xml:space="preserve">
+    <value>ENCRYPTION_LEVEL</value>
+  </data>
+  <data name="&gt;&gt;ENCRYPTION_LEVEL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ENCRYPTION_LEVEL.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;ENCRYPTION_LEVEL.ZOrder" xml:space="preserve">
+    <value>39</value>
+  </data>
+  <data name="&gt;&gt;label36.Name" xml:space="preserve">
+    <value>label36</value>
+  </data>
+  <data name="&gt;&gt;label36.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label36.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label36.ZOrder" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="&gt;&gt;label35.Name" xml:space="preserve">
+    <value>label35</value>
+  </data>
+  <data name="&gt;&gt;label35.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label35.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label35.ZOrder" xml:space="preserve">
+    <value>41</value>
+  </data>
+  <data name="&gt;&gt;txt_aeskey.Name" xml:space="preserve">
+    <value>txt_aeskey</value>
+  </data>
+  <data name="&gt;&gt;txt_aeskey.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_aeskey.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;txt_aeskey.ZOrder" xml:space="preserve">
+    <value>42</value>
+  </data>
+  <data name="&gt;&gt;label19.Name" xml:space="preserve">
+    <value>label19</value>
+  </data>
+  <data name="&gt;&gt;label19.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
+    <value>44</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_mavlink.Name" xml:space="preserve">
+    <value>linkLabel_mavlink</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_mavlink.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_mavlink.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_mavlink.ZOrder" xml:space="preserve">
+    <value>45</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_lowlatency.Name" xml:space="preserve">
+    <value>linkLabel_lowlatency</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_lowlatency.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_lowlatency.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_lowlatency.ZOrder" xml:space="preserve">
+    <value>46</value>
+  </data>
+  <data name="&gt;&gt;label18.Name" xml:space="preserve">
+    <value>label18</value>
+  </data>
+  <data name="&gt;&gt;label18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
+    <value>47</value>
+  </data>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
+  </data>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+    <value>49</value>
+  </data>
+  <data name="&gt;&gt;label17.Name" xml:space="preserve">
+    <value>label17</value>
+  </data>
+  <data name="&gt;&gt;label17.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
+    <value>52</value>
+  </data>
+  <data name="&gt;&gt;label16.Name" xml:space="preserve">
+    <value>label16</value>
+  </data>
+  <data name="&gt;&gt;label16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label16.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
+    <value>54</value>
+  </data>
+  <data name="&gt;&gt;label15.Name" xml:space="preserve">
+    <value>label15</value>
+  </data>
+  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
+    <value>56</value>
+  </data>
+  <data name="&gt;&gt;label14.Name" xml:space="preserve">
+    <value>label14</value>
+  </data>
+  <data name="&gt;&gt;label14.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
+    <value>57</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Name" xml:space="preserve">
+    <value>ATI2</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;ATI2.ZOrder" xml:space="preserve">
+    <value>59</value>
+  </data>
+  <data name="groupBoxLocal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 48</value>
+  </data>
+  <data name="groupBoxLocal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 361</value>
+  </data>
+  <data name="groupBoxLocal.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="groupBoxLocal.Text" xml:space="preserve">
+    <value>로컬</value>
+  </data>
+  <data name="&gt;&gt;groupBoxLocal.Name" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;groupBoxLocal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxLocal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxLocal.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="btnRandom.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="btnRandom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnRandom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>242, 291</value>
+  </data>
+  <data name="btnRandom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 24</value>
+  </data>
+  <data name="btnRandom.TabIndex" type="System.Int32, mscorlib">
+    <value>140</value>
+  </data>
+  <data name="btnRandom.Text" xml:space="preserve">
+    <value>임의</value>
+  </data>
+  <data name="lblRX_ENCAP_METHOD.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRX_ENCAP_METHOD.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 196</value>
+  </data>
+  <data name="lblRX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="lblRX_ENCAP_METHOD.TabIndex" type="System.Int32, mscorlib">
+    <value>138</value>
+  </data>
+  <data name="lblRX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>RXENCAP</value>
+  </data>
+  <data name="lblRX_ENCAP_METHOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RX_ENCAP_METHOD.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 193</value>
+  </data>
+  <data name="RX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RX_ENCAP_METHOD.TabIndex" type="System.Int32, mscorlib">
+    <value>134</value>
+  </data>
+  <data name="RX_ENCAP_METHOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblTX_ENCAP_METHOD.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblTX_ENCAP_METHOD.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblTX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 168</value>
+  </data>
+  <data name="lblTX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="lblTX_ENCAP_METHOD.TabIndex" type="System.Int32, mscorlib">
+    <value>137</value>
+  </data>
+  <data name="lblTX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>TXENCAP</value>
+  </data>
+  <data name="lblTX_ENCAP_METHOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TX_ENCAP_METHOD.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 165</value>
+  </data>
+  <data name="TX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="TX_ENCAP_METHOD.TabIndex" type="System.Int32, mscorlib">
+    <value>133</value>
+  </data>
+  <data name="TX_ENCAP_METHOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblDESTID.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblDESTID.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblDESTID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 140</value>
+  </data>
+  <data name="lblDESTID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 13</value>
+  </data>
+  <data name="lblDESTID.TabIndex" type="System.Int32, mscorlib">
+    <value>136</value>
+  </data>
+  <data name="lblDESTID.Text" xml:space="preserve">
+    <value>대상 ID</value>
+  </data>
+  <data name="lblDESTID.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblNODEID.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblNODEID.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNODEID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 112</value>
+  </data>
+  <data name="lblNODEID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="lblNODEID.TabIndex" type="System.Int32, mscorlib">
+    <value>135</value>
+  </data>
+  <data name="lblNODEID.Text" xml:space="preserve">
+    <value>노드 ID</value>
+  </data>
+  <data name="lblNODEID.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="DESTID.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="DESTID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 137</value>
+  </data>
+  <data name="DESTID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="DESTID.TabIndex" type="System.Int32, mscorlib">
+    <value>132</value>
+  </data>
+  <data name="DESTID.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NODEID.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="NODEID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 109</value>
+  </data>
+  <data name="NODEID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="NODEID.TabIndex" type="System.Int32, mscorlib">
+    <value>131</value>
+  </data>
+  <data name="NODEID.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label40.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label40.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label40.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 326</value>
+  </data>
+  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 13</value>
+  </data>
+  <data name="label40.TabIndex" type="System.Int32, mscorlib">
+    <value>130</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>GPI1_1R/COUT</value>
+  </data>
+  <data name="label39.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label39.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label39.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 300</value>
+  </data>
+  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 13</value>
+  </data>
+  <data name="label39.TabIndex" type="System.Int32, mscorlib">
+    <value>128</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>GPI1_1R/CIN</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 87</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>114</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>형식</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 113</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>112</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>비트 전송율</value>
+  </data>
+  <data name="FORMAT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 83</value>
+  </data>
+  <data name="FORMAT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="FORMAT.TabIndex" type="System.Int32, mscorlib">
+    <value>113</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 139</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>116</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>항속</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 166</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>118</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Net ID</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 193</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 13</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>120</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>송신 세기</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 218</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 13</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>122</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>ECC</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 274</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 13</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>125</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Op Resend</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 247</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 13</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>123</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>MAVLink</value>
+  </data>
+  <data name="lblANT_MODE.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblANT_MODE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>362, 335</value>
+  </data>
+  <data name="lblANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 13</value>
+  </data>
+  <data name="lblANT_MODE.TabIndex" type="System.Int32, mscorlib">
+    <value>110</value>
+  </data>
+  <data name="lblANT_MODE.Text" xml:space="preserve">
+    <value>안테나 모드</value>
+  </data>
+  <data name="lblANT_MODE.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ANT_MODE.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 335</value>
+  </data>
+  <data name="ANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="ANT_MODE.TabIndex" type="System.Int32, mscorlib">
+    <value>109</value>
+  </data>
+  <data name="ANT_MODE.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblSER_BRK_DETMS.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblSER_BRK_DETMS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblSER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 310</value>
+  </data>
+  <data name="lblSER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 13</value>
+  </data>
+  <data name="lblSER_BRK_DETMS.TabIndex" type="System.Int32, mscorlib">
+    <value>108</value>
+  </data>
+  <data name="lblSER_BRK_DETMS.Text" xml:space="preserve">
+    <value>중단 감지</value>
+  </data>
+  <data name="lblSER_BRK_DETMS.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblGLOBAL_RETRIES.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblGLOBAL_RETRIES.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblGLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 282</value>
+  </data>
+  <data name="lblGLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 13</value>
+  </data>
+  <data name="lblGLOBAL_RETRIES.TabIndex" type="System.Int32, mscorlib">
+    <value>107</value>
+  </data>
+  <data name="lblGLOBAL_RETRIES.Text" xml:space="preserve">
+    <value>전체 재시도</value>
+  </data>
+  <data name="lblGLOBAL_RETRIES.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblMAX_RETRIES.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblMAX_RETRIES.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblMAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 254</value>
+  </data>
+  <data name="lblMAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 13</value>
+  </data>
+  <data name="lblMAX_RETRIES.TabIndex" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="lblMAX_RETRIES.Text" xml:space="preserve">
+    <value>최대 재시도</value>
+  </data>
+  <data name="lblMAX_RETRIES.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="SER_BRK_DETMS.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="SER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 307</value>
+  </data>
+  <data name="SER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="SER_BRK_DETMS.TabIndex" type="System.Int32, mscorlib">
+    <value>105</value>
+  </data>
+  <data name="SER_BRK_DETMS.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GLOBAL_RETRIES.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 279</value>
+  </data>
+  <data name="GLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="GLOBAL_RETRIES.TabIndex" type="System.Int32, mscorlib">
+    <value>104</value>
+  </data>
+  <data name="GLOBAL_RETRIES.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MAX_RETRIES.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 251</value>
+  </data>
+  <data name="MAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="MAX_RETRIES.TabIndex" type="System.Int32, mscorlib">
+    <value>103</value>
+  </data>
+  <data name="MAX_RETRIES.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MAX_DATA.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="MAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 223</value>
+  </data>
+  <data name="MAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="MAX_DATA.TabIndex" type="System.Int32, mscorlib">
+    <value>102</value>
+  </data>
+  <data name="MAX_DATA.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblMAX_DATA.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblMAX_DATA.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblMAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 226</value>
+  </data>
+  <data name="lblMAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="lblMAX_DATA.TabIndex" type="System.Int32, mscorlib">
+    <value>101</value>
+  </data>
+  <data name="lblMAX_DATA.Text" xml:space="preserve">
+    <value>최대 데이터</value>
+  </data>
+  <data name="lblMAX_DATA.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ENCRYPTION_LEVEL.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ENCRYPTION_LEVEL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ENCRYPTION_LEVEL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>274, 270</value>
+  </data>
+  <data name="ENCRYPTION_LEVEL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="ENCRYPTION_LEVEL.TabIndex" type="System.Int32, mscorlib">
+    <value>99</value>
+  </data>
+  <data name="label36.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label36.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label36.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 271</value>
+  </data>
+  <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 13</value>
+  </data>
+  <data name="label36.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>AES 암호화</value>
+  </data>
+  <data name="label35.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label35.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label35.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 299</value>
+  </data>
+  <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 13</value>
+  </data>
+  <data name="label35.TabIndex" type="System.Int32, mscorlib">
+    <value>98</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>AES 키</value>
+  </data>
+  <data name="txt_aeskey.Location" type="System.Drawing.Point, System.Drawing">
+    <value>180, 316</value>
+  </data>
+  <data name="txt_aeskey.MaxLength" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="txt_aeskey.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 20</value>
+  </data>
+  <data name="txt_aeskey.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="label19.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label19.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 217</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="label19.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>RTS CTS</value>
+  </data>
+  <data name="linkLabel_mavlink.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkLabel_mavlink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkLabel_mavlink.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 333</value>
+  </data>
+  <data name="linkLabel_mavlink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 13</value>
+  </data>
+  <data name="linkLabel_mavlink.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="linkLabel_mavlink.Text" xml:space="preserve">
+    <value>표준 MAVLink 설정</value>
+  </data>
+  <data name="linkLabel_lowlatency.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkLabel_lowlatency.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkLabel_lowlatency.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 346</value>
+  </data>
+  <data name="linkLabel_lowlatency.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 13</value>
+  </data>
+  <data name="linkLabel_lowlatency.TabIndex" type="System.Int32, mscorlib">
+    <value>94</value>
+  </data>
+  <data name="linkLabel_lowlatency.Text" xml:space="preserve">
+    <value>저지연 설정</value>
+  </data>
+  <data name="label18.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label18.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 246</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 13</value>
+  </data>
+  <data name="label18.TabIndex" type="System.Int32, mscorlib">
+    <value>93</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>최대 윈도우 (ms)</value>
+  </data>
+  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 86</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 13</value>
+  </data>
+  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+    <value>87</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>최소 주파수</value>
+  </data>
+  <data name="label17.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label17.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 191</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 13</value>
+  </data>
+  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+    <value>91</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>LBT RSSI</value>
+  </data>
+  <data name="label16.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 164</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="label16.TabIndex" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>듀티 사이클</value>
+  </data>
+  <data name="label15.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 138</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 13</value>
+  </data>
+  <data name="label15.TabIndex" type="System.Int32, mscorlib">
+    <value>89</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>채널 수</value>
+  </data>
+  <data name="label14.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 110</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 13</value>
+  </data>
+  <data name="label14.TabIndex" type="System.Int32, mscorlib">
+    <value>88</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>최대 주파수</value>
+  </data>
+  <data name="ATI2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>315, 12</value>
+  </data>
+  <data name="ATI2.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ATI2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 65</value>
+  </data>
+  <data name="ATI2.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="&gt;&gt;lblRRX_ENCAP_METHOD.Name" xml:space="preserve">
+    <value>lblRRX_ENCAP_METHOD</value>
+  </data>
+  <data name="&gt;&gt;lblRRX_ENCAP_METHOD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRRX_ENCAP_METHOD.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRRX_ENCAP_METHOD.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;RRX_ENCAP_METHOD.Name" xml:space="preserve">
+    <value>RRX_ENCAP_METHOD</value>
+  </data>
+  <data name="&gt;&gt;RRX_ENCAP_METHOD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RRX_ENCAP_METHOD.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RRX_ENCAP_METHOD.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lblRTX_ENCAP_METHOD.Name" xml:space="preserve">
+    <value>lblRTX_ENCAP_METHOD</value>
+  </data>
+  <data name="&gt;&gt;lblRTX_ENCAP_METHOD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRTX_ENCAP_METHOD.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRTX_ENCAP_METHOD.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;RTX_ENCAP_METHOD.Name" xml:space="preserve">
+    <value>RTX_ENCAP_METHOD</value>
+  </data>
+  <data name="&gt;&gt;RTX_ENCAP_METHOD.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RTX_ENCAP_METHOD.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RTX_ENCAP_METHOD.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;lblRDESTID.Name" xml:space="preserve">
+    <value>lblRDESTID</value>
+  </data>
+  <data name="&gt;&gt;lblRDESTID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRDESTID.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRDESTID.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lblRNODEID.Name" xml:space="preserve">
+    <value>lblRNODEID</value>
+  </data>
+  <data name="&gt;&gt;lblRNODEID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRNODEID.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRNODEID.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;RDESTID.Name" xml:space="preserve">
+    <value>RDESTID</value>
+  </data>
+  <data name="&gt;&gt;RDESTID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RDESTID.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RDESTID.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;RNODEID.Name" xml:space="preserve">
+    <value>RNODEID</value>
+  </data>
+  <data name="&gt;&gt;RNODEID.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RNODEID.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RNODEID.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;label41.Name" xml:space="preserve">
+    <value>label41</value>
+  </data>
+  <data name="&gt;&gt;label41.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label41.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label41.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;RFORMAT.Name" xml:space="preserve">
+    <value>RFORMAT</value>
+  </data>
+  <data name="&gt;&gt;RFORMAT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RFORMAT.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RFORMAT.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;label42.Name" xml:space="preserve">
+    <value>label42</value>
+  </data>
+  <data name="&gt;&gt;label42.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label42.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label42.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;label25.Name" xml:space="preserve">
+    <value>label25</value>
+  </data>
+  <data name="&gt;&gt;label25.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label25.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;label26.Name" xml:space="preserve">
+    <value>label26</value>
+  </data>
+  <data name="&gt;&gt;label26.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label26.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;label27.Name" xml:space="preserve">
+    <value>label27</value>
+  </data>
+  <data name="&gt;&gt;label27.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label27.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;label28.Name" xml:space="preserve">
+    <value>label28</value>
+  </data>
+  <data name="&gt;&gt;label28.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label28.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;label29.Name" xml:space="preserve">
+    <value>label29</value>
+  </data>
+  <data name="&gt;&gt;label29.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label29.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;label32.Name" xml:space="preserve">
+    <value>label32</value>
+  </data>
+  <data name="&gt;&gt;label32.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label32.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;label30.Name" xml:space="preserve">
+    <value>label30</value>
+  </data>
+  <data name="&gt;&gt;label30.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label30.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label30.ZOrder" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="&gt;&gt;label31.Name" xml:space="preserve">
+    <value>label31</value>
+  </data>
+  <data name="&gt;&gt;label31.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label31.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label31.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="&gt;&gt;lblRANT_MODE.Name" xml:space="preserve">
+    <value>lblRANT_MODE</value>
+  </data>
+  <data name="&gt;&gt;lblRANT_MODE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRANT_MODE.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRANT_MODE.ZOrder" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;RANT_MODE.Name" xml:space="preserve">
+    <value>RANT_MODE</value>
+  </data>
+  <data name="&gt;&gt;RANT_MODE.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RANT_MODE.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RANT_MODE.ZOrder" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="&gt;&gt;lblRSER_BRK_DETMS.Name" xml:space="preserve">
+    <value>lblRSER_BRK_DETMS</value>
+  </data>
+  <data name="&gt;&gt;lblRSER_BRK_DETMS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRSER_BRK_DETMS.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRSER_BRK_DETMS.ZOrder" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="&gt;&gt;lblRGLOBAL_RETRIES.Name" xml:space="preserve">
+    <value>lblRGLOBAL_RETRIES</value>
+  </data>
+  <data name="&gt;&gt;lblRGLOBAL_RETRIES.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRGLOBAL_RETRIES.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRGLOBAL_RETRIES.ZOrder" xml:space="preserve">
+    <value>31</value>
+  </data>
+  <data name="&gt;&gt;lblRMAX_RETRIES.Name" xml:space="preserve">
+    <value>lblRMAX_RETRIES</value>
+  </data>
+  <data name="&gt;&gt;lblRMAX_RETRIES.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRMAX_RETRIES.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRMAX_RETRIES.ZOrder" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;RSER_BRK_DETMS.Name" xml:space="preserve">
+    <value>RSER_BRK_DETMS</value>
+  </data>
+  <data name="&gt;&gt;RSER_BRK_DETMS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RSER_BRK_DETMS.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RSER_BRK_DETMS.ZOrder" xml:space="preserve">
+    <value>33</value>
+  </data>
+  <data name="&gt;&gt;RGLOBAL_RETRIES.Name" xml:space="preserve">
+    <value>RGLOBAL_RETRIES</value>
+  </data>
+  <data name="&gt;&gt;RGLOBAL_RETRIES.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGLOBAL_RETRIES.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RGLOBAL_RETRIES.ZOrder" xml:space="preserve">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;RMAX_RETRIES.Name" xml:space="preserve">
+    <value>RMAX_RETRIES</value>
+  </data>
+  <data name="&gt;&gt;RMAX_RETRIES.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RMAX_RETRIES.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RMAX_RETRIES.ZOrder" xml:space="preserve">
+    <value>35</value>
+  </data>
+  <data name="&gt;&gt;RMAX_DATA.Name" xml:space="preserve">
+    <value>RMAX_DATA</value>
+  </data>
+  <data name="&gt;&gt;RMAX_DATA.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RMAX_DATA.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RMAX_DATA.ZOrder" xml:space="preserve">
+    <value>36</value>
+  </data>
+  <data name="&gt;&gt;lblRMAX_DATA.Name" xml:space="preserve">
+    <value>lblRMAX_DATA</value>
+  </data>
+  <data name="&gt;&gt;lblRMAX_DATA.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRMAX_DATA.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;lblRMAX_DATA.ZOrder" xml:space="preserve">
+    <value>37</value>
+  </data>
+  <data name="&gt;&gt;label38.Name" xml:space="preserve">
+    <value>label38</value>
+  </data>
+  <data name="&gt;&gt;label38.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label38.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label38.ZOrder" xml:space="preserve">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;RENCRYPTION_LEVEL.Name" xml:space="preserve">
+    <value>RENCRYPTION_LEVEL</value>
+  </data>
+  <data name="&gt;&gt;RENCRYPTION_LEVEL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RENCRYPTION_LEVEL.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RENCRYPTION_LEVEL.ZOrder" xml:space="preserve">
+    <value>39</value>
+  </data>
+  <data name="&gt;&gt;txt_Raeskey.Name" xml:space="preserve">
+    <value>txt_Raeskey</value>
+  </data>
+  <data name="&gt;&gt;txt_Raeskey.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_Raeskey.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;txt_Raeskey.ZOrder" xml:space="preserve">
+    <value>40</value>
+  </data>
+  <data name="&gt;&gt;label37.Name" xml:space="preserve">
+    <value>label37</value>
+  </data>
+  <data name="&gt;&gt;label37.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label37.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label37.ZOrder" xml:space="preserve">
+    <value>41</value>
+  </data>
+  <data name="&gt;&gt;label33.Name" xml:space="preserve">
+    <value>label33</value>
+  </data>
+  <data name="&gt;&gt;label33.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label33.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
+    <value>43</value>
+  </data>
+  <data name="&gt;&gt;label34.Name" xml:space="preserve">
+    <value>label34</value>
+  </data>
+  <data name="&gt;&gt;label34.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label34.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
+    <value>44</value>
+  </data>
+  <data name="&gt;&gt;label24.Name" xml:space="preserve">
+    <value>label24</value>
+  </data>
+  <data name="&gt;&gt;label24.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label24.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
+    <value>46</value>
+  </data>
+  <data name="&gt;&gt;label23.Name" xml:space="preserve">
+    <value>label23</value>
+  </data>
+  <data name="&gt;&gt;label23.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label23.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
+    <value>52</value>
+  </data>
+  <data name="&gt;&gt;label22.Name" xml:space="preserve">
+    <value>label22</value>
+  </data>
+  <data name="&gt;&gt;label22.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label22.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
+    <value>53</value>
+  </data>
+  <data name="&gt;&gt;label21.Name" xml:space="preserve">
+    <value>label21</value>
+  </data>
+  <data name="&gt;&gt;label21.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label21.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
+    <value>54</value>
+  </data>
+  <data name="&gt;&gt;label20.Name" xml:space="preserve">
+    <value>label20</value>
+  </data>
+  <data name="&gt;&gt;label20.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label20.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
+    <value>55</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Name" xml:space="preserve">
+    <value>RTI2</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RTI2.ZOrder" xml:space="preserve">
+    <value>56</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>57</value>
+  </data>
+  <data name="groupBoxRemote.Location" type="System.Drawing.Point, System.Drawing">
+    <value>551, 48</value>
+  </data>
+  <data name="groupBoxRemote.Size" type="System.Drawing.Size, System.Drawing">
+    <value>533, 361</value>
+  </data>
+  <data name="groupBoxRemote.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="groupBoxRemote.Text" xml:space="preserve">
+    <value>원격</value>
+  </data>
+  <data name="&gt;&gt;groupBoxRemote.Name" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;groupBoxRemote.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxRemote.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxRemote.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lblRRX_ENCAP_METHOD.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRRX_ENCAP_METHOD.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRRX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 195</value>
+  </data>
+  <data name="lblRRX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="lblRRX_ENCAP_METHOD.TabIndex" type="System.Int32, mscorlib">
+    <value>137</value>
+  </data>
+  <data name="lblRRX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>RXENCAP</value>
+  </data>
+  <data name="lblRRX_ENCAP_METHOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RRX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 188</value>
+  </data>
+  <data name="RRX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RRX_ENCAP_METHOD.TabIndex" type="System.Int32, mscorlib">
+    <value>133</value>
+  </data>
+  <data name="RRX_ENCAP_METHOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblRTX_ENCAP_METHOD.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRTX_ENCAP_METHOD.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRTX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 167</value>
+  </data>
+  <data name="lblRTX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="lblRTX_ENCAP_METHOD.TabIndex" type="System.Int32, mscorlib">
+    <value>136</value>
+  </data>
+  <data name="lblRTX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>TXENCAP</value>
+  </data>
+  <data name="lblRTX_ENCAP_METHOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RTX_ENCAP_METHOD.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 160</value>
+  </data>
+  <data name="RTX_ENCAP_METHOD.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RTX_ENCAP_METHOD.TabIndex" type="System.Int32, mscorlib">
+    <value>132</value>
+  </data>
+  <data name="RTX_ENCAP_METHOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblRDESTID.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRDESTID.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRDESTID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 139</value>
+  </data>
+  <data name="lblRDESTID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 13</value>
+  </data>
+  <data name="lblRDESTID.TabIndex" type="System.Int32, mscorlib">
+    <value>135</value>
+  </data>
+  <data name="lblRDESTID.Text" xml:space="preserve">
+    <value>대상 ID</value>
+  </data>
+  <data name="lblRDESTID.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblRNODEID.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRNODEID.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRNODEID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 111</value>
+  </data>
+  <data name="lblRNODEID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="lblRNODEID.TabIndex" type="System.Int32, mscorlib">
+    <value>134</value>
+  </data>
+  <data name="lblRNODEID.Text" xml:space="preserve">
+    <value>노드 ID</value>
+  </data>
+  <data name="lblRNODEID.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RDESTID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 132</value>
+  </data>
+  <data name="RDESTID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RDESTID.TabIndex" type="System.Int32, mscorlib">
+    <value>131</value>
+  </data>
+  <data name="RDESTID.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RNODEID.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 104</value>
+  </data>
+  <data name="RNODEID.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RNODEID.TabIndex" type="System.Int32, mscorlib">
+    <value>130</value>
+  </data>
+  <data name="RNODEID.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label41.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label41.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label41.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 326</value>
+  </data>
+  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 13</value>
+  </data>
+  <data name="label41.TabIndex" type="System.Int32, mscorlib">
+    <value>121</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>GPI1_1R/COUT</value>
+  </data>
+  <data name="RFORMAT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 83</value>
+  </data>
+  <data name="RFORMAT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="RFORMAT.TabIndex" type="System.Int32, mscorlib">
+    <value>112</value>
+  </data>
+  <data name="label42.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label42.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label42.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 300</value>
+  </data>
+  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 13</value>
+  </data>
+  <data name="label42.TabIndex" type="System.Int32, mscorlib">
+    <value>118</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>GPI1_1R/CIN</value>
+  </data>
+  <data name="label25.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label25.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 274</value>
+  </data>
+  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 13</value>
+  </data>
+  <data name="label25.TabIndex" type="System.Int32, mscorlib">
+    <value>129</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>Op Resend</value>
+  </data>
+  <data name="label26.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label26.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 247</value>
+  </data>
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 13</value>
+  </data>
+  <data name="label26.TabIndex" type="System.Int32, mscorlib">
+    <value>128</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>MAVLink</value>
+  </data>
+  <data name="label27.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label27.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 220</value>
+  </data>
+  <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 13</value>
+  </data>
+  <data name="label27.TabIndex" type="System.Int32, mscorlib">
+    <value>127</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>ECC</value>
+  </data>
+  <data name="label28.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label28.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label28.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 193</value>
+  </data>
+  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 13</value>
+  </data>
+  <data name="label28.TabIndex" type="System.Int32, mscorlib">
+    <value>126</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>송신 세기</value>
+  </data>
+  <data name="label29.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label29.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 166</value>
+  </data>
+  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label29.TabIndex" type="System.Int32, mscorlib">
+    <value>125</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>Net ID</value>
+  </data>
+  <data name="label32.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label32.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label32.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 113</value>
+  </data>
+  <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 13</value>
+  </data>
+  <data name="label32.TabIndex" type="System.Int32, mscorlib">
+    <value>122</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>비트 전송율</value>
+  </data>
+  <data name="label30.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label30.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label30.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 139</value>
+  </data>
+  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="label30.TabIndex" type="System.Int32, mscorlib">
+    <value>124</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>항속</value>
+  </data>
+  <data name="label31.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label31.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label31.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 87</value>
+  </data>
+  <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 13</value>
+  </data>
+  <data name="label31.TabIndex" type="System.Int32, mscorlib">
+    <value>123</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>형식</value>
+  </data>
+  <data name="lblRANT_MODE.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRANT_MODE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>354, 332</value>
+  </data>
+  <data name="lblRANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 13</value>
+  </data>
+  <data name="lblRANT_MODE.TabIndex" type="System.Int32, mscorlib">
+    <value>109</value>
+  </data>
+  <data name="lblRANT_MODE.Text" xml:space="preserve">
+    <value>안테나 모드</value>
+  </data>
+  <data name="lblRANT_MODE.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RANT_MODE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 328</value>
+  </data>
+  <data name="RANT_MODE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RANT_MODE.TabIndex" type="System.Int32, mscorlib">
+    <value>108</value>
+  </data>
+  <data name="RANT_MODE.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblRSER_BRK_DETMS.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRSER_BRK_DETMS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRSER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 307</value>
+  </data>
+  <data name="lblRSER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 13</value>
+  </data>
+  <data name="lblRSER_BRK_DETMS.TabIndex" type="System.Int32, mscorlib">
+    <value>107</value>
+  </data>
+  <data name="lblRSER_BRK_DETMS.Text" xml:space="preserve">
+    <value>중단 감지</value>
+  </data>
+  <data name="lblRSER_BRK_DETMS.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblRGLOBAL_RETRIES.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRGLOBAL_RETRIES.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRGLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 279</value>
+  </data>
+  <data name="lblRGLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 13</value>
+  </data>
+  <data name="lblRGLOBAL_RETRIES.TabIndex" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="lblRGLOBAL_RETRIES.Text" xml:space="preserve">
+    <value>전체 재시도</value>
+  </data>
+  <data name="lblRGLOBAL_RETRIES.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblRMAX_RETRIES.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRMAX_RETRIES.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRMAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 251</value>
+  </data>
+  <data name="lblRMAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 13</value>
+  </data>
+  <data name="lblRMAX_RETRIES.TabIndex" type="System.Int32, mscorlib">
+    <value>105</value>
+  </data>
+  <data name="lblRMAX_RETRIES.Text" xml:space="preserve">
+    <value>최대 재시도</value>
+  </data>
+  <data name="lblRMAX_RETRIES.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RSER_BRK_DETMS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 300</value>
+  </data>
+  <data name="RSER_BRK_DETMS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RSER_BRK_DETMS.TabIndex" type="System.Int32, mscorlib">
+    <value>104</value>
+  </data>
+  <data name="RSER_BRK_DETMS.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGLOBAL_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 272</value>
+  </data>
+  <data name="RGLOBAL_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RGLOBAL_RETRIES.TabIndex" type="System.Int32, mscorlib">
+    <value>103</value>
+  </data>
+  <data name="RGLOBAL_RETRIES.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RMAX_RETRIES.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 244</value>
+  </data>
+  <data name="RMAX_RETRIES.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RMAX_RETRIES.TabIndex" type="System.Int32, mscorlib">
+    <value>102</value>
+  </data>
+  <data name="RMAX_RETRIES.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RMAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 216</value>
+  </data>
+  <data name="RMAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RMAX_DATA.TabIndex" type="System.Int32, mscorlib">
+    <value>101</value>
+  </data>
+  <data name="RMAX_DATA.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lblRMAX_DATA.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRMAX_DATA.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRMAX_DATA.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 223</value>
+  </data>
+  <data name="lblRMAX_DATA.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="lblRMAX_DATA.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="lblRMAX_DATA.Text" xml:space="preserve">
+    <value>최대 데이터</value>
+  </data>
+  <data name="lblRMAX_DATA.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="label38.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label38.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label38.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 300</value>
+  </data>
+  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 13</value>
+  </data>
+  <data name="label38.TabIndex" type="System.Int32, mscorlib">
+    <value>94</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>AES 키</value>
+  </data>
+  <data name="RENCRYPTION_LEVEL.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RENCRYPTION_LEVEL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RENCRYPTION_LEVEL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 271</value>
+  </data>
+  <data name="RENCRYPTION_LEVEL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="RENCRYPTION_LEVEL.TabIndex" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="txt_Raeskey.Location" type="System.Drawing.Point, System.Drawing">
+    <value>168, 316</value>
+  </data>
+  <data name="txt_Raeskey.MaxLength" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="txt_Raeskey.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 20</value>
+  </data>
+  <data name="txt_Raeskey.TabIndex" type="System.Int32, mscorlib">
+    <value>91</value>
+  </data>
+  <data name="label37.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label37.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label37.Location" type="System.Drawing.Point, System.Drawing">
+    <value>173, 272</value>
+  </data>
+  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 13</value>
+  </data>
+  <data name="label37.TabIndex" type="System.Int32, mscorlib">
+    <value>92</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>AES 암호화</value>
+  </data>
+  <data name="label33.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label33.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
+    <value>173, 218</value>
+  </data>
+  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="label33.TabIndex" type="System.Int32, mscorlib">
+    <value>99</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>RTS CTS</value>
+  </data>
+  <data name="label34.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label34.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label34.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 247</value>
+  </data>
+  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 13</value>
+  </data>
+  <data name="label34.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>최대 윈도우 (ms)</value>
+  </data>
+  <data name="label24.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label24.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 87</value>
+  </data>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 13</value>
+  </data>
+  <data name="label24.TabIndex" type="System.Int32, mscorlib">
+    <value>87</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>최소 주파수 </value>
+  </data>
+  <data name="label23.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label23.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 111</value>
+  </data>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 13</value>
+  </data>
+  <data name="label23.TabIndex" type="System.Int32, mscorlib">
+    <value>88</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>최대 주파수</value>
+  </data>
+  <data name="label22.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label22.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 139</value>
+  </data>
+  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 13</value>
+  </data>
+  <data name="label22.TabIndex" type="System.Int32, mscorlib">
+    <value>89</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>채널 수</value>
+  </data>
+  <data name="label21.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 165</value>
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="label21.TabIndex" type="System.Int32, mscorlib">
+    <value>93</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>듀티 사이클</value>
+  </data>
+  <data name="label20.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label20.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label20.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 192</value>
+  </data>
+  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 13</value>
+  </data>
+  <data name="label20.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>LBT RSSI</value>
+  </data>
+  <data name="RTI2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>300, 12</value>
+  </data>
+  <data name="RTI2.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RTI2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 65</value>
+  </data>
+  <data name="RTI2.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 15</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 13</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>버전</value>
+  </data>
+  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 11</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 13</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>82</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Location" type="System.Drawing.Point, System.Drawing">
+    <value>551, 411</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.Text" xml:space="preserve">
+    <value>PPM 안전 장치값 설정</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.ToolTip" xml:space="preserve">
+    <value>(기체 측에서) PPM 출력시 기본 PPM 스트림을 기록합니다</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Name" xml:space="preserve">
+    <value>BUT_SetPPMFailSafe</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, SikRadio, Version=0.0.7428.29620, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_SetPPMFailSafe.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_loadcustom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_loadcustom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>674, 3</value>
+  </data>
+  <data name="BUT_loadcustom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 39</value>
+  </data>
+  <data name="BUT_loadcustom.TabIndex" type="System.Int32, mscorlib">
+    <value>85</value>
+  </data>
+  <data name="BUT_loadcustom.Text" xml:space="preserve">
+    <value>펌웨어 업로드</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadcustom.Name" xml:space="preserve">
+    <value>BUT_loadcustom</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadcustom.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, SikRadio, Version=0.0.7428.29620, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadcustom.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadcustom.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_resettodefault.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_resettodefault.Location" type="System.Drawing.Point, System.Drawing">
+    <value>586, 3</value>
+  </data>
+  <data name="BUT_resettodefault.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 39</value>
+  </data>
+  <data name="BUT_resettodefault.TabIndex" type="System.Int32, mscorlib">
+    <value>84</value>
+  </data>
+  <data name="BUT_resettodefault.Text" xml:space="preserve">
+    <value>기본값으로 초기화</value>
+  </data>
+  <data name="&gt;&gt;BUT_resettodefault.Name" xml:space="preserve">
+    <value>BUT_resettodefault</value>
+  </data>
+  <data name="&gt;&gt;BUT_resettodefault.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, SikRadio, Version=0.0.7428.29620, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_resettodefault.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_resettodefault.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="BUT_savesettings.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_savesettings.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_savesettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>384, 3</value>
+  </data>
+  <data name="BUT_savesettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 39</value>
+  </data>
+  <data name="BUT_savesettings.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="BUT_savesettings.Text" xml:space="preserve">
+    <value>설정값 저장</value>
+  </data>
+  <data name="&gt;&gt;BUT_savesettings.Name" xml:space="preserve">
+    <value>BUT_savesettings</value>
+  </data>
+  <data name="&gt;&gt;BUT_savesettings.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, SikRadio, Version=0.0.7428.29620, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_savesettings.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_savesettings.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="BUT_getcurrent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_getcurrent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>309, 3</value>
+  </data>
+  <data name="BUT_getcurrent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 39</value>
+  </data>
+  <data name="BUT_getcurrent.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="BUT_getcurrent.Text" xml:space="preserve">
+    <value>설정값 불러오기</value>
+  </data>
+  <data name="&gt;&gt;BUT_getcurrent.Name" xml:space="preserve">
+    <value>BUT_getcurrent</value>
+  </data>
+  <data name="&gt;&gt;BUT_getcurrent.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, SikRadio, Version=0.0.7428.29620, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_getcurrent.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_getcurrent.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="BUT_upload.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_upload.Location" type="System.Drawing.Point, System.Drawing">
+    <value>459, 3</value>
+  </data>
+  <data name="BUT_upload.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 39</value>
+  </data>
+  <data name="BUT_upload.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BUT_upload.Text" xml:space="preserve">
+    <value>펌웨어 업로드(로컬)</value>
+  </data>
+  <data name="&gt;&gt;BUT_upload.Name" xml:space="preserve">
+    <value>BUT_upload</value>
+  </data>
+  <data name="&gt;&gt;BUT_upload.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, SikRadio, Version=0.0.7428.29620, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_upload.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_upload.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="BUT_Syncoptions.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_Syncoptions.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_Syncoptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>443, 412</value>
+  </data>
+  <data name="BUT_Syncoptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 29</value>
+  </data>
+  <data name="BUT_Syncoptions.TabIndex" type="System.Int32, mscorlib">
+    <value>78</value>
+  </data>
+  <data name="BUT_Syncoptions.Text" xml:space="preserve">
+    <value>요구값 원격으로 복사</value>
+  </data>
+  <data name="&gt;&gt;BUT_Syncoptions.Name" xml:space="preserve">
+    <value>BUT_Syncoptions</value>
+  </data>
+  <data name="&gt;&gt;BUT_Syncoptions.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, SikRadio, Version=0.0.7428.29620, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Syncoptions.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_Syncoptions.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>781, 492</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1096, 492</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
+    <value>toolTip1</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Sikradio</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

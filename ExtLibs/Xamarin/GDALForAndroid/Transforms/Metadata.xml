@@ -1,0 +1,29 @@
+﻿<metadata>
+  <!--
+  This sample removes the class: android.support.v4.content.AsyncTaskLoader.LoadTask:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='AsyncTaskLoader.LoadTask']" />
+  
+  This sample removes the method: android.support.v4.content.CursorLoader.loadInBackground:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
+  -->
+<!--
+  <attr path="/api/package[@name='org.gdal.gdal']" name="managedName">OSGeo.GDAL</attr>
+  <attr path="/api/package[@name='org.gdal.osr']" name="managedName">OSGeo.OSR</attr>
+  <attr path="/api/package[@name='org.gdal.ogr']" name="managedName">OSGeo.OGR</attr>
+  <attr path="/api/package[@name='org.gdal.gnm']" name="managedName">OSGeo.GNM</attr>
+  <attr path="/api/package[@name='org.gdal.gdalconst']" name="managedName">OSGeo</attr>
+-->
+
+  <remove-node path="/api/package[@name='org.gdal.gdal']/class[@name='Band']/method[@name='getXSize' and count(parameter)=0]" />
+  <remove-node path="/api/package[@name='org.gdal.gdal']/class[@name='Band']/method[@name='getYSize' and count(parameter)=0]" />
+  <remove-node path="/api/package[@name='org.gdal.gdal']/class[@name='ColorTable']/method[@name='clone' and count(parameter)=0]"/>
+  <remove-node path="/api/package[@name='org.gdal.osr']/class[@name='SpatialReference']/method[@name='clone' and count(parameter)=0]" />
+  <remove-node path="/api/package[@name='org.gdal.ogr']/class[@name='Feature']/method[@name='clone' and count(parameter)=0]"/>
+  <remove-node path="/api/package[@name='org.gdal.ogr']/class[@name='Geometry']/method[@name='clone' and count(parameter)=0]"/>
+  <remove-node path="/api/package[@name='org.gdal.gdal']/class[@name='RasterAttributeTable']/method[@name='clone' and count(parameter)=0]"/>
+  <remove-node path="/api/package[@name='org.gdal.gdal']/class[@name='Dataset']/method[@name='getRasterCount' and count(parameter)=0]"/>
+  <remove-node path="/api/package[@name='org.gdal.gdal']/class[@name='Dataset']/method[@name='getRasterXSize' and count(parameter)=0]"/>
+  <remove-node path="/api/package[@name='org.gdal.gdal']/class[@name='Dataset']/method[@name='getRasterYSize' and count(parameter)=0]"/>
+  <remove-node path="/api/package[@name='org.gdal.ogr']/class[@name='DataSource']/method[@name='getName' and count(parameter)=0]"/>
+  <remove-node path="/api/package[@name='org.gdal.ogr']/class[@name='Driver']/method[@name='getName' and count(parameter)=0]"/>
+</metadata>

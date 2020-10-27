@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -40,8 +41,9 @@ namespace Xamarin.Forms.Platform.WinForms
 		}
 
 		public bool IsInvokeRequired => Thread.CurrentThread.ManagedThreadId != _currentThreadId;
+        public OSAppTheme RequestedTheme { get; } = OSAppTheme.Unspecified;
 
-		public string RuntimePlatform => "WinForms";
+        public string RuntimePlatform => "WinForms";
 
 		public void BeginInvokeOnMainThread(Action action)
 		{
@@ -65,7 +67,12 @@ namespace Xamarin.Forms.Platform.WinForms
 			return AppDomain.CurrentDomain.GetAssemblies();
 		}
 
-		public string GetMD5Hash(string input)
+        public string GetHash(string input)
+        {
+            return GetMD5Hash(input);
+        }
+
+        public string GetMD5Hash(string input)
 		{
 			var bytes = _md5.ComputeHash(Encoding.UTF8.GetBytes(input));
 			var sb = new StringBuilder();
@@ -85,7 +92,12 @@ namespace Xamarin.Forms.Platform.WinForms
 			throw new ArgumentException(nameof(size));
 		}
 
-		public SizeRequest GetNativeSize(VisualElement view, double widthConstraint, double heightConstraint)
+        public Color GetNamedColor(string name)
+        {
+            return Color.FromHex(name);
+        }
+
+        public SizeRequest GetNativeSize(VisualElement view, double widthConstraint, double heightConstraint)
 		{
 			return Platform.GetNativeSizeInternal(view, widthConstraint, heightConstraint);
 		}

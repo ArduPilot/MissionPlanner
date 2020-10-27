@@ -3,9 +3,9 @@ set PATH=%PATH%;C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\MSBu
 
 del bin\release\MissionPlannerBeta.zip
 
-.nuget\nuget.exe restore
+.nuget\nuget.exe restore MissionPlanner.sln
 
-MSBuild.exe MissionPlanner.sln /m /p:Configuration=Release /verbosity:n
+MSBuild.exe MissionPlanner.sln /restore /m /p:Configuration=Release /verbosity:n
 
 echo create appx?
 pause

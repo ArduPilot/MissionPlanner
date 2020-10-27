@@ -117,33 +117,271 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CMB_boardtype.Text" xml:space="preserve">
-    <value>APM</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TXT_terminal.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="TXT_terminal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Courier New, 10pt, style=Bold</value>
+  </data>
+  <data name="TXT_terminal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 60</value>
+  </data>
+  <data name="TXT_terminal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>708, 400</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TXT_terminal.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TXT_terminal.Text" xml:space="preserve">
+    <value>*참고* 위 연결 단추를 누르십시오
+명령행 환경은 전원 연결 초기시에만 동작하며, 로그 다운로드는 USB 연결로만 가능합니다
+새 버전에서는 MAVLink 로그 다운로드만 지원합니다. 데이터 &gt; 플래시 로그를 참고 하십시오
+</value>
+  </data>
+  <data name="&gt;&gt;TXT_terminal.Name" xml:space="preserve">
+    <value>TXT_terminal</value>
+  </data>
+  <data name="&gt;&gt;TXT_terminal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TXT_terminal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TXT_terminal.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="BUTsetupshow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 32</value>
+  </data>
+  <data name="BUTsetupshow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="BUTsetupshow.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="BUTsetupshow.Text" xml:space="preserve">
+    <value>설정 보기</value>
+  </data>
+  <data name="&gt;&gt;BUTsetupshow.Name" xml:space="preserve">
+    <value>BUTsetupshow</value>
+  </data>
+  <data name="&gt;&gt;BUTsetupshow.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUTsetupshow.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUTsetupshow.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="BUTradiosetup.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 32</value>
+  </data>
+  <data name="BUTradiosetup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="BUTradiosetup.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="BUTradiosetup.Text" xml:space="preserve">
+    <value>무선 신호 설정</value>
+  </data>
+  <data name="&gt;&gt;BUTradiosetup.Name" xml:space="preserve">
+    <value>BUTradiosetup</value>
+  </data>
+  <data name="&gt;&gt;BUTradiosetup.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUTradiosetup.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUTradiosetup.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="BUTtests.Location" type="System.Drawing.Point, System.Drawing">
+    <value>189, 32</value>
+  </data>
+  <data name="BUTtests.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="BUTtests.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
   <data name="BUTtests.Text" xml:space="preserve">
-    <value>시험</value>
+    <value>시험 </value>
   </data>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>연결</value>
+  <data name="&gt;&gt;BUTtests.Name" xml:space="preserve">
+    <value>BUTtests</value>
+  </data>
+  <data name="&gt;&gt;BUTtests.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUTtests.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUTtests.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="Logs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>282, 32</value>
+  </data>
+  <data name="Logs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="Logs.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="Logs.Text" xml:space="preserve">
     <value>로그 다운로드</value>
   </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>무선 설정</value>
+  <data name="&gt;&gt;Logs.Name" xml:space="preserve">
+    <value>Logs</value>
   </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>연결 해제 </value>
+  <data name="&gt;&gt;Logs.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>* NOTE * 상단 링크를 클릭하세요.
-CLI 는 최초 전원 연결시에만 동작하며, log는  USB를 통하여서만 다운로드 됨. 
-최근 버전들은 mavlink 를 통한 log 다운로드만 지원됨. flightdata &gt; dataflahs 참조 요망.</value>
+  <data name="&gt;&gt;Logs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Logs.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="BUT_logbrowse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>375, 32</value>
+  </data>
+  <data name="BUT_logbrowse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="BUT_logbrowse.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>로그 탐색</value>
   </data>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>설정 보기</value>
+  <data name="&gt;&gt;BUT_logbrowse.Name" xml:space="preserve">
+    <value>BUT_logbrowse</value>
+  </data>
+  <data name="&gt;&gt;BUT_logbrowse.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_logbrowse.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_logbrowse.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="BUT_ConnectAPM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_ConnectAPM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 3</value>
+  </data>
+  <data name="BUT_ConnectAPM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="BUT_ConnectAPM.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
+    <value>연결</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectAPM.Name" xml:space="preserve">
+    <value>BUT_ConnectAPM</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectAPM.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectAPM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectAPM.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_disconnect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="BUT_disconnect.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_disconnect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_disconnect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>617, 3</value>
+  </data>
+  <data name="BUT_disconnect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="BUT_disconnect.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="BUT_disconnect.Text" xml:space="preserve">
+    <value>연결 해제</value>
+  </data>
+  <data name="&gt;&gt;BUT_disconnect.Name" xml:space="preserve">
+    <value>BUT_disconnect</value>
+  </data>
+  <data name="&gt;&gt;BUT_disconnect.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_disconnect.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_disconnect.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CMB_boardtype.Items" xml:space="preserve">
+    <value>APM</value>
+  </data>
+  <data name="CMB_boardtype.Items1" xml:space="preserve">
+    <value>PX4/PIXHAWK</value>
+  </data>
+  <data name="CMB_boardtype.Items2" xml:space="preserve">
+    <value>VRX/VRBRAIN</value>
+  </data>
+  <data name="CMB_boardtype.Items3" xml:space="preserve">
+    <value>NSH</value>
+  </data>
+  <data name="CMB_boardtype.Items4" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="CMB_boardtype.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="CMB_boardtype.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 21</value>
+  </data>
+  <data name="CMB_boardtype.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="CMB_boardtype.Text" xml:space="preserve">
+    <value>APM</value>
+  </data>
+  <data name="&gt;&gt;CMB_boardtype.Name" xml:space="preserve">
+    <value>CMB_boardtype</value>
+  </data>
+  <data name="&gt;&gt;CMB_boardtype.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_boardtype.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CMB_boardtype.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>707, 461</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

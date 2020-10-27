@@ -419,7 +419,7 @@ namespace MissionPlanner
 
         public ConcurrentDictionary<string, adsb.PointLatLngAltHdg> adsbPlanes = new ConcurrentDictionary<string, adsb.PointLatLngAltHdg>();
 
-        string titlebar;
+        public static string titlebar;
 
         /// <summary>
         /// Comport name
@@ -3134,7 +3134,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    UserAlertRoot.GetAlerts();
+                    UserAlert.GetAlerts();
                 }
                 catch
                 {
@@ -3609,7 +3609,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    GDAL.GDAL.ScanDirectory(Settings.Instance["GDALImageDir"]);
+                    Utilities.GDAL.ScanDirectory(Settings.Instance["GDALImageDir"]);
                 }
                 catch (Exception ex)
                 {

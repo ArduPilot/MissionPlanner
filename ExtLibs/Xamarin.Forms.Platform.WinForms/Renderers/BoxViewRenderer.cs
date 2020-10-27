@@ -8,7 +8,7 @@ namespace Xamarin.Forms.Platform.WinForms
 {
 	public class BoxViewRenderer : DrawingViewRenderer<BoxView, WForms.Control>
 	{
-		Brush _brush = null;
+		System.Drawing.Brush _brush = null;
 
 		protected override void Dispose(bool disposing)
 		{

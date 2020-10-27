@@ -350,8 +350,8 @@ public partial class MAVLink
                 {
                     signingKey = new byte[32];
                 }
-
-                using (SHA256 signit = SHA256.Create())
+                
+                using (SHA256CryptoServiceProvider signit = new SHA256CryptoServiceProvider())
                 {
                     MemoryStream ms = new MemoryStream();
                     ms.Write(signingKey, 0, signingKey.Length);

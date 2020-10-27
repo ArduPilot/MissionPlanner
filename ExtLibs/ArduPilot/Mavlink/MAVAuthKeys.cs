@@ -45,11 +45,13 @@ namespace MissionPlanner.Mavlink
         public static void AddKey(string name, string seed)
         {
             // sha the user input string
-            SHA256Managed signit = new SHA256Managed();
-            var shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(seed));
-            Array.Resize(ref shauser, 32);
-
-            Keys[name] = new AuthKey() { Key = shauser, Name = name };
+            using (SHA256CryptoServiceProvider signit = new SHA256CryptoServiceProvider())
+            {
+                var shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(seed));
+                Array.Resize(ref shauser, 32);
+                
+                Keys[name] = new AuthKey() {Key = shauser, Name = name};
+            }
         }
 
         public static void Save()

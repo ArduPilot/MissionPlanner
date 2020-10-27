@@ -161,6 +161,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageVisualizer16.Common", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageVisualizer16.DebuggeeSide", "ExtLibs\ImageVisualizer\src\ImageVisualizer16.DebuggeeSide\ImageVisualizer16.DebuggeeSide.csproj", "{28228D18-C1EB-414E-B5EE-D25508FC968A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDALForAndroid", "ExtLibs\Xamarin\GDALForAndroid\GDALForAndroid.csproj", "{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDALMPAndroid", "ExtLibs\Xamarin\GDAL\GDALMPAndroid.csproj", "{6A3BA3A7-7D66-4292-90DB-05E6A765127A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -678,6 +682,22 @@ Global
 		{28228D18-C1EB-414E-B5EE-D25508FC968A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28228D18-C1EB-414E-B5EE-D25508FC968A}.Release|x86.ActiveCfg = Release|Any CPU
 		{28228D18-C1EB-414E-B5EE-D25508FC968A}.Release|x86.Build.0 = Release|Any CPU
+		{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}.Debug|x86.Build.0 = Debug|Any CPU
+		{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}.Release|x86.ActiveCfg = Release|Any CPU
+		{E1D67C23-0CDD-4835-A1E2-4634C0DD4C34}.Release|x86.Build.0 = Release|Any CPU
+		{6A3BA3A7-7D66-4292-90DB-05E6A765127A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A3BA3A7-7D66-4292-90DB-05E6A765127A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A3BA3A7-7D66-4292-90DB-05E6A765127A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6A3BA3A7-7D66-4292-90DB-05E6A765127A}.Debug|x86.Build.0 = Debug|Any CPU
+		{6A3BA3A7-7D66-4292-90DB-05E6A765127A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A3BA3A7-7D66-4292-90DB-05E6A765127A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A3BA3A7-7D66-4292-90DB-05E6A765127A}.Release|x86.ActiveCfg = Release|Any CPU
+		{6A3BA3A7-7D66-4292-90DB-05E6A765127A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

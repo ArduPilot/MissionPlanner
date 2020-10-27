@@ -117,25 +117,141 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_Low.Text" xml:space="preserve">
-    <value>낮은</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 17</value>
   </data>
-  <data name="BUT_Repeat.Text" xml:space="preserve">
-    <value>Toggle</value>
+  <data name="renameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 22</value>
   </data>
   <data name="renameToolStripMenuItem.Text" xml:space="preserve">
-    <value>이름 수정</value>
+    <value>이름변경</value>
   </data>
-  <data name="TXT_pwm_low.Text" xml:space="preserve">
-    <value>1100</value>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 26</value>
   </data>
-  <data name="TXT_pwm_high.Text" xml:space="preserve">
-    <value>1900</value>
+  <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
+    <value>contextMenuStrip1</value>
   </data>
-  <data name="TXT_rcchannel.Text" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;contextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BUT_Low.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 1</value>
+  </data>
+  <data name="BUT_Low.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 21</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BUT_Low.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BUT_Low.Text" xml:space="preserve">
+    <value>저</value>
+  </data>
+  <data name="&gt;&gt;BUT_Low.Name" xml:space="preserve">
+    <value>BUT_Low</value>
+  </data>
+  <data name="&gt;&gt;BUT_Low.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Low.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_Low.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="BUT_High.Location" type="System.Drawing.Point, System.Drawing">
+    <value>44, 1</value>
+  </data>
+  <data name="BUT_High.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 21</value>
+  </data>
+  <data name="BUT_High.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="BUT_High.Text" xml:space="preserve">
-    <value>High</value>
+    <value>고</value>
+  </data>
+  <data name="&gt;&gt;BUT_High.Name" xml:space="preserve">
+    <value>BUT_High</value>
+  </data>
+  <data name="&gt;&gt;BUT_High.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_High.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_High.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="BUT_Repeat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 1</value>
+  </data>
+  <data name="BUT_Repeat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 21</value>
+  </data>
+  <data name="BUT_Repeat.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="BUT_Repeat.Text" xml:space="preserve">
+    <value>전환</value>
+  </data>
+  <data name="&gt;&gt;BUT_Repeat.Name" xml:space="preserve">
+    <value>BUT_Repeat</value>
+  </data>
+  <data name="&gt;&gt;BUT_Repeat.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Repeat.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_Repeat.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TXT_rcchannel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 0</value>
+  </data>
+  <data name="TXT_rcchannel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 21</value>
+  </data>
+  <data name="TXT_rcchannel.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="TXT_rcchannel.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TXT_rcchannel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;TXT_rcchannel.Name" xml:space="preserve">
+    <value>TXT_rcchannel</value>
+  </data>
+  <data name="&gt;&gt;TXT_rcchannel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TXT_rcchannel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TXT_rcchannel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>295, 22</value>
+  </data>
+  <data name="&gt;&gt;renameToolStripMenuItem.Name" xml:space="preserve">
+    <value>renameToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;renameToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>RelayOptions</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

@@ -215,7 +215,7 @@ namespace MissionPlanner.Maps
                                             var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
                                             var altresponce = srtm.getAltitude(lnglat.Lat, lnglat.Lng, zoom);
                                             if (altresponce != srtm.altresponce.Invalid &&
-                                                altresponce != srtm.altresponce.Ocean)
+                                                altresponce != srtm.altresponce.Ocean && altresponce.alt != 0)
                                             {
                                                 alts[x, y] = altresponce.alt;
 

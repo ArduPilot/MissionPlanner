@@ -168,9 +168,15 @@
     <value>115200</value>
   </data>
   <data name="CMB_baudrate.Items9" xml:space="preserve">
-    <value>500000</value>
+    <value>230400</value>
   </data>
   <data name="CMB_baudrate.Items10" xml:space="preserve">
+    <value>460800</value>
+  </data>
+  <data name="CMB_baudrate.Items11" xml:space="preserve">
+    <value>500000</value>
+  </data>
+  <data name="CMB_baudrate.Items12" xml:space="preserve">
     <value>1000000</value>
   </data>
   <data name="CMB_baudrate.Location" type="System.Drawing.Point, System.Drawing">
@@ -721,7 +727,7 @@ Acc: current accuracy of our survey in point
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7445.17643, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7605.25790, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -951,6 +957,39 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
   </data>
   <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
     <value>8</value>
+  </data>
+  <data name="chk_sendgga.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_sendgga.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_sendgga.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 80</value>
+  </data>
+  <data name="chk_sendgga.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 17</value>
+  </data>
+  <data name="chk_sendgga.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="chk_sendgga.Text" xml:space="preserve">
+    <value>Send GGA?</value>
+  </data>
+  <data name="chk_sendgga.ToolTip" xml:space="preserve">
+    <value>This depends on the version of Firmware that is on your autopilot, if posible leave it enabled, as the newer message handles data curruption alot better</value>
+  </data>
+  <data name="&gt;&gt;chk_sendgga.Name" xml:space="preserve">
+    <value>chk_sendgga</value>
+  </data>
+  <data name="&gt;&gt;chk_sendgga.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_sendgga.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chk_sendgga.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="lbl_status2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1554,39 +1593,6 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
   </data>
   <data name="&gt;&gt;myGMAP1.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="chk_sendgga.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chk_sendgga.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chk_sendgga.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 80</value>
-  </data>
-  <data name="chk_sendgga.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 17</value>
-  </data>
-  <data name="chk_sendgga.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
-  </data>
-  <data name="chk_sendgga.Text" xml:space="preserve">
-    <value>Send GGA?</value>
-  </data>
-  <data name="chk_sendgga.ToolTip" xml:space="preserve">
-    <value>This depends on the version of Firmware that is on your autopilot, if posible leave it enabled, as the newer message handles data curruption alot better</value>
-  </data>
-  <data name="&gt;&gt;chk_sendgga.Name" xml:space="preserve">
-    <value>chk_sendgga</value>
-  </data>
-  <data name="&gt;&gt;chk_sendgga.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chk_sendgga.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;chk_sendgga.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

@@ -26,7 +26,7 @@ namespace Xamarin.Droid
                     {
                         Log.Info("MP", "{0} {1} {2} {3} {4}", device.Name, device.Address, device.Type, device.Class,
                             device.BondState);
-                        result.Add(new DeviceInfo() {board = "BT-" + device.Name});
+                        //result.Add(new DeviceInfo() {board = "BT-" + device.Name});
                     }
                 }
             }

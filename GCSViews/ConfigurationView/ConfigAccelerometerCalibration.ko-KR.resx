@@ -117,21 +117,222 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_calib_accell.Text" xml:space="preserve">
-    <value>가속도 보정</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>자동비행을 기본 가속도계 오프셋 (1axis/AHRS trims)으로 설정.
-이렇게 함으로써 자동비행 수평과 레벨을 맞출 수 있게 됨.</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>자동비행을 기본 가속도계 최소/최대 (3 축)로 설정.
-이렇게 함으로써 각 면에 자동비행을 놓을 수 있게 됨.</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 8</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 20</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>65</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>가속도계 교정</value>
+    <value>가속계 교정</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>83, 45</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>318, 26</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>70</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>기본 가속계 최소/최대값을 설정하도록 오토파일럿의 균형을 잡으십시오(3축).
+각 모서리에 대해 오토파일럿을 두도록 요청합니다.</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lbl_Accel_user.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_Accel_user.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 96</value>
+  </data>
+  <data name="lbl_Accel_user.Size" type="System.Drawing.Size, System.Drawing">
+    <value>460, 37</value>
+  </data>
+  <data name="lbl_Accel_user.TabIndex" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
+  <data name="lbl_Accel_user.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lbl_Accel_user.Name" xml:space="preserve">
+    <value>lbl_Accel_user</value>
+  </data>
+  <data name="&gt;&gt;lbl_Accel_user.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_Accel_user.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbl_Accel_user.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_calib_accell.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_calib_accell.Location" type="System.Drawing.Point, System.Drawing">
+    <value>188, 72</value>
+  </data>
+  <data name="BUT_calib_accell.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 21</value>
+  </data>
+  <data name="BUT_calib_accell.TabIndex" type="System.Int32, mscorlib">
+    <value>82</value>
+  </data>
+  <data name="BUT_calib_accell.Text" xml:space="preserve">
+    <value>가속계 교정</value>
+  </data>
+  <data name="&gt;&gt;BUT_calib_accell.Name" xml:space="preserve">
+    <value>BUT_calib_accell</value>
+  </data>
+  <data name="&gt;&gt;BUT_calib_accell.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_calib_accell.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_calib_accell.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lineSeparator2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 30</value>
+  </data>
+  <data name="lineSeparator2.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>2000, 2</value>
+  </data>
+  <data name="lineSeparator2.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 2</value>
+  </data>
+  <data name="lineSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>460, 2</value>
+  </data>
+  <data name="lineSeparator2.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="&gt;&gt;lineSeparator2.Name" xml:space="preserve">
+    <value>lineSeparator2</value>
+  </data>
+  <data name="&gt;&gt;lineSeparator2.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.LineSeparator, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lineSeparator2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lineSeparator2.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="BUT_level.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_level.Location" type="System.Drawing.Point, System.Drawing">
+    <value>188, 168</value>
+  </data>
+  <data name="BUT_level.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 21</value>
+  </data>
+  <data name="BUT_level.TabIndex" type="System.Int32, mscorlib">
+    <value>84</value>
   </data>
   <data name="BUT_level.Text" xml:space="preserve">
-    <value>레벨 보정</value>
+    <value>레벨 교정</value>
+  </data>
+  <data name="&gt;&gt;BUT_level.Name" xml:space="preserve">
+    <value>BUT_level</value>
+  </data>
+  <data name="&gt;&gt;BUT_level.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_level.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_level.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 133</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>366, 26</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>85</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>기본 가속계 오프셋을 설정하도록 오토파일럿의 균형을 잡으십시오(1축/AHRS trims).
+오토 파일럿을 평지에 두어야 합니다.</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>479, 192</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ConfigAccelerometerCalibration</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
