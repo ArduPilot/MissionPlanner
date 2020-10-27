@@ -374,7 +374,7 @@
     </PackageReference>
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
     <PackageReference Include="Xamarin.Forms">
-      <Version>4.5.0.530</Version>
+      <Version>4.8.0.1560</Version>
     </PackageReference>
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
   </ItemGroup>
@@ -560,30 +560,30 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2+CompassDeviceInfo.datasource" />
-    <None Include="plugins\example2-menu.cs">
+    <Compile Include="plugins\example2-menu.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="plugins\example3-fencedist.cs">
+    </Compile>
+    <Compile Include="plugins\example3-fencedist.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="plugins\example4-herelink.cs">
+    </Compile>
+    <Compile Include="plugins\example4-herelink.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="plugins\example5-latencytracker.cs">
+    </Compile>
+    <Compile Include="plugins\example5-latencytracker.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="plugins\example6-mapicondesc.cs">
+    </Compile>
+    <Compile Include="plugins\example6-mapicondesc.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="plugins\example7-canrtcm.cs">
+    </Compile>
+    <Compile Include="plugins\example7-canrtcm.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Compile>
     <None Include="plugins\InitialParamsCalculator.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example8-modechange.cs">
+    <Compile Include="plugins\example8-modechange.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Compile>
     <None Include="plugins\generator.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>UserControl</SubType>
@@ -612,9 +612,9 @@
     <None Include="plugins\example8.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example9-hudonoff.cs">
+    <Compile Include="plugins\example9-hudonoff.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Radio\Models.cs" />
     <Compile Include="ResEdit.Designer.cs">
@@ -4459,9 +4459,9 @@
     <Content Include="rotmat.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="plugins\example-watchbutton.cs">
+    <Compile Include="plugins\example-watchbutton.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Compile>
     <None Include=".editorconfig" />
     <None Include="BurntKermit.mpsystheme">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
