@@ -117,85 +117,832 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="backstageViewPageairspeed.Text" xml:space="preserve">
-    <value>대기속도</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="backstageView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="backstageViewPageosd.Text" xml:space="preserve">
-    <value>OSD</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="backstageView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="backstageViewPageSikradio.Text" xml:space="preserve">
-    <value>Sik Radio</value>
+  <data name="backstageView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
-  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
-    <value>배터리 알림창 2</value>
+  <data name="backstageView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>658, 462</value>
   </data>
-  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
-    <value>안테나 추적기</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="backstageView.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
-    <value>블루투스 설정</value>
+  <data name="&gt;&gt;backstageView.Name" xml:space="preserve">
+    <value>backstageView</value>
   </data>
-  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
-    <value>나침반/모터 보정</value>
+  <data name="&gt;&gt;backstageView.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.BackstageView.BackstageView, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="backstageViewPageParachute.Text" xml:space="preserve">
-    <value>낙하산</value>
+  <data name="&gt;&gt;backstageView.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="backstageViewPageopt.Text" xml:space="preserve">
-    <value>옵션 하드웨어</value>
+  <data name="&gt;&gt;backstageView.ZOrder" xml:space="preserve">
+    <value>29</value>
   </data>
-  <data name="backstageViewPageradio.Text" xml:space="preserve">
-    <value>무선 교정</value>
+  <data name="backstageViewPageaccel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 246</value>
   </data>
-  <data name="backstageViewPageframetype.Text" xml:space="preserve">
-    <value>프레임 유형</value>
+  <data name="backstageViewPageaccel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
   </data>
-  <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
-    <value>펌웨어 설치</value>
-  </data>
-  <data name="backstageViewPagefs.Text" xml:space="preserve">
-    <value>안전장치</value>
-  </data>
-  <data name="backstageViewPagefw.Text" xml:space="preserve">
-    <value>펌웨어 설치</value>
+  <data name="backstageViewPageaccel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="backstageViewPageaccel.Text" xml:space="preserve">
-    <value>가속도 교정</value>
+    <value>가속계 보정</value>
   </data>
-  <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
-    <value>모터 시험</value>
+  <data name="backstageViewPageaccel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageaccel.Name" xml:space="preserve">
+    <value>backstageViewPageaccel</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageaccel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageaccel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageaccel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="backstageViewPageairspeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 223</value>
+  </data>
+  <data name="backstageViewPageairspeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageairspeed.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="backstageViewPageairspeed.Text" xml:space="preserve">
+    <value>항속</value>
+  </data>
+  <data name="backstageViewPageairspeed.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageairspeed.Name" xml:space="preserve">
+    <value>backstageViewPageairspeed</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageairspeed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageairspeed.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageairspeed.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="backstageViewPageAntTrack.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 200</value>
+  </data>
+  <data name="backstageViewPageAntTrack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageAntTrack.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
+    <value>안테나 트래커</value>
+  </data>
+  <data name="backstageViewPageAntTrack.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageAntTrack.Name" xml:space="preserve">
+    <value>backstageViewPageAntTrack</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageAntTrack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageAntTrack.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageAntTrack.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="backstageViewPagebatmon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 177</value>
+  </data>
+  <data name="backstageViewPagebatmon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagebatmon.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
   <data name="backstageViewPagebatmon.Text" xml:space="preserve">
-    <value>배터리 알림창</value>
+    <value>배터리 감시자</value>
   </data>
-  <data name="backstageViewPagewizard.Text" xml:space="preserve">
-    <value>마법사</value>
+  <data name="backstageViewPagebatmon.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="backstageViewPageESC.Text" xml:space="preserve">
-    <value>ESC 보정</value>
+  <data name="&gt;&gt;backstageViewPagebatmon.Name" xml:space="preserve">
+    <value>backstageViewPagebatmon</value>
   </data>
-  <data name="backstageViewPagetradheli.Text" xml:space="preserve">
-    <value>헬리콥터 설정</value>
+  <data name="&gt;&gt;backstageViewPagebatmon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="backstageViewPageflmode.Text" xml:space="preserve">
-    <value>비행 모드</value>
+  <data name="&gt;&gt;backstageViewPagebatmon.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagebatmon.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="backstageViewPageBatt2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 154</value>
+  </data>
+  <data name="backstageViewPageBatt2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageBatt2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
+    <value>배타리 감시자 2</value>
+  </data>
+  <data name="backstageViewPageBatt2.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageBatt2.Name" xml:space="preserve">
+    <value>backstageViewPageBatt2</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageBatt2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageBatt2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageBatt2.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="backstageViewPagecompass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 131</value>
+  </data>
+  <data name="backstageViewPagecompass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagecompass.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="backstageViewPagecompass.Text" xml:space="preserve">
     <value>나침반</value>
   </data>
-  <data name="backstageViewPageoptflow.Text" xml:space="preserve">
-    <value>광학 흐름</value>
+  <data name="backstageViewPagecompass.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="backstageViewPagemand.Text" xml:space="preserve">
-    <value>필수 H/W</value>
+  <data name="&gt;&gt;backstageViewPagecompass.Name" xml:space="preserve">
+    <value>backstageViewPagecompass</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompass.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompass.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompass.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="backstageViewPagecompassmot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 108</value>
+  </data>
+  <data name="backstageViewPagecompassmot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagecompassmot.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
+    <value>나침반/모터 보정</value>
+  </data>
+  <data name="backstageViewPagecompassmot.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompassmot.Name" xml:space="preserve">
+    <value>backstageViewPagecompassmot</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompassmot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompassmot.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompassmot.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="backstageViewPageESC.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 85</value>
+  </data>
+  <data name="backstageViewPageESC.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageESC.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="backstageViewPageESC.Text" xml:space="preserve">
+    <value>전동 변속기 보정</value>
+  </data>
+  <data name="backstageViewPageESC.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESC.Name" xml:space="preserve">
+    <value>backstageViewPageESC</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESC.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESC.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESC.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="backstageViewPageESP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 62</value>
+  </data>
+  <data name="backstageViewPageESP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageESP.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="backstageViewPageESP.Text" xml:space="preserve">
+    <value>ESP8266 구성</value>
+  </data>
+  <data name="backstageViewPageESP.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESP.Name" xml:space="preserve">
+    <value>backstageViewPageESP</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESP.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESP.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="backstageViewPageflmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 39</value>
+  </data>
+  <data name="backstageViewPageflmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageflmode.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="backstageViewPageflmode.Text" xml:space="preserve">
+    <value>비행 모드</value>
+  </data>
+  <data name="backstageViewPageflmode.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageflmode.Name" xml:space="preserve">
+    <value>backstageViewPageflmode</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageflmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageflmode.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageflmode.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="backstageViewPageframetype.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 269</value>
+  </data>
+  <data name="backstageViewPageframetype.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageframetype.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="backstageViewPageframetype.Text" xml:space="preserve">
+    <value>프레임 형식</value>
+  </data>
+  <data name="backstageViewPageframetype.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageframetype.Name" xml:space="preserve">
+    <value>backstageViewPageframetype</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageframetype.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageframetype.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageframetype.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="backstageViewPagefs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 292</value>
+  </data>
+  <data name="backstageViewPagefs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagefs.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="backstageViewPagefs.Text" xml:space="preserve">
+    <value>안전 장치</value>
+  </data>
+  <data name="backstageViewPagefs.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefs.Name" xml:space="preserve">
+    <value>backstageViewPagefs</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefs.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="backstageViewPagefw.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 315</value>
+  </data>
+  <data name="backstageViewPagefw.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagefw.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="backstageViewPagefw.Text" xml:space="preserve">
+    <value>펌웨어 설치</value>
+  </data>
+  <data name="backstageViewPagefw.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefw.Name" xml:space="preserve">
+    <value>backstageViewPagefw</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefw.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefw.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefw.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 338</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
+    <value>펌웨어 설치</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefwdisabled.Name" xml:space="preserve">
+    <value>backstageViewPagefwdisabled</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefwdisabled.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefwdisabled.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagefwdisabled.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="backstageViewPagegimbal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 361</value>
+  </data>
+  <data name="backstageViewPagegimbal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagegimbal.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
   </data>
   <data name="backstageViewPagegimbal.Text" xml:space="preserve">
     <value>카메라 짐벌</value>
   </data>
+  <data name="backstageViewPagegimbal.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagegimbal.Name" xml:space="preserve">
+    <value>backstageViewPagegimbal</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagegimbal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagegimbal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagegimbal.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="backstageViewPagehwbt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 384</value>
+  </data>
+  <data name="backstageViewPagehwbt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagehwbt.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
+    <value>블루투스 설정</value>
+  </data>
+  <data name="backstageViewPagehwbt.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagehwbt.Name" xml:space="preserve">
+    <value>backstageViewPagehwbt</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagehwbt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagehwbt.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagehwbt.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="backstageViewPageinstfw.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 407</value>
+  </data>
+  <data name="backstageViewPageinstfw.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageinstfw.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
   <data name="backstageViewPageinstfw.Text" xml:space="preserve">
     <value>펌웨어 설치</value>
   </data>
+  <data name="backstageViewPageinstfw.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageinstfw.Name" xml:space="preserve">
+    <value>backstageViewPageinstfw</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageinstfw.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageinstfw.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageinstfw.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="backstageViewPagemand.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 430</value>
+  </data>
+  <data name="backstageViewPagemand.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagemand.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="backstageViewPagemand.Text" xml:space="preserve">
+    <value>필수 하드웨어</value>
+  </data>
+  <data name="backstageViewPagemand.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagemand.Name" xml:space="preserve">
+    <value>backstageViewPagemand</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagemand.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagemand.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagemand.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="backstageViewPageMotorTest.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 39</value>
+  </data>
+  <data name="backstageViewPageMotorTest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageMotorTest.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
+    <value>모터 시험</value>
+  </data>
+  <data name="backstageViewPageMotorTest.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageMotorTest.Name" xml:space="preserve">
+    <value>backstageViewPageMotorTest</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageMotorTest.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageMotorTest.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageMotorTest.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="backstageViewPageopt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 62</value>
+  </data>
+  <data name="backstageViewPageopt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageopt.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="backstageViewPageopt.Text" xml:space="preserve">
+    <value>추가 하드웨어</value>
+  </data>
+  <data name="backstageViewPageopt.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageopt.Name" xml:space="preserve">
+    <value>backstageViewPageopt</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageopt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageopt.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageopt.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="backstageViewPageoptflow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 85</value>
+  </data>
+  <data name="backstageViewPageoptflow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageoptflow.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="backstageViewPageoptflow.Text" xml:space="preserve">
+    <value>광류 센서</value>
+  </data>
+  <data name="backstageViewPageoptflow.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageoptflow.Name" xml:space="preserve">
+    <value>backstageViewPageoptflow</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageoptflow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageoptflow.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageoptflow.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="backstageViewPageosd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 108</value>
+  </data>
+  <data name="backstageViewPageosd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageosd.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="backstageViewPageosd.Text" xml:space="preserve">
+    <value>OSD</value>
+  </data>
+  <data name="backstageViewPageosd.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageosd.Name" xml:space="preserve">
+    <value>backstageViewPageosd</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageosd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageosd.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageosd.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="backstageViewPageParachute.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 131</value>
+  </data>
+  <data name="backstageViewPageParachute.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageParachute.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="backstageViewPageParachute.Text" xml:space="preserve">
+    <value>낙하산</value>
+  </data>
+  <data name="backstageViewPageParachute.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageParachute.Name" xml:space="preserve">
+    <value>backstageViewPageParachute</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageParachute.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageParachute.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageParachute.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="backstageViewPagePX4Flow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 154</value>
+  </data>
+  <data name="backstageViewPagePX4Flow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagePX4Flow.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="backstageViewPagePX4Flow.Text" xml:space="preserve">
+    <value>PX4Flow</value>
+  </data>
+  <data name="backstageViewPagePX4Flow.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagePX4Flow.Name" xml:space="preserve">
+    <value>backstageViewPagePX4Flow</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagePX4Flow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagePX4Flow.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagePX4Flow.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="backstageViewPageradio.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 177</value>
+  </data>
+  <data name="backstageViewPageradio.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageradio.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="backstageViewPageradio.Text" xml:space="preserve">
+    <value>무선 조종 보정</value>
+  </data>
+  <data name="backstageViewPageradio.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageradio.Name" xml:space="preserve">
+    <value>backstageViewPageradio</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageradio.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageradio.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageradio.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="backstageViewPageSikradio.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 200</value>
+  </data>
+  <data name="backstageViewPageSikradio.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPageSikradio.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="backstageViewPageSikradio.Text" xml:space="preserve">
+    <value>Sik 무선 신호</value>
+  </data>
+  <data name="backstageViewPageSikradio.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageSikradio.Name" xml:space="preserve">
+    <value>backstageViewPageSikradio</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageSikradio.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageSikradio.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageSikradio.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="backstageViewPagesonar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 223</value>
+  </data>
+  <data name="backstageViewPagesonar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagesonar.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
   <data name="backstageViewPagesonar.Text" xml:space="preserve">
-    <value>음파탐지</value>
+    <value>거리계</value>
+  </data>
+  <data name="backstageViewPagesonar.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagesonar.Name" xml:space="preserve">
+    <value>backstageViewPagesonar</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagesonar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagesonar.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagesonar.ZOrder" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="backstageViewPagetradheli.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 246</value>
+  </data>
+  <data name="backstageViewPagetradheli.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagetradheli.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="backstageViewPagetradheli.Text" xml:space="preserve">
+    <value>헬기 설정</value>
+  </data>
+  <data name="backstageViewPagetradheli.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagetradheli.Name" xml:space="preserve">
+    <value>backstageViewPagetradheli</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagetradheli.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagetradheli.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagetradheli.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="backstageViewPagewizard.Location" type="System.Drawing.Point, System.Drawing">
+    <value>196, 269</value>
+  </data>
+  <data name="backstageViewPagewizard.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 23</value>
+  </data>
+  <data name="backstageViewPagewizard.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="backstageViewPagewizard.Text" xml:space="preserve">
+    <value>마법사</value>
+  </data>
+  <data name="backstageViewPagewizard.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagewizard.Name" xml:space="preserve">
+    <value>backstageViewPagewizard</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagewizard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagewizard.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagewizard.ZOrder" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+    <value>226</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>658, 462</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>InitialSetup</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

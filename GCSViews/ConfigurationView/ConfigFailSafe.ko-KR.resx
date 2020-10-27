@@ -117,86 +117,1253 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="mavlinkCheckBoxthr_fs_action.Text" xml:space="preserve">
-    <value>조절판 안전장치 실행</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="lbl_currentmode.Text" xml:space="preserve">
-    <value>매뉴얼</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="mavlinkCheckBoxlong_fs.ToolTip" xml:space="preserve">
-    <value>Off, no Action, On, RTL</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>342, 5</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>104</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Servo/모터 출력</value>
+    <value>서보/모터 출력</value>
   </data>
-  <data name="mavlinkCheckBoxlong_fs.Text" xml:space="preserve">
-    <value>긴 안전장치(20초)</value>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>FS Pwm</value>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="mavlinkCheckBoxthr_fs.Text" xml:space="preserve">
-    <value>조절판 안전장치</value>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>84, 5</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>103</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Radio IN</value>
+    <value>무선 신호 입력</value>
   </data>
-  <data name="mavlinkCheckBoxgcs_fs.ToolTip" xml:space="preserve">
-    <value>GCS와의 통신 끊어질 때 Failsafe 활성화</value>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 17</value>
+  </data>
+  <data name="lbl_currentmode.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 26.25pt</value>
+  </data>
+  <data name="lbl_currentmode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_currentmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>473, 19</value>
+  </data>
+  <data name="lbl_currentmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 32</value>
+  </data>
+  <data name="lbl_currentmode.TabIndex" type="System.Int32, mscorlib">
+    <value>140</value>
+  </data>
+  <data name="lbl_currentmode.Text" xml:space="preserve">
+    <value>수동</value>
+  </data>
+  <data name="lbl_currentmode.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lbl_currentmode.Name" xml:space="preserve">
+    <value>lbl_currentmode</value>
+  </data>
+  <data name="&gt;&gt;lbl_currentmode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_currentmode.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbl_currentmode.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="LNK_wiki.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="LNK_wiki.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LNK_wiki.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LNK_wiki.Location" type="System.Drawing.Point, System.Drawing">
+    <value>657, 5</value>
+  </data>
+  <data name="LNK_wiki.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 13</value>
+  </data>
+  <data name="LNK_wiki.TabIndex" type="System.Int32, mscorlib">
+    <value>143</value>
+  </data>
+  <data name="LNK_wiki.Text" xml:space="preserve">
+    <value>위키</value>
+  </data>
+  <data name="&gt;&gt;LNK_wiki.Name" xml:space="preserve">
+    <value>LNK_wiki</value>
+  </data>
+  <data name="&gt;&gt;LNK_wiki.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LNK_wiki.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;LNK_wiki.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>214, 17</value>
+  </data>
+  <data name="mavlinkNumericUpDownlow_voltage.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownlow_voltage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>111, 0</value>
+  </data>
+  <data name="mavlinkNumericUpDownlow_voltage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownlow_voltage.TabIndex" type="System.Int32, mscorlib">
+    <value>153</value>
+  </data>
+  <data name="mavlinkNumericUpDownlow_voltage.ToolTip" xml:space="preserve">
+    <value>저전압 트리거</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownlow_voltage</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Parent" xml:space="preserve">
+    <value>PNL_low_bat</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 58</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.TabIndex" type="System.Int32, mscorlib">
+    <value>146</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.Text" xml:space="preserve">
+    <value>안전장치 가동 최대 대기 (20초)</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.ToolTip" xml:space="preserve">
+    <value>끌 경우 동작 안함, 켜면 회귀</value>
+  </data>
+  <data name="mavlinkCheckBoxlong_fs.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxlong_fs</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxlong_fs.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="mavlinkCheckBoxshort_fs.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxshort_fs.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxshort_fs.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxshort_fs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 43</value>
+  </data>
+  <data name="mavlinkCheckBoxshort_fs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxshort_fs.TabIndex" type="System.Int32, mscorlib">
+    <value>145</value>
+  </data>
+  <data name="mavlinkCheckBoxshort_fs.Text" xml:space="preserve">
+    <value>안전장치 가동 최소 대기 (1초)</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.ToolTip" xml:space="preserve">
-    <value>Off, no Action, On, RTL</value>
+    <value>끌 경우 동작 안함, 켜면 회귀</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>배터리</value>
+  <data name="mavlinkCheckBoxshort_fs.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxshort_fs</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxshort_fs.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 29</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.TabIndex" type="System.Int32, mscorlib">
+    <value>144</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.Text" xml:space="preserve">
+    <value>지상 통제 장치 안전장치</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.ToolTip" xml:space="preserve">
+    <value>지상 통제 장치의 연결 유실시 안전장치 활성</value>
+  </data>
+  <data name="mavlinkCheckBoxgcs_fs.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxgcs_fs</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 77</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.TabIndex" type="System.Int32, mscorlib">
+    <value>147</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.Text" xml:space="preserve">
+    <value>추진체 안전장치 동작</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.ToolTip" xml:space="preserve">
+    <value>Arducopter Auto: 끌 경우 동작 안함, 켜면 회귀
+Arducopter Other: GPS가 있으면 회귀, 없으면 바로 착륙</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs_action.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxthr_fs_action</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="mavlinkNumericUpDownfs_thr_value.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mavlinkNumericUpDownfs_thr_value.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownfs_thr_value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="mavlinkNumericUpDownfs_thr_value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownfs_thr_value.TabIndex" type="System.Int32, mscorlib">
+    <value>153</value>
+  </data>
+  <data name="mavlinkNumericUpDownfs_thr_value.ToolTip" xml:space="preserve">
+    <value>추진체 PWM 가동</value>
+  </data>
+  <data name="mavlinkNumericUpDownfs_thr_value.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownfs_thr_value</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Parent" xml:space="preserve">
+    <value>PNL_thr_fs_value</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="mavlinkNumericUpDownthr_fs_value.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="mavlinkNumericUpDownthr_fs_value.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownthr_fs_value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 0</value>
+  </data>
+  <data name="mavlinkNumericUpDownthr_fs_value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownthr_fs_value.TabIndex" type="System.Int32, mscorlib">
+    <value>142</value>
+  </data>
+  <data name="mavlinkNumericUpDownthr_fs_value.ToolTip" xml:space="preserve">
+    <value>추진체 PWM 가동</value>
+  </data>
+  <data name="mavlinkNumericUpDownthr_fs_value.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownthr_fs_value</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Parent" xml:space="preserve">
+    <value>PNL_thr_fs_value</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 60</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.TabIndex" type="System.Int32, mscorlib">
+    <value>141</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.Text" xml:space="preserve">
+    <value>추진체 안전장치</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.ToolTip" xml:space="preserve">
+    <value>PWM 저출력시 안전 장치 활성화</value>
+  </data>
+  <data name="mavlinkCheckBoxthr_fs.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxthr_fs</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxthr_fs.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="mavlinkComboBox_fs_thr_enable.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkComboBox_fs_thr_enable.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="mavlinkComboBox_fs_thr_enable.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 6</value>
+  </data>
+  <data name="mavlinkComboBox_fs_thr_enable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 21</value>
+  </data>
+  <data name="mavlinkComboBox_fs_thr_enable.TabIndex" type="System.Int32, mscorlib">
+    <value>151</value>
+  </data>
+  <data name="mavlinkComboBox_fs_thr_enable.ToolTip" xml:space="preserve">
+    <value>PWM 저출력시 안전장치 활성</value>
+  </data>
+  <data name="mavlinkComboBox_fs_thr_enable.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Name" xml:space="preserve">
+    <value>mavlinkComboBox_fs_thr_enable</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mavlinkComboBoxfs_batt_enable.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkComboBoxfs_batt_enable.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 62</value>
+  </data>
+  <data name="mavlinkComboBoxfs_batt_enable.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 6</value>
+  </data>
+  <data name="mavlinkComboBoxfs_batt_enable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 21</value>
+  </data>
+  <data name="mavlinkComboBoxfs_batt_enable.TabIndex" type="System.Int32, mscorlib">
+    <value>158</value>
+  </data>
+  <data name="mavlinkComboBoxfs_batt_enable.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxfs_batt_enable.Name" xml:space="preserve">
+    <value>mavlinkComboBoxfs_batt_enable</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxfs_batt_enable.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxfs_batt_enable.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxfs_batt_enable.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 14</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.TabIndex" type="System.Int32, mscorlib">
+    <value>156</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.Text" xml:space="preserve">
+    <value>지상 통제 장치 안전장치 활성</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxFS_GCS_ENABLE</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 3</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 13</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>154</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>예약 MAH</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>pnlmah</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mavlinkNumericUpDownFS_BATT_MAH.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownFS_BATT_MAH.Location" type="System.Drawing.Point, System.Drawing">
+    <value>111, 0</value>
+  </data>
+  <data name="mavlinkNumericUpDownFS_BATT_MAH.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownFS_BATT_MAH.TabIndex" type="System.Int32, mscorlib">
+    <value>153</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownFS_BATT_MAH</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7305.28812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Parent" xml:space="preserve">
+    <value>pnlmah</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlmah.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 40</value>
+  </data>
+  <data name="pnlmah.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 21</value>
+  </data>
+  <data name="pnlmah.TabIndex" type="System.Int32, mscorlib">
+    <value>157</value>
+  </data>
+  <data name="pnlmah.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;pnlmah.Name" xml:space="preserve">
+    <value>pnlmah</value>
+  </data>
+  <data name="&gt;&gt;pnlmah.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlmah.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;pnlmah.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 3</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>154</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>배터리 부족</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Reserved MAH</value>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
   </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>무선신호</value>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>지상통제시스템</value>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>PNL_low_bat</value>
   </data>
-  <data name="mavlinkNumericUpDownlow_voltage.ToolTip" xml:space="preserve">
-    <value>낮은 전압 트리거</value>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="lbl_gpslock.Text" xml:space="preserve">
-    <value>No Lock</value>
+  <data name="PNL_low_bat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
   </data>
-  <data name="mavlinkCheckBoxshort_fs.Text" xml:space="preserve">
-    <value>짧은 안전장치(1초)</value>
+  <data name="PNL_low_bat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 21</value>
   </data>
-  <data name="mavlinkCheckBoxthr_fs_action.ToolTip" xml:space="preserve">
-    <value>Arducopter Auto: Off, no Action, On, RTL
-Arducopter Other: if have gps, RTL, Otherwise Land</value>
+  <data name="PNL_low_bat.TabIndex" type="System.Int32, mscorlib">
+    <value>154</value>
   </data>
-  <data name="mavlinkNumericUpDownfs_thr_value.ToolTip" xml:space="preserve">
-    <value>Trigger Throttle Pwm</value>
+  <data name="PNL_low_bat.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="mavlinkCheckBoxFS_GCS_ENABLE.Text" xml:space="preserve">
-    <value>지상통제시스템 FS 활성화</value>
+  <data name="&gt;&gt;PNL_low_bat.Name" xml:space="preserve">
+    <value>PNL_low_bat</value>
   </data>
-  <data name="mavlinkCheckBoxthr_fs.ToolTip" xml:space="preserve">
-    <value>스로트 pwm이 낮아질 때 Failsafe 활성화</value>
+  <data name="&gt;&gt;PNL_low_bat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>148</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>PWM 안전 장치</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>PNL_thr_fs_value</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="PNL_thr_fs_value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 35</value>
+  </data>
+  <data name="PNL_thr_fs_value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 23</value>
+  </data>
+  <data name="PNL_thr_fs_value.TabIndex" type="System.Int32, mscorlib">
+    <value>149</value>
+  </data>
+  <data name="&gt;&gt;PNL_thr_fs_value.Name" xml:space="preserve">
+    <value>PNL_thr_fs_value</value>
+  </data>
+  <data name="&gt;&gt;PNL_thr_fs_value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PNL_thr_fs_value.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;PNL_thr_fs_value.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lbl_armed.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 26.25pt</value>
+  </data>
+  <data name="lbl_armed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_armed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>473, 60</value>
+  </data>
+  <data name="lbl_armed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 33</value>
+  </data>
+  <data name="lbl_armed.TabIndex" type="System.Int32, mscorlib">
+    <value>149</value>
   </data>
   <data name="lbl_armed.Text" xml:space="preserve">
-    <value>탑재 해제</value>
+    <value>동력 차단</value>
   </data>
-  <data name="mavlinkCheckBoxgcs_fs.Text" xml:space="preserve">
-    <value>지상통제시스템 안전장치</value>
+  <data name="&gt;&gt;lbl_armed.Name" xml:space="preserve">
+    <value>lbl_armed</value>
   </data>
-  <data name="mavlinkNumericUpDownthr_fs_value.ToolTip" xml:space="preserve">
-    <value>Trigger Throttle Pwm</value>
+  <data name="&gt;&gt;lbl_armed.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="LNK_wiki.Text" xml:space="preserve">
-    <value>Wiki</value>
+  <data name="&gt;&gt;lbl_armed.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="mavlinkComboBox_fs_thr_enable.ToolTip" xml:space="preserve">
-    <value>저 pwm시 안전장치 모드</value>
+  <data name="&gt;&gt;lbl_armed.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lbl_gpslock.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 26.25pt</value>
+  </data>
+  <data name="lbl_gpslock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_gpslock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>473, 102</value>
+  </data>
+  <data name="lbl_gpslock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 30</value>
+  </data>
+  <data name="lbl_gpslock.TabIndex" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <data name="lbl_gpslock.Text" xml:space="preserve">
+    <value>고정 상태 아님</value>
+  </data>
+  <data name="&gt;&gt;lbl_gpslock.Name" xml:space="preserve">
+    <value>lbl_gpslock</value>
+  </data>
+  <data name="&gt;&gt;lbl_gpslock.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lbl_gpslock.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbl_gpslock.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="horizontalProgressBar9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 375</value>
+  </data>
+  <data name="horizontalProgressBar9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar9.TabIndex" type="System.Int32, mscorlib">
+    <value>102</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar9.Name" xml:space="preserve">
+    <value>horizontalProgressBar9</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar9.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar9.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar9.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="horizontalProgressBar10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 324</value>
+  </data>
+  <data name="horizontalProgressBar10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar10.TabIndex" type="System.Int32, mscorlib">
+    <value>101</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar10.Name" xml:space="preserve">
+    <value>horizontalProgressBar10</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar10.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar10.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar10.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="horizontalProgressBar11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 273</value>
+  </data>
+  <data name="horizontalProgressBar11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar11.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar11.Name" xml:space="preserve">
+    <value>horizontalProgressBar11</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar11.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar11.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar11.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="horizontalProgressBar12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 222</value>
+  </data>
+  <data name="horizontalProgressBar12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar12.TabIndex" type="System.Int32, mscorlib">
+    <value>99</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar12.Name" xml:space="preserve">
+    <value>horizontalProgressBar12</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar12.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar12.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar12.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="horizontalProgressBar13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 172</value>
+  </data>
+  <data name="horizontalProgressBar13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar13.TabIndex" type="System.Int32, mscorlib">
+    <value>98</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar13.Name" xml:space="preserve">
+    <value>horizontalProgressBar13</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar13.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar13.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar13.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="horizontalProgressBar14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 121</value>
+  </data>
+  <data name="horizontalProgressBar14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar14.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar14.Name" xml:space="preserve">
+    <value>horizontalProgressBar14</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar14.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar14.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar14.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="horizontalProgressBar15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 19</value>
+  </data>
+  <data name="horizontalProgressBar15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar15.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar15.Name" xml:space="preserve">
+    <value>horizontalProgressBar15</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar15.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar15.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar15.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="horizontalProgressBar16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 70</value>
+  </data>
+  <data name="horizontalProgressBar16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar16.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar16.Name" xml:space="preserve">
+    <value>horizontalProgressBar16</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar16.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar16.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar16.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="horizontalProgressBar8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 375</value>
+  </data>
+  <data name="horizontalProgressBar8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar8.TabIndex" type="System.Int32, mscorlib">
+    <value>94</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar8.Name" xml:space="preserve">
+    <value>horizontalProgressBar8</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar8.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar8.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar8.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="horizontalProgressBar7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 324</value>
+  </data>
+  <data name="horizontalProgressBar7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar7.TabIndex" type="System.Int32, mscorlib">
+    <value>93</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar7.Name" xml:space="preserve">
+    <value>horizontalProgressBar7</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar7.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar7.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar7.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="horizontalProgressBar6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 273</value>
+  </data>
+  <data name="horizontalProgressBar6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar6.TabIndex" type="System.Int32, mscorlib">
+    <value>92</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar6.Name" xml:space="preserve">
+    <value>horizontalProgressBar6</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar6.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar6.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar6.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="horizontalProgressBar5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 222</value>
+  </data>
+  <data name="horizontalProgressBar5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar5.TabIndex" type="System.Int32, mscorlib">
+    <value>91</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar5.Name" xml:space="preserve">
+    <value>horizontalProgressBar5</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar5.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar5.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="horizontalProgressBar4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 172</value>
+  </data>
+  <data name="horizontalProgressBar4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar4.TabIndex" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar4.Name" xml:space="preserve">
+    <value>horizontalProgressBar4</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar4.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar4.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="horizontalProgressBar3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 121</value>
+  </data>
+  <data name="horizontalProgressBar3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar3.TabIndex" type="System.Int32, mscorlib">
+    <value>89</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar3.Name" xml:space="preserve">
+    <value>horizontalProgressBar3</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar3.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar3.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="horizontalProgressBar2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 19</value>
+  </data>
+  <data name="horizontalProgressBar2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar2.TabIndex" type="System.Int32, mscorlib">
+    <value>88</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar2.Name" xml:space="preserve">
+    <value>horizontalProgressBar2</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar2.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar2.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="horizontalProgressBar1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="horizontalProgressBar1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 70</value>
+  </data>
+  <data name="horizontalProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 23</value>
+  </data>
+  <data name="horizontalProgressBar1.TabIndex" type="System.Int32, mscorlib">
+    <value>87</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar1.Name" xml:space="preserve">
+    <value>horizontalProgressBar1</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;horizontalProgressBar1.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>480, 222</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 91</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>151</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>무선 신호</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>480, 315</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 73</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>152</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>지상 통제 장치</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>480, 137</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 83</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>153</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>배터리</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>688, 414</value>
+  </data>
+  <data name="&gt;&gt;currentStateBindingSource.Name" xml:space="preserve">
+    <value>currentStateBindingSource</value>
+  </data>
+  <data name="&gt;&gt;currentStateBindingSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
+    <value>toolTip1</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ConfigFailSafe</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

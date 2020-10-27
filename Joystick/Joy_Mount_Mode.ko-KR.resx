@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>Retract: pull up mount to preset positions
-Neutral: load default position, ie forwards
-Mavlink_targeting: point to a recevied roll, pitch, yaw
-rc_targeting: use rc channels to control axis's
-gps_point: used to track a single ground point</value>
+    <value>Retract: 마운트를 프리셋 위치로 끌어 올립니다
+Neutral: 기본 위치를 로드합니다, 예: 전방
+Mavlink_targeting: 수신한 상하 요동, 좌우 요동, 방위각을 가리킵니다
+rc_targeting: 축 제어시 원격 조종 채널을 활용합니다
+gps_point: 단일 지상 지점 추적에 활용합니다</value>
   </data>
 </root>

@@ -738,6 +738,9 @@
     <Compile Include="Log\LogStrings.Designer.cs">
       <DependentUpon>LogStrings.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\AuthKeys.ko-KR.resx">
+      <DependentUpon>AuthKeys.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlSensorsStatus.resx">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </EmbeddedResource>
@@ -746,6 +749,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DigitalSkyUI.resx">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EKFStatus.ko-KR.resx">
+      <DependentUpon>EKFStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PropagationSettings.ko-KR.resx">
+      <DependentUpon>PropagationSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SerialOutputCoT.resx">
       <DependentUpon>SerialOutputCoT.cs</DependentUpon>
@@ -804,8 +813,17 @@
     <EmbeddedResource Include="Controls\ProximityControl.resx">
       <DependentUpon>ProximityControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Vibration.ko-KR.resx">
+      <DependentUpon>Vibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigADSB.ko-KR.resx">
+      <DependentUpon>ConfigADSB.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigADSB.resx">
       <DependentUpon>ConfigADSB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAdvanced.ko-KR.resx">
+      <DependentUpon>ConfigAdvanced.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFFT.resx">
       <DependentUpon>ConfigFFT.cs</DependentUpon>
@@ -874,6 +892,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigParamLoading.resx">
       <DependentUpon>ConfigParamLoading.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigREPL.ko-KR.resx">
+      <DependentUpon>ConfigREPL.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigREPL.resx">
       <DependentUpon>ConfigREPL.cs</DependentUpon>
     </EmbeddedResource>
@@ -885,6 +906,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigUserDefined.resx">
       <DependentUpon>ConfigUserDefined.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\SITL.ko-KR.resx">
+      <DependentUpon>SITL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Grid\GridUI.ko-KR.resx">
+      <DependentUpon>GridUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickAxis.resx" />
     <EmbeddedResource Include="Log\LogStrings.resx">
@@ -1760,6 +1787,12 @@
     <EmbeddedResource Include="Controls\RAW_Sensor.zh-TW.resx">
       <DependentUpon>RAW_Sensor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Radio\Sikradio.ko-KR.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resedit.ko-KR.resx">
+      <DependentUpon>ResEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ResEdit.resx">
       <DependentUpon>ResEdit.cs</DependentUpon>
     </EmbeddedResource>
@@ -1926,6 +1959,12 @@
       <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Swarm\Sequence\LayoutEditor.resx" />
+    <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.ko-KR.resx">
+      <DependentUpon>WPControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="temp.ko-KR.resx">
+      <DependentUpon>temp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="temp.resx">
       <DependentUpon>temp.cs</DependentUpon>
     </EmbeddedResource>

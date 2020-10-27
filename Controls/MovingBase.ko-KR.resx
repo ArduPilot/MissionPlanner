@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBox1.Text" xml:space="preserve">
-    <value>What this does.
-1. gets the current gps coords from a nmea gps.
-2. updates the home position on the map. (note does not update home on the MAV)
+    <value>이 기능이 하는 일.
+1. NMEA GPS에서 현재 GPS 좌표 정보를 가져옵니다.
+2. 지도상의 원점을 업데이트합니다. (MAV의 원점을 업데이트하는건 아님)
 
-How to use it
-1. connect to ap.
-2. open this and pick your comport, and baud rate for your nmea gps.
-3. it should now be updating home.</value>
+사용법
+1. 비행체에 연결하십시오.
+2. 이 창을 열어 원하는 NMEA GPS용 통신 포트, 전송율을 선택하십시오.
+3. 이제 원점의 정보가 바뀌어야 합니다.</value>
   </data>
 </root>
