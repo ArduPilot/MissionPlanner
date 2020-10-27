@@ -3609,7 +3609,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    GDAL.GDAL.ScanDirectory(Settings.Instance["GDALImageDir"]);
+                    Utilities.GDAL.ScanDirectory(Settings.Instance["GDALImageDir"]);
                 }
                 catch (Exception ex)
                 {

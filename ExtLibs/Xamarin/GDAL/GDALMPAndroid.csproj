@@ -83,6 +83,10 @@
       <Project>{881e5ea0-9ba9-4811-bbfa-3669519d0f81}</Project>
       <Name>System.Drawing.android</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj">
+      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Name>MissionPlanner.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GDALForAndroid\GDALForAndroid.csproj">
       <Project>{e1d67c23-0cdd-4835-a1e2-4634c0dd4c34}</Project>
       <Name>GDALForAndroid</Name>

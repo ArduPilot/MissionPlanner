@@ -1,6 +1,5 @@
 ﻿using DotSpatial.Data;
 using DotSpatial.Projections;
-using GDAL;
 using GeoUtility.GeoSystem;
 using GeoUtility.GeoSystem.Base;
 using GMap.NET;
@@ -39,6 +38,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+#if !LIB
+using GDAL;
+#endif
 using GeoAPI.CoordinateSystems;
 using GeoAPI.CoordinateSystems.Transformations;
 using Feature = SharpKml.Dom.Feature;
@@ -3762,6 +3764,7 @@ namespace MissionPlanner.GCSViews
                     FlightData.kmlpolygons.Polygons.Clear();
                     if (file.ToLower().EndsWith("gpkg"))
                     {
+#if !LIB
                         using (var ogr = OGR.Open(file))
                         {
                             ogr.NewPoint += pnt =>
@@ -3796,6 +3799,7 @@ namespace MissionPlanner.GCSViews
 
                             ogr.Process();
                         }
+#endif
                     }
                     else if (file.ToLower().EndsWith("dxf"))
                     {

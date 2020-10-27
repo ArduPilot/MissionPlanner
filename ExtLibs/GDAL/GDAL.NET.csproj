@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461</TargetFrameworks>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GDAL" Version="2.3.2">
+    <PackageReference Include="GDAL" Version="2.3.2" Condition="'$(TargetFramework)' != 'netstandard2.0'">
      
     </PackageReference>
     <PackageReference Include="log4net" Version="2.0.8" />
@@ -25,22 +25,12 @@
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
     <ProjectReference Include="..\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Aliases>DRAW</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
 	
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="gdalconst_csharp" Condition="'$(TargetFramework)' == 'netstandard2.0'">
-      <HintPath>..\gdalconst_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="gdal_csharp" Condition="'$(TargetFramework)' == 'netstandard2.0'">
-      <HintPath>..\gdal_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="ogr_csharp" Condition="'$(TargetFramework)' == 'netstandard2.0'">
-      <HintPath>..\ogr_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="osr_csharp" Condition="'$(TargetFramework)' == 'netstandard2.0'">
-      <HintPath>..\osr_csharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

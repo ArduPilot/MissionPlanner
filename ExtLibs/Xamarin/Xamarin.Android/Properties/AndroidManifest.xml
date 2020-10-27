@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="28542" android:versionName="28542" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="30039" android:versionName="30039" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
   <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

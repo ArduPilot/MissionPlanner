@@ -2420,128 +2420,134 @@ namespace GDAL
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7F0A0000
-			public static int abc_action_bar_home_description = 2131361792;
-			
-			// aapt resource value: 0x7F0A0001
-			public static int abc_action_bar_up_description = 2131361793;
-			
 			// aapt resource value: 0x7F0A0002
-			public static int abc_action_menu_overflow_description = 2131361794;
+			public static int abc_action_bar_home_description = 2131361794;
 			
 			// aapt resource value: 0x7F0A0003
-			public static int abc_action_mode_done = 2131361795;
-			
-			// aapt resource value: 0x7F0A0005
-			public static int abc_activitychooserview_choose_application = 2131361797;
+			public static int abc_action_bar_up_description = 2131361795;
 			
 			// aapt resource value: 0x7F0A0004
-			public static int abc_activity_chooser_view_see_all = 2131361796;
+			public static int abc_action_menu_overflow_description = 2131361796;
 			
-			// aapt resource value: 0x7F0A0006
-			public static int abc_capital_off = 2131361798;
+			// aapt resource value: 0x7F0A0005
+			public static int abc_action_mode_done = 2131361797;
 			
 			// aapt resource value: 0x7F0A0007
-			public static int abc_capital_on = 2131361799;
+			public static int abc_activitychooserview_choose_application = 2131361799;
+			
+			// aapt resource value: 0x7F0A0006
+			public static int abc_activity_chooser_view_see_all = 2131361798;
 			
 			// aapt resource value: 0x7F0A0008
-			public static int abc_font_family_body_1_material = 2131361800;
+			public static int abc_capital_off = 2131361800;
 			
 			// aapt resource value: 0x7F0A0009
-			public static int abc_font_family_body_2_material = 2131361801;
+			public static int abc_capital_on = 2131361801;
 			
 			// aapt resource value: 0x7F0A000A
-			public static int abc_font_family_button_material = 2131361802;
+			public static int abc_font_family_body_1_material = 2131361802;
 			
 			// aapt resource value: 0x7F0A000B
-			public static int abc_font_family_caption_material = 2131361803;
+			public static int abc_font_family_body_2_material = 2131361803;
 			
 			// aapt resource value: 0x7F0A000C
-			public static int abc_font_family_display_1_material = 2131361804;
+			public static int abc_font_family_button_material = 2131361804;
 			
 			// aapt resource value: 0x7F0A000D
-			public static int abc_font_family_display_2_material = 2131361805;
+			public static int abc_font_family_caption_material = 2131361805;
 			
 			// aapt resource value: 0x7F0A000E
-			public static int abc_font_family_display_3_material = 2131361806;
+			public static int abc_font_family_display_1_material = 2131361806;
 			
 			// aapt resource value: 0x7F0A000F
-			public static int abc_font_family_display_4_material = 2131361807;
+			public static int abc_font_family_display_2_material = 2131361807;
 			
 			// aapt resource value: 0x7F0A0010
-			public static int abc_font_family_headline_material = 2131361808;
+			public static int abc_font_family_display_3_material = 2131361808;
 			
 			// aapt resource value: 0x7F0A0011
-			public static int abc_font_family_menu_material = 2131361809;
+			public static int abc_font_family_display_4_material = 2131361809;
 			
 			// aapt resource value: 0x7F0A0012
-			public static int abc_font_family_subhead_material = 2131361810;
+			public static int abc_font_family_headline_material = 2131361810;
 			
 			// aapt resource value: 0x7F0A0013
-			public static int abc_font_family_title_material = 2131361811;
+			public static int abc_font_family_menu_material = 2131361811;
 			
 			// aapt resource value: 0x7F0A0014
-			public static int abc_menu_alt_shortcut_label = 2131361812;
+			public static int abc_font_family_subhead_material = 2131361812;
 			
 			// aapt resource value: 0x7F0A0015
-			public static int abc_menu_ctrl_shortcut_label = 2131361813;
+			public static int abc_font_family_title_material = 2131361813;
 			
 			// aapt resource value: 0x7F0A0016
-			public static int abc_menu_delete_shortcut_label = 2131361814;
+			public static int abc_menu_alt_shortcut_label = 2131361814;
 			
 			// aapt resource value: 0x7F0A0017
-			public static int abc_menu_enter_shortcut_label = 2131361815;
+			public static int abc_menu_ctrl_shortcut_label = 2131361815;
 			
 			// aapt resource value: 0x7F0A0018
-			public static int abc_menu_function_shortcut_label = 2131361816;
+			public static int abc_menu_delete_shortcut_label = 2131361816;
 			
 			// aapt resource value: 0x7F0A0019
-			public static int abc_menu_meta_shortcut_label = 2131361817;
+			public static int abc_menu_enter_shortcut_label = 2131361817;
 			
 			// aapt resource value: 0x7F0A001A
-			public static int abc_menu_shift_shortcut_label = 2131361818;
+			public static int abc_menu_function_shortcut_label = 2131361818;
 			
 			// aapt resource value: 0x7F0A001B
-			public static int abc_menu_space_shortcut_label = 2131361819;
+			public static int abc_menu_meta_shortcut_label = 2131361819;
 			
 			// aapt resource value: 0x7F0A001C
-			public static int abc_menu_sym_shortcut_label = 2131361820;
+			public static int abc_menu_shift_shortcut_label = 2131361820;
 			
 			// aapt resource value: 0x7F0A001D
-			public static int abc_prepend_shortcut_label = 2131361821;
-			
-			// aapt resource value: 0x7F0A001F
-			public static int abc_searchview_description_clear = 2131361823;
-			
-			// aapt resource value: 0x7F0A0020
-			public static int abc_searchview_description_query = 2131361824;
-			
-			// aapt resource value: 0x7F0A0021
-			public static int abc_searchview_description_search = 2131361825;
-			
-			// aapt resource value: 0x7F0A0022
-			public static int abc_searchview_description_submit = 2131361826;
-			
-			// aapt resource value: 0x7F0A0023
-			public static int abc_searchview_description_voice = 2131361827;
+			public static int abc_menu_space_shortcut_label = 2131361821;
 			
 			// aapt resource value: 0x7F0A001E
-			public static int abc_search_hint = 2131361822;
+			public static int abc_menu_sym_shortcut_label = 2131361822;
+			
+			// aapt resource value: 0x7F0A001F
+			public static int abc_prepend_shortcut_label = 2131361823;
+			
+			// aapt resource value: 0x7F0A0021
+			public static int abc_searchview_description_clear = 2131361825;
+			
+			// aapt resource value: 0x7F0A0022
+			public static int abc_searchview_description_query = 2131361826;
+			
+			// aapt resource value: 0x7F0A0023
+			public static int abc_searchview_description_search = 2131361827;
 			
 			// aapt resource value: 0x7F0A0024
-			public static int abc_shareactionprovider_share_with = 2131361828;
+			public static int abc_searchview_description_submit = 2131361828;
 			
 			// aapt resource value: 0x7F0A0025
-			public static int abc_shareactionprovider_share_with_application = 2131361829;
+			public static int abc_searchview_description_voice = 2131361829;
+			
+			// aapt resource value: 0x7F0A0020
+			public static int abc_search_hint = 2131361824;
 			
 			// aapt resource value: 0x7F0A0026
-			public static int abc_toolbar_collapse_description = 2131361830;
+			public static int abc_shareactionprovider_share_with = 2131361830;
 			
 			// aapt resource value: 0x7F0A0027
-			public static int search_menu_title = 2131361831;
+			public static int abc_shareactionprovider_share_with_application = 2131361831;
 			
 			// aapt resource value: 0x7F0A0028
-			public static int status_bar_notification_info_overflow = 2131361832;
+			public static int abc_toolbar_collapse_description = 2131361832;
+			
+			// aapt resource value: 0x7F0A0000
+			public static int ApplicationName = 2131361792;
+			
+			// aapt resource value: 0x7F0A0001
+			public static int Hello = 2131361793;
+			
+			// aapt resource value: 0x7F0A0029
+			public static int search_menu_title = 2131361833;
+			
+			// aapt resource value: 0x7F0A002A
+			public static int status_bar_notification_info_overflow = 2131361834;
 			
 			static String()
 			{

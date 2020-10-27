@@ -10,10 +10,12 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using GMap.NET.MapProviders;
+using MissionPlanner.Utilities;
 
 namespace GDAL
 {
-    public static class GDAL
+    public class GDAL: IGDAL
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -61,6 +63,11 @@ namespace GDAL
 
             // lowest res first
             _cache.Sort((a, b) => { return b.Resolution.CompareTo(a.Resolution); });
+        }
+
+        public GMapProvider GetProvider()
+        {
+            return GDALProvider.Instance;
         }
 
         public static GeoBitmap LoadImageInfo(string file)
@@ -532,6 +539,11 @@ namespace GDAL
             }
             Console.WriteLine("");
             return 1;
+        }
+
+        void IGDAL.ScanDirectory(string s)
+        {
+            ScanDirectory(s);
         }
     }
 }

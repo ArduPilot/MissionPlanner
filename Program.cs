@@ -289,7 +289,13 @@ namespace MissionPlanner
 
             // optionally add gdal support
             if (Directory.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "gdal"))
-                GMap.NET.MapProviders.GMapProviders.List.Add(GDAL.GDALProvider.Instance);
+            {
+#if !LIB
+                // net461
+                MissionPlanner.Utilities.GDAL.GDALBase = new GDAL.GDAL();
+#endif
+                GMap.NET.MapProviders.GMapProviders.List.Add(MissionPlanner.Utilities.GDAL.GetProvider());
+            }
 
             // add proxy settings
             GMap.NET.MapProviders.GMapProvider.WebProxy = WebRequest.GetSystemWebProxy();

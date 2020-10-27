@@ -372,7 +372,7 @@
    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
    <PackageReference Include="TimeZoneConverter" Version="3.2.0" />
-   <PackageReference Include="Xamarin.Forms" Version="4.5.0.530" />  <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
+   <PackageReference Include="Xamarin.Forms" Version="4.8.0.1560" />  <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" /> <PackageReference Include="SharpDX" version="4.1.0" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" />
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" /> <PackageReference Include="Crc32.NET">
@@ -411,7 +411,6 @@
    <ProjectReference Include="ExtLibs\Comms\MissionPlanner.Comms.csproj" />
    <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj" />
    <ProjectReference Include="ExtLibs\Core\Core.csproj" />
-   <ProjectReference Include="ExtLibs\GDAL\GDAL.NET.csproj" />
    <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj" />
    <ProjectReference Include="ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj" />
    <ProjectReference Include="ExtLibs\GMap.NET.Drawing\GMap.NET.Drawing.csproj" />

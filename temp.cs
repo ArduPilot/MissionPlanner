@@ -892,8 +892,8 @@ namespace MissionPlanner
                 if (Directory.Exists(fbd.SelectedPath))
                 {
                     Settings.Instance["GDALImageDir"] = fbd.SelectedPath;
-                    GDAL.GDAL.OnProgress += GDAL_OnProgress;
-                    GDAL.GDAL.ScanDirectory(fbd.SelectedPath);
+                    Utilities.GDAL.OnProgress += GDAL_OnProgress;
+                    Utilities.GDAL.ScanDirectory(fbd.SelectedPath);
                     DTED.OnProgress += GDAL_OnProgress;
                     DTED.AddCustomDirectory(fbd.SelectedPath);
 
