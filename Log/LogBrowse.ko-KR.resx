@@ -117,28 +117,968 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_loadlog.Text" xml:space="preserve">
-    <value>Load A Log</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 17</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>로그 탐색</value>
+  <data name="exportVisibleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 22</value>
   </data>
-  <data name="BUT_Graphit_R.Text" xml:space="preserve">
-    <value>그래프 오른쪽</value>
+  <data name="exportVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>보이는 항목 내보내기</value>
   </data>
-  <data name="CHK_map.Text" xml:space="preserve">
-    <value>지도 보기</value>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 26</value>
   </data>
-  <data name="chk_time.Text" xml:space="preserve">
-    <value>시간 사용</value>
+  <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
+    <value>contextMenuStrip1</value>
   </data>
-  <data name="BUT_removeitem.Text" xml:space="preserve">
-    <value>아이템 삭제</value>
+  <data name="&gt;&gt;contextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BUT_Graphit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_Graphit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="BUT_Graphit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 23</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BUT_Graphit.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
   </data>
   <data name="BUT_Graphit.Text" xml:space="preserve">
-    <value>그래프 왼쪽</value>
+    <value>그래프 좌측</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit.Name" xml:space="preserve">
+    <value>BUT_Graphit</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_cleargraph.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_cleargraph.Location" type="System.Drawing.Point, System.Drawing">
+    <value>158, 3</value>
+  </data>
+  <data name="BUT_cleargraph.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_cleargraph.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
   </data>
   <data name="BUT_cleargraph.Text" xml:space="preserve">
-    <value>도표 삭제</value>
+    <value>그래프 지우기</value>
+  </data>
+  <data name="&gt;&gt;BUT_cleargraph.Name" xml:space="preserve">
+    <value>BUT_cleargraph</value>
+  </data>
+  <data name="&gt;&gt;BUT_cleargraph.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_cleargraph.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_cleargraph.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="BUT_loadlog.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_loadlog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>239, 3</value>
+  </data>
+  <data name="BUT_loadlog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_loadlog.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="BUT_loadlog.Text" xml:space="preserve">
+    <value>로그 불러오기</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadlog.Name" xml:space="preserve">
+    <value>BUT_loadlog</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadlog.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadlog.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadlog.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="splitContainerZgGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitContainerZgGrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="splitContainerZgGrid.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="splitContainerZgMap.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitContainerZgMap.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="zg1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="zg1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1068, 494</value>
+  </data>
+  <data name="zg1.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="&gt;&gt;zg1.Name" xml:space="preserve">
+    <value>zg1</value>
+  </data>
+  <data name="&gt;&gt;zg1.Type" xml:space="preserve">
+    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.19907, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;zg1.Parent" xml:space="preserve">
+    <value>splitContainerZgMap.Panel1</value>
+  </data>
+  <data name="&gt;&gt;zg1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Panel1.Name" xml:space="preserve">
+    <value>splitContainerZgMap.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerZgMap</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>115, 9</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>GPSB</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>splitContainerZgMap.Panel2</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>80, 8</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>POS</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>splitContainerZgMap.Panel2</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>39, 8</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>GPS2</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>splitContainerZgMap.Panel2</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 8</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>splitContainerZgMap.Panel2</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="myGMAP1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="myGMAP1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="myGMAP1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>530, 494</value>
+  </data>
+  <data name="myGMAP1.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="&gt;&gt;myGMAP1.Name" xml:space="preserve">
+    <value>myGMAP1</value>
+  </data>
+  <data name="&gt;&gt;myGMAP1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;myGMAP1.Parent" xml:space="preserve">
+    <value>splitContainerZgMap.Panel2</value>
+  </data>
+  <data name="&gt;&gt;myGMAP1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Panel2.Name" xml:space="preserve">
+    <value>splitContainerZgMap.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerZgMap</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainerZgMap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1068, 494</value>
+  </data>
+  <data name="splitContainerZgMap.SplitterDistance" type="System.Int32, mscorlib">
+    <value>534</value>
+  </data>
+  <data name="splitContainerZgMap.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Name" xml:space="preserve">
+    <value>splitContainerZgMap</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.Parent" xml:space="preserve">
+    <value>splitContainerZgGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgMap.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel1.Name" xml:space="preserve">
+    <value>splitContainerZgGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerZgGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitContainerZgGrid.Panel1MinSize" type="System.Int32, mscorlib">
+    <value>200</value>
+  </data>
+  <data name="splitContainerButGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitContainerButGrid.IsSplitterFixed" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="splitContainerButGrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="splitContainerButGrid.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="chk_events.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_events.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_events.Location" type="System.Drawing.Point, System.Drawing">
+    <value>961, 7</value>
+  </data>
+  <data name="chk_events.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 17</value>
+  </data>
+  <data name="chk_events.TabIndex" type="System.Int32, mscorlib">
+    <value>44</value>
+  </data>
+  <data name="chk_events.Text" xml:space="preserve">
+    <value>이벤트</value>
+  </data>
+  <data name="&gt;&gt;chk_events.Name" xml:space="preserve">
+    <value>chk_events</value>
+  </data>
+  <data name="&gt;&gt;chk_events.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_events.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;chk_events.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chk_datagrid.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_datagrid.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_datagrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>561, 7</value>
+  </data>
+  <data name="chk_datagrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 17</value>
+  </data>
+  <data name="chk_datagrid.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="chk_datagrid.Text" xml:space="preserve">
+    <value>데이터 테이블</value>
+  </data>
+  <data name="&gt;&gt;chk_datagrid.Name" xml:space="preserve">
+    <value>chk_datagrid</value>
+  </data>
+  <data name="&gt;&gt;chk_datagrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_datagrid.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;chk_datagrid.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chk_msg.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_msg.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_msg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>905, 7</value>
+  </data>
+  <data name="chk_msg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 17</value>
+  </data>
+  <data name="chk_msg.TabIndex" type="System.Int32, mscorlib">
+    <value>42</value>
+  </data>
+  <data name="chk_msg.Text" xml:space="preserve">
+    <value>메시지</value>
+  </data>
+  <data name="&gt;&gt;chk_msg.Name" xml:space="preserve">
+    <value>chk_msg</value>
+  </data>
+  <data name="&gt;&gt;chk_msg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_msg.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;chk_msg.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="chk_errors.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_errors.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_errors.Location" type="System.Drawing.Point, System.Drawing">
+    <value>846, 7</value>
+  </data>
+  <data name="chk_errors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 17</value>
+  </data>
+  <data name="chk_errors.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="chk_errors.Text" xml:space="preserve">
+    <value>오류</value>
+  </data>
+  <data name="&gt;&gt;chk_errors.Name" xml:space="preserve">
+    <value>chk_errors</value>
+  </data>
+  <data name="&gt;&gt;chk_errors.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_errors.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;chk_errors.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="chk_mode.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_mode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_mode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>787, 7</value>
+  </data>
+  <data name="chk_mode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 17</value>
+  </data>
+  <data name="chk_mode.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="chk_mode.Text" xml:space="preserve">
+    <value>모드</value>
+  </data>
+  <data name="&gt;&gt;chk_mode.Name" xml:space="preserve">
+    <value>chk_mode</value>
+  </data>
+  <data name="&gt;&gt;chk_mode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_mode.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;chk_mode.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="BUT_Graphit_R.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_Graphit_R.Location" type="System.Drawing.Point, System.Drawing">
+    <value>80, 3</value>
+  </data>
+  <data name="BUT_Graphit_R.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 23</value>
+  </data>
+  <data name="BUT_Graphit_R.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="BUT_Graphit_R.Text" xml:space="preserve">
+    <value>그래프 우측</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Name" xml:space="preserve">
+    <value>BUT_Graphit_R</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="chk_time.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_time.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_time.Location" type="System.Drawing.Point, System.Drawing">
+    <value>484, 7</value>
+  </data>
+  <data name="chk_time.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 17</value>
+  </data>
+  <data name="chk_time.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="chk_time.Text" xml:space="preserve">
+    <value>시간 표시</value>
+  </data>
+  <data name="&gt;&gt;chk_time.Name" xml:space="preserve">
+    <value>chk_time</value>
+  </data>
+  <data name="&gt;&gt;chk_time.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_time.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;chk_time.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="CHK_map.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_map.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_map.Location" type="System.Drawing.Point, System.Drawing">
+    <value>401, 7</value>
+  </data>
+  <data name="CHK_map.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 17</value>
+  </data>
+  <data name="CHK_map.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="CHK_map.Text" xml:space="preserve">
+    <value>지도 표시</value>
+  </data>
+  <data name="&gt;&gt;CHK_map.Name" xml:space="preserve">
+    <value>CHK_map</value>
+  </data>
+  <data name="&gt;&gt;CHK_map.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHK_map.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;CHK_map.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CMB_preselect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>681, 5</value>
+  </data>
+  <data name="CMB_preselect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 21</value>
+  </data>
+  <data name="CMB_preselect.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="&gt;&gt;CMB_preselect.Name" xml:space="preserve">
+    <value>CMB_preselect</value>
+  </data>
+  <data name="&gt;&gt;CMB_preselect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_preselect.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;CMB_preselect.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="BUT_removeitem.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_removeitem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>320, 3</value>
+  </data>
+  <data name="BUT_removeitem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_removeitem.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="BUT_removeitem.Text" xml:space="preserve">
+    <value>항목 제거</value>
+  </data>
+  <data name="BUT_removeitem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;BUT_removeitem.Name" xml:space="preserve">
+    <value>BUT_removeitem</value>
+  </data>
+  <data name="&gt;&gt;BUT_removeitem.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_removeitem.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_removeitem.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel1.Name" xml:space="preserve">
+    <value>splitContainerButGrid.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerButGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="dataGridView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="dataGridView1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="dataGridView1.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1035, 8</value>
+  </data>
+  <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;dataGridView1.Name" xml:space="preserve">
+    <value>dataGridView1</value>
+  </data>
+  <data name="&gt;&gt;dataGridView1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7081.19920, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dataGridView1.Parent" xml:space="preserve">
+    <value>splitContainerButGrid.Panel2</value>
+  </data>
+  <data name="&gt;&gt;dataGridView1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel2.Name" xml:space="preserve">
+    <value>splitContainerButGrid.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerButGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainerButGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1068, 37</value>
+  </data>
+  <data name="splitContainerButGrid.SplitterDistance" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="splitContainerButGrid.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Name" xml:space="preserve">
+    <value>splitContainerButGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.Parent" xml:space="preserve">
+    <value>splitContainerZgGrid.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerButGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel2.Name" xml:space="preserve">
+    <value>splitContainerZgGrid.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerZgGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainerZgGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1068, 536</value>
+  </data>
+  <data name="splitContainerZgGrid.SplitterDistance" type="System.Int32, mscorlib">
+    <value>494</value>
+  </data>
+  <data name="splitContainerZgGrid.SplitterWidth" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="splitContainerZgGrid.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Name" xml:space="preserve">
+    <value>splitContainerZgGrid</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.Parent" xml:space="preserve">
+    <value>splitContainerAllTree.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainerZgGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="treeView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="treeView1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="treeView1.Nodes" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQsAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQJY2hpbGRyZW4wCWNoaWxkcmVuMQEBAQAAAQABAAQEAQgICB1TeXN0ZW0uV2luZG93cy5G
+        b3Jtcy5UcmVlTm9kZQIAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAAAgAAAAYDAAAA
+        BU5vZGUwBgQAAAAACQMAAAAA/////wkEAAAA/////wkEAAAAAgAAAAkHAAAACQgAAAAFBwAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQkAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQBAQEAAAEAAQABCAgIAgAAAAYJAAAABU5vZGU0CQQAAAAJCQAAAAD/////CQQAAAD/////
+        CQQAAAAAAAAABQgAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUJAAAABFRleHQLVG9vbFRp
+        cFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQ
+        U2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIAAAAGDQAAAAVOb2RlNQkEAAAA
+        CQ0AAAAA/////wkEAAAA/////wkEAAAAAAAAAAs=
+</value>
+  </data>
+  <data name="treeView1.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQsAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQJY2hpbGRyZW4wCWNoaWxkcmVuMQEBAQAAAQABAAQEAQgICB1TeXN0ZW0uV2luZG93cy5G
+        b3Jtcy5UcmVlTm9kZQIAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAAAgAAAAYDAAAA
+        BU5vZGUxBgQAAAAACQMAAAAA/////wkEAAAA/////wkEAAAAAgAAAAkHAAAACQgAAAAFBwAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQkAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQBAQEAAAEAAQABCAgIAgAAAAYJAAAABU5vZGUyCQQAAAAJCQAAAAD/////CQQAAAD/////
+        CQQAAAAAAAAABQgAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUJAAAABFRleHQLVG9vbFRp
+        cFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQ
+        U2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIAAAAGDQAAAAVOb2RlMwkEAAAA
+        CQ0AAAAA/////wkEAAAA/////wkEAAAAAAAAAAs=
+</value>
+  </data>
+  <data name="treeView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 536</value>
+  </data>
+  <data name="treeView1.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Name" xml:space="preserve">
+    <value>treeView1</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
+    <value>splitContainerAllTree.Panel2</value>
+  </data>
+  <data name="&gt;&gt;treeView1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitContainerAllTree.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitContainerAllTree.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel1.Name" xml:space="preserve">
+    <value>splitContainerAllTree.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerAllTree</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel2.Name" xml:space="preserve">
+    <value>splitContainerAllTree.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerAllTree</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainerAllTree.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1202, 536</value>
+  </data>
+  <data name="splitContainerAllTree.SplitterDistance" type="System.Int32, mscorlib">
+    <value>1068</value>
+  </data>
+  <data name="splitContainerAllTree.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Name" xml:space="preserve">
+    <value>splitContainerAllTree</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;splitContainerAllTree.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>1202, 536</value>
+  </data>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAABAAABILAAASCwAAAAAAAAAA
+        AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADOxkjAtnoOAKpJ4vyiK
+        c+8nh3D/J4Zv/yeHcP8oi3PvKpJ4vy6fg4AzsZIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADjGo2AyspPfLZ+D/yiQ
+        d/8hlXj/G6F9/xeqg/8XqYL/GKqD/xuhfv8ilnn/KZB3/y2fhP8yspPfN8ajYAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADvRrDA1vpzfL6uN/yel
+        hP8XvJD/DMyY/wfQl/8FzJP/A8qS/wPJkf8EypL/BsyU/wnRmP8PzZn/Gb2R/yemhP8tqoz/Mb2a3zbQ
+        qkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAA4y6ZgMbWV/yin
+        iP8WwZP/Btqf/wDPlf8AyI7/A8aP/yfNnv9T2LP/UNax/03XsP8506b/G8ya/wHKkf8F0Zf/CNuf/xLB
+        kv8fpYT/J7KQ/y7IomAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wAAAAAAAAAAAAAAAAAAAAAANcajny+w
+        kf8hqoj/CNSd/wDRlf8Axor/Hcyd/3Lhwf+p7Nj/o+vV/57m0/+X5dD/k+TN/4/jzf+K5Mz/fuHH/0PW
+        rf8HzJT/ANCT/wDRlv8OpX//HayI/yrFn58AAAAAAAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAAADDC
+        nmAtro7/H62J/wPWmv8Ay47/AMaO/3XhxP+e6tT/mObP/5Pjy/+Q4sr/jODJ/4ffx/+C3MT/f9vC/3nb
+        wf9y2r7/adq7/2DauP8ZzZv/Fdae/8T/9/9WxKj/HKuI/y7IomAAAAAAAAAAAAAAAAD///8AAAAAAAAA
+        AAAiuZMwKKyM/x6ohf8C1Zr/AMmL/wHGjv+49OL///////////9+3ML/f9zD/4Dcwv9+28L/e9rA/3bZ
+        vv9w1rr/Z9S4/17Rs/9Qz63/Qcyn/3LewP////////////n///8MpH7/JbKP/zXQqUAAAAAAAAAAAP//
+        /wAAAAAAAAAAABymhN8dnn//BNGa/wDKjP8AxY3/sfHf/////////////////2nXt/9w1rv/c9e8/3TX
+        vP9x17z/a9W5/2TTtf9Y0K//SMyp/zXFoP9i07X/////////////////f/LR/wDQlf8epYT/Mb2a3wAA
+        AAAAAAAA////AAAAAAADlnJgFZR1/wq4iv8AzpH/AMCD/4rmzf//////////////////////WdGv/2PU
+        tf9p1rf/atS4/2nUtv9i0rT/Vc+u/0fKpv8zxZz/Ws+w//////////////////////8GyJL/ANCS/xLB
+        kv8tq4z/OMajYAAAAAD///8AAAAAAACHZt8NkW//ANKV/wDChP9i27r//////////////////////9Dx
+        6P9MzKn/Vc+v/17Rsv9g0rP/XNCx/1XNrv9Fyaf/McSd/1fPr///////////////////////QM2m/ynK
+        oP8JzJX/C9yh/ymmhf80spPfAAAAAP///wAAcUwwAHtc/wCrfP8AyIv/AMKK////////////////////
+        /////////////5Dgyv9Gyqb/TMyq/07Nq/9MzKn/Qcmj/y/Fnf9Wzq3//////////////////////57k
+        0v8av5T/Lceg/yzOo/8M05v/Hr6T/zCghf80spIw////AABoRYAAclT/AL2H/wDBhf9R1rL/////////
+        ////////4vfw//////////////////H8+P9KzKn/Ocah/zTFnv8qwpj/Us2t////////////////////
+        ////////DLqM/yDBlv8wxp//OM6m/xPPm/8Xz53/LZF5/y+fg4////8AAGNAvwB7Wf8Aw4j/ALyC/4bj
+        yP+g5tL/g93E/2HSsv9Pzqz/Us6s//////////////////////9Yzq//Gr2S/0jLp///////////////
+        /////////////yrDm/8SvI//JMGY/zDHn/81zKT/Is2e/xTUnf8nl3v/LJJ5v////wAAXz3vAIlg/wDA
+        hf8AuoD/quzZ/5Hjyv9628D/ada2/1jRsP9Jy6f/a9a4//////////////////////+Y4s7/////////
+        //////////////////+c4tD/AbaH/xW8kf8jwZj/LcWd/y/Jn/8kzJ3/E9Ca/yGjgf8ri3Tv////AABd
+        PP8Ak2b/AL6D/w/Ekv+m6tf/j+HJ/3vawP9p1rf/W9Gx/0rNqf85yJ//Nsaf////////////////////
+        /////////////////////////////wCwe/8AtoT/ELqP/xu+k/8jwZj/KMeb/yHKm/8QzZf/HqyG/ymI
+        cf////8AAF07/wCSZP8AvYL/GMWU/6Dn1P+K38f/ddi+/27Wuf+E3MX/leHN/6fm1f+l5tX/neLQ////
+        ////////////////////////////////////////j9/J/27Vuv9Tzq7/JsKY/xa/kv8aw5T/FcaW/wvL
+        lf8aqoT/J4dw/////wAAXTv/AJFk/wC9gP8GwY3/mObQ/5rkz/+26dv/y/Hl/8Dt3/+06tz/pebV/5bg
+        zP+g5NL//////////////v///f7+//7+/v//////7fn2////////////tOnb/6Ll0v+v6Nj/jeDI/zXK
+        o/8IxJD/BMqS/xaqgv8lh2//////AABeO+8AgVf/AL1//wDBif/R9uv/1PPq/8Tv5P+36t3/rujY/6Lk
+        0v+U4cv/jt7J//j8+///////+/38//f8+//2+/r/+Pz7//3+/v/m9/P/9Pv6//D6+P9/28L/jd7J/5jj
+        z/+h5dL/qOvX/4Hmyf8f1J//E596/yOJcO////8AAGA8vwB3U/8p06P/hufM/8Ty5f/D7+T/s+vb/6bm
+        1P+c4c//j9/K/4vcyP/t+fb///7///j8/P/0+/r/8vr5//P7+f/1+/r/+/39///////i9fL/ZNO1/3HW
+        vP992sH/htzG/4vhyv+S5dD/mO7W/6X74v80noT/Io90v////wAAZkCAAHla/33ny/945cb/nunV/7Xr
+        3v+l5tT/luDN/4ndxv992cL/1vLq//v9/P/1+/n/8vv4//L69//z+/j/9Pv5/7Xo2//x+vn/////////
+        //+y59n/aNS3/3LWvP932r//fNzD/4Ljyf+J7ND/l/bd/yORdf8knH6A////AABuRzAAdlT/Xc6x/23o
+        xv9s4MH/qurZ/5jiz/+I3cb/edjA/8ju5f/3/Pv/8vv4//H6+P/y+/j/6/f0/7np3v/7/fz//v7+/6fk
+        1f+56tz///////////9h0bT/aNW4/23Wu/9v3L//dOLG/37w0f9m1rn/Hpt8/ymujTD///8AAAAAAACD
+        X98po4X/Z+7K/1vgvP+A4sf/jOHK/3rZwv+r59f/9Pv6/+/69//v+vf/8vr4/9fy6/9n0rf/VM6t/6Di
+        0v/N7+f/adO4/1PMrf9t1Lr/i9zI/1/Rs/9h0rX/ZNe4/2bbvf9s5sb/ePfV/z2ylf8lrozfAAAAAP//
+        /wAAAAAAAJNsYAWQbf9U1rP/Vee//0rYsf993sb/pebV//P7+v/s+Pb/6/f1/+749v+s5tj/Vc2u/1jP
+        r/9ZzrD/btW5/1bOr/9Wza//Vs6v/1fOr/9Z0LD/WdCy/1vTtP9d1rX/Xt+8/2btyP9k4L//IaaF/y7D
+        nmAAAAAA////AAAAAAAAAAAAD6J9zyCjgv9S68L/P9+0/2Pevv/5////7/v6/+v59//j9/L/gtvF/1PN
+        r/9Wz7D/Wc+x/1nQsf9Zz7H/WM6w/1fPsP9UzrD/VM+w/1TPrv9U0a//U9Oy/1Tatv9Z5sD/Y/LL/zSx
+        lP8qupbPAAAAAAAAAAD///8AAAAAAAAAAAAYto4wGaeE/y23lP8+5rn/6/////j////w//3/ve/i/2bV
+        uP9Tzq7/Vc+v/1jPsP9Z0LL/WM+w/1fOsf9Wz7D/Us2w/1HOrf9Qzq3/T9Cu/0zSr/9M2LP/TeC5/1bt
+        xP9HxaX/KLKQ/zTPqDAAAAAAAAAAAP///wAAAAAAAAAAAAAAAAAkvpdgG6iF/y++m//e/////P///3rl
+        yf9G0K3/VdKy/1bPsf9Wz7H/Vs6w/1bPsP9Sza//Ucyu/0/Nrf9NzKz/S82s/0fOrP9G0a7/QdWv/0Le
+        tP9I6L7/Q8Ok/yitjP8yyKJgAAAAAAAAAAAAAAAA////AAAAAAAAAAAAAAAAAAAAAAAmwJlgG6iF/yK3
+        kP8k3q7/H9el/x7Pn/8tzKT/Q9Cs/1HQsP9Q0K7/TM6u/0nMrf9Hzaz/RMyp/0LNqf8+zqn/ONGo/zTV
+        qf833rD/O+S4/zvCof8orIv/MMSfYAAAAAAAAAAAAAAAAAAAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAkvpdgG6iE/xukgv8gy53/HNql/xzRn/8czJz/HcmZ/yXJnP8qyp7/Lcqg/yzLn/8nypz/JMqc/yTO
+        n/8l1KT/KN2r/y3Tpv8nq4n/JaqJ/yzAm2AAAAAAAAAAAAAAAAAAAAAAAAAAAP///wAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAato8wFKN/zxCScv8RnHn/DbqM/wjIlP8GyZT/BsaS/wbFkf8GxZH/B8WR/wfH
+        k/8IypX/DMmV/xG3jP8WoX3/Fph2/xqkgs8ft5EwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////AAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJVvYACGZM8Aelr/AHlZ/wCFX/8AiWL/AJlr/wCb
+        bP8AlGf/AI5k/wB/W/8AeFj/AHtb/wCHZd8ClXBgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwSzAAaESAAGI/vwBf
+        Pd8AXTz/AF08/wBdPP8AXz3fAGJAvwBoRIAAcUswAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP//
+        /wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP//
+        /wD///8A////AP///wD///8A/+AD//+AAP/+AAA//AAAH/gAAA/wAAAH4AAAA+AAAAPAAAABwAAAAYAA
+        AACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAwAAAAcAAAAHgAAAD4AAAA/AA
+        AAf4AAAP/AAAH/4AAD//gAD//+AD//////8=
+</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Log Browse</value>
+  </data>
+  <data name="&gt;&gt;exportVisibleToolStripMenuItem.Name" xml:space="preserve">
+    <value>exportVisibleToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;exportVisibleToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>LogBrowse</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

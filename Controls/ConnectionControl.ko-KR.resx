@@ -117,7 +117,177 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="cmb_Baud.Items" xml:space="preserve">
+    <value>1200</value>
+  </data>
+  <data name="cmb_Baud.Items1" xml:space="preserve">
+    <value>2400</value>
+  </data>
+  <data name="cmb_Baud.Items2" xml:space="preserve">
+    <value>4800</value>
+  </data>
+  <data name="cmb_Baud.Items3" xml:space="preserve">
+    <value>9600</value>
+  </data>
+  <data name="cmb_Baud.Items4" xml:space="preserve">
+    <value>19200</value>
+  </data>
+  <data name="cmb_Baud.Items5" xml:space="preserve">
+    <value>38400</value>
+  </data>
+  <data name="cmb_Baud.Items6" xml:space="preserve">
+    <value>57600</value>
+  </data>
+  <data name="cmb_Baud.Items7" xml:space="preserve">
+    <value>111100</value>
+  </data>
+  <data name="cmb_Baud.Items8" xml:space="preserve">
+    <value>115200</value>
+  </data>
+  <data name="cmb_Baud.Items9" xml:space="preserve">
+    <value>500000</value>
+  </data>
+  <data name="cmb_Baud.Items10" xml:space="preserve">
+    <value>625000</value>
+  </data>
+  <data name="cmb_Baud.Items11" xml:space="preserve">
+    <value>921600</value>
+  </data>
+  <data name="cmb_Baud.Items12" xml:space="preserve">
+    <value>1500000</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cmb_Baud.Location" type="System.Drawing.Point, System.Drawing">
+    <value>130, 0</value>
+  </data>
+  <data name="cmb_Baud.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 21</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="cmb_Baud.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;cmb_Baud.Name" xml:space="preserve">
+    <value>cmb_Baud</value>
+  </data>
+  <data name="&gt;&gt;cmb_Baud.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmb_Baud.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cmb_Baud.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="cmb_ConnectionType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 0</value>
+  </data>
+  <data name="cmb_ConnectionType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 21</value>
+  </data>
+  <data name="cmb_ConnectionType.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="cmb_ConnectionType.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;cmb_ConnectionType.Name" xml:space="preserve">
+    <value>cmb_ConnectionType</value>
+  </data>
+  <data name="&gt;&gt;cmb_ConnectionType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmb_ConnectionType.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cmb_ConnectionType.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="cmb_Connection.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="cmb_Connection.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="cmb_Connection.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;cmb_Connection.Name" xml:space="preserve">
+    <value>cmb_Connection</value>
+  </data>
+  <data name="&gt;&gt;cmb_Connection.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmb_Connection.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cmb_Connection.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 25</value>
+  </data>
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 13</value>
+  </data>
+  <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Stats...</value>
+    <value>상태...</value>
+  </data>
+  <data name="linkLabel1.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
+    <value>linkLabel1</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="cmb_sysid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>49, 21</value>
+  </data>
+  <data name="cmb_sysid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 21</value>
+  </data>
+  <data name="cmb_sysid.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;cmb_sysid.Name" xml:space="preserve">
+    <value>cmb_sysid</value>
+  </data>
+  <data name="&gt;&gt;cmb_sysid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmb_sysid.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cmb_sysid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>230, 40</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 40</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ConnectionControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
