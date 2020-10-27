@@ -428,7 +428,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (basepos != PointLatLngAlt.Zero)
                     ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, false, chk_movingbase.Checked);
 
-                CMB_baudrate.Text = "115200";
+                CMB_baudrate.Text = "460800";
 
                 this.LogInfo("Setup UBLOX done");
             }

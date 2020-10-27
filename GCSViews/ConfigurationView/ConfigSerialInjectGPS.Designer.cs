@@ -62,6 +62,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.chk_sendgga = new System.Windows.Forms.CheckBox();
             this.lbl_status2 = new System.Windows.Forms.Label();
             this.lbl_status3 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -83,7 +84,6 @@
             this.labelbase = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
-            this.chk_sendgga = new System.Windows.Forms.CheckBox();
             this.groupBoxm8p.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -119,7 +119,9 @@
             resources.GetString("CMB_baudrate.Items7"),
             resources.GetString("CMB_baudrate.Items8"),
             resources.GetString("CMB_baudrate.Items9"),
-            resources.GetString("CMB_baudrate.Items10")});
+            resources.GetString("CMB_baudrate.Items10"),
+            resources.GetString("CMB_baudrate.Items11"),
+            resources.GetString("CMB_baudrate.Items12")});
             resources.ApplyResources(this.CMB_baudrate, "CMB_baudrate");
             this.CMB_baudrate.Name = "CMB_baudrate";
             // 
@@ -339,6 +341,15 @@
             this.toolTip1.InitialDelay = 500;
             this.toolTip1.ReshowDelay = 100;
             // 
+            // chk_sendgga
+            // 
+            resources.ApplyResources(this.chk_sendgga, "chk_sendgga");
+            this.chk_sendgga.Checked = true;
+            this.chk_sendgga.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_sendgga.Name = "chk_sendgga";
+            this.toolTip1.SetToolTip(this.chk_sendgga, resources.GetString("chk_sendgga.ToolTip"));
+            this.chk_sendgga.UseVisualStyleBackColor = true;
+            // 
             // lbl_status2
             // 
             resources.ApplyResources(this.lbl_status2, "lbl_status2");
@@ -496,15 +507,6 @@
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
-            // 
-            // chk_sendgga
-            // 
-            resources.ApplyResources(this.chk_sendgga, "chk_sendgga");
-            this.chk_sendgga.Checked = true;
-            this.chk_sendgga.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_sendgga.Name = "chk_sendgga";
-            this.toolTip1.SetToolTip(this.chk_sendgga, resources.GetString("chk_sendgga.ToolTip"));
-            this.chk_sendgga.UseVisualStyleBackColor = true;
             // 
             // ConfigSerialInjectGPS
             // 
