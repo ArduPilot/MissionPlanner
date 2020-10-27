@@ -127,5 +127,21 @@ Velocity comparison x
     <expression>BAT.Volt BAT.Curr BAT.Volt*BAT.Curr:2</expression>
   </graph>
   
+  <graph name="Builtin/Efficiency mah-KM">
+    <expression>(delta(BAT.CurrTot,'mas',GPS.TimeUS)/max(2,GPS.Spd))*1000</expression>
+    <description>mah per km</description>
+  </graph>
+  
+  <graph name="Builtin/Efficiency mah-KM-2">
+    <expression>((BAT.Curr)/(max(2,GPS.Spd)*3.6))*1000</expression>
+    <description>mah per km</description>
+  </graph>
+  <graph name="Builtin/watth-KM">
+    <expression>((BAT.Volt*BAT.Curr)/((GPS.Spd*3600)/1000))</expression>
+    <description>watth per km</description>
+  </graph>
+  <graph name="Builtin/DistDelta">
+    <expression>distance_from(GPS,GPS.Lat-diff(GPS.Lat,"Lat"),GPS.Lng-diff(GPS.Lng,"Lng"))</expression>
+    <description>    </description>
+  </graph>
 </graphs>
-
