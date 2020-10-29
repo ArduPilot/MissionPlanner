@@ -2355,6 +2355,9 @@
   <data name="cmb_model.Items31" xml:space="preserve">
     <value>morse-rover</value>
   </data>
+  <data name="cmb_model.Items32" xml:space="preserve">
+    <value>skid-rover</value>
+  </data>
   <data name="cmb_model.Location" type="System.Drawing.Point, System.Drawing">
     <value>169, 17</value>
   </data>

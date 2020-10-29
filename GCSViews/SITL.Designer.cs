@@ -292,7 +292,8 @@ namespace MissionPlanner.GCSViews
             resources.GetString("cmb_model.Items28"),
             resources.GetString("cmb_model.Items29"),
             resources.GetString("cmb_model.Items30"),
-            resources.GetString("cmb_model.Items31")});
+            resources.GetString("cmb_model.Items31"),
+            resources.GetString("cmb_model.Items32")});
             resources.ApplyResources(this.cmb_model, "cmb_model");
             this.cmb_model.Name = "cmb_model";
             // 
