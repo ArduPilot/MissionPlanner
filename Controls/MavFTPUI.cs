@@ -71,6 +71,7 @@ namespace MissionPlanner.Controls
         private async void PopulateTreeView()
         {
             toolStripStatusLabel1.Text = "Updating Folders";
+            toolStripProgressBar1.ProgressBar.Style = ProgressBarStyle.Marquee;
 
             treeView1.BeginUpdate();
 
@@ -88,8 +89,7 @@ namespace MissionPlanner.Controls
                 await GetDirectories(await info.GetDirectories().ConfigureAwait(true), rootNode).ConfigureAwait(true);
                 treeView1.Nodes.Add(rootNode);
             }
-
-            /*
+            
             info = new DirectoryInfo(@"@ROMFS/", _mavftp);
             if (info.Exists)
             {
@@ -98,13 +98,24 @@ namespace MissionPlanner.Controls
                 await GetDirectories(await info.GetDirectories().ConfigureAwait(true), rootNode).ConfigureAwait(true);
                 treeView1.Nodes.Add(rootNode);
             }
-            */
+
+            info = new DirectoryInfo(@"@SYS/", _mavftp);
+            if (info.Exists)
+            {
+                rootNode = new TreeNode("@SYS", 0, 0);
+                rootNode.Tag = info;
+                await GetDirectories(await info.GetDirectories().ConfigureAwait(true), rootNode).ConfigureAwait(true);
+                treeView1.Nodes.Add(rootNode);
+            }
+            
 
             toolStripStatusLabel1.Text = "Ready";
 
             treeView1.Enabled = true;
             
             treeView1.EndUpdate();
+
+            toolStripProgressBar1.ProgressBar.Style = ProgressBarStyle.Blocks;
 
             treeView1.SelectedNode = rootNode;
 
@@ -195,7 +206,9 @@ namespace MissionPlanner.Controls
                 get { return Path.GetFileName(FullPath); }
             }
 
-            public override bool Exists => true;
+            public override bool Exists {
+                get { return true; }
+            }
 
             public override void Delete()
             {
