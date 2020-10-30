@@ -354,6 +354,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 processToScreen();
 
+                FilterTimerOnElapsed(null, null);
+
                 startup = false;
             }
         }
@@ -526,7 +528,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Params.SortCompare += OnParamsOnSortCompare;
 
             Params.Sort(Params.Columns[Command.Index], ListSortDirection.Ascending);
-
+            
             Params.Enabled = true;
             Params.Visible = true;
             Params.ResumeLayout();

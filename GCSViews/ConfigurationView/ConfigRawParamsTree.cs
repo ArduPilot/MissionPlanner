@@ -306,6 +306,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 processToScreen();
 
+                FilterTimerOnElapsed(null, null);
+
                 startup = false;
             }
         }
