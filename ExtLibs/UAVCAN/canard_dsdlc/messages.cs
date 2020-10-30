@@ -90,7 +90,9 @@ using System;using System.Reflection; namespace UAVCAN {public partial class uav
 (typeof(com_hex_equipment_gpio_GetInputStates_req), 225, 0x6147C4FB7586515E, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(com_hex_equipment_gpio_GetInputStates_req))),
 (typeof(com_hex_equipment_gpio_GetInputStates_res), 225, 0x6147C4FB7586515E, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(com_hex_equipment_gpio_GetInputStates_res))),
 (typeof(com_hex_equipment_gpio_InputStateArray), 42455, 0xE4C758178F4D1A45, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(com_hex_equipment_gpio_InputStateArray))),
+(typeof(com_hex_equipment_herepro_NotifyState), 20201, 0xBD85289227D37156, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(com_hex_equipment_herepro_NotifyState))),
 (typeof(ardupilot_equipment_trafficmonitor_TrafficReport), 20790, 0x68E45DB60B6981F8, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(ardupilot_equipment_trafficmonitor_TrafficReport))),
+(typeof(ardupilot_gnss_Heading), 20002, 0xEB5FBD329C858471, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(ardupilot_gnss_Heading))),
 (typeof(ardupilot_indication_SafetyState), 20000, 0xE965701A95A1A6A1, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(ardupilot_indication_SafetyState))),
 (typeof(ardupilot_indication_Button), 20001, 0x645A46EFBA7466E, typeof(Extension).GetMethod("ByteArrayToUAVCANMsg").MakeGenericMethod(typeof(ardupilot_indication_Button))),
 };}}
