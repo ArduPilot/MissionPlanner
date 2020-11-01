@@ -134,7 +134,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "ExtLibs\Inter
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{82872363-B5AC-4ACE-9200-83F5EF9AF27A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiaTest", "..\SkiaTest\SkiaTest.csproj", "{F62EB7D2-B795-47DC-9EFB-FD0909AA16E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiaTest", "ExtLibs\Xamarin\SkiaTest\SkiaTest.csproj", "{F62EB7D2-B795-47DC-9EFB-FD0909AA16E4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1442B805-D6B1-4729-89F8-3A5A1C7547AD} = {1442B805-D6B1-4729-89F8-3A5A1C7547AD}
 	EndProjectSection
