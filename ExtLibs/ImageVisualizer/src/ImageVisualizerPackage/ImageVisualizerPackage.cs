@@ -67,6 +67,8 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
         protected override void Initialize()
         {
             base.Initialize();
+
+            new ImageVisualizer();
         }
 
         #endregion

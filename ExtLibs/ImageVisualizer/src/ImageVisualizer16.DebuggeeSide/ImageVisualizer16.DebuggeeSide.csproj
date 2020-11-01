@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0;netcoreapp2.0</TargetFrameworks>
     <TargetFramework>net461</TargetFramework>
     <RootNamespace>Aberus.VisualStudio.Debugger.ImageVisualizer</RootNamespace>
-    <UseWPF>true</UseWPF>
+    
     <AssemblyName>Aberus.VisualStudio.Debugger.ImageVisualizer.DebuggeeSide</AssemblyName>
   </PropertyGroup>
 
@@ -12,7 +12,7 @@
     <Compile Include="..\ImageVisualizer14\ImageVisualizerObjectSource.cs" Link="ImageVisualizerObjectSource.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' != 'asdasnetcoreapp20' ">
     <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers">
       <Private>False</Private>
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\Packages\Debugger\Visualizers\netstandard2.0\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>

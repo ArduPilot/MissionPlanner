@@ -8,11 +8,10 @@ using Microsoft.VisualStudio.Utilities;
 
 [assembly: System.Diagnostics.DebuggerVisualizer(typeof(ImageVisualizer), typeof(ImageVisualizerObjectSource), Target = typeof(SKImage), Description = "SKImage Visualizer")]
 [assembly: System.Diagnostics.DebuggerVisualizer(typeof(ImageVisualizer), typeof(ImageVisualizerObjectSource), Target = typeof(SKBitmap), Description = "SKBitmap Visualizer")]
+[assembly: System.Diagnostics.DebuggerVisualizer(typeof(ImageVisualizer), typeof(ImageVisualizerObjectSource), Target = typeof(SKSurface), Description = "SKSurface Visualizer")]
 
 //System.Drawing.Bitmap
 [assembly: System.Diagnostics.DebuggerVisualizer(typeof(ImageVisualizer), typeof(VisualizerObjectSource), Target = typeof(System.Drawing.Bitmap), Description = "Image Visualizer")]
-//System.Windows.Media.ImageSource, System.Windows.Media.Imaging.BitmapImage, System.Windows.Media.Imaging.BitmapSource
-[assembly: System.Diagnostics.DebuggerVisualizer(typeof(ImageVisualizer), typeof(ImageVisualizerObjectSource), Target = typeof(System.Windows.Media.ImageSource), Description = "Image Visualizer")]
 
 namespace Aberus.VisualStudio.Debugger.ImageVisualizer
 {
@@ -56,6 +55,7 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
         static void Main(string[] args)
         {
             var image5 = new SKBitmap(1280, 720);
+            image5.SetPixel(5, 5, SKColors.Red);
             ImageVisualizer.TestShowVisualizer(image5);
         }
     }

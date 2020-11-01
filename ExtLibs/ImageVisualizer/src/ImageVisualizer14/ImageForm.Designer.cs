@@ -30,12 +30,12 @@
         {
             this.btnClose = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.elementHost = new System.Windows.Forms.Integration.ElementHost();
-            this.imageControl = new ImageControl();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtExpression = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClose
@@ -56,22 +56,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.elementHost);
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(12, 64);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(360, 252);
             this.panel1.TabIndex = 2;
-            // 
-            // elementHost
-            // 
-            this.elementHost.BackColorTransparent = true;
-            this.elementHost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost.Location = new System.Drawing.Point(0, 0);
-            this.elementHost.Name = "elementHost";
-            this.elementHost.Size = new System.Drawing.Size(358, 250);
-            this.elementHost.TabIndex = 0;
-            this.elementHost.Text = "elementHost";
-            this.elementHost.Child = this.imageControl;
             // 
             // label1
             // 
@@ -104,6 +93,15 @@
             this.txtExpression.Size = new System.Drawing.Size(251, 20);
             this.txtExpression.TabIndex = 6;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(358, 250);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // ImageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -122,19 +120,19 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Image Visualizer";
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Integration.ElementHost elementHost;
-        private ImageControl imageControl;
+ 
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtExpression;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

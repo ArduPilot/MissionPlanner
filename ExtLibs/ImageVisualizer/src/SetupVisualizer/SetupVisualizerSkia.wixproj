@@ -10,6 +10,7 @@
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <Name>SetupVisualizerSkia</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -52,8 +53,8 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\ImageVisualizerPackage\ImageVisualizerPackage.csproj">
-      <Name>ImageVisualizerPackage</Name>
+    <ProjectReference Include="..\ImageVisualizerPackage\ImageVisualizerSkiaPackage.csproj">
+      <Name>ImageVisualizerSkiaPackage</Name>
       <Project>{fb4c20b3-659c-4d7e-9832-7bfb165df2e0}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
