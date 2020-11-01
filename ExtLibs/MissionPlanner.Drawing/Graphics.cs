@@ -96,11 +96,10 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public Matrix Transform
         {
-            get => new Matrix(_image.TotalMatrix.ScaleX,_image.TotalMatrix.SkewY, _image.TotalMatrix.SkewX, 
+            get => new Matrix(_image.TotalMatrix.ScaleX,_image.TotalMatrix.SkewX, _image.TotalMatrix.SkewY, 
                 _image.TotalMatrix.ScaleY, _image.TotalMatrix.TransX, _image.TotalMatrix.TransY);
             set
             {
-                var values = value.Data;
                 _image.SetMatrix(new SKMatrix(value.M11, value.M12, value.OffsetX,
                     value.M21, value.M22, value.OffsetY,
                     0, 0, 1));
@@ -1248,19 +1247,19 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void RotateTransform(float angle)
         {
-            _image.RotateDegrees(angle);
+            RotateTransform(angle, MatrixOrder.Prepend);
         }
 
         public void RotateTransform(float angle, MatrixOrder order)
         {
             if (order == MatrixOrder.Prepend)
-                _image.RotateDegrees(angle);
+                _image.RotateDegrees(angle, 0, 0);
 
             if (order == MatrixOrder.Append)
             {
                 //checkthis
                 var old = _image.TotalMatrix;
-                var extra = SKMatrix.MakeRotation(angle);
+                var extra = SKMatrix.MakeRotation(angle * 0.0174533f);
                 SKMatrix.PreConcat(ref old, extra);
                 _image.SetMatrix(old);
             }
