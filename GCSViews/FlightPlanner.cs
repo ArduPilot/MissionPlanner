@@ -3369,6 +3369,28 @@ namespace MissionPlanner.GCSViews
                 }
             }
         }
+        void DoGeofencePointsUpload(IProgressReporterDialogue PRD)
+        {
+            // points + return + close
+            byte pointcount = (byte)(drawnpolygon.Points.Count + 2);
+
+            byte a = 0;
+            // add return loc
+            PRD.UpdateProgressAndStatus(0, "Sending return location");
+            MainV2.comPort.setFencePoint(a, new PointLatLngAlt(geofenceoverlay.Markers[0].Position), pointcount);
+            a++;
+            // add points
+            foreach (var pll in drawnpolygon.Points)
+            {
+                PRD.UpdateProgressAndStatus(a / pointcount * 100, "Sending polygon points");
+                MainV2.comPort.setFencePoint(a, new PointLatLngAlt(pll), pointcount);
+                a++;
+            }
+
+            // add polygon close
+            PRD.UpdateProgressAndStatus(a / pointcount * 100, "Sending polygon close");
+            MainV2.comPort.setFencePoint(a, new PointLatLngAlt(drawnpolygon.Points[0]), pointcount);
+        }
 
         public void GeoFenceuploadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3488,19 +3510,17 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                byte a = 0;
-                // add return loc
-                MainV2.comPort.setFencePoint(a, new PointLatLngAlt(geofenceoverlay.Markers[0].Position), pointcount);
-                a++;
-                // add points
-                foreach (var pll in drawnpolygon.Points)
+                IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
                 {
-                    MainV2.comPort.setFencePoint(a, new PointLatLngAlt(pll), pointcount);
-                    a++;
-                }
+                    StartPosition = FormStartPosition.CenterScreen,
+                    Text = "Sending fence points"
+                };
 
-                // add polygon close
-                MainV2.comPort.setFencePoint(a, new PointLatLngAlt(drawnpolygon.Points[0]), pointcount);
+                frmProgressReporter.DoWork += DoGeofencePointsUpload;
+                frmProgressReporter.UpdateProgressAndStatus(-1, "Sending fence points");
+                ThemeManager.ApplyThemeTo(frmProgressReporter);
+                frmProgressReporter.RunBackgroundOperationAsync();
+                frmProgressReporter.Dispose();
 
                 try
                 {

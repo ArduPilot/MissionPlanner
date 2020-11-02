@@ -976,13 +976,59 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// Returns true if everything in the list is using the same mavlink version, else false.
+        /// </summary>
+        /// <param name="ML">The list.</param>
+        /// <returns></returns>
+        private static bool GetAreAllUsingSameMavlinkVersion(Mavlink.MAVList ML)
+        {
+            bool GotFirst = false;
+            bool Mavlink2 = false;
+
+            foreach (var MAV in ML)
+            {
+                if (GotFirst)
+                {
+                    if (MAV.mavlinkv2 != Mavlink2)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    GotFirst = true;
+                    Mavlink2 = MAV.mavlinkv2;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Returns true if the gps data can just be sent once, otherwise false.
+        /// </summary>
+        /// <param name="ML">The mav list.</param>
+        /// <returns>true if can send once, otherwise false.</returns>
+        private static bool GetCanJustSendOnce(Mavlink.MAVList ML)
+        {
+            //RTCM message has no target id so only needs to be sent once.
+            return rtcm_msg && GetAreAllUsingSameMavlinkVersion(ML);
+        }
+
         private static void sendData(byte[] data, ushort length)
         {
             foreach (var port in MainV2.Comports)
             {
+                bool CanJustSendOnce = GetCanJustSendOnce(port.MAVlist);
+
                 foreach (var MAV in port.MAVlist)
                 {
                     port.InjectGpsData(MAV.sysid, MAV.compid, data, length, rtcm_msg);
+                    if (CanJustSendOnce)
+                    {
+                        break;
+                    }
                 }
             }
         }
