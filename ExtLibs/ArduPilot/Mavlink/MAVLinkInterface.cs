@@ -4552,6 +4552,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         MAVlist[sysid, compid].cs.messages.Add((DateTime.Now, logdata));
 
+                        // cap list at 1000 element
+                        while (MAVlist[sysid, compid].cs.messages.Count > 1000)
+                            MAVlist[sysid, compid].cs.messages.RemoveAt(0);
+
                         // gymbals etc are a child/slave to the main sysid, this displays the children messages under the current displayed vehicle
                         if (sysid == sysidcurrent && compid != compidcurrent)
                             MAVlist[sysidcurrent, compidcurrent].cs.messages

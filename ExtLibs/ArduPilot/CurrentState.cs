@@ -921,6 +921,7 @@ namespace MissionPlanner
         [GroupText("NAV")]
         public float targetalt { get; private set; }
 
+        [JsonIgnore] [IgnoreDataMember]
         public List<(DateTime time, string message)> messages { get; set; } = new List<(DateTime, string)>();
 
         /// <summary>
@@ -1211,7 +1212,7 @@ namespace MissionPlanner
         [GroupText("Position")] public PointLatLngAlt Location => new PointLatLngAlt(lat, lng, altasl);
         [GroupText("Position")] public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
 
-
+        [JsonIgnore] [IgnoreDataMember]
         public float GeoFenceDist
         {
             get
