@@ -24,7 +24,14 @@ namespace GDAL
         static GDAL()
         {
             log.InfoFormat("GDAL static ctor");
-            GdalConfiguration.ConfigureGdal();
+            try
+            {
+                GdalConfiguration.ConfigureGdal();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         public delegate void Progress(double percent, string message);
