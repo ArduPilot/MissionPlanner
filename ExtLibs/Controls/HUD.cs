@@ -203,6 +203,7 @@ namespace MissionPlanner.Controls
         private float _linkqualitygcs = 0;
         private DateTime _datetime;
         private string _mode = "Manual";
+        private DateTime _modechanged = DateTime.MinValue;
         private int _wpno = 0;
 
         float _AOA = 0;
@@ -537,6 +538,7 @@ namespace MissionPlanner.Controls
                 if (_mode != value)
                 {
                     _mode = value;
+                    _modechanged = datetime;
                     this.Invalidate();
                 }
             }
@@ -805,6 +807,7 @@ namespace MissionPlanner.Controls
         private Color _hudcolor = Color.White;
         private Pen _whitePen = new Pen(Color.White, 2);
         private readonly SolidBrush _whiteBrush = new SolidBrush(Color.White);
+        private readonly SolidBrush _redBrush = new SolidBrush(Color.Red);
 
         private static readonly SolidBrush SolidBrush = new SolidBrush(Color.FromArgb(0x55, 0xff, 0xff, 0xff));
 
@@ -2472,8 +2475,17 @@ namespace MissionPlanner.Controls
                     graphicsObject.ResetTransform();
 
                     // mode and wp dist and wp
-                    drawstring(_mode, font, fontsize, _whiteBrush, scrollbg.Left - 30,
-                        scrollbg.Bottom + 5);
+                    if (_modechanged.AddSeconds(2) > datetime)
+                    {
+                        drawstring(_mode, font, fontsize, _redBrush, scrollbg.Left - 30,
+                            scrollbg.Bottom + 5);
+                    }
+                    else
+                    {
+                        drawstring(_mode, font, fontsize, _whiteBrush, scrollbg.Left - 30,
+                            scrollbg.Bottom + 5);
+                    }
+
                     drawstring((int) _disttowp + distunit + ">" + _wpno, font, fontsize, _whiteBrush,
                         scrollbg.Left - 30, scrollbg.Bottom + fontsize + 2 + 10);
                 }
