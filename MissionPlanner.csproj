@@ -416,6 +416,12 @@
     </Compile>
     <Compile Include="Controls\Icon\File.cs" />
     <Compile Include="Controls\Icon\Zoom.cs" />
+    <Compile Include="Controls\SpectrogramUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\SpectrogramUI.Designer.cs">
+      <DependentUpon>SpectrogramUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Status.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -761,6 +767,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\GMAPCache.resx">
       <DependentUpon>GMAPCache.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SpectrogramUI.resx">
+      <DependentUpon>SpectrogramUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Status.resx">
       <DependentUpon>Status.cs</DependentUpon>

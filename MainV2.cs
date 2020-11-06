@@ -3874,7 +3874,9 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {
-                new DigitalSkyUI().ShowUserControl();
+                //new DigitalSkyUI().ShowUserControl();
+
+                new SpectrogramUI().Show();
 
                 return true;
             }

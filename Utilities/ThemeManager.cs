@@ -1142,35 +1142,39 @@ mc:Ignorable=""d""
                 else if (ctl.GetType() == typeof(ZedGraph.ZedGraphControl))
                 {
                     var zg1 = (ZedGraph.ZedGraphControl)ctl;
-                    zg1.GraphPane.Chart.Fill = new ZedGraph.Fill(ZedGraphChartFill);
-                    zg1.GraphPane.Fill = new ZedGraph.Fill(ZedGraphPaneFill);
 
-                    foreach (ZedGraph.LineItem li in zg1.GraphPane.CurveList)
-                        li.Line.Width = 2;
+                    foreach (var GraphPane in zg1.MasterPane.PaneList)
+                    {
+                        GraphPane.Chart.Fill = new ZedGraph.Fill(ZedGraphChartFill);
+                        GraphPane.Fill = new ZedGraph.Fill(ZedGraphPaneFill);
 
-                    zg1.GraphPane.Title.FontSpec.FontColor = TextColor;
+                        foreach (ZedGraph.LineItem li in GraphPane.CurveList)
+                            li.Line.Width = 2;
 
-                    zg1.GraphPane.XAxis.MajorTic.Color = TextColor;
-                    zg1.GraphPane.XAxis.MinorTic.Color = TextColor;
-                    zg1.GraphPane.YAxis.MajorTic.Color = TextColor;
-                    zg1.GraphPane.YAxis.MinorTic.Color = TextColor;
-                    zg1.GraphPane.Y2Axis.MajorTic.Color = TextColor;
-                    zg1.GraphPane.Y2Axis.MinorTic.Color = TextColor;
+                        GraphPane.Title.FontSpec.FontColor = TextColor;
 
-                    zg1.GraphPane.XAxis.MajorGrid.Color = TextColor;
-                    zg1.GraphPane.YAxis.MajorGrid.Color = TextColor;
-                    zg1.GraphPane.Y2Axis.MajorGrid.Color = TextColor;
+                        GraphPane.XAxis.MajorTic.Color = TextColor;
+                        GraphPane.XAxis.MinorTic.Color = TextColor;
+                        GraphPane.YAxis.MajorTic.Color = TextColor;
+                        GraphPane.YAxis.MinorTic.Color = TextColor;
+                        GraphPane.Y2Axis.MajorTic.Color = TextColor;
+                        GraphPane.Y2Axis.MinorTic.Color = TextColor;
 
-                    zg1.GraphPane.YAxis.Scale.FontSpec.FontColor = TextColor;
-                    zg1.GraphPane.YAxis.Title.FontSpec.FontColor = TextColor;
-                    zg1.GraphPane.Y2Axis.Title.FontSpec.FontColor = TextColor;
-                    zg1.GraphPane.Y2Axis.Scale.FontSpec.FontColor = TextColor;
+                        GraphPane.XAxis.MajorGrid.Color = TextColor;
+                        GraphPane.YAxis.MajorGrid.Color = TextColor;
+                        GraphPane.Y2Axis.MajorGrid.Color = TextColor;
 
-                    zg1.GraphPane.XAxis.Scale.FontSpec.FontColor = TextColor;
-                    zg1.GraphPane.XAxis.Title.FontSpec.FontColor = TextColor;
+                        GraphPane.YAxis.Scale.FontSpec.FontColor = TextColor;
+                        GraphPane.YAxis.Title.FontSpec.FontColor = TextColor;
+                        GraphPane.Y2Axis.Title.FontSpec.FontColor = TextColor;
+                        GraphPane.Y2Axis.Scale.FontSpec.FontColor = TextColor;
 
-                    zg1.GraphPane.Legend.Fill = new ZedGraph.Fill(ZedGraphLegendFill);
-                    zg1.GraphPane.Legend.FontSpec.FontColor = TextColor;
+                        GraphPane.XAxis.Scale.FontSpec.FontColor = TextColor;
+                        GraphPane.XAxis.Title.FontSpec.FontColor = TextColor;
+
+                        GraphPane.Legend.Fill = new ZedGraph.Fill(ZedGraphLegendFill);
+                        GraphPane.Legend.FontSpec.FontColor = TextColor;
+                    }
                 }
                 else if (ctl.GetType() == typeof(BSE.Windows.Forms.Panel) || ctl.GetType() == typeof(SplitterPanel))
                 {
