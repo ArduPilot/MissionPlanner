@@ -41,12 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MissionPlanner\ExtLibs\Interfaces\Interfaces.csproj" />
-    <ProjectReference Include="..\MissionPlanner\ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" />
-    <ProjectReference Include="..\MissionPlanner\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
-    <ProjectReference Include="..\MissionPlanner\ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
-    <ProjectReference Include="..\MissionPlanner\ExtLibs\System.Drawing.android\System.Drawing.android.csproj" />
-    <ProjectReference Include="..\MissionPlanner\MissionPlannerLib.csproj">
+    <ProjectReference Include="..\..\..\ExtLibs\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" />
+    <ProjectReference Include="..\..\..\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
+    <ProjectReference Include="..\..\..\ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
+    <ProjectReference Include="..\..\..\ExtLibs\System.Drawing.android\System.Drawing.android.csproj" />
+    <ProjectReference Include="..\..\..\MissionPlannerLib.csproj">
       <IncludeAssets></IncludeAssets>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <PrivateAssets>true</PrivateAssets>
