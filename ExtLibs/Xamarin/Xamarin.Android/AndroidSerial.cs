@@ -46,15 +46,27 @@ namespace MissionPlanner.Comms
 
         public int BaudRate
         {
-            get { return serialIoManager.BaudRate;}
-            set { serialIoManager.BaudRate = value; }
+            get { return serialIoManager.BaudRate; }
+            set
+            {
+                serialIoManager.BaudRate = value;
+                if (IsOpen)
+                {
+                    Close();
+                    Open();
+                }
+            }
         }
 
         public int BytesToRead { get; internal set; }
 
         public int BytesToWrite => 0;
 
-        public int DataBits { get; set; }
+        public int DataBits
+        {
+            get { return serialIoManager.DataBits;}
+            set { serialIoManager.DataBits = value; }
+        }
         public bool DtrEnable { get; set; }
 
         public bool IsOpen => serialIoManager.IsOpen;
