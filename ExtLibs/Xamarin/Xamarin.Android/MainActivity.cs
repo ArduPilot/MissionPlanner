@@ -332,6 +332,77 @@ namespace Xamarin.Droid
             LoadApplication(new App());
         }
 
+        public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            Log.Debug(TAG, "OnKeyDown " + keyCode);
+            switch (keyCode)
+            {
+                case Keycode.VolumeUp:
+                    Toast.MakeText(this, "VolumeUp key pressed", ToastLength.Short).Show();
+                    e.StartTracking();
+                    return true;
+                case Keycode.ButtonL1:
+                    e.StartTracking();
+                    return true;
+                case Keycode.ButtonL2:
+                    e.StartTracking();
+                    return true;
+                case Keycode.ButtonR1:
+                    e.StartTracking();
+                    return true;
+                case Keycode.ButtonR1:
+                    e.StartTracking();
+                    return true;  
+                case Keycode.ButtonMode:
+                    e.StartTracking();
+                    return true;
+                case Keycode.ButtonSelect:
+                    e.StartTracking();
+                    return true;
+            }
+
+            return base.OnKeyDown(keyCode, e);
+        }
+
+        public override bool OnKeyUp([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            Log.Debug(TAG, "OnKeyUp " + keyCode);
+
+            if ((e.Flags & KeyEventFlags.CanceledLongPress) == 0)
+            {
+                if (keyCode == Keycode.VolumeUp)
+                {
+                    Log.Error(TAG, "Short press KEYCODE_VOLUME_UP");
+                    return true;
+                }
+                else if (keyCode == Keycode.VolumeDown)
+                {
+                    Log.Error(TAG, "Short press KEYCODE_VOLUME_DOWN");
+                    return true;
+                }
+            }
+
+            return base.OnKeyUp(keyCode, e);
+        }
+
+        public override bool OnKeyLongPress([GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            Log.Debug(TAG, "OnKeyLongPress " + keyCode);
+
+            if (keyCode == Keycode.VolumeUp)
+            {
+                Log.Debug(TAG, "Long press KEYCODE_VOLUME_UP");
+                return true;
+            }
+            else if (keyCode == Keycode.VolumeDown)
+            {
+                Log.Debug(TAG, "Long press KEYCODE_VOLUME_DOWN");
+                return true;
+            }
+
+            return base.OnKeyLongPress(keyCode, e);
+        }
+
         private void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
         {
             Log.Error(TAG, e.Exception.ToString());
