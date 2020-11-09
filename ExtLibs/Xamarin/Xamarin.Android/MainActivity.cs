@@ -350,7 +350,7 @@ namespace Xamarin.Droid
                 case Keycode.ButtonR1:
                     e.StartTracking();
                     return true;
-                case Keycode.ButtonR1:
+                case Keycode.ButtonR2:
                     e.StartTracking();
                     return true;  
                 case Keycode.ButtonMode:
