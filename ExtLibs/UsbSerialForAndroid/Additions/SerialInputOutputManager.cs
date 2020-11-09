@@ -100,6 +100,7 @@ namespace Hoho.Android.UsbSerial.Util
                             return;
                         }
 
+                        Thread.Sleep(1);
                         Step(); // execute step
                     }
                 }
@@ -158,10 +159,10 @@ namespace Hoho.Android.UsbSerial.Util
         private void Step()
         {
             // handle incoming data.
-            var len = port.Read(buffer, READ_WAIT_MILLIS);
+            var len = port.Read(buffer, 0);
             if (len > 0)
             {
-                //Log.Debug(TAG, "Read data len=" + len);
+                Log.Debug(TAG, "Read data len=" + len);
 
                 var data = new byte[len];
                 Array.Copy(buffer, data, len);

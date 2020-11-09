@@ -1,4 +1,5 @@
-﻿using Hoho.Android.UsbSerial.Util;
+﻿using Android.Util;
+using Hoho.Android.UsbSerial.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,18 +24,35 @@ namespace MissionPlanner.Comms
                 lock(readbuffer)
                 {
                     if (readbuffer.Position == readbuffer.Length && readbuffer.Length > 0)
+                    {
+                        //clear it
                         readbuffer.SetLength(0);
-                    var pos = readbuffer.Position;
-                    // goto end
-                    readbuffer.Seek(0, SeekOrigin.End);
-                    //write
-                    readbuffer.Write(e.Data);
-                    // seek back to readpos
-                    readbuffer.Seek(pos, SeekOrigin.Begin);
-                    BytesToRead += e.Data.Length;
+                        // add data
+                        readbuffer.Write(e.Data);
+                        // set readback start point
+                        readbuffer.Position = 0;
+                        // update toread
+                        BytesToRead += e.Data.Length;
+                        Android.Util.Log.Debug("AndroidSerial", "BytesToRead1 " + BytesToRead);
+                    }
+                    else
+                    {
+                        var pos = readbuffer.Position;
+                        // goto end
+                        readbuffer.Seek(0, SeekOrigin.End);
+                        //write
+                        readbuffer.Write(e.Data);
+                        // seek back to readpos
+                        readbuffer.Seek(pos, SeekOrigin.Begin);
+                        BytesToRead += e.Data.Length;
+                        Android.Util.Log.Debug("AndroidSerial", "BytesToRead2 " + BytesToRead);
+                    }
                 }
             };
-            serialIoManager.ErrorReceived += (sender, e) => {  };
+            serialIoManager.ErrorReceived += (sender, e) =>
+            {
+                Android.Util.Log.Debug("AndroidSerial", e.ExceptionObject.ToString());
+            };
         }
 
         public override bool CanRead => true;
@@ -53,6 +71,7 @@ namespace MissionPlanner.Comms
                 if (IsOpen)
                 {
                     Close();
+                    Android.Util.Log.Debug("AndroidSerial", "BaudRate change to " + value);
                     Open();
                 }
             }
@@ -99,6 +118,7 @@ namespace MissionPlanner.Comms
             lock (readbuffer)
             {
                 readbuffer.SetLength(0);
+                readbuffer.Position = 0;
                 BytesToRead = 0;
             }
         }
@@ -172,7 +192,7 @@ namespace MissionPlanner.Comms
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            serialIoManager.Write(buffer.Skip(offset).Take(count).ToArray(), 250);
+            serialIoManager.Write(buffer.Skip(offset).Take(count).ToArray(), 1000);
         }
 
         public void Write(string text)
@@ -188,11 +208,20 @@ namespace MissionPlanner.Comms
 
         public override int Read(byte[] buffer, int offset, int count)
         {
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            if (offset < 0) throw new ArgumentOutOfRangeException(nameof(offset));
+            if (count < 0) throw new ArgumentOutOfRangeException(nameof(count));
+
             var deadline = DateTime.Now.AddMilliseconds(ReadTimeout);
-            do
+            while (BytesToRead < count && DateTime.Now < deadline)
             {
                 Thread.Sleep(1);
-            } while (BytesToRead < count && DateTime.Now < deadline);
+            }
+
+            if (ReadTimeout > 0 && BytesToRead == 0)
+            {
+                throw new TimeoutException("No data in serial buffer");
+            }
 
             var read = Math.Min(count, BytesToRead);
 
