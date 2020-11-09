@@ -2797,8 +2797,12 @@ namespace MissionPlanner
                     if (comPort.MAV.param.TotalReceived < comPort.MAV.param.TotalReported)
                     {
                         if (comPort.MAV.param.TotalReported > 0 && comPort.BaseStream.IsOpen)
-                            instance.status1.Percent =
-                                (comPort.MAV.param.TotalReceived / (double)comPort.MAV.param.TotalReported) * 100.0;
+                        {
+                            this.BeginInvokeIfRequired(() =>
+                                instance.status1.Percent =
+                                    (comPort.MAV.param.TotalReceived / (double) comPort.MAV.param.TotalReported) *
+                                    100.0);
+                        }
                     }
 
                     // send a hb every seconds from gcs to ap
