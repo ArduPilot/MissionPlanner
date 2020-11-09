@@ -64,7 +64,8 @@
  *          as this is required by new and future modem firmware releases.  
  * 2.46 - A command line switch is now available to force programming of firmware into modems regardless of type of modem.  Removed 50ms delay between '+' characters 
  *          transmitted to modem when doing the "+++" sequence to change mode from transparent to AT command mode,
- *          as this is not required by any firmware  
+ *          as this is not required by any firmware.
+ * 2.47 - Added GPIO1_1FUNC settings for RFD900x async firmware 2.69.
  */
 
 using System;

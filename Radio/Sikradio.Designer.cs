@@ -185,6 +185,10 @@
             this.RTI2 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.GPIO1_1FUNC = new System.Windows.Forms.ComboBox();
+            this.label51 = new System.Windows.Forms.Label();
+            this.RGPIO1_1FUNC = new System.Windows.Forms.ComboBox();
             this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
             this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
@@ -922,6 +926,8 @@
             // 
             // groupBoxLocal
             // 
+            this.groupBoxLocal.Controls.Add(this.label48);
+            this.groupBoxLocal.Controls.Add(this.GPIO1_1FUNC);
             this.groupBoxLocal.Controls.Add(this.ENCRYPTION_LEVEL);
             this.groupBoxLocal.Controls.Add(this.GPO1_0TXEN485);
             this.groupBoxLocal.Controls.Add(this.lbl245);
@@ -1295,6 +1301,8 @@
             // 
             // groupBoxRemote
             // 
+            this.groupBoxRemote.Controls.Add(this.label51);
+            this.groupBoxRemote.Controls.Add(this.RGPIO1_1FUNC);
             this.groupBoxRemote.Controls.Add(this.RENCRYPTION_LEVEL);
             this.groupBoxRemote.Controls.Add(this.RGPO1_0TXEN485);
             this.groupBoxRemote.Controls.Add(this.label44);
@@ -1651,6 +1659,30 @@
             resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
             // 
+            // label48
+            // 
+            resources.ApplyResources(this.label48, "label48");
+            this.label48.Name = "label48";
+            // 
+            // GPIO1_1FUNC
+            // 
+            this.GPIO1_1FUNC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.GPIO1_1FUNC, "GPIO1_1FUNC");
+            this.GPIO1_1FUNC.FormattingEnabled = true;
+            this.GPIO1_1FUNC.Name = "GPIO1_1FUNC";
+            // 
+            // label51
+            // 
+            resources.ApplyResources(this.label51, "label51");
+            this.label51.Name = "label51";
+            // 
+            // RGPIO1_1FUNC
+            // 
+            this.RGPIO1_1FUNC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.RGPIO1_1FUNC, "RGPIO1_1FUNC");
+            this.RGPIO1_1FUNC.FormattingEnabled = true;
+            this.RGPIO1_1FUNC.Name = "RGPIO1_1FUNC";
+            // 
             // BUT_loadcustom
             // 
             resources.ApplyResources(this.BUT_loadcustom, "BUT_loadcustom");
@@ -1900,5 +1932,9 @@
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.ComboBox ENCRYPTION_LEVEL;
         private System.Windows.Forms.ComboBox RENCRYPTION_LEVEL;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.ComboBox GPIO1_1FUNC;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.ComboBox RGPIO1_1FUNC;
     }
 }
