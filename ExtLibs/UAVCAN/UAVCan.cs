@@ -119,6 +119,8 @@ namespace UAVCAN
         /// </summary>
         public int bps { get; set; }
 
+        public int rxframes {get;set;}
+
         /// <summary>
         /// Setup printing debug text to the console
         /// </summary>
@@ -217,6 +219,7 @@ namespace UAVCAN
                         }
 
                         bps += line.Length;
+                        rxframes++;
                         queue.Enqueue(line);
                         readfail = 0;
                     }
