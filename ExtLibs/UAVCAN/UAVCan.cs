@@ -544,7 +544,8 @@ namespace UAVCAN
 
             MessageReceived -= paramdelegate;
 
-            _paramlistcache = paramlist;
+            _paramlistcache.AddRange(paramlist);
+            _paramlistcache = _paramlistcache.Distinct().ToList();
 
             return paramlist;
         }
@@ -1361,7 +1362,9 @@ namespace UAVCAN
         public event NodeAddedArgs NodeAdded;
 
         private byte transferID = 0;
-        private List<uavcan.uavcan_protocol_param_GetSet_res> _paramlistcache;
+
+        private List<uavcan.uavcan_protocol_param_GetSet_res> _paramlistcache =
+            new List<uavcan_protocol_param_GetSet_res>();
 
         public uavcan(Byte sourceNode)
         {
