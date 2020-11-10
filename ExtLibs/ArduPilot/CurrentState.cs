@@ -2069,17 +2069,14 @@ namespace MissionPlanner
                                     {
                                         case MAVLink.EKF_STATUS_FLAGS.EKF_ATTITUDE: // step 1
                                             ekfstatus = 1;
-                                            log.Info("EKF red has no EKF_ATTITUDE - " +
-                                                     (MAVLink.EKF_STATUS_FLAGS)ekfstatusm.flags);
+                                            //log.Info("EKF red has no EKF_ATTITUDE - " + (MAVLink.EKF_STATUS_FLAGS)ekfstatusm.flags);
                                             break;
                                         case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_HORIZ: // with pos
                                             if (gpsstatus > 0)
                                             {
                                                 // we have gps and dont have vel_hoz
                                                 ekfstatus = 1;
-                                                log.Info(
-                                                    "EKF red has gps lock but no EKF_ATTITUDE and EKF_VELOCITY_HORIZ - " +
-                                                    (MAVLink.EKF_STATUS_FLAGS)ekfstatusm.flags);
+                                                //log.Debug("EKF red has gps lock but no EKF_ATTITUDE and EKF_VELOCITY_HORIZ - " + (MAVLink.EKF_STATUS_FLAGS)ekfstatusm.flags);
                                             }
 
                                             break;
