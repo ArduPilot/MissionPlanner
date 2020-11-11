@@ -892,8 +892,9 @@ namespace UAVCAN
 
                     allocated[frame.SourceNode] = gnires.hardware_version.unique_id;
 
-                } else if (frame.TransferType == CANFrame.FrameType.anonymous &&
-                    msg.GetType() == typeof(uavcan.uavcan_protocol_dynamic_node_id_Allocation))
+                }
+                else if (frame.TransferType == CANFrame.FrameType.anonymous &&
+                         msg.GetType() == typeof(uavcan.uavcan_protocol_dynamic_node_id_Allocation))
                 {
                     var allocation = msg as uavcan.uavcan_protocol_dynamic_node_id_Allocation;
 
@@ -906,22 +907,36 @@ namespace UAVCAN
 
                         var slcan = PackageMessage(SourceNode, frame.Priority, transferID, allocation);
                         Console.WriteLine(slcan);
-                 
-                            WriteToStream(slcan);
+
+                        WriteToStream(slcan);
                     }
-                    else
+                    else if (allocation.unique_id_len == 6 && dynamicBytes.Count == 6)
                     {
                         dynamicBytes.AddRange(allocation.unique_id.Take(allocation.unique_id_len));
 
                         allocation.unique_id = dynamicBytes.ToArray();
 
-                        allocation.unique_id_len = (byte)allocation.unique_id.Length;
+                        allocation.unique_id_len = (byte) allocation.unique_id.Length;
+
+                        var slcan = PackageMessage(SourceNode, 0, transferID, allocation);
+                        Console.WriteLine(slcan);
+
+                        WriteToStream(slcan);
+                    }
+                    else if (dynamicBytes.Count == 12)
+                    {
+                        dynamicBytes.AddRange(allocation.unique_id.Take(allocation.unique_id_len));
+
+                        allocation.unique_id = dynamicBytes.ToArray();
+
+                        allocation.unique_id_len = (byte) allocation.unique_id.Length;
 
                         if (allocation.unique_id_len >= 16)
                         {
                             if (allocated.Values.Any(a => a.SequenceEqual(allocation.unique_id)))
                             {
-                                allocation.node_id = allocated.First(a => a.Value.SequenceEqual(allocation.unique_id)).Key;
+                                allocation.node_id = allocated.First(a => a.Value.SequenceEqual(allocation.unique_id))
+                                    .Key;
                                 Console.WriteLine("Allocate again " + allocation.node_id);
                             }
                             else
@@ -943,9 +958,13 @@ namespace UAVCAN
 
                         var slcan = PackageMessage(SourceNode, 0, transferID, allocation);
                         Console.WriteLine(slcan);
-                     
-                            WriteToStream(slcan);
 
+                        WriteToStream(slcan);
+
+                    } 
+                    else
+                    {
+                        dynamicBytes.Clear();
                     }
                 }
             };
