@@ -147,7 +147,7 @@ namespace MissionPlanner.Utilities
                 {
                     foreach (var dfItem in col.GetEnumeratorTypeAll())
                     {
-                        var index = col.dflog.FindMessageOffset(dfItem.msgtype, "lat");
+                        var index = col.dflog.FindMessageOffset(dfItem.msgtype, "Lat");
 
                         if (index != -1)
                         {
