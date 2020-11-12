@@ -77,17 +77,6 @@ jobs:
 
           msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
           
-          del ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.apk
-
-      - name: Sign APK
-        id: sign
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: ExtLibs\Xamarin\Xamarin.Android\bin\Release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - uses: actions/upload-artifact@v2
         with:
