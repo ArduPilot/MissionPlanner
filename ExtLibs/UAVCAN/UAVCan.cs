@@ -1702,12 +1702,6 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
         public bool SetParameter(byte node, string name, object valuein)
         {
-            uavcan.uavcan_protocol_param_GetSet_req req = new uavcan.uavcan_protocol_param_GetSet_req()
-            {
-                name = ASCIIEncoding.ASCII.GetBytes(name), index = 0
-            };
-            req.name_len = (byte) req.name.Length;
-
             var param = _paramlistcache.Where(a => ASCIIEncoding.ASCII.GetString(a.name, 0, a.name_len) == name);
 
             if (param.Count() == 0)
@@ -1716,17 +1710,30 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 return false;
             }
 
+            var type = param.First().value.uavcan_protocol_param_Value_type;
+
+            return SetParameter(node, name, valuein, type);
+        }
+
+        public bool SetParameter(byte node, string name, object valuein, uavcan_protocol_param_Value_type_t type)
+        {
+            uavcan.uavcan_protocol_param_GetSet_req req = new uavcan.uavcan_protocol_param_GetSet_req()
+            {
+                name = ASCIIEncoding.ASCII.GetBytes(name), index = 0
+            };
+            req.name_len = (byte) req.name.Length;
+
             double value = 0;
             if (valuein is IConvertible && !(valuein is String))
             {
-                value = ((IConvertible)valuein).ToDouble(null);
+                value = ((IConvertible) valuein).ToDouble(null);
             }
             else
             {
                 value = 0d;
             }
 
-            switch (param.First().value.uavcan_protocol_param_Value_type)
+            switch (type)
             {
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
                     req.value = new uavcan.uavcan_protocol_param_Value()
@@ -1747,11 +1754,11 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     break;
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
                     req.value = new uavcan.uavcan_protocol_param_Value()
-                        {
-                            uavcan_protocol_param_Value_type = uavcan.uavcan_protocol_param_Value_type_t
-                                .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE,
-                            union = new uavcan.uavcan_protocol_param_Value.unions() {real_value = (float) value}
-                        };
+                    {
+                        uavcan_protocol_param_Value_type = uavcan.uavcan_protocol_param_Value_type_t
+                            .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE,
+                        union = new uavcan.uavcan_protocol_param_Value.unions() {real_value = (float) value}
+                    };
 
                     break;
                 case uavcan.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
