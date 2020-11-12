@@ -14,21 +14,23 @@ namespace MissionPlanner.Utilities
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static Image<Rgba32> GenerateImage(DFLogBuffer cb, out double[] freqtout, out List<(double timeus, double[] value)> allfftdata, string type= "ACC1", string field= "AccX", string timeus = "TimeUS")
+        public static Image<Rgba32> GenerateImage(DFLogBuffer cb, out double[] freqtout,
+            out List<(double timeus, double[] value)> allfftdata, string type = "ACC1", string field = "AccX",
+            string timeus = "TimeUS", int min = -80, int max = -20)
         {
             allfftdata = new List<(double timeus, double[] value)>();
             var bins = 10;
             int N = 1 << bins;
 
             var fft = new FFT2();
-            
+
             var acc1data = cb.GetEnumeratorType(type).ToArray();
             log.Debug(type);
 
             var firstsample = acc1data.Take(N);
             var samplemin = double.Parse(firstsample.Min(a => a[timeus]));
             var samplemax = double.Parse(firstsample.Max(a => a[timeus]));
-            
+
             log.Debug("samplemin " + samplemin + " samplemax " + samplemax);
 
             var timedelta = samplemin - samplemax;
@@ -45,13 +47,12 @@ namespace MissionPlanner.Utilities
             int done = 0;
             // 50% overlap
             int divisor = 4;
-            count *= divisor; 
+            count *= divisor;
             var img = new Image<Rgba32>(count, freqt.Length);
             log.Debug("done and count ");
-            var totalmax = 2.0;
             while (count > 1) // skip last part
             {
-                var fftdata = acc1data.Skip((int)(N * (done/ (double)divisor))).Take(N);
+                var fftdata = acc1data.Skip((int) (N * (done / (double) divisor))).Take(N);
 
                 if (fftdata.Count() < N)
                 {
@@ -69,11 +70,8 @@ namespace MissionPlanner.Utilities
 
                 allfftdata.Add((timeusvalue, fftanswerz));
 
-                var min = fftanswerz.Min();
-                var max = fftanswerz.Max();
-                totalmax = Math.Max(totalmax, Math.Min(max, 2));
                 //plotlydata.root.z.Add(fftanswerz.Select(a => a > 2 ? 0 : a).ToArray());
-                freqt.Select((y, i) => img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], totalmax)).ToArray();
+                freqt.Select((y, i) => img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max)).ToArray();
 
                 count--;
                 done++;
@@ -84,15 +82,85 @@ namespace MissionPlanner.Utilities
             return img;
         }
 
-        static Rgba32 GetColor(double actualValue, double max)
+        static double SCALE = 20 / Math.Log(10);
+
+        static Rgba32 GetRainbowColor(byte i)
         {
-            var scale = 20 * Math.Log10(actualValue / max);
+            return HSL2RGB(i / 255.0, 0.5, 0.5);
+        }
 
-            scale = MathHelper.mapConstrained(scale, -100, 0, 0, 255);
+        public static Rgba32 HSL2RGB(double h, double sl, double l)
+        {
+            double v;
+            double r, g, b;
 
-            return new Rgba32((byte) scale, (byte) (255 - scale), (byte) (0));
+            r = l; // default to gray
+            g = l;
+            b = l;
+            v = (l <= 0.5) ? (l * (1.0 + sl)) : (l + sl - l * sl);
+            if (v > 0)
+            {
+                double m;
+                double sv;
+                int sextant;
+                double fract, vsf, mid1, mid2;
 
-            return new Rgba32((byte)scale, (byte)255 - (byte)scale, (byte)0, (byte)255);
+                m = l + l - v;
+                sv = (v - m) / v;
+                h *= 6.0;
+                sextant = (int) h;
+                fract = h - sextant;
+                vsf = v * sv * fract;
+                mid1 = m + vsf;
+                mid2 = v - vsf;
+                switch (sextant)
+                {
+                    case 0:
+                        r = v;
+                        g = mid1;
+                        b = m;
+                        break;
+                    case 1:
+                        r = mid2;
+                        g = v;
+                        b = m;
+                        break;
+                    case 2:
+                        r = m;
+                        g = v;
+                        b = mid1;
+                        break;
+                    case 3:
+                        r = m;
+                        g = mid2;
+                        b = v;
+                        break;
+                    case 4:
+                        r = mid1;
+                        g = m;
+                        b = v;
+                        break;
+                    case 5:
+                        r = v;
+                        g = m;
+                        b = mid2;
+                        break;
+                }
+            }
+            Rgba32 rgb = new Rgba32(0, 0, 0);
+            rgb.R = Convert.ToByte(r * 255.0f);
+            rgb.G = Convert.ToByte(g * 255.0f);
+            rgb.B = Convert.ToByte(b * 255.0f);
+            return rgb;
+        }
+
+        static Rgba32 GetColor(double actualValue, int min = -80, int max = -20)
+        {
+            var scale = SCALE * Math.Log(actualValue + double.Epsilon);
+
+            scale = MathHelper.mapConstrained(scale, min, max, 0, 255);
+
+            return GetRainbowColor((byte) (255-scale));
         }
     }
 }
