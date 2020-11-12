@@ -1676,8 +1676,9 @@ namespace MissionPlanner
                                             a.Type;
                                         MainV2.comPort.SaveToTlog(gen.GenerateMAVLinkPacket10(
                                             MAVLink.MAVLINK_MSG_ID.PARAM_VALUE,
-                                            new MAVLink.mavlink_param_value_t(a.float_value, (ushort)mavlist.Count, 0,
-                                                a.Name.MakeBytesSize(16), (byte)a.Type)));
+                                            new MAVLink.mavlink_param_value_t((float) a.Value, (ushort) mavlist.Count,
+                                                0,
+                                                a.Name.MakeBytesSize(16), (byte) a.Type)));
                                     });
 
                                     ftpfile = true;
