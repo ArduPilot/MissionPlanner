@@ -1657,6 +1657,8 @@ namespace MissionPlanner
                                     cancel.Cancel();
                                     sender.doWorkArgs.CancelAcknowledged = true;
                                 }
+
+                                Thread.Sleep(10);
                             }
 
                             var paramfile = paramfileTask.Result;
