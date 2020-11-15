@@ -78,8 +78,8 @@ static void _decode_com_hex_equipment_gnss_Signals(CanardRxTransfer transfer,ref
     if (tao) {
 msg.signals_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_com_hex_equipment_gnss_Signal(transfer, ref bit_ofs, msg.signals[msg.signals_len], false);
             msg.signals_len++;
+            _decode_com_hex_equipment_gnss_Signal(transfer, ref bit_ofs, msg.signals[msg.signals_len], false);
         }
     } else {
         msg.signals = new com_hex_equipment_gnss_Signal[msg.signals_len];

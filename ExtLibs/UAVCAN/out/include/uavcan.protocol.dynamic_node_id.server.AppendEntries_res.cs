@@ -17,30 +17,28 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_MAX_PACK_SIZE = 5;
-public const ulong UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_SIG = 0x8032C7097B48A3CC;
-public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_ID = 30;
+        public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_MAX_PACK_SIZE = 5;
+        public const ulong UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_SIG = 0x8032C7097B48A3CC;
+        public const int UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_APPENDENTRIES_RES_DT_ID = 30;
 
 
 
-public class uavcan_protocol_dynamic_node_id_server_AppendEntries_res: IUAVCANSerialize {
-    public uint32_t term = new uint32_t();
-    public bool success = new bool();
+        public partial class uavcan_protocol_dynamic_node_id_server_AppendEntries_res: IUAVCANSerialize {
+            public uint32_t term = new uint32_t();
+            public bool success = new bool();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_protocol_dynamic_node_id_server_AppendEntries_res(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_protocol_dynamic_node_id_server_AppendEntries_res(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_protocol_dynamic_node_id_server_AppendEntries_res(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_protocol_dynamic_node_id_server_AppendEntries_res(transfer, this);
+            }
+        }
+    }
 }

@@ -87,8 +87,8 @@ static void _decode_uavcan_protocol_GetTransportStats_res(CanardRxTransfer trans
     if (tao) {
 msg.can_iface_stats_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_uavcan_protocol_CANIfaceStats(transfer, ref bit_ofs, msg.can_iface_stats[msg.can_iface_stats_len], false);
             msg.can_iface_stats_len++;
+            _decode_uavcan_protocol_CANIfaceStats(transfer, ref bit_ofs, msg.can_iface_stats[msg.can_iface_stats_len], false);
         }
     } else {
         msg.can_iface_stats = new uavcan_protocol_CANIfaceStats[msg.can_iface_stats_len];

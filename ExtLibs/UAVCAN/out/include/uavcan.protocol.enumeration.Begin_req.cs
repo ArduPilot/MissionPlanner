@@ -17,33 +17,31 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_MAX_PACK_SIZE = 95;
-public const ulong UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_DT_SIG = 0x196AE06426A3B5D8;
-public const int UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_DT_ID = 15;
+        public const int UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_MAX_PACK_SIZE = 95;
+        public const ulong UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_DT_SIG = 0x196AE06426A3B5D8;
+        public const int UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_DT_ID = 15;
 
 
 
-public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_TIMEOUT_CANCEL = 0; // saturated uint16
-public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_TIMEOUT_INFINITE = 65535; // saturated uint16
+        public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_TIMEOUT_CANCEL = 0; // saturated uint16
+        public const double UAVCAN_PROTOCOL_ENUMERATION_BEGIN_REQ_TIMEOUT_INFINITE = 65535; // saturated uint16
 
-public class uavcan_protocol_enumeration_Begin_req: IUAVCANSerialize {
-    public uint16_t timeout_sec = new uint16_t();
-    public uint8_t parameter_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] parameter_name = Enumerable.Range(1, 92).Select(i => new uint8_t()).ToArray();
+        public partial class uavcan_protocol_enumeration_Begin_req: IUAVCANSerialize {
+            public uint16_t timeout_sec = new uint16_t();
+            public uint8_t parameter_name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=92)] public uint8_t[] parameter_name = Enumerable.Range(1, 92).Select(i => new uint8_t()).ToArray();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_protocol_enumeration_Begin_req(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_protocol_enumeration_Begin_req(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_protocol_enumeration_Begin_req(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_protocol_enumeration_Begin_req(transfer, this);
+            }
+        }
+    }
 }

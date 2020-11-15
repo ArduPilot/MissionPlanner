@@ -17,32 +17,30 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_EQUIPMENT_ICE_RECIPROCATING_CYLINDERSTATUS_MAX_PACK_SIZE = 10;
-public const ulong UAVCAN_EQUIPMENT_ICE_RECIPROCATING_CYLINDERSTATUS_DT_SIG = 0xD68AC83A89D5B36B;
+        public const int UAVCAN_EQUIPMENT_ICE_RECIPROCATING_CYLINDERSTATUS_MAX_PACK_SIZE = 10;
+        public const ulong UAVCAN_EQUIPMENT_ICE_RECIPROCATING_CYLINDERSTATUS_DT_SIG = 0xD68AC83A89D5B36B;
 
 
 
-public class uavcan_equipment_ice_reciprocating_CylinderStatus: IUAVCANSerialize {
-    public Single ignition_timing_deg = new Single();
-    public Single injection_time_ms = new Single();
-    public Single cylinder_head_temperature = new Single();
-    public Single exhaust_gas_temperature = new Single();
-    public Single lambda_coefficient = new Single();
+        public partial class uavcan_equipment_ice_reciprocating_CylinderStatus: IUAVCANSerialize {
+            public Single ignition_timing_deg = new Single();
+            public Single injection_time_ms = new Single();
+            public Single cylinder_head_temperature = new Single();
+            public Single exhaust_gas_temperature = new Single();
+            public Single lambda_coefficient = new Single();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_ice_reciprocating_CylinderStatus(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_ice_reciprocating_CylinderStatus(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_ice_reciprocating_CylinderStatus(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_ice_reciprocating_CylinderStatus(transfer, this);
+            }
+        }
+    }
 }

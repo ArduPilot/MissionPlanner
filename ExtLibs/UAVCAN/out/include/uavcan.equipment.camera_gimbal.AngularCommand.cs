@@ -17,32 +17,30 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 //using uavcan.equipment.camera_gimbal.Mode.cs
 
-public const int UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_MAX_PACK_SIZE = 10;
-public const ulong UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_DT_SIG = 0x4AF6E57B2B2BE29C;
-public const int UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_DT_ID = 1040;
+        public const int UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_MAX_PACK_SIZE = 10;
+        public const ulong UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_DT_SIG = 0x4AF6E57B2B2BE29C;
+        public const int UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_DT_ID = 1040;
 
 
 
-public class uavcan_equipment_camera_gimbal_AngularCommand: IUAVCANSerialize {
-    public uint8_t gimbal_id = new uint8_t();
-    public uavcan_equipment_camera_gimbal_Mode mode = new uavcan_equipment_camera_gimbal_Mode();
-    [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)] public Single[] quaternion_xyzw = new Single[4];
+        public partial class uavcan_equipment_camera_gimbal_AngularCommand: IUAVCANSerialize {
+            public uint8_t gimbal_id = new uint8_t();
+            public uavcan_equipment_camera_gimbal_Mode mode = new uavcan_equipment_camera_gimbal_Mode();
+            [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)] public Single[] quaternion_xyzw = new Single[4];
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_camera_gimbal_AngularCommand(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_camera_gimbal_AngularCommand(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_camera_gimbal_AngularCommand(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_camera_gimbal_AngularCommand(transfer, this);
+            }
+        }
+    }
 }

@@ -17,33 +17,31 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_MAX_PACK_SIZE = 1;
-public const ulong UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_DT_SIG = 0x711BF141AF572346;
+        public const int UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_MAX_PACK_SIZE = 1;
+        public const ulong UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_DT_SIG = 0x711BF141AF572346;
 
 
 
-public const double UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_DEBUG = 0; // saturated uint3
-public const double UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_INFO = 1; // saturated uint3
-public const double UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_WARNING = 2; // saturated uint3
-public const double UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_ERROR = 3; // saturated uint3
+        public const double UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_DEBUG = 0; // saturated uint3
+        public const double UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_INFO = 1; // saturated uint3
+        public const double UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_WARNING = 2; // saturated uint3
+        public const double UAVCAN_PROTOCOL_DEBUG_LOGLEVEL_ERROR = 3; // saturated uint3
 
-public class uavcan_protocol_debug_LogLevel: IUAVCANSerialize {
-    public uint8_t value = new uint8_t();
+        public partial class uavcan_protocol_debug_LogLevel: IUAVCANSerialize {
+            public uint8_t value = new uint8_t();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_protocol_debug_LogLevel(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_protocol_debug_LogLevel(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_protocol_debug_LogLevel(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_protocol_debug_LogLevel(transfer, this);
+            }
+        }
+    }
 }

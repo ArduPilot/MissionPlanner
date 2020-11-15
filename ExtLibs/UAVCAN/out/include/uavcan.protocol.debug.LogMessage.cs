@@ -17,32 +17,30 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 //using uavcan.protocol.debug.LogLevel.cs
 
-public const int UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_MAX_PACK_SIZE = 123;
-public const ulong UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_DT_SIG = 0xD654A48E0C049D75;
-public const int UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_DT_ID = 16383;
+        public const int UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_MAX_PACK_SIZE = 123;
+        public const ulong UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_DT_SIG = 0xD654A48E0C049D75;
+        public const int UAVCAN_PROTOCOL_DEBUG_LOGMESSAGE_DT_ID = 16383;
 
 
 
-public class uavcan_protocol_debug_LogMessage: IUAVCANSerialize {
-    public uavcan_protocol_debug_LogLevel level = new uavcan_protocol_debug_LogLevel();
-    public uint8_t source_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=31)] public uint8_t[] source = Enumerable.Range(1, 31).Select(i => new uint8_t()).ToArray();
-    public uint8_t text_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=90)] public uint8_t[] text = Enumerable.Range(1, 90).Select(i => new uint8_t()).ToArray();
+        public partial class uavcan_protocol_debug_LogMessage: IUAVCANSerialize {
+            public uavcan_protocol_debug_LogLevel level = new uavcan_protocol_debug_LogLevel();
+            public uint8_t source_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=31)] public uint8_t[] source = Enumerable.Range(1, 31).Select(i => new uint8_t()).ToArray();
+            public uint8_t text_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=90)] public uint8_t[] text = Enumerable.Range(1, 90).Select(i => new uint8_t()).ToArray();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_protocol_debug_LogMessage(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_protocol_debug_LogMessage(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_protocol_debug_LogMessage(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_protocol_debug_LogMessage(transfer, this);
+            }
+        }
+    }
 }

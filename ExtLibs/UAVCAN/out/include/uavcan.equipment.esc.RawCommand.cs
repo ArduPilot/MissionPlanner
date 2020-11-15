@@ -17,29 +17,27 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_MAX_PACK_SIZE = 36;
-public const ulong UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_DT_SIG = 0x217F5C87D7EC951D;
-public const int UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_DT_ID = 1030;
+        public const int UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_MAX_PACK_SIZE = 36;
+        public const ulong UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_DT_SIG = 0x217F5C87D7EC951D;
+        public const int UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_DT_ID = 1030;
 
 
 
-public class uavcan_equipment_esc_RawCommand: IUAVCANSerialize {
-    public uint8_t cmd_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public int16_t[] cmd = Enumerable.Range(1, 20).Select(i => new int16_t()).ToArray();
+        public partial class uavcan_equipment_esc_RawCommand: IUAVCANSerialize {
+            public uint8_t cmd_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public int16_t[] cmd = Enumerable.Range(1, 20).Select(i => new int16_t()).ToArray();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_esc_RawCommand(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_esc_RawCommand(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_esc_RawCommand(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_esc_RawCommand(transfer, this);
+            }
+        }
+    }
 }

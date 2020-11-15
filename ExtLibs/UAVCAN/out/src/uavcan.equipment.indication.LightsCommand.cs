@@ -69,8 +69,8 @@ static void _decode_uavcan_equipment_indication_LightsCommand(CanardRxTransfer t
     if (tao) {
 msg.commands_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_uavcan_equipment_indication_SingleLightCommand(transfer, ref bit_ofs, msg.commands[msg.commands_len], false);
             msg.commands_len++;
+            _decode_uavcan_equipment_indication_SingleLightCommand(transfer, ref bit_ofs, msg.commands[msg.commands_len], false);
         }
     } else {
         msg.commands = new uavcan_equipment_indication_SingleLightCommand[msg.commands_len];

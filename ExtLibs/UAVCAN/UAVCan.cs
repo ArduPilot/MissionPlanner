@@ -1917,5 +1917,30 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             return ok.Value;
         }
+
+        /// <summary>
+        /// to string for param value
+        /// </summary>
+        public partial class uavcan_protocol_param_Value
+        {
+            public override string ToString()
+            {
+                switch (uavcan_protocol_param_Value_type)
+                {
+                    case uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_EMPTY:
+                        return "Empty";
+                    case uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
+                        return "Int "+ union.integer_value.ToString();
+                    case uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
+                        return "Real "+union.real_value.ToString();
+                    case uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
+                        return "Bool "+union.boolean_value.ToString();
+                    case uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
+                        return ASCIIEncoding.ASCII.GetString(union.string_value, 0, union.string_value_len);
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
     }
 }

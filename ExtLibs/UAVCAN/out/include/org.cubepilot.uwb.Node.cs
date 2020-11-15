@@ -17,30 +17,28 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int ORG_CUBEPILOT_UWB_NODE_MAX_PACK_SIZE = 17;
-public const ulong ORG_CUBEPILOT_UWB_NODE_DT_SIG = 0xCF728D1C28AB0C3B;
+        public const int ORG_CUBEPILOT_UWB_NODE_MAX_PACK_SIZE = 17;
+        public const ulong ORG_CUBEPILOT_UWB_NODE_DT_SIG = 0xCF728D1C28AB0C3B;
 
 
 
-public class org_cubepilot_uwb_Node: IUAVCANSerialize {
-    public uint64_t node_id = new uint64_t();
-    public bool is_tag = new bool();
-    [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] pos = new Single[3];
+        public partial class org_cubepilot_uwb_Node: IUAVCANSerialize {
+            public uint64_t node_id = new uint64_t();
+            public bool is_tag = new bool();
+            [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] pos = new Single[3];
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_org_cubepilot_uwb_Node(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_org_cubepilot_uwb_Node(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_org_cubepilot_uwb_Node(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_org_cubepilot_uwb_Node(transfer, this);
+            }
+        }
+    }
 }

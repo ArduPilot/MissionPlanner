@@ -17,30 +17,28 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 //using uavcan.equipment.indication.SingleLightCommand.cs
 
-public const int UAVCAN_EQUIPMENT_INDICATION_LIGHTSCOMMAND_MAX_PACK_SIZE = 61;
-public const ulong UAVCAN_EQUIPMENT_INDICATION_LIGHTSCOMMAND_DT_SIG = 0x2031D93C8BDD1EC4;
-public const int UAVCAN_EQUIPMENT_INDICATION_LIGHTSCOMMAND_DT_ID = 1081;
+        public const int UAVCAN_EQUIPMENT_INDICATION_LIGHTSCOMMAND_MAX_PACK_SIZE = 61;
+        public const ulong UAVCAN_EQUIPMENT_INDICATION_LIGHTSCOMMAND_DT_SIG = 0x2031D93C8BDD1EC4;
+        public const int UAVCAN_EQUIPMENT_INDICATION_LIGHTSCOMMAND_DT_ID = 1081;
 
 
 
-public class uavcan_equipment_indication_LightsCommand: IUAVCANSerialize {
-    public uint8_t commands_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public uavcan_equipment_indication_SingleLightCommand[] commands = Enumerable.Range(1, 20).Select(i => new uavcan_equipment_indication_SingleLightCommand()).ToArray();
+        public partial class uavcan_equipment_indication_LightsCommand: IUAVCANSerialize {
+            public uint8_t commands_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)] public uavcan_equipment_indication_SingleLightCommand[] commands = Enumerable.Range(1, 20).Select(i => new uavcan_equipment_indication_SingleLightCommand()).ToArray();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_indication_LightsCommand(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_indication_LightsCommand(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_indication_LightsCommand(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_indication_LightsCommand(transfer, this);
+            }
+        }
+    }
 }

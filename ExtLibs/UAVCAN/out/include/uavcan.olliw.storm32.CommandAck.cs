@@ -17,30 +17,28 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_OLLIW_STORM32_COMMANDACK_MAX_PACK_SIZE = 130;
-public const ulong UAVCAN_OLLIW_STORM32_COMMANDACK_DT_SIG = 0x883EA85F57ACBBBD;
-public const int UAVCAN_OLLIW_STORM32_COMMANDACK_DT_ID = 28303;
+        public const int UAVCAN_OLLIW_STORM32_COMMANDACK_MAX_PACK_SIZE = 130;
+        public const ulong UAVCAN_OLLIW_STORM32_COMMANDACK_DT_SIG = 0x883EA85F57ACBBBD;
+        public const int UAVCAN_OLLIW_STORM32_COMMANDACK_DT_ID = 28303;
 
 
 
-public class uavcan_olliw_storm32_CommandAck: IUAVCANSerialize {
-    public uint8_t gimbal_id = new uint8_t();
-    public uint8_t payload_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] payload = Enumerable.Range(1, 128).Select(i => new uint8_t()).ToArray();
+        public partial class uavcan_olliw_storm32_CommandAck: IUAVCANSerialize {
+            public uint8_t gimbal_id = new uint8_t();
+            public uint8_t payload_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] payload = Enumerable.Range(1, 128).Select(i => new uint8_t()).ToArray();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_olliw_storm32_CommandAck(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_olliw_storm32_CommandAck(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_olliw_storm32_CommandAck(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_olliw_storm32_CommandAck(transfer, this);
+            }
+        }
+    }
 }

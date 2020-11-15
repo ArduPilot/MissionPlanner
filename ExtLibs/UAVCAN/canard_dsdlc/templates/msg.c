@@ -200,8 +200,8 @@ static void _decode_@(msg_underscored_name)(CanardRxTransfer transfer,ref uint32
 msg.@('union.' if msg_union else '')@(field.name)_len = 0;
 @(ind)while (((transfer.payload_len*8)-bit_ofs) > 0) {
 @{indent += 1}@{ind = '    '*indent}@
-@(ind)_decode_@(underscored_name(field.type.value_type))(transfer, ref bit_ofs, msg.@('union.' if msg_union else '')@(field.name)[msg.@(field.name)_len], @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
 @(ind)msg.@('union.' if msg_union else '')@(field.name)_len++;
+@(ind)_decode_@(underscored_name(field.type.value_type))(transfer, ref bit_ofs, msg.@('union.' if msg_union else '')@(field.name)[msg.@(field.name)_len], @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
 @{indent -= 1}@{ind = '    '*indent}@

@@ -17,28 +17,26 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_REQ_MAX_PACK_SIZE = 0;
-public const ulong COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_REQ_DT_SIG = 0x6147C4FB7586515E;
-public const int COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_REQ_DT_ID = 225;
+        public const int COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_REQ_MAX_PACK_SIZE = 0;
+        public const ulong COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_REQ_DT_SIG = 0x6147C4FB7586515E;
+        public const int COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_REQ_DT_ID = 225;
 
 
 
-public class com_hex_equipment_gpio_GetInputStates_req: IUAVCANSerialize {
+        public partial class com_hex_equipment_gpio_GetInputStates_req: IUAVCANSerialize {
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_com_hex_equipment_gpio_GetInputStates_req(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_com_hex_equipment_gpio_GetInputStates_req(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_com_hex_equipment_gpio_GetInputStates_req(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_com_hex_equipment_gpio_GetInputStates_req(transfer, this);
+            }
+        }
+    }
 }

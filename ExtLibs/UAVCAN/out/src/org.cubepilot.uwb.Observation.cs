@@ -84,8 +84,8 @@ static void _decode_org_cubepilot_uwb_Observation(CanardRxTransfer transfer,ref 
     if (tao) {
 msg.rx_timestamps_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_org_cubepilot_uwb_ReceiveTimestamp(transfer, ref bit_ofs, msg.rx_timestamps[msg.rx_timestamps_len], false);
             msg.rx_timestamps_len++;
+            _decode_org_cubepilot_uwb_ReceiveTimestamp(transfer, ref bit_ofs, msg.rx_timestamps[msg.rx_timestamps_len], false);
         }
     } else {
         msg.rx_timestamps = new org_cubepilot_uwb_ReceiveTimestamp[msg.rx_timestamps_len];

@@ -17,33 +17,31 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_MAX_PACK_SIZE = 6;
-public const ulong UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_DT_SIG = 0xBBA05074AD757480;
-public const int UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_DT_ID = 1090;
+        public const int UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_MAX_PACK_SIZE = 6;
+        public const ulong UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_DT_SIG = 0xBBA05074AD757480;
+        public const int UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_DT_ID = 1090;
 
 
 
-public class uavcan_equipment_power_PrimaryPowerSupplyStatus: IUAVCANSerialize {
-    public Single hours_to_empty_at_10sec_avg_power = new Single();
-    public Single hours_to_empty_at_10sec_avg_power_variance = new Single();
-    public bool external_power_available = new bool();
-    public uint8_t remaining_energy_pct = new uint8_t();
-    public uint8_t remaining_energy_pct_stdev = new uint8_t();
+        public partial class uavcan_equipment_power_PrimaryPowerSupplyStatus: IUAVCANSerialize {
+            public Single hours_to_empty_at_10sec_avg_power = new Single();
+            public Single hours_to_empty_at_10sec_avg_power_variance = new Single();
+            public bool external_power_available = new bool();
+            public uint8_t remaining_energy_pct = new uint8_t();
+            public uint8_t remaining_energy_pct_stdev = new uint8_t();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_power_PrimaryPowerSupplyStatus(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_power_PrimaryPowerSupplyStatus(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_power_PrimaryPowerSupplyStatus(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_power_PrimaryPowerSupplyStatus(transfer, this);
+            }
+        }
+    }
 }

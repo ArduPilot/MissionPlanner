@@ -17,35 +17,33 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_EQUIPMENT_ESC_STATUS_MAX_PACK_SIZE = 14;
-public const ulong UAVCAN_EQUIPMENT_ESC_STATUS_DT_SIG = 0xA9AF28AEA2FBB254;
-public const int UAVCAN_EQUIPMENT_ESC_STATUS_DT_ID = 1034;
+        public const int UAVCAN_EQUIPMENT_ESC_STATUS_MAX_PACK_SIZE = 14;
+        public const ulong UAVCAN_EQUIPMENT_ESC_STATUS_DT_SIG = 0xA9AF28AEA2FBB254;
+        public const int UAVCAN_EQUIPMENT_ESC_STATUS_DT_ID = 1034;
 
 
 
-public class uavcan_equipment_esc_Status: IUAVCANSerialize {
-    public uint32_t error_count = new uint32_t();
-    public Single voltage = new Single();
-    public Single current = new Single();
-    public Single temperature = new Single();
-    public int32_t rpm = new int32_t();
-    public uint8_t power_rating_pct = new uint8_t();
-    public uint8_t esc_index = new uint8_t();
+        public partial class uavcan_equipment_esc_Status: IUAVCANSerialize {
+            public uint32_t error_count = new uint32_t();
+            public Single voltage = new Single();
+            public Single current = new Single();
+            public Single temperature = new Single();
+            public int32_t rpm = new int32_t();
+            public uint8_t power_rating_pct = new uint8_t();
+            public uint8_t esc_index = new uint8_t();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_esc_Status(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_esc_Status(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_esc_Status(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_esc_Status(transfer, this);
+            }
+        }
+    }
 }

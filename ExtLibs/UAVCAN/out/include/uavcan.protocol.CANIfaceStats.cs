@@ -17,30 +17,28 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_PROTOCOL_CANIFACESTATS_MAX_PACK_SIZE = 18;
-public const ulong UAVCAN_PROTOCOL_CANIFACESTATS_DT_SIG = 0x13B106F0C44CA350;
+        public const int UAVCAN_PROTOCOL_CANIFACESTATS_MAX_PACK_SIZE = 18;
+        public const ulong UAVCAN_PROTOCOL_CANIFACESTATS_DT_SIG = 0x13B106F0C44CA350;
 
 
 
-public class uavcan_protocol_CANIfaceStats: IUAVCANSerialize {
-    public uint64_t frames_tx = new uint64_t();
-    public uint64_t frames_rx = new uint64_t();
-    public uint64_t errors = new uint64_t();
+        public partial class uavcan_protocol_CANIfaceStats: IUAVCANSerialize {
+            public uint64_t frames_tx = new uint64_t();
+            public uint64_t frames_rx = new uint64_t();
+            public uint64_t errors = new uint64_t();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_protocol_CANIfaceStats(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_protocol_CANIfaceStats(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_protocol_CANIfaceStats(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_protocol_CANIfaceStats(transfer, this);
+            }
+        }
+    }
 }

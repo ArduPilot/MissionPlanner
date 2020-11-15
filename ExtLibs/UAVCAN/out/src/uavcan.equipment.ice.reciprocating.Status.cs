@@ -230,8 +230,8 @@ static void _decode_uavcan_equipment_ice_reciprocating_Status(CanardRxTransfer t
     if (tao) {
 msg.cylinder_status_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_uavcan_equipment_ice_reciprocating_CylinderStatus(transfer, ref bit_ofs, msg.cylinder_status[msg.cylinder_status_len], false);
             msg.cylinder_status_len++;
+            _decode_uavcan_equipment_ice_reciprocating_CylinderStatus(transfer, ref bit_ofs, msg.cylinder_status[msg.cylinder_status_len], false);
         }
     } else {
         msg.cylinder_status = new uavcan_equipment_ice_reciprocating_CylinderStatus[msg.cylinder_status_len];

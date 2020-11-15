@@ -69,8 +69,8 @@ static void _decode_com_hex_equipment_gpio_InputStateArray(CanardRxTransfer tran
     if (tao) {
 msg.input_states_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_com_hex_equipment_gpio_InputState(transfer, ref bit_ofs, msg.input_states[msg.input_states_len], false);
             msg.input_states_len++;
+            _decode_com_hex_equipment_gpio_InputState(transfer, ref bit_ofs, msg.input_states[msg.input_states_len], false);
         }
     } else {
         msg.input_states = new com_hex_equipment_gpio_InputState[msg.input_states_len];

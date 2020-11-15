@@ -93,8 +93,8 @@ static void _decode_uavcan_protocol_dynamic_node_id_server_AppendEntries_req(Can
     if (tao) {
 msg.entries_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_uavcan_protocol_dynamic_node_id_server_Entry(transfer, ref bit_ofs, msg.entries[msg.entries_len], false);
             msg.entries_len++;
+            _decode_uavcan_protocol_dynamic_node_id_server_Entry(transfer, ref bit_ofs, msg.entries[msg.entries_len], false);
         }
     } else {
         msg.entries = new uavcan_protocol_dynamic_node_id_server_Entry[msg.entries_len];

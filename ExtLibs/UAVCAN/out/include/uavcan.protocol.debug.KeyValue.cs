@@ -17,30 +17,28 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_PROTOCOL_DEBUG_KEYVALUE_MAX_PACK_SIZE = 63;
-public const ulong UAVCAN_PROTOCOL_DEBUG_KEYVALUE_DT_SIG = 0xE02F25D6E0C98AE0;
-public const int UAVCAN_PROTOCOL_DEBUG_KEYVALUE_DT_ID = 16370;
+        public const int UAVCAN_PROTOCOL_DEBUG_KEYVALUE_MAX_PACK_SIZE = 63;
+        public const ulong UAVCAN_PROTOCOL_DEBUG_KEYVALUE_DT_SIG = 0xE02F25D6E0C98AE0;
+        public const int UAVCAN_PROTOCOL_DEBUG_KEYVALUE_DT_ID = 16370;
 
 
 
-public class uavcan_protocol_debug_KeyValue: IUAVCANSerialize {
-    public Single value = new Single();
-    public uint8_t key_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)] public uint8_t[] key = Enumerable.Range(1, 58).Select(i => new uint8_t()).ToArray();
+        public partial class uavcan_protocol_debug_KeyValue: IUAVCANSerialize {
+            public Single value = new Single();
+            public uint8_t key_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)] public uint8_t[] key = Enumerable.Range(1, 58).Select(i => new uint8_t()).ToArray();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_protocol_debug_KeyValue(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_protocol_debug_KeyValue(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_protocol_debug_KeyValue(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_protocol_debug_KeyValue(transfer, this);
+            }
+        }
+    }
 }

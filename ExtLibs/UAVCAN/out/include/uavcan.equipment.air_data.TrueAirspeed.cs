@@ -17,30 +17,28 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_MAX_PACK_SIZE = 4;
-public const ulong UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_DT_SIG = 0x306F69E0A591AFAA;
-public const int UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_DT_ID = 1020;
+        public const int UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_MAX_PACK_SIZE = 4;
+        public const ulong UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_DT_SIG = 0x306F69E0A591AFAA;
+        public const int UAVCAN_EQUIPMENT_AIR_DATA_TRUEAIRSPEED_DT_ID = 1020;
 
 
 
-public class uavcan_equipment_air_data_TrueAirspeed: IUAVCANSerialize {
-    public Single true_airspeed = new Single();
-    public Single true_airspeed_variance = new Single();
+        public partial class uavcan_equipment_air_data_TrueAirspeed: IUAVCANSerialize {
+            public Single true_airspeed = new Single();
+            public Single true_airspeed_variance = new Single();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_air_data_TrueAirspeed(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_air_data_TrueAirspeed(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_air_data_TrueAirspeed(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_air_data_TrueAirspeed(transfer, this);
+            }
+        }
+    }
 }

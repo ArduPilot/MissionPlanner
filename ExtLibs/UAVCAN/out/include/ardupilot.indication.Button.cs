@@ -17,32 +17,30 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int ARDUPILOT_INDICATION_BUTTON_MAX_PACK_SIZE = 2;
-public const ulong ARDUPILOT_INDICATION_BUTTON_DT_SIG = 0x645A46EFBA7466E;
-public const int ARDUPILOT_INDICATION_BUTTON_DT_ID = 20001;
+        public const int ARDUPILOT_INDICATION_BUTTON_MAX_PACK_SIZE = 2;
+        public const ulong ARDUPILOT_INDICATION_BUTTON_DT_SIG = 0x645A46EFBA7466E;
+        public const int ARDUPILOT_INDICATION_BUTTON_DT_ID = 20001;
 
 
 
-public const double ARDUPILOT_INDICATION_BUTTON_BUTTON_SAFETY = 1; // saturated uint8
+        public const double ARDUPILOT_INDICATION_BUTTON_BUTTON_SAFETY = 1; // saturated uint8
 
-public class ardupilot_indication_Button: IUAVCANSerialize {
-    public uint8_t button = new uint8_t();
-    public uint8_t press_time = new uint8_t();
+        public partial class ardupilot_indication_Button: IUAVCANSerialize {
+            public uint8_t button = new uint8_t();
+            public uint8_t press_time = new uint8_t();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_ardupilot_indication_Button(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_ardupilot_indication_Button(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_ardupilot_indication_Button(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_ardupilot_indication_Button(transfer, this);
+            }
+        }
+    }
 }

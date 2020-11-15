@@ -106,8 +106,8 @@ static void _decode_uavcan_olliw_uc4h_Distance(CanardRxTransfer transfer,ref uin
     if (tao) {
 msg.sensor_property_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_uavcan_olliw_uc4h_DistanceSensorProperties(transfer, ref bit_ofs, msg.sensor_property[msg.sensor_property_len], false);
             msg.sensor_property_len++;
+            _decode_uavcan_olliw_uc4h_DistanceSensorProperties(transfer, ref bit_ofs, msg.sensor_property[msg.sensor_property_len], false);
         }
     } else {
         msg.sensor_property = new uavcan_olliw_uc4h_DistanceSensorProperties[msg.sensor_property_len];

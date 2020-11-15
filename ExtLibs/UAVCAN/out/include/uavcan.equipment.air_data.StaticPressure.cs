@@ -17,30 +17,28 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_EQUIPMENT_AIR_DATA_STATICPRESSURE_MAX_PACK_SIZE = 6;
-public const ulong UAVCAN_EQUIPMENT_AIR_DATA_STATICPRESSURE_DT_SIG = 0xCDC7C43412BDC89A;
-public const int UAVCAN_EQUIPMENT_AIR_DATA_STATICPRESSURE_DT_ID = 1028;
+        public const int UAVCAN_EQUIPMENT_AIR_DATA_STATICPRESSURE_MAX_PACK_SIZE = 6;
+        public const ulong UAVCAN_EQUIPMENT_AIR_DATA_STATICPRESSURE_DT_SIG = 0xCDC7C43412BDC89A;
+        public const int UAVCAN_EQUIPMENT_AIR_DATA_STATICPRESSURE_DT_ID = 1028;
 
 
 
-public class uavcan_equipment_air_data_StaticPressure: IUAVCANSerialize {
-    public Single static_pressure = new Single();
-    public Single static_pressure_variance = new Single();
+        public partial class uavcan_equipment_air_data_StaticPressure: IUAVCANSerialize {
+            public Single static_pressure = new Single();
+            public Single static_pressure_variance = new Single();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_air_data_StaticPressure(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_air_data_StaticPressure(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_air_data_StaticPressure(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_air_data_StaticPressure(transfer, this);
+            }
+        }
+    }
 }

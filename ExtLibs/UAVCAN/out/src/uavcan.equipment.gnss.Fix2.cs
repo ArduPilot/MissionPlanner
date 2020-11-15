@@ -185,8 +185,8 @@ static void _decode_uavcan_equipment_gnss_Fix2(CanardRxTransfer transfer,ref uin
     if (tao) {
 msg.ecef_position_velocity_len = 0;
         while (((transfer.payload_len*8)-bit_ofs) > 0) {
-            _decode_uavcan_equipment_gnss_ECEFPositionVelocity(transfer, ref bit_ofs, msg.ecef_position_velocity[msg.ecef_position_velocity_len], false);
             msg.ecef_position_velocity_len++;
+            _decode_uavcan_equipment_gnss_ECEFPositionVelocity(transfer, ref bit_ofs, msg.ecef_position_velocity[msg.ecef_position_velocity_len], false);
         }
     } else {
         msg.ecef_position_velocity = new uavcan_equipment_gnss_ECEFPositionVelocity[msg.ecef_position_velocity_len];

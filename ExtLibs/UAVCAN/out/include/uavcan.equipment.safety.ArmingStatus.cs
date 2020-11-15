@@ -17,32 +17,30 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_MAX_PACK_SIZE = 1;
-public const ulong UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_DT_SIG = 0x8700F375556A8003;
-public const int UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_DT_ID = 1100;
+        public const int UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_MAX_PACK_SIZE = 1;
+        public const ulong UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_DT_SIG = 0x8700F375556A8003;
+        public const int UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_DT_ID = 1100;
 
 
 
-public const double UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_STATUS_DISARMED = 0; // saturated uint8
-public const double UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_STATUS_FULLY_ARMED = 255; // saturated uint8
+        public const double UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_STATUS_DISARMED = 0; // saturated uint8
+        public const double UAVCAN_EQUIPMENT_SAFETY_ARMINGSTATUS_STATUS_FULLY_ARMED = 255; // saturated uint8
 
-public class uavcan_equipment_safety_ArmingStatus: IUAVCANSerialize {
-    public uint8_t status = new uint8_t();
+        public partial class uavcan_equipment_safety_ArmingStatus: IUAVCANSerialize {
+            public uint8_t status = new uint8_t();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_equipment_safety_ArmingStatus(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_equipment_safety_ArmingStatus(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_equipment_safety_ArmingStatus(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_equipment_safety_ArmingStatus(transfer, this);
+            }
+        }
+    }
 }

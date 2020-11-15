@@ -17,31 +17,29 @@ using System.Runtime.InteropServices;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
 
 
-public const int UAVCAN_PROTOCOL_HARDWAREVERSION_MAX_PACK_SIZE = 274;
-public const ulong UAVCAN_PROTOCOL_HARDWAREVERSION_DT_SIG = 0xAD5C4C933F4A0C4;
+        public const int UAVCAN_PROTOCOL_HARDWAREVERSION_MAX_PACK_SIZE = 274;
+        public const ulong UAVCAN_PROTOCOL_HARDWAREVERSION_DT_SIG = 0xAD5C4C933F4A0C4;
 
 
 
-public class uavcan_protocol_HardwareVersion: IUAVCANSerialize {
-    public uint8_t major = new uint8_t();
-    public uint8_t minor = new uint8_t();
-    [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public uint8_t[] unique_id = new uint8_t[16];
-    public uint8_t certificate_of_authenticity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=255)] public uint8_t[] certificate_of_authenticity = Enumerable.Range(1, 255).Select(i => new uint8_t()).ToArray();
+        public partial class uavcan_protocol_HardwareVersion: IUAVCANSerialize {
+            public uint8_t major = new uint8_t();
+            public uint8_t minor = new uint8_t();
+            [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)] public uint8_t[] unique_id = new uint8_t[16];
+            public uint8_t certificate_of_authenticity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=255)] public uint8_t[] certificate_of_authenticity = Enumerable.Range(1, 255).Select(i => new uint8_t()).ToArray();
 
-public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
-{
-	encode_uavcan_protocol_HardwareVersion(this, chunk_cb, ctx);
-}
+            public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
+            {
+                encode_uavcan_protocol_HardwareVersion(this, chunk_cb, ctx);
+            }
 
-public void decode(CanardRxTransfer transfer)
-{
-	decode_uavcan_protocol_HardwareVersion(transfer, this);
-}
-
-};
-
-}
+            public void decode(CanardRxTransfer transfer)
+            {
+                decode_uavcan_protocol_HardwareVersion(transfer, this);
+            }
+        }
+    }
 }
