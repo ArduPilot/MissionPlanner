@@ -485,7 +485,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2._connectionControl.CMB_baudrate.Text, false);
 
             if (mav.BaseStream == null || !mav.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show("Failed to find device on mavlink");
                 return;
+            }
 
             if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board",
                     "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
