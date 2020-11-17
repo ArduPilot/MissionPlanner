@@ -3481,7 +3481,7 @@ namespace MissionPlanner.GCSViews
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
                                                             "CallSign: " + pllau.CallSign + "\n" +
                                                             "Squawk: " + Convert.ToString(pllau.Squawk) + "\n" +
-                                                            "Alt: " + pllau.Alt.ToString("0") + "\n" +
+                                                            "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + "\n" +
                                                             "Speed: " + pllau.Speed.ToString("0") + "\n" +
                                                             "Heading: " + pllau.Heading.ToString("0");
                                     adsbplane.ToolTipMode = MarkerTooltipMode.OnMouseOver;
