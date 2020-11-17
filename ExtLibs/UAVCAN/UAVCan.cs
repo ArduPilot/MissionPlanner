@@ -332,6 +332,10 @@ namespace UAVCAN
                         NodeAdded?.Invoke(frame.SourceNode, msg as uavcan.uavcan_protocol_NodeStatus);
                     }
                     NodeList[frame.SourceNode] = msg as uavcan.uavcan_protocol_NodeStatus;
+                }               
+                else if (frame.IsServiceMsg && msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_res))
+                {
+                    NodeInfo[frame.SourceNode] = msg as uavcan.uavcan_protocol_GetNodeInfo_res;
                 }
                 else if (frame.IsServiceMsg && msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_req) && frame.SvcDestinationNode == SourceNode)
                 {
@@ -1390,7 +1394,11 @@ namespace UAVCAN
 
         public event FileSendProgressArgs FileSendProgress;
 
-        public ConcurrentDictionary<int, uavcan_protocol_NodeStatus> NodeList = new ConcurrentDictionary<int,uavcan_protocol_NodeStatus>();
+        public ConcurrentDictionary<int, uavcan_protocol_NodeStatus> NodeList =
+            new ConcurrentDictionary<int, uavcan_protocol_NodeStatus>();
+
+        public ConcurrentDictionary<int, uavcan_protocol_GetNodeInfo_res> NodeInfo =
+            new ConcurrentDictionary<int, uavcan_protocol_GetNodeInfo_res>();
 
         public delegate void NodeAddedArgs(byte NodeID, uavcan.uavcan_protocol_NodeStatus nodeStatus);
         public event NodeAddedArgs NodeAdded;

@@ -29,11 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.contextMenu1 = new System.Windows.Forms.ContextMenu();
+            this.menu_passthrough = new System.Windows.Forms.MenuItem();
             this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
@@ -62,6 +64,9 @@
             this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chk_canonclose = new System.Windows.Forms.CheckBox();
+            this.menu_update = new System.Windows.Forms.MenuItem();
+            this.menu_parameters = new System.Windows.Forms.MenuItem();
+            this.menu_restart = new System.Windows.Forms.MenuItem();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,9 +75,7 @@
             this.hardwareVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.updateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Parameter = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Restart = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -128,9 +131,8 @@
             this.hardwareVersionDataGridViewTextBoxColumn,
             this.SoftwareVersion,
             this.SoftwareCRC,
-            this.updateDataGridViewTextBoxColumn,
-            this.Parameter,
-            this.Restart});
+            this.Menu});
+            this.myDataGridView1.ContextMenu = this.contextMenu1;
             this.myDataGridView1.DataSource = this.uAVCANModelBindingSource;
             this.myDataGridView1.Location = new System.Drawing.Point(7, 58);
             this.myDataGridView1.Name = "myDataGridView1";
@@ -140,6 +142,21 @@
             this.myDataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellClick);
             this.myDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowEnter);
             this.myDataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.myDataGridView1_RowsAdded);
+            // 
+            // contextMenu1
+            // 
+            this.contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menu_update,
+            this.menu_parameters,
+            this.menu_restart,
+            this.menu_passthrough});
+            // 
+            // menu_passthrough
+            // 
+            this.menu_passthrough.Index = 3;
+            this.menu_passthrough.RadioCheck = true;
+            this.menu_passthrough.Text = "CANPassThrough";
+            this.menu_passthrough.Click += new System.EventHandler(this.menu_passthrough_Click);
             // 
             // uAVCANModelBindingSource
             // 
@@ -434,6 +451,24 @@
             this.chk_canonclose.Text = "Exit SLCAN on leave?";
             this.chk_canonclose.UseVisualStyleBackColor = true;
             // 
+            // menu_update
+            // 
+            this.menu_update.Index = 0;
+            this.menu_update.Text = "Update";
+            this.menu_update.Click += new System.EventHandler(this.menu_update_Click);
+            // 
+            // menu_parameters
+            // 
+            this.menu_parameters.Index = 1;
+            this.menu_parameters.Text = "Parameters";
+            this.menu_parameters.Click += new System.EventHandler(this.menu_parameters_Click);
+            // 
+            // menu_restart
+            // 
+            this.menu_restart.Index = 2;
+            this.menu_restart.Text = "Restart";
+            this.menu_restart.Click += new System.EventHandler(this.menu_restart_Click);
+            // 
             // iDDataGridViewTextBoxColumn
             // 
             this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
@@ -493,39 +528,20 @@
             // SoftwareCRC
             // 
             this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle2.Format = "X";
-            dataGridViewCellStyle2.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Format = "X";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
             this.SoftwareCRC.HeaderText = "SW CRC";
             this.SoftwareCRC.Name = "SoftwareCRC";
             this.SoftwareCRC.ReadOnly = true;
             this.SoftwareCRC.Width = 110;
             // 
-            // updateDataGridViewTextBoxColumn
+            // Menu
             // 
-            this.updateDataGridViewTextBoxColumn.HeaderText = "Update Firmware";
-            this.updateDataGridViewTextBoxColumn.Name = "updateDataGridViewTextBoxColumn";
-            this.updateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.updateDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.updateDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.updateDataGridViewTextBoxColumn.Text = "Update Firmware";
-            this.updateDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // Parameter
-            // 
-            this.Parameter.HeaderText = "Parameter";
-            this.Parameter.Name = "Parameter";
-            this.Parameter.ReadOnly = true;
-            this.Parameter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Parameter.Text = "Parameter";
-            this.Parameter.Width = 65;
-            // 
-            // Restart
-            // 
-            this.Restart.HeaderText = "Restart";
-            this.Restart.Name = "Restart";
-            this.Restart.ReadOnly = true;
-            this.Restart.Width = 50;
+            this.Menu.HeaderText = "Menu";
+            this.Menu.Name = "Menu";
+            this.Menu.ReadOnly = true;
+            this.Menu.Width = 50;
             // 
             // ConfigUAVCAN
             // 
@@ -588,6 +604,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Source;
         private System.Windows.Forms.DataGridViewTextBoxColumn Text;
         private System.Windows.Forms.CheckBox chk_canonclose;
+        private System.Windows.Forms.ContextMenu contextMenu1;
+        private System.Windows.Forms.MenuItem menu_passthrough;
+        private System.Windows.Forms.MenuItem menu_update;
+        private System.Windows.Forms.MenuItem menu_parameters;
+        private System.Windows.Forms.MenuItem menu_restart;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn modeDataGridViewTextBoxColumn;
@@ -596,8 +617,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn hardwareVersionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareCRC;
-        private System.Windows.Forms.DataGridViewButtonColumn updateDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn Parameter;
-        private System.Windows.Forms.DataGridViewButtonColumn Restart;
+        private System.Windows.Forms.DataGridViewButtonColumn Menu;
     }
 }

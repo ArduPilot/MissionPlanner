@@ -6,8 +6,10 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using UAVCAN;
 using Timer = System.Windows.Forms.Timer;
@@ -293,6 +295,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         UAVCAN.uavcan can = new UAVCAN.uavcan();
         private bool _updatePending;
         private Timer timer;
+        private TcpListener listener;
 
         private async void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -300,124 +303,122 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (e.RowIndex < 0) return;
 
             try {
-                byte nodeID = (byte)myDataGridView1[iDDataGridViewTextBoxColumn.Index, e.RowIndex].Value;
-
-                if (e.ColumnIndex == myDataGridView1.Columns["Parameter"].Index)
+                if (e.ColumnIndex == myDataGridView1.Columns["Menu"].Index)
                 {
-                    IProgressReporterDialogue prd = new ProgressReporterDialogue();
-                    List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
-                        new List<uavcan.uavcan_protocol_param_GetSet_res>();
-                    prd.doWorkArgs.ForceExit = true;
-                    prd.doWorkArgs.CancelRequestChanged += (sender2, args) => { prd.doWorkArgs.CancelAcknowledged = true; };
-                    prd.DoWork += dialogue =>
-                    {
-                        paramlist = can.GetParameters(nodeID);
-                    };
-                    prd.UpdateProgressAndStatus(-1, Strings.GettingParams);
-                    prd.RunBackgroundOperationAsync();
-
-                    if (!prd.doWorkArgs.CancelRequested)
-                        new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
-                }
-                else if (e.ColumnIndex == myDataGridView1.Columns["Restart"].Index)
-                {
-                    can.RestartNode(nodeID);
-                }
-                else if (e.ColumnIndex == myDataGridView1.Columns["updateDataGridViewTextBoxColumn"].Index)
-                {
-                    ProgressReporterDialogue prd = new ProgressReporterDialogue();
-                    uavcan.FileSendProgressArgs filesend = (id, file, percent) =>
-                    {
-                        prd.UpdateProgressAndStatus((int)percent, id + " " + file);
-                    };
-                    can.FileSendProgress += filesend;
-                    if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update",
-                        CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
-                    {
-                        var devicename = myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString();
-                        var hwversion =
-                            double.Parse(
-                                myDataGridView1[hardwareVersionDataGridViewTextBoxColumn.Index, e.RowIndex].Value
-                                    .ToString(), CultureInfo.InvariantCulture);
-
-                        var usebeta = false;
-
-                        if (CustomMessageBox.Show("Do you want to search for a beta firmware? (not recommended)", "Update",
-                            CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
-                        {
-                            usebeta = true;
-                        }
-
-                        var url = can.LookForUpdate(devicename, hwversion, usebeta);
-
-                        if (url != string.Empty)
-                        {
-                            try
-                            {
-                                prd.DoWork += dialogue =>
-                                {
-                                    var tempfile = Path.GetTempFileName();
-                                    Download.getFilefromNet(url, tempfile);
-
-                                    try
-                                    {
-                                        can.Update(nodeID, devicename, hwversion, tempfile);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        throw;
-                                    }
-
-                                    return;
-                                };
-
-                                prd.RunBackgroundOperationAsync();
-                            }
-                            catch (Exception ex)
-                            {
-                                CustomMessageBox.Show(ex.Message, Strings.ERROR);
-                            }
-                        }
-                        else
-                        {
-                            CustomMessageBox.Show(Strings.UpdateNotFound, Strings.UpdateNotFound);
-                        }
-                    }
-                    else
-                    {
-
-                        FileDialog fd = new OpenFileDialog();
-                        fd.RestoreDirectory = true;
-                        fd.Filter = "*.bin|*.bin";
-                        var dia = fd.ShowDialog();
-
-                        if (fd.CheckFileExists && dia == DialogResult.OK)
-                        {
-                            try
-                            {
-                                prd.DoWork += dialogue =>
-                                {
-                                    can.Update(nodeID, myDataGridView1[nameDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString(), 0,
-                                    fd.FileName);
-
-                                    return;
-                                };
-
-                                prd.RunBackgroundOperationAsync();
-                            }
-                            catch (Exception ex)
-                            {
-                                CustomMessageBox.Show(ex.Message, Strings.ERROR);
-                            }
-                        }
-                    }
-                    can.FileSendProgress -= filesend;
-                    prd.Dispose();
+                    contextMenu1.Show(myDataGridView1, myDataGridView1.PointToClient(Control.MousePosition));
                 }
             } catch
             {
 
             }
+        }
+
+        private void FirmwareUpdate(byte nodeID)
+        {
+            ProgressReporterDialogue prd = new ProgressReporterDialogue();
+            uavcan.FileSendProgressArgs filesend = (id, file, percent) =>
+            {
+                prd.UpdateProgressAndStatus((int) percent, id + " " + file);
+            };
+            can.FileSendProgress += filesend;
+            var devicename = can.NodeInfo[nodeID].name.Aggregate("", (a, b) => a + (char)b).ToString();
+            var hwversion =
+                double.Parse(
+                    can.NodeInfo[nodeID].hardware_version.major +"."+ can.NodeInfo[nodeID].hardware_version.minor,
+                    CultureInfo.InvariantCulture);
+
+            if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update",
+                CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+            {
+                var usebeta = false;
+
+                if (CustomMessageBox.Show("Do you want to search for a beta firmware? (not recommended)", "Update",
+                    CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                {
+                    usebeta = true;
+                }
+
+                var url = can.LookForUpdate(devicename, hwversion, usebeta);
+
+                if (url != string.Empty)
+                {
+                    try
+                    {
+                        prd.DoWork += dialogue =>
+                        {
+                            var tempfile = Path.GetTempFileName();
+                            Download.getFilefromNet(url, tempfile);
+
+                            try
+                            {
+                                can.Update(nodeID, devicename, hwversion, tempfile);
+                            }
+                            catch (Exception ex)
+                            {
+                                throw;
+                            }
+
+                            return;
+                        };
+
+                        prd.RunBackgroundOperationAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                    }
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.UpdateNotFound, Strings.UpdateNotFound);
+                }
+            }
+            else
+            {
+                FileDialog fd = new OpenFileDialog();
+                fd.RestoreDirectory = true;
+                fd.Filter = "*.bin|*.bin";
+                var dia = fd.ShowDialog();
+
+                if (fd.CheckFileExists && dia == DialogResult.OK)
+                {
+                    try
+                    {
+                        prd.DoWork += dialogue =>
+                        {
+                            can.Update(nodeID,
+                                devicename, 0,
+                                fd.FileName);
+
+                            return;
+                        };
+
+                        prd.RunBackgroundOperationAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                    }
+                }
+            }
+
+            can.FileSendProgress -= filesend;
+            prd.Dispose();
+        }
+
+        private void GetParameters(byte nodeID)
+        {
+            IProgressReporterDialogue prd = new ProgressReporterDialogue();
+            List<uavcan.uavcan_protocol_param_GetSet_res> paramlist =
+                new List<uavcan.uavcan_protocol_param_GetSet_res>();
+            prd.doWorkArgs.ForceExit = true;
+            prd.doWorkArgs.CancelRequestChanged += (sender2, args) => { prd.doWorkArgs.CancelAcknowledged = true; };
+            prd.DoWork += dialogue => { paramlist = can.GetParameters(nodeID); };
+            prd.UpdateProgressAndStatus(-1, Strings.GettingParams);
+            prd.RunBackgroundOperationAsync();
+
+            if (!prd.doWorkArgs.CancelRequested)
+                new UAVCANParams(can, nodeID, paramlist).ShowUserControl();
         }
 
         public void Deactivate()
@@ -429,9 +430,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void myDataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            myDataGridView1[updateDataGridViewTextBoxColumn.Index, e.RowIndex].Value = "Update";
-            myDataGridView1[Parameter.Index, e.RowIndex].Value = "Parameters";
-            myDataGridView1[Restart.Index, e.RowIndex].Value = "Restart";
+            myDataGridView1[Menu.Index, e.RowIndex].Value = "Menu";
         }
 
         private void uAVCANModelBindingSource_CurrentChanged(object sender, EventArgs e)
@@ -483,6 +482,131 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 .ToString());
 
             new UAVCANFileUI(can, id).ShowUserControl();
+        }
+
+        private void menu_passthrough_Click(object sender, EventArgs e)
+        {
+            if (listener != null)
+            {
+                menu_passthrough.Checked = false;
+                listener.Stop();
+                CustomMessageBox.Show("Stop", "Disabled forwarding");
+                listener = null;
+                return;
+            }
+
+            var port = 500;
+            if (InputBox.Show("Enter TCP Port", "Enter TCP Port", ref port) == DialogResult.OK)
+            {
+                menu_passthrough.Checked = true;
+
+                Task.Run(() =>
+                {
+                    try
+                    {
+
+                        listener = new TcpListener(port);
+                        listener.Start();
+
+                        int tcpbps = 0;
+                        int rtcmbps = 0;
+                        int combps = 0;
+                        int second = 0;
+
+                        while (true)
+                        {
+                            var client = listener.AcceptTcpClient();
+                            client.NoDelay = true;
+
+                            var st = client.GetStream();
+
+                            uavcan.MessageRecievedDel mrd =  (frame, msg, id) =>
+                            {
+                                combps += frame.SizeofEntireMsg;
+                                if (frame.MsgTypeID == uavcan.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                                {
+                                    var data = msg as uavcan.uavcan_equipment_gnss_RTCMStream;
+                                    try
+                                    {
+                                        rtcmbps += data.data_len;
+                                        st.Write(data.data, 0, data.data_len);
+                                        st.Flush();
+                                    }
+                                    catch
+                                    {
+                                        client = null;
+                                    }
+                                }
+                            };
+
+                            can.MessageReceived -= mrd;
+                            can.MessageReceived += mrd;
+
+                            try
+                            {
+                                while (true)
+                                {
+                                    if (client.Available > 0)
+                                    {
+                                        var toread = Math.Min(client.Available, 128);
+                                        byte[] buffer = new byte[toread];
+                                        var read = st.Read(buffer, 0, toread);
+                                        foreach (var b in buffer)
+                                        {
+                                            Console.Write("0x{0:X} ", b);
+                                        }
+
+                                        Console.WriteLine();
+                                        tcpbps += read;
+                                        var slcan = can.PackageMessage(0, 0, 0,
+                                            new uavcan.uavcan_equipment_gnss_RTCMStream()
+                                                {protocol_id = 3, data = buffer, data_len = (byte) read});
+                                        can.WriteToStream(slcan);
+                                    }
+
+                                    Thread.Sleep(1);
+
+                                    if (second != DateTime.Now.Second)
+                                    {
+                                        Console.WriteLine("tcp:{0} can:{1} data:{2} avail:{3}", tcpbps, combps, rtcmbps,
+                                            client.Available);
+                                        tcpbps = combps = rtcmbps = 0;
+                                        second = DateTime.Now.Second;
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                can.MessageReceived -= mrd;
+                                Console.WriteLine(ex);
+                            }
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        CustomMessageBox.Show(Strings.ERROR, "Forwarder problem " + exception.ToString());
+                        if (listener != null)
+                            listener.Stop();
+                        listener = null;
+                        this.InvokeIfRequired(() => { menu_passthrough.Checked = true; });
+                    }
+                });
+            }
+        }
+
+        private void menu_update_Click(object sender, EventArgs e)
+        {
+            FirmwareUpdate(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()));
+        }
+
+        private void menu_parameters_Click(object sender, EventArgs e)
+        {
+            GetParameters(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()));
+        }
+
+        private void menu_restart_Click(object sender, EventArgs e)
+        {
+            can.RestartNode(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()));
         }
     }
 }
