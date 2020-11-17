@@ -61,6 +61,7 @@ namespace MissionPlanner.Log
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.splitContainerAllTree = new System.Windows.Forms.SplitContainer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.txt_info = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerZgGrid)).BeginInit();
             this.splitContainerZgGrid.Panel1.SuspendLayout();
@@ -355,9 +356,9 @@ namespace MissionPlanner.Log
             ((System.Windows.Forms.TreeNode)(resources.GetObject("treeView1.Nodes"))),
             ((System.Windows.Forms.TreeNode)(resources.GetObject("treeView1.Nodes1")))});
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
+            this.treeView1.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeView1_TreeNodeMouseHover);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
-            this.treeView1.NodeMouseHover += new TreeNodeMouseHoverEventHandler(this.treeView1_TreeNodeMouseHover);
             // 
             // splitContainerAllTree
             // 
@@ -371,6 +372,12 @@ namespace MissionPlanner.Log
             // splitContainerAllTree.Panel2
             // 
             this.splitContainerAllTree.Panel2.Controls.Add(this.treeView1);
+            this.splitContainerAllTree.Panel2.Controls.Add(this.txt_info);
+            // 
+            // txt_info
+            // 
+            resources.ApplyResources(this.txt_info, "txt_info");
+            this.txt_info.Name = "txt_info";
             // 
             // LogBrowse
             // 
@@ -398,6 +405,7 @@ namespace MissionPlanner.Log
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.splitContainerAllTree.Panel1.ResumeLayout(false);
             this.splitContainerAllTree.Panel2.ResumeLayout(false);
+            this.splitContainerAllTree.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerAllTree)).EndInit();
             this.splitContainerAllTree.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -434,6 +442,7 @@ namespace MissionPlanner.Log
         private System.Windows.Forms.CheckBox chk_datagrid;
         private System.Windows.Forms.CheckBox chk_events;
         private System.Windows.Forms.ToolTip toolTip1;
+        private TextBox txt_info;
     }
 }
 

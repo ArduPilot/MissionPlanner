@@ -3371,14 +3371,16 @@ main()
                     var desc = LogMetaData.MetaData[items[0]][items[items.Length - 1]];
                     pos.Y -= 30;
                     pos.X += 30;
-                    toolTip1.Show(desc, treeView1, pos, 2000);
+                    txt_info.Text = desc;
+                    //toolTip1.Show(desc, treeView1, pos, 2000);
                 } else if (items.Length == 1 && LogMetaData.MetaData.ContainsKey(items[0]) &&
                            LogMetaData.MetaData[items[0]].ContainsKey("description"))
                 {
                     var desc = LogMetaData.MetaData[items[0]]["description"];
                     pos.Y -= 30;
                     pos.X += 30;
-                    toolTip1.Show(desc, treeView1, pos, 2000);
+                    txt_info.Text = desc;
+                    //toolTip1.Show(desc, treeView1, pos, 2000);
                 }
             }
         }
