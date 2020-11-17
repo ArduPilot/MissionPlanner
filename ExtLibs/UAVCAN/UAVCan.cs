@@ -941,16 +941,31 @@ namespace UAVCAN
                             }
                             else
                             {
-                                for (byte a = 125; a >= 1; a--)
+                                var set = false;
+                                // requesting a specific id
+                                if (allocation.node_id != 0)
                                 {
+                                    var a = allocation.node_id;
                                     if (!NodeList.ContainsKey(a))
                                     {
                                         allocation.node_id = (byte) a;
                                         Console.WriteLine("Allocate " + a);
                                         allocated[a] = allocation.unique_id;
-                                        break;
+                                        set = true;
                                     }
                                 }
+
+                                if (!set) // use auto allocation
+                                    for (byte a = 125; a >= 1; a--)
+                                    {
+                                        if (!NodeList.ContainsKey(a))
+                                        {
+                                            allocation.node_id = (byte) a;
+                                            Console.WriteLine("Allocate " + a);
+                                            allocated[a] = allocation.unique_id;
+                                            break;
+                                        }
+                                    }
                             }
 
                             dynamicBytes.Clear();
