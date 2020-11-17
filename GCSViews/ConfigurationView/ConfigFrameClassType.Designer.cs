@@ -61,6 +61,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.radioButtonHexa = new System.Windows.Forms.RadioButton();
             this.radioButtonQuad = new System.Windows.Forms.RadioButton();
             this.radioButtonUndef = new System.Windows.Forms.RadioButton();
+            this.radio_type_other = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).BeginInit();
@@ -75,7 +76,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.radioButton_Plus, "radioButton_Plus");
             this.radioButton_Plus.Name = "radioButton_Plus";
-            this.radioButton_Plus.TabStop = true;
             this.radioButton_Plus.UseVisualStyleBackColor = true;
             this.radioButton_Plus.CheckedChanged += new System.EventHandler(this.radioButtonType_CheckedChanged);
             // 
@@ -193,6 +193,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.radio_type_other);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.radioButton_VTail);
             this.groupBox2.Controls.Add(this.pictureBoxVTail);
@@ -321,12 +322,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.radioButtonQuad, "radioButtonQuad");
             this.radioButtonQuad.BackColor = System.Drawing.Color.Black;
-            this.radioButtonQuad.Checked = true;
             this.radioButtonQuad.FlatAppearance.BorderSize = 2;
             this.radioButtonQuad.ForeColor = System.Drawing.Color.White;
             this.radioButtonQuad.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_03;
             this.radioButtonQuad.Name = "radioButtonQuad";
-            this.radioButtonQuad.TabStop = true;
             this.radioButtonQuad.UseVisualStyleBackColor = false;
             this.radioButtonQuad.CheckedChanged += new System.EventHandler(this.radioButtonClass_CheckedChanged);
             // 
@@ -339,6 +338,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.radioButtonUndef.Name = "radioButtonUndef";
             this.radioButtonUndef.UseVisualStyleBackColor = false;
             this.radioButtonUndef.CheckedChanged += new System.EventHandler(this.radioButtonClass_CheckedChanged);
+            // 
+            // radio_type_other
+            // 
+            resources.ApplyResources(this.radio_type_other, "radio_type_other");
+            this.radio_type_other.Checked = true;
+            this.radio_type_other.Name = "radio_type_other";
+            this.radio_type_other.TabStop = true;
+            this.radio_type_other.UseVisualStyleBackColor = true;
             // 
             // ConfigFrameClassType
             // 
@@ -391,5 +398,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.RadioButton radioButtonQuad;
         private System.Windows.Forms.RadioButton radioButtonUndef;
         private System.Windows.Forms.RadioButton radioButtonOctaQuad;
+        private System.Windows.Forms.RadioButton radio_type_other;
     }
 }

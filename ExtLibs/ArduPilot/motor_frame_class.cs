@@ -1,5 +1,8 @@
 ﻿namespace MissionPlanner.ArduPilot
 {
+    /// <summary>
+    /// https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Motors/AP_Motors_Class.h
+    /// </summary>
     public enum motor_frame_class
     {
         MOTOR_FRAME_UNDEFINED = 0,
@@ -17,6 +20,4 @@
         MOTOR_FRAME_DODECAHEXA = 12,
         MOTOR_FRAME_HELI_QUAD = 13,
     };
-
-    //from ap_hal\boards\chibios.h
 }
