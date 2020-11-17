@@ -2527,7 +2527,7 @@ namespace MissionPlanner
                             alt = loc.relative_alt / 1000.0f;
 
                             useLocation = true;
-                            if (loc.lat == 0 && loc.lon == 0)
+                            if (loc.lat == 0 || loc.lon == 0 || loc.lat == int.MaxValue || loc.lon == int.MaxValue)
                             {
                                 useLocation = false;
                             }
@@ -2545,15 +2545,17 @@ namespace MissionPlanner
                         }
 
                         break;
-                    case (uint)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT:
+                    case (uint) MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT:
 
                         {
                             var gps = mavLinkMessage.ToStructure<MAVLink.mavlink_gps_raw_int_t>();
 
                             if (!useLocation)
                             {
-                                lat = gps.lat * 1.0e-7;
-                                lng = gps.lon * 1.0e-7;
+                                if (gps.lat != int.MaxValue)
+                                    lat = gps.lat * 1.0e-7;
+                                if (gps.lon != int.MaxValue)
+                                    lng = gps.lon * 1.0e-7;
 
                                 altasl = gps.alt / 1000.0f;
                                 // alt = gps.alt; // using vfr as includes baro calc
@@ -2563,7 +2565,7 @@ namespace MissionPlanner
                             //                    Console.WriteLine("gpsfix {0}",gpsstatus);
 
                             if (gps.eph != ushort.MaxValue)
-                                gpshdop = (float)Math.Round(gps.eph / 100.0, 2);
+                                gpshdop = (float) Math.Round(gps.eph / 100.0, 2);
 
                             if (gps.satellites_visible != byte.MaxValue)
                                 satcount = gps.satellites_visible;
