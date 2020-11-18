@@ -1703,28 +1703,26 @@ namespace MissionPlanner
                 _connectionControl.UpdateSysIDS();             
 
                 // check for newer firmware
-                var softwares = Firmware.LoadSoftwares();
-
-                if (softwares.Count > 0)
+                Task.Run(() =>
                 {
                     try
                     {
                         string[] fields1 = comPort.MAV.VersionString.Split(' ');
 
-                        foreach (Firmware.software item in softwares)
-                        {
-                            string[] fields2 = item.name.Split(' ');
+                        var softwares = APFirmware.GetReleaseNewest(APFirmware.RELEASE_TYPES.OFFICIAL);
 
+                        foreach (var item in softwares)
+                        {
                             // check primare firmware type. ie arudplane, arducopter
-                            if (fields1[0] == fields2[0])
+                            if (fields1[0].ToLower().Contains(item.VehicleType.ToLower()))
                             {
                                 Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
-                                Version ver2 = VersionDetection.GetVersion(item.name);
+                                Version ver2 = item.MavFirmwareVersion;
 
                                 if (ver2 > ver1)
                                 {
-                                    Common.MessageShowAgain(Strings.NewFirmware + "-" + item.name,
-                                        Strings.NewFirmwareA + item.name + Strings.Pleaseup +
+                                    Common.MessageShowAgain(Strings.NewFirmware + "-" + item.VehicleType + " " + ver2,
+                                        Strings.NewFirmwareA + item.VehicleType + " " + ver2 + Strings.Pleaseup +
                                         "[link;https://discuss.ardupilot.org/tags/stable-release;Release Notes]");
                                     break;
                                 }
@@ -1738,7 +1736,7 @@ namespace MissionPlanner
                     {
                         log.Error(ex);
                     }
-                }
+                });
 
                 FlightData.CheckBatteryShow();
 
@@ -3663,10 +3661,7 @@ namespace MissionPlanner
             {
                 if (Settings.Instance["fw_check"] != DateTime.Now.ToShortDateString())
                 {
-                    var fw = new Firmware();
-                    var list = fw.getFWList();
-                    if (list.Count > 1)
-                        Firmware.SaveSoftwares(new Firmware.optionsObject() { softwares = list });
+                    APFirmware.GetList("https://firmware.oborne.me/manifest.json.gz");
 
                     Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
                 }

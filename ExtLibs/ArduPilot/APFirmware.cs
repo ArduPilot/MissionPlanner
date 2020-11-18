@@ -205,6 +205,15 @@ namespace MissionPlanner.ArduPilot
             return ans.ToList();
         }
 
+        public static List<FirmwareInfo> GetReleaseNewest(RELEASE_TYPES reltype)
+        {
+            // get max version for each mavtype
+            return GetRelease(reltype).GroupBy(b => b.MavType).Select(a =>
+                a.Where(b => a.Key == b.MavType && b.MavFirmwareVersion == a.Max(c => c.MavFirmwareVersion))
+                    .FirstOrDefault()).ToList();
+        }
+
+
         public static void test()
         {
             GetList();
