@@ -5108,7 +5108,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         // check this gcs sent it
                         if (fp.target_system != gcssysid ||
-                            fp.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            fp.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER ||
+                            fp.idx != no)
                             continue;
 
                         giveComport = false;

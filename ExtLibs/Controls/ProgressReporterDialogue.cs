@@ -222,7 +222,7 @@ namespace MissionPlanner.Controls
         // - Change the Cancel button to 'Close', so that the user can look at the exception message a bit
         private void ShowDoneWithError(Exception exception, string doWorkArgs)
         {
-            var errMessage = doWorkArgs ?? "There was an unexpected error";
+            var errMessage = doWorkArgs ?? "There was an unexpected error (" + exception.Message + ")";
 
             if (this.Disposing || this.IsDisposed)
                 return;
