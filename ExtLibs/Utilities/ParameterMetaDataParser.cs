@@ -88,46 +88,52 @@ namespace MissionPlanner.Utilities
                 using (var objXmlTextWriter = new XmlTextWriter(XMLFileName, null))
                 {
                     objXmlTextWriter.Formatting = Formatting.Indented;
-                    objXmlTextWriter.WriteStartDocument();
-
-                    objXmlTextWriter.WriteStartElement("Params");
-
-                    parameterLocations.Sort((a, b) => GetVehicle(a).CompareTo(GetVehicle(b)));
-
-                    var lastelement = "";
-                    foreach (string parameterLocation in parameterLocations)
                     {
-                        string element = GetVehicle(parameterLocation.ToLower());                       
-
-                        // Read and parse the content.
-                        string dataFromAddress = ReadDataFromAddress(parameterLocation.Trim());
-
-                        if (String.IsNullOrEmpty(dataFromAddress)) // 404
-                            continue;
-
-                        if (dataFromAddress.Length < 200) // blank template file
-                            continue;
-
-                        // write start and end
-                        if (lastelement != element)
+                        objXmlTextWriter.WriteStartDocument();
                         {
-                            // Write the end element for this parameter location
-                            if(lastelement != "")
+                            objXmlTextWriter.WriteStartElement("Params");
+
+                            parameterLocations.Sort((a, b) => GetVehicle(a).CompareTo(GetVehicle(b)));
+
+                            var lastelement = "";
+                            foreach (string parameterLocation in parameterLocations)
+                            {
+                                string element = GetVehicle(parameterLocation.ToLower());
+
+                                // Read and parse the content.
+                                string dataFromAddress = ReadDataFromAddress(parameterLocation.Trim());
+
+                                if (String.IsNullOrEmpty(dataFromAddress)) // 404
+                                    continue;
+
+                                if (dataFromAddress.Length < 200) // blank template file
+                                    continue;
+
+                                // write start and end
+                                if (lastelement != element)
+                                {
+                                    // Write the end element for this parameter location
+                                    if (lastelement != "")
+                                        objXmlTextWriter.WriteEndElement();
+                                    // Write the start element for this parameter location      
+                                    objXmlTextWriter.WriteStartElement(element);
+                                    lastelement = element;
+                                }
+
+                                ParseParameterInformation(dataFromAddress, objXmlTextWriter, string.Empty, string.Empty,
+                                    element);
+                                ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation.Trim(),
+                                    string.Empty, element);
+                            }
+
+                            if (lastelement != "")
                                 objXmlTextWriter.WriteEndElement();
-                            // Write the start element for this parameter location      
-                            objXmlTextWriter.WriteStartElement(element);
-                            lastelement = element;
+
+                            objXmlTextWriter.WriteEndElement();
                         }
-                        ParseParameterInformation(dataFromAddress, objXmlTextWriter, string.Empty, string.Empty, element);
-                        ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation.Trim(), string.Empty, element);
+                        // Clear the stream
+                        objXmlTextWriter.WriteEndDocument();
                     }
-
-                    objXmlTextWriter.WriteEndElement();
-
-                    objXmlTextWriter.WriteEndElement();
-
-                    // Clear the stream
-                    objXmlTextWriter.WriteEndDocument();
                     objXmlTextWriter.Flush();
                     objXmlTextWriter.Close();
                 }
@@ -484,7 +490,8 @@ namespace MissionPlanner.Utilities
                 }
 
                 //Console.WriteLine("ReadDataFromAddress attempt {1} Queued {0}", address, attempt);
-                Thread.Sleep(500);
+                if(!address.StartsWith("file://"))
+                    Thread.Sleep(500);
             }
 
             // check cache - after delay above for other loader
