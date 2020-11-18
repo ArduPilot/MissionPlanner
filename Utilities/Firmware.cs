@@ -244,42 +244,7 @@ namespace MissionPlanner.Utilities
 
             return options.softwares;
         }
-
-        public static void SaveSoftwares(optionsObject list)
-        {
-            System.Xml.Serialization.XmlSerializer writer =
-                new System.Xml.Serialization.XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
-
-            using (
-                StreamWriter sw =
-                    new StreamWriter(Settings.GetUserDataDirectory() + "fwversions.xml"))
-            {
-                writer.Serialize(sw, list);
-            }
-        }
-
-        public static List<software> LoadSoftwares()
-        {
-            try
-            {
-                System.Xml.Serialization.XmlSerializer reader =
-                    new System.Xml.Serialization.XmlSerializer(typeof(optionsObject), new Type[] { typeof(software) });
-
-                using (
-                    StreamReader sr =
-                        new StreamReader(Settings.GetUserDataDirectory() + "fwversions.xml"))
-                {
-                    return ((optionsObject)reader.Deserialize(sr)).softwares;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-
-            return new List<software>();
-        }
-
+      
         void updateProgress(int percent, string status)
         {
             if (Progress != null)
