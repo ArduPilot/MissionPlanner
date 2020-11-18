@@ -2163,8 +2163,8 @@ namespace MissionPlanner.GCSViews
             }
 
             //Remove it later, do not need
-            //groundColorToolStripMenuItem.Checked = Settings.Instance.GetBoolean("groundColorToolStripMenuItem");
-            //groundColorToolStripMenuItem_Click(null, null);
+            groundColorToolStripMenuItem.Checked = Settings.Instance.GetBoolean("groundColorToolStripMenuItem");
+            groundColorToolStripMenuItem_Click(null, null);
 
             hud1.doResize();
 
