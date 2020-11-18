@@ -2061,6 +2061,7 @@ namespace MissionPlanner.GCSViews
 
         void dropout_FormClosed(object sender, FormClosedEventArgs e)
         {
+            (sender as Form).SaveStartupLocation();
             //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
             SubMainLeft.Panel1.Controls.Add(hud1);
             SubMainLeft.Panel1Collapsed = false;
@@ -2690,11 +2691,13 @@ namespace MissionPlanner.GCSViews
 
             SubMainLeft.Panel1Collapsed = true;
             Form dropout = new Form();
+            dropout.Text = "HUD Dropout";
             dropout.Size = new Size(hud1.Width, hud1.Height + 20);
             SubMainLeft.Panel1.Controls.Remove(hud1);
             dropout.Controls.Add(hud1);
             dropout.Resize += dropout_Resize;
             dropout.FormClosed += dropout_FormClosed;
+            dropout.RestoreStartupLocation();
             dropout.Show();
             huddropout = true;
         }
