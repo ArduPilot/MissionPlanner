@@ -2705,6 +2705,8 @@ namespace MissionPlanner.GCSViews
         private void hud1_ekfclick(object sender, EventArgs e)
         {
             EKFStatus frm = new EKFStatus();
+            frm.RestoreStartupLocation();
+            frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
             frm.TopMost = true;
             frm.Show();
         }
@@ -2724,6 +2726,8 @@ namespace MissionPlanner.GCSViews
         private void hud1_vibeclick(object sender, EventArgs e)
         {
             Vibration frm = new Vibration();
+            frm.RestoreStartupLocation();
+            frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
             frm.TopMost = true;
             frm.Show();
         }
