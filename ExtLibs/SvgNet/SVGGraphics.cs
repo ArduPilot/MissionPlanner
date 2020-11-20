@@ -3658,8 +3658,16 @@ namespace SvgNet.SvgGdi
             {
                 LinearGradientBrush grbr = (LinearGradientBrush)br;
                 RectangleF rc = grbr.Rectangle;
-
+                
                 SvgLinearGradient grad = new SvgLinearGradient(rc.Left, rc.Top, rc.Right, rc.Bottom);
+
+                //Math.Atan2(matrix.M21, matrix.M11);
+                var radians = Math.Atan2(grbr.Transform.Elements[2], grbr.Transform.Elements[0]);
+                var degrees = radians * 180 / Math.PI;
+                if ((int) degrees == -90)
+                {
+                    grad = new SvgLinearGradient("0%","0%","0%","100%");
+                }
 
                 switch (grbr.WrapMode)
                 {
