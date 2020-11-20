@@ -13,7 +13,7 @@ namespace MissionPlanner.Controls
     {
         public static void RestoreStartupLocation(this Form control)
         {
-            var value = Settings.Instance[control.Text.Replace(" ", "_") + "-StartLocation"];
+            var value = Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"];
 
             if (value != null)
             {
@@ -37,7 +37,7 @@ namespace MissionPlanner.Controls
 
         public static void SaveStartupLocation(this Form control)
         {
-            Settings.Instance[control.Text.Replace(" ", "_") + "-StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
+            Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
         }
 
         public static void InvokeIfRequired<T>(this T control, Action<T> action) where T : ISynchronizeInvoke
