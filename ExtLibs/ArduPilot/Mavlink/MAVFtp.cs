@@ -1028,6 +1028,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         timeout.Retries = 0;
                     }
 
+                    if (errorcode == FTPErrorCode.kErrFileNotFound)
+                    {
+                        //stop trying
+                        timeout.Retries = 0;
+                    }
+
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
                     {
                         kCmdResetSessions();
@@ -1066,6 +1072,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public List<FtpFileInfo> kCmdListDirectory(string dir, CancellationTokenSource cancel)
         {
+            if (dir.Length > 1)
+                dir = dir.TrimEnd('/');
+
             List <FtpFileInfo> answer = new List<FtpFileInfo>();
             fileTransferProtocol.target_system = _sysid;
             fileTransferProtocol.target_component = _compid;

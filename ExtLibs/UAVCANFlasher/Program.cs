@@ -155,11 +155,12 @@ namespace UAVCANFlasher
                    can.WriteToStream(slcan);
             };
 
+            uavcan.uavcan_protocol_NodeStatus node;
             can.FileSendComplete += (id, file) =>
             {
                 Console.WriteLine(id + " File send complete " + file);
 
-                can.NodeList.Remove(id);
+                can.NodeList.TryRemove(id, out node);
                 lastseenDateTimes.Remove(id);
             };
 
@@ -181,7 +182,7 @@ namespace UAVCANFlasher
                 {
                     if (lastseenDateTime.Value.AddSeconds(3) < DateTime.Now)
                     {
-                        can.NodeList.Remove(lastseenDateTime.Key);
+                        can.NodeList.TryRemove(lastseenDateTime.Key, out node);
                         lastseenDateTimes.Remove(lastseenDateTime.Key);
                         Console.WriteLine(lastseenDateTime.Key + " Remove old node - 3 seconds of no data");
                     }

@@ -40,6 +40,27 @@ public class SkiaGraphics : Graphics
     }
 }
 
+public class SvgGraphics : Graphics
+{
+    public SvgGraphics(): base(IntPtr.Zero,1,1)
+    {
+
+    }
+
+    public SvgGraphics(SKSurface surface) : base(surface)
+    {
+    }
+
+    public SvgGraphics(IntPtr handle, int width, int height) : base(handle, width, height)
+    {
+    }
+
+    public string WriteSVGString()
+    {
+        return "";
+    }
+}
+
 
 namespace OpenTK
 {
