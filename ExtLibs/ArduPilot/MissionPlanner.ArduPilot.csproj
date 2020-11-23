@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    <PackageReference Include="Mono.Posix.NETStandard" Version="5.20.1-preview" />
     <PackageReference Include="SharpCompress" Version="0.26.0" />
     <PackageReference Include="SharpDX.DirectInput" Version="4.1.0" />
   </ItemGroup>
