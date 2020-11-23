@@ -43,7 +43,7 @@ namespace MissionPlanner.Joystick
             var config = MainV2.joystick.getButton(name);
 
             // change what we modified
-            config.function = Joystick.buttonfunction.Mount_Mode;
+            config.function = buttonfunction.Mount_Mode;
             config.p1 = (int)comboBox1.SelectedValue;
 
             // update entry
