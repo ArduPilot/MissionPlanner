@@ -887,8 +887,17 @@ namespace UAVCAN
 
         public void SetupDynamicNodeAllocator()
         {
+            // is it already setup
+            if (DynamicNodeAllocator)
+                return;
+
+            DynamicNodeAllocator = true;
+            
             MessageReceived += (frame, msg, transferID) =>
             {
+                if (!DynamicNodeAllocator)
+                    return;
+
                 if (frame.TransferType == CANFrame.FrameType.service &&
                     msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_res))
                 {
@@ -988,6 +997,8 @@ namespace UAVCAN
                 }
             };
         }
+
+        public bool DynamicNodeAllocator { get; set; } = false;
 
         public string LookForUpdate(string devicename, double hwversion, bool usebeta = false)
         {
