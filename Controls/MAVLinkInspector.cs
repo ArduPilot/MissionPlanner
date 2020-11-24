@@ -1,6 +1,7 @@
 ﻿using Microsoft.Scripting.Utils;
 using MissionPlanner.Utilities;
 using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -367,13 +368,43 @@ namespace MissionPlanner.Controls
             zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
             zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
 
+            Color[] color = new Color[]
+                {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
             var timer = new Timer() { Interval = 100 };
             var subscribeToPacket =
                 mav.SubscribeToPacketType((MAVLink.MAVLINK_MSG_ID)msgid,
-                    message =>
+                    msg =>
                     {
-                        line.AddPoint(new XDate(message.rxtime),
-                            (double)(dynamic)message.data.GetPropertyOrField(msgidfield));
+	                    var item = msg.GetPropertyOrField(msgidfield);
+	                    if (item is IEnumerable)
+	                    {
+	                        int a = 0;
+	                        foreach (var subitem in (IEnumerable) item)
+	                        {
+	                            if (subitem is IConvertible)
+	                            {
+	                                while (zg1.GraphPane.CurveList.Count < (a + 1))
+	                                {
+	                                    zg1.GraphPane.CurveList.Add(new LineItem(msgidfield + "[" + a + "]",
+	                                        new RollingPointPairList(history), color[a % color.Length], SymbolType.None));
+	                                }
+
+	                                zg1.GraphPane.CurveList[a].AddPoint(new XDate(msg.rxtime),
+	                                    ((IConvertible) subitem).ToDouble(null));
+	                                a++;
+	                            }
+	                        }
+	                    }
+	                    else if (item is IConvertible)
+	                    {
+	                        line.AddPoint(new XDate(msg.rxtime),
+	                            ((IConvertible) item).ToDouble(null));
+	                    }
+	                    else
+	                    {
+	                        line.AddPoint(new XDate(msg.rxtime),
+	                            (double) (dynamic) item);
+	                    }
                         return true;
                     });
             timer.Tick += (o, args) =>
