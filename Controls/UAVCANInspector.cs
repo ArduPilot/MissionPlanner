@@ -157,21 +157,23 @@ namespace MissionPlanner.Controls
                             var elementtype = field.FieldType.GetElementType();
                             var fields = elementtype.GetFields();
 
-                            MsgIdNode.Nodes[field.Name].Text = field.Name;
-                            int a = 0;
-                            foreach (var valuei in value2)
+                            if (!elementtype.IsPrimitive)
                             {
-                                if (!MsgIdNode.Nodes[field.Name].Nodes.ContainsKey(a.ToString()))
+                                MsgIdNode.Nodes[field.Name].Text = field.Name;
+                                int a = 0;
+                                foreach (var valuei in value2)
                                 {
-                                    MsgIdNode.Nodes[field.Name].Nodes.Add(new TreeNode()
-                                        {Name = a.ToString(), Text = a.ToString()});
+                                    if (!MsgIdNode.Nodes[field.Name].Nodes.ContainsKey(a.ToString()))
+                                    {
+                                        MsgIdNode.Nodes[field.Name].Nodes.Add(new TreeNode()
+                                            {Name = a.ToString(), Text = a.ToString()});
+                                    }
+
+                                    PopulateMSG(fields, MsgIdNode.Nodes[field.Name].Nodes[a.ToString()], valuei);
+                                    a++;
                                 }
-
-                                PopulateMSG(fields, MsgIdNode.Nodes[field.Name].Nodes[a.ToString()], valuei);
-                                a++;
+                                continue;
                             }
-
-                            continue;
                         }
                         value = value2.Cast<object>().Aggregate((a, b) => a + "," + b);
                     } 
