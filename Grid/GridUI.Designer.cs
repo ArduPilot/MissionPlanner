@@ -920,6 +920,11 @@
             0,
             0,
             0});
+            this.NUM_leadin.Minimum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            -2147483648});
             this.NUM_leadin.Name = "NUM_leadin";
             this.NUM_leadin.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
@@ -936,6 +941,11 @@
             0,
             0,
             0});
+            this.NUM_overshoot2.Minimum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            -2147483648});
             this.NUM_overshoot2.Name = "NUM_overshoot2";
             this.NUM_overshoot2.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
@@ -998,6 +1008,11 @@
             0,
             0,
             0});
+            this.NUM_overshoot.Minimum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            -2147483648});
             this.NUM_overshoot.Name = "NUM_overshoot";
             this.NUM_overshoot.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
