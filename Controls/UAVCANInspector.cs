@@ -60,7 +60,6 @@ namespace MissionPlanner.Controls
             foreach (var uavcanMessage in pktinspect.GetPacketMessages())
             {
                 TreeNode sysidnode;
-                TreeNode compidnode;
                 TreeNode msgidnode;
 
                 var sysidnodes = treeView1.Nodes.Find(uavcanMessage.frame.SourceNode.ToString(), false);
@@ -81,27 +80,14 @@ namespace MissionPlanner.Controls
                         .ToString("~0Bps");
                 }
 
-                var compidnodes = sysidnode.Nodes.Find(0.ToString(), false);
-                if (compidnodes.Length == 0)
-                {
-                    compidnode = new TreeNode("Comp " + 0)
-                    {
-                        Name = 0.ToString()
-                    };
-                    sysidnode.Nodes.Add(compidnode);
-                    added = true;
-                }
-                else
-                    compidnode = compidnodes.First();
-
-                var msgidnodes = compidnode.Nodes.Find(uavcanMessage.frame.MsgTypeID.ToString(), false);
+                var msgidnodes = sysidnode.Nodes.Find(uavcanMessage.frame.MsgTypeID.ToString(), false);
                 if (msgidnodes.Length == 0)
                 {
                     msgidnode = new TreeNode(uavcanMessage.frame.MsgTypeID.ToString())
                     {
                         Name = uavcanMessage.frame.MsgTypeID.ToString()
                     };
-                    compidnode.Nodes.Add(msgidnode);
+                    sysidnode.Nodes.Add(msgidnode);
                     added = true;
                 }
                 else
@@ -166,6 +152,27 @@ namespace MissionPlanner.Controls
                     }
                     else if (value2.Length > 0)
                     {
+                        if (field.FieldType.IsClass)
+                        {
+                            var elementtype = field.FieldType.GetElementType();
+                            var fields = elementtype.GetFields();
+
+                            MsgIdNode.Nodes[field.Name].Text = field.Name;
+                            int a = 0;
+                            foreach (var valuei in value2)
+                            {
+                                if (!MsgIdNode.Nodes[field.Name].Nodes.ContainsKey(a.ToString()))
+                                {
+                                    MsgIdNode.Nodes[field.Name].Nodes.Add(new TreeNode()
+                                        {Name = a.ToString(), Text = a.ToString()});
+                                }
+
+                                PopulateMSG(fields, MsgIdNode.Nodes[field.Name].Nodes[a.ToString()], valuei);
+                                a++;
+                            }
+
+                            continue;
+                        }
                         value = value2.Cast<object>().Aggregate((a, b) => a + "," + b);
                     } 
                     else if (value2.Length == 0)
@@ -180,7 +187,7 @@ namespace MissionPlanner.Controls
                     PopulateMSG(field.FieldType.GetFields(), MsgIdNode.Nodes[field.Name], value);
                     continue;
                 }
-
+                
                 MsgIdNode.Nodes[field.Name].Text = (String.Format("{0,-32} {1,20} {2,-20}", field.Name, value,
                     field.FieldType.Name));
             }

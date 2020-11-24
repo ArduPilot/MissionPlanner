@@ -14,31 +14,27 @@ using float32 = System.Single;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
+        static void encode_uavcan_protocol_param_Empty(uavcan_protocol_param_Empty msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
+            uint8_t[] buffer = new uint8_t[8];
+            _encode_uavcan_protocol_param_Empty(buffer, msg, chunk_cb, ctx, true);
+        }
 
+        static uint32_t decode_uavcan_protocol_param_Empty(CanardRxTransfer transfer, uavcan_protocol_param_Empty msg) {
+            uint32_t bit_ofs = 0;
+            _decode_uavcan_protocol_param_Empty(transfer, ref bit_ofs, msg, true);
+            return (bit_ofs+7)/8;
+        }
 
+        static void _encode_uavcan_protocol_param_Empty(uint8_t[] buffer, uavcan_protocol_param_Empty msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+        }
 
-static void encode_uavcan_protocol_param_Empty(uavcan_protocol_param_Empty msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
-    uint8_t[] buffer = new uint8_t[8];
-    _encode_uavcan_protocol_param_Empty(buffer, msg, chunk_cb, ctx, true);
-}
+        static void _decode_uavcan_protocol_param_Empty(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_param_Empty msg, bool tao) {
 
-static uint32_t decode_uavcan_protocol_param_Empty(CanardRxTransfer transfer, uavcan_protocol_param_Empty msg) {
-    uint32_t bit_ofs = 0;
-    _decode_uavcan_protocol_param_Empty(transfer, ref bit_ofs, msg, true);
-    return (bit_ofs+7)/8;
-}
-
-static void _encode_uavcan_protocol_param_Empty(uint8_t[] buffer, uavcan_protocol_param_Empty msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-}
-
-static void _decode_uavcan_protocol_param_Empty(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_param_Empty msg, bool tao) {
-
-}
-
-}
+        }
+    }
 }

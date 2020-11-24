@@ -14,51 +14,33 @@ using float32 = System.Single;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
+        static void encode_ardupilot_indication_SafetyState(ardupilot_indication_SafetyState msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
+            uint8_t[] buffer = new uint8_t[8];
+            _encode_ardupilot_indication_SafetyState(buffer, msg, chunk_cb, ctx, true);
+        }
 
+        static uint32_t decode_ardupilot_indication_SafetyState(CanardRxTransfer transfer, ardupilot_indication_SafetyState msg) {
+            uint32_t bit_ofs = 0;
+            _decode_ardupilot_indication_SafetyState(transfer, ref bit_ofs, msg, true);
+            return (bit_ofs+7)/8;
+        }
 
+        static void _encode_ardupilot_indication_SafetyState(uint8_t[] buffer, ardupilot_indication_SafetyState msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+            memset(buffer,0,8);
+            canardEncodeScalar(buffer, 0, 8, msg.status);
+            chunk_cb(buffer, 8, ctx);
+        }
 
-/*
+        static void _decode_ardupilot_indication_SafetyState(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_indication_SafetyState msg, bool tao) {
 
-static uavcan_message_descriptor_s ardupilot_indication_SafetyState_descriptor = {
-    ARDUPILOT_INDICATION_SAFETYSTATE_DT_SIG,
-    ARDUPILOT_INDICATION_SAFETYSTATE_DT_ID,
-    CanardTransferTypeBroadcast,
-    sizeof(ardupilot_indication_SafetyState),
-    ARDUPILOT_INDICATION_SAFETYSTATE_MAX_PACK_SIZE,
-    encode_func,
-    decode_func,
-    null
-};
-*/
+            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.status);
+            bit_ofs += 8;
 
-static void encode_ardupilot_indication_SafetyState(ardupilot_indication_SafetyState msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
-    uint8_t[] buffer = new uint8_t[8];
-    _encode_ardupilot_indication_SafetyState(buffer, msg, chunk_cb, ctx, true);
-}
-
-static uint32_t decode_ardupilot_indication_SafetyState(CanardRxTransfer transfer, ardupilot_indication_SafetyState msg) {
-    uint32_t bit_ofs = 0;
-    _decode_ardupilot_indication_SafetyState(transfer, ref bit_ofs, msg, true);
-    return (bit_ofs+7)/8;
-}
-
-static void _encode_ardupilot_indication_SafetyState(uint8_t[] buffer, ardupilot_indication_SafetyState msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-    memset(buffer,0,8);
-    canardEncodeScalar(buffer, 0, 8, msg.status);
-    chunk_cb(buffer, 8, ctx);
-}
-
-static void _decode_ardupilot_indication_SafetyState(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_indication_SafetyState msg, bool tao) {
-
-    canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.status);
-    bit_ofs += 8;
-
-}
-
-}
+        }
+    }
 }

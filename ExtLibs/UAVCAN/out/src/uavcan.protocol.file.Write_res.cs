@@ -14,48 +14,30 @@ using float32 = System.Single;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace UAVCAN
 {
-public partial class uavcan {
+    public partial class uavcan {
+        static void encode_uavcan_protocol_file_Write_res(uavcan_protocol_file_Write_res msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
+            uint8_t[] buffer = new uint8_t[8];
+            _encode_uavcan_protocol_file_Write_res(buffer, msg, chunk_cb, ctx, true);
+        }
 
+        static uint32_t decode_uavcan_protocol_file_Write_res(CanardRxTransfer transfer, uavcan_protocol_file_Write_res msg) {
+            uint32_t bit_ofs = 0;
+            _decode_uavcan_protocol_file_Write_res(transfer, ref bit_ofs, msg, true);
+            return (bit_ofs+7)/8;
+        }
 
+        static void _encode_uavcan_protocol_file_Write_res(uint8_t[] buffer, uavcan_protocol_file_Write_res msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+            _encode_uavcan_protocol_file_Error(buffer, msg.error, chunk_cb, ctx, tao);
+        }
 
-/*
+        static void _decode_uavcan_protocol_file_Write_res(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_file_Write_res msg, bool tao) {
 
-static uavcan_message_descriptor_s uavcan_protocol_file_Write_res_descriptor = {
-    UAVCAN_PROTOCOL_FILE_WRITE_RES_DT_SIG,
-    UAVCAN_PROTOCOL_FILE_WRITE_RES_DT_ID,
-    CanardTransferTypeResponse,
-    sizeof(uavcan_protocol_file_Write_res),
-    UAVCAN_PROTOCOL_FILE_WRITE_RES_MAX_PACK_SIZE,
-    encode_func,
-    decode_func,
-    null
-};
-*/
+            _decode_uavcan_protocol_file_Error(transfer, ref bit_ofs, msg.error, tao);
 
-static void encode_uavcan_protocol_file_Write_res(uavcan_protocol_file_Write_res msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
-    uint8_t[] buffer = new uint8_t[8];
-    _encode_uavcan_protocol_file_Write_res(buffer, msg, chunk_cb, ctx, true);
-}
-
-static uint32_t decode_uavcan_protocol_file_Write_res(CanardRxTransfer transfer, uavcan_protocol_file_Write_res msg) {
-    uint32_t bit_ofs = 0;
-    _decode_uavcan_protocol_file_Write_res(transfer, ref bit_ofs, msg, true);
-    return (bit_ofs+7)/8;
-}
-
-static void _encode_uavcan_protocol_file_Write_res(uint8_t[] buffer, uavcan_protocol_file_Write_res msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-    _encode_uavcan_protocol_file_Error(buffer, msg.error, chunk_cb, ctx, tao);
-}
-
-static void _decode_uavcan_protocol_file_Write_res(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_file_Write_res msg, bool tao) {
-
-    _decode_uavcan_protocol_file_Error(transfer, ref bit_ofs, msg.error, tao);
-
-}
-
-}
+        }
+    }
 }
