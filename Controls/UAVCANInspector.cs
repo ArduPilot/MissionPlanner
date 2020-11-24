@@ -1,4 +1,5 @@
-﻿using MissionPlanner.Utilities;
+﻿using Microsoft.Diagnostics.Runtime.Interop;
+using MissionPlanner.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -121,7 +122,7 @@ namespace MissionPlanner.Controls
             {
                 if (!MsgIdNode.Nodes.ContainsKey(field.Name))
                 {
-                    MsgIdNode.Nodes.Add(new TreeNode() { Name = field.Name });
+                    MsgIdNode.Nodes.Add(new TreeNode() {Name = field.Name});
                     added = true;
                 }
 
@@ -163,13 +164,17 @@ namespace MissionPlanner.Controls
                                 int a = 0;
                                 foreach (var valuei in value2)
                                 {
-                                    if (!MsgIdNode.Nodes[field.Name].Nodes.ContainsKey(a.ToString()))
+                                    var name = field.Name + "[" + a.ToString() + "]" ;
+                                    if (!MsgIdNode.Nodes[field.Name].Nodes.ContainsKey(name))
                                     {
                                         MsgIdNode.Nodes[field.Name].Nodes.Add(new TreeNode()
-                                            {Name = a.ToString(), Text = a.ToString()});
+                                        {
+                                            Name = name,
+                                            Text = name
+                                        });
                                     }
 
-                                    PopulateMSG(fields, MsgIdNode.Nodes[field.Name].Nodes[a.ToString()], valuei);
+                                    PopulateMSG(fields, MsgIdNode.Nodes[field.Name].Nodes[name], valuei);
                                     a++;
                                 }
                                 continue;
@@ -306,7 +311,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private (string msgid, string name) selectedmsgid;
+        private string selectedmsgid;
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -314,14 +319,21 @@ namespace MissionPlanner.Controls
                 return;
 
             int throwaway = 0;
-            if (int.TryParse(e.Node.Parent.Name, out throwaway))
+            //if (int.TryParse(e.Node.Parent.Name, out throwaway))
             {
-                selectedmsgid = (e.Node.Parent.Name, e.Node.Name);
+                selectedmsgid = e.Node.Name;
+                var current = e.Node.Parent;
+                while (current != null)
+                {
+                    selectedmsgid = current.Name + "/" + selectedmsgid;
+                    current = current.Parent;
+                }
+
                 but_graphit.Enabled = true;
             }
-            else
+            //else
             {
-                but_graphit.Enabled = false;
+               // but_graphit.Enabled = false;
             }
         }
 
@@ -332,8 +344,11 @@ namespace MissionPlanner.Controls
             InputBox.Show("Points", "Points of history?", ref history);
             var form = new Form() { Size = new Size(640, 480) };
             var zg1 = new ZedGraphControl() { Dock = DockStyle.Fill };
-            var msgid = ushort.Parse(selectedmsgid.msgid);
-            var msgidfield = selectedmsgid.name;
+            var msgpath = selectedmsgid.Split('/');
+            var nodeid = int.Parse(msgpath[0]);
+            var msgid = int.Parse(msgpath[1]);
+            var path = msgpath.Skip(2);
+            var msgidfield = msgpath.Last();
             var line = new LineItem(msgidfield, new RollingPointPairList(history), Color.Red, SymbolType.None);
             zg1.GraphPane.Title.Text = "";
 
@@ -344,44 +359,57 @@ namespace MissionPlanner.Controls
             zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
             zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
 
-            Color[] color = new Color[]
-                {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
-
             var timer = new Timer() { Interval = 100 };
             uavcan.MessageRecievedDel msgrecv = (frame, msg, id) =>
             {
-                if (frame.MsgTypeID == msgid)
+                if (frame.SourceNode == nodeid && frame.MsgTypeID == msgid)
                 {
-                    var item = msg.GetPropertyOrField(msgidfield);
-                    if (item is IEnumerable)
+                    object data = msg;
+                    foreach (var subpath in path)
                     {
-                        int a = 0;
-                        foreach (var subitem in (IEnumerable) item)
+                        // array member
+                        if (subpath.Contains("["))
                         {
-                            if (subitem is IConvertible)
-                            {
-                                while (zg1.GraphPane.CurveList.Count < (a + 1))
-                                {
-                                    zg1.GraphPane.CurveList.Add(new LineItem(msgidfield + "[" + a + "]",
-                                        new RollingPointPairList(history), color[a % color.Length], SymbolType.None));
-                                }
-
-                                zg1.GraphPane.CurveList[a].AddPoint(new XDate(DateTime.Now),
-                                    ((IConvertible) subitem).ToDouble(null));
-                                a++;
-                            }
+                            var count = subpath.Split('[', ']');
+                            var index = int.Parse(count[1]);
+                            data = ((IList) data)[index];
+                            continue;
                         }
+                        var field = data.GetType().GetField(subpath);
+                        data = field.GetValue(data);
                     }
-                    else if (item is IConvertible)
+
+                    var item = data;
+
+                    if (item.GetType().IsClass && !item.GetType().IsArray)
                     {
-                        line.AddPoint(new XDate(DateTime.Now),
-                            ((IConvertible) item).ToDouble(null));
+                        var items = data.GetType().GetFields();
+                        var dict = items.ToDictionary(ks => ks.Name, es => es.GetValue(item));
+
+                        zg1.GraphPane.CurveList.Remove(line);
+
+                        int a = 0;
+                        foreach (var newitem in dict)
+                        {
+                            var label = msgidfield + "." + newitem.Key;
+                            var lines = zg1.GraphPane.CurveList.Where(ci =>
+                                ci.Label.Text == label || ci.Label.Text.StartsWith(label + " "));
+                            if (lines.Count() == 0)
+                            {
+                                line = new LineItem(label, new RollingPointPairList(history), color[a % color.Length],
+                                    SymbolType.None);
+                                zg1.GraphPane.CurveList.Add(line);
+                            }
+                            else
+                                line = (LineItem) lines.First();
+                            
+                            AddToGraph(newitem.Value, zg1, newitem.Key, line);
+                            a++;
+                        }
+                        return;
                     }
-                    else
-                    {
-                        line.AddPoint(new XDate(DateTime.Now),
-                            (double) (dynamic) item);
-                    }
+
+                    AddToGraph(item, zg1, msgidfield, line);
                 }
             };
             can.MessageReceived += msgrecv;
@@ -401,6 +429,47 @@ namespace MissionPlanner.Controls
             form.Show(this);
             timer.Start();
             but_graphit.Enabled = false;
+        }
+
+        Color[] color = new Color[]
+            {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
+
+        private void AddToGraph(object item, ZedGraphControl zg1, string msgidfield, LineItem line)
+        {
+            if (item is IEnumerable)
+            {
+                int a = 0;
+                foreach (var subitem in (IEnumerable) item)
+                {
+                    if (subitem is IConvertible)
+                    {
+                        while (zg1.GraphPane.CurveList.Count < (a + 1))
+                        {
+                            zg1.GraphPane.CurveList.Add(new LineItem(msgidfield + "[" + a + "]",
+                                new RollingPointPairList(history), color[a % color.Length],
+                                SymbolType.None));
+                        }
+
+                        zg1.GraphPane.CurveList[a].AddPoint(new XDate(DateTime.Now),
+                            ((IConvertible) subitem).ToDouble(null));
+                        a++;
+                    }
+                }
+            }
+            else if (item is IConvertible)
+            {
+                line.AddPoint(new XDate(DateTime.Now),
+                    ((IConvertible) item).ToDouble(null));
+            } 
+            else if (item.GetType().IsClass)
+            {
+
+            }
+            else
+            {
+                line.AddPoint(new XDate(DateTime.Now),
+                    (double) (dynamic) item);
+            }
         }
     }
 }
