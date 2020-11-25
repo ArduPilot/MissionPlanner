@@ -19,7 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mono.Posix.NETStandard" Version="5.20.1-preview" />
     <PackageReference Include="SharpCompress" Version="0.26.0" />
     <PackageReference Include="SharpDX.DirectInput" Version="4.1.0" />
   </ItemGroup>
@@ -30,6 +29,12 @@
     <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
     <ProjectReference Include="..\Strings\MissionPlanner.Strings.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mono.Posix">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v1.0\Mono.Posix.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -98,14 +98,12 @@
     <Reference Include="Mono.Android.Export" />
     <Reference Include="Mono.CompilerServices.SymbolWriter" />
     <Reference Include="Mono.CSharp" />
+    <Reference Include="Mono.Posix" />
     <Reference Include="OpenTK-1.0" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Mono.Posix.NETStandard">
-      <Version>5.20.1-preview</Version>
-    </PackageReference>
     <PackageReference Include="SkiaSharp.Views">
       <Version>2.80.2</Version>
     </PackageReference>
