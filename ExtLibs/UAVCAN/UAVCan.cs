@@ -1276,6 +1276,7 @@ namespace UAVCAN
                     {
                         sr.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
 
+                        //logfile.Write(line + "\r");
                         // wait 50ms for a message send ack
                         /*DateTime deadline = DateTime.Now.AddMilliseconds(1);
                         while (!cmdack && deadline > DateTime.Now)
@@ -1568,6 +1569,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
             else if (line[0] == 'Z')
             {
+                cmdack = true;
                 return;
             }
             else
@@ -1580,6 +1582,13 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             //T12ABCDEF2AA55 : extended can_id 0x12ABCDEF, can_dlc 2, data 0xAA 0x55
             var msgdata = line.Substring(1, id_len);// new string(line.Skip(1).Take(id_len).ToArray());
+            if (msgdata.Contains("T")) // bad packet
+            {
+                Console.WriteLine("Bad SLCAN " + line);
+                var idx= line.IndexOf("T", 1);
+                ReadMessage(line.Substring(idx ));
+                return;
+            }
             var packet_id = Convert.ToUInt32(msgdata, 16); // id
             var packet_len = line[1 + id_len] - 48; // dlc
             var with_timestamp = line_len > (2 + id_len + packet_len * 2);
