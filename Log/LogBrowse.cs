@@ -1854,7 +1854,7 @@ main()
                         if (i < startline || i > endline)
                             continue;
 
-                        if (item.msgtype == "GPS")
+                        if (item.msgtype == "GPS" && (item.instance == "0" || item.instance == ""))
                         {
                             var ans = getPointLatLng(item);
 
@@ -1888,7 +1888,7 @@ main()
                                 }
                             }
                         }
-                        else if (item.msgtype == "GPS2")
+                        else if (item.msgtype == "GPS2" || item.msgtype == "GPS" && item.instance == "1")
                         {
                             var ans = getPointLatLng(item);
 
@@ -1922,7 +1922,7 @@ main()
                                 }
                             }
                         }
-                        else if (item.msgtype == "GPSB")
+                        else if (item.msgtype == "GPSB" || item.msgtype == "GPS" && item.instance == "2")
                         {
                             var ans = getPointLatLng(item);
 
