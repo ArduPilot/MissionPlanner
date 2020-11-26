@@ -77,7 +77,7 @@ namespace UAVCAN
             int lastcha = 0;
 
             var timeout = DateTime.UtcNow.AddMilliseconds(timeoutms);
-
+            
             try
             {
                 do
@@ -85,13 +85,6 @@ namespace UAVCAN
                     cha = st.ReadByte();
                     if (cha == -1)
                         break;
-                    try
-                    {
-                        logfile?.WriteByte((byte) cha);
-                    }
-                    catch
-                    {
-                    }
 
                     sb.Append((char) cha);
                     if (DateTime.UtcNow > timeout)
@@ -109,6 +102,21 @@ namespace UAVCAN
             }
             catch
             {
+            }
+            finally
+            {
+                try
+                {
+                    logfilesemaphore.Wait();
+                    logfile?.Write(ASCIIEncoding.ASCII.GetBytes(sb.ToString()), 0, sb.Length);
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    logfilesemaphore.Release();
+                }
             }
 
             return sb.ToString();
@@ -1276,7 +1284,19 @@ namespace UAVCAN
                     {
                         sr.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
 
-                        //logfile.Write(line + "\r");
+                        try
+                        {
+                            logfilesemaphore.Wait();
+                            logfile?.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
+                        }
+                        catch
+                        {
+                        }
+                        finally
+                        {
+                            logfilesemaphore.Release();
+                        }
+
                         // wait 50ms for a message send ack
                         /*DateTime deadline = DateTime.Now.AddMilliseconds(1);
                         while (!cmdack && deadline > DateTime.Now)
@@ -1880,6 +1900,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
         private bool run;
         private Stream logfile;
+        private SemaphoreSlim logfilesemaphore = new SemaphoreSlim(1);
         private bool cmdack;
 
         public int Read(byte b)
