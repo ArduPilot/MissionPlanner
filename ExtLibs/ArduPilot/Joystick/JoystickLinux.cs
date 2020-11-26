@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using MissionPlanner.Utilities;
-using Mono.Unix.Native;
 using SharpDX.DirectInput;
 
 namespace MissionPlanner.Joystick
@@ -62,13 +61,15 @@ namespace MissionPlanner.Joystick
 
         public void Start(string deviceFile)
         {
-            Mono.Unix.UnixSymbolicLinkInfo i = new Mono.Unix.UnixSymbolicLinkInfo( deviceFile );
+            //Mono.Unix.UnixSymbolicLinkInfo i = new Mono.Unix.UnixSymbolicLinkInfo( deviceFile );
 
-            Console.WriteLine(i.ContentsPath); // ../js0
-            Console.WriteLine(i.FullName); // fullpath
-            Console.WriteLine(i.Name); // filename
+            //Console.WriteLine(i.ContentsPath); // ../js0
+            //Console.WriteLine(i.FullName); // fullpath
+            //Console.WriteLine(i.Name); // filename
 
-            var path = "/dev/input/by-id/" + i.ContentsPath;
+            //var path = "/dev/input/by-id/" + i.ContentsPath;
+
+            var path = deviceFile;
 
             if (!File.Exists(path))
             {
