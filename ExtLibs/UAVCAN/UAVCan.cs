@@ -967,7 +967,7 @@ namespace UAVCAN
                                 if (allocation.node_id != 0)
                                 {
                                     var a = allocation.node_id;
-                                    if (!NodeList.ContainsKey(a))
+                                    if (!NodeList.ContainsKey(a) && !allocated.ContainsKey(a))
                                     {
                                         allocation.node_id = (byte) a;
                                         Console.WriteLine("Allocate " + a);
@@ -979,7 +979,7 @@ namespace UAVCAN
                                 if (!set) // use auto allocation
                                     for (byte a = 125; a >= 1; a--)
                                     {
-                                        if (!NodeList.ContainsKey(a))
+                                        if (!NodeList.ContainsKey(a) && !allocated.ContainsKey(a))
                                         {
                                             allocation.node_id = (byte) a;
                                             Console.WriteLine("Allocate " + a);
