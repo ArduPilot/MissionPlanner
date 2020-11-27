@@ -5939,14 +5939,19 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             InputBox.Show("Enter String", "Enter String (requires 1CamBam_Stick_3 font)", ref text);
             string size = "5";
             InputBox.Show("Enter size", "Enter size", ref size);
-
+            string rotation = "0";
+            InputBox.Show("Enter rotation", "Enter rotation", ref rotation);
+            
             using (Font font = new System.Drawing.Font("1CamBam_Stick_3", float.Parse(size) * 1.35f, FontStyle.Regular))
             using (GraphicsPath gp = new GraphicsPath())
             using (StringFormat sf = new StringFormat())
+            using (System.Drawing.Drawing2D.Matrix tr = new System.Drawing.Drawing2D.Matrix())
             {
                 sf.Alignment = StringAlignment.Near;
                 sf.LineAlignment = StringAlignment.Near;
                 gp.AddString(text, font.FontFamily, (int)font.Style, font.Size, new PointF(0, 0), sf);
+                tr.Rotate(float.Parse(rotation));
+                gp.Transform(tr);
 
                 utmpos basepos = new utmpos(MouseDownStart);
 
