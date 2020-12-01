@@ -1365,11 +1365,10 @@ namespace MissionPlanner.GCSViews
 
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
                                                        FormatDistance((
-                                                                          overlay.route.Points.Select(a => (PointLatLngAlt)a)
-                                                                              .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2)) +
-                                                                          overlay.homeroute.Points.Select(a => (PointLatLngAlt)a)
-                                                                              .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))) /
-                                                                      1000.0, false);
+                                                                          overlay.overlay.Routes.SelectMany(a=>a.Points)
+                                                                              .Select(a => (PointLatLngAlt)a)
+                                                                              .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))
+                                                           ) / 1000.0, false);
 
                     setgradanddistandaz(overlay.pointlist, home);
 
