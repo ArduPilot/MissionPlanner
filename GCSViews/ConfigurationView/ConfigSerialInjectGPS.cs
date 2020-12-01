@@ -426,7 +426,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
 
                 if (basepos != PointLatLngAlt.Zero)
+                {
+                    ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true, chk_movingbase.Checked);
+
                     ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, false, chk_movingbase.Checked);
+                }
 
                 CMB_baudrate.Text = "460800";
 
