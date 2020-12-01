@@ -17,7 +17,7 @@ namespace MissionPlanner
         {
             PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
 
-            if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
+            if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING || MAV.aptype >= MAVLink.MAV_TYPE.VTOL_DUOROTOR && MAV.aptype <= MAVLink.MAV_TYPE.VTOL_RESERVED5)
             {
                 // colorise map marker/s based on their sysid, for common sysid/s used 1-6, 11-16, and 101-106
                 // its rare for ArduPilot to be used to fly more than 6 planes at a time from one console.
