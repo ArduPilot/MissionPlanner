@@ -596,7 +596,7 @@ namespace MissionPlanner.Utilities
                 port.Write(packet, 0, packet.Length);
                 Thread.Sleep(1000);
                 //reboot
-                packet = generate(0x06, 0x04, new uint8_t[] {0x14, 0xff, 0, 0});
+                packet = generate(0x06, 0x04, new uint8_t[] {0x14, 0xff, 2, 0});
                 port.Write(packet, 0, packet.Length);
                 Thread.Sleep(3000);
                 return;
