@@ -12,6 +12,7 @@
         Ateryx,
         ArduTracker,
         Gymbal,
-        PX4
+        PX4,
+        Other
     }
 }

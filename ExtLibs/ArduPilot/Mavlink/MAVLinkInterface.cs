@@ -5792,7 +5792,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         case MAV_TYPE.FIXED_WING:
                             MAVlist[sysid, compid].cs.firmware = Firmwares.ArduPlane;
+                            break;  
+                        case MAV_TYPE n when (n >= MAV_TYPE.VTOL_DUOROTOR && n <= MAV_TYPE.VTOL_RESERVED5):
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduPlane;
                             break;
+                        case MAV_TYPE.FLAPPING_WING:
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduPlane;
+                            break;  
                         case MAV_TYPE.QUADROTOR:
                             MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
                             break;
@@ -5806,6 +5812,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
                             break;
                         case MAV_TYPE.HELICOPTER:
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
+                            break;         
+                        case MAV_TYPE.DODECAROTOR:
                             MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
                             break;
                         case MAV_TYPE.GROUND_ROVER:
@@ -5821,6 +5830,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             MAVlist[sysid, compid].cs.firmware = Firmwares.ArduTracker;
                             break;
                         default:
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.Other;
                             log.Error(MAVlist[sysid, compid].aptype + " not registered as valid type");
                             break;
                     }
