@@ -758,6 +758,7 @@ namespace MissionPlanner.Controls
                 int type = 0;
                 int instance = 0;
                 int sensorno = 0;
+                double multiplier = -1;
 
                 foreach (var item in file.GetEnumeratorType(new string[] { "ISBH", "ISBD" }))
                 {
@@ -779,6 +780,10 @@ namespace MissionPlanner.Controls
 
                         alldata[sensorno].sample_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
                         CultureInfo.InvariantCulture);
+
+                        multiplier = double.Parse(
+                            item.items[file.dflog.FindMessageOffset(item.msgtype, "mul")],
+                            CultureInfo.InvariantCulture);
 
                         if (type == 0)
                             alldata[sensorno].type = "ACC" + instance.ToString();
@@ -814,17 +819,17 @@ namespace MissionPlanner.Controls
                         item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa =>
                         {
                             alldata[sensorno].datax.Add(double.Parse(aa,
-CultureInfo.InvariantCulture));
+CultureInfo.InvariantCulture)/multiplier);
                         });
                         item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa =>
                         {
                             alldata[sensorno].datay.Add(double.Parse(aa,
-CultureInfo.InvariantCulture));
+CultureInfo.InvariantCulture)/multiplier);
                         });
                         item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa =>
                         {
                             alldata[sensorno].dataz.Add(double.Parse(aa,
-CultureInfo.InvariantCulture));
+CultureInfo.InvariantCulture)/multiplier);
                         });
                     }
                 }

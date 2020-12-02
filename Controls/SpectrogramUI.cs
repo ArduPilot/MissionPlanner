@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -59,8 +60,6 @@ namespace MissionPlanner.Controls
                     return;
 
                 file = new DFLogBuffer(File.OpenRead(ofd.FileName));
-
-                cmb_sensor_SelectedIndexChanged(null, null);
             }
         }
 
@@ -81,9 +80,13 @@ namespace MissionPlanner.Controls
             List<(double timeus, double[] value)> allfftdata;
             double[] freqt;
 
-            var img1 = Spectrogram.GenerateImage(file, out freqt, out allfftdata, cmb_sensor.Text, field[0]);
-            var img2 = Spectrogram.GenerateImage(file, out freqt, out allfftdata, cmb_sensor.Text, field[1]);
-            var img3 = Spectrogram.GenerateImage(file, out freqt, out allfftdata, cmb_sensor.Text, field[2]);
+            // create X Y Z
+            var img1 = Spectrogram.GenerateImage(file, out freqt, out allfftdata, cmb_sensor.Text, field[0],
+                min: (int) num_min.Value, max: (int) num_max.Value);
+            var img2 = Spectrogram.GenerateImage(file, out freqt, out allfftdata, cmb_sensor.Text, field[1],
+                min: (int) num_min.Value, max: (int) num_max.Value);
+            var img3 = Spectrogram.GenerateImage(file, out freqt, out allfftdata, cmb_sensor.Text, field[2],
+                min: (int) num_min.Value, max: (int) num_max.Value);
 
             var mintime = allfftdata.Min(a => a.timeus)  / 1000000.0;
             var maxtime = allfftdata.Max(a => a.timeus)  / 1000000.0;
@@ -113,10 +116,29 @@ namespace MissionPlanner.Controls
             zedGraphControl1.MasterPane[2].XAxis.Scale.Max = maxtime;
             zedGraphControl1.MasterPane[2].YAxis.Scale.Min = 0;
             zedGraphControl1.MasterPane[2].YAxis.Scale.Max = freqt.Max();
-            
+
+            Bitmap bitmap = new Bitmap( 10, 10 );
+            Graphics g = Graphics.FromImage( bitmap );
+            zedGraphControl1.MasterPane.DoLayout(g);
+
             zedGraphControl1.AxisChange();
 
             zedGraphControl1.Invalidate();
+        }
+
+        private void num_min_ValueChanged(object sender, EventArgs e)
+        {
+            cmb_sensor_SelectedIndexChanged(null, null);
+        }
+
+        private void num_max_ValueChanged(object sender, EventArgs e)
+        {
+            cmb_sensor_SelectedIndexChanged(null, null);
+        }
+
+        private void but_redraw_Click(object sender, EventArgs e)
+        {
+            cmb_sensor_SelectedIndexChanged(null, null);
         }
     }
 
