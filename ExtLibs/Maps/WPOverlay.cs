@@ -61,8 +61,6 @@ namespace MissionPlanner.ArduPilot
                     continue;
 
                 if (command < (ushort) MAVLink.MAV_CMD.LAST &&
-                    command != (ushort) MAVLink.MAV_CMD.TAKEOFF && // doesnt have a position
-                    command != (ushort) MAVLink.MAV_CMD.VTOL_TAKEOFF && // doesnt have a position
                     command != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
                     command != (ushort) MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
                     command != (ushort) MAVLink.MAV_CMD.DELAY &&
@@ -207,12 +205,15 @@ namespace MissionPlanner.ArduPilot
                     }
                     else
                     {
-                        pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
-                            item.alt + gethomealt((MAVLink.MAV_FRAME) item.frame, item.lat, item.lng),
-                            (a + 1).ToString()));
-                        route.Add(pointlist[pointlist.Count - 1]);
-                        addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
-                            item.alt * altunitmultiplier, null, wpradius);
+                        if (item.lat != 0 && item.lng != 0)
+                        {
+                            pointlist.Add(new PointLatLngAlt(item.lat, item.lng,
+                                item.alt + gethomealt((MAVLink.MAV_FRAME) item.frame, item.lat, item.lng),
+                                (a + 1).ToString()));
+                            route.Add(pointlist[pointlist.Count - 1]);
+                            addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
+                                item.alt * altunitmultiplier, null, wpradius);
+                        }
                     }
 
                     maxlong = Math.Max(item.lng, maxlong);
