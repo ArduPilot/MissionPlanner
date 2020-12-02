@@ -1181,10 +1181,11 @@ namespace UAVCAN
 
             FileSendComplete += filecomplete;
 
+            uint timestamp = 0;
             int b = 0;
             while (!done)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 if (exception != null)
                 {
@@ -1193,7 +1194,14 @@ namespace UAVCAN
 
                 if (NodeList.Any(a => a.Key == nodeid && a.Value.mode == uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
                 {
-                    b = 0;
+                    var lastrxts = NodeList.First(a => a.Key == nodeid).Value.uptime_sec;
+                    if(lastrxts != timestamp)
+                        b = 0;
+                    if (b > 5)
+                    {
+                        Console.WriteLine("Possible update issue " + nodeid + " (no nodestatus) ");
+                    }
+                    timestamp = lastrxts;
                 }
                 else
                 {
@@ -1206,10 +1214,12 @@ namespace UAVCAN
 
                         WriteToStream(slcan);
                     }
+                }
 
-                    b++;
-                    if (b > 100)
-                        break;
+                b++;
+                if (b > 30)
+                {
+                    break;
                 }
             }
 
