@@ -31,7 +31,7 @@ map = {
 def generate_message_header(f, xml_list):
     dedup = {}
     for xml in xml_list:
-        print "generate_message_header " + xml.basename
+        print("generate_message_header " + xml.basename)
         if xml.little_endian:
             xml.mavlink_endian = "MAVLINK_LITTLE_ENDIAN"
         else:
@@ -179,14 +179,14 @@ ${message_names_enum}
 
 
 def generate_message_enum_types(xml):
-    print "generate_message_enum_types: " + xml.filename
+    print("generate_message_enum_types: " + xml.filename)
     for m in xml.message:
         for fld in m.fields:
             if fld.array_length == 0:
                 fld.type = map[fld.type]
             if fld.enum != "" and fld.array_length == 0:
                 enumtypes[fld.enum] = fld.type
-                print fld.enum + " is type " + fld.type
+                print(fld.enum + " is type " + fld.type)
 
 def cleanText(text):
     text = text.replace("\n"," ")
@@ -194,7 +194,7 @@ def cleanText(text):
     return text.replace("\"","'")
 
 def generate_message_enums(f, xml): 
-    print "generate_message_enums: " + xml.filename
+    print("generate_message_enums: " + xml.filename)
     # add some extra field attributes for convenience with arrays
     for m in xml.enum:
         m.description = cleanText(m.description)
