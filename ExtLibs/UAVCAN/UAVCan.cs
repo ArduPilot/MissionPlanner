@@ -290,7 +290,7 @@ namespace UAVCAN
                     {
                         if (NodeStatus)
                         {
-                            var slcan = PackageMessage(SourceNode, 20, transferID++,
+                            var slcan = PackageMessage(SourceNode, 0, transferID++,
                                 new uavcan.uavcan_protocol_NodeStatus()
                                 {
                                     health = (byte) uavcan.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK,
@@ -428,7 +428,7 @@ namespace UAVCAN
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 30, transferID++, req);
+                    var slcan = PackageMessage(node, 0, transferID++, req);
 
                     WriteToStream(slcan);
 
@@ -480,7 +480,7 @@ namespace UAVCAN
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 30, transferID++, req);
+                    var slcan = PackageMessage(node, 0, transferID++, req);
 
                     WriteToStream(slcan);
 
@@ -505,9 +505,9 @@ namespace UAVCAN
 
             MessageRecievedDel paramdelegate = (frame, msg, transferID) =>
             {
-                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode && frame.SourceNode == node)
                     return;
-
+                
                 if (msg.GetType() == typeof(uavcan.uavcan_protocol_param_GetSet_res))
                 {
                     var getsetreq = msg as uavcan.uavcan_protocol_param_GetSet_res;
@@ -545,13 +545,12 @@ namespace UAVCAN
                     index = index
                 };
 
-                var slcan = PackageMessage(node, 30, transferID++, req);
 
-           
-                    WriteToStream(slcan);
-             
+                var slcan = PackageMessage(node, 0, transferID++, req);
 
-                wait.Wait(666);
+                WriteToStream(slcan);
+
+                wait.Wait(333);
             }
 
             MessageReceived -= paramdelegate;
@@ -715,7 +714,7 @@ namespace UAVCAN
                     {
                         file_GetDirectoryEntryInfo_req.entry_index = i;
 
-                        var slcan = PackageMessage(DestNode, 30, transferID++, file_GetDirectoryEntryInfo_req);
+                        var slcan = PackageMessage(DestNode, 0, transferID++, file_GetDirectoryEntryInfo_req);
                      
                             WriteToStream(slcan);
 
@@ -788,7 +787,7 @@ namespace UAVCAN
                     {
                         if (cancel.IsCancellationRequested)
                             break;
-                        var slcan = PackageMessage(DestNode, 30, transferID++, fileReadReq);
+                        var slcan = PackageMessage(DestNode, 0, transferID++, fileReadReq);
                       
                             WriteToStream(slcan);
 
@@ -858,7 +857,7 @@ namespace UAVCAN
                         var read = sourcefile.Read(fileWriteReq.data, 0, fileWriteReq.data.Length);
                         fileWriteReq.data_len = (byte) read;
 
-                        var slcan = PackageMessage(DestNode, 30, transferID++, fileWriteReq);
+                        var slcan = PackageMessage(DestNode, 0, transferID++, fileWriteReq);
 
                         WriteToStream(slcan);
 
@@ -879,7 +878,7 @@ namespace UAVCAN
                     {
                         fileWriteReq.data_len = (byte) 0;
                         fileWriteReq.offset = (ulong)sourcefile.Length;
-                        var slcan = PackageMessage(DestNode, 30, transferID++, fileWriteReq);
+                        var slcan = PackageMessage(DestNode, 0, transferID++, fileWriteReq);
                         WriteToStream(slcan);
                         break;
                     }
@@ -1210,7 +1209,7 @@ namespace UAVCAN
                         // get node info
                         uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new uavcan.uavcan_protocol_GetNodeInfo_req() { };
 
-                        var slcan = PackageMessage((byte) nodeid, 30, transferID++, gnireq);
+                        var slcan = PackageMessage((byte) nodeid, 0, transferID++, gnireq);
 
                         WriteToStream(slcan);
                     }
@@ -1885,7 +1884,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 30, transferID++, req);
+                    var slcan = PackageMessage(node, 0, transferID++, req);
 
                     reqtime = DateTime.Now;
                     WriteToStream(slcan);
@@ -1977,7 +1976,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 30, transferID++, req);
+                    var slcan = PackageMessage(node, 0, transferID++, req);
 
                     WriteToStream(slcan);
 

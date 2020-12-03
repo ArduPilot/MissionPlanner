@@ -558,7 +558,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                                         Console.WriteLine();
                                         tcpbps += read;
-                                        var slcan = can.PackageMessage(0, 0, 0,
+                                        var slcan = can.PackageMessage(0, 30, 0,
                                             new uavcan.uavcan_equipment_gnss_RTCMStream()
                                                 {protocol_id = 3, data = buffer, data_len = (byte) read});
                                         can.WriteToStream(slcan);
