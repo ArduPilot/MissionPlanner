@@ -77,7 +77,7 @@
             this.BUT_run.Name = "BUT_run";
             this.BUT_run.Size = new System.Drawing.Size(75, 33);
             this.BUT_run.TabIndex = 1;
-            this.BUT_run.Text = "Run Wav";
+            this.BUT_run.Text = "Run 16bit Mono Wav";
             this.BUT_run.UseVisualStyleBackColor = true;
             this.BUT_run.Click += new System.EventHandler(this.BUT_run_Click);
             // 
