@@ -22,6 +22,11 @@ namespace SikRadio
         {
             InitializeComponent();
 
+            SetupStreamWriter();
+        }
+
+        public static void SetupStreamWriter()
+        {
             if (sw == null)
                 sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
         }

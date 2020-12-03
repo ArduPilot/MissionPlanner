@@ -66,6 +66,7 @@
  *          transmitted to modem when doing the "+++" sequence to change mode from transparent to AT command mode,
  *          as this is not required by any firmware.
  * 2.47 - Added GPIO1_1FUNC settings for RFD900x async firmware 2.69.
+ * 2.48 - RSSI page now writes log to the user's documents folder, instead of the program folder, to prevent exception.  
  */
 
 using System;

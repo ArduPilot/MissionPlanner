@@ -32,8 +32,7 @@ namespace SikRadio
 
             zedGraphControl1.GraphPane.Title.Text = "RSSI";
 
-            if (Terminal.sw == null)
-                Terminal.sw = new StreamWriter("Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
+            Terminal.SetupStreamWriter();
         }
 
         public void Connect()
