@@ -587,8 +587,12 @@ namespace UAVCAN
                     var firmware = fileServerList.Where(a => a.Key == requestedfile);
 
                     if (firmware.Count() == 0)
-                        throw new FileNotFoundException(frame.SourceNode + " " + "File read request for file we are not serving " +
-                                  ASCIIEncoding.ASCII.GetString(frreq.path.path).TrimEnd('\0'));
+                    {
+                        Console.WriteLine(frame.SourceNode + " " +
+                                                        "File read request for file we are not serving " +
+                                                        ASCIIEncoding.ASCII.GetString(frreq.path.path).TrimEnd('\0'));
+                        return;
+                    }
 
                     using (var file = File.OpenRead(firmware.First().Value))
                     {                        
@@ -603,7 +607,7 @@ namespace UAVCAN
                             { value = (short)uavcan.UAVCAN_PROTOCOL_FILE_ERROR_OK }
                         };
 
-                        var slcan = PackageMessage(frame.SourceNode, 0, transferID, readRes);
+                        var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID, readRes);
 
                         WriteToStream(slcan);
 
