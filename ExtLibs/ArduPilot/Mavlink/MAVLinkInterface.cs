@@ -3956,7 +3956,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         private double t7 = 1.0e7;
 
-        bool debug = false;
+        public bool debug = false;
 
         static bool ByteArrayCompare(ReadOnlySpan<byte> a1, ReadOnlySpan<byte> a2)
         {
@@ -3989,8 +3989,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             if (debug)
                 Console.WriteLine(DateTime.Now.Millisecond + " SR0 " + BaseStream?.BytesToRead);
-
-            await readlock.WaitAsync().ConfigureAwait(false);
+            {
+                await readlock.WaitAsync().ConfigureAwait(false);
+            }
             try
             {
                 if (debug)
@@ -4118,7 +4119,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 await Task.Delay(1).ConfigureAwait(false);
                             }
 
+                            if (debug)
+                                Console.WriteLine(DateTime.Now.Millisecond + " SR2a " + BaseStream?.BytesToRead);
+                            var start1 = DateTime.Now;
                             int read = BaseStream.Read(buffer, 1, headerlength);
+                            var end = DateTime.Now - start1;
+                            var lapse = end.TotalMilliseconds;
+                            //Console.WriteLine("read: " + lapse);
+                            if (debug)
+                                Console.WriteLine(DateTime.Now.Millisecond + " SR2b " + BaseStream?.BytesToRead);
                             count = read;
                             if (rawlogfile != null && rawlogfile.CanWrite)
                                 rawlogfile.Write(buffer, 1, read);
@@ -4139,6 +4148,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             length = buffer[1] + headerlengthstx +
                                      MAVLINK_NUM_CHECKSUM_BYTES; // data + header + checksum - U - length    
                         }
+
+                        if (debug)
+                            Console.WriteLine(DateTime.Now.Millisecond + " SR3 " + BaseStream?.BytesToRead);
 
                         if (count >= headerlength || logreadmode)
                         {
@@ -4165,7 +4177,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                                     if (BaseStream.IsOpen)
                                     {
+                                        var start1 = DateTime.Now;
                                         int read = BaseStream.Read(buffer, headerlengthstx, length - (headerlengthstx));
+                                        var end = DateTime.Now - start1;
+                                        var lapse = end.TotalMilliseconds;
+                                        //Console.WriteLine("read: " + lapse);
+                                        
                                         if (read != (length - headerlengthstx))
                                             log.InfoFormat("MAVLINK: bad read {0}, {1}, {2}", headerlengthstx, length,
                                                 count);
@@ -4194,7 +4211,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 }
 
                 if (debug)
-                    Console.WriteLine(DateTime.Now.Millisecond + " SR3 " + BaseStream?.BytesToRead);
+                    Console.WriteLine(DateTime.Now.Millisecond + " SR4 " + BaseStream?.BytesToRead);
             } // end readlock
             finally
             {
@@ -4220,11 +4237,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     btr = logplaybackfile.BaseStream.Length - logplaybackfile.BaseStream.Position;
                 }
 
-                Console.Write(
-                    "bps {0} loss {1} left {2} mem {3} mav2 {4} sign {5} mav1 {6} mav2 {7} signed {8}      \n", _bps1,
-                    MAV.synclost, btr,
-                    GC.GetTotalMemory(false) / 1024 / 1024.0, MAV.mavlinkv2, MAV.signing, _mavlink1count,
-                    _mavlink2count, _mavlink2signed);
+                if (printbps)
+                    Console.Write(
+                        "bps {0} loss {1} left {2} mem {3} mav2 {4} sign {5} mav1 {6} mav2 {7} signed {8}      \n",
+                        _bps1,
+                        MAV.synclost, btr,
+                        GC.GetTotalMemory(false) / 1024 / 1024.0, MAV.mavlinkv2, MAV.signing, _mavlink1count,
+                        _mavlink2count, _mavlink2signed);
                 _bps2 = _bps1; // prev sec
                 _bps1 = 0; // current sec
                 _bpstime = DateTime.Now;
@@ -5173,7 +5192,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     throw new TimeoutException("Timeout on read - GetLog");
                 }
 
+                var start1 = DateTime.Now;
                 buffer = await readPacketAsync().ConfigureAwait(false);
+                var end = DateTime.Now - start1;
+                var lapse = end.TotalMilliseconds;
+                //Console.WriteLine("readPacketAsync: " + lapse);
                 if (buffer.Length > 5)
                 {
                     if (buffer.msgid == (byte)MAVLINK_MSG_ID.LOG_DATA && buffer.sysid == req.target_system && buffer.compid == req.target_component)
@@ -5192,7 +5215,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         // record what we have received
                         set[(data.ofs / 90).ToString()] = 1;
 
-                        ms.Seek((long)data.ofs, SeekOrigin.Begin);
+                        if (ms.Position != data.ofs)
+                            ms.Seek((long) data.ofs, SeekOrigin.Begin);
                         ms.Write(data.data, 0, data.count);
 
                         // update new start point
@@ -5602,6 +5626,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         private EventHandler _ParamListChanged;
         private EventHandler _MavChanged;
         private EventHandler _CommsClose;
+        public bool printbps = true;
 
         MAVLinkMessage readlogPacketMavlink()
         {
