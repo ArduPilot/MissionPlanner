@@ -84,13 +84,22 @@ namespace SikRadio
         {
             if (!_RunRxThread)
             {
-                var Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
-                Session.PutIntoATCommandMode();
-                Session.Dispose();
-
-                _RunRxThread = true;
-                _RxThread = new Thread(RxWorker);
-                _RxThread.Start();
+                if (RFDLib.Utils.Retry(() =>
+                {
+                    var Session = new RFD.RFD900.TSession(SikRadio.Config.comPort, MainV2.comPort.BaseStream.BaudRate);
+                    var Result = Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND;
+                    Session.Dispose();
+                    return Result;
+                }, 3))
+                {
+                    _RunRxThread = true;
+                    _RxThread = new Thread(RxWorker);
+                    _RxThread.Start();
+                }
+                else
+                {
+                    MissionPlanner.MsgBox.CustomMessageBox.Show("Failed to enter AT command mode.");
+                }
             }
         }
 

@@ -51,6 +51,8 @@ namespace RFD900Tools
             btnLockdownAU.Enabled = Enable;
             btnLockdownNZ.Enabled = Enable;
             btnLockdownUS.Enabled = Enable;
+            btnLockdownEurope.Enabled = Enable;
+            btnLockdownIndia.Enabled = Enable;
             btnQueryLockStatus.Enabled = Enable;
         }
 

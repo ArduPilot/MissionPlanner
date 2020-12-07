@@ -213,6 +213,7 @@
     <Compile Include="RFDLib\GUI\Settings.cs" />
     <Compile Include="RFDLib\IO\ATCommand.cs" />
     <Compile Include="RFDLib\IO\SerialPort\SerialPort.cs" />
+    <Compile Include="RFDLib\RFDLib.cs" />
     <Compile Include="RFDLib\Text.cs" />
     <Compile Include="Rssi.cs">
       <SubType>UserControl</SubType>

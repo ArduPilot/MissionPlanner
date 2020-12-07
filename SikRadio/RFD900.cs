@@ -98,7 +98,7 @@ namespace RFD.RFD900
                 try
                 {
                     int Byte;
-                    while ((Byte = _Port.ReadByte()) != -1)
+                    while (((Byte = _Port.ReadByte()) != -1) && (SW.ElapsedMilliseconds < MaxWait))
                     {
                         //string x = _Port.ReadExisting();
                         Temp += ((char)Byte);
