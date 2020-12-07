@@ -23,12 +23,6 @@
             window.fetch = function () {
                 console.log(arguments);
                 var result = fetchListener.apply(this, arguments);
-                if (arguments[0] === '_framework/blazor.boot.json')
-                    result.then(function (response) {
-                        response.clone().json().then(function (bootConfig) {
-                            assemblyReferences = bootConfig.assemblyReferences;
-                        });
-                    });
                 return result;
             };
         })();
@@ -86,7 +80,7 @@
                 document.getElementById('Loading-text').style.display = 'none';
                 el.innerText = 'Initializing';
                 var bootWatch = setInterval(function () {
-                    if (assemblyReferences.length == 0 || !window['MONO']) return;
+                    if (assemblyReferences == null || assemblyReferences.length == 0 || !window['MONO']) return;
                     el.innerText = 'Booting';
                     if (!MONO.loaded_files) return;
                     el.innerText = 'Fetching ' + MONO.loaded_files.length + '/' + assemblyReferences.length;
@@ -272,9 +266,23 @@
             dotNetArrayPtr = dotNetArrayPtrI;
         }
 
+        // from https://github.com/dotnet/aspnetcore/pull/20260/files
+        toJavaScriptString: function toJavaScriptString(managedString) {
+            // Comments from original Mono sample:
+            // FIXME this is wastefull, we could remove the temp malloc by going the UTF16 route
+            // FIXME this is unsafe, cuz raw objects could be GC'd.
+
+            mono_string_get_utf8 = Module.cwrap('mono_wasm_string_get_utf8', 'number', ['number']);
+
+            const utf8 = mono_string_get_utf8(managedString);
+            const res = (window['Module']).UTF8ToString(utf8);
+            Module._free(utf8);
+            return res;
+        }
+
         function filebuffer(dotNetArrayPtrI, staticCallback) {
             console.log(dotNetArrayPtrI);
-            console.log(Blazor.platform.toJavaScriptString(staticCallback));
+            console.log(toJavaScriptString(staticCallback));
             var arrayBuffer;
             var fileReader = new FileReader();
             fileReader.onload = function (r) {
@@ -284,7 +292,8 @@
                 var dotNetBufferView = dotNetBuffer.toUint8Array();
                 dotNetBufferView.set(new Uint8Array(arrayBuffer));
 
-                DotNet.invokeMethodAsync('wasm', Blazor.platform.toJavaScriptString(staticCallback));
+
+                DotNet.invokeMethodAsync('wasm', toJavaScriptString(staticCallback));
             };
 
             var files = document.getElementById('files').files;
@@ -321,6 +330,8 @@
                 //test.sock_ops.connect(test, "127.0.0.1/websocket/raw", 56781);
             }, 2000);
         });*/
+
+        !function (t) { var e = {}; function n(r) { if (e[r]) return e[r].exports; var i = e[r] = { i: r, l: !1, exports: {} }; return t[r].call(i.exports, i, i.exports, n), i.l = !0, i.exports } n.m = t, n.c = e, n.d = function (t, e, r) { n.o(t, e) || Object.defineProperty(t, e, { enumerable: !0, get: r }) }, n.r = function (t) { "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(t, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(t, "__esModule", { value: !0 }) }, n.t = function (t, e) { if (1 & e && (t = n(t)), 8 & e) return t; if (4 & e && "object" == typeof t && t && t.__esModule) return t; var r = Object.create(null); if (n.r(r), Object.defineProperty(r, "default", { enumerable: !0, value: t }), 2 & e && "string" != typeof t) for (var i in t) n.d(r, i, function (e) { return t[e] }.bind(null, i)); return r }, n.n = function (t) { var e = t && t.__esModule ? function () { return t.default } : function () { return t }; return n.d(e, "a", e), e }, n.o = function (t, e) { return Object.prototype.hasOwnProperty.call(t, e) }, n.p = "", n(n.s = 0) }([function (t, e, n) { "use strict"; Object.defineProperty(e, "__esModule", { value: !0 }); const r = n(1); var i; !function (t) { const e = "BlazorExtensions", n = { Canvas2d: new r.ContextManager("2d"), WebGL: new r.ContextManager("webgl") }; t.initialize = function () { "undefined" == typeof window || window[e] ? window[e] = Object.assign({}, window[e], n) : window[e] = Object.assign({}, n) } }(i || (i = {})), i.initialize() }, function (t, e, n) { "use strict"; Object.defineProperty(e, "__esModule", { value: !0 }); e.ContextManager = class { constructor(t) { if (this.contexts = new Map, this.webGLObject = new Array, this.webGLContext = !1, this.webGLTypes = [WebGLBuffer, WebGLShader, WebGLProgram, WebGLFramebuffer, WebGLRenderbuffer, WebGLTexture, WebGLUniformLocation], this.add = ((t, e) => { if (!t) throw new Error("Invalid canvas."); if (!this.contexts.get(t.id)) { var n; if (!(n = e ? t.getContext(this.contextName, e) : t.getContext(this.contextName))) throw new Error("Invalid context."); this.contexts.set(t.id, n) } }), this.remove = (t => { this.contexts.delete(t.id) }), this.setProperty = ((t, e, n) => { const r = this.getContext(t); this.setPropertyWithContext(r, e, n) }), this.getProperty = ((t, e) => { const n = this.getContext(t); return this.serialize(n[e]) }), this.call = ((t, e, n) => { const r = this.getContext(t); return this.callWithContext(r, e, n) }), this.callBatch = ((t, e) => { const n = this.getContext(t); for (let t = 0; t < e.length; t++) { let r = e[t].slice(2); e[t][1] ? this.callWithContext(n, e[t][0], r) : this.setPropertyWithContext(n, e[t][0], Array.isArray(r) && r.length > 0 ? r[0] : null) } }), this.callWithContext = ((t, e, n) => this.serialize(this.prototypes[e].apply(t, void 0 != n ? n.map(t => this.deserialize(e, t)) : []))), this.setPropertyWithContext = ((t, e, n) => { t[e] = this.deserialize(e, n) }), this.getContext = (t => { if (!t) throw new Error("Invalid canvas."); const e = this.contexts.get(t.id); if (!e) throw new Error("Invalid context."); return e }), this.deserialize = ((t, e) => { if (!this.webGLContext || void 0 == e) return e; if (e.hasOwnProperty("webGLType") && e.hasOwnProperty("id")) return this.webGLObject[e.id]; if (Array.isArray(e) && !t.endsWith("v")) return Int8Array.of(...e); if ("string" != typeof e || "bufferData" !== t && "bufferSubData" !== t) return e; { let t = window.atob(e), r = t.length, i = new Uint8Array(r); for (var n = 0; n < r; n++)i[n] = t.charCodeAt(n); return i } }), this.serialize = (t => { if (t instanceof TextMetrics) return { width: t.width }; if (!this.webGLContext || void 0 == t) return t; const e = this.webGLTypes.find(e => t instanceof e); if (void 0 != e) { const n = this.webGLObject.length; return this.webGLObject.push(t), { webGLType: e.name, id: n } } return t }), this.contextName = t, "2d" === t) this.prototypes = CanvasRenderingContext2D.prototype; else { if ("webgl" !== t && "experimental-webgl" !== t) throw new Error(`Invalid context name: ${t}`); this.prototypes = WebGLRenderingContext.prototype, this.webGLContext = !0 } } } }]);
 
     </script>
 
@@ -572,8 +583,8 @@
         var myLatLng = { lat: lat, lng: lng };
         if (markers.length >= (mavno + 1)) {
             markers[mavno].setPosition(myLatLng);
-            markers[mavno].icon.url = RotateIcon.makeIcon("images/drone-icon-1.jpg")
-                .setRotation({ deg: yaw }).getUrl();
+            //markers[mavno].icon.url = RotateIcon.makeIcon("images/drone-icon-1.jpg").setRotation({ deg: yaw }).getUrl();
+            markers[mavno].icon.rotation = yaw;
             if (map != markers[mavno].map)
                 markers[mavno].setMap(map);
         } else {
