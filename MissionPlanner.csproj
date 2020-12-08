@@ -4299,6 +4299,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.ar.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>

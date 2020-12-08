@@ -625,14 +625,17 @@ namespace MissionPlanner
 
         private void BUT_QNH_Click(object sender, EventArgs e)
         {
-            var currentQNH = MainV2.comPort.GetParam("GND_ABS_PRESS").ToString();
+            var paramname = MainV2.comPort.MAV.param.ContainsKey("GND_ABS_PRESS") ? "GND_ABS_PRESS" : "BARO1_GND_PRESS";
+
+            var currentQNH = MainV2.comPort.GetParam(paramname).ToString();
 
             if (InputBox.Show("QNH", "Enter the QNH in pascals (103040 = 1030.4 hPa)", ref currentQNH) ==
                 DialogResult.OK)
             {
                 var newQNH = double.Parse(currentQNH);
 
-                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "GND_ABS_PRESS", newQNH);
+                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    paramname, newQNH);
             }
         }
 
@@ -1161,7 +1164,9 @@ namespace MissionPlanner
 
         private void but_acbarohight_Click(object sender, EventArgs e)
         {
-            var currentQNH = MainV2.comPort.GetParam("GND_ABS_PRESS").ToString();
+            var paramname = MainV2.comPort.MAV.param.ContainsKey("GND_ABS_PRESS") ? "GND_ABS_PRESS" : "BARO1_GND_PRESS";
+
+            var currentQNH = MainV2.comPort.GetParam(paramname).ToString();
             //338.6388 pa => 100' = 30.48m
             CustomMessageBox.Show("use at your own risk!!!");
 
@@ -1172,7 +1177,7 @@ namespace MissionPlanner
             mavlinkNumericUpDown.Padding = new Padding(20);
             mavlinkNumericUpDown.ValueChanged += (o, args) =>
                 {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "GND_ABS_PRESS", (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, paramname, (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
                 };
 
             mavlinkNumericUpDown.ShowUserControl();
