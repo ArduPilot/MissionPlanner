@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -2454,6 +2455,24 @@ public class SkiaGraphics: Graphics
 
 namespace System.Speech.Synthesis
 {
+    public class PromptBuilder
+    {
+        private CultureInfo currentUICulture;
+        private string text;
+
+        public PromptBuilder(CultureInfo currentUICulture)
+        {
+            this.currentUICulture = currentUICulture;
+        }
+
+        public void AppendText(string text)
+        {
+            this.text = text;
+        }
+
+        public static implicit operator string(PromptBuilder d) => d.text;
+    }
+
     public class SpeechSynthesizer
     {
         public SynthesizerState State { get; set; }
