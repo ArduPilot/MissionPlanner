@@ -56,7 +56,9 @@
             resources.GetString("cmb_Baud.Items10"),
             resources.GetString("cmb_Baud.Items11"),
             resources.GetString("cmb_Baud.Items12"),
-            resources.GetString("cmb_Baud.Items13")});
+            resources.GetString("cmb_Baud.Items13"),
+            resources.GetString("cmb_Baud.Items14"),
+            resources.GetString("cmb_Baud.Items15")});
             this.cmb_Baud.Name = "cmb_Baud";
             // 
             // cmb_Connection
