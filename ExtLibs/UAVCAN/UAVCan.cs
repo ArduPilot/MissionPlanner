@@ -1016,6 +1016,7 @@ namespace UAVCAN
             Dictionary<string, string> servers = new Dictionary<string, string>()
             {
                 {"com.hex.", "https://firmware.cubepilot.org/UAVCAN/"},
+                {"com.cubepilot.", "https://firmware.cubepilot.org/UAVCAN/"},
                 {"search.id", "http://localhost/url"}
             };
 
@@ -1023,6 +1024,7 @@ namespace UAVCAN
             {
                 servers.Clear();
                 servers.Add("com.hex.", "https://firmware.cubepilot.org/UAVCAN/beta/");
+                servers.Add("com.cubepilot.", "https://firmware.cubepilot.org/UAVCAN/beta/");
             }
 
             foreach (var serverinfo in servers)
