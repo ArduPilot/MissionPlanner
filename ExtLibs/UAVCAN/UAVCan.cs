@@ -1056,7 +1056,7 @@ namespace UAVCAN
             return String.Empty;
         }
 
-        public void Update(byte nodeid, string devicename, double hwversion, string firmware_name)
+        public void Update(byte nodeid, string devicename, double hwversion, string firmware_name, CancellationToken cancel)
         {
             Console.WriteLine("Update {0} {1} {2} {3}", nodeid, devicename, hwversion, firmware_name);
 
@@ -1190,7 +1190,7 @@ namespace UAVCAN
             {
                 Thread.Sleep(2000);
 
-                if (exception != null)
+                if (exception != null || cancel.IsCancellationRequested)
                 {
                     break;
                 }

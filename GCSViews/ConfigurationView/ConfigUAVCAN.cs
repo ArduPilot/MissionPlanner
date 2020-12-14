@@ -344,6 +344,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     try
                     {
+                        var cancel = new CancellationTokenSource();
+
                         prd.DoWork += dialogue =>
                         {
                             var tempfile = Path.GetTempFileName();
@@ -351,7 +353,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                             try
                             {
-                                can.Update(nodeID, devicename, hwversion, tempfile);
+                                can.Update(nodeID, devicename, hwversion, tempfile, cancel.Token);
                             }
                             catch (Exception ex)
                             {
@@ -359,6 +361,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
 
                             return;
+                        };
+
+                        prd.btnCancel.Click += (sender, args) =>
+                        {
+                            prd.doWorkArgs.CancelAcknowledged = true;
+                            cancel.Cancel();
                         };
 
                         prd.RunBackgroundOperationAsync();
@@ -384,13 +392,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     try
                     {
+                        var cancel = new CancellationTokenSource();
+
                         prd.DoWork += dialogue =>
                         {
                             can.Update(nodeID,
                                 devicename, 0,
-                                fd.FileName);
+                                fd.FileName, cancel.Token);
 
                             return;
+                        };
+
+                        prd.btnCancel.Click += (sender, args) =>
+                        {
+                            prd.doWorkArgs.CancelAcknowledged = true;
+                            cancel.Cancel();
                         };
 
                         prd.RunBackgroundOperationAsync();
