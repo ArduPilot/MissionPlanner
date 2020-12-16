@@ -321,7 +321,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 prd.UpdateProgressAndStatus((int) percent, id + " " + file);
             };
             can.FileSendProgress += filesend;
-            var devicename = can.NodeInfo[nodeID].name.Aggregate("", (a, b) => a + (char)b).ToString();
+            var devicename = can.GetNodeName(nodeID);
             var hwversion =
                 double.Parse(
                     can.NodeInfo[nodeID].hardware_version.major +"."+ can.NodeInfo[nodeID].hardware_version.minor,

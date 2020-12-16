@@ -1239,6 +1239,15 @@ namespace UAVCAN
             }
         }
 
+        public string GetNodeName(byte sourceNode)
+        {
+            if (NodeInfo.ContainsKey(sourceNode))
+            {
+                return ASCIIEncoding.ASCII.GetString(NodeInfo[sourceNode].name).TrimEnd('\0');                
+            }
+            return "?";
+        }
+
         List<long> GetPatternPositions(Stream stream, byte[] pattern)
         {
             List<long> searchResults = new List<long>(); //The results as offsets within the file

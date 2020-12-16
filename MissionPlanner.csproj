@@ -381,6 +381,9 @@
   <ItemGroup>
     <Compile Include="Antenna\TrackerGeneric.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="Controls\UAVCANSubscriber.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\ConnectionOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -821,6 +824,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProximityControl.resx">
       <DependentUpon>ProximityControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANSubscriber.resx">
+      <DependentUpon>UAVCANSubscriber.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Vibration.ko-KR.resx">
       <DependentUpon>Vibration.cs</DependentUpon>

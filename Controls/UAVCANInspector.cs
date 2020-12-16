@@ -25,6 +25,7 @@ namespace MissionPlanner.Controls
         private PacketInspector<(UAVCAN.CANFrame frame, object message)>
             pktinspect = new PacketInspector<(UAVCAN.CANFrame, object)>();
         private MyButton but_graphit;
+        private MyButton but_subscribe;
         private UAVCAN.uavcan can;
 
         public UAVCANInspector(UAVCAN.uavcan can)
@@ -76,7 +77,7 @@ namespace MissionPlanner.Controls
                 else
                 {
                     sysidnode = sysidnodes.First();
-                    sysidnode.Text = "ID " + uavcanMessage.frame.SourceNode + " " + pktinspect
+                    sysidnode.Text = "ID " + uavcanMessage.frame.SourceNode + " - " + can.GetNodeName(uavcanMessage.frame.SourceNode) + " " + pktinspect
                         .SeenBps(uavcanMessage.frame.SourceNode, 0)
                         .ToString("~0Bps");
                 }
@@ -207,13 +208,14 @@ namespace MissionPlanner.Controls
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.but_graphit = new MissionPlanner.Controls.MyButton();
+            this.but_subscribe = new MissionPlanner.Controls.MyButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Font = new System.Drawing.Font("Courier New", 12f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeView1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeView1.Location = new System.Drawing.Point(3, 16);
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(693, 259);
@@ -223,8 +225,8 @@ namespace MissionPlanner.Controls
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.treeView1);
             this.groupBox1.Location = new System.Drawing.Point(0, 30);
@@ -248,9 +250,20 @@ namespace MissionPlanner.Controls
             this.but_graphit.UseVisualStyleBackColor = true;
             this.but_graphit.Click += new System.EventHandler(this.but_graphit_Click);
             // 
+            // but_subscribe
+            // 
+            this.but_subscribe.Location = new System.Drawing.Point(93, 3);
+            this.but_subscribe.Name = "but_subscribe";
+            this.but_subscribe.Size = new System.Drawing.Size(75, 23);
+            this.but_subscribe.TabIndex = 5;
+            this.but_subscribe.Text = "Subscribe";
+            this.but_subscribe.UseVisualStyleBackColor = true;
+            this.but_subscribe.Click += new System.EventHandler(this.but_subscribe_Click);
+            // 
             // UAVCANInspector
             // 
             this.ClientSize = new System.Drawing.Size(698, 311);
+            this.Controls.Add(this.but_subscribe);
             this.Controls.Add(this.but_graphit);
             this.Controls.Add(this.groupBox1);
             this.Name = "UAVCANInspector";
@@ -330,6 +343,7 @@ namespace MissionPlanner.Controls
                 }
 
                 but_graphit.Enabled = true;
+                but_subscribe.Enabled = true;
             }
             //else
             {
@@ -470,6 +484,13 @@ namespace MissionPlanner.Controls
                 line.AddPoint(new XDate(DateTime.Now),
                     (double) (dynamic) item);
             }
+        }
+
+        private void but_subscribe_Click(object sender, EventArgs e)
+        {
+            if(String.IsNullOrEmpty(selectedmsgid))
+                return;
+            new UAVCANSubscriber(can, selectedmsgid).ShowUserControl();
         }
     }
 }
