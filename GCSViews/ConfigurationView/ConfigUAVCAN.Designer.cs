@@ -34,7 +34,19 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.healthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.uptimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hardwareVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
+            this.menu_update = new System.Windows.Forms.MenuItem();
+            this.menu_parameters = new System.Windows.Forms.MenuItem();
+            this.menu_restart = new System.Windows.Forms.MenuItem();
             this.menu_passthrough = new System.Windows.Forms.MenuItem();
             this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -64,18 +76,6 @@
             this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chk_canonclose = new System.Windows.Forms.CheckBox();
-            this.menu_update = new System.Windows.Forms.MenuItem();
-            this.menu_parameters = new System.Windows.Forms.MenuItem();
-            this.menu_restart = new System.Windows.Forms.MenuItem();
-            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.healthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.uptimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hardwareVersionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -143,6 +143,80 @@
             this.myDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowEnter);
             this.myDataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.myDataGridView1_RowsAdded);
             // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
+            this.iDDataGridViewTextBoxColumn.Width = 40;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nameDataGridViewTextBoxColumn.Width = 110;
+            // 
+            // modeDataGridViewTextBoxColumn
+            // 
+            this.modeDataGridViewTextBoxColumn.DataPropertyName = "Mode";
+            this.modeDataGridViewTextBoxColumn.HeaderText = "Mode";
+            this.modeDataGridViewTextBoxColumn.Name = "modeDataGridViewTextBoxColumn";
+            this.modeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.modeDataGridViewTextBoxColumn.Width = 90;
+            // 
+            // healthDataGridViewTextBoxColumn
+            // 
+            this.healthDataGridViewTextBoxColumn.DataPropertyName = "Health";
+            this.healthDataGridViewTextBoxColumn.HeaderText = "Health";
+            this.healthDataGridViewTextBoxColumn.Name = "healthDataGridViewTextBoxColumn";
+            this.healthDataGridViewTextBoxColumn.ReadOnly = true;
+            this.healthDataGridViewTextBoxColumn.Width = 43;
+            // 
+            // uptimeDataGridViewTextBoxColumn
+            // 
+            this.uptimeDataGridViewTextBoxColumn.DataPropertyName = "Uptime";
+            this.uptimeDataGridViewTextBoxColumn.HeaderText = "Uptime";
+            this.uptimeDataGridViewTextBoxColumn.Name = "uptimeDataGridViewTextBoxColumn";
+            this.uptimeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.uptimeDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // hardwareVersionDataGridViewTextBoxColumn
+            // 
+            this.hardwareVersionDataGridViewTextBoxColumn.DataPropertyName = "HardwareVersion";
+            this.hardwareVersionDataGridViewTextBoxColumn.HeaderText = "HW Version";
+            this.hardwareVersionDataGridViewTextBoxColumn.Name = "hardwareVersionDataGridViewTextBoxColumn";
+            this.hardwareVersionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.hardwareVersionDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // SoftwareVersion
+            // 
+            this.SoftwareVersion.DataPropertyName = "SoftwareVersion";
+            this.SoftwareVersion.HeaderText = "SW Version";
+            this.SoftwareVersion.Name = "SoftwareVersion";
+            this.SoftwareVersion.ReadOnly = true;
+            this.SoftwareVersion.Width = 80;
+            // 
+            // SoftwareCRC
+            // 
+            this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
+            dataGridViewCellStyle1.Format = "X";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
+            this.SoftwareCRC.HeaderText = "SW CRC";
+            this.SoftwareCRC.Name = "SoftwareCRC";
+            this.SoftwareCRC.ReadOnly = true;
+            this.SoftwareCRC.Width = 110;
+            // 
+            // Menu
+            // 
+            this.Menu.HeaderText = "Menu";
+            this.Menu.Name = "Menu";
+            this.Menu.ReadOnly = true;
+            this.Menu.Width = 50;
+            // 
             // contextMenu1
             // 
             this.contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
@@ -150,6 +224,24 @@
             this.menu_parameters,
             this.menu_restart,
             this.menu_passthrough});
+            // 
+            // menu_update
+            // 
+            this.menu_update.Index = 0;
+            this.menu_update.Text = "Update";
+            this.menu_update.Click += new System.EventHandler(this.menu_update_Click);
+            // 
+            // menu_parameters
+            // 
+            this.menu_parameters.Index = 1;
+            this.menu_parameters.Text = "Parameters";
+            this.menu_parameters.Click += new System.EventHandler(this.menu_parameters_Click);
+            // 
+            // menu_restart
+            // 
+            this.menu_restart.Index = 2;
+            this.menu_restart.Text = "Restart";
+            this.menu_restart.Click += new System.EventHandler(this.menu_restart_Click);
             // 
             // menu_passthrough
             // 
@@ -450,98 +542,6 @@
             this.chk_canonclose.TabIndex = 90;
             this.chk_canonclose.Text = "Exit SLCAN on leave?";
             this.chk_canonclose.UseVisualStyleBackColor = true;
-            // 
-            // menu_update
-            // 
-            this.menu_update.Index = 0;
-            this.menu_update.Text = "Update";
-            this.menu_update.Click += new System.EventHandler(this.menu_update_Click);
-            // 
-            // menu_parameters
-            // 
-            this.menu_parameters.Index = 1;
-            this.menu_parameters.Text = "Parameters";
-            this.menu_parameters.Click += new System.EventHandler(this.menu_parameters_Click);
-            // 
-            // menu_restart
-            // 
-            this.menu_restart.Index = 2;
-            this.menu_restart.Text = "Restart";
-            this.menu_restart.Click += new System.EventHandler(this.menu_restart_Click);
-            // 
-            // iDDataGridViewTextBoxColumn
-            // 
-            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
-            this.iDDataGridViewTextBoxColumn.Width = 40;
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nameDataGridViewTextBoxColumn.Width = 110;
-            // 
-            // modeDataGridViewTextBoxColumn
-            // 
-            this.modeDataGridViewTextBoxColumn.DataPropertyName = "Mode";
-            this.modeDataGridViewTextBoxColumn.HeaderText = "Mode";
-            this.modeDataGridViewTextBoxColumn.Name = "modeDataGridViewTextBoxColumn";
-            this.modeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.modeDataGridViewTextBoxColumn.Width = 90;
-            // 
-            // healthDataGridViewTextBoxColumn
-            // 
-            this.healthDataGridViewTextBoxColumn.DataPropertyName = "Health";
-            this.healthDataGridViewTextBoxColumn.HeaderText = "Health";
-            this.healthDataGridViewTextBoxColumn.Name = "healthDataGridViewTextBoxColumn";
-            this.healthDataGridViewTextBoxColumn.ReadOnly = true;
-            this.healthDataGridViewTextBoxColumn.Width = 43;
-            // 
-            // uptimeDataGridViewTextBoxColumn
-            // 
-            this.uptimeDataGridViewTextBoxColumn.DataPropertyName = "Uptime";
-            this.uptimeDataGridViewTextBoxColumn.HeaderText = "Uptime";
-            this.uptimeDataGridViewTextBoxColumn.Name = "uptimeDataGridViewTextBoxColumn";
-            this.uptimeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.uptimeDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // hardwareVersionDataGridViewTextBoxColumn
-            // 
-            this.hardwareVersionDataGridViewTextBoxColumn.DataPropertyName = "HardwareVersion";
-            this.hardwareVersionDataGridViewTextBoxColumn.HeaderText = "HW Version";
-            this.hardwareVersionDataGridViewTextBoxColumn.Name = "hardwareVersionDataGridViewTextBoxColumn";
-            this.hardwareVersionDataGridViewTextBoxColumn.ReadOnly = true;
-            this.hardwareVersionDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // SoftwareVersion
-            // 
-            this.SoftwareVersion.DataPropertyName = "SoftwareVersion";
-            this.SoftwareVersion.HeaderText = "SW Version";
-            this.SoftwareVersion.Name = "SoftwareVersion";
-            this.SoftwareVersion.ReadOnly = true;
-            this.SoftwareVersion.Width = 80;
-            // 
-            // SoftwareCRC
-            // 
-            this.SoftwareCRC.DataPropertyName = "SoftwareCRC";
-            dataGridViewCellStyle1.Format = "X";
-            dataGridViewCellStyle1.NullValue = null;
-            this.SoftwareCRC.DefaultCellStyle = dataGridViewCellStyle1;
-            this.SoftwareCRC.HeaderText = "SW CRC";
-            this.SoftwareCRC.Name = "SoftwareCRC";
-            this.SoftwareCRC.ReadOnly = true;
-            this.SoftwareCRC.Width = 110;
-            // 
-            // Menu
-            // 
-            this.Menu.HeaderText = "Menu";
-            this.Menu.Name = "Menu";
-            this.Menu.ReadOnly = true;
-            this.Menu.Width = 50;
             // 
             // ConfigUAVCAN
             // 

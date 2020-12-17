@@ -559,6 +559,8 @@ namespace MissionPlanner
 
                 int count = 0;
 
+                plaintxtline = "";
+
                 while (true)
                 {
                     if (PRsender.doWorkArgs.CancelRequested)
@@ -630,6 +632,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         catch
                         {
                         }
+                    }
+
+                    // SLCAN check
+                    if (Regex.IsMatch(plaintxtline, @"\rT[0-9A-Z]{9,32}$", RegexOptions.Multiline))
+                    {
+                        PRsender.doWorkArgs.ErrorMessage = "This appears to be a CAN port, please use the UAVCAN screen";
+                        throw new Exception(@"This appears to be a CAN port, please use the UAVCAN screen");
                     }
 
                     // check we have hb's

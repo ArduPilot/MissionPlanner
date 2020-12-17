@@ -1,4 +1,5 @@
-﻿using MissionPlanner.Controls;
+﻿using MissionPlanner.Comms;
+using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
@@ -125,11 +126,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //check if we started from within mavlink - if not get settings from menu and create port
                 if (port == null || !port.IsOpen)
                 {
-                    port = new Comms.SerialPort()
+                    switch (MainV2._connectionControl.CMB_serialport.Text)
                     {
-                        PortName = MainV2._connectionControl.CMB_serialport.Text,
-                        BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text)
-                    };
+                        case "TCP":
+                            port = new TcpSerial();                            
+                            break;
+                        case "UDP":
+                         port = new UdpSerial();                            
+                            break;
+                        case "WS":
+                         port = new WebSocket();                            
+                            break;
+                        case "UDPCl":
+                        port = new UdpSerialConnect();                            
+                            break;
+                        default:
+                           port = new SerialPort()    {
+                                PortName = MainV2._connectionControl.CMB_serialport.Text,
+                                BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text)
+                            };
+                        break;
+                    }
                 }
 
                 if (can == null)
