@@ -1246,6 +1246,8 @@ namespace UAVCAN
             {
                 return ASCIIEncoding.ASCII.GetString(NodeInfo[sourceNode].name).TrimEnd('\0');                
             }
+            if (sourceNode == 0)
+                return "Anonymous";
             return "?";
         }
 
