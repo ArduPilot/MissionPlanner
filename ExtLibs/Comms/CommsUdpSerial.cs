@@ -55,7 +55,7 @@ namespace MissionPlanner.Comms
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public Stream BaseStream => Stream.Null;
+        public Stream BaseStream => new UDPStream(this);
 
         public void toggleDTR()
         {
