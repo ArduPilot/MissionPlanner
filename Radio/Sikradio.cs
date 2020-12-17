@@ -1070,6 +1070,11 @@ S15: MAX_WINDOW=131
         /// <returns>true if at least one setting had an invalid value, otherwise false.</returns>
         bool SetUpControlsWithValues(GroupBox GB, bool Remote, string[] items, Dictionary<string, RFD.RFD900.TSetting> Settings)
         {
+            /*RFD900Tools.GUI.frmCfgTest frm = new RFD900Tools.GUI.frmCfgTest();
+            RFD900Tools.GUI.TConfig Cfg = new RFD900Tools.GUI.TConfig(frm.GetControl());
+            Cfg.Update(Settings, items);
+            frm.Show();*/
+
             bool SomeSettingsInvalid = false;
 
             foreach (var item in items)
@@ -2040,7 +2045,7 @@ red LED solid - in firmware update mode");
             RMAX_WINDOW.Text = 33.ToString();
         }
 
-        private enum mavlink_option
+        public enum mavlink_option
         {
             RawData = 0,
             Mavlink = 1,

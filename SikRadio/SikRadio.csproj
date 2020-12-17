@@ -196,6 +196,13 @@
     <Compile Include="Config.Designer.cs">
       <DependentUpon>Config.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Config.cs" />
+    <Compile Include="GUI\frmCfgTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmCfgTest.Designer.cs">
+      <DependentUpon>frmCfgTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manufacturing.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -210,6 +217,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RFD900.cs" />
     <Compile Include="RFDLib\Array.cs" />
+    <Compile Include="RFDLib\Config\Config.cs" />
+    <Compile Include="RFDLib\Config\GUI.cs" />
+    <Compile Include="RFDLib\GUI\CBWithBackground.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RFDLib\GUI\CBWithBackground.Designer.cs">
+      <DependentUpon>CBWithBackground.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RFDLib\GUI\ConfigArray.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RFDLib\GUI\ConfigArray.designer.cs">
+      <DependentUpon>ConfigArray.cs</DependentUpon>
+    </Compile>
     <Compile Include="RFDLib\GUI\Settings.cs" />
     <Compile Include="RFDLib\IO\ATCommand.cs" />
     <Compile Include="RFDLib\IO\SerialPort\SerialPort.cs" />
@@ -272,6 +293,9 @@
       <DependentUpon>Config.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmCfgTest.resx">
+      <DependentUpon>frmCfgTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Manufacturing.resx">
       <DependentUpon>Manufacturing.cs</DependentUpon>
     </EmbeddedResource>
@@ -285,6 +309,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="RFDLib\GUI\CBWithBackground.resx">
+      <DependentUpon>CBWithBackground.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RFDLib\GUI\ConfigArray.resx">
+      <DependentUpon>ConfigArray.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Rssi.resx">
       <DependentUpon>Rssi.cs</DependentUpon>
     </EmbeddedResource>

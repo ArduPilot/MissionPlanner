@@ -27,6 +27,22 @@ namespace RFDLib
             return Retry(() => (int)1, (x) => PassedCondition(), QTYTries);
         }
 
+        public static System.Collections.Generic.KeyValuePair<string, int>[] EnumToStrings(Type EnumType)
+        {
+            var Values = Enum.GetValues(EnumType);
+            System.Collections.Generic.KeyValuePair<string, int>[] Result =
+                new System.Collections.Generic.KeyValuePair<string, int>[Values.Length];
+
+            for (int n = 0; n < Values.Length; n++)
+            {
+                Result[n] = new System.Collections.Generic.KeyValuePair<string, int>(
+                    Enum.GetName(EnumType, Values.GetValue(n)), (int)Values.GetValue(n));
+
+            }
+
+            return Result;
+        }
+
     }
 
 

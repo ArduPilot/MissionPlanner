@@ -122,7 +122,7 @@
     <value>47, 14</value>
   </data>
   <data name="CMB_SerialPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 24</value>
+    <value>109, 21</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CMB_SerialPort.TabIndex" type="System.Int32, mscorlib">
@@ -177,7 +177,7 @@
     <value>47, 41</value>
   </data>
   <data name="CMB_Baudrate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 24</value>
+    <value>109, 21</value>
   </data>
   <data name="CMB_Baudrate.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -205,7 +205,7 @@
     <value>781, 433</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1104, 566</value>
+    <value>1104, 606</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -232,7 +232,7 @@
     <value>6, 49</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 17</value>
+    <value>32, 13</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -262,7 +262,7 @@
     <value>6, 22</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 17</value>
+    <value>26, 13</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -313,7 +313,7 @@
     <value>12, 108</value>
   </data>
   <data name="GB.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1109, 591</value>
+    <value>1109, 631</value>
   </data>
   <data name="GB.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -419,29 +419,11 @@
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 24</value>
-  </data>
-  <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="terminalToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 24</value>
-  </data>
-  <data name="terminalToolStripMenuItem.Text" xml:space="preserve">
-    <value>Terminal</value>
-  </data>
-  <data name="rssiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 24</value>
-  </data>
-  <data name="rssiToolStripMenuItem.Text" xml:space="preserve">
-    <value>RSSI</value>
-  </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1133, 28</value>
+    <value>1133, 24</value>
   </data>
   <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -460,6 +442,24 @@
   </data>
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 20</value>
+  </data>
+  <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="terminalToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 20</value>
+  </data>
+  <data name="terminalToolStripMenuItem.Text" xml:space="preserve">
+    <value>Terminal</value>
+  </data>
+  <data name="rssiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 20</value>
+  </data>
+  <data name="rssiToolStripMenuItem.Text" xml:space="preserve">
+    <value>RSSI</value>
   </data>
   <data name="btnConnect.Location" type="System.Drawing.Point, System.Drawing">
     <value>194, 35</value>
@@ -492,7 +492,7 @@
     <value>42</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1133, 703</value>
+    <value>1133, 743</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
