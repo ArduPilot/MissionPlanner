@@ -165,7 +165,8 @@ namespace UAVCAN
                 //cleanup
                 stream.Write(new byte[] {(byte) '\r', (byte) '\r', (byte) '\r'}, 0, 3);
                 Thread.Sleep(50);
-                stream.ReadTimeout = 1000;
+                if(stream.CanTimeout)
+                    stream.ReadTimeout = 1000;
                 try
                 {
                     stream.Read(new byte[1024 * 1024], 0, 1024 * 1024);
