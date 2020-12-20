@@ -519,7 +519,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            using (var fd = new OpenFileDialog { Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*" })
+            using (var fd = new OpenFileDialog
+                {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*"})
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
@@ -538,7 +539,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
                             if (solo.Solo.is_solo_alive &&
-                                CustomMessageBox.Show("Solo", "Is this a Solo?", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
+                                CustomMessageBox.Show("Solo", "Is this a Solo?",
+                                    CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                             {
                                 boardtype = BoardDetect.boards.solo;
                             }
@@ -578,7 +580,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    fw.UploadFlash(MainV2.comPortName, fd.FileName, boardtype);
+                    try
+                    {
+                        fw.UploadFlash(MainV2.comPortName, fd.FileName, boardtype);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                    }
                 }
             }
         }

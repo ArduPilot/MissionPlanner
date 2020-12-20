@@ -1010,16 +1010,26 @@ namespace MissionPlanner
         private void but_blupdate_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board",
-                    "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
-                if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board, Please allow 5 mins for this process",
-                        "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
-                    if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876, 0, 0))
+                "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
+                if (CustomMessageBox.Show(
+                    "Are you sure you want to upgrade the bootloader? This can brick your board, Please allow 5 mins for this process",
+                    "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
+                    try
                     {
-                        CustomMessageBox.Show("Upgraded bootloader");
+                        if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
+                            (byte) MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876,
+                            0, 0))
+                        {
+                            CustomMessageBox.Show("Upgraded bootloader");
+                        }
+                        else
+                        {
+                            CustomMessageBox.Show("Failed to upgrade bootloader");
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Failed to upgrade bootloader");
+                        CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
                     }
         }
 
@@ -1072,8 +1082,16 @@ namespace MissionPlanner
             {
                 var rate = int.Parse(cmbrate.Text.ToString());
                 var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), cmb.Text.ToString());
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float)(int)value,
-                    1 / (float)rate * 1000000.0f, 0, 0, 0, 0, 0);
+                try
+                {
+                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                        MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
+                        1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                }
             };
 
             Button but2 = new Button();
@@ -1084,8 +1102,16 @@ namespace MissionPlanner
                 ((IList)cmb.DataSource).ForEach(a =>
                {
                    var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), a.ToString());
-                   MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float)(int)value,
-                       1 / (float)rate * 1000000.0f, 0, 0, 0, 0, 0, false);
+                   try
+                   {
+                       MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                           MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
+                           1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0, false);
+                   }
+                   catch (Exception ex)
+                   {
+                       CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                   }
                });
             };
 

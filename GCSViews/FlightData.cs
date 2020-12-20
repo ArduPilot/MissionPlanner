@@ -4085,7 +4085,14 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                GStreamer.StartA(url);
+                try
+                {
+                    GStreamer.StartA(url);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                }
             }
             else
             {
