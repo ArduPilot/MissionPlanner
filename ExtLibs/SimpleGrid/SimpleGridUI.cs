@@ -289,7 +289,7 @@ namespace MissionPlanner.SimpleGrid
                 (double) NUM_spacing.Value, (double) NUM_angle.Value, (double) NUM_overshoot.Value,
                 (double) NUM_overshoot2.Value,
                 (Utilities.Grid.StartPosition) Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text),
-                false, 0, 0, plugin.Host.cs.PlannedHomeLocation);
+                false, 0, 0,0, plugin.Host.cs.PlannedHomeLocation);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
