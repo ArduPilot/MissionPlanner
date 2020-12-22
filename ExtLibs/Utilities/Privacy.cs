@@ -17,8 +17,8 @@ namespace MissionPlanner.Utilities
 
             var rand = new Random();
 
-            var latrandom = rand.NextDouble() * (rand.NextDouble() * 3);
-            
+            var random = rand.NextDouble() * (rand.NextDouble() * 3);
+
             // TLOG
             if (logfile.ToLower().EndsWith(".tlog"))
             {
@@ -75,7 +75,10 @@ namespace MissionPlanner.Utilities
                     var checks = new string[]
                     {
                         "lat", "latitude", "lat_int", "landing_lat",
-                        "path_lat", "arc_entry_lat", "gpsLat", "gpsOffsetLat"
+                        "path_lat", "arc_entry_lat", "gpsLat", "gpsOffsetLat",
+
+                        "lon", "longitude", "lon_int", "landing_lon",
+                        "path_lon", "arc_entry_lon", "gpsLon", "gpsOffsetLon"
                     };
 
                     while (stream.Position < stream.Length)
@@ -102,7 +105,7 @@ namespace MissionPlanner.Utilities
                                     if (value is Int32)
                                     {
                                         if ((int) value != 0)
-                                            field.SetValue(pkt, (int) ((int) value + latrandom * 1e7));
+                                            field.SetValue(pkt, (int) ((int) value + random * 1e7));
 
                                         packet = new MAVLink.MAVLinkMessage(
                                             parse.GenerateMAVLinkPacket20((MAVLink.MAVLINK_MSG_ID) msginfo.msgid,
@@ -112,7 +115,7 @@ namespace MissionPlanner.Utilities
                                     else if (value is Single)
                                     {
                                         if ((Single) value != 0)
-                                            field.SetValue(pkt, (Single) value + latrandom);
+                                            field.SetValue(pkt, (Single) value + random);
 
                                         packet = new MAVLink.MAVLinkMessage(
                                             parse.GenerateMAVLinkPacket20((MAVLink.MAVLINK_MSG_ID) msginfo.msgid,
@@ -148,20 +151,26 @@ namespace MissionPlanner.Utilities
                     foreach (var dfItem in col.GetEnumeratorTypeAll())
                     {
                         var index = col.dflog.FindMessageOffset(dfItem.msgtype, "Lat");
+                        var index2 = col.dflog.FindMessageOffset(dfItem.msgtype, "Lng");
 
                         if (index != -1)
                         {
                             var lat = Double.Parse(dfItem.items[index], CultureInfo.InvariantCulture);
                             if (lat != 0)
-                                dfItem.items[index] =(lat + latrandom).ToString(CultureInfo.InvariantCulture);
+                                dfItem.items[index] =(lat + random).ToString(CultureInfo.InvariantCulture);
+                        }
+
+                        if (index2 != -1)
+                        {
+                            var lon = Double.Parse(dfItem.items[index2], CultureInfo.InvariantCulture);
+                            if (lon != 0)
+                                dfItem.items[index2] =(lon + random).ToString(CultureInfo.InvariantCulture);
                         }
 
                         var str = String.Join(",", dfItem.items) + "\r\n";
                         outfilestream.Write(ASCIIEncoding.ASCII.GetBytes(str), 0, str.Length);
                     }
                 }
-          
-
             }
         }
     }
