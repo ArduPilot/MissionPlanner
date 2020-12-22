@@ -688,7 +688,7 @@ namespace MissionPlanner.Utilities
         {
             DateTime last = DateTime.MaxValue;
 
-            foreach (var dfItem in logdata.GetEnumeratorType(new string[] { "GPS","GPS2"}))
+            foreach (var dfItem in logdata.GetEnumeratorType(new string[] { "GPS","GPS2","POS"}))
             {
                 // always forwards
                 if (dfItem.time >= p1)
