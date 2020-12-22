@@ -365,8 +365,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         prd.DoWork += dialogue =>
                         {
+                            prd.UpdateProgressAndStatus(5, "Download FW");
                             var tempfile = Path.GetTempFileName();
                             Download.getFilefromNet(url, tempfile);
+
+                            uavcan.FileSendCompleteArgs file = (p, s) =>
+                            {
+                                prd.UpdateProgressAndStatus(100, "File send complete");
+                            };
+                            uavcan.FileSendProgressArgs fileprog = (n, f, p) =>
+                            {
+                                prd.UpdateProgressAndStatus((int) p, f);
+                            };
+                            can.FileSendComplete += file;
+                            can.FileSendProgress += fileprog;
 
                             try
                             {
@@ -375,6 +387,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             catch (Exception ex)
                             {
                                 throw;
+                            }
+                            finally
+                            {
+                                can.FileSendComplete -= file;
+                                can.FileSendProgress -= fileprog;
                             }
 
                             return;
@@ -407,6 +424,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (fd.CheckFileExists && dia == DialogResult.OK)
                 {
+                    uavcan.FileSendCompleteArgs file = (p, s) =>
+                    {
+                        prd.UpdateProgressAndStatus(100, "File send complete");
+                    };
+                    uavcan.FileSendProgressArgs fileprog = (n, f, p) =>
+                    {
+                        prd.UpdateProgressAndStatus((int) p, f);
+                    };
+                    can.FileSendComplete += file;
+                    can.FileSendProgress += fileprog;
+
                     try
                     {
                         var cancel = new CancellationTokenSource();
@@ -431,6 +459,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     catch (Exception ex)
                     {
                         CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                    }   
+                    finally
+                    {
+                        can.FileSendComplete -= file;
+                        can.FileSendProgress -= fileprog;
                     }
                 }
             }
