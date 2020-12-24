@@ -108,7 +108,7 @@ namespace MissionPlanner.Controls
                 var msgidheader = mavLinkMessage.msgtypename + " (" +
                                   (mavi.SeenRate(mavLinkMessage.sysid, mavLinkMessage.compid, mavLinkMessage.msgid))
                                   .ToString("0.0 Hz") + ", #" + mavLinkMessage.msgid + ") " +
-                                  mavi.SeenBps(mavLinkMessage.sysid, mavLinkMessage.compid, mavLinkMessage.msgid).ToString("0bps");
+                                  mavi.SeenBps(mavLinkMessage.sysid, mavLinkMessage.compid, mavLinkMessage.msgid).ToString("0Bps");
 
                 if (msgidnode.Text != msgidheader)
                     msgidnode.Text = msgidheader;
