@@ -387,7 +387,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     var value = (MainV2.comPort.MAV.param[x.Key].Value).ToString("0.###");
 
-                    var items = Controls.Find(x.Key, true);
+                    var items = tableLayoutPanel1.Controls.Find(x.Key, false);
                     if (items.Length > 0)
                     {
                         if (items[0].GetType() == typeof(RangeControl))
