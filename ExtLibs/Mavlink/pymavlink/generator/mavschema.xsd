@@ -201,6 +201,7 @@
         <xs:attribute ref="print_format" />
         <xs:attribute ref="enum" />
         <xs:attribute ref="display" />
+        <xs:attribute ref="instance" />
         <xs:attribute ref="units" />
         <xs:attribute ref="default" />
     </xs:complexType>
