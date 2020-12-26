@@ -1913,6 +1913,83 @@ namespace MissionPlanner
                         }
 
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.HIGH_LATENCY2:
+                        {
+                            var highlatency = mavLinkMessage.ToStructure<MAVLink.mavlink_high_latency2_t>();
+                            
+                            {
+                                var modelist = Common.getModesList(firmware);
+
+                                if (modelist != null)
+                                {
+                                    var found = false;
+
+                                    foreach (var pair in modelist)
+                                        if (pair.Key == highlatency.custom_mode)
+                                        {
+                                            mode = pair.Value;
+                                            _mode = highlatency.custom_mode;
+                                            found = true;
+                                            break;
+                                        }
+
+                                    if (!found)
+                                        log.Warn("Mode not found cm:" +
+                                                 highlatency.custom_mode);
+                                }
+                            }
+
+                            lat = highlatency.latitude / 1e7;
+                            lng = highlatency.longitude / 1e7;
+                            //custom_mode
+                            altasl = highlatency.altitude;
+                            alt = altasl - (float)HomeAlt;
+                            alt_error = highlatency.target_altitude - alt;
+                            targetalt = highlatency.target_altitude;
+                            wp_dist = highlatency.target_distance;
+                            wpno = highlatency.wp_num;
+                           
+                            if (highlatency.failure_flags != 0)
+                            {
+                                var flags = highlatency.failure_flags;
+
+                                var errors = "";
+
+                                for (var a = 1; a <= (int) MAVLink.HL_FAILURE_FLAG.MISSION; a = a << 1)
+                                {
+                                    var currentbit = flags & a;
+                                    if (currentbit == 1)
+                                    {
+                                        var currentflag =
+                                            (MAVLink.HL_FAILURE_FLAG)
+                                            Enum.Parse(typeof(MAVLink.HL_FAILURE_FLAG), a.ToString());
+
+                                        errors += currentflag + " ";
+                                    }
+                                }
+
+                                if (errors != "")
+                                    messageHigh = Strings.ERROR + " " + errors;
+
+                            }
+
+                            yaw = highlatency.heading * 2;
+                            target_bearing = highlatency.target_heading*2;
+                            ch3percent = highlatency.throttle;
+                            airspeed = highlatency.airspeed;
+                            targetairspeed = highlatency.airspeed_sp;
+                            groundspeed = highlatency.groundspeed;
+                            wind_vel = highlatency.windspeed / 5.0f;
+                            wind_dir = highlatency.wind_heading * 2;
+                            gpshdop = highlatency.eph;
+                            // epv
+                            raw_temp = highlatency.temperature_air;
+                            climbrate = highlatency.climb_rate;
+                            battery_remaining = highlatency.battery;
+
+                        }
+
+                        break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.HIL_CONTROLS:
 
                         // hil mavlink 0.9 and 1.0
