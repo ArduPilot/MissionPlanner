@@ -376,7 +376,7 @@ namespace MissionPlanner.Joystick
                             {
                                 try
                                 {
-                                    Interface.setMode(mode);
+                                    Interface.setMode((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,mode);
                                 }
                                 catch
                                 {
@@ -390,7 +390,7 @@ namespace MissionPlanner.Joystick
                         {
                             try
                             {
-                                Interface.setParam("MNT_MODE", but.p1);
+                                Interface.setParam((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,"MNT_MODE", but.p1);
                             }
                             catch
                             {
@@ -405,7 +405,7 @@ namespace MissionPlanner.Joystick
                         {
                             try
                             {
-                                Interface.doARM(true);
+                                Interface.doARM((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,true);
                             }
                             catch
                             {
@@ -421,11 +421,11 @@ namespace MissionPlanner.Joystick
                                 Interface.setMode("Guided");
                                 if (Interface.MAV.cs.firmware == Firmwares.ArduCopter2)
                                 {
-                                    Interface.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
+                                    Interface.doCommand((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
                                 }
                                 else
                                 {
-                                    Interface.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 20);
+                                    Interface.doCommand((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 20);
                                 }
                             }
                             catch
@@ -439,7 +439,7 @@ namespace MissionPlanner.Joystick
                         {
                             try
                             {
-                                Interface.doARM(false);
+                                Interface.doARM((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,false);
                             }
                             catch
                             {
@@ -454,7 +454,7 @@ namespace MissionPlanner.Joystick
                             {
                                 int number = (int) but.p1;
                                 int state = buttondown == true ? 1 : 0;
-                                Interface.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, number, state, 0, 0, 0, 0, 0);
+                                Interface.doCommand((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,MAVLink.MAV_CMD.DO_SET_RELAY, number, state, 0, 0, 0, 0, 0);
                             }
                             catch
                             {
@@ -473,7 +473,7 @@ namespace MissionPlanner.Joystick
                                 int relaynumber = (int) but.p1;
                                 int repeat = (int) but.p2;
                                 int time = (int) but.p3;
-                                Interface.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, relaynumber, repeat, time, 0,
+                                Interface.doCommand((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,MAVLink.MAV_CMD.DO_REPEAT_RELAY, relaynumber, repeat, time, 0,
                                     0, 0, 0);
                             }
                             catch
@@ -489,7 +489,7 @@ namespace MissionPlanner.Joystick
                             {
                                 int channel = (int) but.p1;
                                 int pwm = (int) but.p2;
-                                Interface.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, channel, pwm, 0, 0, 0, 0, 0);
+                                Interface.doCommand((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,MAVLink.MAV_CMD.DO_SET_SERVO, channel, pwm, 0, 0, 0, 0, 0);
                             }
                             catch
                             {
@@ -506,7 +506,7 @@ namespace MissionPlanner.Joystick
                                 int pwmvalue = (int) but.p2;
                                 int repeattime = (int) but.p3;
                                 int delay_ms = (int) but.p4;
-                                Interface.doCommand(MAVLink.MAV_CMD.DO_REPEAT_SERVO, channelno, pwmvalue,
+                                Interface.doCommand((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,MAVLink.MAV_CMD.DO_REPEAT_SERVO, channelno, pwmvalue,
                                     repeattime, delay_ms, 0, 0, 0);
                             }
                             catch
@@ -522,7 +522,7 @@ namespace MissionPlanner.Joystick
                             {
                                 float current = (float) Interface.MAV.param["MNT_STAB_PAN"];
                                 float newvalue = (current > 0) ? 0 : 1;
-                                Interface.setParam("MNT_STAB_PAN", newvalue);
+                                Interface.setParam((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,"MNT_STAB_PAN", newvalue);
                             }
                             catch
                             {
@@ -535,8 +535,8 @@ namespace MissionPlanner.Joystick
                         {
                             try
                             {
-                                Interface.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0,
-                                    Interface.MAV.cs.gimballat, Interface.MAV.cs.gimballng,
+                                Interface.doCommandInt((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0,
+                                    (int) (Interface.MAV.cs.gimballat * 1e7), (int) (Interface.MAV.cs.gimballng * 1e7),
                                     (float) Interface.MAV.cs.GimbalPoint.Alt);
                             }
                             catch
@@ -550,7 +550,7 @@ namespace MissionPlanner.Joystick
                         {
                             try
                             {
-                                Interface.setMountControl(0, 0, 0, false);
+                                Interface.setMountControl((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,0, 0, 0, false);
                             }
                             catch
                             {
