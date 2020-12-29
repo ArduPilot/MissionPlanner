@@ -211,3 +211,11 @@ using System.Runtime.InteropServices;
 [assembly: TypeForwardedTo(typeof(TextRenderingHint))]
 [assembly: TypeForwardedTo(typeof(TextureBrush))]
 //[assembly: TypeForwardedTo(typeof(ToolboxBitmapAttribute))]
+
+namespace System.Drawing.android
+{
+    public class android
+    {
+
+    }
+}

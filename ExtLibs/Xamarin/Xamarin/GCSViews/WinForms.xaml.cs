@@ -47,13 +47,19 @@ namespace Xamarin.GCSViews
 
             var scale = size.Width / size.Height; // 1.77 1.6  1.33
 
+            if (scale < 1)
+            {
+                size = new Forms.Size(960, 960 * scale);
+            }
+            else
+            {
+                size = new Forms.Size(540 * scale, 540);
+                if (size.Width < 960)
+                    size = new Forms.Size(960, 960 / scale);
+            }
 
-            size = new Forms.Size(540 * scale, 540);
-            if (size.Width < 960)
-                size = new Forms.Size(960, 960 / scale);
-            
             Instance = this;
-            MainV2.speechEngine = new Speech();
+            //MainV2.speechEngine = new Speech();
 
             // init seril port type
             SerialPort.DefaultType = (self, s, i) =>
@@ -104,7 +110,7 @@ namespace Xamarin.GCSViews
                 list1.AddRange(list2);
                 return list1;
             };
-
+            /*
             // support for fw upload
             MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>
             {
@@ -114,7 +120,7 @@ namespace Xamarin.GCSViews
             MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =>
             {
                 return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
-            };
+            };*/
         }
 
         public static string BundledPath
