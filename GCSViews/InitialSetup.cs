@@ -181,7 +181,8 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigFailSafe), rm.GetString("backstageViewPagefs.Text"), isConnected && gotAllParams, mand);
             }
 
-            AddBackstageViewPage(typeof(ConfigHWIDs), "HW ID", isConnected && gotAllParams, mand);
+            if (MainV2.DisplayConfiguration.displayHWIDs)
+                AddBackstageViewPage(typeof(ConfigHWIDs), "HW ID", isConnected && gotAllParams, mand);
 
             var opt = AddBackstageViewPage(typeof(ConfigOptional), rm.GetString("backstageViewPageopt.Text"));
             AddBackstageViewPage(typeof(ConfigSerialInjectGPS), "RTK/GPS Inject", true, opt);
@@ -190,7 +191,11 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(Sikradio), rm.GetString("backstageViewPageSikradio.Text"), true, opt);
             }
 
-            AddBackstageViewPage(typeof(ConfigADSB), "ADSB", isConnected && gotAllParams, mand);
+            if (MainV2.DisplayConfiguration.displayADSB)
+                AddBackstageViewPage(typeof(ConfigADSB), "ADSB", isConnected && gotAllParams, mand);
+
+            if (MainV2.DisplayConfiguration.displayGPSOrder)
+                AddBackstageViewPage(typeof(ConfigGPSOrder), "CAN GPS Order", isConnected && gotAllParams, opt);
 
             if (MainV2.DisplayConfiguration.displayBattMonitor)
             {

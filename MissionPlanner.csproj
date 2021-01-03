@@ -483,6 +483,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.Designer.cs">
       <DependentUpon>ConfigFirmwareManifest.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigGPSOrder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigGPSOrder.Designer.cs">
+      <DependentUpon>ConfigGPSOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWCompass2.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -568,6 +574,7 @@
     <None Include="arm\libSkiaSharp.so">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigGPSOrder+GPSCAN.datasource" />
     <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2+CompassDeviceInfo.datasource" />
     <Compile Include="plugins\example2-menu.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -845,6 +852,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareManifest.resx">
       <DependentUpon>ConfigFirmwareManifest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigGPSOrder.resx">
+      <DependentUpon>ConfigGPSOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass2.resx">
       <DependentUpon>ConfigHWCompass2.cs</DependentUpon>
