@@ -1,6 +1,7 @@
 ﻿using log4net;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -410,9 +411,13 @@ namespace MissionPlanner.Utilities
                     try
                     {
                         if (key == "" || key.Contains("/") || key.Contains(" ")
-                            || key.Contains("-")|| key.Contains(":")
-                            || key.Contains(";")|| key.Contains("."))
+                            || key.Contains("-") || key.Contains(":")
+                            || key.Contains(";") || key.Contains("."))
+                        {
+                            Debugger.Break();
+                            Console.WriteLine("Bad config key " + key);
                             continue;
+                        }
 
                         xmlwriter.WriteElementString(key, ""+config[key]);
                     }

@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using System.Xml;
 using IronPython.Runtime;
 using Microsoft.Scripting.Hosting;
+using MissionPlanner.GCSViews.ConfigurationView;
 using ZedGraph; // Graphs
 
 [assembly: ExtensionType(typeof(Dictionary<string, object>), typeof(LogBrowse.ext))]
@@ -1854,7 +1855,7 @@ main()
                         if (i < startline || i > endline)
                             continue;
 
-                        if (item.msgtype == "GPS")
+                        if (item.msgtype == "GPS" && (item.instance == "0" || item.instance == ""))
                         {
                             var ans = getPointLatLng(item);
 
@@ -1888,7 +1889,7 @@ main()
                                 }
                             }
                         }
-                        else if (item.msgtype == "GPS2")
+                        else if (item.msgtype == "GPS2" || item.msgtype == "GPS" && item.instance == "1")
                         {
                             var ans = getPointLatLng(item);
 
@@ -1922,7 +1923,7 @@ main()
                                 }
                             }
                         }
-                        else if (item.msgtype == "GPSB")
+                        else if (item.msgtype == "GPSB" || item.msgtype == "GPS" && item.instance == "2")
                         {
                             var ans = getPointLatLng(item);
 
@@ -3383,6 +3384,20 @@ main()
                     //toolTip1.Show(desc, treeView1, pos, 2000);
                 }
             }
+        }
+
+        private void chk_params_CheckedChanged(object sender, EventArgs e)
+        {
+            chk_params.Checked = false;
+
+            var parmdata = logdata.GetEnumeratorType("PARM").Select(a =>
+                new MAVLink.MAVLinkParam(a["Name"], double.Parse(a["Value"], CultureInfo.InvariantCulture),
+                    MAVLink.MAV_PARAM_TYPE.REAL32));
+            
+            MainV2.comPort.MAV.param.Clear();
+            MainV2.comPort.MAV.param.AddRange(parmdata);
+
+            new ConfigRawParams().ShowUserControl();
         }
     }
 }

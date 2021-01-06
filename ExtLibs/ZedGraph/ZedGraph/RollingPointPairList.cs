@@ -248,20 +248,26 @@ namespace ZedGraph
 			}
 			else
 			{
-				// Determine the index to write to.
-				if ( ++_headIdx == _mBuffer.Length )
-				{	// Wrap around.
-					_headIdx = 0;
-				}
+                lock (_mBuffer)
+                {
+                    // Determine the index to write to.
+                    if (++_headIdx == _mBuffer.Length)
+                    {
+                        // Wrap around.
+                        _headIdx = 0;
+                    }
 
-				if ( _headIdx == _tailIdx )
-				{	// Buffer overflow. Increment tailIdx.
-					if ( ++_tailIdx == _mBuffer.Length )
-					{	// Wrap around.
-						_tailIdx = 0;
-					}
-				}
-			}
+                    if (_headIdx == _tailIdx)
+                    {
+                        // Buffer overflow. Increment tailIdx.
+                        if (++_tailIdx == _mBuffer.Length)
+                        {
+                            // Wrap around.
+                            _tailIdx = 0;
+                        }
+                    }
+                }
+            }
 
 			return _headIdx;
 		}

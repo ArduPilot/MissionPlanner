@@ -112,24 +112,23 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.1, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.1, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.1, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="myGMAP1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="myGMAP1.Location" type="System.Drawing.Point, System.Drawing">
+  <assembly alias="netstandard" name="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
+  <data name="myGMAP1.Location" type="System.Drawing.Point, netstandard">
     <value>3, 16</value>
   </data>
-  <data name="myGMAP1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="myGMAP1.Size" type="System.Drawing.Size, netstandard">
     <value>848, 262</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="myGMAP1.TabIndex" type="System.Int32, mscorlib">
+  <data name="myGMAP1.TabIndex" type="System.Int32, netstandard">
     <value>0</value>
   </data>
   <data name="&gt;&gt;myGMAP1.Name" xml:space="preserve">
@@ -147,19 +146,19 @@
   <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
   </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label6.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
   <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label6.Location" type="System.Drawing.Point, netstandard">
     <value>48, 120</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label6.Size" type="System.Drawing.Size, netstandard">
     <value>34, 13</value>
   </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+  <data name="label6.TabIndex" type="System.Int32, netstandard">
     <value>17</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
@@ -177,19 +176,19 @@
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label5.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
   <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label5.Location" type="System.Drawing.Point, netstandard">
     <value>217, 120</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label5.Size" type="System.Drawing.Size, netstandard">
     <value>36, 13</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+  <data name="label5.TabIndex" type="System.Int32, netstandard">
     <value>16</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
@@ -207,19 +206,19 @@
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label4.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
   <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label4.Location" type="System.Drawing.Point, netstandard">
     <value>370, 120</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label4.Size" type="System.Drawing.Size, netstandard">
     <value>50, 13</value>
   </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+  <data name="label4.TabIndex" type="System.Int32, netstandard">
     <value>15</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
@@ -237,19 +236,19 @@
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label3.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
   <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label3.Location" type="System.Drawing.Point, netstandard">
     <value>569, 120</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label3.Size" type="System.Drawing.Size, netstandard">
     <value>55, 13</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+  <data name="label3.TabIndex" type="System.Int32, netstandard">
     <value>14</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
@@ -267,6 +266,7 @@
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pictureBoxheli.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAOAAAACECAYAAACJSCetAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
@@ -688,13 +688,13 @@
   <data name="pictureBoxheli.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="pictureBoxheli.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="pictureBoxheli.Location" type="System.Drawing.Point, netstandard">
     <value>477, 3</value>
   </data>
-  <data name="pictureBoxheli.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="pictureBoxheli.Size" type="System.Drawing.Size, netstandard">
     <value>235, 112</value>
   </data>
-  <data name="pictureBoxheli.TabIndex" type="System.Int32, mscorlib">
+  <data name="pictureBoxheli.TabIndex" type="System.Int32, netstandard">
     <value>13</value>
   </data>
   <data name="&gt;&gt;pictureBoxheli.Name" xml:space="preserve">
@@ -1210,13 +1210,13 @@
   <data name="pictureBoxquad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="pictureBoxquad.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="pictureBoxquad.Location" type="System.Drawing.Point, netstandard">
     <value>331, 3</value>
   </data>
-  <data name="pictureBoxquad.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="pictureBoxquad.Size" type="System.Drawing.Size, netstandard">
     <value>125, 112</value>
   </data>
-  <data name="pictureBoxquad.TabIndex" type="System.Int32, mscorlib">
+  <data name="pictureBoxquad.TabIndex" type="System.Int32, netstandard">
     <value>12</value>
   </data>
   <data name="&gt;&gt;pictureBoxquad.Name" xml:space="preserve">
@@ -1618,13 +1618,13 @@
   <data name="pictureBoxrover.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="pictureBoxrover.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="pictureBoxrover.Location" type="System.Drawing.Point, netstandard">
     <value>159, 3</value>
   </data>
-  <data name="pictureBoxrover.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="pictureBoxrover.Size" type="System.Drawing.Size, netstandard">
     <value>150, 112</value>
   </data>
-  <data name="pictureBoxrover.TabIndex" type="System.Int32, mscorlib">
+  <data name="pictureBoxrover.TabIndex" type="System.Int32, netstandard">
     <value>11</value>
   </data>
   <data name="&gt;&gt;pictureBoxrover.Name" xml:space="preserve">
@@ -1932,13 +1932,13 @@
   <data name="pictureBoxplane.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="pictureBoxplane.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="pictureBoxplane.Location" type="System.Drawing.Point, netstandard">
     <value>3, 3</value>
   </data>
-  <data name="pictureBoxplane.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="pictureBoxplane.Size" type="System.Drawing.Size, netstandard">
     <value>131, 112</value>
   </data>
-  <data name="pictureBoxplane.TabIndex" type="System.Int32, mscorlib">
+  <data name="pictureBoxplane.TabIndex" type="System.Int32, netstandard">
     <value>10</value>
   </data>
   <data name="&gt;&gt;pictureBoxplane.Name" xml:space="preserve">
@@ -1953,13 +1953,13 @@
   <data name="&gt;&gt;pictureBoxplane.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="panel1.Location" type="System.Drawing.Point, netstandard">
     <value>69, 12</value>
   </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="panel1.Size" type="System.Drawing.Size, netstandard">
     <value>716, 137</value>
   </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+  <data name="panel1.TabIndex" type="System.Int32, netstandard">
     <value>1</value>
   </data>
   <data name="&gt;&gt;panel1.Name" xml:space="preserve">
@@ -1977,13 +1977,13 @@
   <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="groupBox1.Location" type="System.Drawing.Point, netstandard">
     <value>13, 3</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="groupBox1.Size" type="System.Drawing.Size, netstandard">
     <value>854, 281</value>
   </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="groupBox1.TabIndex" type="System.Int32, netstandard">
     <value>2</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
@@ -2004,13 +2004,13 @@
   <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="groupBox2.Location" type="System.Drawing.Point, netstandard">
     <value>13, 368</value>
   </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="groupBox2.Size" type="System.Drawing.Size, netstandard">
     <value>854, 152</value>
   </data>
-  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+  <data name="groupBox2.TabIndex" type="System.Int32, netstandard">
     <value>3</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
@@ -2031,16 +2031,16 @@
   <data name="groupBox3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label1.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label1.Location" type="System.Drawing.Point, netstandard">
     <value>7, 20</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label1.Size" type="System.Drawing.Size, netstandard">
     <value>47, 13</value>
   </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+  <data name="label1.TabIndex" type="System.Int32, netstandard">
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
@@ -2058,13 +2058,13 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="NUM_heading.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="NUM_heading.Location" type="System.Drawing.Point, netstandard">
     <value>60, 18</value>
   </data>
-  <data name="NUM_heading.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="NUM_heading.Size" type="System.Drawing.Size, netstandard">
     <value>51, 20</value>
   </data>
-  <data name="NUM_heading.TabIndex" type="System.Int32, mscorlib">
+  <data name="NUM_heading.TabIndex" type="System.Int32, netstandard">
     <value>0</value>
   </data>
   <data name="&gt;&gt;NUM_heading.Name" xml:space="preserve">
@@ -2079,13 +2079,13 @@
   <data name="&gt;&gt;NUM_heading.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="groupBox3.Location" type="System.Drawing.Point, netstandard">
     <value>13, 290</value>
   </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="groupBox3.Size" type="System.Drawing.Size, netstandard">
     <value>140, 72</value>
   </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+  <data name="groupBox3.TabIndex" type="System.Int32, netstandard">
     <value>4</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
@@ -2109,13 +2109,13 @@
   <data name="but_swarmseq.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="but_swarmseq.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="but_swarmseq.Location" type="System.Drawing.Point, netstandard">
     <value>9, 44</value>
   </data>
-  <data name="but_swarmseq.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="but_swarmseq.Size" type="System.Drawing.Size, netstandard">
     <value>89, 23</value>
   </data>
-  <data name="but_swarmseq.TabIndex" type="System.Int32, mscorlib">
+  <data name="but_swarmseq.TabIndex" type="System.Int32, netstandard">
     <value>14</value>
   </data>
   <data name="but_swarmseq.Text" xml:space="preserve">
@@ -2133,13 +2133,13 @@
   <data name="&gt;&gt;but_swarmseq.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="but_swarmlink.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="but_swarmlink.Location" type="System.Drawing.Point, netstandard">
     <value>104, 44</value>
   </data>
-  <data name="but_swarmlink.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="but_swarmlink.Size" type="System.Drawing.Size, netstandard">
     <value>89, 23</value>
   </data>
-  <data name="but_swarmlink.TabIndex" type="System.Int32, mscorlib">
+  <data name="but_swarmlink.TabIndex" type="System.Int32, netstandard">
     <value>13</value>
   </data>
   <data name="but_swarmlink.Text" xml:space="preserve">
@@ -2157,16 +2157,16 @@
   <data name="&gt;&gt;but_swarmlink.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="chk_wipe.AutoSize" type="System.Boolean, mscorlib">
+  <data name="chk_wipe.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
-  <data name="chk_wipe.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="chk_wipe.Location" type="System.Drawing.Point, netstandard">
     <value>638, 17</value>
   </data>
-  <data name="chk_wipe.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="chk_wipe.Size" type="System.Drawing.Size, netstandard">
     <value>51, 17</value>
   </data>
-  <data name="chk_wipe.TabIndex" type="System.Int32, mscorlib">
+  <data name="chk_wipe.TabIndex" type="System.Int32, netstandard">
     <value>12</value>
   </data>
   <data name="chk_wipe.Text" xml:space="preserve">
@@ -2184,16 +2184,16 @@
   <data name="&gt;&gt;chk_wipe.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label8.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label8.Location" type="System.Drawing.Point, netstandard">
     <value>296, 20</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label8.Size" type="System.Drawing.Size, netstandard">
     <value>99, 13</value>
   </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+  <data name="label8.TabIndex" type="System.Int32, netstandard">
     <value>11</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
@@ -2211,13 +2211,13 @@
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="txt_cmdline.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="txt_cmdline.Location" type="System.Drawing.Point, netstandard">
     <value>401, 17</value>
   </data>
-  <data name="txt_cmdline.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="txt_cmdline.Size" type="System.Drawing.Size, netstandard">
     <value>230, 20</value>
   </data>
-  <data name="txt_cmdline.TabIndex" type="System.Int32, mscorlib">
+  <data name="txt_cmdline.TabIndex" type="System.Int32, netstandard">
     <value>10</value>
   </data>
   <data name="&gt;&gt;txt_cmdline.Name" xml:space="preserve">
@@ -2232,16 +2232,16 @@
   <data name="&gt;&gt;txt_cmdline.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label7.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label7.Location" type="System.Drawing.Point, netstandard">
     <value>127, 20</value>
   </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label7.Size" type="System.Drawing.Size, netstandard">
     <value>36, 13</value>
   </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+  <data name="label7.TabIndex" type="System.Int32, netstandard">
     <value>9</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
@@ -2356,15 +2356,15 @@
     <value>morse-rover</value>
   </data>
   <data name="cmb_model.Items32" xml:space="preserve">
-    <value>skid-rover</value>
+    <value>rover-skid</value>
   </data>
-  <data name="cmb_model.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="cmb_model.Location" type="System.Drawing.Point, netstandard">
     <value>169, 17</value>
   </data>
-  <data name="cmb_model.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="cmb_model.Size" type="System.Drawing.Size, netstandard">
     <value>121, 21</value>
   </data>
-  <data name="cmb_model.TabIndex" type="System.Int32, mscorlib">
+  <data name="cmb_model.TabIndex" type="System.Int32, netstandard">
     <value>8</value>
   </data>
   <data name="&gt;&gt;cmb_model.Name" xml:space="preserve">
@@ -2379,16 +2379,16 @@
   <data name="&gt;&gt;cmb_model.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label2.AutoSize" type="System.Boolean, netstandard">
     <value>True</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="label2.Location" type="System.Drawing.Point, netstandard">
     <value>6, 20</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="label2.Size" type="System.Drawing.Size, netstandard">
     <value>58, 13</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+  <data name="label2.TabIndex" type="System.Int32, netstandard">
     <value>7</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
@@ -2406,13 +2406,13 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="num_simspeed.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="num_simspeed.Location" type="System.Drawing.Point, netstandard">
     <value>70, 18</value>
   </data>
-  <data name="num_simspeed.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="num_simspeed.Size" type="System.Drawing.Size, netstandard">
     <value>51, 20</value>
   </data>
-  <data name="num_simspeed.TabIndex" type="System.Int32, mscorlib">
+  <data name="num_simspeed.TabIndex" type="System.Int32, netstandard">
     <value>6</value>
   </data>
   <data name="&gt;&gt;num_simspeed.Name" xml:space="preserve">
@@ -2427,13 +2427,13 @@
   <data name="&gt;&gt;num_simspeed.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="groupBox4.Location" type="System.Drawing.Point, netstandard">
     <value>152, 290</value>
   </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="groupBox4.Size" type="System.Drawing.Size, netstandard">
     <value>715, 72</value>
   </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+  <data name="groupBox4.TabIndex" type="System.Int32, netstandard">
     <value>5</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
@@ -2451,10 +2451,10 @@
   <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, netstandard">
     <value>True</value>
-  </metadata>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, netstandard">
     <value>879, 532</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

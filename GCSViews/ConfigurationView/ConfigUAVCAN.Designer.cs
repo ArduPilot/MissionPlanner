@@ -33,10 +33,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
-            this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
+            this.menu_update = new System.Windows.Forms.MenuItem();
+            this.menu_parameters = new System.Windows.Forms.MenuItem();
+            this.menu_restart = new System.Windows.Forms.MenuItem();
             this.menu_passthrough = new System.Windows.Forms.MenuItem();
-            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.but_slcanmode2 = new MissionPlanner.Controls.MyButton();
             this.but_uavcaninspector = new MissionPlanner.Controls.MyButton();
@@ -64,9 +65,8 @@
             this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chk_canonclose = new System.Windows.Forms.CheckBox();
-            this.menu_update = new System.Windows.Forms.MenuItem();
-            this.menu_parameters = new System.Windows.Forms.MenuItem();
-            this.menu_restart = new System.Windows.Forms.MenuItem();
+            this.uAVCANModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,10 +76,10 @@
             this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label6
@@ -113,43 +113,31 @@
             this.but_slcanmode1.UseVisualStyleBackColor = true;
             this.but_slcanmode1.Click += new System.EventHandler(this.but_slcanmode_Click);
             // 
-            // myDataGridView1
-            // 
-            this.myDataGridView1.AllowUserToAddRows = false;
-            this.myDataGridView1.AllowUserToDeleteRows = false;
-            this.myDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.myDataGridView1.AutoGenerateColumns = false;
-            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.iDDataGridViewTextBoxColumn,
-            this.nameDataGridViewTextBoxColumn,
-            this.modeDataGridViewTextBoxColumn,
-            this.healthDataGridViewTextBoxColumn,
-            this.uptimeDataGridViewTextBoxColumn,
-            this.hardwareVersionDataGridViewTextBoxColumn,
-            this.SoftwareVersion,
-            this.SoftwareCRC,
-            this.Menu});
-            this.myDataGridView1.ContextMenu = this.contextMenu1;
-            this.myDataGridView1.DataSource = this.uAVCANModelBindingSource;
-            this.myDataGridView1.Location = new System.Drawing.Point(7, 58);
-            this.myDataGridView1.Name = "myDataGridView1";
-            this.myDataGridView1.ReadOnly = true;
-            this.myDataGridView1.Size = new System.Drawing.Size(757, 253);
-            this.myDataGridView1.TabIndex = 1;
-            this.myDataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellClick);
-            this.myDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowEnter);
-            this.myDataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.myDataGridView1_RowsAdded);
-            // 
             // contextMenu1
             // 
             this.contextMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menu_update,
             this.menu_parameters,
             this.menu_restart,
+            this.menu_update,
             this.menu_passthrough});
+            // 
+            // menu_update
+            // 
+            this.menu_update.Index = 2;
+            this.menu_update.Text = "Update";
+            this.menu_update.Click += new System.EventHandler(this.menu_update_Click);
+            // 
+            // menu_parameters
+            // 
+            this.menu_parameters.Index = 0;
+            this.menu_parameters.Text = "Parameters";
+            this.menu_parameters.Click += new System.EventHandler(this.menu_parameters_Click);
+            // 
+            // menu_restart
+            // 
+            this.menu_restart.Index = 1;
+            this.menu_restart.Text = "Restart";
+            this.menu_restart.Click += new System.EventHandler(this.menu_restart_Click);
             // 
             // menu_passthrough
             // 
@@ -157,12 +145,6 @@
             this.menu_passthrough.RadioCheck = true;
             this.menu_passthrough.Text = "CANPassThrough";
             this.menu_passthrough.Click += new System.EventHandler(this.menu_passthrough_Click);
-            // 
-            // uAVCANModelBindingSource
-            // 
-            this.uAVCANModelBindingSource.AllowNew = true;
-            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.UAVCANModel);
-            this.uAVCANModelBindingSource.CurrentChanged += new System.EventHandler(this.uAVCANModelBindingSource_CurrentChanged);
             // 
             // label1
             // 
@@ -219,7 +201,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 317);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 296);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -405,7 +387,7 @@
             this.Level,
             this.Source,
             this.Text});
-            this.DGDebug.Location = new System.Drawing.Point(7, 458);
+            this.DGDebug.Location = new System.Drawing.Point(7, 437);
             this.DGDebug.Name = "DGDebug";
             this.DGDebug.Size = new System.Drawing.Size(757, 144);
             this.DGDebug.TabIndex = 89;
@@ -451,23 +433,41 @@
             this.chk_canonclose.Text = "Exit SLCAN on leave?";
             this.chk_canonclose.UseVisualStyleBackColor = true;
             // 
-            // menu_update
+            // uAVCANModelBindingSource
             // 
-            this.menu_update.Index = 0;
-            this.menu_update.Text = "Update";
-            this.menu_update.Click += new System.EventHandler(this.menu_update_Click);
+            this.uAVCANModelBindingSource.AllowNew = true;
+            this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.UAVCANModel);
+            this.uAVCANModelBindingSource.CurrentChanged += new System.EventHandler(this.uAVCANModelBindingSource_CurrentChanged);
             // 
-            // menu_parameters
+            // myDataGridView1
             // 
-            this.menu_parameters.Index = 1;
-            this.menu_parameters.Text = "Parameters";
-            this.menu_parameters.Click += new System.EventHandler(this.menu_parameters_Click);
-            // 
-            // menu_restart
-            // 
-            this.menu_restart.Index = 2;
-            this.menu_restart.Text = "Restart";
-            this.menu_restart.Click += new System.EventHandler(this.menu_restart_Click);
+            this.myDataGridView1.AllowUserToAddRows = false;
+            this.myDataGridView1.AllowUserToDeleteRows = false;
+            this.myDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myDataGridView1.AutoGenerateColumns = false;
+            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iDDataGridViewTextBoxColumn,
+            this.nameDataGridViewTextBoxColumn,
+            this.modeDataGridViewTextBoxColumn,
+            this.healthDataGridViewTextBoxColumn,
+            this.uptimeDataGridViewTextBoxColumn,
+            this.hardwareVersionDataGridViewTextBoxColumn,
+            this.SoftwareVersion,
+            this.SoftwareCRC,
+            this.Menu});
+            this.myDataGridView1.ContextMenu = this.contextMenu1;
+            this.myDataGridView1.DataSource = this.uAVCANModelBindingSource;
+            this.myDataGridView1.Location = new System.Drawing.Point(7, 58);
+            this.myDataGridView1.Name = "myDataGridView1";
+            this.myDataGridView1.ReadOnly = true;
+            this.myDataGridView1.Size = new System.Drawing.Size(757, 232);
+            this.myDataGridView1.TabIndex = 1;
+            this.myDataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellClick);
+            this.myDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowEnter);
+            this.myDataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.myDataGridView1_RowsAdded);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -559,12 +559,12 @@
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.myDataGridView1);
             this.Name = "ConfigUAVCAN";
-            this.Size = new System.Drawing.Size(767, 605);
-            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).EndInit();
+            this.Size = new System.Drawing.Size(767, 584);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

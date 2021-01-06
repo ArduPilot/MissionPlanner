@@ -16,53 +16,26 @@ using float32 = System.Single;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace UAVCAN
 {
-public partial class uavcan {
-
-
-@[  if msg_default_dtid is not None]@
-
-/*
-
-static uavcan_message_descriptor_s @(msg_underscored_name)_descriptor = {
-    @(msg_underscored_name.upper())_DT_SIG,
-    @(msg_underscored_name.upper())_DT_ID,
-@[    if msg_kind == "response"]@
-    CanardTransferTypeResponse,
-@[    elif msg_kind == "request"]@
-    CanardTransferTypeRequest,
-@[    elif msg_kind == "broadcast"]@
-    CanardTransferTypeBroadcast,
-@[    end if]@
-    sizeof(@(msg_c_type)),
-    @(msg_underscored_name.upper())_MAX_PACK_SIZE,
-    encode_func,
-    decode_func,
-@[    if msg_kind == "request"]@
-    &@(msg_resp_underscored_name)_descriptor
-@[    else]@
-    null
-@[    end if]@
-};
-*/
-@[  end if]@
-
-static void encode_@(msg_underscored_name)(@(msg_c_type) msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
-    uint8_t[] buffer = new uint8_t[8];
-    _encode_@(msg_underscored_name)(buffer, msg, chunk_cb, ctx, true);
-}
-
-static uint32_t decode_@(msg_underscored_name)(CanardRxTransfer transfer, @(msg_c_type) msg) {
-    uint32_t bit_ofs = 0;
-    _decode_@(msg_underscored_name)(transfer, ref bit_ofs, msg, true);
-    return (bit_ofs+7)/8;
-}
-
-static void _encode_@(msg_underscored_name)(uint8_t[] buffer, @(msg_c_type) msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
 @{indent += 1}@{ind = '    '*indent}@
+    public partial class uavcan {
+        static void encode_@(msg_underscored_name)(@(msg_c_type) msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
+            uint8_t[] buffer = new uint8_t[8];
+            _encode_@(msg_underscored_name)(buffer, msg, chunk_cb, ctx, true);
+        }
 
+        static uint32_t decode_@(msg_underscored_name)(CanardRxTransfer transfer, @(msg_c_type) msg) {
+            uint32_t bit_ofs = 0;
+            _decode_@(msg_underscored_name)(transfer, ref bit_ofs, msg, true);
+            return (bit_ofs+7)/8;
+        }
+
+        static void _encode_@(msg_underscored_name)(uint8_t[] buffer, @(msg_c_type) msg, uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
+@{indent += 1}@{ind = '    '*indent}@
+@{indent += 1}@{ind = '    '*indent}@
 @[  if msg_union]@
 @(ind)@(union_msg_tag_uint_type_from_num_fields(len(msg_fields))) @(msg_underscored_name)_type = (@(union_msg_tag_uint_type_from_num_fields(len(msg_fields))))msg.@(msg_underscored_name)_type;
 @(ind)memset(buffer,0,8);
@@ -140,7 +113,7 @@ static void _encode_@(msg_underscored_name)(uint8_t[] buffer, @(msg_c_type) msg,
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
 
-static void _decode_@(msg_underscored_name)(CanardRxTransfer transfer,ref uint32_t bit_ofs, @(msg_c_type) msg, bool tao) {
+        static void _decode_@(msg_underscored_name)(CanardRxTransfer transfer,ref uint32_t bit_ofs, @(msg_c_type) msg, bool tao) {
 @{indent += 1}@{ind = '    '*indent}@
 
 @[  if msg_union]@
@@ -197,13 +170,16 @@ static void _decode_@(msg_underscored_name)(CanardRxTransfer transfer,ref uint32
 
 @(ind)if (tao) {
 @{indent += 1}@{ind = '    '*indent}@
-msg.@('union.' if msg_union else '')@(field.name)_len = 0;
+@(ind)msg.@('union.' if msg_union else '')@(field.name)_len = 0;
+@(ind)var temp = new List<@(uavcan_type_to_ctype(field.type.value_type))>();
 @(ind)while (((transfer.payload_len*8)-bit_ofs) > 0) {
 @{indent += 1}@{ind = '    '*indent}@
 @(ind)msg.@('union.' if msg_union else '')@(field.name)_len++;
-@(ind)_decode_@(underscored_name(field.type.value_type))(transfer, ref bit_ofs, msg.@('union.' if msg_union else '')@(field.name)[msg.@(field.name)_len], @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
+@(ind)temp.Add(new @(uavcan_type_to_ctype(field.type.value_type))());
+@(ind)_decode_@(underscored_name(field.type.value_type))(transfer, ref bit_ofs, temp[msg.@(field.name)_len - 1], @[if field == msg_fields[-1] and field.type.value_type.get_min_bitlen() < 8]tao && i==msg.@('union.' if msg_union else '')@(field.name)_len@[else]false@[end if]@);
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
+@(ind)msg.@('union.' if msg_union else '')@(field.name) = temp.ToArray();
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)} else {
 @{indent += 1}@{ind = '    '*indent}@
@@ -211,7 +187,6 @@ msg.@('union.' if msg_union else '')@(field.name)_len = 0;
 @(ind)msg.@('union.' if msg_union else '')@(field.name) = new @(uavcan_type_to_ctype(field.type.value_type))[msg.@('union.' if msg_union else '')@(field.name)_len];
 @(ind)for (int i=0; i < msg.@('union.' if msg_union else '')@(field.name)_len; i++) {
 @[        else]@
-/*@(dir(field))*/
 @(ind)for (int i=0; i < @(field.type.max_size); i++) {
 @[        end if]@
 @{indent += 1}@{ind = '    '*indent}@
@@ -249,7 +224,9 @@ msg.@('union.' if msg_union else '')@(field.name)_len = 0;
 @{indent -= 1}@{ind = '    '*indent}@
 @(ind)}
 @[  end if]@
-}
-
-}
+@{indent -= 1}@{ind = '    '*indent}@
+@(ind)}
+@{indent -= 1}@{ind = '    '*indent}@
+@(ind)}
+@{indent -= 1}@{ind = '    '*indent}@
 }

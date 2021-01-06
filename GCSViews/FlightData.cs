@@ -138,6 +138,17 @@ namespace MissionPlanner.GCSViews
 
         string updateBindingSourceThreadName = "";
 
+        public enum actions
+        {
+            Loiter_Unlim,
+            Return_To_Launch,
+            Preflight_Calibration,
+            Mission_Start,
+            Preflight_Reboot_Shutdown,
+            Trigger_Camera,
+            System_Time
+        }
+
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -226,23 +237,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-
-            List<string> list = new List<string>();
-
-            {
-                list.Add("LOITER_UNLIM");
-                list.Add("RETURN_TO_LAUNCH");
-                list.Add("PREFLIGHT_CALIBRATION");
-                list.Add("MISSION_START");
-                list.Add("PREFLIGHT_REBOOT_SHUTDOWN");
-                list.Add("Trigger Camera NOW");
-                list.Add("SYSTEM_TIME");
-                //DO_SET_SERVO
-                //DO_REPEAT_SERVO
-            }
-
-
-            CMB_action.DataSource = list;
+            CMB_action.DataSource = Enum.GetNames(typeof(actions));
 
             CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             CMB_modes.ValueMember = "Key";
@@ -1547,7 +1542,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                if (CMB_action.Text == "Trigger Camera NOW")
+                if (CMB_action.Text == actions.Trigger_Camera.ToString())
                 {
                     MainV2.comPort.setDigicamControl(true);
                     return;
@@ -1559,7 +1554,7 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            if (CMB_action.Text == "SYSTEM_TIME")
+            if (CMB_action.Text == actions.System_Time.ToString())
             {
                 var now = DateTime.UtcNow;
                 var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -1590,26 +1585,27 @@ namespace MissionPlanner.GCSViews
                     int param3 = 1;
 
                     // request gyro
-                    if (CMB_action.Text == "PREFLIGHT_CALIBRATION")
+                    if (CMB_action.Text == actions.Preflight_Calibration.ToString())
                     {
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                             param1 = 1; // gyro
                         param3 = 1; // baro / airspeed
                     }
 
-                    if (CMB_action.Text == "PREFLIGHT_REBOOT_SHUTDOWN")
+                    if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
                     {
                         param1 = 1; // reboot
                     }
 
-                    if (MainV2.comPort.doCommand((MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text),
-                        param1, 0, param3, 0, 0, 0, 0))
+                    var cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
+
+                    if (MainV2.comPort.doCommand(cmd, param1, 0, param3, 0, 0, 0, 0))
                     {
 
                     }
                     else
                     {
-                        CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                        CustomMessageBox.Show(Strings.CommandFailed + " " + cmd, Strings.ERROR);
                     }
                 }
                 catch
@@ -4089,7 +4085,14 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                GStreamer.StartA(url);
+                try
+                {
+                    GStreamer.StartA(url);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                }
             }
             else
             {

@@ -2,21 +2,19 @@
 @using MissionPlanner.Comms
 @using Microsoft.AspNetCore.Components.Web
 
-@using Microsoft.AspNetCore.Blazor
 
-
+@using Excubo.Blazor.Canvas
 
 @using MissionPlanner
 @using MissionPlanner.Utilities
 @using MissionPlanner.Log
 
-
 @using Blazor.Extensions.Canvas
-
 @using System.Net.Http
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.JSInterop
 @using BlazorWorker.BackgroundServiceFactory
 @using BlazorWorker.Core
-@inject IWorkerFactory workerFactory
+
+@inject IJSRuntime JS

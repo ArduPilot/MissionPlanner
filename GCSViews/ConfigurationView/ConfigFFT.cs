@@ -121,7 +121,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.LOG_BITMASK.Location = new System.Drawing.Point(6, 19);
             this.LOG_BITMASK.Name = "LOG_BITMASK";
             this.LOG_BITMASK.ParamName = null;
-            this.LOG_BITMASK.Size = new System.Drawing.Size(604, 105);
+            this.LOG_BITMASK.Size = new System.Drawing.Size(604, 154);
             this.LOG_BITMASK.TabIndex = 6;
             this.LOG_BITMASK.Value = 0F;
             // 
@@ -141,7 +141,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox2.Controls.Add(this.LOG_BITMASK);
             this.groupBox2.Location = new System.Drawing.Point(7, 273);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(616, 130);
+            this.groupBox2.Size = new System.Drawing.Size(616, 179);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Please ensure IMU_RAW and IMU_FAST are turned off to use FFT";
@@ -152,7 +152,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.but_fft);
             this.Controls.Add(this.groupBox1);
             this.Name = "ConfigFFT";
-            this.Size = new System.Drawing.Size(710, 411);
+            this.Size = new System.Drawing.Size(710, 455);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);

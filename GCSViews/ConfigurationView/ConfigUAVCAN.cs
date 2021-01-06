@@ -1,4 +1,5 @@
-﻿using MissionPlanner.Controls;
+﻿using MissionPlanner.Comms;
+using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
@@ -125,11 +126,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //check if we started from within mavlink - if not get settings from menu and create port
                 if (port == null || !port.IsOpen)
                 {
-                    port = new Comms.SerialPort()
+                    switch (MainV2._connectionControl.CMB_serialport.Text)
                     {
-                        PortName = MainV2._connectionControl.CMB_serialport.Text,
-                        BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text)
-                    };
+                        case "TCP":
+                            port = new TcpSerial();                            
+                            break;
+                        case "UDP":
+                         port = new UdpSerial();                            
+                            break;
+                        case "WS":
+                         port = new WebSocket();                            
+                            break;
+                        case "UDPCl":
+                        port = new UdpSerialConnect();                            
+                            break;
+                        default:
+                           port = new SerialPort()    {
+                                PortName = MainV2._connectionControl.CMB_serialport.Text,
+                                BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text)
+                            };
+                        break;
+                    }
                 }
 
                 if (can == null)
@@ -321,7 +338,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 prd.UpdateProgressAndStatus((int) percent, id + " " + file);
             };
             can.FileSendProgress += filesend;
-            var devicename = can.NodeInfo[nodeID].name.Aggregate("", (a, b) => a + (char)b).ToString();
+            var devicename = can.GetNodeName(nodeID);
             var hwversion =
                 double.Parse(
                     can.NodeInfo[nodeID].hardware_version.major +"."+ can.NodeInfo[nodeID].hardware_version.minor,
@@ -344,21 +361,46 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     try
                     {
+                        var cancel = new CancellationTokenSource();
+
                         prd.DoWork += dialogue =>
                         {
+                            prd.UpdateProgressAndStatus(5, "Download FW");
                             var tempfile = Path.GetTempFileName();
                             Download.getFilefromNet(url, tempfile);
 
+                            uavcan.FileSendCompleteArgs file = (p, s) =>
+                            {
+                                prd.UpdateProgressAndStatus(100, "File send complete");
+                            };
+                            uavcan.FileSendProgressArgs fileprog = (n, f, p) =>
+                            {
+                                prd.UpdateProgressAndStatus((int) p, f);
+                            };
+                            can.FileSendComplete += file;
+                            can.FileSendProgress += fileprog;
+
                             try
                             {
-                                can.Update(nodeID, devicename, hwversion, tempfile);
+                                can.Update(nodeID, devicename, hwversion, tempfile, cancel.Token);
                             }
                             catch (Exception ex)
                             {
                                 throw;
                             }
+                            finally
+                            {
+                                can.FileSendComplete -= file;
+                                can.FileSendProgress -= fileprog;
+                            }
 
                             return;
+                        };
+
+                        prd.btnCancel.Click += (sender, args) =>
+                        {
+                            prd.doWorkArgs.CancelAcknowledged = true;
+                            cancel.Cancel();
                         };
 
                         prd.RunBackgroundOperationAsync();
@@ -382,15 +424,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (fd.CheckFileExists && dia == DialogResult.OK)
                 {
+                    uavcan.FileSendCompleteArgs file = (p, s) =>
+                    {
+                        prd.UpdateProgressAndStatus(100, "File send complete");
+                    };
+                    uavcan.FileSendProgressArgs fileprog = (n, f, p) =>
+                    {
+                        prd.UpdateProgressAndStatus((int) p, f);
+                    };
+                    can.FileSendComplete += file;
+                    can.FileSendProgress += fileprog;
+
                     try
                     {
+                        var cancel = new CancellationTokenSource();
+
                         prd.DoWork += dialogue =>
                         {
                             can.Update(nodeID,
                                 devicename, 0,
-                                fd.FileName);
+                                fd.FileName, cancel.Token);
 
                             return;
+                        };
+
+                        prd.btnCancel.Click += (sender, args) =>
+                        {
+                            prd.doWorkArgs.CancelAcknowledged = true;
+                            cancel.Cancel();
                         };
 
                         prd.RunBackgroundOperationAsync();
@@ -398,6 +459,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     catch (Exception ex)
                     {
                         CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                    }   
+                    finally
+                    {
+                        can.FileSendComplete -= file;
+                        can.FileSendProgress -= fileprog;
                     }
                 }
             }
@@ -558,7 +624,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                                         Console.WriteLine();
                                         tcpbps += read;
-                                        var slcan = can.PackageMessage(0, 0, 0,
+                                        var slcan = can.PackageMessage(0, 30, 0,
                                             new uavcan.uavcan_equipment_gnss_RTCMStream()
                                                 {protocol_id = 3, data = buffer, data_len = (byte) read});
                                         can.WriteToStream(slcan);

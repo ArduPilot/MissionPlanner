@@ -33,6 +33,13 @@ namespace MissionPlanner.Controls
             this.but_loadlog = new MissionPlanner.Controls.MyButton();
             this.cmb_sensor = new System.Windows.Forms.ComboBox();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
+            this.num_min = new System.Windows.Forms.NumericUpDown();
+            this.num_max = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.but_redraw = new MissionPlanner.Controls.MyButton();
+            ((System.ComponentModel.ISupportInitialize)(this.num_min)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_max)).BeginInit();
             this.SuspendLayout();
             // 
             // but_loadlog
@@ -79,18 +86,100 @@ namespace MissionPlanner.Controls
             this.zedGraphControl1.Size = new System.Drawing.Size(776, 403);
             this.zedGraphControl1.TabIndex = 4;
             // 
+            // num_min
+            // 
+            this.num_min.Location = new System.Drawing.Point(238, 7);
+            this.num_min.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.num_min.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+            this.num_min.Name = "num_min";
+            this.num_min.Size = new System.Drawing.Size(63, 20);
+            this.num_min.TabIndex = 7;
+            this.num_min.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            -2147483648});
+            this.num_min.ValueChanged += new System.EventHandler(this.num_min_ValueChanged);
+            // 
+            // num_max
+            // 
+            this.num_max.Location = new System.Drawing.Point(340, 7);
+            this.num_max.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.num_max.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+            this.num_max.Name = "num_max";
+            this.num_max.Size = new System.Drawing.Size(63, 20);
+            this.num_max.TabIndex = 8;
+            this.num_max.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            -2147483648});
+            this.num_max.ValueChanged += new System.EventHandler(this.num_max_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(208, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(24, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Min";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(307, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(27, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Max";
+            // 
+            // but_redraw
+            // 
+            this.but_redraw.Location = new System.Drawing.Point(409, 6);
+            this.but_redraw.Name = "but_redraw";
+            this.but_redraw.Size = new System.Drawing.Size(75, 23);
+            this.but_redraw.TabIndex = 11;
+            this.but_redraw.Text = "Update";
+            this.but_redraw.UseVisualStyleBackColor = true;
+            this.but_redraw.Click += new System.EventHandler(this.but_redraw_Click);
+            // 
             // SpectrogramUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.but_redraw);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.num_max);
+            this.Controls.Add(this.num_min);
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.cmb_sensor);
             this.Controls.Add(this.but_loadlog);
             this.Name = "SpectrogramUI";
             this.Text = "SpectrogramUI";
             this.Resize += new System.EventHandler(this.SpectrogramUI_Resize);
+            ((System.ComponentModel.ISupportInitialize)(this.num_min)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_max)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -98,5 +187,10 @@ namespace MissionPlanner.Controls
         private MyButton but_loadlog;
         private System.Windows.Forms.ComboBox cmb_sensor;
         private ZedGraph.ZedGraphControl zedGraphControl1;
+        private System.Windows.Forms.NumericUpDown num_min;
+        private System.Windows.Forms.NumericUpDown num_max;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private MyButton but_redraw;
     }
 }

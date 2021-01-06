@@ -149,18 +149,24 @@
     <value>115200</value>
   </data>
   <data name="cmb_Baud.Items9" xml:space="preserve">
-    <value>460800</value>
+    <value>230400</value>
   </data>
   <data name="cmb_Baud.Items10" xml:space="preserve">
-    <value>500000</value>
+    <value>460800</value>
   </data>
   <data name="cmb_Baud.Items11" xml:space="preserve">
-    <value>625000</value>
+    <value>500000</value>
   </data>
   <data name="cmb_Baud.Items12" xml:space="preserve">
-    <value>921600</value>
+    <value>625000</value>
   </data>
   <data name="cmb_Baud.Items13" xml:space="preserve">
+    <value>921600</value>
+  </data>
+  <data name="cmb_Baud.Items14" xml:space="preserve">
+    <value>1000000</value>
+  </data>
+  <data name="cmb_Baud.Items15" xml:space="preserve">
     <value>1500000</value>
   </data>
   <data name="cmb_Baud.Location" type="System.Drawing.Point, System.Drawing">

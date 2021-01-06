@@ -1,5 +1,6 @@
 using log4net;
 using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Speech.Synthesis;
 using System.Text.RegularExpressions;
@@ -105,7 +106,11 @@ namespace MissionPlanner.Utilities
                 try
                 {
                     if (_speechwindows != null)
-                        _speechwindows.SpeakAsync(text);
+                    {
+                        PromptBuilder pb = new PromptBuilder(CultureInfo.CurrentUICulture);
+                        pb.AppendText(text);
+                        _speechwindows.SpeakAsync(pb);
+                    }
                 }
                 catch (COMException)
                 {

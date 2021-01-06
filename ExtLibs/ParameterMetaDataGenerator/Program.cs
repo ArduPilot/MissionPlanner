@@ -108,12 +108,15 @@ namespace ParameterMetaDataGenerator
 
             if (args.Length == 1)
             {
+                Console.WriteLine("needs ot be started inside the git repo");
+
                 var proc = new System.Diagnostics.Process {StartInfo = new System.Diagnostics.ProcessStartInfo
                 {
                     FileName="git",
                     Arguments ="tag",
                     UseShellExecute = false,
-                    RedirectStandardOutput = true
+                    RedirectStandardOutput = true, 
+                    CreateNoWindow = true
                 }};
 
                 proc.Start();
@@ -160,12 +163,19 @@ namespace ParameterMetaDataGenerator
                         if (paramfile == "")
                             continue;
 
-                        var XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), refname + ".xml");
+                        var XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(),
+                            refname + ".xml");
 
                         if (File.Exists(XMLFileName))
                             continue;
 
-                        var proc2 = System.Diagnostics.Process.Start("git", "reset --hard " + tag);
+                        var proc2 = new System.Diagnostics.Process()
+                        {
+                            StartInfo = new System.Diagnostics.ProcessStartInfo("git", "reset --hard " + tag)
+                                {CreateNoWindow = true,  UseShellExecute = false}
+                        };
+
+                        proc2.Start();
 
                         proc2.WaitForExit();
 
@@ -179,6 +189,7 @@ namespace ParameterMetaDataGenerator
                             , refname + ".xml");
                     }
                 }
+                return;
             }
 
 

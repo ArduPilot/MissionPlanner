@@ -51,6 +51,11 @@ namespace MissionPlanner.Utilities
             [FieldOffset(0)]
             public short[] Shorts;
 
+            public int ShortsLength
+            {
+                get { return Bytes.Length / 2; }
+            }
+
             public override string ToString()
             {
                 return "[" + String.Join(" ", Shorts.Take((Bytes.Length / 2)).ToList()) + "]";

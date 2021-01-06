@@ -71,6 +71,19 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static IEnumerable<T> Traverse<T>(this IEnumerable<T> items, 
+            Func<T, IEnumerable<T>> childSelector)
+        {
+            var stack = new Stack<T>(items);
+            while(stack.Any())
+            {
+                var next = stack.Pop();
+                yield return next;
+                foreach(var child in childSelector(next))
+                    stack.Push(child);
+            }
+        }
+
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> extras )
         {
             extras.ForEach(a => list.Add(a));

@@ -27,6 +27,7 @@ namespace MissionPlanner.Grid
         public decimal overshoot1;
         public decimal overshoot2;
         public decimal leadin;
+        public decimal leadin2;
         public string startfrom;
         public decimal overlap;
         public decimal sidelap;

@@ -625,14 +625,17 @@ namespace MissionPlanner
 
         private void BUT_QNH_Click(object sender, EventArgs e)
         {
-            var currentQNH = MainV2.comPort.GetParam("GND_ABS_PRESS").ToString();
+            var paramname = MainV2.comPort.MAV.param.ContainsKey("GND_ABS_PRESS") ? "GND_ABS_PRESS" : "BARO1_GND_PRESS";
+
+            var currentQNH = MainV2.comPort.GetParam(paramname).ToString();
 
             if (InputBox.Show("QNH", "Enter the QNH in pascals (103040 = 1030.4 hPa)", ref currentQNH) ==
                 DialogResult.OK)
             {
                 var newQNH = double.Parse(currentQNH);
 
-                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "GND_ABS_PRESS", newQNH);
+                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    paramname, newQNH);
             }
         }
 
@@ -1007,16 +1010,26 @@ namespace MissionPlanner
         private void but_blupdate_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board",
-                    "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
-                if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board, Please allow 5 mins for this process",
-                        "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int)DialogResult.Yes)
-                    if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876, 0, 0))
+                "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
+                if (CustomMessageBox.Show(
+                    "Are you sure you want to upgrade the bootloader? This can brick your board, Please allow 5 mins for this process",
+                    "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
+                    try
                     {
-                        CustomMessageBox.Show("Upgraded bootloader");
+                        if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
+                            (byte) MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876,
+                            0, 0))
+                        {
+                            CustomMessageBox.Show("Upgraded bootloader");
+                        }
+                        else
+                        {
+                            CustomMessageBox.Show("Failed to upgrade bootloader");
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Failed to upgrade bootloader");
+                        CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
                     }
         }
 
@@ -1069,8 +1082,16 @@ namespace MissionPlanner
             {
                 var rate = int.Parse(cmbrate.Text.ToString());
                 var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), cmb.Text.ToString());
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float)(int)value,
-                    1 / (float)rate * 1000000.0f, 0, 0, 0, 0, 0);
+                try
+                {
+                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                        MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
+                        1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                }
             };
 
             Button but2 = new Button();
@@ -1081,8 +1102,16 @@ namespace MissionPlanner
                 ((IList)cmb.DataSource).ForEach(a =>
                {
                    var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), a.ToString());
-                   MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float)(int)value,
-                       1 / (float)rate * 1000000.0f, 0, 0, 0, 0, 0, false);
+                   try
+                   {
+                       MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                           MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
+                           1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0, false);
+                   }
+                   catch (Exception ex)
+                   {
+                       CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                   }
                });
             };
 
@@ -1161,7 +1190,9 @@ namespace MissionPlanner
 
         private void but_acbarohight_Click(object sender, EventArgs e)
         {
-            var currentQNH = MainV2.comPort.GetParam("GND_ABS_PRESS").ToString();
+            var paramname = MainV2.comPort.MAV.param.ContainsKey("GND_ABS_PRESS") ? "GND_ABS_PRESS" : "BARO1_GND_PRESS";
+
+            var currentQNH = MainV2.comPort.GetParam(paramname).ToString();
             //338.6388 pa => 100' = 30.48m
             CustomMessageBox.Show("use at your own risk!!!");
 
@@ -1172,7 +1203,7 @@ namespace MissionPlanner
             mavlinkNumericUpDown.Padding = new Padding(20);
             mavlinkNumericUpDown.ValueChanged += (o, args) =>
                 {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "GND_ABS_PRESS", (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, paramname, (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
                 };
 
             mavlinkNumericUpDown.ShowUserControl();

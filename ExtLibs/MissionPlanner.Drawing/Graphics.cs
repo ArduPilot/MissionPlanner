@@ -820,6 +820,11 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 textBounds = MeasureString(s, font);
             }
 
+            if (format.Trimming == StringTrimming.EllipsisCharacter)
+            {
+                textBounds = layoutRectangle.Size;
+            }
+
             pnt.TextSize = fnt.TextSize;
             pnt.Typeface = fnt.Typeface;
             pnt.FakeBoldText = font.Bold;
@@ -1193,7 +1198,10 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public SizeF MeasureString(string text, Font font, int width, StringFormat format)
         {
-            return MeasureString(text, font, PointF.Empty, StringFormat.GenericDefault);
+            var size = MeasureString(text, font, PointF.Empty, StringFormat.GenericDefault);
+            if (size.Width > width)
+                return new Size(width, (int) (Math.Ceiling((size.Width / width) + 1) * font.Height));
+            return size;
         }
 
         public SizeF MeasureString(string text, Font font, SizeF layoutArea, StringFormat stringFormat,

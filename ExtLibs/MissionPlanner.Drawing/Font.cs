@@ -251,14 +251,20 @@ namespace System.Drawing
             GraphicsUnit pixel = GraphicsUnit.Point, byte gdiCharSet = 0,
             bool gdiVerticalFont = false)
         {
-            nativeFont = new SKPaint()
-            {
-                Typeface = SKTypeface.FromFamilyName(genericSansSerif?.Name), TextSize = size,
-                TextAlign = SKTextAlign.Left
-            };
+            try {
+                nativeFont = new SKPaint()
+                {
+                    Typeface = SKTypeface.FromFamilyName(genericSansSerif?.Name), TextSize = size,
+                    TextAlign = SKTextAlign.Left
+                };                
 
-            FontFamily = new FontFamily() {Name = nativeFont.Typeface.FamilyName};
-            Name = nativeFont.Typeface.FamilyName;
+                FontFamily = new FontFamily() {Name = nativeFont.Typeface.FamilyName};
+                Name = nativeFont.Typeface.FamilyName;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Style = bold;
             Unit = pixel;
             Size = size;

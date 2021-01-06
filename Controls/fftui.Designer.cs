@@ -77,7 +77,7 @@
             this.BUT_run.Name = "BUT_run";
             this.BUT_run.Size = new System.Drawing.Size(75, 33);
             this.BUT_run.TabIndex = 1;
-            this.BUT_run.Text = "Run Wav";
+            this.BUT_run.Text = "Run 16bit Mono Wav";
             this.BUT_run.UseVisualStyleBackColor = true;
             this.BUT_run.Click += new System.EventHandler(this.BUT_run_Click);
             // 
@@ -290,13 +290,12 @@
             this.but_ISBH.Name = "but_ISBH";
             this.but_ISBH.Size = new System.Drawing.Size(75, 32);
             this.but_ISBH.TabIndex = 10;
-            this.but_ISBH.Text = "new DF log";
+            this.but_ISBH.Text = "IMU Batch Sample";
             this.but_ISBH.UseVisualStyleBackColor = true;
             this.but_ISBH.Click += new System.EventHandler(this.but_ISBH_Click);
             // 
             // fftui
             // 
-            
             this.ClientSize = new System.Drawing.Size(809, 542);
             this.Controls.Add(this.but_ISBH);
             this.Controls.Add(this.but_fftimu);

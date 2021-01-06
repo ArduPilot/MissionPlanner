@@ -28,7 +28,7 @@ namespace MissionPlanner.Utilities
             TopLeft = 2,
             BottomRight = 3,
             TopRight = 4,
-            Point = 5
+            Point = 5,
         }
 
         public static PointLatLngAlt StartPointLatLngAlt = PointLatLngAlt.Zero;
@@ -270,13 +270,32 @@ namespace MissionPlanner.Utilities
 
         public static async Task<List<PointLatLngAlt>> CreateGridAsync(List<PointLatLngAlt> polygon, double altitude,
             double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos,
-            bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+            bool shutter, float minLaneSeparation, float leadin1,float leadin2, PointLatLngAlt HomeLocation, bool useextendedendpoint = true)
         {
             return await Task.Run((() => CreateGrid(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
-                startpos, shutter, minLaneSeparation, leadin, HomeLocation))).ConfigureAwait(false);
+                    startpos, shutter, minLaneSeparation, leadin1, leadin2, HomeLocation, useextendedendpoint)))
+                .ConfigureAwait(false);
         }
 
-        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="polygon">the polygon outside edge</param>
+        /// <param name="altitude">flight altitude</param>
+        /// <param name="distance">distance between lines</param>
+        /// <param name="spacing">space between triggers</param>
+        /// <param name="angle">angle of the lines</param>
+        /// <param name="overshoot1"></param>
+        /// <param name="overshoot2"></param>
+        /// <param name="startpos"></param>
+        /// <param name="shutter"></param>
+        /// <param name="minLaneSeparation"></param>
+        /// <param name="leadin1"></param>
+        /// <param name="leadin2"></param>
+        /// <param name="HomeLocation"></param>
+        /// <param name="useextendedendpoint">use the leadout point to find the next closes line</param>
+        /// <returns></returns>
+        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin1, float leadin2, PointLatLngAlt HomeLocation, bool useextendedendpoint = true)
         {
             //DoDebug();
 
@@ -534,12 +553,12 @@ namespace MissionPlanner.Utilities
                 // for each line, check which end of the line is the next closest
                 if (closest.p1.GetDistance(lastpnt) < closest.p2.GetDistance(lastpnt))
                 {
-                    utmpos newstart = newpos(closest.p1, angle, -leadin);
+                    utmpos newstart = newpos(closest.p1, angle, -leadin1);
                     newstart.Tag = "S";
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    if (leadin < 0)
+                    if (leadin1 < 0)
                     {
                         var p2 = new utmpos(newstart) { Tag = "SM" };
                         addtomap(p2, "SM");
@@ -593,16 +612,19 @@ namespace MissionPlanner.Utilities
                     if (grid.Count == 0)
                         break;
 
-                    closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);
+                    if(useextendedendpoint)
+                        closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);
+                    else 
+                        closest = findClosestLine(closest.p2, grid, minLaneSeparationINMeters, angle);
                 }
                 else
                 {
-                    utmpos newstart = newpos(closest.p2, angle, leadin);
+                    utmpos newstart = newpos(closest.p2, angle, leadin2);
                     newstart.Tag = "S";
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    if (leadin < 0)
+                    if (leadin2 < 0)
                     {
                         var p2 = new utmpos(newstart) { Tag = "SM" };
                         addtomap(p2, "SM");
@@ -655,7 +677,11 @@ namespace MissionPlanner.Utilities
                     grid.Remove(closest);
                     if (grid.Count == 0)
                         break;
-                    closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);
+
+                    if(useextendedendpoint)
+                        closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);
+                    else
+                        closest = findClosestLine(closest.p1, grid, minLaneSeparationINMeters, angle);
                 }
             }
 

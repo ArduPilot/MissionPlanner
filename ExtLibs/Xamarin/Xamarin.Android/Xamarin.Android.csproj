@@ -142,6 +142,7 @@
     <AndroidResource Include="..\..\..\plugins\InitialParamsCalculator.cs">
       <Link>Resources\raw\InitialParamsCalculator.cs</Link>
     </AndroidResource>
+    <Compile Include="AbstractUnixEndPoint.cs" />
     <Compile Include="AndroidSerial.cs" />
     <Compile Include="BTDevice.cs" />
     <Compile Include="BluetoothDiscoveryModeArgs.cs" />

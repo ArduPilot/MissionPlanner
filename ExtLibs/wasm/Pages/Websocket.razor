@@ -19,7 +19,7 @@
 @using System.Runtime.InteropServices
 @using Blazor.Extensions
 @using Microsoft.AspNetCore.Components
-@using Mono.WebAssembly.Interop
+
 @using Newtonsoft.Json
 @using Org.BouncyCastle.Utilities.Encoders
 @using Blazor.Extensions.Canvas
@@ -27,6 +27,7 @@
 @using Blazor.Extensions.Canvas.WebGL
 @using BlazorWebSocketHelper
 @using BlazorWebSocketHelper.Classes
+@using Microsoft.JSInterop.WebAssembly
 @using MissionPlanner.ArduPilot
 @inject Sotsera.Blazor.Toaster.IToaster Toaster
 
@@ -285,7 +286,7 @@
 
         init = true;
 
-        var js = JSRuntime as MonoWebAssemblyJSRuntime;
+        var js = JSRuntime as WebAssemblyJSRuntime;
         js.InvokeUnmarshalled<byte[], bool>
             ("setNetBuffer1024", buffer);
 

@@ -8,12 +8,21 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using MissionPlanner.Controls;
+using UAVCAN;
 
 namespace MissionPlanner.Plugin
 {
     public class PluginLoader
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        static PluginLoader()
+        {
+            // the code compile needs the referance dll's loaded before it trys, as we use the current loaded dll's as ref's
+            // pull in the uavcan dll
+            var uavcan = typeof(uavcan.uavcan_Timestamp);
+
+        }
 
         //List of disabled plugins (as dll file names)
         public static List<String> DisabledPluginNames = new List<String>();

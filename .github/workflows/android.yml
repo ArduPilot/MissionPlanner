@@ -47,15 +47,6 @@ jobs:
           name: com.michaeloborne.MissionPlanner.aab.zip
           path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*.aab
 
-  buildAPK:
-    name: Build Release APK
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-
       - name: Build
         shell: pwsh
         run: |
@@ -74,7 +65,7 @@ jobs:
           $manifest.Save($current.Path + "\ExtLibs\Xamarin\Xamarin.Android\Properties\AndroidManifest.xml")
           
           Set-Content -Path ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj -Value (Get-Content -Path ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj -Raw).Replace("<AndroidPackageFormat>aab</AndroidPackageFormat>","<AndroidPackageFormat>apk</AndroidPackageFormat>")
-
+          
           msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
           
 

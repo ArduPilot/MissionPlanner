@@ -381,6 +381,9 @@
   <ItemGroup>
     <Compile Include="Antenna\TrackerGeneric.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="Controls\UAVCANSubscriber.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\ConnectionOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -822,6 +825,9 @@
     <EmbeddedResource Include="Controls\ProximityControl.resx">
       <DependentUpon>ProximityControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UAVCANSubscriber.resx">
+      <DependentUpon>UAVCANSubscriber.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Vibration.ko-KR.resx">
       <DependentUpon>Vibration.cs</DependentUpon>
     </EmbeddedResource>
@@ -912,6 +918,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigUAVCAN.resx">
       <DependentUpon>ConfigUAVCAN.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigUserDefined.resx">
       <DependentUpon>ConfigUserDefined.cs</DependentUpon>
@@ -4299,6 +4306,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.ar.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>

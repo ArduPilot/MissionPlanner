@@ -478,26 +478,6 @@ namespace MissionPlanner.Controls
                 // set param table as well
                 foreach (DataGridViewRow row in Params.Rows)
                 {
-                    if (name == "SYSID_SW_MREV")
-                        continue;
-                    if (name == "WP_TOTAL")
-                        continue;
-                    if (name == "CMD_TOTAL")
-                        continue;
-                    if (name == "FENCE_TOTAL")
-                        continue;
-                    if (name == "SYS_NUM_RESETS")
-                        continue;
-                    if (name == "ARSPD_OFFSET")
-                        continue;
-                    if (name == "GND_ABS_PRESS")
-                        continue;
-                    if (name == "GND_TEMP")
-                        continue;
-                    if (name == "CMD_INDEX")
-                        continue;
-                    if (name == "LOG_LASTFILE")
-                        continue;
                     if (name == "FORMAT_VERSION")
                         continue;
                     if (row.Cells[0].Value.ToString() == name)

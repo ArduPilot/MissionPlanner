@@ -77,7 +77,7 @@ namespace UAVCAN
             int lastcha = 0;
 
             var timeout = DateTime.UtcNow.AddMilliseconds(timeoutms);
-
+            
             try
             {
                 do
@@ -85,13 +85,6 @@ namespace UAVCAN
                     cha = st.ReadByte();
                     if (cha == -1)
                         break;
-                    try
-                    {
-                        logfile?.WriteByte((byte) cha);
-                    }
-                    catch
-                    {
-                    }
 
                     sb.Append((char) cha);
                     if (DateTime.UtcNow > timeout)
@@ -109,6 +102,21 @@ namespace UAVCAN
             }
             catch
             {
+            }
+            finally
+            {
+                try
+                {
+                    logfilesemaphore.Wait();
+                    logfile?.Write(ASCIIEncoding.ASCII.GetBytes(sb.ToString()), 0, sb.Length);
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    logfilesemaphore.Release();
+                }
             }
 
             return sb.ToString();
@@ -157,7 +165,8 @@ namespace UAVCAN
                 //cleanup
                 stream.Write(new byte[] {(byte) '\r', (byte) '\r', (byte) '\r'}, 0, 3);
                 Thread.Sleep(50);
-                stream.ReadTimeout = 1000;
+                if(stream.CanTimeout)
+                    stream.ReadTimeout = 1000;
                 try
                 {
                     stream.Read(new byte[1024 * 1024], 0, 1024 * 1024);
@@ -282,7 +291,7 @@ namespace UAVCAN
                     {
                         if (NodeStatus)
                         {
-                            var slcan = PackageMessage(SourceNode, 20, transferID++,
+                            var slcan = PackageMessage(SourceNode, 0, transferID++,
                                 new uavcan.uavcan_protocol_NodeStatus()
                                 {
                                     health = (byte) uavcan.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK,
@@ -420,7 +429,7 @@ namespace UAVCAN
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 30, transferID++, req);
+                    var slcan = PackageMessage(node, 0, transferID++, req);
 
                     WriteToStream(slcan);
 
@@ -472,7 +481,7 @@ namespace UAVCAN
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 30, transferID++, req);
+                    var slcan = PackageMessage(node, 0, transferID++, req);
 
                     WriteToStream(slcan);
 
@@ -497,9 +506,9 @@ namespace UAVCAN
 
             MessageRecievedDel paramdelegate = (frame, msg, transferID) =>
             {
-                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode && frame.SourceNode == node)
                     return;
-
+                
                 if (msg.GetType() == typeof(uavcan.uavcan_protocol_param_GetSet_res))
                 {
                     var getsetreq = msg as uavcan.uavcan_protocol_param_GetSet_res;
@@ -537,13 +546,12 @@ namespace UAVCAN
                     index = index
                 };
 
-                var slcan = PackageMessage(node, 30, transferID++, req);
 
-           
-                    WriteToStream(slcan);
-             
+                var slcan = PackageMessage(node, 0, transferID++, req);
 
-                wait.Wait(666);
+                WriteToStream(slcan);
+
+                wait.Wait(333);
             }
 
             MessageReceived -= paramdelegate;
@@ -580,8 +588,12 @@ namespace UAVCAN
                     var firmware = fileServerList.Where(a => a.Key == requestedfile);
 
                     if (firmware.Count() == 0)
-                        throw new FileNotFoundException(frame.SourceNode + " " + "File read request for file we are not serving " +
-                                  ASCIIEncoding.ASCII.GetString(frreq.path.path).TrimEnd('\0'));
+                    {
+                        Console.WriteLine(frame.SourceNode + " " +
+                                                        "File read request for file we are not serving " +
+                                                        ASCIIEncoding.ASCII.GetString(frreq.path.path).TrimEnd('\0'));
+                        return;
+                    }
 
                     using (var file = File.OpenRead(firmware.First().Value))
                     {                        
@@ -596,7 +608,7 @@ namespace UAVCAN
                             { value = (short)uavcan.UAVCAN_PROTOCOL_FILE_ERROR_OK }
                         };
 
-                        var slcan = PackageMessage(frame.SourceNode, 0, transferID, readRes);
+                        var slcan = PackageMessage(frame.SourceNode, frame.Priority, transferID, readRes);
 
                         WriteToStream(slcan);
 
@@ -707,7 +719,7 @@ namespace UAVCAN
                     {
                         file_GetDirectoryEntryInfo_req.entry_index = i;
 
-                        var slcan = PackageMessage(DestNode, 30, transferID++, file_GetDirectoryEntryInfo_req);
+                        var slcan = PackageMessage(DestNode, 0, transferID++, file_GetDirectoryEntryInfo_req);
                      
                             WriteToStream(slcan);
 
@@ -780,7 +792,7 @@ namespace UAVCAN
                     {
                         if (cancel.IsCancellationRequested)
                             break;
-                        var slcan = PackageMessage(DestNode, 30, transferID++, fileReadReq);
+                        var slcan = PackageMessage(DestNode, 0, transferID++, fileReadReq);
                       
                             WriteToStream(slcan);
 
@@ -850,7 +862,7 @@ namespace UAVCAN
                         var read = sourcefile.Read(fileWriteReq.data, 0, fileWriteReq.data.Length);
                         fileWriteReq.data_len = (byte) read;
 
-                        var slcan = PackageMessage(DestNode, 30, transferID++, fileWriteReq);
+                        var slcan = PackageMessage(DestNode, 0, transferID++, fileWriteReq);
 
                         WriteToStream(slcan);
 
@@ -871,7 +883,7 @@ namespace UAVCAN
                     {
                         fileWriteReq.data_len = (byte) 0;
                         fileWriteReq.offset = (ulong)sourcefile.Length;
-                        var slcan = PackageMessage(DestNode, 30, transferID++, fileWriteReq);
+                        var slcan = PackageMessage(DestNode, 0, transferID++, fileWriteReq);
                         WriteToStream(slcan);
                         break;
                     }
@@ -887,8 +899,17 @@ namespace UAVCAN
 
         public void SetupDynamicNodeAllocator()
         {
+            // is it already setup
+            if (DynamicNodeAllocator)
+                return;
+
+            DynamicNodeAllocator = true;
+            
             MessageReceived += (frame, msg, transferID) =>
             {
+                if (!DynamicNodeAllocator)
+                    return;
+
                 if (frame.TransferType == CANFrame.FrameType.service &&
                     msg.GetType() == typeof(uavcan.uavcan_protocol_GetNodeInfo_res))
                 {
@@ -950,7 +971,7 @@ namespace UAVCAN
                                 if (allocation.node_id != 0)
                                 {
                                     var a = allocation.node_id;
-                                    if (!NodeList.ContainsKey(a))
+                                    if (!NodeList.ContainsKey(a) && !allocated.ContainsKey(a))
                                     {
                                         allocation.node_id = (byte) a;
                                         Console.WriteLine("Allocate " + a);
@@ -962,7 +983,7 @@ namespace UAVCAN
                                 if (!set) // use auto allocation
                                     for (byte a = 125; a >= 1; a--)
                                     {
-                                        if (!NodeList.ContainsKey(a))
+                                        if (!NodeList.ContainsKey(a) && !allocated.ContainsKey(a))
                                         {
                                             allocation.node_id = (byte) a;
                                             Console.WriteLine("Allocate " + a);
@@ -989,11 +1010,14 @@ namespace UAVCAN
             };
         }
 
+        public bool DynamicNodeAllocator { get; set; } = false;
+
         public string LookForUpdate(string devicename, double hwversion, bool usebeta = false)
         {
             Dictionary<string, string> servers = new Dictionary<string, string>()
             {
                 {"com.hex.", "https://firmware.cubepilot.org/UAVCAN/"},
+                {"com.cubepilot.", "https://firmware.cubepilot.org/UAVCAN/"},
                 {"search.id", "http://localhost/url"}
             };
 
@@ -1001,6 +1025,7 @@ namespace UAVCAN
             {
                 servers.Clear();
                 servers.Add("com.hex.", "https://firmware.cubepilot.org/UAVCAN/beta/");
+                servers.Add("com.cubepilot.", "https://firmware.cubepilot.org/UAVCAN/beta/");
             }
 
             foreach (var serverinfo in servers)
@@ -1034,7 +1059,7 @@ namespace UAVCAN
             return String.Empty;
         }
 
-        public void Update(byte nodeid, string devicename, double hwversion, string firmware_name)
+        public void Update(byte nodeid, string devicename, double hwversion, string firmware_name, CancellationToken cancel)
         {
             Console.WriteLine("Update {0} {1} {2} {3}", nodeid, devicename, hwversion, firmware_name);
 
@@ -1162,19 +1187,27 @@ namespace UAVCAN
 
             FileSendComplete += filecomplete;
 
+            uint timestamp = 0;
             int b = 0;
             while (!done)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
-                if (exception != null)
+                if (exception != null || cancel.IsCancellationRequested)
                 {
                     break;
                 }
 
                 if (NodeList.Any(a => a.Key == nodeid && a.Value.mode == uavcan.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
                 {
-                    b = 0;
+                    var lastrxts = NodeList.First(a => a.Key == nodeid).Value.uptime_sec;
+                    if(lastrxts != timestamp)
+                        b = 0;
+                    if (b > 5)
+                    {
+                        Console.WriteLine("Possible update issue " + nodeid + " (no nodestatus) ");
+                    }
+                    timestamp = lastrxts;
                 }
                 else
                 {
@@ -1183,14 +1216,16 @@ namespace UAVCAN
                         // get node info
                         uavcan.uavcan_protocol_GetNodeInfo_req gnireq = new uavcan.uavcan_protocol_GetNodeInfo_req() { };
 
-                        var slcan = PackageMessage((byte) nodeid, 30, transferID++, gnireq);
+                        var slcan = PackageMessage((byte) nodeid, 0, transferID++, gnireq);
 
                         WriteToStream(slcan);
                     }
+                }
 
-                    b++;
-                    if (b > 100)
-                        break;
+                b++;
+                if (b > 30)
+                {
+                    break;
                 }
             }
 
@@ -1203,6 +1238,17 @@ namespace UAVCAN
             {
                 throw exception;
             }
+        }
+
+        public string GetNodeName(byte sourceNode)
+        {
+            if (NodeInfo.ContainsKey(sourceNode))
+            {
+                return ASCIIEncoding.ASCII.GetString(NodeInfo[sourceNode].name).TrimEnd('\0');                
+            }
+            if (sourceNode == 0)
+                return "Anonymous";
+            return "?";
         }
 
         List<long> GetPatternPositions(Stream stream, byte[] pattern)
@@ -1264,6 +1310,19 @@ namespace UAVCAN
                     if (sr.CanWrite)
                     {
                         sr.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
+
+                        try
+                        {
+                            logfilesemaphore.Wait();
+                            logfile?.Write(ASCIIEncoding.ASCII.GetBytes(line + '\r'), 0, line.Length + 1);
+                        }
+                        catch
+                        {
+                        }
+                        finally
+                        {
+                            logfilesemaphore.Release();
+                        }
 
                         // wait 50ms for a message send ack
                         /*DateTime deadline = DateTime.Now.AddMilliseconds(1);
@@ -1557,6 +1616,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
             else if (line[0] == 'Z')
             {
+                cmdack = true;
                 return;
             }
             else
@@ -1569,6 +1629,13 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             //T12ABCDEF2AA55 : extended can_id 0x12ABCDEF, can_dlc 2, data 0xAA 0x55
             var msgdata = line.Substring(1, id_len);// new string(line.Skip(1).Take(id_len).ToArray());
+            if (msgdata.Contains("T")) // bad packet
+            {
+                Console.WriteLine("Bad SLCAN " + line);
+                var idx= line.IndexOf("T", 1);
+                ReadMessage(line.Substring(idx ));
+                return;
+            }
             var packet_id = Convert.ToUInt32(msgdata, 16); // id
             var packet_len = line[1 + id_len] - 48; // dlc
             var with_timestamp = line_len > (2 + id_len + packet_len * 2);
@@ -1835,7 +1902,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 30, transferID++, req);
+                    var slcan = PackageMessage(node, 0, transferID++, req);
 
                     reqtime = DateTime.Now;
                     WriteToStream(slcan);
@@ -1860,6 +1927,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
         private bool run;
         private Stream logfile;
+        private SemaphoreSlim logfilesemaphore = new SemaphoreSlim(1);
         private bool cmdack;
 
         public int Read(byte b)
@@ -1926,7 +1994,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 if (nextsend < DateTime.Now)
                 {
-                    var slcan = PackageMessage(node, 30, transferID++, req);
+                    var slcan = PackageMessage(node, 0, transferID++, req);
 
                     WriteToStream(slcan);
 
