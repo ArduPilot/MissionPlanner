@@ -78,9 +78,9 @@ namespace MissionPlanner.Controls
             }
         }
 
-        Vector3 _rpy = new Vector3();
+        MissionPlanner.Utilities.Vector3 _rpy = new MissionPlanner.Utilities.Vector3();
 
-        public Vector3 rpy
+        public MissionPlanner.Utilities.Vector3 rpy
         {
             get { return _rpy; }
             set
@@ -432,7 +432,7 @@ namespace MissionPlanner.Controls
                 if (!chk_locktomav.Checked)
                 {
                     campos = mypos;
-                    rpy = myrpy;
+                    rpy = new MissionPlanner.Utilities.Vector3((float) myrpy.X, (float) myrpy.Y, (float) myrpy.Z);
                     KeyboardState input = Keyboard.GetState();
                     float speed = (1.5f);
                     Vector3 position = new Vector3((float) campos[0], (float) campos[1], (float) campos[2]);
@@ -487,7 +487,7 @@ namespace MissionPlanner.Controls
 
                 // save the state
                 mypos = campos;
-                myrpy = rpy;
+                myrpy = new OpenTK.Vector3((float) rpy.x, (float) rpy.y, (float) rpy.z);
 
                 cameraX = campos[0];
                 cameraY = campos[1];

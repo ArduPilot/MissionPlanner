@@ -1,7 +1,5 @@
 ﻿
 using System.Linq;
-using OpenTK.Graphics;
-using OpenTK.Platform;
 #if !LIB
 using SvgNet.SvgGdi;
 #endif

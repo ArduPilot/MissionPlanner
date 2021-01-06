@@ -1,7 +1,12 @@
-﻿using AppKit;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AppKit;
 using Foundation;
+using MissionPlanner.ArduPilot;
 using Xamarin.Forms.Platform.MacOS;
 using Xamarin.Forms;
+using MissionPlanner.Comms;
 
 namespace Xamarin.MacOS
 {
@@ -15,6 +20,12 @@ namespace Xamarin.MacOS
             mainWindow = new NSWindow(rect, style, NSBackingStore.Buffered, false);
             mainWindow.Title = "Xamarin.Forms on Mac!";
             mainWindow.TitleVisibility = NSWindowTitleVisibility.Hidden;
+
+            Test.BlueToothDevice = new BTDevice();
+            Test.UsbDevices = new USBDevices();
+            Test.Radio = new Radio();
+
+            new System.Drawing.android.android();
         }
 
         private  NSWindow mainWindow;
@@ -32,6 +43,53 @@ namespace Xamarin.MacOS
         public override void WillTerminate(NSNotification notification)
         {
             // Insert code here to tear down your application
+        }
+
+        
+        public class Radio : IRadio
+        {
+            public void Toggle()
+            {
+          
+            }
+        }
+
+        public class BTDevice : IBlueToothDevice
+        {
+            Task<List<DeviceInfo>> IBlueToothDevice.GetDeviceInfoList()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class USBDevices : IUSBDevices
+        {
+            public event EventHandler<DeviceInfo> USBEvent;
+
+            public DeviceInfo GetDeviceInfo(object devicein)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task GetDeviceInfoList()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void USBEventCallBack(object usbDeviceReceiver, object device)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<ICommsSerial> GetUSB(DeviceInfo di)
+            {
+                throw new NotImplementedException();
+            }
+
+            async Task<List<DeviceInfo>> IUSBDevices.GetDeviceInfoList()
+            {
+                return new List<DeviceInfo>();
+            }
         }
     }
 }

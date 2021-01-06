@@ -2,8 +2,8 @@ name: OSX Build
 on: push
 
 jobs:
-  buildAAB:
-    name: Build Release
+  buildIOS:
+    name: Build IOS
     runs-on: macos-latest
 
     steps:
@@ -22,3 +22,24 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           path: ExtLibs/Xamarin/Xamarin.iOS/bin/iPhoneSimulator/Release/
+
+  buildOSX:
+    name: Build OSX
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Build
+        shell: pwsh
+        run: |
+          msbuild -ver
+          dotnet --version
+          dotnet --list-sdks
+          msbuild -v:m -restore  -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.MacOS\Xamarin.MacOS.csproj"
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/

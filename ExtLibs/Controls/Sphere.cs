@@ -17,7 +17,7 @@ namespace MissionPlanner.Controls
 
         List<Vector3> aimpoints = new List<Vector3>();
 
-        public Vector3 CenterPoint = new Vector3();
+        public MissionPlanner.Utilities.Vector3 CenterPoint = new MissionPlanner.Utilities.Vector3();
 
         public float scale = 300;
 
@@ -45,7 +45,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        public void AimFor(Vector3 point)
+        public void AimFor(MissionPlanner.Utilities.Vector3 point)
         {
             lock (aimpoints)
             {
@@ -53,11 +53,11 @@ namespace MissionPlanner.Controls
 
                 //point *= scale;
 
-                aimpoints.Add(point);
+                aimpoints.Add(new Vector3((float)point.x,(float) point.y, (float)point.z));
             }
         }
 
-        public void AddPoint(Vector3 point)
+        public void AddPoint(MissionPlanner.Utilities.Vector3 point)
         {
             minx = (float)Math.Min(minx, point.X);
             maxx = (float)Math.Max(maxx, point.X);
@@ -74,7 +74,7 @@ namespace MissionPlanner.Controls
 
                 //point *= scale;
 
-                points.Add(point);
+                points.Add(new Vector3((float)point.x,(float) point.y, (float)point.z));
             }
 
             this.Invalidate();
@@ -141,7 +141,7 @@ namespace MissionPlanner.Controls
 
             if (points.Count > 0)
             {
-                Vector3 current = new Vector3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z);
+                //Vector3 current = new Vector3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z);
 
                 //yaw = Math.Atan2(points[points.Count - 1].X, points[points.Count - 1].Y);
             }
@@ -234,9 +234,9 @@ namespace MissionPlanner.Controls
 
                     GL.Color3(col);
 
-                    Vector3 vec = new Vector3(item.X, item.Y, item.Z) + CenterPoint;
+                    var vec = new MissionPlanner.Utilities.Vector3(item.X, item.Y, item.Z) + CenterPoint;
 
-                    GL.Vertex3(vec);
+                    GL.Vertex3(new Vector3((float) vec.x, (float) vec.y, (float) vec.z));
                 }
 
                 lock (aimpoints)
@@ -245,7 +245,8 @@ namespace MissionPlanner.Controls
                     {
                         GL.PointSize(8);
                         GL.Color3(Color.White);
-                        GL.Vertex3(new Vector3(aim.X, aim.Y, aim.Z) + CenterPoint);
+                        var vec = new MissionPlanner.Utilities.Vector3(aim.X, aim.Y, aim.Z) + CenterPoint;
+                        GL.Vertex3(new Vector3((float) vec.x, (float) vec.y, (float) vec.z));
                     }
                 }
 
@@ -259,7 +260,10 @@ namespace MissionPlanner.Controls
                 GL.Color3(Color.Red);
 
                 if (points.Count > 0)
-                    GL.Vertex3(new Vector3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z) + CenterPoint);
+                {
+                    var vec = new MissionPlanner.Utilities.Vector3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z) + CenterPoint;
+                    GL.Vertex3(new Vector3((float) vec.x, (float) vec.y, (float) vec.z));
+                }
 
             }
 

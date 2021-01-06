@@ -520,7 +520,7 @@ namespace MissionPlanner
                                 centre = new Vector3(lsq[0], lsq[1], lsq[2]);
                                 log.Info("new centre " + centre.ToString());
 
-                                prsphere.sphere1.CenterPoint = new OpenTK.Vector3(
+                                prsphere.sphere1.CenterPoint = new Vector3(
                                     (float) centre.x, (float) centre.y, (float) centre.z);
                             }
                         }
@@ -545,7 +545,7 @@ namespace MissionPlanner
                                 Vector3 centre2 = new Vector3(lsq[0], lsq[1], lsq[2]);
                                 log.Info("new centre2 " + centre2.ToString());
 
-                                prsphere.sphere2.CenterPoint = new OpenTK.Vector3(
+                                prsphere.sphere2.CenterPoint = new Vector3(
                                     (float) centre2.x, (float) centre2.y, (float) centre2.z);
                             }
                         }
@@ -570,7 +570,7 @@ namespace MissionPlanner
                                 Vector3 centre3 = new Vector3(lsq[0], lsq[1], lsq[2]);
                                 log.Info("new centre2 " + centre3.ToString());
 
-                                prsphere.sphere3.CenterPoint = new OpenTK.Vector3(
+                                prsphere.sphere3.CenterPoint = new Vector3(
                                     (float) centre3.x, (float) centre3.y, (float) centre3.z);
                             }
                         }
@@ -589,7 +589,7 @@ namespace MissionPlanner
                 lastcount = datacompass1.Count;
 
                 // add to sphere with center correction
-                prsphere.sphere1.AddPoint(new OpenTK.Vector3(rawmx, rawmy, rawmz));
+                prsphere.sphere1.AddPoint(new Vector3(rawmx, rawmy, rawmz));
                 prsphere.sphere1.AimClear();
 
                 if (datacompass2.Count > 30)
@@ -598,7 +598,7 @@ namespace MissionPlanner
                     float raw2my = datacompass2[datacompass2.Count - 1].Item2;
                     float raw2mz = datacompass2[datacompass2.Count - 1].Item3;
 
-                    prsphere.sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
+                    prsphere.sphere2.AddPoint(new Vector3(raw2mx, raw2my, raw2mz));
                     prsphere.sphere2.AimClear();
                 }
 
@@ -608,7 +608,7 @@ namespace MissionPlanner
                     float raw3my = datacompass3[datacompass3.Count - 1].Item2;
                     float raw3mz = datacompass3[datacompass3.Count - 1].Item3;
 
-                    prsphere.sphere3.AddPoint(new OpenTK.Vector3(raw3mx, raw3my, raw3mz));
+                    prsphere.sphere3.AddPoint(new Vector3(raw3mx, raw3my, raw3mz));
                     prsphere.sphere3.AimClear();
                 }
 
@@ -669,7 +669,7 @@ namespace MissionPlanner
                             displayresult = "more data needed Aim For " +
                                             GetColour((int) (theta * MathHelper.rad2deg),
                                                 (int) (phi * MathHelper.rad2deg));
-                            prsphere.sphere1.AimFor(new OpenTK.Vector3((float) point_sphere.x,
+                            prsphere.sphere1.AimFor(new Vector3((float) point_sphere.x,
                                 (float) point_sphere.y, (float) point_sphere.z));
                             //j = factor;
                             //break;

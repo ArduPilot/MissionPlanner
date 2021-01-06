@@ -35,7 +35,9 @@ using Xamarin.Forms.Platform.WinForms;
 [assembly: ExportRenderer(typeof(ScrollView), typeof(ScrollViewRenderer))]
 [assembly: ExportRenderer(typeof(TabbedPage), typeof(TabbedPageRenderer))]
 [assembly: ExportRenderer(typeof(CarouselPage), typeof(CarouselPageRenderer))]
+#if GL
 [assembly: ExportRenderer(typeof(OpenGLView), typeof(OpenGLViewRenderer))]
+#endif
 [assembly: ExportRenderer(typeof(WebView), typeof(WebViewRenderer))]
 
 [assembly: ExportImageSourceHandler(typeof(FileImageSource), typeof(FileImageSourceHandler))]

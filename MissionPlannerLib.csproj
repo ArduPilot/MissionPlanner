@@ -42,6 +42,8 @@
     <Compile Remove="ExtLibs\GDAL\**" />
 
     <Compile Remove="ExtLibs\GeoUtility\**" />
+
+    <Compile Remove="ExtLibs\GLControl\**" />
     <Compile Remove="ExtLibs\GMap.NET.Core\**" />
     <Compile Remove="ExtLibs\GMap.NET.Drawing\**" />
     <Compile Remove="ExtLibs\GMap.NET.WindowsForms\**" />
@@ -128,6 +130,8 @@
     <EmbeddedResource Remove="ExtLibs\GDAL\**" />
 
     <EmbeddedResource Remove="ExtLibs\GeoUtility\**" />
+
+    <EmbeddedResource Remove="ExtLibs\GLControl\**" />
     <EmbeddedResource Remove="ExtLibs\GMap.NET.Core\**" />
     <EmbeddedResource Remove="ExtLibs\GMap.NET.Drawing\**" />
     <EmbeddedResource Remove="ExtLibs\GMap.NET.WindowsForms\**" />
@@ -213,6 +217,8 @@
     <None Remove="ExtLibs\GDAL\**" />
 
     <None Remove="ExtLibs\GeoUtility\**" />
+
+    <None Remove="ExtLibs\GLControl\**" />
     <None Remove="ExtLibs\GMap.NET.Core\**" />
     <None Remove="ExtLibs\GMap.NET.Drawing\**" />
     <None Remove="ExtLibs\GMap.NET.WindowsForms\**" />
@@ -305,15 +311,6 @@
  <ItemGroup>
    <Compile Remove="Controls\OpenGLtest.cs" />
    <Compile Remove="Controls\OpenGLtest2.cs" />
-   <Compile Remove="ExtLibs\GLControl\Agl.cs" />
-   <Compile Remove="ExtLibs\GLControl\AglContext.cs" />
-   <Compile Remove="ExtLibs\GLControl\AglGraphicsMode.cs" />
-   <Compile Remove="ExtLibs\GLControl\Carbon.cs" />
-   <Compile Remove="ExtLibs\GLControl\CarbonGLControl.cs" />
-   <Compile Remove="ExtLibs\GLControl\NS.cs" />
-   <Compile Remove="ExtLibs\GLControl\Sdl2GLControl.cs" />
-   <Compile Remove="ExtLibs\GLControl\WinGLControl.cs" />
-   <Compile Remove="ExtLibs\GLControl\X11GLControl.cs" />
  </ItemGroup>
 
  <ItemGroup>
@@ -330,6 +327,7 @@
    <None Remove="ExtLibs\Ionic.Zip.NetStandard.dll" />
    <None Remove="ExtLibs\Ionic.Zip.NetStandard.pdb" />
    <None Remove="ExtLibs\MonoMac.dll" />
+   <None Remove="ExtLibs\OpenTK-1.0.dll" />
    <None Remove="ExtLibs\OpenTK.Compatibility.dll" />
    <None Remove="ExtLibs\OpenTK.Compatibility.dll.config" />
    <None Remove="ExtLibs\OpenTK.Compatibility.xml" />
@@ -352,12 +350,6 @@
    <Compile Include="SikRadio\RFDLib\Text.cs" />
  </ItemGroup>
 
-
-
- <ItemGroup>
-   <None Include="ExtLibs\GLControl\OpenTK.GLControl.csproj" />
- </ItemGroup>
-
  <ItemGroup>
    <PackageReference Include="DynamicLanguageRuntime" Version="1.2.3" />
    <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
@@ -372,7 +364,7 @@
    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
    <PackageReference Include="TimeZoneConverter" Version="3.2.0" />
-   <PackageReference Include="Xamarin.Forms" Version="4.8.0.1560" />  <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
+   <PackageReference Include="Xamarin.Forms" Version="5.0.0.1874" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" /> <PackageReference Include="SharpDX" version="4.1.0" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" />
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" /> <PackageReference Include="Crc32.NET">
@@ -442,14 +434,6 @@
    <ProjectReference Include="ExtLibs\ZedGraph\ZedGraph.csproj" />
    <ProjectReference Include="ExtLibs\Zeroconf\Zeroconf\Zeroconf.csproj" />
  </ItemGroup> 
-  <ItemGroup>
-  <Reference Include="OpenTK-1.0">
-    <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v4.4\OpenTK-1.0.dll</HintPath>
-  </Reference>
-</ItemGroup> 
-  <ItemGroup>
-    <Folder Include="ExtLibs\GLControl\Properties\" />
-  </ItemGroup> 
   <ItemGroup>
     <Compile Update="ExtLibs\ObjectListView\Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

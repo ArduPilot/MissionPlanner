@@ -56,7 +56,15 @@ namespace Xamarin
             MasterBehavior = MasterBehavior.Popover;
             IsPresented = false;
 
-            DeviceDisplay.KeepScreenOn = true;
+            try
+            {
+                // fails on OSX
+                DeviceDisplay.KeepScreenOn = true;
+            }
+            catch
+            {
+
+            }
 
             try
             {

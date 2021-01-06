@@ -31,12 +31,10 @@
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="OpenTK-1.0" Condition="'$(TargetFramework)' == 'netstandard2.0'">
-      <HintPath>..\OpenTK-1.0.dll</HintPath>
-    </Reference>    
+    <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
+
   </ItemGroup>
   <ItemGroup>
     <Compile Update="HUDT.Designer.cs">
@@ -61,5 +59,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MissionPlanner.Controls.Properties</CustomToolNamespace>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="System.IO.Compression.FileSystem">
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 </Project>
