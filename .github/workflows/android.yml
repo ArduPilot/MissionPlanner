@@ -1,5 +1,10 @@
 name: Android Build
-on: push
+on: 
+    push:
+        branches:
+            - master
+        tags:
+            - beta
 
 jobs:
   buildAAB:
@@ -46,6 +51,14 @@ jobs:
         with:
           name: com.michaeloborne.MissionPlanner.aab.zip
           path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*.aab
+
+      - name: Upload Android Release to Play Store
+        uses: r0adkll/upload-google-play@v1.0.11
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.michaeloborne.MissionPlanner
+          releaseFiles: ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner.aab
+          track: internal
 
       - name: Build
         shell: pwsh
