@@ -84,7 +84,7 @@ namespace OpenTK.Graphics
             throw new NotImplementedException();
         }
 
-        public bool IsCurrent { get; }
+        public bool IsCurrent { get; } = true;
         public bool IsDisposed { get; }
         public int SwapInterval { get; set; }
         public void Update(IWindowInfo window)
@@ -143,7 +143,7 @@ namespace OpenTK
 
         public bool VSync { get; set; }
         public GraphicsMode GraphicsMode { get; set; }
-        public IGraphicsContext Context { get; }
+        public IGraphicsContext Context { get; } = new GraphicsContext();
 
 
     }
@@ -1909,7 +1909,7 @@ public enum StringName
 
         public static void Clear(ClearBufferMask colorBufferBit)
         {
-            throw new NotImplementedException();
+            
         }
 
         public static void TexSubImage2D(TextureTarget texture2D, int i, int i1, int i2, int dataWidth, int dataHeight, PixelFormat bgra, PixelType unsignedByte, IntPtr dataScan0)
