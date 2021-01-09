@@ -252,6 +252,22 @@ namespace MissionPlanner.Comms
                     catch
                     {
                     }
+
+                    try
+                    {
+                        allPorts.AddRange(Directory.GetFiles("/dev/", "tty.*"));
+                    }
+                    catch
+                    {
+                    }
+
+                    try
+                    {
+                        allPorts.AddRange(Directory.GetFiles("/dev/", "cu.*"));
+                    }
+                    catch
+                    {
+                    }
                 }
 
                 string[] ports = null;
