@@ -58,6 +58,9 @@ namespace Xamarin.GCSViews
                     size = new Forms.Size(960, 960 / scale);
             }
 
+            if (Device.RuntimePlatform == Device.macOS || Device.RuntimePlatform == Device.UWP)
+                size = Device.Info.PixelScreenSize;
+
             Instance = this;
             //MainV2.speechEngine = new Speech();
 
@@ -501,6 +504,20 @@ namespace Xamarin.GCSViews
                     touchDictionary.Remove(e.Id);
                 }
 
+                if (e.ActionType == SKTouchAction.Pressed && e.MouseButton == SKMouseButton.Right)
+                {
+                    XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_RBUTTONDOWN,
+                        new IntPtr((int) MsgButtons.MK_RBUTTON), (IntPtr) ((y) << 16 | (x)));
+                    touchDictionary.Clear();
+                }
+
+                if (e.ActionType == SKTouchAction.Released && e.MouseButton == SKMouseButton.Right)
+                {
+                    XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_RBUTTONUP,
+                        new IntPtr((int) MsgButtons.MK_RBUTTON), (IntPtr) ((y) << 16 | (x)));
+                    touchDictionary.Clear();
+                }
+
                 if (e.ActionType == SKTouchAction.Entered)
                 {
                     XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr(), (IntPtr) ((y) << 16 | (x)));
@@ -717,6 +734,7 @@ namespace Xamarin.GCSViews
                     }
                 }
 
+                if (Device.RuntimePlatform != Device.macOS && Device.RuntimePlatform != Device.UWP)
                 {
                     surface.Canvas.ClipRect(
                         SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
