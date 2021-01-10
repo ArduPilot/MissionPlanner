@@ -40,6 +40,8 @@ namespace Installer
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             {
+                //new System.Drawing.android.android();
+
                 var path = Assembly.GetExecutingAssembly().CodeBase?.ToString();
                 var dir = Path.GetDirectoryName(path).Replace("file:\\", "");
                 Assembly.LoadFile(dir +
@@ -305,8 +307,8 @@ namespace Installer
 
                     {
                         surface.Canvas.ClipRect(
-                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
-                                Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width*2,
+                                Screen.PrimaryScreen.Bounds.Height*2), (SKClipOperation) 5);
 
                         var path = new SKPath();
 
@@ -330,8 +332,8 @@ namespace Installer
 
                     //return;
 
-                    surface.Canvas.ClipRect(new SKRect(0, 0, Screen.PrimaryScreen.Bounds.Right,
-                        Screen.PrimaryScreen.Bounds.Bottom), (SKClipOperation) 5);
+                    surface.Canvas.ClipRect(new SKRect(0, 0, Screen.PrimaryScreen.Bounds.Right*2,
+                        Screen.PrimaryScreen.Bounds.Bottom*2), (SKClipOperation) 5);
 
                     /*surface.Canvas.DrawText("PixelScreenSize " + Device.Info.PixelScreenSize.ToString(),
                         new SKPoint(50, 10), new SKPaint() {Color = SKColor.Parse("ffff00")});
@@ -413,8 +415,8 @@ namespace Installer
                 // setup clip
                 var parent = hwnd;
                 surface.Canvas.ClipRect(
-                    SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
-                        Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+                    SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width*2,
+                        Screen.PrimaryScreen.Bounds.Height*2), (SKClipOperation) 5);
 
                 while (parent != null)
                 {
@@ -451,8 +453,8 @@ namespace Installer
                         borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
 
                         surface.Canvas.ClipRect(
-                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
-                                Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width*2,
+                                Screen.PrimaryScreen.Bounds.Height*2), (SKClipOperation) 5);
                     }
 
                     if (surface.Canvas.DeviceClipBounds.Width > 0 &&
