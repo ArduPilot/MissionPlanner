@@ -149,5 +149,15 @@
       <Version>2.80.2</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\mavcmd.xml">
+      <Link>mavcmd.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ParameterMetaDataBackup.xml">
+      <Link>ParameterMetaDataBackup.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>
