@@ -106,6 +106,92 @@ namespace System.Drawing.Drawing2D
             return path;
         }
 
+        public static implicit operator GraphicsPath(SKPath gr)
+        {
+            gr.Simplify();
+            var path = new GraphicsPath();
+
+            using (var iterator = gr.CreateIterator(false))
+            {
+                SKPoint[] points = new SKPoint[4];
+                SKPathVerb pathVerb = SKPathVerb.Move;
+                SKPoint firstPoint = new SKPoint();
+                SKPoint lastPoint = new SKPoint();
+
+                while ((pathVerb = iterator.Next(points)) != SKPathVerb.Done)
+                {
+                    switch (pathVerb)
+                    {
+                        case SKPathVerb.Move:
+                            firstPoint = lastPoint = points[0];
+                            break;
+
+                        case SKPathVerb.Line:
+                            //SKPoint[] linePoints = PathExtensions.Interpolate(points[0], points[1]);
+
+                           // foreach (var pt in linePoints.PrevNowNext())
+                            {
+                                path.AddLine(points[0].X, points[0].Y, points[1].X, points[1].Y);
+                            }
+
+                            lastPoint = points[1];
+                            break;
+
+                        case SKPathVerb.Cubic:
+                            SKPoint[] cubicPoints = PathExtensions.FlattenCubic(points[0], points[1], points[2], points[3]);
+
+                            foreach (var pt in cubicPoints.PrevNowNext())
+                            {
+                                path.AddLine(pt.Item2.X, pt.Item2.Y, pt.Item3.X, pt.Item3.Y);
+                            }
+
+                            lastPoint = points[3];
+                            break;
+
+                        case SKPathVerb.Quad:
+                            SKPoint[] quadPoints = PathExtensions.FlattenQuadratic(points[0], points[1], points[2]);
+
+                            foreach (var pt in quadPoints.PrevNowNext())
+                            {
+                                path.AddLine(pt.Item2.X, pt.Item2.Y, pt.Item3.X, pt.Item3.Y);
+                            }
+
+                            lastPoint = points[2];
+                            break;
+
+                        case SKPathVerb.Conic:
+                            SKPoint[] conicPoints = PathExtensions.FlattenConic(points[0], points[1], points[2], iterator.ConicWeight());
+
+                            foreach (var pt in conicPoints.PrevNowNext())
+                            {
+                                path.AddLine(pt.Item2.X, pt.Item2.Y, pt.Item3.X, pt.Item3.Y);
+                            }
+
+                            lastPoint = points[2];
+                            break;
+
+                        case SKPathVerb.Close:
+                            SKPoint[] closePoints = PathExtensions.Interpolate(lastPoint, firstPoint);
+
+                            if (closePoints.Count() > 1)
+                            {
+                                foreach (var pt in closePoints.PrevNowNext())
+                                {
+                                    path.AddLine(pt.Item2.X, pt.Item2.Y, pt.Item3.X, pt.Item3.Y);
+                                }
+                            }
+
+                            path.CloseFigure();
+
+                            firstPoint = lastPoint = new SKPoint(0, 0);
+                            break;
+                    }
+                }
+            }
+
+            return path;
+        }
+
         void Append(float x, float y, PathPointType type, bool compress)
         {
             byte t = (byte) type;
@@ -1988,13 +2074,271 @@ namespace System.Drawing.Drawing2D
                 {Typeface = SKTypeface.FromFamilyName(fontFontFamily?.Name), TextSize = fontsize};
             var path = paint.GetTextPath(s, point.X, point.Y + fontsize);
 
-            if(path.Points.Length > 1) 
+            path.Simplify();
+            
+            using (var iterator = path.CreateIterator(false))
             {
-                if(path.Points.Length < 3)
-                    AddLines(path.Points.Select(a => new PointF(a.X, a.Y)).ToArray());
-                else
-                    AddPolygon(path.Points.Select(a => new PointF(a.X, a.Y)).ToArray()); 
+                SKPoint[] points = new SKPoint[4];
+                SKPathVerb pathVerb = SKPathVerb.Move;
+                SKPoint firstPoint = new SKPoint();
+                SKPoint lastPoint = new SKPoint();
+
+                while ((pathVerb = iterator.Next(points)) != SKPathVerb.Done)
+                {
+                    switch (pathVerb)
+                    {
+                        case SKPathVerb.Move:
+                            firstPoint = lastPoint = points[0];
+                            break;
+
+                        case SKPathVerb.Line:
+                            //SKPoint[] linePoints = PathExtensions.Interpolate(points[0], points[1]);
+
+                           // foreach (var pt in linePoints.PrevNowNext())
+                            {
+                                AddLine(points[0].X, points[0].Y, points[1].X, points[1].Y);
+                            }
+
+                            lastPoint = points[1];
+                            break;
+
+                        case SKPathVerb.Cubic:
+                            SKPoint[] cubicPoints = PathExtensions.FlattenCubic(points[0], points[1], points[2], points[3]);
+
+                            foreach (var pt in cubicPoints.PrevNowNext())
+                            {
+                                AddLine(pt.Item2.X, pt.Item2.Y, pt.Item3.X, pt.Item3.Y);
+                            }
+
+                            lastPoint = points[3];
+                            break;
+
+                        case SKPathVerb.Quad:
+                            SKPoint[] quadPoints = PathExtensions.FlattenQuadratic(points[0], points[1], points[2]);
+
+                            foreach (var pt in quadPoints.PrevNowNext())
+                            {
+                                AddLine(pt.Item2.X, pt.Item2.Y, pt.Item3.X, pt.Item3.Y);
+                            }
+
+                            lastPoint = points[2];
+                            break;
+
+                        case SKPathVerb.Conic:
+                            SKPoint[] conicPoints = PathExtensions.FlattenConic(points[0], points[1], points[2], iterator.ConicWeight());
+
+                            foreach (var pt in conicPoints.PrevNowNext())
+                            {
+                                AddLine(pt.Item2.X, pt.Item2.Y, pt.Item3.X, pt.Item3.Y);
+                            }
+
+                            lastPoint = points[2];
+                            break;
+
+                        case SKPathVerb.Close:
+                            SKPoint[] closePoints = PathExtensions.Interpolate(lastPoint, firstPoint);
+
+                            if (closePoints.Count() > 1)
+                            {
+                                foreach (var pt in closePoints.PrevNowNext())
+                                {
+                                    AddLine(pt.Item2.X, pt.Item2.Y, pt.Item3.X, pt.Item3.Y);
+                                }
+                            }
+
+                            CloseFigure();
+
+                            firstPoint = lastPoint = new SKPoint(0, 0);
+                            break;
+                    }
+                }
             }
+        }
+    }
+
+    /// <summary>
+    /// https://github.com/MicrosoftDocs/xamarin-docs/blob/live/docs/xamarin-forms/user-interface/graphics/skiasharp/curves/information.md
+    /// </summary>
+    static class PathExtensions
+    {
+        internal static IEnumerable<Tuple<T, T, T>> PrevNowNext<T>(this IEnumerable<T> list, T InitialValue = default(T), T InvalidValue = default(T))
+        {
+            T prev = InvalidValue;
+            T now = InvalidValue;
+            T next = InitialValue;
+            int a = -1;
+            foreach (var item in list)
+            {
+                a++;
+                prev = now;
+                now = next;
+                next = item;
+                if(a==0)
+                    continue;
+                yield return new Tuple<T, T, T>(prev, now, next);
+            }
+
+            // dont need the last item
+            //yield return new Tuple<T, T, T>(now, next, InvalidValue);
+        }
+
+        public static SKPath CloneWithTransform(this SKPath pathIn, Func<SKPoint, SKPoint> transform)
+        {
+            SKPath pathOut = new SKPath();
+
+            using (SKPath.RawIterator iterator = pathIn.CreateRawIterator())
+            {
+                SKPoint[] points = new SKPoint[4];
+                SKPathVerb pathVerb = SKPathVerb.Move;
+                SKPoint firstPoint = new SKPoint();
+                SKPoint lastPoint = new SKPoint();
+
+                while ((pathVerb = iterator.Next(points)) != SKPathVerb.Done)
+                {
+                    switch (pathVerb)
+                    {
+                        case SKPathVerb.Move:
+                            pathOut.MoveTo(transform(points[0]));
+                            firstPoint = lastPoint = points[0];
+                            break;
+
+                        case SKPathVerb.Line:
+                            SKPoint[] linePoints = Interpolate(points[0], points[1]);
+
+                            foreach (SKPoint pt in linePoints)
+                            {
+                                pathOut.LineTo(transform(pt));
+                            }
+
+                            lastPoint = points[1];
+                            break;
+
+                        case SKPathVerb.Cubic:
+                            SKPoint[] cubicPoints = FlattenCubic(points[0], points[1], points[2], points[3]);
+
+                            foreach (SKPoint pt in cubicPoints)
+                            {
+                                pathOut.LineTo(transform(pt));
+                            }
+
+                            lastPoint = points[3];
+                            break;
+
+                        case SKPathVerb.Quad:
+                            SKPoint[] quadPoints = FlattenQuadratic(points[0], points[1], points[2]);
+
+                            foreach (SKPoint pt in quadPoints)
+                            {
+                                pathOut.LineTo(transform(pt));
+                            }
+
+                            lastPoint = points[2];
+                            break;
+
+                        case SKPathVerb.Conic:
+                            SKPoint[] conicPoints = FlattenConic(points[0], points[1], points[2], iterator.ConicWeight());
+
+                            foreach (SKPoint pt in conicPoints)
+                            {
+                                pathOut.LineTo(transform(pt));
+                            }
+
+                            lastPoint = points[2];
+                            break;
+
+                        case SKPathVerb.Close:
+                            SKPoint[] closePoints = Interpolate(lastPoint, firstPoint);
+
+                            foreach (SKPoint pt in closePoints)
+                            {
+                                pathOut.LineTo(transform(pt));
+                            }
+
+                            firstPoint = lastPoint = new SKPoint(0, 0);
+                            pathOut.Close();
+                            break;
+                    }
+                }
+            }
+            return pathOut;
+        }
+
+        internal static SKPoint[] Interpolate(SKPoint pt0, SKPoint pt1)
+        {
+            int count = (int)Math.Max(2, Length(pt0, pt1));
+            SKPoint[] points = new SKPoint[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                float t = (i + 1f) / count;
+                float x = (1 - t) * pt0.X + t * pt1.X;
+                float y = (1 - t) * pt0.Y + t * pt1.Y;
+                points[i] = new SKPoint(x, y);
+            }
+
+            return points;
+        }
+
+        internal static SKPoint[] FlattenCubic(SKPoint pt0, SKPoint pt1, SKPoint pt2, SKPoint pt3)
+        {
+            int count = (int)Math.Max(2, Length(pt0, pt1) + Length(pt1, pt2) + Length(pt2, pt3));
+            SKPoint[] points = new SKPoint[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                float t = (i + 1f) / count;
+                float x = (1 - t) * (1 - t) * (1 - t) * pt0.X +
+                          3 * t * (1 - t) * (1 - t) * pt1.X +
+                          3 * t * t * (1 - t) * pt2.X +
+                          t * t * t * pt3.X;
+                float y = (1 - t) * (1 - t) * (1 - t) * pt0.Y +
+                          3 * t * (1 - t) * (1 - t) * pt1.Y +
+                          3 * t * t * (1 - t) * pt2.Y +
+                          t * t * t * pt3.Y;
+                points[i] = new SKPoint(x, y);
+            }
+
+            return points;
+        }
+
+        internal static SKPoint[] FlattenQuadratic(SKPoint pt0, SKPoint pt1, SKPoint pt2)
+        {
+            int count = (int)Math.Max(2, Length(pt0, pt1) + Length(pt1, pt2));
+            SKPoint[] points = new SKPoint[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                float t = (i + 1f) / count;
+                float x = (1 - t) * (1 - t) * pt0.X + 2 * t * (1 - t) * pt1.X + t * t * pt2.X;
+                float y = (1 - t) * (1 - t) * pt0.Y + 2 * t * (1 - t) * pt1.Y + t * t * pt2.Y;
+                points[i] = new SKPoint(x, y);
+            }
+
+            return points;
+        }
+
+        internal static SKPoint[] FlattenConic(SKPoint pt0, SKPoint pt1, SKPoint pt2, float weight)
+        {
+            int count = (int)Math.Max(2, Length(pt0, pt1) + Length(pt1, pt2));
+            SKPoint[] points = new SKPoint[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                float t = (i + 1f) / count;
+                float denominator = (1 - t) * (1 - t) + 2 * weight * t * (1 - t) + t * t;
+                float x = (1 - t) * (1 - t) * pt0.X + 2 * weight * t * (1 - t) * pt1.X + t * t * pt2.X;
+                float y = (1 - t) * (1 - t) * pt0.Y + 2 * weight * t * (1 - t) * pt1.Y + t * t * pt2.Y;
+                x /= denominator;
+                y /= denominator;
+                points[i] = new SKPoint(x, y);
+            }
+
+            return points;
+        }
+
+        internal static double Length(SKPoint pt0, SKPoint pt1)
+        {
+            return Math.Sqrt(Math.Pow(pt1.X - pt0.X, 2) + Math.Pow(pt1.Y - pt0.Y, 2));
         }
     }
 }

@@ -654,18 +654,25 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             //Save the original pen dash style in case we need to change it
             var originalPenDashStyle = pen.DashStyle;
 
-            PointF last = PointF.Empty;
-            foreach (var pathPathPoint in path.PathPoints)
+            path.Flatten();
+
+            int startIndex = 0;
+            int endIndex = 0;
+            bool isClosed = false;
+            var pathData = path.PathData;
+            var iterator = new GraphicsPathIterator(path);
+            var subPaths = iterator.SubpathCount;
+            for (int sp = 0; sp < subPaths; sp++)
             {
-                if (last == PointF.Empty)
-                {
-                    last = pathPathPoint;
-                    continue;
-                }
+                var numOfPoints = iterator.NextSubpath(out startIndex, out endIndex, out isClosed);
 
-                DrawLine(pen, last, pathPathPoint);
+                var subPoints = pathData.Points.Skip(startIndex).Take(numOfPoints).ToList();
+                if (isClosed && numOfPoints > 0)
+                    subPoints.Add(subPoints.First());
 
-                last = pathPathPoint;
+                var subTypes = pathData.Types.Skip(startIndex).Take(numOfPoints).ToArray();
+
+                DrawLines(pen, subPoints.Select(a => new PointF(a.X, a.Y)).ToArray());
             }
 
             pen.DashStyle = originalPenDashStyle;
@@ -1000,7 +1007,9 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillPath(Brush brush, GraphicsPath path)
         {
-            FillPolygon(brush, path.PathPoints);
+            path.Flatten();
+
+            _image.DrawPath(path, brush.ToSKPaint());
         }
 
         public void FillPie(Brush brush, Rectangle rect, float startAngle, float sweepAngle)
