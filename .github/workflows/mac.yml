@@ -21,6 +21,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
+          name: ios
           path: ExtLibs/Xamarin/Xamarin.iOS/bin/iPhoneSimulator/Release/
 
   buildOSX:
@@ -42,4 +43,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
+          name: osx
           path: ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/
