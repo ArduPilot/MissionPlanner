@@ -38,8 +38,8 @@
             // cmb_Baud
             // 
             this.cmb_Baud.BackColor = System.Drawing.Color.Black;
-            this.cmb_Baud.DropDownWidth = 150;
             resources.ApplyResources(this.cmb_Baud, "cmb_Baud");
+            this.cmb_Baud.DropDownWidth = 150;
             this.cmb_Baud.ForeColor = System.Drawing.Color.White;
             this.cmb_Baud.FormattingEnabled = true;
             this.cmb_Baud.Items.AddRange(new object[] {
@@ -64,9 +64,9 @@
             // cmb_Connection
             // 
             this.cmb_Connection.BackColor = System.Drawing.Color.Black;
+            resources.ApplyResources(this.cmb_Connection, "cmb_Connection");
             this.cmb_Connection.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmb_Connection.DropDownWidth = 200;
-            resources.ApplyResources(this.cmb_Connection, "cmb_Connection");
             this.cmb_Connection.ForeColor = System.Drawing.Color.White;
             this.cmb_Connection.FormattingEnabled = true;
             this.cmb_Connection.Name = "cmb_Connection";
@@ -84,8 +84,8 @@
             // cmb_sysid
             // 
             this.cmb_sysid.BackColor = System.Drawing.Color.Black;
-            this.cmb_sysid.DropDownWidth = 160;
             resources.ApplyResources(this.cmb_sysid, "cmb_sysid");
+            this.cmb_sysid.DropDownWidth = 160;
             this.cmb_sysid.ForeColor = System.Drawing.Color.White;
             this.cmb_sysid.FormattingEnabled = true;
             this.cmb_sysid.Name = "cmb_sysid";
@@ -95,10 +95,10 @@
             // ConnectionControl
             // 
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
-            this.Controls.Add(this.cmb_sysid);
             this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.cmb_Connection);
+            this.Controls.Add(this.cmb_sysid);
             this.Controls.Add(this.cmb_Baud);
+            this.Controls.Add(this.cmb_Connection);
             resources.ApplyResources(this, "$this");
             this.Name = "ConnectionControl";
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConnectionControl_MouseClick);
