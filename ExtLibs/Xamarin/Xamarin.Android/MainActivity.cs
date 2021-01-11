@@ -115,6 +115,7 @@ namespace Xamarin.Droid
             Test.BlueToothDevice = new BTDevice();
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
+            Test.GPS = new GPS();
 
           
             
@@ -459,5 +460,19 @@ namespace Xamarin.Droid
             Debugger.Break();
         }
 
+    }
+
+    public class GPS : IGPS
+    {
+        public Task<(double lat, double lng, double alt)> GetPosition()
+        {
+            return Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best)).ContinueWith<(double,double,double)>(
+                location =>
+                {
+                    return (location.Result.Latitude, location.Result.Longitude,
+                        location.Result.Altitude.HasValue ? location.Result.Altitude.Value : 0.0);
+                }
+            );
+        }
     }
 }

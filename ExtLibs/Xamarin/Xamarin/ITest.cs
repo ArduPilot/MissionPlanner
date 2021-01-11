@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
 
 namespace Xamarin
 {
@@ -12,6 +13,13 @@ namespace Xamarin
         public static IBlueToothDevice BlueToothDevice { get; set; }
         public static IUSBDevices UsbDevices { get; set; }
         public static IRadio Radio { get; set; }
+
+        public static IGPS GPS { get; set; }
+    }
+
+    public interface IGPS
+    {
+        Task<(double lat,double lng,double alt)> GetPosition();
     }
 
     public interface IBlueToothDevice
