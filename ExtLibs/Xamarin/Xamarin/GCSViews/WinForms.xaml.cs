@@ -8,6 +8,7 @@ using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -63,6 +64,8 @@ namespace Xamarin.GCSViews
 
             Instance = this;
             //MainV2.speechEngine = new Speech();
+
+            RestoreFiles();
 
             // init seril port type
             SerialPort.DefaultType = (self, s, i) =>
@@ -124,6 +127,118 @@ namespace Xamarin.GCSViews
             {
                 return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
             };*/
+        }
+
+        private void RestoreFiles()
+        {
+            try
+            {
+                // nofly dir
+                Directory.CreateDirectory(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "NoFly");
+
+                // restore assets
+                Directory.CreateDirectory(Settings.GetUserDataDirectory());
+
+                File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
+                    files.airports);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "BurntKermit.mpsystheme",
+                    files.BurntKermit);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "HighContrast.mpsystheme",
+                    files.HighContrast);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "ParameterMetaData.xml",
+                    files.ParameterMetaDataBackup);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "camerasBuiltin.xml",
+                    files.camerasBuiltin);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "checklistDefault.xml",
+                    files.checklistDefault);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "mavcmd.xml", 
+                    files.mavcmd);
+
+
+                {
+                        var pluginsdir = Settings.GetRunningDirectory() + "plugins";
+                        Directory.CreateDirectory(pluginsdir);
+
+                        string[] files = new[]
+                        {
+                            "example2menu", "example3fencedist", "example4herelink", "example5latencytracker",
+                            "example6mapicondesc", "example7canrtcm", "example8modechange", "example9hudonoff",
+                            "examplewatchbutton", "generator", "InitialParamsCalculator"
+                        };
+
+                        foreach (var file in files)
+                        {
+                            try
+                            {
+                                var id = (int) typeof(files)
+                                    .GetField(file)
+                                    .GetValue(null);
+
+                                var filename = pluginsdir + Path.DirectorySeparatorChar + file + ".cs";
+
+                                if (File.Exists(filename))
+                                {
+                                    File.Delete(filename);
+                                }
+
+                                /*
+                                File.WriteAllText(filename
+                                    ,
+                                    new StreamReader(
+                                        Resources.OpenRawResource(id)).ReadToEnd());
+                                */
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    }
+
+                    {
+                        var graphsdir = Settings.GetRunningDirectory() + "graphs";
+                        Directory.CreateDirectory(graphsdir);
+
+                        string[] files1 = new[]
+                        {
+                            "ekf3Graphs", "ekfGraphs", "mavgraphs", "mavgraphs2", "mavgraphsMP"
+                        };
+
+                        foreach (var file in files1)
+                        {
+                            try
+                            {
+                                var id = typeof(files)
+                                    .GetField(file)
+                                    .GetValue(null);
+
+                                File.WriteAllText(
+                                    graphsdir + Path.DirectorySeparatorChar + file + ".xml",
+                                    files.ResourceManager.GetString(file));
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    }
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert(Strings.ERROR, "Failed to stage files " + ex.ToString(), "OK");
+            }
         }
 
         public static string BundledPath

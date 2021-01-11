@@ -137,12 +137,6 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="28.0.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="..\..\..\plugins\generator.cs">
-      <Link>Resources\raw\generator.cs</Link>
-    </AndroidResource>
-    <AndroidResource Include="..\..\..\plugins\InitialParamsCalculator.cs">
-      <Link>Resources\raw\InitialParamsCalculator.cs</Link>
-    </AndroidResource>
     <Compile Include="AbstractUnixEndPoint.cs" />
     <Compile Include="AndroidSerial.cs" />
     <Compile Include="BTDevice.cs" />
@@ -153,15 +147,6 @@
     <Compile Include="FormsVideoLibrary\VideoPlayerRenderer.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Radio.cs" />
-    <AndroidResource Include="Resources\raw\example2menu.cs" />
-    <AndroidResource Include="Resources\raw\example3fencedist.cs" />
-    <AndroidResource Include="Resources\raw\example4herelink.cs" />
-    <AndroidResource Include="Resources\raw\example5latencytracker.cs" />
-    <AndroidResource Include="Resources\raw\example6mapicondesc.cs" />
-    <AndroidResource Include="Resources\raw\example7canrtcm.cs" />
-    <AndroidResource Include="Resources\raw\example8modechange.cs" />
-    <AndroidResource Include="Resources\raw\example9hudonoff.cs" />
-    <AndroidResource Include="Resources\raw\examplewatchbutton.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsbDeviceReceiver.cs" />
@@ -176,15 +161,6 @@
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libarduplane.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libardurover.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libardusub.so" />
-    <AndroidResource Include="..\..\..\airports.csv">
-      <Link>Resources\raw\airports.csv</Link>
-    </AndroidResource>
-    <AndroidResource Include="..\..\..\BurntKermit.mpsystheme">
-      <Link>Resources\raw\BurntKermit.mpsystheme</Link>
-    </AndroidResource>
-    <AndroidResource Include="..\..\..\HighContrast.mpsystheme">
-      <Link>Resources\raw\HighContrast.mpsystheme</Link>
-    </AndroidResource>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -213,8 +189,7 @@
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
     <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\raw\graphs\" />
-    <Folder Include="Resources\raw\plugins\" />
+    <Folder Include="Resources\raw\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj">
@@ -256,87 +231,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\xml\device_filter.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\acsimplepids.xml">
-      <Link>Resources\raw\acsimplepids.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\aircraft.xml">
-      <Link>Resources\raw\aircraft.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\ArduCopterConfig.xml">
-      <Link>Resources\raw\ArduCopterConfig.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\camerasBuiltin.xml">
-      <Link>Resources\raw\camerasBuiltin.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\ChangeLog.txt">
-      <Link>Resources\raw\ChangeLog.txt</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\checklistDefault.xml">
-      <Link>Resources\raw\checklistDefault.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\dataflashlog.xml">
-      <Link>Resources\raw\dataflashlog.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\FirmwareHistory.txt">
-      <Link>Resources\raw\FirmwareHistory.txt</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\mavcmd.xml">
-      <Link>Resources\raw\mavcmd.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\mavextra.py">
-      <Link>Resources\raw\mavextra.py</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\ParameterMetaDataBackup.xml">
-      <Link>Resources\raw\ParameterMetaDataBackup.xml</Link>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\graphs\ekf3Graphs.xml">
-      <Link>Resources\raw\ekf3Graphs.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\graphs\ekfGraphs.xml">
-      <Link>Resources\raw\ekfGraphs.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\graphs\mavgraphs.xml">
-      <Link>Resources\raw\mavgraphs.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\graphs\mavgraphs2.xml">
-      <Link>Resources\raw\mavgraphs2.xml</Link>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="..\..\..\graphs\mavgraphsMP.xml">
-      <Link>Resources\raw\mavgraphsMP.xml</Link>
-    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

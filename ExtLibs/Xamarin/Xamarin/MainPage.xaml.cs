@@ -41,6 +41,10 @@ namespace Xamarin
                         System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
                         //System.Environment.Exit(0);
                     }
+                    else
+                    {
+                        System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+                    }
                 }
             });
 
