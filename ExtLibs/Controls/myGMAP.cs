@@ -18,6 +18,9 @@ namespace MissionPlanner.Controls
         public myGMAP()
             : base()
         {
+            #region 20210111 zhangwenbo add SetStyle
+            SetStyle(ControlStyles.ContainerControl, true);
+            #endregion
             this.Text = "Map";
             IgnoreMarkerOnMouseWheel = true;
         }
