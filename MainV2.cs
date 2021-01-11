@@ -4127,32 +4127,35 @@ namespace MissionPlanner
 
         void AutoHideMenu(bool hide)
         {
-            autoHideToolStripMenuItem.Checked = hide;
-
-            if (!hide)
-            {
-                this.SuspendLayout();
-                panel1.Dock = DockStyle.Top;
-                panel1.SendToBack();
-                panel1.Visible = true;
-                menu.Visible = false;
-                MainMenu.MouseLeave -= MainMenu_MouseLeave;
-                panel1.MouseLeave -= MainMenu_MouseLeave;
-                toolStripConnectionControl.MouseLeave -= MainMenu_MouseLeave;
-                this.ResumeLayout();
-            }
-            else
-            {
-                this.SuspendLayout();
-                panel1.Dock = DockStyle.None;
-                panel1.Visible = false;
-                MainMenu.MouseLeave += MainMenu_MouseLeave;
-                panel1.MouseLeave += MainMenu_MouseLeave;
-                toolStripConnectionControl.MouseLeave += MainMenu_MouseLeave;
-                menu.Visible = true;
-                menu.SendToBack();
-                this.ResumeLayout();
-            }
+            #region 20210111 zhangwenbo del AutoHideMenu
+            /*autoHideToolStripMenuItem.Checked = hide;
+             
+             if (!hide)
+             {
+                 this.SuspendLayout();
+                 panel1.Dock = DockStyle.Top;
+                 panel1.SendToBack();
+                 panel1.Visible = true;
+                 menu.Visible = false;
+                 MainMenu.MouseLeave -= MainMenu_MouseLeave;
+                 panel1.MouseLeave -= MainMenu_MouseLeave;
+                 toolStripConnectionControl.MouseLeave -= MainMenu_MouseLeave;
+                 this.ResumeLayout();
+             }
+             else
+             {
+                 this.SuspendLayout();
+                 panel1.Dock = DockStyle.None;
+                 panel1.Visible = false;
+                 MainMenu.MouseLeave += MainMenu_MouseLeave;
+                 panel1.MouseLeave += MainMenu_MouseLeave;
+                 toolStripConnectionControl.MouseLeave += MainMenu_MouseLeave;
+                 menu.Visible = true;
+                 menu.SendToBack();
+                 this.ResumeLayout();
+             }
+             */
+            #endregion
         }
 
         private void MainV2_KeyDown(object sender, KeyEventArgs e)
