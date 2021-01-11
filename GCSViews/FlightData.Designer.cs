@@ -2038,7 +2038,6 @@
             // 
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
             this.splitContainer1.Panel2.Controls.Add(this.but_disablejoystick);
-            this.splitContainer1.Panel2.Controls.Add(this.distanceBar1);
             this.splitContainer1.Panel2.Controls.Add(this.windDir1);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
@@ -2046,7 +2045,6 @@
             this.splitContainer1.Panel2.Controls.Add(this.label4);
             this.splitContainer1.Panel2.Controls.Add(this.lbl_hdop);
             this.splitContainer1.Panel2.Controls.Add(this.lbl_sats);
-            this.splitContainer1.Panel2.Controls.Add(this.gMapControl1);
             this.splitContainer1.Panel2.Controls.Add(this.TRK_zoom);
             // 
             // zg1
@@ -2423,8 +2421,10 @@
             // FlightData
             // 
             this.Controls.Add(this.hud1);
+            this.Controls.Add(this.distanceBar1);
             this.Controls.Add(this.CHK_autopan);
             this.Controls.Add(this.MainH);
+            this.Controls.Add(this.gMapControl1);
             resources.ApplyResources(this, "$this");
             this.Name = "FlightData";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FlightData_FormClosing);
