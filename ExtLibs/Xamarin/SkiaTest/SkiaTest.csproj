@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Exe</OutputType>
-    <StartupObject>Installer.Program</StartupObject>
+    <StartupObject>SkiaTest.Program</StartupObject>
     <NoWin32Manifest>true</NoWin32Manifest>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
      <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>

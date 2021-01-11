@@ -23,7 +23,6 @@ using WinApi.Utils;
 using WinApi.Windows;
 using WinApi.Windows.Helpers;
 using System.Xml.Serialization;
-using Installer;
 using LibVLC.NET;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.Utilities;
@@ -31,7 +30,7 @@ using Rectangle = NetCoreEx.Geometry.Rectangle;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Installer
+namespace SkiaTest
 {
     static class Program
     {
