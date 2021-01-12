@@ -109,10 +109,11 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox cmb_Baud;
-    
-        private System.Windows.Forms.ComboBox cmb_Connection;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        #region 20210112 zhangwenbo mod private to public
+        public System.Windows.Forms.ComboBox cmb_Baud;
+        public System.Windows.Forms.ComboBox cmb_Connection;
+        public System.Windows.Forms.LinkLabel linkLabel1;
+        #endregion
         public System.Windows.Forms.ComboBox cmb_sysid;
     }
 }

@@ -43,12 +43,12 @@ namespace MissionPlanner.Controls
             UpdateSysIDS();
         }
 
-        private void ConnectionControl_MouseClick(object sender, MouseEventArgs e)
+        public void ConnectionControl_MouseClick(object sender, MouseEventArgs e)
         {
 
         }
 
-        private void cmb_Connection_DrawItem(object sender, DrawItemEventArgs e)
+        public void cmb_Connection_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
                 return;
@@ -109,14 +109,14 @@ namespace MissionPlanner.Controls
             cmb_sysid.SelectedIndexChanged += CMB_sysid_SelectedIndexChanged;
         }
 
-        internal struct port_sysid
+        public struct port_sysid
         {
             internal MAVLinkInterface port;
             internal int sysid;
             internal int compid;
         }
 
-        private void CMB_sysid_SelectedIndexChanged(object sender, EventArgs e)
+        public void CMB_sysid_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_sysid.SelectedItem == null)
                 return;
@@ -139,7 +139,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
+        public void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
         {
             var temp = (port_sysid)e.Value;
             MAVLink.MAV_COMPONENT compid = (MAVLink.MAV_COMPONENT)temp.compid;
