@@ -63,7 +63,10 @@ namespace Xamarin.GCSViews
                 size = Device.Info.PixelScreenSize;
 
             Instance = this;
-            //MainV2.speechEngine = new Speech();
+            try
+            {
+                MainV2.speechEngine = new Speech();
+            } catch{}
 
             RestoreFiles();
 
