@@ -82,14 +82,30 @@ namespace Xamarin.GCSViews
                     }
                     else
                     {
-                        var dil = await Test.UsbDevices.GetDeviceInfoList();
-
-                        var di = dil.Where(a => a.board == s);
-
-                        if (di.Count() > 0)
+                        if (s.StartsWith("BT_"))
                         {
-                            Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board + " search " + s);
-                            return await Test.UsbDevices.GetUSB(di.First());
+                            var bt = await Test.BlueToothDevice.GetDeviceInfoList();
+
+                            var di = bt.Where(a => a.board == s);
+
+                            if (di.Count() > 0)
+                            {
+                                Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board + " search " + s);
+                                return await Test.BlueToothDevice.GetBT(di.First());
+                            }
+                        }
+
+                        {
+                            var dil = await Test.UsbDevices.GetDeviceInfoList();
+
+                            var di = dil.Where(a => a.board == s);
+
+                            if (di.Count() > 0)
+                            {
+                                Log.Info(TAG,
+                                    "SerialPort.DefaultType found device " + di.First().board + " search " + s);
+                                return await Test.UsbDevices.GetUSB(di.First());
+                            }
                         }
                     }
 

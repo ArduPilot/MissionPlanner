@@ -25,6 +25,7 @@ namespace Xamarin
     public interface IBlueToothDevice
     {
         Task<List<DeviceInfo>> GetDeviceInfoList();
+        Task<ICommsSerial> GetBT(DeviceInfo first);
     }
 
     public interface IRadio

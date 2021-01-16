@@ -48,6 +48,11 @@ namespace Xamarin.iOS
         {
             throw new NotImplementedException();
         }
+
+        public Task<ICommsSerial> GetBT(DeviceInfo first)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class USBDevices : IUSBDevices
