@@ -362,7 +362,9 @@ namespace MissionPlanner.GCSViews
         void cleanupJson(string filename)
         {
             var content = File.ReadAllText(filename);
-
+            
+            content = content.Replace("True,", "\"True\",");
+            
             var match = BraceMatch(content, '{', '}');
 
             match = Regex.Replace(match, @"#.*", "");
