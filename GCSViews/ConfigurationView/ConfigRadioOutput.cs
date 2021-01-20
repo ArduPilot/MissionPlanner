@@ -1,6 +1,7 @@
 ﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -14,21 +15,40 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             bindingSource1.DataSource = typeof(CurrentState);
 
             SuspendLayout();
-            setup(BAR1, rev1, func1, min1, trim1, max1, 1);
-            setup(BAR2, rev2, func2, min2, trim2, max2, 2);
-            setup(BAR3, rev3, func3, min3, trim3, max3, 3);
-            setup(BAR4, rev4, func4, min4, trim4, max4, 4);
-            setup(BAR5, rev5, func5, min5, trim5, max5, 5);
-            setup(BAR6, rev6, func6, min6, trim6, max6, 6);
-            setup(BAR7, rev7, func7, min7, trim7, max7, 7);
-            setup(BAR8, rev8, func8, min8, trim8, max8, 8);
+            foreach (var i in Enumerable.Range(1, 16))
+            {
+                setup(i);
+            }
+
             ResumeLayout(true);
         }
 
-        private void setup(HorizontalProgressBar2 bAR1, MavlinkCheckBox rev1, MavlinkComboBox func1,
-            MavlinkNumericUpDown min1, MavlinkNumericUpDown trim1, MavlinkNumericUpDown max1, int servono)
+        private void setup(int servono)
         {
             var servo = String.Format("SERVO{0}", servono);
+
+            var label = new Label()
+                {Text = servono.ToString(), AutoSize = true, TextAlign = System.Drawing.ContentAlignment.MiddleCenter};
+            var bAR1 = new HorizontalProgressBar2()
+            {
+                Minimum = 800, Maximum = 2200, Value = 1500, DrawLabel = true, Name = "BAR" + servono,
+                Dock = DockStyle.Fill
+            };
+            var rev1 = new MissionPlanner.Controls.MavlinkCheckBox()
+                {Enabled = false, Dock = DockStyle.Fill, AutoSize = true};
+            var func1 = new MavlinkComboBox()
+                {Enabled = false, Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList};
+            var min1 = new MavlinkNumericUpDown() {Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false};
+            var trim1 = new MavlinkNumericUpDown() {Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false};
+            var max1 = new MavlinkNumericUpDown() {Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false};
+
+            this.tableLayoutPanel1.Controls.Add(label, 0, servono);
+            this.tableLayoutPanel1.Controls.Add(bAR1, 1, servono);
+            this.tableLayoutPanel1.Controls.Add(rev1, 2, servono);
+            this.tableLayoutPanel1.Controls.Add(func1, 3, servono);
+            this.tableLayoutPanel1.Controls.Add(min1, 4, servono);
+            this.tableLayoutPanel1.Controls.Add(trim1, 5, servono);
+            this.tableLayoutPanel1.Controls.Add(max1, 6, servono);
 
             bAR1.DataBindings.Add("Value", bindingSource1, "ch" + servono + "out");
             rev1.setup(1, 0, servo + "_REVERSED", MainV2.comPort.MAV.param);

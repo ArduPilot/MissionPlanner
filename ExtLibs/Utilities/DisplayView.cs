@@ -20,6 +20,9 @@ namespace MissionPlanner.Utilities
     [Serializable]
     public class DisplayView
     {
+        public bool displayGPSOrder { get; set; } = true;
+        public bool displayHWIDs { get; set; } = true;
+        public bool displayADSB { get; set; } = true;
         public DisplayNames displayName { get; set; }
 
         //MainV2 buttons

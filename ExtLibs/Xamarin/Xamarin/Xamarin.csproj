@@ -126,13 +126,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="OpenTK-1.0">
-      <HintPath>..\..\OpenTK-1.0.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Controls\AGauge.cs" />
+    <Compile Update="files.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>files.resx</DependentUpon>
+    </Compile>
     <Compile Update="GMap.NET.WindowsForms\GMapControl.cs" />
     <Compile Update="Controls\HUD.cs" />
     <Compile Update="Controls\HUDT.Designer.cs">
@@ -161,6 +160,10 @@
     <EmbeddedResource Update="Controls\HUDT.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="files.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>files.Designer.cs</LastGenOutput>
     </EmbeddedResource>
    
     <EmbeddedResource Update="GCSViews\WinForms.xaml">

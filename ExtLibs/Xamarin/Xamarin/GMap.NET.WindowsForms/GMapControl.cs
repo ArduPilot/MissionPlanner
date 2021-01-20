@@ -3,8 +3,6 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using ExifLibrary;
-using OpenTK.Graphics;
-using OpenTK.Platform;
 using SkiaSharp;
 using Xamarin.Controls;
 using Color = System.Drawing.Color;
@@ -2977,8 +2975,6 @@ namespace GMap.NET.WindowsForms
       #region Serialization
 
       static readonly BinaryFormatter BinaryFormatter = new BinaryFormatter();
-      private IWindowInfo _windowInfoinfo;
-      private GraphicsContext _graphicsContextGraphicsContext;
       private SKSurface _skSurface;
       private SKSize _screenCanvasSize;
       private GRContext _grContext;

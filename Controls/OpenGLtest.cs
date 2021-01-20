@@ -55,7 +55,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        public Vector3 rpy = new Vector3();
+        public MissionPlanner.Utilities.Vector3 rpy = new MissionPlanner.Utilities.Vector3();
 
         public OpenGLtest()
         {

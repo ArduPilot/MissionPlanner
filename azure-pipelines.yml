@@ -14,7 +14,6 @@ variables:
   solution: '**/MissionPlanner.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  NUGET_PACKAGES: D:\a\1\s\packages
 
 steps:
 - script: date /t
@@ -22,16 +21,8 @@ steps:
 - script: dir /s
   workingDirectory: $(Agent.BuildDirectory)
   displayName: List contents of a folder
-- task: Cache@2
-  inputs:
-    key: 'nuget | "$(Agent.OS)"'
-    restoreKeys: |
-       nuget | "$(Agent.OS)"
-       nuget
-    path: $(NUGET_PACKAGES)
-  displayName: Cache NuGet packages
 
-- script: git config -f .gitmodules submodule.mono.shallow true
+- script: dotnet nuget locals all --clear
 - script: git submodule update --init --depth 2 --no-single-branch 
 
 - task: VSBuild@1

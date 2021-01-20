@@ -20,8 +20,8 @@ namespace UAVCAN
     public partial class uavcan {
 
 
-        public const int ARDUPILOT_GNSS_HEADING_MAX_PACK_SIZE = 9;
-        public const ulong ARDUPILOT_GNSS_HEADING_DT_SIG = 0xEB5FBD329C858471;
+        public const int ARDUPILOT_GNSS_HEADING_MAX_PACK_SIZE = 5;
+        public const ulong ARDUPILOT_GNSS_HEADING_DT_SIG = 0x315CAE39ECED3412;
         public const int ARDUPILOT_GNSS_HEADING_DT_ID = 20002;
 
 
@@ -29,8 +29,8 @@ namespace UAVCAN
         public partial class ardupilot_gnss_Heading: IUAVCANSerialize {
             public bool heading_valid = new bool();
             public bool heading_accuracy_valid = new bool();
-            public Single heading = new Single();
-            public Single heading_accuracy = new Single();
+            public Single heading_rad = new Single();
+            public Single heading_accuracy_rad = new Single();
 
             public void encode(uavcan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {

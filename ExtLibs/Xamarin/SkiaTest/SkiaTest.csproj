@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Exe</OutputType>
-    <StartupObject>Installer.Program</StartupObject>
+    <StartupObject>SkiaTest.Program</StartupObject>
     <NoWin32Manifest>true</NoWin32Manifest>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
      <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
@@ -46,7 +46,9 @@
     <ProjectReference Include="..\..\..\ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" />
     <ProjectReference Include="..\..\..\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
     <ProjectReference Include="..\..\..\ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
-    <ProjectReference Include="..\..\..\ExtLibs\System.Drawing.android\System.Drawing.android.csproj" />
+    <ProjectReference Include="..\..\..\ExtLibs\System.Drawing.android\System.Drawing.android.csproj">
+      <Private>true</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\MissionPlannerLib.csproj">
       <IncludeAssets></IncludeAssets>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>

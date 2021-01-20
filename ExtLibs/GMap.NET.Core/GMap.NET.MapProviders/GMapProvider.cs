@@ -319,7 +319,7 @@ namespace GMap.NET.MapProviders
         /// </summary>                  
         public static string UserAgent =
             string.Format(
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/17.17074");
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edge/17.17074");
 
         /// <summary>
         /// timeout for provider connections
@@ -400,8 +400,17 @@ namespace GMap.NET.MapProviders
 
             MemoryStream data = Task.Run(async () =>
             {
-                return Stuff.CopyStream(await client.GetStreamAsync(url), false);
-            }).Result;
+                using (var response = await client.GetAsync(url))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var stream = await response.Content.ReadAsStreamAsync();
+                        return Stuff.CopyStream(stream, false);
+                    }
+
+                    throw new WebException((int)response.StatusCode + " " + response.ReasonPhrase);
+                }
+            }).GetAwaiter().GetResult();
 
             Debug.WriteLine("Response[" + data.Length + " bytes]: " + url);
 

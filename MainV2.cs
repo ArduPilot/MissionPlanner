@@ -1054,27 +1054,33 @@ namespace MissionPlanner
 #if !NETSTANDARD2_0
 #if !NETCOREAPP2_0
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
-#endif
-#endif
 
             // make sure new enough .net framework is installed
             if (!MONO)
             {
-                Microsoft.Win32.RegistryKey installed_versions =
-                    Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP");
-                string[] version_names = installed_versions.GetSubKeyNames();
-                //version names start with 'v', eg, 'v3.5' which needs to be trimmed off before conversion
-                double Framework = Convert.ToDouble(version_names[version_names.Length - 1].Remove(0, 1),
-                    CultureInfo.InvariantCulture);
-                int SP =
-                    Convert.ToInt32(installed_versions.OpenSubKey(version_names[version_names.Length - 1])
-                        .GetValue("SP", 0));
-
-                if (Framework < 4.0)
+                try
                 {
-                    CustomMessageBox.Show("This program requires .NET Framework 4.0. You currently have " + Framework);
+                    Microsoft.Win32.RegistryKey installed_versions =
+                        Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP");
+                    string[] version_names = installed_versions.GetSubKeyNames();
+                    //version names start with 'v', eg, 'v3.5' which needs to be trimmed off before conversion
+                    double Framework = Convert.ToDouble(version_names[version_names.Length - 1].Remove(0, 1),
+                        CultureInfo.InvariantCulture);
+                    int SP =
+                        Convert.ToInt32(installed_versions.OpenSubKey(version_names[version_names.Length - 1])
+                            .GetValue("SP", 0));
+
+                    if (Framework < 4.0)
+                    {
+                        CustomMessageBox.Show("This program requires .NET Framework 4.0. You currently have " +
+                                              Framework);
+                    }
                 }
+                catch (Exception ex) { log.Error(ex); }
             }
+
+#endif
+#endif
 
             if (Program.IconFile != null)
             {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MissionPlanner.Comms;
+//using MissionPlanner.Comms;
 using System.IO;
 using System.IO.Ports;
 
 namespace Xamarin.IOS
-{
+{/*
     public class Serial : ICommsSerial
     {
         public Stream BaseStream => throw new NotImplementedException();
@@ -97,5 +97,5 @@ namespace Xamarin.IOS
         {
             throw new NotImplementedException();
         }
-    }
+    }*/
 }

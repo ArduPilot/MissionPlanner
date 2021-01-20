@@ -1,5 +1,10 @@
 name: Android Build
-on: push
+on: 
+    push:
+        branches:
+            - master
+        tags:
+            - beta
 
 jobs:
   buildAAB:
@@ -10,6 +15,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+          fetch-depth: 10
 
       - name: Build
         shell: pwsh
@@ -31,6 +37,9 @@ jobs:
           msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
           
           del ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.aab
+          
+          mkdir whatsnew
+          git log --pretty=oneline --abbrev-commit -10 > whatsnew\whatsnew-en-US
 
       - name: Sign AAB
         id: sign
@@ -46,6 +55,15 @@ jobs:
         with:
           name: com.michaeloborne.MissionPlanner.aab.zip
           path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*.aab
+
+      - name: Upload Android Release to Play Store
+        uses: r0adkll/upload-google-play@v1.0.11
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.michaeloborne.MissionPlanner
+          releaseFiles: ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner.aab
+          track: internal
+          whatsNewDirectory: whatsnew
 
       - name: Build
         shell: pwsh

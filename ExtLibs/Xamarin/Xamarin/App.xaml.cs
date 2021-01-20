@@ -20,12 +20,11 @@ using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 using Device = Xamarin.Forms.Device;
 using LogManager = log4net.LogManager;
-
+using log4net.Util;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Xamarin
 {
-
     public partial class App : Application
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -39,8 +38,9 @@ namespace Xamarin
             log4net.Repository.Hierarchy.Hierarchy hierarchy =
                 (Hierarchy)log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(App)));
 
-            PatternLayout patternLayout = new PatternLayout();
-            patternLayout.ConversionPattern = "[%thread] %-5level %logger - %message";
+            var patternLayout = new PatternLayout();
+            patternLayout.ConversionPattern = "[%thread] %-5level %logger %memory - %message";
+            patternLayout.AddConverter(new ConverterInfo() {Name = "memory", Type = typeof(MemoryConverterInfo)});
             patternLayout.ActivateOptions();
 
             var cca = new ConsoleAppender();
@@ -179,6 +179,14 @@ namespace Xamarin
             {
                 Log.Warning("", ex.ToString());
             }
+        }
+    }
+
+    public class MemoryConverterInfo : PatternConverter
+    {
+        protected override void Convert(TextWriter writer, object state)
+        {
+            writer.Write((GC.GetTotalMemory(false) / 1024 / 1024).ToString("0") + "MB");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
@@ -18,12 +18,6 @@
     <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="OpenTK" Condition="'$(TargetFramework)' != 'netstandard2.0'">
-      <HintPath>..\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK-1.0" Condition="'$(TargetFramework)' == 'netstandard2.0'">
-      <HintPath>..\OpenTK-1.0.dll</HintPath>
-    </Reference>
 
   </ItemGroup>
 </Project>

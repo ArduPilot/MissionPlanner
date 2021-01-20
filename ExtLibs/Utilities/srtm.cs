@@ -61,25 +61,35 @@ namespace MissionPlanner.Utilities
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
-        static Dictionary<int, string> filenameDictionary = new Dictionary<int, string>();
+
+        static Dictionary<int, string> _filenameDictionary = new Dictionary<int, string>();
+
+        private static Func<int, int, string> filenameDictionary = (x,y) =>
+        {
+            int id = y*1000 + x;
+
+            if (_filenameDictionary.ContainsKey(id))
+                return _filenameDictionary[id];
+
+            if (y < -90 || y > 90)
+                return "";
+
+            if (x < -180 || x > 180)
+                return "";
+
+            var sy = Math.Abs(y).ToString("00");
+
+            var sx = Math.Abs(x).ToString("000");
+
+            _filenameDictionary[id] = string.Format("{0}{1}{2}{3}{4}", y >= 0 ? "N" : "S", sy,
+                x >= 0 ? "E" : "W", sx, ".hgt");
+
+            return _filenameDictionary[id];
+        };
 
         static srtm()
         {
             log.Info(".cctor");
-
-            // running tostring at a high rate was costing cpu
-            for (int y = -90; y <= 90; y++)
-            {
-                var sy = Math.Abs(y).ToString("00");
-
-                for (int x = -180; x <= 180; x++)
-                {
-                    var sx = Math.Abs(x).ToString("000");
-
-                    filenameDictionary[y*1000 + x] = string.Format("{0}{1}{2}{3}{4}", y >= 0 ? "N" : "S", sy,
-                        x >= 0 ? "E" : "W", sx, ".hgt");
-                }
-            }
 
             if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
                 client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
@@ -94,14 +104,9 @@ namespace MissionPlanner.Utilities
 
             int id = y*1000 + x;
 
-            if (filenameDictionary.ContainsKey(id))
-            {
-                string filename = filenameDictionary[y*1000 + x];
+            string filename = filenameDictionary(x, y);
 
-                return filename;
-            }
-
-            return "";
+            return filename;
         }
 
         public static altresponce getAltitude(double lat, double lng, double zoom = 16)

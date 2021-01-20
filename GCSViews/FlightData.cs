@@ -146,7 +146,8 @@ namespace MissionPlanner.GCSViews
             Mission_Start,
             Preflight_Reboot_Shutdown,
             Trigger_Camera,
-            System_Time
+            System_Time,
+            Battery_Reset
         }
 
         public FlightData()
@@ -1582,6 +1583,7 @@ namespace MissionPlanner.GCSViews
                     ((Control) sender).Enabled = false;
 
                     int param1 = 0;
+                    int param2 = 0;
                     int param3 = 1;
 
                     // request gyro
@@ -1597,9 +1599,16 @@ namespace MissionPlanner.GCSViews
                         param1 = 1; // reboot
                     }
 
+                    if (CMB_action.Text == actions.Battery_Reset.ToString())
+                    {
+                        param1 = 0xff; // batt 1
+                        param2 = 100; // 100%
+                        param3 = 0;
+                    }
+
                     var cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
 
-                    if (MainV2.comPort.doCommand(cmd, param1, 0, param3, 0, 0, 0, 0))
+                    if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
                     {
 
                     }
@@ -3018,7 +3027,7 @@ namespace MissionPlanner.GCSViews
                     // update opengltest
                     if (OpenGLtest.instance != null)
                     {
-                        OpenGLtest.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll,
+                        OpenGLtest.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
                             MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
                         OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,
@@ -3029,7 +3038,7 @@ namespace MissionPlanner.GCSViews
                     // update opengltest2
                     if (OpenGLtest2.instance != null)
                     {
-                        OpenGLtest2.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll,
+                        OpenGLtest2.instance.rpy = new Vector3(MainV2.comPort.MAV.cs.roll,
                             MainV2.comPort.MAV.cs.pitch,
                             MainV2.comPort.MAV.cs.yaw);
                         OpenGLtest2.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat,

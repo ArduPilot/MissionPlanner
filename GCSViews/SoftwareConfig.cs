@@ -86,6 +86,7 @@ namespace MissionPlanner.GCSViews
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
                         {
                             start = AddBackstageViewPage(typeof(ConfigArduplane), Strings.BasicTuning);
+                            AddBackstageViewPage(typeof(ConfigArducopter), "QP " + Strings.ExtendedTuning);
                         }
 
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)

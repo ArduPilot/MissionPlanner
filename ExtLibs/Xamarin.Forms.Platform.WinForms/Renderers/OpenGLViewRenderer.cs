@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿#if GL
+using OpenTK;
 using OpenTK.Graphics;
 using System;
 using System.ComponentModel;
@@ -141,3 +142,4 @@ namespace Xamarin.Forms.Platform.WinForms
 		}
 	}
 }
+#endif

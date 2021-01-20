@@ -115,6 +115,7 @@ namespace Xamarin.Droid
             Test.BlueToothDevice = new BTDevice();
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
+            Test.GPS = new GPS();
 
           
             
@@ -173,135 +174,7 @@ namespace Xamarin.Droid
                 Console.WriteLine("pi.ApplicationInfo.DeviceProtectedDataDir " +
                                   pi?.ApplicationInfo?.DeviceProtectedDataDir);
             } catch {}
-
-            {
-                DoToastMessage("Staging Files");
-                try
-                {
-                    // nofly dir
-                    Directory.CreateDirectory(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "NoFly");
-
-                    // restore assets
-                    Directory.CreateDirectory(Settings.GetUserDataDirectory());
-
-                    File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
-                        new StreamReader(Resources.OpenRawResource(
-                            Xamarin.Droid.Resource.Raw.airports)).ReadToEnd());
-
-                    File.WriteAllText(
-                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "BurntKermit.mpsystheme",
-                        new StreamReader(
-                            Resources.OpenRawResource(
-                                Droid.Resource.Raw.BurntKermit)).ReadToEnd());
-
-                    File.WriteAllText(
-                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "ParameterMetaData.xml",
-                        new StreamReader(
-                            Resources.OpenRawResource(
-                                Droid.Resource.Raw.ParameterMetaDataBackup)).ReadToEnd());
-
-                    File.WriteAllText(
-                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "camerasBuiltin.xml",
-                        new StreamReader(
-                            Resources.OpenRawResource(
-                                Droid.Resource.Raw.camerasBuiltin)).ReadToEnd());
-
-                    File.WriteAllText(
-                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "checklistDefault.xml",
-                        new StreamReader(
-                            Resources.OpenRawResource(
-                                Droid.Resource.Raw.checklistDefault)).ReadToEnd());
-
-                    File.WriteAllText(
-                        Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "mavcmd.xml", new StreamReader(
-                            Resources.OpenRawResource(
-                                Droid.Resource.Raw.mavcmd)).ReadToEnd());
-
-                    {
-                        var pluginsdir = Settings.GetRunningDirectory() + "plugins";
-                        Directory.CreateDirectory(pluginsdir);
-
-                        string[] files = new[]
-                        {
-                            "example2menu", "example3fencedist", "example4herelink", "example5latencytracker",
-                            "example6mapicondesc", "example7canrtcm", "example8modechange", "example9hudonoff",
-                            "examplewatchbutton", "generator", "InitialParamsCalculator"
-                        };
-
-                        foreach (var file in files)
-                        {
-                            try
-                            {
-                                var id = (int) typeof(Droid.Resource.Raw)
-                                    .GetField(file)
-                                    .GetValue(null);
-
-                                var filename = pluginsdir + Path.DirectorySeparatorChar + file + ".cs";
-
-                                if (File.Exists(filename))
-                                {
-                                    File.Delete(filename);
-                                }
-
-                                /*
-                                File.WriteAllText(filename
-                                    ,
-                                    new StreamReader(
-                                        Resources.OpenRawResource(id)).ReadToEnd());
-                                */
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                    }
-
-                    {
-                        var graphsdir = Settings.GetRunningDirectory() + "graphs";
-                        Directory.CreateDirectory(graphsdir);
-
-                        string[] files = new[]
-                        {
-                            "ekf3Graphs", "ekfGraphs", "mavgraphs", "mavgraphs2", "mavgraphsMP"
-                        };
-
-                        foreach (var file in files)
-                        {
-                            try
-                            {
-                                var id = (int) typeof(Droid.Resource.Raw)
-                                    .GetField(file)
-                                    .GetValue(null);
-
-                                File.WriteAllText(
-                                    graphsdir + Path.DirectorySeparatorChar + file + ".xml",
-                                    new StreamReader(
-                                        Resources.OpenRawResource(id)).ReadToEnd());
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                    alert.SetTitle("Error");
-                    alert.SetMessage("Failed to save to storage " + ex.ToString());
-
-                    alert.SetNeutralButton("OK", (senderAlert, args) =>
-                    {
-                        
-                    });
-
-                    Dialog dialog = alert.Create();
-                    dialog.Show();
-                }
-            }
-
+            
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             {
@@ -587,5 +460,19 @@ namespace Xamarin.Droid
             Debugger.Break();
         }
 
+    }
+
+    public class GPS : IGPS
+    {
+        public Task<(double lat, double lng, double alt)> GetPosition()
+        {
+            return Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best)).ContinueWith<(double,double,double)>(
+                location =>
+                {
+                    return (location.Result.Latitude, location.Result.Longitude,
+                        location.Result.Altitude.HasValue ? location.Result.Altitude.Value : 0.0);
+                }
+            );
+        }
     }
 }

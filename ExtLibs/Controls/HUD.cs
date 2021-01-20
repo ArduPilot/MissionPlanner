@@ -915,7 +915,7 @@ namespace MissionPlanner.Controls
                 try
                 {
 
-                    OpenTK.Graphics.GraphicsMode test = this.GraphicsMode;
+                    OpenTK.Graphics.GraphicsMode test = base.GraphicsMode;
                     // log.Info(test.ToString());
                     log.Info("Vendor: " + GL.GetString(StringName.Vendor));
                     log.Info("Version: " + GL.GetString(StringName.Version));
@@ -1096,7 +1096,7 @@ namespace MissionPlanner.Controls
                 if (opengl)
                 {
                     // make this gl window and thread current
-                    if (!Context.IsCurrent || DateTime.Now.Second % 5 == 0)
+                    if (!base.Context.IsCurrent || DateTime.Now.Second % 5 == 0)
                         MakeCurrent();
 
                     GL.Clear(ClearBufferMask.ColorBufferBit);
@@ -2909,6 +2909,18 @@ namespace MissionPlanner.Controls
 
             return fontsize;
         }
+
+        int NextPowerOf2(int n)
+        {
+            n |= (n >> 16);
+            n |= (n >> 8);
+            n |= (n >> 4);
+            n |= (n >> 2);
+            n |= (n >> 1);
+            ++n;
+            return n;
+        }
+
         void drawstring(string text, Font font, float fontsize, SolidBrush brush, float x, float y)
         {
             if (!opengl)
@@ -2937,30 +2949,43 @@ namespace MissionPlanner.Controls
 
                 if (!charDict.ContainsKey(charid))
                 {
-                    charDict[charid] = new character()
-                    {
-                        bitmap = new Bitmap(128, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb),
-                        size = (int) fontsize
-                    };
-
-                    charDict[charid].bitmap.MakeTransparent(Color.Transparent);
-
                     //charbitmaptexid
 
                     float maxx = this.Width / 150; // for space
 
+                    var pth = new GraphicsPath();
+
+                    if (text != null)
+                        pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
+                            StringFormat.GenericTypographic);
+
+                    if (pth.PointCount > 0)
+                    {
+                        foreach (PointF pnt in pth.PathPoints)
+                        {
+                            if (pnt.X > maxx)
+                                maxx = pnt.X;
+
+                            if (pnt.Y > maxy)
+                                maxy = pnt.Y;
+                        }
+                    }
+
+                    var larger = maxx > maxy ? (int) maxx + 1 : (int) maxy + 1;
+
+                    charDict[charid] = new character()
+                    {
+                        bitmap = new Bitmap(NextPowerOf2(larger), NextPowerOf2(larger),
+                            System.Drawing.Imaging.PixelFormat.Format32bppArgb),
+                        size = (int) fontsize,
+                        pth = pth
+                    };
+
+                    charDict[charid].bitmap.MakeTransparent(Color.Transparent);
 
                     // create bitmap
                     using (var gfx = Graphics.FromImage(charDict[charid].bitmap))
                     {
-                        var pth = new GraphicsPath();
-
-                        if (text != null)
-                            pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
-                                StringFormat.GenericTypographic);
-
-                        charDict[charid].pth = pth;
-
                         gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
                         gfx.DrawPath(this._p, pth);
@@ -2968,19 +2993,6 @@ namespace MissionPlanner.Controls
                         //Draw the face
 
                         gfx.FillPath(brush, pth);
-
-
-                        if (pth.PointCount > 0)
-                        {
-                            foreach (PointF pnt in pth.PathPoints)
-                            {
-                                if (pnt.X > maxx)
-                                    maxx = pnt.X;
-
-                                if (pnt.Y > maxy)
-                                    maxy = pnt.Y;
-                            }
-                        }
                     }
 
                     charDict[charid].width = (int) (maxx + 2);
@@ -3075,30 +3087,43 @@ namespace MissionPlanner.Controls
 
                 if (!charDict.ContainsKey(charid))
                 {
-                    charDict[charid] = new character()
-                    {
-                        bitmap = new Bitmap(128, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb),
-                        size = (int) fontsize
-                    };
-
-                    charDict[charid].bitmap.MakeTransparent(Color.Transparent);
-
                     //charbitmaptexid
 
                     float maxx = this.Width / 150; // for space
 
+                    var pth = new GraphicsPath();
+
+                    if (text != null)
+                        pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
+                            StringFormat.GenericTypographic);
+
+                    if (pth.PointCount > 0)
+                    {
+                        foreach (PointF pnt in pth.PathPoints)
+                        {
+                            if (pnt.X > maxx)
+                                maxx = pnt.X;
+
+                            if (pnt.Y > maxy)
+                                maxy = pnt.Y;
+                        }
+                    }
+
+                    var larger = maxx > maxy ? (int) maxx + 1 : (int) maxy + 1;
+
+                    charDict[charid] = new character()
+                    {
+                        bitmap = new Bitmap(NextPowerOf2(larger), NextPowerOf2(larger),
+                            System.Drawing.Imaging.PixelFormat.Format32bppArgb),
+                        size = (int) fontsize,
+                        pth = pth
+                    };
+
+                    charDict[charid].bitmap.MakeTransparent(Color.Transparent);
 
                     // create bitmap
                     using (var gfx = Graphics.FromImage(charDict[charid].bitmap))
                     {
-                        var pth = new GraphicsPath();
-
-                        if (text != null)
-                            pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
-                                StringFormat.GenericTypographic);
-
-                        charDict[charid].pth = pth;
-
                         gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
                         gfx.DrawPath(this._p, pth);
@@ -3106,19 +3131,6 @@ namespace MissionPlanner.Controls
                         //Draw the face
 
                         gfx.FillPath(brush, pth);
-
-
-                        if (pth.PointCount > 0)
-                        {
-                            foreach (PointF pnt in pth.PathPoints)
-                            {
-                                if (pnt.X > maxx)
-                                    maxx = pnt.X;
-
-                                if (pnt.Y > maxy)
-                                    maxy = pnt.Y;
-                            }
-                        }
                     }
 
                     charDict[charid].width = (int) (maxx + 2);

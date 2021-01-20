@@ -32,9 +32,4 @@
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\LibTessDotNet\LibTessDotNet.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="OpenTK">
-      <HintPath>..\OpenTK.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>

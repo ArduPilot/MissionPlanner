@@ -61,630 +61,199 @@ public class SvgGraphics : Graphics
     }
 }
 
-
-namespace OpenTK
+namespace OpenTK.Platform
 {
-    internal class DummyGLControl : IGLControl
+
+}
+namespace OpenTK.Graphics
+{
+    public sealed class GraphicsContext : IGraphicsContext, IDisposable
     {
-        public IGraphicsContext CreateContext(int major, int minor, GraphicsContextFlags flags)
+        public void Dispose()
         {
-            return new DummyContext();
+            throw new NotImplementedException();
         }
 
-        public bool IsIdle
+        public void SwapBuffers()
         {
-            get { return false; }
+            throw new NotImplementedException();
         }
 
-        public IWindowInfo WindowInfo
+        public void MakeCurrent(IWindowInfo window)
         {
-            get { return Utilities.CreateDummyWindowInfo(); }
+            throw new NotImplementedException();
         }
 
-        private class DummyContext : IGraphicsContext, IGraphicsContextInternal
+        public bool IsCurrent { get; } = true;
+        public bool IsDisposed { get; }
+        public int SwapInterval { get; set; }
+        public void Update(IWindowInfo window)
         {
-            private static int instance_count;
+            throw new NotImplementedException();
+        }
 
-            private IWindowInfo current_window;
+        public GraphicsMode GraphicsMode { get; }
+        public bool ErrorChecking { get; set; }
+        public static IGraphicsContext CurrentContext { get; set; }
 
-            public void SwapBuffers()
-            {
-            }
-
-            public void MakeCurrent(IWindowInfo window)
-            {
-                current_window = window;
-            }
-
-            public bool IsCurrent
-            {
-                get { return current_window != null; }
-            }
-
-            public bool IsDisposed { get; private set; }
-
-            public bool VSync
-            {
-                get
-                {
-                    return SwapInterval != 0;
-                }
-                set
-                {
-                    SwapInterval = value ? 1 : 0;
-                }
-            }
-
-            public int SwapInterval { get; set; }
-
-            public void Update(IWindowInfo window)
-            {
-            }
-
-            public GraphicsMode GraphicsMode
-            {
-                get { return GraphicsMode.Default; }
-            }
-
-            public bool ErrorChecking
-            {
-                get
-                {
-                    return false;
-                }
-                set
-                {
-                }
-            }
-
-            public void LoadAll()
-            {
-            }
-
-            public void Dispose()
-            {
-                IsDisposed = true;
-            }
-
-            public ContextHandle Context { get; } = new ContextHandle(new IntPtr(
-                System.Threading.Interlocked.Increment(ref instance_count)));
-
-            public IntPtr GetAddress(IntPtr function)
-            {
-                return IntPtr.Zero;
-            }
-
-            public IntPtr GetAddress(string function)
-            {
-                return IntPtr.Zero;
-            }
-
-            public IGraphicsContext Implementation
-            {
-                get { return this; }
-            }
+        public void LoadAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }
 
-namespace OpenTK
+namespace OpenTK.Graphics
 {
-    // Constructs GLControls.
-    internal class GLControlFactory
+    public class GraphicsContextMissingException : Exception
     {
-        public IGLControl CreateGLControl(GraphicsMode mode, Control control)
+    }
+
+    public class GraphicsMode : IEquatable<GraphicsMode>
+    {
+        /// <summary>Constructs a new GraphicsMode with sensible default parameters.</summary>
+        public GraphicsMode(){}
+
+        public bool Equals(GraphicsMode other)
         {
-            if (mode == null)
-            {
-                throw new ArgumentNullException("mode");
-            }
-            if (control == null)
-            {
-                throw new ArgumentNullException("control");
-            }
-            /*
-            if (Configuration.RunningOnSdl2)
-            {
-                return new Sdl2GLControl(mode, control);
-            }
-            else if (Configuration.RunningOnWindows)
-            {
-                return new WinGLControl(mode, control);
-            }
-            else if (Configuration.RunningOnMacOS)
-            {
-                return new CarbonGLControl(mode, control);
-            }
-            else if (Configuration.RunningOnX11)
-            {
-                return new X11GLControl(mode, control);
-            }
-            else*/
-            {
-                throw new PlatformNotSupportedException();
-            }
+            return true;
         }
     }
-
-
-    internal interface IGLControl
-    {
-        IGraphicsContext CreateContext(int major, int minor, GraphicsContextFlags flags);
-        bool IsIdle { get; }
-        IWindowInfo WindowInfo { get; }
-    }
+}
+namespace OpenTK
+{
+  
     /// <summary>
     /// OpenGL-aware WinForms control.
     /// The WinForms designer will always call the default constructor.
     /// Inherit from this class and call one of its specialized constructors
     /// to enable antialiasing or custom <see cref="GraphicsMode"/>s.
     /// </summary>
-    public partial class GLControl : UserControl
+    public class GLControl : UserControl
     {
-        private IGraphicsContext _context;
-        private IGLControl _implementation;
-        private readonly GraphicsMode _format;
-        private readonly int _major;
-        private readonly int _minor;
-        private readonly GraphicsContextFlags _flags;
-        private bool? _initialVsyncValue;
-
-        // Indicates that OnResize was called before OnHandleCreated.
-        // To avoid issues with missing OpenGL contexts, we suppress
-        // the premature Resize event and raise it as soon as the handle
-        // is ready.
-        private bool _resizeEventSuppressed;
-
-        // Indicates whether the control is in design mode. Due to issues
-        // with the DesignMode property and nested controls,we need to
-        // evaluate this in the constructor.
-        private readonly bool _designMode;
-
-        /// <summary>
-        /// Constructs a new instance.
-        /// </summary>
-        public GLControl()
-            //: this(GraphicsMode.Default)
-        { }
-
-        /// <summary>
-        /// Constructs a new instance with the specified GraphicsMode.
-        /// </summary>
-        /// <param name="mode">The OpenTK.Graphics.GraphicsMode of the control.</param>
-        public GLControl(GraphicsMode mode)
-            : this(mode, 1, 0, GraphicsContextFlags.Default)
-        { }
-
-        /// <summary>
-        /// Constructs a new instance with the specified GraphicsMode.
-        /// </summary>
-        /// <param name="mode">The OpenTK.Graphics.GraphicsMode of the control.</param>
-        /// <param name="major">The major version for the OpenGL GraphicsContext.</param>
-        /// <param name="minor">The minor version for the OpenGL GraphicsContext.</param>
-        /// <param name="flags">The GraphicsContextFlags for the OpenGL GraphicsContext.</param>
-        public GLControl(GraphicsMode mode, int major, int minor, GraphicsContextFlags flags)
-        {
-            if (mode == null)
-            {
-                throw new ArgumentNullException(nameof(mode));
-            }
-
-            // SDL does not currently support embedding
-            // on external windows. If Open.Toolkit is not yet
-            // initialized, we'll try to request a native backend
-            // that supports embedding.
-            // Most people are using GLControl through the
-            // WinForms designer in Visual Studio. This approach
-            // works perfectly in that case.
-          /*  Toolkit.Init(new ToolkitOptions
-            {
-                Backend = PlatformBackend.PreferNative
-            });
-          */
-            SetStyle(ControlStyles.Opaque, true);
-            SetStyle(ControlStyles.UserPaint, true);
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            DoubleBuffered = false;
-
-            _format = mode;
-            _major = major;
-            _minor = minor;
-            _flags = flags;
-
-            // Note: the DesignMode property may be incorrect when nesting controls.
-            // We use LicenseManager.UsageMode as a workaround (this only works in
-            // the constructor).
-            _designMode =
-                DesignMode ||
-                LicenseManager.UsageMode == LicenseUsageMode.Designtime;
-
-            InitializeComponent();
-        }
-    /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            //
-            // NewGLControl
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
-            this.Name = "NewGLControl";
-            this.ResumeLayout(false);
-
-        }
-        /// <summary>
-        /// Gets a value indicating whether [failed to create OpenGL context].
-        /// So that the application stays running and is able to recover.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if [failed create context]; otherwise, <c>false</c>.
-        /// </value>
-        public bool HasValidContext { get; private set; }
-
-        private IGLControl Implementation
-        {
-            get
-            {
-                ValidateState();
-
-                return _implementation;
-            }
-        }
-
-        [Conditional("DEBUG")]
-        private void ValidateContext(string message)
-        {
-            if (!Context.IsCurrent)
-            {
-                Debug.Print("[GLControl] Attempted to access {0} on a non-current context. Results undefined.", message);
-            }
-        }
-
-        private void ValidateState()
-        {
-            if (IsDisposed)
-            {
-                throw new ObjectDisposedException(GetType().Name);
-            }
-
-            if (!IsHandleCreated)
-            {
-                CreateControl();
-            }
-
-            if (_implementation == null || _context == null || _context.IsDisposed)
-            {
-                RecreateHandle();
-            }
-        }
-
-        /// <summary>
-        /// Gets the <c>CreateParams</c> instance for this <c>GLControl</c>
-        /// </summary>
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                const int CS_VREDRAW = 0x1;
-                const int CS_HREDRAW = 0x2;
-                const int CS_OWNDC = 0x20;
-
-                var cp = base.CreateParams;
-                if (Configuration.RunningOnWindows)
-                {
-                    // Setup necessary class style for OpenGL on windows
-                    cp.ClassStyle |= CS_VREDRAW | CS_HREDRAW | CS_OWNDC;
-                }
-                return cp;
-            }
-        }
-
-        /// <summary>Raises the HandleCreated event.</summary>
-        /// <param name="e">Not used.</param>
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            if (!(_implementation is DummyGLControl))
-            { // No need to recreate our DummyGLControl
-                _context?.Dispose();
-                _implementation?.WindowInfo.Dispose();
-
-                if (_designMode)
-                {
-                    _implementation = new DummyGLControl();
-                    _context = _implementation.CreateContext(_major, _minor, _flags);
-                    HasValidContext = false;
-                }
-                else
-                {
-                    try
-                    {
-                        _implementation = new GLControlFactory().CreateGLControl(_format, this);
-                        _context = _implementation.CreateContext(_major, _minor, _flags);
-                        HasValidContext = true;
-                    }
-                    catch (GraphicsModeException)
-                    {
-                        _implementation = new DummyGLControl();
-                        _context = _implementation.CreateContext(_major, _minor, _flags);
-                        HasValidContext = false;
-                    }
-                }
-
-                MakeCurrent();
-
-                if (HasValidContext)
-                {
-                    ((IGraphicsContextInternal)_context).LoadAll();
-                }
-
-                // Deferred setting of vsync mode. See VSync property for more information.
-                if (_initialVsyncValue.HasValue)
-                {
-                    _context.SwapInterval = _initialVsyncValue.Value ? 1 : 0;
-                    _initialVsyncValue = null;
-                }
-            }
-
-            base.OnHandleCreated(e);
-
-            if (_resizeEventSuppressed)
-            {
-                OnResize(EventArgs.Empty);
-                _resizeEventSuppressed = false;
-            }
-        }
-
-        /// <summary>Raises the HandleDestroyed event.</summary>
-        /// <param name="e">Not used.</param>
-        protected override void OnHandleDestroyed(EventArgs e)
-        {
-            // Ensure that context is still alive when passing to events
-            // => This allows to perform cleanup operations in OnHandleDestroyed handlers
-            base.OnHandleDestroyed(e);
-
-            if (_implementation is DummyGLControl)
-            {
-                // No need to destroy our DummyGLControl
-                return;
-            }
-
-            if (_context != null)
-            {
-                _context.Dispose();
-                _context = null;
-            }
-
-            if (_implementation != null)
-            {
-                _implementation.WindowInfo.Dispose();
-                _implementation = null;
-            }
-        }
-
-        /// <summary>
-        /// Raises the System.Windows.Forms.Control.Paint event.
-        /// </summary>
-        /// <param name="e">A System.Windows.Forms.PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            ValidateState();
-
-            if (_designMode)
-            {
-                e.Graphics.Clear(BackColor);
-            }
-
-            base.OnPaint(e);
-        }
-
-        /// <summary>
-        /// Raises the Resize event.
-        /// Note: this method may be called before the OpenGL context is ready.
-        /// Check that IsHandleCreated is true before using any OpenGL methods.
-        /// </summary>
-        /// <param name="e">A System.EventArgs that contains the event data.</param>
-        protected override void OnResize(EventArgs e)
-        {
-            // Do not raise OnResize event before the handle and context are created.
-            if (!IsHandleCreated)
-            {
-                _resizeEventSuppressed = true;
-                return;
-            }
-
-            if (Configuration.RunningOnMacOS)
-            {
-                DelayUpdate delay = PerformContextUpdate;
-                BeginInvoke(delay); //Need the native window to resize first otherwise our control will be in the wrong place.
-            }
-            else
-            {
-                _context?.Update(Implementation.WindowInfo);
-            }
-
-            base.OnResize(e);
-        }
-
-        /// <summary>
-        /// Needed to delay the invoke on OS X. Also needed because OpenTK is .NET 2, otherwise I'd use an inline Action.
-        /// </summary>
-        public delegate void DelayUpdate();
-
-        /// <summary>
-        /// Execute the delayed context update
-        /// </summary>
-        public void PerformContextUpdate()
-        {
-            _context?.Update(Implementation.WindowInfo);
-        }
-
-        /// <summary>
-        /// Raises the ParentChanged event.
-        /// </summary>
-        /// <param name="e">A System.EventArgs that contains the event data.</param>
-        protected override void OnParentChanged(EventArgs e)
-        {
-            _context?.Update(Implementation.WindowInfo);
-
-            base.OnParentChanged(e);
-        }
-
-        /// <summary>
-        /// Swaps the front and back buffers, presenting the rendered scene to the screen.
-        /// This method will have no effect on a single-buffered <c>GraphicsMode</c>.
-        /// </summary>
-        public void SwapBuffers()
-        {
-            ValidateState();
-            Context.SwapBuffers();
-        }
-
-        /// <summary>
-        /// <para>
-        /// Makes <see cref="GLControl.Context"/> current in the calling thread.
-        /// All OpenGL commands issued are hereafter interpreted by this context.
-        /// </para>
-        /// <para>
-        /// When using multiple <c>GLControl</c>s, calling <c>MakeCurrent</c> on
-        /// one control will make all other controls non-current in the calling thread.
-        /// </para>
-        /// <seealso cref="Context"/>
-        /// <para>
-        /// A <c>GLControl</c> can only be current in one thread at a time.
-        /// To make a control non-current, call <c>GLControl.Context.MakeCurrent(null)</c>.
-        /// </para>
-        /// </summary>
         public void MakeCurrent()
         {
-            ValidateState();
-            Context.MakeCurrent(Implementation.WindowInfo);
+
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the current thread contains pending system messages.
-        /// </summary>
-        [Browsable(false)]
-        public bool IsIdle
+        public void SwapBuffers()
         {
-            get
-            {
-                ValidateState();
-                return Implementation.IsIdle;
-            }
+
         }
 
-        /// <summary>
-        /// Gets the <c>IGraphicsContext</c> instance that is associated with the <c>GLControl</c>.
-        /// The associated <c>IGraphicsContext</c> is updated whenever the <c>GLControl</c>
-        /// handle is created or recreated.
-        /// When using multiple <c>GLControl</c>s, ensure that <c>Context</c>
-        /// is current before performing any OpenGL operations.
-        /// <seealso cref="MakeCurrent"/>
-        /// </summary>
-        [Browsable(false)]
-        public IGraphicsContext Context
+        public bool VSync { get; set; }
+        public GraphicsMode GraphicsMode { get; set; }
+        public IGraphicsContext Context { get; } = new GraphicsContext();
+
+
+    }
+
+ 
+
+    /// <summary>Describes an OS window.</summary>
+    public interface IWindowInfo : IDisposable
+    {
+        /// <summary>Retrieves a platform-specific handle to this window.</summary>
+        IntPtr Handle { get; }
+    }
+ public interface IGraphicsContext : IDisposable
+  {
+    /// <summary>Swaps buffers, presenting the rendered scene to the user.</summary>
+    void SwapBuffers();
+    /// <summary>Makes the GraphicsContext current in the calling thread.</summary>
+    /// <param name="window">An OpenTK.Platform.IWindowInfo structure that points to a valid window.</param>
+    /// <remarks>
+    /// <para>OpenGL commands in one thread, affect the GraphicsContext which is current in that thread.</para>
+    /// <para>It is an error to issue an OpenGL command in a thread without a current GraphicsContext.</para>
+    /// </remarks>
+    void MakeCurrent(IWindowInfo window);
+    /// <summary>
+    /// Gets a <see cref="T:System.Boolean" /> indicating whether this instance is current in the calling thread.
+    /// </summary>
+    bool IsCurrent { get; }
+    /// <summary>
+    /// Gets a <see cref="T:System.Boolean" /> indicating whether this instance has been disposed.
+    /// It is an error to access any instance methods if this property returns true.
+    /// </summary>
+    bool IsDisposed { get; }
+    /// <summary>
+    /// Gets or sets a positive integer in the range [1, n), indicating the number of
+    /// <see cref="T:OpenTK.DisplayDevice" /> refreshes between consecutive
+    /// <see cref="M:OpenTK.Graphics.IGraphicsContext.SwapBuffers" /> calls. The maximum value for n is
+    /// implementation-dependent. The default value is 1.
+    /// Invalid values will be clamped to the valid range.
+    /// </summary>
+    int SwapInterval { get; set; }
+    /// <summary>
+    /// Updates the graphics context.  This must be called when the region the graphics context
+    /// is drawn to is resized.
+    /// </summary>
+    /// <param name="window"></param>
+    void Update(IWindowInfo window);
+    /// <summary>Gets the GraphicsMode of this instance.</summary>
+    GraphicsMode GraphicsMode { get; }
+    /// <summary>
+    /// Gets or sets a System.Boolean, indicating whether automatic error checking should be performed.
+    /// </summary>
+    /// <remarks>
+    /// <para>It is an error to enable error checking inside a Begin()-End() region.</para>
+    /// <para>This method only affects the debug version of OpenTK.dll.</para>
+    /// </remarks>
+    bool ErrorChecking { get; set; }
+    /// <summary>
+    /// Loads all OpenGL entry points. Requires this instance to be current on the calling thread.
+    /// </summary>
+    void LoadAll();
+  }
+
+
+ 
+
+    public class Vector3
+    {
+        public Vector3(float i, float i1, float i2)
         {
-            get
-            {
-                ValidateState();
-                return _context;
-            }
+            X = i;
+            Y = i1;
+            Z = i2;
         }
 
-        /// <summary>
-        /// Gets the aspect ratio of this GLControl.
-        /// </summary>
-        [Description("The aspect ratio of the client area of this GLControl.")]
-        public float AspectRatio
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+
+        public static Vector3 operator *(Vector3 vec, float inp)
         {
-            get
-            {
-                ValidateState();
-                return ClientSize.Width / (float)ClientSize.Height;
-            }
+            return null;
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether vsync is active for this <c>GLControl</c>.
-        /// When using multiple <c>GLControl</c>s, ensure that <see cref="Context"/>
-        /// is current before accessing this property.
-        /// <seealso cref="Context"/>
-        /// <seealso cref="MakeCurrent"/>
-        /// </summary>
-        [Description("Indicates whether GLControl updates are synced to the monitor's refresh rate.")]
-        public bool VSync
+        public void Normalize()
         {
-            get
-            {
-                if (!IsHandleCreated)
-                {
-                    return !_initialVsyncValue.HasValue || _initialVsyncValue.Value;
-                }
-
-                ValidateState();
-                ValidateContext(@"VSync");
-
-                return Context.SwapInterval != 0;
-            }
-            set
-            {
-                // The winforms designer sets this to false by default which forces control creation.
-                // However, events are typically connected after the VSync = false assignment, which
-                // can lead to "event xyz is not fired" issues.
-                // Work around this issue by deferring VSync mode setting to the HandleCreated event.
-                if (!IsHandleCreated)
-                {
-                    _initialVsyncValue = value;
-                    return;
-                }
-
-                ValidateState();
-                ValidateContext(@"VSync");
-                Context.SwapInterval = value ? 1 : 0;
-            }
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Gets the <c>GraphicsMode</c> of the <c>IGraphicsContext</c> associated with
-        /// this <c>GLControl</c>. If you wish to change <c>GraphicsMode</c>, you must
-        /// destroy and recreate the <c>GLControl</c>.
-        /// </summary>
-        public GraphicsMode GraphicsMode
+        public static Vector3 TransformPosition(Vector3 eye, Matrix4 createRotationZ)
         {
-            get
-            {
-                ValidateState();
-                return Context.GraphicsMode;
-            }
+            throw new NotImplementedException();
+        }
+    }
+
+    public class Matrix4
+    {
+        public static Matrix4 CreateRotationZ(float yaw)
+        {
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Gets the <see cref="OpenTK.Platform.IWindowInfo"/> for this instance.
-        /// </summary>
-        public IWindowInfo WindowInfo => _implementation.WindowInfo;
+        public static Matrix4 CreatePerspectiveFieldOfView(float deg2Rad, float f, float f1, float f2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Matrix4 LookAt(float eyeX, float eyeY, float eyeZ, int i, int i1, int i2, int i3, int i4, int i5)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 namespace OpenTK.Graphics.OpenGL
@@ -2340,7 +1909,7 @@ public enum StringName
 
         public static void Clear(ClearBufferMask colorBufferBit)
         {
-            throw new NotImplementedException();
+            
         }
 
         public static void TexSubImage2D(TextureTarget texture2D, int i, int i1, int i2, int dataWidth, int dataHeight, PixelFormat bgra, PixelType unsignedByte, IntPtr dataScan0)
@@ -2448,6 +2017,7 @@ public enum StringName
             throw new NotImplementedException();
         }
     }
+
 }
 
 public static class Extension

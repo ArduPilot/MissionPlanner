@@ -8,6 +8,7 @@ using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -47,13 +48,27 @@ namespace Xamarin.GCSViews
 
             var scale = size.Width / size.Height; // 1.77 1.6  1.33
 
+            if (scale < 1)
+            {
+                size = new Forms.Size(960, 960 * scale);
+            }
+            else
+            {
+                size = new Forms.Size(540 * scale, 540);
+                if (size.Width < 960)
+                    size = new Forms.Size(960, 960 / scale);
+            }
 
-            size = new Forms.Size(540 * scale, 540);
-            if (size.Width < 960)
-                size = new Forms.Size(960, 960 / scale);
-            
+            if (Device.RuntimePlatform == Device.macOS || Device.RuntimePlatform == Device.UWP)
+                size = Device.Info.PixelScreenSize;
+
             Instance = this;
-            MainV2.speechEngine = new Speech();
+            try
+            {
+                MainV2.speechEngine = new Speech();
+            } catch{}
+
+            RestoreFiles();
 
             // init seril port type
             SerialPort.DefaultType = (self, s, i) =>
@@ -70,14 +85,30 @@ namespace Xamarin.GCSViews
                     }
                     else
                     {
-                        var dil = await Test.UsbDevices.GetDeviceInfoList();
-
-                        var di = dil.Where(a => a.board == s);
-
-                        if (di.Count() > 0)
+                        if (s.StartsWith("BT_"))
                         {
-                            Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board + " search " + s);
-                            return await Test.UsbDevices.GetUSB(di.First());
+                            var bt = await Test.BlueToothDevice.GetDeviceInfoList();
+
+                            var di = bt.Where(a => a.board == s);
+
+                            if (di.Count() > 0)
+                            {
+                                Log.Info(TAG, "SerialPort.DefaultType found device " + di.First().board + " search " + s);
+                                return await Test.BlueToothDevice.GetBT(di.First());
+                            }
+                        }
+
+                        {
+                            var dil = await Test.UsbDevices.GetDeviceInfoList();
+
+                            var di = dil.Where(a => a.board == s);
+
+                            if (di.Count() > 0)
+                            {
+                                Log.Info(TAG,
+                                    "SerialPort.DefaultType found device " + di.First().board + " search " + s);
+                                return await Test.UsbDevices.GetUSB(di.First());
+                            }
                         }
                     }
 
@@ -104,7 +135,7 @@ namespace Xamarin.GCSViews
                 list1.AddRange(list2);
                 return list1;
             };
-
+            /*
             // support for fw upload
             MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>
             {
@@ -114,7 +145,119 @@ namespace Xamarin.GCSViews
             MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =>
             {
                 return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
-            };
+            };*/
+        }
+
+        private void RestoreFiles()
+        {
+            try
+            {
+                // nofly dir
+                Directory.CreateDirectory(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "NoFly");
+
+                // restore assets
+                Directory.CreateDirectory(Settings.GetUserDataDirectory());
+
+                File.WriteAllText(Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "airports.csv",
+                    files.airports);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "BurntKermit.mpsystheme",
+                    files.BurntKermit);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "HighContrast.mpsystheme",
+                    files.HighContrast);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "ParameterMetaData.xml",
+                    files.ParameterMetaDataBackup);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "camerasBuiltin.xml",
+                    files.camerasBuiltin);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "checklistDefault.xml",
+                    files.checklistDefault);
+
+                File.WriteAllText(
+                    Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar + "mavcmd.xml", 
+                    files.mavcmd);
+
+
+                {
+                        var pluginsdir = Settings.GetRunningDirectory() + "plugins";
+                        Directory.CreateDirectory(pluginsdir);
+
+                        string[] files = new[]
+                        {
+                            "example2menu", "example3fencedist", "example4herelink", "example5latencytracker",
+                            "example6mapicondesc", "example7canrtcm", "example8modechange", "example9hudonoff",
+                            "examplewatchbutton", "generator", "InitialParamsCalculator"
+                        };
+
+                        foreach (var file in files)
+                        {
+                            try
+                            {
+                                var id = (int) typeof(files)
+                                    .GetField(file)
+                                    .GetValue(null);
+
+                                var filename = pluginsdir + Path.DirectorySeparatorChar + file + ".cs";
+
+                                if (File.Exists(filename))
+                                {
+                                    File.Delete(filename);
+                                }
+
+                                /*
+                                File.WriteAllText(filename
+                                    ,
+                                    new StreamReader(
+                                        Resources.OpenRawResource(id)).ReadToEnd());
+                                */
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    }
+
+                    {
+                        var graphsdir = Settings.GetRunningDirectory() + "graphs";
+                        Directory.CreateDirectory(graphsdir);
+
+                        string[] files1 = new[]
+                        {
+                            "ekf3Graphs", "ekfGraphs", "mavgraphs", "mavgraphs2", "mavgraphsMP"
+                        };
+
+                        foreach (var file in files1)
+                        {
+                            try
+                            {
+                                var id = typeof(files)
+                                    .GetField(file)
+                                    .GetValue(null);
+
+                                File.WriteAllText(
+                                    graphsdir + Path.DirectorySeparatorChar + file + ".xml",
+                                    files.ResourceManager.GetString(file));
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    }
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert(Strings.ERROR, "Failed to stage files " + ex.ToString(), "OK");
+            }
         }
 
         public static string BundledPath
@@ -495,6 +638,20 @@ namespace Xamarin.GCSViews
                     touchDictionary.Remove(e.Id);
                 }
 
+                if (e.ActionType == SKTouchAction.Pressed && e.MouseButton == SKMouseButton.Right)
+                {
+                    XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_RBUTTONDOWN,
+                        new IntPtr((int) MsgButtons.MK_RBUTTON), (IntPtr) ((y) << 16 | (x)));
+                    touchDictionary.Clear();
+                }
+
+                if (e.ActionType == SKTouchAction.Released && e.MouseButton == SKMouseButton.Right)
+                {
+                    XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_RBUTTONUP,
+                        new IntPtr((int) MsgButtons.MK_RBUTTON), (IntPtr) ((y) << 16 | (x)));
+                    touchDictionary.Clear();
+                }
+
                 if (e.ActionType == SKTouchAction.Entered)
                 {
                     XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr(), (IntPtr) ((y) << 16 | (x)));
@@ -711,6 +868,7 @@ namespace Xamarin.GCSViews
                     }
                 }
 
+                if (Device.RuntimePlatform != Device.macOS && Device.RuntimePlatform != Device.UWP)
                 {
                     surface.Canvas.ClipRect(
                         SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,

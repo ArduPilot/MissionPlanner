@@ -12,15 +12,19 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using log4net;
 
 namespace MissionPlanner.GCSViews
 {
     public partial class SITL : MyUserControl, IActivate
     {
+        internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         //https://regex101.com/r/cH3kV3/2
         //https://regex101.com/r/cH3kV3/3
         Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\{}]+""default_params_filename""\s*:\s*\[*""([^""]+)""\s*[^\}]*\}");
@@ -299,61 +303,71 @@ namespace MissionPlanner.GCSViews
             {
                 cleanupJson(sitldirectory + "vehicleinfo.py");
 
-                using (Newtonsoft.Json.JsonTextReader reader =
-                    new JsonTextReader(File.OpenText(sitldirectory + "vehicleinfo.py")))
+                try
                 {
-                    JsonSerializer serializer = new JsonSerializer();
-                    var obj = (JObject)serializer.Deserialize(reader);
-
-                    if (obj == null)
-                        return "";
-
-                    foreach (var fwtype in obj)
+                    using (Newtonsoft.Json.JsonTextReader reader =
+                        new JsonTextReader(File.OpenText(sitldirectory + "vehicleinfo.py")))
                     {
-                        var frames = fwtype.Value["frames"];
+                        JsonSerializer serializer = new JsonSerializer();
+                        var obj = (JObject) serializer.Deserialize(reader);
 
-                        if (frames == null)
-                            continue;
+                        if (obj == null)
+                            return "";
 
-                        var config = frames[model];
-
-                        if (config == null)
-                            continue;
-
-                        var configs = config["default_params_filename"];
-
-                        if (configs is JValue)
+                        foreach (var fwtype in obj)
                         {
-                            Directory.CreateDirectory(Path.GetDirectoryName(sitldirectory + configs.ToString()));
+                            var frames = fwtype.Value["frames"];
 
-                            if (await Download.getFilefromNetAsync(
-                                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
-                                    configs.ToString(),
-                                    sitldirectory + configs.ToString()).ConfigureAwait(false) || File.Exists(sitldirectory + configs.ToString()))
+                            if (frames == null)
+                                continue;
+
+                            var config = frames[model];
+
+                            if (config == null)
+                                continue;
+
+                            var configs = config["default_params_filename"];
+
+                            if (configs is JValue)
                             {
-                                return sitldirectory + configs.ToString();
+                                Directory.CreateDirectory(Path.GetDirectoryName(sitldirectory + configs.ToString()));
+
+                                if (await Download.getFilefromNetAsync(
+                                        "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                        configs.ToString(),
+                                        sitldirectory + configs.ToString()).ConfigureAwait(false) ||
+                                    File.Exists(sitldirectory + configs.ToString()))
+                                {
+                                    return sitldirectory + configs.ToString();
+                                }
                             }
-                        }
 
-                        string data = "";
+                            string data = "";
 
-                        foreach (var config1 in configs)
-                        {
-                            Directory.CreateDirectory(Path.GetDirectoryName(sitldirectory + config1.ToString()));
-
-                            if (await Download.getFilefromNetAsync(
-                                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
-                                    config1.ToString(),
-                                    sitldirectory + config1.ToString()).ConfigureAwait(false) || File.Exists(sitldirectory + config1.ToString()))
+                            foreach (var config1 in configs)
                             {
-                                data += "\r\n" + File.ReadAllText(sitldirectory + config1.ToString());
-                            }
-                        }
+                                Directory.CreateDirectory(Path.GetDirectoryName(sitldirectory + config1.ToString()));
 
-                        var temp = Path.GetTempFileName();
-                        File.WriteAllText(temp, data);
-                        return temp;
+                                if (await Download.getFilefromNetAsync(
+                                        "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                        config1.ToString(),
+                                        sitldirectory + config1.ToString()).ConfigureAwait(false) ||
+                                    File.Exists(sitldirectory + config1.ToString()))
+                                {
+                                    data += "\r\n" + File.ReadAllText(sitldirectory + config1.ToString());
+                                }
+                            }
+
+                            var temp = Path.GetTempFileName();
+                            File.WriteAllText(temp, data);
+                            return temp;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    Console.WriteLine(ex.ToString());
                 }
             }
             return "";
@@ -366,6 +380,9 @@ namespace MissionPlanner.GCSViews
             var match = BraceMatch(content, '{', '}');
 
             match = Regex.Replace(match, @"#.*", "");
+
+            match = Regex.Replace(match, @"True", "\"True\"");
+            match = Regex.Replace(match, @"False", "\"False\"");
 
             // ensure any handles are closed
             GC.Collect();

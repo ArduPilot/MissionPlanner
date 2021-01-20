@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Linq;
 using LibTessDotNet;
+#if GL
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -14,6 +15,7 @@ using OpenTK.Platform;
 
 namespace SvgNet.SvgGdi
 {
+   
     public class GL2 : IGraphics, IDisposable
     {
         private static Dictionary<IntPtr, IGraphicsContext>
@@ -417,7 +419,7 @@ namespace SvgNet.SvgGdi
                 GL.Disable(EnableCap.PolygonSmooth);
 
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             GL.Enable(EnableCap.Texture2D);
 
@@ -838,7 +840,7 @@ namespace SvgNet.SvgGdi
                     TranslateTransform(-x, -y);
                     */
                     GL.Enable(EnableCap.Blend);
-                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
                     GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
@@ -985,7 +987,7 @@ namespace SvgNet.SvgGdi
                 ((SolidBrush)brush).Color.B / 255f, ((SolidBrush)brush).Color.A / 255f);
 
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             for (int i = 0; i < numTriangles; i++)
             {
@@ -1053,7 +1055,7 @@ namespace SvgNet.SvgGdi
                 ((SolidBrush)brush).Color.B / 255f, ((SolidBrush)brush).Color.A / 255f);
 
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             for (int i = 0; i < numTriangles; i++)
             {
@@ -1441,3 +1443,4 @@ namespace SvgNet.SvgGdi
         }
     }
 }
+#endif
