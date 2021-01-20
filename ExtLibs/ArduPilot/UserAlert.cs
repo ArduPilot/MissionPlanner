@@ -126,6 +126,9 @@ namespace MissionPlanner.ArduPilot
         /// </summary>
         [JsonProperty("versionFrom", NullValueHandling = NullValueHandling.Ignore)]
         public VersionFrom VersionFrom { get; set; }
+
+        [JsonProperty("lastmodified", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTime LastModified { get; set; }
     }
 
     /// <summary>
