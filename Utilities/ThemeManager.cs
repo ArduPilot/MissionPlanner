@@ -145,6 +145,13 @@ namespace MissionPlanner.Utilities
         }
     }
 
+
+    /// <summary>
+    /// An attribute which prevents the automatic theming of components
+    /// </summary>
+    public class PreventThemingAttribute : Attribute { };
+
+
     /// <summary>
     /// Helper class for the stylng 'theming' of forms and controls, and provides MessageBox
     /// replacements which are also styled
@@ -279,6 +286,8 @@ namespace MissionPlanner.Utilities
         }
 
 
+
+
         public static void StartThemeEditor()
         {
             new ThemeEditor().ShowDialog();
@@ -291,13 +300,17 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// Will recursively apply the current theme to 'control'
+        /// Will recursively apply the current theme to 'control' unless the control has the 
+        /// PreventTheming attribute
         /// </summary>
         /// <param name="control"></param>
         public static void ApplyThemeTo(Control control)
         {
             if (control is ContainerControl)
                 ((ContainerControl)control).AutoScaleMode = AutoScaleMode.None;
+
+            if (control.GetType().IsDefined(typeof(PreventThemingAttribute)))
+                return;
 
             ApplyTheme(control, 0);
         }
