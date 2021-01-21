@@ -375,7 +375,7 @@ namespace MissionPlanner.Controls
                 mav.SubscribeToPacketType((MAVLink.MAVLINK_MSG_ID)msgid,
                     msg =>
                     {
-	                    var item = msg.GetPropertyOrField(msgidfield);
+	                    var item = msg.data.GetPropertyOrField(msgidfield);
 	                    if (item is IEnumerable)
 	                    {
 	                        int a = 0;
