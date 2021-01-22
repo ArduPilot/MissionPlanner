@@ -1,5 +1,6 @@
 ﻿using GMap.NET.Drawing;
 using System.IO;
+using MissionPlanner.Properties;
 
 namespace GMap.NET.WindowsForms.Markers
 {
@@ -126,7 +127,7 @@ namespace GMap.NET.WindowsForms.Markers
 
                if(msmarker_shadow == null)
                {
-                  msmarker_shadow = Resources.msmarker_shadow.ToBitmap();
+                  msmarker_shadow = ResourcesX.msmarker_shadow.ToBitmap();
                }
                BitmapShadow = msmarker_shadow;
             }
@@ -147,7 +148,7 @@ namespace GMap.NET.WindowsForms.Markers
 
                if(shadow_small == null)
                {
-                  shadow_small = Resources.shadow_small.ToBitmap();
+                  shadow_small = ResourcesX.shadow_small.ToBitmap();
                }
                BitmapShadow = shadow_small;
             }
@@ -160,7 +161,7 @@ namespace GMap.NET.WindowsForms.Markers
                Offset = new Point(-Size.Width / 2, -Size.Height + 1);
                if(msmarker_shadow == null)
                {
-                  msmarker_shadow = Resources.msmarker_shadow.ToBitmap();
+                  msmarker_shadow = ResourcesX.msmarker_shadow.ToBitmap();
                }
                BitmapShadow = msmarker_shadow;
             }
@@ -178,7 +179,7 @@ namespace GMap.NET.WindowsForms.Markers
 
                if(pushpin_shadow == null)
                {
-                  pushpin_shadow = Resources.pushpin_shadow.ToBitmap();
+                  pushpin_shadow = ResourcesX.pushpin_shadow.ToBitmap();
                }
                BitmapShadow = pushpin_shadow;
             }

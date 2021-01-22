@@ -22,14 +22,14 @@ namespace MissionPlanner.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class ResourcesX {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal ResourcesX() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MissionPlanner.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MissionPlanner.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MissionPlanner.Properties.ResourcesX", typeof(ResourcesX).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -607,22 +607,6 @@ namespace MissionPlanner.Properties {
             get {
                 object obj = ResourceManager.GetObject("connect", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CREATE TABLE IF NOT EXISTS Tiles (id INTEGER NOT NULL PRIMARY KEY, X INTEGER NOT NULL, Y INTEGER NOT NULL, Zoom INTEGER NOT NULL, Type UNSIGNED INTEGER  NOT NULL, CacheTime DATETIME);
-        ///CREATE INDEX IF NOT EXISTS IndexOfTiles ON Tiles (X, Y, Zoom, Type);
-        ///
-        ///CREATE TABLE IF NOT EXISTS TilesData (id INTEGER NOT NULL PRIMARY KEY CONSTRAINT fk_Tiles_id REFERENCES Tiles(id) ON DELETE CASCADE, Tile BLOB NULL);
-        ///
-        ///-- Foreign Key Preventing insert
-        ///CREATE TRIGGER fki_TilesData_id_Tiles_id
-        ///BEFORE INSERT ON [TilesDat [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string CreateTileDb {
-            get {
-                return ResourceManager.GetString("CreateTileDb", resourceCulture);
             }
         }
         

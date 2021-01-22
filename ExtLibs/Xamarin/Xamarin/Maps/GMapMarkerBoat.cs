@@ -10,7 +10,7 @@ namespace MissionPlanner.Maps
     [Serializable]
     public class GMapMarkerBoat : GMapMarkerBase
     {
-        static readonly System.Drawing.Size SizeSt = global::MissionPlanner.Maps.Resources.boat.ToBitmap().Size;
+        static readonly System.Drawing.Size SizeSt = Properties.ResourcesX.boat.ToBitmap().Size;
 
         float heading = 0;
         float cog = -1;
@@ -68,7 +68,7 @@ namespace MissionPlanner.Maps
             {
             }
 
-            g.DrawImageUnscaled(global::MissionPlanner.Maps.Resources.boat.ToBitmap(),
+            g.DrawImageUnscaled(Properties.ResourcesX.boat.ToBitmap(),
                 Size.Width / -2,
                 Size.Height / -2);
 

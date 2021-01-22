@@ -9,7 +9,6 @@
 
     <RazorLangVersion>3.0</RazorLangVersion>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <BlazorCacheBootResources>false</BlazorCacheBootResources>
   </PropertyGroup>
 

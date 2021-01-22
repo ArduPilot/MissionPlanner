@@ -146,10 +146,10 @@
       <DependentUpon>MainPage</DependentUpon>
     </Compile>
     <Compile Update="MasterDetailPage1MenuItem.cs" />
-    <Compile Update="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\ResourcesX.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>ResourcesX.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -175,9 +175,9 @@
     <EmbeddedResource Update="MasterDetailPage1Master.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\ResourcesX.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>ResourcesX.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

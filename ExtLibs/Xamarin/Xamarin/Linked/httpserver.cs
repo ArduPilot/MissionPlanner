@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.Properties;
 using SharpKml.Base;
 using SharpKml.Dom;
 using Newtonsoft.Json;
@@ -575,7 +576,7 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     else if (url.Contains(" /hud.html"))
                     {
-                        var file = Xamarin.Properties.Resources.hud;
+                        var file = ResourcesX.hud;
                         string header = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\nContent-Length: " + file.Length + "\r\n\r\n";
                         byte[] temp = asciiEncoding.GetBytes(header);
                         stream.Write(temp, 0, temp.Length);

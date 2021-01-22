@@ -37,12 +37,12 @@ namespace Xamarin.GCSViews
             heli.CommandParameter = APFirmware.MAV_TYPE.HELICOPTER;
             antennatracker.CommandParameter = APFirmware.MAV_TYPE.ANTENNA_TRACKER;
 
-            quad.ImageSource = ImageSource.FromStream(()=>Xamarin.Properties.Resources.FW_icons_2013_logos_04.ToMemoryStream());
-            rover.ImageSource = ImageSource.FromStream(()=>Xamarin.Properties.Resources.rover_11.ToMemoryStream());
-            plane.ImageSource = ImageSource.FromStream(() => Xamarin.Properties.Resources.APM_airframes_001.ToMemoryStream());
-            sub.ImageSource = ImageSource.FromStream(() => Xamarin.Properties.Resources.sub.ToMemoryStream());
-            heli.ImageSource = ImageSource.FromStream(() => Xamarin.Properties.Resources.APM_airframes_08.ToMemoryStream());
-            antennatracker.ImageSource = ImageSource.FromStream(() => Xamarin.Properties.Resources.Antenna_Tracker_01.ToMemoryStream());
+            quad.ImageSource = ImageSource.FromStream(()=> MissionPlanner.Properties.ResourcesX.FW_icons_2013_logos_04.ToMemoryStream());
+            rover.ImageSource = ImageSource.FromStream(()=>MissionPlanner.Properties.ResourcesX.rover_11.ToMemoryStream());
+            plane.ImageSource = ImageSource.FromStream(() => MissionPlanner.Properties.ResourcesX.APM_airframes_001.ToMemoryStream());
+            sub.ImageSource = ImageSource.FromStream(() => MissionPlanner.Properties.ResourcesX.sub.ToMemoryStream());
+            heli.ImageSource = ImageSource.FromStream(() => MissionPlanner.Properties.ResourcesX.APM_airframes_08.ToMemoryStream());
+            antennatracker.ImageSource = ImageSource.FromStream(() => MissionPlanner.Properties.ResourcesX.Antenna_Tracker_01.ToMemoryStream());
 
             Task.Run(() =>
             {

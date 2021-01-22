@@ -3,7 +3,6 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>    <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <Deterministic>false</Deterministic><StartupObject>MissionPlanner.Program</StartupObject><ApplicationIcon /><RootNamespace>MissionPlanner</RootNamespace>
  
   </PropertyGroup>  <ItemGroup>

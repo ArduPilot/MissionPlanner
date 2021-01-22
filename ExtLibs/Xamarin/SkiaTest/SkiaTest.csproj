@@ -7,7 +7,6 @@
     <NoWin32Manifest>true</NoWin32Manifest>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
      <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
