@@ -145,6 +145,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         CMB_HWVersion.SelectedIndex = 6;
                     }
+                }         
+                else if (value == 14)
+                {
+                    CMB_HWVersion.SelectedIndex = 8;
                 }
             }
             else
@@ -485,8 +489,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //px4
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 100);
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 101);
-                    MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 1);
-                    TXT_divider_VOLT_MULT.Text = "1";
                 }
                 else if (selection == 4)
                 {
@@ -499,32 +501,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //vrbrain 5
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 10);
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 11);
-                    MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
-                    TXT_divider_VOLT_MULT.Text = "10";
                 }
                 else if (selection == 6)
                 {
                     //vr micro brain 5
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 10);
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", -1);
-                    MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
-                    TXT_divider_VOLT_MULT.Text = "10";
                 }
                 else if (selection == 7)
                 {
                     //vr brain 4
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 6);
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 7);
-                    MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
-                    TXT_divider_VOLT_MULT.Text = "10";
                 }
                 else if (selection == 8)
                 {
                     //cube orange
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 14);
                     MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 15);
-                    MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
-                    TXT_divider_VOLT_MULT.Text = "10";
                 }
             }
             catch
