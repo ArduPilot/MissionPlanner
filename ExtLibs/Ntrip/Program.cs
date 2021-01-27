@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UAVCAN;
@@ -211,8 +212,20 @@ namespace Ntrip
                 };
                 try
                 {
-                    Program.gotRTCMData += func;
+                    var request = new StreamReader(client.GetStream(), Encoding.ASCII).ReadLine();
 
+                    if (request.Contains(" / "))
+                    {
+                        var data2 =
+                            "SOURCETABLE 200 OK\r\nContent-Type: text/plain\r\n\r\nSTR;DEFAULT;Default;RTCM 3.2;;2;GPS+GLO+GLO+BDS;MP;;0.00;0.00;0;0;sNTRIP;none;N;N;0;none;\r\nENDSOURCETABLE\r\n\r\n"
+                                .Select(a => (byte) a).ToArray();
+                        client.GetStream().Write(data2, 0, data2.Length);
+                        client.Close();
+                        return;
+                    }
+
+                    Program.gotRTCMData += func;
+                    
                     var data = "ICY 200 OK\r\n\r\n".Select(a => (byte)a).ToArray();
                     client.GetStream().Write(data, 0, data.Length);
 
