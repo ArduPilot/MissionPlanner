@@ -137,7 +137,14 @@ namespace MissionPlanner.Utilities
             string directory = GetUserDataDirectory() + @"logs";
             if (!Directory.Exists(directory))
             {
-                Directory.CreateDirectory(directory);
+                try
+                {
+                    Directory.CreateDirectory(directory);
+                }
+                catch
+                {
+                
+                }
             }
 
             return directory;
