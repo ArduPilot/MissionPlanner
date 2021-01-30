@@ -335,7 +335,7 @@
     <PackageReference Include="JetBrains.Profiler.SelfApi">
       <Version>2.0.2</Version>
     </PackageReference>
-    <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
+    <PackageReference Include="log4net" version="2.0.12" targetFramework="net462" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
       <Version>3.6.0</Version>
     </PackageReference>
