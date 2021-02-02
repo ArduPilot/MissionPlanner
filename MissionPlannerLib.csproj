@@ -8,6 +8,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <RootNamespace>MissionPlanner</RootNamespace>
     <NeutralLanguage>en</NeutralLanguage>   
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -343,6 +345,8 @@
  </ItemGroup>
 
  <ItemGroup>
+
+   <Compile Include="Properties\AssemblyInfo.cs" />
 
    <Compile Include="SikRadio\ISikRadioForm.cs" />
    <Compile Include="SikRadio\RFD900.cs" />
