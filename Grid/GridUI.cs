@@ -760,7 +760,7 @@ namespace MissionPlanner.Grid
 
             // turn radrad = tas^2 / (tan(angle) * G)
             float v_sq = (float)(((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed) * ((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed));
-            float turnrad = (float)(v_sq / (float)(9.808f * Math.Tan(35 * deg2rad)));
+            float turnrad = (float)(v_sq / (float)(9.808f * Math.Tan(45 * deg2rad)));
 
             // Update Stats 
             if (DistUnits == "Feet")
