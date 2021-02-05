@@ -427,7 +427,7 @@ namespace MissionPlanner
         /// </summary>
         public static string comPortName = "";
 
-        public static int comPortBaud = 115200;
+        public static int comPortBaud = 57600;
 
         /// <summary>
         /// mono detection
@@ -743,7 +743,7 @@ namespace MissionPlanner
 
             // define default basestream
             comPort.BaseStream = new SerialPort();
-            comPort.BaseStream.BaudRate = 115200;
+            comPort.BaseStream.BaudRate = 57600;
 
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
@@ -780,7 +780,7 @@ namespace MissionPlanner
             PopulateSerialportList();
             if (_connectionControl.CMB_serialport.Items.Count > 0)
             {
-                _connectionControl.CMB_baudrate.SelectedIndex = 8;
+                _connectionControl.CMB_baudrate.SelectedIndex = 7;
                 _connectionControl.CMB_serialport.SelectedIndex = 0;
             }
             // ** Done
@@ -1330,8 +1330,10 @@ namespace MissionPlanner
         private void PopulateSerialportList()
         {
             _connectionControl.CMB_serialport.Items.Clear();
+
             _connectionControl.CMB_serialport.Items.Add("AUTO");
             _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+
             _connectionControl.CMB_serialport.Items.Add("TCP");
             _connectionControl.CMB_serialport.Items.Add("UDP");
             _connectionControl.CMB_serialport.Items.Add("UDPCl");
@@ -3051,7 +3053,8 @@ namespace MissionPlanner
                 {
                     log.Info("Load Pluggins");
                     Plugin.PluginLoader.DisabledPluginNames.Clear();
-                    foreach (var s in Settings.Instance.GetList("DisabledPlugins")) Plugin.PluginLoader.DisabledPluginNames.Add(s);
+                    foreach (var s in Settings.Instance.GetList("DisabledPlugins"))
+                        Plugin.PluginLoader.DisabledPluginNames.Add(s);
                     Plugin.PluginLoader.LoadAll();
                     log.Info("Load Pluggins... Done");
                 }
@@ -3099,38 +3102,59 @@ namespace MissionPlanner
             }
 
             log.Info("start joystick");
-            // setup joystick packet sender
-            joystickthread = new Thread(new ThreadStart(joysticksend))
+            try
             {
-                IsBackground = true,
-                Priority = ThreadPriority.AboveNormal,
-                Name = "Main joystick sender"
-            };
-            joystickthread.Start();
+                // setup joystick packet sender
+                joystickthread = new Thread(new ThreadStart(joysticksend))
+                {
+                    IsBackground = true,
+                    Priority = ThreadPriority.AboveNormal,
+                    Name = "Main joystick sender"
+                };
+                joystickthread.Start();
+            }
+            catch (NotSupportedException ex)
+            {
+                log.Error(ex);
+            }
 
             log.Info("start serialreader");
-            // setup main serial reader
-            serialreaderthread = new Thread(SerialReader)
+            try
             {
-                IsBackground = true,
-                Name = "Main Serial reader",
-                Priority = ThreadPriority.AboveNormal
-            };
-            serialreaderthread.Start();
+                // setup main serial reader
+                serialreaderthread = new Thread(SerialReader)
+                {
+                    IsBackground = true,
+                    Name = "Main Serial reader",
+                    Priority = ThreadPriority.AboveNormal
+                };
+                serialreaderthread.Start();
+            }
+            catch (NotSupportedException ex)
+            {
+                log.Error(ex);
+            }
 
             log.Info("start plugin thread");
-            // setup main plugin thread
-            pluginthread = new Thread(PluginThread)
+            try
             {
-                IsBackground = true,
-                Name = "plugin runner thread",
-                Priority = ThreadPriority.BelowNormal
-            };
-            pluginthread.Start();
+                // setup main plugin thread
+                pluginthread = new Thread(PluginThread)
+                {
+                    IsBackground = true,
+                    Name = "plugin runner thread",
+                    Priority = ThreadPriority.BelowNormal
+                };
+                pluginthread.Start();
+            }
+            catch (NotSupportedException ex)
+            {
+                log.Error(ex);
+            }
 
 
             ThreadPool.QueueUserWorkItem(LoadGDALImages);
-            
+
             ThreadPool.QueueUserWorkItem(BGLoadAirports);
 
             ThreadPool.QueueUserWorkItem(BGCreateMaps);
@@ -3166,24 +3190,27 @@ namespace MissionPlanner
                 try
                 {
                     log.Info("AutoConnect.NewMavlinkConnection " + serial.PortName);
-                    MainV2.instance.BeginInvoke((Action)delegate
-                   {
-                       if (MainV2.comPort.BaseStream.IsOpen)
-                       {
-                           var mav = new MAVLinkInterface();
-                           mav.BaseStream = serial;
-                           MainV2.instance.doConnect(mav, "preset", serial.PortName);
+                    MainV2.instance.BeginInvoke((Action) delegate
+                    {
+                        if (MainV2.comPort.BaseStream.IsOpen)
+                        {
+                            var mav = new MAVLinkInterface();
+                            mav.BaseStream = serial;
+                            MainV2.instance.doConnect(mav, "preset", serial.PortName);
 
-                           MainV2.Comports.Add(mav);
-                       }
-                       else
-                       {
-                           MainV2.comPort.BaseStream = serial;
-                           MainV2.instance.doConnect(MainV2.comPort, "preset", serial.PortName);
-                       }
-                   });
+                            MainV2.Comports.Add(mav);
+                        }
+                        else
+                        {
+                            MainV2.comPort.BaseStream = serial;
+                            MainV2.instance.doConnect(MainV2.comPort, "preset", serial.PortName);
+                        }
+                    });
                 }
-                catch (Exception ex) { log.Error(ex); }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
             };
             AutoConnect.NewVideoStream += (sender, gststring) =>
             {
@@ -3197,7 +3224,7 @@ namespace MissionPlanner
                         if (CustomMessageBox.Show(
                                 "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
                                 "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                            (int)System.Windows.Forms.DialogResult.Yes)
+                            (int) System.Windows.Forms.DialogResult.Yes)
                         {
                             {
                                 ProgressReporterDialogue prd = new ProgressReporterDialogue();
@@ -3241,7 +3268,7 @@ namespace MissionPlanner
                     if (firmware == "")
                         return null;
 
-                    var modes = ArduPilot.Common.getModesList((Firmwares)Enum.Parse(typeof(Firmwares), firmware));
+                    var modes = ArduPilot.Common.getModesList((Firmwares) Enum.Parse(typeof(Firmwares), firmware));
                     string currentmode = null;
 
                     foreach (var mode in modes)
@@ -3344,13 +3371,13 @@ namespace MissionPlanner
                 {
                     log.Info("CommsSerialScan.doConnect invoke");
                     MainV2.instance.BeginInvoke(
-                        (Action)delegate ()
-                       {
-                           MAVLinkInterface mav = new MAVLinkInterface();
-                           mav.BaseStream = port;
-                           MainV2.instance.doConnect(mav, "preset", "0");
-                           MainV2.Comports.Add(mav);
-                       });
+                        (Action) delegate()
+                        {
+                            MAVLinkInterface mav = new MAVLinkInterface();
+                            mav.BaseStream = port;
+                            MainV2.instance.doConnect(mav, "preset", "0");
+                            MainV2.Comports.Add(mav);
+                        });
                 }
                 else
                 {
@@ -3452,19 +3479,19 @@ namespace MissionPlanner
                 if (cmds.ContainsKey("script") && File.Exists(cmds["script"]))
                 {
                     // invoke for after onload finished
-                    this.BeginInvoke((Action)delegate ()
-                   {
-                       try
-                       {
-                           FlightData.selectedscript = cmds["script"];
+                    this.BeginInvoke((Action) delegate()
+                    {
+                        try
+                        {
+                            FlightData.selectedscript = cmds["script"];
 
-                           FlightData.BUT_run_script_Click(null, null);
-                       }
-                       catch (Exception ex)
-                       {
-                           CustomMessageBox.Show("Start script failed: " + ex.ToString(), Strings.ERROR);
-                       }
-                   });
+                            FlightData.BUT_run_script_Click(null, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Start script failed: " + ex.ToString(), Strings.ERROR);
+                        }
+                    });
                 }
 
                 if (cmds.ContainsKey("joy") && cmds.ContainsKey("type"))
@@ -3548,7 +3575,7 @@ namespace MissionPlanner
                         if (CustomMessageBox.Show(
                                 "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
                                 "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
-                            (int)System.Windows.Forms.DialogResult.Yes)
+                            (int) System.Windows.Forms.DialogResult.Yes)
                         {
                             GStreamerUI.DownloadGStreamer();
                         }
@@ -3556,42 +3583,42 @@ namespace MissionPlanner
 
                     try
                     {
-                        new Thread(delegate ()
-                        {
-                            // 36 retrys
-                            for (int i = 0; i < 36; i++)
+                        new Thread(delegate()
                             {
-                                try
+                                // 36 retrys
+                                for (int i = 0; i < 36; i++)
                                 {
-                                    var st = GStreamer.StartA(cmds["gstream"]);
-                                    if (st == null)
+                                    try
                                     {
-                                        // prevent spam
-                                        Thread.Sleep(5000);
-                                    }
-                                    else
-                                    {
-                                        while (st.IsAlive)
+                                        var st = GStreamer.StartA(cmds["gstream"]);
+                                        if (st == null)
                                         {
-                                            Thread.Sleep(1000);
+                                            // prevent spam
+                                            Thread.Sleep(5000);
+                                        }
+                                        else
+                                        {
+                                            while (st.IsAlive)
+                                            {
+                                                Thread.Sleep(1000);
+                                            }
                                         }
                                     }
+                                    catch (BadImageFormatException ex)
+                                    {
+                                        // not running on x64
+                                        log.Error(ex);
+                                        return;
+                                    }
+                                    catch (DllNotFoundException ex)
+                                    {
+                                        // missing or failed download
+                                        log.Error(ex);
+                                        return;
+                                    }
                                 }
-                                catch (BadImageFormatException ex)
-                                {
-                                    // not running on x64
-                                    log.Error(ex);
-                                    return;
-                                }
-                                catch (DllNotFoundException ex)
-                                {
-                                    // missing or failed download
-                                    log.Error(ex);
-                                    return;
-                                }
-                            }
-                        })
-                        { IsBackground = true, Name = "Gstreamer cli" }.Start();
+                            })
+                            {IsBackground = true, Name = "Gstreamer cli"}.Start();
                     }
                     catch (Exception ex)
                     {

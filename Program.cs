@@ -216,6 +216,7 @@ namespace MissionPlanner
                 Splash.pictureBox1.Visible = false;
             }
 
+            Console.WriteLine("IconFile");
             if (IconFile != null)
                 Splash.Icon = Icon.FromHandle(((Bitmap)IconFile).GetHicon());
 
@@ -223,12 +224,16 @@ namespace MissionPlanner
                 ? File.ReadAllText("version.txt")
                 : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
+            Console.WriteLine("Splash.Show()");
             Splash.Show();
 
+            Console.WriteLine("Debugger.IsAttached " + Debugger.IsAttached);
             if (Debugger.IsAttached)
                 Splash.TopMost = false;
 
+            Console.WriteLine("Application.DoEvents");
             Application.DoEvents();
+            Console.WriteLine("Application.DoEvents");
             Application.DoEvents();
 
             CustomMessageBox.ShowEvent += (text, caption, buttons, icon, yestext, notext) =>
@@ -254,8 +259,10 @@ namespace MissionPlanner
 
             MissionPlanner.Utilities.Extensions.MessageLoop = new Action(() => Application.DoEvents());
 
+            Console.WriteLine("Setup GMaps 1");
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
+            Console.WriteLine("Setup GMaps 2");
             // add my custom map providers
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
@@ -275,21 +282,27 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Slopezone.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Sea.Instance);
 
+            Console.WriteLine("Setup GoogleMapProvider API");
             GoogleMapProvider.APIKey = "AIzaSyA5nFp39fEHruCezXnG3r8rGyZtuAkmCug";
             if (Settings.Instance["GoogleApiKey"] != null) GoogleMapProvider.APIKey = Settings.Instance["GoogleApiKey"];
             
+            Console.WriteLine("Setup Tracking.productName");
             Tracking.productName = Application.ProductName;
             Tracking.productVersion = Application.ProductVersion;
             Tracking.currentCultureName = Application.CurrentCulture.Name;
+            Console.WriteLine("Setup Tracking.primaryScreenBitsPerPixel");
             Tracking.primaryScreenBitsPerPixel = Screen.PrimaryScreen.BitsPerPixel;
             Tracking.boundsWidth = Screen.PrimaryScreen.Bounds.Width;
             Tracking.boundsHeight = Screen.PrimaryScreen.Bounds.Height;
 
-            Settings.Instance.UserAgent = Application.ProductName + " " + Application.ProductVersion + " (" + Environment.OSVersion.VersionString + ")";
+            Console.WriteLine("Setup Settings.Instance.UserAgent");
+            Settings.Instance.UserAgent = Application.ProductName + " " + Application.ProductVersion + " (" + Environment.OSVersion?.VersionString + ")";
 
+            Console.WriteLine("Setup check gdal dir");
             // optionally add gdal support
             if (Directory.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "gdal"))
             {
+                Console.WriteLine("Setup gdal");
 #if !LIB
                 // net461
                 MissionPlanner.Utilities.GDAL.GDALBase = new GDAL.GDAL();
@@ -297,16 +310,32 @@ namespace MissionPlanner
                 GMap.NET.MapProviders.GMapProviders.List.Add(MissionPlanner.Utilities.GDAL.GetProvider());
             }
 
+            Console.WriteLine("Setup proxy");
             // add proxy settings
-            GMap.NET.MapProviders.GMapProvider.WebProxy = WebRequest.GetSystemWebProxy();
-            GMap.NET.MapProviders.GMapProvider.WebProxy.Credentials = CredentialCache.DefaultCredentials;
+            try
+            {
+                GMap.NET.MapProviders.GMapProvider.WebProxy = WebRequest.GetSystemWebProxy();
+                GMap.NET.MapProviders.GMapProvider.WebProxy.Credentials = CredentialCache.DefaultCredentials;
+            }
+            catch (PlatformNotSupportedException)
+            {
+
+            }
 
             // generic status report screen
             MAVLinkInterface.CreateIProgressReporterDialogue += title =>
                 new ProgressReporterDialogue() { StartPosition = FormStartPosition.CenterScreen, Text = title };
+            
+            Console.WriteLine("Setup proxy");
+            try
+            {
+                WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
+                WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+            }
+            catch (PlatformNotSupportedException)
+            {
 
-            WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
-            WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+            }
 
             if (name == "VVVVZ")
             {
@@ -319,6 +348,7 @@ namespace MissionPlanner
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
             }
 
+            Console.WriteLine("Setup CleanupFiles");
             CleanupFiles();
 
             log.InfoFormat("64bit os {0}, 64bit process {1}, OS Arch {2}", System.Environment.Is64BitOperatingSystem,
@@ -349,6 +379,8 @@ namespace MissionPlanner
                     {
                         if (int.Parse(match.Groups[1].Value) < 6)
                         {
+                            Console.WriteLine(
+                                "Please upgrade your mono version to 6+ https://www.mono-project.com/download/stable/");
                             CustomMessageBox.Show(
                                 "Please upgrade your mono version to 6+ https://www.mono-project.com/download/stable/");
                         }
@@ -359,6 +391,7 @@ namespace MissionPlanner
             try
             {
                 Thread.CurrentThread.Name = "Base Thread";
+                Console.WriteLine("Application.Run(new MainV2())");
                 Application.Run(new MainV2());
             }
             catch (Exception ex)
@@ -436,7 +469,7 @@ namespace MissionPlanner
 
         private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
-            log.Debug("Loaded: " + args.LoadedAssembly);
+            log.Debug("Loaded: " + args.LoadedAssembly + " from " + args.LoadedAssembly.Location);
         }
 
         private static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
@@ -551,9 +584,16 @@ namespace MissionPlanner
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var list = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
+            try
+            {
+                var list = AppDomain.CurrentDomain.ReflectionOnlyGetAssemblies();
 
-            log.Error(list);
+                log.Error(list);
+            }
+            catch
+            {
+
+            }
 
             handleException((Exception)e.ExceptionObject);
         }

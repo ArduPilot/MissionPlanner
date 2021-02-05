@@ -29,6 +29,7 @@ using MissionPlanner;
 using MissionPlanner.Controls;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.Utilities;
+using MissionPlanner.Comms;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -43,13 +44,17 @@ namespace SkiaSharpTest
         {
             this.InitializeComponent();
             Console.WriteLine("MainPage ctor");
-            Task.Run(() => start());
+
+            SKCanvasForms.PaintSurface += OnPaintSurface;
+            SKCanvasForms.PointerMoved += SKCanvasForms_PointerMoved;
+
+            //Task.Run(() => start());
 
             log4net.Repository.Hierarchy.Hierarchy hierarchy =
                 (Hierarchy)log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(App)));
 
             var patternLayout = new PatternLayout();
-            patternLayout.ConversionPattern = "[%thread] %-5level %logger %memory - %message";
+            patternLayout.ConversionPattern = "[%thread] %-5level %logger %memory - %message\n";
             //patternLayout.AddConverter(new ConverterInfo() {Name = "memory", Type = typeof(PatternConverter)});
             patternLayout.ActivateOptions();
 
@@ -62,12 +67,32 @@ namespace SkiaSharpTest
             hierarchy.Configured = true;
 
             Console.WriteLine("MainPage ctor end");
+
             //var th = new Thread(start);
             //th.Start();
 
+            SerialPort.DefaultType = (self, s, i) => { return null; };
+
+            start();
+
+            pollDraw();
         }
 
-        private void start()
+        private void SKCanvasForms_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            var pnt = e.GetCurrentPoint(SKCanvasForms);
+            XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr(),
+                (IntPtr) ((int) (pnt.Position.Y) << 16 | (int) (pnt.Position.X)));
+        }
+
+        private async void pollDraw()
+        {
+            SKCanvasForms.Invalidate();
+
+            await Task.Yield();
+        }
+
+        private async void start()
         {
             Console.WriteLine("start");
             //AddTypeConverter(typeof(System.Drawing.Bitmap), typeof(BitmapClassConverter));
@@ -76,14 +101,29 @@ namespace SkiaSharpTest
             //var convert = TypeDescriptor.GetConverter(typeof(System.Drawing.Bitmap));
             //convert.ConvertTo()
 
+            Application.AddMessageFilter(new AsyncFilter());
+
             Application.Idle += Application_Idle;
 
-            MissionPlanner.Program.Main(new string[] { });
+            pollDraw();
+
+            try
+            {
+
+                MissionPlanner.Program.Main(new string[] { });
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
             Console.WriteLine("start end");
         }
 
         private async void Application_Idle(object sender, EventArgs e)
-        {Console.WriteLine("Application_Idle");
+        {
+            Console.WriteLine("Application_Idle");
             if (XplatUIMine.PaintPending)
             {
                 SKCanvasForms.Invalidate();
@@ -427,5 +467,15 @@ namespace SkiaSharpTest
 
             private SizeF scale = new SizeF(1, 1);
 
+    }
+
+    internal class AsyncFilter : IMessageFilter
+    {
+        public bool PreFilterMessage(ref Message m)
+        {
+            Console.WriteLine("PreFilterMessage " + m);
+
+            return false;
+        }
     }
 }

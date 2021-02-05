@@ -9,10 +9,12 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Scripting.Hosting;
+using MissionPlanner;
 using MissionPlanner.Utilities;
 using SkiaSharp;
 
@@ -23,6 +25,148 @@ namespace tlogThumbnailHandler
         public static string queuefile = "queue.txt";
 
     }
+}
+
+namespace Microsoft.Scripting.Hosting
+{
+    public sealed class ScriptSource
+    {
+        public object Execute(ScriptScope scope)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public sealed class ScriptEngine
+    {
+        public ScriptSource  CreateScriptSourceFromString(string scriptsrc)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetSearchPaths(object paths)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ScriptScope CreateScope()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollection<string> GetSearchPaths()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ScriptRuntime Runtime { get; set; }
+
+        public TService GetService<TService>(params object[] args) where TService : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public ScriptSource CreateScriptSourceFromFile(string filename)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public sealed class ExceptionOperations
+    {
+        public string FormatException(Exception p0)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public sealed class ScriptScope
+    {
+        public void SetVariable(string name, object value)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public sealed class ScriptRuntime
+    {
+        public void Shutdown()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LoadAssembly(Assembly ass)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ScriptIO IO { get; set; }
+    }
+
+    public sealed class ScriptIO
+    {
+        public void SetErrorOutput(MemoryStream memoryStream, StringRedirectWriter outputWriter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetOutput(MemoryStream memoryStream, StringRedirectWriter outputWriter)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+
+namespace Microsoft.Scripting.Runtime
+{
+
+    public sealed class OperationFailed
+    {
+        public static readonly OperationFailed Value = new OperationFailed();
+
+        private OperationFailed()
+        {
+        }
+    }
+}
+
+
+namespace Microsoft.Scripting.Utils
+{
+    public static class CollectionUtils
+    {
+        public static IEnumerable<TRet> Select<TRet>(this IEnumerable enumerable, Func<object, TRet> selector)
+        {
+            ContractUtils.RequiresNotNull(enumerable, "enumerable");
+            ContractUtils.RequiresNotNull(selector, "selector");
+            foreach (object item in enumerable)
+            {
+                yield return selector(item);
+            }
+        }
+
+        public static IList<T> ToSortedList<T>(this ICollection<T> collection, Comparison<T> comparison)
+        {
+            ContractUtils.RequiresNotNull(collection, "collection");
+            ContractUtils.RequiresNotNull(comparison, "comparison");
+            T[] array = new T[collection.Count];
+            collection.CopyTo(array, 0);
+            Array.Sort(array, comparison);
+            return array;
+        }
+    }
+
+    public static class ContractUtils
+    {
+        public static void RequiresNotNull(object value, string paramName)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(paramName);
+            }
+        }
+    }
+
 }
 
 public delegate int GetInt();

@@ -4,9 +4,16 @@
   <assembly fullname="SkiaSharp.Views.Uno" />
   <assembly fullname="log4net" />
   <assembly fullname="MissionPlanner" />
-  <assembly fullname="System.Drawing.Common" />  
   <assembly fullname="px4uploader" />  
   <assembly fullname="solo" /> 
+  <assembly fullname="System.Drawing" /> 
+  <assembly fullname="System.Windows.Forms" /> 
+  <assembly fullname="MissionPlanner.Drawing" /> 
+  <assembly fullname="MissionPlanner.Maps" /> 
+  <assembly fullname="MissionPlanner.Utilities" /> 
+  <assembly fullname="MissionPlanner.ArduPilot" /> 
+  <assembly fullname="Interfaces" /> 
+  <assembly fullname="MissionPlanner.Controls" />
 
   <assembly fullname="System.Core">
     <!-- This is required by JSon.NET and any expression.Compile caller -->

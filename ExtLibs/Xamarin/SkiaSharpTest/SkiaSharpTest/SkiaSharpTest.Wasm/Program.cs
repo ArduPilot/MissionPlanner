@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,7 +23,10 @@ namespace SkiaSharpTest.Wasm
 
             Console.WriteLine("Main 1");
             new System.Drawing.android.android();
-            // new MissionPlanner.Drawing.Common.Common();
+            var test = System.Drawing.FillMode.Alternate;
+            var test2 = System.Drawing.Color.White;
+
+            //new MissionPlanner.Drawing.Common.Common();
             Console.WriteLine("Main 2");
             Windows.UI.Xaml.Application.Start(_ => _app = new App());
             Console.WriteLine("Main 3");

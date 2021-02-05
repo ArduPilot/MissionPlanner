@@ -29,7 +29,9 @@ using Microsoft.Scripting.Hosting;
 using MissionPlanner.GCSViews.ConfigurationView;
 using ZedGraph; // Graphs
 
+#if !LIB
 [assembly: ExtensionType(typeof(Dictionary<string, object>), typeof(LogBrowse.ext))]
+#endif
 
 namespace MissionPlanner.Log
 {

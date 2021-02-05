@@ -413,10 +413,21 @@ namespace MissionPlanner.Utilities
 
         private static void StartQueueProcess()
         {
-            requestThread = new Thread(requestRunner);
-            requestThread.IsBackground = true;
-            requestThread.Name = "SRTM request runner";
-            requestThread.Start();
+            try
+            {
+                requestThread = new Thread(requestRunner);
+                requestThread.IsBackground = true;
+                requestThread.Name = "SRTM request runner";
+                requestThread.Start();
+            }
+            catch (NotSupportedException)
+            {
+                requestRunner();
+            }
+            catch (TypeInitializationException)
+            {
+                requestRunner();
+            }
         }
 
         static double GetAlt(string filename, int x, int y)

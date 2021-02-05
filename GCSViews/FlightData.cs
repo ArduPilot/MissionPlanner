@@ -2176,10 +2176,17 @@ namespace MissionPlanner.GCSViews
 
             prop = new Propagation(gMapControl1);
 
-            thisthread = new Thread(mainloop);
-            thisthread.Name = "FD Mainloop";
-            thisthread.IsBackground = true;
-            thisthread.Start();
+            try
+            {
+                thisthread = new Thread(mainloop);
+                thisthread.Name = "FD Mainloop";
+                thisthread.IsBackground = true;
+                thisthread.Start();
+            }
+            catch (NotSupportedException)
+            {
+                mainloop();
+            }
         }
 
         private void FlightData_ParentChanged(object sender, EventArgs e)
