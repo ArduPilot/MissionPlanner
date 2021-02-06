@@ -354,6 +354,10 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float gpshdg_acc { get; private set; }
 
+        [DisplayText("GPS Yaw (deg)")]
+        [GroupText("Position")]
+        public float gpsyaw { get; private set; }
+
         [DisplayText("Latitude2 (dd)")]
         [GroupText("Position")]
         public double lat2 { get; set; }
@@ -2659,6 +2663,7 @@ namespace MissionPlanner
                                 gpsv_acc = gps.v_acc / 1000.0f;
                                 gpsvel_acc = gps.vel_acc / 1000.0f;
                                 gpshdg_acc = gps.hdg_acc / 1e5f;
+                                gpsyaw = gps.yaw / 100.0f;
                             }
                             else
                             {
@@ -2666,6 +2671,7 @@ namespace MissionPlanner
                                 gpsv_acc = -1;
                                 gpsvel_acc = -1;
                                 gpshdg_acc = -1;
+                                gpsyaw = -1;
                             }
 
                             //MAVLink.packets[(byte)MAVLink.MSG_NAMES.GPS_RAW);
