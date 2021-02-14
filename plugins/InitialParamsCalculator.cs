@@ -62,7 +62,7 @@ namespace MissionPlanner.InitialParamCalc
 
         public override string Version
         {
-            get { return "1.0"; }
+            get { return "1.1"; }
         }
 
         public override string Author
@@ -215,27 +215,41 @@ namespace MissionPlanner.InitialParamCalc
 
         }
 
+        static double RoundTo(double value, int precision)
+		{
+			if (precision < -4 && precision > 15)
+				throw new ArgumentOutOfRangeException("precision", "Must be and integer between -4 and 15");
+	
+			if (precision >= 0) return Math.Round(value, precision);
+			else
+			{
+				precision = (int)Math.Pow(10, Math.Abs(precision));
+				value = value + (5 * precision / 10);
+				return Math.Round(value - (value % precision), 0);
+			}
+		}
+
         // Do calculations
         static void calc_values()
         {
-
-            atc_accel_y_max = Math.Round((-900 * prop_size + 36000) / 100, 0) * 100;
+            atc_accel_y_max = Math.Max(8000,RoundTo(-900 * prop_size + 36000,-2));
+			
             acro_yaw_p = 0.5 * atc_accel_y_max / 4500;
 
-            atc_accel_p_max = Math.Round((-81718 * Math.Log(prop_size) + 296856) / 100, 0) * 100;
+            atc_accel_p_max = Math.Max(10000,RoundTo(-2.613267*Math.Pow(prop_size,3)+343.39216*Math.Pow(prop_size,2)-15083.7121*prop_size+235771,-2));
             atc_accel_r_max = atc_accel_p_max;
 
-            ins_gyro_filter = Math.Round((289.22 * Math.Pow(prop_size, -0.838)), 0);
+            ins_gyro_filter = Math.Max(20,Math.Round((289.22 * Math.Pow(prop_size, -0.838)), 0));
 
-            atc_rat_pit_fltd = ins_gyro_filter / 2;
+            atc_rat_pit_fltd = Math.Max(10,ins_gyro_filter / 2);
             atc_rat_pit_flte = 0;
-            atc_rat_pit_fltt = ins_gyro_filter / 2;
-            atc_rat_rll_fltd = ins_gyro_filter / 2;
+            atc_rat_pit_fltt = Math.Max(10,ins_gyro_filter / 2);
+            atc_rat_rll_fltd = Math.Max(10,ins_gyro_filter / 2);
             atc_rat_rll_flte = 0;
-            atc_rat_rll_fltt = ins_gyro_filter / 2;
+            atc_rat_rll_fltt = Math.Max(10,ins_gyro_filter / 2);
             atc_rat_yaw_fltd = 0;
             atc_rat_yaw_flte = 2;
-            atc_rat_yaw_fltt = ins_gyro_filter / 2;
+            atc_rat_yaw_fltt = Math.Max(10,ins_gyro_filter / 2);
 
             atc_thr_mix_man = 0.1;
             ins_accel_filter = 20;
