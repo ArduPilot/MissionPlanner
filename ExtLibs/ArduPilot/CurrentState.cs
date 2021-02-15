@@ -1069,27 +1069,27 @@ namespace MissionPlanner
         }
 
         [GroupText("Battery")]
-        [DisplayText("Bat2 Current (Amps)")]
+        [DisplayText("Bat3 Current (Amps)")]
         public double current3 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat2 Current (Amps)")]
+        [DisplayText("Bat4 Current (Amps)")]
         public double current4 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat2 Current (Amps)")]
+        [DisplayText("Bat5 Current (Amps)")]
         public double current5 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat2 Current (Amps)")]
+        [DisplayText("Bat6 Current (Amps)")]
         public double current6 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat2 Current (Amps)")]
+        [DisplayText("Bat7 Current (Amps)")]
         public double current7 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat2 Current (Amps)")]
+        [DisplayText("Bat8 Current (Amps)")]
         public double current8 { get; set; }
 
         [GroupText("Battery")]
