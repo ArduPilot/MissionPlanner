@@ -469,7 +469,10 @@ namespace MissionPlanner
 
         private static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
-            log.Debug("Loaded: " + args.LoadedAssembly + " from " + args.LoadedAssembly.Location);
+            if (!args.LoadedAssembly.IsDynamic)
+                log.Debug("Loaded: " + args.LoadedAssembly + " from " + args.LoadedAssembly.Location);
+            else
+                log.Debug("Loaded: " + args.LoadedAssembly);
         }
 
         private static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
