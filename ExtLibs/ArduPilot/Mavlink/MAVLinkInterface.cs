@@ -3276,18 +3276,18 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 MAVLinkMessage buffer = await readPacketAsync().ConfigureAwait(false);
                 if (buffer.Length > 9)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == req.target_system &&
+                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == req.target_system &&
                         buffer.compid == req.target_component)
                     {
                         var request = buffer.ToStructure<mavlink_mission_request_t>();
                         // check this gcs sent it
                         if (request.target_system != gcssysid ||
-                            request.target_component != (byte) MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            request.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
                             continue;
 
                         if (request.seq == 0 || request.seq == 1)
                         {
-                            if (req.mission_type == (byte) MAV_MISSION_TYPE.MISSION)
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
                             {
                                 if (MAV.param["WP_TOTAL"] != null)
                                     MAV.param["WP_TOTAL"].Value = wp_total - 1;
@@ -3298,27 +3298,27 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 MAVlist[req.target_system, req.target_component].wps.Clear();
                             }
 
-                            if (req.mission_type == (byte) MAV_MISSION_TYPE.FENCE)
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
                                 MAVlist[req.target_system, req.target_component].fencepoints.Clear();
-                            if (req.mission_type == (byte) MAV_MISSION_TYPE.RALLY)
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
                                 MAVlist[req.target_system, req.target_component].rallypoints.Clear();
 
                             giveComport = false;
                             return;
                         }
                     }
-                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST_INT &&
+                    else if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT &&
                              buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         var request = buffer.ToStructure<mavlink_mission_request_int_t>();
                         // check this gcs sent it
                         if (request.target_system != gcssysid ||
-                            request.target_component != (byte) MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            request.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
                             continue;
 
                         if (request.seq == 0 || request.seq == 1)
                         {
-                            if (req.mission_type == (byte) MAV_MISSION_TYPE.MISSION)
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.MISSION)
                             {
                                 if (MAV.param["WP_TOTAL"] != null)
                                     MAV.param["WP_TOTAL"].Value = wp_total - 1;
@@ -3329,14 +3329,28 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 MAVlist[req.target_system, req.target_component].wps.Clear();
                             }
 
-                            if (req.mission_type == (byte) MAV_MISSION_TYPE.FENCE)
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.FENCE)
                                 MAVlist[req.target_system, req.target_component].fencepoints.Clear();
-                            if (req.mission_type == (byte) MAV_MISSION_TYPE.RALLY)
+                            if (req.mission_type == (byte)MAV_MISSION_TYPE.RALLY)
                                 MAVlist[req.target_system, req.target_component].rallypoints.Clear();
 
                             giveComport = false;
                             return;
                         }
+                    }
+                    else if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_ACK && buffer.sysid == req.target_system &&
+    buffer.compid == req.target_component)
+                    {
+                        var ans = buffer.ToStructure<mavlink_mission_ack_t>();
+                        log.Info("setWPTotal ACK 47 : " + buffer.msgid + " ans " +
+                                 Enum.Parse(typeof(MAV_MISSION_RESULT), ans.type.ToString()));
+                        // check this gcs sent it
+                        if (ans.target_system != gcssysid ||
+                            ans.target_component != (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                            continue;
+
+                        giveComport = false;
+                        return;// (MAV_MISSION_RESULT)ans.type;                        
                     }
                     else
                     {
