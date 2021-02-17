@@ -69,6 +69,7 @@
  * 2.48 - RSSI page now writes log to the user's documents folder, instead of the program folder, to prevent exception.  
  * 2.49 - Hardened up code to reduce crashes when switching between terminal, RSSI and settings pages.  
  * 2.50 - Added support for FSFRAMELOSS, GPI1_2AUXIN and GPO1_3AUXOUT parameters.  
+ * 2.51 - Fixed error message problem when used with multipoint firmware 2.90.  
  */
 
 using System;

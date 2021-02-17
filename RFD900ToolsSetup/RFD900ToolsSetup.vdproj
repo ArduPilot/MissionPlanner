@@ -352,7 +352,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RFD900Tools, Version=0.2.50.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:RFD900Tools, Version=0.2.51.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_187250387F8C41B79FF94F32E955C8A4"
@@ -1073,15 +1073,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RFD900 Tools"
-        "ProductCode" = "8:{467C1812-8FBD-404A-A1E3-CCFCD567EC1A}"
-        "PackageCode" = "8:{4E3158BE-E1C8-47A2-B91B-D435080AE644}"
+        "ProductCode" = "8:{7ABBAAD3-1622-47F1-8493-B17EC20C6D70}"
+        "PackageCode" = "8:{DE024214-F0BF-4EC4-B857-C7B47822B935}"
         "UpgradeCode" = "8:{5CF5324A-B273-4F09-80F8-04A7C58CA17F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.50.0"
+        "ProductVersion" = "8:2.51.0"
         "Manufacturer" = "8:RFDesign"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

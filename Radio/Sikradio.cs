@@ -1207,6 +1207,12 @@ S15: MAX_WINDOW=131
                     var freqstring = doCommand(Session.Port, "ATI3").Trim(); //Session.ATCClient.DoQuery("ATI3", true);// doCommand(Session.Port, "ATI3").Trim();
                     //System.Diagnostics.Debug.WriteLine(SW.ElapsedMilliseconds.ToString() + ":  Done ATI3 cmd");
 
+                    //Some multipoint firmware versions don't reply to ATI command with [n] at start of reply, but they do for ATI3 command, so check for [n] again...
+                    if (multipoint_fix < 0 && freqstring.StartsWith("["))
+                    {
+                        multipoint_fix = freqstring.IndexOf(']') + 1;
+                    }
+
                     if (multipoint_fix > 0)
                     {
                         freqstring = freqstring.Substring(multipoint_fix).Trim();
