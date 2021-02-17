@@ -314,7 +314,7 @@ namespace MissionPlanner.Controls
                             return;
                         }
 
-                        File.WriteAllBytes(sfd.FileName, ms.ToArray());
+                        File.WriteAllBytes(sfd.FileName, ms.GetBuffer().AsSpan(0, ms.Length));
 
                         prd.UpdateProgressAndStatus(-1, "Calc CRC");
                         uint crc = 0;
@@ -543,7 +543,7 @@ namespace MissionPlanner.Controls
                             return;
                         }
 
-                        File.WriteAllBytes(sfd.FileName, ms.GetBuffer());
+                        File.WriteAllBytes(sfd.FileName, ms.GetBuffer().AsSpan(0, ms.Length));
 
                         prd.UpdateProgressAndStatus(-1, "Calc CRC");
                         uint crc = 0;

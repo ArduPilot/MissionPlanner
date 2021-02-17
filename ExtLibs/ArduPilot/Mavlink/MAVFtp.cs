@@ -670,7 +670,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode + " " + file + " " + size);
             SortedList<uint, uint> chunkSortedList = new SortedList<uint, uint>();
-            MemoryStream answer = new MemoryStream();
+            MemoryStream answer = new MemoryStream(size);
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
                 if (cancel != null && cancel.IsCancellationRequested)
@@ -1323,7 +1323,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             };
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode + " " + file + " " + size);
-            MemoryStream answer = new MemoryStream();
+            MemoryStream answer = new MemoryStream(size);
             sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
                 if (cancel != null && cancel.IsCancellationRequested)
