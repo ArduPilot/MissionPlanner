@@ -1680,7 +1680,7 @@ namespace MissionPlanner
                             var paramfile = paramfileTask.Result;
                             if (paramfile != null && paramfile.Length > 0)
                             {
-                                var mavlist = parampck.unpack(paramfile.GetBuffer());
+                                var mavlist = parampck.unpack(paramfile.ToArray());
                                 if (mavlist != null)
                                 {
                                     comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();

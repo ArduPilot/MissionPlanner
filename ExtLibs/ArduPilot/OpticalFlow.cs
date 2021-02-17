@@ -91,7 +91,7 @@ namespace MissionPlanner.Utilities
                         if (imageBuffer.Length > msgDataTransmissionHandshake.size)
                             return true;
 
-                        var buffer = imageBuffer.GetBuffer();
+                        var buffer = imageBuffer.ToArray();
 
                         Marshal.Copy(buffer, 0, bitmapData.Scan0, buffer.Length);
                         bmp.UnlockBits(bitmapData);

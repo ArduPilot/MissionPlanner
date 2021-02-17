@@ -688,7 +688,7 @@ namespace MissionPlanner.Utilities
                             if (url.ToLower().Contains("hud"))
                             {
                                 GCSViews.FlightData.myhud.streamjpgenable = true;
-                                data = GCSViews.FlightData.myhud.streamjpg.GetBuffer();
+                                data = GCSViews.FlightData.myhud.streamjpg.ToArray();
                             }
                             else if (url.ToLower().Contains("map"))
                             {
@@ -709,7 +709,7 @@ namespace MissionPlanner.Utilities
 
                                 MemoryStream streamjpg = new MemoryStream();
                                 imgout.Save(streamjpg, System.Drawing.Imaging.ImageFormat.Jpeg);
-                                data = streamjpg.GetBuffer();
+                                data = streamjpg.ToArray();
                             }
 
                             header = "Content-Type: image/jpeg\r\nContent-Length: " + data.Length + "\r\n\r\n";
@@ -1191,7 +1191,7 @@ namespace MissionPlanner.Utilities
             {
                 img.Save(streamjpg, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-                byte[] data = streamjpg.GetBuffer();
+                byte[] data = streamjpg.ToArray();
 
                 return data;
             }

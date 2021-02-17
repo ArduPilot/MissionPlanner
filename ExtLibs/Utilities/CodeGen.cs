@@ -57,7 +57,7 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    return Assembly.Load(dllStream.GetBuffer(), pdbStream.GetBuffer());
+                    return Assembly.Load(dllStream.ToArray(), pdbStream.ToArray());
                 }
 
                 return null;
