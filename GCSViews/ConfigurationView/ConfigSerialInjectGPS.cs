@@ -169,11 +169,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                    });
 
                 // we need to remove ctls for this system
-                while (ctls.Invoke(obs[0].sys).Count() > obs.Count)
+                //while (ctls.Invoke(obs[0].sys).Count() > obs.Count)
                {
-                   var list = ctls.Invoke(obs[0].sys);
-                   panel1.Controls.Remove(list.First());
+                   //var list = ctls.Invoke(obs[0].sys);
+                   //panel1.Controls.Remove(list.First());
                }
+
+               ctls.Invoke(obs[0].sys).ForEach((vp) => vp.Value = 0);
 
                int width = panel1.Width / panel1.Controls.OfType<VerticalProgressBar2>().Count();
 
