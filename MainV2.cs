@@ -36,6 +36,7 @@ using MissionPlanner.Utilities.HW;
 using Transitions;
 using System.Linq;
 using MissionPlanner.Joystick;
+using System.Net;
 
 namespace MissionPlanner
 {
@@ -3359,7 +3360,65 @@ namespace MissionPlanner
 
             try
             {
+                object locker = new object();
+                List<string> seen = new List<string>();
+
+                ZeroConf.StartUDPMavlink += (zeroconfHost) =>
+                 {
+                     try
+                     {
+                         var ip = zeroconfHost.IPAddress;
+                         var service = zeroconfHost.Services.Where(a => a.Key == "_mavlink._udp.local.");
+                         var port = service.First().Value.Port;
+
+                         lock (locker)
+                         {
+                             if (Comports.Any((a) =>
+                             {
+                                 return a.BaseStream.PortName == "UDPCl" + port.ToString();
+                             }))
+                                 return;
+
+                             if (seen.Contains(zeroconfHost.Id))
+                                 return;
+
+                             if (CustomMessageBox.Show(
+                       "A Mavlink stream has been detected, " + zeroconfHost.DisplayName + "(" + zeroconfHost.Id + "). Would you like to connect to it?",
+                       "Mavlink", System.Windows.Forms.MessageBoxButtons.YesNo) ==
+                   (int)System.Windows.Forms.DialogResult.Yes)
+                             {
+                                 var mav = new MAVLinkInterface();
+
+                                 var udc = new UdpSerialConnect();
+                                 udc.Port = port.ToString();
+                                 udc.client = new UdpClient(ip, port);
+                                 udc.IsOpen = true;
+                                 udc.hostEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+                                 mav.BaseStream = udc;
+
+                                 MainV2.instance.Invoke((Action)delegate
+                                 {
+                                     MainV2.instance.doConnect(mav, "preset", port.ToString());
+
+                                     MainV2.Comports.Add(mav);
+
+                                     MainV2._connectionControl.UpdateSysIDS();
+                                 });
+
+                             } 
+                             // add to seen list, so we skip on next refresh
+                             seen.Add(zeroconfHost.Id);
+                         }
+                     }
+                     catch (Exception ex)
+                     {
+
+                     }
+                 };
+
                 ZeroConf.EnumerateAllServicesFromAllHosts().ContinueWith(a => ZeroConf.ProbeForRTSP());
+
+                ZeroConf.EnumerateAllServicesFromAllHosts().ContinueWith(a => ZeroConf.ProbeForMavlink());
             }
             catch
             {
