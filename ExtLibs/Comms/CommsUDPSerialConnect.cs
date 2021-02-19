@@ -21,7 +21,7 @@ namespace MissionPlanner.Comms
         public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
         private int retrys = 3;
-        private IPEndPoint hostEndPoint;
+        public IPEndPoint hostEndPoint;
 
         public string ConfigRef { get; set; } = "";
 
