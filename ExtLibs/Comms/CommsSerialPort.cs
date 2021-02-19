@@ -496,7 +496,6 @@ namespace MissionPlanner.Comms
             try
             {
                 base.Open();
-                base.WriteTimeout = -1;
             }
             catch
             {
