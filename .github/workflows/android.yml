@@ -40,6 +40,7 @@ jobs:
           
           mkdir whatsnew
           git log --pretty=oneline --abbrev-commit -10 > whatsnew\whatsnew-en-US
+          git log --pretty=oneline --abbrev-commit -10 > whatsnew\whatsnew-en-GB
 
       - name: Sign AAB
         id: sign
