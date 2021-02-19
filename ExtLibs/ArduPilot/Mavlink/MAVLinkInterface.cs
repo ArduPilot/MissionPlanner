@@ -934,6 +934,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         public async Task<MAVLinkMessage> getHeartBeatAsync()
         {
             giveComport = true;
+
+            sendPacket(new MAVLink.mavlink_heartbeat_t()
+            {
+                type = (byte)MAVLink.MAV_TYPE.GCS,
+                autopilot = (byte)MAVLink.MAV_AUTOPILOT.INVALID,
+                mavlink_version = 3 // MAVLink.MAVLINK_VERSION
+            }, gcssysid, 190);
+
             DateTime start = DateTime.Now;
             int readcount = 0;
             while (true)
