@@ -97,6 +97,17 @@ namespace MissionPlanner.Utilities
             set { this["APMFirmware"] = value; }
         }
 
+        public string GetString(string key, string @default = "")
+        {
+            string result = @default;
+            string value;
+            if (config.TryGetValue(key, out value))
+            {
+                result = value;
+            }
+            return result;
+        }
+
         public string BaudRate
         {
             get

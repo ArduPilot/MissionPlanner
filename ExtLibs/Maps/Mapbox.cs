@@ -11,6 +11,7 @@ namespace MissionPlanner.Maps
     using GMap.NET.MapProviders;
     using GMap.NET;
     using System.Reflection;
+    using MissionPlanner.Utilities;
 
     /// <summary>
     /// EarthBuilder Custom
@@ -89,9 +90,7 @@ namespace MissionPlanner.Maps
 
         public static string CustomURL = "http://a.tiles.mapbox.com/v4/{3}/{2}/{0}/{1}.png?access_token={4}";
 
-        public object mapsource = "mapbox.satellite";//"digitalglobe.nmghof7o";
-        public object mapkey = "pk.eyJ1IjoibWVlZSIsImEiOiJoeHpwNzJFIn0.BHJ74PT22hTY4ivnpPZEQA";
-
-        //"pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpampsZ3JtbTAyejV0aG01bW5temdvYmIifQ.Q8pQPkSL9r_f7sOuAnkIBA";
+        public object mapsource = "mapbox.satellite";
+        public object mapkey = Settings.Instance.GetString("MapBoxAPIKey");
     }
 }
