@@ -396,6 +396,7 @@ namespace MissionPlanner.Utilities
                             {
                                 log.Info("Getting " + filename);
                                 queue.Add(filename);
+                                requestSemaphore.Release();
                             }
                         }
 
@@ -540,6 +541,8 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        static SemaphoreSlim requestSemaphore = new SemaphoreSlim(1);
+
         static async void requestRunner()
         {
             log.Info("requestRunner start");
@@ -550,6 +553,8 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    await requestSemaphore.WaitAsync(30000);
+
                     string item = "";
                     lock (objlock)
                     {
@@ -566,6 +571,12 @@ namespace MissionPlanner.Utilities
                         lock (objlock)
                         {
                             queue.Remove(item);
+
+                            // continue without delay
+                            if (queue.Count > 0)
+                            {
+                                requestSemaphore.Release();
+                            }
                         }
                     }
                 }
@@ -574,6 +585,7 @@ namespace MissionPlanner.Utilities
                     log.Error(ex);
                 }
 
+                // never more than 1/s
                 await Task.Delay(1000);
             }
         }
