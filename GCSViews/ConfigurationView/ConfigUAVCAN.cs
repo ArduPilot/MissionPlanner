@@ -330,7 +330,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void FirmwareUpdate(byte nodeID)
+        private void FirmwareUpdate(byte nodeID, bool beta = false)
         {
             ProgressReporterDialogue prd = new ProgressReporterDialogue();
             uavcan.FileSendProgressArgs filesend = (id, file, percent) =>
@@ -347,15 +347,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (CustomMessageBox.Show("Do you want to search the internet for an update?", "Update",
                 CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
             {
-                var usebeta = false;
-
-                if (CustomMessageBox.Show("Do you want to search for a beta firmware? (not recommended)", "Update",
-                    CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
-                {
-                    usebeta = true;
-                }
-
-                var url = can.LookForUpdate(devicename, hwversion, usebeta);
+                var url = can.LookForUpdate(devicename, hwversion, beta);
 
                 if (url != string.Empty)
                 {
@@ -673,6 +665,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void menu_restart_Click(object sender, EventArgs e)
         {
             can.RestartNode(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()));
+        }
+
+        private void menu_updatebeta_Click(object sender, EventArgs e)
+        {
+            FirmwareUpdate(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()), true);
         }
     }
 }
