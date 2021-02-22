@@ -2258,8 +2258,15 @@ namespace MissionPlanner
                             }
                             else
                             {
-                                armed = (hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) ==
+                                var newarmed = (hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) ==
                                         (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
+
+                                // reset state on armed state change
+                                if(armed == false && newarmed == true)
+                                {
+                                    timeSinceArmInAir = 0;
+                                    armed = newarmed;
+                                }
 
                                 // saftey switch
                                 if (armed && sensors_enabled.motor_control == false && sensors_enabled.seen)
@@ -3329,10 +3336,6 @@ namespace MissionPlanner
                             timeInAir++;
                             timeSinceArmInAir++;
                         }
-
-                        // to maintain total timeinair for this session not just based on arming
-                        if (!armed)
-                            timeSinceArmInAir = 0;
 
                         if (!gotwind)
                             dowindcalc();
