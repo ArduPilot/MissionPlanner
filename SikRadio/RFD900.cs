@@ -1847,38 +1847,37 @@ namespace RFD.RFD900
         }
 
         /// <summary>
-        /// Returns null if no country code detected.
+        /// Gets remote country code.
         /// </summary>
-        /// <param name="ATIResponse"></param>
         /// <returns></returns>
-        public static string GetCountryCodeFromATIResponse(string ATIResponse)
+        public TCountry GetRemoteCountryCode()
         {
-            //It's locked to a country if the string has a dash and letters tacked onto the end of it.
-            if (ATIResponse.Contains("-"))
-            {
-                string[] ByDash = ATIResponse.Split('-');
-                string CountryCode = ByDash[ByDash.Length - 1];
-                if (CountryCode.Length >= 2)
-                {
-                    if (GetIsLetter(CountryCode[0]) && GetIsLetter(CountryCode[1]))
-                    {
-                        return CountryCode;
-                    }
-                }
-            }
+            return GetCountryCode("R");
+        }
 
-            return null;
+        TCountry GetCountryCode(string AorR)
+        {
+            string Reply = _Session.ATCClient.DoQuery(AorR + "T+C32?", true);
+
+            int CCInt;
+
+            if (int.TryParse(Reply, out CCInt))
+            {
+                return (TCountry)CCInt;
+            }
+            else
+            {
+                return TCountry.NONE;
+            }
         }
 
         /// <summary>
-        /// Assumes in AT command mode already.  Returns null if no country code detected.
+        /// Gets local country code.  Assumes in AT command mode already.  Returns null if no country code detected.
         /// </summary>
         /// <returns></returns>
-        public string GetCountryCode()
+        public TCountry GetCountryCode()
         {
-            string Reply = _Session.ATCClient.DoQuery("ATI", true);
-
-            return GetCountryCodeFromATIResponse(Reply);
+            return GetCountryCode("A");
         }
 
         /// <summary>
@@ -1887,7 +1886,7 @@ namespace RFD.RFD900
         /// <returns></returns>
         bool GetIsThisLockedToCountry()
         {
-            return GetCountryCode() != null;
+            return GetCountryCode() != TCountry.NONE;
         }
 
         /// <summary>

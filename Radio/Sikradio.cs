@@ -1141,6 +1141,29 @@ S15: MAX_WINDOW=131
         }
 
         /// <summary>
+        /// Get the country code from the modem as a string, or "--" if unknown or not locked to country.
+        /// </summary>
+        /// <param name="Session">The session.  Must not be null.</param>
+        /// <param name="GetCC">The function to get the country code, given the modem object.  Must not be null.</param>
+        /// <returns>The country code string.</returns>
+        string GetCountryCodeFromSession(RFD.RFD900.TSession Session, 
+            Func<RFD.RFD900.RFD900xux, RFD.RFD900.RFD900xux.TCountry> GetCC)
+        {
+            RFD.RFD900.RFD900xux.TCountry CC;
+            var Mdm = Session.GetModemObject();
+
+            if (Mdm == null || !(Mdm is RFD.RFD900.RFD900xux) ||
+                ((CC = GetCC((RFD.RFD900.RFD900xux)Mdm)) == RFD.RFD900.RFD900xux.TCountry.NONE))
+            {
+                return "--";
+            }
+            else
+            {
+                return CC.ToString();
+            }
+        }
+
+        /// <summary>
         /// Load settings button evt hdlr
         /// </summary>
         /// <param name="sender"></param>
@@ -1246,27 +1269,8 @@ S15: MAX_WINDOW=131
                             Enum.Parse(typeof (Uploader.Board),
                                 int.Parse(boardstring.ToLower().Replace("x", ""), style).ToString());
 
-                    switch (Session.Board)
-                    {
-                        case Uploader.Board.DEVICE_ID_RFD900UX:
-                        case Uploader.Board.DEVICE_ID_RFD900X:
-                            {
-                                string CC = RFD.RFD900.RFD900ux.GetCountryCodeFromATIResponse(ati_str);
-                                if (CC == null)
-                                {
-                                    txtCountry.Text = "--";
-                                }
-                                else
-                                {
-                                    txtCountry.Text = CC;
-                                }
-                            }
-                            break;
-                        default:
-                            txtCountry.Text = "--";
-                            break;
-                    }
-
+                    txtCountry.Text = GetCountryCodeFromSession(Session,
+                                    (m) => m.GetCountryCode());
 
                     ATI2.Text = Session.Board.ToString();
 
@@ -1455,26 +1459,11 @@ S15: MAX_WINDOW=131
                     else
                     {
                         RTI.Text = RTIText;
-                    }
+                    }          
 
                     string RemoteFWVer = RFD.RFD900.RFD900.ATIResponseToFWVersion(RTI.Text);
 
-                    if (RFDLib.Text.Contains(RTI.Text, "900X") || RFDLib.Text.Contains(RTI.Text, "900UX"))
-                    {
-                        string CC = RFD.RFD900.RFD900ux.GetCountryCodeFromATIResponse(RTI.Text);
-                        if (CC == null)
-                        {
-                            txtRCountry.Text = "--";
-                        }
-                        else
-                        {
-                            txtRCountry.Text = CC;
-                        }
-                    }
-                    else
-                    {
-                        txtRCountry.Text = "--";
-                    }
+                    txtRCountry.Text = GetCountryCodeFromSession(Session, (m) => m.GetRemoteCountryCode());
 
                     if (RTI.Text != "")
                     {
