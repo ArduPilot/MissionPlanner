@@ -47,6 +47,7 @@ namespace MissionPlanner.GCSViews
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_heading = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.chk_skipdownload = new System.Windows.Forms.CheckBox();
             this.but_swarmseq = new MissionPlanner.Controls.MyButton();
             this.but_swarmlink = new MissionPlanner.Controls.MyButton();
             this.chk_wipe = new System.Windows.Forms.CheckBox();
@@ -210,6 +211,7 @@ namespace MissionPlanner.GCSViews
             // groupBox4
             // 
             resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.chk_skipdownload);
             this.groupBox4.Controls.Add(this.but_swarmseq);
             this.groupBox4.Controls.Add(this.but_swarmlink);
             this.groupBox4.Controls.Add(this.chk_wipe);
@@ -221,6 +223,12 @@ namespace MissionPlanner.GCSViews
             this.groupBox4.Controls.Add(this.num_simspeed);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // chk_skipdownload
+            // 
+            resources.ApplyResources(this.chk_skipdownload, "chk_skipdownload");
+            this.chk_skipdownload.Name = "chk_skipdownload";
+            this.chk_skipdownload.UseVisualStyleBackColor = true;
             // 
             // but_swarmseq
             // 
@@ -370,5 +378,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.CheckBox chk_wipe;
         private MyButton but_swarmseq;
         private MyButton but_swarmlink;
+        private System.Windows.Forms.CheckBox chk_skipdownload;
     }
 }
