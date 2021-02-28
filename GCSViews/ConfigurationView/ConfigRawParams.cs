@@ -104,9 +104,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_load_Click(object sender, EventArgs e)
         {
-
-            CustomMessageBox.Show("Are you sure?", "caption", CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Exclamation, "Ya", "Nope", "Do for all?");
-
             using (var ofd = new OpenFileDialog
             {
                 AddExtension = true,
