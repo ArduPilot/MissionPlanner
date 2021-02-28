@@ -34,6 +34,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // ?
         internal bool startup = true;
 
+        private static DialogResult _lastOutOfRangeResult = DialogResult.None;
+        private static bool _suppressOutOfRangeWarning = false;
+        private static bool _suppressReadOnlyWarning = false;
+
         public ConfigRawParams()
         {
             InitializeComponent();
@@ -44,6 +48,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
 
             _changes.Clear();
+
+            _suppressOutOfRangeWarning = false;
+            _suppressReadOnlyWarning = false;
 
             BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
@@ -97,6 +104,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_load_Click(object sender, EventArgs e)
         {
+
+            CustomMessageBox.Show("Are you sure?", "caption", CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Exclamation, "Ya", "Nope", "Do for all?");
+
             using (var ofd = new OpenFileDialog
             {
                 AddExtension = true,
@@ -389,10 +399,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var readonly2 = bool.Parse(readonly1);
                     if (readonly2)
                     {
-                        CustomMessageBox.Show(
-                            Params[Command.Index, e.RowIndex].Value +
-                            " is marked as ReadOnly, and will not be changed", "ReadOnly",
-                            MessageBoxButtons.OK);
+                        if (!_suppressReadOnlyWarning)
+                        {
+                            CustomMessageBox.Show(
+                                    Params[Command.Index, e.RowIndex].Value +
+                                    " is marked as ReadOnly, and will not be changed", "ReadOnly",
+                                    CustomMessageBox.MessageBoxButtons.OK, DoThisForAllText: "Ok to all");
+
+                            _suppressReadOnlyWarning = MissionPlanner.MsgBox.CustomMessageBox.DoThisForAll;
+                        }
                         Params.CellValueChanged -= Params_CellValueChanged;
                         Params[e.ColumnIndex, e.RowIndex].Value = cellEditValue;
                         Params.CellValueChanged += Params_CellValueChanged;
@@ -405,11 +420,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     if (newvalue > max || newvalue < min)
                     {
-                        if (
-                            CustomMessageBox.Show(
+                        if (!_suppressOutOfRangeWarning)
+                        {
+                            _lastOutOfRangeResult = (DialogResult)CustomMessageBox.Show(
                                 Params[Command.Index, e.RowIndex].Value +
                                 " value is out of range. Do you want to continue?", "Out of range",
-                                MessageBoxButtons.YesNo) == (int)DialogResult.No)
+                                CustomMessageBox.MessageBoxButtons.YesNo, DoThisForAllText: "Do this for all items?");
+
+                            _suppressOutOfRangeWarning = MissionPlanner.MsgBox.CustomMessageBox.DoThisForAll;
+                        }
+                        
+                        if (_lastOutOfRangeResult == DialogResult.No)
                         {
                             Params.CellValueChanged -= Params_CellValueChanged;
                             Params[e.ColumnIndex, e.RowIndex].Value = cellEditValue;
