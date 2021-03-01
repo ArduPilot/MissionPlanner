@@ -491,7 +491,7 @@ namespace MissionPlanner.Controls
 
                 if (offline && !set)
                 {
-                    set = true;                    
+                    set = true;
                 }
 
                 if (set)
@@ -507,12 +507,9 @@ namespace MissionPlanner.Controls
 
             if (missed > 0)
             {
-                string list = "";
-                foreach (var item in missing)
-                {
-                    list += item + " ";
-                }
-                CustomMessageBox.Show("Missing " + missed + " params\n" + list, "No matching Params", MessageBoxButtons.OK);
+                var missingMessage = Common.getMissingParamsMessage(missed, missing);
+
+                CustomMessageBox.Show(missingMessage, "No matching Params", MessageBoxButtons.OK);
             }
         }
         private void OnParamsOnSortCompare(object sender, DataGridViewSortCompareEventArgs args)

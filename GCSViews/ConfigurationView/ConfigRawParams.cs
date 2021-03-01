@@ -104,6 +104,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_load_Click(object sender, EventArgs e)
         {
+            //clear suppress flags
+            _suppressOutOfRangeWarning = false;
+            _suppressReadOnlyWarning = false;
+
             using (var ofd = new OpenFileDialog
             {
                 AddExtension = true,
@@ -121,82 +125,87 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (!MainV2.comPort.BaseStream.IsOpen)
                         Activate();
                 }
-            }
+            }            
         }
 
         private void loadparamsfromfile(string fn, bool offline = false)
         {
-            var param2 = ParamFile.loadParamFile(fn);
-
-            var loaded = 0;
-            var missed = 0;
-            List<string> missing = new List<string>();
-
-            foreach (string name in param2.Keys)
+            try
             {
-                var set = false;
-                var value = param2[name].ToString();
-                // set param table as well
-                foreach (DataGridViewRow row in Params.Rows)
+                var param2 = ParamFile.loadParamFile(fn);
+
+                var loaded = 0;
+                var missed = 0;
+                List<string> missing = new List<string>();
+
+                foreach (string name in param2.Keys)
                 {
-                    if (name == "SYSID_SW_MREV")
-                        continue;
-                    if (name == "WP_TOTAL")
-                        continue;
-                    if (name == "CMD_TOTAL")
-                        continue;
-                    if (name == "FENCE_TOTAL")
-                        continue;
-                    if (name == "SYS_NUM_RESETS")
-                        continue;
-                    if (name == "ARSPD_OFFSET")
-                        continue;
-                    if (name == "GND_ABS_PRESS")
-                        continue;
-                    if (name == "GND_TEMP")
-                        continue;
-                    if (name == "CMD_INDEX")
-                        continue;
-                    if (name == "LOG_LASTFILE")
-                        continue;
-                    if (name == "FORMAT_VERSION")
-                        continue;
-                    if (row.Cells[0].Value != null && row.Cells[0].Value?.ToString() == name)
+                    var set = false;
+                    var value = param2[name].ToString();
+                    // set param table as well
+                    foreach (DataGridViewRow row in Params.Rows)
+                    {
+                        if (name == "SYSID_SW_MREV")
+                            continue;
+                        if (name == "WP_TOTAL")
+                            continue;
+                        if (name == "CMD_TOTAL")
+                            continue;
+                        if (name == "FENCE_TOTAL")
+                            continue;
+                        if (name == "SYS_NUM_RESETS")
+                            continue;
+                        if (name == "ARSPD_OFFSET")
+                            continue;
+                        if (name == "GND_ABS_PRESS")
+                            continue;
+                        if (name == "GND_TEMP")
+                            continue;
+                        if (name == "CMD_INDEX")
+                            continue;
+                        if (name == "LOG_LASTFILE")
+                            continue;
+                        if (name == "FORMAT_VERSION")
+                            continue;
+                        if (row.Cells[0].Value != null && row.Cells[0].Value?.ToString() == name)
+                        {
+                            set = true;
+                            if (row.Cells[1].Value != null && row.Cells[1].Value.ToString() != value)
+                                row.Cells[1].Value = value;
+                            break;
+                        }
+                    }
+
+                    if (offline && !set)
                     {
                         set = true;
-                        if (row.Cells[1].Value.ToString() != value)
-                            row.Cells[1].Value = value;
-                        break;
+                        MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value, CultureInfo.InvariantCulture),
+                            MAVLink.MAV_PARAM_TYPE.REAL32));
+                    }
+
+                    if (set)
+                    {
+                        loaded++;
+                    }
+                    else
+                    {
+                        missed++;
+                        missing.Add(name);
                     }
                 }
 
-                if (offline && !set)
+                if (missed > 0)
                 {
-                    set = true;
-                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value, CultureInfo.InvariantCulture),
-                        MAVLink.MAV_PARAM_TYPE.REAL32));
-                }
-
-                if (set)
-                {
-                    loaded++;
-                }
-                else
-                {
-                    missed++;
-                    missing.Add(name);
+                    var missingMessage = Common.getMissingParamsMessage(missed, missing);
+                    CustomMessageBox.Show(missingMessage, "No matching Params", MessageBoxButtons.OK);
                 }
             }
-
-            if (missed > 0)
+            catch (Exception ex)
             {
-                string list = "";
-                foreach (var item in missing)
-                {
-                    list += item + " ";
-                }
-                CustomMessageBox.Show("Missing " + missed + " params\n" + list, "No matching Params", MessageBoxButtons.OK);
+                log.Error("Exception loading params from file", ex);
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
             }
+
         }
 
         private void BUT_save_Click(object sender, EventArgs e)

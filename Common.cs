@@ -6,6 +6,7 @@ using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -236,6 +237,20 @@ namespace MissionPlanner
         static void chk_CheckStateChanged(object sender, EventArgs e)
         {
             Settings.Instance[(string)((CheckBox)(sender)).Tag] = ((CheckBox)(sender)).Checked.ToString();
+        }
+
+        public static string getMissingParamsMessage(int missed, System.Collections.Generic.List<string> missing, int maxItems = 25)
+        {
+            string list = "Missing " + missed + " params\n";
+
+            foreach (var item in missing.Take(maxItems))
+            {
+                list += item + "\n";
+            }
+            if (missing.Count > 25)
+                list += "(and " + (missing.Count - 25) + " more).";
+
+            return list;
         }
     }
 }

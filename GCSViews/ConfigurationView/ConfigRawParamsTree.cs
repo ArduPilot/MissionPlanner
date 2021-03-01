@@ -48,6 +48,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             _changes.Clear();
 
+            _suppressOutOfRangeWarning = false;
+            _suppressReadOnlyWarning = false;
+
             BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_reset_params.Enabled = MainV2.comPort.BaseStream.IsOpen;
@@ -101,6 +104,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_load_Click(object sender, EventArgs e)
         {
+            //clear suppress flags
+            _suppressOutOfRangeWarning = false;
+            _suppressReadOnlyWarning = false;
+
             using (var ofd = new OpenFileDialog
             {
                 AddExtension = true,
@@ -123,19 +130,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void loadparamsfromfile(string fn, bool offline = false)
         {
-            var param2 = ParamFile.loadParamFile(fn);
-
-            foreach (string name in param2.Keys)
+            try
             {
-                var value = param2[name].ToString();
+                var param2 = ParamFile.loadParamFile(fn);
 
-                if (offline)
+                foreach (string name in param2.Keys)
                 {
-                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value),
-                        MAVLink.MAV_PARAM_TYPE.REAL32));
-                }
+                    var value = param2[name].ToString();
 
-                checkandupdateparam(name, value);
+                    if (offline)
+                    {
+                        MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value),
+                            MAVLink.MAV_PARAM_TYPE.REAL32));
+                    }
+
+                    checkandupdateparam(name, value);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Exception loading params from file", ex);
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
             }
         }
 
@@ -674,7 +689,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             _lastOutOfRangeResult = (DialogResult)CustomMessageBox.Show(
                                 ((data)e.RowObject).paramname + " value is out of range. Do you want to continue?",
-                                "Out of range", MessageBoxButtons.YesNo);
+                                "Out of range", CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.None, DoThisForAllText: "Do this for all items?");
 
                             _suppressOutOfRangeWarning = MissionPlanner.MsgBox.CustomMessageBox.DoThisForAll;
                         }
