@@ -33,6 +33,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // ?
         internal bool startup = true;
 
+        private static DialogResult _lastOutOfRangeResult = DialogResult.None;
+        private static bool _suppressOutOfRangeWarning = false;
+        private static bool _suppressReadOnlyWarning = false;
+
         public ConfigRawParamsTree()
         {
             InitializeComponent();
@@ -640,15 +644,42 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 }
 
+                var readonly1 = ParameterMetaDataRepository.GetParameterMetaData(((data)e.RowObject).paramname,
+                    ParameterMetaDataConstants.ReadOnly, MainV2.comPort.MAV.cs.firmware.ToString());
+
+                if (!String.IsNullOrEmpty(readonly1))
+                {
+                    var readonly2 = bool.Parse(readonly1);
+                    if (readonly2)
+                    {
+                        if (!_suppressReadOnlyWarning)
+                        {
+                            CustomMessageBox.Show(
+                                    ((data)e.RowObject).paramname + " is marked as ReadOnly, and will not be changed", "ReadOnly",
+                                    CustomMessageBox.MessageBoxButtons.OK, DoThisForAllText: "Ok to all");
+
+                            _suppressReadOnlyWarning = MissionPlanner.MsgBox.CustomMessageBox.DoThisForAll;
+                        }
+                        e.Cancel = true;
+                        return;
+                    }
+                }
+
                 if (ParameterMetaDataRepository.GetParameterRange(((data)e.RowObject).paramname, ref min, ref max,
                     MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
                     if (newvalue > max || newvalue < min)
                     {
-                        if (
-                            CustomMessageBox.Show(
+                        if (!_suppressOutOfRangeWarning)
+                        {
+                            _lastOutOfRangeResult = (DialogResult)CustomMessageBox.Show(
                                 ((data)e.RowObject).paramname + " value is out of range. Do you want to continue?",
-                                "Out of range", MessageBoxButtons.YesNo) == (int)DialogResult.No)
+                                "Out of range", MessageBoxButtons.YesNo);
+
+                            _suppressOutOfRangeWarning = MissionPlanner.MsgBox.CustomMessageBox.DoThisForAll;
+                        }
+
+                        if (_lastOutOfRangeResult == DialogResult.No)
                         {
                             e.Cancel = true;
                             return;
