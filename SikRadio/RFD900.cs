@@ -2176,16 +2176,14 @@ namespace RFD.RFD900
         {
             string Raw = base.DoQuery(Command, WaitForTerminator);
 
-            if (Raw.StartsWith("[") && Raw.Contains("]"))
+            if (Raw.StartsWith("[") && Raw.Contains("]") && ((Raw.IndexOf(']') + 1) < Raw.Length))
             {
-                string[] Parts = Raw.Split(']');
-                if (Parts.Length >= 2)
-                {
-                    return Parts[1];
-                }
+                return Raw.Substring(Raw.IndexOf(']') + 1);
             }
-
-            return Raw;
+            else
+            {
+                return Raw;
+            }
         }
     }
 }

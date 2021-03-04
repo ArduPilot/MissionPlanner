@@ -71,6 +71,7 @@
  * 2.50 - Added support for FSFRAMELOSS, GPI1_2AUXIN and GPO1_3AUXOUT parameters.  
  * 2.51 - Fixed error message problem when used with multipoint firmware 2.90.  
  * 2.52 - Now uses a more reliable means of reading country code from modems than looking at the string returned by ATI command.  
+ * 2.53 - For multipoint firmware, made 255 available as an option for destination node ID.
  */
 
 using System;
