@@ -103,6 +103,11 @@ namespace System.Drawing
         {
         }
 
+        ~Image()
+        {
+             Dispose();
+        }
+
         protected Image(SerializationInfo info, StreamingContext context)
         {
             nativeSkBitmap = FromStream(new MemoryStream((byte[]) info.GetValue("Data", typeof(byte[]))))
@@ -148,7 +153,14 @@ namespace System.Drawing
 
         public void Dispose()
         {
-            nativeSkBitmap?.Dispose();
+            try
+            {
+               // nativeSkBitmap?.Dispose();
+                nativeSkBitmap = null;
+            }
+            catch
+            {
+            }
         }
 
         public void RotateFlip(RotateFlipType rotateNoneFlipY)
