@@ -631,7 +631,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 try
                 {
-                    newvalue = float.Parse(e.NewValue.ToString());
+                    newvalue = float.Parse(e.NewValue.ToString().Replace(',','.'), CultureInfo.InvariantCulture);
                 }
                 catch
                 {
