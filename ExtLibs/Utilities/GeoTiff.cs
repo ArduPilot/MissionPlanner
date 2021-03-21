@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GMap.NET;
 using log4net;
+using System.Runtime.Caching;
 
 namespace MissionPlanner.Utilities
 {
@@ -107,6 +108,8 @@ namespace MissionPlanner.Utilities
                     width = tiff.GetField(TiffTag.IMAGEWIDTH)[0].ToInt();
                     height = tiff.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
                     bits = tiff.GetField(TiffTag.BITSPERSAMPLE)[0].ToInt();
+                    //https://www.awaresystems.be/imaging/tiff/tifftags/sampleformat.html
+                    type = tiff.GetField(TiffTag.SAMPLEFORMAT)[0].ToInt();
 
                     var modelscale = tiff.GetField(TiffTag.GEOTIFF_MODELPIXELSCALETAG);
                     var tiepoint = tiff.GetField(TiffTag.GEOTIFF_MODELTIEPOINTTAG);
@@ -249,7 +252,7 @@ namespace MissionPlanner.Utilities
                 get
                 {
                     if (size == -1) size = new FileInfo(FileName).Length;
-                    return size < 1024 * 1024 * 1000;
+                    return size < 1024 * 1024 * 200;
                 }
             }
 
@@ -257,6 +260,7 @@ namespace MissionPlanner.Utilities
             public int width;
             public int height;
             public int bits;
+            public int type;
             public RectLatLng Area;
             public double i;
             public double j;
@@ -364,7 +368,15 @@ namespace MissionPlanner.Utilities
                                                             (short) ((buf[row * tileWidth * 2 + col * 2 + 1] << 8) +
                                                                      buf[row * tileWidth * 2 + col * 2]);
                                                     }
-                                                    else if (geotiffdata.bits == 32)
+                                                    else if (geotiffdata.bits == 32 && geotiffdata.type == 1)
+                                                    {
+                                                        altdata[y + row, x + col] = BitConverter.ToUInt32(buf, y * 4);
+                                                    }
+                                                    else if (geotiffdata.bits == 32 && geotiffdata.type == 2)
+                                                    {
+                                                        altdata[y + row, x + col] = BitConverter.ToInt32(buf, y * 4);
+                                                    }
+                                                    else if (geotiffdata.bits == 32 && geotiffdata.type == 3)
                                                     {
                                                         altdata[y + row, x + col] =
                                                             (float) BitConverter.ToSingle(buf,
@@ -391,7 +403,15 @@ namespace MissionPlanner.Utilities
                                                 altdata[row, col] =
                                                     (short) ((scanline[col * 2 + 1] << 8) + scanline[col * 2]);
                                             }
-                                            else if (geotiffdata.bits == 32)
+                                            else if (geotiffdata.bits == 32 && geotiffdata.type == 1)
+                                            {
+                                                altdata[row, col] = BitConverter.ToUInt32(scanline, col * 4);
+                                            }
+                                            else if (geotiffdata.bits == 32 && geotiffdata.type == 2)
+                                            {
+                                                altdata[row, col] = BitConverter.ToInt32(scanline, col * 4);
+                                            }
+                                            else if (geotiffdata.bits == 32 && geotiffdata.type == 3)
                                             {
                                                 altdata[row, col] = (float) BitConverter.ToSingle(scanline, col * 4);
                                             }
@@ -450,23 +470,34 @@ namespace MissionPlanner.Utilities
 
         private static double GetAltNoCache(geotiffdata geotiffdata, int x, int y)
         {
-            using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
+            ObjectCache cache = MemoryCache.Default;
+            byte[] scanline = cache[geotiffdata.FileName + x.ToString()] as byte[];
+            if (scanline == null)
             {
-                byte[] scanline = new byte[tiff.ScanlineSize()];
-
-                for (int row = 0; row < geotiffdata.height; row++)
+                using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
                 {
-                    tiff.ReadScanline(scanline, x);
+                    scanline = new byte[tiff.ScanlineSize()];
 
-                    if (geotiffdata.bits == 16)
-                    {
-                        return (short)((scanline[y * 2 + 1] << 8) + scanline[y * 2]);
-                    }
-                    else if (geotiffdata.bits == 32)
-                    {
-                        return BitConverter.ToSingle(scanline, y * 4);
-                    }
+                    tiff.ReadScanline(scanline, x);
+                    cache[geotiffdata.FileName + x.ToString()] = scanline;
                 }
+            }
+
+            if (geotiffdata.bits == 16)
+            {
+                return (short)((scanline[y * 2 + 1] << 8) + scanline[y * 2]);
+            }
+            else if (geotiffdata.bits == 32 && geotiffdata.type == 1)
+            {
+                return BitConverter.ToUInt32(scanline, y * 4);
+            }
+            else if (geotiffdata.bits == 32 && geotiffdata.type == 2)
+            {
+                return BitConverter.ToInt32(scanline, y * 4);
+            }
+            else if (geotiffdata.bits == 32 && geotiffdata.type == 3)
+            {
+                return BitConverter.ToSingle(scanline, y * 4);
             }
 
             throw new Exception("GetAltNoCache: Invalid geotiff coord");
