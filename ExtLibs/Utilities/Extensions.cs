@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using K4os.Compression.LZ4;
 using MissionPlanner.Comms;
 using Newtonsoft.Json;
 
@@ -581,6 +583,16 @@ namespace MissionPlanner.Utilities
                 else vals.Push(Double.Parse(s));
             }
             return vals.Pop();
+        }
+
+        public static byte[] Compress(this byte[] input)
+        {
+            return LZ4Pickler.Pickle(input);
+        }
+
+        public static byte[] Decompress(this byte[] input)
+        {
+            return LZ4Pickler.Unpickle(input);
         }
     }
 }

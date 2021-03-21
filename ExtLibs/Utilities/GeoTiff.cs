@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GMap.NET;
 using log4net;
-using System.Runtime.Caching;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MissionPlanner.Utilities
 {
@@ -468,10 +468,14 @@ namespace MissionPlanner.Utilities
             return srtm.altresponce.Invalid;
         }
 
+        private static MemoryCache cachescanlines =
+            new MemoryCache(new MemoryCacheOptions() {SizeLimit = 1024 * 1024 * 500});
+
         private static double GetAltNoCache(geotiffdata geotiffdata, int x, int y)
         {
-            ObjectCache cache = MemoryCache.Default;
-            byte[] scanline = cache[geotiffdata.FileName + x.ToString()] as byte[];
+            byte[] scanline;
+            lock (cachescanlines)
+                scanline = cachescanlines.Get(geotiffdata.FileName + x.ToString()) as byte[];
             if (scanline == null)
             {
                 using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
@@ -479,8 +483,20 @@ namespace MissionPlanner.Utilities
                     scanline = new byte[tiff.ScanlineSize()];
 
                     tiff.ReadScanline(scanline, x);
-                    cache[geotiffdata.FileName + x.ToString()] = scanline;
+                    lock (cachescanlines)
+                    {
+                        var ci = cachescanlines.CreateEntry(geotiffdata.FileName + x.ToString());
+                        ci.Value = scanline;
+                        ci.Size = ((byte[]) ci.Value).Length;
+                        // evict after no access
+                        ci.SlidingExpiration = TimeSpan.FromMinutes(5);
+                        ci.Dispose();
+                    }
                 }
+            }
+            else
+            {
+                scanline = scanline;
             }
 
             if (geotiffdata.bits == 16)
