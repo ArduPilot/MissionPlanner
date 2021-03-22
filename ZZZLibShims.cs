@@ -268,6 +268,8 @@ public class OpenGLtest: UserControl
 {
     public static OpenGLtest instance;   
     public MissionPlanner.Utilities.Vector3 rpy;
+    
+    public MissionPlanner.Utilities.Vector3 Velocity;
 
     public PointLatLngAlt LocationCenter { get; set; }
 
