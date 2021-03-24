@@ -51,20 +51,34 @@ namespace CameraControl
             ToolStripItemCollection col = Host.FDMenuHud.Items;
             col.Add(rootbut);
 
-            var but = new ToolStripMenuItem("Connect h264");
+            var but = new ToolStripMenuItem("Connect v1");
             but.Click += but3_Click;
             rootbut.DropDownItems.Add(but);
+            
 
-            but = new ToolStripMenuItem("Connect h265");
-            but.Click += but4_Click;
-            rootbut.DropDownItems.Add(but);
-
-            but = new ToolStripMenuItem("Video 1");
+            but = new ToolStripMenuItem("Set Video stream 1 v1");
             but.Click += but1_Click;
             rootbut.DropDownItems.Add(but);
 
-            but = new ToolStripMenuItem("Video 2");
+            but = new ToolStripMenuItem("Set Video stream 2 v1");
             but.Click += but2_Click;
+            rootbut.DropDownItems.Add(but);
+
+            but = new ToolStripMenuItem("Connect stream 1 v2");
+            but.Click += but7_Click;
+            rootbut.DropDownItems.Add(but);
+
+            but = new ToolStripMenuItem("Connect stream 2 v2");
+            but.Click += but8_Click;
+            rootbut.DropDownItems.Add(but);
+
+
+            but = new ToolStripMenuItem("Connect air 1 v2");
+            but.Click += but5_Click;
+            rootbut.DropDownItems.Add(but);
+            
+            but = new ToolStripMenuItem("Connect air 2 v2");
+            but.Click += but6_Click;
             rootbut.DropDownItems.Add(but);
 
             return true;
@@ -186,7 +200,7 @@ namespace CameraControl
             Settings.Instance["herelinkip"] = ipaddr;
 
             string url = String.Format(
-                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph264depay ! h264parse ! queue ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
             GStreamer.LookForGstreamer();
@@ -218,7 +232,132 @@ namespace CameraControl
             Settings.Instance["herelinkip"] = ipaddr;
 
             string url = String.Format(
-                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! rtph265depay ! h265parse ! queue ! avdec_h265 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+                ipaddr);
+
+            GStreamer.LookForGstreamer();
+
+            if (!File.Exists(GStreamer.gstlaunch))
+            {
+                GStreamerUI.DownloadGStreamer();
+
+                if (!File.Exists(GStreamer.gstlaunch))
+                {
+                    return;
+                }
+            }
+
+            GStreamer.StartA(url);
+        }
+
+        private void but5_Click(object sender, EventArgs e)
+        {
+            GStreamer.StopAll();
+
+            string ipaddr = "192.168.43.1";
+
+            if (Settings.Instance["herelinkip"] != null)
+                ipaddr = Settings.Instance["herelinkip"].ToString();
+
+            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+
+            Settings.Instance["herelinkip"] = ipaddr;
+
+            string url = String.Format(
+                "rtspsrc location=rtsp://{0}:8554/H264Video latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+                ipaddr);
+
+            GStreamer.LookForGstreamer();
+
+            if (!File.Exists(GStreamer.gstlaunch))
+            {
+                GStreamerUI.DownloadGStreamer();
+
+                if (!File.Exists(GStreamer.gstlaunch))
+                {
+                    return;
+                }
+            }
+
+            GStreamer.StartA(url);
+        }
+        private void but6_Click(object sender, EventArgs e)
+        {
+            GStreamer.StopAll();
+
+            string ipaddr = "192.168.43.1";
+
+            if (Settings.Instance["herelinkip"] != null)
+                ipaddr = Settings.Instance["herelinkip"].ToString();
+
+            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+
+            Settings.Instance["herelinkip"] = ipaddr;
+
+            string url = String.Format(
+                "rtspsrc location=rtsp://{0}:8554/H264Video1 latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+                ipaddr);
+
+            GStreamer.LookForGstreamer();
+
+            if (!File.Exists(GStreamer.gstlaunch))
+            {
+                GStreamerUI.DownloadGStreamer();
+
+                if (!File.Exists(GStreamer.gstlaunch))
+                {
+                    return;
+                }
+            }
+
+            GStreamer.StartA(url);
+        }
+        private void but7_Click(object sender, EventArgs e)
+        {
+            GStreamer.StopAll();
+
+            string ipaddr = "192.168.43.1";
+
+            if (Settings.Instance["herelinkip"] != null)
+                ipaddr = Settings.Instance["herelinkip"].ToString();
+
+            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+
+            Settings.Instance["herelinkip"] = ipaddr;
+
+            string url = String.Format(
+                "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
+                ipaddr);
+
+            GStreamer.LookForGstreamer();
+
+            if (!File.Exists(GStreamer.gstlaunch))
+            {
+                GStreamerUI.DownloadGStreamer();
+
+                if (!File.Exists(GStreamer.gstlaunch))
+                {
+                    return;
+                }
+            }
+
+            GStreamer.StartA(url);
+        }
+        private void but8_Click(object sender, EventArgs e)
+        {
+            GStreamer.StopAll();
+
+            string ipaddr = "192.168.43.1";
+
+            if (Settings.Instance["herelinkip"] != null)
+                ipaddr = Settings.Instance["herelinkip"].ToString();
+
+            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+
+            Settings.Instance["herelinkip"] = ipaddr;
+
+            string url = String.Format(
+                "rtspsrc location=rtsp://{0}:8554/fpv_stream1 latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
             GStreamer.LookForGstreamer();
