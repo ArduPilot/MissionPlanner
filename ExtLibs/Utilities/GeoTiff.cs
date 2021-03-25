@@ -203,6 +203,19 @@ namespace MissionPlanner.Utilities
                             yscale = (pnt2.Lat - pnt.Lat) / height;
                         }
                     }
+                    // etrs89 utm
+                    if (ProjectedCSTypeGeoKey >= 3038 && ProjectedCSTypeGeoKey <= 3051)
+                    {
+                        // 3038 - 26
+                            var pnt = PointLatLngAlt.FromUTM((ProjectedCSTypeGeoKey - 3012) * 1, x, y);
+                            var pnt2 = PointLatLngAlt.FromUTM((ProjectedCSTypeGeoKey - 3012) * 1, x + width * xscale,
+                                y + height * yscale);
+
+                            y = pnt.Lat;
+                            x = pnt.Lng;
+                            xscale = (pnt2.Lng - pnt.Lng) / width;
+                            yscale = (pnt2.Lat - pnt.Lat) / height;
+                    }
 
                     Area = new RectLatLng(y, x, width*xscale, height*yscale);
 
