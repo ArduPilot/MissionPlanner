@@ -3390,6 +3390,9 @@ main()
 
         private void chk_params_CheckedChanged(object sender, EventArgs e)
         {
+            if (chk_params.Checked == false)
+                return;
+
             chk_params.Checked = false;
 
             var parmdata = logdata.GetEnumeratorType("PARM").Select(a =>
@@ -3399,7 +3402,7 @@ main()
             MainV2.comPort.MAV.param.Clear();
             MainV2.comPort.MAV.param.AddRange(parmdata);
 
-            new ConfigRawParams().ShowUserControl();
+            new ConfigRawParamsTree().ShowUserControl();
         }
     }
 }
