@@ -249,6 +249,13 @@ namespace MissionPlanner.Utilities
             return trans.MathTransform.TransformList(data).ToList();
         }
 
+        public static double[] ToUTM(int utmzone, double lat, double lng)
+        {
+            ICoordinateTransformation trans = TryGetTransform(utmzone, lat);
+
+            return trans.MathTransform.Transform(new double[] { lng, lat});
+        }
+
 
         public PointLatLngAlt newpos(double bearing, double distance)
         {
