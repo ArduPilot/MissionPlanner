@@ -136,6 +136,9 @@ namespace MissionPlanner.Utilities
                         if (KeyID == (int)GKID.ProjectedCSTypeGeoKey)
                             ProjectedCSTypeGeoKey = Value_Offset;
 
+                        if (KeyID == (int)GKID.GTRasterTypeGeoKey)
+                            GTRasterTypeGeoKey = Value_Offset;
+
                         if (TIFFTagLocation != 0)
                         {
                             if (TIFFTagLocation == 34737)
@@ -247,9 +250,12 @@ namespace MissionPlanner.Utilities
 
                     log.InfoFormat("Coverage {0}", Area.ToString());
 
-                    // starts from top left so x + y -
-                    x += xscale / 2.0;
-                    y -= yscale / 2.0;
+                    if (GTRasterTypeGeoKey == 1)
+                    {
+                        // starts from top left so x + y -
+                        x += xscale / 2.0;
+                        y -= yscale / 2.0;
+                    }
 
                     log.InfoFormat("Start Point ({0},{1},{2}) --> ({3},{4},{5})", i, j, k, x, y, z);
 
@@ -308,6 +314,10 @@ namespace MissionPlanner.Utilities
             public double ymax;
             public double xmax;
             public int UTMZone;
+            /// <summary>
+            /// 0= unknown, 1 = PixelIsArea, 2 = PixelIsPoint, 32767 = user def
+            /// </summary>
+            public ushort GTRasterTypeGeoKey;
         }
 
         static GeoTiff()
