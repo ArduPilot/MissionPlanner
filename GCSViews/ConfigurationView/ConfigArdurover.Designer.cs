@@ -42,6 +42,8 @@
             this.CRUISE_THROTTLE = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.ATC_SPEED_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label29 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.ATC_ACCEL_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.ATC_BRAKE = new MissionPlanner.Controls.MavlinkComboBox();
@@ -71,6 +73,8 @@
             this.TURN_G_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.ATC_STR_RAT_SMAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label28 = new System.Windows.Forms.Label();
             this.ATC_STR_RAT_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label24 = new System.Windows.Forms.Label();
             this.STEER2SRV_IMAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -108,6 +112,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.THR_MIN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_THROTTLE)).BeginInit();
             this.groupBox14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_SPEED_FF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ATC_ACCEL_MAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_D)).BeginInit();
@@ -121,6 +126,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TURN_G_MAX)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_SMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_FF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_D)).BeginInit();
@@ -219,6 +225,8 @@
             // 
             // groupBox14
             // 
+            this.groupBox14.Controls.Add(this.ATC_SPEED_FF);
+            this.groupBox14.Controls.Add(this.label29);
             this.groupBox14.Controls.Add(this.label23);
             this.groupBox14.Controls.Add(this.ATC_ACCEL_MAX);
             this.groupBox14.Controls.Add(this.ATC_BRAKE);
@@ -234,6 +242,19 @@
             resources.ApplyResources(this.groupBox14, "groupBox14");
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.TabStop = false;
+            // 
+            // ATC_SPEED_FF
+            // 
+            resources.ApplyResources(this.ATC_SPEED_FF, "ATC_SPEED_FF");
+            this.ATC_SPEED_FF.Max = 1F;
+            this.ATC_SPEED_FF.Min = 0F;
+            this.ATC_SPEED_FF.Name = "ATC_SPEED_FF";
+            this.ATC_SPEED_FF.ParamName = null;
+            // 
+            // label29
+            // 
+            resources.ApplyResources(this.label29, "label29");
+            this.label29.Name = "label29";
             // 
             // label23
             // 
@@ -437,6 +458,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.ATC_STR_RAT_SMAX);
+            this.groupBox5.Controls.Add(this.label28);
             this.groupBox5.Controls.Add(this.ATC_STR_RAT_FF);
             this.groupBox5.Controls.Add(this.label24);
             this.groupBox5.Controls.Add(this.STEER2SRV_IMAX);
@@ -450,6 +473,19 @@
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // ATC_STR_RAT_SMAX
+            // 
+            resources.ApplyResources(this.ATC_STR_RAT_SMAX, "ATC_STR_RAT_SMAX");
+            this.ATC_STR_RAT_SMAX.Max = 1F;
+            this.ATC_STR_RAT_SMAX.Min = 0F;
+            this.ATC_STR_RAT_SMAX.Name = "ATC_STR_RAT_SMAX";
+            this.ATC_STR_RAT_SMAX.ParamName = null;
+            // 
+            // label28
+            // 
+            resources.ApplyResources(this.label28, "label28");
+            this.label28.Name = "label28";
             // 
             // ATC_STR_RAT_FF
             // 
@@ -693,6 +729,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.THR_MIN)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_THROTTLE)).EndInit();
             this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_SPEED_FF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ATC_ACCEL_MAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_D)).EndInit();
@@ -706,6 +744,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TURN_G_MAX)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_SMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ATC_STR_RAT_FF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_D)).EndInit();
@@ -796,5 +836,9 @@
         private Controls.MavlinkComboBox CH9_OPTION;
         private System.Windows.Forms.Label label27;
         private Controls.MavlinkComboBox CH10_OPTION;
+        private Controls.MavlinkNumericUpDown ATC_SPEED_FF;
+        private System.Windows.Forms.Label label29;
+        private Controls.MavlinkNumericUpDown ATC_STR_RAT_SMAX;
+        private System.Windows.Forms.Label label28;
     }
 }
