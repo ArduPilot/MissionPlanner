@@ -269,7 +269,7 @@ namespace MissionPlanner.Controls
             // hae = Height above the WGS ellipsoid in meters
             // ce = Circular 1-sigma or decimal a circular area about the point in meters
             // le = Linear 1-sigma error or decimal an attitude range about the point in meters
-            sb.AppendFormat(culture, "  <point lat=\"{0:N7}\" lon=\"{1:N7}\" hae=\"{2,5:N2}\" ce=\"1.0\" le=\"1.0\"", lat, lng, alt); sb.AppendLine();
+            sb.AppendFormat(culture, "  <point lat=\"{0:N7}\" lon=\"{1:N7}\" hae=\"{2,5:N2}\" ce=\"1.0\" le=\"1.0\"/>", lat, lng, alt); sb.AppendLine();
             sb.AppendLine  ("</event>");
 
             return sb.ToString();
