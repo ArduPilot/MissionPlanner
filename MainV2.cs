@@ -551,14 +551,14 @@ namespace MissionPlanner
                 AutoHideMenu(true);
                 Settings.Instance["menu_autohide"] = true.ToString();
                 autoHideToolStripMenuItem.Visible = false;
-            } 
+            }
             else if (Settings.Instance.GetBoolean("menu_autohide"))
             {
                 AutoHideMenu(Settings.Instance.GetBoolean("menu_autohide"));
                 Settings.Instance["menu_autohide"] = Settings.Instance.GetBoolean("menu_autohide").ToString();
             }
 
-            
+
 
             //Flight data page
             if (MainV2.instance.FlightData != null)
@@ -659,7 +659,7 @@ namespace MissionPlanner
 
             if (MainV2.instance.FlightPlanner != null)
             {
-                //hide menu items 
+                //hide menu items
                 MainV2.instance.FlightPlanner.updateDisplayView();
             }
         }
@@ -673,7 +673,7 @@ namespace MissionPlanner
 
             // create one here - but override on load
             Settings.Instance["guid"] = Guid.NewGuid().ToString();
-            
+
             //Check for -config argument, and if it is an xml extension filename then use that for config
             if (Program.args.Length > 0 && Program.args.Contains("-config"))
             {
@@ -724,10 +724,10 @@ namespace MissionPlanner
 
             //Init Theme table and load BurntKermit as a default
             ThemeManager.thmColor = new ThemeColorTable(); //Init colortable
-            ThemeManager.thmColor.InitColors();     //This fills up the table with BurntKermit defaults. 
+            ThemeManager.thmColor.InitColors();     //This fills up the table with BurntKermit defaults.
             ThemeManager.thmColor.SetTheme();              //Set the colors, this need to handle the case when not all colors are defined in the theme file
 
- 
+
 
             if (Settings.Instance["theme"] == null) Settings.Instance["theme"] = "BurntKermit.mpsystheme";
 
@@ -774,6 +774,8 @@ namespace MissionPlanner
             {
                 MainV2.comPort.MAV.cs.messageHigh = s;
             };
+
+            Warnings.WarningEngine.QuickPanelColoring += WarningEngine_QuickPanelColoring;
 
             // proxy loader - dll load now instead of on config form load
             new Transition(new TransitionType_EaseInEaseOut(2000));
@@ -954,7 +956,7 @@ namespace MissionPlanner
                         Settings.Instance.GetInt32("MainLocY"));
 
                     // fix common bug which happens when user removes a monitor, the app shows up
-                    // offscreen and it is very hard to move it onscreen.  Also happens with 
+                    // offscreen and it is very hard to move it onscreen.  Also happens with
                     // remote desktop a lot.  So this only restores position if the position
                     // is visible.
                     foreach (Screen s in Screen.AllScreens)
@@ -1186,7 +1188,7 @@ namespace MissionPlanner
 
         public void switchicons(menuicons icons)
         {
-            //Check if we starting 
+            //Check if we starting
             if (displayicons != null)
             {
                 // dont update if no change
@@ -1282,7 +1284,7 @@ namespace MissionPlanner
         private void ResetConnectionStats()
         {
             log.Info("Reset connection stats");
-            // If the form has been closed, or never shown before, we need do nothing, as 
+            // If the form has been closed, or never shown before, we need do nothing, as
             // connection stats will be reset when shown
             if (this.connectionStatsForm != null && connectionStatsForm.Visible)
             {
@@ -1717,7 +1719,7 @@ namespace MissionPlanner
                     }
                 }
 
-                _connectionControl.UpdateSysIDS();             
+                _connectionControl.UpdateSysIDS();
 
                 // check for newer firmware
                 Task.Run(() =>
@@ -1828,7 +1830,7 @@ namespace MissionPlanner
                     }
                     catch (Exception ex) { log.Warn(ex); }
                 }
-                //Add HUD custom items source 
+                //Add HUD custom items source
                 HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                 // set connected icon
@@ -1996,9 +1998,9 @@ namespace MissionPlanner
 
 
         /// <summary>
-        /// overriding the OnCLosing is a bit cleaner than handling the event, since it 
+        /// overriding the OnCLosing is a bit cleaner than handling the event, since it
         /// is this object.
-        /// 
+        ///
         /// This happens before FormClosed
         /// </summary>
         /// <param name="e"></param>
@@ -2263,7 +2265,7 @@ namespace MissionPlanner
             while (joystickthreadrun)
             {
                 joysendThreadExited = false;
-                //so we know this thread is stil alive.           
+                //so we know this thread is stil alive.
                 try
                 {
                     if (MONO)
@@ -2348,7 +2350,7 @@ namespace MissionPlanner
 
                                         lastratechange = DateTime.Now;
                                     }
-                                 
+
                                 }
                                 */
                                     //                                Console.WriteLine(DateTime.Now.Millisecond + " {0} {1} {2} {3} {4}", rc.chan1_raw, rc.chan2_raw, rc.chan3_raw, rc.chan4_raw,rate);
@@ -2416,7 +2418,7 @@ namespace MissionPlanner
                 {
                 } // cant fall out
             }
-            joysendThreadExited = true; //so we know this thread exited.    
+            joysendThreadExited = true; //so we know this thread exited.
         }
 
         /// <summary>
@@ -2542,7 +2544,7 @@ namespace MissionPlanner
         /// link quality stats
         /// speech voltage - custom - alt warning - data lost
         /// heartbeat packet sending
-        /// 
+        ///
         /// and can't fall out
         /// </summary>
         private async void SerialReader()
@@ -3405,7 +3407,7 @@ namespace MissionPlanner
                                      MainV2._connectionControl.UpdateSysIDS();
                                  });
 
-                             } 
+                             }
                              // add to seen list, so we skip on next refresh
                              seen.Add(zeroconfHost.Id);
                          }
@@ -4576,6 +4578,43 @@ namespace MissionPlanner
                         doConnect(mav, "preset", "0", false);
                         Comports.Add(mav);
                     });
+                }
+            }
+        }
+        //Handle QV panel coloring from warning engine
+        private void WarningEngine_QuickPanelColoring(string name, string color)
+        {
+            // return if we still initialize
+            if (FlightData == null) return;
+
+            //Find panel with
+            foreach (var q in FlightData.tabQuick.Controls["tableLayoutPanelQuick"].Controls)
+            {
+                QuickView qv = (QuickView)q;
+
+                //Get the data field name bind to the control
+                var fieldname = qv.DataBindings[0].BindingMemberInfo.BindingField;
+
+                if (fieldname == name)
+                {
+
+                    if (color == "NoColor")
+                    {
+                        qv.BackColor = ThemeManager.BGColor;
+                        qv.numberColor = qv.numberColorBackup;  //Restore original color from backup :)
+                        qv.ForeColor = ThemeManager.TextColor;
+
+
+                    }
+                    else
+                    {
+                        qv.BackColor = Color.FromName(color);
+                        // Ensure color is readable on the background
+                        qv.numberColor = (((qv.BackColor.R + qv.BackColor.B + qv.BackColor.G) / 3) > 128) ? Color.Black : Color.White;
+                        qv.ForeColor = qv.numberColor;      //Same as the number
+                    }
+                    //We have our panel, color it and exit loop
+                    break;
                 }
             }
         }

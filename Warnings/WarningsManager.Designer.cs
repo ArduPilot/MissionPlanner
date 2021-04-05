@@ -30,15 +30,17 @@ namespace MissionPlanner.Warnings
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BUT_Add = new MyButton();
-            this.BUT_save = new MyButton();
+            this.warningControl1 = new MissionPlanner.Warnings.WarningControl();
+            this.label4 = new System.Windows.Forms.Label();
+            this.BUT_Add = new MissionPlanner.Controls.MyButton();
+            this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.warningControl1 = new MissionPlanner.Warnings.WarningControl();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,8 +53,25 @@ namespace MissionPlanner.Warnings
             this.panel1.Controls.Add(this.label4);
             this.panel1.Location = new System.Drawing.Point(4, 53);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(705, 175);
+            this.panel1.Size = new System.Drawing.Size(866, 175);
             this.panel1.TabIndex = 0;
+            // 
+            // warningControl1
+            // 
+            this.warningControl1.custwarning = null;
+            this.warningControl1.Location = new System.Drawing.Point(2, 2);
+            this.warningControl1.Name = "warningControl1";
+            this.warningControl1.Size = new System.Drawing.Size(857, 27);
+            this.warningControl1.TabIndex = 6;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(200, -14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Field";
             // 
             // BUT_Add
             // 
@@ -77,7 +96,7 @@ namespace MissionPlanner.Warnings
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 39);
+            this.label1.Location = new System.Drawing.Point(129, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 0;
@@ -86,7 +105,7 @@ namespace MissionPlanner.Warnings
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(131, 39);
+            this.label2.Location = new System.Drawing.Point(258, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 3;
@@ -95,25 +114,16 @@ namespace MissionPlanner.Warnings
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(199, 39);
+            this.label3.Location = new System.Drawing.Point(314, 39);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Trigger";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(200, -14);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Field";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(487, 39);
+            this.label5.Location = new System.Drawing.Point(748, 39);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(80, 13);
             this.label5.TabIndex = 6;
@@ -122,25 +132,35 @@ namespace MissionPlanner.Warnings
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(271, 39);
+            this.label6.Location = new System.Drawing.Point(507, 39);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(50, 13);
             this.label6.TabIndex = 7;
             this.label6.Text = "Message";
             // 
-            // warningControl1
+            // label7
             // 
-            this.warningControl1.custwarning = null;
-            this.warningControl1.Location = new System.Drawing.Point(2, 2);
-            this.warningControl1.Name = "warningControl1";
-            this.warningControl1.Size = new System.Drawing.Size(619, 27);
-            this.warningControl1.TabIndex = 6;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 39);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(50, 13);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Item type";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(398, 39);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(31, 13);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Color";
             // 
             // WarningsManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            
-            this.ClientSize = new System.Drawing.Size(711, 238);
+            this.ClientSize = new System.Drawing.Size(872, 238);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
@@ -170,5 +190,7 @@ namespace MissionPlanner.Warnings
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private WarningControl warningControl1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }
