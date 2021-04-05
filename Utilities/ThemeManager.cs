@@ -316,6 +316,29 @@ namespace MissionPlanner.Utilities
         }
 
 
+        public static Color getQvNumberColor()
+        {
+            //The mix color is set to the inverse of background color, so white background will get dark colors
+            Color mix = Color.FromArgb(ThemeManager.BGColor.ToArgb() ^ 0xffffff);
+
+            Random random = new Random();
+
+            int red = random.Next(256);
+            int green = random.Next(256);
+            int blue = random.Next(256);
+
+            // mix the color
+            if (mix != null)
+            {
+                red = (red + mix.R) / 2;
+                green = (green + mix.G) / 2;
+                blue = (blue + mix.B) / 2;
+            }
+
+            var col = Color.FromArgb(red, green, blue);
+            return col;
+        }
+
         public static void doxamlgen()
         {
             var asm = Assembly.GetExecutingAssembly();
@@ -1079,6 +1102,7 @@ mc:Ignorable=""d""
                     {
                         but.numberColor = Color.FromArgb((209 + mix.R) / 2, (151 + mix.G) / 2, (248 + mix.B) / 2);
                     }
+                    but.numberColorBackup = but.numberColor;
                     //return;  //return removed to process all quickView controls
                 }
                 else if (ctl.GetType() == typeof(TreeView))
