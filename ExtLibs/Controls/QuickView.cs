@@ -58,6 +58,9 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true)]
         public Color numberColor { get { return _numbercolor; } set { if (_numbercolor == value) return; _numbercolor = value; Invalidate(); } }
 
+        //We use this property as a backup store for the numberColor, so it is possible to change numberColor temporary.
+        public Color numberColorBackup { get; set; }
+
         public QuickView()
         {
             InitializeComponent();
@@ -75,7 +78,7 @@ namespace MissionPlanner.Controls
 
                 var mid = extent.Width / 2;
 
-                e.DrawString(desc, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - mid, 0);
+                e.DrawString(desc, this.Font, new SolidBrush(this.ForeColor), this.Width / 2 - mid, 5);
 
                 y = extent.Height;
             }
