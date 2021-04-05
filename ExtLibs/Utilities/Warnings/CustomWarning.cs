@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace MissionPlanner.Warnings
 {
@@ -20,6 +21,27 @@ namespace MissionPlanner.Warnings
             GT,
             GTEQ,
             NEQ
+        }
+
+        public enum WarningColors
+        {
+            NoColor = 0,
+            Red,
+            OrangeRed,
+            Maroon,
+            Yellow,
+            Gold,
+            Goldenrod,
+            LawnGreen,
+            Green,
+            DarkGreen
+        }
+
+        // Differentiate between speak/text and QV Coloring items
+        public enum WarningType
+        {
+            SpeakAndText = 0,
+            Coloring
         }
 
         public CustomWarning()
@@ -92,6 +114,16 @@ namespace MissionPlanner.Warnings
         /// used to track last time something was said
         /// </summary>
         DateTime lastrepeat;
+
+        /// <summary>
+        /// identify the type of warning  (SpeakAndText or Coloring)
+        /// </summary>
+        public WarningType type { get; set; }
+
+        /// <summary>
+        /// this color is used when warning fired
+        /// </summary>
+        public string color { get; set; }
 
         /// <summary>
         /// in seconds
