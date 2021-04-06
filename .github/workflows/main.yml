@@ -16,7 +16,7 @@ jobs:
         run: |
           $msbuildPath = Split-Path (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\Current\Bin\amd64\MSBuild.exe | Select-Object -First 1) -Parent
           $env:PATH = $msbuildPath + ';' + $env:PATH
-          dotnet restore
+          nuget locals all -clear
           msbuild -v:m -restore -t:Build -p:Configuration=Release MissionPlanner.sln
 
       - name: Cleanup
@@ -44,7 +44,7 @@ jobs:
         run: |
           $msbuildPath = Split-Path (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\Current\Bin\amd64\MSBuild.exe | Select-Object -First 1) -Parent
           $env:PATH = $msbuildPath + ';' + $env:PATH
-          dotnet restore
+          nuget locals all -clear
           msbuild -v:m -restore -t:Build -p:Configuration=Debug MissionPlanner.sln
 
       - name: Cleanup
