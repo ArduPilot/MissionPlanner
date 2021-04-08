@@ -3402,7 +3402,8 @@ main()
             MainV2.comPort.MAV.param.Clear();
             MainV2.comPort.MAV.param.AddRange(parmdata);
 
-            new ConfigRawParamsTree().ShowUserControl();
+            myGMAP1.DisableFocusOnMouseEnter = true;
+            var frm = new ConfigRawParamsTree().ShowUserControl();
         }
     }
 }
