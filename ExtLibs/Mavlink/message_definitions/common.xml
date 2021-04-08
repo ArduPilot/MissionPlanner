@@ -211,6 +211,9 @@
       <entry value="536870912" name="MAV_SYS_STATUS_OBSTACLE_AVOIDANCE">
         <description>0x20000000 Avoidance/collision prevention</description>
       </entry>
+      <entry value="1073741824" name="MAV_SYS_STATUS_SENSOR_PROPULSION">
+        <description>0x40000000 propulsion (actuator, esc, motor or propellor)</description>
+      </entry>
     </enum>
     <enum name="MAV_FRAME">
       <entry value="0" name="MAV_FRAME_GLOBAL">
@@ -290,22 +293,22 @@
       </entry>
     </enum>
     <enum name="MAVLINK_DATA_STREAM_TYPE">
-      <entry name="MAVLINK_DATA_STREAM_IMG_JPEG">
+      <entry value="0" name="MAVLINK_DATA_STREAM_IMG_JPEG">
         <description/>
       </entry>
-      <entry name="MAVLINK_DATA_STREAM_IMG_BMP">
+      <entry value="1" name="MAVLINK_DATA_STREAM_IMG_BMP">
         <description/>
       </entry>
-      <entry name="MAVLINK_DATA_STREAM_IMG_RAW8U">
+      <entry value="2" name="MAVLINK_DATA_STREAM_IMG_RAW8U">
         <description/>
       </entry>
-      <entry name="MAVLINK_DATA_STREAM_IMG_RAW32U">
+      <entry value="3" name="MAVLINK_DATA_STREAM_IMG_RAW32U">
         <description/>
       </entry>
-      <entry name="MAVLINK_DATA_STREAM_IMG_PGM">
+      <entry value="4" name="MAVLINK_DATA_STREAM_IMG_PGM">
         <description/>
       </entry>
-      <entry name="MAVLINK_DATA_STREAM_IMG_PNG">
+      <entry value="5" name="MAVLINK_DATA_STREAM_IMG_PNG">
         <description/>
       </entry>
     </enum>
@@ -945,7 +948,7 @@
       </entry>
       <entry value="198" name="MAV_CMD_DO_SET_ROI_SYSID">
         <description>Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means.</description>
-        <param index="1" label="System ID" minValue="1" maxValue="255" increment="1">sysid</param>
+        <param index="1" label="System ID" minValue="1" maxValue="255" increment="1">System ID</param>
       </entry>
       <entry value="200" name="MAV_CMD_DO_CONTROL_VIDEO" hasLocation="false" isDestination="false">
         <description>Control onboard camera system.</description>
@@ -1395,6 +1398,24 @@
         <param index="6" reserved="true" default="NaN"/>
         <param index="7" reserved="true" default="NaN"/>
       </entry>
+      <entry value="2502" name="MAV_CMD_VIDEO_START_STREAMING" hasLocation="false" isDestination="false">
+        <description>Start video streaming</description>
+        <param index="1" label="Stream ID" minValue="0" increment="1">Video Stream ID (0 for all streams, 1 for first, 2 for second, etc.)</param>
+      </entry>
+      <entry value="2503" name="MAV_CMD_VIDEO_STOP_STREAMING" hasLocation="false" isDestination="false">
+        <description>Stop the given video stream</description>
+        <param index="1" label="Stream ID" minValue="0" increment="1">Video Stream ID (0 for all streams, 1 for first, 2 for second, etc.)</param>
+      </entry>
+      <entry value="2504" name="MAV_CMD_REQUEST_VIDEO_STREAM_INFORMATION" hasLocation="false" isDestination="false">
+        <deprecated since="2019-08" replaced_by="MAV_CMD_REQUEST_MESSAGE"/>
+        <description>Request video stream information (VIDEO_STREAM_INFORMATION)</description>
+        <param index="1" label="Stream ID" minValue="0" increment="1">Video Stream ID (0 for all streams, 1 for first, 2 for second, etc.)</param>
+      </entry>
+      <entry value="2505" name="MAV_CMD_REQUEST_VIDEO_STREAM_STATUS" hasLocation="false" isDestination="false">
+        <deprecated since="2019-08" replaced_by="MAV_CMD_REQUEST_MESSAGE"/>
+        <description>Request video stream status (VIDEO_STREAM_STATUS)</description>
+        <param index="1" label="Stream ID" minValue="0" increment="1">Video Stream ID (0 for all streams, 1 for first, 2 for second, etc.)</param>
+      </entry>
       <entry value="2510" name="MAV_CMD_LOGGING_START" hasLocation="false" isDestination="false">
         <description>Request to start streaming logging data over MAVLink (see also LOGGING_DATA message)</description>
         <param index="1" label="Format" minValue="0" increment="1">Format: 0: ULog</param>
@@ -1466,8 +1487,7 @@
         <param index="6" label="Longitude">Target longitude of center of circle in CIRCLE_MODE</param>
       </entry>
       <entry value="5000" name="MAV_CMD_NAV_FENCE_RETURN_POINT" hasLocation="true" isDestination="true">
-        <description>Fence return point. There can only be one fence return point.
-        </description>
+        <description>Fence return point (there can only be one such point in a geofence definition). If rally points are supported they should be used instead.</description>
         <param index="1">Reserved</param>
         <param index="2">Reserved</param>
         <param index="3">Reserved</param>
@@ -1796,31 +1816,31 @@
     </enum>
     <enum name="MAV_CMD_ACK">
       <description>ACK / NACK / ERROR values as a result of MAV_CMDs and for mission item transmission.</description>
-      <entry name="MAV_CMD_ACK_OK">
+      <entry value="0" name="MAV_CMD_ACK_OK">
         <description>Command / mission item is ok.</description>
       </entry>
-      <entry name="MAV_CMD_ACK_ERR_FAIL">
+      <entry value="1" name="MAV_CMD_ACK_ERR_FAIL">
         <description>Generic error message if none of the other reasons fails or if no detailed error reporting is implemented.</description>
       </entry>
-      <entry name="MAV_CMD_ACK_ERR_ACCESS_DENIED">
+      <entry value="2" name="MAV_CMD_ACK_ERR_ACCESS_DENIED">
         <description>The system is refusing to accept this command from this source / communication partner.</description>
       </entry>
-      <entry name="MAV_CMD_ACK_ERR_NOT_SUPPORTED">
+      <entry value="3" name="MAV_CMD_ACK_ERR_NOT_SUPPORTED">
         <description>Command or mission item is not supported, other commands would be accepted.</description>
       </entry>
-      <entry name="MAV_CMD_ACK_ERR_COORDINATE_FRAME_NOT_SUPPORTED">
+      <entry value="4" name="MAV_CMD_ACK_ERR_COORDINATE_FRAME_NOT_SUPPORTED">
         <description>The coordinate frame of this command / mission item is not supported.</description>
       </entry>
-      <entry name="MAV_CMD_ACK_ERR_COORDINATES_OUT_OF_RANGE">
+      <entry value="5" name="MAV_CMD_ACK_ERR_COORDINATES_OUT_OF_RANGE">
         <description>The coordinate frame of this command is ok, but he coordinate values exceed the safety limits of this system. This is a generic error, please use the more specific error messages below if possible.</description>
       </entry>
-      <entry name="MAV_CMD_ACK_ERR_X_LAT_OUT_OF_RANGE">
+      <entry value="6" name="MAV_CMD_ACK_ERR_X_LAT_OUT_OF_RANGE">
         <description>The X or latitude value is out of range.</description>
       </entry>
-      <entry name="MAV_CMD_ACK_ERR_Y_LON_OUT_OF_RANGE">
+      <entry value="7" name="MAV_CMD_ACK_ERR_Y_LON_OUT_OF_RANGE">
         <description>The Y or longitude value is out of range.</description>
       </entry>
-      <entry name="MAV_CMD_ACK_ERR_Z_ALT_OUT_OF_RANGE">
+      <entry value="8" name="MAV_CMD_ACK_ERR_Z_ALT_OUT_OF_RANGE">
         <description>The Z or altitude value is out of range.</description>
       </entry>
     </enum>
@@ -2752,6 +2772,39 @@
       <entry value="256" name="CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM">
         <description>Camera has video streaming capabilities (request VIDEO_STREAM_INFORMATION with MAV_CMD_REQUEST_MESSAGE for video streaming info)</description>
       </entry>
+      <entry value="512" name="CAMERA_CAP_FLAGS_HAS_TRACKING_POINT">
+        <description>Camera supports tracking of a point on the camera view.</description>
+      </entry>
+      <entry value="1024" name="CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE">
+        <description>Camera supports tracking of a selection rectangle on the camera view.</description>
+      </entry>
+      <entry value="2048" name="CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS">
+        <description>Camera supports tracking geo status (CAMERA_TRACKING_GEO_STATUS).</description>
+      </entry>
+    </enum>
+    <enum name="VIDEO_STREAM_STATUS_FLAGS" bitmask="true">
+      <description>Stream status flags (Bitmap)</description>
+      <entry value="1" name="VIDEO_STREAM_STATUS_FLAGS_RUNNING">
+        <description>Stream is active (running)</description>
+      </entry>
+      <entry value="2" name="VIDEO_STREAM_STATUS_FLAGS_THERMAL">
+        <description>Stream is thermal imaging</description>
+      </entry>
+    </enum>
+    <enum name="VIDEO_STREAM_TYPE">
+      <description>Video stream types</description>
+      <entry value="0" name="VIDEO_STREAM_TYPE_RTSP">
+        <description>Stream is RTSP</description>
+      </entry>
+      <entry value="1" name="VIDEO_STREAM_TYPE_RTPUDP">
+        <description>Stream is RTP UDP (URI gives the port number)</description>
+      </entry>
+      <entry value="2" name="VIDEO_STREAM_TYPE_TCP_MPEG">
+        <description>Stream is MPEG on TCP</description>
+      </entry>
+      <entry value="3" name="VIDEO_STREAM_TYPE_MPEG_TS_H264">
+        <description>Stream is h.264 on MPEG TS (URI gives the port number)</description>
+      </entry>
     </enum>
     <enum name="CAMERA_MODE">
       <description>Camera Modes.</description>
@@ -2849,6 +2902,51 @@
       </entry>
       <entry value="128" name="ATTITUDE_TARGET_TYPEMASK_ATTITUDE_IGNORE">
         <description>Ignore attitude</description>
+      </entry>
+    </enum>
+    <enum name="UTM_FLIGHT_STATE">
+      <description>Airborne status of UAS.</description>
+      <entry value="1" name="UTM_FLIGHT_STATE_UNKNOWN">
+        <description>The flight state can't be determined.</description>
+      </entry>
+      <entry value="2" name="UTM_FLIGHT_STATE_GROUND">
+        <description>UAS on ground.</description>
+      </entry>
+      <entry value="3" name="UTM_FLIGHT_STATE_AIRBORNE">
+        <description>UAS airborne.</description>
+      </entry>
+      <entry value="16" name="UTM_FLIGHT_STATE_EMERGENCY">
+        <description>UAS is in an emergency flight state.</description>
+      </entry>
+      <entry value="32" name="UTM_FLIGHT_STATE_NOCTRL">
+        <description>UAS has no active controls.</description>
+      </entry>
+    </enum>
+    <enum name="UTM_DATA_AVAIL_FLAGS" bitmask="true">
+      <description>Flags for the global position report.</description>
+      <entry value="1" name="UTM_DATA_AVAIL_FLAGS_TIME_VALID">
+        <description>The field time contains valid data.</description>
+      </entry>
+      <entry value="2" name="UTM_DATA_AVAIL_FLAGS_UAS_ID_AVAILABLE">
+        <description>The field uas_id contains valid data.</description>
+      </entry>
+      <entry value="4" name="UTM_DATA_AVAIL_FLAGS_POSITION_AVAILABLE">
+        <description>The fields lat, lon and h_acc contain valid data.</description>
+      </entry>
+      <entry value="8" name="UTM_DATA_AVAIL_FLAGS_ALTITUDE_AVAILABLE">
+        <description>The fields alt and v_acc contain valid data.</description>
+      </entry>
+      <entry value="16" name="UTM_DATA_AVAIL_FLAGS_RELATIVE_ALTITUDE_AVAILABLE">
+        <description>The field relative_alt contains valid data.</description>
+      </entry>
+      <entry value="32" name="UTM_DATA_AVAIL_FLAGS_HORIZONTAL_VELO_AVAILABLE">
+        <description>The fields vx and vy contain valid data.</description>
+      </entry>
+      <entry value="64" name="UTM_DATA_AVAIL_FLAGS_VERTICAL_VELO_AVAILABLE">
+        <description>The field vz contains valid data.</description>
+      </entry>
+      <entry value="128" name="UTM_DATA_AVAIL_FLAGS_NEXT_WAYPOINT_AVAILABLE">
+        <description>The fields next_lat, next_lon and next_alt contain valid data.</description>
       </entry>
     </enum>
     <enum name="PRECISION_LAND_MODE">
@@ -3154,7 +3252,9 @@
       <field type="uint16_t" name="param_index">Index of this onboard parameter</field>
     </message>
     <message id="23" name="PARAM_SET">
-      <description>Set a parameter value (write new value to permanent storage). IMPORTANT: The receiving component should acknowledge the new parameter value by sending a PARAM_VALUE message to all communication partners. This will also ensure that multiple GCS all have an up-to-date list of all parameters. If the sending GCS did not receive a PARAM_VALUE message within its timeout time, it should re-send the PARAM_SET message. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html</description>
+      <description>Set a parameter value (write new value to permanent storage).
+        The receiving component should acknowledge the new parameter value by broadcasting a PARAM_VALUE message (broadcasting ensures that multiple GCS all have an up-to-date list of all parameters). If the sending GCS did not receive a PARAM_VALUE within its timeout time, it should re-send the PARAM_SET message. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html.
+        </description>
       <field type="uint8_t" name="target_system">System ID</field>
       <field type="uint8_t" name="target_component">Component ID</field>
       <field type="char[16]" name="param_id">Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
@@ -3582,28 +3682,28 @@
       <field type="uint16_t" name="buttons">A bitfield corresponding to the joystick buttons' current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 1.</field>
     </message>
     <message id="70" name="RC_CHANNELS_OVERRIDE">
-      <description>The RAW values of the RC channels sent to the MAV to override info received from the RC radio. A value of UINT16_MAX means no change to that channel. A value of 0 means control of that channel should be released back to the RC radio. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification.</description>
+      <description>The RAW values of the RC channels sent to the MAV to override info received from the RC radio. The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification.  Note carefully the semantic differences between the first 8 channels and the subsequent channels</description>
       <field type="uint8_t" name="target_system">System ID</field>
       <field type="uint8_t" name="target_component">Component ID</field>
-      <field type="uint16_t" name="chan1_raw" units="us">RC channel 1 value. A value of UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan2_raw" units="us">RC channel 2 value. A value of UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan3_raw" units="us">RC channel 3 value. A value of UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan4_raw" units="us">RC channel 4 value. A value of UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan5_raw" units="us">RC channel 5 value. A value of UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan6_raw" units="us">RC channel 6 value. A value of UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan7_raw" units="us">RC channel 7 value. A value of UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan8_raw" units="us">RC channel 8 value. A value of UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan1_raw" units="us">RC channel 1 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan2_raw" units="us">RC channel 2 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan3_raw" units="us">RC channel 3 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan4_raw" units="us">RC channel 4 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan5_raw" units="us">RC channel 5 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan6_raw" units="us">RC channel 6 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan7_raw" units="us">RC channel 7 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan8_raw" units="us">RC channel 8 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.</field>
       <extensions/>
-      <field type="uint16_t" name="chan9_raw" units="us">RC channel 9 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan10_raw" units="us">RC channel 10 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan11_raw" units="us">RC channel 11 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan12_raw" units="us">RC channel 12 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan13_raw" units="us">RC channel 13 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan14_raw" units="us">RC channel 14 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan15_raw" units="us">RC channel 15 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan16_raw" units="us">RC channel 16 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan17_raw" units="us">RC channel 17 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
-      <field type="uint16_t" name="chan18_raw" units="us">RC channel 18 value. A value of 0 or UINT16_MAX means to ignore this field.</field>
+      <field type="uint16_t" name="chan9_raw" units="us">RC channel 9 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan10_raw" units="us">RC channel 10 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan11_raw" units="us">RC channel 11 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan12_raw" units="us">RC channel 12 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan13_raw" units="us">RC channel 13 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan14_raw" units="us">RC channel 14 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan15_raw" units="us">RC channel 15 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan16_raw" units="us">RC channel 16 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan17_raw" units="us">RC channel 17 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
+      <field type="uint16_t" name="chan18_raw" units="us">RC channel 18 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.</field>
     </message>
     <message id="73" name="MISSION_ITEM_INT">
       <description>Message encoding a mission item. This message is emitted to announce
@@ -4017,8 +4117,8 @@
       <field type="int32_t" name="lat" units="degE7">Latitude (WGS84)</field>
       <field type="int32_t" name="lon" units="degE7">Longitude (WGS84)</field>
       <field type="int32_t" name="alt" units="mm">Altitude (MSL). Positive for up.</field>
-      <field type="uint16_t" name="eph" units="cm">GPS HDOP horizontal dilution of position. If unknown, set to: 65535</field>
-      <field type="uint16_t" name="epv" units="cm">GPS VDOP vertical dilution of position. If unknown, set to: 65535</field>
+      <field type="uint16_t" name="eph">GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX</field>
+      <field type="uint16_t" name="epv">GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX</field>
       <field type="uint16_t" name="vel" units="cm/s">GPS ground speed. If unknown, set to: 65535</field>
       <field type="int16_t" name="vn" units="cm/s">GPS velocity in north direction in earth-fixed NED frame</field>
       <field type="int16_t" name="ve" units="cm/s">GPS velocity in east direction in earth-fixed NED frame</field>
@@ -4132,8 +4232,8 @@
       <field type="int32_t" name="lat" units="degE7">Latitude (WGS84)</field>
       <field type="int32_t" name="lon" units="degE7">Longitude (WGS84)</field>
       <field type="int32_t" name="alt" units="mm">Altitude (MSL). Positive for up.</field>
-      <field type="uint16_t" name="eph" units="cm">GPS HDOP horizontal dilution of position. If unknown, set to: UINT16_MAX</field>
-      <field type="uint16_t" name="epv" units="cm">GPS VDOP vertical dilution of position. If unknown, set to: UINT16_MAX</field>
+      <field type="uint16_t" name="eph">GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX</field>
+      <field type="uint16_t" name="epv">GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX</field>
       <field type="uint16_t" name="vel" units="cm/s">GPS ground speed. If unknown, set to: UINT16_MAX</field>
       <field type="uint16_t" name="cog" units="cdeg">Course over ground (NOT heading, but direction of movement): 0.0..359.99 degrees. If unknown, set to: UINT16_MAX</field>
       <field type="uint8_t" name="satellites_visible">Number of satellites visible. If unknown, set to 255</field>
@@ -4449,8 +4549,8 @@
       <field type="uint8_t" name="health">EFI health status</field>
       <field type="float" name="ecu_index">ECU index</field>
       <field type="float" name="rpm">RPM</field>
-      <field type="float" name="fuel_consumed" units="g">Fuel consumed</field>
-      <field type="float" name="fuel_flow" units="g/min">Fuel flow rate</field>
+      <field type="float" name="fuel_consumed" units="cm^3">Fuel consumed</field>
+      <field type="float" name="fuel_flow" units="cm^3/min">Fuel flow rate</field>
       <field type="float" name="engine_load" units="%">Engine load</field>
       <field type="float" name="throttle_position" units="%">Throttle position</field>
       <field type="float" name="spark_dwell_time" units="ms">Spark dwell time</field>
@@ -4501,8 +4601,8 @@
       <field type="int32_t" name="lat" units="degE7">Latitude (WGS84)</field>
       <field type="int32_t" name="lon" units="degE7">Longitude (WGS84)</field>
       <field type="float" name="alt" units="m">Altitude (MSL). Positive for up.</field>
-      <field type="float" name="hdop" units="m">GPS HDOP horizontal dilution of position</field>
-      <field type="float" name="vdop" units="m">GPS VDOP vertical dilution of position</field>
+      <field type="float" name="hdop">GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX</field>
+      <field type="float" name="vdop">GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX</field>
       <field type="float" name="vn" units="m/s">GPS velocity in north direction in earth-fixed NED frame</field>
       <field type="float" name="ve" units="m/s">GPS velocity in east direction in earth-fixed NED frame</field>
       <field type="float" name="vd" units="m/s">GPS velocity in down direction in earth-fixed NED frame</field>
@@ -4826,6 +4926,32 @@
       <field type="uint8_t" name="target_component">component ID of the target</field>
       <field type="uint16_t" name="sequence">sequence number (must match the one in LOGGING_DATA_ACKED)</field>
     </message>
+    <message id="269" name="VIDEO_STREAM_INFORMATION">
+      <description>Information about video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE, where param2 indicates the video stream id: 0 for all streams, 1 for first, 2 for second, etc.</description>
+      <field type="uint8_t" name="stream_id" instance="true">Video Stream ID (1 for first, 2 for second, etc.)</field>
+      <field type="uint8_t" name="count">Number of streams available.</field>
+      <field type="uint8_t" name="type" enum="VIDEO_STREAM_TYPE">Type of stream.</field>
+      <field type="uint16_t" name="flags" enum="VIDEO_STREAM_STATUS_FLAGS">Bitmap of stream status flags.</field>
+      <field type="float" name="framerate" units="Hz">Frame rate.</field>
+      <field type="uint16_t" name="resolution_h" units="pix">Horizontal resolution.</field>
+      <field type="uint16_t" name="resolution_v" units="pix">Vertical resolution.</field>
+      <field type="uint32_t" name="bitrate" units="bits/s">Bit rate.</field>
+      <field type="uint16_t" name="rotation" units="deg">Video image rotation clockwise.</field>
+      <field type="uint16_t" name="hfov" units="deg">Horizontal Field of view.</field>
+      <field type="char[32]" name="name">Stream name.</field>
+      <field type="char[160]" name="uri">Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).</field>
+    </message>
+    <message id="270" name="VIDEO_STREAM_STATUS">
+      <description>Information about the status of a video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE.</description>
+      <field type="uint8_t" name="stream_id" instance="true">Video Stream ID (1 for first, 2 for second, etc.)</field>
+      <field type="uint16_t" name="flags" enum="VIDEO_STREAM_STATUS_FLAGS">Bitmap of stream status flags</field>
+      <field type="float" name="framerate" units="Hz">Frame rate</field>
+      <field type="uint16_t" name="resolution_h" units="pix">Horizontal resolution</field>
+      <field type="uint16_t" name="resolution_v" units="pix">Vertical resolution</field>
+      <field type="uint32_t" name="bitrate" units="bits/s">Bit rate</field>
+      <field type="uint16_t" name="rotation" units="deg">Video image rotation clockwise</field>
+      <field type="uint16_t" name="hfov" units="deg">Horizontal Field of view</field>
+    </message>
     <message id="299" name="WIFI_CONFIG_AP">
       <description>Configure WiFi AP SSID, password, and mode. This message is re-emitted as an acknowledgement by the AP. The message may also be explicitly requested using MAV_CMD_REQUEST_MESSAGE</description>
       <field type="char[32]" name="ssid">Name of Wi-Fi network (SSID). Blank to leave it unchanged when setting. Current SSID when sent back as a response.</field>
@@ -4926,6 +5052,27 @@
       <description>RPM sensor data message.</description>
       <field type="uint8_t" name="index">Index of this RPM sensor (0-indexed)</field>
       <field type="float" name="frequency" units="rpm">Indicated rate</field>
+    </message>
+    <message id="340" name="UTM_GLOBAL_POSITION">
+      <description>The global position resulting from GPS and sensor fusion.</description>
+      <field type="uint64_t" name="time" units="us">Time of applicability of position (microseconds since UNIX epoch).</field>
+      <field type="uint8_t[18]" name="uas_id">Unique UAS ID.</field>
+      <field type="int32_t" name="lat" units="degE7">Latitude (WGS84)</field>
+      <field type="int32_t" name="lon" units="degE7">Longitude (WGS84)</field>
+      <field type="int32_t" name="alt" units="mm">Altitude (WGS84)</field>
+      <field type="int32_t" name="relative_alt" units="mm">Altitude above ground</field>
+      <field type="int16_t" name="vx" units="cm/s">Ground X speed (latitude, positive north)</field>
+      <field type="int16_t" name="vy" units="cm/s">Ground Y speed (longitude, positive east)</field>
+      <field type="int16_t" name="vz" units="cm/s">Ground Z speed (altitude, positive down)</field>
+      <field type="uint16_t" name="h_acc" units="mm">Horizontal position uncertainty (standard deviation)</field>
+      <field type="uint16_t" name="v_acc" units="mm">Altitude uncertainty (standard deviation)</field>
+      <field type="uint16_t" name="vel_acc" units="cm/s">Speed uncertainty (standard deviation)</field>
+      <field type="int32_t" name="next_lat" units="degE7">Next waypoint, latitude (WGS84)</field>
+      <field type="int32_t" name="next_lon" units="degE7">Next waypoint, longitude (WGS84)</field>
+      <field type="int32_t" name="next_alt" units="mm">Next waypoint, altitude (WGS84)</field>
+      <field type="uint16_t" name="update_rate" units="cs">Time until next update. Set to 0 if unknown or in data driven mode.</field>
+      <field type="uint8_t" name="flight_state" enum="UTM_FLIGHT_STATE">Flight state</field>
+      <field type="uint8_t" name="flags" enum="UTM_DATA_AVAIL_FLAGS" display="bitmask">Bitwise OR combination of the data available flags.</field>
     </message>
     <message id="350" name="DEBUG_FLOAT_ARRAY">
       <description>Large debug/prototyping array. The message uses the maximum available payload for data. The array_id and name fields are used to discriminate between messages in code and in user interfaces (respectively). Do not use in production code.</description>

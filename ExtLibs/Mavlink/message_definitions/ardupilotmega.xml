@@ -28,10 +28,40 @@
     <!-- ardupilot specific MAV_CMD_* commands -->
     <enum name="MAV_CMD">
       <!-- 200 to 214 used by common.xml -->
-      <entry value="215" name="MAV_CMD_DO_SET_RESUME_REPEAT_DIST">
+      <entry value="215" name="MAV_CMD_DO_SET_RESUME_REPEAT_DIST" hasLocation="false" isDestination="false">
         <description>Set the distance to be repeated on mission resume</description>
         <param index="1" label="Distance" units="m">Distance.</param>
         <param index="2">Empty.</param>
+        <param index="3">Empty.</param>
+        <param index="4">Empty.</param>
+        <param index="5">Empty.</param>
+        <param index="6">Empty.</param>
+        <param index="7">Empty.</param>
+      </entry>
+      <entry value="216" name="MAV_CMD_DO_SPRAYER" hasLocation="false" isDestination="false">
+        <description>Control attached liquid sprayer</description>
+        <param index="1" label="Sprayer Enable" minValue="0" maxValue="1" increment="1">0: disable sprayer. 1: enable sprayer.</param>
+        <param index="2">Empty.</param>
+        <param index="3">Empty.</param>
+        <param index="4">Empty.</param>
+        <param index="5">Empty.</param>
+        <param index="6">Empty.</param>
+        <param index="7">Empty.</param>
+      </entry>
+      <entry value="217" name="MAV_CMD_DO_SEND_SCRIPT_MESSAGE" hasLocation="false" isDestination="false">
+        <description>Pass instructions onto scripting, a script should be checking for a new command</description>
+        <param index="1" label="ID" minValue="0" maxValue="65535" increment="1">uint16 ID value to be passed to scripting</param>
+        <param index="2" label="param 1">float value to be passed to scripting</param>
+        <param index="3" label="param 2">float value to be passed to scripting</param>
+        <param index="4" label="param 3">float value to be passed to scripting</param>
+        <param index="5">Empty.</param>
+        <param index="6">Empty.</param>
+        <param index="7">Empty.</param>
+      </entry>
+      <entry value="218" name="MAV_CMD_DO_AUX_FUNCTION">
+        <description>Execute auxiliary function</description>
+        <param index="1" label="AuxiliaryFunction">Auxiliary Function.</param>
+        <param index="2" label="SwitchPosition" enum="MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL">Switch Level.</param>
         <param index="3">Empty.</param>
         <param index="4">Empty.</param>
         <param index="5">Empty.</param>
@@ -825,6 +855,17 @@
         <description>30 Shots / 6 Second.</description>
       </entry>
     </enum>
+    <enum name="MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL">
+      <entry value="0" name="MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL_LOW">
+        <description>Switch Low.</description>
+      </entry>
+      <entry value="1" name="MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL_MIDDLE">
+        <description>Switch Middle.</description>
+      </entry>
+      <entry value="2" name="MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL_HIGH">
+        <description>Switch High.</description>
+      </entry>
+    </enum>
     <!-- led control pattern enums (enumeration of specific patterns) -->
     <enum name="LED_CONTROL_PATTERN">
       <entry value="0" name="LED_CONTROL_PATTERN_OFF">
@@ -1579,8 +1620,8 @@
       <description>Camera vision based attitude and position deltas.</description>
       <field name="time_usec" type="uint64_t" units="us">Timestamp (synced to UNIX time or since system boot).</field>
       <field name="time_delta_usec" type="uint64_t" units="us">Time since the last reported camera frame.</field>
-      <field type="float[3]" name="angle_delta">Defines a rotation vector in body frame that rotates the vehicle from the previous to the current orientation.</field>
-      <field type="float[3]" name="position_delta" units="m">Change in position from previous to current frame rotated into body frame (0=forward, 1=right, 2=down).</field>
+      <field type="float[3]" name="angle_delta" units="rad">Defines a rotation vector [roll, pitch, yaw] to the current MAV_FRAME_BODY_FRD from the previous MAV_FRAME_BODY_FRD.</field>
+      <field type="float[3]" name="position_delta" units="m">Change in position to the current MAV_FRAME_BODY_FRD from the previous FRAME_BODY_FRD rotated to the current MAV_FRAME_BODY_FRD.</field>
       <field type="float" name="confidence" units="%">Normalised confidence value from 0 to 100.</field>
     </message>
     <!-- Angle of Attack and Side Slip Angle message -->
@@ -1660,7 +1701,7 @@
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
       <field type="uint8_t" name="sensor_type" enum="MAV_DISTANCE_SENSOR">Class id of the distance sensor type.</field>
       <field type="uint8_t" name="frame" enum="MAV_FRAME">Coordinate frame of reference.</field>
-      <field type="uint16_t" name="obstacle_id"> Unique ID given to each obstacle so that its movement can be tracked. Use UINT16_MAX if object ID is unknown or cannot be determined.</field>
+      <field type="uint16_t" name="obstacle_id" instance="true"> Unique ID given to each obstacle so that its movement can be tracked. Use UINT16_MAX if object ID is unknown or cannot be determined.</field>
       <field type="float" name="x" units="m"> X position of the obstacle.</field>
       <field type="float" name="y" units="m"> Y position of the obstacle.</field>
       <field type="float" name="z" units="m"> Z position of the obstacle.</field>
