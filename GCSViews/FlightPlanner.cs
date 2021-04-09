@@ -4432,6 +4432,9 @@ namespace MissionPlanner.GCSViews
 
                 var zone = center.GetUTMZone();
 
+                var lngstart = center.GetLngStartFromZone();
+                var lngend = center.GetLngEndFromZone();
+
                 var utm1 = plla1.ToUTM(zone);
                 var utm2 = plla2.ToUTM(zone);
 
@@ -4492,6 +4495,30 @@ namespace MissionPlanner.GCSViews
                     int y2 = (int)p2.Y;
 
                     e.Graphics.DrawLine(new Pen(MainMap.SelectionPen.Color, 1), x1, y1, x2, y2);
+                }
+
+                //zone boundary
+                {
+                    var p1 = MainMap.FromLatLngToLocal(new PointLatLng(plla1.Lat, lngstart));
+                    var p2 = MainMap.FromLatLngToLocal(new PointLatLng(plla2.Lat, lngstart));
+
+                    int x1 = (int)p1.X;
+                    int y1 = (int)p1.Y;
+                    int x2 = (int)p2.X;
+                    int y2 = (int)p2.Y;
+
+                    e.Graphics.DrawLine(new Pen(MainMap.SelectionPen.Color, 2), x1, y1, x2, y2);
+                }
+                {
+                    var p1 = MainMap.FromLatLngToLocal(new PointLatLng(plla1.Lat, lngend));
+                    var p2 = MainMap.FromLatLngToLocal(new PointLatLng(plla2.Lat, lngend));
+
+                    int x1 = (int)p1.X;
+                    int y1 = (int)p1.Y;
+                    int x2 = (int)p2.X;
+                    int y2 = (int)p2.Y;
+
+                    e.Graphics.DrawLine(new Pen(MainMap.SelectionPen.Color, 2), x1, y1, x2, y2);
                 }
             }
 

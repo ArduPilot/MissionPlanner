@@ -176,6 +176,18 @@ namespace MissionPlanner.Utilities
             return zone;
         }
 
+        public int GetLngStartFromZone()
+        {
+            int zone = GetUTMZone();
+            return ((Math.Abs(zone) * 6) - 180) - 6;
+        }
+
+        public int GetLngEndFromZone()
+        {
+            int zone = GetUTMZone();
+            return ((Math.Abs(zone) * 6) - 180);
+        }
+
         public string GetFriendlyZone()
         {
             return GetUTMZone().ToString("0N;0S");
