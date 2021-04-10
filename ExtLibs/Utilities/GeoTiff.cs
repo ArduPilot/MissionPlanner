@@ -424,7 +424,10 @@ namespace MissionPlanner.Utilities
         }
 
         private static MemoryCache cachescanlines =
-            new MemoryCache(new MemoryCacheOptions() {SizeLimit = 1024 * 1024 * 500});
+            new MemoryCache(new MemoryCacheOptions()
+            {
+                /*SizeLimit = 1024 * 1024 * 500*/
+            });
 
         private static double GetAltNoCache(geotiffdata geotiffdata, int x, int y)
         {
@@ -433,7 +436,7 @@ namespace MissionPlanner.Utilities
                 scanline = cachescanlines.Get(geotiffdata.FileName + x.ToString()) as byte[];
             if (scanline == null)
             {
-                Task.Run(() =>
+                //Task.Run(() =>
                 {
                     lock(geotiffdata)
                         if (geotiffdata.Tiff == null)
@@ -466,8 +469,8 @@ namespace MissionPlanner.Utilities
                         }
                     }
                 }
-                );
-                return short.MinValue;
+                //);
+                //return short.MinValue;
             }
 
             return ProcessScanLine(geotiffdata, y, scanline);
@@ -477,6 +480,9 @@ namespace MissionPlanner.Utilities
         {
             lock (cachescanlines)
             {
+                if(cachescanlines.Get(geotiffdata.FileName + x.ToString())!= null)
+                    return;
+
                 var ci = cachescanlines.CreateEntry(geotiffdata.FileName + x.ToString());
                 ci.Value = scanline;
                 ci.Size = ((byte[]) ci.Value).Length;
