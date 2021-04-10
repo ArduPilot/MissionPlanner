@@ -244,9 +244,23 @@ namespace MissionPlanner.Utilities
                         xmax = Math.Max(Math.Max(Math.Max(pnt.Lng, pnt2.Lng), pnt3.Lng), pnt4.Lng);
                     }
 
-                    
-
                     Area = new RectLatLng(ymax, xmin, xmax - xmin, ymax - ymin);
+
+                    // geo lat/lng
+                    if (ProjectedCSTypeGeoKey == 0)
+                    {
+                        var pnt = new PointLatLngAlt(y, x);
+                        var pnt2 = new PointLatLngAlt(y + height * yscale, x + width * xscale);
+                        var pnt3 = new PointLatLngAlt(y, x + width * xscale);
+                        var pnt4 = new PointLatLngAlt(y + height * yscale, x);
+
+                        ymin = Math.Min(Math.Min(Math.Min(pnt.Lat, pnt2.Lat), pnt3.Lat), pnt4.Lat);
+                        xmin = Math.Min(Math.Min(Math.Min(pnt.Lng, pnt2.Lng), pnt3.Lng), pnt4.Lng);
+                        ymax = Math.Max(Math.Max(Math.Max(pnt.Lat, pnt2.Lat), pnt3.Lat), pnt4.Lat);
+                        xmax = Math.Max(Math.Max(Math.Max(pnt.Lng, pnt2.Lng), pnt3.Lng), pnt4.Lng);
+
+                        Area = new RectLatLng(y, x, width*xscale, height*yscale);
+                    }
 
                     log.InfoFormat("Coverage {0}", Area.ToString());
 

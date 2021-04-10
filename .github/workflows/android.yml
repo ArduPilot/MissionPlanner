@@ -39,8 +39,8 @@ jobs:
           del ExtLibs\Xamarin\Xamarin.Android\bin\Release\com.michaeloborne.MissionPlanner-Signed.aab
           
           mkdir whatsnew
-          git log --pretty=oneline --abbrev-commit -10 > whatsnew\whatsnew-en-US
-          git log --pretty=oneline --abbrev-commit -10 > whatsnew\whatsnew-en-GB
+          git log --pretty=oneline --abbrev-commit -5 > whatsnew\whatsnew-en-US
+          git log --pretty=oneline --abbrev-commit -5 > whatsnew\whatsnew-en-GB
 
       - name: Sign AAB
         id: sign
