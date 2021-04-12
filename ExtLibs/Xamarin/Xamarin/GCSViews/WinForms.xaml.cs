@@ -60,7 +60,16 @@ namespace Xamarin.GCSViews
             }
 
             if (Device.RuntimePlatform == Device.macOS || Device.RuntimePlatform == Device.UWP)
+            {
                 size = Device.Info.PixelScreenSize;
+                // scale if higher than full hd
+                if (size.Width > 1920)
+                {
+                    size.Width /= 2;
+                    size.Height /= 2;
+
+                }
+            }
 
             Instance = this;
             try
@@ -186,7 +195,7 @@ namespace Xamarin.GCSViews
                     files.mavcmd);
 
 
-                {
+                try {
                         var pluginsdir = Settings.GetRunningDirectory() + "plugins";
                         Directory.CreateDirectory(pluginsdir);
 
@@ -224,9 +233,9 @@ namespace Xamarin.GCSViews
 
                             }
                         }
-                    }
+                    } catch { }
 
-                    {
+                    try {
                         var graphsdir = Settings.GetRunningDirectory() + "graphs";
                         Directory.CreateDirectory(graphsdir);
 
@@ -252,7 +261,7 @@ namespace Xamarin.GCSViews
 
                             }
                         }
-                    }
+                    } catch { }
             }
             catch (Exception ex)
             {

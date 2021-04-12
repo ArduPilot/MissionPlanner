@@ -17,9 +17,8 @@
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>
-    </PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>3228C68306A69027A088D7E085EDB5DCA780BA25</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>Xamarin.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>3F9412F9509ED384A18015A04BBAC14637959CCB</PackageCertificateThumbprint>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
@@ -220,6 +219,23 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="entrypoint\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="BSE.Windows.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BSE.Windows.Forms\bin\Debug\netstandard2.0\BSE.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="GMap.NET.WindowsForms, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\GMap.NET.WindowsForms\bin\Debug\netstandard2.0\GMap.NET.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Controls\bin\Debug\netstandard2.0\MissionPlanner.Controls.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xamarin.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

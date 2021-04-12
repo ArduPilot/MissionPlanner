@@ -18,14 +18,19 @@ namespace Xamarin.MacOS
             var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled;
             var rect = new CoreGraphics.CGRect(200,200,1024,768);
             mainWindow = new NSWindow(rect, style, NSBackingStore.Buffered, false);
-            mainWindow.Title = "Xamarin.Forms on Mac!";
+            mainWindow.Title = "Mission Planner on Mac!";
             mainWindow.TitleVisibility = NSWindowTitleVisibility.Hidden;
+            mainWindow.DidResize += MainWindow_DidResize;
 
             Test.BlueToothDevice = new BTDevice();
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
 
             new System.Drawing.android.android();
+        }
+
+        private void MainWindow_DidResize(object sender, EventArgs e)
+        {
         }
 
         private  NSWindow mainWindow;

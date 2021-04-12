@@ -303,9 +303,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet">
-      <Version>0.12.1</Version>
-    </PackageReference>
     <PackageReference Include="Crc32.NET">
       <Version>1.2.0</Version>
     </PackageReference>

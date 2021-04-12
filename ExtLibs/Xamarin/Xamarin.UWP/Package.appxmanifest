@@ -9,7 +9,7 @@
 
   <Identity
     Name="19c18b47-4802-41c3-a818-f97d2705eb8e"
-    Publisher="CN=4c5fb2d3-922b-49c1-b6ef-6e16ad9b058f"
+    Publisher="CN=Michael Oborne"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
