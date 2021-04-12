@@ -1189,13 +1189,19 @@ namespace MissionPlanner.GCSViews
             mouseposdisplay.Lat = lat;
             mouseposdisplay.Lng = lng;
             mouseposdisplay.Alt = alt;
-
-            coords1.Lat = mouseposdisplay.Lat;
-            coords1.Lng = mouseposdisplay.Lng;
-            var altdata = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom);
-            coords1.Alt = altdata.alt * CurrentState.multiplieralt;
-            coords1.AltSource = altdata.altsource;
-            coords1.AltUnit = CurrentState.AltUnit;
+            
+            Task.Run(() =>
+            {
+                var altdata = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom);
+                this.BeginInvokeIfRequired(() =>
+                {
+                    coords1.Lat = mouseposdisplay.Lat;
+                    coords1.Lng = mouseposdisplay.Lng;
+                    coords1.Alt = altdata.alt * CurrentState.multiplieralt;
+                    coords1.AltSource = altdata.altsource;
+                    coords1.AltUnit = CurrentState.AltUnit;
+                });
+            });
 
             try
             {
