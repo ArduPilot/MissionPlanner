@@ -82,6 +82,12 @@ namespace Xamarin.GCSViews
             // init seril port type
             SerialPort.DefaultType = (self, s, i) =>
             {
+                if (Device.RuntimePlatform == Device.macOS || Device.RuntimePlatform == Device.UWP)
+                {
+                    Log.Info(TAG, "SerialPort.DefaultType in " + s + " " + i + " for " + Device.RuntimePlatform);
+                    return new WinSerialPort();
+                }
+
                 return Task.Run(async () =>
                 {
                     Log.Info(TAG, "SerialPort.DefaultType in " + s + " " + i);

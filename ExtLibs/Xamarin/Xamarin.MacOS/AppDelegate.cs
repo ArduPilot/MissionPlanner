@@ -61,9 +61,9 @@ namespace Xamarin.MacOS
 
         public class BTDevice : IBlueToothDevice
         {
-            Task<List<DeviceInfo>> IBlueToothDevice.GetDeviceInfoList()
+            public async Task<List<DeviceInfo>> GetDeviceInfoList()
             {
-                throw new NotImplementedException();
+                return new List<DeviceInfo>();
             }
 
             public Task<ICommsSerial> GetBT(DeviceInfo first)
@@ -77,11 +77,6 @@ namespace Xamarin.MacOS
             public event EventHandler<DeviceInfo> USBEvent;
 
             public DeviceInfo GetDeviceInfo(object devicein)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Task GetDeviceInfoList()
             {
                 throw new NotImplementedException();
             }
