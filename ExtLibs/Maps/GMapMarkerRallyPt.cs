@@ -30,7 +30,7 @@ namespace MissionPlanner.Maps
         }
 
         public GMapMarkerRallyPt(PointLatLngAlt plla)
-            : base(new PointLatLng(plla.Lat, plla.Lng))
+            : this(new PointLatLng(plla.Lat, plla.Lng))
         {
             Alt = (int)plla.Alt;
             ToolTipMode = MarkerTooltipMode.OnMouseOver;
