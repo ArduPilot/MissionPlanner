@@ -83,6 +83,27 @@ namespace MissionPlanner
             }
         }
 
+        public event EventHandler<(byte, byte)> MAVDetected
+        {
+            add
+            {
+                log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value?.Method?.Name +
+                         " " + value?.Target?.GetType()?.Name +
+                         " " + value);
+                _MAVDetected += value;
+            }
+
+            remove
+            {
+                log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " +
+                         value?.Method?.Name + " " + value?.Target?.GetType()?.Name +
+                         " " + value);
+                _MAVDetected -= value;
+            }
+        }
+
+        private EventHandler<(byte, byte)> _MAVDetected;
+
         public void DoOnPacketSent(MAVLinkMessage pkt)
         {
             _OnPacketSent?.Invoke(this, pkt);
@@ -4731,6 +4752,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 MAVlist[sysid, compid].aptype = (MAV_TYPE) hb.type;
                                 MAVlist[sysid, compid].apname = (MAV_AUTOPILOT) hb.autopilot;
                                 setAPType(sysid, compid);
+                                _MAVDetected?.Invoke(this, (sysid, compid));
                             }
 
                             // attach to the only remote device. / default to first device seen
