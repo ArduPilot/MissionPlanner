@@ -25,7 +25,8 @@ namespace MissionPlanner.Log
         string[] ntunlast = new string[] {"", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
         // wp list
-        List<string> cmdraw = new List<string>();
+        List<string> cmdraw = new List<string>(); 
+        List<string> ralyraw = new List<string>();
 
         Point3D oldlastpos = new Point3D();
         Point3D lastpos = new Point3D();
@@ -88,6 +89,10 @@ namespace MissionPlanner.Log
                 else if (items[0].Contains("CMD")) // "CMD", "QHHHfffffff","TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt" }, \
                 {
                     cmdraw.Add(line);
+                }
+                else if (items[0].Contains("RALY")) // "CMD", "QHHHfffffff","TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt" }, \
+                {
+                    ralyraw.Add(line);
                 }
                 else if (items[0].Contains("MOD"))
                 {
@@ -359,6 +364,7 @@ namespace MissionPlanner.Log
             flightdata.Clear();
             position = new List<Core.Geometry.Point3D>[200];
             cmdraw.Clear();
+            ralyraw.Clear();
         }
 
 
@@ -482,6 +488,52 @@ namespace MissionPlanner.Log
                     Frame = double.Parse(items[dflog.FindMessageOffset("CMD", "Frame")], CultureInfo.InvariantCulture);
 
                 sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}", CNum, 0, Frame, CId, Prm1, Prm2, Prm3, Prm4, Lat, Lng, Alt, 1);
+            }
+
+            if (sw != null)
+                sw.Close();
+        }
+        public void writeRallyFile(string basefilename)
+        {
+            int fileindex = 0;
+
+            double currenttotaltarget = -1;
+            double lastseenwpno = -1;
+
+            StreamWriter sw = null;
+
+            foreach (string line in ralyraw)
+            {
+                string[] items = line.Split(',', ':');
+
+                var CTot = double.Parse(items[dflog.FindMessageOffset("RALY", "Tot")], CultureInfo.InvariantCulture);
+                var CNum = double.Parse(items[dflog.FindMessageOffset("RALY", "Seq")], CultureInfo.InvariantCulture);
+                // if the total changes we are in a new upload, or if the current wpno is less than the last seen wpno
+                if (CTot != currenttotaltarget || CNum < lastseenwpno)
+                {
+                    currenttotaltarget = CTot;
+                    // close old if we need to
+                    if (sw != null)
+                        sw.Close();
+
+                    // new filename
+                    string file = Path.GetDirectoryName(basefilename) + Path.DirectorySeparatorChar +
+                                  Path.GetFileNameWithoutExtension(basefilename) + fileindex + "rally.txt";
+                    fileindex++;
+
+                    // create a new file
+                    sw = new StreamWriter(file);
+                    sw.WriteLine("QGC WPL 110");
+                }
+                lastseenwpno = CNum;
+
+                var Lat = double.Parse(items[dflog.FindMessageOffset("RALY", "Lat")], CultureInfo.InvariantCulture);
+                var Lng = double.Parse(items[dflog.FindMessageOffset("RALY", "Lng")], CultureInfo.InvariantCulture);
+                var Alt = double.Parse(items[dflog.FindMessageOffset("RALY", "Alt")], CultureInfo.InvariantCulture);
+
+                var Frame = 3.0;
+
+                sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}", CNum, 0, Frame, 5100, 0, 0, 0, 0, Lat, Lng, Alt, 1);
             }
 
             if (sw != null)
@@ -738,6 +790,12 @@ gnssId GNSS Type
             try
             {
                 writeWPFile(filename);
+            }
+            catch
+            { }
+            try
+            {
+                writeRallyFile(filename);
             }
             catch
             { }
@@ -1101,6 +1159,7 @@ gnssId GNSS Type
             flightdata.Clear();
             position = new List<Core.Geometry.Point3D>[200];
             cmdraw.Clear();
+            ralyraw.Clear();
         }
 
         private void writeParamFile(string filename)
