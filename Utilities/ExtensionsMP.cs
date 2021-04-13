@@ -3,6 +3,7 @@ using MissionPlanner.test;
 using System;
 using System.Windows.Forms;
 using Xamarin.Forms;
+using Application = System.Windows.Forms.Application;
 
 namespace MissionPlanner.Utilities
 {
@@ -78,15 +79,22 @@ namespace MissionPlanner.Utilities
 
             f.Width = Width;
             f.Height = Height;
-            var app = new Xamarin.Forms.Application() { MainPage = ctl };
-            f.LoadApplication(app);
-            ThemeManager.ApplyThemeTo(f);
-            if (ctl is IClose)
+            var done = false;
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
             {
-                ((IClose)ctl).CloseAction = () => f.Close();
-            }
+                var app = new Xamarin.Forms.Application() {MainPage = ctl};
+                f.LoadApplication(app);
+                ThemeManager.ApplyThemeTo(f);
+                if (ctl is IClose)
+                {
+                    ((IClose) ctl).CloseAction = () => f.Close();
+                }
 
-            f.ShowDialog();
+                f.ShowDialog();
+                done = true;
+            });
+
+            while(!done) Application.DoEvents();
 
             return f;
         }

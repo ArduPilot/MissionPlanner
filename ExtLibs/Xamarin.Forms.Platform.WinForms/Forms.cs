@@ -16,6 +16,8 @@ namespace Xamarin.Forms.Platform.WinForms
 			private set;
 		}
 
+        public static int UIThread { get; set; } = -1;
+
 		public static void Init(WForms.Form mainForm)
 		{
 			if (IsInitialized)
@@ -23,7 +25,10 @@ namespace Xamarin.Forms.Platform.WinForms
 				return;
 			}
 
-			Device.PlatformServices = new WinFormsPlatformServices(mainForm, Thread.CurrentThread.ManagedThreadId);
+            if (UIThread == -1)
+                UIThread = Thread.CurrentThread.ManagedThreadId;
+
+            Device.PlatformServices = new WinFormsPlatformServices(mainForm, UIThread);
 			Device.SetIdiom(TargetIdiom.Desktop);
 			Device.Info = new WinFormsDeviceInfo();
 

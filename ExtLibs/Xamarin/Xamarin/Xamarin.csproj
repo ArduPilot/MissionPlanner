@@ -21,6 +21,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Forms\**" />
+    <EmbeddedResource Remove="Forms\**" />
+    <None Remove="Forms\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controls\Cursors.cs" />
     <Compile Remove="Controls\MouseEventArgs.cs" />
     <Compile Remove="Controls\PaintEventArgs.cs" />

@@ -46,6 +46,8 @@ namespace Xamarin.GCSViews
             size = Device.Info.ScaledScreenSize;
             size = Device.Info.PixelScreenSize;
 
+            Xamarin.Forms.Platform.WinForms.Forms.UIThread = Thread.CurrentThread.ManagedThreadId;
+
             var scale = size.Width / size.Height; // 1.77 1.6  1.33
 
             if (scale < 1)

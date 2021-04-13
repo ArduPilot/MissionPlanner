@@ -21,12 +21,18 @@ namespace Xamarin.MacOS
             mainWindow.Title = "Mission Planner on Mac!";
             mainWindow.TitleVisibility = NSWindowTitleVisibility.Hidden;
             mainWindow.DidResize += MainWindow_DidResize;
+            mainWindow.WillClose += MainWindow_WillClose;
 
             Test.BlueToothDevice = new BTDevice();
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
 
             new System.Drawing.android.android();
+        }
+
+        private void MainWindow_WillClose(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
         }
 
         private void MainWindow_DidResize(object sender, EventArgs e)
