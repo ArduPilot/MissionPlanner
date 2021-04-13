@@ -14,7 +14,7 @@
 
   <PropertyGroup>
     <DefineConstants>DEBUG;TRACE;LIB</DefineConstants>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>MissionPlanner</AssemblyName>
   </PropertyGroup>
 
@@ -345,6 +345,36 @@
  </ItemGroup>
 
  <ItemGroup>
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\Handshake.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\ISerialStream.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\MonoTODOAttribute.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\Parity.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialData.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialError.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialErrorEventArgs.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialPinChange.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialPinChangedEventArgs.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialPort.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialPortStream.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialReceivedEventArgs.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\SerialSignal.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\StopBits.cs" />
+
+   <Compile Include="ExtLibs\Comms\System.IO.Ports\WinSerialStream.cs" />
 
    <Compile Include="Properties\AssemblyInfo.cs" />
 

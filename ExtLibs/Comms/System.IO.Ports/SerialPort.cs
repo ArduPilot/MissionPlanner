@@ -28,7 +28,7 @@ using Microsoft.Win32;
 namespace System.IO.Ports
 {
 	[MonitoringDescription ("")]
-	public class SerialPort : Component
+	public class MonoSerialPort : Component
 	{
 		public const int InfiniteTimeout = -1;
 		const int DefaultReadBufferSize = 4096;
@@ -59,37 +59,37 @@ namespace System.IO.Ports
 		object data_received = new object ();
 		object pin_changed = new object ();
 
-		public SerialPort () : 
+		public MonoSerialPort () : 
 			this (GetDefaultPortName (), DefaultBaudRate, DefaultParity, DefaultDataBits, DefaultStopBits)
 		{
 		}
 
-		public SerialPort (IContainer container) : this ()
+		public MonoSerialPort (IContainer container) : this ()
 		{
 			// TODO: What to do here?
 		}
 
-		public SerialPort (string portName) :
+		public MonoSerialPort (string portName) :
 			this (portName, DefaultBaudRate, DefaultParity, DefaultDataBits, DefaultStopBits)
 		{
 		}
 
-		public SerialPort (string portName, int baudRate) :
+		public MonoSerialPort (string portName, int baudRate) :
 			this (portName, baudRate, DefaultParity, DefaultDataBits, DefaultStopBits)
 		{
 		}
 
-		public SerialPort (string portName, int baudRate, Parity parity) :
+		public MonoSerialPort (string portName, int baudRate, Parity parity) :
 			this (portName, baudRate, parity, DefaultDataBits, DefaultStopBits)
 		{
 		}
 
-		public SerialPort (string portName, int baudRate, Parity parity, int dataBits) :
+		public MonoSerialPort (string portName, int baudRate, Parity parity, int dataBits) :
 			this (portName, baudRate, parity, dataBits, DefaultStopBits)
 		{
 		}
 
-		public SerialPort (string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits) 
+		public MonoSerialPort (string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits) 
 		{
 			port_name = portName;
 			baud_rate = baudRate;
