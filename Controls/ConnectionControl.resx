@@ -121,6 +121,10 @@
   <data name="cmb_Baud.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="cmb_Baud.ItemHeight" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
   <data name="cmb_Baud.Items" xml:space="preserve">
     <value>1200</value>
   </data>
@@ -172,10 +176,12 @@
   <data name="cmb_Baud.Location" type="System.Drawing.Point, System.Drawing">
     <value>127, 0</value>
   </data>
+  <data name="cmb_Baud.MaxDropDownItems" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
   <data name="cmb_Baud.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 28</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="cmb_Baud.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -196,6 +202,9 @@
   </data>
   <data name="cmb_Connection.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
+  </data>
+  <data name="cmb_Connection.MaxDropDownItems" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
   <data name="cmb_Connection.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 27</value>
