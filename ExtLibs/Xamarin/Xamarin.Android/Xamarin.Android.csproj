@@ -139,6 +139,7 @@
   <ItemGroup>
     <Compile Include="AbstractUnixEndPoint.cs" />
     <Compile Include="AndroidSerial.cs" />
+    <Compile Include="AndroidVideo.cs" />
     <Compile Include="BTDevice.cs" />
     <Compile Include="BluetoothDiscoveryModeArgs.cs" />
     <Compile Include="DeviceDiscoveredReceiver.cs" />

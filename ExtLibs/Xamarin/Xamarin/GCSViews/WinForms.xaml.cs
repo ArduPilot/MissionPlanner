@@ -153,16 +153,28 @@ namespace Xamarin.GCSViews
                 return list1;
             };
             /*
-            // support for fw upload
-            MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>
-            {
-                return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
-            };
+// support for fw upload
+MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>
+{
+    return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
+};
 
-            MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =>
+MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =>
+{
+    return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
+};*/
+        }
+
+        public static void SetHUDbg(byte[] buffer)
+        {
+            try
             {
-                return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
-            };*/
+                MissionPlanner.GCSViews.FlightData.myhud.bgimage = Bitmap.FromStream(new MemoryStream(buffer));
+            }
+            catch (Exception ex)
+            {
+                Log.Error("MP", ex.ToString());
+            }
         }
 
         private void RestoreFiles()

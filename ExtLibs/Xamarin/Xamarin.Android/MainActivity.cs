@@ -70,6 +70,7 @@ namespace Xamarin.Droid
         public static MainActivity Current { private set; get; }
         public static readonly int PickImageId = 1000;
         private DeviceDiscoveredReceiver BTBroadcastReceiver;
+        private AndroidVideo androidvideo;
 
         public TaskCompletionSource<string> PickImageTaskCompletionSource { set; get; }
 
@@ -132,8 +133,15 @@ namespace Xamarin.Droid
             Test.Radio = new Radio();
             Test.GPS = new GPS();
 
-
+            androidvideo = new AndroidVideo();
+            //disable
+            //androidvideo.Start();
+            AndroidVideo.onNewImage += (e, o) => 
+            {
+                WinForms.SetHUDbg(o);
+            };
             
+
             //ConfigFirmwareManifest.ExtraDeviceInfo
             /*
             var intent = new global::Android.Content.Intent(Intent.ActionOpenDocumentTree);
@@ -454,7 +462,7 @@ namespace Xamarin.Droid
                                     readlen = socket.Receive(buffer);
                                     if ((readlen > 4) && (readlen >= (4 + buffer[3])))
                                     {
-                                        Log.Info(TAG, "Got " + ASCIIEncoding.ASCII.GetString(buffer, 4, buffer[3]));
+                                        //Log.Info(TAG, "Got " + ASCIIEncoding.ASCII.GetString(buffer, 4, buffer[3]));
                                     }
                                 } while (readlen > 0);
                                 socket.Close();
