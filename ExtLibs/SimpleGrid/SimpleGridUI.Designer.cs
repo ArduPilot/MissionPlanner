@@ -89,7 +89,7 @@
             this.map.HoldInvalidation = false;
             this.map.LevelsKeepInMemmory = 5;
             this.map.MarkersEnabled = true;
-            this.map.MaxZoom = 19;
+            this.map.MaxZoom = 24;
             this.map.MinZoom = 2;
             this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.map.Name = "map";

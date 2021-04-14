@@ -84,7 +84,7 @@ namespace MissionPlanner
             map = new myGMAP
             {
                 MapProvider = GMapProviders.GoogleSatelliteMap,
-                MaxZoom = 20
+                MaxZoom = 24
             };
             map.Overlays.Add(polygons);
             map.Size = new Size(1024, 768);

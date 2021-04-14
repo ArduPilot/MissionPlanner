@@ -811,7 +811,7 @@ namespace MissionPlanner.GCSViews
             this.MainMap.HoldInvalidation = false;
             this.MainMap.LevelsKeepInMemmory = 5;
             this.MainMap.MarkersEnabled = true;
-            this.MainMap.MaxZoom = 19;
+            this.MainMap.MaxZoom = 24;
             this.MainMap.MinZoom = 0;
             this.MainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.MainMap.Name = "MainMap";

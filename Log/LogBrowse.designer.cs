@@ -207,7 +207,7 @@ namespace MissionPlanner.Log
             this.myGMAP1.HoldInvalidation = false;
             this.myGMAP1.LevelsKeepInMemmory = 5;
             this.myGMAP1.MarkersEnabled = true;
-            this.myGMAP1.MaxZoom = 21;
+            this.myGMAP1.MaxZoom = 24;
             this.myGMAP1.MinZoom = 2;
             this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.myGMAP1.Name = "myGMAP1";

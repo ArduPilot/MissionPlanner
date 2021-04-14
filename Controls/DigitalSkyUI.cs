@@ -158,7 +158,7 @@ namespace MissionPlanner.Controls
         public void Activate()
         {
             myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
-            myGMAP1.MaxZoom = 20;
+            myGMAP1.MaxZoom = 24;
             myGMAP1.Zoom = 5;
             myGMAP1.DisableFocusOnMouseEnter = true;
             myGMAP1.DragButton = MouseButtons.Left;

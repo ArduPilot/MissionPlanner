@@ -1084,7 +1084,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
-            myGMAP1.MaxZoom = 22;
+            myGMAP1.MaxZoom = 24;
             myGMAP1.Zoom = 16;
             myGMAP1.DisableFocusOnMouseEnter = true;
 

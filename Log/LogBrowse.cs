@@ -195,6 +195,8 @@ namespace MissionPlanner.Log
             if (GCSViews.FlightData.mymap != null)
                 myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
 
+            myGMAP1.MaxZoom = 24;
+
             myGMAP1.Overlays.Add(mapoverlay);
             myGMAP1.Overlays.Add(markeroverlay);
 
