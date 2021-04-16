@@ -27,10 +27,10 @@ namespace MissionPlanner.Controls
             CMB_paramfiles.Enabled = false;
             BUT_paramfileload.Enabled = false;
 
-            System.Threading.ThreadPool.QueueUserWorkItem(UpdateDefaultList);
+            UpdateDefaultList();
         }
 
-        void UpdateDefaultList(object crap)
+        void UpdateDefaultList()
         {
             Task.Run(delegate ()
             {
