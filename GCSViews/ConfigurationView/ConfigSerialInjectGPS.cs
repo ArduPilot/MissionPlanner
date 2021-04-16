@@ -425,13 +425,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 this.LogInfo("Setup UBLOX");
 
-                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
+                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
 
                 if (basepos != PointLatLngAlt.Zero)
                 {
-                    ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true, chk_movingbase.Checked);
+                    ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true);
 
-                    ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, false, chk_movingbase.Checked);
+                    ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, false);
                 }
 
                 CMB_baudrate.Text = "460800";
@@ -1193,8 +1193,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     ubx_m8p.SetupBasePos(comPort, basepos,
                         int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false,
-                        chk_movingbase.Checked);
+                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false);
 
                     ubx_m8p.poll_msg(comPort, 0x06, 0x71);
                 }
@@ -1274,12 +1273,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (comPort.IsOpen)
             {
-                ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true, chk_movingbase.Checked);
+                ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true);
 
-                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
+                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
 
                 ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                    double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false, chk_movingbase.Checked);
+                    double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false);
             }
         }
 
