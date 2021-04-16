@@ -13,6 +13,7 @@
         ArduTracker,
         Gymbal,
         PX4,
-        Other
+        Other,
+        AP_Periph
     }
 }
