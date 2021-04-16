@@ -30,6 +30,7 @@ using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 using Android.Content;
 using Android.Provider;
+using Android.Views.InputMethods;
 using Android.Widget;
 using Hoho.Android.UsbSerial.Util;
 using Java.Lang;
@@ -42,6 +43,7 @@ using Exception = System.Exception;
 using Process = Android.OS.Process;
 using String = System.String;
 using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
+using View = Android.Views.View;
 
 [assembly: UsesFeature("android.hardware.usb.host", Required = false)]
 [assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
@@ -89,6 +91,19 @@ namespace Xamarin.Droid
             }
         }
 
+        public static void ShowKeyboard(View pView) {
+            pView.RequestFocus();
+
+            InputMethodManager inputMethodManager = Current.GetSystemService(Context.InputMethodService) as InputMethodManager;
+            inputMethodManager.ShowSoftInput(pView, ShowFlags.Forced);
+            inputMethodManager.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
+        }
+
+        public static void HideKeyboard(View pView) {
+            InputMethodManager inputMethodManager = Current.GetSystemService(Context.InputMethodService) as InputMethodManager;
+            inputMethodManager.HideSoftInputFromWindow(pView.WindowToken, HideSoftInputFlags.None);
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Current = this;
@@ -117,7 +132,7 @@ namespace Xamarin.Droid
             Test.Radio = new Radio();
             Test.GPS = new GPS();
 
-          
+
             
             //ConfigFirmwareManifest.ExtraDeviceInfo
             /*
