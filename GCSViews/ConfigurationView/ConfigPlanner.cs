@@ -180,7 +180,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (Settings.Instance["video_device"] != null)
                 {
                     CMB_videosources_Click(this, null);
-                    CMB_videosources.SelectedIndex = Settings.Instance.GetInt32("video_device");
+                    var device = Settings.Instance.GetInt32("video_device");
+                    if(CMB_videosources.Items.Count > device)
+                        CMB_videosources.SelectedIndex = device;
 
                     if (Settings.Instance["video_options"] != "" && CMB_videosources.Text != "")
                     {

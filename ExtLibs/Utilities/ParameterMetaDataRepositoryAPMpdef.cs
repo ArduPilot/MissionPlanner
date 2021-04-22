@@ -120,7 +120,7 @@ namespace MissionPlanner.Utilities
             if (vechileType == "ArduCopter2")
                 vechileType = "ArduCopter";
             if (vechileType == "ArduRover")
-                vechileType = "APMrover2";
+                vechileType = "Rover";
             if (vechileType == "ArduTracker")
                 vechileType = "AntennaTracker";
 

@@ -205,7 +205,9 @@ namespace MissionPlanner.Controls
             // if the increment is divisible by one, always round to an int
             if ((Increment % 1) == 0)
             {
-                numericUpDown1.Value = (int) Math.Round(numericUpDown1.Value, 0);
+                var round = Math.Round(numericUpDown1.Value, 0);
+                if(round > numericUpDown1.Minimum)
+                    numericUpDown1.Value = (int) round;
             }
 
             numericUpDown1.BackColor = Color.Green;
