@@ -157,7 +157,7 @@ namespace MissionPlanner.MsgBox
                         {
                             System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
                         }
-                        catch (Exception exception)
+                        catch (Exception)
                         {
                             Show("Failed to open link " + ((LinkLabel)sender).Tag.ToString());
                         }

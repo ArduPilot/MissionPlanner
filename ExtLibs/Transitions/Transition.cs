@@ -141,7 +141,7 @@ namespace Transitions
                 else
                     args.propertyInfo.SetValue(args.target, args.value, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

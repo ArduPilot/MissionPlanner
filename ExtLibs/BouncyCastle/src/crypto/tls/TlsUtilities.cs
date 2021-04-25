@@ -2338,7 +2338,7 @@ namespace Org.BouncyCastle.Crypto.Tls
             {
                 keyExchangeAlgorithm = GetKeyExchangeAlgorithm(cipherSuite);
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 return true;
             }

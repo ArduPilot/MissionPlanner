@@ -141,7 +141,7 @@ namespace Hoho.Android.UsbSerial.Util
             {
                 return port.Write(buff, timeout);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // log or handle
             }

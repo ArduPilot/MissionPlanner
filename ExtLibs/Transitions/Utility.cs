@@ -71,7 +71,7 @@ namespace Transitions
                             args
                         });
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
         }

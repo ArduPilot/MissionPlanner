@@ -98,7 +98,7 @@ namespace Org.BouncyCastle.Crypto.Signers
                     return VerifySignature(rs[0], rs[1]);
                 }
             }
-            catch (IOException e)
+            catch (IOException)
             {
             }
 

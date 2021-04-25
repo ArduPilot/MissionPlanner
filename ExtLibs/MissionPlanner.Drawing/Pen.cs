@@ -46,7 +46,7 @@ namespace System.Drawing
                     FilterQuality = SKFilterQuality.High
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Console.WriteLine(e);
             }
