@@ -47,7 +47,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 AP_REPL.Stop();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
