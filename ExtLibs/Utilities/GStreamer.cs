@@ -12,7 +12,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 using System.Threading;
 using gsize = System.UInt64;
@@ -55,11 +57,15 @@ namespace MissionPlanner.Utilities
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern bool gst_init_check(IntPtr argc, IntPtr argv, out IntPtr error);
 
+
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
-            public static extern void gst_version(ref guint major,
-                ref guint minor,
-                ref guint micro,
-                ref guint nano);
+            public static extern void gst_version(out guint major,
+                out guint minor,
+                out guint micro,
+                out guint nano);
+
+            [DllImport ("gstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            private static extern IntPtr gst_version_string ();
 
             [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern UIntPtr gst_buffer_extract(IntPtr raw, UIntPtr offset, byte[] dest, UIntPtr size);
@@ -348,6 +354,7 @@ namespace MissionPlanner.Utilities
             public string message;
         }
 
+        [HandleProcessCorruptedStateExceptions, SecurityCritical]
         public static Thread StartA(string stringpipeline)
         {
             int argc = 1;
@@ -372,7 +379,7 @@ namespace MissionPlanner.Utilities
             }
 
             uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
-            NativeMethods.gst_version(ref v1, ref v2, ref v3, ref v4);
+            NativeMethods.gst_version(out v1, out v2, out v3, out v4);
 
             log.InfoFormat("GStreamer {0}.{1}.{2}.{3}", v1, v2, v3, v4);
 
@@ -405,6 +412,25 @@ namespace MissionPlanner.Utilities
                 return null;
             }
 
+            NativeMethods.gst_debug_bin_to_dot_file(pipeline, GstDebugGraphDetails.GST_DEBUG_GRAPH_SHOW_ALL,
+                "pipeline");
+
+            log.Info("graphviz of pipeline is at " + Path.GetTempPath() + "pipeline.dot");
+
+            //var msg = GStreamer.gst_bus_timed_pop_filtered(bus, GStreamer.GST_CLOCK_TIME_NONE, GStreamer.GstMessageType.GST_MESSAGE_ERROR | GStreamer.GstMessageType.GST_MESSAGE_EOS);
+            
+            var th = new Thread(ThreadStart) {IsBackground = true, Name = "gstreamer"};
+
+            th.Start(pipeline);
+
+            return th;
+        }
+
+
+        [HandleProcessCorruptedStateExceptions, SecurityCritical]
+        static void ThreadStart(object datao)
+        {
+            var pipeline = (IntPtr) datao;
             // appsink is part of the parse launch
             var appsink = NativeMethods.gst_bin_get_by_name(pipeline, "outsink");
 
@@ -417,7 +443,11 @@ namespace MissionPlanner.Utilities
                 newdata = true;
                 return GstFlowReturn.GST_FLOW_OK;
             };
-            callbacks.new_preroll += (sink, data) => { log.Info("new_preroll"); return GstFlowReturn.GST_FLOW_OK; };
+            callbacks.new_preroll += (sink, data) =>
+            {
+                log.Info("new_preroll");
+                return GstFlowReturn.GST_FLOW_OK;
+            };
             callbacks.eos += (sink, data) => { log.Info("EOS"); };
 
             NativeMethods.gst_app_sink_set_drop(appsink, true);
@@ -430,89 +460,68 @@ namespace MissionPlanner.Utilities
             /* Wait until error or EOS */
             var bus = NativeMethods.gst_element_get_bus(pipeline);
 
-            NativeMethods.gst_debug_bin_to_dot_file(pipeline, GstDebugGraphDetails.GST_DEBUG_GRAPH_SHOW_ALL,
-                "pipeline");
-
-            log.Info("graphviz of pipeline is at " + Path.GetTempPath() + "pipeline.dot");
-
-            //var msg = GStreamer.gst_bus_timed_pop_filtered(bus, GStreamer.GST_CLOCK_TIME_NONE, GStreamer.GstMessageType.GST_MESSAGE_ERROR | GStreamer.GstMessageType.GST_MESSAGE_EOS);
-
             int Width = 0;
             int Height = 0;
             int trys = 0;
+            // prevent it falling out of scope
+            GstAppSinkCallbacks callbacks2 = callbacks;
 
-            var th = new Thread(delegate()
+            run = true;
+
+            while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
             {
-                // prevent it falling out of scope
-                GstAppSinkCallbacks callbacks2 = callbacks;
-
-                Thread.Sleep(500);
-
-                run = true;
-
-                while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
+                try
                 {
-                    try
+                    var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND * 5);
+                    if (sample != IntPtr.Zero)
                     {
-                        var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND);
-                        if (sample != IntPtr.Zero)
+                        trys = 0;
+                        //var caps = gst_app_sink_get_caps(appsink);
+                        var caps = NativeMethods.gst_sample_get_caps(sample);
+                        var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
+                        NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
+                        NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
+
+                        //var capsstring = gst_caps_to_string(caps_s);
+                        //var structure = gst_sample_get_info(sample);
+                        //var structstring = gst_structure_to_string(structure);
+                        var buffer = NativeMethods.gst_sample_get_buffer(sample);
+                        if (buffer != IntPtr.Zero)
                         {
-                            trys = 0;
-                            //var caps = gst_app_sink_get_caps(appsink);
-                            var caps = NativeMethods.gst_sample_get_caps(sample);
-                            var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
-                            NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
-                            NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
-
-                            //var capsstring = gst_caps_to_string(caps_s);
-                            //var structure = gst_sample_get_info(sample);
-                            //var structstring = gst_structure_to_string(structure);
-                            var buffer = NativeMethods.gst_sample_get_buffer(sample);
-                            if (buffer != IntPtr.Zero)
+                            var info = new GstMapInfo();
+                            if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
                             {
-                                var info = new GstMapInfo();
-                                if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
-                                {
-                                    var image = new Bitmap(Width, Height, 4 * Width,
-                                        SkiaSharp.SKColorType.Bgra8888, info.data);
+                                var image = new Bitmap(Width, Height, 4 * Width, SkiaSharp.SKColorType.Bgra8888,
+                                    info.data);
 
-                                    _onNewImage?.Invoke(null, image);
-                                } 
-                                NativeMethods.gst_buffer_unmap(buffer, out info);
+                                _onNewImage?.Invoke(null, image);
                             }
 
-                            NativeMethods.gst_sample_unref(sample);
+                            NativeMethods.gst_buffer_unmap(buffer, out info);
                         }
-                        else
-                        {
-                            log.Info("failed gst_app_sink_try_pull_sample "+ trys + "");
-                            //trys++;
-                            //if (trys > 60)
-                                //break;
-                        }
+
+                        NativeMethods.gst_sample_unref(sample);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        log.Error(ex);
-                        trys++;
-                        if (trys > 60)
-                            break;
+                        log.Info("failed gst_app_sink_try_pull_sample " + trys + "");
                     }
                 }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    trys++;
+                    if (trys > 12) break;
+                }
+            }
 
-                NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
-                NativeMethods.gst_buffer_unref(bus);
+            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
+            NativeMethods.gst_buffer_unref(bus);
 
-                // cleanup
-                _onNewImage?.Invoke(null, null);
+            // cleanup
+            _onNewImage?.Invoke(null, null);
 
-                log.Info("Gstreamer Exit");
-
-            }) {IsBackground = true, Name = "gstreamer"};
-
-            th.Start();
-
-            return th;
+            log.Info("Gstreamer Exit");
         }
 
         ~GStreamer()
@@ -561,6 +570,8 @@ namespace MissionPlanner.Utilities
 
             Environment.SetEnvironmentVariable("GST_DEBUG_DUMP_DOT_DIR", Path.GetTempPath());
         }
+
+        //C:\ProgramData\Mission Planner\gstreamer\1.0\x86_64\bin
 
         //gst-launch-1.0.exe  videotestsrc pattern=ball  is-live=true ! video/x-raw,width=640,height=480 ! clockoverlay ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
         //gst-launch-1.0.exe -v udpsrc port=5600 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false
