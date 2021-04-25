@@ -3412,7 +3412,7 @@ namespace MissionPlanner
                              seen.Add(zeroconfHost.Id);
                          }
                      }
-                     catch (Exception ex)
+                     catch (Exception)
                      {
 
                      }
