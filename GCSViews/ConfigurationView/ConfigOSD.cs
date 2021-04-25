@@ -182,7 +182,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     MainV2.comPort.getParamList();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     CustomMessageBox.Show(Strings.ErrorReceivingParams, Strings.ERROR);
                 }

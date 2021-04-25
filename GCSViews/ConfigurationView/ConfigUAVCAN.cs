@@ -179,7 +179,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         port.Open();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         CustomMessageBox.Show(Strings.CheckPortSettingsOr);
                         return;
@@ -377,7 +377,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             {
                                 can.Update(nodeID, devicename, hwversion, tempfile, cancel.Token);
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 throw;
                             }
