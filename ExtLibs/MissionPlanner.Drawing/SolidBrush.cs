@@ -19,7 +19,7 @@ namespace System.Drawing
             {
                 nativeBrush = new SKPaint() {Color = color.ToSKColor()};
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Console.WriteLine(e);
             }
@@ -40,7 +40,7 @@ namespace System.Drawing
                 {
                     nativeBrush.Color = value.ToSKColor();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //Console.WriteLine(e);
                 }

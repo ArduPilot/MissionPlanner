@@ -155,7 +155,7 @@ namespace Ntrip
                                 port.Close();
                                 port = null;
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 port = null;
                             }

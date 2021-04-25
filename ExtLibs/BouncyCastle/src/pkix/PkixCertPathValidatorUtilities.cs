@@ -151,7 +151,7 @@ namespace Org.BouncyCastle.Pkix
             {
                 return FindTrustAnchor(cert, trustAnchors) != null;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
