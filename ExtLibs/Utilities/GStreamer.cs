@@ -1200,6 +1200,9 @@ namespace MissionPlanner.Utilities
             string output = "";
             string url = "";
 
+            if(RuntimeInformation.OSArchitecture == Architecture.Arm || RuntimeInformation.OSArchitecture == Architecture.Arm64)
+                return;
+
             if (System.Environment.Is64BitProcess)
             {
                 output = Settings.GetDataDirectory() + "gstreamer-1.0-x86_64-1.14.4.zip";
