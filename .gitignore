@@ -32,3 +32,6 @@ packages/
 /ExtLibs/UsbSerialForAndroid/usb-serial-for-android-3.3.0
 /ExtLibs/Xamarin/opentk
 *.binlog
+docs/
+*.Test/
+*.jar

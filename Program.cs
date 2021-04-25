@@ -351,8 +351,9 @@ namespace MissionPlanner
             Console.WriteLine("Setup CleanupFiles");
             CleanupFiles();
 
-            log.InfoFormat("64bit os {0}, 64bit process {1}, OS Arch {2}", System.Environment.Is64BitOperatingSystem,
-                System.Environment.Is64BitProcess, RuntimeInformation.OSArchitecture);
+            log.InfoFormat("64bit os {0}, 64bit process {1}, OS Arch {2}, OS Desc {3}, FW Desc {4}", System.Environment.Is64BitOperatingSystem,
+                System.Environment.Is64BitProcess, RuntimeInformation.OSArchitecture, RuntimeInformation.OSDescription,
+                RuntimeInformation.FrameworkDescription);
 
             log.InfoFormat("Runtime Version {0}",
                 System.Reflection.Assembly.GetExecutingAssembly().ImageRuntimeVersion);
