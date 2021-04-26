@@ -25,6 +25,9 @@ namespace MissionPlanner.Utilities
             new ConnectionInfo("Mavlink alt port", true, 14551, ProtocolType.Udp, ConnectionFormat.MAVLink,
                 Direction.Inbound, ""),
 
+            new ConnectionInfo("Mavlink sitl port", false, 5760, ProtocolType.Tcp, ConnectionFormat.MAVLink,
+                Direction.Outbound, "127.0.0.1"),
+
             new ConnectionInfo("Video udp 5000 h264", true, 5000, ProtocolType.Udp, ConnectionFormat.Video,
                 Direction.Inbound,
                 "udpsrc port=5000 buffer-size=90000 ! application/x-rtp ! decodebin3 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false"),
@@ -94,6 +97,114 @@ namespace MissionPlanner.Utilities
                             var client = new UdpClient(connectionInfo.ConfigString, connectionInfo.Port);
                             client.SendAsync(new byte[] {0}, 1);
                             client.BeginReceive(clientdataMAVLink, client);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+
+                        continue;
+                    }
+
+                    if (connectionInfo.Protocol == ProtocolType.Tcp &&
+                       connectionInfo.Direction == Direction.Outbound)
+                    {
+                        try
+                        {
+                            // try anything already connected
+                            Task.Run(() =>
+                            {
+
+                                try
+                                {
+                                    var serial = new TcpSerial();
+                                    serial.PortName = connectionInfo.ConfigString;
+                                    serial.Port = connectionInfo.Port.ToString();
+                                    serial.ReadBufferSize = 1024 * 300;
+                                    serial.Open();
+                                    // sample 1.2seconds
+                                    Thread.Sleep(1200);
+                                    var btr = serial.BytesToRead;
+                                    var buffer = new byte[btr];
+                                    serial.Read(buffer, 0, buffer.Length);
+                                    //serial.Close();
+                                    var parse = new MAVLink.MavlinkParse();
+                                    var st = buffer.ToMemoryStream();
+                                    while (st.Position < st.Length)
+                                    {
+                                        var packet = parse.ReadPacket(st);
+                                        if (packet != null)
+                                        {
+                                            if (packet.msgid == (int) MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
+                                            {
+                                                NewMavlinkConnection?.BeginInvoke(null, serial, null, null);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                }
+
+                            });
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+
+                        continue;
+                    }
+
+                    if (connectionInfo.Protocol == ProtocolType.Tcp &&
+                       connectionInfo.Direction == Direction.Inbound)
+                    {
+                        try
+                        {
+                            // try anything already connected
+                            Task.Run(() =>
+                            {
+
+                                try
+                                {
+                                    TcpListener listener = new TcpListener(connectionInfo.Port);
+                                    listener.Start();
+                                    var client = listener.AcceptTcpClient();
+                                    var serial = new TcpSerial();
+                                    serial.client = client;
+                                    serial.ReadBufferSize = 1024 * 300;
+                                    serial.Open();
+                                    // sample 1.2seconds
+                                    Thread.Sleep(1200);
+                                    var btr = serial.BytesToRead;
+                                    var buffer = new byte[btr];
+                                    serial.Read(buffer, 0, buffer.Length);
+                                    //serial.Close();
+                                    var parse = new MAVLink.MavlinkParse();
+                                    var st = buffer.ToMemoryStream();
+                                    while (st.Position < st.Length)
+                                    {
+                                        var packet = parse.ReadPacket(st);
+                                        if (packet != null)
+                                        {
+                                            if (packet.msgid == (int)MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
+                                            {
+                                                NewMavlinkConnection?.BeginInvoke(null, serial, null, null);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                }
+
+                            });
+
+
                         }
                         catch (Exception ex)
                         {
