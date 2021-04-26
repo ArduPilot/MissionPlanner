@@ -5,6 +5,48 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Xamarin.Forms.Internals;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.WinForms;
+using Button = Xamarin.Forms.Button;
+using ButtonRenderer = Xamarin.Forms.Platform.WinForms.ButtonRenderer;
+using Label = Xamarin.Forms.Label;
+using ProgressBar = Xamarin.Forms.ProgressBar;
+using ProgressBarRenderer = Xamarin.Forms.Platform.WinForms.ProgressBarRenderer;
+
+
+[assembly: Xamarin.Forms.Dependency(typeof(WinFormsSystemResourcesProvider))]
+
+[assembly: ExportRenderer(typeof(Page), typeof(PageRenderer))]
+[assembly: ExportRenderer(typeof(Label), typeof(LabelRenderer))]
+[assembly: ExportRenderer(typeof(Layout), typeof(LayoutRenderer))]
+[assembly: ExportRenderer(typeof(Button), typeof(ButtonRenderer))]
+[assembly: ExportRenderer(typeof(Slider), typeof(SliderRenderer))]
+[assembly: ExportRenderer(typeof(Stepper), typeof(StepperRenderer))]
+[assembly: ExportRenderer(typeof(Switch), typeof(SwitchRenderer))]
+[assembly: ExportRenderer(typeof(Editor), typeof(EditorRenderer))]
+[assembly: ExportRenderer(typeof(Entry), typeof(EntryRenderer))]
+[assembly: ExportRenderer(typeof(Picker), typeof(PickerRenderer))]
+[assembly: ExportRenderer(typeof(ActivityIndicator), typeof(ActivityIndicatorRenderer))]
+[assembly: ExportRenderer(typeof(BoxView), typeof(BoxViewRenderer))]
+[assembly: ExportRenderer(typeof(DatePicker), typeof(DatePickerRenderer))]
+[assembly: ExportRenderer(typeof(Frame), typeof(FrameRenderer))]
+[assembly: ExportRenderer(typeof(Image), typeof(ImageRenderer))]
+[assembly: ExportRenderer(typeof(ImageButton), typeof(ImageButtonRenderer))]
+[assembly: ExportRenderer(typeof(ProgressBar), typeof(ProgressBarRenderer))]
+[assembly: ExportRenderer(typeof(SearchBar), typeof(SearchBarRenderer))]
+[assembly: ExportRenderer(typeof(ScrollView), typeof(ScrollViewRenderer))]
+[assembly: ExportRenderer(typeof(TabbedPage), typeof(TabbedPageRenderer))]
+[assembly: ExportRenderer(typeof(CarouselPage), typeof(CarouselPageRenderer))]
+#if GL
+[assembly: ExportRenderer(typeof(OpenGLView), typeof(OpenGLViewRenderer))]
+#endif
+[assembly: ExportRenderer(typeof(WebView), typeof(WebViewRenderer))]
+
+[assembly: ExportImageSourceHandler(typeof(FileImageSource), typeof(FileImageSourceHandler))]
+[assembly: ExportImageSourceHandler(typeof(StreamImageSource), typeof(StreamImageSourceHandler))]
+[assembly: ExportImageSourceHandler(typeof(UriImageSource), typeof(UriImageSourceHandler))]
+
+
 
 namespace Xamarin.Forms.Platform.WinForms
 {
@@ -57,9 +99,14 @@ namespace Xamarin.Forms.Platform.WinForms
 			IVisualElementRenderer renderer = parent?.CreateChildRenderer(element);
 
 			if (renderer == null)
-			{
-				renderer = Registrar.Registered.GetHandlerForObject<IVisualElementRenderer>(element) ?? new DefaultRenderer();
-			}
+            {
+				// a page is not a view
+               /* if (element is Page)
+                    renderer = new PageRenderer<Page, Control>();
+                else*/
+                    renderer = Registrar.Registered.GetHandlerForObject<IVisualElementRenderer>(element) ??
+                               new DefaultRenderer();
+            }
 			renderer.SetElement(element);
 			return renderer;
 		}
