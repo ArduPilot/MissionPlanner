@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -484,18 +485,50 @@ namespace MissionPlanner.GCSViews
             exestart.Arguments = String.Format("-M{0} -O{1} -s{2} --uartA tcp:0 {3}", model, homelocation, speedup, extraargs);
             exestart.WorkingDirectory = simdir;
             exestart.WindowStyle = ProcessWindowStyle.Minimized;
-            exestart.UseShellExecute = true;
+            Console.WriteLine("sitl: {0} {1} {2}", exestart.WorkingDirectory, exestart.FileName,
+                exestart.Arguments);
+            if (RuntimeInformation.OSArchitecture == Architecture.X64 ||
+                RuntimeInformation.OSArchitecture == Architecture.X86)
+            {
+                exestart.UseShellExecute = true;
 
-            try
-            {
-                Console.WriteLine("sitl: {0} {1} {2}", exestart.WorkingDirectory, exestart.FileName,
-                    exestart.Arguments);
-                simulator.Add(System.Diagnostics.Process.Start(exestart));
+                try
+                {
+                    simulator.Add(System.Diagnostics.Process.Start(exestart));
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to start the simulator\n" + ex.ToString(), Strings.ERROR);
+                    return;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                CustomMessageBox.Show("Failed to start the simulator\n" + ex.ToString(), Strings.ERROR);
-                return;
+
+                exestart.UseShellExecute = false;
+                exestart.RedirectStandardOutput = true;
+                exestart.RedirectStandardError = true;
+
+                try
+                {
+                    var proc = System.Diagnostics.Process.Start(exestart);
+                    simulator.Add(proc);
+
+                    proc.ErrorDataReceived += (sender, args) => { Console.WriteLine("SITL ERR: " + args.Data); };
+
+                    proc.OutputDataReceived += (sender, args) => { Console.WriteLine("SITL: " + args.Data); };
+
+                    proc.Exited += (sender, args) => { Console.WriteLine("SITL EXIT!"); };
+
+                    proc.BeginOutputReadLine();
+                    proc.BeginErrorReadLine();
+
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to start the simulator\n" + ex.ToString(), Strings.ERROR);
+                    return;
+                }
             }
 
             await Task.Delay(2000);
