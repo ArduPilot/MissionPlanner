@@ -5405,8 +5405,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     throw new Exception("Please connect first!");
                 }
 
-                int a = 0;
-
                 // define the home point
                 Locationwp home = new Locationwp();
                 try
@@ -6928,7 +6926,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         var length = (int)list.First().p1;
                         if (length == 0)
                             length = 1;
-                        int cnt = 0;
                         var sublist = list.Take(length).ToList();
 
                         if (sublist.Contains(rowdelete))
