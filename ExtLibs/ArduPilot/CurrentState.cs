@@ -1867,15 +1867,18 @@ namespace MissionPlanner
 
                         break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.FENCE_STATUS:
-
-
                         {
                             var fence = mavLinkMessage.ToStructure<MAVLink.mavlink_fence_status_t>();
 
-                            if (fence.breach_status != (byte)MAVLink.FENCE_BREACH.NONE)
+                            fenceb_type = fence.breach_type;
+                            fenceb_status = fence.breach_status;
+                            fenceb_count = fence.breach_count;
+                                        
+
+                            if (fence.breach_status != 0)
                             {
                                 // fence breached
-                                messageHigh = "Fence Breach";
+                                messageHigh = "Fence Breach " + (MAVLink.FENCE_BREACH)fence.breach_type;
                             }
                         }
 
@@ -3216,6 +3219,18 @@ namespace MissionPlanner
                 }
             }
         }
+
+        [GroupText("Fence")]
+        [DisplayText("Breach count")]
+        public ushort fenceb_count { get; set; }
+
+        [GroupText("Fence")]
+        [DisplayText("Breach status")]
+        public byte fenceb_status { get; set; }
+
+        [GroupText("Fence")]
+        [DisplayText("Breach type")]
+        public byte fenceb_type { get; set; }
 
         public event EventHandler csCallBack;
 
