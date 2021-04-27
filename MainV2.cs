@@ -2480,6 +2480,7 @@ namespace MissionPlanner
 
             while (pluginthreadrun)
             {
+                DateTime minnextrun = DateTime.Now.AddMilliseconds(1000);
                 try
                 {
                     foreach (var plugin in Plugin.PluginLoader.Plugins.ToArray())
@@ -2491,8 +2492,12 @@ namespace MissionPlanner
                         {
                             // get ms till next run
                             int msnext = (int)(1000 / plugin.loopratehz);
+                           
                             // allow the plug to modify this, if needed
                             plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
+
+                            if (plugin.NextRun < minnextrun)
+                                minnextrun = plugin.NextRun;
 
                             try
                             {
@@ -2509,8 +2514,10 @@ namespace MissionPlanner
                 {
                 }
 
+                var sleepms = (int) ((minnextrun - DateTime.Now).TotalMilliseconds);
                 // max rate is 100 hz - prevent massive cpu usage
-                System.Threading.Thread.Sleep(10);
+                if (sleepms > 0)
+                    System.Threading.Thread.Sleep(sleepms);
             }
 
             while (Plugin.PluginLoader.Plugins.Count > 0)
