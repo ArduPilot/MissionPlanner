@@ -2110,6 +2110,9 @@ namespace MissionPlanner.GCSViews
 
             DateTime end = DateTime.Now.AddSeconds(5);
 
+            if (thisthread == null)
+                return;
+
             while (thisthread.IsAlive && DateTime.Now < end)
             {
                 Application.DoEvents();
@@ -2933,7 +2936,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    CheckAndBindPreFlightData();
+                    //CheckAndBindPreFlightData();
                     //Console.WriteLine(DateTime.Now.Millisecond);
                     //int fixme;
                     updateBindingSource();
@@ -3038,7 +3041,7 @@ namespace MissionPlanner.GCSViews
                     Vario.SetValue(MainV2.comPort.MAV.cs.climbrate);
 
                     // udpate tunning tab
-                    if (tunning.AddMilliseconds(50) < DateTime.Now && CB_tuning.Checked)
+                    if (tunning.AddMilliseconds(75) < DateTime.Now && CB_tuning.Checked)
                     {
                         double time = (Environment.TickCount - tickStart) / 1000.0;
                         if (list1item != null)
@@ -4618,8 +4621,8 @@ namespace MissionPlanner.GCSViews
 
         private void updateBindingSource()
         {
-            //  run at 25 hz.
-            if (lastscreenupdate.AddMilliseconds(40) < DateTime.Now)
+            //  run at 20 hz.
+            if (lastscreenupdate.AddMilliseconds(50) < DateTime.Now)
             {
                 lock (updateBindingSourcelock)
                 {
