@@ -77,7 +77,7 @@ namespace MissionPlanner.Utilities
                                 read.Position = 0;
                                 var stream = new GZipStream(read, CompressionMode.Decompress);
                                 //var stream = new XZStream(read);
-                                using (var outst = File.OpenWrite(fileout))
+                                using (var outst = File.Open(fileout, FileMode.Create))
                                 {
                                     stream.CopyTo(outst);
                                 }
