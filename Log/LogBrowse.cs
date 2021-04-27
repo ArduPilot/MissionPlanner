@@ -224,6 +224,8 @@ namespace MissionPlanner.Log
 
             GC.Collect();
 
+            myGMAP1.DisableFocusOnMouseEnter = true;
+
             ErrorCache = new List<TextObj>();
             EVCache = new List<TextObj>();
             ModeCache = new List<TextObj>();
@@ -3404,7 +3406,6 @@ main()
             MainV2.comPort.MAV.param.Clear();
             MainV2.comPort.MAV.param.AddRange(parmdata);
 
-            myGMAP1.DisableFocusOnMouseEnter = true;
             var frm = new ConfigRawParamsTree().ShowUserControl();
         }
     }
