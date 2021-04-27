@@ -118,13 +118,11 @@ namespace MissionPlanner.Controls
 
         private static void PopulateMSG(FieldInfo[] Fields, TreeNode MsgIdNode, object message)
         {
-            bool added;
             foreach (var field in Fields)
             {
                 if (!MsgIdNode.Nodes.ContainsKey(field.Name))
                 {
                     MsgIdNode.Nodes.Add(new TreeNode() {Name = field.Name});
-                    added = true;
                 }
 
                 object value = field.GetValue(message);
@@ -331,7 +329,6 @@ namespace MissionPlanner.Controls
             if (e == null || e.Node == null || e.Node.Parent == null)
                 return;
 
-            int throwaway = 0;
             //if (int.TryParse(e.Node.Parent.Name, out throwaway))
             {
                 selectedmsgid = e.Node.Name;
