@@ -21,7 +21,6 @@ public class TestPlugin : Plugin
     string _Version = "0.1";
     string _Author = "Michael Oborne";
     private TelstraUTM UTM;
-    private JArray UAVS;
     private string clientid = "michael";
 
     public override string Name

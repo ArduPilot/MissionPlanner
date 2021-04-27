@@ -114,7 +114,6 @@ namespace MissionPlanner.SimpleGrid
         internal PointLatLng MouseDownEnd;
         internal PointLatLngAlt CurrentGMapMarkerStartPos;
         PointLatLng currentMousePosition;
-        GMapMarker marker;
         GMapMarker CurrentGMapMarker = null;
         int CurrentGMapMarkerIndex = 0;
         bool isMouseDown = false;

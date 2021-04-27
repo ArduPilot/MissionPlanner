@@ -1156,7 +1156,6 @@ namespace UAVCAN
             // getfile crc
             using (var stream = File.OpenRead(fileServerList[Path.GetFileName("fw.bin".ToLower())]))
             {
-                string app_descriptor_fmt = "<8cQI";
                 var SHARED_APP_DESCRIPTOR_SIGNATURES = new byte[][]
                 {
                     new byte[] {0xd7, 0xe4, 0xf7, 0xba, 0xd0, 0x0f, 0x9b, 0xee},
