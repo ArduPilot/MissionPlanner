@@ -2176,6 +2176,8 @@ namespace MissionPlanner.GCSViews
 
             prop = new Propagation(gMapControl1);
 
+            splitContainer1.Panel1Collapsed = true;
+
             try
             {
                 thisthread = new Thread(mainloop);
