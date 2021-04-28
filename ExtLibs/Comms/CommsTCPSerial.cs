@@ -23,7 +23,6 @@ namespace MissionPlanner.Comms
         private IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
         public int retrys = 3;
-        private string _host = "";
 
         public TcpSerial()
         {
@@ -65,7 +64,7 @@ namespace MissionPlanner.Comms
                     return "TCP" + ((IPEndPoint) client.Client.RemoteEndPoint).Port;
                 return "TCP" + Port;
             }
-            set { _host = value; }
+            set{}
         }
 
         public int BytesToRead => client.Available;
@@ -94,6 +93,7 @@ namespace MissionPlanner.Comms
         }
 
         public bool DtrEnable { get; set; }
+        public string Host { get; set; } = "";
 
         public void Open()
         {
@@ -110,7 +110,7 @@ namespace MissionPlanner.Comms
                 var dest = Port;
                 var host = "127.0.0.1";
 
-                if (_host == "")
+                if (Host == "")
                 {
                     dest = OnSettings("TCP_port", dest);
 
@@ -128,7 +128,7 @@ namespace MissionPlanner.Comms
                 }
                 else
                 {
-                    host = _host;
+                    host = Host;
                 }
 
                 Port = dest;
@@ -313,6 +313,7 @@ namespace MissionPlanner.Comms
             }
 
             client = new TcpClient();
+            Host = "";
         }
 
         public void Dispose()

@@ -118,7 +118,7 @@ namespace MissionPlanner.Utilities
                                 try
                                 {
                                     var serial = new TcpSerial();
-                                    serial.PortName = connectionInfo.ConfigString;
+                                    serial.Host = connectionInfo.ConfigString;
                                     serial.Port = connectionInfo.Port.ToString();
                                     serial.ReadBufferSize = 1024 * 300;
                                     serial.Open();
