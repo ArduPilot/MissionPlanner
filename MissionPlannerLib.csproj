@@ -467,6 +467,7 @@
    <ProjectReference Include="ExtLibs\Transitions\Transitions.csproj" />
    <ProjectReference Include="ExtLibs\UAVCAN\UAVCAN.csproj" />
    <ProjectReference Include="ExtLibs\Utilities\MissionPlanner.Utilities.csproj" />
+   <ProjectReference Include="ExtLibs\WebAPIs\MissionPlanner.WebAPIs.csproj" />
    <ProjectReference Include="ExtLibs\ZedGraph\ZedGraph.csproj" />
    <ProjectReference Include="ExtLibs\Zeroconf\Zeroconf\Zeroconf.csproj" />
  </ItemGroup> 

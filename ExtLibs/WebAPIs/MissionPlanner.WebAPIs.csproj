@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0; netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461; netstandard2.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
@@ -44,8 +44,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
-    <PackageReference Include="RestSharp" Version="105.2.3" />
-    <PackageReference Include="WebSocket4Net" Version="0.15.2" />
+    <PackageReference Include="RestSharp" Version="106.11.7" />
+    <PackageReference Include="SuperSocket.ClientEngine.Core" Version="0.10.0"></PackageReference>
+    <PackageReference Include="WebSocket4Net" Version="0.15.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
+    <Reference Include="WebSocket4Net">
+      <HintPath>C:\Users\mich1\.nuget\packages\websocket4net\0.15.2\lib\netstandard1.3\WebSocket4Net.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

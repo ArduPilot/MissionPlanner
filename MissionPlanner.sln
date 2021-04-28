@@ -213,7 +213,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Runtime.Serializatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onvif", "ExtLibs\Onvif\Onvif.csproj", "{CA8C83FC-FCDC-4F8F-9384-A2C9C5B2F7DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.WebAPIs", "ExtLibs\WebAPIs\MissionPlanner.WebAPIs.csproj", "{9A702625-FB81-4400-ADAC-053553109F64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.WebAPIs", "ExtLibs\WebAPIs\MissionPlanner.WebAPIs.csproj", "{9A702625-FB81-4400-ADAC-053553109F64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

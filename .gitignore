@@ -35,3 +35,4 @@ packages/
 docs/
 *.Test/
 *.jar
+*.cache
