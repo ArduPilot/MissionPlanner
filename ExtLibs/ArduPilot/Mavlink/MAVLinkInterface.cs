@@ -18,6 +18,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using MissionPlanner.ArduPilot.Mavlink;
 using Timer = System.Timers.Timer;
 
 namespace MissionPlanner
@@ -441,6 +442,18 @@ namespace MissionPlanner
             _mavlink2signed = 0;
 
             AIS.Start(this);
+
+            // new hearbeat detected
+            MAVDetected += (sender, tuple) =>
+            {
+                // check for a camera
+                if (tuple.Item2 >= (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
+                    tuple.Item2 <= (byte)MAV_COMPONENT.MAV_COMP_ID_CAMERA6)
+                {
+                    MAVlist[tuple.Item1, tuple.Item2].Camera = new CameraProtocol();
+                    MAVlist[tuple.Item1, tuple.Item2].Camera.StartID(MAVlist[tuple.Item1, tuple.Item2]);
+                }
+            };
         }
 
         public MAVLinkInterface(Stream logfileStream)
@@ -4980,6 +4993,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         List<KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>>> Subscriptions =
             new List<KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>>>();
 
+        /// <summary>
+        /// Subscribe to a packet on the current target MAV. use OnPacketReceived to get all MAVs
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="function"></param>
+        /// <param name="exclusive"></param>
+        /// <returns></returns>
         public KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> SubscribeToPacketType(MAVLINK_MSG_ID type,
             Func<MAVLinkMessage, bool> function, bool exclusive = false)
         {

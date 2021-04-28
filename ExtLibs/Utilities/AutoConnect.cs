@@ -359,6 +359,9 @@ namespace MissionPlanner.Utilities
         public static event EventHandler<string> NewVideoStream;
         public static event EventHandler<ICommsSerial> NewMavlinkConnection;
 
+        public static void RaiseNewVideoStream(object E, string s) => NewVideoStream?.Invoke(E, s);
+        public static void RaiseNewMavlinkConnection(object E, ICommsSerial s) => NewMavlinkConnection?.Invoke(E, s);
+
         private static void clientdataMAVLink(IAsyncResult ar)
         {
             var client = ((UdpClient) ar.AsyncState);

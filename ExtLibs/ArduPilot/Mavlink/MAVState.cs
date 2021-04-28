@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
+using MissionPlanner.ArduPilot.Mavlink;
 
 namespace MissionPlanner
 {
@@ -252,6 +253,7 @@ namespace MissionPlanner
 
         internal int recvpacketcount = 0;
         public Int64 time_offset_ns { get; set; }
+        public CameraProtocol Camera { get; set; }
 
         public override string ToString()
         {

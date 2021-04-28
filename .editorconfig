@@ -32,3 +32,7 @@ dotnet_diagnostic.CA1307.severity = suggestion
 
 # CA1815: Override equals and operator equals on value types
 dotnet_diagnostic.CA1815.severity = silent
+
+dotnet_diagnostic.CS3003.severity = silent
+dotnet_diagnostic.CS3009.severity = silent
+dotnet_diagnostic.CS3001.severity = silent
