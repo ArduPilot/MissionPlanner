@@ -132,7 +132,7 @@ namespace MissionPlanner.Warnings
                 {
                 }
 
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(250);
             }
         }
 

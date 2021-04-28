@@ -160,7 +160,7 @@ namespace MissionPlanner.Maps
                     if (center == PointLatLngAlt.Zero)
                     {
                         // center has not been set yet
-                        Thread.Sleep(100);
+                        Thread.Sleep(250);
                         continue;
                     }
 
