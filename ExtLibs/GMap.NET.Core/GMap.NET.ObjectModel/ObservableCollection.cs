@@ -402,10 +402,13 @@ namespace GMap.NET.ObjectModel
       protected override void ClearItems()
       {
          this.CheckReentrancy();
-         base.ClearItems();
-         this.OnPropertyChanged(CountString);
-         this.OnPropertyChanged(IndexerName);
-         this.OnCollectionReset();
+         if (this.Count > 0)
+         {
+             base.ClearItems();
+             this.OnPropertyChanged(CountString);
+             this.OnPropertyChanged(IndexerName);
+             this.OnCollectionReset();
+         }
       }
 
       private void CopyFrom(IEnumerable<T> collection)

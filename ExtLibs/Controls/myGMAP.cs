@@ -54,6 +54,16 @@ namespace MissionPlanner.Controls
             base.WndProc(ref m);
         }
 
+        protected override void OnInvalidated(InvalidateEventArgs e)
+        {
+            base.OnInvalidated(e);
+        }
+
+        public new void Invalidate()
+        {
+            base.Invalidate();
+        }
+
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
         {
             try
