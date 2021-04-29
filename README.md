@@ -29,11 +29,15 @@ Currently, Mission Planner needs:
 ##### IDE
 
 ###### Visual Studio Community
-The recommended way to compile Mission Planner is through Visual Studio. You could do it with Visual Studio Community (version 15.3 or newer to include .NET standard 2.0) : [Visual Studio Download page](https://visualstudio.microsoft.com/downloads/ "Visual Studio Download page").
+The recommended way to compile Mission Planner is through Visual Studio. You could do it with Visual Studio Community (version 16.9 or newer to include .NET standard 2.0) : [Visual Studio Download page](https://visualstudio.microsoft.com/downloads/ "Visual Studio Download page").
 Visual Studio suite is quite complet and comes with Git support. On installation phase, please install support for :
-- Developpement .NET Desktop
-- Microsoft .NET Framework 4.6.1
-- Microsoft .NET standard 2.0
+- ASP.NET and web development
+- .NET Desktop Developement
+- Desktop development with C++
+- Universal Windows Platform deveopment
+- Mobile development with .NET
+- Visual Studio extension development
+- .NET Core cross-platofrm developemnt
 
 ###### VSCode
 Currently VSCode with C# plugin is able to parse the code but cannot build.
@@ -49,7 +53,7 @@ In case you didn't install an IDE, you will need to manually install Git. Please
 
 To build the code:
 - Open MissionPlanner.sln with Visual Studio
-- Compile
+- Compile just the MissionPlanner project
 
 ### On other systems
 Building Mission Planner on other systems isn't support currently.
@@ -65,7 +69,7 @@ Be aware that all the functionnalities aren't working.
 
 Those instructions were tested on Ubuntu 18.04.
 Please install Mono, either :
-- ` sudo apt install mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms2.0-cil libmono-corlib2.0-cil libmono-system-management4.0-cil libmono-system-xml-linq4.0-cil`
+- ` sudo apt install mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms4.0-cil libmono-corlib4.0-cil libmono-system-management4.0-cil libmono-system-xml-linq4.0-cil`
 
 or full Mono :
 - `sudo apt install mono-complete`
