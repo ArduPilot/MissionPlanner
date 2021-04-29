@@ -69,7 +69,7 @@ namespace MissionPlanner.Utilities
             foreach (var i in Enumerable.Range(0, 100))
             {
                 var err = velocity_error(timestamps, vel, gaccel, accel_indexes, imu_dt, i);
-                if (err == null)
+                if (err == 0)
                     break;
                 errors.Add(err);
                 delays.Add(i * imu_dt);
