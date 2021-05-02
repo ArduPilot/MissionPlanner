@@ -129,6 +129,7 @@ namespace MissionPlanner.Log
             return color;
         }
 
+        [Obsolete]
         public static void writeKML(string filename, Dictionary<int, List<CurrentState>> flightdatas, Action<double> progressBar1, double basealt = 0)
         {
             SharpKml.Dom.AltitudeMode altmode = SharpKml.Dom.AltitudeMode.Absolute;

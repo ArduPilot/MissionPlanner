@@ -469,6 +469,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView1.ColumnCount < typecoloum)
@@ -3390,6 +3391,7 @@ main()
             }
         }
 
+        [Obsolete]
         private void chk_params_CheckedChanged(object sender, EventArgs e)
         {
             if (chk_params.Checked == false)

@@ -48,6 +48,7 @@ namespace MissionPlanner.Log
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
+        [Obsolete]
         private void Log_Load(object sender, EventArgs e)
         {
             LoadLogList();
@@ -56,6 +57,7 @@ namespace MissionPlanner.Log
                 CustomMessageBox.Show("Please disarm the drone before downloading logs!", Strings.ERROR);
         }
 
+        [Obsolete]
         void LoadLogList()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -155,6 +157,7 @@ namespace MissionPlanner.Log
             }));
         }
 
+        [Obsolete]
         private void BUT_DLall_Click(object sender, EventArgs e)
         {
             if (status == SerialStatus.Done)
@@ -193,6 +196,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         async Task<string> GetLog(ushort no, string fileName)
         {
             log.Info("GetLog " + no);
@@ -270,6 +274,7 @@ namespace MissionPlanner.Log
             return logfile;
         }
 
+        [Obsolete]
         protected override void OnClosed(EventArgs e)
         {
             this.closed = true;
@@ -305,6 +310,7 @@ namespace MissionPlanner.Log
             UpdateProgress(0, totalBytes, tallyBytes + receivedbytes);
         }
 
+        [Obsolete]
         void CreateLog(string logfile)
         {
             TextReader tr = new StreamReader(logfile);
@@ -330,6 +336,7 @@ namespace MissionPlanner.Log
             status = SerialStatus.Done;
         }
 
+        [Obsolete]
         private async void DownloadThread(int[] selectedLogs)
         {
             try
@@ -417,6 +424,7 @@ namespace MissionPlanner.Log
 
         }
 
+        [Obsolete]
         private void BUT_DLthese_Click(object sender, EventArgs e)
         {
             if (status == SerialStatus.Done)
@@ -439,6 +447,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void BUT_clearlogs_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show(LogStrings.Confirmation, "sure", MessageBoxButtons.YesNo) ==
@@ -458,6 +467,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void BUT_redokml_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -513,7 +523,7 @@ namespace MissionPlanner.Log
             }));
         }
 
-
+        [Obsolete]
         private void BUT_firstperson_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
