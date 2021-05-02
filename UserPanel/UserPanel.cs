@@ -17,6 +17,7 @@ namespace MissionPlanner.UserPanel
             InitializeComponent();
         }
 
+        [Obsolete]
         void test()
         {
             MainV2.comPort.doCommandAsync(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, 0, 0, 0, 0, 0, 0, 0, 0);
