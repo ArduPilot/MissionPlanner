@@ -12,6 +12,7 @@ namespace MissionPlanner.Warnings
             InitializeComponent();
         }
 
+        [Obsolete]
         public WarningControl(CustomWarning item)
         {
             InitializeComponent();
