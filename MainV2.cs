@@ -384,6 +384,7 @@ namespace MissionPlanner
         /// <summary>
         /// Active Comport interface
         /// </summary>
+        [Obsolete]
         public static MAVLinkInterface comPort
         {
             get
@@ -403,6 +404,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         static MAVLinkInterface _comPort = new MAVLinkInterface();
 
         /// <summary>
@@ -664,7 +666,7 @@ namespace MissionPlanner
             }
         }
 
-
+        [Obsolete]
         public MainV2()
         {
             log.Info("Mainv2 ctor");
@@ -1106,11 +1108,13 @@ namespace MissionPlanner
             SaveConfig();
         }
 
+        [Obsolete]
         void cmb_sysid_Click(object sender, EventArgs e)
         {
             MainV2._connectionControl.UpdateSysIDS();
         }
 
+        [Obsolete]
         void comPort_MavChanged(object sender, EventArgs e)
         {
             log.Info("Mav Changed " + MainV2.comPort.MAV.sysid);
@@ -1157,6 +1161,7 @@ namespace MissionPlanner
         }
 #if !NETSTANDARD2_0
 #if !NETCOREAPP2_0
+        [Obsolete]
         void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
         {
             // try prevent crash on resume
@@ -1220,6 +1225,7 @@ namespace MissionPlanner
             MenuHelp.ForeColor = ThemeManager.TextColor;
         }
 
+        [Obsolete]
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
         {
             lock (adsblock)
@@ -1280,7 +1286,7 @@ namespace MissionPlanner
             }
         }
 
-
+        [Obsolete]
         private void ResetConnectionStats()
         {
             log.Info("Reset connection stats");
@@ -1296,6 +1302,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void ShowConnectionStatsForm()
         {
             if (this.connectionStatsForm == null || this.connectionStatsForm.IsDisposed)
@@ -1417,6 +1424,7 @@ namespace MissionPlanner
             MyView.ShowScreen("Terminal");
         }
 
+        [Obsolete]
         public void doDisconnect(MAVLinkInterface comPort)
         {
             log.Info("We are disconnecting");
@@ -1476,6 +1484,7 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
+        [Obsolete]
         public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
         {
             bool skipconnectcheck = false;
@@ -1854,11 +1863,13 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void MenuConnect_Click(object sender, EventArgs e)
         {
             Connect();
         }
 
+        [Obsolete]
         private void Connect()
         {
             comPort.giveComport = false;
@@ -1909,6 +1920,7 @@ namespace MissionPlanner
                 loadph_serial();
         }
 
+        [Obsolete]
         void loadph_serial()
         {
             try
@@ -2004,6 +2016,7 @@ namespace MissionPlanner
         /// This happens before FormClosed
         /// </summary>
         /// <param name="e"></param>
+        [Obsolete]
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
@@ -2225,6 +2238,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void SaveConfig()
         {
             try
@@ -2253,6 +2267,7 @@ namespace MissionPlanner
         /// <summary>
         /// thread used to send joystick packets to the MAV
         /// </summary>
+        [Obsolete]
         private void joysticksend()
         {
             float rate = 50; // 1000 / 50 = 20 hz
@@ -2424,6 +2439,7 @@ namespace MissionPlanner
         /// <summary>
         /// Used to fix the icon status for unexpected unplugs etc...
         /// </summary>
+        [Obsolete]
         private void UpdateConnectIcon()
         {
             if ((DateTime.Now - connectButtonUpdate).Milliseconds > 500)
@@ -2547,6 +2563,7 @@ namespace MissionPlanner
         ///
         /// and can't fall out
         /// </summary>
+        [Obsolete]
         private async void SerialReader()
         {
             if (serialThread == true)
@@ -3018,6 +3035,7 @@ namespace MissionPlanner
             SerialThreadrunner.Set();
         }
 
+        [Obsolete]
         protected override void OnLoad(EventArgs e)
         {
             // check if its defined, and force to show it if not known about
@@ -3830,6 +3848,7 @@ namespace MissionPlanner
             Settings.Instance["kindex"] = CurrentState.KIndexstatic.ToString();
         }
 
+        [Obsolete]
         private void BGCreateMaps(object state)
         {
             // sort logs
@@ -3914,6 +3933,7 @@ namespace MissionPlanner
         /// <param name="msg"></param>
         /// <param name="keyData"></param>
         /// <returns></returns>
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (ConfigTerminal.SSHTerminal) { return false; }
@@ -4161,6 +4181,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void CMB_baudrate_TextChanged(object sender, EventArgs e)
         {
             if (!int.TryParse(_connectionControl.CMB_baudrate.Text, out comPortBaud))
@@ -4482,6 +4503,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void readonlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainV2.comPort.ReadOnly = readonlyToolStripMenuItem.Checked;
@@ -4504,6 +4526,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void connectionListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();

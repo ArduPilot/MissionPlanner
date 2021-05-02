@@ -90,6 +90,7 @@ namespace MissionPlanner
         /// <summary>
         /// Self contained process tlog and save/display offsets
         /// </summary>
+        [Obsolete]
         public static async Task ProcessLog(int throttleThreshold = 0)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -132,7 +133,7 @@ namespace MissionPlanner
             }
         }
 
-
+        [Obsolete]
         public static void DoGUIMagCalib(bool dointro = true)
         {
             ans = null;
@@ -186,6 +187,7 @@ namespace MissionPlanner
 
         private static object _locker = new object();
 
+        [Obsolete]
         static bool ReceviedPacket(MAVLink.MAVLinkMessage rawpacket)
         {
             if (rawpacket.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SCALED_IMU2)
@@ -303,6 +305,7 @@ namespace MissionPlanner
             return true;
         }
 
+        [Obsolete]
         public static async Task test()
         {
             await getOffsets(@"C:\Users\michael\Downloads\2017-12-03 19-26-47.tlog");
@@ -358,6 +361,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         static void prd_DoWork(IProgressReporterDialogue sender)
         {
             var prsphere = sender as ProgressReporterSphere;
@@ -933,6 +937,7 @@ namespace MissionPlanner
         /// </summary>
         /// <param name="fn">Filename</param>
         /// <returns>Offsets</returns>
+        [Obsolete]
         public static async Task<double[]> getOffsets(string fn, int throttleThreshold = 0)
         {
             // based off tridge's work
@@ -1260,6 +1265,7 @@ namespace MissionPlanner
         /// saves the offests to eeprom, os displays if cant
         /// </summary>
         /// <param name="ofs">offsets</param>
+        [Obsolete]
         public static void SaveOffsets(double[] ofs)
         {
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS_X") && MainV2.comPort.BaseStream.IsOpen)
@@ -1316,6 +1322,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         public static void SaveOffsets2(double[] ofs)
         {
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X") && MainV2.comPort.BaseStream.IsOpen)
@@ -1371,6 +1378,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         public static void SaveOffsets3(double[] ofs)
         {
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS3_X") && MainV2.comPort.BaseStream.IsOpen)

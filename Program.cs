@@ -84,6 +84,7 @@ namespace MissionPlanner
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        [Obsolete]
         public static void Main(string[] args)
         {
             Start(args);
@@ -110,6 +111,7 @@ namespace MissionPlanner
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
+        [Obsolete]
         public static void Start(string[] args)
         {
             Program.args = args;
