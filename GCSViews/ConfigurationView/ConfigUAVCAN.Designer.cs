@@ -610,7 +610,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Node;
         private System.Windows.Forms.DataGridViewTextBoxColumn Level;
         private System.Windows.Forms.DataGridViewTextBoxColumn Source;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Text;
+        private new System.Windows.Forms.DataGridViewTextBoxColumn Text;
         private System.Windows.Forms.CheckBox chk_canonclose;
         private System.Windows.Forms.ContextMenu contextMenu1;
         private System.Windows.Forms.MenuItem menu_passthrough;
