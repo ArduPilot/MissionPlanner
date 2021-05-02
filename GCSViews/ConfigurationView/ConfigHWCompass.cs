@@ -28,6 +28,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -254,6 +255,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void BUT_MagCalibration_Click(object sender, EventArgs e)
         {
             MagCalib.DoGUIMagCalib();
@@ -280,6 +282,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             e.Cancel = !float.TryParse(TXT_declination_deg.Text, out ans);
         }
 
+        [Obsolete]
         private void TXT_declination_Validated(object sender, EventArgs e)
         {
             if (startup)
@@ -321,6 +324,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void CHK_enablecompass_CheckedChanged(object sender, EventArgs e)
         {
             // I am commenting this out with caution. I don't see why
@@ -359,6 +363,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private async void BUT_MagCalibrationLog_Click(object sender, EventArgs e)
         {
             var minthro = "30";
@@ -372,6 +377,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             await MagCalib.ProcessLog(ans).ConfigureAwait(true);
         }
 
+        [Obsolete]
         private void CHK_autodec_CheckedChanged(object sender, EventArgs e)
         {
             if (((CheckBox)sender).Checked)
@@ -420,6 +426,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private List<MAVLink.MAVLinkMessage> mprog = new List<MAVLink.MAVLinkMessage>();
         private List<MAVLink.MAVLinkMessage> mrep = new List<MAVLink.MAVLinkMessage>();
 
+        [Obsolete]
         private bool ReceviedPacket(MAVLink.MAVLinkMessage packet)
         {
             if (System.Diagnostics.Debugger.IsAttached)
@@ -450,6 +457,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> packetsub1;
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> packetsub2;
 
+        [Obsolete]
         private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
         {
             try
@@ -477,6 +485,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Start();
         }
 
+        [Obsolete]
         private void BUT_OBmagcalaccept_Click(object sender, EventArgs e)
         {
             try
@@ -495,6 +504,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void BUT_OBmagcalcancel_Click(object sender, EventArgs e)
         {
             try
@@ -512,6 +522,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             lbl_obmagresult.Clear();
@@ -609,6 +620,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         }
 
+        [Obsolete]
         private void buttonQuickPixhawk_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -651,6 +663,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Activate();
         }
 
+        [Obsolete]
         private void QuickAPM25_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -678,6 +691,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Activate();
         }
 
+        [Obsolete]
         private void buttonAPMExternal_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -707,6 +721,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Activate();
         }
 
+        [Obsolete]
         private void CHK_compasslearn_CheckedChanged(object sender, EventArgs e)
         {
             try
@@ -726,12 +741,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-
+        [Obsolete]
         private void CHK_compass(object sender, EventArgs e)
         {
             ShowRelevantFields();
         }
 
+        [Obsolete]
         private void ShowRelevantFields()
         {
             TXT_declination_deg.Enabled = !CHK_autodec.Checked;
@@ -755,6 +771,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             LBL_primary_compass.Visible = MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIMARY");
         }
 
+        [Obsolete]
         private void but_largemagcal_Click(object sender, EventArgs e)
         {
             double value = 0;

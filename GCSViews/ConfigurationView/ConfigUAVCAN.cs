@@ -19,6 +19,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigUAVCAN : MyUserControl, MissionPlanner.Controls.IDeactivate, IActivate
     {
+        [Obsolete]
         public ConfigUAVCAN()
         {
             InitializeComponent();
@@ -31,6 +32,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         List<UAVCANModel> allnodes = new List<UAVCANModel>();
 
+        [Obsolete]
         public void Activate()
         {
             if (MainV2.comPort.MAV.param.Count > 5 && !MainV2.comPort.MAV.param.ContainsKey("CAN_SLCAN_TIMOUT"))
@@ -51,16 +53,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void but_slcanmode_Click(object sender, EventArgs e)
         {
             startslcan(1);
         }
 
+        [Obsolete]
         private void but_slcanmode2_Click(object sender, EventArgs e)
         {
             startslcan(2);
         }
 
+        [Obsolete]
         public void startslcan(byte canport)
         {
             but_slcanmode1.Enabled = false;

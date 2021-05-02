@@ -105,6 +105,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             });
         }
 
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             //CTRL+R moved to pictureBoxRover_Click
@@ -390,6 +391,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public static Func<List<ArduPilot.DeviceInfo>> ExtraDeviceInfo;
 
+        [Obsolete]
         private void findfirmware(Firmware.software fwtoupload)
         {
             var dr = CustomMessageBox.Show(Strings.AreYouSureYouWantToUpload + fwtoupload.name + Strings.QuestionMark,
@@ -462,6 +464,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void pictureBoxFW_Click(object sender, EventArgs e)
         {
             if (((Control)sender).Tag.GetType() != typeof(Firmware.software))
@@ -517,6 +520,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         //Load custom firmware (old CTRL+C shortcut)
+        [Obsolete]
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
             using (var fd = new OpenFileDialog
@@ -614,6 +618,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void lbl_px4bl_Click(object sender, EventArgs e)
         {
             try

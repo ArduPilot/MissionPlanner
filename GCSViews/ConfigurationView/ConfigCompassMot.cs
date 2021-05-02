@@ -22,6 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             setupgraph();
         }
 
+        [Obsolete]
         public void Activate()
         {
             BUT_compassmot.Text = lbl_start.Text;
@@ -29,6 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS, ProcessCompassMotMSG);
         }
 
+        [Obsolete]
         public void Deactivate()
         {
             // make sure we are stopped
@@ -47,6 +49,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void DoCompassMot()
         {
             if (incompassmot)
@@ -75,6 +78,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub;
 
+        [Obsolete]
         private void BUT_compassmot_Click(object sender, EventArgs e)
         {
             BUT_compassmot.Text = lbl_finish.Text;
@@ -84,6 +88,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Start();
         }
 
+        [Obsolete]
         private bool ProcessCompassMotMSG(MAVLink.MAVLinkMessage arg)
         {
             if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS)
@@ -161,6 +166,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             zedGraphControl1.Invalidate();
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             var message = new StringBuilder();

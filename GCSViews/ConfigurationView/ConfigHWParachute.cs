@@ -9,11 +9,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private bool startup = true;
 
+        [Obsolete]
         public ConfigHWParachute()
         {
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             var copy = new Dictionary<string, double>((Dictionary<string, double>)MainV2.comPort.MAV.param);
@@ -44,6 +46,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownMinAlt.setup(0, 32000, 1, 1, "CHUTE_ALT_MIN", MainV2.comPort.MAV.param);
         }
 
+        [Obsolete]
         private void mavlinkComboBoxServoNum_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -54,6 +57,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.setParam(mavlinkComboBoxServoNum.Text + "_FUNCTION", 27);
         }
 
+        [Obsolete]
         private void ensureDisabled(ComboBox cmb, int number, string exclude = "")
         {
             foreach (string item in cmb.Items)

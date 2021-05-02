@@ -13,6 +13,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigParamLoading : UserControl, IActivate, IDeactivate
     {
+        [Obsolete]
         public bool gotAllParams
         {
             get
@@ -41,6 +42,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (gotAllParams)

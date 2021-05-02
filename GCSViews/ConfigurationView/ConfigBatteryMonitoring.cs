@@ -15,6 +15,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen || !MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR"))
@@ -170,6 +171,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
         }
 
+        [Obsolete]
         private void TXT_battcapacity_Validated(object sender, EventArgs e)
         {
             if (startup || ((TextBox)sender).Enabled == false)
@@ -191,6 +193,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void CMB_batmontype_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -260,6 +263,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             e.Cancel = !float.TryParse(TXT_measuredvoltage.Text, out ans);
         }
 
+        [Obsolete]
         private void TXT_measuredvoltage_Validated(object sender, EventArgs e)
         {
             if (startup || ((TextBox)sender).Enabled == false)
@@ -296,6 +300,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             e.Cancel = !float.TryParse(TXT_divider_VOLT_MULT.Text, out ans);
         }
 
+        [Obsolete]
         private void TXT_divider_Validated(object sender, EventArgs e)
         {
             if (startup || ((TextBox)sender).Enabled == false)
@@ -316,6 +321,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             e.Cancel = !float.TryParse(TXT_AMP_PERVLT.Text, out ans);
         }
 
+        [Obsolete]
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
         {
             if (startup || ((TextBox)sender).Enabled == false)
@@ -330,6 +336,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void CMB_batmonsensortype_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selection = int.Parse(CMB_batmonsensortype.Text.Substring(0, 1));
@@ -451,12 +458,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return -1;
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage.ToString();
             txt_current.Text = MainV2.comPort.MAV.cs.current.ToString();
         }
 
+        [Obsolete]
         private void CMB_apmversion_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -565,24 +574,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void TXT_measuredvoltage_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
                 TXT_measuredvoltage_Validated(sender, e);
         }
 
+        [Obsolete]
         private void TXT_ampspervolt_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
                 TXT_ampspervolt_Validated(sender, e);
         }
 
+        [Obsolete]
         private void TXT_divider_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
                 TXT_divider_Validated(sender, e);
         }
 
+        [Obsolete]
         private void txt_meascurrent_Validated(object sender, EventArgs e)
         {
             if (startup || ((TextBox)sender).Enabled == false)

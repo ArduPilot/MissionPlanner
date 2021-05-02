@@ -33,6 +33,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
   #error Unrecognised frame type
 #endif*/
 
+        [Obsolete]
         public void Activate()
         {
             var x = 20;
@@ -82,6 +83,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
+        [Obsolete]
         private int get_motormax()
         {
             var motormax = 8;
@@ -178,6 +180,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return motormax;
         }
 
+        [Obsolete]
         private void but_TestAll(object sender, EventArgs e)
         {
             int speed = (int)NUM_thr_percent.Value;
@@ -190,6 +193,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void but_TestAllSeq(object sender, EventArgs e)
         {
             int motormax = this.get_motormax();
@@ -199,6 +203,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             testMotor(1, speed, time, motormax);
         }
 
+        [Obsolete]
         private void but_StopAll(object sender, EventArgs e)
         {
             int motormax = this.get_motormax();
@@ -208,6 +213,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void but_Click(object sender, EventArgs e)
         {
             int speed = (int)NUM_thr_percent.Value;
@@ -223,6 +229,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void testMotor(int motor, int speed, int time, int motorcount = 0)
         {
             try
@@ -252,6 +259,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private async void but_mot_spin_arm_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
@@ -280,6 +288,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Enabled = true;
         }
 
+        [Obsolete]
         private async void but_mot_spin_min_Click(object sender, EventArgs e)
         {
             this.Enabled = false;

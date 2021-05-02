@@ -13,6 +13,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -38,6 +39,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void BUT_levelplane_Click(object sender, EventArgs e)
         {
             try
@@ -61,6 +63,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((Button)sender).Enabled = true;
         }
 
+        [Obsolete]
         private void BUT_zero_press_Click(object sender, EventArgs e)
         {
             try
@@ -84,6 +87,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((Button)sender).Enabled = true;
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1.UpdateDataSource(MainV2.comPort.MAV.cs));

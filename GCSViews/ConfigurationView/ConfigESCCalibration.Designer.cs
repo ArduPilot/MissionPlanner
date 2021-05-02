@@ -26,6 +26,7 @@
         /// 设计器支持所需的方法 - 不要
         /// 使用代码编辑器修改此方法的内容。
         /// </summary>
+        [System.Obsolete]
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigESCCalibration));

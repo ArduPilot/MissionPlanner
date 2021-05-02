@@ -4,6 +4,7 @@
     {
         private System.ComponentModel.IContainer components = null;
 
+        [System.Obsolete]
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();

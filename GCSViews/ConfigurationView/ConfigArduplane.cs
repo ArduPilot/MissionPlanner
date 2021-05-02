@@ -18,11 +18,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private readonly Hashtable changes = new Hashtable();
         internal bool startup = true;
 
+        [Obsolete]
         public ConfigArduplane()
         {
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -125,6 +127,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = false;
         }
 
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Control | Keys.S))
@@ -200,6 +203,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             var temp = (Hashtable)changes.Clone();
@@ -265,6 +269,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
+        [Obsolete]
         protected void BUT_rerequestparams_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -287,6 +292,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Activate();
         }
 
+        [Obsolete]
         private void BUT_refreshpart_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -303,6 +309,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Activate();
         }
 
+        [Obsolete]
         private void updateparam(Control parentctl)
         {
             foreach (Control ctl in parentctl.Controls)

@@ -39,6 +39,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             "RC14_OPTION"
         };
 
+        [Obsolete]
         public void LoadOptions()
         {
             tableLayoutPanel1.SuspendLayout();
@@ -74,6 +75,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             tableLayoutPanel1.ResumeLayout(true);
         }
 
+        [Obsolete]
         public void Activate()
         {
             LoadOptions();

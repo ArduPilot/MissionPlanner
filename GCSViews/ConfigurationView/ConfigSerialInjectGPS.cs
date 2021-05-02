@@ -274,6 +274,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.ShowUserControl();
         }
 
+        [Obsolete]
         public void BUT_connect_Click(object sender, EventArgs e)
         {
             threadrun = false;
@@ -299,6 +300,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         public void DoConnect()
         {
             status_line3 = null;
@@ -485,6 +487,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private static void mainloop()
         {
             DateTime lastrecv = DateTime.Now;
@@ -744,6 +747,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             );
         }
 
+        [Obsolete]
         private static void ProcessUBXMessage()
         {
             try
@@ -929,6 +933,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private static void ExtractBasePos(int seen)
         {
             try
@@ -1003,6 +1008,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return rtcm_msg && GetAreAllUsingSameMavlinkVersion(ML);
         }
 
+        [Obsolete]
         private static void sendData(byte[] data, ushort length)
         {
             foreach (var port in MainV2.Comports)
@@ -1028,6 +1034,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_baudrate.Enabled = true;
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             StringBuilder sb = new StringBuilder();
@@ -1127,6 +1134,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void but_save_basepos_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.MAV.cs.MovingBase == null)

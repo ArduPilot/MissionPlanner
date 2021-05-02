@@ -6,6 +6,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigAC_Fence : MyUserControl, IActivate
     {
+        [System.Obsolete]
         public ConfigAC_Fence()
         {
             InitializeComponent();
@@ -15,6 +16,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             label2rtlalt.Text += "[" + CurrentState.DistanceUnit + "]";
         }
 
+        [System.Obsolete]
         public void Activate()
         {
             mavlinkCheckBox1.setup(1, 0, "FENCE_ENABLE", MainV2.comPort.MAV.param);

@@ -17,6 +17,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (MainV2.comPort.BaseStream.IsOpen)
@@ -112,6 +113,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return dst;
         }
 
+        [Obsolete]
         private void BUT_ESPsettings_Click(object sender, EventArgs e)
         {
             MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_CHANNEL", int.Parse(cmb_channel.Text));
@@ -155,6 +157,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show(Strings.ProgrammedOK);
         }
 
+        [Obsolete]
         private void but_resetdefault_Click(object sender, EventArgs e)
         {
             // reset to defaults

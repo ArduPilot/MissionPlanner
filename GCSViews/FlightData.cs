@@ -150,6 +150,7 @@ namespace MissionPlanner.GCSViews
             Battery_Reset
         }
 
+        [Obsolete]
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -313,6 +314,7 @@ namespace MissionPlanner.GCSViews
 
         }
 
+        [Obsolete]
         public void Activate()
         {
             log.Info("Activate Called");
@@ -429,6 +431,7 @@ namespace MissionPlanner.GCSViews
             hud1.doResize();
         }
 
+        [Obsolete]
         public void BUT_playlog_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.logreadmode)
@@ -460,6 +463,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void CheckBatteryShow()
         {
             // ensure battery display is on - also set in hud if current is updated
@@ -540,6 +544,7 @@ namespace MissionPlanner.GCSViews
             ZedGraphTimer.Stop();
         }
 
+        [Obsolete]
         public void LoadLogFile(string file)
         {
             if (file != "")
@@ -604,6 +609,7 @@ namespace MissionPlanner.GCSViews
         }
 
         //Updates the visibility of the payload control tab based on whether the payload target is available or not
+        [Obsolete]
         public void updatePayloadTabVisible()
         {
             bool gimbalPresent = false;
@@ -632,6 +638,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         internal void BUT_run_script_Click(object sender, EventArgs e)
         {
             if (File.Exists(selectedscript))
@@ -671,6 +678,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -705,12 +713,14 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
             base.OnInvalidated(e);
             updateBindingSourceWork();
         }
 
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Control | Keys.D1))
@@ -794,6 +804,7 @@ namespace MissionPlanner.GCSViews
             return false;
         }
 
+        [Obsolete]
         void addHudUserItem(ref HUD.Custom cust, string name)
         {
             setupPropertyInfo(ref cust.Item, name, MainV2.comPort.MAV.cs);
@@ -897,6 +908,7 @@ namespace MissionPlanner.GCSViews
             BUT_abort_script.Visible = false;
         }
 
+        [Obsolete]
         private void BUT_abortland_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -912,6 +924,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void BUT_ARM_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -979,6 +992,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void BUT_clear_track_Click(object sender, EventArgs e)
         {
             if (route != null)
@@ -1013,6 +1027,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void but_dflogtokml_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -1089,6 +1104,7 @@ namespace MissionPlanner.GCSViews
             form.Show();
         }
 
+        [Obsolete]
         private void but_disablejoystick_Click(object sender, EventArgs e)
         {
             if (MainV2.joystick != null && MainV2.joystick.enabled)
@@ -1114,6 +1130,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void BUT_Homealt_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.MAV.cs.altoffsethome != 0)
@@ -1134,6 +1151,7 @@ namespace MissionPlanner.GCSViews
 
         private string tlogdir = Settings.Instance.LogDir;
 
+        [Obsolete]
         private void BUT_loadtelem_Click(object sender, EventArgs e)
         {
             LBL_logfn.Text = "";
@@ -1169,6 +1187,7 @@ namespace MissionPlanner.GCSViews
             frm.Show();
         }
 
+        [Obsolete]
         private void BUT_loganalysis_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -1250,6 +1269,7 @@ namespace MissionPlanner.GCSViews
             MatLabForms.ProcessLog();
         }
 
+        [Obsolete]
         private void BUT_mountmode_Click(object sender, EventArgs e)
         {
             try
@@ -1273,6 +1293,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void BUT_quickauto_Click(object sender, EventArgs e)
         {
             try
@@ -1288,6 +1309,7 @@ namespace MissionPlanner.GCSViews
             ((Control) sender).Enabled = true;
         }
 
+        [Obsolete]
         private void BUT_quickmanual_Click(object sender, EventArgs e)
         {
             try
@@ -1308,6 +1330,7 @@ namespace MissionPlanner.GCSViews
             ((Control) sender).Enabled = true;
         }
 
+        [Obsolete]
         private void BUT_quickrtl_Click(object sender, EventArgs e)
         {
             try
@@ -1330,6 +1353,7 @@ namespace MissionPlanner.GCSViews
             temp.Show();
         }
 
+        [Obsolete]
         private void BUT_resetGimbalPos_Click(object sender, EventArgs e)
         {
             trackBarPitch.Value = 0;
@@ -1340,6 +1364,7 @@ namespace MissionPlanner.GCSViews
                 (float) trackBarYaw.Value * 100.0f, false);
         }
 
+        [Obsolete]
         private void BUT_resumemis_Click(object sender, EventArgs e)
         {
             if (
@@ -1503,6 +1528,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void BUT_setmode_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.MAV.cs.failsafe)
@@ -1517,6 +1543,7 @@ namespace MissionPlanner.GCSViews
             MainV2.comPort.setMode(CMB_modes.Text);
         }
 
+        [Obsolete]
         private void BUT_setwp_Click(object sender, EventArgs e)
         {
             try
@@ -1539,6 +1566,7 @@ namespace MissionPlanner.GCSViews
             lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;
         }
 
+        [Obsolete]
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
             try
@@ -1626,6 +1654,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void BUTrestartmission_Click(object sender, EventArgs e)
         {
             try
@@ -1678,6 +1707,7 @@ namespace MissionPlanner.GCSViews
             //GCSViews.FlightPlanner.instance.autopan = CHK_autopan.Checked;
         }
 
+        [Obsolete]
         void chk_box_CheckedChanged(object sender, EventArgs e)
         {
             ThemeManager.ApplyThemeTo((Control) sender);
@@ -1873,6 +1903,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         void chk_box_hud_UserItem_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox checkbox = (CheckBox) sender;
@@ -1912,6 +1943,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         void chk_box_quickview_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox checkbox = (CheckBox) sender;
@@ -1951,6 +1983,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void CMB_modes_Click(object sender, EventArgs e)
         {
             string current_value = CMB_modes.Text;
@@ -1960,6 +1993,7 @@ namespace MissionPlanner.GCSViews
             CMB_modes.Text = current_value;
         }
 
+        [Obsolete]
         private void CMB_setwp_Click(object sender, EventArgs e)
         {
             CMB_setwp.Items.Clear();
@@ -2120,6 +2154,7 @@ namespace MissionPlanner.GCSViews
             //thisthread.Join();
         }
 
+        [Obsolete]
         private void FlightData_Load(object sender, EventArgs e)
         {
             POI.POIModified += POI_POIModified;
@@ -2189,6 +2224,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void FlightData_ParentChanged(object sender, EventArgs e)
         {
             if (MainV2.cam != null)
@@ -2317,6 +2353,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void flyToHereAltToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string alt = "100";
@@ -2358,6 +2395,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void gimbalTrackbar_Scroll(object sender, EventArgs e)
         {
             MainV2.comPort.setMountControl((float) trackBarPitch.Value * 100.0f, (float) trackBarRoll.Value * 100.0f,
@@ -2368,6 +2406,7 @@ namespace MissionPlanner.GCSViews
         {
         }
 
+        [Obsolete]
         private void gMapControl1_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDownStart = gMapControl1.FromLocalToLatLng(e.X, e.Y);
@@ -2405,6 +2444,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void gMapControl1_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -2480,6 +2520,7 @@ namespace MissionPlanner.GCSViews
             gMapControl1.Zoom = gMapControl1.Zoom + 0.01;
         }
 
+        [Obsolete]
         private void goHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -2584,6 +2625,7 @@ namespace MissionPlanner.GCSViews
             GStreamer.StartA(url);
         }
 
+        [Obsolete]
         private void hud_UserItem(object sender, EventArgs e)
         {
             Form selectform = new Form
@@ -2725,6 +2767,7 @@ namespace MissionPlanner.GCSViews
             POI.POILoad();
         }
 
+        [Obsolete]
         private async void mainloop()
         {
             threadrun = true;
@@ -3635,6 +3678,7 @@ namespace MissionPlanner.GCSViews
             });
         }
 
+        [Obsolete]
         private void Messagetabtimer_Tick(object sender, EventArgs e)
         {
             var messagetime = MainV2.comPort.MAV.cs.messages.LastOrDefault().time;
@@ -3660,6 +3704,7 @@ namespace MissionPlanner.GCSViews
             coords1.AltUnit = CurrentState.AltUnit;
         }
 
+        [Obsolete]
         private void modifyandSetAlt_Click(object sender, EventArgs e)
         {
             int newalt = (int) modifyandSetAlt.Value;
@@ -3673,6 +3718,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void modifyandSetLoiterRad_Click(object sender, EventArgs e)
         {
             int newrad = (int) modifyandSetLoiterRad.Value;
@@ -3687,6 +3733,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private async void modifyandSetSpeed_Click(object sender, EventArgs e)
         {
             try
@@ -3731,6 +3778,7 @@ namespace MissionPlanner.GCSViews
             POI.UpdateOverlay(poioverlay);
         }
 
+        [Obsolete]
         private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var location = "";
@@ -3764,6 +3812,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void pointCameraHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -3802,6 +3851,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void quickView_DoubleClick(object sender, EventArgs e)
         {
             QuickView qv = (QuickView) sender;
@@ -3968,6 +4018,7 @@ namespace MissionPlanner.GCSViews
             Refresh();
         }
 
+        [Obsolete]
         void run_selected_script()
         {
             script = new Script(checkBoxRedirectOutput.Checked);
@@ -4029,6 +4080,7 @@ namespace MissionPlanner.GCSViews
             hud1.doResize();
         }
 
+        [Obsolete]
         private void setEKFHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -4094,6 +4146,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private async void setHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.BaseStream.IsOpen)
@@ -4129,6 +4182,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void setMapBearing()
         {
             BeginInvoke((Action) delegate { gMapControl1.Bearing = (int) ((MainV2.comPort.MAV.cs.yaw + 360) % 360); });
@@ -4156,6 +4210,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void setQuickViewRowsCols(string cols, string rows)
         {
             tableLayoutPanelQuick.PerformLayout();
@@ -4251,6 +4306,7 @@ namespace MissionPlanner.GCSViews
             return false;
         }
 
+        [Obsolete]
         private void setViewCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string cols = "2", rows = "3";
@@ -4463,6 +4519,7 @@ namespace MissionPlanner.GCSViews
         {
         }
 
+        [Obsolete]
         private void takeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.BaseStream.IsOpen)
@@ -4556,6 +4613,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void tracklog_Scroll(object sender, EventArgs e)
         {
             try
@@ -4576,6 +4634,7 @@ namespace MissionPlanner.GCSViews
             } // ignore any invalid 
         }
 
+        [Obsolete]
         private void triggerCameraToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -4614,6 +4673,7 @@ namespace MissionPlanner.GCSViews
             txt_messagebox.ScrollToCaret();
         }
 
+        [Obsolete]
         private void updateBindingSource()
         {
             //  run at 25 hz.
@@ -4651,6 +4711,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void updateBindingSourceWork()
         {
             try
@@ -4737,6 +4798,7 @@ namespace MissionPlanner.GCSViews
             BeginInvoke((Action) delegate { routes.Markers.Clear(); });
         }
 
+        [Obsolete]
         private void updateLogPlayPosition(bool updatetracklog = true)
         {
             BeginInvoke((Action) delegate
@@ -4865,6 +4927,7 @@ namespace MissionPlanner.GCSViews
             BeginInvoke((Action) delegate { gMapControl1.UpdateRouteLocalPosition(route); });
         }
 
+        [Obsolete]
         private void zg1_DoubleClick(object sender, EventArgs e)
         {
 
@@ -5040,6 +5103,7 @@ namespace MissionPlanner.GCSViews
             new Georefimage().Show();
         }
 
+        [Obsolete]
         private void flyToCoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
@@ -5135,6 +5199,7 @@ namespace MissionPlanner.GCSViews
 
         }
 
+        [Obsolete]
         private void tabStatus_Paint(object sender, PaintEventArgs e)
         {
             var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height);

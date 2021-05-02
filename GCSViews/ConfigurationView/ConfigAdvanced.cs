@@ -19,16 +19,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
         }
 
+        [Obsolete]
         private void but_warningmanager_Click(object sender, System.EventArgs e)
         {
             new WarningsManager().Show();
         }
 
+        [Obsolete]
         private void but_mavinspector_Click(object sender, System.EventArgs e)
         {
             new MAVLinkInspector(MainV2.comPort).Show();
         }
 
+        [Obsolete]
         private void BUT_outputMavlink_Click(object sender, System.EventArgs e)
         {
             new SerialOutputPass().Show();
@@ -39,6 +42,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             new AuthKeys().Show();
         }
 
+        [Obsolete]
         private void but_proximity_Click(object sender, System.EventArgs e)
         {
             new ProximityControl(MainV2.comPort.MAV).Show();
@@ -84,6 +88,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             new MovingBase().Show();
         }
 
+        [Obsolete]
         private void but_anonlog_Click(object sender, System.EventArgs e)
         {
             CustomMessageBox.Show("This is beta, please confirm the output file");

@@ -18,6 +18,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.MAV.param.ContainsKey("GPS1_CAN_OVRIDE"))
@@ -59,6 +60,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public int NodeID { get; set; }
         }
 
+        [Obsolete]
         private void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try

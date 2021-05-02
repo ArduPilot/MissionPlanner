@@ -29,6 +29,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -98,6 +99,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         internal void processToScreen()
         {
             toolTip1.RemoveAll();
@@ -214,6 +216,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             var temp = (Hashtable)changes.Clone();
@@ -249,6 +252,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
+        [Obsolete]
         protected void BUT_rerequestparams_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -287,6 +291,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
         }
 
+        [Obsolete]
         private void BUT_write_flash_Click(object sender, EventArgs e)
         {
             try
@@ -310,6 +315,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((Button)sender).Enabled = true;
         }
 
+        [Obsolete]
         private void BUT_read_flash_Click(object sender, EventArgs e)
         {
             try

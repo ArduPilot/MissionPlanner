@@ -14,6 +14,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen || !MainV2.comPort.MAV.param.ContainsKey("BATT2_MONITOR"))
@@ -67,6 +68,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _startup = true;
         }
 
+        [Obsolete]
         private void TXT_battcapacity_Validated(object sender, EventArgs e)
         {
             if (_startup || ((TextBox)sender).Enabled == false)
@@ -88,6 +90,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void TXT_measuredvoltage_Validated(object sender, EventArgs e)
         {
             if (_startup || ((TextBox)sender).Enabled == false)
@@ -118,6 +121,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void TXT_divider_Validated(object sender, EventArgs e)
         {
             if (_startup || ((TextBox)sender).Enabled == false)
@@ -132,6 +136,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
         {
             if (_startup || ((TextBox)sender).Enabled == false)
@@ -159,12 +164,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return -1;
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage2.ToString();
             txt_current.Text = MainV2.comPort.MAV.cs.current2.ToString();
         }
 
+        [Obsolete]
         private void CHK_speechbattery_CheckedChanged(object sender, EventArgs e)
         {
             if (_startup)
@@ -203,24 +210,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void TXT_measuredvoltage_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
                 TXT_measuredvoltage_Validated(sender, e);
         }
 
+        [Obsolete]
         private void TXT_ampspervolt_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
                 TXT_ampspervolt_Validated(sender, e);
         }
 
+        [Obsolete]
         private void TXT_divider_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
                 TXT_divider_Validated(sender, e);
         }
 
+        [Obsolete]
         private void txt_meascurrent_Validated(object sender, EventArgs e)
         {
             if (_startup || ((TextBox)sender).Enabled == false)

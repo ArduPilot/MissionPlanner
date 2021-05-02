@@ -16,6 +16,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /*
         INS_LOG_BAT_CNT is just the number of samples taken. Must be at least 
         twice the frequency you're interested in.
@@ -23,6 +24,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             With only one IMU a value of "1" will be OK.
         */
 
+        [Obsolete]
         public ConfigFFT()
         {
             InitializeComponent();
@@ -50,11 +52,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             LOG_BITMASK.setup("LOG_BITMASK", MainV2.comPort.MAV.param);
         }
 
+        [Obsolete]
         private void RangeControl1OnValueChanged(object sender, string name, string value)
         {
             MainV2.comPort.setParam(name, double.Parse(value));
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.MAV.param.ContainsKey("INS_LOG_BAT_CNT"))
@@ -64,6 +68,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         public void Deactivate()
         {
             MainV2.comPort.giveComport = false;

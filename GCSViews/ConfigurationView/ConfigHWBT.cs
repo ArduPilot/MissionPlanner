@@ -30,6 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (MainV2.comPort.BaseStream.IsOpen)
