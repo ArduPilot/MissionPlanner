@@ -542,6 +542,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             new UAVCANFileUI(can, id).ShowUserControl();
         }
 
+        [Obsolete]
         private void menu_passthrough_Click(object sender, EventArgs e)
         {
             if (listener != null)
