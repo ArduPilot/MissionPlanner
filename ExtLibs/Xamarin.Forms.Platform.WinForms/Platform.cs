@@ -158,7 +158,9 @@ namespace Xamarin.Forms.Platform.WinForms
 			UpdatePageSizes();
 		}
 
-		/*async*/ void SetCurrent(Page newPage, bool popping = false, Action completedCallback = null)
+        /*async*/
+        [Obsolete]
+        void SetCurrent(Page newPage, bool popping = false, Action completedCallback = null)
 		{
 			if (newPage == _currentPage)
 				return;

@@ -17,6 +17,7 @@ namespace Org.BouncyCastle.Asn1.Cms
         private Asn1OctetString         encryptedDigest;
         private Asn1Set                 unauthenticatedAttributes;
 
+        [Obsolete]
         public static SignerInfo GetInstance(
             object obj)
         {

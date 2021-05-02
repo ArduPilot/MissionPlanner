@@ -23,6 +23,7 @@ namespace Org.BouncyCastle.Asn1.Pkcs
             return GetInstance(Asn1Sequence.GetInstance(obj, isExplicit));
         }
 
+        [Obsolete]
         public static RsaPrivateKeyStructure GetInstance(object obj)
         {
             if (obj == null)

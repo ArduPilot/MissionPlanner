@@ -125,6 +125,7 @@ namespace Org.BouncyCastle.Math.EC
             return p;
         }
 
+        [Obsolete]
         public virtual ECPoint CreatePoint(BigInteger x, BigInteger y)
         {
             return CreatePoint(x, y, false);
@@ -217,6 +218,7 @@ namespace Org.BouncyCastle.Math.EC
             }
         }
 
+        [Obsolete]
         public virtual ECPoint ImportPoint(ECPoint p)
         {
             if (this == p.Curve)
@@ -617,6 +619,7 @@ namespace Org.BouncyCastle.Math.EC
         {
         }
 
+        [Obsolete]
         public FpCurve(BigInteger q, BigInteger a, BigInteger b, BigInteger order, BigInteger cofactor)
             : base(q)
         {
@@ -637,6 +640,7 @@ namespace Org.BouncyCastle.Math.EC
         {
         }
 
+        [Obsolete]
         protected FpCurve(BigInteger q, BigInteger r, ECFieldElement a, ECFieldElement b, BigInteger order, BigInteger cofactor)
             : base(q)
         {
@@ -690,6 +694,7 @@ namespace Org.BouncyCastle.Math.EC
             return new FpFieldElement(this.m_q, this.m_r, x);
         }
 
+        [Obsolete]
         protected internal override ECPoint CreateRawPoint(ECFieldElement x, ECFieldElement y, bool withCompression)
         {
             return new FpPoint(this, x, y, withCompression);
@@ -1075,6 +1080,7 @@ namespace Org.BouncyCastle.Math.EC
          * @param cofactor The cofactor of the elliptic curve, i.e.
          * <code>#E<sub>a</sub>(F<sub>2<sup>m</sup></sub>) = h * n</code>.
          */
+        [Obsolete]
         public F2mCurve(
             int			m, 
             int			k1, 
@@ -1116,6 +1122,7 @@ namespace Org.BouncyCastle.Math.EC
             this.m_coord = F2M_DEFAULT_COORDS;
         }
 
+        [Obsolete]
         protected F2mCurve(int m, int k1, int k2, int k3, ECFieldElement a, ECFieldElement b, BigInteger order, BigInteger cofactor)
             : base(m, k1, k2, k3)
         {
@@ -1165,11 +1172,13 @@ namespace Org.BouncyCastle.Math.EC
             get { return m; }
         }
 
+        [Obsolete]
         public override ECFieldElement FromBigInteger(BigInteger x)
         {
             return new F2mFieldElement(this.m, this.k1, this.k2, this.k3, x);
         }
 
+        [Obsolete]
         protected internal override ECPoint CreateRawPoint(ECFieldElement x, ECFieldElement y, bool withCompression)
         {
             return new F2mPoint(this, x, y, withCompression);

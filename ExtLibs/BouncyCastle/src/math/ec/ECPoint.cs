@@ -663,6 +663,7 @@ namespace Org.BouncyCastle.Math.EC
         {
         }
 
+        [Obsolete]
         protected override ECPoint Detach()
         {
             return new FpPoint(null, AffineXCoord, AffineYCoord, false);
@@ -679,6 +680,7 @@ namespace Org.BouncyCastle.Math.EC
         }
 
         // B.3 pg 62
+        [Obsolete]
         public override ECPoint Add(ECPoint b)
         {
             if (this.IsInfinity)
@@ -899,6 +901,7 @@ namespace Org.BouncyCastle.Math.EC
         }
 
         // B.3 pg 62
+        [Obsolete]
         public override ECPoint Twice()
         {
             if (this.IsInfinity)
@@ -1027,6 +1030,7 @@ namespace Org.BouncyCastle.Math.EC
             }
         }
 
+        [Obsolete]
         public override ECPoint TwicePlus(ECPoint b)
         {
             if (this == b)
@@ -1096,6 +1100,7 @@ namespace Org.BouncyCastle.Math.EC
             }
         }
 
+        [Obsolete]
         public override ECPoint ThreeTimes()
         {
             if (this.IsInfinity)
@@ -1146,6 +1151,7 @@ namespace Org.BouncyCastle.Math.EC
             }
         }
 
+        [Obsolete]
         public override ECPoint TimesPow2(int e)
         {
             if (e < 0)
@@ -1258,6 +1264,7 @@ namespace Org.BouncyCastle.Math.EC
             return a.Add(b).Square().Subtract(aSquared).Subtract(bSquared);
         }
 
+        [Obsolete]
         public override ECPoint Negate()
         {
             if (IsInfinity)
@@ -1645,6 +1652,7 @@ namespace Org.BouncyCastle.Math.EC
         {
         }
 
+        [Obsolete]
         protected override ECPoint Detach()
         {
             return new F2mPoint(null, AffineXCoord, AffineYCoord, false);
@@ -1714,6 +1722,7 @@ namespace Org.BouncyCastle.Math.EC
             }
         }
 
+        [Obsolete]
         public override ECPoint Add(ECPoint b)
         {
             if (this.IsInfinity)
@@ -1902,6 +1911,7 @@ namespace Org.BouncyCastle.Math.EC
         /* (non-Javadoc)
          * @see Org.BouncyCastle.Math.EC.ECPoint#twice()
          */
+        [Obsolete]
         public override ECPoint Twice()
         {
             if (this.IsInfinity)
@@ -2010,6 +2020,7 @@ namespace Org.BouncyCastle.Math.EC
             }
         }
 
+        [Obsolete]
         public override ECPoint TwicePlus(ECPoint b)
         {
             if (this.IsInfinity)
@@ -2081,6 +2092,7 @@ namespace Org.BouncyCastle.Math.EC
             }
         }
 
+        [Obsolete]
         public override ECPoint Negate()
         {
             if (this.IsInfinity)

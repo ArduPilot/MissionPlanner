@@ -30,6 +30,7 @@ namespace Org.BouncyCastle.Crypto.Tls
             this.mCipherFactory = cipherFactory;
         }
 
+        [Obsolete]
         protected virtual bool AllowUnexpectedServerExtension(int extensionType, byte[] extensionData)
         {
             switch (extensionType)
@@ -185,6 +186,7 @@ namespace Org.BouncyCastle.Crypto.Tls
             this.mSelectedCompressionMethod = selectedCompressionMethod;
         }
 
+        [Obsolete]
         public virtual void ProcessServerExtensions(IDictionary serverExtensions)
         {
             /*

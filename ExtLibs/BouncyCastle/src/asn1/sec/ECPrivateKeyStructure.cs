@@ -14,6 +14,7 @@ namespace Org.BouncyCastle.Asn1.Sec
     {
         private readonly Asn1Sequence seq;
 
+        [Obsolete]
         public static ECPrivateKeyStructure GetInstance(object obj)
         {
             if (obj == null)

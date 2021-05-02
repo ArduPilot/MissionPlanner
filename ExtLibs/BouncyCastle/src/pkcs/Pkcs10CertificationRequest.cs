@@ -184,19 +184,22 @@ namespace Org.BouncyCastle.Pkcs
 		{
 		}
 
-		public Pkcs10CertificationRequest(
+        [Obsolete]
+        public Pkcs10CertificationRequest(
 			byte[] encoded)
 			: base((Asn1Sequence) Asn1Object.FromByteArray(encoded))
 		{
 		}
 
-		public Pkcs10CertificationRequest(
+        [Obsolete]
+        public Pkcs10CertificationRequest(
 			Asn1Sequence seq)
 			: base(seq)
 		{
 		}
 
-		public Pkcs10CertificationRequest(
+        [Obsolete]
+        public Pkcs10CertificationRequest(
 			Stream input)
 			: base((Asn1Sequence) Asn1Object.FromStream(input))
 		{

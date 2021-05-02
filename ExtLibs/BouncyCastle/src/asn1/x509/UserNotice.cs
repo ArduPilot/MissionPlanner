@@ -91,6 +91,7 @@ namespace Org.BouncyCastle.Asn1.X509
             }
         }
 
+        [Obsolete]
         public static UserNotice GetInstance(object obj)
         {
             if (obj is UserNotice)
