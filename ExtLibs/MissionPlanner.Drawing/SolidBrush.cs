@@ -47,7 +47,7 @@ namespace System.Drawing
             }
         }
 
-        public Brush Clone()
+        public new Brush Clone()
         {
             return new SolidBrush() {nativeBrush = nativeBrush?.Clone()};
         }

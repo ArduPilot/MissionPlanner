@@ -127,7 +127,7 @@ namespace Org.Mentalis.Network.ProxySocket
         /// <exception cref="ObjectDisposedException">The Socket has been closed.</exception>
         /// <exception cref="ProxyException">An error occured while talking to the proxy server.</exception>
         /// <remarks>If you use this method with a SOCKS4 server, it will let the server resolve the hostname. Not all SOCKS4 servers support this 'remote DNS' though.</remarks>
-        public void Connect(string host, int port)
+        public new void Connect(string host, int port)
         {
             if (host == null)
                 throw new ArgumentNullException("<host> cannot be null.");
@@ -192,7 +192,7 @@ namespace Org.Mentalis.Network.ProxySocket
         /// <exception cref="ArgumentException">The port parameter is invalid.</exception>
         /// <exception cref="SocketException">An operating system error occurs while creating the Socket.</exception>
         /// <exception cref="ObjectDisposedException">The Socket has been closed.</exception>
-        public IAsyncResult BeginConnect(string host, int port, AsyncCallback callback, object state)
+        public new IAsyncResult BeginConnect(string host, int port, AsyncCallback callback, object state)
         {
             if (host == null || callback == null)
                 throw new ArgumentNullException();
