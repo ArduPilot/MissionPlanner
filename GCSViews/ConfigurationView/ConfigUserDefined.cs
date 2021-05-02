@@ -27,6 +27,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             "CH12_OPT",
             "CH13_OPT",
             "CH14_OPT",
+            "CH15_OPT",
+            "CH16_OPT",
 
             "RC6_OPTION",
             "RC7_OPTION",
@@ -36,7 +38,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             "RC11_OPTION",
             "RC12_OPTION",
             "RC13_OPTION",
-            "RC14_OPTION"
+            "RC14_OPTION",
+            "RC15_OPTION",
+            "RC16_OPTION"
         };
 
         public void LoadOptions()
