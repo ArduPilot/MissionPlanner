@@ -96,7 +96,9 @@ namespace MissionPlanner.Log
             return ret;
         }
 
+#pragma warning disable CS0108 // メンバーは継承されたメンバーを非表示にします。キーワード new がありません
         public class atan2 : FunctionExtension
+#pragma warning restore CS0108 // メンバーは継承されたメンバーを非表示にします。キーワード new がありません
         {
             private double x;
             private double y;

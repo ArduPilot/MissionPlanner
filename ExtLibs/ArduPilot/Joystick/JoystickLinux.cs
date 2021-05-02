@@ -365,7 +365,7 @@ namespace MissionPlanner.Joystick
 
         static uint _IOR(uint type, uint nr, Type size) => _IOC(_IOC_READ, (type), (nr), (_IOC_TYPECHECK(size)));
 
-        public static IList<string> getDevices()
+        public static new IList<string> getDevices()
         {
             return Directory.GetFiles("/dev/input/by-id/", "*joystick")
                 .Where(a => !a.Contains("-event-"))
@@ -373,7 +373,7 @@ namespace MissionPlanner.Joystick
                 .ToList();
         }
 
-        public static JoystickBase getJoyStickByName(string name)
+        public static new JoystickBase getJoyStickByName(string name)
         {
             var joysticklist = getDevices();
 

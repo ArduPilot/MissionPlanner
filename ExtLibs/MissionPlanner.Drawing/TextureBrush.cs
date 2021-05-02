@@ -52,7 +52,7 @@ namespace System.Drawing
             set { nativeBrush.Color = value.ToSKColor(); }
         }
 
-        public Brush Clone()
+        public new Brush Clone()
         {
             return new TextureBrush() {nativeBrush = nativeBrush?.Clone()};
         }

@@ -94,7 +94,7 @@ namespace MissionPlanner.Joystick
             return joystick.Capabilities.ButtonCount;
         }
 
-        internal static IList<DeviceInstance> getDevices()
+        internal static new IList<DeviceInstance> getDevices()
         {
             return new DirectInput().GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
         }
@@ -113,7 +113,7 @@ namespace MissionPlanner.Joystick
             return null;
         }
 
-        public static JoystickBase getJoyStickByName(string name)
+        public static new JoystickBase getJoyStickByName(string name)
         {
             var joysticklist = getDevices();
 
