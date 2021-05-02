@@ -70,19 +70,19 @@
   <graph name='Sensors/Gyroscope/Gyros'>
     <description>Gyroscope Output</description>
     <expression>degrees(RAW_IMU.xgyro*0.001) degrees(RAW_IMU.ygyro*0.001) degrees(RAW_IMU.zgyro*0.001)</expression>
-    <expression>IMU.GyrX IMU.GyrY IMU.GyrZ</expression>
+    <expression>IMU.GyrX IMU.GyrY IMU.GyrZ sqrt(IMU.GyrX**2+IMU.GyrY**2+IMU.GyrZ**2)</expression>
   </graph>
 
   <graph name='Sensors/Gyroscope/Gyros(2)'>
     <description>Gyroscope Two Output</description>
     <expression>degrees(SCALED_IMU2.xgyro*0.001) degrees(SCALED_IMU2.ygyro*0.001) degrees(SCALED_IMU2.zgyro*0.001)</expression>
-    <expression>IMU2.GyrX IMU2.GyrY IMU2.GyrZ</expression>
+    <expression>IMU2.GyrX IMU2.GyrY IMU2.GyrZ sqrt(IMU2.GyrX**2+IMU2.GyrY**2+IMU2.GyrZ**2)</expression>
   </graph>
 
   <graph name='Sensors/Gyroscope/Gyros(3)'>
     <description>Gyroscope Three Output</description>
     <expression>degrees(SCALED_IMU3.xgyro*0.001) degrees(SCALED_IMU3.ygyro*0.001) degrees(SCALED_IMU3.zgyro*0.001)</expression>
-    <expression>IMU3.GyrX IMU3.GyrY IMU3.GyrZ</expression>
+    <expression>IMU3.GyrX IMU3.GyrY IMU3.GyrZ sqrt(IMU3.GyrX**2+IMU3.GyrY**2+IMU3.GyrZ**2)</expression>
   </graph>
 
   <graph name='Sensors/Gyroscope/Gyro Comparison'>
