@@ -18,6 +18,7 @@ namespace MissionPlanner.Swarm
             return Leader;
         }
 
+        [System.Obsolete]
         public void Arm()
         {
             foreach (var port in MainV2.Comports)
@@ -32,6 +33,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [System.Obsolete]
         public void Disarm()
         {
             foreach (var port in MainV2.Comports)
@@ -46,6 +48,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [System.Obsolete]
         public void Takeoff()
         {
             foreach (var port in MainV2.Comports)
@@ -62,6 +65,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [System.Obsolete]
         public void Land()
         {
             foreach (var port in MainV2.Comports)
@@ -77,6 +81,7 @@ namespace MissionPlanner.Swarm
         {
         }
 
+        [System.Obsolete]
         public void GuidedMode()
         {
             foreach (var port in MainV2.Comports)

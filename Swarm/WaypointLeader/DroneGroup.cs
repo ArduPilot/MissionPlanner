@@ -54,6 +54,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             WPNAV_ACCEL = 1;
         }
 
+        [Obsolete]
         public void UpdatePositions()
         {
             if (airmaster == null || groundmaster == null)

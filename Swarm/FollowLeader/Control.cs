@@ -13,6 +13,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             InitializeComponent();
         }
 
+        [Obsolete]
         private void but_master_Click(object sender, EventArgs e)
         {
             DG.groundmaster = MainV2.comPort.MAV;
@@ -28,6 +29,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             }
         }
 
+        [Obsolete]
         private void but_arm_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -39,6 +41,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             }
         }
 
+        [Obsolete]
         private void but_takeoff_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -52,6 +55,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             }
         }
 
+        [Obsolete]
         private void but_auto_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -63,6 +67,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             }
         }
 
+        [Obsolete]
         private void but_start_Click(object sender, EventArgs e)
         {
             if (threadrun == true)
@@ -79,6 +84,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             }
         }
 
+        [Obsolete]
         private void mainloop()
         {
             threadrun = true;
@@ -91,6 +97,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             }
         }
 
+        [Obsolete]
         private void but_guided_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -102,6 +109,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             }
         }
 
+        [Obsolete]
         private void but_navguided_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -128,6 +136,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             DG.Altitude = (double)numericUpDown3.Value;
         }
 
+        [Obsolete]
         private void but_airmaster_Click(object sender, EventArgs e)
         {
             DG.airmaster = MainV2.comPort.MAV;

@@ -304,9 +304,10 @@ namespace MissionPlanner.Swarm.Sequence
 
         private Layout workingLayout;
         private Sequence workingSequence = new Sequence();
-
+        [Obsolete]
         MAVLinkInterface mavint = new MAVLinkInterface();
 
+        [Obsolete]
         private void BUT_load_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -424,6 +425,7 @@ namespace MissionPlanner.Swarm.Sequence
         private Controller controller = new Controller();
         private PointLatLngAlt startpos = PointLatLngAlt.Zero;
 
+        [Obsolete]
         private void BUT_runstep_Click(object sender, EventArgs e)
         {
             if (step >= workingSequence.Steps.Count)
@@ -464,6 +466,7 @@ namespace MissionPlanner.Swarm.Sequence
             step = 0;
         }
 
+        [Obsolete]
         private void num_drones_ValueChanged(object sender, EventArgs e)
         {
             var count = workingSequence.Layouts.Count > 0 ? workingSequence.Layouts.First().Offset.Keys.Count() : 0;
@@ -507,6 +510,7 @@ namespace MissionPlanner.Swarm.Sequence
             UpdateDisplay();
         }
 
+        [Obsolete]
         private void but_takeoff_Click(object sender, EventArgs e)
         {
             controller.Stop();
@@ -545,6 +549,7 @@ namespace MissionPlanner.Swarm.Sequence
                 });
         }
 
+        [Obsolete]
         private void but_mission_Click(object sender, EventArgs e)
         {
             Parallel.ForEach(controller.DG.Drones, a =>

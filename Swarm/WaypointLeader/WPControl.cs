@@ -22,6 +22,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             DG.Drones.Clear();
         }
 
+        [Obsolete]
         private void but_master_Click(object sender, EventArgs e)
         {
             DG.groundmaster = MainV2.comPort.MAV;
@@ -37,6 +38,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             }
         }
 
+        [Obsolete]
         private void but_arm_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -48,6 +50,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             }
         }
 
+        [Obsolete]
         private void but_takeoff_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -61,6 +64,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             }
         }
 
+        [Obsolete]
         private void but_auto_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -72,6 +76,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             }
         }
 
+        [Obsolete]
         private void but_start_Click(object sender, EventArgs e)
         {
             if (threadrun == true)
@@ -104,6 +109,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             }
         }
 
+        [Obsolete]
         private void mainloop()
         {
             threadrun = true;
@@ -116,6 +122,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             }
         }
 
+        [Obsolete]
         private void but_guided_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -127,6 +134,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             }
         }
 
+        [Obsolete]
         private void but_navguided_Click(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -148,6 +156,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             DG.Lead = (double)numericUpDown2.Value;
         }
 
+        [Obsolete]
         private void but_airmaster_Click(object sender, EventArgs e)
         {
             DG.airmaster = MainV2.comPort.MAV;

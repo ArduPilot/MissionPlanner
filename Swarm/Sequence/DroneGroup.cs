@@ -30,6 +30,7 @@ namespace MissionPlanner.Swarm.Sequence
 
         public ConcurrentBag<Drone> Drones = new ConcurrentBag<Drone>();
 
+        [Obsolete]
         public void UpdatePositions()
         {
             // get current positions and velocitys

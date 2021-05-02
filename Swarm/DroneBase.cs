@@ -19,6 +19,7 @@ namespace MissionPlanner.Swarm
 
         public PointLatLngAlt ProjectedLocation2 => Location.newpos(Heading, Velocity.length() * 2);
 
+        [Obsolete]
         public void SendPositionVelocityYaw(PointLatLngAlt pos, Vector3 vel, double yaw, double yawrate = 100)
         {
             if (pos == null || vel == null)
@@ -29,6 +30,7 @@ namespace MissionPlanner.Swarm
                 yawrate);
         }
 
+        [Obsolete]
         public void SendPositionVelocity(PointLatLngAlt pos, Vector3 vel)
         {
             if (pos == null || vel == null)
@@ -38,6 +40,7 @@ namespace MissionPlanner.Swarm
                 MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT, pos.Lat, pos.Lng, pos.Alt, vel.x, vel.y, vel.z, 0, 0);
         }
 
+        [Obsolete]
         public void SendVelocity(Vector3 vel)
         {
             if (vel == null)
@@ -47,6 +50,7 @@ namespace MissionPlanner.Swarm
                 MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT, 0, 0, 0, vel.x, vel.y, vel.z, 0, 0);
         }
 
+        [Obsolete]
         public void SendYaw(float heading)
         {
             if ((Math.Abs(MavState.cs.yaw - heading) - 3) > 0)

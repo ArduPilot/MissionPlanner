@@ -12,6 +12,7 @@ namespace MissionPlanner.Swarm.SRB
             InitializeComponent();
         }
 
+        [Obsolete]
         private void but_start_Click(object sender, EventArgs e)
         {
             ctl.Stop();

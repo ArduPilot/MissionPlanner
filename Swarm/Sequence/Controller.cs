@@ -12,6 +12,7 @@ namespace MissionPlanner.Swarm.Sequence
         bool threadrun;
         private Thread thread;
 
+        [System.Obsolete]
         public void Start()
         {
             if (threadrun == true)
@@ -44,6 +45,7 @@ namespace MissionPlanner.Swarm.Sequence
             thread = null;
         }
 
+        [System.Obsolete]
         private void mainloop()
         {
             threadrun = true;

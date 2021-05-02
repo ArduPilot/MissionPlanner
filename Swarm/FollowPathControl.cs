@@ -39,6 +39,7 @@ namespace MissionPlanner.Swarm
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
+        [Obsolete]
         private void CMB_mavs_SelectedIndexChanged(object sender, EventArgs e)
         {
             foreach (var port in MainV2.Comports)
@@ -83,6 +84,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [Obsolete]
         private void BUT_Arm_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
@@ -91,6 +93,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [Obsolete]
         private void BUT_Disarm_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
@@ -99,6 +102,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [Obsolete]
         private void BUT_Takeoff_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
@@ -107,6 +111,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [Obsolete]
         private void BUT_Land_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
@@ -115,6 +120,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [Obsolete]
         private void BUT_leader_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
@@ -124,6 +130,7 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        [Obsolete]
         private void BUT_connect_Click(object sender, EventArgs e)
         {
             Comms.CommsSerialScan.Scan(true);
@@ -149,6 +156,7 @@ namespace MissionPlanner.Swarm
             threadrun = false;
         }
 
+        [Obsolete]
         private void timer_status_Tick(object sender, EventArgs e)
         {
             // clean up old
