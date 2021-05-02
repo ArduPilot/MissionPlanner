@@ -126,6 +126,7 @@ S15: MAX_WINDOW=131
             this.Disposed += DisposedEvtHdlr;
         }
 
+        [Obsolete]
         public void Connect()
         {
             var S = GetSession();
@@ -293,6 +294,7 @@ S15: MAX_WINDOW=131
         /// </summary>
         /// <param name="comPort"></param>
         /// <returns></returns>
+        [Obsolete]
         bool upload_xmodem(ICommsSerial comPort)
         {
             // try xmodem mode
@@ -358,6 +360,7 @@ S15: MAX_WINDOW=131
             return false;
         }
 
+        [Obsolete]
         private void BUT_upload_Click(object sender, EventArgs e)
         {
             ProgramFirmware(false);
@@ -432,6 +435,7 @@ S15: MAX_WINDOW=131
             return Part1.Substring(S + 1);
         }
 
+        [Obsolete]
         private void BUT_savesettings_Click(object sender, EventArgs e)
         {
             //EndSession();
@@ -883,6 +887,7 @@ S15: MAX_WINDOW=131
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        [Obsolete]
         private void BUT_getcurrent_Click(object sender, EventArgs e)
         {
             //EndSession();
@@ -1549,6 +1554,7 @@ red LED solid - in firmware update mode");
             }
         }
 
+        [Obsolete]
         private void BUT_resettodefault_Click(object sender, EventArgs e)
         {
             //EndSession();
@@ -1676,11 +1682,13 @@ red LED solid - in firmware update mode");
             RGPO1_1R_COUT.Enabled = false;
         }
 
+        [Obsolete]
         private void BUT_loadcustom_Click(object sender, EventArgs e)
         {
             ProgramFirmware(true);
         }
 
+        [Obsolete]
         void ProgramFirmware(bool Custom)
         {
             EnableProgrammingControls(false);
@@ -1821,6 +1829,7 @@ red LED solid - in firmware update mode");
             }
         }
 
+        [Obsolete]
         private void BUT_SetPPMFailSafe_Click(object sender, EventArgs e)
         {
 
@@ -1870,6 +1879,7 @@ red LED solid - in firmware update mode");
             }
         }
 
+        [Obsolete]
         void getTelemPortWithRadio(ref ICommsSerial comPort)
         {
             // try telem1
@@ -1885,6 +1895,7 @@ red LED solid - in firmware update mode");
         /// returns null if failed
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         ICommsSerial GetComPort()
         {
             if (GetCommsSerialAlt == null)
@@ -1932,6 +1943,7 @@ red LED solid - in firmware update mode");
             }
         }
 
+        [Obsolete]
         RFD.RFD900.TSession GetSession()
         {
             if (_Session == null)
@@ -1986,6 +1998,7 @@ red LED solid - in firmware update mode");
             }
         }
 
+        [Obsolete]
         bool SetSetting(string Designator, int Value, bool Remote)
         {
             var Session = GetSession();
@@ -2006,6 +2019,7 @@ red LED solid - in firmware update mode");
         /// </summary>
         /// <param name="sender">ignored</param>
         /// <param name="e">ignored</param>
+        [Obsolete]
         private void ENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
         {
             EncryptionCheckChangedEvtHdlr(ENCRYPTION_LEVEL, "ATI5", "AT&E?", txt_aeskey, false);
@@ -2017,6 +2031,7 @@ red LED solid - in firmware update mode");
         /// </summary>
         /// <param name="sender">ignored</param>
         /// <param name="e">ignored</param>
+        [Obsolete]
         private void RENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
         {
             EncryptionCheckChangedEvtHdlr(RENCRYPTION_LEVEL, "RTI5", "RT&E?", txt_Raeskey, true);
@@ -2030,6 +2045,7 @@ red LED solid - in firmware update mode");
         /// <param name="CB">The checkbox which was changed.  Must not be null.</param>
         /// <param name="ATCommand">The AT command to use to get the settings
         /// from the relevant modem.  Must not be null.</param>
+        [Obsolete]
         void EncryptionCheckChangedEvtHdlr(CheckBox CB, string ATCommand, string EncKeyQuery,
             TextBox EncKeyTextBox, bool Remote)
         {
