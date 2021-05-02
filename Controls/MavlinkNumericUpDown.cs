@@ -28,6 +28,7 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true)]
         public event EventHandler ValueUpdated;
 
+        [Obsolete]
         public MavlinkNumericUpDown()
         {
             Min = 0;
@@ -40,12 +41,14 @@ namespace MissionPlanner.Controls
             this.Enabled = false;
         }
 
+        [Obsolete]
         public void setup(float Min, float Max, float Scale, float Increment, string paramname,
             MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
         {
             setup(Min, Max, Scale, Increment, new string[] { paramname }, paramlist, enabledisable);
         }
 
+        [Obsolete]
         public void setup(float Min, float Max, float Scale, float Increment, string[] paramname,
             MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
         {
@@ -160,6 +163,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private void Timer_Tick(object sender, EventArgs e)
         {
             lock (timer)

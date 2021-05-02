@@ -106,6 +106,7 @@ namespace MissionPlanner.GCSViews
 
         }
 
+        [Obsolete]
         public void Activate()
         {
             homemarker.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
@@ -129,6 +130,7 @@ namespace MissionPlanner.GCSViews
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
+        [Obsolete]
         private async void pictureBoxplane_Click(object sender, EventArgs e)
         {
 
@@ -152,6 +154,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private async void pictureBoxrover_Click(object sender, EventArgs e)
         {
             if (markeroverlay.Markers.Count == 0)
@@ -173,6 +176,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private async void pictureBoxquad_Click(object sender, EventArgs e)
         {
             if (markeroverlay.Markers.Count == 0)
@@ -194,6 +198,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private async void pictureBoxheli_Click(object sender, EventArgs e)
         {
             if (markeroverlay.Markers.Count == 0)
@@ -425,6 +430,7 @@ namespace MissionPlanner.GCSViews
             return "";
         }
 
+        [Obsolete]
         private async void StartSITL(string exepath, string model, string homelocation, string extraargs = "", int speedup = 1)
         {
             if (String.IsNullOrEmpty(homelocation))
@@ -523,6 +529,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         static internal void rcinput()
         {
             try
@@ -594,6 +601,7 @@ namespace MissionPlanner.GCSViews
             MouseDownStart = myGMAP1.FromLocalToLatLng(e.X, e.Y);
         }
 
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Control | Keys.S))
@@ -611,6 +619,7 @@ namespace MissionPlanner.GCSViews
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        [Obsolete]
         public async Task StartSwarmSeperate()
         {
             var max = 10;
@@ -730,6 +739,7 @@ SIM_DRIFT_TIME=0
             }
         }
 
+        [Obsolete]
         public async void StartSwarmChain()
         {  
             var max = 10;
@@ -857,11 +867,13 @@ SIM_DRIFT_TIME=0
             }
         }
 
+        [Obsolete]
         private void but_swarmseq_Click(object sender, EventArgs e)
         {
              StartSwarmChain();
         }
 
+        [Obsolete]
         private void but_swarmlink_Click(object sender, EventArgs e)
         {
              StartSwarmSeperate();

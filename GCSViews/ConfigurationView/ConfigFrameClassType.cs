@@ -33,6 +33,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             radioButtonOctaQuad.Image = new Bitmap(radioButtonOctaQuad.Image, 60, 60);
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.MAV.param.ContainsKey("FRAME_CLASS") || !MainV2.comPort.MAV.param.ContainsKey("FRAME_TYPE"))
@@ -58,6 +59,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         }
 
+        [Obsolete]
         private void DoClass(motor_frame_class frame_class)
         {
             if (inDoType)
@@ -166,6 +168,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             inDoType = false;
         }
 
+        [Obsolete]
         private void DoType(motor_frame_type frame_type)
         {
             if (inDoType)
@@ -278,6 +281,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             inDoType = false;
         }
 
+        [Obsolete]
         private void SetFrameParam(motor_frame_class frame_class, motor_frame_type frame_type)
         {
             try
@@ -299,6 +303,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             fade.run();
         }
 
+        [Obsolete]
         private void radioButtonType_CheckedChanged(object sender, EventArgs e)
         {
             if (sender == pictureBoxPlus || sender == radioButton_Plus)
@@ -315,6 +320,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 DoType(motor_frame_type.MOTOR_FRAME_TYPE_VTAIL);
         }
 
+        [Obsolete]
         private void radioButtonClass_CheckedChanged(object sender, EventArgs e)
         {
             if (sender == radioButtonUndef)

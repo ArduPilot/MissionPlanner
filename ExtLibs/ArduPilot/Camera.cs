@@ -9,6 +9,7 @@ namespace MissionPlanner.Utilities
 {
     public class Camera
     {
+        [Obsolete]
         public void test(MAVLinkInterface mavint)
         {
             try
@@ -34,6 +35,7 @@ namespace MissionPlanner.Utilities
             catch { }
         }
 
+        [Obsolete]
         public void CameraInfo(MAVState mav, Action<MAVLink.mavlink_camera_information_t> act)
         {
             var sub = mav.parent.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION,

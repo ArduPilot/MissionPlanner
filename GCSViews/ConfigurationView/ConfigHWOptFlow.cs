@@ -13,6 +13,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -30,6 +31,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = false;
         }
 
+        [Obsolete]
         private void CHK_enableoptflow_CheckedChanged(object sender, EventArgs e)
         {
             if (startup)

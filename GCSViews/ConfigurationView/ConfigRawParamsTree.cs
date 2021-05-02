@@ -38,6 +38,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             startup = true;
@@ -84,6 +85,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Control | Keys.S))
@@ -95,6 +97,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return false;
         }
 
+        [Obsolete]
         private void BUT_load_Click(object sender, EventArgs e)
         {
             using (var ofd = new OpenFileDialog
@@ -117,6 +120,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void loadparamsfromfile(string fn, bool offline = false)
         {
             var param2 = ParamFile.loadParamFile(fn);
@@ -202,6 +206,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             if (Common.MessageShowAgain("Write Raw Params Tree", "Are you Sure?") != DialogResult.OK)
@@ -252,6 +257,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Parameters successfully saved.", "Saved");
         }
 
+        [Obsolete]
         private void BUT_compare_Click(object sender, EventArgs e)
         {
             var param2 = new Dictionary<string, double>();
@@ -279,6 +285,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_rerequestparams_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -340,6 +347,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return sb.ToString();
         }
 
+        [Obsolete]
         internal void processToScreen()
         {
             toolTip1.RemoveAll();
@@ -536,6 +544,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_paramfileload_Click(object sender, EventArgs e)
         {
             var filepath = Settings.GetUserDataDirectory() + CMB_paramfiles.Text;
@@ -595,6 +604,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_reset_params_Click(object sender, EventArgs e)
         {
             if (
@@ -618,6 +628,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void Params_CellEditFinishing(object sender, CellEditEventArgs e)
         {
             if (e.NewValue != e.Value && e.Cancel == false)
@@ -749,6 +760,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             });
         }
 
+        [Obsolete]
         private void Params_CellClick(object sender, CellClickEventArgs e)
         {
             // Only process the Description column
@@ -794,6 +806,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch { }
         }
 
+        [Obsolete]
         private void BUT_commitToFlash_Click(object sender, EventArgs e)
         {
             try

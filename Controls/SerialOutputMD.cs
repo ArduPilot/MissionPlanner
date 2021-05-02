@@ -73,6 +73,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         void mainloop()
         {
             threadrun = true;

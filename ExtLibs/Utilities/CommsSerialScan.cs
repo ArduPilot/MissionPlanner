@@ -18,6 +18,7 @@ namespace MissionPlanner.Comms
 
         static int[] bauds = new int[] {0, 115200, 57600, 38400, 19200, 9600};
 
+        [Obsolete]
         static public void Scan(bool connect = false)
         {
             foundport = false;
@@ -37,6 +38,7 @@ namespace MissionPlanner.Comms
             }
         }
 
+        [Obsolete]
         static void doread(object o)
         {
             lock (runlock)

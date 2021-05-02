@@ -71,6 +71,7 @@ namespace MissionPlanner.Controls
             this.Width = 700;
         }
 
+        [Obsolete]
         public void setup(string paramname, MAVLink.MAVLinkParamList paramlist)
         {
             this.ParamName = paramname;
@@ -140,6 +141,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         void MavlinkCheckBoxBitMask_CheckedChanged(object sender, EventArgs e)
         {
             if (this.ValueChanged != null)

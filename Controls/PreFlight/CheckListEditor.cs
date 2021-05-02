@@ -8,6 +8,7 @@ namespace MissionPlanner.Controls.PreFlight
     {
         CheckListControl _parent;
 
+        [Obsolete]
         public CheckListEditor(CheckListControl parent)
         {
             _parent = parent;
@@ -22,6 +23,7 @@ namespace MissionPlanner.Controls.PreFlight
             reload();
         }
 
+        [Obsolete]
         public void reload()
         {
             panel1.Visible = false;
@@ -44,6 +46,7 @@ namespace MissionPlanner.Controls.PreFlight
             panel1.Visible = true;
         }
 
+        [Obsolete]
         CheckListInput addwarningcontrol(int x, int y, CheckListItem item, bool hideforchild = false)
         {
             CheckListInput wrnctl = new CheckListInput(_parent, item);
@@ -72,11 +75,13 @@ namespace MissionPlanner.Controls.PreFlight
             return wrnctl;
         }
 
+        [Obsolete]
         void wrnctl_ChildAdd(object sender, EventArgs e)
         {
             reload();
         }
 
+        [Obsolete]
         private void BUT_Add_Click(object sender, EventArgs e)
         {
             var newcw = new CheckListItem();

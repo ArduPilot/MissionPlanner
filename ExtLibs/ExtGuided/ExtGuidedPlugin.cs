@@ -48,7 +48,8 @@ using MissionPlanner.Utilities;
             return true; 
         }
 
-        public override bool Loop()
+    [Obsolete]
+    public override bool Loop()
         {
             if (File.Exists(file))
             {

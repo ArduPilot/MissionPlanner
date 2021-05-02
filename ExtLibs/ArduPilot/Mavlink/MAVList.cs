@@ -15,6 +15,7 @@ namespace MissionPlanner.Mavlink
 
         object locker = new object();
 
+        [Obsolete]
         public MAVList(MAVLinkInterface mavLinkInterface)
         {
             parent = mavLinkInterface;
@@ -22,6 +23,7 @@ namespace MissionPlanner.Mavlink
             hiddenlist.Add(0, new MAVState(parent, 0, 0));
         }
 
+        [Obsolete]
         public void AddHiddenList(byte sysid, byte compid)
         {
             int id = GetID((byte)sysid, (byte)compid);
@@ -29,6 +31,7 @@ namespace MissionPlanner.Mavlink
             hiddenlist[id] = new MAVState(parent, sysid, compid);
         }
 
+        [Obsolete]
         public MAVState this[int sysid, int compid]
         {
             get
@@ -98,6 +101,7 @@ namespace MissionPlanner.Mavlink
             return false;
         }
 
+        [Obsolete]
         internal void Create(byte sysid, byte compid)
         {
             int id = GetID((byte)sysid, (byte)compid);

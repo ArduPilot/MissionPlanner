@@ -38,6 +38,7 @@ namespace MissionPlanner.Swarm
             return new Vector3(offsets.Count, 0, 0);
         }
 
+        [Obsolete]
         public override void Update()
         {
             if (MainV2.comPort.MAV.cs.lat == 0 || MainV2.comPort.MAV.cs.lng == 0)
@@ -63,6 +64,7 @@ namespace MissionPlanner.Swarm
 
         IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
+        [Obsolete]
         public override void SendCommand()
         {
             if (masterpos.Lat == 0 || masterpos.Lng == 0)

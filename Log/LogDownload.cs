@@ -65,6 +65,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void readandsleep(int time)
         {
             DateTime start = DateTime.Now;
@@ -86,6 +87,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void Log_Load(object sender, EventArgs e)
         {
             status = serialstatus.Connecting;
@@ -213,6 +215,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         void comPort_DataReceived(object sender, object e)
         {
             try
@@ -522,6 +525,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void BUT_redokml_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -569,7 +573,7 @@ namespace MissionPlanner.Log
             }
         }
 
-
+        [Obsolete]
         private void BUT_firstperson_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())

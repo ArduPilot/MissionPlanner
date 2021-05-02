@@ -15,6 +15,7 @@ namespace MissionPlanner.GCSViews
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static string lastpagename = "";
 
+        [Obsolete]
         public bool gotAllParams
         {
             get
@@ -52,6 +53,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void SoftwareConfig_Load(object sender, EventArgs e)
         {
             try

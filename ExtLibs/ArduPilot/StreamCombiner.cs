@@ -21,6 +21,7 @@ namespace MissionPlanner.Utilities
 
         static byte newsysid = 1;
 
+        [Obsolete]
         public static void Start()
         {
             if (run == true)
@@ -86,6 +87,7 @@ namespace MissionPlanner.Utilities
             clients.Clear();
         }
 
+        [Obsolete]
         private static void mainloop()
         {
             run = true;
@@ -160,6 +162,7 @@ namespace MissionPlanner.Utilities
 
         static object locker = new object();
 
+        [Obsolete]
         private static void RequestCallback(IAsyncResult ar)
         {
             TcpClient client = (TcpClient) ar.AsyncState;
@@ -201,7 +204,7 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
-                    var ans = mav.setParam("SYSID_THISMAV", localsysid);
+                    bool ans = mav.setParam("SYSID_THISMAV", localsysid);
                     Console.WriteLine("this mav set " + ans);
                 }
                 catch

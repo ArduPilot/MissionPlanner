@@ -10,6 +10,7 @@ namespace MissionPlanner.Joystick
     {
         private SharpDX.DirectInput.Joystick joystick;
 
+        [Obsolete]
         public JoystickWindows(Func<MAVLinkInterface> func) : base(func)
         {
          
@@ -113,6 +114,7 @@ namespace MissionPlanner.Joystick
             return null;
         }
 
+        [Obsolete]
         public static JoystickBase getJoyStickByName(string name)
         {
             var joysticklist = getDevices();

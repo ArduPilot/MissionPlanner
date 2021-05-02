@@ -15,6 +15,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private bool indochange;
 
+        [Obsolete]
         public ConfigFrameType()
         {
             InitializeComponent();
@@ -22,6 +23,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             configDefaultSettings1.OnChange += configDefaultSettings1_OnChange;
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.MAV.param.ContainsKey("FRAME"))
@@ -33,16 +35,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             DoChange((Frame)Enum.Parse(typeof(Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
         }
 
+        [Obsolete]
         public void Deactivate()
         {
             MainV2.comPort.giveComport = false;
         }
 
+        [Obsolete]
         private void configDefaultSettings1_OnChange(object sender, EventArgs e)
         {
             Activate();
         }
 
+        [Obsolete]
         private void DoChange(Frame frame)
         {
             if (indochange)
@@ -153,6 +158,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             indochange = false;
         }
 
+        [Obsolete]
         private void SetFrameParam(Frame frame)
         {
             try
@@ -173,61 +179,73 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             fade.run();
         }
 
+        [Obsolete]
         private void radioButton_Plus_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.Plus);
         }
 
+        [Obsolete]
         private void radioButton_X_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.X);
         }
 
+        [Obsolete]
         private void pictureBoxPlus_Click(object sender, EventArgs e)
         {
             DoChange(Frame.Plus);
         }
 
+        [Obsolete]
         private void pictureBoxX_Click(object sender, EventArgs e)
         {
             DoChange(Frame.X);
         }
 
+        [Obsolete]
         private void pictureBoxV_Click(object sender, EventArgs e)
         {
             DoChange(Frame.V);
         }
 
+        [Obsolete]
         private void radioButton_V_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.V);
         }
 
+        [Obsolete]
         private void pictureBoxH_Click(object sender, EventArgs e)
         {
             DoChange(Frame.H);
         }
 
+        [Obsolete]
         private void radioButton_H_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.H);
         }
 
+        [Obsolete]
         private void pictureBoxY_Click(object sender, EventArgs e)
         {
             DoChange(Frame.Y);
         }
 
+        [Obsolete]
         private void radioButton_Y_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.Y);
         }
 
+        [Obsolete]
         private void radioButton_VTail_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.VTail);
         }
 
+        [Obsolete]
         private void pictureBoxVTail_Click(object sender, EventArgs e)
         {
             DoChange(Frame.VTail);

@@ -42,6 +42,7 @@ namespace LatencyTracker
             return false;
         }
 
+        [Obsolete]
         public override bool Loaded()
         {
             MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT, message =>
@@ -96,6 +97,7 @@ namespace LatencyTracker
             return true;
         }
 
+        [Obsolete]
         public override bool Loop()
         {
             this.loopratehz = 2;

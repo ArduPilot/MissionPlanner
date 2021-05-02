@@ -22,36 +22,43 @@ namespace MissionPlanner.GCSViews
             InitializeComponent();
         }
 
+        [Obsolete]
         public bool isConnected
         {
             get { return MainV2.comPort.BaseStream.IsOpen; }
         }
 
+        [Obsolete]
         public bool isDisConnected
         {
             get { return !MainV2.comPort.BaseStream.IsOpen; }
         }
 
+        [Obsolete]
         public bool isTracker
         {
             get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduTracker; }
         }
 
+        [Obsolete]
         public bool isCopter
         {
             get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2; }
         }
 
+        [Obsolete]
         public bool isCopter35plus
         {
             get { return MainV2.comPort.MAV.cs.version >= Version.Parse("3.5"); }
         }
 
+        [Obsolete]
         public bool isHeli
         {
             get { return isConnected && MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER; }
         }
 
+        [Obsolete]
         public bool isQuadPlane
         {
             get
@@ -62,6 +69,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public bool isPlane
         {
             get
@@ -72,11 +80,13 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public bool isRover
         {
             get { return isConnected && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover; }
         }
 
+        [Obsolete]
         public bool gotAllParams
         {
             get
@@ -113,6 +123,7 @@ namespace MissionPlanner.GCSViews
         {
         }
 
+        [Obsolete]
         private void HardwareConfig_Load(object sender, EventArgs e)
         {
             ResourceManager rm = new ResourceManager(this.GetType());

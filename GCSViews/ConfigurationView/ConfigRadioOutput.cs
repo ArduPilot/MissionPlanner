@@ -8,6 +8,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigRadioOutput : MyUserControl, IActivate, IDeactivate
     {
+        [Obsolete]
         public ConfigRadioOutput()
         {
             InitializeComponent();
@@ -23,6 +24,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ResumeLayout(true);
         }
 
+        [Obsolete]
         private void setup(int servono)
         {
             var servo = String.Format("SERVO{0}", servono);
@@ -69,7 +71,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
-
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             try

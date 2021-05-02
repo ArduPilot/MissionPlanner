@@ -30,6 +30,7 @@ namespace MissionPlanner.Comms
 
         Thread bgdata;
 
+        [Obsolete]
         public int BaudRate
         {
             set
@@ -44,12 +45,14 @@ namespace MissionPlanner.Comms
             get { return (int) baud; }
         }
 
+        [Obsolete]
         public MAVLinkSerialPort(MAVLinkInterface mavint, int port)
             : this(mavint, (MAVLink.SERIAL_CONTROL_DEV)port)
         {
 
         }
 
+        [Obsolete]
         public MAVLinkSerialPort(MAVLinkInterface mavint, MAVLink.SERIAL_CONTROL_DEV port)
         {
             this.mavint = mavint;
@@ -76,6 +79,7 @@ namespace MissionPlanner.Comms
             bgdata.Start();
         }
 
+        [Obsolete]
         private void mainloop(object obj)
         {
             try
@@ -104,6 +108,7 @@ namespace MissionPlanner.Comms
         int packetcount = 0;
         int packetwithdata = 0;
 
+        [Obsolete]
         bool ReceviedPacket(MAVLink.MAVLinkMessage packet)
         {
             if (packetcounttimer.Second != DateTime.Now.Second)
@@ -140,6 +145,7 @@ namespace MissionPlanner.Comms
 
         DateTime lastgetdata = DateTime.MinValue;
 
+        [Obsolete]
         void GetData(bool now = false)
         {
             if (lastgetdata.AddMilliseconds(timeout) < DateTime.Now && open || now)
@@ -149,6 +155,7 @@ namespace MissionPlanner.Comms
             }
         }
 
+        [Obsolete]
         public int Read(byte[] readto, int offset, int length)
         {
             int count = 0;
@@ -169,6 +176,7 @@ namespace MissionPlanner.Comms
             }
         }
 
+        [Obsolete]
         public void Write(byte[] write, int offset, int length)
         {
             byte[] data = new byte[length];
@@ -178,6 +186,7 @@ namespace MissionPlanner.Comms
             mavint.SendSerialControl(port, 0, data);
         }
 
+        [Obsolete]
         public void Close()
         {
             open = false;
@@ -194,6 +203,7 @@ namespace MissionPlanner.Comms
             buffer.Clear();
         }
 
+        [Obsolete]
         public void Open()
         {
             log.Info("Open");
@@ -202,6 +212,7 @@ namespace MissionPlanner.Comms
             open = true;
         }
 
+        [Obsolete]
         public int ReadByte()
         {
             byte[] buffer = new byte[1];
@@ -210,11 +221,13 @@ namespace MissionPlanner.Comms
             return -1;
         }
 
+        [Obsolete]
         public int ReadChar()
         {
             return ReadByte();
         }
 
+        [Obsolete]
         public string ReadExisting()
         {
             byte[] data = new byte[buffer.Size];
@@ -226,6 +239,7 @@ namespace MissionPlanner.Comms
             return line;
         }
 
+        [Obsolete]
         public string ReadLine()
         {
             StringBuilder sb = new StringBuilder();
@@ -241,11 +255,13 @@ namespace MissionPlanner.Comms
             return sb.ToString();
         }
 
+        [Obsolete]
         public void Write(string text)
         {
             Write(ASCIIEncoding.ASCII.GetBytes(text), 0, text.Length);
         }
 
+        [Obsolete]
         public void WriteLine(string text)
         {
             Write(text + "\r\n");
@@ -255,6 +271,7 @@ namespace MissionPlanner.Comms
         {
         }
 
+        [Obsolete]
         public void Dispose()
         {
             Close();
@@ -265,6 +282,7 @@ namespace MissionPlanner.Comms
             get { throw new NotImplementedException(); }
         }
 
+        [Obsolete]
         public int BytesToRead
         {
             get

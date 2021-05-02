@@ -40,6 +40,7 @@ namespace Shortcuts
             return true;
         }
 
+        [Obsolete]
         public override bool Loaded()
         {
             but = new ToolStripMenuItem("Fix mission top/bottom");
@@ -62,6 +63,7 @@ namespace Shortcuts
             return true;
         }
 
+        [Obsolete]
         void but_Click(object sender, EventArgs e)
         {
             CustomMessageBox.Show("This is a sample plugin\nSee the source in the plugins folder");

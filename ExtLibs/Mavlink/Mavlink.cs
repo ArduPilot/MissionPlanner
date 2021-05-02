@@ -34,8 +34,9 @@ public partial class MAVLink
     public const byte MAVLINK_COMMAND_24BIT = 1;
         
     public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
-        
+
     // msgid, name, crc, minlength, length, type
+    [Obsolete]
     public static message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
         new message_info(1, "SYS_STATUS", 124, 31, 31, typeof( mavlink_sys_status_t )),
         new message_info(2, "SYSTEM_TIME", 137, 12, 12, typeof( mavlink_system_time_t )),

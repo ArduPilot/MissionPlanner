@@ -5,6 +5,7 @@ namespace MissionPlanner.Joystick
 {
     public partial class Joy_ChangeMode : Form
     {
+        [Obsolete]
         public Joy_ChangeMode(string name)
         {
             InitializeComponent();

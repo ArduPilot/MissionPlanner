@@ -15,6 +15,7 @@ namespace MissionPlanner.Controls
             tableLayoutPanel1.ColumnCount = names.Length;
         }
 
+        [Obsolete]
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -24,6 +25,7 @@ namespace MissionPlanner.Controls
             timer1.Start();
         }
 
+        [Obsolete]
         public void update()
         {
             var names = Enum.GetNames(typeof (MAVLink.MAV_SYS_STATUS_SENSOR));
@@ -110,6 +112,7 @@ namespace MissionPlanner.Controls
                 ctl.BackColor = color;
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             update();

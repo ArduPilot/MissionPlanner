@@ -43,6 +43,7 @@ namespace FenceDist
             return true;
         }
 
+        [Obsolete]
         public override bool Loaded()
         {
             but = new ToolStripMenuItem("Draw Fence Dist");
@@ -210,6 +211,7 @@ namespace FenceDist
         private IEnumerable<IEnumerable<KeyValuePair<int, MAVLink.mavlink_mission_item_int_t>>> list;
         private int listhash;
 
+        [Obsolete]
         void but_Click(object sender, EventArgs e)
         {
             if (overlay == null)

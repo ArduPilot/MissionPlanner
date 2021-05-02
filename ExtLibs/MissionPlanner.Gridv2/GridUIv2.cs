@@ -280,6 +280,7 @@ namespace MissionPlanner
             return (angle + 360) % 360;
         }
 
+        [Obsolete]
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
             if (CMB_camera.Text != "")
@@ -495,6 +496,7 @@ namespace MissionPlanner
             return Math.Abs( answer);
         }
 
+        [Obsolete]
         private void BUT_Accept_Click(object sender, EventArgs e)
         {
             if (grid != null && grid.Count > 0)
@@ -813,7 +815,8 @@ namespace MissionPlanner
 
             doCalc();
         }
-       
+
+        [Obsolete]
         private void GridUI_Load(object sender, EventArgs e)
         {
             xmlcamera(false, Settings.GetRunningDirectory() + "camerasBuiltin.xml");
@@ -892,6 +895,7 @@ namespace MissionPlanner
             mousestart = map.FromLocalToLatLng(e.X, e.Y);
         }
 
+        [Obsolete]
         private void map_MouseUp(object sender, MouseEventArgs e)
         {
             mousedown = false;

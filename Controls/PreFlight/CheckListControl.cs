@@ -25,7 +25,7 @@ namespace MissionPlanner.Controls.PreFlight
             internal CheckListItem CLItem;
         }
 
-
+        [Obsolete]
         public CheckListControl()
         {
             InitializeComponent();
@@ -44,6 +44,7 @@ namespace MissionPlanner.Controls.PreFlight
             timer1.Start();
         }
 
+        [Obsolete]
         public void Draw()
         {
             lock (this.CheckListItems)
@@ -70,6 +71,7 @@ namespace MissionPlanner.Controls.PreFlight
             panel1.Visible = true;
         }
 
+        [Obsolete]
         void UpdateDisplay()
         {
             foreach (Control itemp in panel1.Controls)
@@ -107,6 +109,7 @@ namespace MissionPlanner.Controls.PreFlight
             }
         }
 
+        [Obsolete]
         Control addwarningcontrol(int x, int y, CheckListItem item, bool hideforchild = false)
         {
             var desctext = item.Description;
@@ -180,6 +183,7 @@ namespace MissionPlanner.Controls.PreFlight
             }
         }
 
+        [Obsolete]
         private void BUT_edit_Click(object sender, EventArgs e)
         {
             CheckListEditor form = new CheckListEditor(this);
@@ -188,6 +192,7 @@ namespace MissionPlanner.Controls.PreFlight
                 rowcount = 0;
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             Draw();

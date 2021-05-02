@@ -10,6 +10,7 @@ namespace Mock
 {
     class Program
     {
+        [Obsolete]
         static void Main(string[] args)
         {
             var mavlinkudp = new UdpClient(14550);
@@ -47,7 +48,7 @@ namespace Mock
                     continue;
                 }
 
-                var sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT,
+                byte[] sendpacket = mavparse.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT,
                     new MAVLink.mavlink_heartbeat_t()
                     {
                         autopilot = (byte) MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA,

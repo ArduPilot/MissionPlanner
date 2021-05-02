@@ -19,6 +19,7 @@ namespace MissionPlanner.Controls
         {
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             ekfvel.Value = (int)(MainV2.comPort.MAV.cs.ekfvelv * 100);

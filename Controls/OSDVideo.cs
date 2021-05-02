@@ -129,6 +129,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private async Task startup()
         {
             await dolog().ConfigureAwait(true);
@@ -272,6 +273,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         async Task dolog()
         {
             flightdata.Clear();
@@ -619,6 +621,7 @@ namespace MissionPlanner.Controls
             return ctl.Text.Substring(0, ctl.Text.LastIndexOf("\\") + 1);
         }
 
+        [Obsolete]
         private async void BUT_start_Click(object sender, EventArgs e)
         {
             saveconfig();

@@ -22,11 +22,15 @@ namespace MissionPlanner.Utilities
             return this;
         }
 
+        [Obsolete]
+#pragma warning disable CS0612 // 型またはメンバーが旧型式です
         public static implicit operator MAVLink.mavlink_mission_item_t(Locationwp input)
+#pragma warning restore CS0612 // 型またはメンバーが旧型式です
         {
             return (MAVLink.mavlink_mission_item_t)Convert(input, false);
         }
 
+        [Obsolete]
         public static implicit operator MAVLink.mavlink_mission_item_int_t(Locationwp input)
         {
             return (MAVLink.mavlink_mission_item_int_t)Convert(input, true);
@@ -51,7 +55,10 @@ namespace MissionPlanner.Utilities
             return temp;
         }
 
+        [Obsolete]
+#pragma warning disable CS0612 // 型またはメンバーが旧型式です
         public static implicit operator Locationwp(MAVLink.mavlink_mission_item_t input)
+#pragma warning restore CS0612 // 型またはメンバーが旧型式です
         {
             Locationwp temp = new Locationwp()
             {
@@ -121,6 +128,7 @@ namespace MissionPlanner.Utilities
             return temp;
         }
 
+        [Obsolete]
         static object Convert(Locationwp cmd, bool isint = false)
         {
             if (isint)

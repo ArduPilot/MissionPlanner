@@ -175,6 +175,7 @@ namespace MissionPlanner.Log
             }));
         }
 
+        [Obsolete]
         private void BUT_DLall_Click(object sender, EventArgs e)
         {
             if (status == SerialStatus.Done)
@@ -211,6 +212,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         string GetLog(string no, string fileName)
         {
             log.Info("GetLog " + no);
@@ -281,6 +283,7 @@ namespace MissionPlanner.Log
             comPort_Progress((int)obj, "Downloading");
         }
 
+        [Obsolete]
         protected override void OnClosed(EventArgs e)
         {
             this.closed = true;
@@ -316,6 +319,7 @@ namespace MissionPlanner.Log
             UpdateProgress(0, totalBytes, tallyBytes + receivedbytes);
         }
 
+        [Obsolete]
         void CreateLog(string logfile)
         {
             TextReader tr = new StreamReader(logfile);
@@ -341,6 +345,7 @@ namespace MissionPlanner.Log
             status = SerialStatus.Done;
         }
 
+        [Obsolete]
         private void DownloadThread(int[] selectedLogs)
         {
             try
@@ -428,6 +433,7 @@ namespace MissionPlanner.Log
 
         }
 
+        [Obsolete]
         private void BUT_DLthese_Click(object sender, EventArgs e)
         {
             if (status == SerialStatus.Done)
@@ -477,6 +483,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void BUT_redokml_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -532,7 +539,7 @@ namespace MissionPlanner.Log
             }));
         }
 
-
+        [Obsolete]
         private void BUT_firstperson_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())

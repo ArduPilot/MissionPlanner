@@ -5,6 +5,7 @@
         public DroneGroup DG = new DroneGroup();
         bool threadrun;
 
+        [System.Obsolete]
         public void Start()
         {
             foreach (var port in MainV2.Comports)
@@ -31,6 +32,7 @@
             threadrun = false;
         }
 
+        [System.Obsolete]
         private void mainloop()
         {
             threadrun = true;

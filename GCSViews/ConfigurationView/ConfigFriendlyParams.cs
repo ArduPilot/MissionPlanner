@@ -142,6 +142,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         #region Constructor
 
+        [Obsolete]
         public ConfigFriendlyParams()
         {
             InitializeComponent();
@@ -155,6 +156,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ParameterMode = ParameterMode = ParameterMetaDataConstants.Standard;
         }
 
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Control | Keys.S))
@@ -175,6 +177,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
+        [Obsolete]
         protected void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             var errorThrown = false;
@@ -208,6 +211,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
+        [Obsolete]
         protected void BUT_rerequestparams_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -250,6 +254,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
+        [Obsolete]
         public void Activate()
         {
             y = 10;
@@ -264,6 +269,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
+        [Obsolete]
         protected void comPort_ParamListChanged(object sender, EventArgs e)
         {
             SortParamList();
@@ -276,6 +282,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <summary>
         ///     Sorts the param list.
         /// </summary>
+        [Obsolete]
         private void SortParamList()
         {
             // Clear list
@@ -305,6 +312,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <summary>
         ///     Binds the param list.
         /// </summary>
+        [Obsolete]
         private void BindParamList()
         {
             //this.Visible = true;
@@ -377,6 +385,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ResumeLayout(false);
         }
 
+        [Obsolete]
         private void AddControl(KeyValuePair<string, string> x, List<Control> toadd) //, ref int ypos)
         {
             if (!string.IsNullOrEmpty(x.Key))

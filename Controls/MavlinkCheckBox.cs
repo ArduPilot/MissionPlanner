@@ -27,6 +27,7 @@ namespace MissionPlanner.Controls
             this.Enabled = false;
         }
 
+        [Obsolete]
         public void setup(double[] OnValue, double[] OffValue, string[] paramname, MAVLink.MAVLinkParamList paramlist,
             Control enabledisable = null)
         {
@@ -42,6 +43,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         public void setup(double OnValue, double OffValue, string[] paramname, MAVLink.MAVLinkParamList paramlist,
             Control enabledisable = null)
         {
@@ -55,6 +57,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         public void setup(double OnValue, double OffValue, string paramname, MAVLink.MAVLinkParamList paramlist,
             Control enabledisable = null)
         {
@@ -100,6 +103,7 @@ namespace MissionPlanner.Controls
                 _control.Enabled = enable;
         }
 
+        [Obsolete]
         void MavlinkCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (this.CheckedChanged != null)

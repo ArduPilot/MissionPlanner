@@ -13,6 +13,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public List<object> Fences = new List<object>();
 
+        [Obsolete]
         public void DownloadFence(MAVLinkInterface port, Action<int, string> progress = null)
         {
             var list = Task.Run(async () => await mav_mission
@@ -87,6 +88,7 @@ namespace MissionPlanner.Utilities
             return Fences;
         }
 
+        [Obsolete]
         public void UploadFence(MAVLinkInterface port, Action<int, string> progress = null)
         {
             var fence = FenceToLocation();

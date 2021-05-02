@@ -7,11 +7,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigESCCalibration : MyUserControl, IActivate
     {
+        [Obsolete]
         public ConfigESCCalibration()
         {
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             mavlinkComboBox1.setup(ParameterMetaDataRepository.GetParameterOptionsInt("MOT_PWM_TYPE",
@@ -25,6 +27,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDown5.setup(0, 1, 1, 0.01f, "MOT_SPIN_MAX", MainV2.comPort.MAV.param);
         }
 
+        [Obsolete]
         private void buttonStart_Click(object sender, EventArgs e)
         {
             try

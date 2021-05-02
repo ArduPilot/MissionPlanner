@@ -103,6 +103,7 @@ namespace MissionPlanner.Plugin
         /// <summary>
         /// access to all the current stats of the mav
         /// </summary>
+        [Obsolete]
         public CurrentState cs
         {
             get { return MainV2.comPort.MAV.cs; }
@@ -111,6 +112,7 @@ namespace MissionPlanner.Plugin
         /// <summary>
         /// access to mavlink functions
         /// </summary>
+        [Obsolete]
         public MAVLinkInterface comPort
         {
             get { return MainV2.comPort; }
@@ -214,12 +216,14 @@ namespace MissionPlanner.Plugin
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
+        [Obsolete]
         public int AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
             double z, object tag = null)
         {
             return MainV2.instance.FlightPlanner.AddCommand(cmd, p1, p2, p3, p4, x, y, z, tag);
         }
 
+        [Obsolete]
         public void InsertWP(int idx, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
             double y,
             double z, object tag = null)
@@ -227,12 +231,14 @@ namespace MissionPlanner.Plugin
             MainV2.instance.FlightPlanner.InsertCommand(idx, cmd, p1, p2, p3, p4, x, y, z);
         }
 
+        [Obsolete]
         public int AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
             double z)
         {
             return AddWPtoList(cmd, p1, p2, p3, p4, x, y, z, null);
         }
 
+        [Obsolete]
         public void InsertWP(int idx, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
             double y,
             double z)
@@ -243,6 +249,7 @@ namespace MissionPlanner.Plugin
         /// <summary>
         /// refresh command list on flight planner tab from autopilot
         /// </summary>
+        [Obsolete]
         public void GetWPs()
         {
             MainV2.instance.FlightPlanner.BUT_read_Click(null, null);

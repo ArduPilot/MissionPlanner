@@ -7,6 +7,7 @@ namespace MissionPlanner.Log
 {
     public class MatLabForms
     {
+        [Obsolete]
         public static void ProcessTLog()
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())

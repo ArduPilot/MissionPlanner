@@ -14,6 +14,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigTradHeli4 : UserControl, IActivate, IDeactivate
     {
+        [Obsolete]
         public ConfigTradHeli4()
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public uitype type { get; set; }
         }
 
+        [Obsolete]
         public void Activate()
         {
             this.Visible = false;
@@ -162,6 +164,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Visible = true;
         }
 
+        [Obsolete]
         private void setup(MavlinkCheckBox rev1, MavlinkComboBox func1,
             MavlinkNumericUpDown min1, MavlinkNumericUpDown trim1, MavlinkNumericUpDown max1, int servono)
         {

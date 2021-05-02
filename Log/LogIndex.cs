@@ -27,6 +27,7 @@ namespace MissionPlanner.Log
             this.olvColumnImage.Renderer = new NonSelectableRenderer();
         }
 
+        [Obsolete]
         private void LogIndex_Load(object sender, EventArgs e)
         {
             createFileList(Settings.Instance.LogDir);
@@ -51,6 +52,7 @@ namespace MissionPlanner.Log
             files.AddRange(files3);
         }
 
+        [Obsolete]
         private void queueRunner(object nothing)
         {
             Parallel.ForEach(files, async (file) => { await ProcessFile(file).ConfigureAwait(false); });
@@ -65,6 +67,7 @@ namespace MissionPlanner.Log
             Loading.Close();
         }
 
+        [Obsolete]
         private async Task ProcessFile(string file)
         {
             if (File.Exists(file))
@@ -73,6 +76,8 @@ namespace MissionPlanner.Log
 
         List<object> logs = new List<object>();
         int a = 0;
+
+        [Obsolete]
         async Task processbg(string file)
         {
             a++;
@@ -321,6 +326,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void BUT_changedir_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();

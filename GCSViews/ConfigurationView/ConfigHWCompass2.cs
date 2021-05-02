@@ -27,6 +27,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             private string _orient;
             private bool _external;
 
+            [Obsolete]
             public CompassDeviceInfo(int index, string ParamName, uint id) : base(index, ParamName, id)
             {
                 //set initial state
@@ -83,6 +84,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             // COMPASS_DEV_ID get a list of all connected devices
@@ -143,6 +145,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         public void Deactivate()
         {
             timer1.Stop();
@@ -150,6 +153,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CheckReboot();
         }
 
+        [Obsolete]
         private bool CheckReboot()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -180,6 +184,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return false;
         }
 
+        [Obsolete]
         private async void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == Up.Index && e.RowIndex != 0)
@@ -201,6 +206,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private async Task UpdateFirst3()
         {
             if (myDataGridView1.Rows.Count >= 1)
@@ -260,6 +266,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             myDataGridView1.Invalidate();
         }
 
+        [Obsolete]
         private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
         {
             if (rebootrequired && !CheckReboot())
@@ -292,6 +299,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Start();
         }
 
+        [Obsolete]
         private bool ReceviedPacket(MAVLink.MAVLinkMessage packet)
         {
             if (System.Diagnostics.Debugger.IsAttached)
@@ -319,6 +327,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return true;
         }
 
+        [Obsolete]
         private void BUT_OBmagcalaccept_Click(object sender, EventArgs e)
         {
             try
@@ -337,6 +346,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void BUT_OBmagcalcancel_Click(object sender, EventArgs e)
         {
             try
@@ -354,6 +364,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
 
@@ -472,6 +483,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void but_largemagcal_Click(object sender, EventArgs e)
         {
             double value = 0;
@@ -496,6 +508,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void but_reboot_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Reboot?") == CustomMessageBox.DialogResult.OK)
@@ -515,6 +528,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         }
 
+        [Obsolete]
         private async void but_missing_ClickAsync(object sender, EventArgs e)
         {
             foreach (DataGridViewRow dataGridViewRow in myDataGridView1.Rows)

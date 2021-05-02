@@ -122,6 +122,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             }
         }
 
+        [Obsolete]
         public override bool Loop()
         {
             // loaded from file at app start
@@ -141,6 +142,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             return true;
         }
 
+        [Obsolete]
         void dostats(whattostat stats) 
         {
             // connects

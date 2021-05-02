@@ -58,6 +58,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private OSDSetting[] parameters;
         private OSD_Param osd_params;
 
+        [Obsolete]
         public ConfigOSD()
         {
             InitializeComponent();
@@ -67,6 +68,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             btnRefreshParameters.Click += (s, e) => RefreshParameters();
         }
 
+        [Obsolete]
         private static IEnumerable<OSDSetting> GetOSDSettings()
         {
             return MainV2.comPort.MAV.param
@@ -74,11 +76,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                    .Select(o => new OSDSetting(o.Name, o.Value));
         }
 
+        [Obsolete]
         public static bool IsApplicable()
         {
             return GetOSDSettings().Any();
         }
 
+        [Obsolete]
         public void Activate()
         {
             parameters = GetOSDSettings().ToArray();
@@ -105,6 +109,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
+        [Obsolete]
         public void Deactivate()
         {
             if (cbAutoWriteOnLeave.Checked)
@@ -120,6 +125,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void WriteParameters(bool silent)
         {
             if (!parameters.Any(o => o.Changed))
@@ -164,6 +170,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void RefreshParameters()
         {
             if (parameters.Any(o => o.Changed)
@@ -200,7 +207,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub2;
 
             List<object> @params = new List<object>();
-            
+
+            [Obsolete]
             public OSD_Param()
             {
                 sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OSD_PARAM_CONFIG_REPLY,
@@ -209,6 +217,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     PacketResponse);
             }
 
+            [Obsolete]
             private bool PacketResponse(MAVLink.MAVLinkMessage arg)
             {
                 if (arg.msgid == (uint) MAVLink.MAVLINK_MSG_ID.OSD_PARAM_CONFIG_REPLY)
@@ -236,12 +245,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return true;
             }
 
+            [Obsolete]
             ~OSD_Param()
             {
                 MainV2.comPort.UnSubscribeToPacketType(sub1);
                 MainV2.comPort.UnSubscribeToPacketType(sub2);
             }
 
+            [Obsolete]
             public void show(byte osd_screen, byte osd_index)
             {
                 request_id++;
@@ -251,6 +262,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     (byte) MainV2.comPort.compidcurrent);
             }
 
+            [Obsolete]
             public void set(byte osd_screen, byte osd_index, string name, MAVLink.OSD_PARAM_CONFIG_TYPE type, float min, float max, float increment)
             {
                 request_id++;

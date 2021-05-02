@@ -40,6 +40,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        [Obsolete]
         public OpticalFlow(MAVLinkInterface mav)
         {
             _mav = mav;
@@ -48,6 +49,7 @@ namespace MissionPlanner.Utilities
             subEncapData = mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.ENCAPSULATED_DATA, ReceviedPacket);
         }
 
+        [Obsolete]
         public void CalibrationMode(bool on_off = false)
         {
             if (on_off == true)
@@ -56,6 +58,7 @@ namespace MissionPlanner.Utilities
                 _mav.setParam("VIDEO_ONLY", 0);
         }
 
+        [Obsolete]
         private bool ReceviedPacket(MAVLink.MAVLinkMessage arg)
         {
             if (arg.msgid == (byte) MAVLink.MAVLINK_MSG_ID.DATA_TRANSMISSION_HANDSHAKE)

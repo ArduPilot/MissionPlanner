@@ -133,6 +133,7 @@ namespace MissionPlanner.GeoRef
         /// </summary>
         /// <param name="fn"></param>
         /// <returns></returns>
+        [Obsolete]
         public Dictionary<long, VehicleLocation> readGPSMsgInLog(string fn, string gpstouse = "GPS")
         {
             Dictionary<long, VehicleLocation> vehiclePositionList = new Dictionary<long, VehicleLocation>();
@@ -300,6 +301,7 @@ namespace MissionPlanner.GeoRef
         /// </summary>
         /// <param name="fn"></param>
         /// <returns></returns>
+        [Obsolete]
         protected Dictionary<long, VehicleLocation> readCAMMsgInLog(string fn)
         {
             Dictionary<long, VehicleLocation> list = new Dictionary<long, VehicleLocation>();
@@ -488,6 +490,7 @@ namespace MissionPlanner.GeoRef
             return Convert.ToInt64((date - epoch).TotalMilliseconds);
         }
 
+        [Obsolete]
         public double EstimateOffset(string logFile, string dirWithImages, string UseGpsorGPS2, bool usecam, Action<string> AppendText)
         {
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
@@ -588,6 +591,7 @@ namespace MissionPlanner.GeoRef
             return location;
         }
 
+        [Obsolete]
         public Dictionary<string, PictureInformation> doworkGPSOFFSET(string logFile, string dirWithImages, float offset, string UseGpsorGPS2, bool usecam, Action<string> AppendText)
         {
             // Lets start over 
@@ -712,6 +716,7 @@ namespace MissionPlanner.GeoRef
             return ans1 != 0 ? ans1 : x.CompareTo(y);
         }
 
+        [Obsolete]
         public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages, string UseGpsorGPS2, Action<string> AppendText, int dropstart, int dropend)
         {
             // Lets start over 

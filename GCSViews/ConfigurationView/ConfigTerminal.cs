@@ -346,6 +346,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private async Task start_Terminal(bool px4)
         {
             setcomport();
@@ -701,6 +702,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             logbrowse.Show();
         }
 
+        [Obsolete]
         private async void BUT_RebootAPM_Click(object sender, EventArgs e)
         {
             if (comPort.IsOpen)
@@ -736,6 +738,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void start_NSHTerminal()
         {
             try

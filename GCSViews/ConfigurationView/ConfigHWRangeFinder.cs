@@ -14,6 +14,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -38,12 +39,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer1.Stop();
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             LBL_dist.Text = MainV2.comPort.MAV.cs.sonarrange.ToString();
             LBL_volt.Text = MainV2.comPort.MAV.cs.sonarvoltage.ToString();
         }
 
+        [Obsolete]
         private void CMB_sonartype_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)

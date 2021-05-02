@@ -27,12 +27,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _incalibrate = false;
         }
 
+        [Obsolete]
         public void Deactivate()
         {
             MainV2.comPort.giveComport = false;
             _incalibrate = false;
         }
 
+        [Obsolete]
         private void BUT_calib_accell_Click(object sender, EventArgs e)
         {
             if (_incalibrate)
@@ -81,6 +83,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private bool receivedPacket(MAVLink.MAVLinkMessage arg)
         {
             if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
@@ -133,6 +136,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
            });
         }
 
+        [Obsolete]
         private void BUT_level_Click(object sender, EventArgs e)
         {
             try

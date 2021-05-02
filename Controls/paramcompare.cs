@@ -61,6 +61,7 @@ namespace MissionPlanner.Controls
             Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
         }
 
+        [Obsolete]
         private void BUT_save_Click(object sender, EventArgs e)
         {
             if (dgv == null)

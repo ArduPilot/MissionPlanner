@@ -205,6 +205,7 @@ namespace MissionPlanner
             new FormationControl().Show();
         }
 
+        [Obsolete]
         private void BUT_outputMavlink_Click(object sender, EventArgs e)
         {
             new SerialOutputPass().Show();
@@ -220,6 +221,7 @@ namespace MissionPlanner
             new FollowPathControl().Show();
         }
 
+        [Obsolete]
         private void BUT_sorttlogs_Click(object sender, EventArgs e)
         {
             var fbd = new FolderBrowserDialog();
@@ -298,7 +300,7 @@ namespace MissionPlanner
             Loading.Close();
         }
 
-
+        [Obsolete]
         private void button3_Click(object sender, EventArgs e)
         {
             var frm = new WarningsManager();
@@ -306,6 +308,7 @@ namespace MissionPlanner
             frm.Show();
         }
 
+        [Obsolete]
         private void but_mavserialport_Click(object sender, EventArgs e)
         {
             if (comport != null)
@@ -345,6 +348,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
             try
@@ -406,6 +410,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private async void BUT_magfit2_Click(object sender, EventArgs e)
         {
             await MagCalib.ProcessLog(0).ConfigureAwait(false);
@@ -493,6 +498,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void but_gimbaltest_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.BaseStream.IsOpen)
@@ -503,6 +509,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show(Strings.PleaseConnect, Strings.ERROR);
         }
 
+        [Obsolete]
         private void but_maplogs_Click(object sender, EventArgs e)
         {
             var fbd = new FolderBrowserDialog();
@@ -569,6 +576,7 @@ namespace MissionPlanner
             Console.WriteLine("ByteArrayToStructureGC " + (end - start).TotalMilliseconds);
         }
 
+        [Obsolete]
         private void but_armandtakeoff_Click(object sender, EventArgs e)
         {
             try
@@ -591,6 +599,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void but_sitl_comb_Click(object sender, EventArgs e)
         {
             StreamCombiner.Connect += (mav, localsysid) =>
@@ -616,13 +625,14 @@ namespace MissionPlanner
             fft.Show();
         }
 
-
+        [Obsolete]
         private void but_reboot_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
                 MainV2.comPort.doReboot(false, true);
         }
 
+        [Obsolete]
         private void BUT_QNH_Click(object sender, EventArgs e)
         {
             var paramname = MainV2.comPort.MAV.param.ContainsKey("GND_ABS_PRESS") ? "GND_ABS_PRESS" : "BARO1_GND_PRESS";
@@ -781,6 +791,7 @@ namespace MissionPlanner
             auth.Show();
         }
 
+        [Obsolete]
         private void but_optflowcalib_Click(object sender, EventArgs e)
         {
             var test = new Form();
@@ -820,6 +831,7 @@ namespace MissionPlanner
             frm.Show();
         }
 
+        [Obsolete]
         private async void but_gpsinj_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -910,6 +922,7 @@ namespace MissionPlanner
             Loading.ShowLoading((percent).ToString("0.0%") + " " + message, this);
         }
 
+        [Obsolete]
         private void but_sortlogs_Click(object sender, EventArgs e)
         {
             MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog",
@@ -926,6 +939,7 @@ namespace MissionPlanner
             form.Show();
         }
 
+        [Obsolete]
         private void but_td_Click(object sender, EventArgs e)
         {
             string path = "@SYS/threads.txt";
@@ -975,6 +989,7 @@ namespace MissionPlanner
             });
         }
 
+        [Obsolete]
         private void but_proximity_Click(object sender, EventArgs e)
         {
             new ProximityControl(MainV2.comPort.MAV).Show();
@@ -997,6 +1012,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void but_mavinspector_Click(object sender, EventArgs e)
         {
             new MAVLinkInspector(MainV2.comPort).Show();
@@ -1007,6 +1023,7 @@ namespace MissionPlanner
             CleanDrivers.Clean();
         }
 
+        [Obsolete]
         private void but_blupdate_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Are you sure you want to upgrade the bootloader? This can brick your board",
@@ -1033,12 +1050,14 @@ namespace MissionPlanner
                     }
         }
 
+        [Obsolete]
         private void but_3dmap_Click(object sender, EventArgs e)
         {
             var ogl = new OpenGLtest2();
             var frm = ogl.ShowUserControl();
         }
 
+        [Obsolete]
         private void but_anonlog_Click(object sender, EventArgs e)
         {
             CustomMessageBox.Show("This is beta, please confirm the output file");
@@ -1064,6 +1083,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void but_messageinterval_Click(object sender, EventArgs e)
         {
             var form = new Form();
@@ -1133,6 +1153,7 @@ namespace MissionPlanner
 
         }
 
+        [Obsolete]
         private void but_disablearmswitch_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
@@ -1171,6 +1192,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void but_packetbytes_Click(object sender, EventArgs e)
         {
             string input = "";
@@ -1188,6 +1210,7 @@ namespace MissionPlanner
                                   "\n" + packet.ToJSON().WrapText(5, new[] { ',' }));
         }
 
+        [Obsolete]
         private void but_acbarohight_Click(object sender, EventArgs e)
         {
             var paramname = MainV2.comPort.MAV.param.ContainsKey("GND_ABS_PRESS") ? "GND_ABS_PRESS" : "BARO1_GND_PRESS";
@@ -1209,6 +1232,7 @@ namespace MissionPlanner
             mavlinkNumericUpDown.ShowUserControl();
         }
 
+        [Obsolete]
         private async void But_stayoutest_Click(object sender, EventArgs e)
         {
             var list = new List<Locationwp>();
@@ -1249,6 +1273,7 @@ namespace MissionPlanner
             var rally = await mav_mission.download(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_MISSION_TYPE.RALLY).ConfigureAwait(true);
         }
 
+        [Obsolete]
         private void but_lockup_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Lockup the autopilot??? this can cause a CRASH!!!!!!",
@@ -1260,6 +1285,7 @@ namespace MissionPlanner
                         42, 24, 71, 93, 0, 0, 0, false);
         }
 
+        [Obsolete]
         private void but_hexmavlink_Click(object sender, EventArgs e)
         {
             string input = "";
@@ -1280,12 +1306,14 @@ namespace MissionPlanner
                 .ToArray();
         }
 
+        [Obsolete]
         private void but_remotedflogger_Click(object sender, EventArgs e)
         {
             RemoteLog.StartRemoteLog(MainV2.comPort, (byte) MainV2.comPort.sysidcurrent,
                 (byte) MainV2.comPort.compidcurrent);
         }
 
+        [Obsolete]
         private void but_paramrestore_Click(object sender, EventArgs e)
         {
             CustomMessageBox.Show("This process make take a some time");

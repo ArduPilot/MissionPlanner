@@ -322,11 +322,12 @@ namespace ICSharpCode.SharpZipLib.Zip
 			set { key = value; }
 		}
 
-		/// <summary>
-		/// Password to be used for encrypting/decrypting files.
-		/// </summary>
-		/// <remarks>Set to null if no password is required.</remarks>
-		public string Password {
+        /// <summary>
+        /// Password to be used for encrypting/decrypting files.
+        /// </summary>
+        /// <remarks>Set to null if no password is required.</remarks>
+        [Obsolete]
+        public string Password {
 			set {
 				if (string.IsNullOrEmpty(value)) {
 					key = null;

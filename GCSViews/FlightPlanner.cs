@@ -54,6 +54,7 @@ namespace MissionPlanner.GCSViews
 {
     public partial class FlightPlanner : MyUserControl, IDeactivate, IActivate
     {
+        [Obsolete]
         public FlightPlanner()
         {
             InitializeComponent();
@@ -132,7 +133,7 @@ namespace MissionPlanner.GCSViews
         public GMapPolygon wppolygon;
         private GMapMarker CurrentMidLine;
 
-
+        [Obsolete]
         public void Init()
         {
             instance = this;
@@ -286,7 +287,7 @@ namespace MissionPlanner.GCSViews
 
         public List<PointLatLngAlt> pointlist { get; set; } = new List<PointLatLngAlt>();
 
-
+        [Obsolete]
         public void Activate()
         {
             timer1.Start();
@@ -333,6 +334,7 @@ namespace MissionPlanner.GCSViews
             timer1.Stop();
         }
 
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         { 
             // undo
@@ -510,6 +512,7 @@ namespace MissionPlanner.GCSViews
             return ret;
         }
 
+        [Obsolete]
         public int AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
             double z, object tag = null)
         {
@@ -528,6 +531,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
+        [Obsolete]
         public void AddWPToMap(double lat, double lng, int alt)
         {
             if (polygongridmode)
@@ -576,6 +580,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        [Obsolete]
         public void BUT_read_Click(object sender, EventArgs e)
         {
             if (Commands.Rows.Count > 0)
@@ -615,6 +620,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        [Obsolete]
         public void BUT_write_Click(object sender, EventArgs e)
         {
             if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
@@ -707,6 +713,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
+        [Obsolete]
         public void callMeDrag(string pointno, double lat, double lng, int alt)
         {
             if (pointno == "")
@@ -791,6 +798,7 @@ namespace MissionPlanner.GCSViews
             return result;
         }
 
+        [Obsolete]
         public void GeoFencedownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             polygongridmode = false;
@@ -878,6 +886,7 @@ namespace MissionPlanner.GCSViews
             MainMap.Invalidate();
         }
 
+        [Obsolete]
         public void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((MainV2.comPort.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_RALLY) >= 0)
@@ -932,6 +941,7 @@ namespace MissionPlanner.GCSViews
             MainMap.Invalidate();
         }
 
+        [Obsolete]
         public void InsertCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
             double z, object tag = null)
         {
@@ -950,6 +960,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         public void readQGC110wpfile(string file, bool append = false)
         {
 
@@ -1012,6 +1023,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
+        [Obsolete]
         public void setfromMap(double lat, double lng, int alt, double p1 = -1)
         {
             if (selectedrow > Commands.RowCount)
@@ -1259,6 +1271,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void updateHome()
         {
             quickadd = true;
@@ -1266,6 +1279,7 @@ namespace MissionPlanner.GCSViews
             quickadd = false;
         }
 
+        [Obsolete]
         public void WPtoScreen(List<Locationwp> cmds)
         {
             try
@@ -1304,6 +1318,7 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// used to write a KML, update the Map view polygon, and update the row headers
         /// </summary>
+        [Obsolete]
         public void writeKML()
         {
             // quickadd is for when loading wps from eeprom or file, to prevent slow, loading times
@@ -1532,6 +1547,7 @@ namespace MissionPlanner.GCSViews
             return GetCommandList().AsReadOnly();
         }
 
+        [Obsolete]
         private void AddDigicamControlPhoto()
         {
             selectedrow = Commands.Rows.Add();
@@ -1653,6 +1669,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        [Obsolete]
         public void BUT_Add_Click(object sender, EventArgs e)
         {
             if (Commands.CurrentRow == null)
@@ -1687,6 +1704,7 @@ namespace MissionPlanner.GCSViews
         {
         }
 
+        [Obsolete]
         public void BUT_loadwpfile_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog fd = new OpenFileDialog())
@@ -1749,11 +1767,13 @@ namespace MissionPlanner.GCSViews
         {
         }
 
+        [Obsolete]
         public void BUT_saveWPFile_Click(object sender, EventArgs e)
         {
             SaveFile_Click(null, null);
         }
 
+        [Obsolete]
         public void but_writewpfast_Click(object sender, EventArgs e)
         {
             if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
@@ -1921,6 +1941,7 @@ namespace MissionPlanner.GCSViews
             splinemode = CHK_splinedefault.Checked;
         }
 
+        [Obsolete]
         public void clearMissionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             quickadd = true;
@@ -1939,6 +1960,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         public void clearPolygonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             polygongridmode = false;
@@ -1951,6 +1973,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         public void clearRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -1965,6 +1988,7 @@ namespace MissionPlanner.GCSViews
             MainV2.comPort.MAV.rallypoints.Clear();
         }
 
+        [Obsolete]
         public void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //FENCE_ENABLE ON COPTER
@@ -2019,6 +2043,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void Cmb_missiontype_SelectedIndexChanged(object sender, EventArgs e)
         {
             // switch the mavcmd list and init
@@ -2098,6 +2123,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        [Obsolete]
         public void Commands_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -2134,6 +2160,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void Commands_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             // we have modified a utm coords
@@ -2307,6 +2334,7 @@ namespace MissionPlanner.GCSViews
             // Commands.EndEdit();
         }
 
+        [Obsolete]
         public void Commands_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             writeKML();
@@ -2488,6 +2516,7 @@ namespace MissionPlanner.GCSViews
             //     isMouseClickOffMenu = true;
         }
 
+        [Obsolete]
         public void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             if (CurentRectMarker == null && CurrentRallyPt == null && groupmarkers.Count == 0)
@@ -2670,11 +2699,13 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void createCircleSurveyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Utilities.CircleSurveyMission.createGrid(MouseDownEnd);
         }
 
+        [Obsolete]
         public void createSplineCircleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string RadiusIn = "50";
@@ -2774,6 +2805,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         public void createWpCircleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string RadiusIn = "50";
@@ -2859,6 +2891,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         public void currentPositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddWPToMap(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, (int)MainV2.comPort.MAV.cs.alt);
@@ -2904,6 +2937,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void deleteWPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int no = 0;
@@ -3034,6 +3068,7 @@ namespace MissionPlanner.GCSViews
             kmlpolygonsoverlay.Routes.Add(route);
         }
 
+        [Obsolete]
         public void elevationGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
             writeKML();
@@ -3043,6 +3078,7 @@ namespace MissionPlanner.GCSViews
             temp.ShowDialog();
         }
 
+        [Obsolete]
         public void enterUTMCoordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string easting = "578994";
@@ -3072,6 +3108,7 @@ namespace MissionPlanner.GCSViews
             setfromMap(ans.Lat, ans.Lng, (int)ans.Alt);
         }
 
+        [Obsolete]
         public void FenceExclusionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count = 0;
@@ -3081,6 +3118,7 @@ namespace MissionPlanner.GCSViews
             clearPolygonToolStripMenuItem_Click(null, null);
         }
 
+        [Obsolete]
         public void FenceInclusionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count = 0;
@@ -3161,6 +3199,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void FillCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
             double y, double z, object tag = null)
         {
@@ -3205,6 +3244,7 @@ namespace MissionPlanner.GCSViews
             timer1.Stop();
         }
 
+        [Obsolete]
         public void FlightPlanner_Load(object sender, EventArgs e)
         {
             quickadd = true;
@@ -3375,6 +3415,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         void DoGeofencePointsUpload(IProgressReporterDialogue PRD)
         {
             // points + return + close
@@ -3398,6 +3439,7 @@ namespace MissionPlanner.GCSViews
             MainV2.comPort.setFencePoint(a, new PointLatLngAlt(drawnpolygon.Points[0]), pointcount);
         }
 
+        [Obsolete]
         public void GeoFenceuploadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             polygongridmode = false;
@@ -3655,6 +3697,7 @@ namespace MissionPlanner.GCSViews
             return new RectLatLng(maxy, minx, Math.Abs(maxx - minx), Math.Abs(miny - maxy));
         }
 
+        [Obsolete]
         private void getWPs(IProgressReporterDialogue sender)
         {
             var type = (MAVLink.MAV_MISSION_TYPE)Invoke((Func<MAVLink.MAV_MISSION_TYPE>)delegate
@@ -3680,6 +3723,7 @@ namespace MissionPlanner.GCSViews
             WPtoScreen(cmds);
         }
 
+        [Obsolete]
         public void insertSplineWPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string wpno = (selectedrow + 1).ToString("0");
@@ -3714,6 +3758,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void insertWpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string wpno = (selectedrow + 1).ToString("0");
@@ -3737,6 +3782,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void jumpstartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string repeat = "5";
@@ -3754,6 +3800,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         public void jumpwPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string wp = "1";
@@ -3915,6 +3962,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void label4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (MainV2.comPort.MAV.cs.lat != 0)
@@ -3934,6 +3982,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void landToolStripMenuItem_Click(object sender, EventArgs e)
         {
             selectedrow = Commands.Rows.Add();
@@ -3961,6 +4010,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void loadAndAppendToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog fd = new OpenFileDialog())
@@ -4097,6 +4147,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void loadKMLFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog fd = new OpenFileDialog())
@@ -4213,6 +4264,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void LoadSHPFile(string file)
         {
             ProjectionInfo pStart = new ProjectionInfo();
@@ -4345,6 +4397,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void loadSHPFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog fd = new OpenFileDialog())
@@ -4365,11 +4418,13 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void loadWPFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BUT_loadwpfile_Click(null, null);
         }
 
+        [Obsolete]
         public void loitercirclesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string turns = "3";
@@ -4389,6 +4444,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         public void loiterForeverToolStripMenuItem_Click(object sender, EventArgs e)
         {
             selectedrow = Commands.Rows.Add();
@@ -4402,6 +4458,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         public void loitertimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string time = "5";
@@ -4781,6 +4838,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         private void processKMLMission(object sender, ElementEventArgs e)
         {
             Element element = e.Element;
@@ -4839,6 +4897,7 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// Processes a loaded EEPROM to the map and datagrid
         /// </summary>
+        [Obsolete]
         private void processToScreen(List<Locationwp> cmds, bool append = false)
         {
             quickadd = true;
@@ -4984,6 +5043,7 @@ namespace MissionPlanner.GCSViews
             MainMap_OnMapZoomChanged();
         }
 
+        [Obsolete]
         private Dictionary<string, string[]> readCMDXML()
         {
             Dictionary<string, string[]> cmd = new Dictionary<string, string[]>();
@@ -5061,6 +5121,7 @@ namespace MissionPlanner.GCSViews
             return cmd;
         }
 
+        [Obsolete]
         public void reverseWPsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridViewRowCollection rows = Commands.Rows;
@@ -5094,6 +5155,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void rTLToolStripMenuItem_Click(object sender, EventArgs e)
         {
             selectedrow = Commands.Rows.Add();
@@ -5107,6 +5169,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
+        [Obsolete]
         private void SaveFile_Click(object sender, EventArgs e)
         {
             savewaypoints();
@@ -5155,6 +5218,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        [Obsolete]
         public void saveRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             byte count = 0;
@@ -5389,11 +5453,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
+        [Obsolete]
         public void saveWPFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFile_Click(null, null);
         }
 
+        [Obsolete]
         private void saveWPs(IProgressReporterDialogue sender)
         {
             try
@@ -5523,6 +5589,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             MainV2.comPort.giveComport = false;
         }
 
+        [Obsolete]
         private void saveWPsFast(IProgressReporterDialogue sender)
         {
             var totalwpcountforupload = (ushort)(Commands.RowCount + 1);
@@ -5827,6 +5894,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             MainMap.Invalidate();
         }
 
+        [Obsolete]
         public void setROIToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!cmdParamNames.ContainsKey("DO_SET_ROI"))
@@ -5848,6 +5916,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             writeKML();
         }
 
+        [Obsolete]
         private void setWPParams()
         {
             try
@@ -5894,6 +5963,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
+        [Obsolete]
         public void surveyGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GridPlugin grid = new GridPlugin();
@@ -5919,6 +5989,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             Settings.Instance["FP_docking"] = panelAction.Dock.ToString();
         }
 
+        [Obsolete]
         public void takeoffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // altitude
@@ -5966,6 +6037,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             writeKML();
         }
 
+        [Obsolete]
         public void textToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string text = "";
@@ -6019,6 +6091,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        [Obsolete]
         public void timer1_Tick(object sender, EventArgs e)
         {
             try
@@ -6091,6 +6164,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
+        [Obsolete]
         public void trackerHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainV2.comPort.MAV.cs.TrackerLocation = new PointLatLngAlt(MouseDownEnd)
@@ -6116,6 +6190,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
+        [Obsolete]
         public void TXT_homealt_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
@@ -6138,6 +6213,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         }
 
+        [Obsolete]
         public void TXT_homelat_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
@@ -6152,6 +6228,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             writeKML();
         }
 
+        [Obsolete]
         public void TXT_homelng_TextChanged(object sender, EventArgs e)
         {
             sethome = false;
@@ -6195,6 +6272,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             e.Handled = !float.TryParse(e.KeyChar.ToString(), out isNumber);
         }
 
+        [Obsolete]
         public void TXT_WPRad_Leave(object sender, EventArgs e)
         {
             float isNumber = 0;
@@ -6210,6 +6288,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             writeKML();
         }
 
+        [Obsolete]
         private void updateCMDParams()
         {
             cmdParamNames = readCMDXML();
@@ -6266,6 +6345,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             log.InfoFormat("Command item count {0} orig list {1}", Command.Items.Count, cmds.Count);
         }
 
+        [Obsolete]
         private void updateHomeText()
         {
             // set home location
@@ -6645,6 +6725,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
+        [Obsolete]
         private void MainMap_MouseUp(object sender, MouseEventArgs e)
         {
             if (isMouseClickOffMenu)
@@ -7349,6 +7430,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
+        [Obsolete]
         private void zoomToVehicleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.MAV.cs.Location.Lat == 0 && MainV2.comPort.MAV.cs.Location.Lng == 0)
@@ -7367,6 +7449,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             MainMap.ZoomAndCenterMarkers("WPOverlay");
         }
 
+        [Obsolete]
         private void zoomToHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainMap.Position = MainV2.comPort.MAV.cs.HomeLocation;

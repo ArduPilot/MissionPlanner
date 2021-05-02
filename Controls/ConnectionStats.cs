@@ -14,6 +14,7 @@ namespace MissionPlanner.Controls
         private readonly MAVLinkInterface _mavlink;
         private CompositeDisposable _subscriptionsDisposable;
 
+        [Obsolete]
         public ConnectionStats(MAVLinkInterface comPort)
             : this()
         {
@@ -161,11 +162,13 @@ namespace MissionPlanner.Controls
             return string.Format("{0:####}", i);
         }
 
+        [Obsolete]
         private void chk_mavlink2_CheckedChanged(object sender, EventArgs e)
         {
             _mavlink.MAV.mavlinkv2 = chk_mavlink2.Checked;
         }
 
+        [Obsolete]
         private void chk_signing_CheckedChanged(object sender, EventArgs e)
         {
             _mavlink.MAV.signing = chk_signing.Checked;

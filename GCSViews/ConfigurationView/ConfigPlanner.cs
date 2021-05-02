@@ -34,6 +34,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
         // Called every time that this control is made current in the backstage view
+        [Obsolete]
         public void Activate()
         {
             startup = true; // flag to ignore changes while we programatically populate controls
@@ -431,6 +432,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_rerequestparams_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -508,6 +510,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.instance.ChangeUnits();
         }
 
+        [Obsolete]
         private void CMB_rateattitude_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -523,6 +526,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // request vfr
         }
 
+        [Obsolete]
         private void CMB_rateposition_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -536,6 +540,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // request gps
         }
 
+        [Obsolete]
         private void CMB_ratestatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -549,6 +554,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // mode
         }
 
+        [Obsolete]
         private void CMB_raterc_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -562,6 +568,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // request rc info 
         }
 
+        [Obsolete]
         private void CMB_ratesensors_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -577,6 +584,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // request raw sensor
         }
 
+        [Obsolete]
         private void CHK_mavdebug_CheckedChanged(object sender, EventArgs e)
         {
             MainV2.comPort.debugmavlink = CHK_mavdebug.Checked;

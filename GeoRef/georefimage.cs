@@ -136,6 +136,7 @@ namespace MissionPlanner.GeoRef
             }
         }
 
+        [Obsolete]
         private void BUT_doit_Click(object sender, EventArgs e)
         {
             string dirPictures = TXT_jpgdir.Text;
@@ -240,6 +241,7 @@ namespace MissionPlanner.GeoRef
             httpserver.georefkml = obj;
         }
 
+        [Obsolete]
         private void BUT_estoffset_Click(object sender, EventArgs e)
         {
             TXT_outputlog.Clear();

@@ -6,6 +6,7 @@ namespace MissionPlanner.Warnings
 {
     public partial class WarningsManager : Form
     {
+        [Obsolete]
         public WarningsManager()
         {
             InitializeComponent();
@@ -13,6 +14,7 @@ namespace MissionPlanner.Warnings
             reload();
         }
 
+        [Obsolete]
         public void reload()
         {
             panel1.Controls.Clear();
@@ -32,6 +34,7 @@ namespace MissionPlanner.Warnings
             Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
+        [Obsolete]
         WarningControl addwarningcontrol(int x, int y, CustomWarning item, bool hideforchild = false)
         {
             WarningControl wrnctl = new WarningControl(item);
@@ -55,11 +58,13 @@ namespace MissionPlanner.Warnings
             return wrnctl;
         }
 
+        [Obsolete]
         void wrnctl_ChildAdd(object sender, EventArgs e)
         {
             reload();
         }
 
+        [Obsolete]
         private void BUT_Add_Click(object sender, EventArgs e)
         {
             var newcw = new CustomWarning();

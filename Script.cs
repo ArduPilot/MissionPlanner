@@ -18,6 +18,7 @@ namespace MissionPlanner
 
         public StringRedirectWriter OutputWriter { get; private set; }
 
+        [Obsolete]
         public Script(bool redirectOutput = false)
         {
             Dictionary<string, object> options = new Dictionary<string, object>();
@@ -129,11 +130,13 @@ namespace MissionPlanner
             NEQ
         }
 
+        [Obsolete]
         public bool ChangeParam(string param, float value)
         {
             return MainV2.comPort.setParam(param, value);
         }
 
+        [Obsolete]
         public float GetParam(string param)
         {
             if (MainV2.comPort.MAV.param[param] != null)
@@ -142,12 +145,14 @@ namespace MissionPlanner
             return 0.0f;
         }
 
+        [Obsolete]
         public bool ChangeMode(string mode)
         {
             MainV2.comPort.setMode(mode);
             return true;
         }
 
+        [Obsolete]
         public bool WaitFor(string message, int timeout)
         {
             int timein = 0;
@@ -162,6 +167,7 @@ namespace MissionPlanner
             return true;
         }
 
+        [Obsolete]
         public bool SendRC(int channel, short pwm, bool sendnow)
         {
             switch (channel)

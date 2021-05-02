@@ -50,6 +50,7 @@ namespace MissionPlanner.Log
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
+        [Obsolete]
         private async void BUT_redokml_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -195,8 +196,7 @@ namespace MissionPlanner.Log
             }
         }
 
-
-
+        [Obsolete]
         private async void BUT_humanreadable_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -270,6 +270,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private async void BUT_graphmavlog_Click(object sender, EventArgs e)
         {
             //http://devreminder.wordpress.com/net/net-framework-fundamentals/c-dynamic-math-expression-evaluation/
@@ -334,6 +335,7 @@ namespace MissionPlanner.Log
             return result;
         }
 
+        [Obsolete]
         private async Task<List<string>> GetLogFileValidFields(string logfile)
         {
             // if (selectform != null && !selectform.IsDisposed)
@@ -843,6 +845,7 @@ namespace MissionPlanner.Log
         int colorStep = 0;
         bool rightclick = false;
 
+        [Obsolete]
         void chk_box_CheckedChanged(object sender, EventArgs e)
         {
             if (((CheckBox) sender).Checked)
@@ -984,6 +987,7 @@ namespace MissionPlanner.Log
             return selectform;
         }
 
+        [Obsolete]
         private async void BUT_convertcsv_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -1058,6 +1062,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void BUT_paramsfromlog_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -1140,6 +1145,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void BUT_getwpsfromlog_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
@@ -1284,11 +1290,13 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void BUT_matlab_Click(object sender, EventArgs e)
         {
             MatLabForms.ProcessTLog();
         }
 
+        [Obsolete]
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node != null && e.Node.Parent != null)
@@ -1380,6 +1388,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         private void GraphItem(string parenttext, string text, bool leftaxis)
         {
             rightclick = !leftaxis;
@@ -1388,6 +1397,7 @@ namespace MissionPlanner.Log
                 new CheckBox() {Name = text + " mavlink_" + parenttext.ToLower() + "_t", Checked = true}, null);
         }
 
+        [Obsolete]
         private async void but_cs_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())

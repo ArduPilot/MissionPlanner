@@ -204,6 +204,7 @@ namespace MissionPlanner.Antenna
             _tracker.BUT_connect.Text = Strings.Disconnect;
         }
 
+        [Obsolete]
         private void mainloop()
         {
             threadrun = true;
@@ -265,11 +266,13 @@ namespace MissionPlanner.Antenna
         {
         }
 
+        [Obsolete]
         public void BUT_find_Click(object sender, EventArgs e)
         {
             System.Threading.ThreadPool.QueueUserWorkItem(tm1_Tick);
         }
 
+        [Obsolete]
         private void tm1_Tick(object item)
         {
             float snr = comPort.MAV.cs.localsnrdb;
@@ -320,6 +323,7 @@ namespace MissionPlanner.Antenna
             });
         }
 
+        [Obsolete]
         private float checkpos(float start, float end, float scale)
         {
             float lastsnr = 0;

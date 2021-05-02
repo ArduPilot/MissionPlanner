@@ -42,6 +42,7 @@ namespace MissionPlanner.Controls
                 System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
+        [Obsolete]
         private void BUT_connect_Click(object sender, EventArgs e)
         {
             if (comPort.IsOpen)
@@ -114,6 +115,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         void mainloop()
         {
             DateTime nextsend = DateTime.Now;

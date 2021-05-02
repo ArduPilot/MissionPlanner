@@ -229,6 +229,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
+        [Obsolete]
         public JoystickLinux(Func<MAVLinkInterface> currentInterface) : base(currentInterface)
         {
         }
@@ -373,6 +374,7 @@ namespace MissionPlanner.Joystick
                 .ToList();
         }
 
+        [Obsolete]
         public static JoystickBase getJoyStickByName(string name)
         {
             var joysticklist = getDevices();

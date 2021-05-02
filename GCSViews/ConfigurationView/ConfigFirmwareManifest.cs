@@ -158,6 +158,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             });
         }
 
+        [Obsolete]
         private void PictureBox_Click(object sender, EventArgs e)
         {
             var mavtype = ((APFirmware.MAV_TYPE)(sender as ImageLabel).Tag);
@@ -169,6 +170,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void LookForPort(APFirmware.MAV_TYPE mavtype, bool alloptions = false)
         {
             var ports = Win32DeviceMgmt.GetAllCOMPorts();
@@ -387,6 +389,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private string custom_fw_dir = Settings.Instance["FirmwareFileDirectory"] ?? "";
         private bool flashdone = false;
 
+        [Obsolete]
         private void Lbl_Custom_firmware_label_Click(object sender, EventArgs e)
         {
             using (var fd = new OpenFileDialog
@@ -464,6 +467,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         }
 
+        [Obsolete]
         private void Lbl_px4bl_Click(object sender, EventArgs e)
         {
             try
@@ -486,6 +490,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void Lbl_bootloaderupdate_Click(object sender, EventArgs e)
         {
             // connect to mavlink
@@ -515,6 +520,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mav?.Close();
         }
 
+        [Obsolete]
         private void lbl_alloptions_Click(object sender, EventArgs e)
         {
             LookForPort(APFirmware.MAV_TYPE.Copter, true);

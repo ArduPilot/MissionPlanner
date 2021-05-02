@@ -12,6 +12,7 @@ namespace MissionPlanner.Swarm
         List<PointLatLngAlt> trail = new List<PointLatLngAlt>();
         float FollowDistance = 2;
 
+        [System.Obsolete]
         public override void Update()
         {
             if (MainV2.comPort.MAV.cs.lat == 0 || MainV2.comPort.MAV.cs.lng == 0)
@@ -24,6 +25,7 @@ namespace MissionPlanner.Swarm
                 ""));
         }
 
+        [System.Obsolete]
         public override void SendCommand()
         {
             if (trail.Count == 0)

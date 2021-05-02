@@ -26,6 +26,7 @@ namespace MissionPlanner.Swarm.FollowLeader
             Altitude = 10;
         }
 
+        [Obsolete]
         public void UpdatePositions()
         {
             // add new point to trail

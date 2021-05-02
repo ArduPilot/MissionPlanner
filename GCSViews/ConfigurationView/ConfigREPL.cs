@@ -25,6 +25,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             AP_REPL = new AP_REPL(MainV2.comPort);
@@ -41,6 +42,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             };
         }
 
+        [Obsolete]
         public void Deactivate()
         {
             try
@@ -143,6 +145,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void TXT_terminal_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')
@@ -201,6 +204,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_RebootAPM_Click(object sender, EventArgs e)
         {
             TXT_terminal.ReadOnly = false;
@@ -217,6 +221,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_disconnect_Click(object sender, EventArgs e)
         {
             try

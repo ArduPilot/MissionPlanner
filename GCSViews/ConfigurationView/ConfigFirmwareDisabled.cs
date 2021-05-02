@@ -15,6 +15,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
         }
 
+        [Obsolete]
         private void but_bootloaderupdate_Click(object sender, System.EventArgs e)
         {
             var mav = MainV2.comPort;

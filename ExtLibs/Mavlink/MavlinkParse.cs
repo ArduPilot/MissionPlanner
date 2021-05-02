@@ -5,17 +5,18 @@ using System.Security.Cryptography;
 
 public partial class MAVLink
 {
+    [Obsolete]
     public static string GetUnit(string fieldname, Type packetype = null, string name="", uint msgid = UInt32.MaxValue)
     {
         try
         {
             message_info msginfo = new message_info();
             if(packetype != null)
-                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.type == packetype);
+                msginfo = MAVLINK_MESSAGE_INFOS.First(a => a.type == packetype);
             if (msgid != UInt32.MaxValue)
-                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.msgid == msgid);
+                msginfo = MAVLINK_MESSAGE_INFOS.First(a => a.msgid == msgid);
             if (!string.IsNullOrEmpty(name))
-                msginfo = MAVLink.MAVLINK_MESSAGE_INFOS.First(a => a.name == name);
+                msginfo = MAVLINK_MESSAGE_INFOS.First(a => a.name == name);
 
             if (msginfo.name == "")
                 return "";
@@ -118,6 +119,7 @@ public partial class MAVLink
             }
         }
 
+        [Obsolete]
         public MAVLinkMessage ReadPacket(Stream BaseStream)
         {
             byte[] buffer = new byte[MAVLink.MAVLINK_MAX_PACKET_LEN];
@@ -226,6 +228,7 @@ public partial class MAVLink
             return message;
         }
 
+        [Obsolete]
         public byte[] GenerateMAVLinkPacket10(MAVLINK_MSG_ID messageType, object indata, byte sysid = 255, byte compid = (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER, int sequence = -1)
         {
             byte[] data;
@@ -269,6 +272,7 @@ public partial class MAVLink
             return packet;
         }
 
+        [Obsolete]
         public byte[] GenerateMAVLinkPacket20(MAVLINK_MSG_ID messageType, object indata, bool sign = false, byte sysid = 255, byte compid= (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER, int sequence = -1)
         {
             byte[] data;

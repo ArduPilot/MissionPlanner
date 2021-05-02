@@ -18,6 +18,8 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         public float Altitude => _getCurrentState().alt;
         public float GroundSpeed => _getCurrentState().groundspeed;
         public float MagneticDeclination => _getCurrentState().mag_declination;
+
+        [Obsolete]
         public bool IsConnected => _getCurrentState().connected;
     }
 }

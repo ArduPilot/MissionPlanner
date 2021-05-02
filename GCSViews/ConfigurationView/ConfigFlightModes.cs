@@ -35,6 +35,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
@@ -236,6 +237,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _timer.Stop();
         }
 
+        [Obsolete]
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Control | Keys.S))
@@ -247,6 +249,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return false;
         }
 
+        [Obsolete]
         private void timer_Tick(object sender, EventArgs e)
         {
             try
@@ -327,6 +330,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return 0;
         }
 
+        [Obsolete]
         private void BUT_SaveModes_Click(object sender, EventArgs e)
         {
             try
@@ -389,6 +393,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BUT_SaveModes.Text = "Complete";
         }
 
+        [Obsolete]
         private void updateDropDown(ComboBox ctl, string param)
         {
             ctl.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
@@ -409,6 +414,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void flightmode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)

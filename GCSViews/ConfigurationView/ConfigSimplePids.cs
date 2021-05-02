@@ -22,6 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             // prevent memory leak
@@ -43,6 +44,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         ///     The template xml for the screen
         /// </summary>
         /// <param name="FileName"></param>
+        [Obsolete]
         public void LoadXML(string FileName)
         {
             using (var reader = XmlReader.Create(FileName))
@@ -119,6 +121,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void ProcessItem(configitem item)
         {
             try
@@ -172,6 +175,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void RNG_ValueChanged(object sender, string Name, string Value)
         {
             TXT_info.Clear();

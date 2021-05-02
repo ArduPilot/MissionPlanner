@@ -11,8 +11,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     public partial class ConfigFailSafe : MyUserControl, IActivate, IDeactivate
     {
         private readonly Timer _timer = new Timer();
+
         //
 
+        [Obsolete]
         public ConfigFailSafe()
         {
             InitializeComponent();
@@ -21,6 +23,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _timer.Tick += timer_Tick;
         }
 
+        [Obsolete]
         public void Activate()
         {
             mavlinkComboBox_fs_thr_enable.setup(
@@ -92,6 +95,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _timer.Stop();
         }
 
+        [Obsolete]
         private void timer_Tick(object sender, EventArgs e)
         {
             // update all linked controls - 10hz
@@ -104,6 +108,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void LNK_wiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -165,6 +170,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             lbl_gpslock.ResumeLayout();
         }
 
+        [Obsolete]
         private void lbl_currentmode_TextChanged(object sender, EventArgs e)
         {
             try

@@ -16,11 +16,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private bool inpwmdetect;
         private bool startup;
 
+        [Obsolete]
         public ConfigTradHeli()
         {
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
     
@@ -177,6 +179,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = false;
         }
 
+        [Obsolete]
         void GenerateGraphData()
         {
             PointPairList stab = new PointPairList();
@@ -260,6 +263,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
         }
 
+        [Obsolete]
         private void H_SWASH_TYPE_CheckedChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -315,6 +319,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             inpwmdetect = false;
         }
 
+        [Obsolete]
         private void PWM_Validating(object sender, CancelEventArgs e)
         {
             var temp = (Control)(sender);
@@ -345,6 +350,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.setParam(((Control)sender).Name, tempint);
         }
 
+        [Obsolete]
         private void TXT_srvpos1_Validating(object sender, CancelEventArgs e)
         {
             if (startup || Disposing)
@@ -370,6 +376,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void TXT_srvpos2_Validating(object sender, CancelEventArgs e)
         {
             if (startup || Disposing)
@@ -395,6 +402,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void TXT_srvpos3_Validating(object sender, CancelEventArgs e)
         {
             if (startup || Disposing)
@@ -420,7 +428,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-
+        [Obsolete]
         private void GYR_GAIN__Validating(object sender, CancelEventArgs e)
         {
             if (startup || Disposing || !Enabled)
@@ -441,7 +449,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-
+        [Obsolete]
         private void timer_Tick(object sender, EventArgs e)
         {
             try
@@ -489,6 +497,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void myButtonH_SV_MAN_Click(object sender, EventArgs e)
         {
             try
@@ -508,6 +517,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void myButtonH_SV_MANmanual_Click(object sender, EventArgs e)
         {
             try
@@ -527,6 +537,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void myButtonH_SV_MANmax_Click(object sender, EventArgs e)
         {
             try
@@ -546,6 +557,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void myButtonH_SV_MANzero_Click(object sender, EventArgs e)
         {
             try
@@ -565,6 +577,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void myButtonH_SV_MANmin_Click(object sender, EventArgs e)
         {
             try
@@ -584,6 +597,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void myButtonH_SV_MANtest_Click(object sender, EventArgs e)
         {
             try

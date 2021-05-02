@@ -63,6 +63,7 @@ namespace MissionPlanner.Grid
         bool isMouseDraging = false;
 
         // GridUI
+        [Obsolete]
         public GridUI(GridPlugin plugin)
         {
             this.plugin = plugin;
@@ -125,6 +126,7 @@ namespace MissionPlanner.Grid
             loading = false;
         }
 
+        [Obsolete]
         private void GridUI_Load(object sender, EventArgs e)
         {
             loading = true;
@@ -548,6 +550,7 @@ namespace MissionPlanner.Grid
         }
 
         // Do Work
+        [Obsolete]
         private async void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
             if (loading)
@@ -856,6 +859,7 @@ namespace MissionPlanner.Grid
             map.Invalidate();
         }
 
+        [Obsolete]
         private void AddWP(double Lng, double Lat, double Alt, string tag, object gridobject = null)
         {
             if (CHK_copter_headinghold.Checked)
@@ -1034,6 +1038,7 @@ namespace MissionPlanner.Grid
             fovv = (float)(Math.Atan(sensorheight / (2 * focallen)) * rad2deg * 2);
         }
 
+        [Obsolete]
         void doCalc()
         {
             try
@@ -1220,6 +1225,7 @@ namespace MissionPlanner.Grid
             }
         }
 
+        [Obsolete]
         private void map_MouseMove(object sender, MouseEventArgs e)
         {
             PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
@@ -1308,11 +1314,13 @@ namespace MissionPlanner.Grid
             catch { }
         }
 
+        [Obsolete]
         private void NUM_ValueChanged(object sender, EventArgs e)
         {
             domainUpDown1_ValueChanged(null, null);
         }
 
+        [Obsolete]
         private void CMB_camera_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cameras.ContainsKey(CMB_camera.Text))
@@ -1333,11 +1341,13 @@ namespace MissionPlanner.Grid
             domainUpDown1_ValueChanged(null, null);
         }
 
+        [Obsolete]
         private void TXT_TextChanged(object sender, EventArgs e)
         {
             domainUpDown1_ValueChanged(null, null);
         }
 
+        [Obsolete]
         private void CHK_camdirection_CheckedChanged(object sender, EventArgs e)
         {
             domainUpDown1_ValueChanged(null, null);
@@ -1563,6 +1573,7 @@ namespace MissionPlanner.Grid
             xmlcamera(true, Settings.GetUserDataDirectory() + "cameras.xml");
         }
 
+        [Obsolete]
         private void BUT_Accept_Click(object sender, EventArgs e)
         {
             if (grid != null && grid.Count > 0)
@@ -1868,12 +1879,14 @@ namespace MissionPlanner.Grid
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        [Obsolete]
         private void NUM_Lane_Dist_ValueChanged(object sender, EventArgs e)
         {
             // doCalc
             domainUpDown1_ValueChanged(sender, e);
         }
 
+        [Obsolete]
         private void CMB_startfrom_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(loading)

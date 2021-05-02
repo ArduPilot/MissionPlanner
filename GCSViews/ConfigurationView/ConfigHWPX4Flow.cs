@@ -17,6 +17,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -33,12 +34,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
         }
 
+        [Obsolete]
         private void but_focusmode_Click(object sender, EventArgs e)
         {
             focusmode = !focusmode;
             _flow.CalibrationMode(focusmode);
         }
 
+        [Obsolete]
         public void Deactivate()
         {
             if (_flow != null)

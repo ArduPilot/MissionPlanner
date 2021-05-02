@@ -9,6 +9,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 {
     internal static class AltitudeAngel
     {
+        [Obsolete]
         internal static void Configure()
         {
             AltitudeAngelPlugin.Configure();

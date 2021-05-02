@@ -40,6 +40,7 @@ namespace ModeChange
             return false;
         }
 
+        [Obsolete]
         public override bool Loaded()
         {
             modecmb = new ToolStripComboBox();
@@ -49,6 +50,7 @@ namespace ModeChange
             return true;
         }
 
+        [Obsolete]
         private void Modecmb_SelectedValueChanged(object sender, EventArgs e)
         {
             inchange = true;
@@ -72,6 +74,7 @@ namespace ModeChange
             }
         }
 
+        [Obsolete]
         public override bool Loop()
         {
             if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
@@ -116,6 +119,7 @@ namespace ModeChange
             return true;
         }
 
+        [Obsolete]
         private void ComPort_MavChanged(object sender, EventArgs e)
         {
             MainV2.instance.BeginInvokeIfRequired(() =>

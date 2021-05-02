@@ -11,6 +11,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        [Obsolete]
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -20,6 +21,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Enabled = true;
         }
 
+        [Obsolete]
         private void BUT_osdrates_Click(object sender, EventArgs e)
         {
             /*

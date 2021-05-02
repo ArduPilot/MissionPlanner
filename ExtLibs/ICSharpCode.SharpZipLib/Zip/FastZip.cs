@@ -289,45 +289,48 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// Delegate called when confirming overwriting of files.
 		/// </summary>
 		public delegate bool ConfirmOverwriteDelegate(string fileName);
-		#endregion
+        #endregion
 
-		#region CreateZip
-		/// <summary>
-		/// Create a zip file.
-		/// </summary>
-		/// <param name="zipFileName">The name of the zip file to create.</param>
-		/// <param name="sourceDirectory">The directory to source files from.</param>
-		/// <param name="recurse">True to recurse directories, false for no recursion.</param>
-		/// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
-		/// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
-		public void CreateZip(string zipFileName, string sourceDirectory,
+        #region CreateZip
+        /// <summary>
+        /// Create a zip file.
+        /// </summary>
+        /// <param name="zipFileName">The name of the zip file to create.</param>
+        /// <param name="sourceDirectory">The directory to source files from.</param>
+        /// <param name="recurse">True to recurse directories, false for no recursion.</param>
+        /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
+        /// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
+        [Obsolete]
+        public void CreateZip(string zipFileName, string sourceDirectory,
 			bool recurse, string fileFilter, string directoryFilter)
 		{
 			CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, directoryFilter);
 		}
 
-		/// <summary>
-		/// Create a zip file/archive.
-		/// </summary>
-		/// <param name="zipFileName">The name of the zip file to create.</param>
-		/// <param name="sourceDirectory">The directory to obtain files and directories from.</param>
-		/// <param name="recurse">True to recurse directories, false for no recursion.</param>
-		/// <param name="fileFilter">The file filter to apply.</param>
-		public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter)
+        /// <summary>
+        /// Create a zip file/archive.
+        /// </summary>
+        /// <param name="zipFileName">The name of the zip file to create.</param>
+        /// <param name="sourceDirectory">The directory to obtain files and directories from.</param>
+        /// <param name="recurse">True to recurse directories, false for no recursion.</param>
+        /// <param name="fileFilter">The file filter to apply.</param>
+        [Obsolete]
+        public void CreateZip(string zipFileName, string sourceDirectory, bool recurse, string fileFilter)
 		{
 			CreateZip(File.Create(zipFileName), sourceDirectory, recurse, fileFilter, null);
 		}
 
-		/// <summary>
-		/// Create a zip archive sending output to the <paramref name="outputStream"/> passed.
-		/// </summary>
-		/// <param name="outputStream">The stream to write archive data to.</param>
-		/// <param name="sourceDirectory">The directory to source files from.</param>
-		/// <param name="recurse">True to recurse directories, false for no recursion.</param>
-		/// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
-		/// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
-		/// <remarks>The <paramref name="outputStream"/> is closed after creation.</remarks>
-		public void CreateZip(Stream outputStream, string sourceDirectory, bool recurse, string fileFilter, string directoryFilter)
+        /// <summary>
+        /// Create a zip archive sending output to the <paramref name="outputStream"/> passed.
+        /// </summary>
+        /// <param name="outputStream">The stream to write archive data to.</param>
+        /// <param name="sourceDirectory">The directory to source files from.</param>
+        /// <param name="recurse">True to recurse directories, false for no recursion.</param>
+        /// <param name="fileFilter">The <see cref="PathFilter">file filter</see> to apply.</param>
+        /// <param name="directoryFilter">The <see cref="PathFilter">directory filter</see> to apply.</param>
+        /// <remarks>The <paramref name="outputStream"/> is closed after creation.</remarks>
+        [Obsolete]
+        public void CreateZip(Stream outputStream, string sourceDirectory, bool recurse, string fileFilter, string directoryFilter)
 		{
 			NameTransform = new ZipNameTransform(sourceDirectory);
 			sourceDirectory_ = sourceDirectory;
@@ -361,32 +364,34 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region ExtractZip
-		/// <summary>
-		/// Extract the contents of a zip file.
-		/// </summary>
-		/// <param name="zipFileName">The zip file to extract from.</param>
-		/// <param name="targetDirectory">The directory to save extracted information in.</param>
-		/// <param name="fileFilter">A filter to apply to files.</param>
-		public void ExtractZip(string zipFileName, string targetDirectory, string fileFilter)
+        #region ExtractZip
+        /// <summary>
+        /// Extract the contents of a zip file.
+        /// </summary>
+        /// <param name="zipFileName">The zip file to extract from.</param>
+        /// <param name="targetDirectory">The directory to save extracted information in.</param>
+        /// <param name="fileFilter">A filter to apply to files.</param>
+        [Obsolete]
+        public void ExtractZip(string zipFileName, string targetDirectory, string fileFilter)
 		{
 			ExtractZip(zipFileName, targetDirectory, Overwrite.Always, null, fileFilter, null, restoreDateTimeOnExtract_);
 		}
 
-		/// <summary>
-		/// Extract the contents of a zip file.
-		/// </summary>
-		/// <param name="zipFileName">The zip file to extract from.</param>
-		/// <param name="targetDirectory">The directory to save extracted information in.</param>
-		/// <param name="overwrite">The style of <see cref="Overwrite">overwriting</see> to apply.</param>
-		/// <param name="confirmDelegate">A delegate to invoke when confirming overwriting.</param>
-		/// <param name="fileFilter">A filter to apply to files.</param>
-		/// <param name="directoryFilter">A filter to apply to directories.</param>
-		/// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
-		/// <param name="allowParentTraversal">Allow parent directory traversal in file paths (e.g. ../file)</param>
-		public void ExtractZip(string zipFileName, string targetDirectory,
+        /// <summary>
+        /// Extract the contents of a zip file.
+        /// </summary>
+        /// <param name="zipFileName">The zip file to extract from.</param>
+        /// <param name="targetDirectory">The directory to save extracted information in.</param>
+        /// <param name="overwrite">The style of <see cref="Overwrite">overwriting</see> to apply.</param>
+        /// <param name="confirmDelegate">A delegate to invoke when confirming overwriting.</param>
+        /// <param name="fileFilter">A filter to apply to files.</param>
+        /// <param name="directoryFilter">A filter to apply to directories.</param>
+        /// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
+        /// <param name="allowParentTraversal">Allow parent directory traversal in file paths (e.g. ../file)</param>
+        [Obsolete]
+        public void ExtractZip(string zipFileName, string targetDirectory,
 							   Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
 							   string fileFilter, string directoryFilter, bool restoreDateTime, bool allowParentTraversal = false)
 		{
@@ -394,19 +399,20 @@ namespace ICSharpCode.SharpZipLib.Zip
 			ExtractZip(inputStream, targetDirectory, overwrite, confirmDelegate, fileFilter, directoryFilter, restoreDateTime, true, allowParentTraversal);
 		}
 
-		/// <summary>
-		/// Extract the contents of a zip file held in a stream.
-		/// </summary>
-		/// <param name="inputStream">The seekable input stream containing the zip to extract from.</param>
-		/// <param name="targetDirectory">The directory to save extracted information in.</param>
-		/// <param name="overwrite">The style of <see cref="Overwrite">overwriting</see> to apply.</param>
-		/// <param name="confirmDelegate">A delegate to invoke when confirming overwriting.</param>
-		/// <param name="fileFilter">A filter to apply to files.</param>
-		/// <param name="directoryFilter">A filter to apply to directories.</param>
-		/// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
-		/// <param name="isStreamOwner">Flag indicating whether the inputStream will be closed by this method.</param>
-		/// <param name="allowParentTraversal">Allow parent directory traversal in file paths (e.g. ../file)</param>
-		public void ExtractZip(Stream inputStream, string targetDirectory,
+        /// <summary>
+        /// Extract the contents of a zip file held in a stream.
+        /// </summary>
+        /// <param name="inputStream">The seekable input stream containing the zip to extract from.</param>
+        /// <param name="targetDirectory">The directory to save extracted information in.</param>
+        /// <param name="overwrite">The style of <see cref="Overwrite">overwriting</see> to apply.</param>
+        /// <param name="confirmDelegate">A delegate to invoke when confirming overwriting.</param>
+        /// <param name="fileFilter">A filter to apply to files.</param>
+        /// <param name="directoryFilter">A filter to apply to directories.</param>
+        /// <param name="restoreDateTime">Flag indicating whether to restore the date and time for extracted files.</param>
+        /// <param name="isStreamOwner">Flag indicating whether the inputStream will be closed by this method.</param>
+        /// <param name="allowParentTraversal">Allow parent directory traversal in file paths (e.g. ../file)</param>
+        [Obsolete]
+        public void ExtractZip(Stream inputStream, string targetDirectory,
 					   Overwrite overwrite, ConfirmOverwriteDelegate confirmDelegate,
 					   string fileFilter, string directoryFilter, bool restoreDateTime,
 					   bool isStreamOwner, bool allowParentTraversal = false)
@@ -448,10 +454,11 @@ namespace ICSharpCode.SharpZipLib.Zip
 				}
 			}
 		}
-		#endregion
+        #endregion
 
-		#region Internal Processing
-		void ProcessDirectory(object sender, DirectoryEventArgs e)
+        #region Internal Processing
+        [Obsolete]
+        void ProcessDirectory(object sender, DirectoryEventArgs e)
 		{
 			if (!e.HasMatchingFiles && CreateEmptyDirectories) {
 				if (events_ != null) {
@@ -467,7 +474,8 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		void ProcessFile(object sender, ScanEventArgs e)
+        [Obsolete]
+        void ProcessFile(object sender, ScanEventArgs e)
 		{
 			if ((events_ != null) && (events_.ProcessFile != null)) {
 				events_.ProcessFile(sender, e);

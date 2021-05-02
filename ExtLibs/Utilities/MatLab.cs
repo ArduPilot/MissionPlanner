@@ -253,6 +253,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         public static void tlog(string logfile)
         {
             List<MLArray> mlList = new List<MLArray>();

@@ -23,7 +23,8 @@ using TrackerHomeGPS;
 
         public override bool Init() { loopratehz = 0.0f;  return true; }
 
-        public override bool Loaded()
+    [Obsolete]
+    public override bool Loaded()
         {
             /* Register with Device Change event */
             Host.DeviceChanged += deviceChanged;
@@ -58,7 +59,8 @@ using TrackerHomeGPS;
             return true;
         }
 
-        void deviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
+    [Obsolete]
+    void deviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
         {
             GPSDevice gpsModule = getDevice();
             if ((gpsModule != null))
@@ -94,14 +96,16 @@ using TrackerHomeGPS;
             }
         }
 
-        void setFromPlannerLocation(object sender, EventArgs e)
+    [Obsolete]
+    void setFromPlannerLocation(object sender, EventArgs e)
         {
             Host.comPort.MAV.cs.TrackerLocation = new PointLatLngAlt(this.Host.FPMenuMapPosition);
 
             Host.comPort.MAV.cs.TrackerLocation.Alt = srtm.getAltitude(Host.comPort.MAV.cs.TrackerLocation.Lat, Host.comPort.MAV.cs.TrackerLocation.Lng).alt;
         }
 
-        void setTrackerHomeFromModule(object sender, EventArgs e)
+    [Obsolete]
+    void setTrackerHomeFromModule(object sender, EventArgs e)
         {
             GPSDevice gpsModule = getDevice();
             if (gpsModule != null)

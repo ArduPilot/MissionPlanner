@@ -37,6 +37,7 @@ namespace MissionPlanner.Swarm.SRB
 
         public List<Drone> Drones = new List<Drone>();
 
+        [Obsolete]
         public void UpdatePositions()
         {
             // get current positions and velocitys

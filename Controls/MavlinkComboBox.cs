@@ -34,6 +34,7 @@ namespace MissionPlanner.Controls
             this.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        [Obsolete]
         public void setup(string[] paramnames, MAVLink.MAVLinkParamList paramlist)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
@@ -70,6 +71,7 @@ namespace MissionPlanner.Controls
             base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);
         }
 
+        [Obsolete]
         public void setup(List<KeyValuePair<int, string>> source, string paramname, MAVLink.MAVLinkParamList paramlist)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
@@ -98,7 +100,7 @@ namespace MissionPlanner.Controls
             base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);
         }
 
-
+        [Obsolete]
         public void setup(Type source, string paramname, MAVLink.MAVLinkParamList paramlist)
         //, string paramname2 = "", Control enabledisable = null)
         {
@@ -130,6 +132,7 @@ namespace MissionPlanner.Controls
                 _control.Enabled = enable;
         }
 
+        [Obsolete]
         void MavlinkComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.SelectedIndexChanged != null)

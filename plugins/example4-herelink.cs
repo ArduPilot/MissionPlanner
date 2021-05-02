@@ -44,6 +44,7 @@ namespace CameraControl
             return true;
         }
 
+        [Obsolete]
         public override bool Loaded()
         {
             var rootbut = new ToolStripMenuItem("Herelink Video");
@@ -95,7 +96,8 @@ namespace CameraControl
         {
             return true;
         }
-        
+
+        [Obsolete]
         void but_Click(object sender, EventArgs e)
         {
             var mav = Host.comPort.MAVlist.FirstOrDefault(a =>
@@ -156,6 +158,7 @@ namespace CameraControl
 
         }
 
+        [Obsolete]
         private void but2_Click(object sender, EventArgs e)
         {
             var mav = Host.comPort.MAVlist.FirstOrDefault(a =>
@@ -171,6 +174,7 @@ namespace CameraControl
             mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.VIDEO_START_STREAMING, 1, 0, 0, 0, 0, 0, 0, true);
         }
 
+        [Obsolete]
         private void but1_Click(object sender, EventArgs e)
         {
             var mav = Host.comPort.MAVlist.FirstOrDefault(a =>

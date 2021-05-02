@@ -23,6 +23,7 @@ namespace MissionPlanner.Utilities
 
         public bool DataAvailable { get; set; } = false;
 
+        [Obsolete]
         public Proximity(MAVState mavInt)
         {
             _parent = mavInt;
@@ -39,6 +40,7 @@ namespace MissionPlanner.Utilities
             _parent?.parent?.UnSubscribeToPacketType(sub2);
         }
 
+        [Obsolete]
         private bool messageReceived(MAVLinkMessage arg)
         {
             //accept any compid, but filter sysid

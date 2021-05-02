@@ -18,6 +18,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public string ParamHead = "MNT_";
         private bool startup = true;
 
+        [Obsolete]
         public ConfigMount()
         {
             InitializeComponent();
@@ -101,6 +102,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.MAV.cs.firmware.ToString()), "MNT_TYPE", MainV2.comPort.MAV.param);
         }
 
+        [Obsolete]
         public void Activate()
         {
             var copy = new Dictionary<string, double>((Dictionary<string, double>)MainV2.comPort.MAV.param);
@@ -172,6 +174,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void ensureDisabled(ComboBox cmb, int number, string exclude = "")
         {
             foreach (var itemobj in cmb.Items)
@@ -192,6 +195,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void updateShutter()
         {
             // shutter
@@ -234,6 +238,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownshut_duration.setup(1, 200, 1, 1, "CAM_DURATION", MainV2.comPort.MAV.param);
         }
 
+        [Obsolete]
         private void updatePitch()
         {
             // pitch
@@ -262,6 +267,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_inputch_tilt.setup(typeof(Channelinput), ParamHead + "RC_IN_TILT", MainV2.comPort.MAV.param);
         }
 
+        [Obsolete]
         private void updateRoll()
         {
             // roll
@@ -289,6 +295,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_inputch_roll.setup(typeof(Channelinput), ParamHead + "RC_IN_ROLL", MainV2.comPort.MAV.param);
         }
 
+        [Obsolete]
         private void updateYaw()
         {
             // yaw
@@ -348,6 +355,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     "http://copter.ardupilot.com/wiki/common-optional-hardware/common-cameras-and-gimbals/common-camera-gimbal/"));
         }
 
+        [Obsolete]
         private void mavlinkComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)

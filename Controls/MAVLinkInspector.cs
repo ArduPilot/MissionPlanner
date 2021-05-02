@@ -25,6 +25,7 @@ namespace MissionPlanner.Controls
         private CheckBox chk_gcstraffic;
         private MAVLinkInterface mav;
 
+        [Obsolete]
         public MAVLinkInspector(MAVLinkInterface mav)
         {
             InitializeComponent();
@@ -54,6 +55,7 @@ namespace MissionPlanner.Controls
             mavi.Add(linkMessage.sysid, linkMessage.compid, linkMessage.msgid, linkMessage, linkMessage.Length);
         }
 
+        [Obsolete]
         public new void Update()
         {
             treeView1.BeginUpdate();
@@ -338,6 +340,7 @@ namespace MissionPlanner.Controls
 
         int history = 50;
 
+        [Obsolete]
         private void but_graphit_Click(object sender, EventArgs e)
         {
             InputBox.Show("Points", "Points of history?", ref history);

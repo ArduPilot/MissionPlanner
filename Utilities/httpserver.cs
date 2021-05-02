@@ -101,6 +101,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        [Obsolete]
         public void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
             // Get the listener that handles the client request.
@@ -118,6 +119,7 @@ namespace MissionPlanner.Utilities
             tcpClientConnected.Set();
         }
 
+        [Obsolete]
         public void ProcessClient(object clientobj)
         {
             var client = clientobj as TcpClient;

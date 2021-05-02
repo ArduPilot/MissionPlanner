@@ -205,6 +205,7 @@ namespace MissionPlanner.Controls
             return;
         }
 
+        [Obsolete]
         private void BUT_compare_Click(object sender, EventArgs e)
         {
             var param2 = new Dictionary<string, double>();
@@ -279,6 +280,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private void BUT_reset_params_Click(object sender, EventArgs e)
         {
             if (

@@ -22,6 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private bool run;
         private bool startup;
 
+        [Obsolete]
         public ConfigRadioInput()
         {
             InitializeComponent();
@@ -39,6 +40,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _timer.Tick += timer_Tick;
         }
 
+        [Obsolete]
         public void Activate()
         {
             _timer.Enabled = true;
@@ -171,6 +173,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _timer.Stop();
         }
 
+        [Obsolete]
         private void timer_Tick(object sender, EventArgs e)
         {
             // update all linked controls - 10hz
@@ -184,6 +187,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_Calibrateradio_Click(object sender, EventArgs e)
         {
             if (run)
@@ -404,26 +408,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             bar.maxline = (int)max;
         }
 
+        [Obsolete]
         private void CHK_revch1_CheckedChanged(object sender, EventArgs e)
         {
             reverseChannel(((CheckBox)sender).Checked, BARroll);
         }
 
+        [Obsolete]
         private void CHK_revch2_CheckedChanged(object sender, EventArgs e)
         {
             reverseChannel(((CheckBox)sender).Checked, BARpitch);
         }
 
+        [Obsolete]
         private void CHK_revch3_CheckedChanged(object sender, EventArgs e)
         {
             reverseChannel(((CheckBox)sender).Checked, BARthrottle);
         }
 
+        [Obsolete]
         private void CHK_revch4_CheckedChanged(object sender, EventArgs e)
         {
             reverseChannel(((CheckBox)sender).Checked, BARyaw);
         }
 
+        [Obsolete]
         private void reverseChannel(bool normalreverse, Control progressbar)
         {
             if (normalreverse)
@@ -456,6 +465,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_Bindradiodsm2_Click(object sender, EventArgs e)
         {
             try
@@ -469,6 +479,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_BindradiodsmX_Click(object sender, EventArgs e)
         {
             try
@@ -482,6 +493,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        [Obsolete]
         private void BUT_Bindradiodsm8_Click(object sender, EventArgs e)
         {
             try

@@ -97,6 +97,7 @@ namespace MissionPlanner.Controls
 
         public List<Locationwp> WPs { get; set; }
 
+        [Obsolete]
         public OpenGLtest2() : base()
         {
             instance = this;
@@ -111,6 +112,7 @@ namespace MissionPlanner.Controls
             this.Invalidate();
         }
 
+        [Obsolete]
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
             var x = ((MouseEventArgs) e).X;
@@ -406,6 +408,7 @@ namespace MissionPlanner.Controls
             return new[] {utm[0], utm[1], utm[2]};
         }
 
+        [Obsolete]
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
             if (!started)
@@ -424,6 +427,7 @@ namespace MissionPlanner.Controls
             Utilities.Extensions.ProtectReentry(doPaint);
         }
 
+        [Obsolete]
         public void doPaint()
         {
             DateTime start = DateTime.Now;
