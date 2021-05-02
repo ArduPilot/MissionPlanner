@@ -358,6 +358,7 @@ namespace MissionPlanner.Utilities
         /// <param name="temp"></param>
         /// <param name="historyhash"></param>
         /// <param name="relType"></param>
+        [Obsolete]
         public bool update(string comport, software temp, string historyhash, List<DeviceInfo> ports)
         {
             BoardDetect.boards board = BoardDetect.boards.none;
@@ -640,6 +641,7 @@ namespace MissionPlanner.Utilities
         /// upload to px4 standalone
         /// </summary>
         /// <param name="filename"></param>
+        [Obsolete]
         public bool UploadPX4(string filename, BoardDetect.boards board)
         {
             updateProgress(-1, "Reading Hex File");
@@ -769,6 +771,7 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
+        [Obsolete]
         private void AttemptRebootToBootloader()
         {
             string[] allports = SerialPort.GetPortNames();
@@ -859,6 +862,7 @@ namespace MissionPlanner.Utilities
         /// upload to vrbrain standalone
         /// </summary>
         /// <param name="filename"></param>
+        [Obsolete]
         public bool UploadVRBRAIN(string filename, BoardDetect.boards board)
         {
             px4uploader.Uploader up;
@@ -1311,6 +1315,7 @@ namespace MissionPlanner.Utilities
         /// <param name="filename"></param>
         /// <param name="board"></param>
         /// <returns>pass/fail</returns>
+        [Obsolete]
         public bool UploadFlash(string comport, string filename, BoardDetect.boards board)
         {
             if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2 ||
@@ -1368,6 +1373,7 @@ namespace MissionPlanner.Utilities
             return true;
         }
 
+        [Obsolete]
         public bool UploadArduino(string comport, string filename, BoardDetect.boards board)
         {
             byte[] FLASH = new byte[1];

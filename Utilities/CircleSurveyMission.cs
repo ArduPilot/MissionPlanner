@@ -5,6 +5,7 @@ namespace MissionPlanner.Utilities
 {
     public class CircleSurveyMission
     {
+        [System.Obsolete]
         public static void createGrid(PointLatLngAlt centerPoint)
         {
             int startalt = 10;

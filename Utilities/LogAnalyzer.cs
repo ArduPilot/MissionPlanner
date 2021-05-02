@@ -15,6 +15,7 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        [Obsolete]
         public static string CheckLogFile(string FileName)
         {
             if (Program.WindowsStoreApp)
