@@ -23,6 +23,7 @@ namespace MissionPlanner.Joystick
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
+        [Obsolete]
         private void Joystick_Load(object sender, EventArgs e)
         {
             try
@@ -130,6 +131,7 @@ namespace MissionPlanner.Joystick
             return temp;
         }
 
+        [Obsolete]
         private void BUT_enable_Click(object sender, EventArgs e)
         {
             if (MainV2.joystick == null || MainV2.joystick.enabled == false)
@@ -192,6 +194,7 @@ namespace MissionPlanner.Joystick
             Settings.Instance["joy_elevons"] = CHK_elevons.Checked.ToString();
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             try
@@ -327,6 +330,7 @@ namespace MissionPlanner.Joystick
             MainV2.joystick.changeButton((int.Parse(name)), int.Parse(((ComboBox)sender).Text));
         }
 
+        [Obsolete]
         private void BUT_detbutton_Click(object sender, EventArgs e)
         {
             string name = ((MyButton)sender).Name.Replace("mybut", "");
@@ -335,6 +339,7 @@ namespace MissionPlanner.Joystick
             cmb.Text = JoystickBase.getPressedButton(CMB_joysticks.Text).ToString();
         }
 
+        [Obsolete]
         void doButtontoUI(string name, int x, int y)
         {
             MyLabel butlabel = new MyLabel();
@@ -441,6 +446,7 @@ namespace MissionPlanner.Joystick
             MainV2.joystick.setButton(num, config);
         }
 
+        [Obsolete]
         void but_settings_Click(object sender, EventArgs e)
         {
             var cmb = ((Control)sender).Tag as ComboBox;
