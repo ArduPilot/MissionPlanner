@@ -8,6 +8,7 @@ namespace MissionPlanner.Antenna
     {
         public TrackerGeneric TrackerGeneric { get; }
 
+        [System.Obsolete]
         public TrackerUI()
         {
             InitializeComponent();
