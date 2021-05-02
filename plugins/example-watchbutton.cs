@@ -32,6 +32,7 @@ namespace Shortcuts
             return true;
         }
 
+        [Obsolete]
         public override bool Loaded()
         {
             Host.comPort.OnPacketReceived += MavOnOnPacketReceivedHandler;

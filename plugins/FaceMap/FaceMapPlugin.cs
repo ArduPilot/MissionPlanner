@@ -30,6 +30,7 @@ namespace MissionPlanner
             return true;
         }
 
+        [Obsolete]
         public override bool Loaded()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
@@ -57,6 +58,7 @@ namespace MissionPlanner
             return true;
         }
 
+        [Obsolete]
         public void but_Click(object sender, EventArgs e)
         {
             using (var gridui = new FaceMapUI(this))

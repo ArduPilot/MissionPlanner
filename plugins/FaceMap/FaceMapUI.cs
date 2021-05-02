@@ -127,6 +127,7 @@ namespace MissionPlanner
             public decimal setservo_high;
         }
 
+        [Obsolete]
         public FaceMapUI(FaceMapPlugin plugin)
         {
 
@@ -181,6 +182,7 @@ namespace MissionPlanner
             loading = false;
         }
 
+        [Obsolete]
         private void FaceMapUI_Load(object sender, EventArgs e)
         {
             loading = true;
@@ -569,6 +571,7 @@ namespace MissionPlanner
         }
 
         // Do Work
+        [Obsolete]
         private void DomainUpDown1_ValueChanged(object sender, EventArgs e)
         {
 
@@ -772,6 +775,7 @@ namespace MissionPlanner
             pictureBox1.Invalidate();
         }
 
+        [Obsolete]
         private void AddWP(double Lng, double Lat, double Alt, double bearing, double delay = 0, object gridobject = null, bool image_before_yaw = false, bool image_after_yaw = false)
         {
             // Delay between commands by whatever the maximum is of the number that the user entered in the delay box, or another hard coded delay.
@@ -874,6 +878,7 @@ namespace MissionPlanner
             fovv = (float)(Math.Atan(sensorheight / (2 * focallen)) * rad2deg * 2);
         }
 
+        [Obsolete]
         void DoCalc()
         {
             try
@@ -1021,6 +1026,7 @@ namespace MissionPlanner
             }
         }
 
+        [Obsolete]
         private void Map_MouseMove(object sender, MouseEventArgs e)
         {
             PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
@@ -1109,11 +1115,13 @@ namespace MissionPlanner
             catch { }
         }
 
+        [Obsolete]
         private void NUM_ValueChanged(object sender, EventArgs e)
         {
             DomainUpDown1_ValueChanged(null, null);
         }
 
+        [Obsolete]
         private void CMB_camera_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cameras.ContainsKey(CMB_camera.Text))
@@ -1132,11 +1140,13 @@ namespace MissionPlanner
             DomainUpDown1_ValueChanged(null, null);
         }
 
+        [Obsolete]
         private void TXT_TextChanged(object sender, EventArgs e)
         {
             DomainUpDown1_ValueChanged(null, null);
         }
 
+        [Obsolete]
         private void CHK_camdirection_CheckedChanged(object sender, EventArgs e)
         {
             DomainUpDown1_ValueChanged(null, null);
@@ -1259,6 +1269,7 @@ namespace MissionPlanner
             Xmlcamera(true, Settings.GetUserDataDirectory() + "cameras.xml");
         }
 
+        [Obsolete]
         private void BUT_Accept_Click(object sender, EventArgs e)
         {
             double entryAltitude = 10;
@@ -1672,6 +1683,7 @@ namespace MissionPlanner
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        [Obsolete]
         private void NUM_Lane_Dist_ValueChanged(object sender, EventArgs e)
         {
             // doCalc

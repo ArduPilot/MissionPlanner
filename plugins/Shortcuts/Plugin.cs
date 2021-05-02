@@ -29,6 +29,7 @@ namespace Shortcuts
         }
 
         //[DebuggerHidden]
+        [Obsolete]
         public override bool Init()
         {
             MainV2.instance.ProcessCmdKeyCallback += this.Instance_ProcessCmdKeyCallback;
@@ -36,6 +37,7 @@ namespace Shortcuts
             return true;
         }
 
+        [Obsolete]
         private bool Instance_ProcessCmdKeyCallback(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
         {
             if (keyData == (Keys.Alt | Keys.A))
