@@ -241,6 +241,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        [Obsolete]
         public void writeKMLFirstPerson(string filename)
         {
             StreamWriter stream = new StreamWriter(File.Open(filename, FileMode.Create));
@@ -773,6 +774,7 @@ gnssId GNSS Type
             return sum > 0.0;
         }
 
+        [Obsolete]
         public void writeKML(string filename)
         {
             try

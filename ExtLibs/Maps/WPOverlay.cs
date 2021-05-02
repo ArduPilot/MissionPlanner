@@ -25,6 +25,7 @@ namespace MissionPlanner.ArduPilot
         /// </summary>
         List<PointLatLngAlt> route = new List<PointLatLngAlt>();
 
+        [Obsolete]
         public void CreateOverlay(PointLatLngAlt home, List<Locationwp> missionitems, double wpradius, double loiterradius, double altunitmultiplier)
         {
             overlay.Clear();

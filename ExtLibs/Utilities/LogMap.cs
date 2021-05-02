@@ -15,11 +15,13 @@ namespace MissionPlanner.Log
 {
     public class LogMap
     {
+        [Obsolete]
         public static void MapLogs(string[] logs)
         {
             Parallel.ForEach(logs, logfile => { ProcessFile(logfile); });
         }
 
+        [Obsolete]
         public static void ProcessFile(string logfile)
         {
             if (File.Exists(logfile + ".jpg"))

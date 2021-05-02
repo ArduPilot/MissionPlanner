@@ -43,12 +43,15 @@ public partial class MAVLink
             }
         }
 
+        [Obsolete]
         public string msgtypename
         {
             get { return MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).name; }
         }
 
         object _data;
+
+        [Obsolete]
         public object data
         {
             get
@@ -90,6 +93,7 @@ public partial class MAVLink
             }
         }
 
+        [Obsolete]
         public T ToStructure<T>()
         {
             return (T)data;
@@ -204,6 +208,7 @@ public partial class MAVLink
             }
         }
 
+        [Obsolete]
         public override string ToString()
         {
             return String.Format("{5},{4},{0},{1},{2},{3}", sysid, compid, msgid, msgtypename, ismavlink2, rxtime);

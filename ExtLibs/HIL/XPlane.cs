@@ -271,6 +271,7 @@ namespace MissionPlanner.HIL
             }
         }
 
+        [Obsolete]
         public override void SendToAP(sitl_fdm sitldata)
         {
             TimeSpan gpsspan = DateTime.Now - lastgpsupdate;

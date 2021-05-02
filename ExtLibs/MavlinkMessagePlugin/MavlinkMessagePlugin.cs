@@ -24,6 +24,7 @@ namespace MavlinkMessagePlugin
             get { return _Author; }
         }
 
+        [System.Obsolete]
         public override bool Init()
         {
             var oldlist = MAVLink.MAVLINK_MESSAGE_INFOS.ToList();

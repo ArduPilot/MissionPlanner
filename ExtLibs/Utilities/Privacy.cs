@@ -10,6 +10,7 @@ namespace MissionPlanner.Utilities
 {
     public class Privacy
     {
+        [Obsolete]
         public static void anonymise(string logfile, string outputfile)
         {
             if (!File.Exists(logfile))

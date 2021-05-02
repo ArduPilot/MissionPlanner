@@ -124,6 +124,7 @@ namespace MissionPlanner
 
         [JsonIgnore]
         [IgnoreDataMember]
+        [Obsolete]
         public MAVState parent
         {
             get { return _parent; }
@@ -184,12 +185,14 @@ namespace MissionPlanner
             custom_field_names = new Dictionary<string, string>();
         }
 
+        [Obsolete]
         ~CurrentState()
         {
             log.Info("CurrentState .dtor");
             Dispose();
         }
 
+        [Obsolete]
         public void Dispose()
         {
             log.Info("CurrentState Dispose");
@@ -683,6 +686,7 @@ namespace MissionPlanner
         [GroupText("ESC")] public float esc8_rpm { get; set; }
         [GroupText("ESC")] public float esc8_temp { get; set; }
 
+        [Obsolete]
         public float ch3percent
         {
             get
@@ -716,6 +720,7 @@ namespace MissionPlanner
 
         [DisplayText("RX Rssi")] public int rxrssi { get; set; }
 
+        [Obsolete]
         public float crit_AOA
         {
             get
@@ -1217,6 +1222,7 @@ namespace MissionPlanner
         [GroupText("Position")] public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
 
         [JsonIgnore] [IgnoreDataMember]
+        [Obsolete]
         public float GeoFenceDist
         {
             get
@@ -1592,6 +1598,7 @@ namespace MissionPlanner
         // reference
         public DateTime datetime { get; set; }
 
+        [Obsolete]
         public bool connected => parent.parent.BaseStream != null && parent.parent.BaseStream.IsOpen ||
                                  parent.parent.logreadmode;
 
@@ -1759,6 +1766,7 @@ namespace MissionPlanner
             return MemberwiseClone();
         }
 
+        [Obsolete]
         private void Parent_OnPacketReceived(object sender, MAVLink.MAVLinkMessage mavLinkMessage)
         {
             if (mavLinkMessage.sysid == parent.sysid && mavLinkMessage.compid == parent.compid
@@ -3326,6 +3334,7 @@ namespace MissionPlanner
         ///     use for main serial port only
         /// </summary>
         /// <param name="bs"></param>
+        [Obsolete]
         public void UpdateCurrentSettings(Action<CurrentState> bs)
         {
             UpdateCurrentSettings(bs, false, parent.parent, parent.parent.MAV);
@@ -3337,12 +3346,14 @@ namespace MissionPlanner
         /// <param name="bs"></param>
         /// <param name="updatenow"></param>
         /// <param name="mavinterface"></param>
+        [Obsolete]
         public void UpdateCurrentSettings(Action<CurrentState> bs, bool updatenow,
             MAVLinkInterface mavinterface)
         {
             UpdateCurrentSettings(bs, updatenow, mavinterface, mavinterface.MAV);
         }
 
+        [Obsolete]
         public void UpdateCurrentSettings(Action<CurrentState> bs, bool updatenow,
             MAVLinkInterface mavinterface, MAVState MAV)
         {

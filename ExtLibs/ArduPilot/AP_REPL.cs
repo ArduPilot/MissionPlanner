@@ -37,6 +37,7 @@ namespace MissionPlanner.ArduPilot
 
         public string basepath = "repl/";
 
+        [Obsolete]
         public AP_REPL(MAVLinkInterface mavint)
         {
             _mavint = mavint;
@@ -45,6 +46,7 @@ namespace MissionPlanner.ArduPilot
             _mavftp = new MAVFtp(_mavint, _sysid, _compid);
         }
 
+        [Obsolete]
         public void Start()
         {
             if (_mavint.doCommandInt(_mavint.MAV.sysid, _mavint.MAV.compid, MAVLink.MAV_CMD.SCRIPTING, 0, 0, 0, 0, 0, 0, 0))
@@ -101,6 +103,7 @@ namespace MissionPlanner.ArduPilot
             }
         }
 
+        [Obsolete]
         public void Stop()
         {
             _active = false;
@@ -116,12 +119,15 @@ namespace MissionPlanner.ArduPilot
             _cancellation.Cancel();
         }
 
+        [Obsolete]
         public void SendLine(string line)
         {
             SendLine(ASCIIEncoding.ASCII.GetBytes(line));
         }
 
         private int _sessionwrite = 0;
+
+        [Obsolete]
         public void SendLine(byte[] bytedata)
         {
             int createsize = 0;
@@ -147,6 +153,7 @@ namespace MissionPlanner.ArduPilot
             }
         }
 
+        [Obsolete]
         public void Write(byte[] bytes, int offset, int length)
         {
             SendLine(bytes.Skip(offset).Take(length).ToArray());

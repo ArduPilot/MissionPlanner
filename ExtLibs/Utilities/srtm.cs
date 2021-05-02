@@ -88,6 +88,7 @@ namespace MissionPlanner.Utilities
             return _filenameDictionary[id];
         };
 
+        [Obsolete]
         static srtm()
         {
             log.Info(".cctor");
@@ -413,6 +414,7 @@ namespace MissionPlanner.Utilities
             return altresponce.Invalid;
         }
 
+        [Obsolete]
         private static void StartQueueProcess()
         {
             try
@@ -544,6 +546,7 @@ namespace MissionPlanner.Utilities
 
         static SemaphoreSlim requestSemaphore = new SemaphoreSlim(1);
 
+        [Obsolete]
         static async void requestRunner()
         {
             log.Info("requestRunner start");
@@ -591,6 +594,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        [Obsolete]
         static async Task get3secfile(object name)
         {
             // check file doesnt already exist
@@ -645,6 +649,7 @@ namespace MissionPlanner.Utilities
 
         static HttpClient client = new HttpClient();
 
+        [Obsolete]
         static async Task gethgt(string url, string filename)
         {
             try

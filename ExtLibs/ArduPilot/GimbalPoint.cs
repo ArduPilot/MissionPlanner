@@ -25,6 +25,7 @@ namespace MissionPlanner.Utilities
                    (rev ? angle_max : angle_min);
         }
 
+        [Obsolete]
         static int channelpwm(int channel)
         {
             if (channel == 1)
@@ -47,6 +48,7 @@ namespace MissionPlanner.Utilities
             return 0;
         }
 
+        [Obsolete]
         public static double ConvertPwmtoAngle(axis axis)
         {
             int pwmvalue = -1;
@@ -116,6 +118,7 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
+        [Obsolete]
         public static PointLatLngAlt ProjectPoint(MAVLinkInterface comPort)
         {
             GimbalPoint.comPort = comPort;

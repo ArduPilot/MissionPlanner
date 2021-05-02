@@ -343,6 +343,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        [Obsolete]
         public static IEnumerable<MAVLink.MAVLinkMessage> GetMessageOfType(this CommsFile commsFile,
             MAVLink.MAVLINK_MSG_ID[] packetids = null, bool hasTimestamp = false)
         {

@@ -16,6 +16,7 @@ namespace MissionPlanner.ArduPilot
         private bool running = false;
         private static Dictionary<string, RemoteLog> loggers = new Dictionary<string, RemoteLog>();
 
+        [Obsolete]
         public static RemoteLog StartRemoteLog(MAVLinkInterface port, byte sysid, byte compid)
         {
             var id = port.GetHashCode() + "-" + sysid + "-" + compid;
@@ -30,6 +31,7 @@ namespace MissionPlanner.ArduPilot
             return rem;
         }
 
+        [Obsolete]
         public void Start(MAVLinkInterface port, byte sysid, byte compid)
         {
             if (port == null) throw new ArgumentNullException(nameof(port));
@@ -55,6 +57,7 @@ namespace MissionPlanner.ArduPilot
             running = true;
         }
 
+        [Obsolete]
         private void Port_OnPacketReceived(object sender, MAVLink.MAVLinkMessage message)
         {
             if (message.msgid == (uint) MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_DATA_BLOCK)
@@ -75,6 +78,7 @@ namespace MissionPlanner.ArduPilot
             }
         }
 
+        [Obsolete]
         public void Stop(byte sysid, byte compid)
         {
             if (port == null) throw new ArgumentNullException(nameof(port));
@@ -98,6 +102,7 @@ namespace MissionPlanner.ArduPilot
             running = false;
         }
 
+        [Obsolete]
         public void Dispose()
         {
             logfilestream?.Dispose();

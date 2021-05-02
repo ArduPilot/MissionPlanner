@@ -18,6 +18,7 @@ namespace MissionPlanner
         [IgnoreDataMember]
         public MAVLinkInterface parent;
 
+        [Obsolete]
         public MAVState(MAVLinkInterface mavLinkInterface, byte sysid, byte compid)
         {
             this.parent = mavLinkInterface;

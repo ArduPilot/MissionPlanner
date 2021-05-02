@@ -194,6 +194,7 @@ namespace MissionPlanner.SimpleGrid
             }
         }
 
+        [Obsolete]
         private void map_MouseMove(object sender, MouseEventArgs e)
         {
             PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
@@ -281,6 +282,7 @@ namespace MissionPlanner.SimpleGrid
             return (angle + 360) % 360;
         }
 
+        [Obsolete]
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
             Host2 = plugin.Host;
@@ -414,6 +416,7 @@ namespace MissionPlanner.SimpleGrid
             return Math.Abs( answer);
         }
 
+        [Obsolete]
         private void BUT_Accept_Click(object sender, EventArgs e)
         {
             if (grid != null && grid.Count > 0)

@@ -10,16 +10,18 @@ namespace MissionPlanner.ArduPilot
     public class AIS
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
+        [Obsolete]
         static List<(DateTime TS, MAVLink.mavlink_ais_vessel_t msg)> _Vessels = new List<(DateTime, MAVLink.mavlink_ais_vessel_t)>();
 
         public static int Age { get; set; } = 60 * 5;
 
+        [Obsolete]
         public static MAVLink.mavlink_ais_vessel_t[] Vessels
         {
             get { return _Vessels.Where(a=>a.TS.AddSeconds(Age) > DateTime.Now).Select(a=>a.msg).ToArray(); }
         }
 
+        [Obsolete]
         public static void Start(MAVLinkInterface mav)
         {
             mav.OnPacketReceived += (sender, message) =>

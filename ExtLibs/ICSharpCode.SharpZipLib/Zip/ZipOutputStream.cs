@@ -174,31 +174,32 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		/// <summary>
-		/// Starts a new Zip entry. It automatically closes the previous
-		/// entry if present.
-		/// All entry elements bar name are optional, but must be correct if present.
-		/// If the compression method is stored and the output is not patchable
-		/// the compression for that entry is automatically changed to deflate level 0
-		/// </summary>
-		/// <param name="entry">
-		/// the entry.
-		/// </param>
-		/// <exception cref="System.ArgumentNullException">
-		/// if entry passed is null.
-		/// </exception>
-		/// <exception cref="System.IO.IOException">
-		/// if an I/O error occured.
-		/// </exception>
-		/// <exception cref="System.InvalidOperationException">
-		/// if stream was finished
-		/// </exception>
-		/// <exception cref="ZipException">
-		/// Too many entries in the Zip file<br/>
-		/// Entry name is too long<br/>
-		/// Finish has already been called<br/>
-		/// </exception>
-		public void PutNextEntry(ZipEntry entry)
+        /// <summary>
+        /// Starts a new Zip entry. It automatically closes the previous
+        /// entry if present.
+        /// All entry elements bar name are optional, but must be correct if present.
+        /// If the compression method is stored and the output is not patchable
+        /// the compression for that entry is automatically changed to deflate level 0
+        /// </summary>
+        /// <param name="entry">
+        /// the entry.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// if entry passed is null.
+        /// </exception>
+        /// <exception cref="System.IO.IOException">
+        /// if an I/O error occured.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// if stream was finished
+        /// </exception>
+        /// <exception cref="ZipException">
+        /// Too many entries in the Zip file<br/>
+        /// Entry name is too long<br/>
+        /// Finish has already been called<br/>
+        /// </exception>
+        [Obsolete]
+        public void PutNextEntry(ZipEntry entry)
 		{
 			if (entry == null) {
 				throw new ArgumentNullException(nameof(entry));
@@ -502,7 +503,8 @@ namespace ICSharpCode.SharpZipLib.Zip
 			curEntry = null;
 		}
 
-		void WriteEncryptionHeader(long crcValue)
+        [Obsolete]
+        void WriteEncryptionHeader(long crcValue)
 		{
 			offset += ZipConstants.CryptoHeaderSize;
 

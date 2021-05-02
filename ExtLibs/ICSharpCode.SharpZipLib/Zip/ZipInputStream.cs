@@ -128,23 +128,24 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		/// <summary>
-		/// Advances to the next entry in the archive
-		/// </summary>
-		/// <returns>
-		/// The next <see cref="ZipEntry">entry</see> in the archive or null if there are no more entries.
-		/// </returns>
-		/// <remarks>
-		/// If the previous entry is still open <see cref="CloseEntry">CloseEntry</see> is called.
-		/// </remarks>
-		/// <exception cref="InvalidOperationException">
-		/// Input stream is closed
-		/// </exception>
-		/// <exception cref="ZipException">
-		/// Password is not set, password is invalid, compression method is invalid,
-		/// version required to extract is not supported
-		/// </exception>
-		public ZipEntry GetNextEntry()
+        /// <summary>
+        /// Advances to the next entry in the archive
+        /// </summary>
+        /// <returns>
+        /// The next <see cref="ZipEntry">entry</see> in the archive or null if there are no more entries.
+        /// </returns>
+        /// <remarks>
+        /// If the previous entry is still open <see cref="CloseEntry">CloseEntry</see> is called.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">
+        /// Input stream is closed
+        /// </exception>
+        /// <exception cref="ZipException">
+        /// Password is not set, password is invalid, compression method is invalid,
+        /// version required to extract is not supported
+        /// </exception>
+        [Obsolete]
+        public ZipEntry GetNextEntry()
 		{
 			if (crc == null) {
 				throw new InvalidOperationException("Closed.");
@@ -427,15 +428,16 @@ namespace ICSharpCode.SharpZipLib.Zip
 			throw new ZipException("The compression method for this entry is not supported");
 		}
 
-		/// <summary>
-		/// Perform the initial read on an entry which may include 
-		/// reading encryption headers and setting up inflation.
-		/// </summary>
-		/// <param name="destination">The destination to fill with data read.</param>
-		/// <param name="offset">The offset to start reading at.</param>
-		/// <param name="count">The maximum number of bytes to read.</param>
-		/// <returns>The actual number of bytes read.</returns>
-		int InitialRead(byte[] destination, int offset, int count)
+        /// <summary>
+        /// Perform the initial read on an entry which may include 
+        /// reading encryption headers and setting up inflation.
+        /// </summary>
+        /// <param name="destination">The destination to fill with data read.</param>
+        /// <param name="offset">The offset to start reading at.</param>
+        /// <param name="count">The maximum number of bytes to read.</param>
+        /// <returns>The actual number of bytes read.</returns>
+        [Obsolete]
+        int InitialRead(byte[] destination, int offset, int count)
 		{
 			if (!CanDecompressEntry) {
 				throw new ZipException("Library cannot extract this entry. Version required is (" + entry.Version + ")");

@@ -541,6 +541,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             kRspNak
         };
 
+        [Obsolete]
         public MemoryStream GetFile(string file, CancellationTokenSource cancel, bool burst = true, byte readsize = 0)
         {
             kCmdOpenFileRO(file, out var size, cancel);
@@ -555,6 +556,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return answer;
         }
 
+        [Obsolete]
         public void UploadFile(string file, string srcfile, CancellationTokenSource cancel)
         {
             var size = 0;
@@ -563,6 +565,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             kCmdResetSessions();
         }
 
+        [Obsolete]
         public bool kCmdOpenFileRO(string file, out int size, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
@@ -653,6 +656,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 0)
         {
             RetryTimeout timeout = new RetryTimeout();
@@ -774,6 +778,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return answer;
         }
 
+        [Obsolete]
         public bool kCmdCalcFileCRC32(string file, ref uint crc32, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
@@ -895,6 +900,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return crc;
         }
 
+        [Obsolete]
         public bool kCmdCreateDirectory(string file, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
@@ -980,6 +986,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public bool kCmdCreateFile(string file, ref int size, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
@@ -1070,6 +1077,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public List<FtpFileInfo> kCmdListDirectory(string dir, CancellationTokenSource cancel)
         {
             if (dir.Length > 1)
@@ -1219,6 +1227,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return answer;
         }
 
+        [Obsolete]
         public bool kCmdOpenFileWO(string file, ref int size, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
@@ -1309,6 +1318,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 0)
         {
             RetryTimeout timeout = new RetryTimeout();
@@ -1410,6 +1420,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return answer;
         }
 
+        [Obsolete]
         public bool kCmdRemoveDirectory(string file, CancellationTokenSource cancel)
         {
             file = file.Replace("//", "/");
@@ -1487,6 +1498,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public bool kCmdRemoveFile(string file, CancellationTokenSource cancel)
         {
             file = file.Replace("//", "/");
@@ -1564,6 +1576,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public bool kCmdRename(string src, string dest, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
@@ -1634,6 +1647,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public bool kCmdResetSessions()
         {
             var payload = new FTPPayloadHeader()
@@ -1684,6 +1698,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public bool kCmdTerminateSession()
         {
             var payload = new FTPPayloadHeader()
@@ -1734,6 +1749,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public bool kCmdTruncateFile(string file, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
@@ -1804,6 +1820,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        [Obsolete]
         public bool kCmdWriteFile(byte[] data, uint destoffset, string friendlyname, CancellationTokenSource cancel)
         {
             RetryTimeout timeout = new RetryTimeout();
@@ -1908,12 +1925,13 @@ namespace MissionPlanner.ArduPilot.Mavlink
             }
         }
 
-
+        [Obsolete]
         public bool kCmdWriteFile(string srcfile, CancellationTokenSource cancel)
         {
             return kCmdWriteFile(new BufferedStream(File.OpenRead(srcfile), 1024 * 1024), srcfile, cancel);
         }
 
+        [Obsolete]
         public bool kCmdWriteFile(Stream srcfile, string friendlyname, CancellationTokenSource cancel)
         {
             RetryTimeout timeout = new RetryTimeout();

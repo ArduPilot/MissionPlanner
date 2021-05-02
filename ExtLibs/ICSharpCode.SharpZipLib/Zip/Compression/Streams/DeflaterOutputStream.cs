@@ -186,11 +186,12 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 			cryptoTransform_.TransformBlock(buffer, 0, length, buffer, 0);
 		}
 
-		/// <summary>
-		/// Initializes encryption keys based on given <paramref name="password"/>.
-		/// </summary>
-		/// <param name="password">The password.</param>
-		protected void InitializePassword(string password)
+        /// <summary>
+        /// Initializes encryption keys based on given <paramref name="password"/>.
+        /// </summary>
+        /// <param name="password">The password.</param>
+        [Obsolete]
+        protected void InitializePassword(string password)
 		{
 			var pkManaged = new PkzipClassicManaged();
 			byte[] key = PkzipClassic.GenerateKeys(ZipConstants.ConvertToArray(password));

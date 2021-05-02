@@ -76,6 +76,7 @@ namespace MissionPlanner.Utilities.HW
             i2cdevlist = i2cdevlist.GroupBy(a => a[2] + a[4] + a[5]).Select(a => a.First()).ToList();
         }
 
+        [Obsolete]
         public static void Scan(MAVLinkInterface mav)
         {
             // look for valid devnames

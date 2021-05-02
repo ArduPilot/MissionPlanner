@@ -11,6 +11,7 @@ namespace MissionPlanner.ArduPilot
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        [Obsolete]
         public static async Task<List<Locationwp>> download(MAVLinkInterface port, byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type, Action<int, string> progress = null)
         {
             List<Locationwp> commandlist = new List<Locationwp>();
@@ -62,6 +63,7 @@ namespace MissionPlanner.ArduPilot
             return commandlist;
         }
 
+        [Obsolete]
         public static async Task upload(MAVLinkInterface port, byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type, List<Locationwp> commandlist, Action<int,string> progress = null)
         {
             try

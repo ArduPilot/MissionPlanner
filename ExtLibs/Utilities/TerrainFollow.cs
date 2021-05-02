@@ -23,6 +23,7 @@ namespace MissionPlanner.Utilities
 
         private IMAVLinkInterface _interface;
 
+        [Obsolete]
         public TerrainFollow(IMAVLinkInterface inInterface)
         {
             _interface = inInterface;
@@ -37,6 +38,7 @@ namespace MissionPlanner.Utilities
             _interface.UnSubscribeToPacketType(subscription);
         }
 
+        [Obsolete]
         private bool ReceivedPacket(MAVLink.MAVLinkMessage rawpacket)
         {
             if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST)

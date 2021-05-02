@@ -120,6 +120,7 @@ namespace tlogThumbnailHandler
             return S_OK;
         }
 
+        [Obsolete]
         public long Extract(out IntPtr phBmpThumbnail)
         {
             WriteLine("tlogThumbnailHandler Extract");
@@ -204,6 +205,7 @@ namespace tlogThumbnailHandler
             return (int)S_OK;
         }
 
+        [Obsolete]
         public long GetThumbnail(int squareLength, out IntPtr hBitmap, out int bitmapType)
         {
             //Debugger.Launch();

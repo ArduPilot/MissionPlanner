@@ -152,6 +152,7 @@ namespace System
             }
         }
 
+        [Obsolete]
         public SkiaGraphics()
         {
             _surface = SKSurface.Create(9999, 9999, SKColorType.Bgra8888, SKAlphaType.Opaque);
@@ -162,6 +163,7 @@ namespace System
             _surface = surface;
         }
 
+        [Obsolete]
         public SkiaGraphics(IntPtr handle, int width, int height)
         {
             /*
@@ -1352,6 +1354,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             return _surface.Snapshot().Encode().ToArray();
         }
 
+        [Obsolete]
         public static SkiaGraphics FromImage(Bitmap bmp)
         {
             var ans = new SkiaGraphics();

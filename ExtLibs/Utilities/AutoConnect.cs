@@ -50,6 +50,7 @@ namespace MissionPlanner.Utilities
 
         private static string SettingsName = "AutoConnect";
 
+        [Obsolete]
         public static void Start()
         {
             var config = Settings.Instance[SettingsName];

@@ -49,6 +49,7 @@ namespace MissionPlanner.Joystick
             get { return _Interface(); }
         }
 
+        [Obsolete]
         public JoystickBase(Func<MAVLinkInterface> currentInterface)
         {
             this._Interface = currentInterface;
@@ -165,6 +166,7 @@ namespace MissionPlanner.Joystick
 
         public abstract bool AcquireJoystick(string name);
 
+        [Obsolete]
         public static int getPressedButton(string name)
         {
             var joystick = getJoyStickByName(name);
@@ -268,6 +270,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
+        [Obsolete]
         public void clearRCOverride()
         {
             // disable it, before continuing
@@ -340,6 +343,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
+        [Obsolete]
         public void DoJoystickButtonFunction()
         {
             foreach (JoyButton but in JoyButtons)
@@ -351,6 +355,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
+        [Obsolete]
         void ProcessButtonEvent(JoyButton but, bool buttondown)
         {
             if (but.buttonno != -1)
@@ -535,7 +540,7 @@ namespace MissionPlanner.Joystick
                         {
                             try
                             {
-                                Interface.doCommandInt((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0,
+                                Interface.doCommandInt((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent, actionid: MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0,
                                     (int) (Interface.MAV.cs.gimballat * 1e7), (int) (Interface.MAV.cs.gimballng * 1e7),
                                     (float) Interface.MAV.cs.GimbalPoint.Alt);
                             }
@@ -647,6 +652,7 @@ namespace MissionPlanner.Joystick
         /// </summary>
         /// <param name="buttonno"></param>
         /// <returns></returns>
+        [Obsolete]
         bool getButtonState(JoyButton but, int buttonno)
         {
             var buts = state.GetButtons();
@@ -666,11 +672,13 @@ namespace MissionPlanner.Joystick
             return ans;
         }
 
+        [Obsolete]
         void ButtonDown(JoyButton but)
         {
             ProcessButtonEvent(but, true);
         }
 
+        [Obsolete]
         void ButtonUp(JoyButton but)
         {
             ProcessButtonEvent(but, false);
@@ -703,6 +711,7 @@ namespace MissionPlanner.Joystick
             return buts[JoyButtons[buttonno].buttonno];
         }
 
+        [Obsolete]
         protected short pickchannel(int chan, joystickaxis axis, bool rev, int expo)
         {
             int min, max, trim = 0;
@@ -1004,6 +1013,7 @@ namespace MissionPlanner.Joystick
         /// <summary>
         /// Updates the rcoverride values and controls the mode changes
         /// </summary>
+        [Obsolete]
         protected virtual void mainloop()
         {
             while (enabled && IsJoystickValid())
@@ -1124,6 +1134,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
+        [Obsolete]
         public virtual short getValueForChannel(int channel)
         {
             if (!IsJoystickValid())
@@ -1137,6 +1148,7 @@ namespace MissionPlanner.Joystick
             return ans;
         }
 
+        [Obsolete]
         public virtual short getRawValueForChannel(int channel)
         {
             if (!IsJoystickValid())
@@ -1149,6 +1161,7 @@ namespace MissionPlanner.Joystick
             return ans;
         }
 
+        [Obsolete]
         public static joystickaxis getMovingAxis(string name, int threshold)
         {
             var js = getJoyStickByName(name);
@@ -1259,6 +1272,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
+        [Obsolete]
         public static JoystickBase getJoyStickByName(string name)
         {
             if (pid == PlatformID.Unix)
@@ -1271,6 +1285,7 @@ namespace MissionPlanner.Joystick
             }
         }
 
+        [Obsolete]
         public static JoystickBase Create(Func<MAVLinkInterface> func)
         {
             if (pid == PlatformID.Unix)

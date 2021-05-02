@@ -14,6 +14,7 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        [Obsolete]
         public static void SortLogs(string[] logs, string masterdestdir = "")
         {
             Parallel.ForEach(logs, logfile =>
