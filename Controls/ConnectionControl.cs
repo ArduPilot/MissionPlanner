@@ -34,6 +34,7 @@ namespace MissionPlanner.Controls
         /// UI will be updated accordingly
         /// </summary>
         /// <param name="isConnected">Whether we are connected</param>
+        [Obsolete]
         public void IsConnected(bool isConnected)
         {
             this.linkLabel1.Visible = isConnected;
@@ -74,6 +75,7 @@ namespace MissionPlanner.Controls
             e.DrawFocusRectangle();
         }
 
+        [Obsolete]
         public void UpdateSysIDS()
         {
             cmb_sysid.SelectedIndexChanged -= CMB_sysid_SelectedIndexChanged;
@@ -116,6 +118,7 @@ namespace MissionPlanner.Controls
             internal int compid;
         }
 
+        [Obsolete]
         private void CMB_sysid_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmb_sysid.SelectedItem == null)
@@ -139,6 +142,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
         {
             var temp = (port_sysid)e.Value;

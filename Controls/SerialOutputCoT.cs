@@ -150,6 +150,7 @@ namespace MissionPlanner.Controls
             catch { CoTStream = null; } // don't care if we crash
         }
 
+        [Obsolete]
         void mainloop()
         {
             threadrun = true;
@@ -204,6 +205,7 @@ namespace MissionPlanner.Controls
             catch { }
         }
 
+        [Obsolete]
         private String getXmlString()
         {
             double lat = MainV2.comPort.MAV.cs.lat;

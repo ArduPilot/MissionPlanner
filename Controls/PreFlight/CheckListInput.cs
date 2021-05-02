@@ -17,6 +17,7 @@ namespace MissionPlanner.Controls.PreFlight
             InitializeComponent();
         }
 
+        [Obsolete]
         public CheckListInput(CheckListControl parent, CheckListItem item)
         {
             _parent = parent;

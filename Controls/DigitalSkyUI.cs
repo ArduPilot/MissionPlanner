@@ -250,6 +250,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private async void But_dlartifact_Click(object sender, EventArgs e)
         {
             var perm = (JToken)cmb_applications.SelectedValue;

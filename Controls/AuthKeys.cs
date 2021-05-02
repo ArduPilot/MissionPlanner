@@ -37,6 +37,7 @@ namespace MissionPlanner.Controls
             MAVAuthKeys.Save();
         }
 
+        [Obsolete]
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == Use.Index)
@@ -83,6 +84,7 @@ namespace MissionPlanner.Controls
             dataGridView1[Use.Index, e.RowIndex].Value = "Use";
         }
 
+        [Obsolete]
         private void but_disablesigning_Click(object sender, EventArgs e)
         {
             MainV2.comPort.setupSigning(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "");

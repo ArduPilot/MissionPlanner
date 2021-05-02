@@ -21,6 +21,7 @@ namespace MissionPlanner.Controls
         private MAVLinkInterface _mav;
         private MAVFtp _mavftp;
 
+        [Obsolete]
         public MavFTPUI() : this(MainV2.comPort)
         {
         }
@@ -68,6 +69,7 @@ namespace MissionPlanner.Controls
             treeView1.PathSeparator = "/";
         }
 
+        [Obsolete]
         private async void PopulateTreeView()
         {
             toolStripStatusLabel1.Text = "Updating Folders";
@@ -137,6 +139,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private async void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node == null)
@@ -210,11 +213,13 @@ namespace MissionPlanner.Controls
                 get { return true; }
             }
 
+            [Obsolete]
             public override void Delete()
             {
                 _mavftp.kCmdRemoveDirectory(FullPath, new CancellationTokenSource());
             }
 
+            [Obsolete]
             public async Task<DirectoryInfo[]> GetDirectories()
             {
                 // rerequest every time
@@ -229,6 +234,7 @@ namespace MissionPlanner.Controls
                     .Select(a => new DirectoryInfo(a.FullName, _mavftp)).ToArray();
             }
 
+            [Obsolete]
             public async Task<IEnumerable<MAVFtp.FtpFileInfo>> GetFiles()
             {
                 if (cache == null)
@@ -239,6 +245,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private async void ListView1_DragDrop(object sender, DragEventArgs e)
         {
             var files = e.Data.GetData(DataFormats.FileDrop) as string[];
@@ -276,6 +283,7 @@ namespace MissionPlanner.Controls
             }));
         }
 
+        [Obsolete]
         private async void DownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listView1SelectedItem in listView1.SelectedItems)
@@ -337,6 +345,7 @@ namespace MissionPlanner.Controls
             toolStripStatusLabel1.Text = "Ready";
         }
 
+        [Obsolete]
         private async void UploadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -354,6 +363,7 @@ namespace MissionPlanner.Controls
                 new TreeNodeMouseClickEventArgs(treeView1.SelectedNode, MouseButtons.Left, 1, 1, 1));
         }
 
+        [Obsolete]
         private async Task UploadFile(string ofdFileName)
         {
             toolStripStatusLabel1.Text = "Upload " + Path.GetFileName(ofdFileName);
@@ -398,6 +408,7 @@ namespace MissionPlanner.Controls
             toolStripStatusLabel1.Text = "Ready";
         }
 
+        [Obsolete]
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listView1SelectedItem in listView1.SelectedItems)
@@ -419,6 +430,7 @@ namespace MissionPlanner.Controls
             listView1.SelectedItems[0].BeginEdit();
         }
 
+        [Obsolete]
         private void ListView1_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
             if (e.Label == null)
@@ -432,6 +444,7 @@ namespace MissionPlanner.Controls
             toolStripStatusLabel1.Text = "Ready";
         }
 
+        [Obsolete]
         private void NewFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string folder = "";
@@ -448,6 +461,7 @@ namespace MissionPlanner.Controls
             toolStripStatusLabel1.Text = "Ready";
         }
 
+        [Obsolete]
         private void GetCRC32ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProgressReporterDialogue prd = new ProgressReporterDialogue();
@@ -484,6 +498,7 @@ namespace MissionPlanner.Controls
                 e.Effect = DragDropEffects.None;
         }
 
+        [Obsolete]
         private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (listView1.SelectedItems.Count > 0)
@@ -504,6 +519,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private void DownloadBurstToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem listView1SelectedItem in listView1.SelectedItems)
@@ -566,6 +582,7 @@ namespace MissionPlanner.Controls
             toolStripStatusLabel1.Text = "Ready";
         }
 
+        [Obsolete]
         private void MavFTPUI_Load(object sender, EventArgs e)
         {
             PopulateTreeView();

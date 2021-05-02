@@ -18,6 +18,7 @@ namespace MissionPlanner.Controls
         {
         }
 
+        [Obsolete]
         private void timer1_Tick(object sender, EventArgs e)
         {
             VibBarX.Value = (int)MainV2.comPort.MAV.cs.vibex;

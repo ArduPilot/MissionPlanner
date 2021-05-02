@@ -17,6 +17,7 @@ namespace MissionPlanner.Controls
             InitializeComponent();
         }
 
+        [Obsolete]
         private void but_doit_Click(object sender, EventArgs e)
         {
             var buffer = new byte[Convert.ToByte(num_count.Text)];
@@ -46,6 +47,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private void but_test_Click(object sender, EventArgs e)
         {
             var buffer = new byte[2];

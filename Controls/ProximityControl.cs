@@ -207,6 +207,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         public new void Show()
         {
             if (!IsDisposed)

@@ -6,6 +6,7 @@ namespace MissionPlanner.Controls
 {
     public class SB
     {
+        [Obsolete]
         public static void Show(string detectedvia)
         {
             var l1 = "Your board has a Critical service bulletin - Via " + detectedvia;

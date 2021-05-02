@@ -50,6 +50,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private void BUT_Low_Click(object sender, EventArgs e)
         {
             try
@@ -70,6 +71,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private void BUT_High_Click(object sender, EventArgs e)
         {
             try
@@ -90,6 +92,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         private void BUT_Repeat_Click(object sender, EventArgs e)
         {
             try

@@ -59,6 +59,7 @@ namespace MissionPlanner.Controls
             });
         }
 
+        [Obsolete]
         private void BUT_paramfileload_Click(object sender, EventArgs e)
         {
             string filepath = Settings.GetUserDataDirectory() + CMB_paramfiles.Text;

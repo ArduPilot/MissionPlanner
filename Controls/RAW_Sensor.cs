@@ -133,6 +133,7 @@ namespace MissionPlanner.Controls
             zg1.Invalidate();
         }
 
+        [Obsolete]
         private void timer2serial_Tick(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.logreadmode)
@@ -219,6 +220,7 @@ namespace MissionPlanner.Controls
             //tabControl1_SelectedIndexChanged(sender, e);
         }
 
+        [Obsolete]
         private void ACM_Setup_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (MainV2.comPort != null && MainV2.comPort.BaseStream.IsOpen)
@@ -236,6 +238,7 @@ namespace MissionPlanner.Controls
             timer2serial.Stop();
         }
 
+        [Obsolete]
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -266,6 +269,7 @@ namespace MissionPlanner.Controls
             timer1.Start();
         }
 
+        [Obsolete]
         private void CMB_rawupdaterate_SelectedIndexChanged(object sender, EventArgs e)
         {
             MainV2.comPort.MAV.cs.ratesensors = int.Parse(CMB_rawupdaterate.Text);

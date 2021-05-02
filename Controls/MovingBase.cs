@@ -145,6 +145,7 @@ namespace MissionPlanner.Controls
             catch { }
         }
 
+        [Obsolete]
         void mainloop()
         {
             DateTime nextsend = DateTime.Now;

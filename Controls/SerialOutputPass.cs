@@ -12,6 +12,7 @@ namespace MissionPlanner.Controls
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
 
+        [Obsolete]
         public SerialOutputPass()
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace MissionPlanner.Controls
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
+        [Obsolete]
         private void BUT_connect_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.MirrorStream != null && MainV2.comPort.MirrorStream.IsOpen || listener != null)
@@ -113,6 +115,7 @@ namespace MissionPlanner.Controls
             }
         }
 
+        [Obsolete]
         void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
             // Get the listener that handles the client request.
@@ -127,6 +130,7 @@ namespace MissionPlanner.Controls
             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
         }
 
+        [Obsolete]
         private void chk_write_CheckedChanged(object sender, EventArgs e)
         {
             MainV2.comPort.MirrorStreamWrite = chk_write.Checked;

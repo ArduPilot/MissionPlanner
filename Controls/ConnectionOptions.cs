@@ -26,6 +26,7 @@ namespace MissionPlanner.Controls
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
+        [Obsolete]
         private void BUT_connect_Click(object sender, EventArgs e)
         {
             var mav = new MAVLinkInterface();

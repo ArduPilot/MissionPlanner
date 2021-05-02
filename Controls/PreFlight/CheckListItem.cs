@@ -70,6 +70,7 @@ namespace MissionPlanner.Controls.PreFlight
         /// Returns the formated string to pass to the speech engine
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         public string DisplayText()
         {
             if (Name == "PARAM")
@@ -108,6 +109,7 @@ namespace MissionPlanner.Controls.PreFlight
         /// <summary>
         /// Get the current value
         /// </summary>
+        [Obsolete]
         public double GetValue
         {
             get
@@ -143,6 +145,7 @@ namespace MissionPlanner.Controls.PreFlight
         /// <summary>
         /// Get the current value
         /// </summary>
+        [Obsolete]
         public object GetValueObject
         {
             get
@@ -162,6 +165,7 @@ namespace MissionPlanner.Controls.PreFlight
             }
         }
 
+        [Obsolete]
         double HandleParam()
         {
             if (Name == "PARAM")
@@ -251,6 +255,7 @@ namespace MissionPlanner.Controls.PreFlight
             return answer;
         }
 
+        [Obsolete]
         public bool checkCond(CheckListItem item)
         {
             // if there is a child go recursive
@@ -273,6 +278,7 @@ namespace MissionPlanner.Controls.PreFlight
         /// return true on match, and uses repeat time to prevent spamming
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         bool CheckValue()
         {
             switch (ConditionType)
