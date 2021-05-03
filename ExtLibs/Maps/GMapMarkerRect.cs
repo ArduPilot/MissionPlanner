@@ -30,7 +30,7 @@ namespace GMap.NET.WindowsForms
 
         public GMapMarker InnerMarker;
 
-        public int wprad = 0;
+        public double wprad = 0; 
 
         public void ResetColor()
         {
