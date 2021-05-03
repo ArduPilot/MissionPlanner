@@ -1063,19 +1063,19 @@ main()
                 throw;
             }
 
-            if (false)
-            {
-                foreach (var line in logdata.GetEnumeratorType(exp))
-                {
-                    if (expression.Contains(line.msgtype))
-                    {
-                        var dict = line.ToDictionary();
-                        scope.SetVariable(line.msgtype, dict);
-                        var result = script.Execute(scope);
-                        answer.Add(line, (double) result);
-                    }
-                }
-            }
+            //if (false)
+            //{
+            //    foreach (var line in logdata.GetEnumeratorType(exp))
+            //    {
+            //        if (expression.Contains(line.msgtype))
+            //        {
+            //            var dict = line.ToDictionary();
+            //            scope.SetVariable(line.msgtype, dict);
+            //            var result = script.Execute(scope);
+            //            answer.Add(line, (double) result);
+            //        }
+            //    }
+            //}
 
             return answer;
         }
