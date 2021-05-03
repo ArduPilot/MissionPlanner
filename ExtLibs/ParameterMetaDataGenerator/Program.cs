@@ -34,77 +34,77 @@ namespace ParameterMetaDataGenerator
             hierarchy.Root.Level = Level.Debug;
             hierarchy.Configured = true;
 
-            if (false)
-            {
-                var resp = "https://api.github.com/repos/ardupilot/ardupilot/git/refs/tags"
-                    .WithHeader("User-Agent",
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36")
-                    .AllowAnyHttpStatus()
-                    .GetAsync().Result;
+            //if (false)
+            //{
+            //    var resp = "https://api.github.com/repos/ardupilot/ardupilot/git/refs/tags"
+            //        .WithHeader("User-Agent",
+            //            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36")
+            //        .AllowAnyHttpStatus()
+            //        .GetAsync().Result;
 
-                var tags = resp.GetJsonListAsync().Result;
+            //    var tags = resp.GetJsonListAsync().Result;
 
-                foreach(var tag in tags)
-                {
-                    var tagdict = (IDictionary<String, Object>)tag;
+            //    foreach(var tag in tags)
+            //    {
+            //        var tagdict = (IDictionary<String, Object>)tag;
 
-                    var refpath = tagdict["ref"].ToString();
+            //        var refpath = tagdict["ref"].ToString();
 
-                    if (refpath.Contains("ArduPlane") || refpath.Contains("Copter") ||
-                        refpath.Contains("Rover") || refpath.Contains("APMrover2") ||
-                        refpath.Contains("ArduSub") || refpath.Contains("AntennaTracker"))
-                    {
-                        var taginfo = (IDictionary<String, Object>) ((string) tagdict["url"])
-                            .WithHeader("User-Agent",
-                                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36")
-                            .GetJsonAsync().Result;
-                        var sha = ((IDictionary<String, Object>) taginfo["object"])["sha"].ToString();
-                        var refname = ((string) taginfo["ref"]).Replace("refs/tags/", "");
-                        var paramfile = "";
-                        if (refname.Contains("Copter"))
-                        {
-                            paramfile = "ArduCopter/Parameters.pde;ArduCopter/Parameters.cpp";
-                        }    
-                        if (refname.Contains("ArduPlane"))
-                        {
-                            paramfile = "ArduPlane/Parameters.pde;ArduPlane/Parameters.cpp";
-                        }   
-                        if (refname.Contains("ArduSub"))
-                        {
-                            paramfile = "ArduSub/Parameters.pde;ArduSub/Parameters.cpp";
-                        } 
-                        if (refname.Contains("Rover"))
-                        {
-                            paramfile = "Rover/Parameters.pde;Rover/Parameters.cpp";
-                        }                       
-                        if (refname.Contains("APMrover2"))
-                        {
-                            paramfile = "APMrover2/Parameters.pde;APMrover2/Parameters.cpp";
-                        }  
-                        if (refname.Contains("AntennaTracker"))
-                        {
-                            paramfile = "AntennaTracker/Parameters.pde;AntennaTracker/Parameters.cpp";
-                        }
+            //        if (refpath.Contains("ArduPlane") || refpath.Contains("Copter") ||
+            //            refpath.Contains("Rover") || refpath.Contains("APMrover2") ||
+            //            refpath.Contains("ArduSub") || refpath.Contains("AntennaTracker"))
+            //        {
+            //            var taginfo = (IDictionary<String, Object>) ((string) tagdict["url"])
+            //                .WithHeader("User-Agent",
+            //                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36")
+            //                .GetJsonAsync().Result;
+            //            var sha = ((IDictionary<String, Object>) taginfo["object"])["sha"].ToString();
+            //            var refname = ((string) taginfo["ref"]).Replace("refs/tags/", "");
+            //            var paramfile = "";
+            //            if (refname.Contains("Copter"))
+            //            {
+            //                paramfile = "ArduCopter/Parameters.pde;ArduCopter/Parameters.cpp";
+            //            }    
+            //            if (refname.Contains("ArduPlane"))
+            //            {
+            //                paramfile = "ArduPlane/Parameters.pde;ArduPlane/Parameters.cpp";
+            //            }   
+            //            if (refname.Contains("ArduSub"))
+            //            {
+            //                paramfile = "ArduSub/Parameters.pde;ArduSub/Parameters.cpp";
+            //            } 
+            //            if (refname.Contains("Rover"))
+            //            {
+            //                paramfile = "Rover/Parameters.pde;Rover/Parameters.cpp";
+            //            }                       
+            //            if (refname.Contains("APMrover2"))
+            //            {
+            //                paramfile = "APMrover2/Parameters.pde;APMrover2/Parameters.cpp";
+            //            }  
+            //            if (refname.Contains("AntennaTracker"))
+            //            {
+            //                paramfile = "AntennaTracker/Parameters.pde;AntennaTracker/Parameters.cpp";
+            //            }
 
-                        if (paramfile == "")
-                            continue;
+            //            if (paramfile == "")
+            //                continue;
 
-                        var XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), refname + ".xml");
+            //            var XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), refname + ".xml");
 
-                        if (File.Exists(XMLFileName))
-                            continue;
+            //            if (File.Exists(XMLFileName))
+            //                continue;
 
-                        ParameterMetaDataParser.GetParameterInformation(
-                            paramfile.Split(';')
-                                .Select(a =>
-                                {
-                                    a = a.Trim();
-                                    return "https://raw.github.com/ardupilot/ardupilot/" + sha + "/" + a + ";";
-                                }).Aggregate("", (a, b) => a + b)
-                            , refname + ".xml");
-                    }
-                }
-            }
+            //            ParameterMetaDataParser.GetParameterInformation(
+            //                paramfile.Split(';')
+            //                    .Select(a =>
+            //                    {
+            //                        a = a.Trim();
+            //                        return "https://raw.github.com/ardupilot/ardupilot/" + sha + "/" + a + ";";
+            //                    }).Aggregate("", (a, b) => a + b)
+            //                , refname + ".xml");
+            //        }
+            //    }
+            //}
 
             if (args.Length == 1)
             {

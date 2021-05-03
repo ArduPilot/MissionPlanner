@@ -565,24 +565,24 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             return;
 
-            try
-            {
-                using (var skbmp =
-                    new SKBitmap(new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Unpremul)))
-                {
-                    skbmp.SetPixels(data.Scan0);
+            //try
+            //{
+            //    using (var skbmp =
+            //        new SKBitmap(new SKImageInfo(img.Width, img.Height, coltype, SKAlphaType.Unpremul)))
+            //    {
+            //        skbmp.SetPixels(data.Scan0);
 
 
-                    _image.DrawBitmap(skbmp, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
-                        new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
-                }
-            }
-            catch
-            {
-            }
+            //        _image.DrawBitmap(skbmp, new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
+            //            new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
+            //    }
+            //}
+            //catch
+            //{
+            //}
 
-            ((Bitmap) img).UnlockBits(data);
-            data = null;
+            //((Bitmap) img).UnlockBits(data);
+            //data = null;
         }
 
         public void DrawImage(Image image, Rectangle destRect, int srcX, int srcY, int srcWidth, int srcHeight,

@@ -214,12 +214,12 @@ namespace MissionPlanner.Utilities
         {
             return v.ToJSON();
 
-            XmlSerializer xmlSerializer = new XmlSerializer(v.GetType());
-            using (StringWriter textWriter = new StringWriter())
-            {
-                xmlSerializer.Serialize(textWriter, v);
-                return textWriter.ToString();
-            }
+            //XmlSerializer xmlSerializer = new XmlSerializer(v.GetType());
+            //using (StringWriter textWriter = new StringWriter())
+            //{
+            //    xmlSerializer.Serialize(textWriter, v);
+            //    return textWriter.ToString();
+            //}
         }
         public static DisplayView Basic(this DisplayView v)
         {

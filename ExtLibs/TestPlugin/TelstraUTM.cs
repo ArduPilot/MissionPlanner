@@ -133,22 +133,22 @@ namespace MissionPlanner.Utilities
 
             AT(port, "AT+USECMNG=3");
 
-            if (false)
-            {
-                mqtt_host = "test.oborne.me";
-                mqtt_port = 1883;
+            //if (false)
+            //{
+            //    mqtt_host = "test.oborne.me";
+            //    mqtt_port = 1883;
 
-                //server
-                AT(port, "AT+UMQTT=2,\"" + mqtt_host + "\"," + mqtt_port + "", 35);
-                //login
-                AT(port, "AT+UMQTTC=1", 120);
+            //    //server
+            //    AT(port, "AT+UMQTT=2,\"" + mqtt_host + "\"," + mqtt_port + "", 35);
+            //    //login
+            //    AT(port, "AT+UMQTTC=1", 120);
 
-                AT(port, "AT+UMQTTC=2,0,0,\"user\",\"Hi! This is an MQTT message. " + DateTime.Now.ToString("s") + "\"",
-                    120);
+            //    AT(port, "AT+UMQTTC=2,0,0,\"user\",\"Hi! This is an MQTT message. " + DateTime.Now.ToString("s") + "\"",
+            //        120);
 
-                // logout
-                AT(port, "AT+UMQTTC=0", 120);
-            }
+            //    // logout
+            //    AT(port, "AT+UMQTTC=0", 120);
+            //}
 
             // tcp echo test
             {
