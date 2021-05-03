@@ -1558,8 +1558,8 @@ namespace MissionPlanner.GCSViews
                     mBorders.InnerMarker = m;
                     try
                     {
-                        mBorders.wprad =
-                            (int)(Settings.Instance.GetFloat("TXT_WPRad") / CurrentState.multiplieralt);
+                        mBorders.wprad = 
+                            (Settings.Instance.GetFloat("TXT_WPRad") / CurrentState.multiplieralt);
                     }
                     catch (Exception ex)
                     {
@@ -5858,11 +5858,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 if (param.ContainsKey("WP_RADIUS"))
                 {
-                    TXT_WPRad.Text = (((double)param["WP_RADIUS"] * CurrentState.multiplierdist)).ToString();
+                    TXT_WPRad.Text = string.Format("{0:N2}", (((double)param["WP_RADIUS"] * CurrentState.multiplierdist)));
                 }
                 if (param.ContainsKey("WPNAV_RADIUS"))
                 {
-                    TXT_WPRad.Text = (((double)param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)).ToString();
+                    TXT_WPRad.Text = string.Format("{0:N2}", (((double)param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)));
                 }
 
                 log.Info("param WP_RADIUS " + TXT_WPRad.Text);
@@ -6192,6 +6192,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             float isNumber = 0;
             if (e.KeyChar.ToString() == "\b")
                 return;
+
+            if (e.KeyChar == '.')  // Allow floating values to be set.
+                return;
+
             e.Handled = !float.TryParse(e.KeyChar.ToString(), out isNumber);
         }
 
