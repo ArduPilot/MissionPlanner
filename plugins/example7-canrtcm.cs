@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using UAVCAN;
-
+//loadassembly: UAVCAN
 
 namespace CANRTCMExtract
 {

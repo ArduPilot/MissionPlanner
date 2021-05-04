@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using MissionPlanner.Controls;
 using UAVCAN;
+using System.Text.RegularExpressions;
 
 namespace MissionPlanner.Plugin
 {
@@ -18,9 +19,6 @@ namespace MissionPlanner.Plugin
 
         static PluginLoader()
         {
-            // the code compile needs the referance dll's loaded before it trys, as we use the current loaded dll's as ref's
-            // pull in the uavcan dll
-            var uavcan = typeof(uavcan.uavcan_Timestamp);
 
         }
 
@@ -208,6 +206,37 @@ namespace MissionPlanner.Plugin
                         continue;
                     }
 
+                    //loadassembly: MissionPlanner.WebAPIs
+                    var content = File.ReadAllText(csFile);
+
+                    var matches = Regex.Matches(content, @"^\/\/loadassembly: (.*)$", RegexOptions.Multiline);
+                    foreach (Match m in matches)
+                    {
+                        try
+                        {
+                            log.Info("Try load " + m.Groups[1].Value.Trim());
+                            Assembly.Load(m.Groups[1].Value.Trim());
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+                    }
+
+                    try
+                    {
+                        // csharp 8
+                        var ans = CodeGenRoslyn.BuildCode(csFile);
+
+                        InitPlugin(ans, Path.GetFileName(csFile));
+
+                        continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+
 
                     try
                     {
@@ -224,20 +253,6 @@ namespace MissionPlanner.Plugin
 
                         if (results?.CompiledAssembly != null)
                             continue;
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-
-                    try
-                    {
-                        // csharp 8
-                        var ans = CodeGenRoslyn.BuildCode(csFile);
-
-                        InitPlugin(ans, Path.GetFileName(csFile));
-
-                        continue;
                     }
                     catch (Exception ex)
                     {
