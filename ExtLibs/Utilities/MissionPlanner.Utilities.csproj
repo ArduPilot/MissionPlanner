@@ -39,7 +39,7 @@
     <PackageReference Include="K4os.Compression.LZ4" Version="1.2.6" />
     <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="MathParser.org-mXparser" Version="4.3.3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.6.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.13" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Onvif.Core" Version="2.2.2" />

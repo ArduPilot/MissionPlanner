@@ -66,13 +66,15 @@ namespace UAVCAN
             get { return packet_data.Take(packet_data.Length - 1).ToArray(); }
         }
 
-        public string ToHex()
+        public string ToHex(int totallength = 0)
         {
             var ans = "";
             foreach (var b in packet_data)
             {
                 ans += b.ToString("X2");
             }
+
+            ans = ans.PadRight(totallength * 2, '0');
 
             return ans;
         }

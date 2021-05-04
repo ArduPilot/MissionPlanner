@@ -36,3 +36,15 @@ dotnet_diagnostic.CA1815.severity = silent
 dotnet_diagnostic.CS3003.severity = silent
 dotnet_diagnostic.CS3009.severity = silent
 dotnet_diagnostic.CS3001.severity = silent
+
+# CS0612: 'MAVLink.mavlink_ais_vessel_t' is obsolete
+dotnet_diagnostic.CS0612.severity = silent
+
+# SCS0006: Weak hashing function
+dotnet_diagnostic.SCS0006.severity = silent
+
+# SCS0005: Weak random generator
+dotnet_diagnostic.SCS0005.severity = silent
+
+# CS0162: Unreachable code detected
+dotnet_diagnostic.CS0162.severity = suggestion

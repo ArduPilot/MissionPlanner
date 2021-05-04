@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using IOException = System.IO.IOException;
 using size_t = System.Int32;
+using uint8_t = System.Byte;
 
 namespace UAVCAN
 {
@@ -1351,7 +1352,7 @@ namespace UAVCAN
         /// <param name="transferID">An integer value that allows receiving nodes to distinguish this transfer from all others</param>
         /// <param name="msg">A IUAVCANSerialize message for packaging</param>
         /// <returns></returns>
-        public string PackageMessage(byte destNode, byte priority, byte transferID, IUAVCANSerialize msg)
+        public string PackageMessage(byte destNode, byte priority, byte transferID, IUAVCANSerialize msg, bool canfd = false)
         {
             var state = new statetracking();
             msg.encode(uavcan_transmit_chunk_handler, state);
@@ -1380,7 +1381,8 @@ namespace UAVCAN
 
             var payloaddata = state.ToBytes();
 
-            if (payloaddata.Length > 7)
+            // not canfd and > 7      or     canfd and > 63
+            if ((payloaddata.Length > 7 && !canfd) || (canfd && payloaddata.Length > 63))
             {
                 var dt_sig = BitConverter.GetBytes(msgtype.Item3);
 
@@ -1389,21 +1391,22 @@ namespace UAVCAN
                 crcprocess.add(payloaddata, payloaddata.Length);
                 var crc = crcprocess.get();
 
-                var buffer = new byte[8];
+                var buffer = new byte[64];
                 var toogle = false;
-                var size = 7;
+                var framesize = canfd ? 63 : 7;
+                var size = framesize;
                 for (int a = 0; a < payloaddata.Length; a += size)
                 {
                     if (a == 0)
                     {
                         buffer[0] = (byte)(crc & 0xff);
                         buffer[1] = (byte)(crc >> 8);
-                        size = 5;
-                        Array.ConstrainedCopy(payloaddata, a, buffer, 2, 5);
+                        size = canfd ? 61 : 5;
+                        Array.ConstrainedCopy(payloaddata, a, buffer, 2, size);
                     }
                     else
                     {
-                        size = payloaddata.Length - a <= 7 ? payloaddata.Length - a : 7;
+                        size = payloaddata.Length - a <= framesize ? payloaddata.Length - a : framesize;
                         Array.ConstrainedCopy(payloaddata, a, buffer, 0, size);
                         if (buffer.Length != size + 1)
                             Array.Resize(ref buffer, size + 1);
@@ -1415,7 +1418,11 @@ namespace UAVCAN
                     payload.Toggle = toogle;
                     toogle = !toogle;
 
-                    ans += String.Format("T{0}{1}{2}\r", cf.ToHex(), a == 0 ? 8 : size + 1, payload.ToHex());
+                    var length = a == 0
+                        ? dataLengthToDlc(size + 3)
+                        : dataLengthToDlc(size + 1);
+                    ans += String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
+                        , payload.ToHex(dlcToDataLength(length)));
                 }
             }
             else
@@ -1426,7 +1433,9 @@ namespace UAVCAN
                 payload.SOT = payload.EOT = true;
                 payload.TransferID = (byte)transferID;
 
-                ans = String.Format("T{0}{1}{2}\r", cf.ToHex(), buffer.Length, payload.ToHex());
+                var length = dataLengthToDlc(buffer.Length);
+
+                ans = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X"), payload.ToHex(dlcToDataLength(length)));
             }
 
             //Console.Write("TX " + ans.Replace("\r", "\r\n"));
@@ -1435,6 +1444,7 @@ namespace UAVCAN
         }
 
         Dictionary<(uint, int), List<byte>> transfer = new Dictionary<(uint, int), List<byte>>();
+        Dictionary<(uint, int), bool> transferToggle = new Dictionary<(uint, int), bool>();
 
         /// <summary>
         /// Source Node
@@ -1478,7 +1488,7 @@ namespace UAVCAN
             test();
         }
 
-        public static void test()
+        public void test()
         {
             /*
 RX	09:19:57.327377	08042479	EB 3C 00 00 00 00 00 86 	.<......	121		uavcan.equipment.gnss.Fix
@@ -1574,8 +1584,31 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             var fixtest = new uavcan.uavcan_equipment_gnss_Fix();
             fixtest.decode(new uavcan.CanardRxTransfer(data));
 
+            var canfdframe = PackageMessage(1, 0, 0, fix, true);
 
-            
+            foreach (var s in canfdframe.Split('\r'))
+            {
+                ReadMessage(s);
+            }
+
+            string[] slcandata = new string[]
+            {
+                "T1E04260A8489003B40018008FA245",
+                "T1E04260A8000000200000002FA245",
+                "T1E04260A87F7F797B5679510FA245",
+                "T1E04260A8490000000BB1272FA245",
+                "T1E04260A8D88B4BCB2249BE0FA245",
+                "T1E04260A8DBFEFBF06F95BF2FA245",
+                "T1E04260A8F706EC0712497B0FA245",
+                "T1E04260A81551C31B093BBF2FA245",
+                "T1E04260A862F3A1EDB84E000FA245",
+                "T1803E97B75230F8B448B1CAA259"
+            };
+
+            foreach (var s in slcandata)
+            {
+                ReadMessage(s);
+            }
         }
 
         byte hextoint(char number)
@@ -1586,12 +1619,82 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             else return 0;
         }
 
+        static uint8_t dlcToDataLength(uint8_t dlc)
+        {
+            /*
+            Data Length Code      9  10  11  12  13  14  15
+            Number of data bytes 12  16  20  24  32  48  64
+            */
+            if (dlc <= 8)
+            {
+                return dlc;
+            }
+            else if (dlc == 9)
+            {
+                return 12;
+            }
+            else if (dlc == 10)
+            {
+                return 16;
+            }
+            else if (dlc == 11)
+            {
+                return 20;
+            }
+            else if (dlc == 12)
+            {
+                return 24;
+            }
+            else if (dlc == 13)
+            {
+                return 32;
+            }
+            else if (dlc == 14)
+            {
+                return 48;
+            }
+            return 64;
+        }
+        static uint8_t dataLengthToDlc(int data_length)
+        {
+            if (data_length <= 8)
+            {
+                return (byte)data_length;
+            }
+            else if (data_length <= 12)
+            {
+                return 9;
+            }
+            else if (data_length <= 16)
+            {
+                return 10;
+            }
+            else if (data_length <= 20)
+            {
+                return 11;
+            }
+            else if (data_length <= 24)
+            {
+                return 12;
+            }
+            else if (data_length <= 32)
+            {
+                return 13;
+            }
+            else if (data_length <= 48)
+            {
+                return 14;
+            }
+            return 15;
+        }
+
         /// <summary>
         /// Process a single CAN Frame
         /// </summary>
         /// <param name="line">A Single CAN frame</param>
         public void ReadMessage(string line)
         {
+            int size_len = 1;
             int id_len;
             var line_len = line.Length;
 
@@ -1606,6 +1709,22 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 id_len = 8;
             }
             else if (line[0] == 't') // 11 bit data frame
+            {
+                id_len = 3;
+            }
+            else if (line[0] == 'D') // 29 bit data frame
+            {
+                id_len = 8;
+            }
+            else if (line[0] == 'd') // 11 bit data frame
+            {
+                id_len = 3;
+            }
+            else if (line[0] == 'B') // 29 bit data frame
+            {
+                id_len = 8;
+            }
+            else if (line[0] == 'b') // 11 bit data frame
             {
                 id_len = 3;
             }
@@ -1624,7 +1743,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 return;
             }
 
-            if(line.Length < 2 + id_len)
+            if(line.Length < 1 + id_len + size_len)
                 return;
 
             //T12ABCDEF2AA55 : extended can_id 0x12ABCDEF, can_dlc 2, data 0xAA 0x55
@@ -1637,15 +1756,16 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 return;
             }
             var packet_id = Convert.ToUInt32(msgdata, 16); // id
-            var packet_len = line[1 + id_len] - 48; // dlc
-            var with_timestamp = line_len > (2 + id_len + packet_len * 2);
+            var packet_len = Convert.ToByte(line[1 + id_len]+"", 16); // dlc
+            packet_len = dlcToDataLength((byte)packet_len);
+            var with_timestamp = line_len > (1 + size_len + id_len + packet_len * 2);
 
             if (packet_len == 0)
                 return;
 
             var frame = new CANFrame(BitConverter.GetBytes(packet_id));
 
-            var packet_data = line.Skip(2 + id_len).Take(packet_len * 2).NowNextBy2().Select(a =>
+            var packet_data = line.Skip(1 + size_len + id_len).Take(packet_len * 2).NowNextBy2().Select(a =>
             {
                 return (byte) ((hextoint(a.Item1) << 4) + hextoint(a.Item2));
             }).ToArray();
@@ -1653,6 +1773,8 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             if (packet_data == null || packet_data.Count() == 0)
                 return;
 
+            // canfd trim 0's
+            trim_payload(ref packet_data);
             //Console.WriteLine(ASCIIEncoding.ASCII.GetString( packet_data));
             //Console.WriteLine("RX " + line.Replace("\r", "\r\n"));
 
@@ -1661,7 +1783,10 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             var payload = new CANPayload(packet_data);
 
             if (payload.SOT)
+            {
                 transfer[(packet_id, payload.TransferID)] = new List<byte>();
+                transferToggle[(packet_id, payload.TransferID)] = false;
+            }
 
             // if have not seen SOT, abort
             if (!transfer.ContainsKey((packet_id, payload.TransferID)))
@@ -1670,20 +1795,19 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             transfer[(packet_id, payload.TransferID)].AddRange(payload.Payload);
 
             {
-                var totalbytes = transfer[(packet_id, payload.TransferID)].Count;
-
-                var current = (totalbytes / 7) % 2;
-
-                if((current == 1) == payload.Toggle)
+                if (transferToggle[(packet_id, payload.TransferID)] != payload.Toggle)
                 {
                     if (!payload.EOT)
                     {
                         transfer.Remove((packet_id, payload.TransferID));
+                        transferToggle.Remove((packet_id, payload.TransferID));
                         Console.WriteLine("Bad Toggle {0}", frame.MsgTypeID);
                         return;
                         //error here
                     }
                 }
+
+                transferToggle[(packet_id, payload.TransferID)] = !transferToggle[(packet_id, payload.TransferID)];
             }
 
             if (payload.SOT && !payload.EOT)
@@ -1696,6 +1820,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 var result = transfer[(packet_id, payload.TransferID)].ToArray();
 
                 transfer.Remove((packet_id, payload.TransferID));
+                transferToggle.Remove((packet_id, payload.TransferID));
 
                 //https://legacy.uavcan.org/Specification/4._CAN_bus_transport_layer/
 
@@ -1788,6 +1913,23 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     Console.WriteLine(ex);
                 }
             }
+        }
+
+        /// <summary>
+        /// trim trailing 0's
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public static byte[] trim_payload(ref byte[] payload)
+        {
+            var length = payload.Length;
+            while (length > 1 && payload[length - 1] == 0)
+            {
+                length--;
+            }
+            if (length != payload.Length)
+                Array.Resize(ref payload, length);
+            return payload;
         }
 
         public bool SetParameter(byte node, string name, object valuein)
