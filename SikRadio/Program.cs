@@ -72,6 +72,7 @@
  * 2.51 - Fixed error message problem when used with multipoint firmware 2.90.  
  * 2.52 - Now uses a more reliable means of reading country code from modems than looking at the string returned by ATI command.  
  * 2.53 - For multipoint firmware, made 255 available as an option for destination node ID.
+ * 2.54 - Changed encryption key text box max length from 32 to 64 hex numerals (for 256 bit encryption).  
  */
 
 using System;

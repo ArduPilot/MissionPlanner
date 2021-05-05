@@ -1999,168 +1999,6 @@ red LED solid - in firmware update mode</value>
   <data name="&gt;&gt;OPPRESEND.ZOrder" xml:space="preserve">
     <value>49</value>
   </data>
-  <data name="GPO1_3SBUSIN.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GPO1_3SBUSIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="GPO1_3SBUSIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 332</value>
-  </data>
-  <data name="GPO1_3SBUSIN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 20</value>
-  </data>
-  <data name="GPO1_3SBUSIN.TabIndex" type="System.Int32, mscorlib">
-    <value>141</value>
-  </data>
-  <data name="&gt;&gt;GPO1_3SBUSIN.Name" xml:space="preserve">
-    <value>GPO1_3SBUSIN</value>
-  </data>
-  <data name="&gt;&gt;GPO1_3SBUSIN.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GPO1_3SBUSIN.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;GPO1_3SBUSIN.ZOrder" xml:space="preserve">
-    <value>21</value>
-  </data>
-  <data name="RGPO1_3SBUSIN.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="RGPO1_3SBUSIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="RGPO1_3SBUSIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 332</value>
-  </data>
-  <data name="RGPO1_3SBUSIN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 20</value>
-  </data>
-  <data name="RGPO1_3SBUSIN.TabIndex" type="System.Int32, mscorlib">
-    <value>149</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_3SBUSIN.Name" xml:space="preserve">
-    <value>RGPO1_3SBUSIN</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_3SBUSIN.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_3SBUSIN.Parent" xml:space="preserve">
-    <value>groupBoxRemote</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_3SBUSIN.ZOrder" xml:space="preserve">
-    <value>19</value>
-  </data>
-  <data name="GPO1_3STATLED.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GPO1_3STATLED.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="GPO1_3STATLED.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 382</value>
-  </data>
-  <data name="GPO1_3STATLED.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 20</value>
-  </data>
-  <data name="GPO1_3STATLED.TabIndex" type="System.Int32, mscorlib">
-    <value>151</value>
-  </data>
-  <data name="&gt;&gt;GPO1_3STATLED.Name" xml:space="preserve">
-    <value>GPO1_3STATLED</value>
-  </data>
-  <data name="&gt;&gt;GPO1_3STATLED.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GPO1_3STATLED.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;GPO1_3STATLED.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="GPO1_0TXEN485.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GPO1_0TXEN485.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="GPO1_0TXEN485.Location" type="System.Drawing.Point, System.Drawing">
-    <value>283, 382</value>
-  </data>
-  <data name="GPO1_0TXEN485.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 20</value>
-  </data>
-  <data name="GPO1_0TXEN485.TabIndex" type="System.Int32, mscorlib">
-    <value>153</value>
-  </data>
-  <data name="&gt;&gt;GPO1_0TXEN485.Name" xml:space="preserve">
-    <value>GPO1_0TXEN485</value>
-  </data>
-  <data name="&gt;&gt;GPO1_0TXEN485.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GPO1_0TXEN485.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;GPO1_0TXEN485.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="RGPO1_0TXEN485.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="RGPO1_0TXEN485.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="RGPO1_0TXEN485.Location" type="System.Drawing.Point, System.Drawing">
-    <value>275, 382</value>
-  </data>
-  <data name="RGPO1_0TXEN485.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 20</value>
-  </data>
-  <data name="RGPO1_0TXEN485.TabIndex" type="System.Int32, mscorlib">
-    <value>159</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_0TXEN485.Name" xml:space="preserve">
-    <value>RGPO1_0TXEN485</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_0TXEN485.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_0TXEN485.Parent" xml:space="preserve">
-    <value>groupBoxRemote</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_0TXEN485.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="RGPO1_3STATLED.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="RGPO1_3STATLED.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="RGPO1_3STATLED.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 382</value>
-  </data>
-  <data name="RGPO1_3STATLED.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 20</value>
-  </data>
-  <data name="RGPO1_3STATLED.TabIndex" type="System.Int32, mscorlib">
-    <value>157</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_3STATLED.Name" xml:space="preserve">
-    <value>RGPO1_3STATLED</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_3STATLED.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_3STATLED.Parent" xml:space="preserve">
-    <value>groupBoxRemote</value>
-  </data>
-  <data name="&gt;&gt;RGPO1_3STATLED.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
   <data name="ENCRYPTION_LEVEL.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -2426,7 +2264,7 @@ red LED solid - in firmware update mode</value>
     <value>BUT_SetPPMFailSafeRemote</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.49.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
@@ -2459,13 +2297,229 @@ red LED solid - in firmware update mode</value>
     <value>BUT_SetPPMFailSafe</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.49.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafe.ZOrder" xml:space="preserve">
     <value>15</value>
+  </data>
+  <data name="FSFRAMELOSS.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="FSFRAMELOSS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 403</value>
+  </data>
+  <data name="FSFRAMELOSS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="FSFRAMELOSS.TabIndex" type="System.Int32, mscorlib">
+    <value>161</value>
+  </data>
+  <data name="FSFRAMELOSS.ToolTip" xml:space="preserve">
+    <value>The number of output frames for SBUS or PPM missing before enters failsafe.</value>
+  </data>
+  <data name="&gt;&gt;FSFRAMELOSS.Name" xml:space="preserve">
+    <value>FSFRAMELOSS</value>
+  </data>
+  <data name="&gt;&gt;FSFRAMELOSS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FSFRAMELOSS.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;FSFRAMELOSS.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RFSFRAMELOSS.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RFSFRAMELOSS.Location" type="System.Drawing.Point, System.Drawing">
+    <value>447, 403</value>
+  </data>
+  <data name="RFSFRAMELOSS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RFSFRAMELOSS.TabIndex" type="System.Int32, mscorlib">
+    <value>167</value>
+  </data>
+  <data name="RFSFRAMELOSS.ToolTip" xml:space="preserve">
+    <value>The number of output frames for SBUS or PPM missing before enters failsafe.</value>
+  </data>
+  <data name="&gt;&gt;RFSFRAMELOSS.Name" xml:space="preserve">
+    <value>RFSFRAMELOSS</value>
+  </data>
+  <data name="&gt;&gt;RFSFRAMELOSS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RFSFRAMELOSS.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RFSFRAMELOSS.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="GPO1_3SBUSIN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPO1_3SBUSIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPO1_3SBUSIN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>154, 332</value>
+  </data>
+  <data name="GPO1_3SBUSIN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 20</value>
+  </data>
+  <data name="GPO1_3SBUSIN.TabIndex" type="System.Int32, mscorlib">
+    <value>141</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSIN.Name" xml:space="preserve">
+    <value>GPO1_3SBUSIN</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSIN.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSIN.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3SBUSIN.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 332</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 20</value>
+  </data>
+  <data name="RGPO1_3SBUSIN.TabIndex" type="System.Int32, mscorlib">
+    <value>149</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSIN.Name" xml:space="preserve">
+    <value>RGPO1_3SBUSIN</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSIN.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSIN.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3SBUSIN.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="GPO1_3STATLED.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPO1_3STATLED.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPO1_3STATLED.Location" type="System.Drawing.Point, System.Drawing">
+    <value>154, 382</value>
+  </data>
+  <data name="GPO1_3STATLED.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 20</value>
+  </data>
+  <data name="GPO1_3STATLED.TabIndex" type="System.Int32, mscorlib">
+    <value>151</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3STATLED.Name" xml:space="preserve">
+    <value>GPO1_3STATLED</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3STATLED.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3STATLED.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;GPO1_3STATLED.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="GPO1_0TXEN485.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPO1_0TXEN485.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPO1_0TXEN485.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 382</value>
+  </data>
+  <data name="GPO1_0TXEN485.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 20</value>
+  </data>
+  <data name="GPO1_0TXEN485.TabIndex" type="System.Int32, mscorlib">
+    <value>153</value>
+  </data>
+  <data name="&gt;&gt;GPO1_0TXEN485.Name" xml:space="preserve">
+    <value>GPO1_0TXEN485</value>
+  </data>
+  <data name="&gt;&gt;GPO1_0TXEN485.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPO1_0TXEN485.Parent" xml:space="preserve">
+    <value>groupBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;GPO1_0TXEN485.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RGPO1_0TXEN485.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPO1_0TXEN485.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPO1_0TXEN485.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 382</value>
+  </data>
+  <data name="RGPO1_0TXEN485.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 20</value>
+  </data>
+  <data name="RGPO1_0TXEN485.TabIndex" type="System.Int32, mscorlib">
+    <value>159</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_0TXEN485.Name" xml:space="preserve">
+    <value>RGPO1_0TXEN485</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_0TXEN485.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_0TXEN485.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_0TXEN485.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="RGPO1_3STATLED.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPO1_3STATLED.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPO1_3STATLED.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 382</value>
+  </data>
+  <data name="RGPO1_3STATLED.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 20</value>
+  </data>
+  <data name="RGPO1_3STATLED.TabIndex" type="System.Int32, mscorlib">
+    <value>157</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3STATLED.Name" xml:space="preserve">
+    <value>RGPO1_3STATLED</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3STATLED.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3STATLED.Parent" xml:space="preserve">
+    <value>groupBoxRemote</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_3STATLED.ZOrder" xml:space="preserve">
+    <value>11</value>
   </data>
   <data name="RTI.Location" type="System.Drawing.Point, System.Drawing">
     <value>60, 12</value>
@@ -2647,33 +2701,6 @@ this ensures you wont lose radio link</value>
   </data>
   <data name="&gt;&gt;label54.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="FSFRAMELOSS.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="FSFRAMELOSS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 403</value>
-  </data>
-  <data name="FSFRAMELOSS.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 21</value>
-  </data>
-  <data name="FSFRAMELOSS.TabIndex" type="System.Int32, mscorlib">
-    <value>161</value>
-  </data>
-  <data name="FSFRAMELOSS.ToolTip" xml:space="preserve">
-    <value>The number of output frames for SBUS or PPM missing before enters failsafe.</value>
-  </data>
-  <data name="&gt;&gt;FSFRAMELOSS.Name" xml:space="preserve">
-    <value>FSFRAMELOSS</value>
-  </data>
-  <data name="&gt;&gt;FSFRAMELOSS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FSFRAMELOSS.Parent" xml:space="preserve">
-    <value>groupBoxLocal</value>
-  </data>
-  <data name="&gt;&gt;FSFRAMELOSS.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="GPO1_3AUXOUT.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -4044,7 +4071,7 @@ this ensures you wont lose radio link</value>
     <value>180, 307</value>
   </data>
   <data name="txt_aeskey.MaxLength" type="System.Int32, mscorlib">
-    <value>32</value>
+    <value>64</value>
   </data>
   <data name="txt_aeskey.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 20</value>
@@ -4411,33 +4438,6 @@ this ensures you wont lose radio link</value>
   </data>
   <data name="&gt;&gt;label55.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="RFSFRAMELOSS.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="RFSFRAMELOSS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 403</value>
-  </data>
-  <data name="RFSFRAMELOSS.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 21</value>
-  </data>
-  <data name="RFSFRAMELOSS.TabIndex" type="System.Int32, mscorlib">
-    <value>167</value>
-  </data>
-  <data name="RFSFRAMELOSS.ToolTip" xml:space="preserve">
-    <value>The number of output frames for SBUS or PPM missing before enters failsafe.</value>
-  </data>
-  <data name="&gt;&gt;RFSFRAMELOSS.Name" xml:space="preserve">
-    <value>RFSFRAMELOSS</value>
-  </data>
-  <data name="&gt;&gt;RFSFRAMELOSS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RFSFRAMELOSS.Parent" xml:space="preserve">
-    <value>groupBoxRemote</value>
-  </data>
-  <data name="&gt;&gt;RFSFRAMELOSS.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="RGPO1_3AUXOUT.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -5724,7 +5724,7 @@ this ensures you wont lose radio link</value>
     <value>168, 307</value>
   </data>
   <data name="txt_Raeskey.MaxLength" type="System.Int32, mscorlib">
-    <value>32</value>
+    <value>64</value>
   </data>
   <data name="txt_Raeskey.Size" type="System.Drawing.Size, System.Drawing">
     <value>180, 20</value>
@@ -6108,7 +6108,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_loadcustom</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.49.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6135,7 +6135,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_resettodefault</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.49.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6165,7 +6165,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_savesettings</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.49.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6192,7 +6192,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_getcurrent</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.49.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6222,7 +6222,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_upload</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.49.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6252,7 +6252,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_Syncoptions</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.49.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Parent" xml:space="preserve">
     <value>$this</value>

@@ -66,16 +66,18 @@
             this.TXPOWER = new System.Windows.Forms.ComboBox();
             this.ECC = new System.Windows.Forms.CheckBox();
             this.OPPRESEND = new System.Windows.Forms.CheckBox();
+            this.ENCRYPTION_LEVEL = new System.Windows.Forms.ComboBox();
+            this.RENCRYPTION_LEVEL = new System.Windows.Forms.ComboBox();
+            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
+            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
+            this.FSFRAMELOSS = new System.Windows.Forms.ComboBox();
+            this.RFSFRAMELOSS = new System.Windows.Forms.ComboBox();
             this.GPO1_3SBUSIN = new System.Windows.Forms.CheckBox();
             this.RGPO1_3SBUSIN = new System.Windows.Forms.CheckBox();
             this.GPO1_3STATLED = new System.Windows.Forms.CheckBox();
             this.GPO1_0TXEN485 = new System.Windows.Forms.CheckBox();
             this.RGPO1_0TXEN485 = new System.Windows.Forms.CheckBox();
             this.RGPO1_3STATLED = new System.Windows.Forms.CheckBox();
-            this.ENCRYPTION_LEVEL = new System.Windows.Forms.ComboBox();
-            this.RENCRYPTION_LEVEL = new System.Windows.Forms.ComboBox();
-            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
-            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.RTI = new System.Windows.Forms.TextBox();
             this.ATI = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -83,6 +85,11 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBoxLocal = new System.Windows.Forms.GroupBox();
+            this.label54 = new System.Windows.Forms.Label();
+            this.GPO1_3AUXOUT = new System.Windows.Forms.CheckBox();
+            this.label53 = new System.Windows.Forms.Label();
+            this.GPI1_2AUXIN = new System.Windows.Forms.CheckBox();
+            this.label52 = new System.Windows.Forms.Label();
             this.label48 = new System.Windows.Forms.Label();
             this.GPIO1_1FUNC = new System.Windows.Forms.ComboBox();
             this.lbl245 = new System.Windows.Forms.Label();
@@ -138,6 +145,11 @@
             this.label14 = new System.Windows.Forms.Label();
             this.ATI2 = new System.Windows.Forms.TextBox();
             this.groupBoxRemote = new System.Windows.Forms.GroupBox();
+            this.label55 = new System.Windows.Forms.Label();
+            this.RGPO1_3AUXOUT = new System.Windows.Forms.CheckBox();
+            this.label56 = new System.Windows.Forms.Label();
+            this.RGPI1_2AUXIN = new System.Windows.Forms.CheckBox();
+            this.label57 = new System.Windows.Forms.Label();
             this.label51 = new System.Windows.Forms.Label();
             this.RGPIO1_1FUNC = new System.Windows.Forms.ComboBox();
             this.label44 = new System.Windows.Forms.Label();
@@ -197,18 +209,6 @@
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
-            this.GPI1_2AUXIN = new System.Windows.Forms.CheckBox();
-            this.label52 = new System.Windows.Forms.Label();
-            this.GPO1_3AUXOUT = new System.Windows.Forms.CheckBox();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
-            this.FSFRAMELOSS = new System.Windows.Forms.ComboBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.RFSFRAMELOSS = new System.Windows.Forms.ComboBox();
-            this.RGPO1_3AUXOUT = new System.Windows.Forms.CheckBox();
-            this.label56 = new System.Windows.Forms.Label();
-            this.RGPI1_2AUXIN = new System.Windows.Forms.CheckBox();
-            this.label57 = new System.Windows.Forms.Label();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -783,36 +783,6 @@
             this.OPPRESEND.Name = "OPPRESEND";
             this.toolTip1.SetToolTip(this.OPPRESEND, resources.GetString("OPPRESEND.ToolTip"));
             // 
-            // GPO1_3SBUSIN
-            // 
-            resources.ApplyResources(this.GPO1_3SBUSIN, "GPO1_3SBUSIN");
-            this.GPO1_3SBUSIN.Name = "GPO1_3SBUSIN";
-            // 
-            // RGPO1_3SBUSIN
-            // 
-            resources.ApplyResources(this.RGPO1_3SBUSIN, "RGPO1_3SBUSIN");
-            this.RGPO1_3SBUSIN.Name = "RGPO1_3SBUSIN";
-            // 
-            // GPO1_3STATLED
-            // 
-            resources.ApplyResources(this.GPO1_3STATLED, "GPO1_3STATLED");
-            this.GPO1_3STATLED.Name = "GPO1_3STATLED";
-            // 
-            // GPO1_0TXEN485
-            // 
-            resources.ApplyResources(this.GPO1_0TXEN485, "GPO1_0TXEN485");
-            this.GPO1_0TXEN485.Name = "GPO1_0TXEN485";
-            // 
-            // RGPO1_0TXEN485
-            // 
-            resources.ApplyResources(this.RGPO1_0TXEN485, "RGPO1_0TXEN485");
-            this.RGPO1_0TXEN485.Name = "RGPO1_0TXEN485";
-            // 
-            // RGPO1_3STATLED
-            // 
-            resources.ApplyResources(this.RGPO1_3STATLED, "RGPO1_3STATLED");
-            this.RGPO1_3STATLED.Name = "RGPO1_3STATLED";
-            // 
             // ENCRYPTION_LEVEL
             // 
             this.ENCRYPTION_LEVEL.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -910,6 +880,52 @@
             this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
             this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
             this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
+            // 
+            // FSFRAMELOSS
+            // 
+            this.FSFRAMELOSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.FSFRAMELOSS, "FSFRAMELOSS");
+            this.FSFRAMELOSS.FormattingEnabled = true;
+            this.FSFRAMELOSS.Name = "FSFRAMELOSS";
+            this.toolTip1.SetToolTip(this.FSFRAMELOSS, resources.GetString("FSFRAMELOSS.ToolTip"));
+            // 
+            // RFSFRAMELOSS
+            // 
+            this.RFSFRAMELOSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.RFSFRAMELOSS, "RFSFRAMELOSS");
+            this.RFSFRAMELOSS.FormattingEnabled = true;
+            this.RFSFRAMELOSS.Name = "RFSFRAMELOSS";
+            this.toolTip1.SetToolTip(this.RFSFRAMELOSS, resources.GetString("RFSFRAMELOSS.ToolTip"));
+            // 
+            // GPO1_3SBUSIN
+            // 
+            resources.ApplyResources(this.GPO1_3SBUSIN, "GPO1_3SBUSIN");
+            this.GPO1_3SBUSIN.Name = "GPO1_3SBUSIN";
+            // 
+            // RGPO1_3SBUSIN
+            // 
+            resources.ApplyResources(this.RGPO1_3SBUSIN, "RGPO1_3SBUSIN");
+            this.RGPO1_3SBUSIN.Name = "RGPO1_3SBUSIN";
+            // 
+            // GPO1_3STATLED
+            // 
+            resources.ApplyResources(this.GPO1_3STATLED, "GPO1_3STATLED");
+            this.GPO1_3STATLED.Name = "GPO1_3STATLED";
+            // 
+            // GPO1_0TXEN485
+            // 
+            resources.ApplyResources(this.GPO1_0TXEN485, "GPO1_0TXEN485");
+            this.GPO1_0TXEN485.Name = "GPO1_0TXEN485";
+            // 
+            // RGPO1_0TXEN485
+            // 
+            resources.ApplyResources(this.RGPO1_0TXEN485, "RGPO1_0TXEN485");
+            this.RGPO1_0TXEN485.Name = "RGPO1_0TXEN485";
+            // 
+            // RGPO1_3STATLED
+            // 
+            resources.ApplyResources(this.RGPO1_3STATLED, "RGPO1_3STATLED");
+            this.RGPO1_3STATLED.Name = "RGPO1_3STATLED";
             // 
             // RTI
             // 
@@ -1037,6 +1053,31 @@
             resources.ApplyResources(this.groupBoxLocal, "groupBoxLocal");
             this.groupBoxLocal.Name = "groupBoxLocal";
             this.groupBoxLocal.TabStop = false;
+            // 
+            // label54
+            // 
+            resources.ApplyResources(this.label54, "label54");
+            this.label54.Name = "label54";
+            // 
+            // GPO1_3AUXOUT
+            // 
+            resources.ApplyResources(this.GPO1_3AUXOUT, "GPO1_3AUXOUT");
+            this.GPO1_3AUXOUT.Name = "GPO1_3AUXOUT";
+            // 
+            // label53
+            // 
+            resources.ApplyResources(this.label53, "label53");
+            this.label53.Name = "label53";
+            // 
+            // GPI1_2AUXIN
+            // 
+            resources.ApplyResources(this.GPI1_2AUXIN, "GPI1_2AUXIN");
+            this.GPI1_2AUXIN.Name = "GPI1_2AUXIN";
+            // 
+            // label52
+            // 
+            resources.ApplyResources(this.label52, "label52");
+            this.label52.Name = "label52";
             // 
             // label48
             // 
@@ -1425,6 +1466,31 @@
             this.groupBoxRemote.Name = "groupBoxRemote";
             this.groupBoxRemote.TabStop = false;
             // 
+            // label55
+            // 
+            resources.ApplyResources(this.label55, "label55");
+            this.label55.Name = "label55";
+            // 
+            // RGPO1_3AUXOUT
+            // 
+            resources.ApplyResources(this.RGPO1_3AUXOUT, "RGPO1_3AUXOUT");
+            this.RGPO1_3AUXOUT.Name = "RGPO1_3AUXOUT";
+            // 
+            // label56
+            // 
+            resources.ApplyResources(this.label56, "label56");
+            this.label56.Name = "label56";
+            // 
+            // RGPI1_2AUXIN
+            // 
+            resources.ApplyResources(this.RGPI1_2AUXIN, "RGPI1_2AUXIN");
+            this.RGPI1_2AUXIN.Name = "RGPI1_2AUXIN";
+            // 
+            // label57
+            // 
+            resources.ApplyResources(this.label57, "label57");
+            this.label57.Name = "label57";
+            // 
             // label51
             // 
             resources.ApplyResources(this.label51, "label51");
@@ -1758,72 +1824,6 @@
             this.BUT_Syncoptions.Name = "BUT_Syncoptions";
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
-            // 
-            // GPI1_2AUXIN
-            // 
-            resources.ApplyResources(this.GPI1_2AUXIN, "GPI1_2AUXIN");
-            this.GPI1_2AUXIN.Name = "GPI1_2AUXIN";
-            // 
-            // label52
-            // 
-            resources.ApplyResources(this.label52, "label52");
-            this.label52.Name = "label52";
-            // 
-            // GPO1_3AUXOUT
-            // 
-            resources.ApplyResources(this.GPO1_3AUXOUT, "GPO1_3AUXOUT");
-            this.GPO1_3AUXOUT.Name = "GPO1_3AUXOUT";
-            // 
-            // label53
-            // 
-            resources.ApplyResources(this.label53, "label53");
-            this.label53.Name = "label53";
-            // 
-            // label54
-            // 
-            resources.ApplyResources(this.label54, "label54");
-            this.label54.Name = "label54";
-            // 
-            // FSFRAMELOSS
-            // 
-            this.FSFRAMELOSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.FSFRAMELOSS, "FSFRAMELOSS");
-            this.FSFRAMELOSS.FormattingEnabled = true;
-            this.FSFRAMELOSS.Name = "FSFRAMELOSS";
-            this.toolTip1.SetToolTip(this.FSFRAMELOSS, resources.GetString("FSFRAMELOSS.ToolTip"));
-            // 
-            // label55
-            // 
-            resources.ApplyResources(this.label55, "label55");
-            this.label55.Name = "label55";
-            // 
-            // RFSFRAMELOSS
-            // 
-            this.RFSFRAMELOSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.RFSFRAMELOSS, "RFSFRAMELOSS");
-            this.RFSFRAMELOSS.FormattingEnabled = true;
-            this.RFSFRAMELOSS.Name = "RFSFRAMELOSS";
-            this.toolTip1.SetToolTip(this.RFSFRAMELOSS, resources.GetString("RFSFRAMELOSS.ToolTip"));
-            // 
-            // RGPO1_3AUXOUT
-            // 
-            resources.ApplyResources(this.RGPO1_3AUXOUT, "RGPO1_3AUXOUT");
-            this.RGPO1_3AUXOUT.Name = "RGPO1_3AUXOUT";
-            // 
-            // label56
-            // 
-            resources.ApplyResources(this.label56, "label56");
-            this.label56.Name = "label56";
-            // 
-            // RGPI1_2AUXIN
-            // 
-            resources.ApplyResources(this.RGPI1_2AUXIN, "RGPI1_2AUXIN");
-            this.RGPI1_2AUXIN.Name = "RGPI1_2AUXIN";
-            // 
-            // label57
-            // 
-            resources.ApplyResources(this.label57, "label57");
-            this.label57.Name = "label57";
             // 
             // Sikradio
             // 
