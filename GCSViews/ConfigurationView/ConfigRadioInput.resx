@@ -585,6 +585,48 @@
   <data name="&gt;&gt;BAR9.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="BAR16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>510, 290</value>
+  </data>
+  <data name="BAR16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 25</value>
+  </data>
+  <data name="BAR16.TabIndex" type="System.Int32, mscorlib">
+    <value>137</value>
+  </data>
+  <data name="&gt;&gt;BAR16.Name" xml:space="preserve">
+    <value>BAR16</value>
+  </data>
+  <data name="&gt;&gt;BAR16.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BAR16.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BAR16.ZOrder" xml:space="preserve">
+    <value>10001</value>
+  </data>
+  <data name="BAR15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>384, 290</value>
+  </data>
+  <data name="BAR15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 25</value>
+  </data>
+  <data name="BAR15.TabIndex" type="System.Int32, mscorlib">
+    <value>136</value>
+  </data>
+  <data name="&gt;&gt;BAR15.Name" xml:space="preserve">
+    <value>BAR15</value>
+  </data>
+  <data name="&gt;&gt;BAR15.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.6252.12351, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BAR15.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BAR15.ZOrder" xml:space="preserve">
+    <value>10000</value>
+  </data>
   <data name="BAR14.Location" type="System.Drawing.Point, System.Drawing">
     <value>510, 234</value>
   </data>

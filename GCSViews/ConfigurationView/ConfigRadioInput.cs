@@ -84,6 +84,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BAR12.DataBindings.Clear();
             BAR13.DataBindings.Clear();
             BAR14.DataBindings.Clear();
+            BAR15.DataBindings.Clear();
+            BAR16.DataBindings.Clear();
 
             BARroll.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch" + chroll + "in", true));
             BARpitch.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch" + chpitch + "in", true));
@@ -101,6 +103,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BAR12.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch12in", true));
             BAR13.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch13in", true));
             BAR14.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch14in", true));
+            BAR15.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch15in", true));
+            BAR16.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch16in", true));
 
             try
             {
@@ -304,6 +308,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     setBARStatus(BAR12, rcmin[11], rcmax[11]);
                     setBARStatus(BAR13, rcmin[12], rcmax[12]);
                     setBARStatus(BAR14, rcmin[13], rcmax[13]);
+                    setBARStatus(BAR15, rcmin[14], rcmax[14]);
+                    setBARStatus(BAR16, rcmin[15], rcmax[15]);
                 }
             }
 
