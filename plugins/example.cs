@@ -27,10 +27,12 @@ namespace test
                 var dowd = new MissionPlanner.WebAPIs.Dowding();
                 try
                 {
-                    dowd.Auth(File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[0],
-                    File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[1]).Wait();
-          
-                    dowd.Start().Wait();
+                    if (File.Exists(@"C:\Users\mich1\dowding.txt")) {
+                        dowd.Auth(File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[0],
+                        File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[1]).Wait();
+              
+                        dowd.Start().Wait();
+                    }
                 }
                 catch
                 {
