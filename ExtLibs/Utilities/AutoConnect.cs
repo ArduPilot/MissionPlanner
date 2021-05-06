@@ -170,7 +170,7 @@ namespace MissionPlanner.Utilities
 
                                 try
                                 {
-                                    TcpListener listener = new TcpListener(connectionInfo.Port);
+                                    TcpListener listener = new TcpListener(IPAddress.Any, connectionInfo.Port);
                                     listener.Start();
                                     var client = listener.AcceptTcpClient();
                                     var serial = new TcpSerial();

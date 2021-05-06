@@ -15,7 +15,7 @@ namespace MissionPlanner.Joystick
          
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             Dispose(true);
         }
@@ -94,7 +94,7 @@ namespace MissionPlanner.Joystick
             return joystick.Capabilities.ButtonCount;
         }
 
-        internal static IList<DeviceInstance> getDevices()
+        internal new static IList<DeviceInstance> getDevices()
         {
             return new DirectInput().GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
         }
@@ -113,7 +113,7 @@ namespace MissionPlanner.Joystick
             return null;
         }
 
-        public static JoystickBase getJoyStickByName(string name)
+        public new static JoystickBase getJoyStickByName(string name)
         {
             var joysticklist = getDevices();
 

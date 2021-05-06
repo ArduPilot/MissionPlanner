@@ -1913,6 +1913,24 @@ namespace MissionPlanner.Utilities
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
             public struct gps_time_t
             {
+                public bool Equals(gps_time_t other)
+                {
+                    return tow.Equals(other.tow) && wn == other.wn;
+                }
+
+                public override bool Equals(object obj)
+                {
+                    return obj is gps_time_t other && Equals(other);
+                }
+
+                public override int GetHashCode()
+                {
+                    unchecked
+                    {
+                        return (tow.GetHashCode() * 397) ^ wn.GetHashCode();
+                    }
+                }
+
                 public double tow; /**< Seconds since the GPS start of week. */
                 public u16 wn;     /**< GPS week number. */
 

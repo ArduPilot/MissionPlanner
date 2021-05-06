@@ -48,3 +48,7 @@ dotnet_diagnostic.SCS0005.severity = silent
 
 # CS0162: Unreachable code detected
 dotnet_diagnostic.CS0162.severity = suggestion
+csharp_indent_block_contents=true
+
+# CS1522: Empty switch block
+dotnet_diagnostic.CS1522.severity = suggestion
