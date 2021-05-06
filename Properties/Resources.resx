@@ -445,16 +445,16 @@ Control-F - Temp screen\par
 Control-T - Blind connect\par
 \par
 FlightData\par
-Control-1 - tab 1\par Control-
-2 - tab 2\par Control-
-3 - tab 3\par Control-
-4 - tab 4\par Control-
-5 - tab 5\par Control-
-6 - tab 6\par Control-
-7 - tab 7\par Control-
-8 - tab 8\par Control-
-9 - tab 9\par Control-
-0 - tab 10\par
+Control-1 - tab 1\par
+Control-2 - tab 2\par
+Control-3 - tab 3\par
+Control-4 - tab 4\par
+Control-5 - tab 5\par
+Control-6 - tab 6\par
+Control-7 - tab 7\par
+Control-8 - tab 8\par
+Control-9 - tab 9\par
+Control-0 - tab 10\par
 \par
 FlightPlanner\par
 Control-Z - undo\par
