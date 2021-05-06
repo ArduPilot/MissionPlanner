@@ -637,7 +637,7 @@ namespace MissionPlanner.GCSViews
 
             if (keyData == (Keys.Control | Keys.D))
             {
-                StartSwarmSeperate();
+                _ = StartSwarmSeperate();
                 return true;
             }
 
@@ -875,7 +875,7 @@ SIM_DRIFT_TIME=0
 
                 try
                 {
-                    MainV2.comPort.getParamListAsync((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                    _ = MainV2.comPort.getParamListAsync((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
                 }
                 catch
                 {
@@ -897,7 +897,7 @@ SIM_DRIFT_TIME=0
 
         private void but_swarmlink_Click(object sender, EventArgs e)
         {
-             StartSwarmSeperate();
+            _ = StartSwarmSeperate();
         }
     }
 }

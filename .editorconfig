@@ -52,3 +52,6 @@ csharp_indent_block_contents=true
 
 # CS1522: Empty switch block
 dotnet_diagnostic.CS1522.severity = suggestion
+
+dotnet_diagnostic.CS3021.severity = silent
+dotnet_diagnostic.CS0618.severity = silent
