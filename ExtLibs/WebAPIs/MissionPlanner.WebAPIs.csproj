@@ -48,7 +48,7 @@
     <PackageReference Include="SuperSocket.ClientEngine.Core" Version="0.10.0"></PackageReference>
     <PackageReference Include="WebSocket4Net" Version="0.15.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
     <Reference Include="WebSocket4Net">
-      <HintPath>C:\Users\mich1\.nuget\packages\websocket4net\0.15.2\lib\netstandard1.3\WebSocket4Net.dll</HintPath>
+      <HintPath>$(NuGetPackageRoot)\websocket4net\0.15.2\lib\netstandard1.3\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
 
