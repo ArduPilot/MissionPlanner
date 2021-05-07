@@ -3402,35 +3402,6 @@ namespace MissionPlanner.GCSViews
                             log.Error(ex);
                         }
 
-                        updateMarkersAsNeeded<VehicleTick, GMapMarkerQuad>(WebAPIs.Dowding.Vehicles.Values,
-                            adsbais, tick => { return tick.Serial ?? tick.Id; },
-                            mapMarker =>
-                            {
-                                return ((VehicleTick) mapMarker.Tag).Serial ?? ((VehicleTick) mapMarker.Tag).Id;
-                            },
-                            tick =>
-                            {
-                                return new GMapMarkerQuad(new PointLatLng((double) tick.Lat, (double) tick.Lon), 0, 0,
-                                    0, 0) {Tag = tick};
-                            },
-                            (tick, mapMarker) =>
-                            {
-                                mapMarker.Position = new PointLatLng((double) tick.Lat, (double) tick.Lon);
-                                mapMarker.Tag = tick;
-
-                                var time = ((int) (tick.Ts / 1000)).fromUnixTime();
-
-                                if (time > DateTime.UtcNow.AddSeconds(-120))
-                                {
-                                    mapMarker.IsVisible = true;
-                                }
-                                else
-                                {
-                                    mapMarker.IsVisible = false;
-                                }
-
-                            });
-
                         // draw AIS
                         updateMarkersAsNeeded<MAVLink.mavlink_ais_vessel_t, GMapMarkerAISBoat>(AIS.Vessels, adsbais,
                             (item) => { return item.MMSI.ToString(); },
@@ -3621,7 +3592,7 @@ namespace MissionPlanner.GCSViews
         }
 
 
-        private void updateMarkersAsNeeded<TBuilder, TMarker>(IEnumerable<TBuilder> list, GMapOverlay gMapOverlay,
+        public void updateMarkersAsNeeded<TBuilder, TMarker>(IEnumerable<TBuilder> list, GMapOverlay gMapOverlay,
             Func<TBuilder, string> GetTagSource, Func<GMapMarker, string> GetTagMarker,
             Func<TBuilder, GMapMarker> create, Action<TBuilder, GMapMarker> update)
         {
@@ -3664,7 +3635,7 @@ namespace MissionPlanner.GCSViews
             // remove dups - can happen because the delayed invoke on first create
             sourcelist.Distinct().ForEach(a =>
             {
-                var sublist = markers.Where(b => GetTagMarker(b) == a);
+                var sublist = markers.Where(b => b.Tag != null && GetTagMarker(b) == a);
                 if (sublist.Count() > 1)
                     BeginInvoke((Action) delegate { gMapOverlay.Markers.Remove(sublist.Last()); });
             });

@@ -19,8 +19,8 @@ namespace MissionPlanner.WebAPIs
     {
         private Configuration Configuration;
         private string token;
-        public string URL { get; set; } = "https://test.dowding.cuas.dds.mil/api/1.0";
-        public string WS { get; set; } = "wss://test.dowding.cuas.dds.mil/ws";
+        public string URL { get; set; } = "https://{0}/api/1.0";
+        public string WS { get; set; } = "wss://{0}/ws";
 
         public static Dictionary<string, VehicleTick> Vehicles = new Dictionary<string, VehicleTick>();
 
@@ -29,32 +29,35 @@ namespace MissionPlanner.WebAPIs
         /// </summary>
         public Dowding()
         {
+            Console.WriteLine("Dowding .ctor");
             Configuration.Default.DefaultHeader["User-Agent"] =
                 "MissionPlanner " + Assembly.GetExecutingAssembly().GetName().Version;
         }
 
-        public async Task Auth(string email, string password)
+        public async Task Auth(string email, string password, string server)
         {
-            Configuration = new Configuration(new ApiClient(URL));
+            Console.WriteLine("Dowding Auth");
+            Configuration = new Configuration(new ApiClient(String.Format(URL, server)));
 
             var auth = new AuthenticationApi(Configuration);
 
             var tokenres = await auth.AuthenticationLoginPostAsync(new LoginDto(email, password));
 
-            SetToken(tokenres?.Token);
+            SetToken(tokenres?.Token, server);
         }
 
-        public void SetToken(string customtoken)
+        public void SetToken(string customtoken, string server)
         {
-            Configuration = new Configuration(new ApiClient(URL));
+            Configuration = new Configuration(new ApiClient(String.Format(URL, server)));
 
             token = customtoken;
 
             Configuration.AddApiKey("Authorization", "Bearer " + customtoken);
         }
 
-        public async Task Start()
+        public async Task Start(string server)
         {
+            Console.WriteLine("Dowding Start");
             // starting point - get last 120seconds with the very last point of each
             var contacts =
                 (await GetContact(minTs: DateTime.UtcNow.AddSeconds(-120).toUnixTime().ToString(), thin: true,
@@ -68,7 +71,7 @@ namespace MissionPlanner.WebAPIs
                 }
             );
 
-            var ws = await StartWS<VehicleTick>();
+            var ws = await StartWS<VehicleTick>(server);
 
             ws.MessageReceived += (sender, args) =>
             {
@@ -127,9 +130,10 @@ namespace MissionPlanner.WebAPIs
         /// <typeparam name="T"></typeparam>
         /// <param name="type">contacts/vehicle_ticks/operator_ticks/homepoints/events</param>
         /// <returns></returns>
-        public async Task<WebSocket> StartWS<T>(string type = "vehicle_ticks")
+        public async Task<WebSocket> StartWS<T>(string server, string type = "vehicle_ticks")
         {
-            var ws = new WebSocket(WS);
+            Console.WriteLine("Dowding StartWS");
+            var ws = new WebSocket(String.Format(WS, server));
             await Task.Run(async () => await ws.OpenAsync());
             var connectmsg = JsonConvert.SerializeObject(new
             {

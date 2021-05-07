@@ -385,6 +385,10 @@
       <Version>5.0.0.2012</Version>
     </PackageReference>
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
+    <PackageReference Include="WebSocket4Net" Version="0.15.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
+    <Reference Include="WebSocket4Net">
+      <HintPath>$(NuGetPackageRoot)\websocket4net\0.15.2\lib\netstandard1.3\WebSocket4Net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Antenna\TrackerGeneric.cs" />
@@ -669,12 +673,6 @@
       <DependentUpon>UserPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
-    <Compile Include="Utilities\DowdingUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Utilities\DowdingUI.Designer.cs">
-      <DependentUpon>DowdingUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />

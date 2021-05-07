@@ -215,6 +215,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onvif", "ExtLibs\Onvif\Onvi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.WebAPIs", "ExtLibs\WebAPIs\MissionPlanner.WebAPIs.csproj", "{9A702625-FB81-4400-ADAC-053553109F64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dowding", "plugins\Dowding\Dowding.csproj", "{FB690197-2695-489C-A47C-439FF3AEF7A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -527,6 +529,10 @@ Global
 		{9A702625-FB81-4400-ADAC-053553109F64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A702625-FB81-4400-ADAC-053553109F64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A702625-FB81-4400-ADAC-053553109F64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB690197-2695-489C-A47C-439FF3AEF7A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB690197-2695-489C-A47C-439FF3AEF7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB690197-2695-489C-A47C-439FF3AEF7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB690197-2695-489C-A47C-439FF3AEF7A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -608,6 +614,7 @@ Global
 		{A157AD69-59D4-49DE-94B3-DB883B2BEAA5} = {82872363-B5AC-4ACE-9200-83F5EF9AF27A}
 		{CA8C83FC-FCDC-4F8F-9384-A2C9C5B2F7DD} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{9A702625-FB81-4400-ADAC-053553109F64} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
+		{FB690197-2695-489C-A47C-439FF3AEF7A8} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7AF94B5-83B0-46CD-B258-67F2404F82FC}
