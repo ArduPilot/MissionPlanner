@@ -27,7 +27,7 @@ namespace MissionPlanner.WebAPIs
         private static async void DoIt()
         {
             var dowd = new Dowding();
-            dowd.Auth(File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[0],
+       /*     dowd.Auth(File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[0],
                 File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[1]).Wait();
 
             //dowd.SetToken("");
@@ -46,17 +46,17 @@ namespace MissionPlanner.WebAPIs
 
             //var vehc = await dowd.GetVehicle(contacts.First().Id);
 */
-            dowd.Start();
+          //  dowd.Start("");
 
-           // Debugger.Break();
+            // Debugger.Break();
         }
 
-        public static int toUnixTime(this DateTime dateTime)
+        internal static int toUnixTime(this DateTime dateTime)
         {
             return (int)dateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
 
-        public static DateTime fromUnixTime(this int time)
+        internal static DateTime fromUnixTime(this int time)
         {
             return new DateTime(1970, 1, 1).AddSeconds(time);
         }
