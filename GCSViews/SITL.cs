@@ -161,7 +161,7 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            var exepath = CheckandGetSITLImage("APMrover2.elf");
+            var exepath = CheckandGetSITLImage("ArduRover.elf");
             try
             {
                 StartSITL(await exepath, "rover",
