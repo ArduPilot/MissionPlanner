@@ -2486,7 +2486,27 @@ namespace MissionPlanner.Controls
                             scrollbg.Bottom + 5);
                     }
 
-                    drawstring((int) _disttowp + distunit + ">" + _wpno, font, fontsize, _whiteBrush,
+                    var newdist = _disttowp;
+                    var newdistunit = distunit;
+                    if (newdist >= 1000)
+                    {
+                        if (distunit == "m")
+                        {
+                            newdistunit = "k";
+                            newdist = (float)Math.Round(newdist / 1000.0, 1);
+                        }
+                        else
+                        {
+                            newdistunit = "mi";
+                            newdist = (float)Math.Round(newdist / 5280.0, 1); 
+                        }
+                    }
+                    else
+                    {
+                        newdist = (int) newdist;
+                    }
+
+                    drawstring(newdist + newdistunit + ">" + _wpno, font, fontsize, _whiteBrush,
                         scrollbg.Left - 30, scrollbg.Bottom + fontsize + 2 + 10);
                 }
 
