@@ -1391,10 +1391,10 @@ namespace UAVCAN
                 crcprocess.add(payloaddata, payloaddata.Length);
                 var crc = crcprocess.get();
 
-                var buffer = new byte[64];
                 var toogle = false;
                 var framesize = canfd ? 63 : 7;
                 var size = framesize;
+                var buffer = new byte[size + 1];
                 for (int a = 0; a < payloaddata.Length; a += size)
                 {
                     if (a == 0)
