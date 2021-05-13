@@ -114,12 +114,15 @@
             // 
             // TB_output
             // 
+            this.TB_output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_output.Location = new System.Drawing.Point(12, 102);
             this.TB_output.Multiline = true;
             this.TB_output.Name = "TB_output";
             this.TB_output.ReadOnly = true;
             this.TB_output.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.TB_output.Size = new System.Drawing.Size(383, 202);
+            this.TB_output.Size = new System.Drawing.Size(383, 367);
             this.TB_output.TabIndex = 12;
             this.TB_output.WordWrap = false;
             // 
@@ -184,7 +187,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(407, 309);
+            this.ClientSize = new System.Drawing.Size(407, 474);
             this.Controls.Add(this.label_type);
             this.Controls.Add(this.TB_xml_type);
             this.Controls.Add(this.GB_connection);
