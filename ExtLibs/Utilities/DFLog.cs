@@ -445,7 +445,7 @@ namespace MissionPlanner.Utilities
         // last time of message
         DateTime lasttime = DateTime.MinValue;
         // first valid gpstime
-        DateTime gpsstarttime = DateTime.MinValue;
+        public DateTime gpsstarttime { get; internal set; } = DateTime.MinValue;
 
         long msoffset = 0;
 
