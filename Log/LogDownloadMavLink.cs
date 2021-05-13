@@ -231,31 +231,26 @@ namespace MissionPlanner.Log
                 }
             }
 
-            log.Info("about to convertbin: " + logfile);
-
-            // create ascii log
-            BinaryLog.ConvertBin(logfile, logfile + ".log");
-
-            //update the new filename
-            logfile = logfile + ".log";
-
             // rename file if needed
             log.Info("about to GetFirstGpsTime: " + logfile);
             // get gps time of assci log
-            DateTime logtime = new DFLog(null).GetFirstGpsTime(logfile);
+            var dflb = new DFLogBuffer(logfile);
+            DateTime logtime = dflb.dflog.gpsstarttime;
+            dflb.Clear();
+            GC.Collect();
 
             // rename log is we have a valid gps time
             if (logtime != DateTime.MinValue)
             {
                 string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar
-                                        + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                                        + MainV2.comPort.MAV.sysid + Path.DirectorySeparatorChar +
-                                        logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
+                                                                 + MainV2.comPort.MAV.aptype.ToString() +
+                                                                 Path.DirectorySeparatorChar
+                                                                 + MainV2.comPort.MAV.sysid +
+                                                                 Path.DirectorySeparatorChar +
+                                                                 logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".bin";
                 try
                 {
                     File.Move(logfile, newlogfilename);
-                    // rename bin as well
-                    File.Move(logfile.Replace(".log", ""), newlogfilename.Replace(".log", ".bin"));
                     logfile = newlogfilename;
                 }
                 catch
@@ -305,7 +300,7 @@ namespace MissionPlanner.Log
             UpdateProgress(0, totalBytes, tallyBytes + receivedbytes);
         }
 
-        void CreateLog(string logfile)
+        void CreateKML(string logfile)
         {
             TextReader tr = new StreamReader(logfile);
             //
@@ -353,9 +348,7 @@ namespace MissionPlanner.Log
 
                     AppendSerialLog(string.Format(LogStrings.FetchingLog, fileName));
 
-                    var logname = await GetLog(entry.id, fileName).ConfigureAwait(false);
-
-                    CreateLog(logname);
+                    await GetLog(entry.id, fileName).ConfigureAwait(false);
 
                     tallyBytes += receivedbytes;
                     receivedbytes = 0;
