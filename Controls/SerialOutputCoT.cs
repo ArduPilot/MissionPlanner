@@ -260,34 +260,34 @@ namespace MissionPlanner.Controls
                 }
             };
 
-            var ms = new MemoryStream();
+            using(StringWriter textWriter = new StringWriter())
+            {
+                XmlWriterSettings xws = new XmlWriterSettings();
+                xws.OmitXmlDeclaration = false;
+                xws.Indent = true;
+                xws.Encoding = Encoding.UTF8;
+                xws.NewLineOnAttributes = true;
 
-            XmlWriterSettings xws = new XmlWriterSettings();
-            xws.OmitXmlDeclaration = false;
-            xws.Indent = true;
-            xws.Encoding = Encoding.UTF8;
-            xws.NewLineOnAttributes = true;
+                //Create our own namespaces for the output
+                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
 
-            //Create our own namespaces for the output
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                //Add an empty namespace and empty value
+                ns.Add("", "");
 
-            //Add an empty namespace and empty value
-            ns.Add("", "");
+                var xtw = XmlTextWriter.Create(textWriter, xws);
+                // Then we can set our indenting options (this is, of course, optional).
+                XmlSerializer serializer =
+                    new XmlSerializer(typeof(@event));
 
-            var xtw = XmlTextWriter.Create(ms, xws);
-            // Then we can set our indenting options (this is, of course, optional).
-            XmlSerializer serializer =
-                new XmlSerializer(typeof(@event));
+                xtw.WriteStartDocument(true);          
+       
+                serializer.Serialize(xtw, cotevent, ns);      
 
-            xtw.WriteStartDocument(true);
+                var ans = textWriter.ToString();
+
+                return ans;
+            }
             
-            TextWriter writer = new StreamWriter(ms);
-            serializer.Serialize(xtw, cotevent, ns);
-
-            var ans = ASCIIEncoding.UTF8.GetString(ms.ToArray());
-
-            return ans;
-            /*
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine  ("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>");
@@ -324,7 +324,7 @@ namespace MissionPlanner.Controls
             sb.AppendLine  ("</event>");
 
             return sb.ToString();
-            */
+            
         }
 
         private void BTN_clear_TB_Click(object sender, EventArgs e)
