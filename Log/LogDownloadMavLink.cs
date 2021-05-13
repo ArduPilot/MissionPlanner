@@ -202,34 +202,22 @@ namespace MissionPlanner.Log
             status = SerialStatus.Reading;
 
             // get df log from mav
-            using (var ms = await MainV2.comPort.GetLog(no).ConfigureAwait(false))
-            {
-                if (ms != null)
-                    log.Info("Got Log length: " + ms.Length);
+            var fn = await MainV2.comPort.GetLog(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, no)
+                .ConfigureAwait(false);
 
-                ms.Seek(0, SeekOrigin.Begin);
+            GC.Collect();
+            status = SerialStatus.Done;
 
-                status = SerialStatus.Done;
+            logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
+                                               + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                                               + MainV2.comPort.MAV.sysid + Path.DirectorySeparatorChar + no + " " +
+                                               MakeValidFileName(fileName) + ".bin";
 
-                logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
-                          + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                          + MainV2.comPort.MAV.sysid + Path.DirectorySeparatorChar + no + " " + MakeValidFileName(fileName) + ".bin";
+            // make log dir
+            Directory.CreateDirectory(Path.GetDirectoryName(logfile));
 
-                // make log dir
-                Directory.CreateDirectory(Path.GetDirectoryName(logfile));
-
-                log.Info("about to write: " + logfile);
-                // save memorystream to file
-                using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(logfile)))
-                {
-                    byte[] buffer = new byte[256 * 1024];
-                    while (ms.Position < ms.Length)
-                    {
-                        int read = ms.Read(buffer, 0, buffer.Length);
-                        bw.Write(buffer, 0, read);
-                    }
-                }
-            }
+            log.Info("about to move " + fn + " to: " + logfile);
+            File.Move(fn, logfile);
 
             // rename file if needed
             log.Info("about to GetFirstGpsTime: " + logfile);
