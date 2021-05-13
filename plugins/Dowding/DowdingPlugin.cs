@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dowding.Model;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 using MissionPlanner;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Maps;
@@ -104,7 +105,7 @@ namespace Dowding
             return true;
         }
 
-        public bool Loop()
+        public override bool Loop()
         {
             GMapOverlay overlay;
 
@@ -116,23 +117,45 @@ namespace Dowding
             {
                 overlay = new GMap.NET.WindowsForms.GMapOverlay("dowding");
                 Host.FDGMapControl.Overlays.Add(overlay);
+                Host.FDGMapControl.OnMarkerClick += (item, args) =>
+                {
+                    if (item.Overlay == overlay && item is GMarkerGoogle)
+                    {
+                        if (target != null)
+                        {
+                            target.ToolTipMode = MarkerTooltipMode.Never;
+                            target.ToolTipText = "";
+                        }
+                        target = (GMarkerGoogle)item;
+                        target.ToolTipMode = MarkerTooltipMode.Always;
+                        target.ToolTipText = "Tracking";
+                    }
+                };
             }
 
-            FlightData.instance.updateMarkersAsNeeded<VehicleTick, GMapMarkerQuad>(MissionPlanner.WebAPIs.Dowding.Vehicles.Values,
-                overlay, tick => { return tick.Serial ?? tick.Id; },
+            FlightData.instance.updateMarkersAsNeeded<VehicleTick, GMarkerGoogle>(MissionPlanner.WebAPIs.Dowding.Vehicles.Values,
+                overlay, tick =>
+                {
+                    return tick.Serial ?? tick.Id;
+                },
                 mapMarker =>
                 {
                     return ((VehicleTick) mapMarker.Tag).Serial ?? ((VehicleTick) mapMarker.Tag).Id;
                 },
                 tick =>
                 {
-                    return new GMapMarkerQuad(new PointLatLng((double) tick.Lat, (double) tick.Lon), 0, 0,
-                        0, 0) {Tag = tick};
+                    return new GMarkerGoogle(new PointLatLng((double)tick.Lat, (double)tick.Lon), GMarkerGoogleType.blue_dot) {Tag = tick};
                 },
                 (tick, mapMarker) =>
                 {
                     mapMarker.Position = new PointLatLng((double) tick.Lat, (double) tick.Lon);
                     mapMarker.Tag = tick;
+
+                    if (mapMarker == target)
+                    {
+                        UpdateOutput?.Invoke(this,
+                            new PointLatLngAlt((double) tick.Lat, (double) tick.Lon, (double) tick.Hae));
+                    }
 
                     var time = ((int) (tick.Ts / 1000)).fromUnixTime();
 
@@ -142,13 +165,17 @@ namespace Dowding
                     }
                     else
                     {
-                        mapMarker.IsVisible = false;
+                       mapMarker.IsVisible = false;
                     }
 
                 });
 
             return true;
         }
+
+        private GMarkerGoogle target;
+
+        public event EventHandler<PointLatLngAlt> UpdateOutput;
 
         private void men_Click(object sender, EventArgs e)
         {

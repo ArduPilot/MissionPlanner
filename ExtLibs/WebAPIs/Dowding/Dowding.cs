@@ -58,10 +58,10 @@ namespace MissionPlanner.WebAPIs
         public async Task Start(string server)
         {
             Console.WriteLine("Dowding Start");
-            // starting point - get last 120seconds with the very last point of each
+            // starting point - get last 120seconds with the very last point of each, max of 100 nodes
             var contacts =
-                (await GetContact(minTs: DateTime.UtcNow.AddSeconds(-120).toUnixTime().ToString(), thin: true,
-                    limit: 100)).OrderBy(a => a.VehicleLastTs).ToList();
+                (await GetContact(minTs: DateTime.UtcNow.AddSeconds(-120).toUnixTime().ToString(), thin: true))
+                .OrderByDescending(a => a.VehicleLastTs).Take(100).ToList();
 
             contacts.ForEach(a =>
                 {
