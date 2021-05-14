@@ -433,6 +433,7 @@ namespace MissionPlanner.Utilities
         public void Clear()
         {
             basestream.Close();
+            basestream.Dispose();
             _count = 0;
             linestartoffset.Clear();
         }
