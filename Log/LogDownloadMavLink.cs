@@ -217,7 +217,15 @@ namespace MissionPlanner.Log
             Directory.CreateDirectory(Path.GetDirectoryName(logfile));
 
             log.Info("about to move " + fn + " to: " + logfile);
-            File.Move(fn, logfile);
+            try
+            {
+                File.Move(fn, logfile);
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorRenameFile + " " + logfile + "\nto " + logfile,
+                    Strings.ERROR);
+            }
 
             // rename file if needed
             log.Info("about to GetFirstGpsTime: " + logfile);
@@ -377,6 +385,8 @@ namespace MissionPlanner.Log
             }
         }
 
+        DateTime start = DateTime.Now;
+
         private void UpdateProgress(uint min, uint max, uint current)
         {
             RunOnUIThread(() =>
@@ -386,9 +396,24 @@ namespace MissionPlanner.Log
                 progressBar1.Value = (int)current;
                 progressBar1.Visible = (current < max);
 
+                if (current == 0)
+                    start = DateTime.Now;
+
                 if (current < max)
                 {
-                    labelBytes.Text = current.ToString();
+                    var per = (current / (double)max) * 100;
+                    
+                    var elapsed = DateTime.Now - start;
+                    if (elapsed.TotalSeconds == 0)
+                        elapsed = TimeSpan.FromSeconds(1);
+                    var avgbps = current / elapsed.TotalSeconds;
+                    if (avgbps == 0)
+                        avgbps = 1;
+                    var left = max - current;
+                    var eta = DateTime.Now.AddSeconds(left / avgbps);
+                    
+
+                    labelBytes.Text = current.ToString() + " " + per.ToString("N1") + "% " + eta.ToString("hh:mm t") + " ETA";
                 }
                 else
                 {
