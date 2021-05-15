@@ -810,7 +810,7 @@
             0});
             this.modifyandSetSpeed.Name = "modifyandSetSpeed";
             this.modifyandSetSpeed.Value = new decimal(new int[] {
-            100,
+            10,
             0,
             0,
             0});
