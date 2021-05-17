@@ -60,6 +60,14 @@ namespace UAVCAN
 
         public event MessageRecievedDel MessageReceived;
 
+        public delegate void FrameRecievedDel(CANFrame frame, CANPayload payload);
+
+        public event FrameRecievedDel FrameReceived;
+
+        public delegate void FrameErrorDel(CANFrame frame, CANPayload payload);
+
+        public event FrameErrorDel FrameError;
+
         private object sr_lock = new object();
         private Stream sr;
         DateTime uptime = DateTime.Now;
@@ -1773,14 +1781,14 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             if (packet_data == null || packet_data.Count() == 0)
                 return;
 
-            // canfd trim 0's
-            trim_payload(ref packet_data);
             //Console.WriteLine(ASCIIEncoding.ASCII.GetString( packet_data));
             //Console.WriteLine("RX " + line.Replace("\r", "\r\n"));
 
             //Console.WriteLine("RX " + line[0] + " " + msgdata + " " + line.Substring(2 + id_len,packet_len*2));
 
             var payload = new CANPayload(packet_data);
+
+            FrameReceived?.Invoke(frame, payload);
 
             if (payload.SOT)
             {
@@ -1802,6 +1810,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                         transfer.Remove((packet_id, payload.TransferID));
                         transferToggle.Remove((packet_id, payload.TransferID));
                         Console.WriteLine("Bad Toggle {0}", frame.MsgTypeID);
+                        FrameError?.Invoke(frame, payload);
                         return;
                         //error here
                     }
@@ -1878,7 +1887,10 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     startbyte = 2;
 
                     if (result.Length <= 1)
+                    {
+                        FrameError?.Invoke(frame, payload);
                         return;
+                    }
 
                     var payload_crc = result[0] | result[1] << 8;
 
@@ -1890,6 +1902,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     if (crc != payload_crc)
                     {
                         Console.WriteLine("Bad Message CRC Fail " + frame.MsgTypeID);
+                        FrameError?.Invoke(frame, payload);
                         return;
                     }
                 }
@@ -1910,6 +1923,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                 }
                 catch (Exception ex)
                 {
+                    FrameError?.Invoke(frame, payload);
                     Console.WriteLine(ex);
                 }
             }
