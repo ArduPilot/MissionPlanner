@@ -44,9 +44,15 @@ namespace Dowding
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbl_header = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.CMB_baudrate = new System.Windows.Forms.ComboBox();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
+            this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // chk_enable
@@ -190,18 +196,78 @@ namespace Dowding
             this.lbl_header.TabIndex = 7;
             this.lbl_header.Text = "Dowding";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.CMB_baudrate);
+            this.panel2.Controls.Add(this.BUT_connect);
+            this.panel2.Controls.Add(this.CMB_serialport);
+            this.panel2.Location = new System.Drawing.Point(30, 220);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(420, 88);
+            this.panel2.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(160, 23);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Antenna Tracker";
+            // 
+            // CMB_baudrate
+            // 
+            this.CMB_baudrate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_baudrate.FormattingEnabled = true;
+            this.CMB_baudrate.Items.AddRange(new object[] {
+            "4800",
+            "9600",
+            "14400",
+            "19200",
+            "28800",
+            "38400",
+            "57600",
+            "115200"});
+            this.CMB_baudrate.Location = new System.Drawing.Point(7, 53);
+            this.CMB_baudrate.Name = "CMB_baudrate";
+            this.CMB_baudrate.Size = new System.Drawing.Size(121, 21);
+            this.CMB_baudrate.TabIndex = 5;
+            // 
+            // BUT_connect
+            // 
+            this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.BUT_connect.Location = new System.Drawing.Point(134, 26);
+            this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
+            this.BUT_connect.TabIndex = 4;
+            this.BUT_connect.Text = "Connect";
+            this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
+            // 
+            // CMB_serialport
+            // 
+            this.CMB_serialport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_serialport.FormattingEnabled = true;
+            this.CMB_serialport.Location = new System.Drawing.Point(7, 26);
+            this.CMB_serialport.Name = "CMB_serialport";
+            this.CMB_serialport.Size = new System.Drawing.Size(121, 21);
+            this.CMB_serialport.TabIndex = 3;
+            // 
             // DowdingUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "DowdingUI";
-            this.Size = new System.Drawing.Size(480, 236);
+            this.Size = new System.Drawing.Size(480, 319);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -222,5 +288,10 @@ namespace Dowding
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbl_header;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox CMB_baudrate;
+        private MissionPlanner.Controls.MyButton BUT_connect;
+        private System.Windows.Forms.ComboBox CMB_serialport;
     }
 }
