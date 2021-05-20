@@ -175,7 +175,7 @@ namespace Dowding
 
         private GMarkerGoogle target;
 
-        public event EventHandler<PointLatLngAlt> UpdateOutput;
+        public static event EventHandler<PointLatLngAlt> UpdateOutput;
 
         private void men_Click(object sender, EventArgs e)
         {
