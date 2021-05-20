@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArduPilot\MissionPlanner.ArduPilot.csproj" />
+    <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\Controls\MissionPlanner.Controls.csproj" />
+    <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj">
+      <Aliases>out</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\px4uploader\px4uploader.csproj" />
+  </ItemGroup>
+
+</Project>
