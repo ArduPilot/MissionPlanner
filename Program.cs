@@ -237,10 +237,10 @@ namespace MissionPlanner
             Console.WriteLine("Application.DoEvents");
             Application.DoEvents();
 
-            CustomMessageBox.ShowEvent += (text, caption, buttons, icon, yestext, notext) =>
+            CustomMessageBox.ShowEvent += (text, caption, buttons, icon, yestext, notext, doforalltext) =>
                 {
                     return (CustomMessageBox.DialogResult)(int)MsgBox.CustomMessageBox.Show(text, caption,
-                        (MessageBoxButtons)(int)buttons, (MessageBoxIcon)(int)icon, yestext, notext);
+                        (MessageBoxButtons)(int)buttons, (MessageBoxIcon)(int)icon, yestext, notext, doforalltext );
                 };
 
             // setup theme provider

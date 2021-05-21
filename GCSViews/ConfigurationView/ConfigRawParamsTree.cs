@@ -33,6 +33,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // ?
         internal bool startup = true;
 
+        private static DialogResult _lastOutOfRangeResult = DialogResult.None;
+        private static bool _suppressOutOfRangeWarning = false;
+        private static bool _suppressReadOnlyWarning = false;
+
         public ConfigRawParamsTree()
         {
             InitializeComponent();
@@ -43,6 +47,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
 
             _changes.Clear();
+
+            _suppressOutOfRangeWarning = false;
+            _suppressReadOnlyWarning = false;
 
             BUT_writePIDS.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
@@ -97,6 +104,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_load_Click(object sender, EventArgs e)
         {
+            //clear suppress flags
+            _suppressOutOfRangeWarning = false;
+            _suppressReadOnlyWarning = false;
+
             using (var ofd = new OpenFileDialog
             {
                 AddExtension = true,
@@ -119,19 +130,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void loadparamsfromfile(string fn, bool offline = false)
         {
-            var param2 = ParamFile.loadParamFile(fn);
-
-            foreach (string name in param2.Keys)
+            try
             {
-                var value = param2[name].ToString();
+                var param2 = ParamFile.loadParamFile(fn);
 
-                if (offline)
+                foreach (string name in param2.Keys)
                 {
-                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value),
-                        MAVLink.MAV_PARAM_TYPE.REAL32));
-                }
+                    var value = param2[name].ToString();
 
-                checkandupdateparam(name, value);
+                    if (offline)
+                    {
+                        MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value),
+                            MAVLink.MAV_PARAM_TYPE.REAL32));
+                    }
+
+                    checkandupdateparam(name, value);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Exception loading params from file", ex);
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
             }
         }
 
@@ -640,15 +659,42 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 }
 
+                var readonly1 = ParameterMetaDataRepository.GetParameterMetaData(((data)e.RowObject).paramname,
+                    ParameterMetaDataConstants.ReadOnly, MainV2.comPort.MAV.cs.firmware.ToString());
+
+                if (!String.IsNullOrEmpty(readonly1))
+                {
+                    var readonly2 = bool.Parse(readonly1);
+                    if (readonly2)
+                    {
+                        if (!_suppressReadOnlyWarning)
+                        {
+                            CustomMessageBox.Show(
+                                    ((data)e.RowObject).paramname + " is marked as ReadOnly, and will not be changed", "ReadOnly",
+                                    CustomMessageBox.MessageBoxButtons.OK, DoThisForAllText: "Ok to all");
+
+                            _suppressReadOnlyWarning = MissionPlanner.MsgBox.CustomMessageBox.DoThisForAll;
+                        }
+                        e.Cancel = true;
+                        return;
+                    }
+                }
+
                 if (ParameterMetaDataRepository.GetParameterRange(((data)e.RowObject).paramname, ref min, ref max,
                     MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
                     if (newvalue > max || newvalue < min)
                     {
-                        if (
-                            CustomMessageBox.Show(
+                        if (!_suppressOutOfRangeWarning)
+                        {
+                            _lastOutOfRangeResult = (DialogResult)CustomMessageBox.Show(
                                 ((data)e.RowObject).paramname + " value is out of range. Do you want to continue?",
-                                "Out of range", MessageBoxButtons.YesNo) == (int)DialogResult.No)
+                                "Out of range", CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.None, DoThisForAllText: "Do this for all items?");
+
+                            _suppressOutOfRangeWarning = MissionPlanner.MsgBox.CustomMessageBox.DoThisForAll;
+                        }
+
+                        if (_lastOutOfRangeResult == DialogResult.No)
                         {
                             e.Cancel = true;
                             return;

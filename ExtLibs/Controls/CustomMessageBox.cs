@@ -13,12 +13,19 @@ namespace MissionPlanner.MsgBox
         const int FORM_Y_MARGIN = 10;
         const int FORM_X_MARGIN = 16;
 
-       public delegate void ThemeManager(Control ctl);
+        public delegate void ThemeManager(Control ctl);
 
         public static event ThemeManager ApplyTheme;
 
         static DialogResult _state = DialogResult.None;
 
+        static CheckBox _chkDoThisForAll = new CheckBox();        
+        public static bool DoThisForAll
+        {
+            get { return _chkDoThisForAll.Checked;}
+            set { _chkDoThisForAll.Checked = false; }
+        }
+        
         public static DialogResult Show(string text)
         {
             return Show(text, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.None);
@@ -34,7 +41,7 @@ namespace MissionPlanner.MsgBox
             return Show(text, caption, buttons, MessageBoxIcon.None);
         }
 
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No", string DoThisForAllText = null)
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -63,13 +70,13 @@ namespace MissionPlanner.MsgBox
             else
             {
                 Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                answer =  ShowUI(text, caption, buttons, icon, YesText, NoText);
+                answer =  ShowUI(text, caption, buttons, icon, YesText, NoText, DoThisForAllText);
             }
 
             return answer;
         }
 
-        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
+        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No", string doThisForAllText = null)
         {
             DialogResult answer = DialogResult.Abort;
 
@@ -94,13 +101,16 @@ namespace MissionPlanner.MsgBox
 
             // ensure we are always in a known state
             _state = DialogResult.None;
-            
+
+            //clear checkbox each time dialog opens
+            _chkDoThisForAll.Checked = false;
+
             SizeF sz = TextRenderer.MeasureText ("The quick brown Fox", SystemFonts.DefaultFont);
             var perchar = sz.Width / 20;
             // convert to nice wrapped lines.
             text = AddNewLinesToText(text, Screen.PrimaryScreen.Bounds.Width / (int)perchar);
             // get pixel width and height
-            Size textSize = TextRenderer.MeasureText(text, SystemFonts.DefaultFont);
+            Size textSize = TextRenderer.MeasureText(text, SystemFonts.DefaultFont);            
             // allow for icon
             if (icon != MessageBoxIcon.None)
                 textSize.Width += SystemIcons.Question.Width;
@@ -134,7 +144,7 @@ namespace MissionPlanner.MsgBox
                 };
 
                 msgBoxFrm.Controls.Add(lblMessage);
-
+                
                 msgBoxFrm.Width = lblMessage.Right + 50;
 
                 if (link != "" && linktext != "")
@@ -187,6 +197,11 @@ namespace MissionPlanner.MsgBox
 
                 AddButtonsToForm(msgBoxFrm, buttons, YesText, NoText);
 
+                if (!string.IsNullOrWhiteSpace(doThisForAllText))
+                {
+                    AddCheckboxToForm(msgBoxFrm, doThisForAllText);
+                }
+
                 // display even if theme fails
                 try
                 {
@@ -204,6 +219,30 @@ namespace MissionPlanner.MsgBox
             }
 
             return answer;
+        }
+
+        private static void AddCheckboxToForm(Form msgBoxFrm, string doThisForAllText)
+        {
+            Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
+            int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
+
+            var t = Type.GetType("Mono.Runtime");
+            if ((t != null))
+                titleHeight = 25;
+
+            //expand form to allow for checkbox underneath buttons
+            msgBoxFrm.Height += 30;
+
+            _chkDoThisForAll = new CheckBox
+            {
+                Text = doThisForAllText,
+                Left = FORM_X_MARGIN,
+                Top = msgBoxFrm.Height - 24 - FORM_Y_MARGIN - titleHeight,
+                AutoSize = true
+            };
+
+            msgBoxFrm.Controls.Add(_chkDoThisForAll);
+            
         }
 
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
