@@ -16,7 +16,7 @@ for /r %%v in (*.inf) do rmdir "%%v-t"
 
 pause
 
-for /r %%v in (*.cat) do start /min signtool sign /n "Michael Oborne" /t http://timestamp.verisign.com/scripts/timestamp.dll "%%v"
+for /r %%v in (*.cat) do start /min signtool sign /n "Michael Oborne" /t http://timestamp.digicert.com "%%v"
 
 cmd
 
