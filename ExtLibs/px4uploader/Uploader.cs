@@ -450,6 +450,7 @@ namespace px4uploader
             {
                 if (DateTime.Now > deadline)
                     throw new TimeoutException("timeout waiting for responce");
+                Thread.Yield();
             }
 
             byte c = __recv()[0];
