@@ -765,7 +765,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 // this ensures a mavlink2 change has been noticed
                 getHeartBeat();
 
-                getVersion();
+                getVersion((byte) sysidcurrent, (byte) compidcurrent);
 
                 doCommand((byte) sysidcurrent, (byte) compidcurrent, MAV_CMD.DO_SEND_BANNER, 0, 0, 0, 0, 0, 0, 0,
                     false);
@@ -1578,6 +1578,49 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         public async Task<MAVLinkParamList> getParamListMavftpAsync(byte sysid, byte compid)
         {
+            var sub2 = SubscribeToPacketType(MAVLINK_MSG_ID.STATUSTEXT, buffer =>
+            {
+                if (buffer.msgid == (byte) MAVLINK_MSG_ID.STATUSTEXT)
+                {
+                    var msg = buffer.ToStructure<mavlink_statustext_t>();
+
+                    string logdata = Encoding.ASCII.GetString(msg.text);
+
+                    int ind = logdata.IndexOf('\0');
+                    if (ind != -1)
+                        logdata = logdata.Substring(0, ind);
+
+                    if (logdata.ToLower().Contains("copter") || logdata.ToLower().Contains("rover") ||
+                        logdata.ToLower().Contains("plane"))
+                    {
+                        MAVlist[sysid, compid].VersionString = logdata;
+                    }
+                    else if (logdata.ToLower().Contains("nuttx") || logdata.ToLower().Contains("chibios"))
+                    {
+                        MAVlist[sysid, compid].SoftwareVersions = logdata;
+                    }
+                    else if (logdata.ToLower().Contains("px4v2") ||
+                             Regex.IsMatch(logdata, @"\s[0-9A-F]+\s[0-9A-F]+\s[0-9A-F]+"))
+                    {
+                        MAVlist[sysid, compid].SerialString = logdata;
+                    }
+                    else if (logdata.ToLower().Contains("frame"))
+                    {
+                        MAVlist[sysid, compid].FrameString = logdata;
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+                return true;
+            });
+
+            // get the banner
+            doCommand((byte) sysid, (byte) compid, MAV_CMD.DO_SEND_BANNER, 0, 0, 0, 0, 0, 0, 0,
+                false);
+
             var ftpfile = false;
             if ((MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
             {
@@ -1623,6 +1666,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                     a.Name.MakeBytesSize(16), (byte) a.Type)));
                         });
 
+                        UnSubscribeToPacketType(sub2);
                         return MAVlist[sysid, compid].param;
                     }
                 }
@@ -1630,9 +1674,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             if (!ftpfile)
             {
+                UnSubscribeToPacketType(sub2);
                 return await getParamListAsync(sysid, compid);
             }
 
+            UnSubscribeToPacketType(sub2);
             return MAVlist[sysid, compid].param;
         }
 
@@ -5402,7 +5448,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         buffer.compid == req.target_component)
                     {
                         giveComport = false;
-
                         return true;
                     }
                 }
