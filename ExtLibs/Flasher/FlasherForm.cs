@@ -223,7 +223,8 @@ namespace Flasher
                         {
                             RegistryKey rk5 = rk4.OpenSubKey(s2);
                             RegistryKey rk6 = rk5.OpenSubKey("Device Parameters");
-                            comports.Add((string)rk6.GetValue("PortName"));
+                            if(rk6 != null)
+                                comports.Add((string)rk6.GetValue("PortName"));
                         }
                     }
                 }
