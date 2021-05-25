@@ -360,7 +360,7 @@ namespace Flasher
 
         private Dictionary<string, string> portstatus = new Dictionary<string, string>();
 
-        private void FWUpload(object? a)
+        private void FWUpload(object a)
         {
             
             Tuple<int, string> passin = (Tuple<int, string>)a;
