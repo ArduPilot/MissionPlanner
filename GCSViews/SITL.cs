@@ -875,7 +875,7 @@ SIM_DRIFT_TIME=0
 
                 try
                 {
-                    _ = MainV2.comPort.getParamListAsync((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                    _ = MainV2.comPort.getParamListMavftpAsync((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
                 }
                 catch
                 {
