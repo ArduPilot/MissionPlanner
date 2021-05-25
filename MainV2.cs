@@ -1657,7 +1657,51 @@ namespace MissionPlanner
                 if (getparams)
                 {
                     var ftpfile = false;
-                    if ((MainV2.comPort.MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
+
+                    // buzz
+                    var filename = "ftpparam.pck";
+                    if (File.Exists(filename))
+                    {
+
+                        //var stream = new MemoryStream(File.ReadAllBytes(filename));
+                        //var paramfile = stream;
+
+                        MemoryStream ms = new MemoryStream();
+                        using (FileStream file = new FileStream("ftpparam.pck", FileMode.Open, FileAccess.Read))
+                        {
+                           byte[] bytes = new byte[file.Length];
+                         file.Read(bytes, 0, (int)file.Length);
+                        ms.Write(bytes, 0, (int)file.Length);
+                        }
+                        var paramfile = ms;
+
+                        var pp = paramfile.ToArray();
+                        Console.WriteLine("................reading cached params from ftpparam.pck..........................");
+                        var mavlist = parampck.unpack(pp);
+                        if (mavlist != null)
+                        {
+                            Console.WriteLine("................read cached params from ftpparam.pck..........................");
+                            comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
+                            comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.TotalReported =
+                                mavlist.Count;
+                            comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.AddRange(mavlist);
+                            var gen = new MAVLink.MavlinkParse();
+                            mavlist.ForEach(a =>
+                            {
+                                comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param_types[a.Name] =
+                                    a.Type;
+                                MainV2.comPort.SaveToTlog(gen.GenerateMAVLinkPacket10(
+                                    MAVLink.MAVLINK_MSG_ID.PARAM_VALUE,
+                                    new MAVLink.mavlink_param_value_t((float)a.Value, (ushort)mavlist.Count,
+                                        0,
+                                        a.Name.MakeBytesSize(16), (byte)a.Type)));
+                            });
+
+                            ftpfile = true;
+                        }
+                    }
+
+                    if (!ftpfile && ( (MainV2.comPort.MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0) )
                     {
                         var prd = new ProgressReporterDialogue();
                         prd.DoWork += (IProgressReporterDialogue sender) =>
@@ -1684,6 +1728,16 @@ namespace MissionPlanner
                             if (paramfile != null && paramfile.Length > 0)
                             {
                                 var mavlist = parampck.unpack(paramfile.ToArray());
+
+                                // write MemoryStream to file:
+                                using (FileStream file = new FileStream("ftpparam.pck", FileMode.Create, System.IO.FileAccess.Write))
+                                {
+                                    byte[] bytes = new byte[paramfile.Length];
+                                    paramfile.Read(bytes, 0, (int)paramfile.Length);
+                                    file.Write(bytes, 0, bytes.Length);
+                                    paramfile.Close();
+                                }
+
                                 if (mavlist != null)
                                 {
                                     comPort.MAVlist[comPort.MAV.sysid, comPort.MAV.compid].param.Clear();
