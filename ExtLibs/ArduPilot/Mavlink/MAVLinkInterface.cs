@@ -451,7 +451,14 @@ namespace MissionPlanner
                     tuple.Item2 <= (byte)MAV_COMPONENT.MAV_COMP_ID_CAMERA6)
                 {
                     MAVlist[tuple.Item1, tuple.Item2].Camera = new CameraProtocol();
-                    MAVlist[tuple.Item1, tuple.Item2].Camera.StartID(MAVlist[tuple.Item1, tuple.Item2]);
+                    try
+                    {
+                        MAVlist[tuple.Item1, tuple.Item2].Camera.StartID(MAVlist[tuple.Item1, tuple.Item2]);
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error(e);
+                    }
                 }
             };
         }
@@ -768,7 +775,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     frmProgressReporter.UpdateProgressAndStatus(0,
                         "Getting Params.. (sysid " + MAV.sysid + " compid " + MAV.compid + ") ");
 
-                    getParamList(MAV.sysid, MAV.compid);
+                    getParamListMavftp(MAV.sysid, MAV.compid);
                 }
 
                 if (frmProgressReporter.doWorkArgs.CancelAcknowledged == true)
@@ -1555,7 +1562,78 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
         void FrmProgressReporterGetParams(IProgressReporterDialogue sender)
         {
-            getParamList(MAV.sysid, MAV.compid);
+            getParamListMavftp(MAV.sysid, MAV.compid);
+        }
+
+        /// <summary>
+        /// Get param list via mavftp with old style fallback
+        /// </summary>
+        /// <param name="sysid"></param>
+        /// <param name="compid"></param>
+        /// <returns>MAVLinkParamList</returns>
+        public MAVLinkParamList getParamListMavftp(byte sysid, byte compid)
+        {
+            return getParamListMavftpAsync(sysid, compid).AwaitSync();
+        }
+
+        public async Task<MAVLinkParamList> getParamListMavftpAsync(byte sysid, byte compid)
+        {
+            var ftpfile = false;
+            if ((MAV.cs.capabilities & (int) MAVLink.MAV_PROTOCOL_CAPABILITY.FTP) > 0)
+            {
+                if (frmProgressReporter != null)
+                    frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Param MAVFTP");
+                var cancel = new CancellationTokenSource();
+                var paramfileTask = Task.Run<MemoryStream>(() =>
+                {
+                    return new MAVFtp(this, sysid, compid).GetFile(
+                        "@PARAM/param.pck", cancel, false, 110);
+                });
+                while (!paramfileTask.IsCompleted)
+                {
+                    if (frmProgressReporter != null)
+                        if (frmProgressReporter.doWorkArgs.CancelRequested)
+                        {
+                            cancel.Cancel();
+                            frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
+                        }
+
+                    await Task.Delay(10).ConfigureAwait(false);
+                }
+
+                var paramfile = paramfileTask.Result;
+                if (paramfile != null && paramfile.Length > 0)
+                {
+                    var mavlist = parampck.unpack(paramfile.ToArray());
+                    if (mavlist != null)
+                    {
+                        MAVlist[sysid, compid].param.Clear();
+                        MAVlist[sysid, compid].param.TotalReported =
+                            mavlist.Count;
+                        MAVlist[sysid, compid].param.AddRange(mavlist);
+                        var gen = new MAVLink.MavlinkParse();
+                        mavlist.ForEach(a =>
+                        {
+                            MAVlist[sysid, compid].param_types[a.Name] =
+                                a.Type;
+                            SaveToTlog(gen.GenerateMAVLinkPacket10(
+                                MAVLink.MAVLINK_MSG_ID.PARAM_VALUE,
+                                new MAVLink.mavlink_param_value_t((float) a.Value, (ushort) mavlist.Count,
+                                    0,
+                                    a.Name.MakeBytesSize(16), (byte) a.Type)));
+                        });
+
+                        return MAVlist[sysid, compid].param;
+                    }
+                }
+            }
+
+            if (!ftpfile)
+            {
+                return await getParamListAsync(sysid, compid);
+            }
+
+            return MAVlist[sysid, compid].param;
         }
 
         /// <summary>

@@ -149,7 +149,7 @@
         try
         {
             Toaster.Success("Getting param list");
-            await mav.getParamListAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
+            await mav.getParamListMavftpAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
             Toaster.Success("Retrieved param list");
             StateHasChanged();
             await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawparams').DataTable( { searching: true,  serverSide: false, retrieve: true    } );" }).ConfigureAwait(false);
