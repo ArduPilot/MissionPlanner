@@ -1022,7 +1022,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
                 var prt = new MainV2.DEV_BROADCAST_PORT();
                 prt.dbcp_devicetype = DBT_DEVTYP_PORT;
-                prt.dbcp_name = ASCIIEncoding.Unicode.GetBytes(e.board);
+                prt.dbcp_name = e.board;
                 prt.dbcp_size = prt.dbcp_name.Length * 2 + 4 * 3;
 
                 IntPtr tosend;
