@@ -1569,7 +1569,7 @@ namespace MissionPlanner
                 log.Info("Set Baudrate");
                 try
                 {
-                    if (baud != "" && baud != "0")
+                    if (baud != "" && baud != "0" && baud.IsNumber())
                         comPort.BaseStream.BaudRate = int.Parse(baud);
                 }
                 catch (Exception exp)
