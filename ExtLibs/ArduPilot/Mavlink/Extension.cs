@@ -14,6 +14,14 @@ public static class Extension
         return JsonConvert.DeserializeObject<MAVLink.MAVLinkMessage>(msg);
     }
 
+    public static string ToHexString(this byte[] input)
+    {
+        StringBuilder hex = new StringBuilder(input.Length * 2);
+        foreach (byte b in input)
+            hex.AppendFormat("{0:x2}", b);
+        return hex.ToString();
+    }
+
     public static string WrapText(this string msg, int length, char[] spliton)
     {
         StringBuilder ans = new StringBuilder();
