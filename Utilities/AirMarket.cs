@@ -5,18 +5,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Flurl.Http;
 using System.Web;
 using System.Windows.Forms;
+using log4net;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities
 {
     public class AirMarketUI: MyUserControl, IActivate
     {
+
         private FlowLayoutPanel flowLayoutPanel1;
         private TextBox txt_username;
         private Label myLabel3;
@@ -166,7 +169,7 @@ namespace MissionPlanner.Utilities
 
         private async void but_verify_Click(object sender, EventArgs e)
         {
-            var ans = await AirMarket.ValidateCredentials(txt_username.Text, txt_password.Text, cmb_server.Text);
+            var ans = await AirMarket.ValidateCredentials(txt_username.Text, txt_password.Text, cmb_server.Text).ConfigureAwait(true);
             if (ans == false)
             {
                 CustomMessageBox.Show("Username or password invalid");
@@ -185,6 +188,9 @@ namespace MissionPlanner.Utilities
 
     public class AirMarket
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+
         private static HttpClient httpClient;
 
         private static string Url { get; set; } =
@@ -207,7 +213,7 @@ namespace MissionPlanner.Utilities
             var url = String.Format(Url, server, username,
                 String.Join("", md5pass));
 
-            var resp = await httpClient.GetAsync(url);
+            var resp = await httpClient.GetAsync(url).ConfigureAwait(false);
 
             if (resp.StatusCode != System.Net.HttpStatusCode.OK)
                 return false;
@@ -249,7 +255,14 @@ namespace MissionPlanner.Utilities
                 Queue.Enqueue(log);
             }
 
-            StartUploader();
+            try
+            {
+                StartUploader();
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+            }
         }
 
         private static async Task StartUploader()
@@ -267,10 +280,10 @@ namespace MissionPlanner.Utilities
                     .PostMultipartAsync(mp =>
                         mp.AddFile("logFile", current.FullName)
                             .AddString("DlbUrl", "https://" + server)
-                    );
+                    ).ConfigureAwait(false);
 
                 if (resp.StatusCode != System.Net.HttpStatusCode.OK)
-                    throw new Exception(await resp.Content.ReadAsStringAsync());
+                    throw new Exception(await resp.Content.ReadAsStringAsync().ConfigureAwait(false));
 
                 Settings.Instance["AirMarket_logdate"] = current.LastWriteTime.ToString();
                 Queue.Dequeue();
