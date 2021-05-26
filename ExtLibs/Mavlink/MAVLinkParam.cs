@@ -9,10 +9,15 @@ public partial class MAVLink
         /// Paramater name
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Over the wire storage format
+        /// </summary>
+        public MAV_PARAM_TYPE Type { get; set; }
+
         /// <summary>
         /// Value of paramter as a double
         /// </summary>
-
         public double Value
         {
             get
@@ -24,10 +29,6 @@ public partial class MAVLink
                 SetValue(value);
             }
         }
-        /// <summary>
-        /// Over the wire storage format
-        /// </summary>
-        public MAV_PARAM_TYPE Type { get; set; }
 
         private MAV_PARAM_TYPE _typeap = 0;
         public MAV_PARAM_TYPE TypeAP {
@@ -64,6 +65,10 @@ public partial class MAVLink
                 _data = value;
                 Array.Resize(ref _data, 4);
             }
+        }
+
+        private MAVLinkParam()
+        {
         }
 
         /// <summary>

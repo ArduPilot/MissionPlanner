@@ -3,17 +3,34 @@ using MissionPlanner.ArduPilot;
 using MissionPlanner.Utilities;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
 using MissionPlanner.ArduPilot.Mavlink;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MissionPlanner
 {
     public class MAVState : MAVLink, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public string ParamCachePath
+        {
+            get
+            {
+                return Path.Combine(Settings.GetDataDirectory(), "paramcache",
+                    aptype.ToString(),
+                    cs.uid2,
+                    sysid.ToString(),
+                    compid.ToString(),
+                    "param.json");
+            }
+        }
 
         [JsonIgnore]
         [IgnoreDataMember]
@@ -30,6 +47,23 @@ namespace MissionPlanner
             sendlinkid = (byte)(new Random().Next(256));
             signing = false;
             this.param = new MAVLinkParamList();
+            this.param.PropertyChanged += (s, a) =>
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        if (cs.uid2 == "")
+                            return;
+                        Directory.CreateDirectory(Path.GetDirectoryName(ParamCachePath));
+                        File.WriteAllText(ParamCachePath, param.ToJSON());
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error(e);
+                    }
+                });
+            };
             this.packets = new Dictionary<uint, Queue<MAVLinkMessage>>(byte.MaxValue);
             this.packetsLast = new Dictionary<uint, MAVLinkMessage>(byte.MaxValue);
             this.aptype = 0;
@@ -114,9 +148,21 @@ namespace MissionPlanner
         [JsonIgnore]
         [IgnoreDataMember]
         public MAVLinkParamList param { get; set; }
+
         [JsonIgnore]
         [IgnoreDataMember]
-        public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
+        public Dictionary<string, MAV_PARAM_TYPE> param_types
+        {
+            get
+            {
+                return param.ToDictionary<MAVLinkParam, string, MAV_PARAM_TYPE>(a => a.Name,
+                    a => a.Type);
+            }
+            set
+            {
+
+            }
+        } //= new Dictionary<string, MAV_PARAM_TYPE>();
 
         /// <summary>
         /// storage of a previous packet recevied of a specific type

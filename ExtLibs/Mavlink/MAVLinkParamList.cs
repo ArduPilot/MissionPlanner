@@ -42,7 +42,7 @@ public partial class MAVLink
                         if (item.Name == name)
                         {
                             this[index] = value;
-                            OnPropertyChanged(name);
+                            OnPropertyChanged();
                             return;
                         }
 
@@ -98,6 +98,7 @@ public partial class MAVLink
             lock (locker)
             {
                 base.AddRange(collection);
+                OnPropertyChanged();
             }
         }
 

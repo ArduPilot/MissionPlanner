@@ -37,6 +37,7 @@ using Transitions;
 using System.Linq;
 using MissionPlanner.Joystick;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace MissionPlanner
 {
@@ -1656,10 +1657,18 @@ namespace MissionPlanner
 
                 if (getparams)
                 {
-                    if (Settings.Instance.GetBoolean("Params_BG", false))
-                        Task.Run(() => { comPort.getParamListMavftp(comPort.MAV.sysid, comPort.MAV.compid); });
+                    if (File.Exists(comPort.MAV.ParamCachePath) && 
+                        new FileInfo(comPort.MAV.ParamCachePath).LastWriteTime > DateTime.Now.AddDays(-1))
+                    {
+                        comPort.MAV.param = File.ReadAllText(comPort.MAV.ParamCachePath).FromJSON<MAVLink.MAVLinkParamList>();
+                    }
                     else
-                        comPort.getParamList();
+                    {
+                        if (Settings.Instance.GetBoolean("Params_BG", false))
+                            Task.Run(() => { comPort.getParamListMavftp(comPort.MAV.sysid, comPort.MAV.compid); });
+                        else
+                            comPort.getParamList();
+                    }
                 }
 
                 _connectionControl.UpdateSysIDS();
@@ -3671,7 +3680,7 @@ namespace MissionPlanner
 
         private async void BGLogMessagesMetaData(object nothing)
         {
-            await LogMetaData.GetMetaData();
+            await LogMetaData.GetMetaData().ConfigureAwait(false);
             LogMetaData.ParseMetaData();
         }
 
