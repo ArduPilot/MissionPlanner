@@ -1170,6 +1170,7 @@
             // 
             // NUM_UpDownFlySpeed
             // 
+            this.NUM_UpDownFlySpeed.DecimalPlaces = 1;
             resources.ApplyResources(this.NUM_UpDownFlySpeed, "NUM_UpDownFlySpeed");
             this.NUM_UpDownFlySpeed.Maximum = new decimal(new int[] {
             360,
