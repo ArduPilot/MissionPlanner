@@ -1702,7 +1702,8 @@ namespace MissionPlanner
         public float vibez { get; set; }
 
         public Version version { get; set; }
-
+        public ulong uid { get; set; }
+        public string uid2 { get; set; }
         public float rpm1 { get; set; }
 
         public float rpm2 { get; set; }
@@ -1835,6 +1836,9 @@ namespace MissionPlanner
                                 (MAVLink.FIRMWARE_VERSION_TYPE)(version.flight_sw_version & 0xff);
 
                             this.version = new Version(main, sub, rev, (int)type);
+
+                            this.uid = version.uid;
+                            this.uid2 = version.uid2.ToHexString();
 
                             try
                             {
