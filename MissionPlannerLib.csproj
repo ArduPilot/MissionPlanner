@@ -41,6 +41,7 @@
     <Compile Remove="ExtLibs\DotSpatial\**" />
     <Compile Remove="ExtLibs\DriverCleanup\**" />
     <Compile Remove="ExtLibs\ExtGuided\**" />
+    <Compile Remove="ExtLibs\Flasher\**" />
     <Compile Remove="ExtLibs\GDAL\**" />
 
     <Compile Remove="ExtLibs\GeoUtility\**" />
@@ -130,6 +131,7 @@
     <EmbeddedResource Remove="ExtLibs\DotSpatial\**" />
     <EmbeddedResource Remove="ExtLibs\DriverCleanup\**" />
     <EmbeddedResource Remove="ExtLibs\ExtGuided\**" />
+    <EmbeddedResource Remove="ExtLibs\Flasher\**" />
     <EmbeddedResource Remove="ExtLibs\GDAL\**" />
 
     <EmbeddedResource Remove="ExtLibs\GeoUtility\**" />
@@ -218,6 +220,7 @@
     <None Remove="ExtLibs\DotSpatial\**" />
     <None Remove="ExtLibs\DriverCleanup\**" />
     <None Remove="ExtLibs\ExtGuided\**" />
+    <None Remove="ExtLibs\Flasher\**" />
     <None Remove="ExtLibs\GDAL\**" />
 
     <None Remove="ExtLibs\GeoUtility\**" />
