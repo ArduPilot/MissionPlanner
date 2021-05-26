@@ -135,7 +135,7 @@
             this.groupBoxservo.Location = new System.Drawing.Point(3, 3);
             this.groupBoxservo.MinimumSize = new System.Drawing.Size(100, 100);
             this.groupBoxservo.Name = "groupBoxservo";
-            this.groupBoxservo.Size = new System.Drawing.Size(405, 256);
+            this.groupBoxservo.Size = new System.Drawing.Size(444, 256);
             this.groupBoxservo.TabIndex = 0;
             this.groupBoxservo.TabStop = false;
             this.groupBoxservo.Text = "Servo Setup";
@@ -217,14 +217,14 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(399, 237);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(438, 237);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // mavlinkCheckBoxrev8
             // 
             this.mavlinkCheckBoxrev8.AutoSize = true;
             this.mavlinkCheckBoxrev8.Enabled = false;
-            this.mavlinkCheckBoxrev8.Location = new System.Drawing.Point(341, 213);
+            this.mavlinkCheckBoxrev8.Location = new System.Drawing.Point(380, 213);
             this.mavlinkCheckBoxrev8.Name = "mavlinkCheckBoxrev8";
             this.mavlinkCheckBoxrev8.OffValue = 0D;
             this.mavlinkCheckBoxrev8.OnValue = 1D;
@@ -236,7 +236,7 @@
             // 
             this.mavlinkCheckBoxrev7.AutoSize = true;
             this.mavlinkCheckBoxrev7.Enabled = false;
-            this.mavlinkCheckBoxrev7.Location = new System.Drawing.Point(341, 186);
+            this.mavlinkCheckBoxrev7.Location = new System.Drawing.Point(380, 186);
             this.mavlinkCheckBoxrev7.Name = "mavlinkCheckBoxrev7";
             this.mavlinkCheckBoxrev7.OffValue = 0D;
             this.mavlinkCheckBoxrev7.OnValue = 1D;
@@ -249,7 +249,7 @@
             // 
             this.mavlinkCheckBoxrev6.AutoSize = true;
             this.mavlinkCheckBoxrev6.Enabled = false;
-            this.mavlinkCheckBoxrev6.Location = new System.Drawing.Point(341, 159);
+            this.mavlinkCheckBoxrev6.Location = new System.Drawing.Point(380, 159);
             this.mavlinkCheckBoxrev6.Name = "mavlinkCheckBoxrev6";
             this.mavlinkCheckBoxrev6.OffValue = 0D;
             this.mavlinkCheckBoxrev6.OnValue = 1D;
@@ -262,7 +262,7 @@
             // 
             this.mavlinkCheckBoxrev5.AutoSize = true;
             this.mavlinkCheckBoxrev5.Enabled = false;
-            this.mavlinkCheckBoxrev5.Location = new System.Drawing.Point(341, 132);
+            this.mavlinkCheckBoxrev5.Location = new System.Drawing.Point(380, 132);
             this.mavlinkCheckBoxrev5.Name = "mavlinkCheckBoxrev5";
             this.mavlinkCheckBoxrev5.OffValue = 0D;
             this.mavlinkCheckBoxrev5.OnValue = 1D;
@@ -275,7 +275,7 @@
             // 
             this.mavlinkCheckBoxrev4.AutoSize = true;
             this.mavlinkCheckBoxrev4.Enabled = false;
-            this.mavlinkCheckBoxrev4.Location = new System.Drawing.Point(341, 105);
+            this.mavlinkCheckBoxrev4.Location = new System.Drawing.Point(380, 105);
             this.mavlinkCheckBoxrev4.Name = "mavlinkCheckBoxrev4";
             this.mavlinkCheckBoxrev4.OffValue = 0D;
             this.mavlinkCheckBoxrev4.OnValue = 1D;
@@ -288,7 +288,7 @@
             // 
             this.mavlinkCheckBoxrev3.AutoSize = true;
             this.mavlinkCheckBoxrev3.Enabled = false;
-            this.mavlinkCheckBoxrev3.Location = new System.Drawing.Point(341, 78);
+            this.mavlinkCheckBoxrev3.Location = new System.Drawing.Point(380, 78);
             this.mavlinkCheckBoxrev3.Name = "mavlinkCheckBoxrev3";
             this.mavlinkCheckBoxrev3.OffValue = 0D;
             this.mavlinkCheckBoxrev3.OnValue = 1D;
@@ -301,7 +301,7 @@
             // 
             this.mavlinkCheckBoxrev2.AutoSize = true;
             this.mavlinkCheckBoxrev2.Enabled = false;
-            this.mavlinkCheckBoxrev2.Location = new System.Drawing.Point(341, 51);
+            this.mavlinkCheckBoxrev2.Location = new System.Drawing.Point(380, 51);
             this.mavlinkCheckBoxrev2.Name = "mavlinkCheckBoxrev2";
             this.mavlinkCheckBoxrev2.OffValue = 0D;
             this.mavlinkCheckBoxrev2.OnValue = 1D;
@@ -313,7 +313,7 @@
             // mavlinkNumericUpDowntrim5
             // 
             this.mavlinkNumericUpDowntrim5.Enabled = false;
-            this.mavlinkNumericUpDowntrim5.Location = new System.Drawing.Point(285, 132);
+            this.mavlinkNumericUpDowntrim5.Location = new System.Drawing.Point(324, 132);
             this.mavlinkNumericUpDowntrim5.Max = 1F;
             this.mavlinkNumericUpDowntrim5.Min = 0F;
             this.mavlinkNumericUpDowntrim5.Name = "mavlinkNumericUpDowntrim5";
@@ -324,7 +324,7 @@
             // mavlinkNumericUpDownmax5
             // 
             this.mavlinkNumericUpDownmax5.Enabled = false;
-            this.mavlinkNumericUpDownmax5.Location = new System.Drawing.Point(229, 132);
+            this.mavlinkNumericUpDownmax5.Location = new System.Drawing.Point(268, 132);
             this.mavlinkNumericUpDownmax5.Max = 1F;
             this.mavlinkNumericUpDownmax5.Min = 0F;
             this.mavlinkNumericUpDownmax5.Name = "mavlinkNumericUpDownmax5";
@@ -335,7 +335,7 @@
             // mavlinkNumericUpDownmin5
             // 
             this.mavlinkNumericUpDownmin5.Enabled = false;
-            this.mavlinkNumericUpDownmin5.Location = new System.Drawing.Point(173, 132);
+            this.mavlinkNumericUpDownmin5.Location = new System.Drawing.Point(212, 132);
             this.mavlinkNumericUpDownmin5.Max = 1F;
             this.mavlinkNumericUpDownmin5.Min = 0F;
             this.mavlinkNumericUpDownmin5.Name = "mavlinkNumericUpDownmin5";
@@ -346,7 +346,7 @@
             // mavlinkNumericUpDowntrim4
             // 
             this.mavlinkNumericUpDowntrim4.Enabled = false;
-            this.mavlinkNumericUpDowntrim4.Location = new System.Drawing.Point(285, 105);
+            this.mavlinkNumericUpDowntrim4.Location = new System.Drawing.Point(324, 105);
             this.mavlinkNumericUpDowntrim4.Max = 1F;
             this.mavlinkNumericUpDowntrim4.Min = 0F;
             this.mavlinkNumericUpDowntrim4.Name = "mavlinkNumericUpDowntrim4";
@@ -357,7 +357,7 @@
             // mavlinkNumericUpDownmax4
             // 
             this.mavlinkNumericUpDownmax4.Enabled = false;
-            this.mavlinkNumericUpDownmax4.Location = new System.Drawing.Point(229, 105);
+            this.mavlinkNumericUpDownmax4.Location = new System.Drawing.Point(268, 105);
             this.mavlinkNumericUpDownmax4.Max = 1F;
             this.mavlinkNumericUpDownmax4.Min = 0F;
             this.mavlinkNumericUpDownmax4.Name = "mavlinkNumericUpDownmax4";
@@ -368,7 +368,7 @@
             // mavlinkNumericUpDownmin4
             // 
             this.mavlinkNumericUpDownmin4.Enabled = false;
-            this.mavlinkNumericUpDownmin4.Location = new System.Drawing.Point(173, 105);
+            this.mavlinkNumericUpDownmin4.Location = new System.Drawing.Point(212, 105);
             this.mavlinkNumericUpDownmin4.Max = 1F;
             this.mavlinkNumericUpDownmin4.Min = 0F;
             this.mavlinkNumericUpDownmin4.Name = "mavlinkNumericUpDownmin4";
@@ -379,7 +379,7 @@
             // mavlinkNumericUpDowntrim3
             // 
             this.mavlinkNumericUpDowntrim3.Enabled = false;
-            this.mavlinkNumericUpDowntrim3.Location = new System.Drawing.Point(285, 78);
+            this.mavlinkNumericUpDowntrim3.Location = new System.Drawing.Point(324, 78);
             this.mavlinkNumericUpDowntrim3.Max = 1F;
             this.mavlinkNumericUpDowntrim3.Min = 0F;
             this.mavlinkNumericUpDowntrim3.Name = "mavlinkNumericUpDowntrim3";
@@ -390,7 +390,7 @@
             // mavlinkNumericUpDownmax3
             // 
             this.mavlinkNumericUpDownmax3.Enabled = false;
-            this.mavlinkNumericUpDownmax3.Location = new System.Drawing.Point(229, 78);
+            this.mavlinkNumericUpDownmax3.Location = new System.Drawing.Point(268, 78);
             this.mavlinkNumericUpDownmax3.Max = 1F;
             this.mavlinkNumericUpDownmax3.Min = 0F;
             this.mavlinkNumericUpDownmax3.Name = "mavlinkNumericUpDownmax3";
@@ -401,7 +401,7 @@
             // mavlinkNumericUpDownmin3
             // 
             this.mavlinkNumericUpDownmin3.Enabled = false;
-            this.mavlinkNumericUpDownmin3.Location = new System.Drawing.Point(173, 78);
+            this.mavlinkNumericUpDownmin3.Location = new System.Drawing.Point(212, 78);
             this.mavlinkNumericUpDownmin3.Max = 1F;
             this.mavlinkNumericUpDownmin3.Min = 0F;
             this.mavlinkNumericUpDownmin3.Name = "mavlinkNumericUpDownmin3";
@@ -412,7 +412,7 @@
             // mavlinkNumericUpDowntrim2
             // 
             this.mavlinkNumericUpDowntrim2.Enabled = false;
-            this.mavlinkNumericUpDowntrim2.Location = new System.Drawing.Point(285, 51);
+            this.mavlinkNumericUpDowntrim2.Location = new System.Drawing.Point(324, 51);
             this.mavlinkNumericUpDowntrim2.Max = 1F;
             this.mavlinkNumericUpDowntrim2.Min = 0F;
             this.mavlinkNumericUpDowntrim2.Name = "mavlinkNumericUpDowntrim2";
@@ -423,7 +423,7 @@
             // mavlinkNumericUpDownmax2
             // 
             this.mavlinkNumericUpDownmax2.Enabled = false;
-            this.mavlinkNumericUpDownmax2.Location = new System.Drawing.Point(229, 51);
+            this.mavlinkNumericUpDownmax2.Location = new System.Drawing.Point(268, 51);
             this.mavlinkNumericUpDownmax2.Max = 1F;
             this.mavlinkNumericUpDownmax2.Min = 0F;
             this.mavlinkNumericUpDownmax2.Name = "mavlinkNumericUpDownmax2";
@@ -434,7 +434,7 @@
             // mavlinkNumericUpDowntrim1
             // 
             this.mavlinkNumericUpDowntrim1.Enabled = false;
-            this.mavlinkNumericUpDowntrim1.Location = new System.Drawing.Point(285, 24);
+            this.mavlinkNumericUpDowntrim1.Location = new System.Drawing.Point(324, 24);
             this.mavlinkNumericUpDowntrim1.Max = 1F;
             this.mavlinkNumericUpDowntrim1.Min = 0F;
             this.mavlinkNumericUpDowntrim1.Name = "mavlinkNumericUpDowntrim1";
@@ -445,7 +445,7 @@
             // mavlinkNumericUpDownmax1
             // 
             this.mavlinkNumericUpDownmax1.Enabled = false;
-            this.mavlinkNumericUpDownmax1.Location = new System.Drawing.Point(229, 24);
+            this.mavlinkNumericUpDownmax1.Location = new System.Drawing.Point(268, 24);
             this.mavlinkNumericUpDownmax1.Max = 1F;
             this.mavlinkNumericUpDownmax1.Min = 0F;
             this.mavlinkNumericUpDownmax1.Name = "mavlinkNumericUpDownmax1";
@@ -476,7 +476,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(342, 4);
+            this.label6.Location = new System.Drawing.Point(381, 4);
             this.label6.Margin = new System.Windows.Forms.Padding(4);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
@@ -486,7 +486,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(286, 4);
+            this.label5.Location = new System.Drawing.Point(325, 4);
             this.label5.Margin = new System.Windows.Forms.Padding(4);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(27, 13);
@@ -496,7 +496,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(230, 4);
+            this.label4.Location = new System.Drawing.Point(269, 4);
             this.label4.Margin = new System.Windows.Forms.Padding(4);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(27, 13);
@@ -506,7 +506,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(174, 4);
+            this.label3.Location = new System.Drawing.Point(213, 4);
             this.label3.Margin = new System.Windows.Forms.Padding(4);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(24, 13);
@@ -601,7 +601,7 @@
             this.mavlinkComboBoxfunc1.Location = new System.Drawing.Point(46, 24);
             this.mavlinkComboBoxfunc1.Name = "mavlinkComboBoxfunc1";
             this.mavlinkComboBoxfunc1.ParamName = null;
-            this.mavlinkComboBoxfunc1.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBoxfunc1.Size = new System.Drawing.Size(160, 21);
             this.mavlinkComboBoxfunc1.SubControl = null;
             this.mavlinkComboBoxfunc1.TabIndex = 14;
             // 
@@ -613,7 +613,7 @@
             this.mavlinkComboBoxfunc2.Location = new System.Drawing.Point(46, 51);
             this.mavlinkComboBoxfunc2.Name = "mavlinkComboBoxfunc2";
             this.mavlinkComboBoxfunc2.ParamName = null;
-            this.mavlinkComboBoxfunc2.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBoxfunc2.Size = new System.Drawing.Size(160, 21);
             this.mavlinkComboBoxfunc2.SubControl = null;
             this.mavlinkComboBoxfunc2.TabIndex = 15;
             // 
@@ -625,7 +625,7 @@
             this.mavlinkComboBoxfunc3.Location = new System.Drawing.Point(46, 78);
             this.mavlinkComboBoxfunc3.Name = "mavlinkComboBoxfunc3";
             this.mavlinkComboBoxfunc3.ParamName = null;
-            this.mavlinkComboBoxfunc3.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBoxfunc3.Size = new System.Drawing.Size(160, 21);
             this.mavlinkComboBoxfunc3.SubControl = null;
             this.mavlinkComboBoxfunc3.TabIndex = 16;
             // 
@@ -637,7 +637,7 @@
             this.mavlinkComboBoxfunc4.Location = new System.Drawing.Point(46, 105);
             this.mavlinkComboBoxfunc4.Name = "mavlinkComboBoxfunc4";
             this.mavlinkComboBoxfunc4.ParamName = null;
-            this.mavlinkComboBoxfunc4.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBoxfunc4.Size = new System.Drawing.Size(160, 21);
             this.mavlinkComboBoxfunc4.SubControl = null;
             this.mavlinkComboBoxfunc4.TabIndex = 17;
             // 
@@ -649,7 +649,7 @@
             this.mavlinkComboBoxfunc5.Location = new System.Drawing.Point(46, 132);
             this.mavlinkComboBoxfunc5.Name = "mavlinkComboBoxfunc5";
             this.mavlinkComboBoxfunc5.ParamName = null;
-            this.mavlinkComboBoxfunc5.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBoxfunc5.Size = new System.Drawing.Size(160, 21);
             this.mavlinkComboBoxfunc5.SubControl = null;
             this.mavlinkComboBoxfunc5.TabIndex = 18;
             // 
@@ -661,7 +661,7 @@
             this.mavlinkComboBoxfunc6.Location = new System.Drawing.Point(46, 159);
             this.mavlinkComboBoxfunc6.Name = "mavlinkComboBoxfunc6";
             this.mavlinkComboBoxfunc6.ParamName = null;
-            this.mavlinkComboBoxfunc6.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBoxfunc6.Size = new System.Drawing.Size(160, 21);
             this.mavlinkComboBoxfunc6.SubControl = null;
             this.mavlinkComboBoxfunc6.TabIndex = 19;
             // 
@@ -673,7 +673,7 @@
             this.mavlinkComboBoxfunc7.Location = new System.Drawing.Point(46, 186);
             this.mavlinkComboBoxfunc7.Name = "mavlinkComboBoxfunc7";
             this.mavlinkComboBoxfunc7.ParamName = null;
-            this.mavlinkComboBoxfunc7.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBoxfunc7.Size = new System.Drawing.Size(160, 21);
             this.mavlinkComboBoxfunc7.SubControl = null;
             this.mavlinkComboBoxfunc7.TabIndex = 20;
             // 
@@ -685,14 +685,14 @@
             this.mavlinkComboBoxfunc8.Location = new System.Drawing.Point(46, 213);
             this.mavlinkComboBoxfunc8.Name = "mavlinkComboBoxfunc8";
             this.mavlinkComboBoxfunc8.ParamName = null;
-            this.mavlinkComboBoxfunc8.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBoxfunc8.Size = new System.Drawing.Size(160, 21);
             this.mavlinkComboBoxfunc8.SubControl = null;
             this.mavlinkComboBoxfunc8.TabIndex = 21;
             // 
             // mavlinkNumericUpDownmin1
             // 
             this.mavlinkNumericUpDownmin1.Enabled = false;
-            this.mavlinkNumericUpDownmin1.Location = new System.Drawing.Point(173, 24);
+            this.mavlinkNumericUpDownmin1.Location = new System.Drawing.Point(212, 24);
             this.mavlinkNumericUpDownmin1.Max = 1F;
             this.mavlinkNumericUpDownmin1.Min = 0F;
             this.mavlinkNumericUpDownmin1.Name = "mavlinkNumericUpDownmin1";
@@ -703,7 +703,7 @@
             // mavlinkNumericUpDownmin2
             // 
             this.mavlinkNumericUpDownmin2.Enabled = false;
-            this.mavlinkNumericUpDownmin2.Location = new System.Drawing.Point(173, 51);
+            this.mavlinkNumericUpDownmin2.Location = new System.Drawing.Point(212, 51);
             this.mavlinkNumericUpDownmin2.Max = 1F;
             this.mavlinkNumericUpDownmin2.Min = 0F;
             this.mavlinkNumericUpDownmin2.Name = "mavlinkNumericUpDownmin2";
@@ -714,7 +714,7 @@
             // mavlinkNumericUpDownmin6
             // 
             this.mavlinkNumericUpDownmin6.Enabled = false;
-            this.mavlinkNumericUpDownmin6.Location = new System.Drawing.Point(173, 159);
+            this.mavlinkNumericUpDownmin6.Location = new System.Drawing.Point(212, 159);
             this.mavlinkNumericUpDownmin6.Max = 1F;
             this.mavlinkNumericUpDownmin6.Min = 0F;
             this.mavlinkNumericUpDownmin6.Name = "mavlinkNumericUpDownmin6";
@@ -725,7 +725,7 @@
             // mavlinkNumericUpDownmax6
             // 
             this.mavlinkNumericUpDownmax6.Enabled = false;
-            this.mavlinkNumericUpDownmax6.Location = new System.Drawing.Point(229, 159);
+            this.mavlinkNumericUpDownmax6.Location = new System.Drawing.Point(268, 159);
             this.mavlinkNumericUpDownmax6.Max = 1F;
             this.mavlinkNumericUpDownmax6.Min = 0F;
             this.mavlinkNumericUpDownmax6.Name = "mavlinkNumericUpDownmax6";
@@ -736,7 +736,7 @@
             // mavlinkNumericUpDowntrim6
             // 
             this.mavlinkNumericUpDowntrim6.Enabled = false;
-            this.mavlinkNumericUpDowntrim6.Location = new System.Drawing.Point(285, 159);
+            this.mavlinkNumericUpDowntrim6.Location = new System.Drawing.Point(324, 159);
             this.mavlinkNumericUpDowntrim6.Max = 1F;
             this.mavlinkNumericUpDowntrim6.Min = 0F;
             this.mavlinkNumericUpDowntrim6.Name = "mavlinkNumericUpDowntrim6";
@@ -747,7 +747,7 @@
             // mavlinkNumericUpDownmin7
             // 
             this.mavlinkNumericUpDownmin7.Enabled = false;
-            this.mavlinkNumericUpDownmin7.Location = new System.Drawing.Point(173, 186);
+            this.mavlinkNumericUpDownmin7.Location = new System.Drawing.Point(212, 186);
             this.mavlinkNumericUpDownmin7.Max = 1F;
             this.mavlinkNumericUpDownmin7.Min = 0F;
             this.mavlinkNumericUpDownmin7.Name = "mavlinkNumericUpDownmin7";
@@ -758,7 +758,7 @@
             // mavlinkNumericUpDownmax7
             // 
             this.mavlinkNumericUpDownmax7.Enabled = false;
-            this.mavlinkNumericUpDownmax7.Location = new System.Drawing.Point(229, 186);
+            this.mavlinkNumericUpDownmax7.Location = new System.Drawing.Point(268, 186);
             this.mavlinkNumericUpDownmax7.Max = 1F;
             this.mavlinkNumericUpDownmax7.Min = 0F;
             this.mavlinkNumericUpDownmax7.Name = "mavlinkNumericUpDownmax7";
@@ -769,7 +769,7 @@
             // mavlinkNumericUpDowntrim7
             // 
             this.mavlinkNumericUpDowntrim7.Enabled = false;
-            this.mavlinkNumericUpDowntrim7.Location = new System.Drawing.Point(285, 186);
+            this.mavlinkNumericUpDowntrim7.Location = new System.Drawing.Point(324, 186);
             this.mavlinkNumericUpDowntrim7.Max = 1F;
             this.mavlinkNumericUpDowntrim7.Min = 0F;
             this.mavlinkNumericUpDowntrim7.Name = "mavlinkNumericUpDowntrim7";
@@ -780,7 +780,7 @@
             // mavlinkNumericUpDownmin8
             // 
             this.mavlinkNumericUpDownmin8.Enabled = false;
-            this.mavlinkNumericUpDownmin8.Location = new System.Drawing.Point(173, 213);
+            this.mavlinkNumericUpDownmin8.Location = new System.Drawing.Point(212, 213);
             this.mavlinkNumericUpDownmin8.Max = 1F;
             this.mavlinkNumericUpDownmin8.Min = 0F;
             this.mavlinkNumericUpDownmin8.Name = "mavlinkNumericUpDownmin8";
@@ -791,7 +791,7 @@
             // mavlinkNumericUpDownmax8
             // 
             this.mavlinkNumericUpDownmax8.Enabled = false;
-            this.mavlinkNumericUpDownmax8.Location = new System.Drawing.Point(229, 213);
+            this.mavlinkNumericUpDownmax8.Location = new System.Drawing.Point(268, 213);
             this.mavlinkNumericUpDownmax8.Max = 1F;
             this.mavlinkNumericUpDownmax8.Min = 0F;
             this.mavlinkNumericUpDownmax8.Name = "mavlinkNumericUpDownmax8";
@@ -802,7 +802,7 @@
             // mavlinkNumericUpDowntrim8
             // 
             this.mavlinkNumericUpDowntrim8.Enabled = false;
-            this.mavlinkNumericUpDowntrim8.Location = new System.Drawing.Point(285, 213);
+            this.mavlinkNumericUpDowntrim8.Location = new System.Drawing.Point(324, 213);
             this.mavlinkNumericUpDowntrim8.Max = 1F;
             this.mavlinkNumericUpDowntrim8.Min = 0F;
             this.mavlinkNumericUpDowntrim8.Name = "mavlinkNumericUpDowntrim8";
@@ -814,7 +814,7 @@
             // 
             this.mavlinkCheckBoxrev1.AutoSize = true;
             this.mavlinkCheckBoxrev1.Enabled = false;
-            this.mavlinkCheckBoxrev1.Location = new System.Drawing.Point(341, 24);
+            this.mavlinkCheckBoxrev1.Location = new System.Drawing.Point(380, 24);
             this.mavlinkCheckBoxrev1.Name = "mavlinkCheckBoxrev1";
             this.mavlinkCheckBoxrev1.OffValue = 0D;
             this.mavlinkCheckBoxrev1.OnValue = 1D;
@@ -827,7 +827,7 @@
             // 
             this.groupBoxswash.AutoSize = true;
             this.groupBoxswash.Controls.Add(this.tableLayoutPanel5);
-            this.groupBoxswash.Location = new System.Drawing.Point(414, 3);
+            this.groupBoxswash.Location = new System.Drawing.Point(3, 265);
             this.groupBoxswash.MinimumSize = new System.Drawing.Size(200, 100);
             this.groupBoxswash.Name = "groupBoxswash";
             this.groupBoxswash.Size = new System.Drawing.Size(200, 100);
@@ -854,7 +854,7 @@
             // 
             this.groupBoxthrot.AutoSize = true;
             this.groupBoxthrot.Controls.Add(this.tableLayoutPanel3);
-            this.groupBoxthrot.Location = new System.Drawing.Point(3, 265);
+            this.groupBoxthrot.Location = new System.Drawing.Point(209, 265);
             this.groupBoxthrot.MinimumSize = new System.Drawing.Size(200, 100);
             this.groupBoxthrot.Name = "groupBoxthrot";
             this.groupBoxthrot.Size = new System.Drawing.Size(200, 100);
@@ -881,7 +881,7 @@
             // 
             this.groupBoxgover.AutoSize = true;
             this.groupBoxgover.Controls.Add(this.tableLayoutPanel2);
-            this.groupBoxgover.Location = new System.Drawing.Point(209, 265);
+            this.groupBoxgover.Location = new System.Drawing.Point(415, 265);
             this.groupBoxgover.MinimumSize = new System.Drawing.Size(200, 100);
             this.groupBoxgover.Name = "groupBoxgover";
             this.groupBoxgover.Size = new System.Drawing.Size(200, 100);
@@ -908,7 +908,7 @@
             // 
             this.groupBoxmisc.AutoSize = true;
             this.groupBoxmisc.Controls.Add(this.tableLayoutPanel1);
-            this.groupBoxmisc.Location = new System.Drawing.Point(415, 265);
+            this.groupBoxmisc.Location = new System.Drawing.Point(3, 371);
             this.groupBoxmisc.MinimumSize = new System.Drawing.Size(200, 100);
             this.groupBoxmisc.Name = "groupBoxmisc";
             this.groupBoxmisc.Size = new System.Drawing.Size(200, 100);

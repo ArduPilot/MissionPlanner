@@ -37,10 +37,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var rev1 = new MissionPlanner.Controls.MavlinkCheckBox()
                 {Enabled = false, Dock = DockStyle.Fill, AutoSize = true};
             var func1 = new MavlinkComboBox()
-                {Enabled = false, Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList};
-            var min1 = new MavlinkNumericUpDown() {Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false};
-            var trim1 = new MavlinkNumericUpDown() {Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false};
-            var max1 = new MavlinkNumericUpDown() {Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false};
+            { Enabled = false, Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList, Width = 160 };
+            var min1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
+            var trim1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
+            var max1 = new MavlinkNumericUpDown() { Minimum = 800, Maximum = 2200, Value = 1500, Enabled = false, Width = 50 };
 
             this.tableLayoutPanel1.Controls.Add(label, 0, servono);
             this.tableLayoutPanel1.Controls.Add(bAR1, 1, servono);
