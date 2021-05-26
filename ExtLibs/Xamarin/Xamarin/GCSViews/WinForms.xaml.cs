@@ -29,6 +29,7 @@ using Form = System.Windows.Forms.Form;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using MissionPlanner.Controls;
+using System.Globalization;
 
 namespace Xamarin.GCSViews
 {
@@ -115,6 +116,34 @@ namespace Xamarin.GCSViews
                             }
                         }
 
+                        if (s.StartsWith("GPS"))
+                        {
+                            var com = new CommsInjection();
+                            Task.Run(async () => {
+                                while (true)
+                                {
+                                    var (lat, lng, alt) = await Test.GPS.GetPosition();
+                                    var latdms = (int)lat + (lat - (int)lat) * .6f;
+                                    var lngdms = (int)lng + (lng - (int)lng) * .6f;
+
+                                    var line = string.Format(CultureInfo.InvariantCulture,
+                                        "$GP{0},{1:HHmmss.ff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}", "GGA",
+                                        DateTime.Now.ToUniversalTime(),
+                                        Math.Abs(latdms * 100).ToString("0000.00", CultureInfo.InvariantCulture), lat < 0 ? "S" : "N",
+                                        Math.Abs(lngdms * 100).ToString("00000.00", CultureInfo.InvariantCulture), lng < 0 ? "W" : "E",
+                                        1, 10,
+                                        1, alt.ToString("0.00", CultureInfo.InvariantCulture), "M", 0, "M", "0.0", "0");
+
+                                    var checksum = GetChecksum(line);
+                                    com.AppendBuffer(ASCIIEncoding.ASCII.GetBytes(line + "*" + checksum + "\r\n"));
+
+                                    await Task.Delay(200);
+                                }
+                            });                           
+
+                            return com;
+                        }
+
                         {
                             var dil = await Test.UsbDevices.GetDeviceInfoList();
 
@@ -150,6 +179,9 @@ namespace Xamarin.GCSViews
                 }).Result;
 
                 list1.AddRange(list2);
+                if (Device.RuntimePlatform == Device.Android)
+                    list1.Add("GPS");
+
                 return list1;
             };
             /*
@@ -165,6 +197,32 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 };*/
         }
 
+        // Calculates the checksum for a sentence
+        private string GetChecksum(string sentence)
+        {
+            // Loop through all chars to get a checksum
+            var Checksum = 0;
+            foreach (var Character in sentence)
+                switch (Character)
+                {
+                    case '$':
+                        // Ignore the dollar sign
+                        break;
+
+                    case '*':
+                        // Stop processing before the asterisk
+                        continue;
+                    default:
+                        // Is this the first value for the checksum?
+                        if (Checksum == 0)
+                            Checksum = Convert.ToByte(Character);
+                        else
+                            Checksum = Checksum ^ Convert.ToByte(Character);
+                        break;
+                }
+            // Return the checksum formatted as a two-character hexadecimal
+            return Checksum.ToString("X2");
+        }
         public static void SetHUDbg(byte[] buffer)
         {
             try
