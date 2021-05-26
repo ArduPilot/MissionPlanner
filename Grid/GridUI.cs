@@ -1617,7 +1617,7 @@ namespace MissionPlanner.Grid
                     if (CHK_usespeed.Checked)
                     {
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0,
-                            (int)((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed), 0, 0, 0, 0, 0,
+                            ((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed), 0, 0, 0, 0, 0,
                             gridobject);
                     }
 
