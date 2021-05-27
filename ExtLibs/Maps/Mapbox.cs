@@ -22,6 +22,7 @@ namespace MissionPlanner.Maps
 
         MapBox()
         {
+            MaxZoom = 24;
         }
 
         static MapBox()
