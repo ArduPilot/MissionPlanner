@@ -28,7 +28,16 @@ namespace Dowding
         public void Activate()
         {
             txt_username.Text = Settings.Instance["Dowding_username"];
-            txt_password.Text = crypto.DecryptString(Settings.Instance["Dowding_password"]);
+            try
+            {
+                txt_password.Text = Settings.Instance["Dowding_password"] == null
+                    ? ""
+                    : crypto.DecryptString(Settings.Instance["Dowding_password"]);
+            }
+            catch
+            {
+
+            }
             cmb_server.Text = Settings.Instance["Dowding_server"];
             chk_enable.Checked = Settings.Instance.GetBoolean("Dowding_enabled", false);
 
