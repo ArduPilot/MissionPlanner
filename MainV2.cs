@@ -3678,9 +3678,9 @@ namespace MissionPlanner
             GMapMarkerBase.DisplayTarget = Settings.Instance.GetBoolean("GMapMarkerBase_DisplayTarget", true);
         }
 
-        private async void BGLogMessagesMetaData(object nothing)
+        private void BGLogMessagesMetaData(object nothing)
         {
-            await LogMetaData.GetMetaData().ConfigureAwait(false);
+            LogMetaData.GetMetaData().ConfigureAwait(false).GetAwaiter().GetResult();
             LogMetaData.ParseMetaData();
         }
 

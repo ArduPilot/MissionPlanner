@@ -270,6 +270,8 @@ namespace MissionPlanner.Plugin
             foreach (var s in files)
                 Load(Path.Combine(Environment.CurrentDirectory, s));
 
+            InitPlugin(Assembly.GetAssembly(typeof(PluginLoader)), "self");
+
             PluginInit();
         }
 

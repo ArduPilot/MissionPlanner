@@ -1065,7 +1065,15 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
         private async void DeviceAttached(object sender, MissionPlanner.ArduPilot.DeviceInfo e)
         {
-            var portUsb = await Test.UsbDevices.GetUSB(e);
+            ICommsSerial portUsb = null;
+            try
+            {
+                portUsb = await Test.UsbDevices.GetUSB(e).ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
 
             if (portUsb == null)
                 return;
@@ -1098,14 +1106,21 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             // autoconnect
             if (!e.board.ToLower().Contains("-bl") && !e.board.ToLower().Contains("-P2"))
             {
-                var ans = await DisplayAlert("Connect", "Connect to USB Device? " + e.board, "Yes", "No");
-                if (ans)
+                try
                 {
-                    MainV2.comPort.BaseStream = portUsb;
-                    MainV2.instance.BeginInvoke((Action) delegate()
+                    var ans = await DisplayAlert("Connect", "Connect to USB Device? " + e.board, "Yes", "No").ConfigureAwait(false);
+                    if (ans)
                     {
-                        MainV2.instance.doConnect(MainV2.comPort, "preset", "0");
-                    });
+                        MainV2.comPort.BaseStream = portUsb;
+                        MainV2.instance.BeginInvoke((Action) delegate()
+                        {
+                            MainV2.instance.doConnect(MainV2.comPort, "preset", "0");
+                        });
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
                 }
             }
         }
