@@ -69,7 +69,7 @@ namespace Dowding
                         Settings.Instance.ContainsKey("Dowding_password") && 
                         Settings.Instance.ContainsKey("Dowding_server"))
                     {
-                        dowd.Auth( Settings.Instance["Dowding_username"], Settings.Instance["Dowding_password"], Settings.Instance["Dowding_server"])
+                        dowd.Auth( Settings.Instance["Dowding_username"], new Crypto().DecryptString(Settings.Instance["Dowding_password"]), Settings.Instance["Dowding_server"])
                             .Wait();
                     }
                     else if (Settings.Instance.ContainsKey("Dowding_token") && 
@@ -96,7 +96,6 @@ namespace Dowding
             MainV2.instance.Invoke((Action)
                 delegate
                 {
-
                     System.Windows.Forms.ToolStripMenuItem men = new System.Windows.Forms.ToolStripMenuItem() { Text = "Dowding" };
                     men.Click += men_Click;
                     Host.FDMenuMap.Items.Add(men);
@@ -119,7 +118,7 @@ namespace Dowding
                 Host.FDGMapControl.Overlays.Add(overlay);
                 Host.FDGMapControl.OnMarkerClick += (item, args) =>
                 {
-                    if (item.Overlay == overlay && item is GMarkerGoogle)
+                    if (item.Overlay == overlay && item is GMarkerGoogle && item.Tag is VehicleTick)
                     {
                         if (target != null)
                         {
@@ -128,7 +127,8 @@ namespace Dowding
                         }
                         target = (GMarkerGoogle)item;
                         target.ToolTipMode = MarkerTooltipMode.Always;
-                        target.ToolTipText = "Tracking";
+                        var vt = (VehicleTick) item.Tag;
+                        target.ToolTipText = "Tracking\r\nVendor: " + vt.Vendor + "\r\nModel: " + vt.Model + "\r\nSerial: " + vt.Serial;
                     }
                 };
             }
@@ -157,6 +157,7 @@ namespace Dowding
                             new PointLatLngAlt((double) tick.Lat, (double) tick.Lon, (double) tick.Hae));
                     }
 
+                    // hide if older than 120 seconds
                     var time = ((int) (tick.Ts / 1000)).fromUnixTime();
 
                     if (time > DateTime.UtcNow.AddSeconds(-120))
@@ -165,9 +166,12 @@ namespace Dowding
                     }
                     else
                     {
-                       mapMarker.IsVisible = false;
+                        mapMarker.IsVisible = false;
                     }
 
+                    // hide if more than 100km from our map center
+                    if (new PointLatLngAlt(FlightData.instance.gMapControl1.Position).GetDistance(mapMarker.Position) > 1000*100)
+                        mapMarker.IsVisible = true;
                 });
 
             return true;

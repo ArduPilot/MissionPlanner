@@ -18,6 +18,8 @@ namespace Dowding
 {
     public partial class DowdingUI : MyUserControl, IActivate
     {
+        private Crypto crypto = new Crypto();
+
         public DowdingUI()
         {
             InitializeComponent();
@@ -26,7 +28,7 @@ namespace Dowding
         public void Activate()
         {
             txt_username.Text = Settings.Instance["Dowding_username"];
-            txt_password.Text = Settings.Instance["Dowding_password"];
+            txt_password.Text = crypto.DecryptString(Settings.Instance["Dowding_password"]);
             cmb_server.Text = Settings.Instance["Dowding_server"];
             chk_enable.Checked = Settings.Instance.GetBoolean("Dowding_enabled", false);
 
@@ -52,7 +54,7 @@ namespace Dowding
                 await new MissionPlanner.WebAPIs.Dowding().Auth(txt_username.Text, txt_password.Text, cmb_server.Text);
 
                 Settings.Instance["Dowding_username"] = txt_username.Text;
-                Settings.Instance["Dowding_password"] = txt_password.Text;
+                Settings.Instance["Dowding_password"] = crypto.EncryptString(txt_password.Text);
                 Settings.Instance["Dowding_server"] = cmb_server.Text;
                 Settings.Instance.Save();
 
