@@ -71,19 +71,19 @@ namespace MissionPlanner.WebAPIs
                 }
             );
 
-            var ws = await StartWS<VehicleTick>(server);
+            var ws = await StartWS(server);
 
             ws.MessageReceived += (sender, args) =>
             {
-                var tick = JsonConvert.DeserializeObject<VehicleTick>(args.Message);
+                var tick = JsonConvert.DeserializeObject<WSPackaging<VehicleTick>>(args.Message);
 
-                Vehicles[tick.Id] = tick;
+                Vehicles[tick.data.Id] = tick.data;
             };
 
             // on fail, wait 60 seconds and reconnect
             ws.Closed += (sender, args) =>
             {
-                Thread.Sleep(60000); 
+                Thread.Sleep(60000);
                 ws.OpenAsync();
             };
 
@@ -127,10 +127,9 @@ namespace MissionPlanner.WebAPIs
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="type">contacts/vehicle_ticks/operator_ticks/homepoints/events</param>
         /// <returns></returns>
-        public async Task<WebSocket> StartWS<T>(string server, string type = "vehicle_ticks")
+        public async Task<WebSocket> StartWS(string server, string type = "vehicle_ticks")
         {
             Console.WriteLine("Dowding StartWS");
             var ws = new WebSocket(String.Format(WS, server));
@@ -154,6 +153,13 @@ namespace MissionPlanner.WebAPIs
             ws.Error += (sender, args) => { };
 
             return ws;
+        }
+
+        public class WSPackaging<T>
+        {
+            public string datatype { get; set; }
+            public T data { get; set; }
+            public string operation { get; set; }
         }
     }
 }
