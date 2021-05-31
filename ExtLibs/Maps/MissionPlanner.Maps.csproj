@@ -26,6 +26,9 @@
       <Aliases>Interface</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <ProjectReference Include="..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" Condition="'$(TargetFramework)' == 'net461'">
+      <Aliases>ignore</Aliases>
+    </ProjectReference>
 
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>

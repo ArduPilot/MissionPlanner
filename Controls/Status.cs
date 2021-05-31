@@ -21,6 +21,9 @@ namespace MissionPlanner.Controls
             get { return _percent;}
             set
             {
+                if (value < 0 || value > 100)
+                    return;
+
                 _percent = value;
                 this.BeginInvoke((Action) delegate { this.Visible = true; });
                 _hidetimer.Change(TimeSpan.FromSeconds(10), TimeSpan.Zero);
