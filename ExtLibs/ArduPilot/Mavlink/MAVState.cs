@@ -156,22 +156,19 @@ namespace MissionPlanner
         /// </summary>
         [JsonIgnore]
         [IgnoreDataMember]
-        public MAVLinkParamList param { get; set; }
-
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public Dictionary<string, MAV_PARAM_TYPE> param_types
+        public MAVLinkParamList param
         {
-            get
-            {
-                return param.ToDictionary<MAVLinkParam, string, MAV_PARAM_TYPE>(a => a.Name,
-                    a => a.Type);
-            }
-            set
-            {
+            get;
+            private set;
 
-            }
-        } //= new Dictionary<string, MAV_PARAM_TYPE>();
+        }
+
+        /// <summary>
+        /// cache of all Types seen
+        /// </summary>
+        [JsonIgnore] 
+        [IgnoreDataMember]
+        public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
 
         /// <summary>
         /// storage of a previous packet recevied of a specific type
