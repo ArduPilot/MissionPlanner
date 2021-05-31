@@ -23,12 +23,21 @@ namespace MissionPlanner
         {
             get
             {
-                return Path.Combine(Settings.GetDataDirectory(), "paramcache",
-                    aptype == null ? "" : aptype.ToString(),
-                    cs.uid2,
-                    sysid.ToString(),
-                    compid.ToString(),
-                    "param.json");
+                try
+                {
+                    return Path.Combine(Settings.GetDataDirectory(), "paramcache",
+                        aptype.ToString(),
+                        cs.uid2,
+                        sysid.ToString(),
+                        compid.ToString(),
+                        "param.json");
+                }   
+                catch (Exception e)
+                {
+                    log.Error(e);
+                }
+
+                return "";
             }
         }
 
@@ -53,7 +62,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        if (cs.uid2 == "" || aptype == null || sysid == 0)
+                        if (cs.uid2 == null || cs.uid2 == "" || aptype == null || sysid == 0)
                             return;
                         Directory.CreateDirectory(Path.GetDirectoryName(ParamCachePath));
                         File.WriteAllText(ParamCachePath, param.ToJSON());
