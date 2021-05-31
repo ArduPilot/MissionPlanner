@@ -24,7 +24,7 @@ namespace MissionPlanner
             get
             {
                 return Path.Combine(Settings.GetDataDirectory(), "paramcache",
-                    aptype.ToString(),
+                    aptype == null ? "" : aptype.ToString(),
                     cs.uid2,
                     sysid.ToString(),
                     compid.ToString(),
@@ -53,7 +53,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        if (cs.uid2 == "")
+                        if (cs.uid2 == "" || aptype == null || sysid == 0)
                             return;
                         Directory.CreateDirectory(Path.GetDirectoryName(ParamCachePath));
                         File.WriteAllText(ParamCachePath, param.ToJSON());
@@ -104,7 +104,7 @@ namespace MissionPlanner
         /// </summary>
         public CurrentState cs = new CurrentState();
 
-        private byte _sysid;
+        private byte _sysid = 0;
         /// <summary>
         /// mavlink remote sysid
         /// </summary>
@@ -117,7 +117,7 @@ namespace MissionPlanner
         /// <summary>
         /// mavlink remove compid
         /// </summary>
-        public byte compid { get; set; }
+        public byte compid { get; set; } = 0;
 
         public byte linkid { get; set; }
 
