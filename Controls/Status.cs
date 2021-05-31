@@ -51,7 +51,17 @@ namespace MissionPlanner.Controls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brushes.Green, 0, 0, (float)(Width * (_percent / 100.0)), Height);
+            if (_percent > 100)
+                _percent = 50;
+
+            try
+            {
+                e.Graphics.FillRectangle(Brushes.Green, 0, 0, (float) (Width * (_percent / 100.0)), Height);
+            }
+            catch (OverflowException)
+            {
+
+            }
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)
