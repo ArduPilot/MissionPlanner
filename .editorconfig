@@ -55,3 +55,8 @@ dotnet_diagnostic.CS1522.severity = suggestion
 
 dotnet_diagnostic.CS3021.severity = silent
 dotnet_diagnostic.CS0618.severity = silent
+
+# AsyncVoidAnalyzer: Async Void methods should catch exceptions
+dotnet_diagnostic.AsyncVoidAnalyzer.severity = error
+
+dotnet_diagnostic.ASYNC0003.severity = error
