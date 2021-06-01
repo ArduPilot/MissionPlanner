@@ -1662,6 +1662,7 @@ namespace MissionPlanner
                     {
                         File.ReadAllText(comPort.MAV.ParamCachePath).FromJSON<MAVLink.MAVLinkParamList>()
                             .ForEach(a => comPort.MAV.param.Add(a));
+                        comPort.MAV.param.TotalReported = comPort.MAV.param.TotalReceived;
                     }
                     else
                     {
@@ -2793,9 +2794,18 @@ namespace MissionPlanner
                         if (comPort.MAV.param.TotalReported > 0 && comPort.BaseStream.IsOpen)
                         {
                             this.BeginInvokeIfRequired(() =>
-                                instance.status1.Percent =
-                                    (comPort.MAV.param.TotalReceived / (double) comPort.MAV.param.TotalReported) *
-                                    100.0);
+                            {
+                                try
+                                {
+                                    instance.status1.Percent =
+                                        (comPort.MAV.param.TotalReceived / (double) comPort.MAV.param.TotalReported) *
+                                        100.0;
+                                }
+                                catch (Exception e)
+                                {
+                                    log.Error(e);
+                                }
+                            });
                         }
                     }
 
