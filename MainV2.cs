@@ -1657,7 +1657,7 @@ namespace MissionPlanner
 
                 if (getparams)
                 {
-                    if (File.Exists(comPort.MAV.ParamCachePath) && 
+                    if (UseCachedParams && File.Exists(comPort.MAV.ParamCachePath) && 
                         new FileInfo(comPort.MAV.ParamCachePath).LastWriteTime > DateTime.Now.AddHours(-1))
                     {
                         File.ReadAllText(comPort.MAV.ParamCachePath).FromJSON<MAVLink.MAVLinkParamList>()
@@ -1821,6 +1821,8 @@ namespace MissionPlanner
                 return;
             }
         }
+
+        public bool UseCachedParams { get; set; } = false;
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
