@@ -3371,6 +3371,59 @@ namespace MissionPlanner
             }
         }
 
+        public static int StringCompareTo(string a, string b)
+        {
+            char[] arr1 = a.ToCharArray();
+            char[] arr2 = b.ToCharArray();
+            int i = 0, j = 0;
+            while (i < arr1.Length && j < arr2.Length)
+            {
+                if (char.IsDigit(arr1[i]) && char.IsDigit(arr2[j]))
+                {
+                    string s1 = "", s2 = "";
+                    while (i < arr1.Length && char.IsDigit(arr1[i]))
+                    {
+                        s1 += arr1[i];
+                        i++;
+                    }
+                    while (j < arr2.Length && char.IsDigit(arr2[j]))
+                    {
+                        s2 += arr2[j];
+                        j++;
+                    }
+                    if (int.Parse(s1) > int.Parse(s2))
+                    {
+                        return 1;
+                    }
+                    if (int.Parse(s1) < int.Parse(s2))
+                    {
+                        return -1;
+                    }
+                }
+                else
+                {
+                    if (char.ToLower(arr1[i]) > char.ToLower(arr2[j]))
+                    {
+                        return 1;
+                    }
+                    if (char.ToLower(arr1[i]) < char.ToLower(arr2[j]))
+                    {
+                        return -1;
+                    }
+                    i++;
+                    j++;
+                }
+            }
+            if (arr1.Length == arr2.Length)
+            {
+                return 0;
+            }
+            else
+            {
+                return arr1.Length > arr2.Length ? 1 : -1;
+            }
+        }
+
         public List<string> GetItemList(bool alpha = false, bool numbersonly = false)
         {
             var ans = new List<string>();
@@ -3392,7 +3445,7 @@ namespace MissionPlanner
             }
 
             if (alpha)
-                ans.Sort();
+                ans.Sort((a, b) => StringCompareTo(a, b));
 
             return ans;
         }
