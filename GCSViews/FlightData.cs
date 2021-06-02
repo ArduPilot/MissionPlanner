@@ -5156,18 +5156,18 @@ namespace MissionPlanner.GCSViews
 
             foreach (var field in list)
             {
-                g.DrawString(field, this.Font, br, new RectangleF(x, y, 95, 15));
+                g.DrawString(field, this.Font, br, new RectangleF(x, y, 120, 15));
 
                 if (cs != null)
                     g.DrawString(typeof(CurrentState).GetProperty(field).GetValue(cs)?.ToString(), this.Font,
-                        br, new RectangleF(x + 95, y, 50, 15));
+                        br, new RectangleF(x + 120, y, 50, 15));
 
                 x += 0;
                 y += 15;
 
                 if (y > tabStatus.Height - 30)
                 {
-                    x += 165;
+                    x += 190;
                     y = 10;
                 }
             }
