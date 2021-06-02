@@ -2640,7 +2640,7 @@ namespace MissionPlanner.GCSViews
             }
 
             max_length += 15;
-            fields.Sort((a, b) => a.Item2.CompareTo(b.Item2));
+            fields.Sort((a, b) => CurrentState.StringCompareTo(a.Item2, b.Item2));
 
             int col_count = (int) (Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
