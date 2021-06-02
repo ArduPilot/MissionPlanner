@@ -1153,7 +1153,7 @@ S15: MAX_WINDOW=131
             var Mdm = Session.GetModemObject();
 
             if (Mdm == null || !(Mdm is RFD.RFD900.RFD900xux) ||
-                ((CC = GetCC((RFD.RFD900.RFD900xux)Mdm)) == RFD.RFD900.RFD900xux.TCountry.NONE))
+                !RFD.RFD900.RFD900xux.GetIsCountryLocked(CC = GetCC((RFD.RFD900.RFD900xux)Mdm)))
             {
                 return "--";
             }

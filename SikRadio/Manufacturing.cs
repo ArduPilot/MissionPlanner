@@ -82,7 +82,7 @@ namespace RFD900Tools
                     else
                     {
                         var CountryCode = ((RFD.RFD900.RFD900xux)Mdm).GetCountryCode();
-                        if (CountryCode == RFD.RFD900.RFD900xux.TCountry.NONE)
+                        if (!RFD.RFD900.RFD900xux.GetIsCountryLocked(CountryCode))
                         {
                             //AT+C32=x
                             LogStringNonMainThread("Locking down for country...");
@@ -184,7 +184,7 @@ namespace RFD900Tools
                         if (Mdm is RFD.RFD900.RFD900xux)
                         {
                             var CountryCode = ((RFD.RFD900.RFD900xux)Mdm).GetCountryCode();
-                            if (CountryCode == RFD.RFD900.RFD900xux.TCountry.NONE)
+                            if (!RFD.RFD900.RFD900xux.GetIsCountryLocked(CountryCode))
                             {
                                 //AT+C32=x
                                 LogStringNonMainThread("Doesn't appear to be locked down.");

@@ -1886,7 +1886,19 @@ namespace RFD.RFD900
         /// <returns></returns>
         bool GetIsThisLockedToCountry()
         {
-            return GetCountryCode() != TCountry.NONE;
+            return GetIsCountryLocked(GetCountryCode());
+        }
+
+        public static bool GetIsCountryLocked(TCountry C)
+        {
+            switch (C)
+            {
+                case TCountry.NONE:
+                case TCountry.Undefined:
+                    return false;
+                default:
+                    return true;
+            }
         }
 
         /// <summary>
@@ -2045,6 +2057,7 @@ namespace RFD.RFD900
             PRC = 5,
             Ins = 6,
             India = 8,
+            Undefined = 255,
         }
     }
 
