@@ -171,7 +171,7 @@ namespace Dowding
 
                     // hide if more than 100km from our map center
                     if (new PointLatLngAlt(FlightData.instance.gMapControl1.Position).GetDistance(mapMarker.Position) > 1000*100)
-                        mapMarker.IsVisible = true;
+                        mapMarker.IsVisible = false;
                 });
 
             return true;

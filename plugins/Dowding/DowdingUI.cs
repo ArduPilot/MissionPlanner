@@ -13,6 +13,7 @@ using MissionPlanner;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using Onvif;
 
 namespace Dowding
 {

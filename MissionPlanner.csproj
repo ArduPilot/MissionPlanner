@@ -34,6 +34,9 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
     <ProjectTypeGuids>{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+<RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>bin\Debug\net461\</OutputPath>
@@ -312,6 +315,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AsyncFixer">
+      <Version>1.5.1</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Asyncify">
+      <Version>0.9.7</Version>
+    </PackageReference>
     <PackageReference Include="Crc32.NET">
       <Version>1.2.0</Version>
     </PackageReference>
@@ -347,8 +358,18 @@
       <Version>2.0.2</Version>
     </PackageReference>
     <PackageReference Include="log4net" version="2.0.12" targetFramework="net462" />
+    <PackageReference Include="Meziantou.Analyzer">
+      <Version>1.0.663</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Diagnostics.Runtime">
       <Version>1.1.127808</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
+      <Version>16.10.56</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="NETStandard.Library">
