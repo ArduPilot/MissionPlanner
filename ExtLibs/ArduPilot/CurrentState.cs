@@ -997,6 +997,10 @@ namespace MissionPlanner
         public double battery_voltage8 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayText("Bat Voltage (V)")]
+        public double battery_voltage9 { get; set; }
+
+        [GroupText("Battery")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining
         {
@@ -1035,6 +1039,10 @@ namespace MissionPlanner
         [GroupText("Battery")]
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining8 { get; set; }
+
+        [GroupText("Battery")]
+        [DisplayText("Bat Remaining (%)")]
+        public int battery_remaining9 { get; set; }
 
         [GroupText("Battery")]
         [DisplayText("Bat Current (Amps)")]
@@ -1097,6 +1105,10 @@ namespace MissionPlanner
         public double current8 { get; set; }
 
         [GroupText("Battery")]
+        [DisplayText("Bat9 Current (Amps)")]
+        public double current9 { get; set; }
+
+        [GroupText("Battery")]
         [DisplayText("Bat Watts")]
         public double watts => battery_voltage * current;
 
@@ -1119,8 +1131,34 @@ namespace MissionPlanner
         [GroupText("Battery")] public double battery_cell4 { get; set; }
         [GroupText("Battery")] public double battery_cell5 { get; set; }
         [GroupText("Battery")] public double battery_cell6 { get; set; }
+        [GroupText("Battery")] public double battery_cell7 { get; set; }
+        [GroupText("Battery")] public double battery_cell8 { get; set; }
+        [GroupText("Battery")] public double battery_cell9 { get; set; }
+        [GroupText("Battery")] public double battery_cell10 { get; set; }
+        [GroupText("Battery")] public double battery_cell11 { get; set; }
+        [GroupText("Battery")] public double battery_cell12 { get; set; }
+        [GroupText("Battery")] public double battery_cell13 { get; set; }
+        [GroupText("Battery")] public double battery_cell14 { get; set; }
 
         [GroupText("Battery")] public double battery_temp { get; set; }
+        [GroupText("Battery")] public double battery_temp2 { get; set; }
+        [GroupText("Battery")] public double battery_temp3 { get; set; }
+        [GroupText("Battery")] public double battery_temp4 { get; set; }
+        [GroupText("Battery")] public double battery_temp5 { get; set; }
+        [GroupText("Battery")] public double battery_temp6 { get; set; }
+        [GroupText("Battery")] public double battery_temp7 { get; set; }
+        [GroupText("Battery")] public double battery_temp8 { get; set; }
+        [GroupText("Battery")] public double battery_temp9 { get; set; }
+
+        [GroupText("Battery")] public double battery_remainmin { get; set; }
+        [GroupText("Battery")] public double battery_remainmin2 { get; set; }
+        [GroupText("Battery")] public double battery_remainmin3 { get; set; }
+        [GroupText("Battery")] public double battery_remainmin4 { get; set; }
+        [GroupText("Battery")] public double battery_remainmin5 { get; set; }
+        [GroupText("Battery")] public double battery_remainmin6 { get; set; }
+        [GroupText("Battery")] public double battery_remainmin7 { get; set; }
+        [GroupText("Battery")] public double battery_remainmin8 { get; set; }
+        [GroupText("Battery")] public double battery_remainmin9 { get; set; }
 
         [GroupText("Battery")]
         [DisplayText("Bat used EST (mah)")]
@@ -1150,6 +1188,9 @@ namespace MissionPlanner
         [DisplayText("Bat used EST (mah)")]
         public double battery_usedmah8 { get; set; }
 
+        [GroupText("Battery")]
+        [DisplayText("Bat used EST (mah)")]
+        public double battery_usedmah9 { get; set; }
 
         [GroupText("Battery")]
         [DisplayText("Bat2 Voltage (V)")]
@@ -2532,6 +2573,22 @@ namespace MissionPlanner
                                     else battery_cell5 = 0.0;
                                     if (bats.voltages[5] != ushort.MaxValue) battery_cell6 = bats.voltages[5] / 1000.0;
                                     else battery_cell6 = 0.0;
+                                    if (bats.voltages[6] != ushort.MaxValue) battery_cell7 = bats.voltages[6] / 1000.0;
+                                    else battery_cell7 = 0.0;
+                                    if (bats.voltages[7] != ushort.MaxValue) battery_cell8 = bats.voltages[7] / 1000.0;
+                                    else battery_cell8 = 0.0;
+                                    if (bats.voltages[8] != ushort.MaxValue) battery_cell9 = bats.voltages[8] / 1000.0;
+                                    else battery_cell9 = 0.0;
+                                    if (bats.voltages[9] != ushort.MaxValue) battery_cell10 = bats.voltages[9] / 1000.0;
+                                    else battery_cell10 = 0.0;
+                                    if (bats.voltages_ext[0] != ushort.MaxValue) battery_cell11 = bats.voltages_ext[0] / 1000.0;
+                                    else battery_cell11 = 0.0;
+                                    if (bats.voltages_ext[1] != ushort.MaxValue) battery_cell12 = bats.voltages_ext[1] / 1000.0;
+                                    else battery_cell12 = 0.0;
+                                    if (bats.voltages_ext[2] != ushort.MaxValue) battery_cell13 = bats.voltages_ext[2] / 1000.0;
+                                    else battery_cell13 = 0.0;
+                                    if (bats.voltages_ext[3] != ushort.MaxValue) battery_cell14 = bats.voltages_ext[3] / 1000.0;
+                                    else battery_cell14 = 0.0;
                                 }
 
                                 battery_usedmah = bats.current_consumed;
@@ -2539,12 +2596,16 @@ namespace MissionPlanner
                                 _current = bats.current_battery / 100.0f;
                                 if (bats.temperature != short.MaxValue)
                                     battery_temp = bats.temperature / 100.0;
+                                battery_remainmin = bats.time_remaining / 60.0f;
                             }
                             else if (bats.id == 1)
                             {
                                 battery_usedmah2 = bats.current_consumed;
                                 battery_remaining2 = bats.battery_remaining;
                                 _current2 = bats.current_battery / 100.0f;
+                                if (bats.temperature != short.MaxValue)
+                                    battery_temp2 = bats.temperature / 100.0;
+                                battery_remainmin2 = bats.time_remaining / 60.0f;
                             }
                             else if (bats.id == 2)
                             {
@@ -2552,6 +2613,9 @@ namespace MissionPlanner
                                 battery_remaining3 = bats.battery_remaining;
                                 battery_voltage3 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
                                 current3 = bats.current_battery / 100.0f;
+                                if (bats.temperature != short.MaxValue)
+                                    battery_temp3 = bats.temperature / 100.0;
+                                battery_remainmin3 = bats.time_remaining / 60.0f;
                             }
                             else if (bats.id == 3)
                             {
@@ -2559,6 +2623,9 @@ namespace MissionPlanner
                                 battery_remaining4 = bats.battery_remaining;
                                 battery_voltage4 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
                                 current4 = bats.current_battery / 100.0f;
+                                if (bats.temperature != short.MaxValue)
+                                    battery_temp4 = bats.temperature / 100.0;
+                                battery_remainmin4 = bats.time_remaining / 60.0f;
                             }
                             else if (bats.id == 4)
                             {
@@ -2566,6 +2633,9 @@ namespace MissionPlanner
                                 battery_remaining5 = bats.battery_remaining;
                                 battery_voltage5 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
                                 current5 = bats.current_battery / 100.0f;
+                                if (bats.temperature != short.MaxValue)
+                                    battery_temp5 = bats.temperature / 100.0;
+                                battery_remainmin5 = bats.time_remaining / 60.0f;
                             }
                             else if (bats.id == 5)
                             {
@@ -2573,6 +2643,9 @@ namespace MissionPlanner
                                 battery_remaining6 = bats.battery_remaining;
                                 battery_voltage6 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
                                 current6 = bats.current_battery / 100.0f;
+                                if (bats.temperature != short.MaxValue)
+                                    battery_temp6 = bats.temperature / 100.0;
+                                battery_remainmin6 = bats.time_remaining / 60.0f;
                             }
                             else if (bats.id == 6)
                             {
@@ -2580,6 +2653,9 @@ namespace MissionPlanner
                                 battery_remaining7 = bats.battery_remaining;
                                 battery_voltage7 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
                                 current7 = bats.current_battery / 100.0f;
+                                if (bats.temperature != short.MaxValue)
+                                    battery_temp7 = bats.temperature / 100.0;
+                                battery_remainmin7 = bats.time_remaining / 60.0f;
                             }
                             else if (bats.id == 7)
                             {
@@ -2587,6 +2663,19 @@ namespace MissionPlanner
                                 battery_remaining8 = bats.battery_remaining;
                                 battery_voltage8 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
                                 current8 = bats.current_battery / 100.0f;
+                                if (bats.temperature != short.MaxValue)
+                                    battery_temp8 = bats.temperature / 100.0;
+                                battery_remainmin8 = bats.time_remaining / 60.0f;
+                            }
+                            else if (bats.id == 8)
+                            {
+                                battery_usedmah9 = bats.current_consumed;
+                                battery_remaining9 = bats.battery_remaining;
+                                battery_voltage9 = bats.voltages.Sum(a => a != ushort.MaxValue ? a / 1000.0 : 0);
+                                current9 = bats.current_battery / 100.0f;
+                                if (bats.temperature != short.MaxValue)
+                                    battery_temp9 = bats.temperature / 100.0;
+                                battery_remainmin9 = bats.time_remaining / 60.0f;
                             }
                         }
 
