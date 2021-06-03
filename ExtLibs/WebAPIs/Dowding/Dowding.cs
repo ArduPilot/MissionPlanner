@@ -55,7 +55,7 @@ namespace MissionPlanner.WebAPIs
             Configuration.AddApiKey("Authorization", "Bearer " + customtoken);
         }
 
-        public async Task Start(string server)
+        public async Task<WebSocket> Start(string server)
         {
             Console.WriteLine("Dowding Start");
             // starting point - get last 120seconds with the very last point of each, max of 100 nodes
@@ -91,6 +91,8 @@ namespace MissionPlanner.WebAPIs
             {
                 Console.WriteLine(args.Exception);
             };
+
+            return ws;
         }
 
         public async Task<List<AgentTick>> GetAgents()

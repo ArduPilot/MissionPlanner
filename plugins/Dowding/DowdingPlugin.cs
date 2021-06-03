@@ -37,6 +37,11 @@ namespace Dowding
             get { return _Author; }
         }
 
+        public static bool IsAlive
+        {
+            get { return DowdingPlugin.ws != null && DowdingPlugin.ws.State == WebSocket4Net.WebSocketState.Open; }
+        }
+
         public override bool Exit()
         {
             return true;
@@ -60,7 +65,7 @@ namespace Dowding
 
         public static void Start()
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {
@@ -69,8 +74,7 @@ namespace Dowding
                         Settings.Instance.ContainsKey("Dowding_password") && 
                         Settings.Instance.ContainsKey("Dowding_server"))
                     {
-                        dowd.Auth( Settings.Instance["Dowding_username"], new Crypto().DecryptString(Settings.Instance["Dowding_password"]), Settings.Instance["Dowding_server"])
-                            .Wait();
+                        await dowd.Auth( Settings.Instance["Dowding_username"], new Crypto().DecryptString(Settings.Instance["Dowding_password"]), Settings.Instance["Dowding_server"]);
                     }
                     else if (Settings.Instance.ContainsKey("Dowding_token") && 
                              Settings.Instance.ContainsKey("Dowding_server"))
@@ -82,7 +86,7 @@ namespace Dowding
                         CustomMessageBox.Show("Dowding invalid settings");
                     }
 
-                    dowd.Start(Settings.Instance["Dowding_server"]).Wait();
+                    ws = await dowd.Start(Settings.Instance["Dowding_server"]);
                 }
                 catch
                 {
@@ -178,12 +182,26 @@ namespace Dowding
         }
 
         private GMarkerGoogle target;
+        internal static WebSocket4Net.WebSocket ws;
 
         public static event EventHandler<PointLatLngAlt> UpdateOutput;
 
         private void men_Click(object sender, EventArgs e)
         {
             new DowdingUI().ShowUserControl();
+        }
+
+        public static void Stop()
+        {
+            try
+            {
+                if (ws != null)
+                    ws.Close();
+            }
+            catch
+            {
+
+            }
         }
     }
 }
