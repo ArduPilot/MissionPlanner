@@ -45,14 +45,31 @@ namespace Dowding
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbl_header = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txt_trackerlong = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txt_trackerhae = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txt_trackerlat = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txt_onvifpassword = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txt_onvifuser = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txt_onvifip = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.but_onvif = new MissionPlanner.Controls.MyButton();
+            this.but_setathome = new MissionPlanner.Controls.MyButton();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // chk_enable
@@ -198,14 +215,66 @@ namespace Dowding
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.but_setathome);
+            this.panel2.Controls.Add(this.label9);
+            this.panel2.Controls.Add(this.txt_trackerlong);
+            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.txt_trackerhae);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.txt_trackerlat);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.CMB_baudrate);
             this.panel2.Controls.Add(this.BUT_connect);
             this.panel2.Controls.Add(this.CMB_serialport);
             this.panel2.Location = new System.Drawing.Point(30, 220);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(420, 88);
+            this.panel2.Size = new System.Drawing.Size(420, 143);
             this.panel2.TabIndex = 3;
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(229, 51);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(75, 23);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "Tracker Long";
+            // 
+            // txt_trackerlong
+            // 
+            this.txt_trackerlong.Location = new System.Drawing.Point(310, 53);
+            this.txt_trackerlong.Name = "txt_trackerlong";
+            this.txt_trackerlong.Size = new System.Drawing.Size(100, 20);
+            this.txt_trackerlong.TabIndex = 17;
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(229, 77);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(75, 23);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Tracker HAE";
+            // 
+            // txt_trackerhae
+            // 
+            this.txt_trackerhae.Location = new System.Drawing.Point(310, 79);
+            this.txt_trackerhae.Name = "txt_trackerhae";
+            this.txt_trackerhae.Size = new System.Drawing.Size(100, 20);
+            this.txt_trackerhae.TabIndex = 15;
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(229, 25);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(75, 23);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Tracker Lat";
+            // 
+            // txt_trackerlat
+            // 
+            this.txt_trackerlat.Location = new System.Drawing.Point(310, 27);
+            this.txt_trackerlat.Name = "txt_trackerlat";
+            this.txt_trackerlat.Size = new System.Drawing.Size(100, 20);
+            this.txt_trackerlat.TabIndex = 13;
             // 
             // label2
             // 
@@ -237,7 +306,7 @@ namespace Dowding
             // BUT_connect
             // 
             this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_connect.Location = new System.Drawing.Point(134, 26);
+            this.BUT_connect.Location = new System.Drawing.Point(33, 80);
             this.BUT_connect.Name = "BUT_connect";
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 4;
@@ -254,20 +323,116 @@ namespace Dowding
             this.CMB_serialport.Size = new System.Drawing.Size(121, 21);
             this.CMB_serialport.TabIndex = 3;
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Controls.Add(this.txt_onvifpassword);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.txt_onvifuser);
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Controls.Add(this.txt_onvifip);
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.but_onvif);
+            this.panel3.Location = new System.Drawing.Point(30, 369);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(420, 106);
+            this.panel3.TabIndex = 9;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(10, 75);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 23);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Password";
+            // 
+            // txt_onvifpassword
+            // 
+            this.txt_onvifpassword.Location = new System.Drawing.Point(91, 77);
+            this.txt_onvifpassword.Name = "txt_onvifpassword";
+            this.txt_onvifpassword.Size = new System.Drawing.Size(100, 20);
+            this.txt_onvifpassword.TabIndex = 13;
+            this.txt_onvifpassword.UseSystemPasswordChar = true;
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(10, 49);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(75, 23);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "User";
+            // 
+            // txt_onvifuser
+            // 
+            this.txt_onvifuser.Location = new System.Drawing.Point(91, 51);
+            this.txt_onvifuser.Name = "txt_onvifuser";
+            this.txt_onvifuser.Size = new System.Drawing.Size(100, 20);
+            this.txt_onvifuser.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(10, 23);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(75, 23);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "IP:Port";
+            // 
+            // txt_onvifip
+            // 
+            this.txt_onvifip.Location = new System.Drawing.Point(91, 25);
+            this.txt_onvifip.Name = "txt_onvifip";
+            this.txt_onvifip.Size = new System.Drawing.Size(100, 20);
+            this.txt_onvifip.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(160, 23);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Onvif";
+            // 
+            // but_onvif
+            // 
+            this.but_onvif.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.but_onvif.Location = new System.Drawing.Point(229, 25);
+            this.but_onvif.Name = "but_onvif";
+            this.but_onvif.Size = new System.Drawing.Size(75, 23);
+            this.but_onvif.TabIndex = 4;
+            this.but_onvif.Text = "Start";
+            this.but_onvif.UseVisualStyleBackColor = true;
+            this.but_onvif.Click += new System.EventHandler(this.but_onvif_Click);
+            // 
+            // but_setathome
+            // 
+            this.but_setathome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.but_setathome.Location = new System.Drawing.Point(310, 105);
+            this.but_setathome.Name = "but_setathome";
+            this.but_setathome.Size = new System.Drawing.Size(100, 23);
+            this.but_setathome.TabIndex = 19;
+            this.but_setathome.Text = "Set Tracker Home";
+            this.but_setathome.UseVisualStyleBackColor = true;
+            this.but_setathome.Click += new System.EventHandler(this.but_setathome_Click);
+            // 
             // DowdingUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "DowdingUI";
-            this.Size = new System.Drawing.Size(480, 319);
+            this.Size = new System.Drawing.Size(470, 493);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -293,5 +458,21 @@ namespace Dowding
         private System.Windows.Forms.ComboBox CMB_baudrate;
         private MissionPlanner.Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_serialport;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label3;
+        private MissionPlanner.Controls.MyButton but_onvif;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txt_onvifpassword;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txt_onvifuser;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txt_onvifip;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txt_trackerlong;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txt_trackerhae;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txt_trackerlat;
+        private MissionPlanner.Controls.MyButton but_setathome;
     }
 }

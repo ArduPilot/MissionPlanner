@@ -157,5 +157,102 @@ namespace MissionPlanner.ArduPilot
                 throw;
             }
         }
+
+        public static async Task uploadPartial(MAVLinkInterface port, byte sysid, byte compid, MAVLink.MAV_MISSION_TYPE type, List<Locationwp> commandlist, ushort start, Action<int,string> progress = null)
+        {
+            try
+            {
+                if (!port.BaseStream.IsOpen)
+                {
+                    throw new Exception("Please connect first!");
+                }
+
+                bool use_supportfence = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FENCE) > 0;
+
+                bool use_int = (port.MAVlist[sysid, compid].cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+
+                if (!use_supportfence && type == MAVLink.MAV_MISSION_TYPE.FENCE)
+                    throw new Exception("Fence mission items not supported, please use legacy geofence");
+
+                if (!use_supportfence && !port.MAVlist[sysid, compid].mavlinkv2 && type != MAVLink.MAV_MISSION_TYPE.MISSION)
+                {
+                    throw new Exception("Mission type only supported under mavlink2");
+                }
+
+                int a;
+
+                await port.setWPPartialUpdateAsync(sysid, compid, start, (ushort) (start + commandlist.Count), type)
+                    .ConfigureAwait(false);
+
+                // process commandlist to the mav
+                for (a = 0; a < commandlist.Count; a++)
+                {
+                    var temp = commandlist[a];
+
+                    // handle current wp upload number
+                    int uploadwpno = start + a;
+
+                    progress?.Invoke(((a*100) / commandlist.Count), "Uploading WP " + a);
+
+                    // try send the wp
+                    MAVLink.MAV_MISSION_RESULT ans = await port.setWPAsync(sysid, compid, temp, (ushort)(uploadwpno), (MAVLink.MAV_FRAME)temp.frame, 0, 1, use_int, type).ConfigureAwait(false);
+
+                    // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
+                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
+                    {
+                        // resend for partial upload
+                        await port.setWPPartialUpdateAsync(sysid, compid, (ushort)(uploadwpno), (ushort)commandlist.Count, type).ConfigureAwait(false);
+                        // reupload this point.
+                        ans = await port.setWPAsync(sysid, compid, temp, (ushort) (uploadwpno),
+                            (MAVLink.MAV_FRAME) temp.frame, 0, 1, use_int, type).ConfigureAwait(false);
+                    }
+
+                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
+                    {
+                        throw new Exception("Upload failed, please reduce the number of wp's");
+                    }
+                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
+                    {
+                        throw new Exception(
+                            "Upload failed, mission was rejected by the Mav,\n item had a bad option wp# " + a + " " +
+                            ans);
+                    }
+                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
+                    {
+                        // invalid sequence can only occur if we failed to see a response from the apm when we sent the request.
+                        // or there is io lag and we send 2 mission_items and get 2 responces, one valid, one a ack of the second send
+
+                        // the ans is received via mission_ack, so we dont know for certain what our current request is for. as we may have lost the mission_request
+
+                        // get requested wp no - 1;
+                        try
+                        {
+                            a = await port.getRequestedWPNoAsync(sysid, compid).ConfigureAwait(false) - 1;
+                        }
+                        catch
+                        {
+                            // resend for partial upload
+                            await port.setWPPartialUpdateAsync(sysid, compid, (ushort)(uploadwpno), (ushort)commandlist.Count, type).ConfigureAwait(false);
+                            // reupload this point.
+                        }
+
+                        continue;
+                    }
+                    if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                    {
+                        throw new Exception("Upload "+ type.ToString() + " failed " + Enum.Parse(typeof(MAVLink.MAV_CMD), temp.id.ToString()) +
+                                            " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString()));
+                    }
+                }
+
+                port.setWPACK(sysid, compid, type);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                throw;
+            }
+        }
     }
 }
