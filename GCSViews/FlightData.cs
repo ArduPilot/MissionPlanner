@@ -148,7 +148,8 @@ namespace MissionPlanner.GCSViews
             Preflight_Reboot_Shutdown,
             Trigger_Camera,
             System_Time,
-            Battery_Reset
+            Battery_Reset,
+            Do_Start_ADSB_Out_Ident
         }
 
         public FlightData()
