@@ -81,6 +81,18 @@
       <entry value="6" name="UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY"/>
       <entry value="7" name="UAVIONIX_ADSB_OUT_RESERVED"/>
     </enum>
+    <enum name="MAV_CMD">
+      <entry value="54132" name="MAV_CMD_DO_START_ADSB_OUT_IDENT" hasLocation="false" isDestination="false">
+        <description>Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the ADSB-out hardware per the ADSB spec.</description>
+        <param index="1">Empty</param>
+        <param index="2">Empty</param>
+        <param index="3">Empty</param>
+        <param index="4">Empty</param>
+        <param index="5">Empty</param>
+        <param index="6">Empty</param>
+        <param index="7">Empty</param>
+      </entry>
+    </enum>
   </enums>
   <messages>
     <message id="10001" name="UAVIONIX_ADSB_OUT_CFG">
@@ -116,6 +128,18 @@
     <message id="10003" name="UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT">
       <description>Transceiver heartbeat with health report (updated every 10s)</description>
       <field type="uint8_t" name="rfHealth" enum="UAVIONIX_ADSB_RF_HEALTH" display="bitmask">ADS-B transponder messages</field>
+    </message>
+     <message id="10004" name="UAVIONIX_ADSB_OUT_CFG_REGISTRATION">
+      <description>Aircraft Registration.</description>
+      <field type="char[9]" name="registration">Aircraft Registration (ASCII string A-Z, 0-9 only), e.g. "N8644B ". Trailing spaces (0x20) only. This is null-terminated.</field>
+    </message>
+    <message id="10005" name="UAVIONIX_ADSB_OUT_CFG_FLIGHTID">
+      <description>Flight Identification for ADSB-Out vehicles.</description>
+      <field type="char[9]" name="flight_id">Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable. Reflects Control message setting. This is null-terminated.</field>
+    </message>
+    <message id="10006" name="UAVIONIX_ADSB_GET">
+      <description>Request messages.</description>
+      <field type="uint32_t" name="ReqMessageId">Message ID to request. Supports any message in this 10000-10099 range</field>
     </message>
   </messages>
 </mavlink>
