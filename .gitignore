@@ -36,3 +36,5 @@ docs/
 *.Test/
 *.jar
 *.cache
+/Plugins/Dowding/server/node_modules
+/Plugins/Dowding/server/package-lock.json

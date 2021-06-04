@@ -366,7 +366,7 @@ namespace Dowding
         private async void OnvifUpdate(object sender, PointLatLngAlt e)
         {
             await device.SetTrack(HomeLoc,
-                lastplla).ConfigureAwait(false);
+                e).ConfigureAwait(false);
         }
 
         private async void but_setathome_Click(object sender, EventArgs e)
