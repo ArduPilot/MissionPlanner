@@ -402,7 +402,7 @@ namespace MissionPlanner.ArduPilot
                 {
                     mBorders.InnerMarker = m;
                     mBorders.Tag = tag;
-                    mBorders.wprad = (int)wpradius;
+                    mBorders.wprad = wpradius;
                     if (color.HasValue)
                     {
                         mBorders.Color = color.Value;
