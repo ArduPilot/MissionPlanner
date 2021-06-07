@@ -75,6 +75,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.STB_RLL_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label46 = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.ATC_RAT_YAW_FLTT = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label33 = new System.Windows.Forms.Label();
+            this.ATC_RAT_YAW_FLTD = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label32 = new System.Windows.Forms.Label();
             this.RATE_YAW_FILT = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label18 = new System.Windows.Forms.Label();
             this.RATE_YAW_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -86,6 +90,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.RATE_YAW_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label82 = new System.Windows.Forms.Label();
             this.groupBox24 = new System.Windows.Forms.GroupBox();
+            this.ATC_RAT_RLL_FLTT = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label30 = new System.Windows.Forms.Label();
+            this.ATC_RAT_RLL_FLTD = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label29 = new System.Windows.Forms.Label();
             this.RATE_PIT_FILT = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.RATE_PIT_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -97,6 +105,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.RATE_PIT_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label87 = new System.Windows.Forms.Label();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.ATC_RAT_PIT_FLTT = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label28 = new System.Windows.Forms.Label();
+            this.ATC_RAT_PIT_FLTD = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.P_FLTD = new System.Windows.Forms.Label();
             this.RATE_RLL_FILT = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.RATE_RLL_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -138,6 +150,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CH9_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
             this.myLabel6 = new System.Windows.Forms.Label();
             this.CH10_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.INS_ACCEL_FILTER = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label26 = new System.Windows.Forms.Label();
+            this.INS_GYRO_FILTER = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.INS_HNTCH_HMNCS = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label51 = new System.Windows.Forms.Label();
+            this.INS_HNTCH_OPTS = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label50 = new System.Windows.Forms.Label();
+            this.INS_HNTCH_BW = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label49 = new System.Windows.Forms.Label();
+            this.INS_HNTCH_ATT = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label48 = new System.Windows.Forms.Label();
+            this.INS_HNTCH_FREQ = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label41 = new System.Windows.Forms.Label();
+            this.INS_HNTCH_REF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label43 = new System.Windows.Forms.Label();
+            this.INS_HNTCH_MODE = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label44 = new System.Windows.Forms.Label();
+            this.INS_HNTCH_ENABLE = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label45 = new System.Windows.Forms.Label();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.INS_NOTCH_ATT = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label40 = new System.Windows.Forms.Label();
+            this.INS_NOTCH_BW = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label39 = new System.Windows.Forms.Label();
+            this.INS_NOTCH_FREQ = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label38 = new System.Windows.Forms.Label();
+            this.INS_NOTCH_ENABLE = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label37 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.INS_LOG_BAT_OPT = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label36 = new System.Windows.Forms.Label();
+            this.INS_LOG_BAT_MASK = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
+            this.CH6_OPTION = new MissionPlanner.Controls.MavlinkComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -163,18 +213,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_accel_r_max)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_P)).BeginInit();
             this.groupBox23.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_YAW_FLTT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_YAW_FLTD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FILT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_P)).BeginInit();
             this.groupBox24.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_RLL_FLTT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_RLL_FLTD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_FILT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_P)).BeginInit();
             this.groupBox25.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_PIT_FLTT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_PIT_FLTD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_FILT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_IMAX)).BeginInit();
@@ -190,6 +246,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_P)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_ACCEL_FILTER)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_GYRO_FILTER)).BeginInit();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_HMNCS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_OPTS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_BW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_ATT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_FREQ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_REF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_MODE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_ENABLE)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_NOTCH_ATT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_NOTCH_BW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_NOTCH_FREQ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_NOTCH_ENABLE)).BeginInit();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_LOG_BAT_OPT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_LOG_BAT_MASK)).BeginInit();
             this.SuspendLayout();
             // 
             // TUNE_LOW
@@ -524,6 +600,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox23
             // 
+            this.groupBox23.Controls.Add(this.ATC_RAT_YAW_FLTT);
+            this.groupBox23.Controls.Add(this.label33);
+            this.groupBox23.Controls.Add(this.ATC_RAT_YAW_FLTD);
+            this.groupBox23.Controls.Add(this.label32);
             this.groupBox23.Controls.Add(this.RATE_YAW_FILT);
             this.groupBox23.Controls.Add(this.label18);
             this.groupBox23.Controls.Add(this.RATE_YAW_D);
@@ -537,6 +617,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.groupBox23, "groupBox23");
             this.groupBox23.Name = "groupBox23";
             this.groupBox23.TabStop = false;
+            // 
+            // ATC_RAT_YAW_FLTT
+            // 
+            resources.ApplyResources(this.ATC_RAT_YAW_FLTT, "ATC_RAT_YAW_FLTT");
+            this.ATC_RAT_YAW_FLTT.Max = 1F;
+            this.ATC_RAT_YAW_FLTT.Min = 0F;
+            this.ATC_RAT_YAW_FLTT.Name = "ATC_RAT_YAW_FLTT";
+            this.ATC_RAT_YAW_FLTT.ParamName = null;
+            this.ATC_RAT_YAW_FLTT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label33
+            // 
+            resources.ApplyResources(this.label33, "label33");
+            this.label33.Name = "label33";
+            // 
+            // ATC_RAT_YAW_FLTD
+            // 
+            resources.ApplyResources(this.ATC_RAT_YAW_FLTD, "ATC_RAT_YAW_FLTD");
+            this.ATC_RAT_YAW_FLTD.Max = 1F;
+            this.ATC_RAT_YAW_FLTD.Min = 0F;
+            this.ATC_RAT_YAW_FLTD.Name = "ATC_RAT_YAW_FLTD";
+            this.ATC_RAT_YAW_FLTD.ParamName = null;
+            this.ATC_RAT_YAW_FLTD.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label32
+            // 
+            resources.ApplyResources(this.label32, "label32");
+            this.label32.Name = "label32";
             // 
             // RATE_YAW_FILT
             // 
@@ -610,6 +718,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox24
             // 
+            this.groupBox24.Controls.Add(this.ATC_RAT_RLL_FLTT);
+            this.groupBox24.Controls.Add(this.label30);
+            this.groupBox24.Controls.Add(this.ATC_RAT_RLL_FLTD);
+            this.groupBox24.Controls.Add(this.label29);
             this.groupBox24.Controls.Add(this.RATE_PIT_FILT);
             this.groupBox24.Controls.Add(this.label14);
             this.groupBox24.Controls.Add(this.RATE_PIT_D);
@@ -623,6 +735,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.groupBox24, "groupBox24");
             this.groupBox24.Name = "groupBox24";
             this.groupBox24.TabStop = false;
+            // 
+            // ATC_RAT_RLL_FLTT
+            // 
+            resources.ApplyResources(this.ATC_RAT_RLL_FLTT, "ATC_RAT_RLL_FLTT");
+            this.ATC_RAT_RLL_FLTT.Max = 1F;
+            this.ATC_RAT_RLL_FLTT.Min = 0F;
+            this.ATC_RAT_RLL_FLTT.Name = "ATC_RAT_RLL_FLTT";
+            this.ATC_RAT_RLL_FLTT.ParamName = null;
+            this.ATC_RAT_RLL_FLTT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label30
+            // 
+            resources.ApplyResources(this.label30, "label30");
+            this.label30.Name = "label30";
+            // 
+            // ATC_RAT_RLL_FLTD
+            // 
+            resources.ApplyResources(this.ATC_RAT_RLL_FLTD, "ATC_RAT_RLL_FLTD");
+            this.ATC_RAT_RLL_FLTD.Max = 1F;
+            this.ATC_RAT_RLL_FLTD.Min = 0F;
+            this.ATC_RAT_RLL_FLTD.Name = "ATC_RAT_RLL_FLTD";
+            this.ATC_RAT_RLL_FLTD.ParamName = null;
+            this.ATC_RAT_RLL_FLTD.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label29
+            // 
+            resources.ApplyResources(this.label29, "label29");
+            this.label29.Name = "label29";
             // 
             // RATE_PIT_FILT
             // 
@@ -696,6 +836,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox25
             // 
+            this.groupBox25.Controls.Add(this.ATC_RAT_PIT_FLTT);
+            this.groupBox25.Controls.Add(this.label28);
+            this.groupBox25.Controls.Add(this.ATC_RAT_PIT_FLTD);
+            this.groupBox25.Controls.Add(this.P_FLTD);
             this.groupBox25.Controls.Add(this.RATE_RLL_FILT);
             this.groupBox25.Controls.Add(this.label12);
             this.groupBox25.Controls.Add(this.RATE_RLL_D);
@@ -709,6 +853,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.groupBox25, "groupBox25");
             this.groupBox25.Name = "groupBox25";
             this.groupBox25.TabStop = false;
+            // 
+            // ATC_RAT_PIT_FLTT
+            // 
+            resources.ApplyResources(this.ATC_RAT_PIT_FLTT, "ATC_RAT_PIT_FLTT");
+            this.ATC_RAT_PIT_FLTT.Max = 1F;
+            this.ATC_RAT_PIT_FLTT.Min = 0F;
+            this.ATC_RAT_PIT_FLTT.Name = "ATC_RAT_PIT_FLTT";
+            this.ATC_RAT_PIT_FLTT.ParamName = null;
+            this.ATC_RAT_PIT_FLTT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label28
+            // 
+            resources.ApplyResources(this.label28, "label28");
+            this.label28.Name = "label28";
+            // 
+            // ATC_RAT_PIT_FLTD
+            // 
+            resources.ApplyResources(this.ATC_RAT_PIT_FLTD, "ATC_RAT_PIT_FLTD");
+            this.ATC_RAT_PIT_FLTD.Max = 1F;
+            this.ATC_RAT_PIT_FLTD.Min = 0F;
+            this.ATC_RAT_PIT_FLTD.Name = "ATC_RAT_PIT_FLTD";
+            this.ATC_RAT_PIT_FLTD.ParamName = null;
+            this.ATC_RAT_PIT_FLTD.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // P_FLTD
+            // 
+            resources.ApplyResources(this.P_FLTD, "P_FLTD");
+            this.P_FLTD.Name = "P_FLTD";
             // 
             // RATE_RLL_FILT
             // 
@@ -1013,9 +1185,311 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CH10_OPTION.ParamName = null;
             this.CH10_OPTION.SubControl = null;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.INS_ACCEL_FILTER);
+            this.groupBox3.Controls.Add(this.label26);
+            this.groupBox3.Controls.Add(this.INS_GYRO_FILTER);
+            this.groupBox3.Controls.Add(this.label24);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // INS_ACCEL_FILTER
+            // 
+            resources.ApplyResources(this.INS_ACCEL_FILTER, "INS_ACCEL_FILTER");
+            this.INS_ACCEL_FILTER.Max = 1F;
+            this.INS_ACCEL_FILTER.Min = 0F;
+            this.INS_ACCEL_FILTER.Name = "INS_ACCEL_FILTER";
+            this.INS_ACCEL_FILTER.ParamName = null;
+            this.INS_ACCEL_FILTER.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label26
+            // 
+            resources.ApplyResources(this.label26, "label26");
+            this.label26.Name = "label26";
+            // 
+            // INS_GYRO_FILTER
+            // 
+            resources.ApplyResources(this.INS_GYRO_FILTER, "INS_GYRO_FILTER");
+            this.INS_GYRO_FILTER.Max = 1F;
+            this.INS_GYRO_FILTER.Min = 0F;
+            this.INS_GYRO_FILTER.Name = "INS_GYRO_FILTER";
+            this.INS_GYRO_FILTER.ParamName = null;
+            this.INS_GYRO_FILTER.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.INS_HNTCH_HMNCS);
+            this.groupBox9.Controls.Add(this.label51);
+            this.groupBox9.Controls.Add(this.INS_HNTCH_OPTS);
+            this.groupBox9.Controls.Add(this.label50);
+            this.groupBox9.Controls.Add(this.INS_HNTCH_BW);
+            this.groupBox9.Controls.Add(this.label49);
+            this.groupBox9.Controls.Add(this.INS_HNTCH_ATT);
+            this.groupBox9.Controls.Add(this.label48);
+            this.groupBox9.Controls.Add(this.INS_HNTCH_FREQ);
+            this.groupBox9.Controls.Add(this.label41);
+            this.groupBox9.Controls.Add(this.INS_HNTCH_REF);
+            this.groupBox9.Controls.Add(this.label43);
+            this.groupBox9.Controls.Add(this.INS_HNTCH_MODE);
+            this.groupBox9.Controls.Add(this.label44);
+            this.groupBox9.Controls.Add(this.INS_HNTCH_ENABLE);
+            this.groupBox9.Controls.Add(this.label45);
+            resources.ApplyResources(this.groupBox9, "groupBox9");
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.TabStop = false;
+            // 
+            // INS_HNTCH_HMNCS
+            // 
+            resources.ApplyResources(this.INS_HNTCH_HMNCS, "INS_HNTCH_HMNCS");
+            this.INS_HNTCH_HMNCS.Max = 1F;
+            this.INS_HNTCH_HMNCS.Min = 0F;
+            this.INS_HNTCH_HMNCS.Name = "INS_HNTCH_HMNCS";
+            this.INS_HNTCH_HMNCS.ParamName = null;
+            this.INS_HNTCH_HMNCS.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label51
+            // 
+            resources.ApplyResources(this.label51, "label51");
+            this.label51.Name = "label51";
+            // 
+            // INS_HNTCH_OPTS
+            // 
+            resources.ApplyResources(this.INS_HNTCH_OPTS, "INS_HNTCH_OPTS");
+            this.INS_HNTCH_OPTS.Max = 1F;
+            this.INS_HNTCH_OPTS.Min = 0F;
+            this.INS_HNTCH_OPTS.Name = "INS_HNTCH_OPTS";
+            this.INS_HNTCH_OPTS.ParamName = null;
+            this.INS_HNTCH_OPTS.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label50
+            // 
+            resources.ApplyResources(this.label50, "label50");
+            this.label50.Name = "label50";
+            // 
+            // INS_HNTCH_BW
+            // 
+            resources.ApplyResources(this.INS_HNTCH_BW, "INS_HNTCH_BW");
+            this.INS_HNTCH_BW.Max = 1F;
+            this.INS_HNTCH_BW.Min = 0F;
+            this.INS_HNTCH_BW.Name = "INS_HNTCH_BW";
+            this.INS_HNTCH_BW.ParamName = null;
+            this.INS_HNTCH_BW.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label49
+            // 
+            resources.ApplyResources(this.label49, "label49");
+            this.label49.Name = "label49";
+            // 
+            // INS_HNTCH_ATT
+            // 
+            resources.ApplyResources(this.INS_HNTCH_ATT, "INS_HNTCH_ATT");
+            this.INS_HNTCH_ATT.Max = 1F;
+            this.INS_HNTCH_ATT.Min = 0F;
+            this.INS_HNTCH_ATT.Name = "INS_HNTCH_ATT";
+            this.INS_HNTCH_ATT.ParamName = null;
+            this.INS_HNTCH_ATT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label48
+            // 
+            resources.ApplyResources(this.label48, "label48");
+            this.label48.Name = "label48";
+            // 
+            // INS_HNTCH_FREQ
+            // 
+            resources.ApplyResources(this.INS_HNTCH_FREQ, "INS_HNTCH_FREQ");
+            this.INS_HNTCH_FREQ.Max = 1F;
+            this.INS_HNTCH_FREQ.Min = 0F;
+            this.INS_HNTCH_FREQ.Name = "INS_HNTCH_FREQ";
+            this.INS_HNTCH_FREQ.ParamName = null;
+            this.INS_HNTCH_FREQ.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label41
+            // 
+            resources.ApplyResources(this.label41, "label41");
+            this.label41.Name = "label41";
+            // 
+            // INS_HNTCH_REF
+            // 
+            resources.ApplyResources(this.INS_HNTCH_REF, "INS_HNTCH_REF");
+            this.INS_HNTCH_REF.Max = 1F;
+            this.INS_HNTCH_REF.Min = 0F;
+            this.INS_HNTCH_REF.Name = "INS_HNTCH_REF";
+            this.INS_HNTCH_REF.ParamName = null;
+            this.INS_HNTCH_REF.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label43
+            // 
+            resources.ApplyResources(this.label43, "label43");
+            this.label43.Name = "label43";
+            // 
+            // INS_HNTCH_MODE
+            // 
+            resources.ApplyResources(this.INS_HNTCH_MODE, "INS_HNTCH_MODE");
+            this.INS_HNTCH_MODE.Max = 1F;
+            this.INS_HNTCH_MODE.Min = 0F;
+            this.INS_HNTCH_MODE.Name = "INS_HNTCH_MODE";
+            this.INS_HNTCH_MODE.ParamName = null;
+            this.INS_HNTCH_MODE.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label44
+            // 
+            resources.ApplyResources(this.label44, "label44");
+            this.label44.Name = "label44";
+            // 
+            // INS_HNTCH_ENABLE
+            // 
+            resources.ApplyResources(this.INS_HNTCH_ENABLE, "INS_HNTCH_ENABLE");
+            this.INS_HNTCH_ENABLE.Max = 1F;
+            this.INS_HNTCH_ENABLE.Min = 0F;
+            this.INS_HNTCH_ENABLE.Name = "INS_HNTCH_ENABLE";
+            this.INS_HNTCH_ENABLE.ParamName = null;
+            this.INS_HNTCH_ENABLE.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label45
+            // 
+            resources.ApplyResources(this.label45, "label45");
+            this.label45.Name = "label45";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.INS_NOTCH_ATT);
+            this.groupBox8.Controls.Add(this.label40);
+            this.groupBox8.Controls.Add(this.INS_NOTCH_BW);
+            this.groupBox8.Controls.Add(this.label39);
+            this.groupBox8.Controls.Add(this.INS_NOTCH_FREQ);
+            this.groupBox8.Controls.Add(this.label38);
+            this.groupBox8.Controls.Add(this.INS_NOTCH_ENABLE);
+            this.groupBox8.Controls.Add(this.label37);
+            resources.ApplyResources(this.groupBox8, "groupBox8");
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.TabStop = false;
+            // 
+            // INS_NOTCH_ATT
+            // 
+            resources.ApplyResources(this.INS_NOTCH_ATT, "INS_NOTCH_ATT");
+            this.INS_NOTCH_ATT.Max = 1F;
+            this.INS_NOTCH_ATT.Min = 0F;
+            this.INS_NOTCH_ATT.Name = "INS_NOTCH_ATT";
+            this.INS_NOTCH_ATT.ParamName = null;
+            this.INS_NOTCH_ATT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label40
+            // 
+            resources.ApplyResources(this.label40, "label40");
+            this.label40.Name = "label40";
+            // 
+            // INS_NOTCH_BW
+            // 
+            resources.ApplyResources(this.INS_NOTCH_BW, "INS_NOTCH_BW");
+            this.INS_NOTCH_BW.Max = 1F;
+            this.INS_NOTCH_BW.Min = 0F;
+            this.INS_NOTCH_BW.Name = "INS_NOTCH_BW";
+            this.INS_NOTCH_BW.ParamName = null;
+            this.INS_NOTCH_BW.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label39
+            // 
+            resources.ApplyResources(this.label39, "label39");
+            this.label39.Name = "label39";
+            // 
+            // INS_NOTCH_FREQ
+            // 
+            resources.ApplyResources(this.INS_NOTCH_FREQ, "INS_NOTCH_FREQ");
+            this.INS_NOTCH_FREQ.Max = 1F;
+            this.INS_NOTCH_FREQ.Min = 0F;
+            this.INS_NOTCH_FREQ.Name = "INS_NOTCH_FREQ";
+            this.INS_NOTCH_FREQ.ParamName = null;
+            this.INS_NOTCH_FREQ.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label38
+            // 
+            resources.ApplyResources(this.label38, "label38");
+            this.label38.Name = "label38";
+            // 
+            // INS_NOTCH_ENABLE
+            // 
+            resources.ApplyResources(this.INS_NOTCH_ENABLE, "INS_NOTCH_ENABLE");
+            this.INS_NOTCH_ENABLE.Max = 1F;
+            this.INS_NOTCH_ENABLE.Min = 0F;
+            this.INS_NOTCH_ENABLE.Name = "INS_NOTCH_ENABLE";
+            this.INS_NOTCH_ENABLE.ParamName = null;
+            this.INS_NOTCH_ENABLE.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label37
+            // 
+            resources.ApplyResources(this.label37, "label37");
+            this.label37.Name = "label37";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.INS_LOG_BAT_OPT);
+            this.groupBox6.Controls.Add(this.label36);
+            this.groupBox6.Controls.Add(this.INS_LOG_BAT_MASK);
+            this.groupBox6.Controls.Add(this.label34);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // INS_LOG_BAT_OPT
+            // 
+            resources.ApplyResources(this.INS_LOG_BAT_OPT, "INS_LOG_BAT_OPT");
+            this.INS_LOG_BAT_OPT.Max = 1F;
+            this.INS_LOG_BAT_OPT.Min = 0F;
+            this.INS_LOG_BAT_OPT.Name = "INS_LOG_BAT_OPT";
+            this.INS_LOG_BAT_OPT.ParamName = null;
+            this.INS_LOG_BAT_OPT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label36
+            // 
+            resources.ApplyResources(this.label36, "label36");
+            this.label36.Name = "label36";
+            // 
+            // INS_LOG_BAT_MASK
+            // 
+            resources.ApplyResources(this.INS_LOG_BAT_MASK, "INS_LOG_BAT_MASK");
+            this.INS_LOG_BAT_MASK.Max = 1F;
+            this.INS_LOG_BAT_MASK.Min = 0F;
+            this.INS_LOG_BAT_MASK.Name = "INS_LOG_BAT_MASK";
+            this.INS_LOG_BAT_MASK.ParamName = null;
+            this.INS_LOG_BAT_MASK.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
+            // label34
+            // 
+            resources.ApplyResources(this.label34, "label34");
+            this.label34.Name = "label34";
+            // 
+            // label52
+            // 
+            resources.ApplyResources(this.label52, "label52");
+            this.label52.Name = "label52";
+            // 
+            // CH6_OPTION
+            // 
+            this.CH6_OPTION.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CH6_OPTION.DropDownWidth = 170;
+            resources.ApplyResources(this.CH6_OPTION, "CH6_OPTION");
+            this.CH6_OPTION.FormattingEnabled = true;
+            this.CH6_OPTION.Name = "CH6_OPTION";
+            this.CH6_OPTION.ParamName = null;
+            this.CH6_OPTION.SubControl = null;
+            this.CH6_OPTION.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            // 
             // ConfigArducopter
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.groupBox8);
+            this.Controls.Add(this.groupBox9);
+            this.Controls.Add(this.label52);
+            this.Controls.Add(this.CH6_OPTION);
+            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.myLabel6);
             this.Controls.Add(this.CH10_OPTION);
             this.Controls.Add(this.myLabel5);
@@ -1071,18 +1545,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownatc_accel_r_max)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_P)).EndInit();
             this.groupBox23.ResumeLayout(false);
+            this.groupBox23.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_YAW_FLTT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_YAW_FLTD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FILT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_P)).EndInit();
             this.groupBox24.ResumeLayout(false);
+            this.groupBox24.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_RLL_FLTT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_RLL_FLTD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_FILT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_P)).EndInit();
             this.groupBox25.ResumeLayout(false);
+            this.groupBox25.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_PIT_FLTT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ATC_RAT_PIT_FLTD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_FILT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_IMAX)).EndInit();
@@ -1098,6 +1581,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_P)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_ACCEL_FILTER)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_GYRO_FILTER)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_HMNCS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_OPTS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_BW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_ATT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_FREQ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_REF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_MODE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_HNTCH_ENABLE)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_NOTCH_ATT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_NOTCH_BW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_NOTCH_FREQ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_NOTCH_ENABLE)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_LOG_BAT_OPT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.INS_LOG_BAT_MASK)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1213,5 +1720,55 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Label label20;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDownatc_accel_r_max;
         private Label label19;
+        private GroupBox groupBox3;
+        private Controls.MavlinkNumericUpDown INS_GYRO_FILTER;
+        private Label label24;
+        private Controls.MavlinkNumericUpDown INS_ACCEL_FILTER;
+        private Label label26;
+        private GroupBox groupBox6;
+        private Controls.MavlinkNumericUpDown INS_LOG_BAT_OPT;
+        private Label label36;
+        private Controls.MavlinkNumericUpDown INS_LOG_BAT_MASK;
+        private Label label34;
+        private GroupBox groupBox9;
+        private GroupBox groupBox8;
+        private Controls.MavlinkNumericUpDown INS_NOTCH_ENABLE;
+        private Label label37;
+        private Controls.MavlinkNumericUpDown INS_NOTCH_ATT;
+        private Label label40;
+        private Controls.MavlinkNumericUpDown INS_NOTCH_BW;
+        private Label label39;
+        private Controls.MavlinkNumericUpDown INS_NOTCH_FREQ;
+        private Label label38;
+        private Controls.MavlinkNumericUpDown INS_HNTCH_FREQ;
+        private Label label41;
+        private Controls.MavlinkNumericUpDown INS_HNTCH_REF;
+        private Label label43;
+        private Controls.MavlinkNumericUpDown INS_HNTCH_MODE;
+        private Label label44;
+        private Controls.MavlinkNumericUpDown INS_HNTCH_ENABLE;
+        private Label label45;
+        private Controls.MavlinkNumericUpDown INS_HNTCH_HMNCS;
+        private Label label51;
+        private Controls.MavlinkNumericUpDown INS_HNTCH_OPTS;
+        private Label label50;
+        private Controls.MavlinkNumericUpDown INS_HNTCH_BW;
+        private Label label49;
+        private Controls.MavlinkNumericUpDown INS_HNTCH_ATT;
+        private Label label48;
+        private Label label52;
+        private Controls.MavlinkComboBox CH6_OPTION;
+        private Controls.MavlinkNumericUpDown ATC_RAT_PIT_FLTT;
+        private Label label28;
+        private Controls.MavlinkNumericUpDown ATC_RAT_PIT_FLTD;
+        private Label P_FLTD;
+        private Controls.MavlinkNumericUpDown ATC_RAT_YAW_FLTT;
+        private Label label33;
+        private Controls.MavlinkNumericUpDown ATC_RAT_YAW_FLTD;
+        private Label label32;
+        private Controls.MavlinkNumericUpDown ATC_RAT_RLL_FLTT;
+        private Label label30;
+        private Controls.MavlinkNumericUpDown ATC_RAT_RLL_FLTD;
+        private Label label29;
     }
 }
