@@ -123,10 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="TUNE_LOW.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 369</value>
+    <value>218, 360</value>
   </data>
   <data name="TUNE_LOW.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 31</value>
+    <value>51, 20</value>
   </data>
   <data name="TUNE_LOW.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -135,7 +135,7 @@
     <value>TUNE_LOW</value>
   </data>
   <data name="&gt;&gt;TUNE_LOW.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TUNE_LOW.Parent" xml:space="preserve">
     <value>$this</value>
@@ -147,10 +147,10 @@
     <value>False</value>
   </data>
   <data name="TUNE_HIGH.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 369</value>
+    <value>308, 360</value>
   </data>
   <data name="TUNE_HIGH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 31</value>
+    <value>46, 20</value>
   </data>
   <data name="TUNE_HIGH.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -159,7 +159,7 @@
     <value>TUNE_HIGH</value>
   </data>
   <data name="&gt;&gt;TUNE_HIGH.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TUNE_HIGH.Parent" xml:space="preserve">
     <value>$this</value>
@@ -171,10 +171,10 @@
     <value>False</value>
   </data>
   <data name="TUNE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>242, 341</value>
+    <value>242, 332</value>
   </data>
   <data name="TUNE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 33</value>
+    <value>112, 21</value>
   </data>
   <data name="TUNE.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -183,7 +183,7 @@
     <value>TUNE</value>
   </data>
   <data name="&gt;&gt;TUNE.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TUNE.Parent" xml:space="preserve">
     <value>$this</value>
@@ -195,10 +195,10 @@
     <value>False</value>
   </data>
   <data name="CH7_OPTION.Location" type="System.Drawing.Point, System.Drawing">
-    <value>416, 370</value>
+    <value>416, 361</value>
   </data>
   <data name="CH7_OPTION.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 33</value>
+    <value>112, 21</value>
   </data>
   <data name="CH7_OPTION.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -207,7 +207,7 @@
     <value>CH7_OPTION</value>
   </data>
   <data name="&gt;&gt;CH7_OPTION.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CH7_OPTION.Parent" xml:space="preserve">
     <value>$this</value>
@@ -222,7 +222,7 @@
     <value>80, 13</value>
   </data>
   <data name="THR_RATE_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="THR_RATE_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -231,7 +231,7 @@
     <value>THR_RATE_P</value>
   </data>
   <data name="&gt;&gt;THR_RATE_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_RATE_P.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -268,7 +268,7 @@
     <value>1</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 296</value>
+    <value>183, 287</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 50</value>
@@ -301,7 +301,7 @@
     <value>7, 79</value>
   </data>
   <data name="CHK_lockrollpitch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>301, 29</value>
+    <value>154, 17</value>
   </data>
   <data name="CHK_lockrollpitch.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -328,7 +328,7 @@
     <value>80, 60</value>
   </data>
   <data name="WPNAV_SPEED_UP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="WPNAV_SPEED_UP.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -337,7 +337,7 @@
     <value>WPNAV_SPEED_UP</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED_UP.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED_UP.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -379,7 +379,7 @@
     <value>80, 107</value>
   </data>
   <data name="WPNAV_LOIT_SPEED.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="WPNAV_LOIT_SPEED.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -388,7 +388,7 @@
     <value>WPNAV_LOIT_SPEED</value>
   </data>
   <data name="&gt;&gt;WPNAV_LOIT_SPEED.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_LOIT_SPEED.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -430,7 +430,7 @@
     <value>80, 84</value>
   </data>
   <data name="WPNAV_SPEED_DN.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="WPNAV_SPEED_DN.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -439,7 +439,7 @@
     <value>WPNAV_SPEED_DN</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED_DN.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED_DN.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -481,7 +481,7 @@
     <value>80, 37</value>
   </data>
   <data name="WPNAV_RADIUS.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="WPNAV_RADIUS.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -490,7 +490,7 @@
     <value>WPNAV_RADIUS</value>
   </data>
   <data name="&gt;&gt;WPNAV_RADIUS.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_RADIUS.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -532,7 +532,7 @@
     <value>80, 13</value>
   </data>
   <data name="WPNAV_SPEED.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="WPNAV_SPEED.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -541,7 +541,7 @@
     <value>WPNAV_SPEED</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -577,7 +577,7 @@
     <value>9</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>532, 296</value>
+    <value>532, 287</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 138</value>
@@ -607,7 +607,7 @@
     <value>80, 13</value>
   </data>
   <data name="THR_ALT_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="THR_ALT_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -616,7 +616,7 @@
     <value>THR_ALT_P</value>
   </data>
   <data name="&gt;&gt;THR_ALT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ALT_P.Parent" xml:space="preserve">
     <value>groupBox7</value>
@@ -652,7 +652,7 @@
     <value>1</value>
   </data>
   <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>359, 296</value>
+    <value>359, 287</value>
   </data>
   <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 50</value>
@@ -682,7 +682,7 @@
     <value>80, 39</value>
   </data>
   <data name="mavlinkNumericUpDownatc_input_tc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="mavlinkNumericUpDownatc_input_tc.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -691,7 +691,7 @@
     <value>mavlinkNumericUpDownatc_input_tc</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownatc_input_tc.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownatc_input_tc.Parent" xml:space="preserve">
     <value>groupBox19</value>
@@ -733,7 +733,7 @@
     <value>80, 13</value>
   </data>
   <data name="HLD_LAT_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="HLD_LAT_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -742,7 +742,7 @@
     <value>HLD_LAT_P</value>
   </data>
   <data name="&gt;&gt;HLD_LAT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;HLD_LAT_P.Parent" xml:space="preserve">
     <value>groupBox19</value>
@@ -808,7 +808,7 @@
     <value>80, 39</value>
   </data>
   <data name="mavlinkNumericUpDownatc_accel_y_max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="mavlinkNumericUpDownatc_accel_y_max.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -817,7 +817,7 @@
     <value>mavlinkNumericUpDownatc_accel_y_max</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownatc_accel_y_max.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownatc_accel_y_max.Parent" xml:space="preserve">
     <value>groupBox20</value>
@@ -859,7 +859,7 @@
     <value>80, 13</value>
   </data>
   <data name="STB_YAW_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="STB_YAW_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -868,7 +868,7 @@
     <value>STB_YAW_P</value>
   </data>
   <data name="&gt;&gt;STB_YAW_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;STB_YAW_P.Parent" xml:space="preserve">
     <value>groupBox20</value>
@@ -934,7 +934,7 @@
     <value>80, 39</value>
   </data>
   <data name="mavlinkNumericUpDownatc_accel_p_max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="mavlinkNumericUpDownatc_accel_p_max.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -943,7 +943,7 @@
     <value>mavlinkNumericUpDownatc_accel_p_max</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownatc_accel_p_max.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownatc_accel_p_max.Parent" xml:space="preserve">
     <value>groupBox21</value>
@@ -985,7 +985,7 @@
     <value>80, 13</value>
   </data>
   <data name="STB_PIT_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="STB_PIT_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -994,7 +994,7 @@
     <value>STB_PIT_P</value>
   </data>
   <data name="&gt;&gt;STB_PIT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;STB_PIT_P.Parent" xml:space="preserve">
     <value>groupBox21</value>
@@ -1060,7 +1060,7 @@
     <value>80, 39</value>
   </data>
   <data name="mavlinkNumericUpDownatc_accel_r_max.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="mavlinkNumericUpDownatc_accel_r_max.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1069,7 +1069,7 @@
     <value>mavlinkNumericUpDownatc_accel_r_max</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownatc_accel_r_max.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownatc_accel_r_max.Parent" xml:space="preserve">
     <value>groupBox22</value>
@@ -1111,7 +1111,7 @@
     <value>80, 13</value>
   </data>
   <data name="STB_RLL_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="STB_RLL_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1120,7 +1120,7 @@
     <value>STB_RLL_P</value>
   </data>
   <data name="&gt;&gt;STB_RLL_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;STB_RLL_P.Parent" xml:space="preserve">
     <value>groupBox22</value>
@@ -1186,7 +1186,7 @@
     <value>79, 152</value>
   </data>
   <data name="ATC_RAT_YAW_FLTT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="ATC_RAT_YAW_FLTT.TabIndex" type="System.Int32, mscorlib">
     <value>45</value>
@@ -1195,7 +1195,7 @@
     <value>ATC_RAT_YAW_FLTT</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_YAW_FLTT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_YAW_FLTT.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1213,7 +1213,7 @@
     <value>6, 154</value>
   </data>
   <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 25</value>
+    <value>33, 13</value>
   </data>
   <data name="label33.TabIndex" type="System.Int32, mscorlib">
     <value>44</value>
@@ -1240,7 +1240,7 @@
     <value>79, 129</value>
   </data>
   <data name="ATC_RAT_YAW_FLTD.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="ATC_RAT_YAW_FLTD.TabIndex" type="System.Int32, mscorlib">
     <value>43</value>
@@ -1249,7 +1249,7 @@
     <value>ATC_RAT_YAW_FLTD</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_YAW_FLTD.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_YAW_FLTD.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1267,7 +1267,7 @@
     <value>6, 131</value>
   </data>
   <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 25</value>
+    <value>34, 13</value>
   </data>
   <data name="label32.TabIndex" type="System.Int32, mscorlib">
     <value>42</value>
@@ -1294,7 +1294,7 @@
     <value>80, 106</value>
   </data>
   <data name="RATE_YAW_FILT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_YAW_FILT.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1303,7 +1303,7 @@
     <value>RATE_YAW_FILT</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_FILT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_FILT.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1345,7 +1345,7 @@
     <value>80, 60</value>
   </data>
   <data name="RATE_YAW_D.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_YAW_D.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1354,7 +1354,7 @@
     <value>RATE_YAW_D</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_D.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1396,7 +1396,7 @@
     <value>80, 83</value>
   </data>
   <data name="RATE_YAW_IMAX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_YAW_IMAX.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1405,7 +1405,7 @@
     <value>RATE_YAW_IMAX</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_IMAX.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1447,7 +1447,7 @@
     <value>80, 37</value>
   </data>
   <data name="RATE_YAW_I.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_YAW_I.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1456,7 +1456,7 @@
     <value>RATE_YAW_I</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_I.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1498,7 +1498,7 @@
     <value>80, 13</value>
   </data>
   <data name="RATE_YAW_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_YAW_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1507,7 +1507,7 @@
     <value>RATE_YAW_P</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_P.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1573,7 +1573,7 @@
     <value>80, 152</value>
   </data>
   <data name="ATC_RAT_RLL_FLTT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="ATC_RAT_RLL_FLTT.TabIndex" type="System.Int32, mscorlib">
     <value>41</value>
@@ -1582,7 +1582,7 @@
     <value>ATC_RAT_RLL_FLTT</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_RLL_FLTT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_RLL_FLTT.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1600,7 +1600,7 @@
     <value>5, 156</value>
   </data>
   <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 25</value>
+    <value>33, 13</value>
   </data>
   <data name="label30.TabIndex" type="System.Int32, mscorlib">
     <value>40</value>
@@ -1627,7 +1627,7 @@
     <value>80, 129</value>
   </data>
   <data name="ATC_RAT_RLL_FLTD.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="ATC_RAT_RLL_FLTD.TabIndex" type="System.Int32, mscorlib">
     <value>39</value>
@@ -1636,7 +1636,7 @@
     <value>ATC_RAT_RLL_FLTD</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_RLL_FLTD.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_RLL_FLTD.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1654,7 +1654,7 @@
     <value>6, 131</value>
   </data>
   <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 25</value>
+    <value>34, 13</value>
   </data>
   <data name="label29.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
@@ -1681,7 +1681,7 @@
     <value>80, 106</value>
   </data>
   <data name="RATE_PIT_FILT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_PIT_FILT.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1690,7 +1690,7 @@
     <value>RATE_PIT_FILT</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_FILT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_FILT.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1732,7 +1732,7 @@
     <value>80, 60</value>
   </data>
   <data name="RATE_PIT_D.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_PIT_D.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1741,7 +1741,7 @@
     <value>RATE_PIT_D</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_D.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1783,7 +1783,7 @@
     <value>80, 84</value>
   </data>
   <data name="RATE_PIT_IMAX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_PIT_IMAX.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1792,7 +1792,7 @@
     <value>RATE_PIT_IMAX</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_IMAX.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1834,7 +1834,7 @@
     <value>80, 37</value>
   </data>
   <data name="RATE_PIT_I.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_PIT_I.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1843,7 +1843,7 @@
     <value>RATE_PIT_I</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_I.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1885,7 +1885,7 @@
     <value>80, 13</value>
   </data>
   <data name="RATE_PIT_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_PIT_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1894,7 +1894,7 @@
     <value>RATE_PIT_P</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_P.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1960,7 +1960,7 @@
     <value>80, 152</value>
   </data>
   <data name="ATC_RAT_PIT_FLTT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="ATC_RAT_PIT_FLTT.TabIndex" type="System.Int32, mscorlib">
     <value>37</value>
@@ -1969,7 +1969,7 @@
     <value>ATC_RAT_PIT_FLTT</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_PIT_FLTT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_PIT_FLTT.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -1987,7 +1987,7 @@
     <value>7, 154</value>
   </data>
   <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 25</value>
+    <value>33, 13</value>
   </data>
   <data name="label28.TabIndex" type="System.Int32, mscorlib">
     <value>36</value>
@@ -2014,7 +2014,7 @@
     <value>80, 129</value>
   </data>
   <data name="ATC_RAT_PIT_FLTD.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="ATC_RAT_PIT_FLTD.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
@@ -2023,7 +2023,7 @@
     <value>ATC_RAT_PIT_FLTD</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_PIT_FLTD.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ATC_RAT_PIT_FLTD.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -2041,7 +2041,7 @@
     <value>6, 131</value>
   </data>
   <data name="P_FLTD.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 25</value>
+    <value>34, 13</value>
   </data>
   <data name="P_FLTD.TabIndex" type="System.Int32, mscorlib">
     <value>34</value>
@@ -2068,7 +2068,7 @@
     <value>80, 106</value>
   </data>
   <data name="RATE_RLL_FILT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_RLL_FILT.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -2077,7 +2077,7 @@
     <value>RATE_RLL_FILT</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_FILT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_FILT.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -2119,7 +2119,7 @@
     <value>80, 60</value>
   </data>
   <data name="RATE_RLL_D.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_RLL_D.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2128,7 +2128,7 @@
     <value>RATE_RLL_D</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_D.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -2170,7 +2170,7 @@
     <value>80, 83</value>
   </data>
   <data name="RATE_RLL_IMAX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_RLL_IMAX.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2179,7 +2179,7 @@
     <value>RATE_RLL_IMAX</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_IMAX.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -2221,7 +2221,7 @@
     <value>80, 37</value>
   </data>
   <data name="RATE_RLL_I.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_RLL_I.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2230,7 +2230,7 @@
     <value>RATE_RLL_I</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_I.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -2272,7 +2272,7 @@
     <value>80, 13</value>
   </data>
   <data name="RATE_RLL_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="RATE_RLL_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2281,7 +2281,7 @@
     <value>RATE_RLL_P</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_P.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -2350,7 +2350,7 @@
     <value>80, 60</value>
   </data>
   <data name="LOITER_LAT_D.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="LOITER_LAT_D.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2359,7 +2359,7 @@
     <value>LOITER_LAT_D</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_D.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -2401,7 +2401,7 @@
     <value>80, 84</value>
   </data>
   <data name="LOITER_LAT_IMAX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="LOITER_LAT_IMAX.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2410,7 +2410,7 @@
     <value>LOITER_LAT_IMAX</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_IMAX.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -2452,7 +2452,7 @@
     <value>80, 37</value>
   </data>
   <data name="LOITER_LAT_I.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="LOITER_LAT_I.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2461,7 +2461,7 @@
     <value>LOITER_LAT_I</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_I.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -2503,7 +2503,7 @@
     <value>80, 13</value>
   </data>
   <data name="LOITER_LAT_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="LOITER_LAT_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2512,7 +2512,7 @@
     <value>LOITER_LAT_P</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_P.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -2575,7 +2575,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_rerequestparams.Location" type="System.Drawing.Point, System.Drawing">
-    <value>317, 617</value>
+    <value>317, 608</value>
   </data>
   <data name="BUT_rerequestparams.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 15, 0, 0</value>
@@ -2608,7 +2608,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_writePIDS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>208, 617</value>
+    <value>208, 608</value>
   </data>
   <data name="BUT_writePIDS.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 25</value>
@@ -2635,10 +2635,10 @@
     <value>True</value>
   </data>
   <data name="myLabel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 366</value>
+    <value>183, 357</value>
   </data>
   <data name="myLabel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 25</value>
+    <value>24, 13</value>
   </data>
   <data name="myLabel3.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -2662,10 +2662,10 @@
     <value>True</value>
   </data>
   <data name="myLabel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>183, 341</value>
+    <value>183, 332</value>
   </data>
   <data name="myLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 25</value>
+    <value>32, 13</value>
   </data>
   <data name="myLabel2.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -2689,10 +2689,10 @@
     <value>True</value>
   </data>
   <data name="myLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 370</value>
+    <value>357, 361</value>
   </data>
   <data name="myLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 25</value>
+    <value>48, 13</value>
   </data>
   <data name="myLabel1.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -2719,7 +2719,7 @@
     <value>80, 66</value>
   </data>
   <data name="THR_ACCEL_D.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="THR_ACCEL_D.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -2728,7 +2728,7 @@
     <value>THR_ACCEL_D</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_D.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2797,7 +2797,7 @@
     <value>80, 89</value>
   </data>
   <data name="THR_ACCEL_IMAX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="THR_ACCEL_IMAX.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2806,7 +2806,7 @@
     <value>THR_ACCEL_IMAX</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_IMAX.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2821,7 +2821,7 @@
     <value>80, 43</value>
   </data>
   <data name="THR_ACCEL_I.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="THR_ACCEL_I.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -2830,7 +2830,7 @@
     <value>THR_ACCEL_I</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_I.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2872,7 +2872,7 @@
     <value>80, 19</value>
   </data>
   <data name="THR_ACCEL_P.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="THR_ACCEL_P.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -2881,7 +2881,7 @@
     <value>THR_ACCEL_P</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_P.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2917,7 +2917,7 @@
     <value>7</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 296</value>
+    <value>7, 287</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 122</value>
@@ -2944,7 +2944,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_refreshpart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>426, 617</value>
+    <value>426, 608</value>
   </data>
   <data name="BUT_refreshpart.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 15, 0, 0</value>
@@ -2974,10 +2974,10 @@
     <value>True</value>
   </data>
   <data name="myLabel4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 397</value>
+    <value>357, 388</value>
   </data>
   <data name="myLabel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 25</value>
+    <value>48, 13</value>
   </data>
   <data name="myLabel4.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -3001,10 +3001,10 @@
     <value>False</value>
   </data>
   <data name="CH8_OPTION.Location" type="System.Drawing.Point, System.Drawing">
-    <value>416, 397</value>
+    <value>416, 388</value>
   </data>
   <data name="CH8_OPTION.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 33</value>
+    <value>112, 21</value>
   </data>
   <data name="CH8_OPTION.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -3013,7 +3013,7 @@
     <value>CH8_OPTION</value>
   </data>
   <data name="&gt;&gt;CH8_OPTION.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CH8_OPTION.Parent" xml:space="preserve">
     <value>$this</value>
@@ -3025,10 +3025,10 @@
     <value>True</value>
   </data>
   <data name="myLabel5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 424</value>
+    <value>357, 415</value>
   </data>
   <data name="myLabel5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 25</value>
+    <value>48, 13</value>
   </data>
   <data name="myLabel5.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -3052,10 +3052,10 @@
     <value>False</value>
   </data>
   <data name="CH9_OPTION.Location" type="System.Drawing.Point, System.Drawing">
-    <value>416, 424</value>
+    <value>416, 415</value>
   </data>
   <data name="CH9_OPTION.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 33</value>
+    <value>112, 21</value>
   </data>
   <data name="CH9_OPTION.TabIndex" type="System.Int32, mscorlib">
     <value>26</value>
@@ -3064,7 +3064,7 @@
     <value>CH9_OPTION</value>
   </data>
   <data name="&gt;&gt;CH9_OPTION.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CH9_OPTION.Parent" xml:space="preserve">
     <value>$this</value>
@@ -3076,10 +3076,10 @@
     <value>True</value>
   </data>
   <data name="myLabel6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 451</value>
+    <value>357, 442</value>
   </data>
   <data name="myLabel6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 25</value>
+    <value>54, 13</value>
   </data>
   <data name="myLabel6.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -3103,10 +3103,10 @@
     <value>False</value>
   </data>
   <data name="CH10_OPTION.Location" type="System.Drawing.Point, System.Drawing">
-    <value>416, 451</value>
+    <value>416, 442</value>
   </data>
   <data name="CH10_OPTION.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 33</value>
+    <value>112, 21</value>
   </data>
   <data name="CH10_OPTION.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -3115,7 +3115,7 @@
     <value>CH10_OPTION</value>
   </data>
   <data name="&gt;&gt;CH10_OPTION.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CH10_OPTION.Parent" xml:space="preserve">
     <value>$this</value>
@@ -3130,7 +3130,7 @@
     <value>80, 37</value>
   </data>
   <data name="INS_ACCEL_FILTER.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_ACCEL_FILTER.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -3139,7 +3139,7 @@
     <value>INS_ACCEL_FILTER</value>
   </data>
   <data name="&gt;&gt;INS_ACCEL_FILTER.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_ACCEL_FILTER.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -3157,7 +3157,7 @@
     <value>8, 39</value>
   </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 25</value>
+    <value>34, 13</value>
   </data>
   <data name="label26.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -3184,7 +3184,7 @@
     <value>79, 14</value>
   </data>
   <data name="INS_GYRO_FILTER.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 31</value>
+    <value>79, 20</value>
   </data>
   <data name="INS_GYRO_FILTER.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -3193,7 +3193,7 @@
     <value>INS_GYRO_FILTER</value>
   </data>
   <data name="&gt;&gt;INS_GYRO_FILTER.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_GYRO_FILTER.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -3208,7 +3208,7 @@
     <value>8, 16</value>
   </data>
   <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 25</value>
+    <value>29, 13</value>
   </data>
   <data name="label24.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3259,7 +3259,7 @@
     <value>230, 102</value>
   </data>
   <data name="INS_HNTCH_HMNCS.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_HNTCH_HMNCS.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -3268,7 +3268,7 @@
     <value>INS_HNTCH_HMNCS</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_HMNCS.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_HMNCS.Parent" xml:space="preserve">
     <value>groupBox9</value>
@@ -3286,7 +3286,7 @@
     <value>158, 104</value>
   </data>
   <data name="label51.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 25</value>
+    <value>57, 13</value>
   </data>
   <data name="label51.TabIndex" type="System.Int32, mscorlib">
     <value>67</value>
@@ -3313,7 +3313,7 @@
     <value>230, 77</value>
   </data>
   <data name="INS_HNTCH_OPTS.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_HNTCH_OPTS.TabIndex" type="System.Int32, mscorlib">
     <value>66</value>
@@ -3322,7 +3322,7 @@
     <value>INS_HNTCH_OPTS</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_OPTS.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_OPTS.Parent" xml:space="preserve">
     <value>groupBox9</value>
@@ -3340,7 +3340,7 @@
     <value>158, 79</value>
   </data>
   <data name="label50.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 25</value>
+    <value>43, 13</value>
   </data>
   <data name="label50.TabIndex" type="System.Int32, mscorlib">
     <value>65</value>
@@ -3367,7 +3367,7 @@
     <value>229, 52</value>
   </data>
   <data name="INS_HNTCH_BW.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_HNTCH_BW.TabIndex" type="System.Int32, mscorlib">
     <value>64</value>
@@ -3376,7 +3376,7 @@
     <value>INS_HNTCH_BW</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_BW.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_BW.Parent" xml:space="preserve">
     <value>groupBox9</value>
@@ -3394,7 +3394,7 @@
     <value>158, 54</value>
   </data>
   <data name="label49.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 25</value>
+    <value>57, 13</value>
   </data>
   <data name="label49.TabIndex" type="System.Int32, mscorlib">
     <value>63</value>
@@ -3421,7 +3421,7 @@
     <value>229, 27</value>
   </data>
   <data name="INS_HNTCH_ATT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_HNTCH_ATT.TabIndex" type="System.Int32, mscorlib">
     <value>62</value>
@@ -3430,7 +3430,7 @@
     <value>INS_HNTCH_ATT</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_ATT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_ATT.Parent" xml:space="preserve">
     <value>groupBox9</value>
@@ -3448,7 +3448,7 @@
     <value>158, 29</value>
   </data>
   <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 25</value>
+    <value>61, 13</value>
   </data>
   <data name="label48.TabIndex" type="System.Int32, mscorlib">
     <value>61</value>
@@ -3475,7 +3475,7 @@
     <value>64, 102</value>
   </data>
   <data name="INS_HNTCH_FREQ.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_HNTCH_FREQ.TabIndex" type="System.Int32, mscorlib">
     <value>60</value>
@@ -3484,7 +3484,7 @@
     <value>INS_HNTCH_FREQ</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_FREQ.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_FREQ.Parent" xml:space="preserve">
     <value>groupBox9</value>
@@ -3502,7 +3502,7 @@
     <value>6, 104</value>
   </data>
   <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 25</value>
+    <value>57, 13</value>
   </data>
   <data name="label41.TabIndex" type="System.Int32, mscorlib">
     <value>59</value>
@@ -3529,7 +3529,7 @@
     <value>64, 77</value>
   </data>
   <data name="INS_HNTCH_REF.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_HNTCH_REF.TabIndex" type="System.Int32, mscorlib">
     <value>58</value>
@@ -3538,7 +3538,7 @@
     <value>INS_HNTCH_REF</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_REF.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_REF.Parent" xml:space="preserve">
     <value>groupBox9</value>
@@ -3556,7 +3556,7 @@
     <value>6, 79</value>
   </data>
   <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 25</value>
+    <value>57, 13</value>
   </data>
   <data name="label43.TabIndex" type="System.Int32, mscorlib">
     <value>57</value>
@@ -3583,7 +3583,7 @@
     <value>64, 52</value>
   </data>
   <data name="INS_HNTCH_MODE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_HNTCH_MODE.TabIndex" type="System.Int32, mscorlib">
     <value>56</value>
@@ -3592,7 +3592,7 @@
     <value>INS_HNTCH_MODE</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_MODE.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_MODE.Parent" xml:space="preserve">
     <value>groupBox9</value>
@@ -3610,7 +3610,7 @@
     <value>6, 54</value>
   </data>
   <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 25</value>
+    <value>34, 13</value>
   </data>
   <data name="label44.TabIndex" type="System.Int32, mscorlib">
     <value>55</value>
@@ -3637,7 +3637,7 @@
     <value>64, 27</value>
   </data>
   <data name="INS_HNTCH_ENABLE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_HNTCH_ENABLE.TabIndex" type="System.Int32, mscorlib">
     <value>54</value>
@@ -3646,7 +3646,7 @@
     <value>INS_HNTCH_ENABLE</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_ENABLE.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_HNTCH_ENABLE.Parent" xml:space="preserve">
     <value>groupBox9</value>
@@ -3664,7 +3664,7 @@
     <value>6, 29</value>
   </data>
   <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 25</value>
+    <value>46, 13</value>
   </data>
   <data name="label45.TabIndex" type="System.Int32, mscorlib">
     <value>53</value>
@@ -3685,7 +3685,7 @@
     <value>15</value>
   </data>
   <data name="groupBox9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>186, 478</value>
+    <value>186, 469</value>
   </data>
   <data name="groupBox9.Size" type="System.Drawing.Size, System.Drawing">
     <value>342, 133</value>
@@ -3715,7 +3715,7 @@
     <value>80, 102</value>
   </data>
   <data name="INS_NOTCH_ATT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_NOTCH_ATT.TabIndex" type="System.Int32, mscorlib">
     <value>52</value>
@@ -3724,7 +3724,7 @@
     <value>INS_NOTCH_ATT</value>
   </data>
   <data name="&gt;&gt;INS_NOTCH_ATT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_NOTCH_ATT.Parent" xml:space="preserve">
     <value>groupBox8</value>
@@ -3742,7 +3742,7 @@
     <value>8, 104</value>
   </data>
   <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 25</value>
+    <value>61, 13</value>
   </data>
   <data name="label40.TabIndex" type="System.Int32, mscorlib">
     <value>51</value>
@@ -3769,7 +3769,7 @@
     <value>80, 77</value>
   </data>
   <data name="INS_NOTCH_BW.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_NOTCH_BW.TabIndex" type="System.Int32, mscorlib">
     <value>50</value>
@@ -3778,7 +3778,7 @@
     <value>INS_NOTCH_BW</value>
   </data>
   <data name="&gt;&gt;INS_NOTCH_BW.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_NOTCH_BW.Parent" xml:space="preserve">
     <value>groupBox8</value>
@@ -3796,7 +3796,7 @@
     <value>8, 79</value>
   </data>
   <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 25</value>
+    <value>60, 13</value>
   </data>
   <data name="label39.TabIndex" type="System.Int32, mscorlib">
     <value>49</value>
@@ -3823,7 +3823,7 @@
     <value>80, 52</value>
   </data>
   <data name="INS_NOTCH_FREQ.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_NOTCH_FREQ.TabIndex" type="System.Int32, mscorlib">
     <value>48</value>
@@ -3832,7 +3832,7 @@
     <value>INS_NOTCH_FREQ</value>
   </data>
   <data name="&gt;&gt;INS_NOTCH_FREQ.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_NOTCH_FREQ.Parent" xml:space="preserve">
     <value>groupBox8</value>
@@ -3850,7 +3850,7 @@
     <value>6, 54</value>
   </data>
   <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 25</value>
+    <value>57, 13</value>
   </data>
   <data name="label38.TabIndex" type="System.Int32, mscorlib">
     <value>47</value>
@@ -3877,7 +3877,7 @@
     <value>80, 27</value>
   </data>
   <data name="INS_NOTCH_ENABLE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_NOTCH_ENABLE.TabIndex" type="System.Int32, mscorlib">
     <value>46</value>
@@ -3886,7 +3886,7 @@
     <value>INS_NOTCH_ENABLE</value>
   </data>
   <data name="&gt;&gt;INS_NOTCH_ENABLE.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_NOTCH_ENABLE.Parent" xml:space="preserve">
     <value>groupBox8</value>
@@ -3904,7 +3904,7 @@
     <value>8, 29</value>
   </data>
   <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 25</value>
+    <value>46, 13</value>
   </data>
   <data name="label37.TabIndex" type="System.Int32, mscorlib">
     <value>45</value>
@@ -3925,7 +3925,7 @@
     <value>7</value>
   </data>
   <data name="groupBox8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 478</value>
+    <value>7, 469</value>
   </data>
   <data name="groupBox8.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 133</value>
@@ -3955,7 +3955,7 @@
     <value>211, 14</value>
   </data>
   <data name="INS_LOG_BAT_OPT.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_LOG_BAT_OPT.TabIndex" type="System.Int32, mscorlib">
     <value>46</value>
@@ -3964,7 +3964,7 @@
     <value>INS_LOG_BAT_OPT</value>
   </data>
   <data name="&gt;&gt;INS_LOG_BAT_OPT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_LOG_BAT_OPT.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -3982,7 +3982,7 @@
     <value>149, 16</value>
   </data>
   <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 25</value>
+    <value>43, 13</value>
   </data>
   <data name="label36.TabIndex" type="System.Int32, mscorlib">
     <value>45</value>
@@ -4009,7 +4009,7 @@
     <value>45, 14</value>
   </data>
   <data name="INS_LOG_BAT_MASK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 31</value>
+    <value>78, 20</value>
   </data>
   <data name="INS_LOG_BAT_MASK.TabIndex" type="System.Int32, mscorlib">
     <value>44</value>
@@ -4018,7 +4018,7 @@
     <value>INS_LOG_BAT_MASK</value>
   </data>
   <data name="&gt;&gt;INS_LOG_BAT_MASK.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;INS_LOG_BAT_MASK.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -4036,7 +4036,7 @@
     <value>6, 16</value>
   </data>
   <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 25</value>
+    <value>33, 13</value>
   </data>
   <data name="label34.TabIndex" type="System.Int32, mscorlib">
     <value>43</value>
@@ -4057,7 +4057,7 @@
     <value>3</value>
   </data>
   <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 424</value>
+    <value>7, 415</value>
   </data>
   <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
     <value>344, 48</value>
@@ -4087,10 +4087,10 @@
     <value>NoControl</value>
   </data>
   <data name="label52.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 343</value>
+    <value>357, 334</value>
   </data>
   <data name="label52.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 25</value>
+    <value>48, 13</value>
   </data>
   <data name="label52.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -4114,10 +4114,10 @@
     <value>False</value>
   </data>
   <data name="CH6_OPTION.Location" type="System.Drawing.Point, System.Drawing">
-    <value>416, 343</value>
+    <value>416, 334</value>
   </data>
   <data name="CH6_OPTION.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 33</value>
+    <value>112, 21</value>
   </data>
   <data name="CH6_OPTION.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -4126,7 +4126,7 @@
     <value>CH6_OPTION</value>
   </data>
   <data name="&gt;&gt;CH6_OPTION.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2132, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.3.7828.2600, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CH6_OPTION.Parent" xml:space="preserve">
     <value>$this</value>
