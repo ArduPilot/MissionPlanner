@@ -93,10 +93,14 @@
             this.servoOptions8 = new MissionPlanner.Controls.ServoOptions();
             this.servoOptions9 = new MissionPlanner.Controls.ServoOptions();
             this.servoOptions10 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions11 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions12 = new MissionPlanner.Controls.ServoOptions();
             this.relayOptions1 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions2 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions3 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions4 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions5 = new MissionPlanner.Controls.RelayOptions();
+            this.relayOptions6 = new MissionPlanner.Controls.RelayOptions();
             this.tabScripts = new System.Windows.Forms.TabPage();
             this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
             this.BUT_edit_selected = new MissionPlanner.Controls.MyButton();
@@ -1514,10 +1518,14 @@
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions8);
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions9);
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions10);
+            this.flowLayoutPanelServos.Controls.Add(this.servoOptions11);
+            this.flowLayoutPanelServos.Controls.Add(this.servoOptions12);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions1);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions2);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions3);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions4);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions5);
+            this.flowLayoutPanelServos.Controls.Add(this.relayOptions6);
             this.flowLayoutPanelServos.Name = "flowLayoutPanelServos";
             // 
             // servoOptions1
@@ -1580,6 +1588,18 @@
             this.servoOptions10.Name = "servoOptions10";
             this.servoOptions10.thisservo = 14;
             // 
+            // servoOptions11
+            // 
+            resources.ApplyResources(this.servoOptions11, "servoOptions11");
+            this.servoOptions11.Name = "servoOptions11";
+            this.servoOptions11.thisservo = 15;
+            // 
+            // servoOptions12
+            // 
+            resources.ApplyResources(this.servoOptions12, "servoOptions12");
+            this.servoOptions12.Name = "servoOptions12";
+            this.servoOptions12.thisservo = 16;
+            // 
             // relayOptions1
             // 
             resources.ApplyResources(this.relayOptions1, "relayOptions1");
@@ -1603,6 +1623,18 @@
             resources.ApplyResources(this.relayOptions4, "relayOptions4");
             this.relayOptions4.Name = "relayOptions4";
             this.relayOptions4.thisrelay = 3;
+            // 
+            // relayOptions5
+            // 
+            resources.ApplyResources(this.relayOptions5, "relayOptions5");
+            this.relayOptions5.Name = "relayOptions5";
+            this.relayOptions5.thisrelay = 4;
+            // 
+            // relayOptions6
+            // 
+            resources.ApplyResources(this.relayOptions6, "relayOptions6");
+            this.relayOptions6.Name = "relayOptions6";
+            this.relayOptions6.thisrelay = 5;
             // 
             // tabScripts
             // 
@@ -2589,6 +2621,8 @@
         private Controls.ServoOptions servoOptions8;
         private Controls.ServoOptions servoOptions9;
         private Controls.ServoOptions servoOptions10;
+        private Controls.ServoOptions servoOptions11;
+        private Controls.ServoOptions servoOptions12;
         private System.Windows.Forms.BindingSource bindingSourceHud;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelQuick;
         private System.Windows.Forms.Panel panel2;
@@ -2685,6 +2719,8 @@
         private Controls.RelayOptions relayOptions2;
         private Controls.RelayOptions relayOptions3;
         private Controls.RelayOptions relayOptions4;
+        private Controls.RelayOptions relayOptions5;
+        private Controls.RelayOptions relayOptions6;
         private System.Windows.Forms.ToolStripMenuItem hereLinkVideoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gStreamerStopToolStripMenuItem;
         private Controls.MyButton BUT_georefimage;
