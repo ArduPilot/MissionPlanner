@@ -54,6 +54,7 @@ namespace Dowding
             txt_trackerlong.Text = Settings.Instance["Dowding_trackerlng"];
             txt_trackerhae.Text = Settings.Instance["Dowding_trackerhae"];
 
+            CMB_serialport.Items.Clear();
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             CMB_serialport.Items.Add("TCP Host - 14551");
             CMB_serialport.Items.Add("TCP Client");
@@ -111,26 +112,25 @@ namespace Dowding
             }
         }
 
-        private void but_start_Click(object sender, EventArgs e)
+        private async void but_start_Click(object sender, EventArgs e)
         {
             if (DowdingPlugin.IsAlive)
                 DowdingPlugin.Stop();
             else
-                DowdingPlugin.Start();
+               await DowdingPlugin.Start();
 
             Activate();
         }
 
         static TcpListener listener;
         static ICommsSerial ATStream = new TcpSerial();
-        System.Threading.Thread ATThread;
+        static System.Threading.Thread ATThread;
         static bool ATthreadrun = false;
         static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0, 0, 0, "Home");
-        private MAVLinkInterface mavlink;
-        private int sequence = 0;
-        private DateTime starttime = DateTime.Now;
+        private static MAVLinkInterface mavlink;
+        private static DateTime starttime = DateTime.Now;
         static PointLatLngAlt lastplla;
-        private OnvifDevice device;
+        private static OnvifDevice device;
         static bool onvifthreadrun;
 
         private void BUT_connect_Click(object sender, EventArgs e)
@@ -218,7 +218,7 @@ namespace Dowding
             }
         }
 
-        void ATmainloop()
+        static void ATmainloop()
         {
             ATthreadrun = true;
 
@@ -272,7 +272,7 @@ namespace Dowding
                 }, 0);
         }
 
-        private void DowdingPlugin_UpdateOutput(object sender, PointLatLngAlt e)
+        private static void DowdingPlugin_UpdateOutput(object sender, PointLatLngAlt e)
         {
             if (e == lastplla)
                 return;
@@ -283,7 +283,8 @@ namespace Dowding
                 return;
 
             var gpi = new MAVLink.mavlink_global_position_int_t((uint) (DateTime.Now - starttime).TotalMilliseconds,
-                (int) (e.Lat * 1e7), (int) (e.Lng * 1e7), (int) (e.Alt * 1e2), 0, 0, 0, 0, 0);
+                (int) (e.Lat * 1e7), (int) (e.Lng * 1e7), (int) (e.Alt * 1e3), (int) (e.Alt * 1e3 - HomeLoc.Alt), 0, 0,
+                0, 0);
 
             mavlink.generatePacket((int) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, gpi, 2, 1);
         }

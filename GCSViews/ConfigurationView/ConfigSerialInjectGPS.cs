@@ -1063,7 +1063,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     myGMAP1.ZoomAndCenterMarkers("base");
                 }
 
-                if (myGMAP1.Overlays[0].Markers[0].Position != MainV2.comPort.MAV.cs.MovingBase)
+                if (MainV2.comPort.MAV.cs.MovingBase != myGMAP1.Overlays[0].Markers[0].Position)
                 {
                     myGMAP1.Overlays[0].Markers[0].Position = MainV2.comPort.MAV.cs.MovingBase;
                     myGMAP1.ZoomAndCenterMarkers("base");
