@@ -138,6 +138,23 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
+
+        public static bool operator ==(PointLatLngAlt p1, PointLatLngAlt p2)
+        {
+            if (p1 is null && p2 is null)
+                return true;
+
+            if (p1 is null && !(p2 is null))
+                return false;
+
+            return p1.Equals(p2);
+        }
+
+        public static bool operator !=(PointLatLngAlt p1, PointLatLngAlt p2)
+        {
+            return !(p1 == p2);
+        }
+
         public static bool operator ==(PointLatLngAlt p1, PointLatLng p2)
         {
             if (p1 == null || p2 == null)

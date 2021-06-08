@@ -36,6 +36,13 @@ namespace MissionPlanner.WebAPIs
 
         public async Task Auth(string email, string password, string server)
         {
+            // if port 80, change url to non secure
+            if (server.EndsWith(":80"))
+            {
+                URL = "http://{0}/api/1.0";
+                WS =  "ws://{0}/ws";
+            }
+
             Console.WriteLine("Dowding Auth");
             Configuration = new Configuration(new ApiClient(String.Format(URL, server)));
 

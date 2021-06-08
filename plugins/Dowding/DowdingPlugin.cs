@@ -63,20 +63,22 @@ namespace Dowding
             return true;
         }
 
-        public static void Start()
+        public static async Task Start()
         {
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 try
                 {
                     var dowd = new MissionPlanner.WebAPIs.Dowding();
                     if (Settings.Instance.ContainsKey("Dowding_username") &&
-                        Settings.Instance.ContainsKey("Dowding_password") && 
+                        Settings.Instance.ContainsKey("Dowding_password") &&
                         Settings.Instance.ContainsKey("Dowding_server"))
                     {
-                        await dowd.Auth( Settings.Instance["Dowding_username"], new Crypto().DecryptString(Settings.Instance["Dowding_password"]), Settings.Instance["Dowding_server"]);
+                        await dowd.Auth(Settings.Instance["Dowding_username"],
+                            new Crypto().DecryptString(Settings.Instance["Dowding_password"]),
+                            Settings.Instance["Dowding_server"]);
                     }
-                    else if (Settings.Instance.ContainsKey("Dowding_token") && 
+                    else if (Settings.Instance.ContainsKey("Dowding_token") &&
                              Settings.Instance.ContainsKey("Dowding_server"))
                     {
                         dowd.SetToken(Settings.Instance["Dowding_token"], Settings.Instance["Dowding_server"]);
@@ -124,6 +126,16 @@ namespace Dowding
                 {
                     if (item.Overlay == overlay && item is GMarkerGoogle && item.Tag is VehicleTick)
                     {
+                        // unselect
+                        if (target == item)
+                        {
+                            target.ToolTipMode = MarkerTooltipMode.Never;
+                            target.ToolTipText = "";
+                            target = null;
+                            return;
+                        }
+
+                        //clear old
                         if (target != null)
                         {
                             target.ToolTipMode = MarkerTooltipMode.Never;
