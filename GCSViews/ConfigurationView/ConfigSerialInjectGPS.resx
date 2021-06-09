@@ -325,13 +325,13 @@ Acc: current accuracy of our survey in point
     <value>3, 132</value>
   </data>
   <data name="chk_ubloxautoconfig.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 17</value>
+    <value>156, 17</value>
   </data>
   <data name="chk_ubloxautoconfig.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="chk_ubloxautoconfig.Text" xml:space="preserve">
-    <value>M8P/F9P autoconfig</value>
+    <value>UBlox M8P/F9P autoconfig</value>
   </data>
   <data name="chk_ubloxautoconfig.ToolTip" xml:space="preserve">
     <value>Automaticlly config a ublox m8p</value>
@@ -385,7 +385,7 @@ Acc: current accuracy of our survey in point
     <value>8</value>
   </data>
   <data name="groupBoxm8p.Text" xml:space="preserve">
-    <value>M8P/F9P</value>
+    <value>UBlox M8P/F9P</value>
   </data>
   <data name="&gt;&gt;groupBoxm8p.Name" xml:space="preserve">
     <value>groupBoxm8p</value>
@@ -685,7 +685,7 @@ Acc: current accuracy of our survey in point
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7773.29434, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7829.30222, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -886,7 +886,7 @@ Acc: current accuracy of our survey in point
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7773.29434, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7829.30222, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -1124,13 +1124,13 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>3, 80</value>
   </data>
   <data name="chk_sendgga.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 17</value>
+    <value>182, 17</value>
   </data>
   <data name="chk_sendgga.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
   </data>
   <data name="chk_sendgga.Text" xml:space="preserve">
-    <value>Send GGA? (VRS/Smart Selection)</value>
+    <value>Send NTRIP GGA? (VRS/Smart)</value>
   </data>
   <data name="chk_sendgga.ToolTip" xml:space="preserve">
     <value>This depends on the version of Firmware that is on your autopilot, if posible leave it enabled, as the newer message handles data curruption alot better</value>
