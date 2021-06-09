@@ -1054,6 +1054,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             generatePacket(messageType, indata, MAV.sysid, MAV.compid);
         }
 
+        public void generatePacket(MAVLINK_MSG_ID messageType, object indata, int sysid, int compid, bool forcemavlink2 = false,
+            bool forcesigning = false)
+        {
+            generatePacket((int)messageType, indata, sysid, compid, forcemavlink2, forcesigning);
+        }
+
         /// <summary>
         /// Generate a Mavlink Packet and write to serial
         /// </summary>
