@@ -265,7 +265,8 @@ namespace MissionPlanner.Utilities
             try
             {
                 ThemeManager.thmColor = ThemeManager.ReadFromXmlFile<ThemeColorTable>(themeFileToLoad);
-                ThemeManager.thmColor.strThemeName = strThemeName;
+                if (ThemeManager.thmColor != null)
+                    ThemeManager.thmColor.strThemeName = strThemeName;
 
             }
             catch
