@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Thu May 27 2021";
+    public const string MAVLINK_BUILD_DATE = "Thu Jun 10 2021";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -257,6 +257,7 @@ public partial class MAVLink
         new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
         new message_info(10004, "UAVIONIX_ADSB_OUT_CFG_REGISTRATION", 133, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_registration_t )),
         new message_info(10005, "UAVIONIX_ADSB_OUT_CFG_FLIGHTID", 103, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_flightid_t )),
+        new message_info(10006, "UAVIONIX_ADSB_GET", 193, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
         new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
         new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
         new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
@@ -533,6 +534,7 @@ public partial class MAVLink
         UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         UAVIONIX_ADSB_OUT_CFG_REGISTRATION = 10004,
         UAVIONIX_ADSB_OUT_CFG_FLIGHTID = 10005,
+        UAVIONIX_ADSB_GET = 10006,
         DEVICE_OP_READ = 11000,
         DEVICE_OP_READ_REPLY = 11001,
         DEVICE_OP_WRITE = 11002,
@@ -1131,7 +1133,7 @@ public partial class MAVLink
         GUIDED_CHANGE_HEADING=43002, 
         ///<summary> Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the ADSB-out hardware per the ADSB spec. |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the ADSB-out hardware per the ADSB spec.")]
-        DO_START_ADSB_OUT_IDENT=43003, 
+        DO_START_ADSB_OUT_IDENT=54132, 
         
     };
     
@@ -17635,7 +17637,7 @@ public partial class MAVLink
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
-    ///<summary> Aircraft Registration. This is often referred to as the callsign for ADSB-Out vehicles. </summary>
+    ///<summary> Aircraft Registration. </summary>
     public struct mavlink_uavionix_adsb_out_cfg_registration_t
     {
         public mavlink_uavionix_adsb_out_cfg_registration_t(byte[] registration) 
@@ -17667,6 +17669,24 @@ public partial class MAVLink
         [Description("Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable. Reflects Control message setting. This is null-terminated.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
 		public byte[] flight_id;
+    
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
+    ///<summary> Request messages. </summary>
+    public struct mavlink_uavionix_adsb_get_t
+    {
+        public mavlink_uavionix_adsb_get_t(uint ReqMessageId) 
+        {
+              this.ReqMessageId = ReqMessageId;
+            
+        }
+        /// <summary>Message ID to request. Supports any message in this 10000-10099 range   </summary>
+        [Units("")]
+        [Description("Message ID to request. Supports any message in this 10000-10099 range")]
+        public  uint ReqMessageId;
     
     };
 
