@@ -514,7 +514,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                         }
                     }
 
-                    Thread.Sleep(0);
+                    Thread.Yield();
                 };
 
                 MissionPlanner.Program.Main(new string[0]);
@@ -763,12 +763,13 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
         private SKPaint paint = new SKPaint() {FilterQuality = SKFilterQuality.Low};
 
-        private bool DrawOntoSurface(IntPtr handle, SKSurface surface)
+   private bool DrawOntoCanvas(IntPtr handle, SKCanvas Canvas, bool forcerender = false)
         {
             var hwnd = Hwnd.ObjectFromHandle(handle);
 
             var x = 0;
             var y = 0;
+            var wasdrawn = false;
 
             XplatUI.driver.ClientToScreen(hwnd.client_window, ref x, ref y);
 
@@ -782,9 +783,9 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             {
                 // setup clip
                 var parent = hwnd;
-                surface.Canvas.ClipRect(
-                    SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
-                        Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+                Canvas.ClipRect(
+                    SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width*2,
+                        Screen.PrimaryScreen.Bounds.Height*2), (SKClipOperation) 5);
 
                 while (parent != null)
                 {
@@ -792,19 +793,9 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                     var yp = 0;
                     XplatUI.driver.ClientToScreen(parent.client_window, ref xp, ref yp);
 
-                    surface.Canvas.ClipRect(SKRect.Create(xp, yp, parent.Width, parent.Height),
+                    Canvas.ClipRect(SKRect.Create(xp, yp, parent.Width, parent.Height),
                         SKClipOperation.Intersect);
-                    /*
-                    surface.Canvas.DrawRect(xp, yp, parent.Width, parent.Height,
-                        new SKPaint()
-                        {
 
-                            Color = new SKColor(255, 0, 0),
-                            Style = SKPaintStyle.Stroke
-
-
-                        });
-                    */
                     parent = parent.parent;
                 }
 
@@ -820,25 +811,31 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                     {
                         borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
 
-                        surface.Canvas.ClipRect(
-                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
-                                Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+                        Canvas.ClipRect(
+                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width*2,
+                                Screen.PrimaryScreen.Bounds.Height*2), (SKClipOperation) 5);
                     }
 
-                    if (surface.Canvas.DeviceClipBounds.Width > 0 &&
-                        surface.Canvas.DeviceClipBounds.Height > 0)
+                    if (Canvas.DeviceClipBounds.Width > 0 &&
+                        Canvas.DeviceClipBounds.Height > 0)
                     {
-                        if (hwnd.hwndbmpNC != null)
-                            surface.Canvas.DrawImage(hwnd.hwndbmpNC,
-                                new SKPoint(x - borders.left, y - borders.top), paint);
+                        if (hwnd.DrawNeeded || forcerender)
+                        {
+                            if (hwnd.hwndbmpNC != null)
+                                Canvas.DrawImage(hwnd.hwndbmpNC,
+                                    new SKPoint(x - borders.left, y - borders.top), paint);
 
-                        surface.Canvas.ClipRect(
-                            SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
-                                hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
+                            Canvas.ClipRect(
+                                SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
+                                    hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
 
-                        surface.Canvas.DrawImage(hwnd.hwndbmp,
-                            new SKPoint(x, y), paint);
+                            Canvas.DrawImage(hwnd.hwndbmp,
+                                new SKPoint(x, y), paint);
 
+                            wasdrawn = true;
+                        }
+
+                        hwnd.DrawNeeded = false;
                     }
                     else
                     {
@@ -848,13 +845,22 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                 }
                 else
                 {
-                    if (surface.Canvas.DeviceClipBounds.Width > 0 &&
-                        surface.Canvas.DeviceClipBounds.Height > 0)
+                    if (Canvas.DeviceClipBounds.Width > 0 &&
+                        Canvas.DeviceClipBounds.Height > 0)
                     {
+                        if (hwnd.DrawNeeded || forcerender)
+                        {
+                            Canvas.DrawImage(hwnd.hwndbmp,
+                                new SKPoint(x + 0, y + 0), paint);
 
-                        surface.Canvas.DrawImage(hwnd.hwndbmp,
-                            new SKPoint(x + 0, y + 0), paint);
+                            wasdrawn = true;
+                        }
 
+                        hwnd.DrawNeeded = false;
+/*
+                        surface.Canvas.DrawText(Control.FromHandle(hwnd.ClientWindow).Name,
+                            new SKPoint(x, y + 15),
+                            new SKPaint() {Color = SKColor.Parse("55ffff00")});
                         /*surface.Canvas.DrawText(hwnd.ClientWindow.ToString(), new SKPoint(x,y+15),
                             new SKPaint() {Color = SKColor.Parse("ffff00")});*/
 
@@ -868,6 +874,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
                 Monitor.Exit(XplatUIMine.paintlock);
             }
+
             //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
 
             if (hwnd.Mapped && hwnd.Visible)
@@ -898,7 +905,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
                 foreach (var child in children)
                 {
-                    DrawOntoSurface(child.ClientWindow, surface);
+                    DrawOntoCanvas(child.ClientWindow, Canvas, wasdrawn ? true : false);
                 }
             }
 
@@ -915,13 +922,11 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             try
             {
 
-                var surface = e.Surface;
+                var canvas = e.Surface.Canvas;
 
-                surface.Canvas.Clear(SKColors.Gray);
+                canvas.Clear(SKColors.Gray);
 
-                surface.Canvas.DrawCircle(0, 0, 50, new SKPaint() {Color = SKColor.Parse("ff0000")});
-
-                surface.Canvas.Scale((float) scale.Width, (float) scale.Height);
+                canvas.Scale((float) scale.Width, (float) scale.Height);
 
                 foreach (Form form in Application.OpenForms.Select(a=>a).ToArray())
                 {
@@ -932,7 +937,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
                         try
                         {
-                            DrawOntoSurface(form.Handle, surface);
+                          DrawOntoCanvas(form.Handle, canvas, true);
                         }
                         catch (Exception ex)
                         {
@@ -947,17 +952,14 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                     .Where(hw => hw.topmost && hw.Mapped && hw.Visible).ToArray();
                 foreach (Hwnd hw in menu)
                 {
-                    if (hw.topmost && hw.Mapped && hw.Visible)
-                    {
-                        var ctlmenu = Control.FromHandle(hw.ClientWindow);
+                    var ctlmenu = Control.FromHandle(hw.ClientWindow);
                         if (ctlmenu != null)
-                            DrawOntoSurface(hw.ClientWindow, surface);
-                    }
+                            DrawOntoCanvas(hw.ClientWindow, canvas, true);
                 }
 
                 if (Device.RuntimePlatform != Device.macOS && Device.RuntimePlatform != Device.UWP)
                 {
-                    surface.Canvas.ClipRect(
+                    canvas.ClipRect(
                         SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
                             Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
 
@@ -968,70 +970,18 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                     path.Transform(new SKMatrix(1, 0, XplatUI.driver.MousePosition.X, 0, 1,
                         XplatUI.driver.MousePosition.Y, 0, 0, 1));
 
-                    surface.Canvas.DrawPath(path,
+                    canvas.DrawPath(path,
                         new SKPaint()
                             {Color = SKColors.White, Style = SKPaintStyle.Fill, StrokeJoin = SKStrokeJoin.Miter});
-                    surface.Canvas.DrawPath(path,
+                    canvas.DrawPath(path,
                         new SKPaint()
                             {Color = SKColors.Black, Style = SKPaintStyle.Stroke, StrokeJoin = SKStrokeJoin.Miter, IsAntialias = true});
                 }
 
-                surface.Canvas.DrawText("" + DateTime.Now.ToString("HH:mm:ss.fff"),
+                canvas.DrawText("" + DateTime.Now.ToString("HH:mm:ss.fff"),
                     new SKPoint(10, 10), new SKPaint() {Color = SKColor.Parse("ffff00")});
 
-                surface.Canvas.Flush();
-
-                return;
-
-                surface.Canvas.ClipRect(new SKRect(0, 0, Screen.PrimaryScreen.Bounds.Right,
-                    Screen.PrimaryScreen.Bounds.Bottom), (SKClipOperation) 5);
-
-                surface.Canvas.DrawText("PixelScreenSize " + Device.Info.PixelScreenSize.ToString(),
-                    new SKPoint(50, 10), new SKPaint() {Color = SKColor.Parse("ffff00")});
-
-
-                surface.Canvas.DrawText("screen " + Screen.PrimaryScreen.ToString(), new SKPoint(50, 30),
-                    new SKPaint() {Color = SKColor.Parse("ffff00")});
-
-                int mx = 0, my = 0;
-                XplatUI.driver.GetCursorPos(IntPtr.Zero, out mx, out my);
-
-                surface.Canvas.DrawText("mouse " + XplatUI.driver.MousePosition.ToString(), new SKPoint(50, 50),
-                    new SKPaint() {Color = SKColor.Parse("ffff00")});
-                surface.Canvas.DrawText(mx + " " + my, new SKPoint(50, 70),
-                    new SKPaint() {Color = SKColor.Parse("ffff00")});
-
-
-                if (Application.OpenForms.Count > 0 &&
-                    Application.OpenForms[Application.OpenForms.Count - 1].IsHandleCreated)
-                {
-                    var x = XplatUI.driver.MousePosition.X;
-                    var y = XplatUI.driver.MousePosition.Y;
-
-                    XplatUI.driver.ScreenToClient(Application.OpenForms[Application.OpenForms.Count - 1].Handle, ref x,
-                        ref y);
-
-                    var ctl = XplatUIMine.FindControlAtPoint(Application.OpenForms[Application.OpenForms.Count - 1],
-                        new Point(x, y));
-                    if (ctl != null)
-                    {
-                        XplatUI.driver.ScreenToClient(ctl.Handle, ref mx, ref my);
-                        surface.Canvas.DrawText("client " + mx + " " + my, new SKPoint(50, 90),
-                            new SKPaint() {Color = SKColor.Parse("ffff00")});
-
-                        surface.Canvas.DrawText(ctl?.ToString(), new SKPoint(50, 130),
-                            new SKPaint() {Color = SKColor.Parse("ffff00")});
-
-                        var hwnd = Hwnd.ObjectFromHandle(ctl.Handle);
-
-                        surface.Canvas.DrawText(ctl.Location.ToString(), new SKPoint(50, 150),
-                            new SKPaint() {Color = SKColor.Parse("ffff00")});
-                    }
-                }
-
-                surface.Canvas.DrawText("!", new SKPoint(XplatUI.driver.MousePosition.X,
-                        XplatUI.driver.MousePosition.Y),
-                    new SKPaint() {Color = SKColor.Parse("ffff00")});
+                canvas.Flush();
             }
             catch (Exception ex)
             {
