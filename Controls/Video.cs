@@ -18,7 +18,7 @@ namespace MissionPlanner.Controls
             chk.Text = "Display External";
             flowLayoutPanel1.Controls.Add(chk);
 
-            foreach (var zeroconfHost in ZeroConf.Hosts)
+            foreach (var zeroconfHost in ZeroConf.RtspHosts)
             {
                 Label lbl = new Label();
                 lbl.Text = zeroconfHost.Id;
