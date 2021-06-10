@@ -941,9 +941,11 @@ namespace MissionPlanner
         /// </summary>
         public string messageHigh
         {
-            get { if (DateTime.Now > _messageHighTime.AddSeconds(10)) return ""; return _messagehigh; }
+            get { if (DateTime.Now > _messageHighTime.AddSeconds(10)) return ""; return _messagehigh.TrimUnPrintable(); }
             set
             {
+                if(value == null || value == "")
+                    return;
                 // check against get
                 if (messageHigh == value)
                     return;
