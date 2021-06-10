@@ -32,7 +32,15 @@ wss.on('connection', function connection(ws) {
 
 });
 
+  r2d = 57.2958;
+    d2r = 0.0174533;
+brng = 0;
+
 const interval = setInterval(function ping() {
+    brng += 10 * d2r;
+    
+    brng = brng % (360*d2r);
+
   wss.clients.forEach(function each(ws) {
       
 //            var answer = new WebAPIs.Dowding.WSPackaging<VehicleTick>() { datatype = "vehicle_ticks", operation = "create", data = new VehicleTick(Ts: DateTime.Now.AddYears(1).toUnixTime() * 1000, CorrelationId: "iwashereagain", AgentId: Guid.NewGuid().ToString(), Lat: -35, Lon: 145, Hae: 40, Vn: (decimal)-1.7, Ve: (decimal)0.05, Vd: (decimal)0.019, Vendor: "DJI", Model: "mavic mini", Serial: "iwashere", Id: Guid.NewGuid().ToString(), ContactId: Guid.NewGuid().ToString()) }.ToJSON();
@@ -40,17 +48,41 @@ const interval = setInterval(function ping() {
     time = Math.floor(new Date().getTime());
     console.log('interval');
     
-    ws.send('{  "datatype": "vehicle_ticks",  "data": {    "ts": '+time+',    "correlation_id": "iwashereagain",    "agent_id": "025e98ab-3260-4144-918e-4858d0a7b1fe",    "lat": -38.1700188,    "lon": 144.5437986,    "hae": 0.0,    "vn": -1.7,    "ve": 0.05,    "vd": 0.019,    "vendor": "DJI",    "model": "mavic mini",    "serial": "iwashere",    "id": "4b31b0af-feec-4437-942e-29cccd54cbeb",    "contact_id": "9a64d68f-5f99-45e8-8bc5-939a5c395499"  },  "operation": "create"}');
+  
     
-    ws.send('{  "datatype": "vehicle_ticks",  "data": {    "ts": '+time+',    "correlation_id": "iwashereagain1",    "agent_id": "025e98ab-3260-4144-918e-4858d0a7b1fe",    "lat": -38.1704974,    "lon": 144.5448822,    "hae": 50.0,    "vn": -1.7,    "ve": 0.05,    "vd": 0.019,    "vendor": "DJI",    "model": "mavic mini",    "serial": "iwashere1",    "id": "4b31b0af-feec-4437-942e-29cccd54cbec",    "contact_id": "9a64d68f-5f99-45e8-8bc5-939a5c395498"  },  "operation": "create"}');
+    lat1 = -38.1705006099009 *d2r;
+    lon1 = 144.543803930283 *d2r;
+    homealt = 48;
     
-    ws.send('{  "datatype": "vehicle_ticks",  "data": {    "ts": '+time+',    "correlation_id": "iwashereagain2",    "agent_id": "025e98ab-3260-4144-918e-4858d0a7b1fe",    "lat": -38.1712060,    "lon": 144.5438120,    "hae": 100.0,    "vn": -1.7,    "ve": 0.05,    "vd": 0.019,    "vendor": "DJI",    "model": "mavic mini",    "serial": "iwashere2",    "id": "4b31b0af-feec-4437-942e-29cccd54cbed",    "contact_id": "9a64d68f-5f99-45e8-8bc5-939a5c395497"  },  "operation": "create"}');
+    d= 50;
+    R= 6378100.0;
     
-    ws.send('{  "datatype": "vehicle_ticks",  "data": {    "ts": '+time+',    "correlation_id": "iwashereagain3",    "agent_id": "025e98ab-3260-4144-918e-4858d0a7b1fe",    "lat": -38.1705185,    "lon": 144.5429376,    "hae": 300.0,    "vn": -1.7,    "ve": 0.05,    "vd": 0.019,    "vendor": "DJI",    "model": "mavic mini",    "serial": "iwashere3",    "id": "4b31b0af-feec-4437-942e-29cccd54cbee",    "contact_id": "9a64d68f-5f99-45e8-8bc5-939a5c395496"  },  "operation": "create"}');
     
+    
+    lat2 =Math.asin(Math.sin(lat1)*Math.cos(d/R) + Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng));
+    lon2 =lon1 + Math.atan2(Math.sin(brng)*Math.sin(d/R)*Math.cos(lat1), Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
+    
+    lat2 = lat2 *r2d;
+    lon2 = lon2 *r2d;
+    
+    console.log(lat2 + ' ' + lon2);
+    
+    ws.send('{  "datatype": "vehicle_ticks",  "data": {    "ts": '+time+',    "correlation_id": "iwashereagain",    "agent_id": "025e98ab-3260-4144-918e-4858d0a7b1fe",    "lat": '+lat2+',    "lon": '+lon2+',    "hae": '+(homealt + d)+',    "vn": -1.7,    "ve": 0.05,    "vd": 0.019,    "vendor": "DJI",    "model": "mavic mini",    "serial": "iwashere",    "id": "4b31b0af-feec-4437-942e-29cccd54cbeb",    "contact_id": "9a64d68f-5f99-45e8-8bc5-939a5c395499"  },  "operation": "create"}');
+
+
+    lat2 =Math.asin(Math.sin(lat1)*Math.cos(d/R) + Math.cos(lat1)*Math.sin(d/R)*Math.cos(brng + 90*d2r));
+    lon2 =lon1 + Math.atan2(Math.sin(brng+ 90*d2r)*Math.sin(d/R)*Math.cos(lat1), Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
+    
+    lat2 = lat2 *r2d;
+    lon2 = lon2 *r2d;
+    
+    console.log(lat2 + ' ' + lon2);
+    
+    ws.send('{  "datatype": "vehicle_ticks",  "data": {    "ts": '+time+',    "correlation_id": "iwashereagain1",    "agent_id": "025e98ab-3260-4144-918e-4858d0a7b1fe",    "lat": '+lat2+',    "lon": '+lon2+',    "hae": '+(homealt + (brng*r2d/6))+',    "vn": -1.7,    "ve": 0.05,    "vd": 0.019,    "vendor": "DJI",    "model": "mavic mini",    "serial": "iwashere2",    "id": "4b31b0af-feec-4437-942e-29cccd54cbe3",    "contact_id": "9a64d68f-5f99-45e8-8bc5-939a5c395494"  },  "operation": "create"}');
+
 
   });
-}, 10000);
+}, 2000);
 
 
 server.on('upgrade', function upgrade(request, socket, head) {
