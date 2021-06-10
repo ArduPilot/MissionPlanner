@@ -905,7 +905,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
                 foreach (var child in children)
                 {
-                    DrawOntoCanvas(child.ClientWindow, Canvas, wasdrawn ? true : false);
+                    DrawOntoCanvas(child.ClientWindow, Canvas, true);
                 }
             }
 
