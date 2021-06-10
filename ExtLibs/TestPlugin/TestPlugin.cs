@@ -91,7 +91,7 @@ public class TestPlugin : Plugin
         Task.Run(() => {
             try
             {
-                UTM.confighardware("com8");
+           //     UTM.confighardware("com8");
             }
             catch (Exception e)
             {
