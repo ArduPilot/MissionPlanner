@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using MissionPlanner.ArduPilot.Mavlink;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MissionPlanner
@@ -56,22 +57,37 @@ namespace MissionPlanner
             sendlinkid = (byte)(new Random().Next(256));
             signing = false;
             this.param = new MAVLinkParamList();
+            bool queuewrite = false;
             this.param.PropertyChanged += (s, a) =>
             {
-                Task.Run(() =>
+                lock (param)
+                {
+                    if (queuewrite == true)
+                        return;
+
+                    queuewrite = true;
+                }
+
+                new Timer((o) =>
                 {
                     try
                     {
                         if (cs.uid2 == null || cs.uid2 == "" || aptype == null || sysid == 0)
                             return;
-                        Directory.CreateDirectory(Path.GetDirectoryName(ParamCachePath));
-                        File.WriteAllText(ParamCachePath, param.ToJSON());
+                        if (!Directory.Exists(Path.GetDirectoryName(ParamCachePath)))
+                            Directory.CreateDirectory(Path.GetDirectoryName(ParamCachePath));
+
+                        lock (this.param)
+                            File.WriteAllText(ParamCachePath, param.ToJSON());
                     }
                     catch (Exception e)
                     {
                         log.Error(e);
                     }
-                });
+
+                    queuewrite = false;
+
+                }, null, 2000, -1);
             };
             this.packets = new Dictionary<uint, Queue<MAVLinkMessage>>(byte.MaxValue);
             this.packetsLast = new Dictionary<uint, MAVLinkMessage>(byte.MaxValue);
