@@ -64,7 +64,7 @@
             // 
             this.cmb_Connection.BackColor = System.Drawing.Color.Black;
             this.cmb_Connection.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmb_Connection.DropDownWidth = 200;
+            this.cmb_Connection.DropDownWidth = 230;
             resources.ApplyResources(this.cmb_Connection, "cmb_Connection");
             this.cmb_Connection.ForeColor = System.Drawing.Color.White;
             this.cmb_Connection.FormattingEnabled = true;
@@ -83,10 +83,10 @@
             // cmb_sysid
             // 
             this.cmb_sysid.BackColor = System.Drawing.Color.Black;
-            this.cmb_sysid.DropDownWidth = 160;
-            resources.ApplyResources(this.cmb_sysid, "cmb_sysid");
+            this.cmb_sysid.DropDownWidth = 200;
             this.cmb_sysid.ForeColor = System.Drawing.Color.White;
             this.cmb_sysid.FormattingEnabled = true;
+            resources.ApplyResources(this.cmb_sysid, "cmb_sysid");
             this.cmb_sysid.Name = "cmb_sysid";
             this.cmb_sysid.SelectedIndexChanged += new System.EventHandler(this.CMB_sysid_SelectedIndexChanged);
             this.cmb_sysid.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.cmb_sysid_Format);
