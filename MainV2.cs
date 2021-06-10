@@ -491,8 +491,6 @@ namespace MissionPlanner
         bool joystickthreadrun = false;
 
         Thread httpthread;
-        Thread joystickthread;
-        Thread serialreaderthread;
         Thread pluginthread;
 
         /// <summary>
@@ -2071,15 +2069,9 @@ namespace MissionPlanner
 
             serialThread = false;
 
-            if (serialreaderthread != null)
-                serialreaderthread.Join();
-
             log.Info("closing joystickthread");
 
             joystickthreadrun = false;
-
-            if (joystickthread != null)
-                joystickthread.Join();
 
             log.Info("closing httpthread");
 
@@ -2148,8 +2140,6 @@ namespace MissionPlanner
             SaveConfig();
 
             Console.WriteLine(httpthread?.IsAlive);
-            Console.WriteLine(joystickthread?.IsAlive);
-            Console.WriteLine(serialreaderthread?.IsAlive);
             Console.WriteLine(pluginthread?.IsAlive);
 
             log.Info("MainV2_FormClosing done");
@@ -2223,7 +2213,7 @@ namespace MissionPlanner
         /// <summary>
         /// thread used to send joystick packets to the MAV
         /// </summary>
-        private void joysticksend()
+        private async void joysticksend()
         {
             float rate = 50; // 1000 / 50 = 20 hz
             int count = 0;
@@ -2382,7 +2372,7 @@ namespace MissionPlanner
                             }
                         }
                     }
-                    Thread.Sleep(40);
+                    await Task.Delay(40).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -2550,7 +2540,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    Thread.Sleep(1); // was 5
+                    await Task.Delay(1).ConfigureAwait(false); // was 5
 
                     try
                     {
@@ -2937,7 +2927,7 @@ namespace MissionPlanner
                             }
                         }
 
-                        System.Threading.Thread.Sleep(100);
+                        await Task.Delay(100).ConfigureAwait(false);
                     }
 
                     // read the interfaces
@@ -3094,13 +3084,7 @@ namespace MissionPlanner
             try
             {
                 // setup joystick packet sender
-                joystickthread = new Thread(new ThreadStart(joysticksend))
-                {
-                    IsBackground = true,
-                    Priority = ThreadPriority.AboveNormal,
-                    Name = "Main joystick sender"
-                };
-                joystickthread.Start();
+                joysticksend();
             }
             catch (NotSupportedException ex)
             {
@@ -3111,13 +3095,7 @@ namespace MissionPlanner
             try
             {
                 // setup main serial reader
-                serialreaderthread = new Thread(SerialReader)
-                {
-                    IsBackground = true,
-                    Name = "Main Serial reader",
-                    Priority = ThreadPriority.AboveNormal
-                };
-                serialreaderthread.Start();
+                SerialReader();
             }
             catch (NotSupportedException ex)
             {
