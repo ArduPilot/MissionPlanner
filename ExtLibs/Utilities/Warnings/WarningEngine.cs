@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Warnings
@@ -68,10 +69,7 @@ namespace MissionPlanner.Warnings
         {
             if (run == false)
             {
-                thisthread = new Thread(MainLoop);
-                thisthread.Name = "Warning Engine";
-                thisthread.IsBackground = true;
-                thisthread.Start();
+                MainLoop();
             }
 
             _speech = speech;
@@ -80,14 +78,11 @@ namespace MissionPlanner.Warnings
         public static void Stop()
         {
             run = false;
-            if (thisthread != null && thisthread.IsAlive)
-                thisthread.Join();
         }
 
-        static Thread thisthread;
         private static ISpeech _speech;
 
-        public static void MainLoop()
+        public static async void MainLoop()
         {
             run = true;
             while (run)
@@ -108,7 +103,7 @@ namespace MissionPlanner.Warnings
                                     if (_speech != null)
                                     {
                                         while (!_speech.IsReady)
-                                            System.Threading.Thread.Sleep(10);
+                                            Thread.Yield();
 
                                         _speech.SpeakAsync(item.SayText());
                                     }
@@ -132,7 +127,7 @@ namespace MissionPlanner.Warnings
                 {
                 }
 
-                System.Threading.Thread.Sleep(250);
+                await Task.Delay(250).ConfigureAwait(false);
             }
         }
 
