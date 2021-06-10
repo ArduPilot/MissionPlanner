@@ -2833,7 +2833,7 @@ namespace MissionPlanner
                                 try
                                 {
                                     // poll only when not armed
-                                    if (!port.MAV.cs.armed)
+                                    if (!port.MAV.cs.armed && DateTime.Now > connecttime.AddSeconds(60))
                                     {
                                         port.getParamPoll();
                                         port.getParamPoll();
