@@ -239,7 +239,6 @@ namespace MissionPlanner
             this.MainMenu.PerformLayout();
             this.CTX_mainmenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
