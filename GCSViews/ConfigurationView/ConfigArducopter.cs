@@ -93,8 +93,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
                 RATE_RLL_IMAX.setup(0, 0, 10, 1f, new[] {"RATE_RLL_IMAX"}, MainV2.comPort.MAV.param);
             RATE_RLL_FILT.setup(0, 0, 1, 0.001f, new[] {"RATE_RLL_FILT", "ATC_RAT_RLL_FILT", "ATC_RAT_RLL_FLTE", "Q_A_RAT_RLL_FLTE"}, MainV2.comPort.MAV.param);
-            ATC_RAT_RLL_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_RLL_FLTD", "ATC_RAT_RLL_FLTD" }, MainV2.comPort.MAV.param);
-            ATC_RAT_RLL_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_RLL_FLTT", "ATC_RAT_RLL_FLTT" }, MainV2.comPort.MAV.param);
+            ATC_RAT_RLL_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_RLL_FLTD" }, MainV2.comPort.MAV.param);
+            ATC_RAT_RLL_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_RLL_FLTT" }, MainV2.comPort.MAV.param);
 
             RATE_YAW_P.setup(0, 0, 1, 0.001f, new[] { "RATE_YAW_P", "ATC_RAT_YAW_P", "Q_A_RAT_YAW_P" }, MainV2.comPort.MAV.param);
             RATE_YAW_I.setup(0, 0, 1, 0.001f, new[] { "RATE_YAW_I", "ATC_RAT_YAW_I", "Q_A_RAT_YAW_I" }, MainV2.comPort.MAV.param);
@@ -104,8 +104,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
                 RATE_YAW_IMAX.setup(0, 0, 10, 1f, new[] {"RATE_YAW_IMAX"}, MainV2.comPort.MAV.param);
             RATE_YAW_FILT.setup(0, 0, 1, 0.001f, new[] {"RATE_YAW_FILT", "ATC_RAT_YAW_FILT", "ATC_RAT_YAW_FLTE", "Q_A_RAT_YAW_FLTE"}, MainV2.comPort.MAV.param);
-            ATC_RAT_YAW_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_YAW_FLTD", "ATC_RAT_YAW_FLTD" }, MainV2.comPort.MAV.param);
-            ATC_RAT_YAW_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_YAW_FLTT", "ATC_RAT_YAW_FLTT" }, MainV2.comPort.MAV.param);
+            ATC_RAT_YAW_FLTD.setup(0, 0, 1, 1f, new[] { "ATC_RAT_YAW_FLTD" }, MainV2.comPort.MAV.param);
+            ATC_RAT_YAW_FLTT.setup(0, 0, 1, 1f, new[] { "ATC_RAT_YAW_FLTT" }, MainV2.comPort.MAV.param);
 
             STB_PIT_P.setup(0, 0, 1, 0.001f, new[] {"STB_PIT_P", "ATC_ANG_PIT_P", "Q_A_ANG_PIT_P"},
                 MainV2.comPort.MAV.param);
@@ -136,25 +136,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             WPNAV_SPEED_DN.setup(0, 0, 1, 0.001f, new[] {"WPNAV_SPEED_DN", "Q_WP_SPEED_DN"}, MainV2.comPort.MAV.param);
             WPNAV_SPEED_UP.setup(0, 0, 1, 0.001f, new[] {"WPNAV_SPEED_UP", "Q_WP_SPEED_UP"}, MainV2.comPort.MAV.param);
 
-            INS_GYRO_FILTER.setup(0, 0, 1, 1f, new[] { "INS_GYRO_FILTER", "INS_GYRO_FILTER" }, MainV2.comPort.MAV.param);
-            INS_ACCEL_FILTER.setup(0, 0, 1, 1f, new[] { "INS_ACCEL_FILTER", "INS_ACCEL_FILTER" }, MainV2.comPort.MAV.param);
+            INS_GYRO_FILTER.setup(0, 0, 1, 1f, new[] { "INS_GYRO_FILTER" }, MainV2.comPort.MAV.param);
+            INS_ACCEL_FILTER.setup(0, 0, 1, 1f, new[] { "INS_ACCEL_FILTER" }, MainV2.comPort.MAV.param);
 
-            INS_LOG_BAT_MASK.setup(0, 0, 1, 1f, new[] { "INS_LOG_BAT_MASK", "INS_LOG_BAT_MASK" }, MainV2.comPort.MAV.param);
-            INS_LOG_BAT_OPT.setup(0, 0, 1, 1f, new[] { "INS_LOG_BAT_OPT", "INS_LOG_BAT_OPT" }, MainV2.comPort.MAV.param);
+            INS_LOG_BAT_MASK.setup(new[] { "INS_LOG_BAT_MASK" }, MainV2.comPort.MAV.param);
+            INS_LOG_BAT_OPT.setup(0, 0, 1, 1f, new[] { "INS_LOG_BAT_OPT" }, MainV2.comPort.MAV.param);
 
-            INS_NOTCH_ENABLE.setup(0, 0, 1, 1f, new[] { "INS_NOTCH_ENABLE", "INS_NOTCH_ENABLE" }, MainV2.comPort.MAV.param);
-            INS_NOTCH_FREQ.setup(0, 0, 1, 1f, new[] { "INS_NOTCH_FREQ", "INS_NOTCH_FREQ" }, MainV2.comPort.MAV.param);
-            INS_NOTCH_BW.setup(0, 0, 1, 1f, new[] { "INS_NOTCH_BW", "INS_NOTCH_BW" }, MainV2.comPort.MAV.param);
-            INS_NOTCH_ATT.setup(0, 0, 1, 1f, new[] { "INS_NOTCH_ATT", "INS_NOTCH_ATT" }, MainV2.comPort.MAV.param);
+            INS_NOTCH_ENABLE.setup(new[] { "INS_NOTCH_ENABLE" }, MainV2.comPort.MAV.param);
+            INS_NOTCH_FREQ.setup(0, 0, 1, 1f, new[] { "INS_NOTCH_FREQ" }, MainV2.comPort.MAV.param);
+            INS_NOTCH_BW.setup(0, 0, 1, 1f, new[] { "INS_NOTCH_BW" }, MainV2.comPort.MAV.param);
+            INS_NOTCH_ATT.setup(0, 0, 1, 1f, new[] { "INS_NOTCH_ATT" }, MainV2.comPort.MAV.param);
 
-            INS_HNTCH_ENABLE.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_ENABLE", "INS_HNTCH_ENABLE" }, MainV2.comPort.MAV.param);
-            INS_HNTCH_MODE.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_MODE", "INS_HNTCH_MODE" }, MainV2.comPort.MAV.param);
-            INS_HNTCH_REF.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_REF", "INS_HNTCH_REF" }, MainV2.comPort.MAV.param);
-            INS_HNTCH_FREQ.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_FREQ", "INS_HNTCH_FREQ" }, MainV2.comPort.MAV.param);
-            INS_HNTCH_ATT.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_ATT", "INS_HNTCH_ATT" }, MainV2.comPort.MAV.param);
-            INS_HNTCH_BW.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_BW", "INS_HNTCH_BW" }, MainV2.comPort.MAV.param);
-            INS_HNTCH_OPTS.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_OPTS", "INS_HNTCH_OPTS" }, MainV2.comPort.MAV.param);
-            INS_HNTCH_HMNCS.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_HMNCS", "INS_HNTCH_HMNCS" }, MainV2.comPort.MAV.param);
+            INS_HNTCH_ENABLE.setup(new[] { "INS_HNTCH_ENABLE" }, MainV2.comPort.MAV.param);
+            INS_HNTCH_MODE.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_MODE" }, MainV2.comPort.MAV.param);
+            INS_HNTCH_REF.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_REF" }, MainV2.comPort.MAV.param);
+            INS_HNTCH_FREQ.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_FREQ" }, MainV2.comPort.MAV.param);
+            INS_HNTCH_ATT.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_ATT" }, MainV2.comPort.MAV.param);
+            INS_HNTCH_BW.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_BW" }, MainV2.comPort.MAV.param);
+            INS_HNTCH_OPTS.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_OPTS" }, MainV2.comPort.MAV.param);
+            INS_HNTCH_HMNCS.setup(0, 0, 1, 1f, new[] { "INS_HNTCH_HMNCS" }, MainV2.comPort.MAV.param);
 
             mavlinkNumericUpDownatc_accel_r_max.setup(0, 0, 1, 0.001f, new[] {"ATC_ACCEL_R_MAX", "Q_A_ACCEL_R_MAX"},
                 MainV2.comPort.MAV.param);
