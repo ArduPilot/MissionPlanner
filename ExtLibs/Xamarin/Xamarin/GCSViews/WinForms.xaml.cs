@@ -1109,8 +1109,20 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                 return;
             cts = new CancellationTokenSource();
             isBusy = true;
-            TextToSpeech.SpeakAsync(text, cts.Token).ContinueWith((t) => { isBusy = false; },
-                TaskScheduler.FromCurrentSynchronizationContext());
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await TextToSpeech.SpeakAsync(text, cts.Token).ConfigureAwait(false);
+                }
+                catch (Exception e)
+                {
+                }
+                finally
+                {
+                    isBusy = false;
+                }
+            });
         }
 
         public void SpeakAsyncCancelAll()
