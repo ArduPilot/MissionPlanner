@@ -630,6 +630,7 @@ namespace MissionPlanner.Utilities
             #region Fetch Parameter Meta Data
 
             var progressReporterDialogue = ((IProgressReporterDialogue)sender);
+            /*
             progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting updated parameter documentation");
 
             try
@@ -652,7 +653,7 @@ namespace MissionPlanner.Utilities
                 log.Error(ex.ToString());
                 CustomMessageBox.Show("Error getting Parameter Information");
             }
-
+            */
             #endregion Fetch Parameter Meta Data
 
             progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Base URL");
