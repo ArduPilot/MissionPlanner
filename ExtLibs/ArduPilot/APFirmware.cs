@@ -116,10 +116,12 @@ namespace MissionPlanner.ArduPilot
         {
             GetList();
 
+            log.Info("device: "+device.ToJSON());
+
             // match the board description
             var ans = Manifest.Firmware.Where(a => (
-                a.Platform.ToLower() == device.board.ToLower() ||
-                a.BootloaderStr.Any(b => b.ToLower() == device.board.ToLower())) && a.BoardId != 0);
+                a.Platform?.ToLower() == device.board?.ToLower() ||
+                a.BootloaderStr.Any(b => b?.ToLower() == device.board?.ToLower())) && a.BoardId != 0);
 
             if (ans.Any())
             {
@@ -152,10 +154,12 @@ namespace MissionPlanner.ArduPilot
         {
             GetList();
 
+            log.Info("device: "+device.ToJSON());
+
             // match the board description
             var ans = Manifest.Firmware.Where(a => (
-                a.Platform.ToLower() == device.board.ToLower() ||
-                a.BootloaderStr.Any(b => b.ToLower() == device.board.ToLower())) && a.BoardId != 0);
+                a.Platform?.ToLower() == device.board?.ToLower() ||
+                a.BootloaderStr.Any(b => b?.ToLower() == device.board?.ToLower())) && a.BoardId != 0);
 
             // ignore platform
             ans = Manifest.Firmware;
