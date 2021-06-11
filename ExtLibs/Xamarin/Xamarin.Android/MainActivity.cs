@@ -402,8 +402,15 @@ namespace Xamarin.Droid
                             // On UI thread.
                             RunOnUiThread(() =>
                             {
-                                Toast toast = Toast.MakeText(this, text, toastLength);
-                                toast.Show();
+                                try
+                                {
+                                    Toast toast = Toast.MakeText(this, text, toastLength);
+                                    toast.Show();
+                                }
+                                catch
+                                {
+
+                                }
                             });
                         }
                     }
