@@ -45,6 +45,7 @@ namespace Dowding
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbl_header = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.but_setathome = new MissionPlanner.Controls.MyButton();
             this.label9 = new System.Windows.Forms.Label();
             this.txt_trackerlong = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -64,12 +65,17 @@ namespace Dowding
             this.txt_onvifip = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.but_onvif = new MissionPlanner.Controls.MyButton();
-            this.but_setathome = new MissionPlanner.Controls.MyButton();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cmb_cotbaud = new System.Windows.Forms.ComboBox();
+            this.but_cotstart = new MissionPlanner.Controls.MyButton();
+            this.cmb_cotport = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // chk_enable
@@ -233,6 +239,17 @@ namespace Dowding
             this.panel2.Size = new System.Drawing.Size(420, 143);
             this.panel2.TabIndex = 3;
             // 
+            // but_setathome
+            // 
+            this.but_setathome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.but_setathome.Location = new System.Drawing.Point(310, 105);
+            this.but_setathome.Name = "but_setathome";
+            this.but_setathome.Size = new System.Drawing.Size(100, 23);
+            this.but_setathome.TabIndex = 19;
+            this.but_setathome.Text = "Set Tracker Home";
+            this.but_setathome.UseVisualStyleBackColor = true;
+            this.but_setathome.Click += new System.EventHandler(this.but_setathome_Click);
+            // 
             // label9
             // 
             this.label9.Location = new System.Drawing.Point(229, 51);
@@ -335,7 +352,7 @@ namespace Dowding
             this.panel3.Controls.Add(this.txt_onvifip);
             this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.but_onvif);
-            this.panel3.Location = new System.Drawing.Point(30, 369);
+            this.panel3.Location = new System.Drawing.Point(30, 490);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(420, 106);
             this.panel3.TabIndex = 9;
@@ -406,26 +423,75 @@ namespace Dowding
             this.but_onvif.UseVisualStyleBackColor = true;
             this.but_onvif.Click += new System.EventHandler(this.but_onvif_Click);
             // 
-            // but_setathome
+            // panel4
             // 
-            this.but_setathome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.but_setathome.Location = new System.Drawing.Point(310, 105);
-            this.but_setathome.Name = "but_setathome";
-            this.but_setathome.Size = new System.Drawing.Size(100, 23);
-            this.but_setathome.TabIndex = 19;
-            this.but_setathome.Text = "Set Tracker Home";
-            this.but_setathome.UseVisualStyleBackColor = true;
-            this.but_setathome.Click += new System.EventHandler(this.but_setathome_Click);
+            this.panel4.Controls.Add(this.label10);
+            this.panel4.Controls.Add(this.cmb_cotbaud);
+            this.panel4.Controls.Add(this.but_cotstart);
+            this.panel4.Controls.Add(this.cmb_cotport);
+            this.panel4.Location = new System.Drawing.Point(30, 369);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(420, 115);
+            this.panel4.TabIndex = 10;
+            // 
+            // label10
+            // 
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(3, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(160, 23);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "CoT";
+            // 
+            // cmb_cotbaud
+            // 
+            this.cmb_cotbaud.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_cotbaud.FormattingEnabled = true;
+            this.cmb_cotbaud.Items.AddRange(new object[] {
+            "4800",
+            "9600",
+            "14400",
+            "19200",
+            "28800",
+            "38400",
+            "57600",
+            "115200"});
+            this.cmb_cotbaud.Location = new System.Drawing.Point(7, 53);
+            this.cmb_cotbaud.Name = "cmb_cotbaud";
+            this.cmb_cotbaud.Size = new System.Drawing.Size(121, 21);
+            this.cmb_cotbaud.TabIndex = 11;
+            // 
+            // but_cotstart
+            // 
+            this.but_cotstart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.but_cotstart.Location = new System.Drawing.Point(33, 80);
+            this.but_cotstart.Name = "but_cotstart";
+            this.but_cotstart.Size = new System.Drawing.Size(75, 23);
+            this.but_cotstart.TabIndex = 10;
+            this.but_cotstart.Text = "Connect";
+            this.but_cotstart.UseVisualStyleBackColor = true;
+            this.but_cotstart.Click += new System.EventHandler(this.but_cotstart_Click);
+            // 
+            // cmb_cotport
+            // 
+            this.cmb_cotport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmb_cotport.FormattingEnabled = true;
+            this.cmb_cotport.Location = new System.Drawing.Point(7, 26);
+            this.cmb_cotport.Name = "cmb_cotport";
+            this.cmb_cotport.Size = new System.Drawing.Size(121, 21);
+            this.cmb_cotport.TabIndex = 9;
             // 
             // DowdingUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "DowdingUI";
-            this.Size = new System.Drawing.Size(470, 493);
+            this.Size = new System.Drawing.Size(484, 646);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
@@ -435,6 +501,7 @@ namespace Dowding
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -476,5 +543,10 @@ namespace Dowding
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txt_trackerlat;
         private MissionPlanner.Controls.MyButton but_setathome;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cmb_cotbaud;
+        private MissionPlanner.Controls.MyButton but_cotstart;
+        private System.Windows.Forms.ComboBox cmb_cotport;
     }
 }
