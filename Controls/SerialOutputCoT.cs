@@ -256,7 +256,7 @@ namespace MissionPlanner.Controls
                 },
                 point = new point()
                 {
-                    lat = lat.ToString("N7", culture), lng = lng.ToString("N7", culture), hae = alt.ToString("N2", culture).PadLeft(5, ' ')
+                    lat = lat.ToString("N7", culture), lon = lng.ToString("N7", culture), hae = alt.ToString("N2", culture).PadLeft(5, ' ')
                 }
             };
 
