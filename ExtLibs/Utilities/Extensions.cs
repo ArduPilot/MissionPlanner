@@ -491,6 +491,21 @@ namespace MissionPlanner.Utilities
             return pi.GetValue(obj);
         }
 
+        public static int Search(this byte[] src, byte[] pattern, int startfrom = 0)
+        {
+            int maxFirstCharSlot = src.Length - pattern.Length + 1;
+            int j;
+            for (int i = startfrom; i < maxFirstCharSlot; i++)
+            {
+                if (src[i] != pattern[0]) continue;//comp only first byte
+        
+                // found a match on first byte, it tries to match rest of the pattern
+                for (j = pattern.Length - 1; j >= 1 && src[i + j] == pattern[j]; j--) ;
+                if (j == 0) return i;
+            }
+            return -1;
+        }
+
         static ConcurrentDictionary<Action,long> reentryDictionary = new ConcurrentDictionary<Action, long>();
 
         public static void ProtectReentry(Action action)

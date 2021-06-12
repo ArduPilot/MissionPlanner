@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+using Dowding.Model;
 using GMap.NET;
 using MissionPlanner;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using MissionPlanner.Utilities.CoT;
 using Onvif;
 
 namespace Dowding
@@ -60,6 +66,16 @@ namespace Dowding
             CMB_serialport.Items.Add("TCP Client");
             CMB_serialport.Items.Add("UDP Host - 14551");
             CMB_serialport.Items.Add("UDP Client");
+
+
+            
+            cmb_cotport.Items.Clear();
+            cmb_cotport.Items.AddRange(SerialPort.GetPortNames());
+            cmb_cotport.Items.Add("TCP Host");
+            cmb_cotport.Items.Add("TCP Client");
+            cmb_cotport.Items.Add("UDP Host");
+            cmb_cotport.Items.Add("UDP Client");
+
 
             if (ATthreadrun)
             {
@@ -132,6 +148,12 @@ namespace Dowding
         static PointLatLngAlt lastplla;
         private static OnvifDevice device;
         static bool onvifthreadrun;
+
+        
+        static TcpListener listenerCoT;
+        static ICommsSerial CoTStream = new TcpSerial();
+        static System.Threading.Thread CoTThread;
+        static bool CoTthreadrun = false;
 
         private void BUT_connect_Click(object sender, EventArgs e)
         {
@@ -410,6 +432,200 @@ namespace Dowding
             {
                 CustomMessageBox.Show("Failed to send home location", Strings.ERROR);
             }
+        }
+
+        private void but_cotstart_Click(object sender, EventArgs e)
+        {
+            if (listenerCoT != null)
+            {
+                listenerCoT.Stop();
+                listenerCoT = null;
+            }
+
+            if (CoTStream.IsOpen)
+            {
+                CoTthreadrun = false;
+                CoTStream.Close();
+                but_cotstart.Text = Strings.Connect;
+            }
+            else
+            {
+                try
+                {
+                    switch (cmb_cotport.Text)
+                    {
+                        case "TCP Host - 14551":
+                        case "TCP Host":
+                            CoTStream = new TcpSerial();
+                            int portt = int.Parse(Settings.Instance["cot_tcphostport", "14551"]);
+                            InputBox.Show("Enter Port", "Please enter a listen port", ref portt);
+                            cmb_cotbaud.SelectedIndex = 0;
+                            listenerCoT = new TcpListener(System.Net.IPAddress.Any, portt);
+                            listenerCoT.Start(0);
+                            listenerCoT.BeginAcceptTcpClient(new AsyncCallback(DoAcceptCoTTcpClientCallback), listenerCoT);
+                            break;
+                        case "TCP Client":
+                            CoTStream = new TcpSerial() {retrys = 999999, autoReconnect = true};
+                            CMB_baudrate.SelectedIndex = 0;
+                            break;
+                        case "UDP Host - 14551":
+                        case "UDP Host":
+                            int portu = int.Parse(Settings.Instance["cot_udphostport", "10011"]);
+                            InputBox.Show("Enter Port", "Please enter a listen port", ref portu);
+                            Settings.Instance["cot_udphostport"] = portu.ToString();
+                            CoTStream = new UdpSerial()
+                            {
+                                ConfigRef = "cot", Port = portu.ToString(), client = new UdpClient(portu), IsOpen = true
+                            };
+                            CMB_baudrate.SelectedIndex = 0;
+                            break;
+                        case "UDP Client":
+                            CoTStream = new UdpSerialConnect();
+                            CMB_baudrate.SelectedIndex = 0;
+                            break;
+                        default:
+                            CoTStream = new SerialPort();
+                            CoTStream.PortName = CMB_serialport.Text;
+                            break;
+                    }
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidPortName);
+                    return;
+                }
+
+                try
+                {
+                    CoTStream.BaudRate = int.Parse(cmb_cotbaud.Text);
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidBaudRate);
+                    return;
+                }
+
+                try
+                {
+                    if (listenerCoT == null)
+                        CoTStream.Open();
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    return;
+                }
+
+                CoTThread = new System.Threading.Thread(new System.Threading.ThreadStart(CoTmainloop))
+                {
+                    IsBackground = true,
+                    Name = "CoT output"
+                };
+                CoTThread.Start();
+
+                but_cotstart.Text = Strings.Stop;
+            }
+        }
+
+        void DoAcceptCoTTcpClientCallback(IAsyncResult ar)
+        {
+            // Get the listener that handles the client request.
+            TcpListener listener = (TcpListener) ar.AsyncState;
+
+            try
+            {
+                // End the operation and display the received data on  
+                // the console.
+                TcpClient client = listener.EndAcceptTcpClient(ar);
+
+                ((TcpSerial) CoTStream).client = client;
+
+                listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+            }
+            catch
+            {
+            }
+        }
+
+        private void CoTmainloop()
+        {
+            CoTthreadrun = true;
+
+            var stream = new CommsStream(CoTStream, int.MaxValue);
+
+            var lookfor = "<?xml".Select(a=>(byte)a).ToArray();
+            var lookforend = "</event>".Select(a=>(byte)a).ToArray();
+
+            while (CoTthreadrun)
+            {
+                try
+                {
+                    var sb = new StringBuilder();
+                    var buff = new byte[4096];
+                    while (CoTthreadrun)
+                    {
+                        var by = stream.Read(buff, 0, buff.Length);
+                        var pos = 0;
+                        while (pos < by)
+                        {
+                            var start = buff.Search(lookfor, pos);
+                            var end = buff.Search(lookforend, pos);
+
+                            // entire message
+                            if (start >= 0 && end >= 0 && end > start)
+                            {
+                                var xml = ASCIIEncoding.ASCII.GetString(buff.Skip(start).Take(end + lookforend.Length - start).ToArray());
+                                pos = end + lookforend.Length;
+                                ProcessCoTMessage(xml);
+                            }// start with no end
+                            else if (start >= 0 && end == -1)
+                            {
+                                var partxml = ASCIIEncoding.ASCII.GetString(buff.Skip(start).ToArray());
+                                pos = by;
+                                sb.Append(partxml);
+                            }// no start with end
+                            else if (end >= 0)
+                            {
+                                var partxml = ASCIIEncoding.ASCII.GetString(buff.Take(end + lookforend.Length).ToArray());
+                                sb.Append(partxml);
+                                ProcessCoTMessage(sb.ToString());
+                                sb.Clear();
+                                pos = end + lookforend.Length;
+                            }// no start or end
+                            else
+                            {
+                                sb.Append(ASCIIEncoding.ASCII.GetString(buff));
+                                pos = by;
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                }
+            }
+        }
+
+        private XmlSerializer serializer =
+            new XmlSerializer(typeof(@event));
+
+        private void ProcessCoTMessage(string xml)
+        {
+            var data = (@event) serializer.Deserialize(new StringReader(xml));
+
+            var plla = new PointLatLngAlt(
+                double.Parse(data.point.lat, CultureInfo.InvariantCulture),
+                double.Parse(data.point.lon, CultureInfo.InvariantCulture),
+                double.Parse(data.point.hae, CultureInfo.InvariantCulture));
+
+            MissionPlanner.WebAPIs.Dowding.Vehicles[data.uid] = new VehicleTick(Ts:
+                ((long)DateTime.Parse(data.time).toUnixTime() * 1000L ), Lat: (decimal) plla.Lat,
+                Lon: (decimal) plla.Lng, Hae: (decimal) plla.Alt, CorrelationId: data.uid, AgentId: "",
+                ContactId: data.uid, Id: data.uid, Serial: data.uid, Model: data.type, Vendor: "CoT");
         }
     }
 }

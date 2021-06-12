@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,7 +23,7 @@ namespace MissionPlanner.WebAPIs
         public string URL { get; set; } = "https://{0}/api/1.0";
         public string WS { get; set; } = "wss://{0}/ws";
 
-        public static Dictionary<string, VehicleTick> Vehicles = new Dictionary<string, VehicleTick>();
+        public static ConcurrentDictionary<string, VehicleTick> Vehicles = new ConcurrentDictionary<string, VehicleTick>();
 
         /// <summary>
         /// Auth then Start
