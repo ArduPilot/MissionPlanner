@@ -161,10 +161,10 @@ namespace MissionPlanner.Comms
                         } 
                         else if (stringdata[0] == '3')
                         {
-                            client.SendAsync(new ArraySegment<byte>("40/MAVControl,".ToCharArray().Select(a => (byte)a).ToArray()),
+                            _=client.SendAsync(new ArraySegment<byte>("40/MAVControl,".ToCharArray().Select(a => (byte)a).ToArray()),
                                 WebSocketMessageType.Text, true, CancellationToken.None);
 
-                            client.SendAsync(new ArraySegment<byte>("5".ToCharArray().Select(a => (byte) a).ToArray()),
+                            _=client.SendAsync(new ArraySegment<byte>("5".ToCharArray().Select(a => (byte) a).ToArray()),
                                 WebSocketMessageType.Text, true, CancellationToken.None);
                         }
                     }

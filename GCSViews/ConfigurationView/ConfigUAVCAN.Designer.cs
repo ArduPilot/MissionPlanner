@@ -62,10 +62,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.chk_log = new System.Windows.Forms.CheckBox();
             this.DGDebug = new System.Windows.Forms.DataGridView();
-            this.Node = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chk_canonclose = new System.Windows.Forms.CheckBox();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +73,10 @@
             this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Node = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UAVText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
@@ -400,39 +400,11 @@
             this.Node,
             this.Level,
             this.Source,
-            this.Text});
+            this.UAVText});
             this.DGDebug.Location = new System.Drawing.Point(7, 437);
             this.DGDebug.Name = "DGDebug";
             this.DGDebug.Size = new System.Drawing.Size(757, 144);
             this.DGDebug.TabIndex = 89;
-            // 
-            // Node
-            // 
-            this.Node.HeaderText = "Node";
-            this.Node.Name = "Node";
-            this.Node.ReadOnly = true;
-            this.Node.Width = 40;
-            // 
-            // Level
-            // 
-            this.Level.HeaderText = "Level";
-            this.Level.Name = "Level";
-            this.Level.ReadOnly = true;
-            this.Level.Width = 40;
-            // 
-            // Source
-            // 
-            this.Source.HeaderText = "Source";
-            this.Source.Name = "Source";
-            this.Source.ReadOnly = true;
-            this.Source.Width = 50;
-            // 
-            // Text
-            // 
-            this.Text.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Text.HeaderText = "Text";
-            this.Text.Name = "Text";
-            this.Text.ReadOnly = true;
             // 
             // chk_canonclose
             // 
@@ -551,6 +523,34 @@
             this.Menu.ReadOnly = true;
             this.Menu.Width = 50;
             // 
+            // Node
+            // 
+            this.Node.HeaderText = "Node";
+            this.Node.Name = "Node";
+            this.Node.ReadOnly = true;
+            this.Node.Width = 40;
+            // 
+            // Level
+            // 
+            this.Level.HeaderText = "Level";
+            this.Level.Name = "Level";
+            this.Level.ReadOnly = true;
+            this.Level.Width = 40;
+            // 
+            // Source
+            // 
+            this.Source.HeaderText = "Source";
+            this.Source.Name = "Source";
+            this.Source.ReadOnly = true;
+            this.Source.Width = 50;
+            // 
+            // UAVText
+            // 
+            this.UAVText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.UAVText.HeaderText = "Text";
+            this.UAVText.Name = "UAVText";
+            this.UAVText.ReadOnly = true;
+            // 
             // ConfigUAVCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -607,10 +607,6 @@
         private System.Windows.Forms.CheckBox chk_log;
         public System.Windows.Forms.BindingSource uAVCANModelBindingSource;
         private System.Windows.Forms.DataGridView DGDebug;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Node;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Source;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Text;
         private System.Windows.Forms.CheckBox chk_canonclose;
         private System.Windows.Forms.ContextMenu contextMenu1;
         private System.Windows.Forms.MenuItem menu_passthrough;
@@ -627,5 +623,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareCRC;
         private System.Windows.Forms.DataGridViewButtonColumn Menu;
         private System.Windows.Forms.MenuItem menu_updatebeta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Node;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Source;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UAVText;
     }
 }

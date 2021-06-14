@@ -49,10 +49,12 @@ namespace MissionPlanner
         /// MissionPlanner text image
         /// </summary>
         public static Image Logo = null;
+
         /// <summary>
         /// Ardupilot logo
         /// </summary>
         public static Image Logo2 = null;
+
         /// <summary>
         /// icon
         /// </summary>
@@ -65,7 +67,7 @@ namespace MissionPlanner
         public static string[] args = new string[] { };
         public static Bitmap SplashBG = null;
 
-        public static string[] names = new string[] { "VVVVZ" };
+        public static string[] names = new string[] {"VVVVZ"};
         public static bool MONO = false;
 
         static Program()
@@ -101,6 +103,7 @@ namespace MissionPlanner
                 config.SaveToDir("C:\\Temp\\Snapshot");
                 DotTrace.Attach(config);
                 DotTrace.StartCollectingData();
+                CustomMessageBox.Show("Trace started");
             }
             else
             {
@@ -129,10 +132,11 @@ namespace MissionPlanner
 
             Directory.SetCurrentDirectory(Settings.GetRunningDirectory());
 
-            var listener = new TextWriterTraceListener(Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "trace.log",
+            var listener = new TextWriterTraceListener(
+                Settings.GetDataDirectory() + Path.DirectorySeparatorChar + "trace.log",
                 "defaulttrace");
 
-            if (args.Any(a=>a.Contains("trace")))
+            if (args.Any(a => a.Contains("trace")))
                 Trace.Listeners.Add(listener);
 
             Thread = Thread.CurrentThread;
@@ -150,6 +154,7 @@ namespace MissionPlanner
                 Utilities.Update.DoUpdate();
                 return;
             }
+
             if (args.Length > 0 && args[0] == "/updatebeta")
             {
                 Utilities.Update.dobeta = true;
@@ -219,7 +224,7 @@ namespace MissionPlanner
 
             Console.WriteLine("IconFile");
             if (IconFile != null)
-                Splash.Icon = Icon.FromHandle(((Bitmap)IconFile).GetHicon());
+                Splash.Icon = Icon.FromHandle(((Bitmap) IconFile).GetHicon());
 
             string strVersion = File.Exists("version.txt")
                 ? File.ReadAllText("version.txt")
@@ -238,10 +243,10 @@ namespace MissionPlanner
             Application.DoEvents();
 
             CustomMessageBox.ShowEvent += (text, caption, buttons, icon, yestext, notext) =>
-                {
-                    return (CustomMessageBox.DialogResult)(int)MsgBox.CustomMessageBox.Show(text, caption,
-                        (MessageBoxButtons)(int)buttons, (MessageBoxIcon)(int)icon, yestext, notext);
-                };
+            {
+                return (CustomMessageBox.DialogResult) (int) MsgBox.CustomMessageBox.Show(text, caption,
+                    (MessageBoxButtons) (int) buttons, (MessageBoxIcon) (int) icon, yestext, notext);
+            };
 
             // setup theme provider
             MsgBox.CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
@@ -286,7 +291,7 @@ namespace MissionPlanner
             Console.WriteLine("Setup GoogleMapProvider API");
             GoogleMapProvider.APIKey = "AIzaSyA5nFp39fEHruCezXnG3r8rGyZtuAkmCug";
             if (Settings.Instance["GoogleApiKey"] != null) GoogleMapProvider.APIKey = Settings.Instance["GoogleApiKey"];
-            
+
             Console.WriteLine("Setup Tracking.productName");
             Tracking.productName = Application.ProductName;
             Tracking.productVersion = Application.ProductVersion;
@@ -297,7 +302,8 @@ namespace MissionPlanner
             Tracking.boundsHeight = Screen.PrimaryScreen.Bounds.Height;
 
             Console.WriteLine("Setup Settings.Instance.UserAgent");
-            Settings.Instance.UserAgent = Application.ProductName + " " + Application.ProductVersion + " (" + Environment.OSVersion?.VersionString + ")";
+            Settings.Instance.UserAgent = Application.ProductName + " " + Application.ProductVersion + " (" +
+                                          Environment.OSVersion?.VersionString + ")";
 
             Console.WriteLine("Setup check gdal dir");
             // optionally add gdal support
@@ -325,8 +331,8 @@ namespace MissionPlanner
 
             // generic status report screen
             MAVLinkInterface.CreateIProgressReporterDialogue += title =>
-                new ProgressReporterDialogue() { StartPosition = FormStartPosition.CenterScreen, Text = title };
-            
+                new ProgressReporterDialogue() {StartPosition = FormStartPosition.CenterScreen, Text = title};
+
             Console.WriteLine("Setup proxy");
             try
             {
@@ -352,7 +358,8 @@ namespace MissionPlanner
             Console.WriteLine("Setup CleanupFiles");
             CleanupFiles();
 
-            log.InfoFormat("64bit os {0}, 64bit process {1}, OS Arch {2}, OS Desc {3}, FW Desc {4}", System.Environment.Is64BitOperatingSystem,
+            log.InfoFormat("64bit os {0}, 64bit process {1}, OS Arch {2}, OS Desc {3}, FW Desc {4}",
+                System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess, RuntimeInformation.OSArchitecture, RuntimeInformation.OSDescription,
                 RuntimeInformation.FrameworkDescription);
 
@@ -376,8 +383,9 @@ namespace MissionPlanner
                     log.Info(displayName.Invoke(null, null));
                     //6.6.0.161 (tarball Tue Dec 10 10:36:32 UTC 2019)
 
-                    var match = Regex.Match(displayName.Invoke(null, null).ToString(), @"([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)");
-                    if(match.Success)
+                    var match = Regex.Match(displayName.Invoke(null, null).ToString(),
+                        @"([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)");
+                    if (match.Success)
                     {
                         if (int.Parse(match.Groups[1].Value) < 6)
                         {
@@ -414,7 +422,9 @@ namespace MissionPlanner
                     {
                         a.Kill();
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 });
             }
             catch
@@ -424,7 +434,7 @@ namespace MissionPlanner
 
         private static string SerialPort_GetDeviceName(string port)
         {
-            ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");                // Win32_USBControllerDevice
+            ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
             {
                 foreach (ManagementObject obj2 in searcher.Get())
@@ -458,7 +468,8 @@ namespace MissionPlanner
             }
         }
 
-        private static void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
+        private static void CurrentDomain_FirstChanceException(object sender,
+            System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
         {
             log.Debug("FirstChanceException in: " + e.Exception.Source, e.Exception);
         }
@@ -501,7 +512,9 @@ namespace MissionPlanner
                     File.Delete(file);
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             try
             {
@@ -558,7 +571,8 @@ namespace MissionPlanner
 
             try
             {
-                foreach (string newupdater in Directory.GetFiles(Settings.GetRunningDirectory(), "tlogThumbnailHandler.dll.new"))
+                foreach (string newupdater in Directory.GetFiles(Settings.GetRunningDirectory(),
+                    "tlogThumbnailHandler.dll.new"))
                 {
                     File.Copy(newupdater, newupdater.Remove(newupdater.Length - 4), true);
                     File.Delete(newupdater);
@@ -600,7 +614,7 @@ namespace MissionPlanner
 
             }
 
-            handleException((Exception)e.ExceptionObject);
+            handleException((Exception) e.ExceptionObject);
         }
 
         static string GetStackTrace(Exception e)
@@ -616,12 +630,14 @@ namespace MissionPlanner
                                  + frame.GetMethod().Name
                                  + "  (IL offset: 0x" + frame.GetILOffset().ToString("x") + ")\n" + stackTrace;
                 }
+
                 Console.Write(stackTrace);
                 Console.WriteLine("Message: " + e.Message);
             }
             catch
             {
             }
+
             return stackTrace;
         }
 
@@ -647,41 +663,48 @@ namespace MissionPlanner
             {
                 return;
             }
+
             if (ex.Message.Contains("The port is closed"))
             {
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
             }
+
             if (ex.Message.Contains("Array.Empty"))
             {
                 CustomMessageBox.Show("Please install Microsoft Dot Net 4.6.2");
                 Application.Exit();
                 return;
             }
+
             if (ex.Message.Contains("A device attached to the system is not functioning"))
             {
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
             }
+
             if (ex.GetType() == typeof(MissingMethodException) || ex.GetType() == typeof(TypeLoadException))
             {
                 CustomMessageBox.Show("Please Update - Some older library dlls are causing problems\n" + ex.Message);
                 return;
             }
+
             if (ex.GetType() == typeof(ObjectDisposedException) || ex.GetType() == typeof(InvalidOperationException))
-            // something is trying to update while the form, is closing.
+                // something is trying to update while the form, is closing.
             {
                 log.Error(ex);
                 return; // ignore
             }
+
             if (ex.GetType() == typeof(FileNotFoundException) || ex.GetType() == typeof(BadImageFormatException))
-            // i get alot of error from people who click the exe from inside a zip file.
+                // i get alot of error from people who click the exe from inside a zip file.
             {
                 CustomMessageBox.Show(
                     "You are missing some DLL's. Please extract the zip file somewhere. OR Use the update feature from the menu " +
                     ex.ToString());
                 // return;
             }
+
             // windows and mono
             if (ex.StackTrace != null && ex.StackTrace.Contains("System.IO.Ports.SerialStream.Dispose") ||
                 ex.StackTrace != null && ex.StackTrace.Contains("System.IO.Ports.SerialPortStream.Dispose"))
@@ -695,7 +718,7 @@ namespace MissionPlanner
             var dr =
                 CustomMessageBox.Show("An error has occurred\n" + ex.ToString() + "\n\nReport this Error???",
                     "Send Error", MessageBoxButtons.YesNo);
-            if ((int)DialogResult.Yes == dr)
+            if ((int) DialogResult.Yes == dr)
             {
                 try
                 {
@@ -744,11 +767,12 @@ namespace MissionPlanner
                             }
                         }
 
-                        processinfo = result.ToJSON(Formatting.Indented); //;Process.GetCurrentProcess().Modules.ToJSON();
+                        processinfo =
+                            result.ToJSON(Formatting.Indented); //;Process.GetCurrentProcess().Modules.ToJSON();
                     }
                     catch
                     {
-                       
+
                     }
 
                     string postData = "message=" + Environment.OSVersion.VersionString + " " +
@@ -760,7 +784,7 @@ namespace MissionPlanner
                                       + "\ndata " + data
                                       + "\nmessage " + message.Replace('&', ' ').Replace('=', ' ')
                                       + "\n\n" + processinfo;
-                    Download.PostAsync("http://vps.oborne.me/mail.php", postData);
+                    _ = Download.PostAsync("http://vps.oborne.me/mail.php", postData).ConfigureAwait(false);
                 }
                 catch (Exception exp)
                 {

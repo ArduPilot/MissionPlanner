@@ -35,8 +35,8 @@
     <TargetFrameworkProfile />
     <ProjectTypeGuids>{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-<RunAnalyzers>false</RunAnalyzers>
+    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+    <RunAnalyzers>false</RunAnalyzers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>bin\Debug\net461\</OutputPath>
@@ -609,36 +609,39 @@
     </None>
     <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigGPSOrder+GPSCAN.datasource" />
     <None Include="MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2+CompassDeviceInfo.datasource" />
-    <Compile Include="plugins\example10-canlogfile.cs">
+    <None Include="plugins\example10-canlogfile.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    </None>
+    <None Include="plugins\example11-trace.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Utilities\AirMarket.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="plugins\example2-menu.cs">
+    <None Include="plugins\example2-menu.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="plugins\example3-fencedist.cs">
+    </None>
+    <None Include="plugins\example3-fencedist.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="plugins\example4-herelink.cs">
+    </None>
+    <None Include="plugins\example4-herelink.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="plugins\example5-latencytracker.cs">
+    </None>
+    <None Include="plugins\example5-latencytracker.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="plugins\example6-mapicondesc.cs">
+    </None>
+    <None Include="plugins\example6-mapicondesc.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="plugins\example7-canrtcm.cs">
+    </None>
+    <None Include="plugins\example7-canrtcm.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    </None>
     <None Include="plugins\InitialParamsCalculator.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="plugins\example8-modechange.cs">
+    <None Include="plugins\example8-modechange.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    </None>
     <None Include="plugins\generator.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>UserControl</SubType>
@@ -667,9 +670,9 @@
     <None Include="plugins\example8.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="plugins\example9-hudonoff.cs">
+    <None Include="plugins\example9-hudonoff.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Radio\Models.cs" />
     <Compile Include="ResEdit.Designer.cs">
@@ -4567,9 +4570,9 @@
     <Content Include="rotmat.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Compile Include="plugins\example-watchbutton.cs">
+    <None Include="plugins\example-watchbutton.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    </None>
     <None Include=".editorconfig" />
     <None Include="BurntKermit.mpsystheme">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

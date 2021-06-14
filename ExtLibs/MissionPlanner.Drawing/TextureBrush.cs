@@ -52,11 +52,6 @@ namespace System.Drawing
             set { nativeBrush.Color = value.ToSKColor(); }
         }
 
-        public Brush Clone()
-        {
-            return new TextureBrush() {nativeBrush = nativeBrush?.Clone()};
-        }
-
         public void ScaleTransform(float rectangleWidth, float rectangleHeight, MatrixOrder append)
         {
         }

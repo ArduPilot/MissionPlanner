@@ -60,3 +60,6 @@ dotnet_diagnostic.CS0618.severity = silent
 dotnet_diagnostic.AsyncVoidAnalyzer.severity = error
 
 dotnet_diagnostic.ASYNC0003.severity = error
+
+# CS8105: Attribute 'System.Reflection.AssemblyKeyFileAttribute' is ignored when public signing is specified.
+dotnet_diagnostic.CS8105.severity = silent
