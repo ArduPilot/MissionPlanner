@@ -315,7 +315,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Timer timer;
         private TcpListener listener;
 
-        private async void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void myDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Ignore clicks that are not on button cells. 
             if (e.RowIndex < 0) return;

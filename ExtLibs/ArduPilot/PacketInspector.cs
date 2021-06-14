@@ -152,7 +152,7 @@ namespace MissionPlanner
             }
         }
 
-        IEnumerable<T> toArray<T>(IEnumerable<T> input)
+        IEnumerable<T1> toArray<T1>(IEnumerable<T1> input)
         {
             lock (_lock)
             {

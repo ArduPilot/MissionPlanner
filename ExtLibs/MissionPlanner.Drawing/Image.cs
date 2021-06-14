@@ -40,9 +40,29 @@ namespace System.Drawing
 
         /// <summary>Gets the pixel format for this <see cref="T:MissionPlanner.Drawing.Image" />.</summary>
         /// <returns>A <see cref="T:MissionPlanner.Drawing.PixelFormat" /> that represents the pixel format for this <see cref="T:MissionPlanner.Drawing.Image" />.</returns>
-        public SKColorType PixelFormat
+        public PixelFormat PixelFormat
         {
-            get { return nativeSkBitmap.ColorType; }
+            get
+            {
+                switch (nativeSkBitmap.ColorType)
+                {
+                    case SKColorType.Bgra8888:
+                        return Imaging.PixelFormat.Format32bppArgb;
+                    case SKColorType.Rgb888x:
+                        return Imaging.PixelFormat.Format32bppRgb;
+                    case SKColorType.Argb4444:
+                        return Imaging.PixelFormat.Format16bppArgb1555;
+                    case SKColorType.Rgb565:
+                        return Imaging.PixelFormat.Format16bppRgb565;
+                    default:
+                        return Imaging.PixelFormat.Format32bppArgb;
+                }
+            }
+
+            set
+            {
+                Console.WriteLine("PixelFormat set " + value);
+            }
         }
 
         public PropertyItem[] PropertyItems { get; }

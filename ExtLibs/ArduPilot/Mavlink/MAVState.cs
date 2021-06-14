@@ -72,7 +72,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        if (cs.uid2 == null || cs.uid2 == "" || aptype == null || sysid == 0)
+                        if (cs.uid2 == null || cs.uid2 == "" || sysid == 0)
                             return;
                         if (!Directory.Exists(Path.GetDirectoryName(ParamCachePath)))
                             Directory.CreateDirectory(Path.GetDirectoryName(ParamCachePath));

@@ -69,9 +69,16 @@ namespace MissionPlanner.ArduPilot.Mavlink
                             uri = uri.Substring(0, ind);
                         if (uri.ToLower().StartsWith("rtsp://"))
                         {
-                            Task.Run(async () =>
+                            Task.Run(() =>
                             {
-                                OnRTSPDetected?.Invoke(this, uri);
+                                try
+                                {
+                                    OnRTSPDetected?.Invoke(this, uri);
+                                }
+                                catch (Exception e)
+                                {
+                                    log.Error(e);
+                                }
                             });
                         }
                         break;

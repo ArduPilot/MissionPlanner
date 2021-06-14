@@ -64,42 +64,42 @@ namespace MissionPlanner.test
         {
             var FWList = this.FWList;
 
-            if (board_id.SelectedItem != null && board_id.SelectedItem != "Ignore")
+            if (board_id.SelectedItem != null && (string) board_id.SelectedItem != "Ignore")
             {
                 FWList = FWList.Where(a => a.BoardId.ToString() == (string)board_id.SelectedItem);
             }
 
-            if (mavtype.SelectedItem != null && mavtype.SelectedItem != "Ignore")
+            if (mavtype.SelectedItem != null &&(string)  mavtype.SelectedItem != "Ignore")
             {
                 FWList = FWList.Where(a => a.MavType == (string)mavtype.SelectedItem);
             }
 
-            if (versiontype.SelectedItem != null && versiontype.SelectedItem != "Ignore")
+            if (versiontype.SelectedItem != null && (string) versiontype.SelectedItem != "Ignore")
             {
                 FWList = FWList.Where(a => a.MavFirmwareVersionType == (string)versiontype.SelectedItem);
             }
 
-            if (format.SelectedItem != null && format.SelectedItem != "Ignore")
+            if (format.SelectedItem != null && (string) format.SelectedItem != "Ignore")
             {
                 //FWList = FWList.Where(a => a.Format == (string) format.SelectedItem);
             }
 
-            if (platform.SelectedItem != null && platform.SelectedItem != "Ignore")
+            if (platform.SelectedItem != null &&(string) platform.SelectedItem != "Ignore")
             {
                 FWList = FWList.Where(a => a.Platform == (string)platform.SelectedItem);
             }
 
-            if (version.SelectedItem != null && version.SelectedItem != "Ignore")
+            if (version.SelectedItem != null &&(string)  version.SelectedItem != "Ignore")
             {
                 FWList = FWList.Where(a => a.MavFirmwareVersion.ToString() == (string)version.SelectedItem);
             }
 
-            if (USBID.SelectedItem != null && USBID.SelectedItem != "Ignore")
+            if (USBID.SelectedItem != null && (string) USBID.SelectedItem != "Ignore")
             {
                 FWList = FWList.Where(a => a.Usbid.Any(b => b.Contains((string)USBID.SelectedItem)));
             }
 
-            if (bootloader_str.SelectedItem != null && bootloader_str.SelectedItem != "Ignore")
+            if (bootloader_str.SelectedItem != null &&(string)  bootloader_str.SelectedItem != "Ignore")
             {
                 FWList = FWList.Where(a => a.BootloaderStr.Any(b => b.Contains((string)bootloader_str.SelectedItem)));
             }
@@ -185,7 +185,7 @@ namespace MissionPlanner.test
                     //picker.SelectedIndex = 0;
                 }
 
-                if (picker.SelectedItem == "Ignore")
+                if (picker.SelectedItem != null && (string)picker.SelectedItem == "Ignore")
                     picker.SelectedItem = null;
             }
             catch

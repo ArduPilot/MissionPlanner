@@ -35,7 +35,7 @@ namespace MissionPlanner.Controls
         private byte _node;
         private List<UAVCAN.uavcan.uavcan_protocol_param_GetSet_res> _paramlist;
         private readonly System.Timers.Timer _filterTimer = new System.Timers.Timer();
-        private List<GitHubContent.FileInfo> paramfiles;
+
         public UAVCANParams(UAVCAN.uavcan can, byte node, List<UAVCAN.uavcan.uavcan_protocol_param_GetSet_res> paramlist)
         {
             _can = can;

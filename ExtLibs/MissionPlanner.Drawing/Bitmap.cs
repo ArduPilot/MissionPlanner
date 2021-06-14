@@ -80,13 +80,13 @@ namespace System.Drawing
             nativeSkBitmap = image.nativeSkBitmap.Copy();
         }
 
-        public static Bitmap FromFile(string filename)
+        public new static Bitmap FromFile(string filename)
         {
             using (var ms = File.OpenRead(filename))
                 return FromStream(ms);
         }
 
-        public static Bitmap FromStream(Stream ms)
+        public new static Bitmap FromStream(Stream ms)
         {
             MemoryStream ms2 = new MemoryStream();
             ms.CopyTo(ms2);
@@ -97,7 +97,6 @@ namespace System.Drawing
             var ans = new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skimage)};
             return ans;
         }
-
         public Bitmap(byte[] largeIconsImage, Size clientSizeHeight)
         {
             nativeSkBitmap = SKBitmap.Decode(SKData.CreateCopy(largeIconsImage)).Resize(
@@ -135,28 +134,6 @@ namespace System.Drawing
 
         public Bitmap(byte[] camera_icon_G, int v1, int v2) : this(camera_icon_G, new Size(v1, v2))
         {
-        }
-
-        public PixelFormat PixelFormat
-        {
-            get
-            {
-                switch (nativeSkBitmap.ColorType)
-                {
-                    case SKColorType.Bgra8888:
-                        return PixelFormat.Format32bppArgb;
-                    case SKColorType.Rgb888x:
-                        return PixelFormat.Format32bppRgb;
-                    case SKColorType.Argb4444:
-                        return PixelFormat.Format16bppArgb1555;
-                    case SKColorType.Rgb565:
-                        return PixelFormat.Format16bppRgb565;
-                    default:
-                        return PixelFormat.Format32bppArgb;
-                }
-            }
-
-            set { }
         }
 
         public ColorPalette Palette { get; set; } = new ColorPalette(256);
@@ -209,11 +186,6 @@ namespace System.Drawing
         public BitmapData LockBits(Rectangle rectangle, ImageLockMode readWrite, PixelFormat format32BppArgb)
         {
             return LockBits(rectangle, readWrite, SKColorType.Rgba8888);
-        }
-
-        public void RotateFlip(RotateFlipType rotateNoneFlipX)
-        {
-            //
         }
 
         public object GetHicon()

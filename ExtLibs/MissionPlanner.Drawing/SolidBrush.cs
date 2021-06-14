@@ -47,11 +47,6 @@ namespace System.Drawing
             }
         }
 
-        public Brush Clone()
-        {
-            return new SolidBrush() {nativeBrush = nativeBrush?.Clone()};
-        }
-
         public void ScaleTransform(float rectangleWidth, float rectangleHeight, MatrixOrder append)
         {
         }

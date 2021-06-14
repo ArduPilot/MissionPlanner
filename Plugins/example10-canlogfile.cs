@@ -64,11 +64,8 @@ namespace CANLogExtract
                     {
                         var data = File.ReadAllBytes(ofd.FileName);
 
-                        bool packet = false;
-                        
                         can.MessageReceived += (frame, msg, id) =>
                         {
-                            packet = true;
                             var str = ASCIIEncoding.ASCII.GetBytes("\n" + msg.GetType().Name + "=" + msg.ToJSON());
                             stream
                                 .Write(str, 0, str.Length);

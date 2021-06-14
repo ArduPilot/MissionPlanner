@@ -257,7 +257,7 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                StartUploader();
+                await StartUploader().ConfigureAwait(false);
             }
             catch (Exception e)
             {

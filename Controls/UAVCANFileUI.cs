@@ -210,7 +210,7 @@ namespace MissionPlanner.Controls
 
         private void ListView1_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            if (listView1.Sorting == null || listView1.Sorting == SortOrder.Descending)
+            if (listView1.Sorting == SortOrder.Descending)
                 listView1.Sorting = SortOrder.Ascending;
             else
                 listView1.Sorting = SortOrder.Descending;

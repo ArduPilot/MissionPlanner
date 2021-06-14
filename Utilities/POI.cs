@@ -39,7 +39,6 @@ namespace MissionPlanner.Utilities
 
         private static string filename = Settings.GetUserDataDirectory() + "poi.txt";
         private static bool loading;
-        private static bool bulkadd;
 
         static POI()
         {

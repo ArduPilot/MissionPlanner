@@ -11,12 +11,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner.Comms;
-using MissionPlanner.Controls;
-using MissionPlanner.MsgBox;
-using MissionPlanner.Radio;
-using MissionPlanner.Utilities;
-using Microsoft.VisualBasic;
 
 namespace MissionPlanner.Radio
 {
