@@ -4170,7 +4170,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             const ushort MAVLINK_SET_POS_TYPE_MASK_ALT_IGNORE = ((0 << 0) | (0 << 1) | (1 << 2));
             const ushort MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE = ((1 << 3) | (1 << 4) | (1 << 5));
             const ushort MAVLINK_SET_POS_TYPE_MASK_ACC_IGNORE = ((1 << 6) | (1 << 7) | (1 << 8));
-            const ushort MAVLINK_SET_POS_TYPE_MASK_FORCE = ((1 << 9));
             const ushort MAVLINK_SET_POS_TYPE_MASK_YAW_IGNORE = ((1 << 10) | (1 << 11));
 
             mavlink_set_position_target_global_int_t target = new mavlink_set_position_target_global_int_t()

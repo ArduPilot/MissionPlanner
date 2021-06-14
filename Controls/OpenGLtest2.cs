@@ -1427,7 +1427,6 @@ void main(void) {
                 }
             }
 
-            private Dictionary<string, int> _uniformLocations;
             private bool init;
             private IGraphicsContext Context;
             private IWindowInfo WindowInfo;

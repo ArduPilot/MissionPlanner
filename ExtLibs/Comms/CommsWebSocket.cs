@@ -20,8 +20,6 @@ namespace MissionPlanner.Comms
         public ClientWebSocket client = new ClientWebSocket();
         private DateTime lastReconnectTime = DateTime.MinValue;
 
-        private bool reconnectnoprompt;
-
         public int retrys = 3;
 
         public WebSocket()

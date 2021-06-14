@@ -583,7 +583,6 @@ namespace MissionPlanner
             const decimal BENCH_ANGLE_MIN = 45;
 
             int strips = 0;
-            int images = 0;
             int a = 1;
             float routetotal = 0;
             List<PointLatLng> segment = new List<PointLatLng>();

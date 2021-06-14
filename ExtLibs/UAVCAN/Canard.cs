@@ -115,40 +115,32 @@ namespace UAVCAN
         {
             union storage = new union(false);
 
-            Byte std_byte_length = 0;
-
             // Extra most significant bits can be safely ignored here.
             if (bit_length == 1)
             {
-                std_byte_length = sizeof(bool);
                 storage.boolean = (bool) (dynamic) value;
             }
             else if (bit_length <= 8)
             {
-                std_byte_length = 1;
                 storage.u8 = ((Byte) (dynamic) value);
             }
             else if (bit_length <= 16)
             {
-                std_byte_length = 2;
                 storage.u16 = ((UInt16) (dynamic) value);
             }
             else if (bit_length <= 32)
             {
                 if (value is float)
                 {
-                    std_byte_length = 4;
                     storage.f32 = ((float)(dynamic)value);
                 }
                 else
                 {
-                    std_byte_length = 4;
                     storage.u32 = ((UInt32) (dynamic) value);
                 }
             }
             else if (bit_length <= 64)
             {
-                std_byte_length = 8;
                 storage.u64 = ((UInt64) (dynamic) value);
             }
 
