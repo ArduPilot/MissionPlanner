@@ -437,13 +437,15 @@ namespace MissionPlanner.Controls
                     cancel.Cancel();
                     _mavftp.kCmdResetSessions();
                 };
-                prd.doWorkArgs.ForceExit = false;
+                prd.doWorkArgs.ForceExit = false; 
+                string fullName = ((DirectoryInfo)listView1SelectedItem.Tag).FullName;
+                string text = listView1SelectedItem.Text;
                 prd.DoWork += (iprd) =>
-                {
-                    var success = _mavftp.kCmdRemoveFile(((DirectoryInfo) listView1SelectedItem.Tag).FullName + "/" +
-                                                         listView1SelectedItem.Text, cancel);
+                {                   
+                    var success = _mavftp.kCmdRemoveFile(fullName + "/" +
+                                                         text, cancel);
                     if (!success)
-                        CustomMessageBox.Show("Failed to delete file", listView1SelectedItem.Text);
+                        CustomMessageBox.Show("Failed to delete file", text);
                 };
 
                 prd.RunBackgroundOperationAsync();
@@ -474,10 +476,11 @@ namespace MissionPlanner.Controls
             prd.doWorkArgs.ForceExit = false;
             var selectedNodeFullPath = treeView1.SelectedNode.FullPath; 
             var text = listView1.SelectedItems[0].Text;
+            string label = e.Label;
             prd.DoWork += (iprd) =>
-            {
+            {               
                 _mavftp.kCmdRename(selectedNodeFullPath + "/" + text,
-                    selectedNodeFullPath + "/" + e.Label, cancel);
+                    selectedNodeFullPath + "/" + label, cancel);
             };
 
             prd.RunBackgroundOperationAsync();
@@ -501,9 +504,10 @@ namespace MissionPlanner.Controls
                     _mavftp.kCmdResetSessions();
                 };
                 prd.doWorkArgs.ForceExit = false;
+                string fullPath = treeView1.SelectedNode.FullPath;
                 prd.DoWork += (iprd) =>
                 {
-                    if (!_mavftp.kCmdCreateDirectory(treeView1.SelectedNode.FullPath + "/" + folder,
+                    if (!_mavftp.kCmdCreateDirectory(fullPath + "/" + folder,
                         cancel))
                     {
                         CustomMessageBox.Show("Failed to create directory", Strings.ERROR);
@@ -530,9 +534,12 @@ namespace MissionPlanner.Controls
             };
             prd.doWorkArgs.ForceExit = false;
             var crc = 0u;
+            string fullPath = treeView1.SelectedNode.FullPath;
+            string text = listView1.SelectedItems[0].Text;
             prd.DoWork += (iprd) =>
             {
-                _mavftp.kCmdCalcFileCRC32(treeView1.SelectedNode.FullPath + "/" + listView1.SelectedItems[0].Text,
+
+                _mavftp.kCmdCalcFileCRC32(fullPath + "/" + text,
                     ref crc, cancel);
             };
 
