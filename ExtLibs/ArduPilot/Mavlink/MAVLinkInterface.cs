@@ -1651,7 +1651,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (frmProgressReporter.doWorkArgs.CancelRequested)
                             return MAVlist[sysid, compid].param;
 
-                    var paramfile = paramfileTask.Result;
+                    var paramfile = await paramfileTask;
                     if (paramfile != null && paramfile.Length > 0)
                     {
                         var mavlist = parampck.unpack(paramfile.ToArray());
