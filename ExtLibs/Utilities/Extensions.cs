@@ -24,7 +24,7 @@ namespace MissionPlanner.Utilities
         {
             var tsk = Task.Run<T>(async () =>
             {
-                return await infunc.ConfigureAwait(true);
+                return await infunc.ConfigureAwait(false);
             });
 
             return tsk.GetAwaiter().GetResult();
