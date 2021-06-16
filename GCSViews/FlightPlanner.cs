@@ -3729,14 +3729,14 @@ namespace MissionPlanner.GCSViews
             return new RectLatLng(maxy, minx, Math.Abs(maxx - minx), Math.Abs(miny - maxy));
         }
 
-        private void getWPs(IProgressReporterDialogue sender)
+        private async void getWPs(IProgressReporterDialogue sender)
         {
             var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
             {
                 return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
             });
 
-            List<Locationwp> cmds = Task.Run(async () => await mav_mission.download(MainV2.comPort,
+            List<Locationwp> cmds = await Task.Run(async () => await mav_mission.download(MainV2.comPort,
                 MainV2.comPort.MAV.sysid,
                 MainV2.comPort.MAV.compid,
                 type,
@@ -3750,7 +3750,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                     sender.UpdateProgressAndStatus(percent, status);
-                }).ConfigureAwait(false)).Result;
+                }).ConfigureAwait(false));
 
             WPtoScreen(cmds);
         }
