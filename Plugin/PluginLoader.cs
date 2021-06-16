@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using MissionPlanner.Controls;
 using UAVCAN;
 using System.Text.RegularExpressions;
+using System.Linq.Expressions;
 
 namespace MissionPlanner.Plugin
 {
@@ -142,35 +143,42 @@ namespace MissionPlanner.Plugin
             if (asm == null)
                 return;
 
-            Type pluginInfo = null;
             try
             {
                 Type[] types = asm.GetTypes();
                 Type type = typeof(MissionPlanner.Plugin.Plugin);
                 foreach (var t in types)
-                    if (type.IsAssignableFrom((Type) t))
-                    {
-                        pluginInfo = t;
-                        break;
-                    }
-
-                if (pluginInfo != null)
                 {
-                    Object o = Activator.CreateInstance(pluginInfo, BindingFlags.Default, null, null,
-                        CultureInfo.CurrentUICulture);
-                    Plugin plugin = (Plugin) o;
-
-                    plugin.Assembly = asm;
-
-                    plugin.Host = new PluginHost();
-                    plugin.FileName = Path.GetFileName(pluginfilename);
-
-                    if (plugin.Init())
+                    if (type.IsAssignableFrom((Type)t))
                     {
-                        log.InfoFormat("Plugin Init {0} {1} by {2}", plugin.Name, plugin.Version, plugin.Author);
-                        lock (LoadingPlugins)
+                        Type pluginInfo = t;
+                        if (pluginInfo != null)
                         {
-                            LoadingPlugins.Add(plugin);
+                            try
+                            {
+                                //pluginInfo.GetConstructor(Type.EmptyTypes);
+                                Object o = Expression.Lambda<Func<object>>(Expression.New(pluginInfo)).Compile()();
+                                //Object o = Activator.CreateInstance(pluginInfo, BindingFlags.Default, null, null, CultureInfo.CurrentUICulture);
+                                Plugin plugin = (Plugin)o;
+
+                                plugin.Assembly = asm;
+
+                                plugin.Host = new PluginHost();
+                                plugin.FileName = Path.GetFileName(pluginfilename);
+
+                                if (plugin.Init())
+                                {
+                                    log.InfoFormat("Plugin Init {0} {1} by {2}", plugin.Name, plugin.Version, plugin.Author);
+                                    lock (LoadingPlugins)
+                                    {
+                                        LoadingPlugins.Add(plugin);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error("Failed to load plugin " + asm.FullName, ex);
+                            }
                         }
                     }
                 }
