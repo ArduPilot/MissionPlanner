@@ -269,10 +269,7 @@ namespace MissionPlanner.GCSViews
                 depurl = new Uri(sitlurl, "cygwin1.dll");
                 var t4 = Download.getFilefromNetAsync(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
-                await t1.ConfigureAwait(true);
-                await t2.ConfigureAwait(true);
-                await t3.ConfigureAwait(true);
-                await t4.ConfigureAwait(true);
+                await Task.WhenAll(t1, t2, t3, t4).ConfigureAwait(true);
 
                 load.Close();
             }
@@ -302,13 +299,13 @@ namespace MissionPlanner.GCSViews
             }
 
             if (await Download.getFilefromNetAsync(
-                    "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
+                    "https://firmware.ardupilot.org/Tools/MissionPlanner/vehicleinfo.py",
                     sitldirectory + "vehicleinfo.py").ConfigureAwait(false) || File.Exists(sitldirectory + "vehicleinfo.py"))
             {
-                cleanupJson(sitldirectory + "vehicleinfo.py");
-
                 try
                 {
+                    cleanupJson(sitldirectory + "vehicleinfo.py");
+
                     using (Newtonsoft.Json.JsonTextReader reader =
                         new JsonTextReader(File.OpenText(sitldirectory + "vehicleinfo.py")))
                     {
