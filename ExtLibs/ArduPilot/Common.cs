@@ -240,9 +240,14 @@ union px4_custom_mode {
                 PropertyInfo[] props =
                     test.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
 
+                var posible = input.Split(new string[] { "{", "}" }, StringSplitOptions.RemoveEmptyEntries);
+
                 //props
                 foreach (var field in props)
                 {
+
+                    if (!posible.Contains(field.Name))
+                        continue;
                     // field.Name has the field's name.
                     object fieldValue;
                     TypeCode typeCode;
