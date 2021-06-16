@@ -489,7 +489,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void myDataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            myDataGridView1[Menu.Index, e.RowIndex].Value = "Menu";
+            for (int RowIndex = 0; RowIndex < myDataGridView1.RowCount; RowIndex++)
+            {
+                myDataGridView1[Menu.Index, RowIndex].Value = "Menu";
+            }
         }
 
         private void uAVCANModelBindingSource_CurrentChanged(object sender, EventArgs e)
