@@ -318,21 +318,13 @@ namespace MissionPlanner.Controls
                 if (dr == DialogResult.OK)
                 {
                     var data = new Hashtable();
+
                     foreach (DataGridViewRow row in Params.Rows)
                     {
-                        try
-                        {
-                            var value = double.Parse(row.Cells[1].Value.ToString());
-
-                            data[row.Cells[0].Value.ToString()] = value;
-                        }
-                        catch (Exception)
-                        {
-                            CustomMessageBox.Show(Strings.InvalidNumberEntered + " " + row.Cells[0].Value);
-                        }
+                        data[row.Cells[0].Value.ToString()] = row.Cells[1].Value.ToString();
                     }
 
-                    ParamFile.SaveParamFile(sfd.FileName, data);
+                    ParamFile.SaveParamFile(sfd.FileName, data, false);
                 }
             }
         }
@@ -465,7 +457,7 @@ namespace MissionPlanner.Controls
 
         private void loadparamsfromfile(string fn, bool offline = false)
         {
-            var param2 = ParamFile.loadParamFile(fn);
+            var param2 = ParamFile.loadParamFiledoubleorstring(fn);
 
             var loaded = 0;
             var missed = 0;
@@ -474,7 +466,7 @@ namespace MissionPlanner.Controls
             foreach (string name in param2.Keys)
             {
                 var set = false;
-                var value = param2[name].ToString();
+                var value = param2[name];
                 // set param table as well
                 foreach (DataGridViewRow row in Params.Rows)
                 {
@@ -483,8 +475,16 @@ namespace MissionPlanner.Controls
                     if (row.Cells[0].Value.ToString() == name)
                     {
                         set = true;
-                        if (row.Cells[1].Value.ToString() != value)
-                            row.Cells[1].Value = value;
+
+                        if (!(row.Cells[1].Value is string) && (value is string))
+                        {
+                            CustomMessageBox.Show("Param " + name + " is incorrect type\n", "Param type incorrect", MessageBoxButtons.OK);
+                        }
+                        else
+                        {
+                            if (row.Cells[1].Value.ToString() != value.ToString())
+                                row.Cells[1].Value = value.ToString();
+                        }
                         break;
                     }
                 }
@@ -584,11 +584,9 @@ namespace MissionPlanner.Controls
                         Params[e.ColumnIndex, e.RowIndex].Value = "-1";
                 }
 
-                var value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
-
                 Params[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Green;
                 float asfloat = 0;
-                if (float.TryParse((string)Params[e.ColumnIndex, e.RowIndex].Value, out asfloat))
+                if (float.TryParse(Params[e.ColumnIndex, e.RowIndex].Value.ToString(), out asfloat))
                 {
                     _changes[Params[Command.Index, e.RowIndex].Value] = asfloat;
                 }
