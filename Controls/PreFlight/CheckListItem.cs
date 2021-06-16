@@ -72,36 +72,43 @@ namespace MissionPlanner.Controls.PreFlight
         /// <returns></returns>
         public string DisplayText()
         {
-            if (Name == "PARAM")
+            try
             {
-                var valuep = HandleParam();
+                if (Name == "PARAM")
+                {
+                    var valuep = HandleParam();
 
-                var answer = Convert.ToDouble(valuep);
+                    var answer = Convert.ToDouble(valuep);
 
-                return
-                    Text.Replace("{trigger}", TriggerValue.ToString("0.##"))
-                        .Replace("{value}", answer.ToString("0.##"));
-            }
+                    return
+                        Text.Replace("{trigger}", TriggerValue.ToString("0.##"))
+                            .Replace("{value}", answer.ToString("0.##"));
+                }
 
-            if (Item == null)
-                return "";
+                if (Item == null)
+                    return "";
 
-            var value = GetValueObject;
+                var value = GetValueObject;
 
-            if (Item.PropertyType.Name == "Single" || Item.PropertyType.Name == "Double")
-            {
-                var answer = Convert.ToDouble(value);
+                if (Item.PropertyType.Name == "Single" || Item.PropertyType.Name == "Double")
+                {
+                    var answer = Convert.ToDouble(value);
 
-                return
-                    Text.Replace("{trigger}", TriggerValue.ToString("0.##"))
-                        .Replace("{value}", answer.ToString("0.##"))
-                        .Replace("{name}", Item.Name);
-            }
-            else
-            {
-                return Text.Replace("{trigger}", TriggerValue.ToString("0.##"))
-                        .Replace("{value}", value.ToString())
-                        .Replace("{name}", Item.Name);
+                    return
+                        Text.Replace("{trigger}", TriggerValue.ToString("0.##"))
+                            .Replace("{value}", answer.ToString("0.##"))
+                            .Replace("{name}", Item.Name);
+                }
+                else
+                {
+                    return Text.Replace("{trigger}", TriggerValue.ToString("0.##"))
+                            .Replace("{value}", value.ToString())
+                            .Replace("{name}", Item.Name);
+                }
+            } 
+            catch
+            {               
+                return "Error";
             }
         }
 
