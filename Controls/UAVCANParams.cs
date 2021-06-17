@@ -205,16 +205,29 @@ namespace MissionPlanner.Controls
         /// <returns></returns>
         private bool GetIsInRange(DataGridViewCellValidatingEventArgs e)
         {
-            float v, mi, ma;
+            float mi, ma;
 
-            if (float.TryParse(Params.EditingControl.Text, out v) &&
-                float.TryParse(Params[Min.Index, e.RowIndex].Value.ToString(), out mi) &&
+            //If there's a min and max value...
+            if (float.TryParse(Params[Min.Index, e.RowIndex].Value.ToString(), out mi) &&
                 float.TryParse(Params[Max.Index, e.RowIndex].Value.ToString(), out ma))
             {
-                return v >= mi && v <= ma;
+                float v;
+
+                //If the proposed new value is a number...
+                if (float.TryParse(Params.EditingControl.Text, out v))
+                {
+                    //Return whether it's within min and max.
+                    return v >= mi && v <= ma;
+                }
+                else
+                {
+                    //Existing value is a number, but new value isn't.  Not in range.
+                    return false;
+                }
             }
             else
             {
+                //The existing value isn't a number.  Assume it can be any text.
                 return true;
             }
         }
@@ -227,10 +240,11 @@ namespace MissionPlanner.Controls
         private void CellValidatingEvtHdlr(object sender, DataGridViewCellValidatingEventArgs e)
         {
             try
-            {
+            {   
                 //If it's the value column, but the new value isn't in min-to-max range...
                 if (GetIsValue(e) && !GetIsInRange(e))
                 {
+                    CustomMessageBox.Show("Invalid value \"" + Params.EditingControl.Text + "\"");
                     //Replace the editor's text with the existing cell text.
                     Params.EditingControl.Text = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
                 }
