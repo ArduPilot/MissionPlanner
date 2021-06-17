@@ -45,6 +45,8 @@ namespace MissionPlanner.Controls
             InitializeComponent();
 
             this.Text = "UAVCAN Params - " + node;
+
+            Params.CellValidating += CellValidatingEvtHdlr;
         }
 
         public void Activate()
@@ -75,8 +77,6 @@ namespace MissionPlanner.Controls
             processToScreen();
 
             Params.Enabled = true;
-
-            Common.MessageShowAgain(Strings.RawParamWarning, Strings.RawParamWarningi);
 
             startup = false;
 
@@ -186,6 +186,72 @@ namespace MissionPlanner.Controls
                 currentLinePosition++;
             }
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns whether the given cell validating event args are for the value column.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private bool GetIsValue(DataGridViewCellValidatingEventArgs e)
+        {
+            return e.ColumnIndex == Value.Index;
+        }
+        
+        /// <summary>
+        /// Returns true if the edit is within min-to-max range or there is no min/max.  Otherwise false.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private bool GetIsInRange(DataGridViewCellValidatingEventArgs e)
+        {
+            float mi, ma;
+
+            //If there's a min and max value...
+            if (float.TryParse(Params[Min.Index, e.RowIndex].Value.ToString(), out mi) &&
+                float.TryParse(Params[Max.Index, e.RowIndex].Value.ToString(), out ma))
+            {
+                float v;
+
+                //If the proposed new value is a number...
+                if (float.TryParse(Params.EditingControl.Text, out v))
+                {
+                    //Return whether it's within min and max.
+                    return v >= mi && v <= ma;
+                }
+                else
+                {
+                    //Existing value is a number, but new value isn't.  Not in range.
+                    return false;
+                }
+            }
+            else
+            {
+                //The existing value isn't a number.  Assume it can be any text.
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Checks that a value edit is within min and max.
+        /// </summary>
+        /// <param name="sender">ignored</param>
+        /// <param name="e"></param>
+        private void CellValidatingEvtHdlr(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            try
+            {   
+                //If it's the value column, but the new value isn't in min-to-max range...
+                if (GetIsValue(e) && !GetIsInRange(e))
+                {
+                    CustomMessageBox.Show("Invalid value \"" + Params.EditingControl.Text + "\"");
+                    //Replace the editor's text with the existing cell text.
+                    Params.EditingControl.Text = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void BUT_commitToFlash_Click(object sender, EventArgs e)
