@@ -2813,7 +2813,9 @@ namespace MissionPlanner
                             linkqualitytime = DateTime.Now;
 
                             // force redraw if there are no other packets are being read
-                            GCSViews.FlightData.myhud.Invalidate();
+                            this.BeginInvokeIfRequired(
+                                (Action)
+                                delegate { GCSViews.FlightData.myhud.Invalidate(); });
                         }
                     }
 
@@ -2858,14 +2860,13 @@ namespace MissionPlanner
                                     if (MyView.current != null && MyView.current.Name == "FlightPlanner")
                                     {
                                         // update home if we are on flight data tab
-                                        this.BeginInvoke((Action) delegate { FlightPlanner.updateHome(); });
+                                        this.BeginInvokeIfRequired((Action) delegate { FlightPlanner.updateHome(); });
                                     }
-
                                 }
                                 catch
                                 {
                                     // dont hang this loop
-                                    this.BeginInvoke(
+                                    this.BeginInvokeIfRequired(
                                         (Action)
                                         delegate
                                         {
@@ -3254,7 +3255,7 @@ namespace MissionPlanner
             // update firmware version list - only once per day
             ThreadPool.QueueUserWorkItem(BGFirmwareCheck);
 
-            ThreadPool.QueueUserWorkItem(async (s) =>
+            Task.Run(async () =>
             {
                 try
                 {
