@@ -1834,7 +1834,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (par.param_index != 65535)
                         indexsreceived.Add(par.param_index);
 
-                    MAVlist[sysid, compid].param_types[paramID] = (MAV_PARAM_TYPE) par.param_type;
+                    lock(MAVlist[sysid, compid].param_types)
+                        MAVlist[sysid, compid].param_types[paramID] = (MAV_PARAM_TYPE) par.param_type;
 
                     //Console.WriteLine(DateTime.Now.Millisecond + " gp3 ");
 
@@ -2112,7 +2113,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 (MAV_PARAM_TYPE) par.param_type);
                         }
 
-                        MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE) par.param_type;
+                        lock(MAVlist[sysid, compid].param_types)
+                            MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE) par.param_type;
 
                         log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " +
                                  (par.param_count) + " name: " + st);
@@ -5341,7 +5343,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     st = st.Substring(0, pos);
                 }
 
-                MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE) value.param_type;
+                lock(MAVlist[sysid, compid].param_types)
+                    MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE) value.param_type;
 
                 if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA &&
                     buffer.compid != (byte) MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE)

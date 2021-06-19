@@ -184,7 +184,7 @@ namespace MissionPlanner
         /// </summary>
         [JsonIgnore] 
         [IgnoreDataMember]
-        public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
+        public ConcurrentDictionary<string, MAV_PARAM_TYPE> param_types = new ConcurrentDictionary<string, MAV_PARAM_TYPE>();
 
         /// <summary>
         /// storage of a previous packet recevied of a specific type
