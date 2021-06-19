@@ -6217,10 +6217,16 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         public void trackerHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.MAV.cs.TrackerLocation = new PointLatLngAlt(MouseDownEnd)
+            double alt = MainV2.comPort.MAV.cs.TrackerLocation.Alt != 0
+                ? MainV2.comPort.MAV.cs.TrackerLocation.Alt
+                : MainV2.comPort.MAV.cs.HomeAlt;
+            if (InputBox.Show("Tracker Alt", "Enter tracker ASL alt", ref alt) == DialogResult.OK)
             {
-                Alt = MainV2.comPort.MAV.cs.HomeAlt
-            };
+                MainV2.comPort.MAV.cs.TrackerLocation = new PointLatLngAlt(MouseDownEnd)
+                {
+                    Alt = alt
+                };
+            }
         }
 
         public void TXT_DefaultAlt_KeyPress(object sender, KeyPressEventArgs e)
