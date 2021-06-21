@@ -4453,6 +4453,8 @@ namespace MissionPlanner
 
                         deviceNotificationHandle = NativeMethods.RegisterDeviceNotification(this.Handle,
                             devBroadcastDeviceInterfaceBuffer, DEVICE_NOTIFY_WINDOW_HANDLE);
+
+                        Marshal.FreeHGlobal(devBroadcastDeviceInterfaceBuffer);
                     }
                     catch
                     {
