@@ -71,7 +71,7 @@ public static class MavlinkUtil
                 Marshal.FreeHGlobal(iptr);
         }
     }
-
+    
     public static TMavlinkPacket ByteArrayToStructureT<TMavlinkPacket>(byte[] bytearray, int startoffset)
     {
         if (bytearray == null || bytearray.Length < startoffset)
@@ -135,7 +135,35 @@ public static class MavlinkUtil
         }
     }
 
+    static MavlinkUtil()
+    {
+        handle = GCHandle.Alloc(gcbuffer, GCHandleType.Pinned);
+    }
+
+    static byte[] gcbuffer = new byte[4096];
+    static GCHandle handle;
+
     public static object ByteArrayToStructureGC(byte[] bytearray, Type typeinfoType, byte startoffset, byte payloadlength)
+    {
+        lock (gcbuffer)
+        {
+            // copy it
+            var len = Marshal.SizeOf(typeinfoType);
+            if (len - payloadlength > 0)
+                Array.Clear(gcbuffer, payloadlength, len - payloadlength);
+            Buffer.BlockCopy(bytearray, startoffset, gcbuffer, 0, payloadlength);
+            try
+            {
+                // structure it
+                return Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeinfoType);
+            }
+            finally
+            {
+            }
+        }
+    }
+
+    public static object ByteArrayToStructureGCArray(byte[] bytearray, Type typeinfoType, byte startoffset, byte payloadlength)
     {
         // copy it
         var data = new byte[Marshal.SizeOf(typeinfoType)];
