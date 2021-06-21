@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Dowding.Model;
 using GMap.NET;
@@ -124,7 +125,7 @@ namespace Dowding
                 Host.FDGMapControl.Overlays.Add(overlay);
                 Host.FDGMapControl.OnMarkerClick += (item, args) =>
                 {
-                    if (item.Overlay == overlay && item is GMarkerGoogle && item.Tag is VehicleTick)
+                    if (item.Overlay == overlay && item is GMapMarker && item.Tag is VehicleTick)
                     {
                         // unselect
                         if (target == item)
@@ -141,10 +142,38 @@ namespace Dowding
                             target.ToolTipMode = MarkerTooltipMode.Never;
                             target.ToolTipText = "";
                         }
-                        target = (GMarkerGoogle)item;
+                        target = item;
                         target.ToolTipMode = MarkerTooltipMode.Always;
                         var vt = (VehicleTick) item.Tag;
                         target.ToolTipText = "Tracking\r\nVendor: " + vt.Vendor + "\r\nModel: " + vt.Model + "\r\nSerial: " + vt.Serial;
+                    }
+                    else if (item is GMapMarker && item.Tag is MAVState)
+                    {
+                        // unselect
+                        if (target == item)
+                        {
+                            target.ToolTipMode = MarkerTooltipMode.Never;
+                            target.ToolTipText = "";
+                            target = null;
+                            timer?.Dispose();
+                            timer = null;
+                            return;
+                        }
+
+                        //clear old
+                        if (target != null)
+                        {
+                            target.ToolTipMode = MarkerTooltipMode.Never;
+                            target.ToolTipText = "";
+                            timer?.Dispose();
+                            timer = null;
+                        }
+
+                        target = item;
+                        timer = new Timer(a => {
+                            if (target is GMapMarker && target.Tag is MAVState)
+                                UpdateOutput?.Invoke(this, ((MAVState)item.Tag).cs.Location);
+                        }, this, 1, 2000);
                     }
                 };
             }
@@ -193,7 +222,8 @@ namespace Dowding
             return true;
         }
 
-        private GMarkerGoogle target;
+        private GMapMarker target;
+        private Timer timer;
         internal static WebSocket4Net.WebSocket ws;
 
         public static event EventHandler<PointLatLngAlt> UpdateOutput;

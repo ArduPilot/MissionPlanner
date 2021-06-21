@@ -66,7 +66,7 @@ const interval = setInterval(function ping() {
     lat2 = lat2 *r2d;
     lon2 = lon2 *r2d;
     
-    console.log(lat2 + ' ' + lon2);
+    console.log(lat2 + ' ' + lon2 + ' ' + (homealt + d));
     
     wss.clients.forEach(function each(ws) {
         ws.send('{  "datatype": "vehicle_ticks",  "data": {    "ts": '+time+',    "correlation_id": "iwashereagain",    "agent_id": "025e98ab-3260-4144-918e-4858d0a7b1fe",    "lat": '+lat2+',    "lon": '+lon2+',    "hae": '+(homealt + d)+',    "vn": -1.7,    "ve": 0.05,    "vd": 0.019,    "vendor": "DJI",    "model": "mavic mini",    "serial": "iwashere",    "id": "4b31b0af-feec-4437-942e-29cccd54cbeb",    "contact_id": "9a64d68f-5f99-45e8-8bc5-939a5c395499"  },  "operation": "create"}');
@@ -78,7 +78,7 @@ const interval = setInterval(function ping() {
     lat2 = lat2 *r2d;
     lon2 = lon2 *r2d;
     
-    console.log(lat2 + ' ' + lon2);
+    console.log(lat2 + ' ' + lon2 + ' ' + (homealt + (brng*r2d/6)));
 
     
     data = '<?xml version="1.0" standalone="yes"?><event version="2.0" uid="J-01334" type="a-h-A-M-F-U-M" time="'+new Date().toISOString()+'" start="2005-04-05T11:43:38.07Z" stale="2005-04-05T11:45:38.07Z" ><detail></detail><point lat="'+(lat2 + 0.00005)+'" lon="'+lon2+'" ce="45.3" hae="'+(homealt + d)+'" le="99.5" /></event>';

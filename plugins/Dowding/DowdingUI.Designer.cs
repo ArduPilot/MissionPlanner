@@ -354,6 +354,7 @@ namespace Dowding
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(420, 106);
             this.panel3.TabIndex = 9;
+            this.panel3.Visible = false;
             // 
             // label6
             // 
@@ -488,8 +489,9 @@ namespace Dowding
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.MinimumSize = new System.Drawing.Size(467, 500);
             this.Name = "DowdingUI";
-            this.Size = new System.Drawing.Size(484, 646);
+            this.Size = new System.Drawing.Size(467, 500);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
