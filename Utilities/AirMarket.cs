@@ -282,8 +282,8 @@ namespace MissionPlanner.Utilities
                             .AddString("DlbUrl", "https://" + server)
                     ).ConfigureAwait(false);
 
-                if (resp.StatusCode != System.Net.HttpStatusCode.OK)
-                    throw new Exception(await resp.Content.ReadAsStringAsync().ConfigureAwait(false));
+                if (resp.StatusCode != 200)
+                    throw new Exception(await resp.GetStringAsync().ConfigureAwait(false));
 
                 Settings.Instance["AirMarket_logdate"] = current.LastWriteTime.ToString();
                 Queue.Dequeue();

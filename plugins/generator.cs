@@ -389,14 +389,14 @@ namespace generator
                 gen = new generator();
                 // force it to the top of the container to push down the tabcontrol
                 gen.Dock = DockStyle.Top;
-                
+                loopratehz = 1f;
 
                 return true;
             }
 
             public override bool Loop()
             {
-
+                Console.WriteLine("Generator Loop");
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
                     if (sub == null)

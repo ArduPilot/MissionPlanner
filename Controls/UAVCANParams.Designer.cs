@@ -231,8 +231,8 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.BUT_save);
             this.Controls.Add(this.BUT_load);
             this.Controls.Add(this.Params);
-            this.Name = "UAVCANParams";
             resources.ApplyResources(this, "$this");
+            this.Name = "UAVCANParams";
             ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -41,10 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Flurl">
-      <Version>2.8.0</Version>
+      <Version>3.0.2</Version>
     </PackageReference>
     <PackageReference Include="Flurl.Http">
-      <Version>2.3.2</Version>
+      <Version>3.0.2</Version>
     </PackageReference>
     <PackageReference Include="GeoJSON.Net">
       <Version>1.1.64</Version>
