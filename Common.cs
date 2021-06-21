@@ -31,7 +31,8 @@ namespace MissionPlanner
                     MAV.cs.radius * CurrentState.multiplierdist)
                 {
                     ToolTipText = ArduPilot.Common.speechConversion(MAV, "" + Settings.Instance["mapicondesc"]),
-                    ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ? MarkerTooltipMode.Never : MarkerTooltipMode.Always
+                    ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ? MarkerTooltipMode.Never : MarkerTooltipMode.Always,
+                    Tag = MAV
                 });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
@@ -40,28 +41,29 @@ namespace MissionPlanner
                     MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing)
                 {
                     ToolTipText = MAV.cs.alt.ToString("0") + "\n" + MAV.sysid.ToString("sysid: 0"),
-                    ToolTipMode = MarkerTooltipMode.Always
+                    ToolTipMode = MarkerTooltipMode.Always,
+                    Tag = MAV
                 });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.SURFACE_BOAT)
             {
                 return (new GMapMarkerBoat(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing){  Tag = MAV});
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.SUBMARINE)
             {
                 return (new GMapMarkerSub(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing){ Tag = MAV});
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
             {
                 return (new GMapMarkerHeli(portlocation, MAV.cs.yaw,
-                    MAV.cs.groundcourse, MAV.cs.nav_bearing));
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing){ Tag = MAV});
             }
             else if (MAV.cs.firmware == Firmwares.ArduTracker)
             {
                 return (new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw,
-                    MAV.cs.target_bearing));
+                    MAV.cs.target_bearing){ Tag = MAV});
             }
             else if (MAV.cs.firmware == Firmwares.ArduCopter2 || MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
             {
@@ -73,7 +75,8 @@ namespace MissionPlanner
                         MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid)
                     {
                         danger = (int)f,
-                        warn = (int)w
+                        warn = (int)w,
+                        Tag = MAV
                     });
                 }
 
@@ -81,18 +84,19 @@ namespace MissionPlanner
                         MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid)
                 {
                     ToolTipText = ArduPilot.Common.speechConversion(MAV, "" + Settings.Instance["mapicondesc"]),
-                    ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ? MarkerTooltipMode.Never : MarkerTooltipMode.Always
+                    ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ? MarkerTooltipMode.Never : MarkerTooltipMode.Always,
+                    Tag = MAV
                 });
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.COAXIAL)
             {
                 return (new GMapMarkerSingle(portlocation, MAV.cs.yaw,
-                   MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));
+                   MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid){ Tag = MAV});
             }
             else
             {
                 // unknown type
-                return (new GMarkerGoogle(portlocation, GMarkerGoogleType.green_dot));
+                return (new GMarkerGoogle(portlocation, GMarkerGoogleType.green_dot) { Tag = MAV });
             }
         }
         public static Form LoadingBox(string title, string promptText)
