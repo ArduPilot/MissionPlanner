@@ -742,7 +742,13 @@ namespace MissionPlanner
 
 
 
-            if (Settings.Instance["theme"] == null) Settings.Instance["theme"] = "BurntKermit.mpsystheme";
+            if (Settings.Instance["theme"] == null)
+            {
+                if (File.Exists(Settings.GetRunningDirectory() + "custom.mpsystheme"))
+                    Settings.Instance["theme"] = "custom.mpsystheme";
+                else
+                    Settings.Instance["theme"] = "BurntKermit.mpsystheme";
+            }
 
             ThemeManager.LoadTheme(Settings.Instance["theme"]);
 
@@ -3511,7 +3517,7 @@ namespace MissionPlanner
                     }
                 };
 
-                ZeroConf.ProbeForMavlink(); 
+                ZeroConf.ProbeForMavlink();
 
                 ZeroConf.ProbeForRTSP();
             }
