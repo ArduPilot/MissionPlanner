@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using com;
 using Dowding.Model;
 using GMap.NET;
 using MissionPlanner;
@@ -388,7 +389,7 @@ namespace Dowding
 
         private async void OnvifUpdate(object sender, PointLatLngAlt e)
         {
-            await device.SetTrack(HomeLoc,
+            device.SetTrack(HomeLoc,
                 e).ConfigureAwait(false);
         }
 

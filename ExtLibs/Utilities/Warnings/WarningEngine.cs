@@ -82,7 +82,7 @@ namespace MissionPlanner.Warnings
 
         private static ISpeech _speech;
 
-        public static async void MainLoop()
+        public static async Task MainLoop()
         {
             run = true;
             while (run)

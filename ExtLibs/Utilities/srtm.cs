@@ -415,21 +415,7 @@ namespace MissionPlanner.Utilities
 
         private static void StartQueueProcess()
         {
-            try
-            {
-                requestThread = new Thread(requestRunner);
-                requestThread.IsBackground = true;
-                requestThread.Name = "SRTM request runner";
-                requestThread.Start();
-            }
-            catch (NotSupportedException)
-            {
-                requestRunner();
-            }
-            catch (TypeInitializationException)
-            {
-                requestRunner();
-            }
+            requestRunner();
         }
 
         static double GetAlt(string filename, int x, int y)
@@ -544,7 +530,7 @@ namespace MissionPlanner.Utilities
 
         static SemaphoreSlim requestSemaphore = new SemaphoreSlim(1);
 
-        static async void requestRunner()
+        static async Task requestRunner()
         {
             log.Info("requestRunner start");
 

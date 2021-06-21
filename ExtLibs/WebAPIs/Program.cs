@@ -15,40 +15,7 @@ namespace MissionPlanner.WebAPIs
         [STAThread]
         public static void Main(string[] args)
         {
-            DoIt();
 
-            while (true)
-            {
-                Thread.Sleep(1000);
-                Console.Write(".");
-            }
-        }
-
-        private static async void DoIt()
-        {
-            var dowd = new Dowding();
-       /*     dowd.Auth(File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[0],
-                File.ReadAllLines(@"C:\Users\mich1\dowding.txt")[1]).Wait();
-
-            //dowd.SetToken("");
-/*
-            var ws = await dowd.StartWS<VehicleTick>();
-
-            var zones = await dowd.GetZone();
-
-            var contacts = await dowd.GetContact(minTs: DateTime.UtcNow.AddSeconds(-120).toUnixTime().ToString(), thin: true, limit: 100);
-
-            var list = contacts.Select(a =>
-                    (a.VehicleId, a.VehicleLastLat, a.VehicleLastLon, a.VehicleLastHae, a.VehicleLastTs))
-                .ToList();
-
-            //var agents = await dowd.GetAgents();
-
-            //var vehc = await dowd.GetVehicle(contacts.First().Id);
-*/
-          //  dowd.Start("");
-
-            // Debugger.Break();
         }
 
         internal static int toUnixTime(this DateTime dateTime)

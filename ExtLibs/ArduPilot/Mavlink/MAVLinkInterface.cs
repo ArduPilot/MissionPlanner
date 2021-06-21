@@ -440,24 +440,31 @@ namespace MissionPlanner
             AIS.Start(this);
 
             // new hearbeat detected
-            MAVDetected += async (sender, tuple) =>
+            MAVDetected += OnMAVDetected;
+        }
+
+        private void OnMAVDetected(object sender, (byte, byte) tuple)
+        {
+
+            // check for a camera
+            if (tuple.Item2 >= (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
+                tuple.Item2 <= (byte) MAV_COMPONENT.MAV_COMP_ID_CAMERA6)
             {
-                // check for a camera
-                if (tuple.Item2 >= (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA &&
-                    tuple.Item2 <= (byte) MAV_COMPONENT.MAV_COMP_ID_CAMERA6)
+                MAVlist[tuple.Item1, tuple.Item2].Camera = new CameraProtocol();
+                Task.Run(async () =>
                 {
-                    MAVlist[tuple.Item1, tuple.Item2].Camera = new CameraProtocol();
                     try
                     {
-                        await MAVlist[tuple.Item1, tuple.Item2].Camera.StartID(MAVlist[tuple.Item1, tuple.Item2])
+                        await MAVlist[tuple.Item1, tuple.Item2]
+                            .Camera.StartID(MAVlist[tuple.Item1, tuple.Item2])
                             .ConfigureAwait(false);
                     }
                     catch (Exception e)
                     {
                         log.Error(e);
                     }
-                }
-            };
+                });
+            }
         }
 
         public MAVLinkInterface(Stream logfileStream)
