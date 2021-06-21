@@ -21,13 +21,14 @@ namespace MissionPlanner.Utilities
             resolverAsync();
         }
 
-        private static async void resolverAsync()
+        private static async Task resolverAsync()
         {
+            await Task.Delay(6000).ConfigureAwait(false);
             while (true)
             {
                 try
                 {
-                    var results = await ZeroconfResolver.ResolveAsync("_rtsp._udp.local.");
+                    var results = await ZeroconfResolver.ResolveAsync("_rtsp._udp.local.").ConfigureAwait(false);
 
                     if (results != null)
                     {
@@ -44,7 +45,7 @@ namespace MissionPlanner.Utilities
                     
                 }
                 
-                await Task.Delay(30000);
+                await Task.Delay(30000).ConfigureAwait(false);
             }
         }
 
@@ -61,13 +62,13 @@ namespace MissionPlanner.Utilities
             resolverMavlinkAsync();
         }
 
-        private static async void resolverMavlinkAsync()
+        private static async Task resolverMavlinkAsync()
         {
             while (true)
             {
                 try
                 {
-                    var results = await ZeroconfResolver.ResolveAsync("_mavlink._udp.local.");
+                    var results = await ZeroconfResolver.ResolveAsync("_mavlink._udp.local.").ConfigureAwait(false);
 
                     if (results != null)
                     {
@@ -87,7 +88,7 @@ namespace MissionPlanner.Utilities
 
                 }
 
-                await Task.Delay(30000);
+                await Task.Delay(30000).ConfigureAwait(false);
             }
         }
     }

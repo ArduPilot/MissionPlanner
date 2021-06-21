@@ -3511,9 +3511,9 @@ namespace MissionPlanner
                     }
                 };
 
-                ZeroConf.EnumerateAllServicesFromAllHosts().ContinueWith(a => ZeroConf.ProbeForRTSP());
+                ZeroConf.ProbeForMavlink(); 
 
-                ZeroConf.EnumerateAllServicesFromAllHosts().ContinueWith(a => ZeroConf.ProbeForMavlink());
+                ZeroConf.ProbeForRTSP();
             }
             catch
             {
