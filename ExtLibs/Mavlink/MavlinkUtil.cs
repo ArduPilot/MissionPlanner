@@ -11,7 +11,7 @@ using System.Text;
 /// </summary>
 public static class MavlinkUtil
 {
-    public static bool UseUnsafe { get; set; } = true;
+    public static bool UseUnsafe { get; set; } = false;
 
     /// <summary>
     /// Create a new mavlink packet object from a byte array as recieved over mavlink
@@ -132,6 +132,24 @@ public static class MavlinkUtil
         finally
         {
             gch.Free();
+        }
+    }
+
+    public static object ByteArrayToStructureGC(byte[] bytearray, Type typeinfoType, byte startoffset, byte payloadlength)
+    {
+        // copy it
+        var data = new byte[Marshal.SizeOf(typeinfoType)];
+        Array.Copy(bytearray, startoffset, data, 0, payloadlength);
+        // pin it
+        GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+        try
+        {
+            // structure it
+            return Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeinfoType);
+        }
+        finally
+        {
+            handle.Free();
         }
     }
 

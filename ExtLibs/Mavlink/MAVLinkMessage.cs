@@ -73,11 +73,13 @@ public partial class MAVLink
                         // fill in the data of the object
                         if (ismavlink2)
                         {
-                            MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
+                            _data = MavlinkUtil.ByteArrayToStructureGC(buffer, typeinfo.type, MAVLINK_NUM_HEADER_BYTES,
+                                payloadlength);
+                            //MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
                         }
                         else
                         {
-                            MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 6, payloadlength);
+                            _data = MavlinkUtil.ByteArrayToStructureGC(buffer, typeinfo.type, 6, payloadlength);
                         }
                     }
                     catch (Exception ex)
