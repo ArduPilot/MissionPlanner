@@ -448,15 +448,6 @@
       <Y></Y>
       <Z></Z>
     </DO_INVERTED_FLIGHT>
-    <DO_SET_MODE>
-      <P1>mode #</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SET_MODE>
     <DO_SET_CAM_TRIGG_DIST>
       <P1>Dist (m)</P1>
       <P2></P2>
@@ -685,15 +676,6 @@
       <Y></Y>
       <Z></Z>
     </DO_SET_REVERSE>
-    <DO_SET_MODE>
-      <P1>mode#</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SET_MODE>
     <DO_SET_CAM_TRIGG_DIST>
       <P1>Dist (m)</P1>
       <P2></P2>
