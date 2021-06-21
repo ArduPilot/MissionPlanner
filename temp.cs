@@ -541,7 +541,7 @@ namespace MissionPlanner
             for (a = 0; a < 1000000; a++)
             {
                 var obj = (object)new MAVLink.mavlink_heartbeat_t();
-                MavlinkUtil.ByteArrayToStructure(array, ref obj, 6);
+                MavlinkUtil.ByteArrayToStructure(array, ref obj, 6, 5);
             }
             end = DateTime.Now;
             Console.WriteLine("ByteArrayToStructure " + (end - start).TotalMilliseconds);
@@ -566,7 +566,26 @@ namespace MissionPlanner
                 var ans3 = MavlinkUtil.ByteArrayToStructureGC<MAVLink.mavlink_heartbeat_t>(array, 6);
             }
             end = DateTime.Now;
+            Console.WriteLine("ByteArrayToStructureGC<T> " + (end - start).TotalMilliseconds);
+
+            start = DateTime.Now;
+            for (a = 0; a < 1000000; a++)
+            {
+                var ans4 = MavlinkUtil.ByteArrayToStructureGC(array, typeof(MAVLink.mavlink_heartbeat_t), 6, 5);
+            }
+            end = DateTime.Now;
             Console.WriteLine("ByteArrayToStructureGC " + (end - start).TotalMilliseconds);
+
+            start = DateTime.Now;
+            for (a = 0; a < 1000000; a++)
+            {
+                var ans4 = MavlinkUtil.ByteArrayToStructureGCArray(array, typeof(MAVLink.mavlink_heartbeat_t), 6, 5);
+            }
+            end = DateTime.Now;
+            Console.WriteLine("ByteArrayToStructureGCArray " + (end - start).TotalMilliseconds);
+
+
+            
         }
 
         private void but_armandtakeoff_Click(object sender, EventArgs e)
