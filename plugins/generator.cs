@@ -396,8 +396,7 @@ namespace generator
 
             public override bool Loop()
             {
-                Console.WriteLine("Generator Loop");
-                if (MainV2.comPort.BaseStream.IsOpen)
+                if (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode)
                 {
                     if (sub == null)
                         sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GENERATOR_STATUS, message =>
