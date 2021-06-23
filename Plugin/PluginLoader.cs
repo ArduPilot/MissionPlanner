@@ -149,6 +149,9 @@ namespace MissionPlanner.Plugin
                 Type type = typeof(MissionPlanner.Plugin.Plugin);
                 foreach (var t in types)
                 {
+                    if (type == t)
+                        continue;
+
                     if (type.IsAssignableFrom((Type)t))
                     {
                         Type pluginInfo = t;
