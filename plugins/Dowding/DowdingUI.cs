@@ -387,7 +387,7 @@ namespace Dowding
             });
         }
 
-        private async void OnvifUpdate(object sender, PointLatLngAlt e)
+        private void OnvifUpdate(object sender, PointLatLngAlt e)
         {
             device.SetTrack(HomeLoc,
                 e).ConfigureAwait(false);

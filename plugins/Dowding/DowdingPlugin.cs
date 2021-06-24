@@ -9,6 +9,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using MissionPlanner;
+using MissionPlanner.Controls;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Maps;
 using MissionPlanner.Plugin;
@@ -106,9 +107,20 @@ namespace Dowding
                     System.Windows.Forms.ToolStripMenuItem men = new System.Windows.Forms.ToolStripMenuItem() { Text = "Dowding" };
                     men.Click += men_Click;
                     Host.FDMenuMap.Items.Add(men);
+
+                    System.Windows.Forms.ToolStripMenuItem men2 = new System.Windows.Forms.ToolStripMenuItem() { Text = "Dowding Point At" };
+                    men2.Click += men2_Click;
+                    Host.FDMenuMap.Items.Add(men2);
                 });
 
             return true;
+        }
+
+        private void men2_Click(object sender, EventArgs e)
+        {
+            double alt = 0;
+            InputBox.Show("Altitude", "Enter HAE altitude", ref alt);
+            UpdateOutput?.Invoke(this, this.Host.FDMenuMapPosition.ToPLLA(alt));
         }
 
         public override bool Loop()
@@ -146,6 +158,8 @@ namespace Dowding
                         target.ToolTipMode = MarkerTooltipMode.Always;
                         var vt = (VehicleTick) item.Tag;
                         target.ToolTipText = "Tracking\r\nVendor: " + vt.Vendor + "\r\nModel: " + vt.Model + "\r\nSerial: " + vt.Serial;
+                        UpdateOutput?.Invoke(this,
+                            new PointLatLngAlt((double)vt.Lat, (double)vt.Lon, (double)vt.Hae));
                     }
                     else if (item is GMapMarker && item.Tag is MAVState)
                     {

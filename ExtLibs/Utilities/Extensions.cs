@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using GMap.NET;
 using K4os.Compression.LZ4;
 using MissionPlanner.Comms;
 using Newtonsoft.Json;
@@ -558,6 +559,11 @@ namespace MissionPlanner.Utilities
             double seconds = (minutes - (int) minutes) * 60;
 
             return ((int) degrees, (int)minutes, (float)seconds);
+        }
+
+        public static PointLatLngAlt ToPLLA(this PointLatLng pll, double alt)
+        {
+            return new PointLatLngAlt(pll) { Alt = alt };
         }
 
         public static double EvaluateMath(this String input)
