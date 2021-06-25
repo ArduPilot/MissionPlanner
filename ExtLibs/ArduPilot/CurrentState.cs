@@ -1840,9 +1840,9 @@ namespace MissionPlanner
 
                             var loc = HomeLocation.gps_offset(lpned.y, lpned.x);
 
-                            //lat = loc.Lat;
-                            //lng = loc.Lng;
-                            //alt = (float)(loc.Alt + lpned.z);
+                            posn = lpned.x;
+                            pose = lpned.y;
+                            posd = lpned.z;
                         }
 
                         break;
@@ -3326,6 +3326,16 @@ namespace MissionPlanner
         [GroupText("Fence")]
         [DisplayText("Breach type")]
         public byte fenceb_type { get; set; }
+
+        [GroupText("Position")]
+        [DisplayText("North")]
+        public float posn { get;  set; }
+        [GroupText("Position")]
+        [DisplayText("East")]
+        public float pose { get;  set; }
+        [GroupText("Position")]
+        [DisplayText("Down")]
+        public float posd { get;  set; }
 
         public event EventHandler csCallBack;
 
