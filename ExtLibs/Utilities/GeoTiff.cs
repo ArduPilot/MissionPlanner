@@ -608,6 +608,12 @@ namespace MissionPlanner.Utilities
                     return short.MinValue;
                 return BitConverter.ToSingle(scanline, y * 4);
             }
+            else if (geotiffdata.bits == 64 && geotiffdata.type == 3)
+            {
+                if (y * 8 > scanline.Length)
+                    return short.MinValue;
+                return BitConverter.ToDouble(scanline, y * 8);
+            }
 
             throw new Exception("ProcessScanLine: Invalid geotiff coord");
         }
