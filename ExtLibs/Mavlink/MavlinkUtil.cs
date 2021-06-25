@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-
+using System.Threading;
 
 /// <summary>
 /// Static methods and helpers for creation and manipulation of Mavlink packets
@@ -137,29 +137,42 @@ public static class MavlinkUtil
 
     static MavlinkUtil()
     {
-        handle = GCHandle.Alloc(gcbuffer, GCHandleType.Pinned);
+        var no = 4;
+
+        handle = new GCHandle[no];
+        gcbuffer = new byte[no][];
+        semaphore = new SemaphoreSlim(no);
+        freebuffers = new Stack<int>(no);
+
+        for (int a = 0; a < no; a++) {
+            gcbuffer[a] = new byte[4096];
+            handle[a] = GCHandle.Alloc(gcbuffer[a], GCHandleType.Pinned);           
+            freebuffers.Push(a);
+        }            
     }
 
-    static byte[] gcbuffer = new byte[4096];
-    static GCHandle handle;
+    static readonly byte[][] gcbuffer;
+    static readonly GCHandle[] handle;
+    static readonly SemaphoreSlim semaphore;
+    static readonly Stack<int> freebuffers;
 
     public static object ByteArrayToStructureGC(byte[] bytearray, Type typeinfoType, byte startoffset, byte payloadlength)
     {
-        lock (gcbuffer)
-        {
+        semaphore.Wait();
+        var bufferindex = freebuffers.Pop();
+        try {
             // copy it
             var len = Marshal.SizeOf(typeinfoType);
             if (len - payloadlength > 0)
-                Array.Clear(gcbuffer, payloadlength, len - payloadlength);
-            Buffer.BlockCopy(bytearray, startoffset, gcbuffer, 0, payloadlength);
-            try
-            {
+                Array.Clear(gcbuffer[bufferindex], payloadlength, len - payloadlength);
+            Buffer.BlockCopy(bytearray, startoffset, gcbuffer[bufferindex], 0, payloadlength);
                 // structure it
-                return Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeinfoType);
-            }
-            finally
-            {
-            }
+            return Marshal.PtrToStructure(handle[bufferindex].AddrOfPinnedObject(), typeinfoType);
+        }
+        finally
+        {
+            freebuffers.Push(bufferindex);
+            semaphore.Release();
         }
     }
 
