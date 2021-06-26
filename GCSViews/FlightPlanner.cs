@@ -2979,7 +2979,16 @@ namespace MissionPlanner.GCSViews
                             false);
                 }
 
-                temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
+                if (Commands.Rows[a].Cells[Command.Index].Value.Equals("WAYPOINT"))
+                {
+                    temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
+                    if (temp.p1 < 0)
+                    {
+                        temp.p1 = 0;
+                        DataGridViewTextBoxCell cell = Commands.Rows[a].Cells[Param1.Index] as DataGridViewTextBoxCell;
+                        cell.Value = temp.p1;
+                    }
+                }
 
                 temp.alt =
                     (float)
