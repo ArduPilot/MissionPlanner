@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>    
+    <TargetFramework>net461</TargetFramework>
+    <UseWindowsForms>false</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.0" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
+  </ItemGroup>
+</Project>
