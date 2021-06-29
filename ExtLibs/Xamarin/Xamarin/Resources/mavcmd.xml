@@ -175,8 +175,8 @@
       <Z></Z>
     </DO_JUMP>
     <DO_CHANGE_SPEED>
-      <P1>speed m/s</P1>
-      <P2>speed m/s</P2>
+      <P1>Type</P1>
+      <P2>Speed m/s</P2>
       <P3></P3>
       <P4></P4>
       <X></X>
