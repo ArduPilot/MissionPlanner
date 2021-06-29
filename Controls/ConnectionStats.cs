@@ -170,6 +170,12 @@ namespace MissionPlanner.Controls
         {
             _mavlink.MAV.signing = chk_signing.Checked;
         }
+
+        private void but_reset_Click(object sender, EventArgs e)
+        {
+            StopUpdates();
+            ConnectionStats_Load(this, null);
+        }
     }
 
 

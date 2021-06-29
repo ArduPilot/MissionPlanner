@@ -54,6 +54,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chk_signing = new System.Windows.Forms.CheckBox();
             this.chk_mavlink2 = new System.Windows.Forms.CheckBox();
+            this.but_reset = new MissionPlanner.Controls.MyButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -210,9 +211,16 @@
             this.chk_mavlink2.UseVisualStyleBackColor = true;
             this.chk_mavlink2.CheckedChanged += new System.EventHandler(this.chk_mavlink2_CheckedChanged);
             // 
+            // but_reset
+            // 
+            resources.ApplyResources(this.but_reset, "but_reset");
+            this.but_reset.Name = "but_reset";
+            this.but_reset.UseVisualStyleBackColor = true;
+            this.but_reset.Click += new System.EventHandler(this.but_reset_Click);
+            // 
             // ConnectionStats
             // 
-            
+            this.Controls.Add(this.but_reset);
             this.Controls.Add(this.chk_mavlink2);
             this.Controls.Add(this.chk_signing);
             this.Controls.Add(this.groupBox1);
@@ -252,5 +260,6 @@
         private System.Windows.Forms.TextBox txt_MaxPacketInterval;
         private System.Windows.Forms.CheckBox chk_signing;
         private System.Windows.Forms.CheckBox chk_mavlink2;
+        private MyButton but_reset;
     }
 }
