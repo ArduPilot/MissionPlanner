@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Thu Jun 10 2021";
+    public const string MAVLINK_BUILD_DATE = "Wed Jun 30 2021";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -128,7 +128,7 @@ public partial class MAVLink
         new message_info(121, "LOG_ERASE", 237, 2, 2, typeof( mavlink_log_erase_t )),
         new message_info(122, "LOG_REQUEST_END", 203, 2, 2, typeof( mavlink_log_request_end_t )),
         new message_info(123, "GPS_INJECT_DATA", 250, 113, 113, typeof( mavlink_gps_inject_data_t )),
-        new message_info(124, "GPS2_RAW", 87, 35, 37, typeof( mavlink_gps2_raw_t )),
+        new message_info(124, "GPS2_RAW", 87, 35, 57, typeof( mavlink_gps2_raw_t )),
         new message_info(125, "POWER_STATUS", 203, 6, 6, typeof( mavlink_power_status_t )),
         new message_info(126, "SERIAL_CONTROL", 220, 79, 79, typeof( mavlink_serial_control_t )),
         new message_info(127, "GPS_RTK", 25, 35, 35, typeof( mavlink_gps_rtk_t )),
@@ -248,6 +248,7 @@ public partial class MAVLink
         new message_info(339, "RAW_RPM", 199, 5, 5, typeof( mavlink_raw_rpm_t )),
         new message_info(340, "UTM_GLOBAL_POSITION", 99, 70, 70, typeof( mavlink_utm_global_position_t )),
         new message_info(350, "DEBUG_FLOAT_ARRAY", 232, 20, 252, typeof( mavlink_debug_float_array_t )),
+        new message_info(370, "SMART_BATTERY_INFO", 75, 87, 109, typeof( mavlink_smart_battery_info_t )),
         new message_info(373, "GENERATOR_STATUS", 117, 42, 42, typeof( mavlink_generator_status_t )),
         new message_info(375, "ACTUATOR_OUTPUT_STATUS", 251, 140, 140, typeof( mavlink_actuator_output_status_t )),
         new message_info(9000, "WHEEL_DISTANCE", 113, 137, 137, typeof( mavlink_wheel_distance_t )),
@@ -273,6 +274,7 @@ public partial class MAVLink
         new message_info(11035, "OSD_PARAM_SHOW_CONFIG", 128, 8, 8, typeof( mavlink_osd_param_show_config_t )),
         new message_info(11036, "OSD_PARAM_SHOW_CONFIG_REPLY", 177, 34, 34, typeof( mavlink_osd_param_show_config_reply_t )),
         new message_info(11037, "OBSTACLE_DISTANCE_3D", 130, 28, 28, typeof( mavlink_obstacle_distance_3d_t )),
+        new message_info(11038, "WATER_DEPTH", 47, 38, 38, typeof( mavlink_water_depth_t )),
         new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
         new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
         new message_info(99269, "VIDEO_STREAM_INFORMATION99", 251, 213, 213, typeof( mavlink_video_stream_information99_t )),
@@ -525,6 +527,7 @@ public partial class MAVLink
         RAW_RPM = 339,
         UTM_GLOBAL_POSITION = 340,
         DEBUG_FLOAT_ARRAY = 350,
+        SMART_BATTERY_INFO = 370,
         GENERATOR_STATUS = 373,
         ACTUATOR_OUTPUT_STATUS = 375,
         WHEEL_DISTANCE = 9000,
@@ -550,6 +553,7 @@ public partial class MAVLink
         OSD_PARAM_SHOW_CONFIG = 11035,
         OSD_PARAM_SHOW_CONFIG_REPLY = 11036,
         OBSTACLE_DISTANCE_3D = 11037,
+        WATER_DEPTH = 11038,
         ICAROUS_HEARTBEAT = 42000,
         ICAROUS_KINEMATIC_BANDS = 42001,
         VIDEO_STREAM_INFORMATION99 = 99269,
@@ -870,6 +874,9 @@ public partial class MAVLink
         ///<summary> Arms / Disarms a component |0: disarm, 1: arm| 0: arm-disarm unless prevented by safety checks (i.e. when landed), 21196: force arming/disarming (e.g. allow arming to override preflight checks and disarming in flight)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Arms / Disarms a component")]
         COMPONENT_ARM_DISARM=400, 
+        ///<summary> Instructs system to run pre-arm checks.  This command should return MAV_RESULT_TEMPORARILY_REJECTED in the case the system is armed, otherwse MAV_RESULT_ACCEPTED.  Note that the return value from executing this command does not indicate whether the vehicle is armable or not, just whether the system has successfully run/is currently running the checks.  The result of the checks is reflected in the SYS_STATUS message. |Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        [Description("Instructs system to run pre-arm checks.  This command should return MAV_RESULT_TEMPORARILY_REJECTED in the case the system is armed, otherwse MAV_RESULT_ACCEPTED.  Note that the return value from executing this command does not indicate whether the vehicle is armable or not, just whether the system has successfully run/is currently running the checks.  The result of the checks is reflected in the SYS_STATUS message.")]
+        RUN_PREARM_CHECKS=401, 
         ///<summary> Request the home position from the vehicle. |Reserved| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("Request the home position from the vehicle.")]
         GET_HOME_POSITION=410, 
@@ -882,7 +889,7 @@ public partial class MAVLink
         ///<summary> Set the interval between messages for a particular MAVLink message ID. This interface replaces REQUEST_DATA_STREAM. |The MAVLink message ID| The interval between two messages. Set to -1 to disable and 0 to request default rate.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Target address of message stream (if message has target address fields). 0: Flight-stack default (recommended), 1: address of requestor, 2: broadcast.|  </summary>
         [Description("Set the interval between messages for a particular MAVLink message ID. This interface replaces REQUEST_DATA_STREAM.")]
         SET_MESSAGE_INTERVAL=511, 
-        ///<summary> Request the target system(s) emit a single instance of a specified message (i.e. a 'one-shot' version of MAV_CMD_SET_MESSAGE_INTERVAL). |The MAVLink message ID of the requested message.| Use for index ID, if required. Otherwise, the use of this parameter (if any) must be defined in the requested message. By default assumed not used (0).| The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).| The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).| The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).| The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).| ress fields). 0: Flight-stack default, 1: address of requestor, 2: broadcast.|  </summary>
+        ///<summary> Request the target system(s) emit a single instance of a specified message (i.e. a 'one-shot' version of MAV_CMD_SET_MESSAGE_INTERVAL). |The MAVLink message ID of the requested message.| Use for index ID, if required. Otherwise, the use of this parameter (if any) must be defined in the requested message. By default assumed not used (0).| The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).| f any), must be defined in the requested message. By default assumed not used (0).| The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).| The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).| Target address for requested message (if message has target address fields). 0: Flight-stack default, 1: address of requestor, 2: broadcast.|  </summary>
         [Description("Request the target system(s) emit a single instance of a specified message (i.e. a 'one-shot' version of MAV_CMD_SET_MESSAGE_INTERVAL).")]
         REQUEST_MESSAGE=512, 
         ///<summary> Request MAVLink protocol version compatibility. All receivers should ACK the command and then emit their capabilities in an PROTOCOL_VERSION message |1: Request supported protocol versions by all nodes on the network| Reserved (all remaining params)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
@@ -1005,7 +1012,7 @@ public partial class MAVLink
         ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages.")]
         UAVCAN_GET_NODE_INFO=5200, 
-        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
+        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| round speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
         [Description("Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity.")]
         PAYLOAD_PREPARE_DEPLOY=30001, 
         ///<summary> Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal mission. 1: switch to payload deployment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
@@ -1041,7 +1048,7 @@ public partial class MAVLink
         ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
         SPATIAL_USER_5=31009, 
-        ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| fined| User defined| User defined| User defined| User defined|  </summary>
         [Description("User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item.")]
         USER_1=31010, 
         ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
@@ -1074,7 +1081,7 @@ public partial class MAVLink
         ///<summary> Magnetometer calibration based on fixed expected field values. |Field strength X.| Field strength Y.| Field strength Z.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on fixed expected field values.")]
         FIXED_MAG_CAL_FIELD=42005, 
-        ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |Yaw of vehicle in earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |vehicle in earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location.")]
         FIXED_MAG_CAL_YAW=42006, 
         ///<summary> Initiate a magnetometer calibration. |Bitmask of magnetometers to calibrate. Use 0 to calibrate all sensors that can be started (sensors may not start if disabled, unhealthy, etc.). The command will NACK if calibration does not start for a sensor explicitly specified by the bitmask.| Automatically retry on failure (0=no retry, 1=retry).| Save without user input (0=require input, 1=autosave).| Delay.| Autoreboot (0=user reboot, 1=autoreboot).| Empty.| Empty.|  </summary>
@@ -8327,6 +8334,74 @@ public partial class MAVLink
     
     };
 
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=38)]
+    ///<summary> Water depth </summary>
+    public struct mavlink_water_depth_t
+    {
+        public mavlink_water_depth_t(uint time_boot_ms,int lat,int lng,float alt,float roll,float pitch,float yaw,float distance,float temperature,byte id,byte healthy) 
+        {
+              this.time_boot_ms = time_boot_ms;
+              this.lat = lat;
+              this.lng = lng;
+              this.alt = alt;
+              this.roll = roll;
+              this.pitch = pitch;
+              this.yaw = yaw;
+              this.distance = distance;
+              this.temperature = temperature;
+              this.id = id;
+              this.healthy = healthy;
+            
+        }
+        /// <summary>Timestamp (time since system boot)  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Timestamp (time since system boot)")]
+        public  uint time_boot_ms;
+            /// <summary>Latitude  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude")]
+        public  int lat;
+            /// <summary>Longitude  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude")]
+        public  int lng;
+            /// <summary>Altitude (MSL) of vehicle  [m] </summary>
+        [Units("[m]")]
+        [Description("Altitude (MSL) of vehicle")]
+        public  float alt;
+            /// <summary>Roll angle  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Roll angle")]
+        public  float roll;
+            /// <summary>Pitch angle  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Pitch angle")]
+        public  float pitch;
+            /// <summary>Yaw angle  [rad] </summary>
+        [Units("[rad]")]
+        [Description("Yaw angle")]
+        public  float yaw;
+            /// <summary>Distance (uncorrected)  [m] </summary>
+        [Units("[m]")]
+        [Description("Distance (uncorrected)")]
+        public  float distance;
+            /// <summary>Water temperature  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Water temperature")]
+        public  float temperature;
+            /// <summary>Onboard ID of the sensor   </summary>
+        [Units("")]
+        [Description("Onboard ID of the sensor")]
+        public  byte id;
+            /// <summary>Sensor data healthy (0=unhealthy, 1=healthy)   </summary>
+        [Units("")]
+        [Description("Sensor data healthy (0=unhealthy, 1=healthy)")]
+        public  byte healthy;
+    
+    };
+
     [Obsolete]
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
@@ -13263,11 +13338,11 @@ public partial class MAVLink
 
     
     /// extensions_start 12
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=57)]
     ///<summary> Second GPS data. </summary>
     public struct mavlink_gps2_raw_t
     {
-        public mavlink_gps2_raw_t(ulong time_usec,int lat,int lon,int alt,uint dgps_age,ushort eph,ushort epv,ushort vel,ushort cog,/*GPS_FIX_TYPE*/byte fix_type,byte satellites_visible,byte dgps_numch,ushort yaw) 
+        public mavlink_gps2_raw_t(ulong time_usec,int lat,int lon,int alt,uint dgps_age,ushort eph,ushort epv,ushort vel,ushort cog,/*GPS_FIX_TYPE*/byte fix_type,byte satellites_visible,byte dgps_numch,ushort yaw,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc) 
         {
               this.time_usec = time_usec;
               this.lat = lat;
@@ -13282,6 +13357,11 @@ public partial class MAVLink
               this.satellites_visible = satellites_visible;
               this.dgps_numch = dgps_numch;
               this.yaw = yaw;
+              this.alt_ellipsoid = alt_ellipsoid;
+              this.h_acc = h_acc;
+              this.v_acc = v_acc;
+              this.vel_acc = vel_acc;
+              this.hdg_acc = hdg_acc;
             
         }
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
@@ -13336,6 +13416,26 @@ public partial class MAVLink
         [Units("[cdeg]")]
         [Description("Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.")]
         public  ushort yaw;
+            /// <summary>Altitude (above WGS84, EGM96 ellipsoid). Positive for up.  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude (above WGS84, EGM96 ellipsoid). Positive for up.")]
+        public  int alt_ellipsoid;
+            /// <summary>Position uncertainty.  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Position uncertainty.")]
+        public  uint h_acc;
+            /// <summary>Altitude uncertainty.  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Altitude uncertainty.")]
+        public  uint v_acc;
+            /// <summary>Speed uncertainty.  [mm] </summary>
+        [Units("[mm]")]
+        [Description("Speed uncertainty.")]
+        public  uint vel_acc;
+            /// <summary>Heading / track uncertainty  [degE5] </summary>
+        [Units("[degE5]")]
+        [Description("Heading / track uncertainty")]
+        public  uint hdg_acc;
     
     };
 
@@ -17287,6 +17387,107 @@ public partial class MAVLink
         [Description("data")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)]
 		public float[] data;
+    
+    };
+
+    
+    /// extensions_start 12
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=109)]
+    ///<summary> Smart Battery information (static/infrequent update). Use for updates from: smart battery to flight stack, flight stack to GCS. Use BATTERY_STATUS for smart battery frequent updates. </summary>
+    public struct mavlink_smart_battery_info_t
+    {
+        public mavlink_smart_battery_info_t(int capacity_full_specification,int capacity_full,ushort cycle_count,ushort weight,ushort discharge_minimum_voltage,ushort charging_minimum_voltage,ushort resting_minimum_voltage,byte id,/*MAV_BATTERY_FUNCTION*/byte battery_function,/*MAV_BATTERY_TYPE*/byte type,byte[] serial_number,byte[] device_name,ushort charging_maximum_voltage,byte cells_in_series,uint discharge_maximum_current,uint discharge_maximum_burst_current,byte[] manufacture_date) 
+        {
+              this.capacity_full_specification = capacity_full_specification;
+              this.capacity_full = capacity_full;
+              this.cycle_count = cycle_count;
+              this.weight = weight;
+              this.discharge_minimum_voltage = discharge_minimum_voltage;
+              this.charging_minimum_voltage = charging_minimum_voltage;
+              this.resting_minimum_voltage = resting_minimum_voltage;
+              this.id = id;
+              this.battery_function = battery_function;
+              this.type = type;
+              this.serial_number = serial_number;
+              this.device_name = device_name;
+              this.charging_maximum_voltage = charging_maximum_voltage;
+              this.cells_in_series = cells_in_series;
+              this.discharge_maximum_current = discharge_maximum_current;
+              this.discharge_maximum_burst_current = discharge_maximum_burst_current;
+              this.manufacture_date = manufacture_date;
+            
+        }
+        /// <summary>Capacity when full according to manufacturer, -1: field not provided.  [mAh] </summary>
+        [Units("[mAh]")]
+        [Description("Capacity when full according to manufacturer, -1: field not provided.")]
+        public  int capacity_full_specification;
+            /// <summary>Capacity when full (accounting for battery degradation), -1: field not provided.  [mAh] </summary>
+        [Units("[mAh]")]
+        [Description("Capacity when full (accounting for battery degradation), -1: field not provided.")]
+        public  int capacity_full;
+            /// <summary>Charge/discharge cycle count. UINT16_MAX: field not provided.   </summary>
+        [Units("")]
+        [Description("Charge/discharge cycle count. UINT16_MAX: field not provided.")]
+        public  ushort cycle_count;
+            /// <summary>Battery weight. 0: field not provided.  [g] </summary>
+        [Units("[g]")]
+        [Description("Battery weight. 0: field not provided.")]
+        public  ushort weight;
+            /// <summary>Minimum per-cell voltage when discharging. If not supplied set to UINT16_MAX value.  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Minimum per-cell voltage when discharging. If not supplied set to UINT16_MAX value.")]
+        public  ushort discharge_minimum_voltage;
+            /// <summary>Minimum per-cell voltage when charging. If not supplied set to UINT16_MAX value.  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Minimum per-cell voltage when charging. If not supplied set to UINT16_MAX value.")]
+        public  ushort charging_minimum_voltage;
+            /// <summary>Minimum per-cell voltage when resting. If not supplied set to UINT16_MAX value.  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Minimum per-cell voltage when resting. If not supplied set to UINT16_MAX value.")]
+        public  ushort resting_minimum_voltage;
+            /// <summary>Battery ID   </summary>
+        [Units("")]
+        [Description("Battery ID")]
+        public  byte id;
+            /// <summary>Function of the battery MAV_BATTERY_FUNCTION  </summary>
+        [Units("")]
+        [Description("Function of the battery")]
+        public  /*MAV_BATTERY_FUNCTION*/byte battery_function;
+            /// <summary>Type (chemistry) of the battery MAV_BATTERY_TYPE  </summary>
+        [Units("")]
+        [Description("Type (chemistry) of the battery")]
+        public  /*MAV_BATTERY_TYPE*/byte type;
+            /// <summary>Serial number in ASCII characters, 0 terminated. All 0: field not provided.   </summary>
+        [Units("")]
+        [Description("Serial number in ASCII characters, 0 terminated. All 0: field not provided.")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] serial_number;
+            /// <summary>Static device name in ASCII characters, 0 terminated. All 0: field not provided. Encode as manufacturer name then product name separated using an underscore.   </summary>
+        [Units("")]
+        [Description("Static device name in ASCII characters, 0 terminated. All 0: field not provided. Encode as manufacturer name then product name separated using an underscore.")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
+		public byte[] device_name;
+            /// <summary>Maximum per-cell voltage when charged. 0: field not provided.  [mV] </summary>
+        [Units("[mV]")]
+        [Description("Maximum per-cell voltage when charged. 0: field not provided.")]
+        public  ushort charging_maximum_voltage;
+            /// <summary>Number of battery cells in series. 0: field not provided.   </summary>
+        [Units("")]
+        [Description("Number of battery cells in series. 0: field not provided.")]
+        public  byte cells_in_series;
+            /// <summary>Maximum pack discharge current. 0: field not provided.  [mA] </summary>
+        [Units("[mA]")]
+        [Description("Maximum pack discharge current. 0: field not provided.")]
+        public  uint discharge_maximum_current;
+            /// <summary>Maximum pack discharge burst current. 0: field not provided.  [mA] </summary>
+        [Units("[mA]")]
+        [Description("Maximum pack discharge burst current. 0: field not provided.")]
+        public  uint discharge_maximum_burst_current;
+            /// <summary>Manufacture date (DD/MM/YYYY) in ASCII characters, 0 terminated. All 0: field not provided.   </summary>
+        [Units("")]
+        [Description("Manufacture date (DD/MM/YYYY) in ASCII characters, 0 terminated. All 0: field not provided.")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=11)]
+		public byte[] manufacture_date;
     
     };
 
