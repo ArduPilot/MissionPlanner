@@ -47,7 +47,8 @@ namespace MissionPlanner
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static menuicons displayicons; //do not initialize to allow update of custom icons
-
+        public static string running_directory = Settings.GetRunningDirectory();
+        
         public abstract class menuicons
         {
             public abstract Image fd { get; }
@@ -67,8 +68,6 @@ namespace MissionPlanner
 
         public class burntkermitmenuicons : menuicons
         {
-            private string running_directory = Settings.GetRunningDirectory();
-
             public override Image fd
             {
                 get
