@@ -160,7 +160,7 @@ namespace MissionPlanner
             form.Text = title;
             label.Text = promptText;
 
-            chk.Tag = ("SHOWAGAIN_" + title.Replace(" ", "_").Replace('+', '_'));
+            chk.Tag = ($"SHOWAGAIN_{title.Replace(" ", "_").Replace('+', '_')}");
             chk.AutoSize = true;
             chk.Text = Strings.ShowMeAgain;
             chk.Checked = true;
@@ -209,7 +209,7 @@ namespace MissionPlanner
                     }
                     catch (Exception)
                     {
-                        CustomMessageBox.Show("Failed to open link " + ((LinkLabel)sender).Tag.ToString());
+                        CustomMessageBox.Show($"Failed to open link {((LinkLabel)sender).Tag}");
                     }
                 };
 
