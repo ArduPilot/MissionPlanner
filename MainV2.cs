@@ -71,8 +71,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_flightdata_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_flightdata_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_flightdata_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_flightdata_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_flightdata_icon;
                 }
@@ -82,8 +82,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_flightplan_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_flightplan_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_flightplan_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_flightplan_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_flightplan_icon;
                 }
@@ -93,8 +93,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_initialsetup_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_initialsetup_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_initialsetup_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_initialsetup_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_initialsetup_icon;
                 }
@@ -104,8 +104,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_tuningconfig_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_tuningconfig_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_tuningconfig_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_tuningconfig_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_tuningconfig_icon;
                 }
@@ -115,8 +115,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_simulation_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_simulation_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_simulation_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_simulation_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_simulation_icon;
                 }
@@ -126,8 +126,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_terminal_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_terminal_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_terminal_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_terminal_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_terminal_icon;
                 }
@@ -137,8 +137,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_help_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_help_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_help_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_help_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_help_icon;
                 }
@@ -148,8 +148,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_donate_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_donate_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_donate_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_donate_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.donate;
                 }
@@ -159,8 +159,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_connect_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_connect_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_connect_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_connect_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_connect_icon;
                 }
@@ -170,8 +170,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_disconnect_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_disconnect_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_disconnect_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_disconnect_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.light_disconnect_icon;
                 }
@@ -181,8 +181,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_icon_background.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_icon_background.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_icon_background.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_icon_background.png");
                     else
                         return global::MissionPlanner.Properties.Resources.bgdark;
                 }
@@ -192,8 +192,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_wizard_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_wizard_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}light_wizard_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}light_wizard_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.wizardicon;
                 }
@@ -206,8 +206,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_flightdata_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_flightdata_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_flightdata_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_flightdata_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
                 }
@@ -217,8 +217,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_flightplan_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_flightplan_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_flightplan_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_flightplan_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
                 }
@@ -228,8 +228,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_initialsetup_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_initialsetup_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_initialsetup_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_initialsetup_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
                 }
@@ -239,8 +239,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_tuningconfig_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_tuningconfig_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_tuningconfig_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_tuningconfig_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
                 }
@@ -250,8 +250,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_simulation_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_simulation_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_simulation_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_simulation_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_simulation_icon;
                 }
@@ -261,8 +261,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_terminal_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_terminal_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_terminal_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_terminal_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_terminal_icon;
                 }
@@ -272,8 +272,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_help_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_help_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_help_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_help_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_help_icon;
                 }
@@ -283,8 +283,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_donate_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_donate_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_donate_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_donate_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.donate;
                 }
@@ -294,8 +294,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_connect_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_connect_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_connect_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_connect_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_connect_icon;
                 }
@@ -305,8 +305,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_disconnect_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_disconnect_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_disconnect_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_disconnect_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
                 }
@@ -316,8 +316,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_icon_background.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_icon_background.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_icon_background.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_icon_background.png");
                     else
                         return null;
                 }
@@ -327,8 +327,8 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_wizard_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_wizard_icon.png");
+                    if (File.Exists($"{Settings.GetRunningDirectory()}dark_wizard_icon.png"))
+                        return Image.FromFile($"{Settings.GetRunningDirectory()}dark_wizard_icon.png");
                     else
                         return global::MissionPlanner.Properties.Resources.wizardicon;
                 }
@@ -744,7 +744,7 @@ namespace MissionPlanner
 
             if (Settings.Instance["theme"] == null)
             {
-                if (File.Exists(Settings.GetRunningDirectory() + "custom.mpsystheme"))
+                if (File.Exists($"{Settings.GetRunningDirectory()}custom.mpsystheme"))
                     Settings.Instance["theme"] = "custom.mpsystheme";
                 else
                     Settings.Instance["theme"] = "BurntKermit.mpsystheme";
@@ -772,8 +772,7 @@ namespace MissionPlanner
             _connectionControl.cmb_sysid.Click += cmb_sysid_Click;
 
             _connectionControl.ShowLinkStats += (sender, e) => ShowConnectionStatsForm();
-            srtm.datadirectory = Settings.GetDataDirectory() +
-                                 "srtm";
+            srtm.datadirectory = $"{Settings.GetDataDirectory()} {srtm}";
 
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
@@ -919,8 +918,7 @@ namespace MissionPlanner
                 //System.ArgumentException: Font 'Arial' does not support style 'Regular'.
 
                 log.Fatal(e);
-                CustomMessageBox.Show(e.ToString() +
-                                      "\n\n Font Issues? Please install this http://www.microsoft.com/en-us/download/details.aspx?id=16083");
+                CustomMessageBox.Show($"{e}\n\n Font Issues? Please install this http://www.microsoft.com/en-us/download/details.aspx?id=16083");
                 //splash.Close();
                 //this.Close();
                 Application.Exit();
@@ -928,7 +926,7 @@ namespace MissionPlanner
             catch (Exception e)
             {
                 log.Fatal(e);
-                CustomMessageBox.Show("A Major error has occured : " + e.ToString());
+                CustomMessageBox.Show($"A Major error has occured : {e}");
                 Application.Exit();
             }
 
@@ -1067,8 +1065,7 @@ namespace MissionPlanner
 
             if (CurrentState.rateattitudebackup == 0) // initilised to 10, configured above from save
             {
-                CustomMessageBox.Show(
-                    "NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
+                CustomMessageBox.Show("NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
             }
 
             // create log dir if it doesnt exist
@@ -1102,8 +1099,7 @@ namespace MissionPlanner
 
                     if (Framework < 4.0)
                     {
-                        CustomMessageBox.Show("This program requires .NET Framework 4.0. You currently have " +
-                                              Framework);
+                        CustomMessageBox.Show("This program requires .NET Framework 4.0. You currently have " + Framework);
                     }
                 }
                 catch (Exception ex)
@@ -1144,7 +1140,7 @@ namespace MissionPlanner
 
         void comPort_MavChanged(object sender, EventArgs e)
         {
-            log.Info("Mav Changed " + MainV2.comPort.MAV.sysid);
+            log.Info($"Mav Changed {MainV2.comPort.MAV.sysid}");
 
             HUD.Custom.src = MainV2.comPort.MAV.cs;
 
@@ -1204,8 +1200,7 @@ namespace MissionPlanner
             // read airport list
             try
             {
-                Utilities.Airports.ReadOurairports(Settings.GetRunningDirectory() +
-                                                   "airports.csv");
+                Utilities.Airports.ReadOurairports($"{Settings.GetRunningDirectory()}airports.csv");
 
                 Utilities.Airports.checkdups = true;
 
@@ -1511,7 +1506,7 @@ namespace MissionPlanner
         public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true)
         {
             bool skipconnectcheck = false;
-            log.Info("We are connecting to " + portname + " " + baud);
+            log.Info($"We are connecting to {portname} {baud}");
             switch (portname)
             {
                 case "preset":
@@ -1659,7 +1654,7 @@ namespace MissionPlanner
                         comPort.rawlogfile =
                             new BufferedStream(
                                 File.Open(rlog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
-                        log.Info("creating logfile " + dt + ".tlog");
+                        log.Info($"creating logfile {dt}.tlog");
                     }
                 }
                 catch (Exception exp2)
@@ -1861,7 +1856,7 @@ namespace MissionPlanner
                     log.Warn(ex2);
                 }
 
-                CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
+                CustomMessageBox.Show($"Can not establish a connection\n\n{ex.Message}");
                 return;
             }
         }
