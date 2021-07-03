@@ -772,7 +772,7 @@ namespace MissionPlanner
             _connectionControl.cmb_sysid.Click += cmb_sysid_Click;
 
             _connectionControl.ShowLinkStats += (sender, e) => ShowConnectionStatsForm();
-            srtm.datadirectory = $"{Settings.GetDataDirectory()} {srtm}";
+            srtm.datadirectory = $"{Settings.GetDataDirectory()}srtm";
 
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
