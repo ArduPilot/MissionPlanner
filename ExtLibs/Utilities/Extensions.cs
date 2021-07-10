@@ -106,6 +106,22 @@ namespace MissionPlanner.Utilities
         {
             return input.Select(a => (byte) a).ToArray();
         }
+                
+        public static string ToHexString(this byte[] input)
+        {
+            StringBuilder hex = new StringBuilder(input.Length * 2);
+            foreach (byte b in input)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString();
+        }
+
+        public static string ToHexString(this IEnumerable<byte> input)
+        {
+            StringBuilder hex = new StringBuilder(input.Count() * 2);
+            foreach (byte b in input)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString();
+        }
 
         public static string ToJSON(this object msg, Formatting fmt)
         {
@@ -114,6 +130,11 @@ namespace MissionPlanner.Utilities
                 Error =
                     (sender, args) => { args.ErrorContext.Handled = true; }
             });
+        }
+
+        public static string ToJSONWithType(this object msg)
+        {
+            return String.Format("\"{0}\": ",msg.GetType().Name) + msg.ToJSON(Formatting.Indented);
         }
 
         public static string ToJSON(this object msg)
@@ -341,6 +362,45 @@ namespace MissionPlanner.Utilities
                     return false;
                 default:
                     return false;
+            }
+        }
+
+        public static IEnumerable<T> IterateTreeType<T>(this T root, Func<T, IEnumerable<T>> childrenF)
+        {
+            var q = new List<T>() { root };
+            while (q.Any())
+            {
+                var c = q[0];
+                q.RemoveAt(0);
+                q.AddRange(childrenF(c) ?? Enumerable.Empty<T>());
+                yield return c;
+            }
+        }
+
+        public static IEnumerable<T> IterateTree<T>(this IEnumerable<T> root, Func<T, IEnumerable<T>> childrenF)
+        {
+            var q = new List<T>();
+            q.AddRange(root);
+            while (q.Any())
+            {
+                var c = q[0];
+                q.RemoveAt(0);
+                q.AddRange(childrenF(c) ?? Enumerable.Empty<T>());
+                yield return c;
+            }
+        }
+
+        public static IEnumerable<T> Flatten<T>(this IEnumerable collection)
+        {
+            foreach (var o in collection)
+            {
+                if (o is IEnumerable)
+                {
+                    foreach (T t in Flatten<T>((IEnumerable)o))
+                      yield return t;
+                }
+                else
+                    yield return (T)o;
             }
         }
 
