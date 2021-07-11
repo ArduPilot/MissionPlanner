@@ -87,6 +87,7 @@
     <Compile Remove="ExtLibs\SvgNet\**" />
     <Compile Remove="ExtLibs\System.Drawing.android\**" />
     <Compile Remove="ExtLibs\TestPlugin\**" />
+    <Compile Remove="ExtLibs\Tests\**" />
     <Compile Remove="ExtLibs\Test\**" />
     <Compile Remove="ExtLibs\tlogThumbnailHandler\**" />
     <Compile Remove="ExtLibs\TrackerHome\**" />
@@ -180,6 +181,7 @@
     <EmbeddedResource Remove="ExtLibs\SvgNet\**" />
     <EmbeddedResource Remove="ExtLibs\System.Drawing.android\**" />
     <EmbeddedResource Remove="ExtLibs\TestPlugin\**" />
+    <EmbeddedResource Remove="ExtLibs\Tests\**" />
     <EmbeddedResource Remove="ExtLibs\Test\**" />
     <EmbeddedResource Remove="ExtLibs\tlogThumbnailHandler\**" />
     <EmbeddedResource Remove="ExtLibs\TrackerHome\**" />
@@ -272,6 +274,7 @@
     <None Remove="ExtLibs\SvgNet\**" />
     <None Remove="ExtLibs\System.Drawing.android\**" />
     <None Remove="ExtLibs\TestPlugin\**" />
+    <None Remove="ExtLibs\Tests\**" />
     <None Remove="ExtLibs\Test\**" />
     <None Remove="ExtLibs\tlogThumbnailHandler\**" />
     <None Remove="ExtLibs\TrackerHome\**" />

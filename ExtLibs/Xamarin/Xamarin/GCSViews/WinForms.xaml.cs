@@ -392,6 +392,11 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                 FocusOut(_focusWindow);
                 caretptr = IntPtr.Zero;
                 _focusWindow = focusWindow;
+
+                var ctl = Control.FromHandle(_focusWindow);
+                var nw = NativeWindow.FromHandle(_focusWindow);
+
+                Console.WriteLine("FocusIn name {0} type {1} nw {2}", ctl?.Name,ctl?.GetType(), nw?.Handle);
             }
 
             private void View_TextChanged(object sender, TextChangedEventArgs e)
@@ -409,7 +414,12 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             private IntPtr caretptr;
             public void SetCaretPos(CaretStruct caret, IntPtr handle, int x, int y)
             {
-                if (_focusWindow == handle && caret.Hwnd == _focusWindow)
+                var ctl = Control.FromHandle(_focusWindow);
+                var nw = NativeWindow.FromHandle(_focusWindow);
+
+                var caretl = caret;
+
+                //if (_focusWindow == handle && caret.Hwnd == _focusWindow)
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         if(caretptr == handle)
@@ -418,7 +428,19 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                         var focusctl = Control.FromHandle(_focusWindow);
                         var p = focusctl.PointToClient(Form.MousePosition);
 
-                        if (focusctl.ClientRectangle.Contains(p))
+                        var handlectl = Control.FromHandle(handle);
+                        var p2 = handlectl.PointToClient(Form.MousePosition);
+
+                        if(focusctl is ComboBox)
+                        {
+                            var cb = (ComboBox)focusctl;
+                            if(cb.DropDownStyle == ComboBoxStyle.DropDownList)
+                            {
+                                return;
+                            }
+                        }
+
+                        if (handlectl.ClientRectangle.Contains(p))
                         {
                             // unbind
                             _inputView.Unfocused -= _inputView_Unfocused;                            
