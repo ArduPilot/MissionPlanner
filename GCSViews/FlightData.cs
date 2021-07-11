@@ -482,6 +482,8 @@ namespace MissionPlanner.GCSViews
 
         public void CreateChart(ZedGraphControl zgc)
         {
+            if (zgc == null) throw new ArgumentNullException(nameof(zgc));
+
             GraphPane myPane = zgc.GraphPane;
 
             // Set the titles and axis labels

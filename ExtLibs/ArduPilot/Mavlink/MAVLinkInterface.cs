@@ -3565,6 +3565,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         /// <param name="data"></param>
         public void InjectGpsData(byte sysid, byte compid, byte[] data, ushort length, bool rtcm_message = true)
         {
+            if (data == null) throw new ArgumentNullException(nameof(data));
             // new message
             if (rtcm_message)
             {
