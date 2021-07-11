@@ -27,6 +27,7 @@
     <Compile Remove="ExtLibs\Arduino\**" />
     <Compile Remove="ExtLibs\ArduPilot\**" />
     <Compile Remove="ExtLibs\BaseClasses\**" />
+    <Compile Remove="ExtLibs\Benchmark\**" />
     <Compile Remove="ExtLibs\BouncyCastle\**" />
     <Compile Remove="ExtLibs\BSE.Windows.Forms\**" />
     <Compile Remove="ExtLibs\Comms\**" />
@@ -119,6 +120,7 @@
     <EmbeddedResource Remove="ExtLibs\Arduino\**" />
     <EmbeddedResource Remove="ExtLibs\ArduPilot\**" />
     <EmbeddedResource Remove="ExtLibs\BaseClasses\**" />
+    <EmbeddedResource Remove="ExtLibs\Benchmark\**" />
     <EmbeddedResource Remove="ExtLibs\BouncyCastle\**" />
     <EmbeddedResource Remove="ExtLibs\BSE.Windows.Forms\**" />
     <EmbeddedResource Remove="ExtLibs\Comms\**" />
@@ -210,6 +212,7 @@
     <None Remove="ExtLibs\Arduino\**" />
     <None Remove="ExtLibs\ArduPilot\**" />
     <None Remove="ExtLibs\BaseClasses\**" />
+    <None Remove="ExtLibs\Benchmark\**" />
     <None Remove="ExtLibs\BouncyCastle\**" />
     <None Remove="ExtLibs\BSE.Windows.Forms\**" />
     <None Remove="ExtLibs\Comms\**" />
