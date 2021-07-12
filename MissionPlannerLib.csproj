@@ -105,8 +105,7 @@
     <Compile Remove="ExtLibs\Zeroconf\**" />
     <Compile Remove="Msi\**" />
     <Compile Remove="Plugins\**" />
-    <Compile Remove="plugins\Dowding\bin\**" />
-    <Compile Remove="plugins\Dowding\obj\**" />
+    <Compile Remove="plugins\Dowding\**" />
     <Compile Remove="resedit\**" />
     <Compile Remove="SikRadio\**" />
     <Compile Remove="Updater\**" />
@@ -199,8 +198,7 @@
     <EmbeddedResource Remove="ExtLibs\Zeroconf\**" />
     <EmbeddedResource Remove="Msi\**" />
     <EmbeddedResource Remove="Plugins\**" />
-    <EmbeddedResource Remove="plugins\Dowding\bin\**" />
-    <EmbeddedResource Remove="plugins\Dowding\obj\**" />
+    <EmbeddedResource Remove="plugins\Dowding\**" />
     <EmbeddedResource Remove="resedit\**" />
     <EmbeddedResource Remove="SikRadio\**" />
     <EmbeddedResource Remove="Updater\**" />
@@ -292,8 +290,7 @@
     <None Remove="ExtLibs\Zeroconf\**" />
     <None Remove="Msi\**" />
     <None Remove="Plugins\**" />
-    <None Remove="plugins\Dowding\bin\**" />
-    <None Remove="plugins\Dowding\obj\**" />
+    <None Remove="plugins\Dowding\**" />
     <None Remove="resedit\**" />
     <None Remove="SikRadio\**" />
     <None Remove="Updater\**" />
@@ -394,27 +391,12 @@
 
    <Compile Include="ExtLibs\Comms\System.IO.Ports\WinSerialStream.cs" />
 
-   <Compile Include="plugins\Dowding\DowdingPlugin.cs" />
-
-   <Compile Include="plugins\Dowding\DowdingUI.cs" />
-
-   <Compile Include="plugins\Dowding\DowdingUI.Designer.cs" />
-
    <Compile Include="Properties\AssemblyInfo.cs" />
 
    <Compile Include="SikRadio\ISikRadioForm.cs" />
    <Compile Include="SikRadio\RFD900.cs" />
    <Compile Include="SikRadio\RFDLib\Array.cs" />
    <Compile Include="SikRadio\RFDLib\Text.cs" />
- </ItemGroup>
-
- <ItemGroup>
-   <EmbeddedResource Include="plugins\Dowding\DowdingUI.resx" />
- </ItemGroup>
-
- <ItemGroup>
-   <None Include="plugins\Dowding\Dowding.csproj" />
-   <None Include="plugins\Dowding\Dowding.csproj.user" />
  </ItemGroup>
 
  <ItemGroup>
@@ -537,7 +519,7 @@
     </None>
   </ItemGroup> 
   <ItemGroup>
-    <Folder Include="plugins\Dowding\Properties\" />
+    <Folder Include="plugins\" />
   </ItemGroup>
 
 </Project>
