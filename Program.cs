@@ -288,6 +288,8 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Slopezone.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Japan_Sea.Instance);
 
+            ZedGraph.PaneBase.Default.IsFontsScaled = false;
+
             Console.WriteLine("Setup GoogleMapProvider API");
             GoogleMapProvider.APIKey = "AIzaSyA5nFp39fEHruCezXnG3r8rGyZtuAkmCug";
             if (Settings.Instance["GoogleApiKey"] != null) GoogleMapProvider.APIKey = Settings.Instance["GoogleApiKey"];
