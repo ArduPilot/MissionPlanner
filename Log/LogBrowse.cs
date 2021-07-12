@@ -152,8 +152,10 @@ namespace MissionPlanner.Log
                 return this.isValid;
             }
 
-            public static string GetNodeName(string parent, string child)
+            public static string GetNodeName(string parent,int instance, string child)
             {
+                if (instance >= 0)
+                    return parent + "[" + instance + "]." + child;
                 return parent + "." + child;
             }
         }
@@ -837,7 +839,7 @@ namespace MissionPlanner.Log
         {
             log.InfoFormat("GraphItem: {0} {1} {2}", type, fieldname, instance);
             DataModifer dataModifier = new DataModifer();
-            string nodeName = DataModifer.GetNodeName(type, fieldname);
+            string nodeName = DataModifer.GetNodeName(type, instance != "" ? int.Parse(instance) : -1, fieldname);
 
             foreach (var curve in zg1.GraphPane.CurveList)
             {
@@ -2647,8 +2649,13 @@ main()
             }
 
             string dataModifer_str = "";
-            string nodeName =
-                DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Text, treeView1.SelectedNode.Text);
+            string nodeName = "";
+            if(treeView1.SelectedNode.Parent.Parent != null)
+                nodeName = DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Parent.Text, int.Parse(treeView1.SelectedNode.Parent.Text), treeView1.SelectedNode.Text);
+            else 
+                nodeName = DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Text, -1, treeView1.SelectedNode.Text);
+
+
 
             if (dataModifierHash.ContainsKey(nodeName))
             {
