@@ -277,7 +277,6 @@ namespace MissionPlanner.Utilities
 
             indexcachelineno = -1;
         }
-
         private void BuildUnitMultiList()
         {
             foreach (var msgtype in FMT)
@@ -551,6 +550,22 @@ namespace MissionPlanner.Utilities
                 return new Tuple<string, double>("", 1);
 
             return new Tuple<string, double>(answer.First().Item3, answer.First().Item4);
+        }
+        
+        public int getInstanceIndex(string type)
+        {
+            if(!dflog.logformat.ContainsKey(type))
+                return -1;
+
+            var typeno = dflog.logformat[type].Id;
+
+            if(!FMTU.ContainsKey(typeno))
+                return -1;
+
+            var unittypes = FMTU[typeno].Item1;
+
+            int colinst = unittypes.IndexOf("#") + 1;
+            return colinst;
         }
     }
 }
