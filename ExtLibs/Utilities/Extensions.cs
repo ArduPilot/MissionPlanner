@@ -142,6 +142,23 @@ namespace MissionPlanner.Utilities
             return msg.ToJSON(Formatting.Indented);
         }
 
+        public static string ToJSON(this System.Type a_Type)
+        {
+            var TypeBlob = a_Type.GetFields().ToDictionary(x => x.Name, x => x.GetValue(null));
+            a_Type.GetProperties().ToDictionary(x => x.Name, x =>
+            {
+                try
+                {
+                    return x.GetValue(null);
+                }
+                catch (Exception ex)
+                {
+                    return ex.ToString();
+                }
+            }).ForEach(x => TypeBlob.Add(x.Key, x.Value));
+            return JsonConvert.SerializeObject(TypeBlob);
+        }
+
         public static T FromJSON<T>(this string msg)
         {
             return JsonConvert.DeserializeObject<T>(msg);
