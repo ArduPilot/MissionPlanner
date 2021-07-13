@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -464,9 +465,24 @@ namespace MissionPlanner.Utilities
 
         public IEnumerable<DFLog.DFItem> GetEnumeratorType(string[] types)
         {
+            Dictionary<string, string> instances = new Dictionary<string, string>();
+
+            types.ForEach(x =>
+            {
+                var m = Regex.Match(x, @"(\w+)(\[([0-9]+)\])?", RegexOptions.None);
+                if (m.Success)
+                {
+                    instances[m.Groups[1].ToString()] = m.Groups[2].Success ? m.Groups[2].ToString() : "";
+                }
+                else
+                {
+                    instances[x] = "";
+                }
+            });
+
             // get the ids for the passed in types
             List<long> slist = new List<long>();
-            foreach (var type in types.Distinct())
+            foreach (var type in instances.Keys)
             {
                 if (dflog.logformat.ContainsKey(type))
                 {
@@ -485,7 +501,12 @@ namespace MissionPlanner.Utilities
             // work through list of lines
             foreach (var l in slist)
             {
-                yield return this[(long) l];
+                var ans = this[(long) l];
+                var inst = instances[ans.msgtype];
+                // instance was requested, and its not a match
+                if (inst != "" && ans.instance != inst)
+                    continue;
+                yield return ans;
             }
         }
         

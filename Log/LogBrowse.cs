@@ -1024,6 +1024,8 @@ from rotmat import *
 
 exp_as_func = eval('lambda: ' + ""{1}"")
 
+invalid = 0
+
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
         super(AttrDict, self).__init__(*args, **kwargs)
@@ -1031,10 +1033,14 @@ class AttrDict(dict):
 
 def evaluate_expression():
     '''evaluation an expression'''
+    global invalid
     try:
         v = exp_as_func()
     except NameError as ne:
-        print ne
+        print ne, invalid 
+        invalid = invalid + 1
+        if invalid > 200:
+            raise ne
         return None
     except ZeroDivisionError:
         print ZeroDivisionError
