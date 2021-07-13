@@ -474,7 +474,7 @@ namespace MissionPlanner.Log
 
                 foreach (var item in logdata.GetEnumeratorType(msglist.ToArray()))
                 {
-                    if (item.msgtype.StartsWith("MAG"))
+                    if (item.msgtype.StartsWith("MAG") && (item.instance == "" || item.instance == "0"))
                     {
                         MAG.MagX = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "MagX")]);
                         MAG.MagY = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "MagY")]);
@@ -483,7 +483,7 @@ namespace MissionPlanner.Log
                         MAG.OfsY = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "OfsY")]);
                         MAG.OfsZ = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "OfsZ")]);
                     }
-                    else if (item.msgtype == "ATT")
+                    else if (item.msgtype == "ATT" && (item.instance == "" || item.instance == "0"))
                     {
                         ATT.Roll = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Roll")]);
                         ATT.Pitch = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Pitch")]);

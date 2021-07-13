@@ -967,7 +967,7 @@ namespace MissionPlanner.Log
 
             Dictionary<string, List<string>> fieldsUsed = new Dictionary<string, List<string>>();
 
-            var fieldmatchs = Regex.Matches(expression, @"(([A-z0-9_]{2,20})\.([A-z0-9_]+))");
+            var fieldmatchs = Regex.Matches(expression, @"(([A-z0-9_]{2,20})\.([A-z0-9_]+))|([A-z0-9_]{2,20})");
 
             if (fieldmatchs.Count > 0)
             {
@@ -975,6 +975,9 @@ namespace MissionPlanner.Log
                 {
                     var type = match.Groups[2].Value.ToString();
                     var field = match.Groups[3].Value.ToString();
+
+                    if (type == "")
+                        type = match.Groups[4].Value.ToString();
 
                     if (!fieldsUsed.ContainsKey(type))
                         fieldsUsed[type] = new List<string>();
@@ -993,8 +996,11 @@ namespace MissionPlanner.Log
 
                 //scope.SetVariable(logformatKey, ans);
             }
-
+            
             List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
+
+            if (!fieldsUsed.Any(x => dflog.logformat.ContainsKey(x.Key)))
+                return answer;
 
             scope.SetVariable("answer", answer);
 
@@ -1042,6 +1048,8 @@ def main():
     vars = {{}}
     a=0
     for line in logdata.GetEnumeratorType(System.Array[System.String]({0})):
+        if line.instance != '' and line.instance != '0':
+            continue
         globals()[line.msgtype] = AttrDict(line.ToDictionary())
         v = evaluate_expression()
         a += 1
