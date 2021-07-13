@@ -40,12 +40,12 @@
   <expression>BARO.Alt RFND.Dist1*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))</expression>
  </graph>
 
- <graph name='System/Performance'>
+ <graph name='Radio/RSSI_Distance'>
   <description></description>
-  <expression>PM.NLon PM.MaxT:2</expression>
+  <expression>RADIO_STATUS.rssi RADIO_STATUS.noise RADIO_STATUS.remrssi RADIO_STATUS.remnoise distance_home(GPS_RAW_INT):2</expression>
  </graph>
 
-  <graph name='Servos/Servos 5-8'>
+ <graph name='Servos/Servos 5-8'>
   <description></description>
   <expression>RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8</expression>
   <expression>RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8</expression>
@@ -125,21 +125,6 @@
   <expression>PM.MaxT PM.NLon:2 PM.LogDrop:2</expression>
  </graph>
 
- <graph name='Tridge/FireFly Tilt'>
-  <description></description>
-  <expression>CTUN.NavRoll CTUN.Roll CTUN.NavPitch CTUN.Pitch RCOU.Ch8:2 RCOU.Ch10:2 RCOU.Ch11:2</expression>
- </graph>
-
- <graph name='Tridge/OSC Roll'>
-  <description></description>
-  <expression>PTUN.Value sqrt(lowpass((PIDR.P+PIDR.D)**2,"f",0.95)):2</expression>
- </graph>
-
- <graph name='Sensors/GPS/Accuracy'>
-  <description></description>
-  <expression>GPA.HAcc GPA.SAcc GPA.VAcc GPS.NSats:2</expression>
- </graph>
-
  <graph name='Copter/Controller RMS'>
   <description></description>
   <expression>CTRL.RMSRoll CTRL.RMSPitch CTRL.RMSYaw</expression>
@@ -154,12 +139,6 @@
  <graph name='Rover/Steering'>
   <description></description>
   <expression>STER.Achieved STER.Demanded</expression>
- </graph>
-
- <graph name='Speed/GPS vs NKF1'>
-  <description></description>
-  <expression>GPS.Spd sqrt(NKF1[0].VN**2+NKF1[0].VE**2)</expression>
-  <expression>GPS.Spd sqrt(NKF1.VN**2+NKF1.VE**2)</expression>
  </graph>
 
  <graph name='Servos/OctaQuad-CCW'>
@@ -179,16 +158,24 @@
   <expression>RATE.ROut RATE.POut RATE.YOut RATE.AOut</expression>
  </graph>
 
- <graph name='Sensors/Gyroscope/Gyros'>
+ <graph name='Sensors/Gyroscope/Gyro 1'>
   <description></description>
+  <expression>degrees(IMU[0].GyrX) degrees(IMU[0].GyrY) degrees(IMU[0].GyrZ)</expression>
   <expression>degrees(IMU.GyrX) degrees(IMU.GyrY) degrees(IMU.GyrZ)</expression>
  </graph>
 
- <graph name='Gyroscope Two Output'>
+ <graph name='Sensors/Gyroscope/Gyro 2'>
   <description></description>
+  <expression>degrees(IMU[1].GyrX) degrees(IMU[1].GyrY) degrees(IMU[1].GyrZ)</expression>
   <expression>degrees(IMU2.GyrX) degrees(IMU2.GyrY) degrees(IMU2.GyrZ)</expression>
  </graph>
 
+ <graph name='Sensors/Gyroscope/Gyro 3'>
+  <description></description>
+  <expression>degrees(IMU[2].GyrX) degrees(IMU[2].GyrY) degrees(IMU[2].GyrZ)</expression>
+  <expression>degrees(IMU3.GyrX) degrees(IMU3.GyrY) degrees(IMU3.GyrZ)</expression>
+ </graph>
+ 
  <graph name='Servos/OctaQuad-FRONT'>
   <description></description>
   <expression>RCOU.C5 RCOU.C6 RCOU.C9 RCOU.C10</expression>
@@ -207,10 +194,14 @@
  <graph name='RADIO/RSSI_Distance'>
   <description></description>
   <expression>RAD.RSSI RAD.Noise RAD.RemRSSI RAD.RemNoise distance_home(GPS):2</expression>
-  <expression>RADIO_STATUS.rssi RADIO_STATUS.noise RADIO_STATUS.remrssi RADIO_STATUS.remnoise distance_home(GPS_RAW_INT):2</expression>
  </graph>
 
-  <graph name='Flow/FlowAGL vs Terrain'>
+ <graph name='Radio/RSSI_Noise'>
+  <description></description>
+  <expression>RAD.RSSI RAD.Noise RAD.RemRSSI RAD.RemNoise</expression>
+ </graph>
+
+ <graph name='Flow/FlowAGL vs Terrain'>
   <description></description>
   <expression>lowpass(max((GPS.Spd/(OF.flowY-OF.bodyY)),0)*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch)),"flowheight",0.95) TERR.CHeight</expression>
  </graph>
@@ -262,6 +253,7 @@
 
  <graph name='Sensors/Compass Compare 1-2'>
   <description></description>
+  <expression>MAG[0].MagX MAG[0].MagY MAG[0].MagZ MAG[1].MagX MAG[1].MagY MAG[1].MagZ</expression>
   <expression>MAG.MagX MAG.MagY MAG.MagZ MAG2.MagX MAG2.MagY MAG2.MagZ</expression>
  </graph>
 
@@ -351,17 +343,17 @@
 
  <graph name='Copter/PID Tuning/PIQP'>
   <description></description>
-  <expression>PIQP.P PIQP.I PIQP.D</expression>
+  <expression>PIQP.FF PIQP.P PIQP.I PIQP.D</expression>
  </graph>
 
  <graph name='Copter/PID Tuning/PIQR'>
   <description></description>
-  <expression>PIQR.P PIQR.I PIQR.D</expression>
+  <expression>PIQR.FF PIQR.P PIQR.I PIQR.D</expression>
  </graph>
 
  <graph name='Copter/PID Tuning/PIQY'>
   <description></description>
-  <expression>PIQY.P PIQY.I PIQY.D</expression>
+  <expression>PIQY.FF PIQY.P PIQY.I PIQY.D</expression>
  </graph>
 
  <graph name='Copter/PID Tuning/PIQA'>
@@ -371,12 +363,12 @@
 
  <graph name='Plane/PID Tuning/PIDR'>
   <description></description>
-  <expression>PIDR.P PIDR.I PIDR.D</expression>
+  <expression>PIDR.FF PIDR.P PIDR.I PIDR.D</expression>
  </graph>
 
  <graph name='Plane/PID Tuning/PIDP'>
   <description></description>
-  <expression>PIDP.P PIDP.I PIDP.D</expression>
+  <expression>PIDP.FF PIDP.P PIDP.I PIDP.D</expression>
  </graph>
 
  <graph name='Plane/PID Tuning/PIDS'>
@@ -385,3 +377,4 @@
  </graph>
 
 </graphs>
+

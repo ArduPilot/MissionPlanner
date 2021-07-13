@@ -96,6 +96,16 @@ Velocity comparison x
     <expression>sqrt(NKF3.IPN**2+NKF3.IPE**2) sqrt(NKF8.IPN**2+NKF8.IPE**2)</expression>
   </graph>
 
+ <graph name='Speed/GPS vs NKF1'>
+  <description></description>
+  <expression>GPS.Spd sqrt(NKF1[0].VN**2+NKF1[0].VE**2)</expression>
+  <expression>GPS.Spd sqrt(NKF1.VN**2+NKF1.VE**2)</expression>
+ </graph>
+ 
+ <graph name='Sensors/GPS/Accuracy'>
+  <description></description>
+  <expression>GPA.HAcc GPA.SAcc GPA.VAcc GPS.NSats:2</expression>
+ </graph>
 
   <graph name='Sensors/Compass/Compass vs Throttle'>
     <description>Compass vs Throttle</description>
