@@ -941,7 +941,7 @@ namespace MissionPlanner.Log
                     else
                         newlist.Add(new PointPair(a.Item1.lineno, a.Item2));
                 });
-                GraphItem_AddCurve(newlist, type, fieldname, left, instance);
+                GraphItem_AddCurve(newlist, type, fieldname, left, instance, isexpression);
             }
         }
 
@@ -1241,7 +1241,7 @@ main()
             return colours[zg1.GraphPane.CurveList.Count % colours.Length];
         }
 
-        void GraphItem_AddCurve(PointPairList list1, string type, string header, bool left, string instance)
+        void GraphItem_AddCurve(PointPairList list1, string type, string header, bool left, string instance, bool isexpression = false)
         {
             if (list1.Count < 1)
             {
@@ -1252,6 +1252,10 @@ main()
             var ans = logdata.GetUnit(type, header);
             string unit = ans.Item1;
             double multiplier = ans.Item2;
+
+            // this is so precaned graphs draw on a singel axis
+            if (isexpression)
+                unit = "";
 
             if (unit != "")
                 header += " (" + unit + ")";
@@ -2774,7 +2778,7 @@ main()
                     }
                     else
                     {
-                        GraphItem(item.type, item.field, item.left, false);
+                        GraphItem(item.type + "." + item.field, "", item.left, false, true);
                     }
                 }
                 catch
