@@ -596,6 +596,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                         client = null;
                                     }
                                 }
+
+                                if (frame.MsgTypeID == uavcan.ARDUPILOT_GNSS_MOVINGBASELINEDATA_DT_ID)
+                                {
+                                    var data = msg as uavcan.ardupilot_gnss_MovingBaselineData;
+                                    try
+                                    {
+                                        rtcmbps += data.data_len;
+                                        st.Write(data.data, 0, data.data_len);
+                                        st.Flush();
+                                    }
+                                    catch
+                                    {
+                                        client = null;
+                                    }
+                                }
                             };
 
                             can.MessageReceived -= mrd;
