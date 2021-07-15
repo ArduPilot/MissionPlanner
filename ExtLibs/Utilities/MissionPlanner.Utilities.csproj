@@ -41,13 +41,11 @@
     <PackageReference Include="ExifLibNet" Version="2.1.3" />
     <PackageReference Include="Flurl" Version="3.0.2" />
     <PackageReference Include="Flurl.Http" Version="3.0.2" />
-    <PackageReference Include="K4os.Compression.LZ4" Version="1.2.6" />
     <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="MathParser.org-mXparser" Version="4.3.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.13" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Onvif.Core" Version="2.2.2" />
     <PackageReference Include="SharpCompress" Version="0.26.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0007" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0007" />
@@ -88,9 +86,6 @@
 
   <ItemGroup>
     <None Update="MissionPlanner.Utilities.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="MissionPlanner.Utilities.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

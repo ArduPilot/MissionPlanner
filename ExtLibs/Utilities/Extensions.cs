@@ -11,7 +11,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using GMap.NET;
-using K4os.Compression.LZ4;
 using MissionPlanner.Comms;
 using Newtonsoft.Json;
 
@@ -684,7 +683,7 @@ namespace MissionPlanner.Utilities
             }
             return vals.Pop();
         }
-
+        /*
         public static byte[] Compress(this byte[] input)
         {
             return LZ4Pickler.Pickle(input);
@@ -694,5 +693,6 @@ namespace MissionPlanner.Utilities
         {
             return LZ4Pickler.Unpickle(input);
         }
+        */
     }
 }
