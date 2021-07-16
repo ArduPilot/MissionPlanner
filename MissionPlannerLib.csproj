@@ -74,6 +74,7 @@
     <Compile Remove="ExtLibs\NetDFULib\**" />
     <Compile Remove="ExtLibs\netDxf\**" />
     <Compile Remove="ExtLibs\Ntrip\**" />
+    <Compile Remove="ExtLibs\Onvif\**" />
     <Compile Remove="ExtLibs\OSDConfigurator\**" />
     <Compile Remove="ExtLibs\ParameterMetaDataGenerator\**" />
     <Compile Remove="ExtLibs\ProjNet\**" />
@@ -167,6 +168,7 @@
     <EmbeddedResource Remove="ExtLibs\NetDFULib\**" />
     <EmbeddedResource Remove="ExtLibs\netDxf\**" />
     <EmbeddedResource Remove="ExtLibs\Ntrip\**" />
+    <EmbeddedResource Remove="ExtLibs\Onvif\**" />
     <EmbeddedResource Remove="ExtLibs\OSDConfigurator\**" />
     <EmbeddedResource Remove="ExtLibs\ParameterMetaDataGenerator\**" />
     <EmbeddedResource Remove="ExtLibs\ProjNet\**" />
@@ -259,6 +261,7 @@
     <None Remove="ExtLibs\NetDFULib\**" />
     <None Remove="ExtLibs\netDxf\**" />
     <None Remove="ExtLibs\Ntrip\**" />
+    <None Remove="ExtLibs\Onvif\**" />
     <None Remove="ExtLibs\OSDConfigurator\**" />
     <None Remove="ExtLibs\ParameterMetaDataGenerator\**" />
     <None Remove="ExtLibs\ProjNet\**" />

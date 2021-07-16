@@ -26,7 +26,6 @@ using JetBrains.Profiler.SelfApi;
 using Microsoft.Diagnostics.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Onvif;
 using Architecture = System.Runtime.InteropServices.Architecture;
 using Trace = System.Diagnostics.Trace;
 
