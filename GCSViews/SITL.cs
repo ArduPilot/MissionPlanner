@@ -724,15 +724,18 @@ SIM_DRIFT_TIME=0
                 exestart.UseShellExecute = true;
 
                 simulator.Add(System.Diagnostics.Process.Start(exestart));
+
+                await Task.Delay(100);
             }
 
-            System.Threading.Thread.Sleep(2000);
+            await Task.Delay(2000);
 
             MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
 
             try
             {
-                for (int a = (int)max; a >= 0; a--)
+                Parallel.For(0, max, (a) =>
+                    //for (int a = (int)max; a >= 0; a--)
                 {
                     var mav = new MAVLinkInterface();
 
@@ -746,16 +749,28 @@ SIM_DRIFT_TIME=0
 
                     Thread.Sleep(200);
 
-                    MainV2.instance.doConnect(mav, "preset", "5760", false);
+                    this.InvokeIfRequired(() => { MainV2.instance.doConnect(mav, "preset", "5760", false); });
 
-                    MainV2.Comports.Add(mav);
+                    lock(this)
+                        MainV2.Comports.Add(mav);
+
+                    try
+                    {
+                        _ =  mav.getParamListMavftpAsync((byte) mav.sysidcurrent, (byte) mav.compidcurrent);
+                    }
+                    catch
+                    {
+                    }
                 }
+                );
 
                 return;
             }
-            catch
+            catch (Exception ex)
             {
-                CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
+                log.Error(ex);
+                CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance +
+                                      ex.InnerException?.Message, Strings.ERROR);
                 return;
             }
         }
@@ -868,7 +883,7 @@ SIM_DRIFT_TIME=0
 
                 Thread.Sleep(200);
 
-                MainV2.instance.doConnect(MainV2.comPort, "preset", "5760", false);
+                this.InvokeIfRequired(() => { MainV2.instance.doConnect(MainV2.comPort, "preset", "5760", false); });
 
                 try
                 {
