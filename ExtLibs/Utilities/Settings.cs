@@ -370,9 +370,59 @@ namespace MissionPlanner.Utilities
 
             return newpath;
         }
-        
+
+        /// <summary>
+        /// Returns the full path to the custom default config 
+        /// </summary>
+        /// <returns></returns>
+        static string GetConfigDefaultsFullPath()
+        {
+            // get default path details
+            var newdir = GetRunningDirectory();
+
+            var newpath = Path.Combine(newdir, "custom.config.xml");
+
+            return newpath;
+        }
+
         public void Load()
         {
+            // load the defaults
+            try
+            {
+                if (File.Exists(GetConfigDefaultsFullPath()))
+                    using (XmlTextReader xmlreader = new XmlTextReader(GetConfigDefaultsFullPath()))
+                    {
+                        while (xmlreader.Read())
+                        {
+                            if (xmlreader.NodeType == XmlNodeType.Element)
+                            {
+                                try
+                                {
+                                    switch (xmlreader.Name)
+                                    {
+                                        case "Config":
+                                            break;
+                                        case "xml":
+                                            break;
+                                        default:
+                                            config[xmlreader.Name] = xmlreader.ReadString();
+                                            break;
+                                    }
+                                }
+                                // silent fail on bad entry
+                                catch (Exception)
+                                {
+                                }
+                            }
+                        }
+                    }
+            }
+            catch
+            {
+
+            }
+
             if (!File.Exists(GetConfigFullPath()))
                 return;
 
