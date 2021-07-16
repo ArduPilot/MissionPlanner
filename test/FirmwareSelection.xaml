@@ -28,7 +28,7 @@
 
             <Label x:Name="lblfirmware"  TextColor="White" BackgroundColor="Transparent">Firmwares - Please pick a file to download and upload (.apj)</Label>
             <Picker x:Name="Result" Title="Firmwares" HorizontalOptions="FillAndExpand" Margin="10" SelectedIndexChanged="Result_OnSelectedIndexChanged"></Picker>
-            <Button x:Name="Button" Clicked="Button_OnClicked" Text="Upload Firmware"></Button>
+            <Button x:Name="Button" Clicked="Button_OnClicked" Text="Upload Firmware" HeightRequest="30"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

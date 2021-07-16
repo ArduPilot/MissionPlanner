@@ -54,6 +54,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_Layout.SelectedIndex = 0;
             }
 
+            if (!MainV2.DisplayConfiguration.displayPlannerLayout)
+            {
+                label5.Visible = false;
+                CMB_Layout.Visible = false;
+            }
 
             CMB_osdcolor.DataSource = Enum.GetNames(typeof(KnownColor));
 

@@ -68,11 +68,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     continue;
                 tableLayoutPanel1.RowCount++;
                 tableLayoutPanel1.Controls.Add(new Label() { Text = option, Name = option });
-                var cmb = new MavlinkComboBox();
-                tableLayoutPanel1.Controls.Add(cmb);
-                cmb.setup(
-                    ParameterMetaDataRepository.GetParameterOptionsInt(option,
-                        MainV2.comPort.MAV.cs.firmware.ToString()), option, MainV2.comPort.MAV.param);
+                var options = ParameterMetaDataRepository.GetParameterOptionsInt(option, MainV2.comPort.MAV.cs.firmware.ToString());
+                if(options.Count == 0)
+                {
+                    double min = 0,max = 0;
+                    var opt = ParameterMetaDataRepository.GetParameterRange(option,ref min,ref max, MainV2.comPort.MAV.cs.firmware.ToString());
+                    var num = new MavlinkNumericUpDown();
+                    num.setup((float)min,(float)max,1,1,option, MainV2.comPort.MAV.param);
+                } else { 
+                    var cmb = new MavlinkComboBox();              
+                    cmb.setup(options, option, MainV2.comPort.MAV.param);
+                    tableLayoutPanel1.Controls.Add(cmb);
+                }
             }
 
             tableLayoutPanel1.ResumeLayout(true);

@@ -110,7 +110,10 @@ namespace MissionPlanner.GCSViews
 
         public void Activate()
         {
-            homemarker.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
+            if(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat == 0 && MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng == 0)
+                homemarker.Position = new PointLatLng(-35.3633515, 149.1652412);
+            else
+                homemarker.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
 
             myGMAP1.Position = homemarker.Position;
 

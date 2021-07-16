@@ -102,6 +102,9 @@ namespace MissionPlanner.Utilities
         public bool displayOSD { get; set; } = true;
         public bool displayUserParam { get; set; } = true;
         public bool displayPlannerSettings { get; set; } = true;
+        public bool displayFFTSetup { get; set; } = true;
+        public bool displayPreFlightTabEdit { get; set; } = true;
+        public bool displayPlannerLayout { get; set; } = true;
 
         public DisplayView()
         {

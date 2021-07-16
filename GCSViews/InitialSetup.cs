@@ -273,8 +273,10 @@ namespace MissionPlanner.GCSViews
             {
                 AddBackstageViewPage(typeof(Antenna.TrackerUI), "Antenna Tracker", true, opt);
             }
-
-            AddBackstageViewPage(typeof(ConfigFFT), "FFT Setup", isConnected && gotAllParams, opt);
+            if (MainV2.DisplayConfiguration.displayFFTSetup)
+            {
+                AddBackstageViewPage(typeof(ConfigFFT), "FFT Setup", isConnected && gotAllParams, opt);
+            }
 
             if (MainV2.DisplayConfiguration.isAdvancedMode)
             {

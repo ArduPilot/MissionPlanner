@@ -22,14 +22,18 @@
 
   <ItemGroup>
     <Compile Remove="Forms\**" />
+    <Compile Remove="GMap.NET.WindowsForms\**" />
     <EmbeddedResource Remove="Forms\**" />
+    <EmbeddedResource Remove="GMap.NET.WindowsForms\**" />
     <None Remove="Forms\**" />
+    <None Remove="GMap.NET.WindowsForms\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controls\Cursors.cs" />
     <Compile Remove="Controls\MouseEventArgs.cs" />
     <Compile Remove="Controls\PaintEventArgs.cs" />
+    <Compile Remove="GCSViews\FlightData.xaml.cs" />
     <Compile Remove="Linked\Control.cs" />
     <Compile Remove="Linked\MainV2.cs" />
     <Compile Remove="Linked\UserControl.cs" />
@@ -37,7 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\Common.cs" Link="GCSViews\Common.cs" />
+    <EmbeddedResource Remove="GCSViews\FlightData.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\..\Controls\MavlinkCheckBox.cs" Link="GCSViews\MavlinkCheckBox.cs" />
     <Compile Include="..\..\..\Controls\MavlinkCheckBoxBitMask.cs" Link="GCSViews\MavlinkCheckBoxBitMask.cs" />
     <Compile Include="..\..\..\Controls\MavlinkComboBox.cs" Link="GCSViews\MavlinkComboBox.cs" />
@@ -138,7 +145,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>files.resx</DependentUpon>
     </Compile>
-    <Compile Update="GMap.NET.WindowsForms\GMapControl.cs" />
     <Compile Update="Controls\HUD.cs" />
     <Compile Update="Controls\HUDT.Designer.cs">
       <DesignTime>True</DesignTime>
