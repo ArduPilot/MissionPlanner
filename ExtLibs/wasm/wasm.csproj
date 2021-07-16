@@ -1,13 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-   <TargetFramework>net5.0</TargetFramework>
+   <TargetFramework>net6.0</TargetFramework>
 
 
     <RazorLangVersion>3.0</RazorLangVersion>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
     <BlazorCacheBootResources>false</BlazorCacheBootResources>
+    <RunAOTCompilation>true</RunAOTCompilation>
+
+
+
   </PropertyGroup>
+
+  <Target Name="RemoveSatelliteAssemblies" BeforeTargets="WasmBuildApp">
+    <ItemGroup>
+      <WasmAssembliesToBundle Remove="@(WasmAssembliesToBundle)" Condition="$([System.String]::Copy('%(Identity)').EndsWith('.resources.dll'))" />
+    </ItemGroup>
+  </Target>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
