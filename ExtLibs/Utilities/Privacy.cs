@@ -17,7 +17,7 @@ namespace MissionPlanner.Utilities
 
             var rand = new Random();
 
-            var random = rand.NextDouble() * (rand.NextDouble() * 3);
+            var random = (rand.NextDouble() * 10);
 
             // TLOG
             if (logfile.ToLower().EndsWith(".tlog"))
