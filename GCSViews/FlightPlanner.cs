@@ -120,7 +120,7 @@ namespace MissionPlanner.GCSViews
         private string mobileGpsLog = string.Empty;
         private PointLatLng MouseDownStart;
         private PointLatLngAlt mouseposdisplay = new PointLatLngAlt(0, 0);
-        private WPOverlay overlay;
+        private WPOverlay wpOverlay;
         private bool polygongridmode;
         private MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
         private MissionPlanner.Controls.Icon.Zoom zoomicon = new MissionPlanner.Controls.Icon.Zoom();
@@ -1361,15 +1361,15 @@ namespace MissionPlanner.GCSViews
 
                 if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.MISSION)
                 {
-                    overlay = new WPOverlay();
-                    overlay.overlay.Id = "WPOverlay";
+                    wpOverlay = new WPOverlay();
+                    wpOverlay.overlay.Id = "WPOverlay";
 
                     try
                     {
                         if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
                         if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
 
-                        overlay.CreateOverlay(home,
+                        wpOverlay.CreateOverlay(home,
                             commandlist,
                             double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
                             double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt, CurrentState.multiplieralt);
@@ -1382,28 +1382,28 @@ namespace MissionPlanner.GCSViews
 
                     MainMap.HoldInvalidation = true;
 
-                    var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                    var existing = MainMap.Overlays.Where(a => a.Id == wpOverlay.overlay.Id).ToList();
                     foreach (var b in existing)
                     {
                         MainMap.Overlays.Remove(b);
                     }
 
-                    MainMap.Overlays.Insert(1, overlay.overlay);
+                    MainMap.Overlays.Insert(1, wpOverlay.overlay);
 
-                    overlay.overlay.ForceUpdate();
+                    wpOverlay.overlay.ForceUpdate();
 
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
                                         FormatDistance((
-                                            overlay.overlay.Routes.SelectMany(a => a.Points)
+                                            wpOverlay.overlay.Routes.SelectMany(a => a.Points)
                                                 .Select(a => (PointLatLngAlt) a)
                                                 .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))
                                         ) / 1000.0, false);
 
-                    setgradanddistandaz(overlay.pointlist, home);
+                    setgradanddistandaz(wpOverlay.pointlist, home);
 
-                    if (overlay.pointlist.Count <= 1)
+                    if (wpOverlay.pointlist.Count <= 1)
                     {
-                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(overlay.overlay.Id);
+                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(wpOverlay.overlay.Id);
                         if (rect.HasValue)
                         {
                             MainMap.Position = rect.Value.LocationMiddle;
@@ -1412,7 +1412,7 @@ namespace MissionPlanner.GCSViews
                         MainMap_OnMapZoomChanged();
                     }
 
-                    pointlist = overlay.pointlist;
+                    pointlist = wpOverlay.pointlist;
 
                     {
                         foreach (var pointLatLngAlt in pointlist.PrevNowNext())
@@ -1429,7 +1429,7 @@ namespace MissionPlanner.GCSViews
 
                             var pnt = new GMapMarkerPlus(mid);
                             pnt.Tag = new midline() {now = now, next = next};
-                            overlay.overlay.Markers.Add(pnt);
+                            wpOverlay.overlay.Markers.Add(pnt);
                         }
                     }
 
@@ -1462,12 +1462,12 @@ namespace MissionPlanner.GCSViews
 
                 if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
                 {
-                    var overlay = new WPOverlay();
-                    overlay.overlay.Id = "fence";
+                    var fenceoverlay = new WPOverlay();
+                    fenceoverlay.overlay.Id = "fence";
 
                     try
                     {
-                        overlay.CreateOverlay(PointLatLngAlt.Zero,
+                        fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                             commandlist, 0, 0, CurrentState.multiplieralt);
                     }
                     catch (FormatException)
@@ -1477,19 +1477,19 @@ namespace MissionPlanner.GCSViews
 
                     MainMap.HoldInvalidation = true;
 
-                    var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                    var existing = MainMap.Overlays.Where(a => a.Id == fenceoverlay.overlay.Id).ToList();
                     foreach (var b in existing)
                     {
                         MainMap.Overlays.Remove(b);
                     }
 
-                    MainMap.Overlays.Insert(1, overlay.overlay);
+                    MainMap.Overlays.Insert(1, fenceoverlay.overlay);
 
-                    overlay.overlay.ForceUpdate();
+                    fenceoverlay.overlay.ForceUpdate();
 
                     if (true)
                     {
-                        foreach (var poly in overlay.overlay.Polygons)
+                        foreach (var poly in fenceoverlay.overlay.Polygons)
                         {
                             var startwp = int.Parse(poly.Name);
                             var a = 1;
@@ -1507,7 +1507,7 @@ namespace MissionPlanner.GCSViews
                                 pnt.Tag = new midline() {now = now, next = next};
                                 ((midline) pnt.Tag).now.Tag = (startwp + a).ToString();
                                 ((midline) pnt.Tag).next.Tag = (startwp + a + 1).ToString();
-                                overlay.overlay.Markers.Add(pnt);
+                                fenceoverlay.overlay.Markers.Add(pnt);
 
                                 a++;
                             }
@@ -1519,12 +1519,12 @@ namespace MissionPlanner.GCSViews
 
                 if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
                 {
-                    var overlay = new WPOverlay();
-                    overlay.overlay.Id = "rally";
+                    var rallyoverlay = new WPOverlay();
+                    rallyoverlay.overlay.Id = "rally";
 
                     try
                     {
-                        overlay.CreateOverlay(PointLatLngAlt.Zero,
+                        rallyoverlay.CreateOverlay(PointLatLngAlt.Zero,
                             commandlist, 0, 0, CurrentState.multiplieralt);
                     }
                     catch (FormatException)
@@ -1534,15 +1534,15 @@ namespace MissionPlanner.GCSViews
 
                     MainMap.HoldInvalidation = true;
 
-                    var existing = MainMap.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                    var existing = MainMap.Overlays.Where(a => a.Id == rallyoverlay.overlay.Id).ToList();
                     foreach (var b in existing)
                     {
                         MainMap.Overlays.Remove(b);
                     }
 
-                    MainMap.Overlays.Insert(1, overlay.overlay);
+                    MainMap.Overlays.Insert(1, rallyoverlay.overlay);
 
-                    overlay.overlay.ForceUpdate();
+                    rallyoverlay.overlay.ForceUpdate();
 
                     MainMap.Refresh();
                 }

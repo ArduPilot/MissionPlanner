@@ -3160,7 +3160,7 @@ namespace MissionPlanner.GCSViews
                                         MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt / CurrentState.multiplieralt, "H");
                                 }
 
-                                var overlay = new WPOverlay();
+                                var wpOverlay = new WPOverlay();
 
                                 {
                                     List<Locationwp> mission_items;
@@ -3169,14 +3169,14 @@ namespace MissionPlanner.GCSViews
 
                                     if (wps.Count == 1)
                                     {
-                                        overlay.CreateOverlay(homeplla,
+                                        wpOverlay.CreateOverlay(homeplla,
                                             mission_items,
                                             0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
                                             CurrentState.multiplieralt);
                                     }
                                     else
                                     {
-                                        overlay.CreateOverlay(homeplla,
+                                        wpOverlay.CreateOverlay(homeplla,
                                             mission_items,
                                             0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
                                             CurrentState.multiplieralt);
@@ -3184,15 +3184,15 @@ namespace MissionPlanner.GCSViews
                                     }
                                 }
 
-                                var existing = gMapControl1.Overlays.Where(a => a.Id == overlay.overlay.Id).ToList();
+                                var existing = gMapControl1.Overlays.Where(a => a.Id == wpOverlay.overlay.Id).ToList();
                                 foreach (var b in existing)
                                 {
                                     gMapControl1.Overlays.Remove(b);
                                 }
 
-                                gMapControl1.Overlays.Insert(1, overlay.overlay);
+                                gMapControl1.Overlays.Insert(1, wpOverlay.overlay);
 
-                                overlay.overlay.ForceUpdate();
+                                wpOverlay.overlay.ForceUpdate();
 
                                 try
                                 {
@@ -3200,10 +3200,10 @@ namespace MissionPlanner.GCSViews
 
                                     var i = -1;
                                     var travdist = 0.0;
-                                    if (overlay.pointlist.Count > 0)
+                                    if (wpOverlay.pointlist.Count > 0)
                                     {
-                                        var lastplla = overlay.pointlist.Where(a => a != null).FirstOrDefault();
-                                        foreach (var plla in overlay.pointlist)
+                                        var lastplla = wpOverlay.pointlist.Where(a => a != null).FirstOrDefault();
+                                        foreach (var plla in wpOverlay.pointlist)
                                         {
                                             i++;
                                             if (plla == null)
