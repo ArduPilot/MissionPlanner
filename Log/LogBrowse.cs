@@ -2699,24 +2699,18 @@ main()
             }
         }
 
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
             toolTip1.Hide(treeView1);
 
             if (e.Node != null && e.Node.Parent != null)
             {
-                // set the check if we right click
-                if (e.Button == System.Windows.Forms.MouseButtons.Right)
-                {
-                    e.Node.Checked = !e.Node.Checked;
-                }
-
                 var nodepath = e.Node.FullPath;
                 var parts = nodepath.Split('\\');
 
                 if (e.Node.Checked)
                 {
-                    if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                    if (Control.MouseButtons == System.Windows.Forms.MouseButtons.Right)
                     {
                         if (parts.Length == 3)
                             GraphItem(parts[0], parts[2], false, true, false, parts[1]);
