@@ -2564,6 +2564,7 @@ namespace MissionPlanner.GCSViews
             }
 
             isMouseClickOffMenu = false; // Just incase
+            CurentRectMarker = null;     // Clear selected marker, otherwise it will stuck in drag mode 
         }
 
         public void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
