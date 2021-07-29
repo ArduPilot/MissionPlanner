@@ -2710,7 +2710,7 @@ main()
 
                 if (e.Node.Checked)
                 {
-                    if (Control.MouseButtons == System.Windows.Forms.MouseButtons.Right)
+                    if (wasrightclick)
                     {
                         if (parts.Length == 3)
                             GraphItem(parts[0], parts[2], false, true, false, parts[1]);
@@ -3340,6 +3340,7 @@ main()
 
         bool mousedown = false;
         private PointLatLng MouseDownStart;
+        private bool wasrightclick;
 
         private void myGMAP1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -3426,6 +3427,11 @@ main()
             MainV2.comPort.MAV.param.AddRange(parmdata);
 
             var frm = new ConfigRawParamsTree().ShowUserControl();
+        }
+
+        private void treeView1_MouseDown(object sender, MouseEventArgs e)
+        {
+            wasrightclick = e.Button == MouseButtons.Right;
         }
     }
 }
