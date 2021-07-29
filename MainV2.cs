@@ -3347,14 +3347,18 @@ namespace MissionPlanner
             };
             AutoConnect.Start();
 
+            // debound based on url
+            List<string> videourlseen = new List<string>();
+            // prevent spaming the ui
             SemaphoreSlim videodetect = new SemaphoreSlim(1);
 
             CameraProtocol.OnRTSPDetected += (sender, s) =>
             {
-                if (videodetect.Wait(0))
+                if (!videourlseen.Contains(s) && videodetect.Wait(0))
                 {
+                    videourlseen.Add(s);
                     if (CustomMessageBox.Show(
-                            "A video stream has been detected, Do you want to connect to it?",
+                            "A video stream has been detected, Do you want to connect to it? " + s,
                             "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                         (int) System.Windows.Forms.DialogResult.Yes)
                     {
