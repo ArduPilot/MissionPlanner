@@ -29,7 +29,7 @@ namespace MissionPlanner.Utilities
 
                     string[] items = line.Split(new char[] {' ', ',', '\t'}, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (items.Length != 2)
+                    if (items.Length < 2)
                         continue;
 
                     string name = items[0];
