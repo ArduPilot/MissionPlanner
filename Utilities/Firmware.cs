@@ -688,8 +688,20 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
+                        if (state.ShouldExitCurrentIteration)
+                        {
+                            up.close();
+                            return;
+                        }
+
                         log.Info(DateTime.Now.Millisecond + " Trying identify " + port);
                         up.identify();
+
+                        if (state.ShouldExitCurrentIteration)
+                        {
+                            up.close();
+                            return;
+                        }
 
                         updateProgress(-1, port + " Identify");
                         log.InfoFormat(
@@ -699,6 +711,7 @@ namespace MissionPlanner.Utilities
 
                         up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
                         up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
+                        up.identify();
                         state.Break();
                         foundboard = true;
                         uploader = up;
@@ -712,6 +725,7 @@ namespace MissionPlanner.Utilities
                 });
 
                 log.Info(DateTime.Now.Millisecond + " Portscan done found:" + foundboard);
+                Application.DoEvents();
 
                 if (foundboard)
                 {
