@@ -16,7 +16,7 @@ namespace MissionPlanner.Utilities
         public void DownloadFence(MAVLinkInterface port, Action<int, string> progress = null)
         {
             var list = Task.Run(async () => await mav_mission
-                .download(port, port.MAV.sysid, port.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE, progress).ConfigureAwait(false)).Result;
+                .download(port, port.MAV.sysid, port.MAV.compid, MAVLink.MAV_MISSION_TYPE.FENCE, progress).ConfigureAwait(false)).GetAwaiter().GetResult();
 
             LocationToFence(list);
         }

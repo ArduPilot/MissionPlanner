@@ -72,7 +72,7 @@ namespace MissionPlanner.ArduPilot
                 }
 
                 return false;
-            }).Result;
+            }).GetAwaiter().GetResult();
         }
 
         public void ResetTimeout()

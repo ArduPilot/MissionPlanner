@@ -447,7 +447,7 @@ namespace GMap.NET.MapProviders
             ret = Task.Run(async () =>
             {
                 return await client.GetStringAsync(url);
-            }).Result;
+            }).GetAwaiter().GetResult();
 
             return ret;
         }

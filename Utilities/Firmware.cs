@@ -803,7 +803,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    if (task.Wait(TimeSpan.FromSeconds(3)) && task.Result == true)
+                    if (task.Wait(TimeSpan.FromSeconds(3)) && task.GetAwaiter().GetResult() == true)
                         return;
                     else
                     {

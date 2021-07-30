@@ -3750,7 +3750,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                     sender.UpdateProgressAndStatus(percent, status);
-                }).Result;
+                }).GetAwaiter().GetResult();
 
             WPtoScreen(cmds);
         }

@@ -312,7 +312,7 @@ namespace MissionPlanner.Utilities
                 int count = tasklist.Count(a =>
                 {
                     a.Item3.Wait();
-                    return !a.Item3.Result;
+                    return !a.Item3.GetAwaiter().GetResult();
                 });
 
                 // parallel download
@@ -344,7 +344,7 @@ namespace MissionPlanner.Utilities
                     string hash = task.Item2;
                     // check if existing matchs hash
                     task.Item3.Wait();
-                    bool match = task.Item3.Result;
+                    bool match = task.Item3.GetAwaiter().GetResult();
 
                     if (!match)
                     {

@@ -6013,7 +6013,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 generatePacket((byte) MAVLINK_MSG_ID.RALLY_POINT, rp);
 
-                var newfp = getRallyPoint(rp.idx).Result;
+                var newfp = getRallyPoint(rp.idx).GetAwaiter().GetResult();
 
                 if (newfp.plla.Lat == plla.Lat && newfp.plla.Lng == rp.lng)
                 {
