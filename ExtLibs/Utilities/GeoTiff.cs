@@ -436,7 +436,7 @@ namespace MissionPlanner.Utilities
 
                     
                     //could be on one of the other images
-                    if (x_int < 0 || y_int < 0 || x_int >= geotiffdata.width -1  || y_int >= geotiffdata.height-1)
+                    if (x_int < 0 || y_int < 0 || x_int >= geotiffdata.height -1  || y_int >= geotiffdata.width-1)
                         continue;
 
                     double alt00 = GetAlt(geotiffdata, x_int, y_int);
@@ -620,7 +620,7 @@ namespace MissionPlanner.Utilities
 
         private static double GetAlt(geotiffdata geotiffdata, int x, int y)
         {
-            if (x < 0 || y < 0 || x >= geotiffdata.width || y >= geotiffdata.height)
+            if (x < 0 || y < 0 || x >= geotiffdata.height || y >= geotiffdata.width)
                 return short.MinValue;
             // if the image is to large use the direct to file approach
             return GetAltNoCache(geotiffdata, x, y);
