@@ -3432,6 +3432,15 @@ main()
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
         {
             wasrightclick = e.Button == MouseButtons.Right;
+            if (wasrightclick)
+            {
+                var pos = treeView1.PointToClient(Control.MousePosition);
+                var node = treeView1.GetNodeAt(pos);
+                if (node != null)
+                {
+                    node.Checked = !node.Checked;
+                }
+            }
         }
     }
 }
