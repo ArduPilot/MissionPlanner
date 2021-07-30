@@ -478,6 +478,16 @@ namespace MissionPlanner
         {
             try
             {
+                Terrain?.UnSub();
+                Terrain = null;
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
                 giveComport = false;
 
                 if (logfile != null)
@@ -583,6 +593,7 @@ namespace MissionPlanner
                 Thread.Sleep(1000);
             }
 
+            Terrain?.UnSub();
             Terrain = new TerrainFollow(this);
 
             bool hbseen = false;

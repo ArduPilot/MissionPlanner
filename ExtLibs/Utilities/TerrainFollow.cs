@@ -33,8 +33,13 @@ namespace MissionPlanner.Utilities
 
         ~TerrainFollow()
         {
-            log.Info("unSubscribe to packets");
-            _interface.UnSubscribeToPacketType(subscription);
+            UnSub();
+        }
+
+        public void UnSub()
+        {
+            log?.Info("unSubscribe to packets");
+            _interface?.UnSubscribeToPacketType(subscription);
         }
 
         private bool ReceivedPacket(MAVLink.MAVLinkMessage rawpacket)
