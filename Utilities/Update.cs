@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Org.BouncyCastle.Crypto.Digests;
 
 namespace MissionPlanner.Utilities
 {
@@ -408,11 +409,14 @@ namespace MissionPlanner.Utilities
             {
                 if (File.Exists(filename))
                 {
-                    using (var md5 = MD5.Create())
+                    var md5 = new MD5Digest();
                     {
                         using (var stream = File.OpenRead(filename))
                         {
-                            var answer = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                            stream.ReadChunks().ForEach(a => md5.BlockUpdate(a, 0, a.Length));
+                            var result = new byte[md5.GetDigestSize()];
+                            md5.DoFinal(result, 0);
+                            var answer = BitConverter.ToString(result).Replace("-", "").ToLower();
 
                             log.Debug(filename + "," + hash + "," + answer);
 

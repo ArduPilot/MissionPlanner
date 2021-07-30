@@ -290,7 +290,8 @@ namespace MissionPlanner
             if(Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Desktop || Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Unknown)
                 ZedGraph.PaneBase.Default.IsFontsScaled = false;
 
-            log.Info(typeof(Xamarin.Essentials.DeviceInfo).ToJSON());
+            if(Xamarin.Essentials.DeviceInfo.Platform != Xamarin.Essentials.DevicePlatform.Unknown)
+                log.Info(typeof(Xamarin.Essentials.DeviceInfo).ToJSON());
 
             Console.WriteLine("Setup GoogleMapProvider API");
             GoogleMapProvider.APIKey = "AIzaSyA5nFp39fEHruCezXnG3r8rGyZtuAkmCug";

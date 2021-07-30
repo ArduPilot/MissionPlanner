@@ -683,6 +683,18 @@ namespace MissionPlanner.Utilities
             }
             return vals.Pop();
         }
+
+        public static IEnumerable<byte[]> ReadChunks(this Stream stream, int chunksize = 4096)
+        {
+            int read = 0;
+            var buffer = new byte[chunksize];
+            do
+            {
+                read = stream.Read(buffer, 0, buffer.Length);
+                yield return new Span<byte>(buffer, 0, read).ToArray();
+            } while (read > 0);
+        }
+
         /*
         public static byte[] Compress(this byte[] input)
         {
