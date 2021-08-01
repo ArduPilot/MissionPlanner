@@ -1,4 +1,607 @@
-﻿*Mission Planner 1.3.74 - 15-09-2020
+﻿*Mission Planner 1.3.75 - 1-08-2021
+Xamarin: api 30
+Xamarin: remove GDAL
+Firmware: tweak begininvoke order
+LogBrowse: fix right click add
+Await: replace Result
+Update: change md5 imp
+TerrainFollow: prevent dual init
+GeoTiff: fix width and height swap on exclude check
+ParamFile: support files with extra metadata
+MainV2: debounce video url
+LogBrowse: fix right click add
+Xamarin: disable aot for apk's
+Xamarin: separate apks per arch
+Xamarin: AotAssemblies and all archs
+LogBrowse: fix check and mouse move
+FlightData: rename wpoverlay
+Privacy: increase rand max
+UAVCAN parameter editor - now when entering text value for a numerical parameter, denies new value and shows message box.  Also now shows message box if a numerical value entered which is out of acceptable range.
+UAVCAN parameter editor now does min/max checking on numerical parameters
+Mavcmd: Correct do_change_speed params
+Replaced 2 strings with interpolation
+Made dir string static
+Implemented a variable for Settins.GetRunningDirectory
+Fixed error in type cast
+Introduced some string interpolation
+remove redundant processBuffer call
+HUD: update CN gps status text
+MPLib: remove unused dependancy
+Settings: add custom config loading
+MainV2: fix rtsp video detected spam
+APFirmware: prevent multiple getlists
+Swarm: update Vertexs.py
+wasm: update
+MissionPlanner.Utilities: remove unused nugets
+wasm: update libs
+LogBrowse: graph all expressions on one y axis
+ConfigUAVCAN: support moving base data extraction
+UAVCAN: add  missing messages
+DFLogBuffer: support instance in GetEnumeratorType
+DFLogScript: fix instance number - mag_heading_df
+UAVCAN: add 20006.RelPosHeading.uavcan
+Graphs: update
+Xamarin: add DeviceInfo
+Xamarin: remove plugin
+Program: change Zedgraph font scale
+LogBrowse: fix modifer for instances
+MatLab: fix dflog instance numbers
+Xamarin: fix file save dialog
+Xamarin: fix build
+Null checks
+ULog: decoder
+Benchmark: add
+improved UI design for filter values
+slightly modified groupboxes alignment
+added UI for filter options to the extended tuning page in the config section
+Mavlink: upstream update
+ConnectionStats: add reset
+GeoTiff: add 64bit support
+CurrentState: add NED
+MavlinkUtil: use 4 buffers for ByteArrayToStructureGC
+Dowding: add direct point coords
+plugin: generator, fix loop
+PluginLoader: dont init plugin self type
+Flurl: update
+temp: add ByteArrayToStructureGC struct tests
+MainV2: FreeHGlobal cleanup
+MavlinkUtil: remove allocation from ByteArrayToStructureGC
+Mavlink: change to ByteArrayToStructureGC
+MainV2: support custom theme
+Mavcmd: remove do_set_mode
+Async Fixs
+Dowding: add generic drone
+ZeroConf: seperate polls
+Common: add MAVState to map icons
+Dowding: remove from default build
+FlightPlanner: add tracker alt
+MAVState: make param_types thread safe
+srtm: async improvements
+FlightData: remove async on mainloop
+MAVLinkInterface: remove mavftp .result
+Extensions: modify awaitsync to another thread
+SITL: parallel download main files
+PluginLoader: change to lamba create
+Common: improve speech conversion efficiency
+CheckListItem: exception check result
+MavFTPUI: fix crossthread call
+MP: beta bump
+Multiple: warning fixs
+Dowding: add Cot
+CoT: fix lng vs lon
+APFirmware: add nullchecks
+Update: fix mono updater
+Update: remove paramgen
+Xamarin: prevent toast crash
+Xamarin: fix speech crash
+MainV2: Connection size fix
+Xamarin: fix draw
+Submodule update
+MainV2: async joystick & serial
+TestPlugin: deactivate
+WarningEngine: change to async
+Propagation: change to async
+ZeroConf: rename Hosts
+CurrentState: ensure no unprintable characters in messagehigh
+MAVState: fix paramcache file sync issues
+Xamarin: draw tweak
+MainV2: limit param poll at connect for 60 seconds
+Dowding: test server - add more
+ThemeManager: null check
+ConfigADSB: add flid and reg
+ConfigSerialInjectGPS: add ublox to labels
+Dowding:  fix altitude, UI tweaks
+Xamarin: disable profiled aot
+FlightData: add adsb ident
+Dowding: add simple test server
+Mavlink: add adsb messages
+Xamarin: remove extractNativeLibs
+Dowding: add onvif
+Build: Fix file typo
+GCSViews: Add RC inputs 15 and 16
+Properties: Make the format match the others
+Properties: Change to WINDOWS newline
+Controls: Show the full link status string
+GCSViews: Set the WP radius value in the repository value
+ConfigBattery: add QiotekZealotF427
+FlightData: Optimize string sorting
+CurrentState: Optimize string sorting
+FlightData: fix the incomplete display of string information
+CurrentState: add more MAVLink2 BATTERY STATUS information display
+Dowding: fix hiding
+Crypto: fix buffer size
+MainV2: disable paramcache
+MainV2: fix possible param issue
+MAVFtp: add file not found exception
+MAVState: cleanup params
+Control: Status exception fix
+MAVState: exception checks
+MAVLinkInterface: mavftp param exception fallback
+Plugins: load self
+Dowding: fix ws parsing
+Maps: change max zoom level
+GridUI: change speed to float
+Xamarin: add GPS
+AirMarket: await cleanup
+CameraProtocol: await cleanup
+GridUI: add decimal to speed
+Mavlink param cache
+APFirmware: make case insensitive
+Xamarin: fix android compile
+CurrentState: add uid2
+MainV2: add baud is number check
+Config-multiple: expand fields
+MissionPlannerLib: remove flasher
+Flasher: null check
+MainV2: update port structs
+MAVLinkInterface: add banner
+Flasher: improve old compile compat
+MavlinkInterface: add getParamListMavftp
+Flasher: update
+inf2cat: update ts server
+Flasher: add
+Dowding: add AT output
+SikRadio: invariant culture fix
+UAVCan: fix bad trim
+LogDownloadMavLink: add more user feedback
+Dowding: add event click target
+LogDownloadMavLink: use filename vs stream
+SerialOutputCoT: fix invalid first char
+Cot: change to xmlserializer
+LogDownload: remove .log conversion by default
+Xamarin: prepare SAF
+Xamarin: disable requestLegacyExternalStorage
+UAVCan: fix packet generator
+Dowding: plugin
+HUD: scale dist to wp
+Download: add url to log
+SITL: update rover filename
+editorconfig
+GCSViews: Add options for RC15 and 16
+MissionPlanner: Repond to catch warning CS0168
+GCSViews: Repond to catch warning CS0168
+ExtLibs: Repond to catch warning CS0168
+GCSViews: Set the WAY POINT radius to a floating value
+ExtLibs: Set the WAY POINT radius to a floating value
+Xamarin: profiledAOT
+update example
+Warning Fixs
+UAVCan: canfd
+WebAPI: update
+Plugin: add outside assembly loading
+mavgraphs: add length to gyro
+AirMarket: add
+MainV2: tweak performance
+Readme update
+Camera: add
+MainV2: tweak performance
+ParameterMetaDataRepositoryAPMpdef: fix file extraction
+FlightData: reduce update rate
+MainV2: tweak plugin sleep
+CommsTCPSerial: invalidate host on close
+wasm: net6
+FlightData: modify default Panel1Collapsed state
+LogBrowse: DisableFocusOnMouseEnter
+CurrentState: add fence breach info
+SITL: change start type
+Xamarin: fix renderers
+MissionPlannerLib: exclude new lib
+AutoConnect: add tcp support
+WebAPIs: add
+GStreamer: skip download on ARM
+GStreamer: tweak threadstart
+AutoConnect: change to decodebin3
+ConfigArduplane: fix param rename
+ParameterMetaDataRepositoryAPMpdef: fix rover
+InitialSetup: show frame screen if param exists
+ConfigSerialInjectGPS: tweak ui layout
+AndroidVideo: add placeholder
+GMap: addjust max zoom
+mono: update
+GeoTiff: add gda94
+Xamarin: add android keyboard show/hide
+ParameterMetaDataRepositoryAPMpdef: trial use
+PointLatLngAlt: add tranfrom based on WKT's
+MissionPlanner.Drawing: update version
+Firmwares: add AP_Periph
+DefaultSettings: remove redundant queue
+Xamarin: ui thread override
+OSX: serial port change
+ConnectionControl: tweak baud size and item count
+MAVLinkInterface: add MAVDetected event
+GMapMarkerRallyPt: fix offset icon #2589
+LogOutput: add RALY export
+Xamarin: macos default port type
+FlightPlanner: background task getalt
+Xamarin: scale OSX on high dpi
+SITL: increase heading range to 360
+GeoTiff: remove cache memory limit
+GeoTiff: fix wgs tiff
+FlightPlanner: draw utm zone change line
+Mavlink: update - break old herelink
+LogBrowse: remove focus on mouseenter
+Make QuickViewTab undockable
+Add a new warning type to WarningEngine. It change the background color for the QuickView Item of the selected parameter, if condition is met. This PR will go along with the follwing one which makes QuickView undockable.
+Add QV.numberBackupColor to make space for save numberColor for temporary change it.
+Update ConfigRawParams Handle comma/period decimal separator issues.
+Update ConfigRawParamsTree Handle comma/period decimal separator issue.
+Plugin InitialParamsCalc : Update to latest calculations Updated Initial Params Calculator according to Xfaxta's latest excel.
+Add yaw of GPS_RAW_INT to CurrentState
+nuget: fix
+CurrentState: add efi
+add dotnet restore
+github actions fix
+onvif
+Cursor on target xml fix
+GeoTiff: fix pixel is point
+GeoTiff: fix etrs position
+CurrentState: fix disarmed status bug
+LogBrowse: change params view to tree
+GeoTiff: add ETRS89 support
+plugin: example update herelink
+WPOverlay: fix dojump index
+OpenGLtest2: add location projection
+Geotiff: change cache to work on android
+GeoTiff: fix int32 alts, and improve performance
+Pelco: base
+Nuget: Xamarin Forms update
+GDALForAndroid: add drawing
+Drawing: Image dtor
+Added checkbox "Skip Download"
+CurrentState: timeSinceArmInAir reset on arming
+ConfigUAVCAN: mode update beta to seperate button
+MapBox: use settings apikey
+srtm: tweak downloader
+Actions: add multiple lang whats new
+ConfigSerialInjectGPS: prevent snr jumping
+CommsSerialPort: make writes timeout
+Script: add ahrs bypass sample
+ZeroConf: mavlink
+CommUDPSerialConnect: make hostEndPoint visible
+MAVLinkInterface: ensure a HB is sent when waiting for a HB
+MavFTPUI: fix compile
+Multiple: remove getbuffer usage
+MAVftp: better use of getbuffer and MS initial size
+FlightData: fix message tab when there are 1000 items
+MAVLinkInterface: fix upload of 0 points
+Program: fix dynamic location print
+CurrentState: fix current labels
+SST DNM
+AppX:  copy to output
+GridUI: fix turnrad #2555
+Drawing: prep color
+MissionPlannerLib: add assembly info
+MAVLinkInspector: fix graphing
+Splash: use Splash Assembly version
+log4net: update
+log4net: update
+Settings: continue on bad log dir
+DSP: add
+SkiaSharpTest: test
+Ntrip: add sourcetable
+remove GenerateResourceUsePreserializedResources
+ConfigBatteryMonitoring: add missing autofill entry
+MAVLinkInspector: fix graph
+Add ability to prevent theming using attribute (#2546)
+appveyor fix
+UserAlert: add lastModified
+SITL: fix default config file dl
+Xamarin: add speech back
+Xamarin: add android Bluetooth support
+FlightData: add Battery Reset
+OSM: update referer
+Actions: split artifices ios/osx
+Xamarin: prepare gps interface
+Xamarin: resource cleanup
+SkiaTest: namespace update
+Drawing: Fix SystemIcons
+Xamarin: copy xmls
+azure pipeline update
+Actions: add git log
+Xamarin: loging tweak and scale
+srtm: reduce memory footprint
+Drawing: improve FillPath and DrawPath
+HUD: use power of 2 char texture
+Drawing: fix Measure 0 width
+Xamarin: WinForms scale 1 on osx and no cursor
+CommsSerialPort: add cu. and tty.
+Fix Hud render
+Xamarin Mac: use custom system.drawing
+System.Drawing: remove unused skia
+SvgNet: remove opentk
+android push
+ConfigGPSOrder: add
+iOS/osx
+RLE Huffman Delta
+UAVCAN: Heading update
+ConfigRadioOutput: 1-16
+MAVLinkInterface: add obsoletes
+JoystickBase: remove obsolete
+CurrentState: add HIGH_LATENCY2
+MAVLINK: update
+ConfigFriendlyParams: improve redraw performance
+ConfigArducopter: support QuadPlane
+Privacy: add lng to random
+MAVLinkInspector: fix the unit of bytes per second
+use "POS" data to draw map
+ConfigUAVCAN: add update messages
+GridUI: add leadin2, dist optimise, startpoint number
+MP: beta version no
+Exception Handler
+UdpSerial: fix basestream
+UAVCAN: add anon to GetNodeName
+UAVCAN: check CanTimeout on connect
+ConfigUAVCAN: add udp/tcp support MAVLinkInterface: add can detection and error
+UAVCAN: add Subscriber UAVCANInspector: add node name
+UAVCan: add fw search url
+UAVCAN: obey cancel to Update
+ConnectionControl: add 1m baud
+SkiaTest:  fix compile
+Help: fix shortcut description
+Speech: use ui culture for speech #2516
+temp: update GND_ABS_PRESS
+wasm: net50
+Drawing: allow exception and continue
+MAVLinkInterface: add ability to disable bps with printbps and debug public
+ConfigFFT: fix size
+UAVCan: remove exception in file read handler
+UAVCan: adjust prio
+fttui: update wav button
+LogBrowse: Add Params
+MAVLink: python 3 update
+Spectrogram: add ISBH support
+WPOverlay: draw takeoff
+UAVCan: add FW upload timeout when node drops during update
+github: test android joint build
+Remove double declaration of tableLayoutPanel2 Remove double declaration of 'tableLayoutPanel2'  in FlightData.Designer.cs (It broke designer view in VS)
+FlightPlanner.cs: Add rotation parameter to AutoWP/Text Adding a rotation input parameter to Text drawing tool in FlightPlanner.
+FlightData: change case of actions
+PluginLoader: load uavcan
+ParameterMetaDataGenerator: prevent run through
+ubx: update restart options
+ConfigSerialInjectGPS: ensure base_pos is restored on startup
+Ardupilot: detect vtol correctly
+FlightPlanner: recalc route distance
+Common: correct icon for vtol
+Maps: update for do_land_start
+UAVCan: prevent possible double allocation
+RollingPointPairList: make Add threadsafe
+LogBrowse: support gps instance on map
+JoyStick: remove mono.posix
+UAVCan: write own messages to log
+Xamarin: posix change
+Xamarin: remove need for mono.posix
+UAVCan: process double T packets
+UAVCan: add DynamicNodeAllocator property
+Grid: allow negative leadin/out
+uavcan: graph nested items
+uavcan: filter primative types
+MAVLinkInspector: graph multiple
+UAVCan: recursive inspector, fix tao index and length
+posix change
+JoyStick: refactor
+datagridview fix
+mono: update
+Settings: add bad config break
+SITL: update rover-skid #2497
+Graphics: handle Trimming in DrawText and width in MeasureString
+Drivers: Cube update
+SvgNet: add another shim and support gradient rotation
+REPL: scan for repl in APM dir
+Fix HUD/EKF/VIBE position save/restore config keys with dash are not saved, so changed the dash to underscore.
+UAVCANFlasher: fix dictionary remove
+FlightData: save/restore EKF/Vibe window location
+FlightData: Save/Restore position of Hud dropout
+FlightData: fix brown hud between sessions
+ParameterMetaDataGenerator: local git process
+ParameterMetaDataParser: improve local file performance
+MainV2: fix autohide between sessions
+Firmware: remove save of old format
+MainV2: use manifest for FW version check
+ConfigFrameClassType: add Other type #2498
+FlightData: fix adsb alt #2496
+LogBrowse: logmeta textbox
+UAVCan: change menu, add passthrough
+UAVCan: support requested node_id
+CurrentState: filter out bad postion
+ConfigFirmwareManifest: add message about no mavlink for  bootloader update
+UAVCAN: update formatting
+UAVCAN: add SetParameter overload
+github: actions apk
+wasm: update refs
+MainV2: add mavftp param sleep
+Spectrogram: change colors
+MainV2: mavftp save params as float not union #2503
+UAVCAN: Node allocator mod
+UAVCAN: cache all params
+CurrentState: remove verbose ekf status message to console
+Xamarin: keydown fix
+uavcan: add rx frame count
+Xamarin: add button filter
+Android: ftdi serial fixs
+UsbSerialForAndroid: update to usb-serial-for-android-3.3.0
+MainV2: prevent cross thread call
+AndroidSerial: fix baudrate change while open
+SkiaTest: fix path
+github: action update
+Geofence upload now runs in a separate thread and a pop up box shows progress. Now when downloads a geofence from aircraft, checks point index replied is the same as point index requested. Geofence upload error message now more descriptive.
+mavlink_gps_rtcm_data_t only gets sent once now to reduce transmitted data.
+Log Anonimizer: Fix typo to make anonymizer work The field which it should look for is Lat and not lat.
+SpectrogramUI: add
+HUD: change mode color on change (2 seconds)
+GDAL: linux fix
+MavlinkLog: add CS export
+Ardupilot: json optimize
+SkiaTest: add
+MP.Drawing: matrix fixs
+ImageVisualizer: update
+Display calculated cell voltage for battery1 in HUD, enabled/disabled via a context menu
+UAVCAN: add messages
+ConfigRawParam: refilter on refresh
+MavFTPUI: add SYS and ROMFS
+SITL: add skid-rover #2497
+Mavlink: component_information
+Graphs: add mah-km
+Update Korean translation
+MainV2: Make titlebar public 
+FlightData: Checks takeoff result in resume
+ConfigSerialInjectGPS: baudrate scan/increase baudrate
+Xamarin: update ref
+Xamarin.Forms.Platform.WinForms: update forms
+GDAL: Refactor
+GMapMarkerRect: always draw wprad
+Xamarin: hide BT
+AltitudeAngelWings: signin check
+temp: gcs saftey toogle
+Xamarin: GDAL
+GDALMPAndroid: add
+GDALForAndroid: add
+UAVCAN: add  function description
+Lib: Shim update
+srtm: use 1sec if available
+Propagation: alt==0 filter
+FIPS: SHA256Managed to SHA256CryptoServiceProvider
+UserAlert: update based on schema
+MainV2: min size change
+plugins: example 8 change loop rate to 3.3seconds
+Xamarin: fix build
+Scripts: ui sample
+FlightPlanner: remove label
+Xamarin: zorder
+Xamarin: android 7 toast workaround
+Xamarin: android 5-6 fix
+Xamarin: memory tweak
+HUD: fix pi hud
+Graphics/Mono tweaks
+Program: use new download.post
+Xamarin: BT fixs
+Download: add PostAsync and GetAsync
+CodeGen: exists check
+MAVLink: upstream update
+Xamarin: bluetooth template
+CodeGen: extra debug
+ConfigUAVCAN: switch to timer ui update
+UAVCAN: use read buffered stream
+GDAL: cross thread exception
+UserAlert: parser and downloader
+Settings: dont allow bad xml chars
+CustomMessageBox: fix message tweak
+Xamarin: scale correctly
+Xamarin: plugins
+Github Actions update
+ConnectionControl: increase font size
+Drawing: font size fixs
+FlightData: fix point camera here alt #2392
+GDAL: fix for 24bit bitmap alpha
+Xamarin: LaunchMode to singleinstance and move serial init
+ConfigFirmware: add port injection callback
+Graphics: better handle bad input
+RemoteLog: close file on new start
+LogBrowse: hide tooltip on node click
+Xamarin: resolve autoconnect issues and composite ports
+Program: remove extra process debug
+GMapProviders: change download async type
+Xamarin: usb
+BoardDetect: use interface
+Comms.SerialPort: init DefaultType on port change
+FollowMe: switch to ICommsSerial
+Xamarin: add filter injection for already connected usb
+Xamarin: usb
+ConfigFirmwareManifest: support external injected deviceinfo
+Drawing: skia unicode chars
+Comms: SerialPort shell
+SikRadio: change 433 spacing to 10hz
+Update: null check url
+GitHubContent: fix parser
+MissionPlanner.Drawing: font selection based on ui culture
+GStreamer: try forever
+FlightPlanner: check terrain on upload
+Add DialogResult to paramcompare for handling Cancel and Save in InitialParamsCalc and other upcoming plugins.
+[Plugin thread]: fix looprate 0 Do not call loop() for plugins with zero loop rate.
+LogMetaData: trunc file on extract
+Xamarin: usb composite
+UAVCANParams: apply theme
+Xamarin: usb
+fix namespace's
+Drawing: fix colortranslator and graphicspath to skpath
+Xamarin: usb
+Xamarin: move asset init and Resources
+MainV2: add progress to AUTO connect
+Settings: use alternate path is specified
+USBSerialForAndroid: update
+Xamarin: usbdevice
+SITL: add debug
+MainV2: remove tfr
+Xamarin: add SITL
+SITL: add external bundle support
+Xamarin: hide menu on large devices
+Xamarin: fix permissions
+Lib: update build
+Xamarin: fix resume
+Manifest: remove usb.host, small screens, add gl and sensorlandscape
+srtm: move urls to static global
+Xamarin: speech
+Utilities: IBrowserOpen
+MainV2: allow external speechEngine
+submodule update
+streamjpg: remove
+Xamarin: cursor and right click, sdk 29
+github actions: include all apks
+GeoRef: fix tif support, and exif writing, add ability to drop images
+FlightData: table layout
+ModifyandSet: change autosize
+Graphs: cleanup RSSI_Distance
+ConfigUAVCAN: add ability to not close stream on exit
+POI: fix delay loading large lists
+Xamarin: fix crash on startup
+UAVCan: ensure strings work
+SerialOutputCoT: remove unused usings
+CoT: Add Cursor-on-Target output (#2441)
+remove sub-projects that fail to build
+Add Cursor-on-Target output (WIP)
+Cursor on Target - added manual overrides for testing
+CoT - final UI touches
+AltitudeAngel - catch bug crashes with invalid WebBrowser()
+CoT - fix copy/paste error error
+CoT - move server.Open to background thread
+Solution: add back in accidently removed projects
+CoT: clean up window, remove debug. Remember UID
+Xamarin: dont try draw when clip is 0
+Xamarin: add missing resource files
+Xamarin: use opengl
+Xamarin: add West to release
+Xamarin: use CustomUserDataDirectory
+Settings: add CustomUserDataDirectory
+MavlinkNumericUpDown: use metadata values first
+HUD message colored by severity
+Default messageHigh severity to EMERGENCY in case not set explicitly
+Set severity for current component and sub-component
+HUD message color depends on severity
+Xamarin: picturerecorder
+HUD: invalidate on resize
+Xamarin: fix ref
+
+*Mission Planner 1.3.74 - 15-09-2020
 ConfigHWCompass2: fix orient display
 LogBrowse: tooltips for msgs
 Program: fix LIB compile
