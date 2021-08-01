@@ -157,10 +157,10 @@
     <Compile Include="USBDevices.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidNativeLibrary Include="lib\arm64-v8a\libarduplane.so" />
-    <AndroidNativeLibrary Include="lib\arm64-v8a\libardurover.so" />
-    <AndroidNativeLibrary Include="lib\arm64-v8a\libardusub.so" />
-    <AndroidNativeLibrary Include="lib\arm64-v8a\libarducopter.so" />
+    <None Include="lib\arm64-v8a\libarduplane.so" />
+    <None Include="lib\arm64-v8a\libardurover.so" />
+    <None Include="lib\arm64-v8a\libardusub.so" />
+    <None Include="lib\arm64-v8a\libarducopter.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libarducopter.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libarduplane.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libardurover.so" />
@@ -223,10 +223,6 @@
     <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
       <Name>MissionPlanner.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GDAL\GDALMPAndroid.csproj">
-      <Project>{6a3ba3a7-7d66-4292-90db-05e6a765127a}</Project>
-      <Name>GDALMPAndroid</Name>
     </ProjectReference>
     <ProjectReference Include="..\Xamarin\Xamarin.csproj">
       <Project>{567c5db1-9d8d-4a82-a89b-7e9357e7f6d8}</Project>
