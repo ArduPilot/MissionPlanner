@@ -166,7 +166,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (offline && !set)
                 {
                     set = true;
-                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value, CultureInfo.InvariantCulture),
+                    MainV2.comPort.MAV.param.Add(new MAVLink.MAVLinkParam(name, double.Parse(value),
                         MAVLink.MAV_PARAM_TYPE.REAL32));
                 }
 
