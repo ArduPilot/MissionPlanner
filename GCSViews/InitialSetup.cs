@@ -167,6 +167,9 @@ namespace MissionPlanner.GCSViews
             if (MainV2.DisplayConfiguration.displayRadioCalibration)
             {
                 AddBackstageViewPage(typeof(ConfigRadioInput), rm.GetString("backstageViewPageradio.Text"), isConnected && gotAllParams, mand);
+            }
+            if (MainV2.DisplayConfiguration.displayServoOutput)
+            {
                 AddBackstageViewPage(typeof(ConfigRadioOutput), "Servo Output", isConnected && gotAllParams, mand);
 
             }
@@ -187,7 +190,11 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(typeof(ConfigHWIDs), "HW ID", isConnected && gotAllParams, mand);
 
             var opt = AddBackstageViewPage(typeof(ConfigOptional), rm.GetString("backstageViewPageopt.Text"));
-            AddBackstageViewPage(typeof(ConfigSerialInjectGPS), "RTK/GPS Inject", true, opt);
+            if (MainV2.DisplayConfiguration.displayRTKInject)
+            {
+                AddBackstageViewPage(typeof(ConfigSerialInjectGPS), "RTK/GPS Inject", true, opt);
+            }
+
             if (MainV2.DisplayConfiguration.displaySikRadio)
             {
                 AddBackstageViewPage(typeof(Sikradio), rm.GetString("backstageViewPageSikradio.Text"), true, opt);
@@ -209,8 +216,10 @@ namespace MissionPlanner.GCSViews
                 //AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
                 AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", true, opt);
             }
-
-            AddBackstageViewPage(typeof(Joystick.JoystickSetup), "Joystick", true, opt);
+            if (MainV2.DisplayConfiguration.displayJoystick)
+            {
+                AddBackstageViewPage(typeof(Joystick.JoystickSetup), "Joystick", true, opt);
+            }
 
             if (MainV2.DisplayConfiguration.displayCompassMotorCalib)
             {
