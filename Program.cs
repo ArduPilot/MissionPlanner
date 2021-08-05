@@ -112,6 +112,11 @@ namespace MissionPlanner
 #endif
         }
 
+        public static string RemoveInvalidChars(string filename)
+        {
+            return string.Concat(filename.Split(Path.GetInvalidFileNameChars()));
+        }
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Start(string[] args)
         {
@@ -166,8 +171,11 @@ namespace MissionPlanner
             try
             {
                 if (File.Exists(Settings.GetRunningDirectory() + "logo.txt"))
+                {
                     name = File.ReadAllLines(Settings.GetRunningDirectory() + "logo.txt",
                         Encoding.UTF8)[0];
+                    Settings.FileName = RemoveInvalidChars(name) + ".xml";
+                }
             }
             catch
             {
