@@ -252,14 +252,16 @@ def generate_message_h(f, directory, m):
     {
         public mavlink_${name_lower}_t(${{ordered_fields:${type} ${name},}}) 
         {
-            ${{ordered_fields:  this.${name} = ${name};
+            ${{ordered_fields:this.${name} = ${name};
             }}
         }
-${{ordered_fields:        /// <summary>${description} ${enum} ${units} ${display}</summary>
+${{ordered_fields:
+        /// <summary>${description} ${enum} ${units} ${display}</summary>
         [Units("${units}")]
         [Description("${description}")]
+        //[FieldOffset(${wire_offset})]
         ${array_prefix} ${type} ${name};
-    }}
+}}
     };
 
 ''', m)

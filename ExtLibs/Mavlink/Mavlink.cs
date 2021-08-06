@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Wed Jun 30 2021";
+    public const string MAVLINK_BUILD_DATE = "Fri Aug 06 2021";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -256,9 +256,6 @@ public partial class MAVLink
         new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
         new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
         new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
-        new message_info(10004, "UAVIONIX_ADSB_OUT_CFG_REGISTRATION", 133, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_registration_t )),
-        new message_info(10005, "UAVIONIX_ADSB_OUT_CFG_FLIGHTID", 103, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_flightid_t )),
-        new message_info(10006, "UAVIONIX_ADSB_GET", 193, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
         new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
         new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
         new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
@@ -535,9 +532,6 @@ public partial class MAVLink
         UAVIONIX_ADSB_OUT_CFG = 10001,
         UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
         UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
-        UAVIONIX_ADSB_OUT_CFG_REGISTRATION = 10004,
-        UAVIONIX_ADSB_OUT_CFG_FLIGHTID = 10005,
-        UAVIONIX_ADSB_GET = 10006,
         DEVICE_OP_READ = 11000,
         DEVICE_OP_READ_REPLY = 11001,
         DEVICE_OP_WRITE = 11002,
@@ -1012,10 +1006,13 @@ public partial class MAVLink
         ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages.")]
         UAVCAN_GET_NODE_INFO=5200, 
-        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| round speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
+        ///<summary> Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
+        [Description("Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec.")]
+        DO_ADSB_OUT_IDENT=10001, 
+        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
         [Description("Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity.")]
         PAYLOAD_PREPARE_DEPLOY=30001, 
-        ///<summary> Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal mission. 1: switch to payload deployment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
+        ///<summary> Control the payload deployment. |requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("Control the payload deployment.")]
         PAYLOAD_CONTROL_DEPLOY=30002, 
         ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
@@ -1048,7 +1045,7 @@ public partial class MAVLink
         ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item.")]
         SPATIAL_USER_5=31009, 
-        ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| fined| User defined| User defined| User defined| User defined|  </summary>
+        ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
         [Description("User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item.")]
         USER_1=31010, 
         ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
@@ -1081,7 +1078,7 @@ public partial class MAVLink
         ///<summary> Magnetometer calibration based on fixed expected field values. |Field strength X.| Field strength Y.| Field strength Z.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on fixed expected field values.")]
         FIXED_MAG_CAL_FIELD=42005, 
-        ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |vehicle in earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |Yaw of vehicle in earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location.")]
         FIXED_MAG_CAL_YAW=42006, 
         ///<summary> Initiate a magnetometer calibration. |Bitmask of magnetometers to calibrate. Use 0 to calibrate all sensors that can be started (sensors may not start if disabled, unhealthy, etc.). The command will NACK if calibration does not start for a sensor explicitly specified by the bitmask.| Automatically retry on failure (0=no retry, 1=retry).| Save without user input (0=require input, 1=autosave).| Delay.| Autoreboot (0=user reboot, 1=autoreboot).| Empty.| Empty.|  </summary>
@@ -1138,9 +1135,6 @@ public partial class MAVLink
         ///<summary> Change to target heading at a given rate, overriding previous heading/s. This slews the vehicle at a controllable rate between it's previous heading and the new one. (affects GUIDED only. Exiting GUIDED returns aircraft to normal behaviour defined elsewhere. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.) |course-over-ground or raw vehicle heading.| Target heading.| Maximum centripetal accelearation, ie rate of change,  toward new heading.| Empty| Empty| Empty| Empty|  </summary>
         [Description("Change to target heading at a given rate, overriding previous heading/s. This slews the vehicle at a controllable rate between it's previous heading and the new one. (affects GUIDED only. Exiting GUIDED returns aircraft to normal behaviour defined elsewhere. Designed for onboard companion-computer command-and-control, not normally operator/GCS control.)")]
         GUIDED_CHANGE_HEADING=43002, 
-        ///<summary> Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the ADSB-out hardware per the ADSB spec. |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
-        [Description("Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the ADSB-out hardware per the ADSB spec.")]
-        DO_START_ADSB_OUT_IDENT=54132, 
         
     };
     
@@ -2112,6 +2106,9 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         AUTOROTATE=26, 
+        ///<summary>  | </summary>
+        [Description("")]
+        AUTO_RTL=27, 
         
     };
     
@@ -5553,69 +5550,92 @@ public partial class MAVLink
     {
         public mavlink_sensor_offsets_t(float mag_declination,int raw_press,int raw_temp,float gyro_cal_x,float gyro_cal_y,float gyro_cal_z,float accel_cal_x,float accel_cal_y,float accel_cal_z,short mag_ofs_x,short mag_ofs_y,short mag_ofs_z) 
         {
-              this.mag_declination = mag_declination;
-              this.raw_press = raw_press;
-              this.raw_temp = raw_temp;
-              this.gyro_cal_x = gyro_cal_x;
-              this.gyro_cal_y = gyro_cal_y;
-              this.gyro_cal_z = gyro_cal_z;
-              this.accel_cal_x = accel_cal_x;
-              this.accel_cal_y = accel_cal_y;
-              this.accel_cal_z = accel_cal_z;
-              this.mag_ofs_x = mag_ofs_x;
-              this.mag_ofs_y = mag_ofs_y;
-              this.mag_ofs_z = mag_ofs_z;
+            this.mag_declination = mag_declination;
+            this.raw_press = raw_press;
+            this.raw_temp = raw_temp;
+            this.gyro_cal_x = gyro_cal_x;
+            this.gyro_cal_y = gyro_cal_y;
+            this.gyro_cal_z = gyro_cal_z;
+            this.accel_cal_x = accel_cal_x;
+            this.accel_cal_y = accel_cal_y;
+            this.accel_cal_z = accel_cal_z;
+            this.mag_ofs_x = mag_ofs_x;
+            this.mag_ofs_y = mag_ofs_y;
+            this.mag_ofs_z = mag_ofs_z;
             
         }
+
         /// <summary>Magnetic declination.  [rad] </summary>
         [Units("[rad]")]
         [Description("Magnetic declination.")]
+        //[FieldOffset(0)]
         public  float mag_declination;
-            /// <summary>Raw pressure from barometer.   </summary>
+
+        /// <summary>Raw pressure from barometer.   </summary>
         [Units("")]
         [Description("Raw pressure from barometer.")]
+        //[FieldOffset(4)]
         public  int raw_press;
-            /// <summary>Raw temperature from barometer.   </summary>
+
+        /// <summary>Raw temperature from barometer.   </summary>
         [Units("")]
         [Description("Raw temperature from barometer.")]
+        //[FieldOffset(8)]
         public  int raw_temp;
-            /// <summary>Gyro X calibration.   </summary>
+
+        /// <summary>Gyro X calibration.   </summary>
         [Units("")]
         [Description("Gyro X calibration.")]
+        //[FieldOffset(12)]
         public  float gyro_cal_x;
-            /// <summary>Gyro Y calibration.   </summary>
+
+        /// <summary>Gyro Y calibration.   </summary>
         [Units("")]
         [Description("Gyro Y calibration.")]
+        //[FieldOffset(16)]
         public  float gyro_cal_y;
-            /// <summary>Gyro Z calibration.   </summary>
+
+        /// <summary>Gyro Z calibration.   </summary>
         [Units("")]
         [Description("Gyro Z calibration.")]
+        //[FieldOffset(20)]
         public  float gyro_cal_z;
-            /// <summary>Accel X calibration.   </summary>
+
+        /// <summary>Accel X calibration.   </summary>
         [Units("")]
         [Description("Accel X calibration.")]
+        //[FieldOffset(24)]
         public  float accel_cal_x;
-            /// <summary>Accel Y calibration.   </summary>
+
+        /// <summary>Accel Y calibration.   </summary>
         [Units("")]
         [Description("Accel Y calibration.")]
+        //[FieldOffset(28)]
         public  float accel_cal_y;
-            /// <summary>Accel Z calibration.   </summary>
+
+        /// <summary>Accel Z calibration.   </summary>
         [Units("")]
         [Description("Accel Z calibration.")]
+        //[FieldOffset(32)]
         public  float accel_cal_z;
-            /// <summary>Magnetometer X offset.   </summary>
+
+        /// <summary>Magnetometer X offset.   </summary>
         [Units("")]
         [Description("Magnetometer X offset.")]
+        //[FieldOffset(36)]
         public  short mag_ofs_x;
-            /// <summary>Magnetometer Y offset.   </summary>
+
+        /// <summary>Magnetometer Y offset.   </summary>
         [Units("")]
         [Description("Magnetometer Y offset.")]
+        //[FieldOffset(38)]
         public  short mag_ofs_y;
-            /// <summary>Magnetometer Z offset.   </summary>
+
+        /// <summary>Magnetometer Z offset.   </summary>
         [Units("")]
         [Description("Magnetometer Z offset.")]
+        //[FieldOffset(40)]
         public  short mag_ofs_z;
-    
     };
 
     [Obsolete]
@@ -5626,34 +5646,43 @@ public partial class MAVLink
     {
         public mavlink_set_mag_offsets_t(short mag_ofs_x,short mag_ofs_y,short mag_ofs_z,byte target_system,byte target_component) 
         {
-              this.mag_ofs_x = mag_ofs_x;
-              this.mag_ofs_y = mag_ofs_y;
-              this.mag_ofs_z = mag_ofs_z;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.mag_ofs_x = mag_ofs_x;
+            this.mag_ofs_y = mag_ofs_y;
+            this.mag_ofs_z = mag_ofs_z;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Magnetometer X offset.   </summary>
         [Units("")]
         [Description("Magnetometer X offset.")]
+        //[FieldOffset(0)]
         public  short mag_ofs_x;
-            /// <summary>Magnetometer Y offset.   </summary>
+
+        /// <summary>Magnetometer Y offset.   </summary>
         [Units("")]
         [Description("Magnetometer Y offset.")]
+        //[FieldOffset(2)]
         public  short mag_ofs_y;
-            /// <summary>Magnetometer Z offset.   </summary>
+
+        /// <summary>Magnetometer Z offset.   </summary>
         [Units("")]
         [Description("Magnetometer Z offset.")]
+        //[FieldOffset(4)]
         public  short mag_ofs_z;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(6)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(7)]
         public  byte target_component;
-    
     };
 
     
@@ -5664,24 +5693,29 @@ public partial class MAVLink
     {
         public mavlink_meminfo_t(ushort brkval,ushort freemem,uint freemem32) 
         {
-              this.brkval = brkval;
-              this.freemem = freemem;
-              this.freemem32 = freemem32;
+            this.brkval = brkval;
+            this.freemem = freemem;
+            this.freemem32 = freemem32;
             
         }
+
         /// <summary>Heap top.   </summary>
         [Units("")]
         [Description("Heap top.")]
+        //[FieldOffset(0)]
         public  ushort brkval;
-            /// <summary>Free memory.  [bytes] </summary>
+
+        /// <summary>Free memory.  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Free memory.")]
+        //[FieldOffset(2)]
         public  ushort freemem;
-            /// <summary>Free memory (32 bit).  [bytes] </summary>
+
+        /// <summary>Free memory (32 bit).  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Free memory (32 bit).")]
+        //[FieldOffset(4)]
         public  uint freemem32;
-    
     };
 
     
@@ -5692,39 +5726,50 @@ public partial class MAVLink
     {
         public mavlink_ap_adc_t(ushort adc1,ushort adc2,ushort adc3,ushort adc4,ushort adc5,ushort adc6) 
         {
-              this.adc1 = adc1;
-              this.adc2 = adc2;
-              this.adc3 = adc3;
-              this.adc4 = adc4;
-              this.adc5 = adc5;
-              this.adc6 = adc6;
+            this.adc1 = adc1;
+            this.adc2 = adc2;
+            this.adc3 = adc3;
+            this.adc4 = adc4;
+            this.adc5 = adc5;
+            this.adc6 = adc6;
             
         }
+
         /// <summary>ADC output 1.   </summary>
         [Units("")]
         [Description("ADC output 1.")]
+        //[FieldOffset(0)]
         public  ushort adc1;
-            /// <summary>ADC output 2.   </summary>
+
+        /// <summary>ADC output 2.   </summary>
         [Units("")]
         [Description("ADC output 2.")]
+        //[FieldOffset(2)]
         public  ushort adc2;
-            /// <summary>ADC output 3.   </summary>
+
+        /// <summary>ADC output 3.   </summary>
         [Units("")]
         [Description("ADC output 3.")]
+        //[FieldOffset(4)]
         public  ushort adc3;
-            /// <summary>ADC output 4.   </summary>
+
+        /// <summary>ADC output 4.   </summary>
         [Units("")]
         [Description("ADC output 4.")]
+        //[FieldOffset(6)]
         public  ushort adc4;
-            /// <summary>ADC output 5.   </summary>
+
+        /// <summary>ADC output 5.   </summary>
         [Units("")]
         [Description("ADC output 5.")]
+        //[FieldOffset(8)]
         public  ushort adc5;
-            /// <summary>ADC output 6.   </summary>
+
+        /// <summary>ADC output 6.   </summary>
         [Units("")]
         [Description("ADC output 6.")]
+        //[FieldOffset(10)]
         public  ushort adc6;
-    
     };
 
     
@@ -5735,64 +5780,85 @@ public partial class MAVLink
     {
         public mavlink_digicam_configure_t(float extra_value,ushort shutter_speed,byte target_system,byte target_component,byte mode,byte aperture,byte iso,byte exposure_type,byte command_id,byte engine_cut_off,byte extra_param) 
         {
-              this.extra_value = extra_value;
-              this.shutter_speed = shutter_speed;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mode = mode;
-              this.aperture = aperture;
-              this.iso = iso;
-              this.exposure_type = exposure_type;
-              this.command_id = command_id;
-              this.engine_cut_off = engine_cut_off;
-              this.extra_param = extra_param;
+            this.extra_value = extra_value;
+            this.shutter_speed = shutter_speed;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mode = mode;
+            this.aperture = aperture;
+            this.iso = iso;
+            this.exposure_type = exposure_type;
+            this.command_id = command_id;
+            this.engine_cut_off = engine_cut_off;
+            this.extra_param = extra_param;
             
         }
+
         /// <summary>Correspondent value to given extra_param.   </summary>
         [Units("")]
         [Description("Correspondent value to given extra_param.")]
+        //[FieldOffset(0)]
         public  float extra_value;
-            /// <summary>Divisor number //e.g. 1000 means 1/1000 (0 means ignore).   </summary>
+
+        /// <summary>Divisor number //e.g. 1000 means 1/1000 (0 means ignore).   </summary>
         [Units("")]
         [Description("Divisor number //e.g. 1000 means 1/1000 (0 means ignore).")]
+        //[FieldOffset(4)]
         public  ushort shutter_speed;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(6)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(7)]
         public  byte target_component;
-            /// <summary>Mode enumeration from 1 to N //P, TV, AV, M, etc. (0 means ignore).   </summary>
+
+        /// <summary>Mode enumeration from 1 to N //P, TV, AV, M, etc. (0 means ignore).   </summary>
         [Units("")]
         [Description("Mode enumeration from 1 to N //P, TV, AV, M, etc. (0 means ignore).")]
+        //[FieldOffset(8)]
         public  byte mode;
-            /// <summary>F stop number x 10 //e.g. 28 means 2.8 (0 means ignore).   </summary>
+
+        /// <summary>F stop number x 10 //e.g. 28 means 2.8 (0 means ignore).   </summary>
         [Units("")]
         [Description("F stop number x 10 //e.g. 28 means 2.8 (0 means ignore).")]
+        //[FieldOffset(9)]
         public  byte aperture;
-            /// <summary>ISO enumeration from 1 to N //e.g. 80, 100, 200, Etc (0 means ignore).   </summary>
+
+        /// <summary>ISO enumeration from 1 to N //e.g. 80, 100, 200, Etc (0 means ignore).   </summary>
         [Units("")]
         [Description("ISO enumeration from 1 to N //e.g. 80, 100, 200, Etc (0 means ignore).")]
+        //[FieldOffset(10)]
         public  byte iso;
-            /// <summary>Exposure type enumeration from 1 to N (0 means ignore).   </summary>
+
+        /// <summary>Exposure type enumeration from 1 to N (0 means ignore).   </summary>
         [Units("")]
         [Description("Exposure type enumeration from 1 to N (0 means ignore).")]
+        //[FieldOffset(11)]
         public  byte exposure_type;
-            /// <summary>Command Identity (incremental loop: 0 to 255). //A command sent multiple times will be executed or pooled just once.   </summary>
+
+        /// <summary>Command Identity (incremental loop: 0 to 255). //A command sent multiple times will be executed or pooled just once.   </summary>
         [Units("")]
         [Description("Command Identity (incremental loop: 0 to 255). //A command sent multiple times will be executed or pooled just once.")]
+        //[FieldOffset(12)]
         public  byte command_id;
-            /// <summary>Main engine cut-off time before camera trigger (0 means no cut-off).  [ds] </summary>
+
+        /// <summary>Main engine cut-off time before camera trigger (0 means no cut-off).  [ds] </summary>
         [Units("[ds]")]
         [Description("Main engine cut-off time before camera trigger (0 means no cut-off).")]
+        //[FieldOffset(13)]
         public  byte engine_cut_off;
-            /// <summary>Extra parameters enumeration (0 means ignore).   </summary>
+
+        /// <summary>Extra parameters enumeration (0 means ignore).   </summary>
         [Units("")]
         [Description("Extra parameters enumeration (0 means ignore).")]
+        //[FieldOffset(14)]
         public  byte extra_param;
-    
     };
 
     
@@ -5803,59 +5869,78 @@ public partial class MAVLink
     {
         public mavlink_digicam_control_t(float extra_value,byte target_system,byte target_component,byte session,byte zoom_pos,sbyte zoom_step,byte focus_lock,byte shot,byte command_id,byte extra_param) 
         {
-              this.extra_value = extra_value;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.session = session;
-              this.zoom_pos = zoom_pos;
-              this.zoom_step = zoom_step;
-              this.focus_lock = focus_lock;
-              this.shot = shot;
-              this.command_id = command_id;
-              this.extra_param = extra_param;
+            this.extra_value = extra_value;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.session = session;
+            this.zoom_pos = zoom_pos;
+            this.zoom_step = zoom_step;
+            this.focus_lock = focus_lock;
+            this.shot = shot;
+            this.command_id = command_id;
+            this.extra_param = extra_param;
             
         }
+
         /// <summary>Correspondent value to given extra_param.   </summary>
         [Units("")]
         [Description("Correspondent value to given extra_param.")]
+        //[FieldOffset(0)]
         public  float extra_value;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>0: stop, 1: start or keep it up //Session control e.g. show/hide lens.   </summary>
+
+        /// <summary>0: stop, 1: start or keep it up //Session control e.g. show/hide lens.   </summary>
         [Units("")]
         [Description("0: stop, 1: start or keep it up //Session control e.g. show/hide lens.")]
+        //[FieldOffset(6)]
         public  byte session;
-            /// <summary>1 to N //Zoom's absolute position (0 means ignore).   </summary>
+
+        /// <summary>1 to N //Zoom's absolute position (0 means ignore).   </summary>
         [Units("")]
         [Description("1 to N //Zoom's absolute position (0 means ignore).")]
+        //[FieldOffset(7)]
         public  byte zoom_pos;
-            /// <summary>-100 to 100 //Zooming step value to offset zoom from the current position.   </summary>
+
+        /// <summary>-100 to 100 //Zooming step value to offset zoom from the current position.   </summary>
         [Units("")]
         [Description("-100 to 100 //Zooming step value to offset zoom from the current position.")]
+        //[FieldOffset(8)]
         public  sbyte zoom_step;
-            /// <summary>0: unlock focus or keep unlocked, 1: lock focus or keep locked, 3: re-lock focus.   </summary>
+
+        /// <summary>0: unlock focus or keep unlocked, 1: lock focus or keep locked, 3: re-lock focus.   </summary>
         [Units("")]
         [Description("0: unlock focus or keep unlocked, 1: lock focus or keep locked, 3: re-lock focus.")]
+        //[FieldOffset(9)]
         public  byte focus_lock;
-            /// <summary>0: ignore, 1: shot or start filming.   </summary>
+
+        /// <summary>0: ignore, 1: shot or start filming.   </summary>
         [Units("")]
         [Description("0: ignore, 1: shot or start filming.")]
+        //[FieldOffset(10)]
         public  byte shot;
-            /// <summary>Command Identity (incremental loop: 0 to 255)//A command sent multiple times will be executed or pooled just once.   </summary>
+
+        /// <summary>Command Identity (incremental loop: 0 to 255)//A command sent multiple times will be executed or pooled just once.   </summary>
         [Units("")]
         [Description("Command Identity (incremental loop: 0 to 255)//A command sent multiple times will be executed or pooled just once.")]
+        //[FieldOffset(11)]
         public  byte command_id;
-            /// <summary>Extra parameters enumeration (0 means ignore).   </summary>
+
+        /// <summary>Extra parameters enumeration (0 means ignore).   </summary>
         [Units("")]
         [Description("Extra parameters enumeration (0 means ignore).")]
+        //[FieldOffset(12)]
         public  byte extra_param;
-    
     };
 
     
@@ -5866,39 +5951,50 @@ public partial class MAVLink
     {
         public mavlink_mount_configure_t(byte target_system,byte target_component,/*MAV_MOUNT_MODE*/byte mount_mode,byte stab_roll,byte stab_pitch,byte stab_yaw) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mount_mode = mount_mode;
-              this.stab_roll = stab_roll;
-              this.stab_pitch = stab_pitch;
-              this.stab_yaw = stab_yaw;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mount_mode = mount_mode;
+            this.stab_roll = stab_roll;
+            this.stab_pitch = stab_pitch;
+            this.stab_yaw = stab_yaw;
             
         }
+
         /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Mount operating mode. MAV_MOUNT_MODE  </summary>
+
+        /// <summary>Mount operating mode. MAV_MOUNT_MODE  </summary>
         [Units("")]
         [Description("Mount operating mode.")]
+        //[FieldOffset(2)]
         public  /*MAV_MOUNT_MODE*/byte mount_mode;
-            /// <summary>(1 = yes, 0 = no).   </summary>
+
+        /// <summary>(1 = yes, 0 = no).   </summary>
         [Units("")]
         [Description("(1 = yes, 0 = no).")]
+        //[FieldOffset(3)]
         public  byte stab_roll;
-            /// <summary>(1 = yes, 0 = no).   </summary>
+
+        /// <summary>(1 = yes, 0 = no).   </summary>
         [Units("")]
         [Description("(1 = yes, 0 = no).")]
+        //[FieldOffset(4)]
         public  byte stab_pitch;
-            /// <summary>(1 = yes, 0 = no).   </summary>
+
+        /// <summary>(1 = yes, 0 = no).   </summary>
         [Units("")]
         [Description("(1 = yes, 0 = no).")]
+        //[FieldOffset(5)]
         public  byte stab_yaw;
-    
     };
 
     
@@ -5909,39 +6005,50 @@ public partial class MAVLink
     {
         public mavlink_mount_control_t(int input_a,int input_b,int input_c,byte target_system,byte target_component,byte save_position) 
         {
-              this.input_a = input_a;
-              this.input_b = input_b;
-              this.input_c = input_c;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.save_position = save_position;
+            this.input_a = input_a;
+            this.input_b = input_b;
+            this.input_c = input_c;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.save_position = save_position;
             
         }
+
         /// <summary>Pitch (centi-degrees) or lat (degE7), depending on mount mode.   </summary>
         [Units("")]
         [Description("Pitch (centi-degrees) or lat (degE7), depending on mount mode.")]
+        //[FieldOffset(0)]
         public  int input_a;
-            /// <summary>Roll (centi-degrees) or lon (degE7) depending on mount mode.   </summary>
+
+        /// <summary>Roll (centi-degrees) or lon (degE7) depending on mount mode.   </summary>
         [Units("")]
         [Description("Roll (centi-degrees) or lon (degE7) depending on mount mode.")]
+        //[FieldOffset(4)]
         public  int input_b;
-            /// <summary>Yaw (centi-degrees) or alt (cm) depending on mount mode.   </summary>
+
+        /// <summary>Yaw (centi-degrees) or alt (cm) depending on mount mode.   </summary>
         [Units("")]
         [Description("Yaw (centi-degrees) or alt (cm) depending on mount mode.")]
+        //[FieldOffset(8)]
         public  int input_c;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(12)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(13)]
         public  byte target_component;
-            /// <summary>If '1' it will save current trimmed position on EEPROM (just valid for NEUTRAL and LANDING).   </summary>
+
+        /// <summary>If '1' it will save current trimmed position on EEPROM (just valid for NEUTRAL and LANDING).   </summary>
         [Units("")]
         [Description("If '1' it will save current trimmed position on EEPROM (just valid for NEUTRAL and LANDING).")]
+        //[FieldOffset(14)]
         public  byte save_position;
-    
     };
 
     
@@ -5952,34 +6059,43 @@ public partial class MAVLink
     {
         public mavlink_mount_status_t(int pointing_a,int pointing_b,int pointing_c,byte target_system,byte target_component) 
         {
-              this.pointing_a = pointing_a;
-              this.pointing_b = pointing_b;
-              this.pointing_c = pointing_c;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.pointing_a = pointing_a;
+            this.pointing_b = pointing_b;
+            this.pointing_c = pointing_c;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Pitch.  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Pitch.")]
+        //[FieldOffset(0)]
         public  int pointing_a;
-            /// <summary>Roll.  [cdeg] </summary>
+
+        /// <summary>Roll.  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Roll.")]
+        //[FieldOffset(4)]
         public  int pointing_b;
-            /// <summary>Yaw.  [cdeg] </summary>
+
+        /// <summary>Yaw.  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Yaw.")]
+        //[FieldOffset(8)]
         public  int pointing_c;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(12)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(13)]
         public  byte target_component;
-    
     };
 
     
@@ -5990,39 +6106,50 @@ public partial class MAVLink
     {
         public mavlink_fence_point_t(float lat,float lng,byte target_system,byte target_component,byte idx,byte count) 
         {
-              this.lat = lat;
-              this.lng = lng;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.idx = idx;
-              this.count = count;
+            this.lat = lat;
+            this.lng = lng;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.idx = idx;
+            this.count = count;
             
         }
+
         /// <summary>Latitude of point.  [deg] </summary>
         [Units("[deg]")]
         [Description("Latitude of point.")]
+        //[FieldOffset(0)]
         public  float lat;
-            /// <summary>Longitude of point.  [deg] </summary>
+
+        /// <summary>Longitude of point.  [deg] </summary>
         [Units("[deg]")]
         [Description("Longitude of point.")]
+        //[FieldOffset(4)]
         public  float lng;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(8)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(9)]
         public  byte target_component;
-            /// <summary>Point index (first point is 1, 0 is for return point).   </summary>
+
+        /// <summary>Point index (first point is 1, 0 is for return point).   </summary>
         [Units("")]
         [Description("Point index (first point is 1, 0 is for return point).")]
+        //[FieldOffset(10)]
         public  byte idx;
-            /// <summary>Total number of points (for sanity checking).   </summary>
+
+        /// <summary>Total number of points (for sanity checking).   </summary>
         [Units("")]
         [Description("Total number of points (for sanity checking).")]
+        //[FieldOffset(11)]
         public  byte count;
-    
     };
 
     
@@ -6033,24 +6160,29 @@ public partial class MAVLink
     {
         public mavlink_fence_fetch_point_t(byte target_system,byte target_component,byte idx) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.idx = idx;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.idx = idx;
             
         }
+
         /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Point index (first point is 1, 0 is for return point).   </summary>
+
+        /// <summary>Point index (first point is 1, 0 is for return point).   </summary>
         [Units("")]
         [Description("Point index (first point is 1, 0 is for return point).")]
+        //[FieldOffset(2)]
         public  byte idx;
-    
     };
 
     
@@ -6061,44 +6193,57 @@ public partial class MAVLink
     {
         public mavlink_ahrs_t(float omegaIx,float omegaIy,float omegaIz,float accel_weight,float renorm_val,float error_rp,float error_yaw) 
         {
-              this.omegaIx = omegaIx;
-              this.omegaIy = omegaIy;
-              this.omegaIz = omegaIz;
-              this.accel_weight = accel_weight;
-              this.renorm_val = renorm_val;
-              this.error_rp = error_rp;
-              this.error_yaw = error_yaw;
+            this.omegaIx = omegaIx;
+            this.omegaIy = omegaIy;
+            this.omegaIz = omegaIz;
+            this.accel_weight = accel_weight;
+            this.renorm_val = renorm_val;
+            this.error_rp = error_rp;
+            this.error_yaw = error_yaw;
             
         }
+
         /// <summary>X gyro drift estimate.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("X gyro drift estimate.")]
+        //[FieldOffset(0)]
         public  float omegaIx;
-            /// <summary>Y gyro drift estimate.  [rad/s] </summary>
+
+        /// <summary>Y gyro drift estimate.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Y gyro drift estimate.")]
+        //[FieldOffset(4)]
         public  float omegaIy;
-            /// <summary>Z gyro drift estimate.  [rad/s] </summary>
+
+        /// <summary>Z gyro drift estimate.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Z gyro drift estimate.")]
+        //[FieldOffset(8)]
         public  float omegaIz;
-            /// <summary>Average accel_weight.   </summary>
+
+        /// <summary>Average accel_weight.   </summary>
         [Units("")]
         [Description("Average accel_weight.")]
+        //[FieldOffset(12)]
         public  float accel_weight;
-            /// <summary>Average renormalisation value.   </summary>
+
+        /// <summary>Average renormalisation value.   </summary>
         [Units("")]
         [Description("Average renormalisation value.")]
+        //[FieldOffset(16)]
         public  float renorm_val;
-            /// <summary>Average error_roll_pitch value.   </summary>
+
+        /// <summary>Average error_roll_pitch value.   </summary>
         [Units("")]
         [Description("Average error_roll_pitch value.")]
+        //[FieldOffset(20)]
         public  float error_rp;
-            /// <summary>Average error_yaw value.   </summary>
+
+        /// <summary>Average error_yaw value.   </summary>
         [Units("")]
         [Description("Average error_yaw value.")]
+        //[FieldOffset(24)]
         public  float error_yaw;
-    
     };
 
     
@@ -6109,64 +6254,85 @@ public partial class MAVLink
     {
         public mavlink_simstate_t(float roll,float pitch,float yaw,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,int lat,int lng) 
         {
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
-              this.xgyro = xgyro;
-              this.ygyro = ygyro;
-              this.zgyro = zgyro;
-              this.lat = lat;
-              this.lng = lng;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            this.lat = lat;
+            this.lng = lng;
             
         }
+
         /// <summary>Roll angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle.")]
+        //[FieldOffset(0)]
         public  float roll;
-            /// <summary>Pitch angle.  [rad] </summary>
+
+        /// <summary>Pitch angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle.")]
+        //[FieldOffset(4)]
         public  float pitch;
-            /// <summary>Yaw angle.  [rad] </summary>
+
+        /// <summary>Yaw angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle.")]
+        //[FieldOffset(8)]
         public  float yaw;
-            /// <summary>X acceleration.  [m/s/s] </summary>
+
+        /// <summary>X acceleration.  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration.")]
+        //[FieldOffset(12)]
         public  float xacc;
-            /// <summary>Y acceleration.  [m/s/s] </summary>
+
+        /// <summary>Y acceleration.  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration.")]
+        //[FieldOffset(16)]
         public  float yacc;
-            /// <summary>Z acceleration.  [m/s/s] </summary>
+
+        /// <summary>Z acceleration.  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration.")]
+        //[FieldOffset(20)]
         public  float zacc;
-            /// <summary>Angular speed around X axis.  [rad/s] </summary>
+
+        /// <summary>Angular speed around X axis.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around X axis.")]
+        //[FieldOffset(24)]
         public  float xgyro;
-            /// <summary>Angular speed around Y axis.  [rad/s] </summary>
+
+        /// <summary>Angular speed around Y axis.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around Y axis.")]
+        //[FieldOffset(28)]
         public  float ygyro;
-            /// <summary>Angular speed around Z axis.  [rad/s] </summary>
+
+        /// <summary>Angular speed around Z axis.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around Z axis.")]
+        //[FieldOffset(32)]
         public  float zgyro;
-            /// <summary>Latitude.  [degE7] </summary>
+
+        /// <summary>Latitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude.")]
+        //[FieldOffset(36)]
         public  int lat;
-            /// <summary>Longitude.  [degE7] </summary>
+
+        /// <summary>Longitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude.")]
+        //[FieldOffset(40)]
         public  int lng;
-    
     };
 
     
@@ -6177,19 +6343,22 @@ public partial class MAVLink
     {
         public mavlink_hwstatus_t(ushort Vcc,byte I2Cerr) 
         {
-              this.Vcc = Vcc;
-              this.I2Cerr = I2Cerr;
+            this.Vcc = Vcc;
+            this.I2Cerr = I2Cerr;
             
         }
+
         /// <summary>Board voltage.  [mV] </summary>
         [Units("[mV]")]
         [Description("Board voltage.")]
+        //[FieldOffset(0)]
         public  ushort Vcc;
-            /// <summary>I2C error count.   </summary>
+
+        /// <summary>I2C error count.   </summary>
         [Units("")]
         [Description("I2C error count.")]
+        //[FieldOffset(2)]
         public  byte I2Cerr;
-    
     };
 
     
@@ -6200,44 +6369,57 @@ public partial class MAVLink
     {
         public mavlink_radio_t(ushort rxerrors,ushort @fixed,byte rssi,byte remrssi,byte txbuf,byte noise,byte remnoise) 
         {
-              this.rxerrors = rxerrors;
-              this.@fixed = @fixed;
-              this.rssi = rssi;
-              this.remrssi = remrssi;
-              this.txbuf = txbuf;
-              this.noise = noise;
-              this.remnoise = remnoise;
+            this.rxerrors = rxerrors;
+            this.@fixed = @fixed;
+            this.rssi = rssi;
+            this.remrssi = remrssi;
+            this.txbuf = txbuf;
+            this.noise = noise;
+            this.remnoise = remnoise;
             
         }
+
         /// <summary>Receive errors.   </summary>
         [Units("")]
         [Description("Receive errors.")]
+        //[FieldOffset(0)]
         public  ushort rxerrors;
-            /// <summary>Count of error corrected packets.   </summary>
+
+        /// <summary>Count of error corrected packets.   </summary>
         [Units("")]
         [Description("Count of error corrected packets.")]
+        //[FieldOffset(2)]
         public  ushort @fixed;
-            /// <summary>Local signal strength.   </summary>
+
+        /// <summary>Local signal strength.   </summary>
         [Units("")]
         [Description("Local signal strength.")]
+        //[FieldOffset(4)]
         public  byte rssi;
-            /// <summary>Remote signal strength.   </summary>
+
+        /// <summary>Remote signal strength.   </summary>
         [Units("")]
         [Description("Remote signal strength.")]
+        //[FieldOffset(5)]
         public  byte remrssi;
-            /// <summary>How full the tx buffer is.  [%] </summary>
+
+        /// <summary>How full the tx buffer is.  [%] </summary>
         [Units("[%]")]
         [Description("How full the tx buffer is.")]
+        //[FieldOffset(6)]
         public  byte txbuf;
-            /// <summary>Background noise level.   </summary>
+
+        /// <summary>Background noise level.   </summary>
         [Units("")]
         [Description("Background noise level.")]
+        //[FieldOffset(7)]
         public  byte noise;
-            /// <summary>Remote background noise level.   </summary>
+
+        /// <summary>Remote background noise level.   </summary>
         [Units("")]
         [Description("Remote background noise level.")]
+        //[FieldOffset(8)]
         public  byte remnoise;
-    
     };
 
     
@@ -6248,54 +6430,71 @@ public partial class MAVLink
     {
         public mavlink_limits_status_t(uint last_trigger,uint last_action,uint last_recovery,uint last_clear,ushort breach_count,/*LIMITS_STATE*/byte limits_state,/*LIMIT_MODULE*/byte mods_enabled,/*LIMIT_MODULE*/byte mods_required,/*LIMIT_MODULE*/byte mods_triggered) 
         {
-              this.last_trigger = last_trigger;
-              this.last_action = last_action;
-              this.last_recovery = last_recovery;
-              this.last_clear = last_clear;
-              this.breach_count = breach_count;
-              this.limits_state = limits_state;
-              this.mods_enabled = mods_enabled;
-              this.mods_required = mods_required;
-              this.mods_triggered = mods_triggered;
+            this.last_trigger = last_trigger;
+            this.last_action = last_action;
+            this.last_recovery = last_recovery;
+            this.last_clear = last_clear;
+            this.breach_count = breach_count;
+            this.limits_state = limits_state;
+            this.mods_enabled = mods_enabled;
+            this.mods_required = mods_required;
+            this.mods_triggered = mods_triggered;
             
         }
+
         /// <summary>Time (since boot) of last breach.  [ms] </summary>
         [Units("[ms]")]
         [Description("Time (since boot) of last breach.")]
+        //[FieldOffset(0)]
         public  uint last_trigger;
-            /// <summary>Time (since boot) of last recovery action.  [ms] </summary>
+
+        /// <summary>Time (since boot) of last recovery action.  [ms] </summary>
         [Units("[ms]")]
         [Description("Time (since boot) of last recovery action.")]
+        //[FieldOffset(4)]
         public  uint last_action;
-            /// <summary>Time (since boot) of last successful recovery.  [ms] </summary>
+
+        /// <summary>Time (since boot) of last successful recovery.  [ms] </summary>
         [Units("[ms]")]
         [Description("Time (since boot) of last successful recovery.")]
+        //[FieldOffset(8)]
         public  uint last_recovery;
-            /// <summary>Time (since boot) of last all-clear.  [ms] </summary>
+
+        /// <summary>Time (since boot) of last all-clear.  [ms] </summary>
         [Units("[ms]")]
         [Description("Time (since boot) of last all-clear.")]
+        //[FieldOffset(12)]
         public  uint last_clear;
-            /// <summary>Number of fence breaches.   </summary>
+
+        /// <summary>Number of fence breaches.   </summary>
         [Units("")]
         [Description("Number of fence breaches.")]
+        //[FieldOffset(16)]
         public  ushort breach_count;
-            /// <summary>State of AP_Limits. LIMITS_STATE  </summary>
+
+        /// <summary>State of AP_Limits. LIMITS_STATE  </summary>
         [Units("")]
         [Description("State of AP_Limits.")]
+        //[FieldOffset(18)]
         public  /*LIMITS_STATE*/byte limits_state;
-            /// <summary>AP_Limit_Module bitfield of enabled modules. LIMIT_MODULE  bitmask</summary>
+
+        /// <summary>AP_Limit_Module bitfield of enabled modules. LIMIT_MODULE  bitmask</summary>
         [Units("")]
         [Description("AP_Limit_Module bitfield of enabled modules.")]
+        //[FieldOffset(19)]
         public  /*LIMIT_MODULE*/byte mods_enabled;
-            /// <summary>AP_Limit_Module bitfield of required modules. LIMIT_MODULE  bitmask</summary>
+
+        /// <summary>AP_Limit_Module bitfield of required modules. LIMIT_MODULE  bitmask</summary>
         [Units("")]
         [Description("AP_Limit_Module bitfield of required modules.")]
+        //[FieldOffset(20)]
         public  /*LIMIT_MODULE*/byte mods_required;
-            /// <summary>AP_Limit_Module bitfield of triggered modules. LIMIT_MODULE  bitmask</summary>
+
+        /// <summary>AP_Limit_Module bitfield of triggered modules. LIMIT_MODULE  bitmask</summary>
         [Units("")]
         [Description("AP_Limit_Module bitfield of triggered modules.")]
+        //[FieldOffset(21)]
         public  /*LIMIT_MODULE*/byte mods_triggered;
-    
     };
 
     
@@ -6306,24 +6505,29 @@ public partial class MAVLink
     {
         public mavlink_wind_t(float direction,float speed,float speed_z) 
         {
-              this.direction = direction;
-              this.speed = speed;
-              this.speed_z = speed_z;
+            this.direction = direction;
+            this.speed = speed;
+            this.speed_z = speed_z;
             
         }
+
         /// <summary>Wind direction (that wind is coming from).  [deg] </summary>
         [Units("[deg]")]
         [Description("Wind direction (that wind is coming from).")]
+        //[FieldOffset(0)]
         public  float direction;
-            /// <summary>Wind speed in ground plane.  [m/s] </summary>
+
+        /// <summary>Wind speed in ground plane.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Wind speed in ground plane.")]
+        //[FieldOffset(4)]
         public  float speed;
-            /// <summary>Vertical wind speed.  [m/s] </summary>
+
+        /// <summary>Vertical wind speed.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Vertical wind speed.")]
+        //[FieldOffset(8)]
         public  float speed_z;
-    
     };
 
     
@@ -6334,25 +6538,30 @@ public partial class MAVLink
     {
         public mavlink_data16_t(byte type,byte len,byte[] data) 
         {
-              this.type = type;
-              this.len = len;
-              this.data = data;
+            this.type = type;
+            this.len = len;
+            this.data = data;
             
         }
+
         /// <summary>Data type.   </summary>
         [Units("")]
         [Description("Data type.")]
+        //[FieldOffset(0)]
         public  byte type;
-            /// <summary>Data length.  [bytes] </summary>
+
+        /// <summary>Data length.  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Data length.")]
+        //[FieldOffset(1)]
         public  byte len;
-            /// <summary>Raw data.   </summary>
+
+        /// <summary>Raw data.   </summary>
         [Units("")]
         [Description("Raw data.")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] data;
-    
     };
 
     
@@ -6363,25 +6572,30 @@ public partial class MAVLink
     {
         public mavlink_data32_t(byte type,byte len,byte[] data) 
         {
-              this.type = type;
-              this.len = len;
-              this.data = data;
+            this.type = type;
+            this.len = len;
+            this.data = data;
             
         }
+
         /// <summary>Data type.   </summary>
         [Units("")]
         [Description("Data type.")]
+        //[FieldOffset(0)]
         public  byte type;
-            /// <summary>Data length.  [bytes] </summary>
+
+        /// <summary>Data length.  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Data length.")]
+        //[FieldOffset(1)]
         public  byte len;
-            /// <summary>Raw data.   </summary>
+
+        /// <summary>Raw data.   </summary>
         [Units("")]
         [Description("Raw data.")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] data;
-    
     };
 
     
@@ -6392,25 +6606,30 @@ public partial class MAVLink
     {
         public mavlink_data64_t(byte type,byte len,byte[] data) 
         {
-              this.type = type;
-              this.len = len;
-              this.data = data;
+            this.type = type;
+            this.len = len;
+            this.data = data;
             
         }
+
         /// <summary>Data type.   </summary>
         [Units("")]
         [Description("Data type.")]
+        //[FieldOffset(0)]
         public  byte type;
-            /// <summary>Data length.  [bytes] </summary>
+
+        /// <summary>Data length.  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Data length.")]
+        //[FieldOffset(1)]
         public  byte len;
-            /// <summary>Raw data.   </summary>
+
+        /// <summary>Raw data.   </summary>
         [Units("")]
         [Description("Raw data.")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=64)]
 		public byte[] data;
-    
     };
 
     
@@ -6421,25 +6640,30 @@ public partial class MAVLink
     {
         public mavlink_data96_t(byte type,byte len,byte[] data) 
         {
-              this.type = type;
-              this.len = len;
-              this.data = data;
+            this.type = type;
+            this.len = len;
+            this.data = data;
             
         }
+
         /// <summary>Data type.   </summary>
         [Units("")]
         [Description("Data type.")]
+        //[FieldOffset(0)]
         public  byte type;
-            /// <summary>Data length.  [bytes] </summary>
+
+        /// <summary>Data length.  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Data length.")]
+        //[FieldOffset(1)]
         public  byte len;
-            /// <summary>Raw data.   </summary>
+
+        /// <summary>Raw data.   </summary>
         [Units("")]
         [Description("Raw data.")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=96)]
 		public byte[] data;
-    
     };
 
     
@@ -6450,19 +6674,22 @@ public partial class MAVLink
     {
         public mavlink_rangefinder_t(float distance,float voltage) 
         {
-              this.distance = distance;
-              this.voltage = voltage;
+            this.distance = distance;
+            this.voltage = voltage;
             
         }
+
         /// <summary>Distance.  [m] </summary>
         [Units("[m]")]
         [Description("Distance.")]
+        //[FieldOffset(0)]
         public  float distance;
-            /// <summary>Raw voltage if available, zero otherwise.  [V] </summary>
+
+        /// <summary>Raw voltage if available, zero otherwise.  [V] </summary>
         [Units("[V]")]
         [Description("Raw voltage if available, zero otherwise.")]
+        //[FieldOffset(4)]
         public  float voltage;
-    
     };
 
     
@@ -6473,69 +6700,92 @@ public partial class MAVLink
     {
         public mavlink_airspeed_autocal_t(float vx,float vy,float vz,float diff_pressure,float EAS2TAS,float ratio,float state_x,float state_y,float state_z,float Pax,float Pby,float Pcz) 
         {
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.diff_pressure = diff_pressure;
-              this.EAS2TAS = EAS2TAS;
-              this.ratio = ratio;
-              this.state_x = state_x;
-              this.state_y = state_y;
-              this.state_z = state_z;
-              this.Pax = Pax;
-              this.Pby = Pby;
-              this.Pcz = Pcz;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.diff_pressure = diff_pressure;
+            this.EAS2TAS = EAS2TAS;
+            this.ratio = ratio;
+            this.state_x = state_x;
+            this.state_y = state_y;
+            this.state_z = state_z;
+            this.Pax = Pax;
+            this.Pby = Pby;
+            this.Pcz = Pcz;
             
         }
+
         /// <summary>GPS velocity north.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("GPS velocity north.")]
+        //[FieldOffset(0)]
         public  float vx;
-            /// <summary>GPS velocity east.  [m/s] </summary>
+
+        /// <summary>GPS velocity east.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("GPS velocity east.")]
+        //[FieldOffset(4)]
         public  float vy;
-            /// <summary>GPS velocity down.  [m/s] </summary>
+
+        /// <summary>GPS velocity down.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("GPS velocity down.")]
+        //[FieldOffset(8)]
         public  float vz;
-            /// <summary>Differential pressure.  [Pa] </summary>
+
+        /// <summary>Differential pressure.  [Pa] </summary>
         [Units("[Pa]")]
         [Description("Differential pressure.")]
+        //[FieldOffset(12)]
         public  float diff_pressure;
-            /// <summary>Estimated to true airspeed ratio.   </summary>
+
+        /// <summary>Estimated to true airspeed ratio.   </summary>
         [Units("")]
         [Description("Estimated to true airspeed ratio.")]
+        //[FieldOffset(16)]
         public  float EAS2TAS;
-            /// <summary>Airspeed ratio.   </summary>
+
+        /// <summary>Airspeed ratio.   </summary>
         [Units("")]
         [Description("Airspeed ratio.")]
+        //[FieldOffset(20)]
         public  float ratio;
-            /// <summary>EKF state x.   </summary>
+
+        /// <summary>EKF state x.   </summary>
         [Units("")]
         [Description("EKF state x.")]
+        //[FieldOffset(24)]
         public  float state_x;
-            /// <summary>EKF state y.   </summary>
+
+        /// <summary>EKF state y.   </summary>
         [Units("")]
         [Description("EKF state y.")]
+        //[FieldOffset(28)]
         public  float state_y;
-            /// <summary>EKF state z.   </summary>
+
+        /// <summary>EKF state z.   </summary>
         [Units("")]
         [Description("EKF state z.")]
+        //[FieldOffset(32)]
         public  float state_z;
-            /// <summary>EKF Pax.   </summary>
+
+        /// <summary>EKF Pax.   </summary>
         [Units("")]
         [Description("EKF Pax.")]
+        //[FieldOffset(36)]
         public  float Pax;
-            /// <summary>EKF Pby.   </summary>
+
+        /// <summary>EKF Pby.   </summary>
         [Units("")]
         [Description("EKF Pby.")]
+        //[FieldOffset(40)]
         public  float Pby;
-            /// <summary>EKF Pcz.   </summary>
+
+        /// <summary>EKF Pcz.   </summary>
         [Units("")]
         [Description("EKF Pcz.")]
+        //[FieldOffset(44)]
         public  float Pcz;
-    
     };
 
     
@@ -6546,59 +6796,78 @@ public partial class MAVLink
     {
         public mavlink_rally_point_t(int lat,int lng,short alt,short break_alt,ushort land_dir,byte target_system,byte target_component,byte idx,byte count,/*RALLY_FLAGS*/byte flags) 
         {
-              this.lat = lat;
-              this.lng = lng;
-              this.alt = alt;
-              this.break_alt = break_alt;
-              this.land_dir = land_dir;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.idx = idx;
-              this.count = count;
-              this.flags = flags;
+            this.lat = lat;
+            this.lng = lng;
+            this.alt = alt;
+            this.break_alt = break_alt;
+            this.land_dir = land_dir;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.idx = idx;
+            this.count = count;
+            this.flags = flags;
             
         }
+
         /// <summary>Latitude of point.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude of point.")]
+        //[FieldOffset(0)]
         public  int lat;
-            /// <summary>Longitude of point.  [degE7] </summary>
+
+        /// <summary>Longitude of point.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude of point.")]
+        //[FieldOffset(4)]
         public  int lng;
-            /// <summary>Transit / loiter altitude relative to home.  [m] </summary>
+
+        /// <summary>Transit / loiter altitude relative to home.  [m] </summary>
         [Units("[m]")]
         [Description("Transit / loiter altitude relative to home.")]
+        //[FieldOffset(8)]
         public  short alt;
-            /// <summary>Break altitude relative to home.  [m] </summary>
+
+        /// <summary>Break altitude relative to home.  [m] </summary>
         [Units("[m]")]
         [Description("Break altitude relative to home.")]
+        //[FieldOffset(10)]
         public  short break_alt;
-            /// <summary>Heading to aim for when landing.  [cdeg] </summary>
+
+        /// <summary>Heading to aim for when landing.  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Heading to aim for when landing.")]
+        //[FieldOffset(12)]
         public  ushort land_dir;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(14)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(15)]
         public  byte target_component;
-            /// <summary>Point index (first point is 0).   </summary>
+
+        /// <summary>Point index (first point is 0).   </summary>
         [Units("")]
         [Description("Point index (first point is 0).")]
+        //[FieldOffset(16)]
         public  byte idx;
-            /// <summary>Total number of points (for sanity checking).   </summary>
+
+        /// <summary>Total number of points (for sanity checking).   </summary>
         [Units("")]
         [Description("Total number of points (for sanity checking).")]
+        //[FieldOffset(17)]
         public  byte count;
-            /// <summary>Configuration flags. RALLY_FLAGS  bitmask</summary>
+
+        /// <summary>Configuration flags. RALLY_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Configuration flags.")]
+        //[FieldOffset(18)]
         public  /*RALLY_FLAGS*/byte flags;
-    
     };
 
     
@@ -6609,24 +6878,29 @@ public partial class MAVLink
     {
         public mavlink_rally_fetch_point_t(byte target_system,byte target_component,byte idx) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.idx = idx;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.idx = idx;
             
         }
+
         /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Point index (first point is 0).   </summary>
+
+        /// <summary>Point index (first point is 0).   </summary>
         [Units("")]
         [Description("Point index (first point is 0).")]
+        //[FieldOffset(2)]
         public  byte idx;
-    
     };
 
     
@@ -6637,39 +6911,50 @@ public partial class MAVLink
     {
         public mavlink_compassmot_status_t(float current,float CompensationX,float CompensationY,float CompensationZ,ushort throttle,ushort interference) 
         {
-              this.current = current;
-              this.CompensationX = CompensationX;
-              this.CompensationY = CompensationY;
-              this.CompensationZ = CompensationZ;
-              this.throttle = throttle;
-              this.interference = interference;
+            this.current = current;
+            this.CompensationX = CompensationX;
+            this.CompensationY = CompensationY;
+            this.CompensationZ = CompensationZ;
+            this.throttle = throttle;
+            this.interference = interference;
             
         }
+
         /// <summary>Current.  [A] </summary>
         [Units("[A]")]
         [Description("Current.")]
+        //[FieldOffset(0)]
         public  float current;
-            /// <summary>Motor Compensation X.   </summary>
+
+        /// <summary>Motor Compensation X.   </summary>
         [Units("")]
         [Description("Motor Compensation X.")]
+        //[FieldOffset(4)]
         public  float CompensationX;
-            /// <summary>Motor Compensation Y.   </summary>
+
+        /// <summary>Motor Compensation Y.   </summary>
         [Units("")]
         [Description("Motor Compensation Y.")]
+        //[FieldOffset(8)]
         public  float CompensationY;
-            /// <summary>Motor Compensation Z.   </summary>
+
+        /// <summary>Motor Compensation Z.   </summary>
         [Units("")]
         [Description("Motor Compensation Z.")]
+        //[FieldOffset(12)]
         public  float CompensationZ;
-            /// <summary>Throttle.  [d%] </summary>
+
+        /// <summary>Throttle.  [d%] </summary>
         [Units("[d%]")]
         [Description("Throttle.")]
+        //[FieldOffset(16)]
         public  ushort throttle;
-            /// <summary>Interference.  [%] </summary>
+
+        /// <summary>Interference.  [%] </summary>
         [Units("[%]")]
         [Description("Interference.")]
+        //[FieldOffset(18)]
         public  ushort interference;
-    
     };
 
     
@@ -6680,39 +6965,50 @@ public partial class MAVLink
     {
         public mavlink_ahrs2_t(float roll,float pitch,float yaw,float altitude,int lat,int lng) 
         {
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.altitude = altitude;
-              this.lat = lat;
-              this.lng = lng;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.altitude = altitude;
+            this.lat = lat;
+            this.lng = lng;
             
         }
+
         /// <summary>Roll angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle.")]
+        //[FieldOffset(0)]
         public  float roll;
-            /// <summary>Pitch angle.  [rad] </summary>
+
+        /// <summary>Pitch angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle.")]
+        //[FieldOffset(4)]
         public  float pitch;
-            /// <summary>Yaw angle.  [rad] </summary>
+
+        /// <summary>Yaw angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle.")]
+        //[FieldOffset(8)]
         public  float yaw;
-            /// <summary>Altitude (MSL).  [m] </summary>
+
+        /// <summary>Altitude (MSL).  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL).")]
+        //[FieldOffset(12)]
         public  float altitude;
-            /// <summary>Latitude.  [degE7] </summary>
+
+        /// <summary>Latitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude.")]
+        //[FieldOffset(16)]
         public  int lat;
-            /// <summary>Longitude.  [degE7] </summary>
+
+        /// <summary>Longitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude.")]
+        //[FieldOffset(20)]
         public  int lng;
-    
     };
 
     
@@ -6723,54 +7019,71 @@ public partial class MAVLink
     {
         public mavlink_camera_status_t(ulong time_usec,float p1,float p2,float p3,float p4,ushort img_idx,byte target_system,byte cam_idx,/*CAMERA_STATUS_TYPES*/byte event_id) 
         {
-              this.time_usec = time_usec;
-              this.p1 = p1;
-              this.p2 = p2;
-              this.p3 = p3;
-              this.p4 = p4;
-              this.img_idx = img_idx;
-              this.target_system = target_system;
-              this.cam_idx = cam_idx;
-              this.event_id = event_id;
+            this.time_usec = time_usec;
+            this.p1 = p1;
+            this.p2 = p2;
+            this.p3 = p3;
+            this.p4 = p4;
+            this.img_idx = img_idx;
+            this.target_system = target_system;
+            this.cam_idx = cam_idx;
+            this.event_id = event_id;
             
         }
+
         /// <summary>Image timestamp (since UNIX epoch, according to camera clock).  [us] </summary>
         [Units("[us]")]
         [Description("Image timestamp (since UNIX epoch, according to camera clock).")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Parameter 1 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).   </summary>
+
+        /// <summary>Parameter 1 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).   </summary>
         [Units("")]
         [Description("Parameter 1 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).")]
+        //[FieldOffset(8)]
         public  float p1;
-            /// <summary>Parameter 2 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).   </summary>
+
+        /// <summary>Parameter 2 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).   </summary>
         [Units("")]
         [Description("Parameter 2 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).")]
+        //[FieldOffset(12)]
         public  float p2;
-            /// <summary>Parameter 3 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).   </summary>
+
+        /// <summary>Parameter 3 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).   </summary>
         [Units("")]
         [Description("Parameter 3 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).")]
+        //[FieldOffset(16)]
         public  float p3;
-            /// <summary>Parameter 4 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).   </summary>
+
+        /// <summary>Parameter 4 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).   </summary>
         [Units("")]
         [Description("Parameter 4 (meaning depends on event_id, see CAMERA_STATUS_TYPES enum).")]
+        //[FieldOffset(20)]
         public  float p4;
-            /// <summary>Image index.   </summary>
+
+        /// <summary>Image index.   </summary>
         [Units("")]
         [Description("Image index.")]
+        //[FieldOffset(24)]
         public  ushort img_idx;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(26)]
         public  byte target_system;
-            /// <summary>Camera ID.   </summary>
+
+        /// <summary>Camera ID.   </summary>
         [Units("")]
         [Description("Camera ID.")]
+        //[FieldOffset(27)]
         public  byte cam_idx;
-            /// <summary>Event type. CAMERA_STATUS_TYPES  </summary>
+
+        /// <summary>Event type. CAMERA_STATUS_TYPES  </summary>
         [Units("")]
         [Description("Event type.")]
+        //[FieldOffset(28)]
         public  /*CAMERA_STATUS_TYPES*/byte event_id;
-    
     };
 
     
@@ -6781,79 +7094,106 @@ public partial class MAVLink
     {
         public mavlink_camera_feedback_t(ulong time_usec,int lat,int lng,float alt_msl,float alt_rel,float roll,float pitch,float yaw,float foc_len,ushort img_idx,byte target_system,byte cam_idx,/*CAMERA_FEEDBACK_FLAGS*/byte flags,ushort completed_captures) 
         {
-              this.time_usec = time_usec;
-              this.lat = lat;
-              this.lng = lng;
-              this.alt_msl = alt_msl;
-              this.alt_rel = alt_rel;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.foc_len = foc_len;
-              this.img_idx = img_idx;
-              this.target_system = target_system;
-              this.cam_idx = cam_idx;
-              this.flags = flags;
-              this.completed_captures = completed_captures;
+            this.time_usec = time_usec;
+            this.lat = lat;
+            this.lng = lng;
+            this.alt_msl = alt_msl;
+            this.alt_rel = alt_rel;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.foc_len = foc_len;
+            this.img_idx = img_idx;
+            this.target_system = target_system;
+            this.cam_idx = cam_idx;
+            this.flags = flags;
+            this.completed_captures = completed_captures;
             
         }
+
         /// <summary>Image timestamp (since UNIX epoch), as passed in by CAMERA_STATUS message (or autopilot if no CCB).  [us] </summary>
         [Units("[us]")]
         [Description("Image timestamp (since UNIX epoch), as passed in by CAMERA_STATUS message (or autopilot if no CCB).")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Latitude.  [degE7] </summary>
+
+        /// <summary>Latitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude.")]
+        //[FieldOffset(8)]
         public  int lat;
-            /// <summary>Longitude.  [degE7] </summary>
+
+        /// <summary>Longitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude.")]
+        //[FieldOffset(12)]
         public  int lng;
-            /// <summary>Altitude (MSL).  [m] </summary>
+
+        /// <summary>Altitude (MSL).  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL).")]
+        //[FieldOffset(16)]
         public  float alt_msl;
-            /// <summary>Altitude (Relative to HOME location).  [m] </summary>
+
+        /// <summary>Altitude (Relative to HOME location).  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (Relative to HOME location).")]
+        //[FieldOffset(20)]
         public  float alt_rel;
-            /// <summary>Camera Roll angle (earth frame, +-180).  [deg] </summary>
+
+        /// <summary>Camera Roll angle (earth frame, +-180).  [deg] </summary>
         [Units("[deg]")]
         [Description("Camera Roll angle (earth frame, +-180).")]
+        //[FieldOffset(24)]
         public  float roll;
-            /// <summary>Camera Pitch angle (earth frame, +-180).  [deg] </summary>
+
+        /// <summary>Camera Pitch angle (earth frame, +-180).  [deg] </summary>
         [Units("[deg]")]
         [Description("Camera Pitch angle (earth frame, +-180).")]
+        //[FieldOffset(28)]
         public  float pitch;
-            /// <summary>Camera Yaw (earth frame, 0-360, true).  [deg] </summary>
+
+        /// <summary>Camera Yaw (earth frame, 0-360, true).  [deg] </summary>
         [Units("[deg]")]
         [Description("Camera Yaw (earth frame, 0-360, true).")]
+        //[FieldOffset(32)]
         public  float yaw;
-            /// <summary>Focal Length.  [mm] </summary>
+
+        /// <summary>Focal Length.  [mm] </summary>
         [Units("[mm]")]
         [Description("Focal Length.")]
+        //[FieldOffset(36)]
         public  float foc_len;
-            /// <summary>Image index.   </summary>
+
+        /// <summary>Image index.   </summary>
         [Units("")]
         [Description("Image index.")]
+        //[FieldOffset(40)]
         public  ushort img_idx;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(42)]
         public  byte target_system;
-            /// <summary>Camera ID.   </summary>
+
+        /// <summary>Camera ID.   </summary>
         [Units("")]
         [Description("Camera ID.")]
+        //[FieldOffset(43)]
         public  byte cam_idx;
-            /// <summary>Feedback flags. CAMERA_FEEDBACK_FLAGS  </summary>
+
+        /// <summary>Feedback flags. CAMERA_FEEDBACK_FLAGS  </summary>
         [Units("")]
         [Description("Feedback flags.")]
+        //[FieldOffset(44)]
         public  /*CAMERA_FEEDBACK_FLAGS*/byte flags;
-            /// <summary>Completed image captures.   </summary>
+
+        /// <summary>Completed image captures.   </summary>
         [Units("")]
         [Description("Completed image captures.")]
+        //[FieldOffset(45)]
         public  ushort completed_captures;
-    
     };
 
     [Obsolete]
@@ -6864,19 +7204,22 @@ public partial class MAVLink
     {
         public mavlink_battery2_t(ushort voltage,short current_battery) 
         {
-              this.voltage = voltage;
-              this.current_battery = current_battery;
+            this.voltage = voltage;
+            this.current_battery = current_battery;
             
         }
+
         /// <summary>Voltage.  [mV] </summary>
         [Units("[mV]")]
         [Description("Voltage.")]
+        //[FieldOffset(0)]
         public  ushort voltage;
-            /// <summary>Battery current, -1: autopilot does not measure the current.  [cA] </summary>
+
+        /// <summary>Battery current, -1: autopilot does not measure the current.  [cA] </summary>
         [Units("[cA]")]
         [Description("Battery current, -1: autopilot does not measure the current.")]
+        //[FieldOffset(2)]
         public  short current_battery;
-    
     };
 
     
@@ -6887,59 +7230,78 @@ public partial class MAVLink
     {
         public mavlink_ahrs3_t(float roll,float pitch,float yaw,float altitude,int lat,int lng,float v1,float v2,float v3,float v4) 
         {
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.altitude = altitude;
-              this.lat = lat;
-              this.lng = lng;
-              this.v1 = v1;
-              this.v2 = v2;
-              this.v3 = v3;
-              this.v4 = v4;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.altitude = altitude;
+            this.lat = lat;
+            this.lng = lng;
+            this.v1 = v1;
+            this.v2 = v2;
+            this.v3 = v3;
+            this.v4 = v4;
             
         }
+
         /// <summary>Roll angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle.")]
+        //[FieldOffset(0)]
         public  float roll;
-            /// <summary>Pitch angle.  [rad] </summary>
+
+        /// <summary>Pitch angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle.")]
+        //[FieldOffset(4)]
         public  float pitch;
-            /// <summary>Yaw angle.  [rad] </summary>
+
+        /// <summary>Yaw angle.  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle.")]
+        //[FieldOffset(8)]
         public  float yaw;
-            /// <summary>Altitude (MSL).  [m] </summary>
+
+        /// <summary>Altitude (MSL).  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL).")]
+        //[FieldOffset(12)]
         public  float altitude;
-            /// <summary>Latitude.  [degE7] </summary>
+
+        /// <summary>Latitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude.")]
+        //[FieldOffset(16)]
         public  int lat;
-            /// <summary>Longitude.  [degE7] </summary>
+
+        /// <summary>Longitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude.")]
+        //[FieldOffset(20)]
         public  int lng;
-            /// <summary>Test variable1.   </summary>
+
+        /// <summary>Test variable1.   </summary>
         [Units("")]
         [Description("Test variable1.")]
+        //[FieldOffset(24)]
         public  float v1;
-            /// <summary>Test variable2.   </summary>
+
+        /// <summary>Test variable2.   </summary>
         [Units("")]
         [Description("Test variable2.")]
+        //[FieldOffset(28)]
         public  float v2;
-            /// <summary>Test variable3.   </summary>
+
+        /// <summary>Test variable3.   </summary>
         [Units("")]
         [Description("Test variable3.")]
+        //[FieldOffset(32)]
         public  float v3;
-            /// <summary>Test variable4.   </summary>
+
+        /// <summary>Test variable4.   </summary>
         [Units("")]
         [Description("Test variable4.")]
+        //[FieldOffset(36)]
         public  float v4;
-    
     };
 
     
@@ -6950,19 +7312,22 @@ public partial class MAVLink
     {
         public mavlink_autopilot_version_request_t(byte target_system,byte target_component) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(1)]
         public  byte target_component;
-    
     };
 
     
@@ -6973,30 +7338,37 @@ public partial class MAVLink
     {
         public mavlink_remote_log_data_block_t(/*MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS*/uint seqno,byte target_system,byte target_component,byte[] data) 
         {
-              this.seqno = seqno;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.data = data;
+            this.seqno = seqno;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.data = data;
             
         }
+
         /// <summary>Log data block sequence number. MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS  </summary>
         [Units("")]
         [Description("Log data block sequence number.")]
+        //[FieldOffset(0)]
         public  /*MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS*/uint seqno;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>Log data block.   </summary>
+
+        /// <summary>Log data block.   </summary>
         [Units("")]
         [Description("Log data block.")]
+        //[FieldOffset(6)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=200)]
 		public byte[] data;
-    
     };
 
     
@@ -7007,29 +7379,36 @@ public partial class MAVLink
     {
         public mavlink_remote_log_block_status_t(uint seqno,byte target_system,byte target_component,/*MAV_REMOTE_LOG_DATA_BLOCK_STATUSES*/byte status) 
         {
-              this.seqno = seqno;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.status = status;
+            this.seqno = seqno;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.status = status;
             
         }
+
         /// <summary>Log data block sequence number.   </summary>
         [Units("")]
         [Description("Log data block sequence number.")]
+        //[FieldOffset(0)]
         public  uint seqno;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>Log data block status. MAV_REMOTE_LOG_DATA_BLOCK_STATUSES  </summary>
+
+        /// <summary>Log data block status. MAV_REMOTE_LOG_DATA_BLOCK_STATUSES  </summary>
         [Units("")]
         [Description("Log data block status.")]
+        //[FieldOffset(6)]
         public  /*MAV_REMOTE_LOG_DATA_BLOCK_STATUSES*/byte status;
-    
     };
 
     
@@ -7040,40 +7419,51 @@ public partial class MAVLink
     {
         public mavlink_led_control_t(byte target_system,byte target_component,byte instance,byte pattern,byte custom_len,byte[] custom_bytes) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.instance = instance;
-              this.pattern = pattern;
-              this.custom_len = custom_len;
-              this.custom_bytes = custom_bytes;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.instance = instance;
+            this.pattern = pattern;
+            this.custom_len = custom_len;
+            this.custom_bytes = custom_bytes;
             
         }
+
         /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Instance (LED instance to control or 255 for all LEDs).   </summary>
+
+        /// <summary>Instance (LED instance to control or 255 for all LEDs).   </summary>
         [Units("")]
         [Description("Instance (LED instance to control or 255 for all LEDs).")]
+        //[FieldOffset(2)]
         public  byte instance;
-            /// <summary>Pattern (see LED_PATTERN_ENUM).   </summary>
+
+        /// <summary>Pattern (see LED_PATTERN_ENUM).   </summary>
         [Units("")]
         [Description("Pattern (see LED_PATTERN_ENUM).")]
+        //[FieldOffset(3)]
         public  byte pattern;
-            /// <summary>Custom Byte Length.   </summary>
+
+        /// <summary>Custom Byte Length.   </summary>
         [Units("")]
         [Description("Custom Byte Length.")]
+        //[FieldOffset(4)]
         public  byte custom_len;
-            /// <summary>Custom Bytes.   </summary>
+
+        /// <summary>Custom Bytes.   </summary>
         [Units("")]
         [Description("Custom Bytes.")]
+        //[FieldOffset(5)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=24)]
 		public byte[] custom_bytes;
-    
     };
 
     
@@ -7084,55 +7474,72 @@ public partial class MAVLink
     {
         public mavlink_mag_cal_progress_t(float direction_x,float direction_y,float direction_z,byte compass_id,byte cal_mask,/*MAG_CAL_STATUS*/byte cal_status,byte attempt,byte completion_pct,byte[] completion_mask) 
         {
-              this.direction_x = direction_x;
-              this.direction_y = direction_y;
-              this.direction_z = direction_z;
-              this.compass_id = compass_id;
-              this.cal_mask = cal_mask;
-              this.cal_status = cal_status;
-              this.attempt = attempt;
-              this.completion_pct = completion_pct;
-              this.completion_mask = completion_mask;
+            this.direction_x = direction_x;
+            this.direction_y = direction_y;
+            this.direction_z = direction_z;
+            this.compass_id = compass_id;
+            this.cal_mask = cal_mask;
+            this.cal_status = cal_status;
+            this.attempt = attempt;
+            this.completion_pct = completion_pct;
+            this.completion_mask = completion_mask;
             
         }
+
         /// <summary>Body frame direction vector for display.   </summary>
         [Units("")]
         [Description("Body frame direction vector for display.")]
+        //[FieldOffset(0)]
         public  float direction_x;
-            /// <summary>Body frame direction vector for display.   </summary>
+
+        /// <summary>Body frame direction vector for display.   </summary>
         [Units("")]
         [Description("Body frame direction vector for display.")]
+        //[FieldOffset(4)]
         public  float direction_y;
-            /// <summary>Body frame direction vector for display.   </summary>
+
+        /// <summary>Body frame direction vector for display.   </summary>
         [Units("")]
         [Description("Body frame direction vector for display.")]
+        //[FieldOffset(8)]
         public  float direction_z;
-            /// <summary>Compass being calibrated.   </summary>
+
+        /// <summary>Compass being calibrated.   </summary>
         [Units("")]
         [Description("Compass being calibrated.")]
+        //[FieldOffset(12)]
         public  byte compass_id;
-            /// <summary>Bitmask of compasses being calibrated.   bitmask</summary>
+
+        /// <summary>Bitmask of compasses being calibrated.   bitmask</summary>
         [Units("")]
         [Description("Bitmask of compasses being calibrated.")]
+        //[FieldOffset(13)]
         public  byte cal_mask;
-            /// <summary>Calibration Status. MAG_CAL_STATUS  </summary>
+
+        /// <summary>Calibration Status. MAG_CAL_STATUS  </summary>
         [Units("")]
         [Description("Calibration Status.")]
+        //[FieldOffset(14)]
         public  /*MAG_CAL_STATUS*/byte cal_status;
-            /// <summary>Attempt number.   </summary>
+
+        /// <summary>Attempt number.   </summary>
         [Units("")]
         [Description("Attempt number.")]
+        //[FieldOffset(15)]
         public  byte attempt;
-            /// <summary>Completion percentage.  [%] </summary>
+
+        /// <summary>Completion percentage.  [%] </summary>
         [Units("[%]")]
         [Description("Completion percentage.")]
+        //[FieldOffset(16)]
         public  byte completion_pct;
-            /// <summary>Bitmask of sphere sections (see http://en.wikipedia.org/wiki/Geodesic_grid).   </summary>
+
+        /// <summary>Bitmask of sphere sections (see http://en.wikipedia.org/wiki/Geodesic_grid).   </summary>
         [Units("")]
         [Description("Bitmask of sphere sections (see http://en.wikipedia.org/wiki/Geodesic_grid).")]
+        //[FieldOffset(17)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
 		public byte[] completion_mask;
-    
     };
 
     
@@ -7143,44 +7550,57 @@ public partial class MAVLink
     {
         public mavlink_ekf_status_report_t(float velocity_variance,float pos_horiz_variance,float pos_vert_variance,float compass_variance,float terrain_alt_variance,/*EKF_STATUS_FLAGS*/ushort flags,float airspeed_variance) 
         {
-              this.velocity_variance = velocity_variance;
-              this.pos_horiz_variance = pos_horiz_variance;
-              this.pos_vert_variance = pos_vert_variance;
-              this.compass_variance = compass_variance;
-              this.terrain_alt_variance = terrain_alt_variance;
-              this.flags = flags;
-              this.airspeed_variance = airspeed_variance;
+            this.velocity_variance = velocity_variance;
+            this.pos_horiz_variance = pos_horiz_variance;
+            this.pos_vert_variance = pos_vert_variance;
+            this.compass_variance = compass_variance;
+            this.terrain_alt_variance = terrain_alt_variance;
+            this.flags = flags;
+            this.airspeed_variance = airspeed_variance;
             
         }
+
         /// <summary>Velocity variance.   </summary>
         [Units("")]
         [Description("Velocity variance.")]
+        //[FieldOffset(0)]
         public  float velocity_variance;
-            /// <summary>Horizontal Position variance.   </summary>
+
+        /// <summary>Horizontal Position variance.   </summary>
         [Units("")]
         [Description("Horizontal Position variance.")]
+        //[FieldOffset(4)]
         public  float pos_horiz_variance;
-            /// <summary>Vertical Position variance.   </summary>
+
+        /// <summary>Vertical Position variance.   </summary>
         [Units("")]
         [Description("Vertical Position variance.")]
+        //[FieldOffset(8)]
         public  float pos_vert_variance;
-            /// <summary>Compass variance.   </summary>
+
+        /// <summary>Compass variance.   </summary>
         [Units("")]
         [Description("Compass variance.")]
+        //[FieldOffset(12)]
         public  float compass_variance;
-            /// <summary>Terrain Altitude variance.   </summary>
+
+        /// <summary>Terrain Altitude variance.   </summary>
         [Units("")]
         [Description("Terrain Altitude variance.")]
+        //[FieldOffset(16)]
         public  float terrain_alt_variance;
-            /// <summary>Flags. EKF_STATUS_FLAGS  bitmask</summary>
+
+        /// <summary>Flags. EKF_STATUS_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Flags.")]
+        //[FieldOffset(20)]
         public  /*EKF_STATUS_FLAGS*/ushort flags;
-            /// <summary>Airspeed variance.   </summary>
+
+        /// <summary>Airspeed variance.   </summary>
         [Units("")]
         [Description("Airspeed variance.")]
+        //[FieldOffset(22)]
         public  float airspeed_variance;
-    
     };
 
     
@@ -7191,44 +7611,57 @@ public partial class MAVLink
     {
         public mavlink_pid_tuning_t(float desired,float achieved,float FF,float P,float I,float D,/*PID_TUNING_AXIS*/byte axis) 
         {
-              this.desired = desired;
-              this.achieved = achieved;
-              this.FF = FF;
-              this.P = P;
-              this.I = I;
-              this.D = D;
-              this.axis = axis;
+            this.desired = desired;
+            this.achieved = achieved;
+            this.FF = FF;
+            this.P = P;
+            this.I = I;
+            this.D = D;
+            this.axis = axis;
             
         }
+
         /// <summary>Desired rate.   </summary>
         [Units("")]
         [Description("Desired rate.")]
+        //[FieldOffset(0)]
         public  float desired;
-            /// <summary>Achieved rate.   </summary>
+
+        /// <summary>Achieved rate.   </summary>
         [Units("")]
         [Description("Achieved rate.")]
+        //[FieldOffset(4)]
         public  float achieved;
-            /// <summary>FF component.   </summary>
+
+        /// <summary>FF component.   </summary>
         [Units("")]
         [Description("FF component.")]
+        //[FieldOffset(8)]
         public  float FF;
-            /// <summary>P component.   </summary>
+
+        /// <summary>P component.   </summary>
         [Units("")]
         [Description("P component.")]
+        //[FieldOffset(12)]
         public  float P;
-            /// <summary>I component.   </summary>
+
+        /// <summary>I component.   </summary>
         [Units("")]
         [Description("I component.")]
+        //[FieldOffset(16)]
         public  float I;
-            /// <summary>D component.   </summary>
+
+        /// <summary>D component.   </summary>
         [Units("")]
         [Description("D component.")]
+        //[FieldOffset(20)]
         public  float D;
-            /// <summary>Axis. PID_TUNING_AXIS  </summary>
+
+        /// <summary>Axis. PID_TUNING_AXIS  </summary>
         [Units("")]
         [Description("Axis.")]
+        //[FieldOffset(24)]
         public  /*PID_TUNING_AXIS*/byte axis;
-    
     };
 
     
@@ -7239,59 +7672,78 @@ public partial class MAVLink
     {
         public mavlink_deepstall_t(int landing_lat,int landing_lon,int path_lat,int path_lon,int arc_entry_lat,int arc_entry_lon,float altitude,float expected_travel_distance,float cross_track_error,/*DEEPSTALL_STAGE*/byte stage) 
         {
-              this.landing_lat = landing_lat;
-              this.landing_lon = landing_lon;
-              this.path_lat = path_lat;
-              this.path_lon = path_lon;
-              this.arc_entry_lat = arc_entry_lat;
-              this.arc_entry_lon = arc_entry_lon;
-              this.altitude = altitude;
-              this.expected_travel_distance = expected_travel_distance;
-              this.cross_track_error = cross_track_error;
-              this.stage = stage;
+            this.landing_lat = landing_lat;
+            this.landing_lon = landing_lon;
+            this.path_lat = path_lat;
+            this.path_lon = path_lon;
+            this.arc_entry_lat = arc_entry_lat;
+            this.arc_entry_lon = arc_entry_lon;
+            this.altitude = altitude;
+            this.expected_travel_distance = expected_travel_distance;
+            this.cross_track_error = cross_track_error;
+            this.stage = stage;
             
         }
+
         /// <summary>Landing latitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Landing latitude.")]
+        //[FieldOffset(0)]
         public  int landing_lat;
-            /// <summary>Landing longitude.  [degE7] </summary>
+
+        /// <summary>Landing longitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Landing longitude.")]
+        //[FieldOffset(4)]
         public  int landing_lon;
-            /// <summary>Final heading start point, latitude.  [degE7] </summary>
+
+        /// <summary>Final heading start point, latitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Final heading start point, latitude.")]
+        //[FieldOffset(8)]
         public  int path_lat;
-            /// <summary>Final heading start point, longitude.  [degE7] </summary>
+
+        /// <summary>Final heading start point, longitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Final heading start point, longitude.")]
+        //[FieldOffset(12)]
         public  int path_lon;
-            /// <summary>Arc entry point, latitude.  [degE7] </summary>
+
+        /// <summary>Arc entry point, latitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Arc entry point, latitude.")]
+        //[FieldOffset(16)]
         public  int arc_entry_lat;
-            /// <summary>Arc entry point, longitude.  [degE7] </summary>
+
+        /// <summary>Arc entry point, longitude.  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Arc entry point, longitude.")]
+        //[FieldOffset(20)]
         public  int arc_entry_lon;
-            /// <summary>Altitude.  [m] </summary>
+
+        /// <summary>Altitude.  [m] </summary>
         [Units("[m]")]
         [Description("Altitude.")]
+        //[FieldOffset(24)]
         public  float altitude;
-            /// <summary>Distance the aircraft expects to travel during the deepstall.  [m] </summary>
+
+        /// <summary>Distance the aircraft expects to travel during the deepstall.  [m] </summary>
         [Units("[m]")]
         [Description("Distance the aircraft expects to travel during the deepstall.")]
+        //[FieldOffset(28)]
         public  float expected_travel_distance;
-            /// <summary>Deepstall cross track error (only valid when in DEEPSTALL_STAGE_LAND).  [m] </summary>
+
+        /// <summary>Deepstall cross track error (only valid when in DEEPSTALL_STAGE_LAND).  [m] </summary>
         [Units("[m]")]
         [Description("Deepstall cross track error (only valid when in DEEPSTALL_STAGE_LAND).")]
+        //[FieldOffset(32)]
         public  float cross_track_error;
-            /// <summary>Deepstall stage. DEEPSTALL_STAGE  </summary>
+
+        /// <summary>Deepstall stage. DEEPSTALL_STAGE  </summary>
         [Units("")]
         [Description("Deepstall stage.")]
+        //[FieldOffset(36)]
         public  /*DEEPSTALL_STAGE*/byte stage;
-    
     };
 
     
@@ -7302,69 +7754,92 @@ public partial class MAVLink
     {
         public mavlink_gimbal_report_t(float delta_time,float delta_angle_x,float delta_angle_y,float delta_angle_z,float delta_velocity_x,float delta_velocity_y,float delta_velocity_z,float joint_roll,float joint_el,float joint_az,byte target_system,byte target_component) 
         {
-              this.delta_time = delta_time;
-              this.delta_angle_x = delta_angle_x;
-              this.delta_angle_y = delta_angle_y;
-              this.delta_angle_z = delta_angle_z;
-              this.delta_velocity_x = delta_velocity_x;
-              this.delta_velocity_y = delta_velocity_y;
-              this.delta_velocity_z = delta_velocity_z;
-              this.joint_roll = joint_roll;
-              this.joint_el = joint_el;
-              this.joint_az = joint_az;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.delta_time = delta_time;
+            this.delta_angle_x = delta_angle_x;
+            this.delta_angle_y = delta_angle_y;
+            this.delta_angle_z = delta_angle_z;
+            this.delta_velocity_x = delta_velocity_x;
+            this.delta_velocity_y = delta_velocity_y;
+            this.delta_velocity_z = delta_velocity_z;
+            this.joint_roll = joint_roll;
+            this.joint_el = joint_el;
+            this.joint_az = joint_az;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Time since last update.  [s] </summary>
         [Units("[s]")]
         [Description("Time since last update.")]
+        //[FieldOffset(0)]
         public  float delta_time;
-            /// <summary>Delta angle X.  [rad] </summary>
+
+        /// <summary>Delta angle X.  [rad] </summary>
         [Units("[rad]")]
         [Description("Delta angle X.")]
+        //[FieldOffset(4)]
         public  float delta_angle_x;
-            /// <summary>Delta angle Y.  [rad] </summary>
+
+        /// <summary>Delta angle Y.  [rad] </summary>
         [Units("[rad]")]
         [Description("Delta angle Y.")]
+        //[FieldOffset(8)]
         public  float delta_angle_y;
-            /// <summary>Delta angle X.  [rad] </summary>
+
+        /// <summary>Delta angle X.  [rad] </summary>
         [Units("[rad]")]
         [Description("Delta angle X.")]
+        //[FieldOffset(12)]
         public  float delta_angle_z;
-            /// <summary>Delta velocity X.  [m/s] </summary>
+
+        /// <summary>Delta velocity X.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Delta velocity X.")]
+        //[FieldOffset(16)]
         public  float delta_velocity_x;
-            /// <summary>Delta velocity Y.  [m/s] </summary>
+
+        /// <summary>Delta velocity Y.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Delta velocity Y.")]
+        //[FieldOffset(20)]
         public  float delta_velocity_y;
-            /// <summary>Delta velocity Z.  [m/s] </summary>
+
+        /// <summary>Delta velocity Z.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Delta velocity Z.")]
+        //[FieldOffset(24)]
         public  float delta_velocity_z;
-            /// <summary>Joint ROLL.  [rad] </summary>
+
+        /// <summary>Joint ROLL.  [rad] </summary>
         [Units("[rad]")]
         [Description("Joint ROLL.")]
+        //[FieldOffset(28)]
         public  float joint_roll;
-            /// <summary>Joint EL.  [rad] </summary>
+
+        /// <summary>Joint EL.  [rad] </summary>
         [Units("[rad]")]
         [Description("Joint EL.")]
+        //[FieldOffset(32)]
         public  float joint_el;
-            /// <summary>Joint AZ.  [rad] </summary>
+
+        /// <summary>Joint AZ.  [rad] </summary>
         [Units("[rad]")]
         [Description("Joint AZ.")]
+        //[FieldOffset(36)]
         public  float joint_az;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(40)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(41)]
         public  byte target_component;
-    
     };
 
     
@@ -7375,34 +7850,43 @@ public partial class MAVLink
     {
         public mavlink_gimbal_control_t(float demanded_rate_x,float demanded_rate_y,float demanded_rate_z,byte target_system,byte target_component) 
         {
-              this.demanded_rate_x = demanded_rate_x;
-              this.demanded_rate_y = demanded_rate_y;
-              this.demanded_rate_z = demanded_rate_z;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.demanded_rate_x = demanded_rate_x;
+            this.demanded_rate_y = demanded_rate_y;
+            this.demanded_rate_z = demanded_rate_z;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Demanded angular rate X.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Demanded angular rate X.")]
+        //[FieldOffset(0)]
         public  float demanded_rate_x;
-            /// <summary>Demanded angular rate Y.  [rad/s] </summary>
+
+        /// <summary>Demanded angular rate Y.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Demanded angular rate Y.")]
+        //[FieldOffset(4)]
         public  float demanded_rate_y;
-            /// <summary>Demanded angular rate Z.  [rad/s] </summary>
+
+        /// <summary>Demanded angular rate Z.  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Demanded angular rate Z.")]
+        //[FieldOffset(8)]
         public  float demanded_rate_z;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(12)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(13)]
         public  byte target_component;
-    
     };
 
     
@@ -7413,34 +7897,43 @@ public partial class MAVLink
     {
         public mavlink_gimbal_torque_cmd_report_t(short rl_torque_cmd,short el_torque_cmd,short az_torque_cmd,byte target_system,byte target_component) 
         {
-              this.rl_torque_cmd = rl_torque_cmd;
-              this.el_torque_cmd = el_torque_cmd;
-              this.az_torque_cmd = az_torque_cmd;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.rl_torque_cmd = rl_torque_cmd;
+            this.el_torque_cmd = el_torque_cmd;
+            this.az_torque_cmd = az_torque_cmd;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Roll Torque Command.   </summary>
         [Units("")]
         [Description("Roll Torque Command.")]
+        //[FieldOffset(0)]
         public  short rl_torque_cmd;
-            /// <summary>Elevation Torque Command.   </summary>
+
+        /// <summary>Elevation Torque Command.   </summary>
         [Units("")]
         [Description("Elevation Torque Command.")]
+        //[FieldOffset(2)]
         public  short el_torque_cmd;
-            /// <summary>Azimuth Torque Command.   </summary>
+
+        /// <summary>Azimuth Torque Command.   </summary>
         [Units("")]
         [Description("Azimuth Torque Command.")]
+        //[FieldOffset(4)]
         public  short az_torque_cmd;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(6)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(7)]
         public  byte target_component;
-    
     };
 
     
@@ -7451,24 +7944,29 @@ public partial class MAVLink
     {
         public mavlink_gopro_heartbeat_t(/*GOPRO_HEARTBEAT_STATUS*/byte status,/*GOPRO_CAPTURE_MODE*/byte capture_mode,/*GOPRO_HEARTBEAT_FLAGS*/byte flags) 
         {
-              this.status = status;
-              this.capture_mode = capture_mode;
-              this.flags = flags;
+            this.status = status;
+            this.capture_mode = capture_mode;
+            this.flags = flags;
             
         }
+
         /// <summary>Status. GOPRO_HEARTBEAT_STATUS  </summary>
         [Units("")]
         [Description("Status.")]
+        //[FieldOffset(0)]
         public  /*GOPRO_HEARTBEAT_STATUS*/byte status;
-            /// <summary>Current capture mode. GOPRO_CAPTURE_MODE  </summary>
+
+        /// <summary>Current capture mode. GOPRO_CAPTURE_MODE  </summary>
         [Units("")]
         [Description("Current capture mode.")]
+        //[FieldOffset(1)]
         public  /*GOPRO_CAPTURE_MODE*/byte capture_mode;
-            /// <summary>Additional status bits. GOPRO_HEARTBEAT_FLAGS  bitmask</summary>
+
+        /// <summary>Additional status bits. GOPRO_HEARTBEAT_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Additional status bits.")]
+        //[FieldOffset(2)]
         public  /*GOPRO_HEARTBEAT_FLAGS*/byte flags;
-    
     };
 
     
@@ -7479,24 +7977,29 @@ public partial class MAVLink
     {
         public mavlink_gopro_get_request_t(byte target_system,byte target_component,/*GOPRO_COMMAND*/byte cmd_id) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.cmd_id = cmd_id;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.cmd_id = cmd_id;
             
         }
+
         /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Command ID. GOPRO_COMMAND  </summary>
+
+        /// <summary>Command ID. GOPRO_COMMAND  </summary>
         [Units("")]
         [Description("Command ID.")]
+        //[FieldOffset(2)]
         public  /*GOPRO_COMMAND*/byte cmd_id;
-    
     };
 
     
@@ -7507,25 +8010,30 @@ public partial class MAVLink
     {
         public mavlink_gopro_get_response_t(/*GOPRO_COMMAND*/byte cmd_id,/*GOPRO_REQUEST_STATUS*/byte status,byte[] value) 
         {
-              this.cmd_id = cmd_id;
-              this.status = status;
-              this.value = value;
+            this.cmd_id = cmd_id;
+            this.status = status;
+            this.value = value;
             
         }
+
         /// <summary>Command ID. GOPRO_COMMAND  </summary>
         [Units("")]
         [Description("Command ID.")]
+        //[FieldOffset(0)]
         public  /*GOPRO_COMMAND*/byte cmd_id;
-            /// <summary>Status. GOPRO_REQUEST_STATUS  </summary>
+
+        /// <summary>Status. GOPRO_REQUEST_STATUS  </summary>
         [Units("")]
         [Description("Status.")]
+        //[FieldOffset(1)]
         public  /*GOPRO_REQUEST_STATUS*/byte status;
-            /// <summary>Value.   </summary>
+
+        /// <summary>Value.   </summary>
         [Units("")]
         [Description("Value.")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public byte[] value;
-    
     };
 
     
@@ -7536,30 +8044,37 @@ public partial class MAVLink
     {
         public mavlink_gopro_set_request_t(byte target_system,byte target_component,/*GOPRO_COMMAND*/byte cmd_id,byte[] value) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.cmd_id = cmd_id;
-              this.value = value;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.cmd_id = cmd_id;
+            this.value = value;
             
         }
+
         /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Command ID. GOPRO_COMMAND  </summary>
+
+        /// <summary>Command ID. GOPRO_COMMAND  </summary>
         [Units("")]
         [Description("Command ID.")]
+        //[FieldOffset(2)]
         public  /*GOPRO_COMMAND*/byte cmd_id;
-            /// <summary>Value.   </summary>
+
+        /// <summary>Value.   </summary>
         [Units("")]
         [Description("Value.")]
+        //[FieldOffset(3)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public byte[] value;
-    
     };
 
     
@@ -7570,19 +8085,22 @@ public partial class MAVLink
     {
         public mavlink_gopro_set_response_t(/*GOPRO_COMMAND*/byte cmd_id,/*GOPRO_REQUEST_STATUS*/byte status) 
         {
-              this.cmd_id = cmd_id;
-              this.status = status;
+            this.cmd_id = cmd_id;
+            this.status = status;
             
         }
+
         /// <summary>Command ID. GOPRO_COMMAND  </summary>
         [Units("")]
         [Description("Command ID.")]
+        //[FieldOffset(0)]
         public  /*GOPRO_COMMAND*/byte cmd_id;
-            /// <summary>Status. GOPRO_REQUEST_STATUS  </summary>
+
+        /// <summary>Status. GOPRO_REQUEST_STATUS  </summary>
         [Units("")]
         [Description("Status.")]
+        //[FieldOffset(1)]
         public  /*GOPRO_REQUEST_STATUS*/byte status;
-    
     };
 
     
@@ -7593,19 +8111,22 @@ public partial class MAVLink
     {
         public mavlink_rpm_t(float rpm1,float rpm2) 
         {
-              this.rpm1 = rpm1;
-              this.rpm2 = rpm2;
+            this.rpm1 = rpm1;
+            this.rpm2 = rpm2;
             
         }
+
         /// <summary>RPM Sensor1.   </summary>
         [Units("")]
         [Description("RPM Sensor1.")]
+        //[FieldOffset(0)]
         public  float rpm1;
-            /// <summary>RPM Sensor2.   </summary>
+
+        /// <summary>RPM Sensor2.   </summary>
         [Units("")]
         [Description("RPM Sensor2.")]
+        //[FieldOffset(4)]
         public  float rpm2;
-    
     };
 
     
@@ -7616,60 +8137,79 @@ public partial class MAVLink
     {
         public mavlink_device_op_read_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte bank) 
         {
-              this.request_id = request_id;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.bustype = bustype;
-              this.bus = bus;
-              this.address = address;
-              this.busname = busname;
-              this.regstart = regstart;
-              this.count = count;
-              this.bank = bank;
+            this.request_id = request_id;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.bustype = bustype;
+            this.bus = bus;
+            this.address = address;
+            this.busname = busname;
+            this.regstart = regstart;
+            this.count = count;
+            this.bank = bank;
             
         }
+
         /// <summary>Request ID - copied to reply.   </summary>
         [Units("")]
         [Description("Request ID - copied to reply.")]
+        //[FieldOffset(0)]
         public  uint request_id;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>The bus type. DEVICE_OP_BUSTYPE  </summary>
+
+        /// <summary>The bus type. DEVICE_OP_BUSTYPE  </summary>
         [Units("")]
         [Description("The bus type.")]
+        //[FieldOffset(6)]
         public  /*DEVICE_OP_BUSTYPE*/byte bustype;
-            /// <summary>Bus number.   </summary>
+
+        /// <summary>Bus number.   </summary>
         [Units("")]
         [Description("Bus number.")]
+        //[FieldOffset(7)]
         public  byte bus;
-            /// <summary>Bus address.   </summary>
+
+        /// <summary>Bus address.   </summary>
         [Units("")]
         [Description("Bus address.")]
+        //[FieldOffset(8)]
         public  byte address;
-            /// <summary>Name of device on bus (for SPI).   </summary>
+
+        /// <summary>Name of device on bus (for SPI).   </summary>
         [Units("")]
         [Description("Name of device on bus (for SPI).")]
+        //[FieldOffset(9)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=40)]
 		public byte[] busname;
-            /// <summary>First register to read.   </summary>
+
+        /// <summary>First register to read.   </summary>
         [Units("")]
         [Description("First register to read.")]
+        //[FieldOffset(49)]
         public  byte regstart;
-            /// <summary>Count of registers to read.   </summary>
+
+        /// <summary>Count of registers to read.   </summary>
         [Units("")]
         [Description("Count of registers to read.")]
+        //[FieldOffset(50)]
         public  byte count;
-            /// <summary>Bank number.   </summary>
+
+        /// <summary>Bank number.   </summary>
         [Units("")]
         [Description("Bank number.")]
+        //[FieldOffset(51)]
         public  byte bank;
-    
     };
 
     
@@ -7680,40 +8220,51 @@ public partial class MAVLink
     {
         public mavlink_device_op_read_reply_t(uint request_id,byte result,byte regstart,byte count,byte[] data,byte bank) 
         {
-              this.request_id = request_id;
-              this.result = result;
-              this.regstart = regstart;
-              this.count = count;
-              this.data = data;
-              this.bank = bank;
+            this.request_id = request_id;
+            this.result = result;
+            this.regstart = regstart;
+            this.count = count;
+            this.data = data;
+            this.bank = bank;
             
         }
+
         /// <summary>Request ID - copied from request.   </summary>
         [Units("")]
         [Description("Request ID - copied from request.")]
+        //[FieldOffset(0)]
         public  uint request_id;
-            /// <summary>0 for success, anything else is failure code.   </summary>
+
+        /// <summary>0 for success, anything else is failure code.   </summary>
         [Units("")]
         [Description("0 for success, anything else is failure code.")]
+        //[FieldOffset(4)]
         public  byte result;
-            /// <summary>Starting register.   </summary>
+
+        /// <summary>Starting register.   </summary>
         [Units("")]
         [Description("Starting register.")]
+        //[FieldOffset(5)]
         public  byte regstart;
-            /// <summary>Count of bytes read.   </summary>
+
+        /// <summary>Count of bytes read.   </summary>
         [Units("")]
         [Description("Count of bytes read.")]
+        //[FieldOffset(6)]
         public  byte count;
-            /// <summary>Reply data.   </summary>
+
+        /// <summary>Reply data.   </summary>
         [Units("")]
         [Description("Reply data.")]
+        //[FieldOffset(7)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
 		public byte[] data;
-            /// <summary>Bank number.   </summary>
+
+        /// <summary>Bank number.   </summary>
         [Units("")]
         [Description("Bank number.")]
+        //[FieldOffset(135)]
         public  byte bank;
-    
     };
 
     
@@ -7724,66 +8275,87 @@ public partial class MAVLink
     {
         public mavlink_device_op_write_t(uint request_id,byte target_system,byte target_component,/*DEVICE_OP_BUSTYPE*/byte bustype,byte bus,byte address,byte[] busname,byte regstart,byte count,byte[] data,byte bank) 
         {
-              this.request_id = request_id;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.bustype = bustype;
-              this.bus = bus;
-              this.address = address;
-              this.busname = busname;
-              this.regstart = regstart;
-              this.count = count;
-              this.data = data;
-              this.bank = bank;
+            this.request_id = request_id;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.bustype = bustype;
+            this.bus = bus;
+            this.address = address;
+            this.busname = busname;
+            this.regstart = regstart;
+            this.count = count;
+            this.data = data;
+            this.bank = bank;
             
         }
+
         /// <summary>Request ID - copied to reply.   </summary>
         [Units("")]
         [Description("Request ID - copied to reply.")]
+        //[FieldOffset(0)]
         public  uint request_id;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>The bus type. DEVICE_OP_BUSTYPE  </summary>
+
+        /// <summary>The bus type. DEVICE_OP_BUSTYPE  </summary>
         [Units("")]
         [Description("The bus type.")]
+        //[FieldOffset(6)]
         public  /*DEVICE_OP_BUSTYPE*/byte bustype;
-            /// <summary>Bus number.   </summary>
+
+        /// <summary>Bus number.   </summary>
         [Units("")]
         [Description("Bus number.")]
+        //[FieldOffset(7)]
         public  byte bus;
-            /// <summary>Bus address.   </summary>
+
+        /// <summary>Bus address.   </summary>
         [Units("")]
         [Description("Bus address.")]
+        //[FieldOffset(8)]
         public  byte address;
-            /// <summary>Name of device on bus (for SPI).   </summary>
+
+        /// <summary>Name of device on bus (for SPI).   </summary>
         [Units("")]
         [Description("Name of device on bus (for SPI).")]
+        //[FieldOffset(9)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=40)]
 		public byte[] busname;
-            /// <summary>First register to write.   </summary>
+
+        /// <summary>First register to write.   </summary>
         [Units("")]
         [Description("First register to write.")]
+        //[FieldOffset(49)]
         public  byte regstart;
-            /// <summary>Count of registers to write.   </summary>
+
+        /// <summary>Count of registers to write.   </summary>
         [Units("")]
         [Description("Count of registers to write.")]
+        //[FieldOffset(50)]
         public  byte count;
-            /// <summary>Write data.   </summary>
+
+        /// <summary>Write data.   </summary>
         [Units("")]
         [Description("Write data.")]
+        //[FieldOffset(51)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
 		public byte[] data;
-            /// <summary>Bank number.   </summary>
+
+        /// <summary>Bank number.   </summary>
         [Units("")]
         [Description("Bank number.")]
+        //[FieldOffset(179)]
         public  byte bank;
-    
     };
 
     
@@ -7794,19 +8366,22 @@ public partial class MAVLink
     {
         public mavlink_device_op_write_reply_t(uint request_id,byte result) 
         {
-              this.request_id = request_id;
-              this.result = result;
+            this.request_id = request_id;
+            this.result = result;
             
         }
+
         /// <summary>Request ID - copied from request.   </summary>
         [Units("")]
         [Description("Request ID - copied from request.")]
+        //[FieldOffset(0)]
         public  uint request_id;
-            /// <summary>0 for success, anything else is failure code.   </summary>
+
+        /// <summary>0 for success, anything else is failure code.   </summary>
         [Units("")]
         [Description("0 for success, anything else is failure code.")]
+        //[FieldOffset(4)]
         public  byte result;
-    
     };
 
     
@@ -7817,74 +8392,99 @@ public partial class MAVLink
     {
         public mavlink_adap_tuning_t(float desired,float achieved,float error,float theta,float omega,float sigma,float theta_dot,float omega_dot,float sigma_dot,float f,float f_dot,float u,/*PID_TUNING_AXIS*/byte axis) 
         {
-              this.desired = desired;
-              this.achieved = achieved;
-              this.error = error;
-              this.theta = theta;
-              this.omega = omega;
-              this.sigma = sigma;
-              this.theta_dot = theta_dot;
-              this.omega_dot = omega_dot;
-              this.sigma_dot = sigma_dot;
-              this.f = f;
-              this.f_dot = f_dot;
-              this.u = u;
-              this.axis = axis;
+            this.desired = desired;
+            this.achieved = achieved;
+            this.error = error;
+            this.theta = theta;
+            this.omega = omega;
+            this.sigma = sigma;
+            this.theta_dot = theta_dot;
+            this.omega_dot = omega_dot;
+            this.sigma_dot = sigma_dot;
+            this.f = f;
+            this.f_dot = f_dot;
+            this.u = u;
+            this.axis = axis;
             
         }
+
         /// <summary>Desired rate.  [deg/s] </summary>
         [Units("[deg/s]")]
         [Description("Desired rate.")]
+        //[FieldOffset(0)]
         public  float desired;
-            /// <summary>Achieved rate.  [deg/s] </summary>
+
+        /// <summary>Achieved rate.  [deg/s] </summary>
         [Units("[deg/s]")]
         [Description("Achieved rate.")]
+        //[FieldOffset(4)]
         public  float achieved;
-            /// <summary>Error between model and vehicle.   </summary>
+
+        /// <summary>Error between model and vehicle.   </summary>
         [Units("")]
         [Description("Error between model and vehicle.")]
+        //[FieldOffset(8)]
         public  float error;
-            /// <summary>Theta estimated state predictor.   </summary>
+
+        /// <summary>Theta estimated state predictor.   </summary>
         [Units("")]
         [Description("Theta estimated state predictor.")]
+        //[FieldOffset(12)]
         public  float theta;
-            /// <summary>Omega estimated state predictor.   </summary>
+
+        /// <summary>Omega estimated state predictor.   </summary>
         [Units("")]
         [Description("Omega estimated state predictor.")]
+        //[FieldOffset(16)]
         public  float omega;
-            /// <summary>Sigma estimated state predictor.   </summary>
+
+        /// <summary>Sigma estimated state predictor.   </summary>
         [Units("")]
         [Description("Sigma estimated state predictor.")]
+        //[FieldOffset(20)]
         public  float sigma;
-            /// <summary>Theta derivative.   </summary>
+
+        /// <summary>Theta derivative.   </summary>
         [Units("")]
         [Description("Theta derivative.")]
+        //[FieldOffset(24)]
         public  float theta_dot;
-            /// <summary>Omega derivative.   </summary>
+
+        /// <summary>Omega derivative.   </summary>
         [Units("")]
         [Description("Omega derivative.")]
+        //[FieldOffset(28)]
         public  float omega_dot;
-            /// <summary>Sigma derivative.   </summary>
+
+        /// <summary>Sigma derivative.   </summary>
         [Units("")]
         [Description("Sigma derivative.")]
+        //[FieldOffset(32)]
         public  float sigma_dot;
-            /// <summary>Projection operator value.   </summary>
+
+        /// <summary>Projection operator value.   </summary>
         [Units("")]
         [Description("Projection operator value.")]
+        //[FieldOffset(36)]
         public  float f;
-            /// <summary>Projection operator derivative.   </summary>
+
+        /// <summary>Projection operator derivative.   </summary>
         [Units("")]
         [Description("Projection operator derivative.")]
+        //[FieldOffset(40)]
         public  float f_dot;
-            /// <summary>u adaptive controlled output command.   </summary>
+
+        /// <summary>u adaptive controlled output command.   </summary>
         [Units("")]
         [Description("u adaptive controlled output command.")]
+        //[FieldOffset(44)]
         public  float u;
-            /// <summary>Axis. PID_TUNING_AXIS  </summary>
+
+        /// <summary>Axis. PID_TUNING_AXIS  </summary>
         [Units("")]
         [Description("Axis.")]
+        //[FieldOffset(48)]
         public  /*PID_TUNING_AXIS*/byte axis;
-    
     };
 
     
@@ -7895,36 +8495,45 @@ public partial class MAVLink
     {
         public mavlink_vision_position_delta_t(ulong time_usec,ulong time_delta_usec,float[] angle_delta,float[] position_delta,float confidence) 
         {
-              this.time_usec = time_usec;
-              this.time_delta_usec = time_delta_usec;
-              this.angle_delta = angle_delta;
-              this.position_delta = position_delta;
-              this.confidence = confidence;
+            this.time_usec = time_usec;
+            this.time_delta_usec = time_delta_usec;
+            this.angle_delta = angle_delta;
+            this.position_delta = position_delta;
+            this.confidence = confidence;
             
         }
+
         /// <summary>Timestamp (synced to UNIX time or since system boot).  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (synced to UNIX time or since system boot).")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Time since the last reported camera frame.  [us] </summary>
+
+        /// <summary>Time since the last reported camera frame.  [us] </summary>
         [Units("[us]")]
         [Description("Time since the last reported camera frame.")]
+        //[FieldOffset(8)]
         public  ulong time_delta_usec;
-            /// <summary>Defines a rotation vector [roll, pitch, yaw] to the current MAV_FRAME_BODY_FRD from the previous MAV_FRAME_BODY_FRD.  [rad] </summary>
+
+        /// <summary>Defines a rotation vector [roll, pitch, yaw] to the current MAV_FRAME_BODY_FRD from the previous MAV_FRAME_BODY_FRD.  [rad] </summary>
         [Units("[rad]")]
         [Description("Defines a rotation vector [roll, pitch, yaw] to the current MAV_FRAME_BODY_FRD from the previous MAV_FRAME_BODY_FRD.")]
+        //[FieldOffset(16)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
 		public float[] angle_delta;
-            /// <summary>Change in position to the current MAV_FRAME_BODY_FRD from the previous FRAME_BODY_FRD rotated to the current MAV_FRAME_BODY_FRD.  [m] </summary>
+
+        /// <summary>Change in position to the current MAV_FRAME_BODY_FRD from the previous FRAME_BODY_FRD rotated to the current MAV_FRAME_BODY_FRD.  [m] </summary>
         [Units("[m]")]
         [Description("Change in position to the current MAV_FRAME_BODY_FRD from the previous FRAME_BODY_FRD rotated to the current MAV_FRAME_BODY_FRD.")]
+        //[FieldOffset(28)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
 		public float[] position_delta;
-            /// <summary>Normalised confidence value from 0 to 100.  [%] </summary>
+
+        /// <summary>Normalised confidence value from 0 to 100.  [%] </summary>
         [Units("[%]")]
         [Description("Normalised confidence value from 0 to 100.")]
+        //[FieldOffset(40)]
         public  float confidence;
-    
     };
 
     
@@ -7935,24 +8544,29 @@ public partial class MAVLink
     {
         public mavlink_aoa_ssa_t(ulong time_usec,float AOA,float SSA) 
         {
-              this.time_usec = time_usec;
-              this.AOA = AOA;
-              this.SSA = SSA;
+            this.time_usec = time_usec;
+            this.AOA = AOA;
+            this.SSA = SSA;
             
         }
+
         /// <summary>Timestamp (since boot or Unix epoch).  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (since boot or Unix epoch).")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Angle of Attack.  [deg] </summary>
+
+        /// <summary>Angle of Attack.  [deg] </summary>
         [Units("[deg]")]
         [Description("Angle of Attack.")]
+        //[FieldOffset(8)]
         public  float AOA;
-            /// <summary>Side Slip Angle.  [deg] </summary>
+
+        /// <summary>Side Slip Angle.  [deg] </summary>
         [Units("[deg]")]
         [Description("Side Slip Angle.")]
+        //[FieldOffset(12)]
         public  float SSA;
-    
     };
 
     
@@ -7963,45 +8577,56 @@ public partial class MAVLink
     {
         public mavlink_esc_telemetry_1_to_4_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
         {
-              this.voltage = voltage;
-              this.current = current;
-              this.totalcurrent = totalcurrent;
-              this.rpm = rpm;
-              this.count = count;
-              this.temperature = temperature;
+            this.voltage = voltage;
+            this.current = current;
+            this.totalcurrent = totalcurrent;
+            this.rpm = rpm;
+            this.count = count;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Voltage.  [cV] </summary>
         [Units("[cV]")]
         [Description("Voltage.")]
+        //[FieldOffset(0)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] voltage;
-            /// <summary>Current.  [cA] </summary>
+
+        /// <summary>Current.  [cA] </summary>
         [Units("[cA]")]
         [Description("Current.")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] current;
-            /// <summary>Total current.  [mAh] </summary>
+
+        /// <summary>Total current.  [mAh] </summary>
         [Units("[mAh]")]
         [Description("Total current.")]
+        //[FieldOffset(16)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] totalcurrent;
-            /// <summary>RPM (eRPM).  [rpm] </summary>
+
+        /// <summary>RPM (eRPM).  [rpm] </summary>
         [Units("[rpm]")]
         [Description("RPM (eRPM).")]
+        //[FieldOffset(24)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] rpm;
-            /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
+
+        /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
         [Units("")]
         [Description("count of telemetry packets received (wraps at 65535).")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] count;
-            /// <summary>Temperature.  [degC] </summary>
+
+        /// <summary>Temperature.  [degC] </summary>
         [Units("[degC]")]
         [Description("Temperature.")]
+        //[FieldOffset(40)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public byte[] temperature;
-    
     };
 
     
@@ -8012,45 +8637,56 @@ public partial class MAVLink
     {
         public mavlink_esc_telemetry_5_to_8_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
         {
-              this.voltage = voltage;
-              this.current = current;
-              this.totalcurrent = totalcurrent;
-              this.rpm = rpm;
-              this.count = count;
-              this.temperature = temperature;
+            this.voltage = voltage;
+            this.current = current;
+            this.totalcurrent = totalcurrent;
+            this.rpm = rpm;
+            this.count = count;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Voltage.  [cV] </summary>
         [Units("[cV]")]
         [Description("Voltage.")]
+        //[FieldOffset(0)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] voltage;
-            /// <summary>Current.  [cA] </summary>
+
+        /// <summary>Current.  [cA] </summary>
         [Units("[cA]")]
         [Description("Current.")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] current;
-            /// <summary>Total current.  [mAh] </summary>
+
+        /// <summary>Total current.  [mAh] </summary>
         [Units("[mAh]")]
         [Description("Total current.")]
+        //[FieldOffset(16)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] totalcurrent;
-            /// <summary>RPM (eRPM).  [rpm] </summary>
+
+        /// <summary>RPM (eRPM).  [rpm] </summary>
         [Units("[rpm]")]
         [Description("RPM (eRPM).")]
+        //[FieldOffset(24)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] rpm;
-            /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
+
+        /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
         [Units("")]
         [Description("count of telemetry packets received (wraps at 65535).")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] count;
-            /// <summary>Temperature.  [degC] </summary>
+
+        /// <summary>Temperature.  [degC] </summary>
         [Units("[degC]")]
         [Description("Temperature.")]
+        //[FieldOffset(40)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public byte[] temperature;
-    
     };
 
     
@@ -8061,45 +8697,56 @@ public partial class MAVLink
     {
         public mavlink_esc_telemetry_9_to_12_t(ushort[] voltage,ushort[] current,ushort[] totalcurrent,ushort[] rpm,ushort[] count,byte[] temperature) 
         {
-              this.voltage = voltage;
-              this.current = current;
-              this.totalcurrent = totalcurrent;
-              this.rpm = rpm;
-              this.count = count;
-              this.temperature = temperature;
+            this.voltage = voltage;
+            this.current = current;
+            this.totalcurrent = totalcurrent;
+            this.rpm = rpm;
+            this.count = count;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Voltage.  [cV] </summary>
         [Units("[cV]")]
         [Description("Voltage.")]
+        //[FieldOffset(0)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] voltage;
-            /// <summary>Current.  [cA] </summary>
+
+        /// <summary>Current.  [cA] </summary>
         [Units("[cA]")]
         [Description("Current.")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] current;
-            /// <summary>Total current.  [mAh] </summary>
+
+        /// <summary>Total current.  [mAh] </summary>
         [Units("[mAh]")]
         [Description("Total current.")]
+        //[FieldOffset(16)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] totalcurrent;
-            /// <summary>RPM (eRPM).  [rpm] </summary>
+
+        /// <summary>RPM (eRPM).  [rpm] </summary>
         [Units("[rpm]")]
         [Description("RPM (eRPM).")]
+        //[FieldOffset(24)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] rpm;
-            /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
+
+        /// <summary>count of telemetry packets received (wraps at 65535).   </summary>
         [Units("")]
         [Description("count of telemetry packets received (wraps at 65535).")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] count;
-            /// <summary>Temperature.  [degC] </summary>
+
+        /// <summary>Temperature.  [degC] </summary>
         [Units("[degC]")]
         [Description("Temperature.")]
+        //[FieldOffset(40)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public byte[] temperature;
-    
     };
 
     
@@ -8110,60 +8757,79 @@ public partial class MAVLink
     {
         public mavlink_osd_param_config_t(uint request_id,float min_value,float max_value,float increment,byte target_system,byte target_component,byte osd_screen,byte osd_index,byte[] param_id,/*OSD_PARAM_CONFIG_TYPE*/byte config_type) 
         {
-              this.request_id = request_id;
-              this.min_value = min_value;
-              this.max_value = max_value;
-              this.increment = increment;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.osd_screen = osd_screen;
-              this.osd_index = osd_index;
-              this.param_id = param_id;
-              this.config_type = config_type;
+            this.request_id = request_id;
+            this.min_value = min_value;
+            this.max_value = max_value;
+            this.increment = increment;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.osd_screen = osd_screen;
+            this.osd_index = osd_index;
+            this.param_id = param_id;
+            this.config_type = config_type;
             
         }
+
         /// <summary>Request ID - copied to reply.   </summary>
         [Units("")]
         [Description("Request ID - copied to reply.")]
+        //[FieldOffset(0)]
         public  uint request_id;
-            /// <summary>OSD parameter minimum value.   </summary>
+
+        /// <summary>OSD parameter minimum value.   </summary>
         [Units("")]
         [Description("OSD parameter minimum value.")]
+        //[FieldOffset(4)]
         public  float min_value;
-            /// <summary>OSD parameter maximum value.   </summary>
+
+        /// <summary>OSD parameter maximum value.   </summary>
         [Units("")]
         [Description("OSD parameter maximum value.")]
+        //[FieldOffset(8)]
         public  float max_value;
-            /// <summary>OSD parameter increment.   </summary>
+
+        /// <summary>OSD parameter increment.   </summary>
         [Units("")]
         [Description("OSD parameter increment.")]
+        //[FieldOffset(12)]
         public  float increment;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(16)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(17)]
         public  byte target_component;
-            /// <summary>OSD parameter screen index.   </summary>
+
+        /// <summary>OSD parameter screen index.   </summary>
         [Units("")]
         [Description("OSD parameter screen index.")]
+        //[FieldOffset(18)]
         public  byte osd_screen;
-            /// <summary>OSD parameter display index.   </summary>
+
+        /// <summary>OSD parameter display index.   </summary>
         [Units("")]
         [Description("OSD parameter display index.")]
+        //[FieldOffset(19)]
         public  byte osd_index;
-            /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+
+        /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        //[FieldOffset(20)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] param_id;
-            /// <summary>Config type. OSD_PARAM_CONFIG_TYPE  </summary>
+
+        /// <summary>Config type. OSD_PARAM_CONFIG_TYPE  </summary>
         [Units("")]
         [Description("Config type.")]
+        //[FieldOffset(36)]
         public  /*OSD_PARAM_CONFIG_TYPE*/byte config_type;
-    
     };
 
     
@@ -8174,19 +8840,22 @@ public partial class MAVLink
     {
         public mavlink_osd_param_config_reply_t(uint request_id,/*OSD_PARAM_CONFIG_ERROR*/byte result) 
         {
-              this.request_id = request_id;
-              this.result = result;
+            this.request_id = request_id;
+            this.result = result;
             
         }
+
         /// <summary>Request ID - copied from request.   </summary>
         [Units("")]
         [Description("Request ID - copied from request.")]
+        //[FieldOffset(0)]
         public  uint request_id;
-            /// <summary>Config error type. OSD_PARAM_CONFIG_ERROR  </summary>
+
+        /// <summary>Config error type. OSD_PARAM_CONFIG_ERROR  </summary>
         [Units("")]
         [Description("Config error type.")]
+        //[FieldOffset(4)]
         public  /*OSD_PARAM_CONFIG_ERROR*/byte result;
-    
     };
 
     
@@ -8197,34 +8866,43 @@ public partial class MAVLink
     {
         public mavlink_osd_param_show_config_t(uint request_id,byte target_system,byte target_component,byte osd_screen,byte osd_index) 
         {
-              this.request_id = request_id;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.osd_screen = osd_screen;
-              this.osd_index = osd_index;
+            this.request_id = request_id;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.osd_screen = osd_screen;
+            this.osd_index = osd_index;
             
         }
+
         /// <summary>Request ID - copied to reply.   </summary>
         [Units("")]
         [Description("Request ID - copied to reply.")]
+        //[FieldOffset(0)]
         public  uint request_id;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID.   </summary>
+
+        /// <summary>Component ID.   </summary>
         [Units("")]
         [Description("Component ID.")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>OSD parameter screen index.   </summary>
+
+        /// <summary>OSD parameter screen index.   </summary>
         [Units("")]
         [Description("OSD parameter screen index.")]
+        //[FieldOffset(6)]
         public  byte osd_screen;
-            /// <summary>OSD parameter display index.   </summary>
+
+        /// <summary>OSD parameter display index.   </summary>
         [Units("")]
         [Description("OSD parameter display index.")]
+        //[FieldOffset(7)]
         public  byte osd_index;
-    
     };
 
     
@@ -8235,45 +8913,58 @@ public partial class MAVLink
     {
         public mavlink_osd_param_show_config_reply_t(uint request_id,float min_value,float max_value,float increment,/*OSD_PARAM_CONFIG_ERROR*/byte result,byte[] param_id,/*OSD_PARAM_CONFIG_TYPE*/byte config_type) 
         {
-              this.request_id = request_id;
-              this.min_value = min_value;
-              this.max_value = max_value;
-              this.increment = increment;
-              this.result = result;
-              this.param_id = param_id;
-              this.config_type = config_type;
+            this.request_id = request_id;
+            this.min_value = min_value;
+            this.max_value = max_value;
+            this.increment = increment;
+            this.result = result;
+            this.param_id = param_id;
+            this.config_type = config_type;
             
         }
+
         /// <summary>Request ID - copied from request.   </summary>
         [Units("")]
         [Description("Request ID - copied from request.")]
+        //[FieldOffset(0)]
         public  uint request_id;
-            /// <summary>OSD parameter minimum value.   </summary>
+
+        /// <summary>OSD parameter minimum value.   </summary>
         [Units("")]
         [Description("OSD parameter minimum value.")]
+        //[FieldOffset(4)]
         public  float min_value;
-            /// <summary>OSD parameter maximum value.   </summary>
+
+        /// <summary>OSD parameter maximum value.   </summary>
         [Units("")]
         [Description("OSD parameter maximum value.")]
+        //[FieldOffset(8)]
         public  float max_value;
-            /// <summary>OSD parameter increment.   </summary>
+
+        /// <summary>OSD parameter increment.   </summary>
         [Units("")]
         [Description("OSD parameter increment.")]
+        //[FieldOffset(12)]
         public  float increment;
-            /// <summary>Config error type. OSD_PARAM_CONFIG_ERROR  </summary>
+
+        /// <summary>Config error type. OSD_PARAM_CONFIG_ERROR  </summary>
         [Units("")]
         [Description("Config error type.")]
+        //[FieldOffset(16)]
         public  /*OSD_PARAM_CONFIG_ERROR*/byte result;
-            /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+
+        /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        //[FieldOffset(17)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] param_id;
-            /// <summary>Config type. OSD_PARAM_CONFIG_TYPE  </summary>
+
+        /// <summary>Config type. OSD_PARAM_CONFIG_TYPE  </summary>
         [Units("")]
         [Description("Config type.")]
+        //[FieldOffset(33)]
         public  /*OSD_PARAM_CONFIG_TYPE*/byte config_type;
-    
     };
 
     [Obsolete]
@@ -8284,54 +8975,71 @@ public partial class MAVLink
     {
         public mavlink_obstacle_distance_3d_t(uint time_boot_ms,float x,float y,float z,float min_distance,float max_distance,ushort obstacle_id,/*MAV_DISTANCE_SENSOR*/byte sensor_type,/*MAV_FRAME*/byte frame) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.min_distance = min_distance;
-              this.max_distance = max_distance;
-              this.obstacle_id = obstacle_id;
-              this.sensor_type = sensor_type;
-              this.frame = frame;
+            this.time_boot_ms = time_boot_ms;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.min_distance = min_distance;
+            this.max_distance = max_distance;
+            this.obstacle_id = obstacle_id;
+            this.sensor_type = sensor_type;
+            this.frame = frame;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary> X position of the obstacle.  [m] </summary>
+
+        /// <summary> X position of the obstacle.  [m] </summary>
         [Units("[m]")]
         [Description(" X position of the obstacle.")]
+        //[FieldOffset(4)]
         public  float x;
-            /// <summary> Y position of the obstacle.  [m] </summary>
+
+        /// <summary> Y position of the obstacle.  [m] </summary>
         [Units("[m]")]
         [Description(" Y position of the obstacle.")]
+        //[FieldOffset(8)]
         public  float y;
-            /// <summary> Z position of the obstacle.  [m] </summary>
+
+        /// <summary> Z position of the obstacle.  [m] </summary>
         [Units("[m]")]
         [Description(" Z position of the obstacle.")]
+        //[FieldOffset(12)]
         public  float z;
-            /// <summary>Minimum distance the sensor can measure.  [m] </summary>
+
+        /// <summary>Minimum distance the sensor can measure.  [m] </summary>
         [Units("[m]")]
         [Description("Minimum distance the sensor can measure.")]
+        //[FieldOffset(16)]
         public  float min_distance;
-            /// <summary>Maximum distance the sensor can measure.  [m] </summary>
+
+        /// <summary>Maximum distance the sensor can measure.  [m] </summary>
         [Units("[m]")]
         [Description("Maximum distance the sensor can measure.")]
+        //[FieldOffset(20)]
         public  float max_distance;
-            /// <summary> Unique ID given to each obstacle so that its movement can be tracked. Use UINT16_MAX if object ID is unknown or cannot be determined.   </summary>
+
+        /// <summary> Unique ID given to each obstacle so that its movement can be tracked. Use UINT16_MAX if object ID is unknown or cannot be determined.   </summary>
         [Units("")]
         [Description(" Unique ID given to each obstacle so that its movement can be tracked. Use UINT16_MAX if object ID is unknown or cannot be determined.")]
+        //[FieldOffset(24)]
         public  ushort obstacle_id;
-            /// <summary>Class id of the distance sensor type. MAV_DISTANCE_SENSOR  </summary>
+
+        /// <summary>Class id of the distance sensor type. MAV_DISTANCE_SENSOR  </summary>
         [Units("")]
         [Description("Class id of the distance sensor type.")]
+        //[FieldOffset(26)]
         public  /*MAV_DISTANCE_SENSOR*/byte sensor_type;
-            /// <summary>Coordinate frame of reference. MAV_FRAME  </summary>
+
+        /// <summary>Coordinate frame of reference. MAV_FRAME  </summary>
         [Units("")]
         [Description("Coordinate frame of reference.")]
+        //[FieldOffset(27)]
         public  /*MAV_FRAME*/byte frame;
-    
     };
 
     
@@ -8342,64 +9050,85 @@ public partial class MAVLink
     {
         public mavlink_water_depth_t(uint time_boot_ms,int lat,int lng,float alt,float roll,float pitch,float yaw,float distance,float temperature,byte id,byte healthy) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.lat = lat;
-              this.lng = lng;
-              this.alt = alt;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.distance = distance;
-              this.temperature = temperature;
-              this.id = id;
-              this.healthy = healthy;
+            this.time_boot_ms = time_boot_ms;
+            this.lat = lat;
+            this.lng = lng;
+            this.alt = alt;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.distance = distance;
+            this.temperature = temperature;
+            this.id = id;
+            this.healthy = healthy;
             
         }
+
         /// <summary>Timestamp (time since system boot)  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot)")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Latitude  [degE7] </summary>
+
+        /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(4)]
         public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(8)]
         public  int lng;
-            /// <summary>Altitude (MSL) of vehicle  [m] </summary>
+
+        /// <summary>Altitude (MSL) of vehicle  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL) of vehicle")]
+        //[FieldOffset(12)]
         public  float alt;
-            /// <summary>Roll angle  [rad] </summary>
+
+        /// <summary>Roll angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle")]
+        //[FieldOffset(16)]
         public  float roll;
-            /// <summary>Pitch angle  [rad] </summary>
+
+        /// <summary>Pitch angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle")]
+        //[FieldOffset(20)]
         public  float pitch;
-            /// <summary>Yaw angle  [rad] </summary>
+
+        /// <summary>Yaw angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle")]
+        //[FieldOffset(24)]
         public  float yaw;
-            /// <summary>Distance (uncorrected)  [m] </summary>
+
+        /// <summary>Distance (uncorrected)  [m] </summary>
         [Units("[m]")]
         [Description("Distance (uncorrected)")]
+        //[FieldOffset(28)]
         public  float distance;
-            /// <summary>Water temperature  [degC] </summary>
+
+        /// <summary>Water temperature  [degC] </summary>
         [Units("[degC]")]
         [Description("Water temperature")]
+        //[FieldOffset(32)]
         public  float temperature;
-            /// <summary>Onboard ID of the sensor   </summary>
+
+        /// <summary>Onboard ID of the sensor   </summary>
         [Units("")]
         [Description("Onboard ID of the sensor")]
+        //[FieldOffset(36)]
         public  byte id;
-            /// <summary>Sensor data healthy (0=unhealthy, 1=healthy)   </summary>
+
+        /// <summary>Sensor data healthy (0=unhealthy, 1=healthy)   </summary>
         [Units("")]
         [Description("Sensor data healthy (0=unhealthy, 1=healthy)")]
+        //[FieldOffset(37)]
         public  byte healthy;
-    
     };
 
     [Obsolete]
@@ -8410,50 +9139,65 @@ public partial class MAVLink
     {
         public mavlink_video_stream_information_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
         {
-              this.framerate = framerate;
-              this.bitrate = bitrate;
-              this.resolution_h = resolution_h;
-              this.resolution_v = resolution_v;
-              this.rotation = rotation;
-              this.camera_id = camera_id;
-              this.status = status;
-              this.uri = uri;
+            this.framerate = framerate;
+            this.bitrate = bitrate;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.rotation = rotation;
+            this.camera_id = camera_id;
+            this.status = status;
+            this.uri = uri;
             
         }
+
         /// <summary>Frame rate.  [Hz] </summary>
         [Units("[Hz]")]
         [Description("Frame rate.")]
+        //[FieldOffset(0)]
         public  float framerate;
-            /// <summary>Bit rate.  [bits/s] </summary>
+
+        /// <summary>Bit rate.  [bits/s] </summary>
         [Units("[bits/s]")]
         [Description("Bit rate.")]
+        //[FieldOffset(4)]
         public  uint bitrate;
-            /// <summary>Horizontal resolution.  [pix] </summary>
+
+        /// <summary>Horizontal resolution.  [pix] </summary>
         [Units("[pix]")]
         [Description("Horizontal resolution.")]
+        //[FieldOffset(8)]
         public  ushort resolution_h;
-            /// <summary>Vertical resolution.  [pix] </summary>
+
+        /// <summary>Vertical resolution.  [pix] </summary>
         [Units("[pix]")]
         [Description("Vertical resolution.")]
+        //[FieldOffset(10)]
         public  ushort resolution_v;
-            /// <summary>Video image rotation clockwise.  [deg] </summary>
+
+        /// <summary>Video image rotation clockwise.  [deg] </summary>
         [Units("[deg]")]
         [Description("Video image rotation clockwise.")]
+        //[FieldOffset(12)]
         public  ushort rotation;
-            /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
         [Units("")]
         [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(14)]
         public  byte camera_id;
-            /// <summary>Number of streams available.   </summary>
+
+        /// <summary>Number of streams available.   </summary>
         [Units("")]
         [Description("Number of streams available.")]
+        //[FieldOffset(15)]
         public  byte status;
-            /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
+
+        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
         [Units("")]
         [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
+        //[FieldOffset(16)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
 		public byte[] uri;
-    
     };
 
     
@@ -8464,74 +9208,99 @@ public partial class MAVLink
     {
         public mavlink_sys_status_t(/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_present,/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_enabled,/*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_health,ushort load,ushort voltage_battery,short current_battery,ushort drop_rate_comm,ushort errors_comm,ushort errors_count1,ushort errors_count2,ushort errors_count3,ushort errors_count4,sbyte battery_remaining) 
         {
-              this.onboard_control_sensors_present = onboard_control_sensors_present;
-              this.onboard_control_sensors_enabled = onboard_control_sensors_enabled;
-              this.onboard_control_sensors_health = onboard_control_sensors_health;
-              this.load = load;
-              this.voltage_battery = voltage_battery;
-              this.current_battery = current_battery;
-              this.drop_rate_comm = drop_rate_comm;
-              this.errors_comm = errors_comm;
-              this.errors_count1 = errors_count1;
-              this.errors_count2 = errors_count2;
-              this.errors_count3 = errors_count3;
-              this.errors_count4 = errors_count4;
-              this.battery_remaining = battery_remaining;
+            this.onboard_control_sensors_present = onboard_control_sensors_present;
+            this.onboard_control_sensors_enabled = onboard_control_sensors_enabled;
+            this.onboard_control_sensors_health = onboard_control_sensors_health;
+            this.load = load;
+            this.voltage_battery = voltage_battery;
+            this.current_battery = current_battery;
+            this.drop_rate_comm = drop_rate_comm;
+            this.errors_comm = errors_comm;
+            this.errors_count1 = errors_count1;
+            this.errors_count2 = errors_count2;
+            this.errors_count3 = errors_count3;
+            this.errors_count4 = errors_count4;
+            this.battery_remaining = battery_remaining;
             
         }
+
         /// <summary>Bitmap showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present. MAV_SYS_STATUS_SENSOR  bitmask</summary>
         [Units("")]
         [Description("Bitmap showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present.")]
+        //[FieldOffset(0)]
         public  /*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_present;
-            /// <summary>Bitmap showing which onboard controllers and sensors are enabled:  Value of 0: not enabled. Value of 1: enabled. MAV_SYS_STATUS_SENSOR  bitmask</summary>
+
+        /// <summary>Bitmap showing which onboard controllers and sensors are enabled:  Value of 0: not enabled. Value of 1: enabled. MAV_SYS_STATUS_SENSOR  bitmask</summary>
         [Units("")]
         [Description("Bitmap showing which onboard controllers and sensors are enabled:  Value of 0: not enabled. Value of 1: enabled.")]
+        //[FieldOffset(4)]
         public  /*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_enabled;
-            /// <summary>Bitmap showing which onboard controllers and sensors have an error (or are operational). Value of 0: error. Value of 1: healthy. MAV_SYS_STATUS_SENSOR  bitmask</summary>
+
+        /// <summary>Bitmap showing which onboard controllers and sensors have an error (or are operational). Value of 0: error. Value of 1: healthy. MAV_SYS_STATUS_SENSOR  bitmask</summary>
         [Units("")]
         [Description("Bitmap showing which onboard controllers and sensors have an error (or are operational). Value of 0: error. Value of 1: healthy.")]
+        //[FieldOffset(8)]
         public  /*MAV_SYS_STATUS_SENSOR*/uint onboard_control_sensors_health;
-            /// <summary>Maximum usage in percent of the mainloop time. Values: [0-1000] - should always be below 1000  [d%] </summary>
+
+        /// <summary>Maximum usage in percent of the mainloop time. Values: [0-1000] - should always be below 1000  [d%] </summary>
         [Units("[d%]")]
         [Description("Maximum usage in percent of the mainloop time. Values: [0-1000] - should always be below 1000")]
+        //[FieldOffset(12)]
         public  ushort load;
-            /// <summary>Battery voltage, UINT16_MAX: Voltage not sent by autopilot  [mV] </summary>
+
+        /// <summary>Battery voltage, UINT16_MAX: Voltage not sent by autopilot  [mV] </summary>
         [Units("[mV]")]
         [Description("Battery voltage, UINT16_MAX: Voltage not sent by autopilot")]
+        //[FieldOffset(14)]
         public  ushort voltage_battery;
-            /// <summary>Battery current, -1: Current not sent by autopilot  [cA] </summary>
+
+        /// <summary>Battery current, -1: Current not sent by autopilot  [cA] </summary>
         [Units("[cA]")]
         [Description("Battery current, -1: Current not sent by autopilot")]
+        //[FieldOffset(16)]
         public  short current_battery;
-            /// <summary>Communication drop rate, (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)  [c%] </summary>
+
+        /// <summary>Communication drop rate, (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)  [c%] </summary>
         [Units("[c%]")]
         [Description("Communication drop rate, (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)")]
+        //[FieldOffset(18)]
         public  ushort drop_rate_comm;
-            /// <summary>Communication errors (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)   </summary>
+
+        /// <summary>Communication errors (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)   </summary>
         [Units("")]
         [Description("Communication errors (UART, I2C, SPI, CAN), dropped packets on all links (packets that were corrupted on reception on the MAV)")]
+        //[FieldOffset(20)]
         public  ushort errors_comm;
-            /// <summary>Autopilot-specific errors   </summary>
+
+        /// <summary>Autopilot-specific errors   </summary>
         [Units("")]
         [Description("Autopilot-specific errors")]
+        //[FieldOffset(22)]
         public  ushort errors_count1;
-            /// <summary>Autopilot-specific errors   </summary>
+
+        /// <summary>Autopilot-specific errors   </summary>
         [Units("")]
         [Description("Autopilot-specific errors")]
+        //[FieldOffset(24)]
         public  ushort errors_count2;
-            /// <summary>Autopilot-specific errors   </summary>
+
+        /// <summary>Autopilot-specific errors   </summary>
         [Units("")]
         [Description("Autopilot-specific errors")]
+        //[FieldOffset(26)]
         public  ushort errors_count3;
-            /// <summary>Autopilot-specific errors   </summary>
+
+        /// <summary>Autopilot-specific errors   </summary>
         [Units("")]
         [Description("Autopilot-specific errors")]
+        //[FieldOffset(28)]
         public  ushort errors_count4;
-            /// <summary>Battery energy remaining, -1: Battery remaining energy not sent by autopilot  [%] </summary>
+
+        /// <summary>Battery energy remaining, -1: Battery remaining energy not sent by autopilot  [%] </summary>
         [Units("[%]")]
         [Description("Battery energy remaining, -1: Battery remaining energy not sent by autopilot")]
+        //[FieldOffset(30)]
         public  sbyte battery_remaining;
-    
     };
 
     
@@ -8542,19 +9311,22 @@ public partial class MAVLink
     {
         public mavlink_system_time_t(ulong time_unix_usec,uint time_boot_ms) 
         {
-              this.time_unix_usec = time_unix_usec;
-              this.time_boot_ms = time_boot_ms;
+            this.time_unix_usec = time_unix_usec;
+            this.time_boot_ms = time_boot_ms;
             
         }
+
         /// <summary>Timestamp (UNIX epoch time).  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX epoch time).")]
+        //[FieldOffset(0)]
         public  ulong time_unix_usec;
-            /// <summary>Timestamp (time since system boot).  [ms] </summary>
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(8)]
         public  uint time_boot_ms;
-    
     };
 
     [Obsolete]
@@ -8565,29 +9337,36 @@ public partial class MAVLink
     {
         public mavlink_ping_t(ulong time_usec,uint seq,byte target_system,byte target_component) 
         {
-              this.time_usec = time_usec;
-              this.seq = seq;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.time_usec = time_usec;
+            this.seq = seq;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>PING sequence   </summary>
+
+        /// <summary>PING sequence   </summary>
         [Units("")]
         [Description("PING sequence")]
+        //[FieldOffset(8)]
         public  uint seq;
-            /// <summary>0: request ping from all receiving systems. If greater than 0: message is a ping response and number is the system id of the requesting system   </summary>
+
+        /// <summary>0: request ping from all receiving systems. If greater than 0: message is a ping response and number is the system id of the requesting system   </summary>
         [Units("")]
         [Description("0: request ping from all receiving systems. If greater than 0: message is a ping response and number is the system id of the requesting system")]
+        //[FieldOffset(12)]
         public  byte target_system;
-            /// <summary>0: request ping from all receiving components. If greater than 0: message is a ping response and number is the component id of the requesting component.   </summary>
+
+        /// <summary>0: request ping from all receiving components. If greater than 0: message is a ping response and number is the component id of the requesting component.   </summary>
         [Units("")]
         [Description("0: request ping from all receiving components. If greater than 0: message is a ping response and number is the component id of the requesting component.")]
+        //[FieldOffset(13)]
         public  byte target_component;
-    
     };
 
     
@@ -8598,30 +9377,37 @@ public partial class MAVLink
     {
         public mavlink_change_operator_control_t(byte target_system,byte control_request,byte version,byte[] passkey) 
         {
-              this.target_system = target_system;
-              this.control_request = control_request;
-              this.version = version;
-              this.passkey = passkey;
+            this.target_system = target_system;
+            this.control_request = control_request;
+            this.version = version;
+            this.passkey = passkey;
             
         }
+
         /// <summary>System the GCS requests control for   </summary>
         [Units("")]
         [Description("System the GCS requests control for")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>0: request control of this MAV, 1: Release control of this MAV   </summary>
+
+        /// <summary>0: request control of this MAV, 1: Release control of this MAV   </summary>
         [Units("")]
         [Description("0: request control of this MAV, 1: Release control of this MAV")]
+        //[FieldOffset(1)]
         public  byte control_request;
-            /// <summary>0: key as plaintext, 1-255: future, different hashing/encryption variants. The GCS should in general use the safest mode possible initially and then gradually move down the encryption level if it gets a NACK message indicating an encryption mismatch.  [rad] </summary>
+
+        /// <summary>0: key as plaintext, 1-255: future, different hashing/encryption variants. The GCS should in general use the safest mode possible initially and then gradually move down the encryption level if it gets a NACK message indicating an encryption mismatch.  [rad] </summary>
         [Units("[rad]")]
         [Description("0: key as plaintext, 1-255: future, different hashing/encryption variants. The GCS should in general use the safest mode possible initially and then gradually move down the encryption level if it gets a NACK message indicating an encryption mismatch.")]
+        //[FieldOffset(2)]
         public  byte version;
-            /// <summary>Password / Key, depending on version plaintext or encrypted. 25 or less characters, NULL terminated. The characters may involve A-Z, a-z, 0-9, and '!?,.-'   </summary>
+
+        /// <summary>Password / Key, depending on version plaintext or encrypted. 25 or less characters, NULL terminated. The characters may involve A-Z, a-z, 0-9, and '!?,.-'   </summary>
         [Units("")]
         [Description("Password / Key, depending on version plaintext or encrypted. 25 or less characters, NULL terminated. The characters may involve A-Z, a-z, 0-9, and '!?,.-'")]
+        //[FieldOffset(3)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=25)]
 		public byte[] passkey;
-    
     };
 
     
@@ -8632,24 +9418,29 @@ public partial class MAVLink
     {
         public mavlink_change_operator_control_ack_t(byte gcs_system_id,byte control_request,byte ack) 
         {
-              this.gcs_system_id = gcs_system_id;
-              this.control_request = control_request;
-              this.ack = ack;
+            this.gcs_system_id = gcs_system_id;
+            this.control_request = control_request;
+            this.ack = ack;
             
         }
+
         /// <summary>ID of the GCS this message    </summary>
         [Units("")]
         [Description("ID of the GCS this message ")]
+        //[FieldOffset(0)]
         public  byte gcs_system_id;
-            /// <summary>0: request control of this MAV, 1: Release control of this MAV   </summary>
+
+        /// <summary>0: request control of this MAV, 1: Release control of this MAV   </summary>
         [Units("")]
         [Description("0: request control of this MAV, 1: Release control of this MAV")]
+        //[FieldOffset(1)]
         public  byte control_request;
-            /// <summary>0: ACK, 1: NACK: Wrong passkey, 2: NACK: Unsupported passkey encryption method, 3: NACK: Already under control   </summary>
+
+        /// <summary>0: ACK, 1: NACK: Wrong passkey, 2: NACK: Unsupported passkey encryption method, 3: NACK: Already under control   </summary>
         [Units("")]
         [Description("0: ACK, 1: NACK: Wrong passkey, 2: NACK: Unsupported passkey encryption method, 3: NACK: Already under control")]
+        //[FieldOffset(2)]
         public  byte ack;
-    
     };
 
     
@@ -8660,15 +9451,16 @@ public partial class MAVLink
     {
         public mavlink_auth_key_t(byte[] key) 
         {
-              this.key = key;
+            this.key = key;
             
         }
+
         /// <summary>key   </summary>
         [Units("")]
         [Description("key")]
+        //[FieldOffset(0)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] key;
-    
     };
 
     [Obsolete]
@@ -8679,24 +9471,29 @@ public partial class MAVLink
     {
         public mavlink_set_mode_t(uint custom_mode,byte target_system,/*MAV_MODE*/byte base_mode) 
         {
-              this.custom_mode = custom_mode;
-              this.target_system = target_system;
-              this.base_mode = base_mode;
+            this.custom_mode = custom_mode;
+            this.target_system = target_system;
+            this.base_mode = base_mode;
             
         }
+
         /// <summary>The new autopilot-specific mode. This field can be ignored by an autopilot.   </summary>
         [Units("")]
         [Description("The new autopilot-specific mode. This field can be ignored by an autopilot.")]
+        //[FieldOffset(0)]
         public  uint custom_mode;
-            /// <summary>The system setting the mode   </summary>
+
+        /// <summary>The system setting the mode   </summary>
         [Units("")]
         [Description("The system setting the mode")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>The new base mode. MAV_MODE  </summary>
+
+        /// <summary>The new base mode. MAV_MODE  </summary>
         [Units("")]
         [Description("The new base mode.")]
+        //[FieldOffset(5)]
         public  /*MAV_MODE*/byte base_mode;
-    
     };
 
     
@@ -8707,30 +9504,37 @@ public partial class MAVLink
     {
         public mavlink_param_request_read_t(short param_index,byte target_system,byte target_component,byte[] param_id) 
         {
-              this.param_index = param_index;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.param_id = param_id;
+            this.param_index = param_index;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.param_id = param_id;
             
         }
+
         /// <summary>Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)   </summary>
         [Units("")]
         [Description("Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)")]
+        //[FieldOffset(0)]
         public  short param_index;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(3)]
         public  byte target_component;
-            /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+
+        /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        //[FieldOffset(4)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] param_id;
-    
     };
 
     
@@ -8741,19 +9545,22 @@ public partial class MAVLink
     {
         public mavlink_param_request_list_t(byte target_system,byte target_component) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(1)]
         public  byte target_component;
-    
     };
 
     
@@ -8764,35 +9571,44 @@ public partial class MAVLink
     {
         public mavlink_param_value_t(float param_value,ushort param_count,ushort param_index,byte[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
         {
-              this.param_value = param_value;
-              this.param_count = param_count;
-              this.param_index = param_index;
-              this.param_id = param_id;
-              this.param_type = param_type;
+            this.param_value = param_value;
+            this.param_count = param_count;
+            this.param_index = param_index;
+            this.param_id = param_id;
+            this.param_type = param_type;
             
         }
+
         /// <summary>Onboard parameter value   </summary>
         [Units("")]
         [Description("Onboard parameter value")]
+        //[FieldOffset(0)]
         public  float param_value;
-            /// <summary>Total number of onboard parameters   </summary>
+
+        /// <summary>Total number of onboard parameters   </summary>
         [Units("")]
         [Description("Total number of onboard parameters")]
+        //[FieldOffset(4)]
         public  ushort param_count;
-            /// <summary>Index of this onboard parameter   </summary>
+
+        /// <summary>Index of this onboard parameter   </summary>
         [Units("")]
         [Description("Index of this onboard parameter")]
+        //[FieldOffset(6)]
         public  ushort param_index;
-            /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+
+        /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] param_id;
-            /// <summary>Onboard parameter type. MAV_PARAM_TYPE  </summary>
+
+        /// <summary>Onboard parameter type. MAV_PARAM_TYPE  </summary>
         [Units("")]
         [Description("Onboard parameter type.")]
+        //[FieldOffset(24)]
         public  /*MAV_PARAM_TYPE*/byte param_type;
-    
     };
 
     
@@ -8803,35 +9619,44 @@ public partial class MAVLink
     {
         public mavlink_param_set_t(float param_value,byte target_system,byte target_component,byte[] param_id,/*MAV_PARAM_TYPE*/byte param_type) 
         {
-              this.param_value = param_value;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.param_id = param_id;
-              this.param_type = param_type;
+            this.param_value = param_value;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.param_id = param_id;
+            this.param_type = param_type;
             
         }
+
         /// <summary>Onboard parameter value   </summary>
         [Units("")]
         [Description("Onboard parameter value")]
+        //[FieldOffset(0)]
         public  float param_value;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+
+        /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        //[FieldOffset(6)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] param_id;
-            /// <summary>Onboard parameter type. MAV_PARAM_TYPE  </summary>
+
+        /// <summary>Onboard parameter type. MAV_PARAM_TYPE  </summary>
         [Units("")]
         [Description("Onboard parameter type.")]
+        //[FieldOffset(22)]
         public  /*MAV_PARAM_TYPE*/byte param_type;
-    
     };
 
     
@@ -8842,89 +9667,120 @@ public partial class MAVLink
     {
         public mavlink_gps_raw_int_t(ulong time_usec,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,ushort cog,/*GPS_FIX_TYPE*/byte fix_type,byte satellites_visible,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc,ushort yaw) 
         {
-              this.time_usec = time_usec;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.eph = eph;
-              this.epv = epv;
-              this.vel = vel;
-              this.cog = cog;
-              this.fix_type = fix_type;
-              this.satellites_visible = satellites_visible;
-              this.alt_ellipsoid = alt_ellipsoid;
-              this.h_acc = h_acc;
-              this.v_acc = v_acc;
-              this.vel_acc = vel_acc;
-              this.hdg_acc = hdg_acc;
-              this.yaw = yaw;
+            this.time_usec = time_usec;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.eph = eph;
+            this.epv = epv;
+            this.vel = vel;
+            this.cog = cog;
+            this.fix_type = fix_type;
+            this.satellites_visible = satellites_visible;
+            this.alt_ellipsoid = alt_ellipsoid;
+            this.h_acc = h_acc;
+            this.v_acc = v_acc;
+            this.vel_acc = vel_acc;
+            this.hdg_acc = hdg_acc;
+            this.yaw = yaw;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Latitude (WGS84, EGM96 ellipsoid)  [degE7] </summary>
+
+        /// <summary>Latitude (WGS84, EGM96 ellipsoid)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84, EGM96 ellipsoid)")]
+        //[FieldOffset(8)]
         public  int lat;
-            /// <summary>Longitude (WGS84, EGM96 ellipsoid)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84, EGM96 ellipsoid)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84, EGM96 ellipsoid)")]
+        //[FieldOffset(12)]
         public  int lon;
-            /// <summary>Altitude (MSL). Positive for up. Note that virtually all GPS modules provide the MSL altitude in addition to the WGS84 altitude.  [mm] </summary>
+
+        /// <summary>Altitude (MSL). Positive for up. Note that virtually all GPS modules provide the MSL altitude in addition to the WGS84 altitude.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL). Positive for up. Note that virtually all GPS modules provide the MSL altitude in addition to the WGS84 altitude.")]
+        //[FieldOffset(16)]
         public  int alt;
-            /// <summary>GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
+
+        /// <summary>GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
         [Units("")]
         [Description("GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(20)]
         public  ushort eph;
-            /// <summary>GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
+
+        /// <summary>GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
         [Units("")]
         [Description("GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(22)]
         public  ushort epv;
-            /// <summary>GPS ground speed. If unknown, set to: UINT16_MAX  [cm/s] </summary>
+
+        /// <summary>GPS ground speed. If unknown, set to: UINT16_MAX  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("GPS ground speed. If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(24)]
         public  ushort vel;
-            /// <summary>Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX  [cdeg] </summary>
+
+        /// <summary>Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(26)]
         public  ushort cog;
-            /// <summary>GPS fix type. GPS_FIX_TYPE  </summary>
+
+        /// <summary>GPS fix type. GPS_FIX_TYPE  </summary>
         [Units("")]
         [Description("GPS fix type.")]
+        //[FieldOffset(28)]
         public  /*GPS_FIX_TYPE*/byte fix_type;
-            /// <summary>Number of satellites visible. If unknown, set to 255   </summary>
+
+        /// <summary>Number of satellites visible. If unknown, set to 255   </summary>
         [Units("")]
         [Description("Number of satellites visible. If unknown, set to 255")]
+        //[FieldOffset(29)]
         public  byte satellites_visible;
-            /// <summary>Altitude (above WGS84, EGM96 ellipsoid). Positive for up.  [mm] </summary>
+
+        /// <summary>Altitude (above WGS84, EGM96 ellipsoid). Positive for up.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (above WGS84, EGM96 ellipsoid). Positive for up.")]
+        //[FieldOffset(30)]
         public  int alt_ellipsoid;
-            /// <summary>Position uncertainty.  [mm] </summary>
+
+        /// <summary>Position uncertainty.  [mm] </summary>
         [Units("[mm]")]
         [Description("Position uncertainty.")]
+        //[FieldOffset(34)]
         public  uint h_acc;
-            /// <summary>Altitude uncertainty.  [mm] </summary>
+
+        /// <summary>Altitude uncertainty.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude uncertainty.")]
+        //[FieldOffset(38)]
         public  uint v_acc;
-            /// <summary>Speed uncertainty.  [mm] </summary>
+
+        /// <summary>Speed uncertainty.  [mm] </summary>
         [Units("[mm]")]
         [Description("Speed uncertainty.")]
+        //[FieldOffset(42)]
         public  uint vel_acc;
-            /// <summary>Heading / track uncertainty  [degE5] </summary>
+
+        /// <summary>Heading / track uncertainty  [degE5] </summary>
         [Units("[degE5]")]
         [Description("Heading / track uncertainty")]
+        //[FieldOffset(46)]
         public  uint hdg_acc;
-            /// <summary>Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.  [cdeg] </summary>
+
+        /// <summary>Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.")]
+        //[FieldOffset(50)]
         public  ushort yaw;
-    
     };
 
     
@@ -8935,44 +9791,55 @@ public partial class MAVLink
     {
         public mavlink_gps_status_t(byte satellites_visible,byte[] satellite_prn,byte[] satellite_used,byte[] satellite_elevation,byte[] satellite_azimuth,byte[] satellite_snr) 
         {
-              this.satellites_visible = satellites_visible;
-              this.satellite_prn = satellite_prn;
-              this.satellite_used = satellite_used;
-              this.satellite_elevation = satellite_elevation;
-              this.satellite_azimuth = satellite_azimuth;
-              this.satellite_snr = satellite_snr;
+            this.satellites_visible = satellites_visible;
+            this.satellite_prn = satellite_prn;
+            this.satellite_used = satellite_used;
+            this.satellite_elevation = satellite_elevation;
+            this.satellite_azimuth = satellite_azimuth;
+            this.satellite_snr = satellite_snr;
             
         }
+
         /// <summary>Number of satellites visible   </summary>
         [Units("")]
         [Description("Number of satellites visible")]
+        //[FieldOffset(0)]
         public  byte satellites_visible;
-            /// <summary>Global satellite ID   </summary>
+
+        /// <summary>Global satellite ID   </summary>
         [Units("")]
         [Description("Global satellite ID")]
+        //[FieldOffset(1)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
 		public byte[] satellite_prn;
-            /// <summary>0: Satellite not used, 1: used for localization   </summary>
+
+        /// <summary>0: Satellite not used, 1: used for localization   </summary>
         [Units("")]
         [Description("0: Satellite not used, 1: used for localization")]
+        //[FieldOffset(21)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
 		public byte[] satellite_used;
-            /// <summary>Elevation (0: right on top of receiver, 90: on the horizon) of satellite  [deg] </summary>
+
+        /// <summary>Elevation (0: right on top of receiver, 90: on the horizon) of satellite  [deg] </summary>
         [Units("[deg]")]
         [Description("Elevation (0: right on top of receiver, 90: on the horizon) of satellite")]
+        //[FieldOffset(41)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
 		public byte[] satellite_elevation;
-            /// <summary>Direction of satellite, 0: 0 deg, 255: 360 deg.  [deg] </summary>
+
+        /// <summary>Direction of satellite, 0: 0 deg, 255: 360 deg.  [deg] </summary>
         [Units("[deg]")]
         [Description("Direction of satellite, 0: 0 deg, 255: 360 deg.")]
+        //[FieldOffset(61)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
 		public byte[] satellite_azimuth;
-            /// <summary>Signal to noise ratio of satellite  [dB] </summary>
+
+        /// <summary>Signal to noise ratio of satellite  [dB] </summary>
         [Units("[dB]")]
         [Description("Signal to noise ratio of satellite")]
+        //[FieldOffset(81)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
 		public byte[] satellite_snr;
-    
     };
 
     
@@ -8983,64 +9850,85 @@ public partial class MAVLink
     {
         public mavlink_scaled_imu_t(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
-              this.xgyro = xgyro;
-              this.ygyro = ygyro;
-              this.zgyro = zgyro;
-              this.xmag = xmag;
-              this.ymag = ymag;
-              this.zmag = zmag;
-              this.temperature = temperature;
+            this.time_boot_ms = time_boot_ms;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            this.xmag = xmag;
+            this.ymag = ymag;
+            this.zmag = zmag;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X acceleration  [mG] </summary>
+
+        /// <summary>X acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("X acceleration")]
+        //[FieldOffset(4)]
         public  short xacc;
-            /// <summary>Y acceleration  [mG] </summary>
+
+        /// <summary>Y acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Y acceleration")]
+        //[FieldOffset(6)]
         public  short yacc;
-            /// <summary>Z acceleration  [mG] </summary>
+
+        /// <summary>Z acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Z acceleration")]
+        //[FieldOffset(8)]
         public  short zacc;
-            /// <summary>Angular speed around X axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around X axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around X axis")]
+        //[FieldOffset(10)]
         public  short xgyro;
-            /// <summary>Angular speed around Y axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around Y axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around Y axis")]
+        //[FieldOffset(12)]
         public  short ygyro;
-            /// <summary>Angular speed around Z axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around Z axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around Z axis")]
+        //[FieldOffset(14)]
         public  short zgyro;
-            /// <summary>X Magnetic field  [mgauss] </summary>
+
+        /// <summary>X Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("X Magnetic field")]
+        //[FieldOffset(16)]
         public  short xmag;
-            /// <summary>Y Magnetic field  [mgauss] </summary>
+
+        /// <summary>Y Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("Y Magnetic field")]
+        //[FieldOffset(18)]
         public  short ymag;
-            /// <summary>Z Magnetic field  [mgauss] </summary>
+
+        /// <summary>Z Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("Z Magnetic field")]
+        //[FieldOffset(20)]
         public  short zmag;
-            /// <summary>Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).  [cdegC] </summary>
+
+        /// <summary>Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).")]
+        //[FieldOffset(22)]
         public  short temperature;
-    
     };
 
     
@@ -9051,69 +9939,92 @@ public partial class MAVLink
     {
         public mavlink_raw_imu_t(ulong time_usec,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,byte id,short temperature) 
         {
-              this.time_usec = time_usec;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
-              this.xgyro = xgyro;
-              this.ygyro = ygyro;
-              this.zgyro = zgyro;
-              this.xmag = xmag;
-              this.ymag = ymag;
-              this.zmag = zmag;
-              this.id = id;
-              this.temperature = temperature;
+            this.time_usec = time_usec;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            this.xmag = xmag;
+            this.ymag = ymag;
+            this.zmag = zmag;
+            this.id = id;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>X acceleration (raw)   </summary>
+
+        /// <summary>X acceleration (raw)   </summary>
         [Units("")]
         [Description("X acceleration (raw)")]
+        //[FieldOffset(8)]
         public  short xacc;
-            /// <summary>Y acceleration (raw)   </summary>
+
+        /// <summary>Y acceleration (raw)   </summary>
         [Units("")]
         [Description("Y acceleration (raw)")]
+        //[FieldOffset(10)]
         public  short yacc;
-            /// <summary>Z acceleration (raw)   </summary>
+
+        /// <summary>Z acceleration (raw)   </summary>
         [Units("")]
         [Description("Z acceleration (raw)")]
+        //[FieldOffset(12)]
         public  short zacc;
-            /// <summary>Angular speed around X axis (raw)   </summary>
+
+        /// <summary>Angular speed around X axis (raw)   </summary>
         [Units("")]
         [Description("Angular speed around X axis (raw)")]
+        //[FieldOffset(14)]
         public  short xgyro;
-            /// <summary>Angular speed around Y axis (raw)   </summary>
+
+        /// <summary>Angular speed around Y axis (raw)   </summary>
         [Units("")]
         [Description("Angular speed around Y axis (raw)")]
+        //[FieldOffset(16)]
         public  short ygyro;
-            /// <summary>Angular speed around Z axis (raw)   </summary>
+
+        /// <summary>Angular speed around Z axis (raw)   </summary>
         [Units("")]
         [Description("Angular speed around Z axis (raw)")]
+        //[FieldOffset(18)]
         public  short zgyro;
-            /// <summary>X Magnetic field (raw)   </summary>
+
+        /// <summary>X Magnetic field (raw)   </summary>
         [Units("")]
         [Description("X Magnetic field (raw)")]
+        //[FieldOffset(20)]
         public  short xmag;
-            /// <summary>Y Magnetic field (raw)   </summary>
+
+        /// <summary>Y Magnetic field (raw)   </summary>
         [Units("")]
         [Description("Y Magnetic field (raw)")]
+        //[FieldOffset(22)]
         public  short ymag;
-            /// <summary>Z Magnetic field (raw)   </summary>
+
+        /// <summary>Z Magnetic field (raw)   </summary>
         [Units("")]
         [Description("Z Magnetic field (raw)")]
+        //[FieldOffset(24)]
         public  short zmag;
-            /// <summary>Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)   </summary>
+
+        /// <summary>Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)   </summary>
         [Units("")]
         [Description("Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)")]
+        //[FieldOffset(26)]
         public  byte id;
-            /// <summary>Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).  [cdegC] </summary>
+
+        /// <summary>Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).")]
+        //[FieldOffset(27)]
         public  short temperature;
-    
     };
 
     
@@ -9124,34 +10035,43 @@ public partial class MAVLink
     {
         public mavlink_raw_pressure_t(ulong time_usec,short press_abs,short press_diff1,short press_diff2,short temperature) 
         {
-              this.time_usec = time_usec;
-              this.press_abs = press_abs;
-              this.press_diff1 = press_diff1;
-              this.press_diff2 = press_diff2;
-              this.temperature = temperature;
+            this.time_usec = time_usec;
+            this.press_abs = press_abs;
+            this.press_diff1 = press_diff1;
+            this.press_diff2 = press_diff2;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Absolute pressure (raw)   </summary>
+
+        /// <summary>Absolute pressure (raw)   </summary>
         [Units("")]
         [Description("Absolute pressure (raw)")]
+        //[FieldOffset(8)]
         public  short press_abs;
-            /// <summary>Differential pressure 1 (raw, 0 if nonexistent)   </summary>
+
+        /// <summary>Differential pressure 1 (raw, 0 if nonexistent)   </summary>
         [Units("")]
         [Description("Differential pressure 1 (raw, 0 if nonexistent)")]
+        //[FieldOffset(10)]
         public  short press_diff1;
-            /// <summary>Differential pressure 2 (raw, 0 if nonexistent)   </summary>
+
+        /// <summary>Differential pressure 2 (raw, 0 if nonexistent)   </summary>
         [Units("")]
         [Description("Differential pressure 2 (raw, 0 if nonexistent)")]
+        //[FieldOffset(12)]
         public  short press_diff2;
-            /// <summary>Raw Temperature measurement (raw)   </summary>
+
+        /// <summary>Raw Temperature measurement (raw)   </summary>
         [Units("")]
         [Description("Raw Temperature measurement (raw)")]
+        //[FieldOffset(14)]
         public  short temperature;
-    
     };
 
     
@@ -9162,34 +10082,43 @@ public partial class MAVLink
     {
         public mavlink_scaled_pressure_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.press_abs = press_abs;
-              this.press_diff = press_diff;
-              this.temperature = temperature;
-              this.temperature_press_diff = temperature_press_diff;
+            this.time_boot_ms = time_boot_ms;
+            this.press_abs = press_abs;
+            this.press_diff = press_diff;
+            this.temperature = temperature;
+            this.temperature_press_diff = temperature_press_diff;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Absolute pressure  [hPa] </summary>
+
+        /// <summary>Absolute pressure  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Absolute pressure")]
+        //[FieldOffset(4)]
         public  float press_abs;
-            /// <summary>Differential pressure 1  [hPa] </summary>
+
+        /// <summary>Differential pressure 1  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Differential pressure 1")]
+        //[FieldOffset(8)]
         public  float press_diff;
-            /// <summary>Absolute pressure temperature  [cdegC] </summary>
+
+        /// <summary>Absolute pressure temperature  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Absolute pressure temperature")]
+        //[FieldOffset(12)]
         public  short temperature;
-            /// <summary>Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.  [cdegC] </summary>
+
+        /// <summary>Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.")]
+        //[FieldOffset(14)]
         public  short temperature_press_diff;
-    
     };
 
     
@@ -9200,44 +10129,57 @@ public partial class MAVLink
     {
         public mavlink_attitude_t(uint time_boot_ms,float roll,float pitch,float yaw,float rollspeed,float pitchspeed,float yawspeed) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.rollspeed = rollspeed;
-              this.pitchspeed = pitchspeed;
-              this.yawspeed = yawspeed;
+            this.time_boot_ms = time_boot_ms;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.rollspeed = rollspeed;
+            this.pitchspeed = pitchspeed;
+            this.yawspeed = yawspeed;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Roll angle (-pi..+pi)  [rad] </summary>
+
+        /// <summary>Roll angle (-pi..+pi)  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle (-pi..+pi)")]
+        //[FieldOffset(4)]
         public  float roll;
-            /// <summary>Pitch angle (-pi..+pi)  [rad] </summary>
+
+        /// <summary>Pitch angle (-pi..+pi)  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle (-pi..+pi)")]
+        //[FieldOffset(8)]
         public  float pitch;
-            /// <summary>Yaw angle (-pi..+pi)  [rad] </summary>
+
+        /// <summary>Yaw angle (-pi..+pi)  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle (-pi..+pi)")]
+        //[FieldOffset(12)]
         public  float yaw;
-            /// <summary>Roll angular speed  [rad/s] </summary>
+
+        /// <summary>Roll angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Roll angular speed")]
+        //[FieldOffset(16)]
         public  float rollspeed;
-            /// <summary>Pitch angular speed  [rad/s] </summary>
+
+        /// <summary>Pitch angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Pitch angular speed")]
+        //[FieldOffset(20)]
         public  float pitchspeed;
-            /// <summary>Yaw angular speed  [rad/s] </summary>
+
+        /// <summary>Yaw angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Yaw angular speed")]
+        //[FieldOffset(24)]
         public  float yawspeed;
-    
     };
 
     
@@ -9248,55 +10190,72 @@ public partial class MAVLink
     {
         public mavlink_attitude_quaternion_t(uint time_boot_ms,float q1,float q2,float q3,float q4,float rollspeed,float pitchspeed,float yawspeed,float[] repr_offset_q) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.q1 = q1;
-              this.q2 = q2;
-              this.q3 = q3;
-              this.q4 = q4;
-              this.rollspeed = rollspeed;
-              this.pitchspeed = pitchspeed;
-              this.yawspeed = yawspeed;
-              this.repr_offset_q = repr_offset_q;
+            this.time_boot_ms = time_boot_ms;
+            this.q1 = q1;
+            this.q2 = q2;
+            this.q3 = q3;
+            this.q4 = q4;
+            this.rollspeed = rollspeed;
+            this.pitchspeed = pitchspeed;
+            this.yawspeed = yawspeed;
+            this.repr_offset_q = repr_offset_q;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Quaternion component 1, w (1 in null-rotation)   </summary>
+
+        /// <summary>Quaternion component 1, w (1 in null-rotation)   </summary>
         [Units("")]
         [Description("Quaternion component 1, w (1 in null-rotation)")]
+        //[FieldOffset(4)]
         public  float q1;
-            /// <summary>Quaternion component 2, x (0 in null-rotation)   </summary>
+
+        /// <summary>Quaternion component 2, x (0 in null-rotation)   </summary>
         [Units("")]
         [Description("Quaternion component 2, x (0 in null-rotation)")]
+        //[FieldOffset(8)]
         public  float q2;
-            /// <summary>Quaternion component 3, y (0 in null-rotation)   </summary>
+
+        /// <summary>Quaternion component 3, y (0 in null-rotation)   </summary>
         [Units("")]
         [Description("Quaternion component 3, y (0 in null-rotation)")]
+        //[FieldOffset(12)]
         public  float q3;
-            /// <summary>Quaternion component 4, z (0 in null-rotation)   </summary>
+
+        /// <summary>Quaternion component 4, z (0 in null-rotation)   </summary>
         [Units("")]
         [Description("Quaternion component 4, z (0 in null-rotation)")]
+        //[FieldOffset(16)]
         public  float q4;
-            /// <summary>Roll angular speed  [rad/s] </summary>
+
+        /// <summary>Roll angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Roll angular speed")]
+        //[FieldOffset(20)]
         public  float rollspeed;
-            /// <summary>Pitch angular speed  [rad/s] </summary>
+
+        /// <summary>Pitch angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Pitch angular speed")]
+        //[FieldOffset(24)]
         public  float pitchspeed;
-            /// <summary>Yaw angular speed  [rad/s] </summary>
+
+        /// <summary>Yaw angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Yaw angular speed")]
+        //[FieldOffset(28)]
         public  float yawspeed;
-            /// <summary>Rotation offset by which the attitude quaternion and angular speed vector should be rotated for user display (quaternion with [w, x, y, z] order, zero-rotation is [1, 0, 0, 0], send [0, 0, 0, 0] if field not supported). This field is intended for systems in which the reference attitude may change during flight. For example, tailsitters VTOLs rotate their reference attitude by 90 degrees between hover mode and fixed wing mode, thus repr_offset_q is equal to [1, 0, 0, 0] in hover mode and equal to [0.7071, 0, 0.7071, 0] in fixed wing mode.   </summary>
+
+        /// <summary>Rotation offset by which the attitude quaternion and angular speed vector should be rotated for user display (quaternion with [w, x, y, z] order, zero-rotation is [1, 0, 0, 0], send [0, 0, 0, 0] if field not supported). This field is intended for systems in which the reference attitude may change during flight. For example, tailsitters VTOLs rotate their reference attitude by 90 degrees between hover mode and fixed wing mode, thus repr_offset_q is equal to [1, 0, 0, 0] in hover mode and equal to [0.7071, 0, 0.7071, 0] in fixed wing mode.   </summary>
         [Units("")]
         [Description("Rotation offset by which the attitude quaternion and angular speed vector should be rotated for user display (quaternion with [w, x, y, z] order, zero-rotation is [1, 0, 0, 0], send [0, 0, 0, 0] if field not supported). This field is intended for systems in which the reference attitude may change during flight. For example, tailsitters VTOLs rotate their reference attitude by 90 degrees between hover mode and fixed wing mode, thus repr_offset_q is equal to [1, 0, 0, 0] in hover mode and equal to [0.7071, 0, 0.7071, 0] in fixed wing mode.")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] repr_offset_q;
-    
     };
 
     
@@ -9307,44 +10266,57 @@ public partial class MAVLink
     {
         public mavlink_local_position_ned_t(uint time_boot_ms,float x,float y,float z,float vx,float vy,float vz) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
+            this.time_boot_ms = time_boot_ms;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X Position  [m] </summary>
+
+        /// <summary>X Position  [m] </summary>
         [Units("[m]")]
         [Description("X Position")]
+        //[FieldOffset(4)]
         public  float x;
-            /// <summary>Y Position  [m] </summary>
+
+        /// <summary>Y Position  [m] </summary>
         [Units("[m]")]
         [Description("Y Position")]
+        //[FieldOffset(8)]
         public  float y;
-            /// <summary>Z Position  [m] </summary>
+
+        /// <summary>Z Position  [m] </summary>
         [Units("[m]")]
         [Description("Z Position")]
+        //[FieldOffset(12)]
         public  float z;
-            /// <summary>X Speed  [m/s] </summary>
+
+        /// <summary>X Speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("X Speed")]
+        //[FieldOffset(16)]
         public  float vx;
-            /// <summary>Y Speed  [m/s] </summary>
+
+        /// <summary>Y Speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Y Speed")]
+        //[FieldOffset(20)]
         public  float vy;
-            /// <summary>Z Speed  [m/s] </summary>
+
+        /// <summary>Z Speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Z Speed")]
+        //[FieldOffset(24)]
         public  float vz;
-    
     };
 
     
@@ -9355,54 +10327,71 @@ public partial class MAVLink
     {
         public mavlink_global_position_int_t(uint time_boot_ms,int lat,int lon,int alt,int relative_alt,short vx,short vy,short vz,ushort hdg) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.relative_alt = relative_alt;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.hdg = hdg;
+            this.time_boot_ms = time_boot_ms;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.relative_alt = relative_alt;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.hdg = hdg;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Latitude, expressed  [degE7] </summary>
+
+        /// <summary>Latitude, expressed  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude, expressed")]
+        //[FieldOffset(4)]
         public  int lat;
-            /// <summary>Longitude, expressed  [degE7] </summary>
+
+        /// <summary>Longitude, expressed  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude, expressed")]
+        //[FieldOffset(8)]
         public  int lon;
-            /// <summary>Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.  [mm] </summary>
+
+        /// <summary>Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.")]
+        //[FieldOffset(12)]
         public  int alt;
-            /// <summary>Altitude above ground  [mm] </summary>
+
+        /// <summary>Altitude above ground  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude above ground")]
+        //[FieldOffset(16)]
         public  int relative_alt;
-            /// <summary>Ground X Speed (Latitude, positive north)  [cm/s] </summary>
+
+        /// <summary>Ground X Speed (Latitude, positive north)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground X Speed (Latitude, positive north)")]
+        //[FieldOffset(20)]
         public  short vx;
-            /// <summary>Ground Y Speed (Longitude, positive east)  [cm/s] </summary>
+
+        /// <summary>Ground Y Speed (Longitude, positive east)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground Y Speed (Longitude, positive east)")]
+        //[FieldOffset(22)]
         public  short vy;
-            /// <summary>Ground Z Speed (Altitude, positive down)  [cm/s] </summary>
+
+        /// <summary>Ground Z Speed (Altitude, positive down)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground Z Speed (Altitude, positive down)")]
+        //[FieldOffset(24)]
         public  short vz;
-            /// <summary>Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX  [cdeg] </summary>
+
+        /// <summary>Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(26)]
         public  ushort hdg;
-    
     };
 
     
@@ -9413,64 +10402,85 @@ public partial class MAVLink
     {
         public mavlink_rc_channels_scaled_t(uint time_boot_ms,short chan1_scaled,short chan2_scaled,short chan3_scaled,short chan4_scaled,short chan5_scaled,short chan6_scaled,short chan7_scaled,short chan8_scaled,byte port,byte rssi) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.chan1_scaled = chan1_scaled;
-              this.chan2_scaled = chan2_scaled;
-              this.chan3_scaled = chan3_scaled;
-              this.chan4_scaled = chan4_scaled;
-              this.chan5_scaled = chan5_scaled;
-              this.chan6_scaled = chan6_scaled;
-              this.chan7_scaled = chan7_scaled;
-              this.chan8_scaled = chan8_scaled;
-              this.port = port;
-              this.rssi = rssi;
+            this.time_boot_ms = time_boot_ms;
+            this.chan1_scaled = chan1_scaled;
+            this.chan2_scaled = chan2_scaled;
+            this.chan3_scaled = chan3_scaled;
+            this.chan4_scaled = chan4_scaled;
+            this.chan5_scaled = chan5_scaled;
+            this.chan6_scaled = chan6_scaled;
+            this.chan7_scaled = chan7_scaled;
+            this.chan8_scaled = chan8_scaled;
+            this.port = port;
+            this.rssi = rssi;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>RC channel 1 value scaled.   </summary>
+
+        /// <summary>RC channel 1 value scaled.   </summary>
         [Units("")]
         [Description("RC channel 1 value scaled.")]
+        //[FieldOffset(4)]
         public  short chan1_scaled;
-            /// <summary>RC channel 2 value scaled.   </summary>
+
+        /// <summary>RC channel 2 value scaled.   </summary>
         [Units("")]
         [Description("RC channel 2 value scaled.")]
+        //[FieldOffset(6)]
         public  short chan2_scaled;
-            /// <summary>RC channel 3 value scaled.   </summary>
+
+        /// <summary>RC channel 3 value scaled.   </summary>
         [Units("")]
         [Description("RC channel 3 value scaled.")]
+        //[FieldOffset(8)]
         public  short chan3_scaled;
-            /// <summary>RC channel 4 value scaled.   </summary>
+
+        /// <summary>RC channel 4 value scaled.   </summary>
         [Units("")]
         [Description("RC channel 4 value scaled.")]
+        //[FieldOffset(10)]
         public  short chan4_scaled;
-            /// <summary>RC channel 5 value scaled.   </summary>
+
+        /// <summary>RC channel 5 value scaled.   </summary>
         [Units("")]
         [Description("RC channel 5 value scaled.")]
+        //[FieldOffset(12)]
         public  short chan5_scaled;
-            /// <summary>RC channel 6 value scaled.   </summary>
+
+        /// <summary>RC channel 6 value scaled.   </summary>
         [Units("")]
         [Description("RC channel 6 value scaled.")]
+        //[FieldOffset(14)]
         public  short chan6_scaled;
-            /// <summary>RC channel 7 value scaled.   </summary>
+
+        /// <summary>RC channel 7 value scaled.   </summary>
         [Units("")]
         [Description("RC channel 7 value scaled.")]
+        //[FieldOffset(16)]
         public  short chan7_scaled;
-            /// <summary>RC channel 8 value scaled.   </summary>
+
+        /// <summary>RC channel 8 value scaled.   </summary>
         [Units("")]
         [Description("RC channel 8 value scaled.")]
+        //[FieldOffset(18)]
         public  short chan8_scaled;
-            /// <summary>Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.   </summary>
+
+        /// <summary>Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.   </summary>
         [Units("")]
         [Description("Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.")]
+        //[FieldOffset(20)]
         public  byte port;
-            /// <summary>Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
+
+        /// <summary>Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
         [Units("")]
         [Description("Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.")]
+        //[FieldOffset(21)]
         public  byte rssi;
-    
     };
 
     
@@ -9481,64 +10491,85 @@ public partial class MAVLink
     {
         public mavlink_rc_channels_raw_t(uint time_boot_ms,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,byte port,byte rssi) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.chan1_raw = chan1_raw;
-              this.chan2_raw = chan2_raw;
-              this.chan3_raw = chan3_raw;
-              this.chan4_raw = chan4_raw;
-              this.chan5_raw = chan5_raw;
-              this.chan6_raw = chan6_raw;
-              this.chan7_raw = chan7_raw;
-              this.chan8_raw = chan8_raw;
-              this.port = port;
-              this.rssi = rssi;
+            this.time_boot_ms = time_boot_ms;
+            this.chan1_raw = chan1_raw;
+            this.chan2_raw = chan2_raw;
+            this.chan3_raw = chan3_raw;
+            this.chan4_raw = chan4_raw;
+            this.chan5_raw = chan5_raw;
+            this.chan6_raw = chan6_raw;
+            this.chan7_raw = chan7_raw;
+            this.chan8_raw = chan8_raw;
+            this.port = port;
+            this.rssi = rssi;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>RC channel 1 value.  [us] </summary>
+
+        /// <summary>RC channel 1 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 1 value.")]
+        //[FieldOffset(4)]
         public  ushort chan1_raw;
-            /// <summary>RC channel 2 value.  [us] </summary>
+
+        /// <summary>RC channel 2 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 2 value.")]
+        //[FieldOffset(6)]
         public  ushort chan2_raw;
-            /// <summary>RC channel 3 value.  [us] </summary>
+
+        /// <summary>RC channel 3 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 3 value.")]
+        //[FieldOffset(8)]
         public  ushort chan3_raw;
-            /// <summary>RC channel 4 value.  [us] </summary>
+
+        /// <summary>RC channel 4 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 4 value.")]
+        //[FieldOffset(10)]
         public  ushort chan4_raw;
-            /// <summary>RC channel 5 value.  [us] </summary>
+
+        /// <summary>RC channel 5 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 5 value.")]
+        //[FieldOffset(12)]
         public  ushort chan5_raw;
-            /// <summary>RC channel 6 value.  [us] </summary>
+
+        /// <summary>RC channel 6 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 6 value.")]
+        //[FieldOffset(14)]
         public  ushort chan6_raw;
-            /// <summary>RC channel 7 value.  [us] </summary>
+
+        /// <summary>RC channel 7 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 7 value.")]
+        //[FieldOffset(16)]
         public  ushort chan7_raw;
-            /// <summary>RC channel 8 value.  [us] </summary>
+
+        /// <summary>RC channel 8 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 8 value.")]
+        //[FieldOffset(18)]
         public  ushort chan8_raw;
-            /// <summary>Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.   </summary>
+
+        /// <summary>Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.   </summary>
         [Units("")]
         [Description("Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.")]
+        //[FieldOffset(20)]
         public  byte port;
-            /// <summary>Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
+
+        /// <summary>Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
         [Units("")]
         [Description("Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.")]
+        //[FieldOffset(21)]
         public  byte rssi;
-    
     };
 
     
@@ -9549,99 +10580,134 @@ public partial class MAVLink
     {
         public mavlink_servo_output_raw_t(uint time_usec,ushort servo1_raw,ushort servo2_raw,ushort servo3_raw,ushort servo4_raw,ushort servo5_raw,ushort servo6_raw,ushort servo7_raw,ushort servo8_raw,byte port,ushort servo9_raw,ushort servo10_raw,ushort servo11_raw,ushort servo12_raw,ushort servo13_raw,ushort servo14_raw,ushort servo15_raw,ushort servo16_raw) 
         {
-              this.time_usec = time_usec;
-              this.servo1_raw = servo1_raw;
-              this.servo2_raw = servo2_raw;
-              this.servo3_raw = servo3_raw;
-              this.servo4_raw = servo4_raw;
-              this.servo5_raw = servo5_raw;
-              this.servo6_raw = servo6_raw;
-              this.servo7_raw = servo7_raw;
-              this.servo8_raw = servo8_raw;
-              this.port = port;
-              this.servo9_raw = servo9_raw;
-              this.servo10_raw = servo10_raw;
-              this.servo11_raw = servo11_raw;
-              this.servo12_raw = servo12_raw;
-              this.servo13_raw = servo13_raw;
-              this.servo14_raw = servo14_raw;
-              this.servo15_raw = servo15_raw;
-              this.servo16_raw = servo16_raw;
+            this.time_usec = time_usec;
+            this.servo1_raw = servo1_raw;
+            this.servo2_raw = servo2_raw;
+            this.servo3_raw = servo3_raw;
+            this.servo4_raw = servo4_raw;
+            this.servo5_raw = servo5_raw;
+            this.servo6_raw = servo6_raw;
+            this.servo7_raw = servo7_raw;
+            this.servo8_raw = servo8_raw;
+            this.port = port;
+            this.servo9_raw = servo9_raw;
+            this.servo10_raw = servo10_raw;
+            this.servo11_raw = servo11_raw;
+            this.servo12_raw = servo12_raw;
+            this.servo13_raw = servo13_raw;
+            this.servo14_raw = servo14_raw;
+            this.servo15_raw = servo15_raw;
+            this.servo16_raw = servo16_raw;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  uint time_usec;
-            /// <summary>Servo output 1 value  [us] </summary>
+
+        /// <summary>Servo output 1 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 1 value")]
+        //[FieldOffset(4)]
         public  ushort servo1_raw;
-            /// <summary>Servo output 2 value  [us] </summary>
+
+        /// <summary>Servo output 2 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 2 value")]
+        //[FieldOffset(6)]
         public  ushort servo2_raw;
-            /// <summary>Servo output 3 value  [us] </summary>
+
+        /// <summary>Servo output 3 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 3 value")]
+        //[FieldOffset(8)]
         public  ushort servo3_raw;
-            /// <summary>Servo output 4 value  [us] </summary>
+
+        /// <summary>Servo output 4 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 4 value")]
+        //[FieldOffset(10)]
         public  ushort servo4_raw;
-            /// <summary>Servo output 5 value  [us] </summary>
+
+        /// <summary>Servo output 5 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 5 value")]
+        //[FieldOffset(12)]
         public  ushort servo5_raw;
-            /// <summary>Servo output 6 value  [us] </summary>
+
+        /// <summary>Servo output 6 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 6 value")]
+        //[FieldOffset(14)]
         public  ushort servo6_raw;
-            /// <summary>Servo output 7 value  [us] </summary>
+
+        /// <summary>Servo output 7 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 7 value")]
+        //[FieldOffset(16)]
         public  ushort servo7_raw;
-            /// <summary>Servo output 8 value  [us] </summary>
+
+        /// <summary>Servo output 8 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 8 value")]
+        //[FieldOffset(18)]
         public  ushort servo8_raw;
-            /// <summary>Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.   </summary>
+
+        /// <summary>Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.   </summary>
         [Units("")]
         [Description("Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.")]
+        //[FieldOffset(20)]
         public  byte port;
-            /// <summary>Servo output 9 value  [us] </summary>
+
+        /// <summary>Servo output 9 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 9 value")]
+        //[FieldOffset(21)]
         public  ushort servo9_raw;
-            /// <summary>Servo output 10 value  [us] </summary>
+
+        /// <summary>Servo output 10 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 10 value")]
+        //[FieldOffset(23)]
         public  ushort servo10_raw;
-            /// <summary>Servo output 11 value  [us] </summary>
+
+        /// <summary>Servo output 11 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 11 value")]
+        //[FieldOffset(25)]
         public  ushort servo11_raw;
-            /// <summary>Servo output 12 value  [us] </summary>
+
+        /// <summary>Servo output 12 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 12 value")]
+        //[FieldOffset(27)]
         public  ushort servo12_raw;
-            /// <summary>Servo output 13 value  [us] </summary>
+
+        /// <summary>Servo output 13 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 13 value")]
+        //[FieldOffset(29)]
         public  ushort servo13_raw;
-            /// <summary>Servo output 14 value  [us] </summary>
+
+        /// <summary>Servo output 14 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 14 value")]
+        //[FieldOffset(31)]
         public  ushort servo14_raw;
-            /// <summary>Servo output 15 value  [us] </summary>
+
+        /// <summary>Servo output 15 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 15 value")]
+        //[FieldOffset(33)]
         public  ushort servo15_raw;
-            /// <summary>Servo output 16 value  [us] </summary>
+
+        /// <summary>Servo output 16 value  [us] </summary>
         [Units("[us]")]
         [Description("Servo output 16 value")]
+        //[FieldOffset(35)]
         public  ushort servo16_raw;
-    
     };
 
     
@@ -9652,34 +10718,43 @@ public partial class MAVLink
     {
         public mavlink_mission_request_partial_list_t(short start_index,short end_index,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.start_index = start_index;
-              this.end_index = end_index;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mission_type = mission_type;
+            this.start_index = start_index;
+            this.end_index = end_index;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>Start index   </summary>
         [Units("")]
         [Description("Start index")]
+        //[FieldOffset(0)]
         public  short start_index;
-            /// <summary>End index, -1 by default (-1: send list to end). Else a valid index of the list   </summary>
+
+        /// <summary>End index, -1 by default (-1: send list to end). Else a valid index of the list   </summary>
         [Units("")]
         [Description("End index, -1 by default (-1: send list to end). Else a valid index of the list")]
+        //[FieldOffset(2)]
         public  short end_index;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(6)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     
@@ -9690,34 +10765,43 @@ public partial class MAVLink
     {
         public mavlink_mission_write_partial_list_t(short start_index,short end_index,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.start_index = start_index;
-              this.end_index = end_index;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mission_type = mission_type;
+            this.start_index = start_index;
+            this.end_index = end_index;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>Start index. Must be smaller / equal to the largest index of the current onboard list.   </summary>
         [Units("")]
         [Description("Start index. Must be smaller / equal to the largest index of the current onboard list.")]
+        //[FieldOffset(0)]
         public  short start_index;
-            /// <summary>End index, equal or greater than start index.   </summary>
+
+        /// <summary>End index, equal or greater than start index.   </summary>
         [Units("")]
         [Description("End index, equal or greater than start index.")]
+        //[FieldOffset(2)]
         public  short end_index;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(5)]
         public  byte target_component;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(6)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     [Obsolete]
@@ -9728,84 +10812,113 @@ public partial class MAVLink
     {
         public mavlink_mission_item_t(float param1,float param2,float param3,float param4,float x,float y,float z,ushort seq,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.param1 = param1;
-              this.param2 = param2;
-              this.param3 = param3;
-              this.param4 = param4;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.seq = seq;
-              this.command = command;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.frame = frame;
-              this.current = current;
-              this.autocontinue = autocontinue;
-              this.mission_type = mission_type;
+            this.param1 = param1;
+            this.param2 = param2;
+            this.param3 = param3;
+            this.param4 = param4;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.seq = seq;
+            this.command = command;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.frame = frame;
+            this.current = current;
+            this.autocontinue = autocontinue;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>PARAM1, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM1, see MAV_CMD enum")]
+        //[FieldOffset(0)]
         public  float param1;
-            /// <summary>PARAM2, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM2, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM2, see MAV_CMD enum")]
+        //[FieldOffset(4)]
         public  float param2;
-            /// <summary>PARAM3, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM3, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM3, see MAV_CMD enum")]
+        //[FieldOffset(8)]
         public  float param3;
-            /// <summary>PARAM4, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM4, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM4, see MAV_CMD enum")]
+        //[FieldOffset(12)]
         public  float param4;
-            /// <summary>PARAM5 / local: X coordinate, global: latitude   </summary>
+
+        /// <summary>PARAM5 / local: X coordinate, global: latitude   </summary>
         [Units("")]
         [Description("PARAM5 / local: X coordinate, global: latitude")]
+        //[FieldOffset(16)]
         public  float x;
-            /// <summary>PARAM6 / local: Y coordinate, global: longitude   </summary>
+
+        /// <summary>PARAM6 / local: Y coordinate, global: longitude   </summary>
         [Units("")]
         [Description("PARAM6 / local: Y coordinate, global: longitude")]
+        //[FieldOffset(20)]
         public  float y;
-            /// <summary>PARAM7 / local: Z coordinate, global: altitude (relative or absolute, depending on frame).   </summary>
+
+        /// <summary>PARAM7 / local: Z coordinate, global: altitude (relative or absolute, depending on frame).   </summary>
         [Units("")]
         [Description("PARAM7 / local: Z coordinate, global: altitude (relative or absolute, depending on frame).")]
+        //[FieldOffset(24)]
         public  float z;
-            /// <summary>Sequence   </summary>
+
+        /// <summary>Sequence   </summary>
         [Units("")]
         [Description("Sequence")]
+        //[FieldOffset(28)]
         public  ushort seq;
-            /// <summary>The scheduled action for the waypoint. MAV_CMD  </summary>
+
+        /// <summary>The scheduled action for the waypoint. MAV_CMD  </summary>
         [Units("")]
         [Description("The scheduled action for the waypoint.")]
+        //[FieldOffset(30)]
         public  /*MAV_CMD*/ushort command;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(32)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(33)]
         public  byte target_component;
-            /// <summary>The coordinate system of the waypoint. MAV_FRAME  </summary>
+
+        /// <summary>The coordinate system of the waypoint. MAV_FRAME  </summary>
         [Units("")]
         [Description("The coordinate system of the waypoint.")]
+        //[FieldOffset(34)]
         public  /*MAV_FRAME*/byte frame;
-            /// <summary>false:0, true:1   </summary>
+
+        /// <summary>false:0, true:1   </summary>
         [Units("")]
         [Description("false:0, true:1")]
+        //[FieldOffset(35)]
         public  byte current;
-            /// <summary>Autocontinue to next waypoint   </summary>
+
+        /// <summary>Autocontinue to next waypoint   </summary>
         [Units("")]
         [Description("Autocontinue to next waypoint")]
+        //[FieldOffset(36)]
         public  byte autocontinue;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(37)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     [Obsolete]
@@ -9816,29 +10929,36 @@ public partial class MAVLink
     {
         public mavlink_mission_request_t(ushort seq,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.seq = seq;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mission_type = mission_type;
+            this.seq = seq;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>Sequence   </summary>
         [Units("")]
         [Description("Sequence")]
+        //[FieldOffset(0)]
         public  ushort seq;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(3)]
         public  byte target_component;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(4)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     
@@ -9849,24 +10969,29 @@ public partial class MAVLink
     {
         public mavlink_mission_set_current_t(ushort seq,byte target_system,byte target_component) 
         {
-              this.seq = seq;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.seq = seq;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Sequence   </summary>
         [Units("")]
         [Description("Sequence")]
+        //[FieldOffset(0)]
         public  ushort seq;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(3)]
         public  byte target_component;
-    
     };
 
     
@@ -9877,14 +11002,15 @@ public partial class MAVLink
     {
         public mavlink_mission_current_t(ushort seq) 
         {
-              this.seq = seq;
+            this.seq = seq;
             
         }
+
         /// <summary>Sequence   </summary>
         [Units("")]
         [Description("Sequence")]
+        //[FieldOffset(0)]
         public  ushort seq;
-    
     };
 
     
@@ -9895,24 +11021,29 @@ public partial class MAVLink
     {
         public mavlink_mission_request_list_t(byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mission_type = mission_type;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(2)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     
@@ -9923,29 +11054,36 @@ public partial class MAVLink
     {
         public mavlink_mission_count_t(ushort count,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.count = count;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mission_type = mission_type;
+            this.count = count;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>Number of mission items in the sequence   </summary>
         [Units("")]
         [Description("Number of mission items in the sequence")]
+        //[FieldOffset(0)]
         public  ushort count;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(3)]
         public  byte target_component;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(4)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     
@@ -9956,24 +11094,29 @@ public partial class MAVLink
     {
         public mavlink_mission_clear_all_t(byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mission_type = mission_type;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(2)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     
@@ -9984,14 +11127,15 @@ public partial class MAVLink
     {
         public mavlink_mission_item_reached_t(ushort seq) 
         {
-              this.seq = seq;
+            this.seq = seq;
             
         }
+
         /// <summary>Sequence   </summary>
         [Units("")]
         [Description("Sequence")]
+        //[FieldOffset(0)]
         public  ushort seq;
-    
     };
 
     
@@ -10002,29 +11146,36 @@ public partial class MAVLink
     {
         public mavlink_mission_ack_t(byte target_system,byte target_component,/*MAV_MISSION_RESULT*/byte type,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.type = type;
-              this.mission_type = mission_type;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.type = type;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Mission result. MAV_MISSION_RESULT  </summary>
+
+        /// <summary>Mission result. MAV_MISSION_RESULT  </summary>
         [Units("")]
         [Description("Mission result.")]
+        //[FieldOffset(2)]
         public  /*MAV_MISSION_RESULT*/byte type;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(3)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     
@@ -10035,34 +11186,43 @@ public partial class MAVLink
     {
         public mavlink_set_gps_global_origin_t(int latitude,int longitude,int altitude,byte target_system,ulong time_usec) 
         {
-              this.latitude = latitude;
-              this.longitude = longitude;
-              this.altitude = altitude;
-              this.target_system = target_system;
-              this.time_usec = time_usec;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.altitude = altitude;
+            this.target_system = target_system;
+            this.time_usec = time_usec;
             
         }
+
         /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(0)]
         public  int latitude;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(4)]
         public  int longitude;
-            /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
+
+        /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL). Positive for up.")]
+        //[FieldOffset(8)]
         public  int altitude;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(12)]
         public  byte target_system;
-            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
+
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(13)]
         public  ulong time_usec;
-    
     };
 
     
@@ -10073,29 +11233,36 @@ public partial class MAVLink
     {
         public mavlink_gps_global_origin_t(int latitude,int longitude,int altitude,ulong time_usec) 
         {
-              this.latitude = latitude;
-              this.longitude = longitude;
-              this.altitude = altitude;
-              this.time_usec = time_usec;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.altitude = altitude;
+            this.time_usec = time_usec;
             
         }
+
         /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(0)]
         public  int latitude;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(4)]
         public  int longitude;
-            /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
+
+        /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL). Positive for up.")]
+        //[FieldOffset(8)]
         public  int altitude;
-            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
+
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(12)]
         public  ulong time_usec;
-    
     };
 
     
@@ -10106,55 +11273,72 @@ public partial class MAVLink
     {
         public mavlink_param_map_rc_t(float param_value0,float scale,float param_value_min,float param_value_max,short param_index,byte target_system,byte target_component,byte[] param_id,byte parameter_rc_channel_index) 
         {
-              this.param_value0 = param_value0;
-              this.scale = scale;
-              this.param_value_min = param_value_min;
-              this.param_value_max = param_value_max;
-              this.param_index = param_index;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.param_id = param_id;
-              this.parameter_rc_channel_index = parameter_rc_channel_index;
+            this.param_value0 = param_value0;
+            this.scale = scale;
+            this.param_value_min = param_value_min;
+            this.param_value_max = param_value_max;
+            this.param_index = param_index;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.param_id = param_id;
+            this.parameter_rc_channel_index = parameter_rc_channel_index;
             
         }
+
         /// <summary>Initial parameter value   </summary>
         [Units("")]
         [Description("Initial parameter value")]
+        //[FieldOffset(0)]
         public  float param_value0;
-            /// <summary>Scale, maps the RC range [-1, 1] to a parameter value   </summary>
+
+        /// <summary>Scale, maps the RC range [-1, 1] to a parameter value   </summary>
         [Units("")]
         [Description("Scale, maps the RC range [-1, 1] to a parameter value")]
+        //[FieldOffset(4)]
         public  float scale;
-            /// <summary>Minimum param value. The protocol does not define if this overwrites an onboard minimum value. (Depends on implementation)   </summary>
+
+        /// <summary>Minimum param value. The protocol does not define if this overwrites an onboard minimum value. (Depends on implementation)   </summary>
         [Units("")]
         [Description("Minimum param value. The protocol does not define if this overwrites an onboard minimum value. (Depends on implementation)")]
+        //[FieldOffset(8)]
         public  float param_value_min;
-            /// <summary>Maximum param value. The protocol does not define if this overwrites an onboard maximum value. (Depends on implementation)   </summary>
+
+        /// <summary>Maximum param value. The protocol does not define if this overwrites an onboard maximum value. (Depends on implementation)   </summary>
         [Units("")]
         [Description("Maximum param value. The protocol does not define if this overwrites an onboard maximum value. (Depends on implementation)")]
+        //[FieldOffset(12)]
         public  float param_value_max;
-            /// <summary>Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored), send -2 to disable any existing map for this rc_channel_index.   </summary>
+
+        /// <summary>Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored), send -2 to disable any existing map for this rc_channel_index.   </summary>
         [Units("")]
         [Description("Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored), send -2 to disable any existing map for this rc_channel_index.")]
+        //[FieldOffset(16)]
         public  short param_index;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(18)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(19)]
         public  byte target_component;
-            /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
+
+        /// <summary>Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string   </summary>
         [Units("")]
         [Description("Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string")]
+        //[FieldOffset(20)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] param_id;
-            /// <summary>Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on the RC.   </summary>
+
+        /// <summary>Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on the RC.   </summary>
         [Units("")]
         [Description("Index of parameter RC channel. Not equal to the RC channel id. Typically corresponds to a potentiometer-knob on the RC.")]
+        //[FieldOffset(36)]
         public  byte parameter_rc_channel_index;
-    
     };
 
     
@@ -10165,29 +11349,36 @@ public partial class MAVLink
     {
         public mavlink_mission_request_int_t(ushort seq,byte target_system,byte target_component,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.seq = seq;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.mission_type = mission_type;
+            this.seq = seq;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>Sequence   </summary>
         [Units("")]
         [Description("Sequence")]
+        //[FieldOffset(0)]
         public  ushort seq;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(3)]
         public  byte target_component;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(4)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     
@@ -10198,54 +11389,71 @@ public partial class MAVLink
     {
         public mavlink_safety_set_allowed_area_t(float p1x,float p1y,float p1z,float p2x,float p2y,float p2z,byte target_system,byte target_component,/*MAV_FRAME*/byte frame) 
         {
-              this.p1x = p1x;
-              this.p1y = p1y;
-              this.p1z = p1z;
-              this.p2x = p2x;
-              this.p2y = p2y;
-              this.p2z = p2z;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.frame = frame;
+            this.p1x = p1x;
+            this.p1y = p1y;
+            this.p1z = p1z;
+            this.p2x = p2x;
+            this.p2y = p2y;
+            this.p2z = p2z;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.frame = frame;
             
         }
+
         /// <summary>x position 1 / Latitude 1  [m] </summary>
         [Units("[m]")]
         [Description("x position 1 / Latitude 1")]
+        //[FieldOffset(0)]
         public  float p1x;
-            /// <summary>y position 1 / Longitude 1  [m] </summary>
+
+        /// <summary>y position 1 / Longitude 1  [m] </summary>
         [Units("[m]")]
         [Description("y position 1 / Longitude 1")]
+        //[FieldOffset(4)]
         public  float p1y;
-            /// <summary>z position 1 / Altitude 1  [m] </summary>
+
+        /// <summary>z position 1 / Altitude 1  [m] </summary>
         [Units("[m]")]
         [Description("z position 1 / Altitude 1")]
+        //[FieldOffset(8)]
         public  float p1z;
-            /// <summary>x position 2 / Latitude 2  [m] </summary>
+
+        /// <summary>x position 2 / Latitude 2  [m] </summary>
         [Units("[m]")]
         [Description("x position 2 / Latitude 2")]
+        //[FieldOffset(12)]
         public  float p2x;
-            /// <summary>y position 2 / Longitude 2  [m] </summary>
+
+        /// <summary>y position 2 / Longitude 2  [m] </summary>
         [Units("[m]")]
         [Description("y position 2 / Longitude 2")]
+        //[FieldOffset(16)]
         public  float p2y;
-            /// <summary>z position 2 / Altitude 2  [m] </summary>
+
+        /// <summary>z position 2 / Altitude 2  [m] </summary>
         [Units("[m]")]
         [Description("z position 2 / Altitude 2")]
+        //[FieldOffset(20)]
         public  float p2z;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(24)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(25)]
         public  byte target_component;
-            /// <summary>Coordinate frame. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down. MAV_FRAME  </summary>
+
+        /// <summary>Coordinate frame. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down. MAV_FRAME  </summary>
         [Units("")]
         [Description("Coordinate frame. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down.")]
+        //[FieldOffset(26)]
         public  /*MAV_FRAME*/byte frame;
-    
     };
 
     
@@ -10256,44 +11464,57 @@ public partial class MAVLink
     {
         public mavlink_safety_allowed_area_t(float p1x,float p1y,float p1z,float p2x,float p2y,float p2z,/*MAV_FRAME*/byte frame) 
         {
-              this.p1x = p1x;
-              this.p1y = p1y;
-              this.p1z = p1z;
-              this.p2x = p2x;
-              this.p2y = p2y;
-              this.p2z = p2z;
-              this.frame = frame;
+            this.p1x = p1x;
+            this.p1y = p1y;
+            this.p1z = p1z;
+            this.p2x = p2x;
+            this.p2y = p2y;
+            this.p2z = p2z;
+            this.frame = frame;
             
         }
+
         /// <summary>x position 1 / Latitude 1  [m] </summary>
         [Units("[m]")]
         [Description("x position 1 / Latitude 1")]
+        //[FieldOffset(0)]
         public  float p1x;
-            /// <summary>y position 1 / Longitude 1  [m] </summary>
+
+        /// <summary>y position 1 / Longitude 1  [m] </summary>
         [Units("[m]")]
         [Description("y position 1 / Longitude 1")]
+        //[FieldOffset(4)]
         public  float p1y;
-            /// <summary>z position 1 / Altitude 1  [m] </summary>
+
+        /// <summary>z position 1 / Altitude 1  [m] </summary>
         [Units("[m]")]
         [Description("z position 1 / Altitude 1")]
+        //[FieldOffset(8)]
         public  float p1z;
-            /// <summary>x position 2 / Latitude 2  [m] </summary>
+
+        /// <summary>x position 2 / Latitude 2  [m] </summary>
         [Units("[m]")]
         [Description("x position 2 / Latitude 2")]
+        //[FieldOffset(12)]
         public  float p2x;
-            /// <summary>y position 2 / Longitude 2  [m] </summary>
+
+        /// <summary>y position 2 / Longitude 2  [m] </summary>
         [Units("[m]")]
         [Description("y position 2 / Longitude 2")]
+        //[FieldOffset(16)]
         public  float p2y;
-            /// <summary>z position 2 / Altitude 2  [m] </summary>
+
+        /// <summary>z position 2 / Altitude 2  [m] </summary>
         [Units("[m]")]
         [Description("z position 2 / Altitude 2")]
+        //[FieldOffset(20)]
         public  float p2z;
-            /// <summary>Coordinate frame. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down. MAV_FRAME  </summary>
+
+        /// <summary>Coordinate frame. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down. MAV_FRAME  </summary>
         [Units("")]
         [Description("Coordinate frame. Can be either global, GPS, right-handed with Z axis up or local, right handed, Z axis down.")]
+        //[FieldOffset(24)]
         public  /*MAV_FRAME*/byte frame;
-    
     };
 
     
@@ -10304,41 +11525,52 @@ public partial class MAVLink
     {
         public mavlink_attitude_quaternion_cov_t(ulong time_usec,float[] q,float rollspeed,float pitchspeed,float yawspeed,float[] covariance) 
         {
-              this.time_usec = time_usec;
-              this.q = q;
-              this.rollspeed = rollspeed;
-              this.pitchspeed = pitchspeed;
-              this.yawspeed = yawspeed;
-              this.covariance = covariance;
+            this.time_usec = time_usec;
+            this.q = q;
+            this.rollspeed = rollspeed;
+            this.pitchspeed = pitchspeed;
+            this.yawspeed = yawspeed;
+            this.covariance = covariance;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)   </summary>
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)   </summary>
         [Units("")]
         [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>Roll angular speed  [rad/s] </summary>
+
+        /// <summary>Roll angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Roll angular speed")]
+        //[FieldOffset(24)]
         public  float rollspeed;
-            /// <summary>Pitch angular speed  [rad/s] </summary>
+
+        /// <summary>Pitch angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Pitch angular speed")]
+        //[FieldOffset(28)]
         public  float pitchspeed;
-            /// <summary>Yaw angular speed  [rad/s] </summary>
+
+        /// <summary>Yaw angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Yaw angular speed")]
+        //[FieldOffset(32)]
         public  float yawspeed;
-            /// <summary>Row-major representation of a 3x3 attitude covariance matrix (states: roll, pitch, yaw; first three entries are the first ROW, next three entries are the second row, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of a 3x3 attitude covariance matrix (states: roll, pitch, yaw; first three entries are the first ROW, next three entries are the second row, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of a 3x3 attitude covariance matrix (states: roll, pitch, yaw; first three entries are the first ROW, next three entries are the second row, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(36)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
 		public float[] covariance;
-    
     };
 
     
@@ -10349,49 +11581,64 @@ public partial class MAVLink
     {
         public mavlink_nav_controller_output_t(float nav_roll,float nav_pitch,float alt_error,float aspd_error,float xtrack_error,short nav_bearing,short target_bearing,ushort wp_dist) 
         {
-              this.nav_roll = nav_roll;
-              this.nav_pitch = nav_pitch;
-              this.alt_error = alt_error;
-              this.aspd_error = aspd_error;
-              this.xtrack_error = xtrack_error;
-              this.nav_bearing = nav_bearing;
-              this.target_bearing = target_bearing;
-              this.wp_dist = wp_dist;
+            this.nav_roll = nav_roll;
+            this.nav_pitch = nav_pitch;
+            this.alt_error = alt_error;
+            this.aspd_error = aspd_error;
+            this.xtrack_error = xtrack_error;
+            this.nav_bearing = nav_bearing;
+            this.target_bearing = target_bearing;
+            this.wp_dist = wp_dist;
             
         }
+
         /// <summary>Current desired roll  [deg] </summary>
         [Units("[deg]")]
         [Description("Current desired roll")]
+        //[FieldOffset(0)]
         public  float nav_roll;
-            /// <summary>Current desired pitch  [deg] </summary>
+
+        /// <summary>Current desired pitch  [deg] </summary>
         [Units("[deg]")]
         [Description("Current desired pitch")]
+        //[FieldOffset(4)]
         public  float nav_pitch;
-            /// <summary>Current altitude error  [m] </summary>
+
+        /// <summary>Current altitude error  [m] </summary>
         [Units("[m]")]
         [Description("Current altitude error")]
+        //[FieldOffset(8)]
         public  float alt_error;
-            /// <summary>Current airspeed error  [m/s] </summary>
+
+        /// <summary>Current airspeed error  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Current airspeed error")]
+        //[FieldOffset(12)]
         public  float aspd_error;
-            /// <summary>Current crosstrack error on x-y plane  [m] </summary>
+
+        /// <summary>Current crosstrack error on x-y plane  [m] </summary>
         [Units("[m]")]
         [Description("Current crosstrack error on x-y plane")]
+        //[FieldOffset(16)]
         public  float xtrack_error;
-            /// <summary>Current desired heading  [deg] </summary>
+
+        /// <summary>Current desired heading  [deg] </summary>
         [Units("[deg]")]
         [Description("Current desired heading")]
+        //[FieldOffset(20)]
         public  short nav_bearing;
-            /// <summary>Bearing to current waypoint/target  [deg] </summary>
+
+        /// <summary>Bearing to current waypoint/target  [deg] </summary>
         [Units("[deg]")]
         [Description("Bearing to current waypoint/target")]
+        //[FieldOffset(22)]
         public  short target_bearing;
-            /// <summary>Distance to active waypoint  [m] </summary>
+
+        /// <summary>Distance to active waypoint  [m] </summary>
         [Units("[m]")]
         [Description("Distance to active waypoint")]
+        //[FieldOffset(24)]
         public  ushort wp_dist;
-    
     };
 
     
@@ -10402,60 +11649,79 @@ public partial class MAVLink
     {
         public mavlink_global_position_int_cov_t(ulong time_usec,int lat,int lon,int alt,int relative_alt,float vx,float vy,float vz,float[] covariance,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
         {
-              this.time_usec = time_usec;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.relative_alt = relative_alt;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.covariance = covariance;
-              this.estimator_type = estimator_type;
+            this.time_usec = time_usec;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.relative_alt = relative_alt;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.covariance = covariance;
+            this.estimator_type = estimator_type;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Latitude  [degE7] </summary>
+
+        /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(8)]
         public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(12)]
         public  int lon;
-            /// <summary>Altitude in meters above MSL  [mm] </summary>
+
+        /// <summary>Altitude in meters above MSL  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude in meters above MSL")]
+        //[FieldOffset(16)]
         public  int alt;
-            /// <summary>Altitude above ground  [mm] </summary>
+
+        /// <summary>Altitude above ground  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude above ground")]
+        //[FieldOffset(20)]
         public  int relative_alt;
-            /// <summary>Ground X Speed (Latitude)  [m/s] </summary>
+
+        /// <summary>Ground X Speed (Latitude)  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Ground X Speed (Latitude)")]
+        //[FieldOffset(24)]
         public  float vx;
-            /// <summary>Ground Y Speed (Longitude)  [m/s] </summary>
+
+        /// <summary>Ground Y Speed (Longitude)  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Ground Y Speed (Longitude)")]
+        //[FieldOffset(28)]
         public  float vy;
-            /// <summary>Ground Z Speed (Altitude)  [m/s] </summary>
+
+        /// <summary>Ground Z Speed (Altitude)  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Ground Z Speed (Altitude)")]
+        //[FieldOffset(32)]
         public  float vz;
-            /// <summary>Row-major representation of a 6x6 position and velocity 6x6 cross-covariance matrix (states: lat, lon, alt, vx, vy, vz; first six entries are the first ROW, next six entries are the second row, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of a 6x6 position and velocity 6x6 cross-covariance matrix (states: lat, lon, alt, vx, vy, vz; first six entries are the first ROW, next six entries are the second row, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of a 6x6 position and velocity 6x6 cross-covariance matrix (states: lat, lon, alt, vx, vy, vz; first six entries are the first ROW, next six entries are the second row, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(36)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)]
 		public float[] covariance;
-            /// <summary>Class id of the estimator this estimate originated from. MAV_ESTIMATOR_TYPE  </summary>
+
+        /// <summary>Class id of the estimator this estimate originated from. MAV_ESTIMATOR_TYPE  </summary>
         [Units("")]
         [Description("Class id of the estimator this estimate originated from.")]
+        //[FieldOffset(180)]
         public  /*MAV_ESTIMATOR_TYPE*/byte estimator_type;
-    
     };
 
     
@@ -10466,70 +11732,93 @@ public partial class MAVLink
     {
         public mavlink_local_position_ned_cov_t(ulong time_usec,float x,float y,float z,float vx,float vy,float vz,float ax,float ay,float az,float[] covariance,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
         {
-              this.time_usec = time_usec;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.ax = ax;
-              this.ay = ay;
-              this.az = az;
-              this.covariance = covariance;
-              this.estimator_type = estimator_type;
+            this.time_usec = time_usec;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.ax = ax;
+            this.ay = ay;
+            this.az = az;
+            this.covariance = covariance;
+            this.estimator_type = estimator_type;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>X Position  [m] </summary>
+
+        /// <summary>X Position  [m] </summary>
         [Units("[m]")]
         [Description("X Position")]
+        //[FieldOffset(8)]
         public  float x;
-            /// <summary>Y Position  [m] </summary>
+
+        /// <summary>Y Position  [m] </summary>
         [Units("[m]")]
         [Description("Y Position")]
+        //[FieldOffset(12)]
         public  float y;
-            /// <summary>Z Position  [m] </summary>
+
+        /// <summary>Z Position  [m] </summary>
         [Units("[m]")]
         [Description("Z Position")]
+        //[FieldOffset(16)]
         public  float z;
-            /// <summary>X Speed  [m/s] </summary>
+
+        /// <summary>X Speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("X Speed")]
+        //[FieldOffset(20)]
         public  float vx;
-            /// <summary>Y Speed  [m/s] </summary>
+
+        /// <summary>Y Speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Y Speed")]
+        //[FieldOffset(24)]
         public  float vy;
-            /// <summary>Z Speed  [m/s] </summary>
+
+        /// <summary>Z Speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Z Speed")]
+        //[FieldOffset(28)]
         public  float vz;
-            /// <summary>X Acceleration  [m/s/s] </summary>
+
+        /// <summary>X Acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X Acceleration")]
+        //[FieldOffset(32)]
         public  float ax;
-            /// <summary>Y Acceleration  [m/s/s] </summary>
+
+        /// <summary>Y Acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y Acceleration")]
+        //[FieldOffset(36)]
         public  float ay;
-            /// <summary>Z Acceleration  [m/s/s] </summary>
+
+        /// <summary>Z Acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z Acceleration")]
+        //[FieldOffset(40)]
         public  float az;
-            /// <summary>Row-major representation of position, velocity and acceleration 9x9 cross-covariance matrix upper right triangle (states: x, y, z, vx, vy, vz, ax, ay, az; first nine entries are the first ROW, next eight entries are the second row, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of position, velocity and acceleration 9x9 cross-covariance matrix upper right triangle (states: x, y, z, vx, vy, vz, ax, ay, az; first nine entries are the first ROW, next eight entries are the second row, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of position, velocity and acceleration 9x9 cross-covariance matrix upper right triangle (states: x, y, z, vx, vy, vz, ax, ay, az; first nine entries are the first ROW, next eight entries are the second row, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(44)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=45)]
 		public float[] covariance;
-            /// <summary>Class id of the estimator this estimate originated from. MAV_ESTIMATOR_TYPE  </summary>
+
+        /// <summary>Class id of the estimator this estimate originated from. MAV_ESTIMATOR_TYPE  </summary>
         [Units("")]
         [Description("Class id of the estimator this estimate originated from.")]
+        //[FieldOffset(224)]
         public  /*MAV_ESTIMATOR_TYPE*/byte estimator_type;
-    
     };
 
     
@@ -10540,114 +11829,155 @@ public partial class MAVLink
     {
         public mavlink_rc_channels_t(uint time_boot_ms,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,ushort chan13_raw,ushort chan14_raw,ushort chan15_raw,ushort chan16_raw,ushort chan17_raw,ushort chan18_raw,byte chancount,byte rssi) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.chan1_raw = chan1_raw;
-              this.chan2_raw = chan2_raw;
-              this.chan3_raw = chan3_raw;
-              this.chan4_raw = chan4_raw;
-              this.chan5_raw = chan5_raw;
-              this.chan6_raw = chan6_raw;
-              this.chan7_raw = chan7_raw;
-              this.chan8_raw = chan8_raw;
-              this.chan9_raw = chan9_raw;
-              this.chan10_raw = chan10_raw;
-              this.chan11_raw = chan11_raw;
-              this.chan12_raw = chan12_raw;
-              this.chan13_raw = chan13_raw;
-              this.chan14_raw = chan14_raw;
-              this.chan15_raw = chan15_raw;
-              this.chan16_raw = chan16_raw;
-              this.chan17_raw = chan17_raw;
-              this.chan18_raw = chan18_raw;
-              this.chancount = chancount;
-              this.rssi = rssi;
+            this.time_boot_ms = time_boot_ms;
+            this.chan1_raw = chan1_raw;
+            this.chan2_raw = chan2_raw;
+            this.chan3_raw = chan3_raw;
+            this.chan4_raw = chan4_raw;
+            this.chan5_raw = chan5_raw;
+            this.chan6_raw = chan6_raw;
+            this.chan7_raw = chan7_raw;
+            this.chan8_raw = chan8_raw;
+            this.chan9_raw = chan9_raw;
+            this.chan10_raw = chan10_raw;
+            this.chan11_raw = chan11_raw;
+            this.chan12_raw = chan12_raw;
+            this.chan13_raw = chan13_raw;
+            this.chan14_raw = chan14_raw;
+            this.chan15_raw = chan15_raw;
+            this.chan16_raw = chan16_raw;
+            this.chan17_raw = chan17_raw;
+            this.chan18_raw = chan18_raw;
+            this.chancount = chancount;
+            this.rssi = rssi;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>RC channel 1 value.  [us] </summary>
+
+        /// <summary>RC channel 1 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 1 value.")]
+        //[FieldOffset(4)]
         public  ushort chan1_raw;
-            /// <summary>RC channel 2 value.  [us] </summary>
+
+        /// <summary>RC channel 2 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 2 value.")]
+        //[FieldOffset(6)]
         public  ushort chan2_raw;
-            /// <summary>RC channel 3 value.  [us] </summary>
+
+        /// <summary>RC channel 3 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 3 value.")]
+        //[FieldOffset(8)]
         public  ushort chan3_raw;
-            /// <summary>RC channel 4 value.  [us] </summary>
+
+        /// <summary>RC channel 4 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 4 value.")]
+        //[FieldOffset(10)]
         public  ushort chan4_raw;
-            /// <summary>RC channel 5 value.  [us] </summary>
+
+        /// <summary>RC channel 5 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 5 value.")]
+        //[FieldOffset(12)]
         public  ushort chan5_raw;
-            /// <summary>RC channel 6 value.  [us] </summary>
+
+        /// <summary>RC channel 6 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 6 value.")]
+        //[FieldOffset(14)]
         public  ushort chan6_raw;
-            /// <summary>RC channel 7 value.  [us] </summary>
+
+        /// <summary>RC channel 7 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 7 value.")]
+        //[FieldOffset(16)]
         public  ushort chan7_raw;
-            /// <summary>RC channel 8 value.  [us] </summary>
+
+        /// <summary>RC channel 8 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 8 value.")]
+        //[FieldOffset(18)]
         public  ushort chan8_raw;
-            /// <summary>RC channel 9 value.  [us] </summary>
+
+        /// <summary>RC channel 9 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 9 value.")]
+        //[FieldOffset(20)]
         public  ushort chan9_raw;
-            /// <summary>RC channel 10 value.  [us] </summary>
+
+        /// <summary>RC channel 10 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 10 value.")]
+        //[FieldOffset(22)]
         public  ushort chan10_raw;
-            /// <summary>RC channel 11 value.  [us] </summary>
+
+        /// <summary>RC channel 11 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 11 value.")]
+        //[FieldOffset(24)]
         public  ushort chan11_raw;
-            /// <summary>RC channel 12 value.  [us] </summary>
+
+        /// <summary>RC channel 12 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 12 value.")]
+        //[FieldOffset(26)]
         public  ushort chan12_raw;
-            /// <summary>RC channel 13 value.  [us] </summary>
+
+        /// <summary>RC channel 13 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 13 value.")]
+        //[FieldOffset(28)]
         public  ushort chan13_raw;
-            /// <summary>RC channel 14 value.  [us] </summary>
+
+        /// <summary>RC channel 14 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 14 value.")]
+        //[FieldOffset(30)]
         public  ushort chan14_raw;
-            /// <summary>RC channel 15 value.  [us] </summary>
+
+        /// <summary>RC channel 15 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 15 value.")]
+        //[FieldOffset(32)]
         public  ushort chan15_raw;
-            /// <summary>RC channel 16 value.  [us] </summary>
+
+        /// <summary>RC channel 16 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 16 value.")]
+        //[FieldOffset(34)]
         public  ushort chan16_raw;
-            /// <summary>RC channel 17 value.  [us] </summary>
+
+        /// <summary>RC channel 17 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 17 value.")]
+        //[FieldOffset(36)]
         public  ushort chan17_raw;
-            /// <summary>RC channel 18 value.  [us] </summary>
+
+        /// <summary>RC channel 18 value.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 18 value.")]
+        //[FieldOffset(38)]
         public  ushort chan18_raw;
-            /// <summary>Total number of RC channels being received. This can be larger than 18, indicating that more channels are available but not given in this message. This value should be 0 when no RC channels are available.   </summary>
+
+        /// <summary>Total number of RC channels being received. This can be larger than 18, indicating that more channels are available but not given in this message. This value should be 0 when no RC channels are available.   </summary>
         [Units("")]
         [Description("Total number of RC channels being received. This can be larger than 18, indicating that more channels are available but not given in this message. This value should be 0 when no RC channels are available.")]
+        //[FieldOffset(40)]
         public  byte chancount;
-            /// <summary>Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
+
+        /// <summary>Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
         [Units("")]
         [Description("Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.")]
+        //[FieldOffset(41)]
         public  byte rssi;
-    
     };
 
     
@@ -10658,34 +11988,43 @@ public partial class MAVLink
     {
         public mavlink_request_data_stream_t(ushort req_message_rate,byte target_system,byte target_component,byte req_stream_id,byte start_stop) 
         {
-              this.req_message_rate = req_message_rate;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.req_stream_id = req_stream_id;
-              this.start_stop = start_stop;
+            this.req_message_rate = req_message_rate;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.req_stream_id = req_stream_id;
+            this.start_stop = start_stop;
             
         }
+
         /// <summary>The requested message rate  [Hz] </summary>
         [Units("[Hz]")]
         [Description("The requested message rate")]
+        //[FieldOffset(0)]
         public  ushort req_message_rate;
-            /// <summary>The target requested to send the message stream.   </summary>
+
+        /// <summary>The target requested to send the message stream.   </summary>
         [Units("")]
         [Description("The target requested to send the message stream.")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>The target requested to send the message stream.   </summary>
+
+        /// <summary>The target requested to send the message stream.   </summary>
         [Units("")]
         [Description("The target requested to send the message stream.")]
+        //[FieldOffset(3)]
         public  byte target_component;
-            /// <summary>The ID of the requested data stream   </summary>
+
+        /// <summary>The ID of the requested data stream   </summary>
         [Units("")]
         [Description("The ID of the requested data stream")]
+        //[FieldOffset(4)]
         public  byte req_stream_id;
-            /// <summary>1 to start sending, 0 to stop sending.   </summary>
+
+        /// <summary>1 to start sending, 0 to stop sending.   </summary>
         [Units("")]
         [Description("1 to start sending, 0 to stop sending.")]
+        //[FieldOffset(5)]
         public  byte start_stop;
-    
     };
 
     
@@ -10696,24 +12035,29 @@ public partial class MAVLink
     {
         public mavlink_data_stream_t(ushort message_rate,byte stream_id,byte on_off) 
         {
-              this.message_rate = message_rate;
-              this.stream_id = stream_id;
-              this.on_off = on_off;
+            this.message_rate = message_rate;
+            this.stream_id = stream_id;
+            this.on_off = on_off;
             
         }
+
         /// <summary>The message rate  [Hz] </summary>
         [Units("[Hz]")]
         [Description("The message rate")]
+        //[FieldOffset(0)]
         public  ushort message_rate;
-            /// <summary>The ID of the requested data stream   </summary>
+
+        /// <summary>The ID of the requested data stream   </summary>
         [Units("")]
         [Description("The ID of the requested data stream")]
+        //[FieldOffset(2)]
         public  byte stream_id;
-            /// <summary>1 stream is enabled, 0 stream is stopped.   </summary>
+
+        /// <summary>1 stream is enabled, 0 stream is stopped.   </summary>
         [Units("")]
         [Description("1 stream is enabled, 0 stream is stopped.")]
+        //[FieldOffset(3)]
         public  byte on_off;
-    
     };
 
     
@@ -10724,39 +12068,50 @@ public partial class MAVLink
     {
         public mavlink_manual_control_t(short x,short y,short z,short r,ushort buttons,byte target) 
         {
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.r = r;
-              this.buttons = buttons;
-              this.target = target;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.r = r;
+            this.buttons = buttons;
+            this.target = target;
             
         }
+
         /// <summary>X-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to forward(1000)-backward(-1000) movement on a joystick and the pitch of a vehicle.   </summary>
         [Units("")]
         [Description("X-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to forward(1000)-backward(-1000) movement on a joystick and the pitch of a vehicle.")]
+        //[FieldOffset(0)]
         public  short x;
-            /// <summary>Y-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to left(-1000)-right(1000) movement on a joystick and the roll of a vehicle.   </summary>
+
+        /// <summary>Y-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to left(-1000)-right(1000) movement on a joystick and the roll of a vehicle.   </summary>
         [Units("")]
         [Description("Y-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to left(-1000)-right(1000) movement on a joystick and the roll of a vehicle.")]
+        //[FieldOffset(2)]
         public  short y;
-            /// <summary>Z-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a separate slider movement with maximum being 1000 and minimum being -1000 on a joystick and the thrust of a vehicle. Positive values are positive thrust, negative values are negative thrust.   </summary>
+
+        /// <summary>Z-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a separate slider movement with maximum being 1000 and minimum being -1000 on a joystick and the thrust of a vehicle. Positive values are positive thrust, negative values are negative thrust.   </summary>
         [Units("")]
         [Description("Z-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a separate slider movement with maximum being 1000 and minimum being -1000 on a joystick and the thrust of a vehicle. Positive values are positive thrust, negative values are negative thrust.")]
+        //[FieldOffset(4)]
         public  short z;
-            /// <summary>R-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a twisting of the joystick, with counter-clockwise being 1000 and clockwise being -1000, and the yaw of a vehicle.   </summary>
+
+        /// <summary>R-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a twisting of the joystick, with counter-clockwise being 1000 and clockwise being -1000, and the yaw of a vehicle.   </summary>
         [Units("")]
         [Description("R-axis, normalized to the range [-1000,1000]. A value of INT16_MAX indicates that this axis is invalid. Generally corresponds to a twisting of the joystick, with counter-clockwise being 1000 and clockwise being -1000, and the yaw of a vehicle.")]
+        //[FieldOffset(6)]
         public  short r;
-            /// <summary>A bitfield corresponding to the joystick buttons' current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 1.   </summary>
+
+        /// <summary>A bitfield corresponding to the joystick buttons' current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 1.   </summary>
         [Units("")]
         [Description("A bitfield corresponding to the joystick buttons' current state, 1 for pressed, 0 for released. The lowest bit corresponds to Button 1.")]
+        //[FieldOffset(8)]
         public  ushort buttons;
-            /// <summary>The system to be controlled.   </summary>
+
+        /// <summary>The system to be controlled.   </summary>
         [Units("")]
         [Description("The system to be controlled.")]
+        //[FieldOffset(10)]
         public  byte target;
-    
     };
 
     
@@ -10767,109 +12122,148 @@ public partial class MAVLink
     {
         public mavlink_rc_channels_override_t(ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,byte target_system,byte target_component,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,ushort chan13_raw,ushort chan14_raw,ushort chan15_raw,ushort chan16_raw,ushort chan17_raw,ushort chan18_raw) 
         {
-              this.chan1_raw = chan1_raw;
-              this.chan2_raw = chan2_raw;
-              this.chan3_raw = chan3_raw;
-              this.chan4_raw = chan4_raw;
-              this.chan5_raw = chan5_raw;
-              this.chan6_raw = chan6_raw;
-              this.chan7_raw = chan7_raw;
-              this.chan8_raw = chan8_raw;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.chan9_raw = chan9_raw;
-              this.chan10_raw = chan10_raw;
-              this.chan11_raw = chan11_raw;
-              this.chan12_raw = chan12_raw;
-              this.chan13_raw = chan13_raw;
-              this.chan14_raw = chan14_raw;
-              this.chan15_raw = chan15_raw;
-              this.chan16_raw = chan16_raw;
-              this.chan17_raw = chan17_raw;
-              this.chan18_raw = chan18_raw;
+            this.chan1_raw = chan1_raw;
+            this.chan2_raw = chan2_raw;
+            this.chan3_raw = chan3_raw;
+            this.chan4_raw = chan4_raw;
+            this.chan5_raw = chan5_raw;
+            this.chan6_raw = chan6_raw;
+            this.chan7_raw = chan7_raw;
+            this.chan8_raw = chan8_raw;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.chan9_raw = chan9_raw;
+            this.chan10_raw = chan10_raw;
+            this.chan11_raw = chan11_raw;
+            this.chan12_raw = chan12_raw;
+            this.chan13_raw = chan13_raw;
+            this.chan14_raw = chan14_raw;
+            this.chan15_raw = chan15_raw;
+            this.chan16_raw = chan16_raw;
+            this.chan17_raw = chan17_raw;
+            this.chan18_raw = chan18_raw;
             
         }
+
         /// <summary>RC channel 1 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 1 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.")]
+        //[FieldOffset(0)]
         public  ushort chan1_raw;
-            /// <summary>RC channel 2 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 2 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 2 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.")]
+        //[FieldOffset(2)]
         public  ushort chan2_raw;
-            /// <summary>RC channel 3 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 3 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 3 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.")]
+        //[FieldOffset(4)]
         public  ushort chan3_raw;
-            /// <summary>RC channel 4 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 4 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 4 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.")]
+        //[FieldOffset(6)]
         public  ushort chan4_raw;
-            /// <summary>RC channel 5 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 5 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 5 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.")]
+        //[FieldOffset(8)]
         public  ushort chan5_raw;
-            /// <summary>RC channel 6 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 6 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 6 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.")]
+        //[FieldOffset(10)]
         public  ushort chan6_raw;
-            /// <summary>RC channel 7 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 7 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 7 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.")]
+        //[FieldOffset(12)]
         public  ushort chan7_raw;
-            /// <summary>RC channel 8 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 8 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 8 value. A value of UINT16_MAX means to ignore this field. A value of 0 means to release this channel back to the RC radio.")]
+        //[FieldOffset(14)]
         public  ushort chan8_raw;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(16)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(17)]
         public  byte target_component;
-            /// <summary>RC channel 9 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 9 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 9 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(18)]
         public  ushort chan9_raw;
-            /// <summary>RC channel 10 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 10 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 10 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(20)]
         public  ushort chan10_raw;
-            /// <summary>RC channel 11 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 11 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 11 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(22)]
         public  ushort chan11_raw;
-            /// <summary>RC channel 12 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 12 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 12 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(24)]
         public  ushort chan12_raw;
-            /// <summary>RC channel 13 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 13 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 13 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(26)]
         public  ushort chan13_raw;
-            /// <summary>RC channel 14 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 14 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 14 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(28)]
         public  ushort chan14_raw;
-            /// <summary>RC channel 15 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 15 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 15 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(30)]
         public  ushort chan15_raw;
-            /// <summary>RC channel 16 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 16 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 16 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(32)]
         public  ushort chan16_raw;
-            /// <summary>RC channel 17 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 17 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 17 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(34)]
         public  ushort chan17_raw;
-            /// <summary>RC channel 18 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
+
+        /// <summary>RC channel 18 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 18 value. A value of 0 or UINT16_MAX means to ignore this field. A value of UINT16_MAX-1 means to release this channel back to the RC radio.")]
+        //[FieldOffset(36)]
         public  ushort chan18_raw;
-    
     };
 
     
@@ -10880,84 +12274,113 @@ public partial class MAVLink
     {
         public mavlink_mission_item_int_t(float param1,float param2,float param3,float param4,int x,int y,float z,ushort seq,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue,/*MAV_MISSION_TYPE*/byte mission_type) 
         {
-              this.param1 = param1;
-              this.param2 = param2;
-              this.param3 = param3;
-              this.param4 = param4;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.seq = seq;
-              this.command = command;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.frame = frame;
-              this.current = current;
-              this.autocontinue = autocontinue;
-              this.mission_type = mission_type;
+            this.param1 = param1;
+            this.param2 = param2;
+            this.param3 = param3;
+            this.param4 = param4;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.seq = seq;
+            this.command = command;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.frame = frame;
+            this.current = current;
+            this.autocontinue = autocontinue;
+            this.mission_type = mission_type;
             
         }
+
         /// <summary>PARAM1, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM1, see MAV_CMD enum")]
+        //[FieldOffset(0)]
         public  float param1;
-            /// <summary>PARAM2, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM2, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM2, see MAV_CMD enum")]
+        //[FieldOffset(4)]
         public  float param2;
-            /// <summary>PARAM3, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM3, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM3, see MAV_CMD enum")]
+        //[FieldOffset(8)]
         public  float param3;
-            /// <summary>PARAM4, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM4, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM4, see MAV_CMD enum")]
+        //[FieldOffset(12)]
         public  float param4;
-            /// <summary>PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7   </summary>
+
+        /// <summary>PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7   </summary>
         [Units("")]
         [Description("PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7")]
+        //[FieldOffset(16)]
         public  int x;
-            /// <summary>PARAM6 / y position: local: x position in meters * 1e4, global: longitude in degrees *10^7   </summary>
+
+        /// <summary>PARAM6 / y position: local: x position in meters * 1e4, global: longitude in degrees *10^7   </summary>
         [Units("")]
         [Description("PARAM6 / y position: local: x position in meters * 1e4, global: longitude in degrees *10^7")]
+        //[FieldOffset(20)]
         public  int y;
-            /// <summary>PARAM7 / z position: global: altitude in meters (relative or absolute, depending on frame.   </summary>
+
+        /// <summary>PARAM7 / z position: global: altitude in meters (relative or absolute, depending on frame.   </summary>
         [Units("")]
         [Description("PARAM7 / z position: global: altitude in meters (relative or absolute, depending on frame.")]
+        //[FieldOffset(24)]
         public  float z;
-            /// <summary>Waypoint ID (sequence number). Starts at zero. Increases monotonically for each waypoint, no gaps in the sequence (0,1,2,3,4).   </summary>
+
+        /// <summary>Waypoint ID (sequence number). Starts at zero. Increases monotonically for each waypoint, no gaps in the sequence (0,1,2,3,4).   </summary>
         [Units("")]
         [Description("Waypoint ID (sequence number). Starts at zero. Increases monotonically for each waypoint, no gaps in the sequence (0,1,2,3,4).")]
+        //[FieldOffset(28)]
         public  ushort seq;
-            /// <summary>The scheduled action for the waypoint. MAV_CMD  </summary>
+
+        /// <summary>The scheduled action for the waypoint. MAV_CMD  </summary>
         [Units("")]
         [Description("The scheduled action for the waypoint.")]
+        //[FieldOffset(30)]
         public  /*MAV_CMD*/ushort command;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(32)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(33)]
         public  byte target_component;
-            /// <summary>The coordinate system of the waypoint. MAV_FRAME  </summary>
+
+        /// <summary>The coordinate system of the waypoint. MAV_FRAME  </summary>
         [Units("")]
         [Description("The coordinate system of the waypoint.")]
+        //[FieldOffset(34)]
         public  /*MAV_FRAME*/byte frame;
-            /// <summary>false:0, true:1   </summary>
+
+        /// <summary>false:0, true:1   </summary>
         [Units("")]
         [Description("false:0, true:1")]
+        //[FieldOffset(35)]
         public  byte current;
-            /// <summary>Autocontinue to next waypoint   </summary>
+
+        /// <summary>Autocontinue to next waypoint   </summary>
         [Units("")]
         [Description("Autocontinue to next waypoint")]
+        //[FieldOffset(36)]
         public  byte autocontinue;
-            /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
+
+        /// <summary>Mission type. MAV_MISSION_TYPE  </summary>
         [Units("")]
         [Description("Mission type.")]
+        //[FieldOffset(37)]
         public  /*MAV_MISSION_TYPE*/byte mission_type;
-    
     };
 
     
@@ -10968,39 +12391,50 @@ public partial class MAVLink
     {
         public mavlink_vfr_hud_t(float airspeed,float groundspeed,float alt,float climb,short heading,ushort throttle) 
         {
-              this.airspeed = airspeed;
-              this.groundspeed = groundspeed;
-              this.alt = alt;
-              this.climb = climb;
-              this.heading = heading;
-              this.throttle = throttle;
+            this.airspeed = airspeed;
+            this.groundspeed = groundspeed;
+            this.alt = alt;
+            this.climb = climb;
+            this.heading = heading;
+            this.throttle = throttle;
             
         }
+
         /// <summary>Vehicle speed in form appropriate for vehicle type. For standard aircraft this is typically calibrated airspeed (CAS) or indicated airspeed (IAS) - either of which can be used by a pilot to estimate stall speed.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Vehicle speed in form appropriate for vehicle type. For standard aircraft this is typically calibrated airspeed (CAS) or indicated airspeed (IAS) - either of which can be used by a pilot to estimate stall speed.")]
+        //[FieldOffset(0)]
         public  float airspeed;
-            /// <summary>Current ground speed.  [m/s] </summary>
+
+        /// <summary>Current ground speed.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Current ground speed.")]
+        //[FieldOffset(4)]
         public  float groundspeed;
-            /// <summary>Current altitude (MSL).  [m] </summary>
+
+        /// <summary>Current altitude (MSL).  [m] </summary>
         [Units("[m]")]
         [Description("Current altitude (MSL).")]
+        //[FieldOffset(8)]
         public  float alt;
-            /// <summary>Current climb rate.  [m/s] </summary>
+
+        /// <summary>Current climb rate.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Current climb rate.")]
+        //[FieldOffset(12)]
         public  float climb;
-            /// <summary>Current heading in compass units (0-360, 0=north).  [deg] </summary>
+
+        /// <summary>Current heading in compass units (0-360, 0=north).  [deg] </summary>
         [Units("[deg]")]
         [Description("Current heading in compass units (0-360, 0=north).")]
+        //[FieldOffset(16)]
         public  short heading;
-            /// <summary>Current throttle setting (0 to 100).  [%] </summary>
+
+        /// <summary>Current throttle setting (0 to 100).  [%] </summary>
         [Units("[%]")]
         [Description("Current throttle setting (0 to 100).")]
+        //[FieldOffset(18)]
         public  ushort throttle;
-    
     };
 
     
@@ -11011,74 +12445,99 @@ public partial class MAVLink
     {
         public mavlink_command_int_t(float param1,float param2,float param3,float param4,int x,int y,float z,/*MAV_CMD*/ushort command,byte target_system,byte target_component,/*MAV_FRAME*/byte frame,byte current,byte autocontinue) 
         {
-              this.param1 = param1;
-              this.param2 = param2;
-              this.param3 = param3;
-              this.param4 = param4;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.command = command;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.frame = frame;
-              this.current = current;
-              this.autocontinue = autocontinue;
+            this.param1 = param1;
+            this.param2 = param2;
+            this.param3 = param3;
+            this.param4 = param4;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.command = command;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.frame = frame;
+            this.current = current;
+            this.autocontinue = autocontinue;
             
         }
+
         /// <summary>PARAM1, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM1, see MAV_CMD enum")]
+        //[FieldOffset(0)]
         public  float param1;
-            /// <summary>PARAM2, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM2, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM2, see MAV_CMD enum")]
+        //[FieldOffset(4)]
         public  float param2;
-            /// <summary>PARAM3, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM3, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM3, see MAV_CMD enum")]
+        //[FieldOffset(8)]
         public  float param3;
-            /// <summary>PARAM4, see MAV_CMD enum   </summary>
+
+        /// <summary>PARAM4, see MAV_CMD enum   </summary>
         [Units("")]
         [Description("PARAM4, see MAV_CMD enum")]
+        //[FieldOffset(12)]
         public  float param4;
-            /// <summary>PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7   </summary>
+
+        /// <summary>PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7   </summary>
         [Units("")]
         [Description("PARAM5 / local: x position in meters * 1e4, global: latitude in degrees * 10^7")]
+        //[FieldOffset(16)]
         public  int x;
-            /// <summary>PARAM6 / local: y position in meters * 1e4, global: longitude in degrees * 10^7   </summary>
+
+        /// <summary>PARAM6 / local: y position in meters * 1e4, global: longitude in degrees * 10^7   </summary>
         [Units("")]
         [Description("PARAM6 / local: y position in meters * 1e4, global: longitude in degrees * 10^7")]
+        //[FieldOffset(20)]
         public  int y;
-            /// <summary>PARAM7 / z position: global: altitude in meters (relative or absolute, depending on frame).   </summary>
+
+        /// <summary>PARAM7 / z position: global: altitude in meters (relative or absolute, depending on frame).   </summary>
         [Units("")]
         [Description("PARAM7 / z position: global: altitude in meters (relative or absolute, depending on frame).")]
+        //[FieldOffset(24)]
         public  float z;
-            /// <summary>The scheduled action for the mission item. MAV_CMD  </summary>
+
+        /// <summary>The scheduled action for the mission item. MAV_CMD  </summary>
         [Units("")]
         [Description("The scheduled action for the mission item.")]
+        //[FieldOffset(28)]
         public  /*MAV_CMD*/ushort command;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(30)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(31)]
         public  byte target_component;
-            /// <summary>The coordinate system of the COMMAND. MAV_FRAME  </summary>
+
+        /// <summary>The coordinate system of the COMMAND. MAV_FRAME  </summary>
         [Units("")]
         [Description("The coordinate system of the COMMAND.")]
+        //[FieldOffset(32)]
         public  /*MAV_FRAME*/byte frame;
-            /// <summary>Not used.   </summary>
+
+        /// <summary>Not used.   </summary>
         [Units("")]
         [Description("Not used.")]
+        //[FieldOffset(33)]
         public  byte current;
-            /// <summary>Not used (set 0).   </summary>
+
+        /// <summary>Not used (set 0).   </summary>
         [Units("")]
         [Description("Not used (set 0).")]
+        //[FieldOffset(34)]
         public  byte autocontinue;
-    
     };
 
     
@@ -11089,64 +12548,85 @@ public partial class MAVLink
     {
         public mavlink_command_long_t(float param1,float param2,float param3,float param4,float param5,float param6,float param7,/*MAV_CMD*/ushort command,byte target_system,byte target_component,byte confirmation) 
         {
-              this.param1 = param1;
-              this.param2 = param2;
-              this.param3 = param3;
-              this.param4 = param4;
-              this.param5 = param5;
-              this.param6 = param6;
-              this.param7 = param7;
-              this.command = command;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.confirmation = confirmation;
+            this.param1 = param1;
+            this.param2 = param2;
+            this.param3 = param3;
+            this.param4 = param4;
+            this.param5 = param5;
+            this.param6 = param6;
+            this.param7 = param7;
+            this.command = command;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.confirmation = confirmation;
             
         }
+
         /// <summary>Parameter 1 (for the specific command).   </summary>
         [Units("")]
         [Description("Parameter 1 (for the specific command).")]
+        //[FieldOffset(0)]
         public  float param1;
-            /// <summary>Parameter 2 (for the specific command).   </summary>
+
+        /// <summary>Parameter 2 (for the specific command).   </summary>
         [Units("")]
         [Description("Parameter 2 (for the specific command).")]
+        //[FieldOffset(4)]
         public  float param2;
-            /// <summary>Parameter 3 (for the specific command).   </summary>
+
+        /// <summary>Parameter 3 (for the specific command).   </summary>
         [Units("")]
         [Description("Parameter 3 (for the specific command).")]
+        //[FieldOffset(8)]
         public  float param3;
-            /// <summary>Parameter 4 (for the specific command).   </summary>
+
+        /// <summary>Parameter 4 (for the specific command).   </summary>
         [Units("")]
         [Description("Parameter 4 (for the specific command).")]
+        //[FieldOffset(12)]
         public  float param4;
-            /// <summary>Parameter 5 (for the specific command).   </summary>
+
+        /// <summary>Parameter 5 (for the specific command).   </summary>
         [Units("")]
         [Description("Parameter 5 (for the specific command).")]
+        //[FieldOffset(16)]
         public  float param5;
-            /// <summary>Parameter 6 (for the specific command).   </summary>
+
+        /// <summary>Parameter 6 (for the specific command).   </summary>
         [Units("")]
         [Description("Parameter 6 (for the specific command).")]
+        //[FieldOffset(20)]
         public  float param6;
-            /// <summary>Parameter 7 (for the specific command).   </summary>
+
+        /// <summary>Parameter 7 (for the specific command).   </summary>
         [Units("")]
         [Description("Parameter 7 (for the specific command).")]
+        //[FieldOffset(24)]
         public  float param7;
-            /// <summary>Command ID (of command to send). MAV_CMD  </summary>
+
+        /// <summary>Command ID (of command to send). MAV_CMD  </summary>
         [Units("")]
         [Description("Command ID (of command to send).")]
+        //[FieldOffset(28)]
         public  /*MAV_CMD*/ushort command;
-            /// <summary>System which should execute the command   </summary>
+
+        /// <summary>System which should execute the command   </summary>
         [Units("")]
         [Description("System which should execute the command")]
+        //[FieldOffset(30)]
         public  byte target_system;
-            /// <summary>Component which should execute the command, 0 for all components   </summary>
+
+        /// <summary>Component which should execute the command, 0 for all components   </summary>
         [Units("")]
         [Description("Component which should execute the command, 0 for all components")]
+        //[FieldOffset(31)]
         public  byte target_component;
-            /// <summary>0: First transmission of this command. 1-255: Confirmation transmissions (e.g. for kill command)   </summary>
+
+        /// <summary>0: First transmission of this command. 1-255: Confirmation transmissions (e.g. for kill command)   </summary>
         [Units("")]
         [Description("0: First transmission of this command. 1-255: Confirmation transmissions (e.g. for kill command)")]
+        //[FieldOffset(32)]
         public  byte confirmation;
-    
     };
 
     
@@ -11157,19 +12637,22 @@ public partial class MAVLink
     {
         public mavlink_command_ack_t(/*MAV_CMD*/ushort command,/*MAV_RESULT*/byte result) 
         {
-              this.command = command;
-              this.result = result;
+            this.command = command;
+            this.result = result;
             
         }
+
         /// <summary>Command ID (of acknowledged command). MAV_CMD  </summary>
         [Units("")]
         [Description("Command ID (of acknowledged command).")]
+        //[FieldOffset(0)]
         public  /*MAV_CMD*/ushort command;
-            /// <summary>Result of command. MAV_RESULT  </summary>
+
+        /// <summary>Result of command. MAV_RESULT  </summary>
         [Units("")]
         [Description("Result of command.")]
+        //[FieldOffset(2)]
         public  /*MAV_RESULT*/byte result;
-    
     };
 
     
@@ -11180,44 +12663,57 @@ public partial class MAVLink
     {
         public mavlink_manual_setpoint_t(uint time_boot_ms,float roll,float pitch,float yaw,float thrust,byte mode_switch,byte manual_override_switch) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.thrust = thrust;
-              this.mode_switch = mode_switch;
-              this.manual_override_switch = manual_override_switch;
+            this.time_boot_ms = time_boot_ms;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.thrust = thrust;
+            this.mode_switch = mode_switch;
+            this.manual_override_switch = manual_override_switch;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Desired roll rate  [rad/s] </summary>
+
+        /// <summary>Desired roll rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Desired roll rate")]
+        //[FieldOffset(4)]
         public  float roll;
-            /// <summary>Desired pitch rate  [rad/s] </summary>
+
+        /// <summary>Desired pitch rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Desired pitch rate")]
+        //[FieldOffset(8)]
         public  float pitch;
-            /// <summary>Desired yaw rate  [rad/s] </summary>
+
+        /// <summary>Desired yaw rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Desired yaw rate")]
+        //[FieldOffset(12)]
         public  float yaw;
-            /// <summary>Collective thrust, normalized to 0 .. 1   </summary>
+
+        /// <summary>Collective thrust, normalized to 0 .. 1   </summary>
         [Units("")]
         [Description("Collective thrust, normalized to 0 .. 1")]
+        //[FieldOffset(16)]
         public  float thrust;
-            /// <summary>Flight mode switch position, 0.. 255   </summary>
+
+        /// <summary>Flight mode switch position, 0.. 255   </summary>
         [Units("")]
         [Description("Flight mode switch position, 0.. 255")]
+        //[FieldOffset(20)]
         public  byte mode_switch;
-            /// <summary>Override mode switch position, 0.. 255   </summary>
+
+        /// <summary>Override mode switch position, 0.. 255   </summary>
         [Units("")]
         [Description("Override mode switch position, 0.. 255")]
+        //[FieldOffset(21)]
         public  byte manual_override_switch;
-    
     };
 
     
@@ -11228,55 +12724,72 @@ public partial class MAVLink
     {
         public mavlink_set_attitude_target_t(uint time_boot_ms,float[] q,float body_roll_rate,float body_pitch_rate,float body_yaw_rate,float thrust,byte target_system,byte target_component,/*ATTITUDE_TARGET_TYPEMASK*/byte type_mask) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.q = q;
-              this.body_roll_rate = body_roll_rate;
-              this.body_pitch_rate = body_pitch_rate;
-              this.body_yaw_rate = body_yaw_rate;
-              this.thrust = thrust;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.type_mask = type_mask;
+            this.time_boot_ms = time_boot_ms;
+            this.q = q;
+            this.body_roll_rate = body_roll_rate;
+            this.body_pitch_rate = body_pitch_rate;
+            this.body_yaw_rate = body_yaw_rate;
+            this.thrust = thrust;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.type_mask = type_mask;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
+
+        /// <summary>Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
         [Units("")]
         [Description("Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)")]
+        //[FieldOffset(4)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>Body roll rate  [rad/s] </summary>
+
+        /// <summary>Body roll rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body roll rate")]
+        //[FieldOffset(20)]
         public  float body_roll_rate;
-            /// <summary>Body pitch rate  [rad/s] </summary>
+
+        /// <summary>Body pitch rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body pitch rate")]
+        //[FieldOffset(24)]
         public  float body_pitch_rate;
-            /// <summary>Body yaw rate  [rad/s] </summary>
+
+        /// <summary>Body yaw rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body yaw rate")]
+        //[FieldOffset(28)]
         public  float body_yaw_rate;
-            /// <summary>Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust)   </summary>
+
+        /// <summary>Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust)   </summary>
         [Units("")]
         [Description("Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust)")]
+        //[FieldOffset(32)]
         public  float thrust;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(36)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(37)]
         public  byte target_component;
-            /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. ATTITUDE_TARGET_TYPEMASK  bitmask</summary>
+
+        /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. ATTITUDE_TARGET_TYPEMASK  bitmask</summary>
         [Units("")]
         [Description("Bitmap to indicate which dimensions should be ignored by the vehicle.")]
+        //[FieldOffset(38)]
         public  /*ATTITUDE_TARGET_TYPEMASK*/byte type_mask;
-    
     };
 
     
@@ -11287,45 +12800,58 @@ public partial class MAVLink
     {
         public mavlink_attitude_target_t(uint time_boot_ms,float[] q,float body_roll_rate,float body_pitch_rate,float body_yaw_rate,float thrust,/*ATTITUDE_TARGET_TYPEMASK*/byte type_mask) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.q = q;
-              this.body_roll_rate = body_roll_rate;
-              this.body_pitch_rate = body_pitch_rate;
-              this.body_yaw_rate = body_yaw_rate;
-              this.thrust = thrust;
-              this.type_mask = type_mask;
+            this.time_boot_ms = time_boot_ms;
+            this.q = q;
+            this.body_roll_rate = body_roll_rate;
+            this.body_pitch_rate = body_pitch_rate;
+            this.body_yaw_rate = body_yaw_rate;
+            this.thrust = thrust;
+            this.type_mask = type_mask;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
+
+        /// <summary>Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
         [Units("")]
         [Description("Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)")]
+        //[FieldOffset(4)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>Body roll rate  [rad/s] </summary>
+
+        /// <summary>Body roll rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body roll rate")]
+        //[FieldOffset(20)]
         public  float body_roll_rate;
-            /// <summary>Body pitch rate  [rad/s] </summary>
+
+        /// <summary>Body pitch rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body pitch rate")]
+        //[FieldOffset(24)]
         public  float body_pitch_rate;
-            /// <summary>Body yaw rate  [rad/s] </summary>
+
+        /// <summary>Body yaw rate  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body yaw rate")]
+        //[FieldOffset(28)]
         public  float body_yaw_rate;
-            /// <summary>Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust)   </summary>
+
+        /// <summary>Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust)   </summary>
         [Units("")]
         [Description("Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust)")]
+        //[FieldOffset(32)]
         public  float thrust;
-            /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. ATTITUDE_TARGET_TYPEMASK  bitmask</summary>
+
+        /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. ATTITUDE_TARGET_TYPEMASK  bitmask</summary>
         [Units("")]
         [Description("Bitmap to indicate which dimensions should be ignored by the vehicle.")]
+        //[FieldOffset(36)]
         public  /*ATTITUDE_TARGET_TYPEMASK*/byte type_mask;
-    
     };
 
     
@@ -11336,89 +12862,120 @@ public partial class MAVLink
     {
         public mavlink_set_position_target_local_ned_t(uint time_boot_ms,float x,float y,float z,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,byte target_system,byte target_component,/*MAV_FRAME*/byte coordinate_frame) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.afx = afx;
-              this.afy = afy;
-              this.afz = afz;
-              this.yaw = yaw;
-              this.yaw_rate = yaw_rate;
-              this.type_mask = type_mask;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.coordinate_frame = coordinate_frame;
+            this.time_boot_ms = time_boot_ms;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.afx = afx;
+            this.afy = afy;
+            this.afz = afz;
+            this.yaw = yaw;
+            this.yaw_rate = yaw_rate;
+            this.type_mask = type_mask;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.coordinate_frame = coordinate_frame;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X Position in NED frame  [m] </summary>
+
+        /// <summary>X Position in NED frame  [m] </summary>
         [Units("[m]")]
         [Description("X Position in NED frame")]
+        //[FieldOffset(4)]
         public  float x;
-            /// <summary>Y Position in NED frame  [m] </summary>
+
+        /// <summary>Y Position in NED frame  [m] </summary>
         [Units("[m]")]
         [Description("Y Position in NED frame")]
+        //[FieldOffset(8)]
         public  float y;
-            /// <summary>Z Position in NED frame (note, altitude is negative in NED)  [m] </summary>
+
+        /// <summary>Z Position in NED frame (note, altitude is negative in NED)  [m] </summary>
         [Units("[m]")]
         [Description("Z Position in NED frame (note, altitude is negative in NED)")]
+        //[FieldOffset(12)]
         public  float z;
-            /// <summary>X velocity in NED frame  [m/s] </summary>
+
+        /// <summary>X velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("X velocity in NED frame")]
+        //[FieldOffset(16)]
         public  float vx;
-            /// <summary>Y velocity in NED frame  [m/s] </summary>
+
+        /// <summary>Y velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Y velocity in NED frame")]
+        //[FieldOffset(20)]
         public  float vy;
-            /// <summary>Z velocity in NED frame  [m/s] </summary>
+
+        /// <summary>Z velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Z velocity in NED frame")]
+        //[FieldOffset(24)]
         public  float vz;
-            /// <summary>X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(28)]
         public  float afx;
-            /// <summary>Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(32)]
         public  float afy;
-            /// <summary>Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(36)]
         public  float afz;
-            /// <summary>yaw setpoint  [rad] </summary>
+
+        /// <summary>yaw setpoint  [rad] </summary>
         [Units("[rad]")]
         [Description("yaw setpoint")]
+        //[FieldOffset(40)]
         public  float yaw;
-            /// <summary>yaw rate setpoint  [rad/s] </summary>
+
+        /// <summary>yaw rate setpoint  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("yaw rate setpoint")]
+        //[FieldOffset(44)]
         public  float yaw_rate;
-            /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. POSITION_TARGET_TYPEMASK  bitmask</summary>
+
+        /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. POSITION_TARGET_TYPEMASK  bitmask</summary>
         [Units("")]
         [Description("Bitmap to indicate which dimensions should be ignored by the vehicle.")]
+        //[FieldOffset(48)]
         public  /*POSITION_TARGET_TYPEMASK*/ushort type_mask;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(50)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(51)]
         public  byte target_component;
-            /// <summary>Valid options are: MAV_FRAME_LOCAL_NED = 1, MAV_FRAME_LOCAL_OFFSET_NED = 7, MAV_FRAME_BODY_NED = 8, MAV_FRAME_BODY_OFFSET_NED = 9 MAV_FRAME  </summary>
+
+        /// <summary>Valid options are: MAV_FRAME_LOCAL_NED = 1, MAV_FRAME_LOCAL_OFFSET_NED = 7, MAV_FRAME_BODY_NED = 8, MAV_FRAME_BODY_OFFSET_NED = 9 MAV_FRAME  </summary>
         [Units("")]
         [Description("Valid options are: MAV_FRAME_LOCAL_NED = 1, MAV_FRAME_LOCAL_OFFSET_NED = 7, MAV_FRAME_BODY_NED = 8, MAV_FRAME_BODY_OFFSET_NED = 9")]
+        //[FieldOffset(52)]
         public  /*MAV_FRAME*/byte coordinate_frame;
-    
     };
 
     
@@ -11429,79 +12986,106 @@ public partial class MAVLink
     {
         public mavlink_position_target_local_ned_t(uint time_boot_ms,float x,float y,float z,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,/*MAV_FRAME*/byte coordinate_frame) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.afx = afx;
-              this.afy = afy;
-              this.afz = afz;
-              this.yaw = yaw;
-              this.yaw_rate = yaw_rate;
-              this.type_mask = type_mask;
-              this.coordinate_frame = coordinate_frame;
+            this.time_boot_ms = time_boot_ms;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.afx = afx;
+            this.afy = afy;
+            this.afz = afz;
+            this.yaw = yaw;
+            this.yaw_rate = yaw_rate;
+            this.type_mask = type_mask;
+            this.coordinate_frame = coordinate_frame;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X Position in NED frame  [m] </summary>
+
+        /// <summary>X Position in NED frame  [m] </summary>
         [Units("[m]")]
         [Description("X Position in NED frame")]
+        //[FieldOffset(4)]
         public  float x;
-            /// <summary>Y Position in NED frame  [m] </summary>
+
+        /// <summary>Y Position in NED frame  [m] </summary>
         [Units("[m]")]
         [Description("Y Position in NED frame")]
+        //[FieldOffset(8)]
         public  float y;
-            /// <summary>Z Position in NED frame (note, altitude is negative in NED)  [m] </summary>
+
+        /// <summary>Z Position in NED frame (note, altitude is negative in NED)  [m] </summary>
         [Units("[m]")]
         [Description("Z Position in NED frame (note, altitude is negative in NED)")]
+        //[FieldOffset(12)]
         public  float z;
-            /// <summary>X velocity in NED frame  [m/s] </summary>
+
+        /// <summary>X velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("X velocity in NED frame")]
+        //[FieldOffset(16)]
         public  float vx;
-            /// <summary>Y velocity in NED frame  [m/s] </summary>
+
+        /// <summary>Y velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Y velocity in NED frame")]
+        //[FieldOffset(20)]
         public  float vy;
-            /// <summary>Z velocity in NED frame  [m/s] </summary>
+
+        /// <summary>Z velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Z velocity in NED frame")]
+        //[FieldOffset(24)]
         public  float vz;
-            /// <summary>X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(28)]
         public  float afx;
-            /// <summary>Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(32)]
         public  float afy;
-            /// <summary>Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(36)]
         public  float afz;
-            /// <summary>yaw setpoint  [rad] </summary>
+
+        /// <summary>yaw setpoint  [rad] </summary>
         [Units("[rad]")]
         [Description("yaw setpoint")]
+        //[FieldOffset(40)]
         public  float yaw;
-            /// <summary>yaw rate setpoint  [rad/s] </summary>
+
+        /// <summary>yaw rate setpoint  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("yaw rate setpoint")]
+        //[FieldOffset(44)]
         public  float yaw_rate;
-            /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. POSITION_TARGET_TYPEMASK  bitmask</summary>
+
+        /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. POSITION_TARGET_TYPEMASK  bitmask</summary>
         [Units("")]
         [Description("Bitmap to indicate which dimensions should be ignored by the vehicle.")]
+        //[FieldOffset(48)]
         public  /*POSITION_TARGET_TYPEMASK*/ushort type_mask;
-            /// <summary>Valid options are: MAV_FRAME_LOCAL_NED = 1, MAV_FRAME_LOCAL_OFFSET_NED = 7, MAV_FRAME_BODY_NED = 8, MAV_FRAME_BODY_OFFSET_NED = 9 MAV_FRAME  </summary>
+
+        /// <summary>Valid options are: MAV_FRAME_LOCAL_NED = 1, MAV_FRAME_LOCAL_OFFSET_NED = 7, MAV_FRAME_BODY_NED = 8, MAV_FRAME_BODY_OFFSET_NED = 9 MAV_FRAME  </summary>
         [Units("")]
         [Description("Valid options are: MAV_FRAME_LOCAL_NED = 1, MAV_FRAME_LOCAL_OFFSET_NED = 7, MAV_FRAME_BODY_NED = 8, MAV_FRAME_BODY_OFFSET_NED = 9")]
+        //[FieldOffset(50)]
         public  /*MAV_FRAME*/byte coordinate_frame;
-    
     };
 
     
@@ -11512,89 +13096,120 @@ public partial class MAVLink
     {
         public mavlink_set_position_target_global_int_t(uint time_boot_ms,int lat_int,int lon_int,float alt,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,byte target_system,byte target_component,/*MAV_FRAME*/byte coordinate_frame) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.lat_int = lat_int;
-              this.lon_int = lon_int;
-              this.alt = alt;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.afx = afx;
-              this.afy = afy;
-              this.afz = afz;
-              this.yaw = yaw;
-              this.yaw_rate = yaw_rate;
-              this.type_mask = type_mask;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.coordinate_frame = coordinate_frame;
+            this.time_boot_ms = time_boot_ms;
+            this.lat_int = lat_int;
+            this.lon_int = lon_int;
+            this.alt = alt;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.afx = afx;
+            this.afy = afy;
+            this.afz = afz;
+            this.yaw = yaw;
+            this.yaw_rate = yaw_rate;
+            this.type_mask = type_mask;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.coordinate_frame = coordinate_frame;
             
         }
+
         /// <summary>Timestamp (time since system boot). The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot). The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X Position in WGS84 frame  [degE7] </summary>
+
+        /// <summary>X Position in WGS84 frame  [degE7] </summary>
         [Units("[degE7]")]
         [Description("X Position in WGS84 frame")]
+        //[FieldOffset(4)]
         public  int lat_int;
-            /// <summary>Y Position in WGS84 frame  [degE7] </summary>
+
+        /// <summary>Y Position in WGS84 frame  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Y Position in WGS84 frame")]
+        //[FieldOffset(8)]
         public  int lon_int;
-            /// <summary>Altitude (MSL, Relative to home, or AGL - depending on frame)  [m] </summary>
+
+        /// <summary>Altitude (MSL, Relative to home, or AGL - depending on frame)  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL, Relative to home, or AGL - depending on frame)")]
+        //[FieldOffset(12)]
         public  float alt;
-            /// <summary>X velocity in NED frame  [m/s] </summary>
+
+        /// <summary>X velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("X velocity in NED frame")]
+        //[FieldOffset(16)]
         public  float vx;
-            /// <summary>Y velocity in NED frame  [m/s] </summary>
+
+        /// <summary>Y velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Y velocity in NED frame")]
+        //[FieldOffset(20)]
         public  float vy;
-            /// <summary>Z velocity in NED frame  [m/s] </summary>
+
+        /// <summary>Z velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Z velocity in NED frame")]
+        //[FieldOffset(24)]
         public  float vz;
-            /// <summary>X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(28)]
         public  float afx;
-            /// <summary>Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(32)]
         public  float afy;
-            /// <summary>Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(36)]
         public  float afz;
-            /// <summary>yaw setpoint  [rad] </summary>
+
+        /// <summary>yaw setpoint  [rad] </summary>
         [Units("[rad]")]
         [Description("yaw setpoint")]
+        //[FieldOffset(40)]
         public  float yaw;
-            /// <summary>yaw rate setpoint  [rad/s] </summary>
+
+        /// <summary>yaw rate setpoint  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("yaw rate setpoint")]
+        //[FieldOffset(44)]
         public  float yaw_rate;
-            /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. POSITION_TARGET_TYPEMASK  bitmask</summary>
+
+        /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. POSITION_TARGET_TYPEMASK  bitmask</summary>
         [Units("")]
         [Description("Bitmap to indicate which dimensions should be ignored by the vehicle.")]
+        //[FieldOffset(48)]
         public  /*POSITION_TARGET_TYPEMASK*/ushort type_mask;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(50)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(51)]
         public  byte target_component;
-            /// <summary>Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11 MAV_FRAME  </summary>
+
+        /// <summary>Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11 MAV_FRAME  </summary>
         [Units("")]
         [Description("Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11")]
+        //[FieldOffset(52)]
         public  /*MAV_FRAME*/byte coordinate_frame;
-    
     };
 
     
@@ -11605,79 +13220,106 @@ public partial class MAVLink
     {
         public mavlink_position_target_global_int_t(uint time_boot_ms,int lat_int,int lon_int,float alt,float vx,float vy,float vz,float afx,float afy,float afz,float yaw,float yaw_rate,/*POSITION_TARGET_TYPEMASK*/ushort type_mask,/*MAV_FRAME*/byte coordinate_frame) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.lat_int = lat_int;
-              this.lon_int = lon_int;
-              this.alt = alt;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.afx = afx;
-              this.afy = afy;
-              this.afz = afz;
-              this.yaw = yaw;
-              this.yaw_rate = yaw_rate;
-              this.type_mask = type_mask;
-              this.coordinate_frame = coordinate_frame;
+            this.time_boot_ms = time_boot_ms;
+            this.lat_int = lat_int;
+            this.lon_int = lon_int;
+            this.alt = alt;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.afx = afx;
+            this.afy = afy;
+            this.afz = afz;
+            this.yaw = yaw;
+            this.yaw_rate = yaw_rate;
+            this.type_mask = type_mask;
+            this.coordinate_frame = coordinate_frame;
             
         }
+
         /// <summary>Timestamp (time since system boot). The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot). The rationale for the timestamp in the setpoint is to allow the system to compensate for the transport delay of the setpoint. This allows the system to compensate processing latency.")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X Position in WGS84 frame  [degE7] </summary>
+
+        /// <summary>X Position in WGS84 frame  [degE7] </summary>
         [Units("[degE7]")]
         [Description("X Position in WGS84 frame")]
+        //[FieldOffset(4)]
         public  int lat_int;
-            /// <summary>Y Position in WGS84 frame  [degE7] </summary>
+
+        /// <summary>Y Position in WGS84 frame  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Y Position in WGS84 frame")]
+        //[FieldOffset(8)]
         public  int lon_int;
-            /// <summary>Altitude (MSL, AGL or relative to home altitude, depending on frame)  [m] </summary>
+
+        /// <summary>Altitude (MSL, AGL or relative to home altitude, depending on frame)  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL, AGL or relative to home altitude, depending on frame)")]
+        //[FieldOffset(12)]
         public  float alt;
-            /// <summary>X velocity in NED frame  [m/s] </summary>
+
+        /// <summary>X velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("X velocity in NED frame")]
+        //[FieldOffset(16)]
         public  float vx;
-            /// <summary>Y velocity in NED frame  [m/s] </summary>
+
+        /// <summary>Y velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Y velocity in NED frame")]
+        //[FieldOffset(20)]
         public  float vy;
-            /// <summary>Z velocity in NED frame  [m/s] </summary>
+
+        /// <summary>Z velocity in NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Z velocity in NED frame")]
+        //[FieldOffset(24)]
         public  float vz;
-            /// <summary>X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(28)]
         public  float afx;
-            /// <summary>Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(32)]
         public  float afy;
-            /// <summary>Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
+
+        /// <summary>Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration or force (if bit 10 of type_mask is set) in NED frame in meter / s^2 or N")]
+        //[FieldOffset(36)]
         public  float afz;
-            /// <summary>yaw setpoint  [rad] </summary>
+
+        /// <summary>yaw setpoint  [rad] </summary>
         [Units("[rad]")]
         [Description("yaw setpoint")]
+        //[FieldOffset(40)]
         public  float yaw;
-            /// <summary>yaw rate setpoint  [rad/s] </summary>
+
+        /// <summary>yaw rate setpoint  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("yaw rate setpoint")]
+        //[FieldOffset(44)]
         public  float yaw_rate;
-            /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. POSITION_TARGET_TYPEMASK  bitmask</summary>
+
+        /// <summary>Bitmap to indicate which dimensions should be ignored by the vehicle. POSITION_TARGET_TYPEMASK  bitmask</summary>
         [Units("")]
         [Description("Bitmap to indicate which dimensions should be ignored by the vehicle.")]
+        //[FieldOffset(48)]
         public  /*POSITION_TARGET_TYPEMASK*/ushort type_mask;
-            /// <summary>Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11 MAV_FRAME  </summary>
+
+        /// <summary>Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11 MAV_FRAME  </summary>
         [Units("")]
         [Description("Valid options are: MAV_FRAME_GLOBAL_INT = 5, MAV_FRAME_GLOBAL_RELATIVE_ALT_INT = 6, MAV_FRAME_GLOBAL_TERRAIN_ALT_INT = 11")]
+        //[FieldOffset(50)]
         public  /*MAV_FRAME*/byte coordinate_frame;
-    
     };
 
     
@@ -11688,44 +13330,57 @@ public partial class MAVLink
     {
         public mavlink_local_position_ned_system_global_offset_t(uint time_boot_ms,float x,float y,float z,float roll,float pitch,float yaw) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
+            this.time_boot_ms = time_boot_ms;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X Position  [m] </summary>
+
+        /// <summary>X Position  [m] </summary>
         [Units("[m]")]
         [Description("X Position")]
+        //[FieldOffset(4)]
         public  float x;
-            /// <summary>Y Position  [m] </summary>
+
+        /// <summary>Y Position  [m] </summary>
         [Units("[m]")]
         [Description("Y Position")]
+        //[FieldOffset(8)]
         public  float y;
-            /// <summary>Z Position  [m] </summary>
+
+        /// <summary>Z Position  [m] </summary>
         [Units("[m]")]
         [Description("Z Position")]
+        //[FieldOffset(12)]
         public  float z;
-            /// <summary>Roll  [rad] </summary>
+
+        /// <summary>Roll  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll")]
+        //[FieldOffset(16)]
         public  float roll;
-            /// <summary>Pitch  [rad] </summary>
+
+        /// <summary>Pitch  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch")]
+        //[FieldOffset(20)]
         public  float pitch;
-            /// <summary>Yaw  [rad] </summary>
+
+        /// <summary>Yaw  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw")]
+        //[FieldOffset(24)]
         public  float yaw;
-    
     };
 
     [Obsolete]
@@ -11736,89 +13391,120 @@ public partial class MAVLink
     {
         public mavlink_hil_state_t(ulong time_usec,float roll,float pitch,float yaw,float rollspeed,float pitchspeed,float yawspeed,int lat,int lon,int alt,short vx,short vy,short vz,short xacc,short yacc,short zacc) 
         {
-              this.time_usec = time_usec;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.rollspeed = rollspeed;
-              this.pitchspeed = pitchspeed;
-              this.yawspeed = yawspeed;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
+            this.time_usec = time_usec;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.rollspeed = rollspeed;
+            this.pitchspeed = pitchspeed;
+            this.yawspeed = yawspeed;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Roll angle  [rad] </summary>
+
+        /// <summary>Roll angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle")]
+        //[FieldOffset(8)]
         public  float roll;
-            /// <summary>Pitch angle  [rad] </summary>
+
+        /// <summary>Pitch angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle")]
+        //[FieldOffset(12)]
         public  float pitch;
-            /// <summary>Yaw angle  [rad] </summary>
+
+        /// <summary>Yaw angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle")]
+        //[FieldOffset(16)]
         public  float yaw;
-            /// <summary>Body frame roll / phi angular speed  [rad/s] </summary>
+
+        /// <summary>Body frame roll / phi angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body frame roll / phi angular speed")]
+        //[FieldOffset(20)]
         public  float rollspeed;
-            /// <summary>Body frame pitch / theta angular speed  [rad/s] </summary>
+
+        /// <summary>Body frame pitch / theta angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body frame pitch / theta angular speed")]
+        //[FieldOffset(24)]
         public  float pitchspeed;
-            /// <summary>Body frame yaw / psi angular speed  [rad/s] </summary>
+
+        /// <summary>Body frame yaw / psi angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body frame yaw / psi angular speed")]
+        //[FieldOffset(28)]
         public  float yawspeed;
-            /// <summary>Latitude  [degE7] </summary>
+
+        /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(32)]
         public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(36)]
         public  int lon;
-            /// <summary>Altitude  [mm] </summary>
+
+        /// <summary>Altitude  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude")]
+        //[FieldOffset(40)]
         public  int alt;
-            /// <summary>Ground X Speed (Latitude)  [cm/s] </summary>
+
+        /// <summary>Ground X Speed (Latitude)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground X Speed (Latitude)")]
+        //[FieldOffset(44)]
         public  short vx;
-            /// <summary>Ground Y Speed (Longitude)  [cm/s] </summary>
+
+        /// <summary>Ground Y Speed (Longitude)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground Y Speed (Longitude)")]
+        //[FieldOffset(46)]
         public  short vy;
-            /// <summary>Ground Z Speed (Altitude)  [cm/s] </summary>
+
+        /// <summary>Ground Z Speed (Altitude)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground Z Speed (Altitude)")]
+        //[FieldOffset(48)]
         public  short vz;
-            /// <summary>X acceleration  [mG] </summary>
+
+        /// <summary>X acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("X acceleration")]
+        //[FieldOffset(50)]
         public  short xacc;
-            /// <summary>Y acceleration  [mG] </summary>
+
+        /// <summary>Y acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Y acceleration")]
+        //[FieldOffset(52)]
         public  short yacc;
-            /// <summary>Z acceleration  [mG] </summary>
+
+        /// <summary>Z acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Z acceleration")]
+        //[FieldOffset(54)]
         public  short zacc;
-    
     };
 
     
@@ -11829,64 +13515,85 @@ public partial class MAVLink
     {
         public mavlink_hil_controls_t(ulong time_usec,float roll_ailerons,float pitch_elevator,float yaw_rudder,float throttle,float aux1,float aux2,float aux3,float aux4,/*MAV_MODE*/byte mode,byte nav_mode) 
         {
-              this.time_usec = time_usec;
-              this.roll_ailerons = roll_ailerons;
-              this.pitch_elevator = pitch_elevator;
-              this.yaw_rudder = yaw_rudder;
-              this.throttle = throttle;
-              this.aux1 = aux1;
-              this.aux2 = aux2;
-              this.aux3 = aux3;
-              this.aux4 = aux4;
-              this.mode = mode;
-              this.nav_mode = nav_mode;
+            this.time_usec = time_usec;
+            this.roll_ailerons = roll_ailerons;
+            this.pitch_elevator = pitch_elevator;
+            this.yaw_rudder = yaw_rudder;
+            this.throttle = throttle;
+            this.aux1 = aux1;
+            this.aux2 = aux2;
+            this.aux3 = aux3;
+            this.aux4 = aux4;
+            this.mode = mode;
+            this.nav_mode = nav_mode;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Control output -1 .. 1   </summary>
+
+        /// <summary>Control output -1 .. 1   </summary>
         [Units("")]
         [Description("Control output -1 .. 1")]
+        //[FieldOffset(8)]
         public  float roll_ailerons;
-            /// <summary>Control output -1 .. 1   </summary>
+
+        /// <summary>Control output -1 .. 1   </summary>
         [Units("")]
         [Description("Control output -1 .. 1")]
+        //[FieldOffset(12)]
         public  float pitch_elevator;
-            /// <summary>Control output -1 .. 1   </summary>
+
+        /// <summary>Control output -1 .. 1   </summary>
         [Units("")]
         [Description("Control output -1 .. 1")]
+        //[FieldOffset(16)]
         public  float yaw_rudder;
-            /// <summary>Throttle 0 .. 1   </summary>
+
+        /// <summary>Throttle 0 .. 1   </summary>
         [Units("")]
         [Description("Throttle 0 .. 1")]
+        //[FieldOffset(20)]
         public  float throttle;
-            /// <summary>Aux 1, -1 .. 1   </summary>
+
+        /// <summary>Aux 1, -1 .. 1   </summary>
         [Units("")]
         [Description("Aux 1, -1 .. 1")]
+        //[FieldOffset(24)]
         public  float aux1;
-            /// <summary>Aux 2, -1 .. 1   </summary>
+
+        /// <summary>Aux 2, -1 .. 1   </summary>
         [Units("")]
         [Description("Aux 2, -1 .. 1")]
+        //[FieldOffset(28)]
         public  float aux2;
-            /// <summary>Aux 3, -1 .. 1   </summary>
+
+        /// <summary>Aux 3, -1 .. 1   </summary>
         [Units("")]
         [Description("Aux 3, -1 .. 1")]
+        //[FieldOffset(32)]
         public  float aux3;
-            /// <summary>Aux 4, -1 .. 1   </summary>
+
+        /// <summary>Aux 4, -1 .. 1   </summary>
         [Units("")]
         [Description("Aux 4, -1 .. 1")]
+        //[FieldOffset(36)]
         public  float aux4;
-            /// <summary>System mode. MAV_MODE  </summary>
+
+        /// <summary>System mode. MAV_MODE  </summary>
         [Units("")]
         [Description("System mode.")]
+        //[FieldOffset(40)]
         public  /*MAV_MODE*/byte mode;
-            /// <summary>Navigation mode (MAV_NAV_MODE)   </summary>
+
+        /// <summary>Navigation mode (MAV_NAV_MODE)   </summary>
         [Units("")]
         [Description("Navigation mode (MAV_NAV_MODE)")]
+        //[FieldOffset(41)]
         public  byte nav_mode;
-    
     };
 
     
@@ -11897,79 +13604,106 @@ public partial class MAVLink
     {
         public mavlink_hil_rc_inputs_raw_t(ulong time_usec,ushort chan1_raw,ushort chan2_raw,ushort chan3_raw,ushort chan4_raw,ushort chan5_raw,ushort chan6_raw,ushort chan7_raw,ushort chan8_raw,ushort chan9_raw,ushort chan10_raw,ushort chan11_raw,ushort chan12_raw,byte rssi) 
         {
-              this.time_usec = time_usec;
-              this.chan1_raw = chan1_raw;
-              this.chan2_raw = chan2_raw;
-              this.chan3_raw = chan3_raw;
-              this.chan4_raw = chan4_raw;
-              this.chan5_raw = chan5_raw;
-              this.chan6_raw = chan6_raw;
-              this.chan7_raw = chan7_raw;
-              this.chan8_raw = chan8_raw;
-              this.chan9_raw = chan9_raw;
-              this.chan10_raw = chan10_raw;
-              this.chan11_raw = chan11_raw;
-              this.chan12_raw = chan12_raw;
-              this.rssi = rssi;
+            this.time_usec = time_usec;
+            this.chan1_raw = chan1_raw;
+            this.chan2_raw = chan2_raw;
+            this.chan3_raw = chan3_raw;
+            this.chan4_raw = chan4_raw;
+            this.chan5_raw = chan5_raw;
+            this.chan6_raw = chan6_raw;
+            this.chan7_raw = chan7_raw;
+            this.chan8_raw = chan8_raw;
+            this.chan9_raw = chan9_raw;
+            this.chan10_raw = chan10_raw;
+            this.chan11_raw = chan11_raw;
+            this.chan12_raw = chan12_raw;
+            this.rssi = rssi;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>RC channel 1 value  [us] </summary>
+
+        /// <summary>RC channel 1 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 1 value")]
+        //[FieldOffset(8)]
         public  ushort chan1_raw;
-            /// <summary>RC channel 2 value  [us] </summary>
+
+        /// <summary>RC channel 2 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 2 value")]
+        //[FieldOffset(10)]
         public  ushort chan2_raw;
-            /// <summary>RC channel 3 value  [us] </summary>
+
+        /// <summary>RC channel 3 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 3 value")]
+        //[FieldOffset(12)]
         public  ushort chan3_raw;
-            /// <summary>RC channel 4 value  [us] </summary>
+
+        /// <summary>RC channel 4 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 4 value")]
+        //[FieldOffset(14)]
         public  ushort chan4_raw;
-            /// <summary>RC channel 5 value  [us] </summary>
+
+        /// <summary>RC channel 5 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 5 value")]
+        //[FieldOffset(16)]
         public  ushort chan5_raw;
-            /// <summary>RC channel 6 value  [us] </summary>
+
+        /// <summary>RC channel 6 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 6 value")]
+        //[FieldOffset(18)]
         public  ushort chan6_raw;
-            /// <summary>RC channel 7 value  [us] </summary>
+
+        /// <summary>RC channel 7 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 7 value")]
+        //[FieldOffset(20)]
         public  ushort chan7_raw;
-            /// <summary>RC channel 8 value  [us] </summary>
+
+        /// <summary>RC channel 8 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 8 value")]
+        //[FieldOffset(22)]
         public  ushort chan8_raw;
-            /// <summary>RC channel 9 value  [us] </summary>
+
+        /// <summary>RC channel 9 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 9 value")]
+        //[FieldOffset(24)]
         public  ushort chan9_raw;
-            /// <summary>RC channel 10 value  [us] </summary>
+
+        /// <summary>RC channel 10 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 10 value")]
+        //[FieldOffset(26)]
         public  ushort chan10_raw;
-            /// <summary>RC channel 11 value  [us] </summary>
+
+        /// <summary>RC channel 11 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 11 value")]
+        //[FieldOffset(28)]
         public  ushort chan11_raw;
-            /// <summary>RC channel 12 value  [us] </summary>
+
+        /// <summary>RC channel 12 value  [us] </summary>
         [Units("[us]")]
         [Description("RC channel 12 value")]
+        //[FieldOffset(30)]
         public  ushort chan12_raw;
-            /// <summary>Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
+
+        /// <summary>Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
         [Units("")]
         [Description("Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.")]
+        //[FieldOffset(32)]
         public  byte rssi;
-    
     };
 
     
@@ -11980,30 +13714,37 @@ public partial class MAVLink
     {
         public mavlink_hil_actuator_controls_t(ulong time_usec,ulong flags,float[] controls,/*MAV_MODE_FLAG*/byte mode) 
         {
-              this.time_usec = time_usec;
-              this.flags = flags;
-              this.controls = controls;
-              this.mode = mode;
+            this.time_usec = time_usec;
+            this.flags = flags;
+            this.controls = controls;
+            this.mode = mode;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Flags as bitfield, 1: indicate simulation using lockstep.   bitmask</summary>
+
+        /// <summary>Flags as bitfield, 1: indicate simulation using lockstep.   bitmask</summary>
         [Units("")]
         [Description("Flags as bitfield, 1: indicate simulation using lockstep.")]
+        //[FieldOffset(8)]
         public  ulong flags;
-            /// <summary>Control outputs -1 .. 1. Channel assignment depends on the simulated hardware.   </summary>
+
+        /// <summary>Control outputs -1 .. 1. Channel assignment depends on the simulated hardware.   </summary>
         [Units("")]
         [Description("Control outputs -1 .. 1. Channel assignment depends on the simulated hardware.")]
+        //[FieldOffset(16)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public float[] controls;
-            /// <summary>System mode. Includes arming state. MAV_MODE_FLAG  bitmask</summary>
+
+        /// <summary>System mode. Includes arming state. MAV_MODE_FLAG  bitmask</summary>
         [Units("")]
         [Description("System mode. Includes arming state.")]
+        //[FieldOffset(80)]
         public  /*MAV_MODE_FLAG*/byte mode;
-    
     };
 
     
@@ -12014,59 +13755,78 @@ public partial class MAVLink
     {
         public mavlink_optical_flow_t(ulong time_usec,float flow_comp_m_x,float flow_comp_m_y,float ground_distance,short flow_x,short flow_y,byte sensor_id,byte quality,float flow_rate_x,float flow_rate_y) 
         {
-              this.time_usec = time_usec;
-              this.flow_comp_m_x = flow_comp_m_x;
-              this.flow_comp_m_y = flow_comp_m_y;
-              this.ground_distance = ground_distance;
-              this.flow_x = flow_x;
-              this.flow_y = flow_y;
-              this.sensor_id = sensor_id;
-              this.quality = quality;
-              this.flow_rate_x = flow_rate_x;
-              this.flow_rate_y = flow_rate_y;
+            this.time_usec = time_usec;
+            this.flow_comp_m_x = flow_comp_m_x;
+            this.flow_comp_m_y = flow_comp_m_y;
+            this.ground_distance = ground_distance;
+            this.flow_x = flow_x;
+            this.flow_y = flow_y;
+            this.sensor_id = sensor_id;
+            this.quality = quality;
+            this.flow_rate_x = flow_rate_x;
+            this.flow_rate_y = flow_rate_y;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Flow in x-sensor direction, angular-speed compensated  [m/s] </summary>
+
+        /// <summary>Flow in x-sensor direction, angular-speed compensated  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Flow in x-sensor direction, angular-speed compensated")]
+        //[FieldOffset(8)]
         public  float flow_comp_m_x;
-            /// <summary>Flow in y-sensor direction, angular-speed compensated  [m/s] </summary>
+
+        /// <summary>Flow in y-sensor direction, angular-speed compensated  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Flow in y-sensor direction, angular-speed compensated")]
+        //[FieldOffset(12)]
         public  float flow_comp_m_y;
-            /// <summary>Ground distance. Positive value: distance known. Negative value: Unknown distance  [m] </summary>
+
+        /// <summary>Ground distance. Positive value: distance known. Negative value: Unknown distance  [m] </summary>
         [Units("[m]")]
         [Description("Ground distance. Positive value: distance known. Negative value: Unknown distance")]
+        //[FieldOffset(16)]
         public  float ground_distance;
-            /// <summary>Flow in x-sensor direction  [dpix] </summary>
+
+        /// <summary>Flow in x-sensor direction  [dpix] </summary>
         [Units("[dpix]")]
         [Description("Flow in x-sensor direction")]
+        //[FieldOffset(20)]
         public  short flow_x;
-            /// <summary>Flow in y-sensor direction  [dpix] </summary>
+
+        /// <summary>Flow in y-sensor direction  [dpix] </summary>
         [Units("[dpix]")]
         [Description("Flow in y-sensor direction")]
+        //[FieldOffset(22)]
         public  short flow_y;
-            /// <summary>Sensor ID   </summary>
+
+        /// <summary>Sensor ID   </summary>
         [Units("")]
         [Description("Sensor ID")]
+        //[FieldOffset(24)]
         public  byte sensor_id;
-            /// <summary>Optical flow quality / confidence. 0: bad, 255: maximum quality   </summary>
+
+        /// <summary>Optical flow quality / confidence. 0: bad, 255: maximum quality   </summary>
         [Units("")]
         [Description("Optical flow quality / confidence. 0: bad, 255: maximum quality")]
+        //[FieldOffset(25)]
         public  byte quality;
-            /// <summary>Flow rate about X axis  [rad/s] </summary>
+
+        /// <summary>Flow rate about X axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Flow rate about X axis")]
+        //[FieldOffset(26)]
         public  float flow_rate_x;
-            /// <summary>Flow rate about Y axis  [rad/s] </summary>
+
+        /// <summary>Flow rate about Y axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Flow rate about Y axis")]
+        //[FieldOffset(30)]
         public  float flow_rate_y;
-    
     };
 
     
@@ -12077,55 +13837,72 @@ public partial class MAVLink
     {
         public mavlink_global_vision_position_estimate_t(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance,byte reset_counter) 
         {
-              this.usec = usec;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.covariance = covariance;
-              this.reset_counter = reset_counter;
+            this.usec = usec;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.covariance = covariance;
+            this.reset_counter = reset_counter;
             
         }
+
         /// <summary>Timestamp (UNIX time or since system boot)  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX time or since system boot)")]
+        //[FieldOffset(0)]
         public  ulong usec;
-            /// <summary>Global X position  [m] </summary>
+
+        /// <summary>Global X position  [m] </summary>
         [Units("[m]")]
         [Description("Global X position")]
+        //[FieldOffset(8)]
         public  float x;
-            /// <summary>Global Y position  [m] </summary>
+
+        /// <summary>Global Y position  [m] </summary>
         [Units("[m]")]
         [Description("Global Y position")]
+        //[FieldOffset(12)]
         public  float y;
-            /// <summary>Global Z position  [m] </summary>
+
+        /// <summary>Global Z position  [m] </summary>
         [Units("[m]")]
         [Description("Global Z position")]
+        //[FieldOffset(16)]
         public  float z;
-            /// <summary>Roll angle  [rad] </summary>
+
+        /// <summary>Roll angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle")]
+        //[FieldOffset(20)]
         public  float roll;
-            /// <summary>Pitch angle  [rad] </summary>
+
+        /// <summary>Pitch angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle")]
+        //[FieldOffset(24)]
         public  float pitch;
-            /// <summary>Yaw angle  [rad] </summary>
+
+        /// <summary>Yaw angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle")]
+        //[FieldOffset(28)]
         public  float yaw;
-            /// <summary>Row-major representation of pose 6x6 cross-covariance matrix upper right triangle (states: x_global, y_global, z_global, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of pose 6x6 cross-covariance matrix upper right triangle (states: x_global, y_global, z_global, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of pose 6x6 cross-covariance matrix upper right triangle (states: x_global, y_global, z_global, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
 		public float[] covariance;
-            /// <summary>Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.   </summary>
+
+        /// <summary>Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.   </summary>
         [Units("")]
         [Description("Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.")]
+        //[FieldOffset(116)]
         public  byte reset_counter;
-    
     };
 
     
@@ -12136,55 +13913,72 @@ public partial class MAVLink
     {
         public mavlink_vision_position_estimate_t(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance,byte reset_counter) 
         {
-              this.usec = usec;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.covariance = covariance;
-              this.reset_counter = reset_counter;
+            this.usec = usec;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.covariance = covariance;
+            this.reset_counter = reset_counter;
             
         }
+
         /// <summary>Timestamp (UNIX time or time since system boot)  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX time or time since system boot)")]
+        //[FieldOffset(0)]
         public  ulong usec;
-            /// <summary>Local X position  [m] </summary>
+
+        /// <summary>Local X position  [m] </summary>
         [Units("[m]")]
         [Description("Local X position")]
+        //[FieldOffset(8)]
         public  float x;
-            /// <summary>Local Y position  [m] </summary>
+
+        /// <summary>Local Y position  [m] </summary>
         [Units("[m]")]
         [Description("Local Y position")]
+        //[FieldOffset(12)]
         public  float y;
-            /// <summary>Local Z position  [m] </summary>
+
+        /// <summary>Local Z position  [m] </summary>
         [Units("[m]")]
         [Description("Local Z position")]
+        //[FieldOffset(16)]
         public  float z;
-            /// <summary>Roll angle  [rad] </summary>
+
+        /// <summary>Roll angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle")]
+        //[FieldOffset(20)]
         public  float roll;
-            /// <summary>Pitch angle  [rad] </summary>
+
+        /// <summary>Pitch angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle")]
+        //[FieldOffset(24)]
         public  float pitch;
-            /// <summary>Yaw angle  [rad] </summary>
+
+        /// <summary>Yaw angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle")]
+        //[FieldOffset(28)]
         public  float yaw;
-            /// <summary>Row-major representation of pose 6x6 cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of pose 6x6 cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of pose 6x6 cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
 		public float[] covariance;
-            /// <summary>Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.   </summary>
+
+        /// <summary>Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.   </summary>
         [Units("")]
         [Description("Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.")]
+        //[FieldOffset(116)]
         public  byte reset_counter;
-    
     };
 
     
@@ -12195,40 +13989,51 @@ public partial class MAVLink
     {
         public mavlink_vision_speed_estimate_t(ulong usec,float x,float y,float z,float[] covariance,byte reset_counter) 
         {
-              this.usec = usec;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.covariance = covariance;
-              this.reset_counter = reset_counter;
+            this.usec = usec;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.covariance = covariance;
+            this.reset_counter = reset_counter;
             
         }
+
         /// <summary>Timestamp (UNIX time or time since system boot)  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX time or time since system boot)")]
+        //[FieldOffset(0)]
         public  ulong usec;
-            /// <summary>Global X speed  [m/s] </summary>
+
+        /// <summary>Global X speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Global X speed")]
+        //[FieldOffset(8)]
         public  float x;
-            /// <summary>Global Y speed  [m/s] </summary>
+
+        /// <summary>Global Y speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Global Y speed")]
+        //[FieldOffset(12)]
         public  float y;
-            /// <summary>Global Z speed  [m/s] </summary>
+
+        /// <summary>Global Z speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Global Z speed")]
+        //[FieldOffset(16)]
         public  float z;
-            /// <summary>Row-major representation of 3x3 linear velocity covariance matrix (states: vx, vy, vz; 1st three entries - 1st row, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of 3x3 linear velocity covariance matrix (states: vx, vy, vz; 1st three entries - 1st row, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of 3x3 linear velocity covariance matrix (states: vx, vy, vz; 1st three entries - 1st row, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(20)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
 		public float[] covariance;
-            /// <summary>Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.   </summary>
+
+        /// <summary>Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.   </summary>
         [Units("")]
         [Description("Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.")]
+        //[FieldOffset(56)]
         public  byte reset_counter;
-    
     };
 
     
@@ -12239,50 +14044,65 @@ public partial class MAVLink
     {
         public mavlink_vicon_position_estimate_t(ulong usec,float x,float y,float z,float roll,float pitch,float yaw,float[] covariance) 
         {
-              this.usec = usec;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.covariance = covariance;
+            this.usec = usec;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.covariance = covariance;
             
         }
+
         /// <summary>Timestamp (UNIX time or time since system boot)  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX time or time since system boot)")]
+        //[FieldOffset(0)]
         public  ulong usec;
-            /// <summary>Global X position  [m] </summary>
+
+        /// <summary>Global X position  [m] </summary>
         [Units("[m]")]
         [Description("Global X position")]
+        //[FieldOffset(8)]
         public  float x;
-            /// <summary>Global Y position  [m] </summary>
+
+        /// <summary>Global Y position  [m] </summary>
         [Units("[m]")]
         [Description("Global Y position")]
+        //[FieldOffset(12)]
         public  float y;
-            /// <summary>Global Z position  [m] </summary>
+
+        /// <summary>Global Z position  [m] </summary>
         [Units("[m]")]
         [Description("Global Z position")]
+        //[FieldOffset(16)]
         public  float z;
-            /// <summary>Roll angle  [rad] </summary>
+
+        /// <summary>Roll angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Roll angle")]
+        //[FieldOffset(20)]
         public  float roll;
-            /// <summary>Pitch angle  [rad] </summary>
+
+        /// <summary>Pitch angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Pitch angle")]
+        //[FieldOffset(24)]
         public  float pitch;
-            /// <summary>Yaw angle  [rad] </summary>
+
+        /// <summary>Yaw angle  [rad] </summary>
         [Units("[rad]")]
         [Description("Yaw angle")]
+        //[FieldOffset(28)]
         public  float yaw;
-            /// <summary>Row-major representation of 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
 		public float[] covariance;
-    
     };
 
     
@@ -12293,89 +14113,120 @@ public partial class MAVLink
     {
         public mavlink_highres_imu_t(ulong time_usec,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float xmag,float ymag,float zmag,float abs_pressure,float diff_pressure,float pressure_alt,float temperature,ushort fields_updated,byte id) 
         {
-              this.time_usec = time_usec;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
-              this.xgyro = xgyro;
-              this.ygyro = ygyro;
-              this.zgyro = zgyro;
-              this.xmag = xmag;
-              this.ymag = ymag;
-              this.zmag = zmag;
-              this.abs_pressure = abs_pressure;
-              this.diff_pressure = diff_pressure;
-              this.pressure_alt = pressure_alt;
-              this.temperature = temperature;
-              this.fields_updated = fields_updated;
-              this.id = id;
+            this.time_usec = time_usec;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            this.xmag = xmag;
+            this.ymag = ymag;
+            this.zmag = zmag;
+            this.abs_pressure = abs_pressure;
+            this.diff_pressure = diff_pressure;
+            this.pressure_alt = pressure_alt;
+            this.temperature = temperature;
+            this.fields_updated = fields_updated;
+            this.id = id;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>X acceleration  [m/s/s] </summary>
+
+        /// <summary>X acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration")]
+        //[FieldOffset(8)]
         public  float xacc;
-            /// <summary>Y acceleration  [m/s/s] </summary>
+
+        /// <summary>Y acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration")]
+        //[FieldOffset(12)]
         public  float yacc;
-            /// <summary>Z acceleration  [m/s/s] </summary>
+
+        /// <summary>Z acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration")]
+        //[FieldOffset(16)]
         public  float zacc;
-            /// <summary>Angular speed around X axis  [rad/s] </summary>
+
+        /// <summary>Angular speed around X axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around X axis")]
+        //[FieldOffset(20)]
         public  float xgyro;
-            /// <summary>Angular speed around Y axis  [rad/s] </summary>
+
+        /// <summary>Angular speed around Y axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around Y axis")]
+        //[FieldOffset(24)]
         public  float ygyro;
-            /// <summary>Angular speed around Z axis  [rad/s] </summary>
+
+        /// <summary>Angular speed around Z axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around Z axis")]
+        //[FieldOffset(28)]
         public  float zgyro;
-            /// <summary>X Magnetic field  [gauss] </summary>
+
+        /// <summary>X Magnetic field  [gauss] </summary>
         [Units("[gauss]")]
         [Description("X Magnetic field")]
+        //[FieldOffset(32)]
         public  float xmag;
-            /// <summary>Y Magnetic field  [gauss] </summary>
+
+        /// <summary>Y Magnetic field  [gauss] </summary>
         [Units("[gauss]")]
         [Description("Y Magnetic field")]
+        //[FieldOffset(36)]
         public  float ymag;
-            /// <summary>Z Magnetic field  [gauss] </summary>
+
+        /// <summary>Z Magnetic field  [gauss] </summary>
         [Units("[gauss]")]
         [Description("Z Magnetic field")]
+        //[FieldOffset(40)]
         public  float zmag;
-            /// <summary>Absolute pressure  [hPa] </summary>
+
+        /// <summary>Absolute pressure  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Absolute pressure")]
+        //[FieldOffset(44)]
         public  float abs_pressure;
-            /// <summary>Differential pressure  [hPa] </summary>
+
+        /// <summary>Differential pressure  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Differential pressure")]
+        //[FieldOffset(48)]
         public  float diff_pressure;
-            /// <summary>Altitude calculated from pressure   </summary>
+
+        /// <summary>Altitude calculated from pressure   </summary>
         [Units("")]
         [Description("Altitude calculated from pressure")]
+        //[FieldOffset(52)]
         public  float pressure_alt;
-            /// <summary>Temperature  [degC] </summary>
+
+        /// <summary>Temperature  [degC] </summary>
         [Units("[degC]")]
         [Description("Temperature")]
+        //[FieldOffset(56)]
         public  float temperature;
-            /// <summary>Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature   bitmask</summary>
+
+        /// <summary>Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature   bitmask</summary>
         [Units("")]
         [Description("Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature")]
+        //[FieldOffset(60)]
         public  ushort fields_updated;
-            /// <summary>Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)   </summary>
+
+        /// <summary>Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)   </summary>
         [Units("")]
         [Description("Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)")]
+        //[FieldOffset(62)]
         public  byte id;
-    
     };
 
     
@@ -12386,69 +14237,92 @@ public partial class MAVLink
     {
         public mavlink_optical_flow_rad_t(ulong time_usec,uint integration_time_us,float integrated_x,float integrated_y,float integrated_xgyro,float integrated_ygyro,float integrated_zgyro,uint time_delta_distance_us,float distance,short temperature,byte sensor_id,byte quality) 
         {
-              this.time_usec = time_usec;
-              this.integration_time_us = integration_time_us;
-              this.integrated_x = integrated_x;
-              this.integrated_y = integrated_y;
-              this.integrated_xgyro = integrated_xgyro;
-              this.integrated_ygyro = integrated_ygyro;
-              this.integrated_zgyro = integrated_zgyro;
-              this.time_delta_distance_us = time_delta_distance_us;
-              this.distance = distance;
-              this.temperature = temperature;
-              this.sensor_id = sensor_id;
-              this.quality = quality;
+            this.time_usec = time_usec;
+            this.integration_time_us = integration_time_us;
+            this.integrated_x = integrated_x;
+            this.integrated_y = integrated_y;
+            this.integrated_xgyro = integrated_xgyro;
+            this.integrated_ygyro = integrated_ygyro;
+            this.integrated_zgyro = integrated_zgyro;
+            this.time_delta_distance_us = time_delta_distance_us;
+            this.distance = distance;
+            this.temperature = temperature;
+            this.sensor_id = sensor_id;
+            this.quality = quality;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.  [us] </summary>
+
+        /// <summary>Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.  [us] </summary>
         [Units("[us]")]
         [Description("Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.")]
+        //[FieldOffset(8)]
         public  uint integration_time_us;
-            /// <summary>Flow around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.)  [rad] </summary>
+
+        /// <summary>Flow around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.)  [rad] </summary>
         [Units("[rad]")]
         [Description("Flow around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.)")]
+        //[FieldOffset(12)]
         public  float integrated_x;
-            /// <summary>Flow around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.)  [rad] </summary>
+
+        /// <summary>Flow around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.)  [rad] </summary>
         [Units("[rad]")]
         [Description("Flow around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.)")]
+        //[FieldOffset(16)]
         public  float integrated_y;
-            /// <summary>RH rotation around X axis  [rad] </summary>
+
+        /// <summary>RH rotation around X axis  [rad] </summary>
         [Units("[rad]")]
         [Description("RH rotation around X axis")]
+        //[FieldOffset(20)]
         public  float integrated_xgyro;
-            /// <summary>RH rotation around Y axis  [rad] </summary>
+
+        /// <summary>RH rotation around Y axis  [rad] </summary>
         [Units("[rad]")]
         [Description("RH rotation around Y axis")]
+        //[FieldOffset(24)]
         public  float integrated_ygyro;
-            /// <summary>RH rotation around Z axis  [rad] </summary>
+
+        /// <summary>RH rotation around Z axis  [rad] </summary>
         [Units("[rad]")]
         [Description("RH rotation around Z axis")]
+        //[FieldOffset(28)]
         public  float integrated_zgyro;
-            /// <summary>Time since the distance was sampled.  [us] </summary>
+
+        /// <summary>Time since the distance was sampled.  [us] </summary>
         [Units("[us]")]
         [Description("Time since the distance was sampled.")]
+        //[FieldOffset(32)]
         public  uint time_delta_distance_us;
-            /// <summary>Distance to the center of the flow field. Positive value (including zero): distance known. Negative value: Unknown distance.  [m] </summary>
+
+        /// <summary>Distance to the center of the flow field. Positive value (including zero): distance known. Negative value: Unknown distance.  [m] </summary>
         [Units("[m]")]
         [Description("Distance to the center of the flow field. Positive value (including zero): distance known. Negative value: Unknown distance.")]
+        //[FieldOffset(36)]
         public  float distance;
-            /// <summary>Temperature  [cdegC] </summary>
+
+        /// <summary>Temperature  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Temperature")]
+        //[FieldOffset(40)]
         public  short temperature;
-            /// <summary>Sensor ID   </summary>
+
+        /// <summary>Sensor ID   </summary>
         [Units("")]
         [Description("Sensor ID")]
+        //[FieldOffset(42)]
         public  byte sensor_id;
-            /// <summary>Optical flow quality / confidence. 0: no valid flow, 255: maximum quality   </summary>
+
+        /// <summary>Optical flow quality / confidence. 0: no valid flow, 255: maximum quality   </summary>
         [Units("")]
         [Description("Optical flow quality / confidence. 0: no valid flow, 255: maximum quality")]
+        //[FieldOffset(43)]
         public  byte quality;
-    
     };
 
     
@@ -12459,89 +14333,120 @@ public partial class MAVLink
     {
         public mavlink_hil_sensor_t(ulong time_usec,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float xmag,float ymag,float zmag,float abs_pressure,float diff_pressure,float pressure_alt,float temperature,uint fields_updated,byte id) 
         {
-              this.time_usec = time_usec;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
-              this.xgyro = xgyro;
-              this.ygyro = ygyro;
-              this.zgyro = zgyro;
-              this.xmag = xmag;
-              this.ymag = ymag;
-              this.zmag = zmag;
-              this.abs_pressure = abs_pressure;
-              this.diff_pressure = diff_pressure;
-              this.pressure_alt = pressure_alt;
-              this.temperature = temperature;
-              this.fields_updated = fields_updated;
-              this.id = id;
+            this.time_usec = time_usec;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            this.xmag = xmag;
+            this.ymag = ymag;
+            this.zmag = zmag;
+            this.abs_pressure = abs_pressure;
+            this.diff_pressure = diff_pressure;
+            this.pressure_alt = pressure_alt;
+            this.temperature = temperature;
+            this.fields_updated = fields_updated;
+            this.id = id;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>X acceleration  [m/s/s] </summary>
+
+        /// <summary>X acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration")]
+        //[FieldOffset(8)]
         public  float xacc;
-            /// <summary>Y acceleration  [m/s/s] </summary>
+
+        /// <summary>Y acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration")]
+        //[FieldOffset(12)]
         public  float yacc;
-            /// <summary>Z acceleration  [m/s/s] </summary>
+
+        /// <summary>Z acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration")]
+        //[FieldOffset(16)]
         public  float zacc;
-            /// <summary>Angular speed around X axis in body frame  [rad/s] </summary>
+
+        /// <summary>Angular speed around X axis in body frame  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around X axis in body frame")]
+        //[FieldOffset(20)]
         public  float xgyro;
-            /// <summary>Angular speed around Y axis in body frame  [rad/s] </summary>
+
+        /// <summary>Angular speed around Y axis in body frame  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around Y axis in body frame")]
+        //[FieldOffset(24)]
         public  float ygyro;
-            /// <summary>Angular speed around Z axis in body frame  [rad/s] </summary>
+
+        /// <summary>Angular speed around Z axis in body frame  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around Z axis in body frame")]
+        //[FieldOffset(28)]
         public  float zgyro;
-            /// <summary>X Magnetic field  [gauss] </summary>
+
+        /// <summary>X Magnetic field  [gauss] </summary>
         [Units("[gauss]")]
         [Description("X Magnetic field")]
+        //[FieldOffset(32)]
         public  float xmag;
-            /// <summary>Y Magnetic field  [gauss] </summary>
+
+        /// <summary>Y Magnetic field  [gauss] </summary>
         [Units("[gauss]")]
         [Description("Y Magnetic field")]
+        //[FieldOffset(36)]
         public  float ymag;
-            /// <summary>Z Magnetic field  [gauss] </summary>
+
+        /// <summary>Z Magnetic field  [gauss] </summary>
         [Units("[gauss]")]
         [Description("Z Magnetic field")]
+        //[FieldOffset(40)]
         public  float zmag;
-            /// <summary>Absolute pressure  [hPa] </summary>
+
+        /// <summary>Absolute pressure  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Absolute pressure")]
+        //[FieldOffset(44)]
         public  float abs_pressure;
-            /// <summary>Differential pressure (airspeed)  [hPa] </summary>
+
+        /// <summary>Differential pressure (airspeed)  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Differential pressure (airspeed)")]
+        //[FieldOffset(48)]
         public  float diff_pressure;
-            /// <summary>Altitude calculated from pressure   </summary>
+
+        /// <summary>Altitude calculated from pressure   </summary>
         [Units("")]
         [Description("Altitude calculated from pressure")]
+        //[FieldOffset(52)]
         public  float pressure_alt;
-            /// <summary>Temperature  [degC] </summary>
+
+        /// <summary>Temperature  [degC] </summary>
         [Units("[degC]")]
         [Description("Temperature")]
+        //[FieldOffset(56)]
         public  float temperature;
-            /// <summary>Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature, bit 31: full reset of attitude/position/velocities/etc was performed in sim.   bitmask</summary>
+
+        /// <summary>Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature, bit 31: full reset of attitude/position/velocities/etc was performed in sim.   bitmask</summary>
         [Units("")]
         [Description("Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature, bit 31: full reset of attitude/position/velocities/etc was performed in sim.")]
+        //[FieldOffset(60)]
         public  uint fields_updated;
-            /// <summary>Sensor ID (zero indexed). Used for multiple sensor inputs   </summary>
+
+        /// <summary>Sensor ID (zero indexed). Used for multiple sensor inputs   </summary>
         [Units("")]
         [Description("Sensor ID (zero indexed). Used for multiple sensor inputs")]
+        //[FieldOffset(64)]
         public  byte id;
-    
     };
 
     
@@ -12552,114 +14457,155 @@ public partial class MAVLink
     {
         public mavlink_sim_state_t(float q1,float q2,float q3,float q4,float roll,float pitch,float yaw,float xacc,float yacc,float zacc,float xgyro,float ygyro,float zgyro,float lat,float lon,float alt,float std_dev_horz,float std_dev_vert,float vn,float ve,float vd) 
         {
-              this.q1 = q1;
-              this.q2 = q2;
-              this.q3 = q3;
-              this.q4 = q4;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
-              this.xgyro = xgyro;
-              this.ygyro = ygyro;
-              this.zgyro = zgyro;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.std_dev_horz = std_dev_horz;
-              this.std_dev_vert = std_dev_vert;
-              this.vn = vn;
-              this.ve = ve;
-              this.vd = vd;
+            this.q1 = q1;
+            this.q2 = q2;
+            this.q3 = q3;
+            this.q4 = q4;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.std_dev_horz = std_dev_horz;
+            this.std_dev_vert = std_dev_vert;
+            this.vn = vn;
+            this.ve = ve;
+            this.vd = vd;
             
         }
+
         /// <summary>True attitude quaternion component 1, w (1 in null-rotation)   </summary>
         [Units("")]
         [Description("True attitude quaternion component 1, w (1 in null-rotation)")]
+        //[FieldOffset(0)]
         public  float q1;
-            /// <summary>True attitude quaternion component 2, x (0 in null-rotation)   </summary>
+
+        /// <summary>True attitude quaternion component 2, x (0 in null-rotation)   </summary>
         [Units("")]
         [Description("True attitude quaternion component 2, x (0 in null-rotation)")]
+        //[FieldOffset(4)]
         public  float q2;
-            /// <summary>True attitude quaternion component 3, y (0 in null-rotation)   </summary>
+
+        /// <summary>True attitude quaternion component 3, y (0 in null-rotation)   </summary>
         [Units("")]
         [Description("True attitude quaternion component 3, y (0 in null-rotation)")]
+        //[FieldOffset(8)]
         public  float q3;
-            /// <summary>True attitude quaternion component 4, z (0 in null-rotation)   </summary>
+
+        /// <summary>True attitude quaternion component 4, z (0 in null-rotation)   </summary>
         [Units("")]
         [Description("True attitude quaternion component 4, z (0 in null-rotation)")]
+        //[FieldOffset(12)]
         public  float q4;
-            /// <summary>Attitude roll expressed as Euler angles, not recommended except for human-readable outputs   </summary>
+
+        /// <summary>Attitude roll expressed as Euler angles, not recommended except for human-readable outputs   </summary>
         [Units("")]
         [Description("Attitude roll expressed as Euler angles, not recommended except for human-readable outputs")]
+        //[FieldOffset(16)]
         public  float roll;
-            /// <summary>Attitude pitch expressed as Euler angles, not recommended except for human-readable outputs   </summary>
+
+        /// <summary>Attitude pitch expressed as Euler angles, not recommended except for human-readable outputs   </summary>
         [Units("")]
         [Description("Attitude pitch expressed as Euler angles, not recommended except for human-readable outputs")]
+        //[FieldOffset(20)]
         public  float pitch;
-            /// <summary>Attitude yaw expressed as Euler angles, not recommended except for human-readable outputs   </summary>
+
+        /// <summary>Attitude yaw expressed as Euler angles, not recommended except for human-readable outputs   </summary>
         [Units("")]
         [Description("Attitude yaw expressed as Euler angles, not recommended except for human-readable outputs")]
+        //[FieldOffset(24)]
         public  float yaw;
-            /// <summary>X acceleration  [m/s/s] </summary>
+
+        /// <summary>X acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration")]
+        //[FieldOffset(28)]
         public  float xacc;
-            /// <summary>Y acceleration  [m/s/s] </summary>
+
+        /// <summary>Y acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration")]
+        //[FieldOffset(32)]
         public  float yacc;
-            /// <summary>Z acceleration  [m/s/s] </summary>
+
+        /// <summary>Z acceleration  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration")]
+        //[FieldOffset(36)]
         public  float zacc;
-            /// <summary>Angular speed around X axis  [rad/s] </summary>
+
+        /// <summary>Angular speed around X axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around X axis")]
+        //[FieldOffset(40)]
         public  float xgyro;
-            /// <summary>Angular speed around Y axis  [rad/s] </summary>
+
+        /// <summary>Angular speed around Y axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around Y axis")]
+        //[FieldOffset(44)]
         public  float ygyro;
-            /// <summary>Angular speed around Z axis  [rad/s] </summary>
+
+        /// <summary>Angular speed around Z axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular speed around Z axis")]
+        //[FieldOffset(48)]
         public  float zgyro;
-            /// <summary>Latitude  [deg] </summary>
+
+        /// <summary>Latitude  [deg] </summary>
         [Units("[deg]")]
         [Description("Latitude")]
+        //[FieldOffset(52)]
         public  float lat;
-            /// <summary>Longitude  [deg] </summary>
+
+        /// <summary>Longitude  [deg] </summary>
         [Units("[deg]")]
         [Description("Longitude")]
+        //[FieldOffset(56)]
         public  float lon;
-            /// <summary>Altitude  [m] </summary>
+
+        /// <summary>Altitude  [m] </summary>
         [Units("[m]")]
         [Description("Altitude")]
+        //[FieldOffset(60)]
         public  float alt;
-            /// <summary>Horizontal position standard deviation   </summary>
+
+        /// <summary>Horizontal position standard deviation   </summary>
         [Units("")]
         [Description("Horizontal position standard deviation")]
+        //[FieldOffset(64)]
         public  float std_dev_horz;
-            /// <summary>Vertical position standard deviation   </summary>
+
+        /// <summary>Vertical position standard deviation   </summary>
         [Units("")]
         [Description("Vertical position standard deviation")]
+        //[FieldOffset(68)]
         public  float std_dev_vert;
-            /// <summary>True velocity in north direction in earth-fixed NED frame  [m/s] </summary>
+
+        /// <summary>True velocity in north direction in earth-fixed NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("True velocity in north direction in earth-fixed NED frame")]
+        //[FieldOffset(72)]
         public  float vn;
-            /// <summary>True velocity in east direction in earth-fixed NED frame  [m/s] </summary>
+
+        /// <summary>True velocity in east direction in earth-fixed NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("True velocity in east direction in earth-fixed NED frame")]
+        //[FieldOffset(76)]
         public  float ve;
-            /// <summary>True velocity in down direction in earth-fixed NED frame  [m/s] </summary>
+
+        /// <summary>True velocity in down direction in earth-fixed NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("True velocity in down direction in earth-fixed NED frame")]
+        //[FieldOffset(80)]
         public  float vd;
-    
     };
 
     
@@ -12670,44 +14616,57 @@ public partial class MAVLink
     {
         public mavlink_radio_status_t(ushort rxerrors,ushort @fixed,byte rssi,byte remrssi,byte txbuf,byte noise,byte remnoise) 
         {
-              this.rxerrors = rxerrors;
-              this.@fixed = @fixed;
-              this.rssi = rssi;
-              this.remrssi = remrssi;
-              this.txbuf = txbuf;
-              this.noise = noise;
-              this.remnoise = remnoise;
+            this.rxerrors = rxerrors;
+            this.@fixed = @fixed;
+            this.rssi = rssi;
+            this.remrssi = remrssi;
+            this.txbuf = txbuf;
+            this.noise = noise;
+            this.remnoise = remnoise;
             
         }
+
         /// <summary>Count of radio packet receive errors (since boot).   </summary>
         [Units("")]
         [Description("Count of radio packet receive errors (since boot).")]
+        //[FieldOffset(0)]
         public  ushort rxerrors;
-            /// <summary>Count of error corrected radio packets (since boot).   </summary>
+
+        /// <summary>Count of error corrected radio packets (since boot).   </summary>
         [Units("")]
         [Description("Count of error corrected radio packets (since boot).")]
+        //[FieldOffset(2)]
         public  ushort @fixed;
-            /// <summary>Local (message sender) recieved signal strength indication in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
+
+        /// <summary>Local (message sender) recieved signal strength indication in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
         [Units("")]
         [Description("Local (message sender) recieved signal strength indication in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.")]
+        //[FieldOffset(4)]
         public  byte rssi;
-            /// <summary>Remote (message receiver) signal strength indication in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
+
+        /// <summary>Remote (message receiver) signal strength indication in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.   </summary>
         [Units("")]
         [Description("Remote (message receiver) signal strength indication in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.")]
+        //[FieldOffset(5)]
         public  byte remrssi;
-            /// <summary>Remaining free transmitter buffer space.  [%] </summary>
+
+        /// <summary>Remaining free transmitter buffer space.  [%] </summary>
         [Units("[%]")]
         [Description("Remaining free transmitter buffer space.")]
+        //[FieldOffset(6)]
         public  byte txbuf;
-            /// <summary>Local background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], 255: invalid/unknown.   </summary>
+
+        /// <summary>Local background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], 255: invalid/unknown.   </summary>
         [Units("")]
         [Description("Local background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], 255: invalid/unknown.")]
+        //[FieldOffset(7)]
         public  byte noise;
-            /// <summary>Remote background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], 255: invalid/unknown.   </summary>
+
+        /// <summary>Remote background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], 255: invalid/unknown.   </summary>
         [Units("")]
         [Description("Remote background noise level. These are device dependent RSSI values (scale as approx 2x dB on SiK radios). Values: [0-254], 255: invalid/unknown.")]
+        //[FieldOffset(8)]
         public  byte remnoise;
-    
     };
 
     
@@ -12718,30 +14677,37 @@ public partial class MAVLink
     {
         public mavlink_file_transfer_protocol_t(byte target_network,byte target_system,byte target_component,byte[] payload) 
         {
-              this.target_network = target_network;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.payload = payload;
+            this.target_network = target_network;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.payload = payload;
             
         }
+
         /// <summary>Network ID (0 for broadcast)   </summary>
         [Units("")]
         [Description("Network ID (0 for broadcast)")]
+        //[FieldOffset(0)]
         public  byte target_network;
-            /// <summary>System ID (0 for broadcast)   </summary>
+
+        /// <summary>System ID (0 for broadcast)   </summary>
         [Units("")]
         [Description("System ID (0 for broadcast)")]
+        //[FieldOffset(1)]
         public  byte target_system;
-            /// <summary>Component ID (0 for broadcast)   </summary>
+
+        /// <summary>Component ID (0 for broadcast)   </summary>
         [Units("")]
         [Description("Component ID (0 for broadcast)")]
+        //[FieldOffset(2)]
         public  byte target_component;
-            /// <summary>Variable length payload. The length is defined by the remaining message length when subtracting the header and other fields.  The entire content of this block is opaque unless you understand any the encoding message_type.  The particular encoding used can be extension specific and might not always be documented as part of the mavlink specification.   </summary>
+
+        /// <summary>Variable length payload. The length is defined by the remaining message length when subtracting the header and other fields.  The entire content of this block is opaque unless you understand any the encoding message_type.  The particular encoding used can be extension specific and might not always be documented as part of the mavlink specification.   </summary>
         [Units("")]
         [Description("Variable length payload. The length is defined by the remaining message length when subtracting the header and other fields.  The entire content of this block is opaque unless you understand any the encoding message_type.  The particular encoding used can be extension specific and might not always be documented as part of the mavlink specification.")]
+        //[FieldOffset(3)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=251)]
 		public byte[] payload;
-    
     };
 
     
@@ -12752,19 +14718,22 @@ public partial class MAVLink
     {
         public mavlink_timesync_t(long tc1,long ts1) 
         {
-              this.tc1 = tc1;
-              this.ts1 = ts1;
+            this.tc1 = tc1;
+            this.ts1 = ts1;
             
         }
+
         /// <summary>Time sync timestamp 1   </summary>
         [Units("")]
         [Description("Time sync timestamp 1")]
+        //[FieldOffset(0)]
         public  long tc1;
-            /// <summary>Time sync timestamp 2   </summary>
+
+        /// <summary>Time sync timestamp 2   </summary>
         [Units("")]
         [Description("Time sync timestamp 2")]
+        //[FieldOffset(8)]
         public  long ts1;
-    
     };
 
     
@@ -12775,19 +14744,22 @@ public partial class MAVLink
     {
         public mavlink_camera_trigger_t(ulong time_usec,uint seq) 
         {
-              this.time_usec = time_usec;
-              this.seq = seq;
+            this.time_usec = time_usec;
+            this.seq = seq;
             
         }
+
         /// <summary>Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp for image frame (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Image frame sequence   </summary>
+
+        /// <summary>Image frame sequence   </summary>
         [Units("")]
         [Description("Image frame sequence")]
+        //[FieldOffset(8)]
         public  uint seq;
-    
     };
 
     
@@ -12798,84 +14770,113 @@ public partial class MAVLink
     {
         public mavlink_hil_gps_t(ulong time_usec,int lat,int lon,int alt,ushort eph,ushort epv,ushort vel,short vn,short ve,short vd,ushort cog,byte fix_type,byte satellites_visible,byte id,ushort yaw) 
         {
-              this.time_usec = time_usec;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.eph = eph;
-              this.epv = epv;
-              this.vel = vel;
-              this.vn = vn;
-              this.ve = ve;
-              this.vd = vd;
-              this.cog = cog;
-              this.fix_type = fix_type;
-              this.satellites_visible = satellites_visible;
-              this.id = id;
-              this.yaw = yaw;
+            this.time_usec = time_usec;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.eph = eph;
+            this.epv = epv;
+            this.vel = vel;
+            this.vn = vn;
+            this.ve = ve;
+            this.vd = vd;
+            this.cog = cog;
+            this.fix_type = fix_type;
+            this.satellites_visible = satellites_visible;
+            this.id = id;
+            this.yaw = yaw;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Latitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(8)]
         public  int lat;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(12)]
         public  int lon;
-            /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
+
+        /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL). Positive for up.")]
+        //[FieldOffset(16)]
         public  int alt;
-            /// <summary>GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
+
+        /// <summary>GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
         [Units("")]
         [Description("GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(20)]
         public  ushort eph;
-            /// <summary>GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
+
+        /// <summary>GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
         [Units("")]
         [Description("GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(22)]
         public  ushort epv;
-            /// <summary>GPS ground speed. If unknown, set to: 65535  [cm/s] </summary>
+
+        /// <summary>GPS ground speed. If unknown, set to: 65535  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("GPS ground speed. If unknown, set to: 65535")]
+        //[FieldOffset(24)]
         public  ushort vel;
-            /// <summary>GPS velocity in north direction in earth-fixed NED frame  [cm/s] </summary>
+
+        /// <summary>GPS velocity in north direction in earth-fixed NED frame  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("GPS velocity in north direction in earth-fixed NED frame")]
+        //[FieldOffset(26)]
         public  short vn;
-            /// <summary>GPS velocity in east direction in earth-fixed NED frame  [cm/s] </summary>
+
+        /// <summary>GPS velocity in east direction in earth-fixed NED frame  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("GPS velocity in east direction in earth-fixed NED frame")]
+        //[FieldOffset(28)]
         public  short ve;
-            /// <summary>GPS velocity in down direction in earth-fixed NED frame  [cm/s] </summary>
+
+        /// <summary>GPS velocity in down direction in earth-fixed NED frame  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("GPS velocity in down direction in earth-fixed NED frame")]
+        //[FieldOffset(30)]
         public  short vd;
-            /// <summary>Course over ground (NOT heading, but direction of movement), 0.0..359.99 degrees. If unknown, set to: 65535  [cdeg] </summary>
+
+        /// <summary>Course over ground (NOT heading, but direction of movement), 0.0..359.99 degrees. If unknown, set to: 65535  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Course over ground (NOT heading, but direction of movement), 0.0..359.99 degrees. If unknown, set to: 65535")]
+        //[FieldOffset(32)]
         public  ushort cog;
-            /// <summary>0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.   </summary>
+
+        /// <summary>0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.   </summary>
         [Units("")]
         [Description("0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.")]
+        //[FieldOffset(34)]
         public  byte fix_type;
-            /// <summary>Number of satellites visible. If unknown, set to 255   </summary>
+
+        /// <summary>Number of satellites visible. If unknown, set to 255   </summary>
         [Units("")]
         [Description("Number of satellites visible. If unknown, set to 255")]
+        //[FieldOffset(35)]
         public  byte satellites_visible;
-            /// <summary>GPS ID (zero indexed). Used for multiple GPS inputs   </summary>
+
+        /// <summary>GPS ID (zero indexed). Used for multiple GPS inputs   </summary>
         [Units("")]
         [Description("GPS ID (zero indexed). Used for multiple GPS inputs")]
+        //[FieldOffset(36)]
         public  byte id;
-            /// <summary>Yaw of vehicle relative to Earth's North, zero means not available, use 36000 for north  [cdeg] </summary>
+
+        /// <summary>Yaw of vehicle relative to Earth's North, zero means not available, use 36000 for north  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Yaw of vehicle relative to Earth's North, zero means not available, use 36000 for north")]
+        //[FieldOffset(37)]
         public  ushort yaw;
-    
     };
 
     
@@ -12886,69 +14887,92 @@ public partial class MAVLink
     {
         public mavlink_hil_optical_flow_t(ulong time_usec,uint integration_time_us,float integrated_x,float integrated_y,float integrated_xgyro,float integrated_ygyro,float integrated_zgyro,uint time_delta_distance_us,float distance,short temperature,byte sensor_id,byte quality) 
         {
-              this.time_usec = time_usec;
-              this.integration_time_us = integration_time_us;
-              this.integrated_x = integrated_x;
-              this.integrated_y = integrated_y;
-              this.integrated_xgyro = integrated_xgyro;
-              this.integrated_ygyro = integrated_ygyro;
-              this.integrated_zgyro = integrated_zgyro;
-              this.time_delta_distance_us = time_delta_distance_us;
-              this.distance = distance;
-              this.temperature = temperature;
-              this.sensor_id = sensor_id;
-              this.quality = quality;
+            this.time_usec = time_usec;
+            this.integration_time_us = integration_time_us;
+            this.integrated_x = integrated_x;
+            this.integrated_y = integrated_y;
+            this.integrated_xgyro = integrated_xgyro;
+            this.integrated_ygyro = integrated_ygyro;
+            this.integrated_zgyro = integrated_zgyro;
+            this.time_delta_distance_us = time_delta_distance_us;
+            this.distance = distance;
+            this.temperature = temperature;
+            this.sensor_id = sensor_id;
+            this.quality = quality;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.  [us] </summary>
+
+        /// <summary>Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.  [us] </summary>
         [Units("[us]")]
         [Description("Integration time. Divide integrated_x and integrated_y by the integration time to obtain average flow. The integration time also indicates the.")]
+        //[FieldOffset(8)]
         public  uint integration_time_us;
-            /// <summary>Flow in radians around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.)  [rad] </summary>
+
+        /// <summary>Flow in radians around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.)  [rad] </summary>
         [Units("[rad]")]
         [Description("Flow in radians around X axis (Sensor RH rotation about the X axis induces a positive flow. Sensor linear motion along the positive Y axis induces a negative flow.)")]
+        //[FieldOffset(12)]
         public  float integrated_x;
-            /// <summary>Flow in radians around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.)  [rad] </summary>
+
+        /// <summary>Flow in radians around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.)  [rad] </summary>
         [Units("[rad]")]
         [Description("Flow in radians around Y axis (Sensor RH rotation about the Y axis induces a positive flow. Sensor linear motion along the positive X axis induces a positive flow.)")]
+        //[FieldOffset(16)]
         public  float integrated_y;
-            /// <summary>RH rotation around X axis  [rad] </summary>
+
+        /// <summary>RH rotation around X axis  [rad] </summary>
         [Units("[rad]")]
         [Description("RH rotation around X axis")]
+        //[FieldOffset(20)]
         public  float integrated_xgyro;
-            /// <summary>RH rotation around Y axis  [rad] </summary>
+
+        /// <summary>RH rotation around Y axis  [rad] </summary>
         [Units("[rad]")]
         [Description("RH rotation around Y axis")]
+        //[FieldOffset(24)]
         public  float integrated_ygyro;
-            /// <summary>RH rotation around Z axis  [rad] </summary>
+
+        /// <summary>RH rotation around Z axis  [rad] </summary>
         [Units("[rad]")]
         [Description("RH rotation around Z axis")]
+        //[FieldOffset(28)]
         public  float integrated_zgyro;
-            /// <summary>Time since the distance was sampled.  [us] </summary>
+
+        /// <summary>Time since the distance was sampled.  [us] </summary>
         [Units("[us]")]
         [Description("Time since the distance was sampled.")]
+        //[FieldOffset(32)]
         public  uint time_delta_distance_us;
-            /// <summary>Distance to the center of the flow field. Positive value (including zero): distance known. Negative value: Unknown distance.  [m] </summary>
+
+        /// <summary>Distance to the center of the flow field. Positive value (including zero): distance known. Negative value: Unknown distance.  [m] </summary>
         [Units("[m]")]
         [Description("Distance to the center of the flow field. Positive value (including zero): distance known. Negative value: Unknown distance.")]
+        //[FieldOffset(36)]
         public  float distance;
-            /// <summary>Temperature  [cdegC] </summary>
+
+        /// <summary>Temperature  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Temperature")]
+        //[FieldOffset(40)]
         public  short temperature;
-            /// <summary>Sensor ID   </summary>
+
+        /// <summary>Sensor ID   </summary>
         [Units("")]
         [Description("Sensor ID")]
+        //[FieldOffset(42)]
         public  byte sensor_id;
-            /// <summary>Optical flow quality / confidence. 0: no valid flow, 255: maximum quality   </summary>
+
+        /// <summary>Optical flow quality / confidence. 0: no valid flow, 255: maximum quality   </summary>
         [Units("")]
         [Description("Optical flow quality / confidence. 0: no valid flow, 255: maximum quality")]
+        //[FieldOffset(43)]
         public  byte quality;
-    
     };
 
     
@@ -12959,90 +14983,121 @@ public partial class MAVLink
     {
         public mavlink_hil_state_quaternion_t(ulong time_usec,float[] attitude_quaternion,float rollspeed,float pitchspeed,float yawspeed,int lat,int lon,int alt,short vx,short vy,short vz,ushort ind_airspeed,ushort true_airspeed,short xacc,short yacc,short zacc) 
         {
-              this.time_usec = time_usec;
-              this.attitude_quaternion = attitude_quaternion;
-              this.rollspeed = rollspeed;
-              this.pitchspeed = pitchspeed;
-              this.yawspeed = yawspeed;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.ind_airspeed = ind_airspeed;
-              this.true_airspeed = true_airspeed;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
+            this.time_usec = time_usec;
+            this.attitude_quaternion = attitude_quaternion;
+            this.rollspeed = rollspeed;
+            this.pitchspeed = pitchspeed;
+            this.yawspeed = yawspeed;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.ind_airspeed = ind_airspeed;
+            this.true_airspeed = true_airspeed;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Vehicle attitude expressed as normalized quaternion in w, x, y, z order (with 1 0 0 0 being the null-rotation)   </summary>
+
+        /// <summary>Vehicle attitude expressed as normalized quaternion in w, x, y, z order (with 1 0 0 0 being the null-rotation)   </summary>
         [Units("")]
         [Description("Vehicle attitude expressed as normalized quaternion in w, x, y, z order (with 1 0 0 0 being the null-rotation)")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] attitude_quaternion;
-            /// <summary>Body frame roll / phi angular speed  [rad/s] </summary>
+
+        /// <summary>Body frame roll / phi angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body frame roll / phi angular speed")]
+        //[FieldOffset(24)]
         public  float rollspeed;
-            /// <summary>Body frame pitch / theta angular speed  [rad/s] </summary>
+
+        /// <summary>Body frame pitch / theta angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body frame pitch / theta angular speed")]
+        //[FieldOffset(28)]
         public  float pitchspeed;
-            /// <summary>Body frame yaw / psi angular speed  [rad/s] </summary>
+
+        /// <summary>Body frame yaw / psi angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Body frame yaw / psi angular speed")]
+        //[FieldOffset(32)]
         public  float yawspeed;
-            /// <summary>Latitude  [degE7] </summary>
+
+        /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(36)]
         public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(40)]
         public  int lon;
-            /// <summary>Altitude  [mm] </summary>
+
+        /// <summary>Altitude  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude")]
+        //[FieldOffset(44)]
         public  int alt;
-            /// <summary>Ground X Speed (Latitude)  [cm/s] </summary>
+
+        /// <summary>Ground X Speed (Latitude)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground X Speed (Latitude)")]
+        //[FieldOffset(48)]
         public  short vx;
-            /// <summary>Ground Y Speed (Longitude)  [cm/s] </summary>
+
+        /// <summary>Ground Y Speed (Longitude)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground Y Speed (Longitude)")]
+        //[FieldOffset(50)]
         public  short vy;
-            /// <summary>Ground Z Speed (Altitude)  [cm/s] </summary>
+
+        /// <summary>Ground Z Speed (Altitude)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground Z Speed (Altitude)")]
+        //[FieldOffset(52)]
         public  short vz;
-            /// <summary>Indicated airspeed  [cm/s] </summary>
+
+        /// <summary>Indicated airspeed  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Indicated airspeed")]
+        //[FieldOffset(54)]
         public  ushort ind_airspeed;
-            /// <summary>True airspeed  [cm/s] </summary>
+
+        /// <summary>True airspeed  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("True airspeed")]
+        //[FieldOffset(56)]
         public  ushort true_airspeed;
-            /// <summary>X acceleration  [mG] </summary>
+
+        /// <summary>X acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("X acceleration")]
+        //[FieldOffset(58)]
         public  short xacc;
-            /// <summary>Y acceleration  [mG] </summary>
+
+        /// <summary>Y acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Y acceleration")]
+        //[FieldOffset(60)]
         public  short yacc;
-            /// <summary>Z acceleration  [mG] </summary>
+
+        /// <summary>Z acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Z acceleration")]
+        //[FieldOffset(62)]
         public  short zacc;
-    
     };
 
     
@@ -13053,64 +15108,85 @@ public partial class MAVLink
     {
         public mavlink_scaled_imu2_t(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
-              this.xgyro = xgyro;
-              this.ygyro = ygyro;
-              this.zgyro = zgyro;
-              this.xmag = xmag;
-              this.ymag = ymag;
-              this.zmag = zmag;
-              this.temperature = temperature;
+            this.time_boot_ms = time_boot_ms;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            this.xmag = xmag;
+            this.ymag = ymag;
+            this.zmag = zmag;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X acceleration  [mG] </summary>
+
+        /// <summary>X acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("X acceleration")]
+        //[FieldOffset(4)]
         public  short xacc;
-            /// <summary>Y acceleration  [mG] </summary>
+
+        /// <summary>Y acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Y acceleration")]
+        //[FieldOffset(6)]
         public  short yacc;
-            /// <summary>Z acceleration  [mG] </summary>
+
+        /// <summary>Z acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Z acceleration")]
+        //[FieldOffset(8)]
         public  short zacc;
-            /// <summary>Angular speed around X axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around X axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around X axis")]
+        //[FieldOffset(10)]
         public  short xgyro;
-            /// <summary>Angular speed around Y axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around Y axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around Y axis")]
+        //[FieldOffset(12)]
         public  short ygyro;
-            /// <summary>Angular speed around Z axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around Z axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around Z axis")]
+        //[FieldOffset(14)]
         public  short zgyro;
-            /// <summary>X Magnetic field  [mgauss] </summary>
+
+        /// <summary>X Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("X Magnetic field")]
+        //[FieldOffset(16)]
         public  short xmag;
-            /// <summary>Y Magnetic field  [mgauss] </summary>
+
+        /// <summary>Y Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("Y Magnetic field")]
+        //[FieldOffset(18)]
         public  short ymag;
-            /// <summary>Z Magnetic field  [mgauss] </summary>
+
+        /// <summary>Z Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("Z Magnetic field")]
+        //[FieldOffset(20)]
         public  short zmag;
-            /// <summary>Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).  [cdegC] </summary>
+
+        /// <summary>Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).")]
+        //[FieldOffset(22)]
         public  short temperature;
-    
     };
 
     
@@ -13121,29 +15197,36 @@ public partial class MAVLink
     {
         public mavlink_log_request_list_t(ushort start,ushort end,byte target_system,byte target_component) 
         {
-              this.start = start;
-              this.end = end;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.start = start;
+            this.end = end;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>First log id (0 for first available)   </summary>
         [Units("")]
         [Description("First log id (0 for first available)")]
+        //[FieldOffset(0)]
         public  ushort start;
-            /// <summary>Last log id (0xffff for last available)   </summary>
+
+        /// <summary>Last log id (0xffff for last available)   </summary>
         [Units("")]
         [Description("Last log id (0xffff for last available)")]
+        //[FieldOffset(2)]
         public  ushort end;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(4)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(5)]
         public  byte target_component;
-    
     };
 
     
@@ -13154,34 +15237,43 @@ public partial class MAVLink
     {
         public mavlink_log_entry_t(uint time_utc,uint size,ushort id,ushort num_logs,ushort last_log_num) 
         {
-              this.time_utc = time_utc;
-              this.size = size;
-              this.id = id;
-              this.num_logs = num_logs;
-              this.last_log_num = last_log_num;
+            this.time_utc = time_utc;
+            this.size = size;
+            this.id = id;
+            this.num_logs = num_logs;
+            this.last_log_num = last_log_num;
             
         }
+
         /// <summary>UTC timestamp of log since 1970, or 0 if not available  [s] </summary>
         [Units("[s]")]
         [Description("UTC timestamp of log since 1970, or 0 if not available")]
+        //[FieldOffset(0)]
         public  uint time_utc;
-            /// <summary>Size of the log (may be approximate)  [bytes] </summary>
+
+        /// <summary>Size of the log (may be approximate)  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Size of the log (may be approximate)")]
+        //[FieldOffset(4)]
         public  uint size;
-            /// <summary>Log id   </summary>
+
+        /// <summary>Log id   </summary>
         [Units("")]
         [Description("Log id")]
+        //[FieldOffset(8)]
         public  ushort id;
-            /// <summary>Total number of logs   </summary>
+
+        /// <summary>Total number of logs   </summary>
         [Units("")]
         [Description("Total number of logs")]
+        //[FieldOffset(10)]
         public  ushort num_logs;
-            /// <summary>High log number   </summary>
+
+        /// <summary>High log number   </summary>
         [Units("")]
         [Description("High log number")]
+        //[FieldOffset(12)]
         public  ushort last_log_num;
-    
     };
 
     
@@ -13192,34 +15284,43 @@ public partial class MAVLink
     {
         public mavlink_log_request_data_t(uint ofs,uint count,ushort id,byte target_system,byte target_component) 
         {
-              this.ofs = ofs;
-              this.count = count;
-              this.id = id;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.ofs = ofs;
+            this.count = count;
+            this.id = id;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Offset into the log   </summary>
         [Units("")]
         [Description("Offset into the log")]
+        //[FieldOffset(0)]
         public  uint ofs;
-            /// <summary>Number of bytes  [bytes] </summary>
+
+        /// <summary>Number of bytes  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Number of bytes")]
+        //[FieldOffset(4)]
         public  uint count;
-            /// <summary>Log id (from LOG_ENTRY reply)   </summary>
+
+        /// <summary>Log id (from LOG_ENTRY reply)   </summary>
         [Units("")]
         [Description("Log id (from LOG_ENTRY reply)")]
+        //[FieldOffset(8)]
         public  ushort id;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(10)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(11)]
         public  byte target_component;
-    
     };
 
     
@@ -13230,30 +15331,37 @@ public partial class MAVLink
     {
         public mavlink_log_data_t(uint ofs,ushort id,byte count,byte[] data) 
         {
-              this.ofs = ofs;
-              this.id = id;
-              this.count = count;
-              this.data = data;
+            this.ofs = ofs;
+            this.id = id;
+            this.count = count;
+            this.data = data;
             
         }
+
         /// <summary>Offset into the log   </summary>
         [Units("")]
         [Description("Offset into the log")]
+        //[FieldOffset(0)]
         public  uint ofs;
-            /// <summary>Log id (from LOG_ENTRY reply)   </summary>
+
+        /// <summary>Log id (from LOG_ENTRY reply)   </summary>
         [Units("")]
         [Description("Log id (from LOG_ENTRY reply)")]
+        //[FieldOffset(4)]
         public  ushort id;
-            /// <summary>Number of bytes (zero for end of log)  [bytes] </summary>
+
+        /// <summary>Number of bytes (zero for end of log)  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Number of bytes (zero for end of log)")]
+        //[FieldOffset(6)]
         public  byte count;
-            /// <summary>log data   </summary>
+
+        /// <summary>log data   </summary>
         [Units("")]
         [Description("log data")]
+        //[FieldOffset(7)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=90)]
 		public byte[] data;
-    
     };
 
     
@@ -13264,19 +15372,22 @@ public partial class MAVLink
     {
         public mavlink_log_erase_t(byte target_system,byte target_component) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(1)]
         public  byte target_component;
-    
     };
 
     
@@ -13287,19 +15398,22 @@ public partial class MAVLink
     {
         public mavlink_log_request_end_t(byte target_system,byte target_component) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(1)]
         public  byte target_component;
-    
     };
 
     
@@ -13310,30 +15424,37 @@ public partial class MAVLink
     {
         public mavlink_gps_inject_data_t(byte target_system,byte target_component,byte len,byte[] data) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.len = len;
-              this.data = data;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.len = len;
+            this.data = data;
             
         }
+
         /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>Data length  [bytes] </summary>
+
+        /// <summary>Data length  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Data length")]
+        //[FieldOffset(2)]
         public  byte len;
-            /// <summary>Raw data (110 is enough for 12 satellites of RTCMv2)   </summary>
+
+        /// <summary>Raw data (110 is enough for 12 satellites of RTCMv2)   </summary>
         [Units("")]
         [Description("Raw data (110 is enough for 12 satellites of RTCMv2)")]
+        //[FieldOffset(3)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=110)]
 		public byte[] data;
-    
     };
 
     
@@ -13344,99 +15465,134 @@ public partial class MAVLink
     {
         public mavlink_gps2_raw_t(ulong time_usec,int lat,int lon,int alt,uint dgps_age,ushort eph,ushort epv,ushort vel,ushort cog,/*GPS_FIX_TYPE*/byte fix_type,byte satellites_visible,byte dgps_numch,ushort yaw,int alt_ellipsoid,uint h_acc,uint v_acc,uint vel_acc,uint hdg_acc) 
         {
-              this.time_usec = time_usec;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.dgps_age = dgps_age;
-              this.eph = eph;
-              this.epv = epv;
-              this.vel = vel;
-              this.cog = cog;
-              this.fix_type = fix_type;
-              this.satellites_visible = satellites_visible;
-              this.dgps_numch = dgps_numch;
-              this.yaw = yaw;
-              this.alt_ellipsoid = alt_ellipsoid;
-              this.h_acc = h_acc;
-              this.v_acc = v_acc;
-              this.vel_acc = vel_acc;
-              this.hdg_acc = hdg_acc;
+            this.time_usec = time_usec;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.dgps_age = dgps_age;
+            this.eph = eph;
+            this.epv = epv;
+            this.vel = vel;
+            this.cog = cog;
+            this.fix_type = fix_type;
+            this.satellites_visible = satellites_visible;
+            this.dgps_numch = dgps_numch;
+            this.yaw = yaw;
+            this.alt_ellipsoid = alt_ellipsoid;
+            this.h_acc = h_acc;
+            this.v_acc = v_acc;
+            this.vel_acc = vel_acc;
+            this.hdg_acc = hdg_acc;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Latitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(8)]
         public  int lat;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(12)]
         public  int lon;
-            /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
+
+        /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL). Positive for up.")]
+        //[FieldOffset(16)]
         public  int alt;
-            /// <summary>Age of DGPS info  [ms] </summary>
+
+        /// <summary>Age of DGPS info  [ms] </summary>
         [Units("[ms]")]
         [Description("Age of DGPS info")]
+        //[FieldOffset(20)]
         public  uint dgps_age;
-            /// <summary>GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
+
+        /// <summary>GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
         [Units("")]
         [Description("GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(24)]
         public  ushort eph;
-            /// <summary>GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
+
+        /// <summary>GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
         [Units("")]
         [Description("GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(26)]
         public  ushort epv;
-            /// <summary>GPS ground speed. If unknown, set to: UINT16_MAX  [cm/s] </summary>
+
+        /// <summary>GPS ground speed. If unknown, set to: UINT16_MAX  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("GPS ground speed. If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(28)]
         public  ushort vel;
-            /// <summary>Course over ground (NOT heading, but direction of movement): 0.0..359.99 degrees. If unknown, set to: UINT16_MAX  [cdeg] </summary>
+
+        /// <summary>Course over ground (NOT heading, but direction of movement): 0.0..359.99 degrees. If unknown, set to: UINT16_MAX  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Course over ground (NOT heading, but direction of movement): 0.0..359.99 degrees. If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(30)]
         public  ushort cog;
-            /// <summary>GPS fix type. GPS_FIX_TYPE  </summary>
+
+        /// <summary>GPS fix type. GPS_FIX_TYPE  </summary>
         [Units("")]
         [Description("GPS fix type.")]
+        //[FieldOffset(32)]
         public  /*GPS_FIX_TYPE*/byte fix_type;
-            /// <summary>Number of satellites visible. If unknown, set to 255   </summary>
+
+        /// <summary>Number of satellites visible. If unknown, set to 255   </summary>
         [Units("")]
         [Description("Number of satellites visible. If unknown, set to 255")]
+        //[FieldOffset(33)]
         public  byte satellites_visible;
-            /// <summary>Number of DGPS satellites   </summary>
+
+        /// <summary>Number of DGPS satellites   </summary>
         [Units("")]
         [Description("Number of DGPS satellites")]
+        //[FieldOffset(34)]
         public  byte dgps_numch;
-            /// <summary>Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.  [cdeg] </summary>
+
+        /// <summary>Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Yaw in earth frame from north. Use 0 if this GPS does not provide yaw. Use 65535 if this GPS is configured to provide yaw and is currently unable to provide it. Use 36000 for north.")]
+        //[FieldOffset(35)]
         public  ushort yaw;
-            /// <summary>Altitude (above WGS84, EGM96 ellipsoid). Positive for up.  [mm] </summary>
+
+        /// <summary>Altitude (above WGS84, EGM96 ellipsoid). Positive for up.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (above WGS84, EGM96 ellipsoid). Positive for up.")]
+        //[FieldOffset(37)]
         public  int alt_ellipsoid;
-            /// <summary>Position uncertainty.  [mm] </summary>
+
+        /// <summary>Position uncertainty.  [mm] </summary>
         [Units("[mm]")]
         [Description("Position uncertainty.")]
+        //[FieldOffset(41)]
         public  uint h_acc;
-            /// <summary>Altitude uncertainty.  [mm] </summary>
+
+        /// <summary>Altitude uncertainty.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude uncertainty.")]
+        //[FieldOffset(45)]
         public  uint v_acc;
-            /// <summary>Speed uncertainty.  [mm] </summary>
+
+        /// <summary>Speed uncertainty.  [mm] </summary>
         [Units("[mm]")]
         [Description("Speed uncertainty.")]
+        //[FieldOffset(49)]
         public  uint vel_acc;
-            /// <summary>Heading / track uncertainty  [degE5] </summary>
+
+        /// <summary>Heading / track uncertainty  [degE5] </summary>
         [Units("[degE5]")]
         [Description("Heading / track uncertainty")]
+        //[FieldOffset(53)]
         public  uint hdg_acc;
-    
     };
 
     
@@ -13447,24 +15603,29 @@ public partial class MAVLink
     {
         public mavlink_power_status_t(ushort Vcc,ushort Vservo,/*MAV_POWER_STATUS*/ushort flags) 
         {
-              this.Vcc = Vcc;
-              this.Vservo = Vservo;
-              this.flags = flags;
+            this.Vcc = Vcc;
+            this.Vservo = Vservo;
+            this.flags = flags;
             
         }
+
         /// <summary>5V rail voltage.  [mV] </summary>
         [Units("[mV]")]
         [Description("5V rail voltage.")]
+        //[FieldOffset(0)]
         public  ushort Vcc;
-            /// <summary>Servo rail voltage.  [mV] </summary>
+
+        /// <summary>Servo rail voltage.  [mV] </summary>
         [Units("[mV]")]
         [Description("Servo rail voltage.")]
+        //[FieldOffset(2)]
         public  ushort Vservo;
-            /// <summary>Bitmap of power supply status flags. MAV_POWER_STATUS  bitmask</summary>
+
+        /// <summary>Bitmap of power supply status flags. MAV_POWER_STATUS  bitmask</summary>
         [Units("")]
         [Description("Bitmap of power supply status flags.")]
+        //[FieldOffset(4)]
         public  /*MAV_POWER_STATUS*/ushort flags;
-    
     };
 
     
@@ -13475,40 +15636,51 @@ public partial class MAVLink
     {
         public mavlink_serial_control_t(uint baudrate,ushort timeout,/*SERIAL_CONTROL_DEV*/byte device,/*SERIAL_CONTROL_FLAG*/byte flags,byte count,byte[] data) 
         {
-              this.baudrate = baudrate;
-              this.timeout = timeout;
-              this.device = device;
-              this.flags = flags;
-              this.count = count;
-              this.data = data;
+            this.baudrate = baudrate;
+            this.timeout = timeout;
+            this.device = device;
+            this.flags = flags;
+            this.count = count;
+            this.data = data;
             
         }
+
         /// <summary>Baudrate of transfer. Zero means no change.  [bits/s] </summary>
         [Units("[bits/s]")]
         [Description("Baudrate of transfer. Zero means no change.")]
+        //[FieldOffset(0)]
         public  uint baudrate;
-            /// <summary>Timeout for reply data  [ms] </summary>
+
+        /// <summary>Timeout for reply data  [ms] </summary>
         [Units("[ms]")]
         [Description("Timeout for reply data")]
+        //[FieldOffset(4)]
         public  ushort timeout;
-            /// <summary>Serial control device type. SERIAL_CONTROL_DEV  </summary>
+
+        /// <summary>Serial control device type. SERIAL_CONTROL_DEV  </summary>
         [Units("")]
         [Description("Serial control device type.")]
+        //[FieldOffset(6)]
         public  /*SERIAL_CONTROL_DEV*/byte device;
-            /// <summary>Bitmap of serial control flags. SERIAL_CONTROL_FLAG  bitmask</summary>
+
+        /// <summary>Bitmap of serial control flags. SERIAL_CONTROL_FLAG  bitmask</summary>
         [Units("")]
         [Description("Bitmap of serial control flags.")]
+        //[FieldOffset(7)]
         public  /*SERIAL_CONTROL_FLAG*/byte flags;
-            /// <summary>how many bytes in this transfer  [bytes] </summary>
+
+        /// <summary>how many bytes in this transfer  [bytes] </summary>
         [Units("[bytes]")]
         [Description("how many bytes in this transfer")]
+        //[FieldOffset(8)]
         public  byte count;
-            /// <summary>serial data   </summary>
+
+        /// <summary>serial data   </summary>
         [Units("")]
         [Description("serial data")]
+        //[FieldOffset(9)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=70)]
 		public byte[] data;
-    
     };
 
     
@@ -13519,74 +15691,99 @@ public partial class MAVLink
     {
         public mavlink_gps_rtk_t(uint time_last_baseline_ms,uint tow,int baseline_a_mm,int baseline_b_mm,int baseline_c_mm,uint accuracy,int iar_num_hypotheses,ushort wn,byte rtk_receiver_id,byte rtk_health,byte rtk_rate,byte nsats,/*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type) 
         {
-              this.time_last_baseline_ms = time_last_baseline_ms;
-              this.tow = tow;
-              this.baseline_a_mm = baseline_a_mm;
-              this.baseline_b_mm = baseline_b_mm;
-              this.baseline_c_mm = baseline_c_mm;
-              this.accuracy = accuracy;
-              this.iar_num_hypotheses = iar_num_hypotheses;
-              this.wn = wn;
-              this.rtk_receiver_id = rtk_receiver_id;
-              this.rtk_health = rtk_health;
-              this.rtk_rate = rtk_rate;
-              this.nsats = nsats;
-              this.baseline_coords_type = baseline_coords_type;
+            this.time_last_baseline_ms = time_last_baseline_ms;
+            this.tow = tow;
+            this.baseline_a_mm = baseline_a_mm;
+            this.baseline_b_mm = baseline_b_mm;
+            this.baseline_c_mm = baseline_c_mm;
+            this.accuracy = accuracy;
+            this.iar_num_hypotheses = iar_num_hypotheses;
+            this.wn = wn;
+            this.rtk_receiver_id = rtk_receiver_id;
+            this.rtk_health = rtk_health;
+            this.rtk_rate = rtk_rate;
+            this.nsats = nsats;
+            this.baseline_coords_type = baseline_coords_type;
             
         }
+
         /// <summary>Time since boot of last baseline message received.  [ms] </summary>
         [Units("[ms]")]
         [Description("Time since boot of last baseline message received.")]
+        //[FieldOffset(0)]
         public  uint time_last_baseline_ms;
-            /// <summary>GPS Time of Week of last baseline  [ms] </summary>
+
+        /// <summary>GPS Time of Week of last baseline  [ms] </summary>
         [Units("[ms]")]
         [Description("GPS Time of Week of last baseline")]
+        //[FieldOffset(4)]
         public  uint tow;
-            /// <summary>Current baseline in ECEF x or NED north component.  [mm] </summary>
+
+        /// <summary>Current baseline in ECEF x or NED north component.  [mm] </summary>
         [Units("[mm]")]
         [Description("Current baseline in ECEF x or NED north component.")]
+        //[FieldOffset(8)]
         public  int baseline_a_mm;
-            /// <summary>Current baseline in ECEF y or NED east component.  [mm] </summary>
+
+        /// <summary>Current baseline in ECEF y or NED east component.  [mm] </summary>
         [Units("[mm]")]
         [Description("Current baseline in ECEF y or NED east component.")]
+        //[FieldOffset(12)]
         public  int baseline_b_mm;
-            /// <summary>Current baseline in ECEF z or NED down component.  [mm] </summary>
+
+        /// <summary>Current baseline in ECEF z or NED down component.  [mm] </summary>
         [Units("[mm]")]
         [Description("Current baseline in ECEF z or NED down component.")]
+        //[FieldOffset(16)]
         public  int baseline_c_mm;
-            /// <summary>Current estimate of baseline accuracy.   </summary>
+
+        /// <summary>Current estimate of baseline accuracy.   </summary>
         [Units("")]
         [Description("Current estimate of baseline accuracy.")]
+        //[FieldOffset(20)]
         public  uint accuracy;
-            /// <summary>Current number of integer ambiguity hypotheses.   </summary>
+
+        /// <summary>Current number of integer ambiguity hypotheses.   </summary>
         [Units("")]
         [Description("Current number of integer ambiguity hypotheses.")]
+        //[FieldOffset(24)]
         public  int iar_num_hypotheses;
-            /// <summary>GPS Week Number of last baseline   </summary>
+
+        /// <summary>GPS Week Number of last baseline   </summary>
         [Units("")]
         [Description("GPS Week Number of last baseline")]
+        //[FieldOffset(28)]
         public  ushort wn;
-            /// <summary>Identification of connected RTK receiver.   </summary>
+
+        /// <summary>Identification of connected RTK receiver.   </summary>
         [Units("")]
         [Description("Identification of connected RTK receiver.")]
+        //[FieldOffset(30)]
         public  byte rtk_receiver_id;
-            /// <summary>GPS-specific health report for RTK data.   </summary>
+
+        /// <summary>GPS-specific health report for RTK data.   </summary>
         [Units("")]
         [Description("GPS-specific health report for RTK data.")]
+        //[FieldOffset(31)]
         public  byte rtk_health;
-            /// <summary>Rate of baseline messages being received by GPS  [Hz] </summary>
+
+        /// <summary>Rate of baseline messages being received by GPS  [Hz] </summary>
         [Units("[Hz]")]
         [Description("Rate of baseline messages being received by GPS")]
+        //[FieldOffset(32)]
         public  byte rtk_rate;
-            /// <summary>Current number of sats used for RTK calculation.   </summary>
+
+        /// <summary>Current number of sats used for RTK calculation.   </summary>
         [Units("")]
         [Description("Current number of sats used for RTK calculation.")]
+        //[FieldOffset(33)]
         public  byte nsats;
-            /// <summary>Coordinate system of baseline RTK_BASELINE_COORDINATE_SYSTEM  </summary>
+
+        /// <summary>Coordinate system of baseline RTK_BASELINE_COORDINATE_SYSTEM  </summary>
         [Units("")]
         [Description("Coordinate system of baseline")]
+        //[FieldOffset(34)]
         public  /*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type;
-    
     };
 
     
@@ -13597,74 +15794,99 @@ public partial class MAVLink
     {
         public mavlink_gps2_rtk_t(uint time_last_baseline_ms,uint tow,int baseline_a_mm,int baseline_b_mm,int baseline_c_mm,uint accuracy,int iar_num_hypotheses,ushort wn,byte rtk_receiver_id,byte rtk_health,byte rtk_rate,byte nsats,/*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type) 
         {
-              this.time_last_baseline_ms = time_last_baseline_ms;
-              this.tow = tow;
-              this.baseline_a_mm = baseline_a_mm;
-              this.baseline_b_mm = baseline_b_mm;
-              this.baseline_c_mm = baseline_c_mm;
-              this.accuracy = accuracy;
-              this.iar_num_hypotheses = iar_num_hypotheses;
-              this.wn = wn;
-              this.rtk_receiver_id = rtk_receiver_id;
-              this.rtk_health = rtk_health;
-              this.rtk_rate = rtk_rate;
-              this.nsats = nsats;
-              this.baseline_coords_type = baseline_coords_type;
+            this.time_last_baseline_ms = time_last_baseline_ms;
+            this.tow = tow;
+            this.baseline_a_mm = baseline_a_mm;
+            this.baseline_b_mm = baseline_b_mm;
+            this.baseline_c_mm = baseline_c_mm;
+            this.accuracy = accuracy;
+            this.iar_num_hypotheses = iar_num_hypotheses;
+            this.wn = wn;
+            this.rtk_receiver_id = rtk_receiver_id;
+            this.rtk_health = rtk_health;
+            this.rtk_rate = rtk_rate;
+            this.nsats = nsats;
+            this.baseline_coords_type = baseline_coords_type;
             
         }
+
         /// <summary>Time since boot of last baseline message received.  [ms] </summary>
         [Units("[ms]")]
         [Description("Time since boot of last baseline message received.")]
+        //[FieldOffset(0)]
         public  uint time_last_baseline_ms;
-            /// <summary>GPS Time of Week of last baseline  [ms] </summary>
+
+        /// <summary>GPS Time of Week of last baseline  [ms] </summary>
         [Units("[ms]")]
         [Description("GPS Time of Week of last baseline")]
+        //[FieldOffset(4)]
         public  uint tow;
-            /// <summary>Current baseline in ECEF x or NED north component.  [mm] </summary>
+
+        /// <summary>Current baseline in ECEF x or NED north component.  [mm] </summary>
         [Units("[mm]")]
         [Description("Current baseline in ECEF x or NED north component.")]
+        //[FieldOffset(8)]
         public  int baseline_a_mm;
-            /// <summary>Current baseline in ECEF y or NED east component.  [mm] </summary>
+
+        /// <summary>Current baseline in ECEF y or NED east component.  [mm] </summary>
         [Units("[mm]")]
         [Description("Current baseline in ECEF y or NED east component.")]
+        //[FieldOffset(12)]
         public  int baseline_b_mm;
-            /// <summary>Current baseline in ECEF z or NED down component.  [mm] </summary>
+
+        /// <summary>Current baseline in ECEF z or NED down component.  [mm] </summary>
         [Units("[mm]")]
         [Description("Current baseline in ECEF z or NED down component.")]
+        //[FieldOffset(16)]
         public  int baseline_c_mm;
-            /// <summary>Current estimate of baseline accuracy.   </summary>
+
+        /// <summary>Current estimate of baseline accuracy.   </summary>
         [Units("")]
         [Description("Current estimate of baseline accuracy.")]
+        //[FieldOffset(20)]
         public  uint accuracy;
-            /// <summary>Current number of integer ambiguity hypotheses.   </summary>
+
+        /// <summary>Current number of integer ambiguity hypotheses.   </summary>
         [Units("")]
         [Description("Current number of integer ambiguity hypotheses.")]
+        //[FieldOffset(24)]
         public  int iar_num_hypotheses;
-            /// <summary>GPS Week Number of last baseline   </summary>
+
+        /// <summary>GPS Week Number of last baseline   </summary>
         [Units("")]
         [Description("GPS Week Number of last baseline")]
+        //[FieldOffset(28)]
         public  ushort wn;
-            /// <summary>Identification of connected RTK receiver.   </summary>
+
+        /// <summary>Identification of connected RTK receiver.   </summary>
         [Units("")]
         [Description("Identification of connected RTK receiver.")]
+        //[FieldOffset(30)]
         public  byte rtk_receiver_id;
-            /// <summary>GPS-specific health report for RTK data.   </summary>
+
+        /// <summary>GPS-specific health report for RTK data.   </summary>
         [Units("")]
         [Description("GPS-specific health report for RTK data.")]
+        //[FieldOffset(31)]
         public  byte rtk_health;
-            /// <summary>Rate of baseline messages being received by GPS  [Hz] </summary>
+
+        /// <summary>Rate of baseline messages being received by GPS  [Hz] </summary>
         [Units("[Hz]")]
         [Description("Rate of baseline messages being received by GPS")]
+        //[FieldOffset(32)]
         public  byte rtk_rate;
-            /// <summary>Current number of sats used for RTK calculation.   </summary>
+
+        /// <summary>Current number of sats used for RTK calculation.   </summary>
         [Units("")]
         [Description("Current number of sats used for RTK calculation.")]
+        //[FieldOffset(33)]
         public  byte nsats;
-            /// <summary>Coordinate system of baseline RTK_BASELINE_COORDINATE_SYSTEM  </summary>
+
+        /// <summary>Coordinate system of baseline RTK_BASELINE_COORDINATE_SYSTEM  </summary>
         [Units("")]
         [Description("Coordinate system of baseline")]
+        //[FieldOffset(34)]
         public  /*RTK_BASELINE_COORDINATE_SYSTEM*/byte baseline_coords_type;
-    
     };
 
     
@@ -13675,64 +15897,85 @@ public partial class MAVLink
     {
         public mavlink_scaled_imu3_t(uint time_boot_ms,short xacc,short yacc,short zacc,short xgyro,short ygyro,short zgyro,short xmag,short ymag,short zmag,short temperature) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.xacc = xacc;
-              this.yacc = yacc;
-              this.zacc = zacc;
-              this.xgyro = xgyro;
-              this.ygyro = ygyro;
-              this.zgyro = zgyro;
-              this.xmag = xmag;
-              this.ymag = ymag;
-              this.zmag = zmag;
-              this.temperature = temperature;
+            this.time_boot_ms = time_boot_ms;
+            this.xacc = xacc;
+            this.yacc = yacc;
+            this.zacc = zacc;
+            this.xgyro = xgyro;
+            this.ygyro = ygyro;
+            this.zgyro = zgyro;
+            this.xmag = xmag;
+            this.ymag = ymag;
+            this.zmag = zmag;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>X acceleration  [mG] </summary>
+
+        /// <summary>X acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("X acceleration")]
+        //[FieldOffset(4)]
         public  short xacc;
-            /// <summary>Y acceleration  [mG] </summary>
+
+        /// <summary>Y acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Y acceleration")]
+        //[FieldOffset(6)]
         public  short yacc;
-            /// <summary>Z acceleration  [mG] </summary>
+
+        /// <summary>Z acceleration  [mG] </summary>
         [Units("[mG]")]
         [Description("Z acceleration")]
+        //[FieldOffset(8)]
         public  short zacc;
-            /// <summary>Angular speed around X axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around X axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around X axis")]
+        //[FieldOffset(10)]
         public  short xgyro;
-            /// <summary>Angular speed around Y axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around Y axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around Y axis")]
+        //[FieldOffset(12)]
         public  short ygyro;
-            /// <summary>Angular speed around Z axis  [mrad/s] </summary>
+
+        /// <summary>Angular speed around Z axis  [mrad/s] </summary>
         [Units("[mrad/s]")]
         [Description("Angular speed around Z axis")]
+        //[FieldOffset(14)]
         public  short zgyro;
-            /// <summary>X Magnetic field  [mgauss] </summary>
+
+        /// <summary>X Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("X Magnetic field")]
+        //[FieldOffset(16)]
         public  short xmag;
-            /// <summary>Y Magnetic field  [mgauss] </summary>
+
+        /// <summary>Y Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("Y Magnetic field")]
+        //[FieldOffset(18)]
         public  short ymag;
-            /// <summary>Z Magnetic field  [mgauss] </summary>
+
+        /// <summary>Z Magnetic field  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("Z Magnetic field")]
+        //[FieldOffset(20)]
         public  short zmag;
-            /// <summary>Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).  [cdegC] </summary>
+
+        /// <summary>Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Temperature, 0: IMU does not provide temperature values. If the IMU is at 0C it must send 1 (0.01C).")]
+        //[FieldOffset(22)]
         public  short temperature;
-    
     };
 
     
@@ -13743,44 +15986,57 @@ public partial class MAVLink
     {
         public mavlink_data_transmission_handshake_t(uint size,ushort width,ushort height,ushort packets,/*MAVLINK_DATA_STREAM_TYPE*/byte type,byte payload,byte jpg_quality) 
         {
-              this.size = size;
-              this.width = width;
-              this.height = height;
-              this.packets = packets;
-              this.type = type;
-              this.payload = payload;
-              this.jpg_quality = jpg_quality;
+            this.size = size;
+            this.width = width;
+            this.height = height;
+            this.packets = packets;
+            this.type = type;
+            this.payload = payload;
+            this.jpg_quality = jpg_quality;
             
         }
+
         /// <summary>total data size (set on ACK only).  [bytes] </summary>
         [Units("[bytes]")]
         [Description("total data size (set on ACK only).")]
+        //[FieldOffset(0)]
         public  uint size;
-            /// <summary>Width of a matrix or image.   </summary>
+
+        /// <summary>Width of a matrix or image.   </summary>
         [Units("")]
         [Description("Width of a matrix or image.")]
+        //[FieldOffset(4)]
         public  ushort width;
-            /// <summary>Height of a matrix or image.   </summary>
+
+        /// <summary>Height of a matrix or image.   </summary>
         [Units("")]
         [Description("Height of a matrix or image.")]
+        //[FieldOffset(6)]
         public  ushort height;
-            /// <summary>Number of packets being sent (set on ACK only).   </summary>
+
+        /// <summary>Number of packets being sent (set on ACK only).   </summary>
         [Units("")]
         [Description("Number of packets being sent (set on ACK only).")]
+        //[FieldOffset(8)]
         public  ushort packets;
-            /// <summary>Type of requested/acknowledged data. MAVLINK_DATA_STREAM_TYPE  </summary>
+
+        /// <summary>Type of requested/acknowledged data. MAVLINK_DATA_STREAM_TYPE  </summary>
         [Units("")]
         [Description("Type of requested/acknowledged data.")]
+        //[FieldOffset(10)]
         public  /*MAVLINK_DATA_STREAM_TYPE*/byte type;
-            /// <summary>Payload size per packet (normally 253 byte, see DATA field size in message ENCAPSULATED_DATA) (set on ACK only).  [bytes] </summary>
+
+        /// <summary>Payload size per packet (normally 253 byte, see DATA field size in message ENCAPSULATED_DATA) (set on ACK only).  [bytes] </summary>
         [Units("[bytes]")]
         [Description("Payload size per packet (normally 253 byte, see DATA field size in message ENCAPSULATED_DATA) (set on ACK only).")]
+        //[FieldOffset(11)]
         public  byte payload;
-            /// <summary>JPEG quality. Values: [1-100].  [%] </summary>
+
+        /// <summary>JPEG quality. Values: [1-100].  [%] </summary>
         [Units("[%]")]
         [Description("JPEG quality. Values: [1-100].")]
+        //[FieldOffset(12)]
         public  byte jpg_quality;
-    
     };
 
     
@@ -13791,20 +16047,23 @@ public partial class MAVLink
     {
         public mavlink_encapsulated_data_t(ushort seqnr,byte[] data) 
         {
-              this.seqnr = seqnr;
-              this.data = data;
+            this.seqnr = seqnr;
+            this.data = data;
             
         }
+
         /// <summary>sequence number (starting with 0 on every transmission)   </summary>
         [Units("")]
         [Description("sequence number (starting with 0 on every transmission)")]
+        //[FieldOffset(0)]
         public  ushort seqnr;
-            /// <summary>image data bytes   </summary>
+
+        /// <summary>image data bytes   </summary>
         [Units("")]
         [Description("image data bytes")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=253)]
 		public byte[] data;
-    
     };
 
     
@@ -13815,70 +16074,93 @@ public partial class MAVLink
     {
         public mavlink_distance_sensor_t(uint time_boot_ms,ushort min_distance,ushort max_distance,ushort current_distance,/*MAV_DISTANCE_SENSOR*/byte type,byte id,/*MAV_SENSOR_ORIENTATION*/byte orientation,byte covariance,float horizontal_fov,float vertical_fov,float[] quaternion,byte signal_quality) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.min_distance = min_distance;
-              this.max_distance = max_distance;
-              this.current_distance = current_distance;
-              this.type = type;
-              this.id = id;
-              this.orientation = orientation;
-              this.covariance = covariance;
-              this.horizontal_fov = horizontal_fov;
-              this.vertical_fov = vertical_fov;
-              this.quaternion = quaternion;
-              this.signal_quality = signal_quality;
+            this.time_boot_ms = time_boot_ms;
+            this.min_distance = min_distance;
+            this.max_distance = max_distance;
+            this.current_distance = current_distance;
+            this.type = type;
+            this.id = id;
+            this.orientation = orientation;
+            this.covariance = covariance;
+            this.horizontal_fov = horizontal_fov;
+            this.vertical_fov = vertical_fov;
+            this.quaternion = quaternion;
+            this.signal_quality = signal_quality;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Minimum distance the sensor can measure  [cm] </summary>
+
+        /// <summary>Minimum distance the sensor can measure  [cm] </summary>
         [Units("[cm]")]
         [Description("Minimum distance the sensor can measure")]
+        //[FieldOffset(4)]
         public  ushort min_distance;
-            /// <summary>Maximum distance the sensor can measure  [cm] </summary>
+
+        /// <summary>Maximum distance the sensor can measure  [cm] </summary>
         [Units("[cm]")]
         [Description("Maximum distance the sensor can measure")]
+        //[FieldOffset(6)]
         public  ushort max_distance;
-            /// <summary>Current distance reading  [cm] </summary>
+
+        /// <summary>Current distance reading  [cm] </summary>
         [Units("[cm]")]
         [Description("Current distance reading")]
+        //[FieldOffset(8)]
         public  ushort current_distance;
-            /// <summary>Type of distance sensor. MAV_DISTANCE_SENSOR  </summary>
+
+        /// <summary>Type of distance sensor. MAV_DISTANCE_SENSOR  </summary>
         [Units("")]
         [Description("Type of distance sensor.")]
+        //[FieldOffset(10)]
         public  /*MAV_DISTANCE_SENSOR*/byte type;
-            /// <summary>Onboard ID of the sensor   </summary>
+
+        /// <summary>Onboard ID of the sensor   </summary>
         [Units("")]
         [Description("Onboard ID of the sensor")]
+        //[FieldOffset(11)]
         public  byte id;
-            /// <summary>Direction the sensor faces. downward-facing: ROTATION_PITCH_270, upward-facing: ROTATION_PITCH_90, backward-facing: ROTATION_PITCH_180, forward-facing: ROTATION_NONE, left-facing: ROTATION_YAW_90, right-facing: ROTATION_YAW_270 MAV_SENSOR_ORIENTATION  </summary>
+
+        /// <summary>Direction the sensor faces. downward-facing: ROTATION_PITCH_270, upward-facing: ROTATION_PITCH_90, backward-facing: ROTATION_PITCH_180, forward-facing: ROTATION_NONE, left-facing: ROTATION_YAW_90, right-facing: ROTATION_YAW_270 MAV_SENSOR_ORIENTATION  </summary>
         [Units("")]
         [Description("Direction the sensor faces. downward-facing: ROTATION_PITCH_270, upward-facing: ROTATION_PITCH_90, backward-facing: ROTATION_PITCH_180, forward-facing: ROTATION_NONE, left-facing: ROTATION_YAW_90, right-facing: ROTATION_YAW_270")]
+        //[FieldOffset(12)]
         public  /*MAV_SENSOR_ORIENTATION*/byte orientation;
-            /// <summary>Measurement variance. Max standard deviation is 6cm. 255 if unknown.  [cm^2] </summary>
+
+        /// <summary>Measurement variance. Max standard deviation is 6cm. 255 if unknown.  [cm^2] </summary>
         [Units("[cm^2]")]
         [Description("Measurement variance. Max standard deviation is 6cm. 255 if unknown.")]
+        //[FieldOffset(13)]
         public  byte covariance;
-            /// <summary>Horizontal Field of View (angle) where the distance measurement is valid and the field of view is known. Otherwise this is set to 0.  [rad] </summary>
+
+        /// <summary>Horizontal Field of View (angle) where the distance measurement is valid and the field of view is known. Otherwise this is set to 0.  [rad] </summary>
         [Units("[rad]")]
         [Description("Horizontal Field of View (angle) where the distance measurement is valid and the field of view is known. Otherwise this is set to 0.")]
+        //[FieldOffset(14)]
         public  float horizontal_fov;
-            /// <summary>Vertical Field of View (angle) where the distance measurement is valid and the field of view is known. Otherwise this is set to 0.  [rad] </summary>
+
+        /// <summary>Vertical Field of View (angle) where the distance measurement is valid and the field of view is known. Otherwise this is set to 0.  [rad] </summary>
         [Units("[rad]")]
         [Description("Vertical Field of View (angle) where the distance measurement is valid and the field of view is known. Otherwise this is set to 0.")]
+        //[FieldOffset(18)]
         public  float vertical_fov;
-            /// <summary>Quaternion of the sensor orientation in vehicle body frame (w, x, y, z order, zero-rotation is 1, 0, 0, 0). Zero-rotation is along the vehicle body x-axis. This field is required if the orientation is set to MAV_SENSOR_ROTATION_CUSTOM. Set it to 0 if invalid.'   </summary>
+
+        /// <summary>Quaternion of the sensor orientation in vehicle body frame (w, x, y, z order, zero-rotation is 1, 0, 0, 0). Zero-rotation is along the vehicle body x-axis. This field is required if the orientation is set to MAV_SENSOR_ROTATION_CUSTOM. Set it to 0 if invalid.'   </summary>
         [Units("")]
         [Description("Quaternion of the sensor orientation in vehicle body frame (w, x, y, z order, zero-rotation is 1, 0, 0, 0). Zero-rotation is along the vehicle body x-axis. This field is required if the orientation is set to MAV_SENSOR_ROTATION_CUSTOM. Set it to 0 if invalid.'")]
+        //[FieldOffset(22)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] quaternion;
-            /// <summary>Signal quality of the sensor. Specific to each sensor type, representing the relation of the signal strength with the target reflectivity, distance, size or aspect, but normalised as a percentage. 0 = unknown/unset signal quality, 1 = invalid signal, 100 = perfect signal.  [%] </summary>
+
+        /// <summary>Signal quality of the sensor. Specific to each sensor type, representing the relation of the signal strength with the target reflectivity, distance, size or aspect, but normalised as a percentage. 0 = unknown/unset signal quality, 1 = invalid signal, 100 = perfect signal.  [%] </summary>
         [Units("[%]")]
         [Description("Signal quality of the sensor. Specific to each sensor type, representing the relation of the signal strength with the target reflectivity, distance, size or aspect, but normalised as a percentage. 0 = unknown/unset signal quality, 1 = invalid signal, 100 = perfect signal.")]
+        //[FieldOffset(38)]
         public  byte signal_quality;
-    
     };
 
     
@@ -13889,29 +16171,36 @@ public partial class MAVLink
     {
         public mavlink_terrain_request_t(ulong mask,int lat,int lon,ushort grid_spacing) 
         {
-              this.mask = mask;
-              this.lat = lat;
-              this.lon = lon;
-              this.grid_spacing = grid_spacing;
+            this.mask = mask;
+            this.lat = lat;
+            this.lon = lon;
+            this.grid_spacing = grid_spacing;
             
         }
+
         /// <summary>Bitmask of requested 4x4 grids (row major 8x7 array of grids, 56 bits)   bitmask</summary>
         [Units("")]
         [Description("Bitmask of requested 4x4 grids (row major 8x7 array of grids, 56 bits)")]
+        //[FieldOffset(0)]
         public  ulong mask;
-            /// <summary>Latitude of SW corner of first grid  [degE7] </summary>
+
+        /// <summary>Latitude of SW corner of first grid  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude of SW corner of first grid")]
+        //[FieldOffset(8)]
         public  int lat;
-            /// <summary>Longitude of SW corner of first grid  [degE7] </summary>
+
+        /// <summary>Longitude of SW corner of first grid  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude of SW corner of first grid")]
+        //[FieldOffset(12)]
         public  int lon;
-            /// <summary>Grid spacing  [m] </summary>
+
+        /// <summary>Grid spacing  [m] </summary>
         [Units("[m]")]
         [Description("Grid spacing")]
+        //[FieldOffset(16)]
         public  ushort grid_spacing;
-    
     };
 
     
@@ -13922,35 +16211,44 @@ public partial class MAVLink
     {
         public mavlink_terrain_data_t(int lat,int lon,ushort grid_spacing,short[] data,byte gridbit) 
         {
-              this.lat = lat;
-              this.lon = lon;
-              this.grid_spacing = grid_spacing;
-              this.data = data;
-              this.gridbit = gridbit;
+            this.lat = lat;
+            this.lon = lon;
+            this.grid_spacing = grid_spacing;
+            this.data = data;
+            this.gridbit = gridbit;
             
         }
+
         /// <summary>Latitude of SW corner of first grid  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude of SW corner of first grid")]
+        //[FieldOffset(0)]
         public  int lat;
-            /// <summary>Longitude of SW corner of first grid  [degE7] </summary>
+
+        /// <summary>Longitude of SW corner of first grid  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude of SW corner of first grid")]
+        //[FieldOffset(4)]
         public  int lon;
-            /// <summary>Grid spacing  [m] </summary>
+
+        /// <summary>Grid spacing  [m] </summary>
         [Units("[m]")]
         [Description("Grid spacing")]
+        //[FieldOffset(8)]
         public  ushort grid_spacing;
-            /// <summary>Terrain data MSL  [m] </summary>
+
+        /// <summary>Terrain data MSL  [m] </summary>
         [Units("[m]")]
         [Description("Terrain data MSL")]
+        //[FieldOffset(10)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public short[] data;
-            /// <summary>bit within the terrain request mask   </summary>
+
+        /// <summary>bit within the terrain request mask   </summary>
         [Units("")]
         [Description("bit within the terrain request mask")]
+        //[FieldOffset(42)]
         public  byte gridbit;
-    
     };
 
     
@@ -13961,19 +16259,22 @@ public partial class MAVLink
     {
         public mavlink_terrain_check_t(int lat,int lon) 
         {
-              this.lat = lat;
-              this.lon = lon;
+            this.lat = lat;
+            this.lon = lon;
             
         }
+
         /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(0)]
         public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(4)]
         public  int lon;
-    
     };
 
     
@@ -13984,44 +16285,57 @@ public partial class MAVLink
     {
         public mavlink_terrain_report_t(int lat,int lon,float terrain_height,float current_height,ushort spacing,ushort pending,ushort loaded) 
         {
-              this.lat = lat;
-              this.lon = lon;
-              this.terrain_height = terrain_height;
-              this.current_height = current_height;
-              this.spacing = spacing;
-              this.pending = pending;
-              this.loaded = loaded;
+            this.lat = lat;
+            this.lon = lon;
+            this.terrain_height = terrain_height;
+            this.current_height = current_height;
+            this.spacing = spacing;
+            this.pending = pending;
+            this.loaded = loaded;
             
         }
+
         /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(0)]
         public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(4)]
         public  int lon;
-            /// <summary>Terrain height MSL  [m] </summary>
+
+        /// <summary>Terrain height MSL  [m] </summary>
         [Units("[m]")]
         [Description("Terrain height MSL")]
+        //[FieldOffset(8)]
         public  float terrain_height;
-            /// <summary>Current vehicle height above lat/lon terrain height  [m] </summary>
+
+        /// <summary>Current vehicle height above lat/lon terrain height  [m] </summary>
         [Units("[m]")]
         [Description("Current vehicle height above lat/lon terrain height")]
+        //[FieldOffset(12)]
         public  float current_height;
-            /// <summary>grid spacing (zero if terrain at this location unavailable)   </summary>
+
+        /// <summary>grid spacing (zero if terrain at this location unavailable)   </summary>
         [Units("")]
         [Description("grid spacing (zero if terrain at this location unavailable)")]
+        //[FieldOffset(16)]
         public  ushort spacing;
-            /// <summary>Number of 4x4 terrain blocks waiting to be received or read from disk   </summary>
+
+        /// <summary>Number of 4x4 terrain blocks waiting to be received or read from disk   </summary>
         [Units("")]
         [Description("Number of 4x4 terrain blocks waiting to be received or read from disk")]
+        //[FieldOffset(18)]
         public  ushort pending;
-            /// <summary>Number of 4x4 terrain blocks in memory   </summary>
+
+        /// <summary>Number of 4x4 terrain blocks in memory   </summary>
         [Units("")]
         [Description("Number of 4x4 terrain blocks in memory")]
+        //[FieldOffset(20)]
         public  ushort loaded;
-    
     };
 
     
@@ -14032,34 +16346,43 @@ public partial class MAVLink
     {
         public mavlink_scaled_pressure2_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.press_abs = press_abs;
-              this.press_diff = press_diff;
-              this.temperature = temperature;
-              this.temperature_press_diff = temperature_press_diff;
+            this.time_boot_ms = time_boot_ms;
+            this.press_abs = press_abs;
+            this.press_diff = press_diff;
+            this.temperature = temperature;
+            this.temperature_press_diff = temperature_press_diff;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Absolute pressure  [hPa] </summary>
+
+        /// <summary>Absolute pressure  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Absolute pressure")]
+        //[FieldOffset(4)]
         public  float press_abs;
-            /// <summary>Differential pressure  [hPa] </summary>
+
+        /// <summary>Differential pressure  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Differential pressure")]
+        //[FieldOffset(8)]
         public  float press_diff;
-            /// <summary>Absolute pressure temperature  [cdegC] </summary>
+
+        /// <summary>Absolute pressure temperature  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Absolute pressure temperature")]
+        //[FieldOffset(12)]
         public  short temperature;
-            /// <summary>Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.  [cdegC] </summary>
+
+        /// <summary>Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.")]
+        //[FieldOffset(14)]
         public  short temperature_press_diff;
-    
     };
 
     
@@ -14070,41 +16393,52 @@ public partial class MAVLink
     {
         public mavlink_att_pos_mocap_t(ulong time_usec,float[] q,float x,float y,float z,float[] covariance) 
         {
-              this.time_usec = time_usec;
-              this.q = q;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.covariance = covariance;
+            this.time_usec = time_usec;
+            this.q = q;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.covariance = covariance;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
+
+        /// <summary>Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
         [Units("")]
         [Description("Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>X position (NED)  [m] </summary>
+
+        /// <summary>X position (NED)  [m] </summary>
         [Units("[m]")]
         [Description("X position (NED)")]
+        //[FieldOffset(24)]
         public  float x;
-            /// <summary>Y position (NED)  [m] </summary>
+
+        /// <summary>Y position (NED)  [m] </summary>
         [Units("[m]")]
         [Description("Y position (NED)")]
+        //[FieldOffset(28)]
         public  float y;
-            /// <summary>Z position (NED)  [m] </summary>
+
+        /// <summary>Z position (NED)  [m] </summary>
         [Units("[m]")]
         [Description("Z position (NED)")]
+        //[FieldOffset(32)]
         public  float z;
-            /// <summary>Row-major representation of a pose 6x6 cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of a pose 6x6 cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of a pose 6x6 cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(36)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
 		public float[] covariance;
-    
     };
 
     
@@ -14115,35 +16449,44 @@ public partial class MAVLink
     {
         public mavlink_set_actuator_control_target_t(ulong time_usec,float[] controls,byte group_mlx,byte target_system,byte target_component) 
         {
-              this.time_usec = time_usec;
-              this.controls = controls;
-              this.group_mlx = group_mlx;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.time_usec = time_usec;
+            this.controls = controls;
+            this.group_mlx = group_mlx;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.   </summary>
+
+        /// <summary>Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.   </summary>
         [Units("")]
         [Description("Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
 		public float[] controls;
-            /// <summary>Actuator group. The '_mlx' indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.   </summary>
+
+        /// <summary>Actuator group. The '_mlx' indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.   </summary>
         [Units("")]
         [Description("Actuator group. The '_mlx' indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.")]
+        //[FieldOffset(40)]
         public  byte group_mlx;
-            /// <summary>System ID   </summary>
+
+        /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(41)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(42)]
         public  byte target_component;
-    
     };
 
     
@@ -14154,25 +16497,30 @@ public partial class MAVLink
     {
         public mavlink_actuator_control_target_t(ulong time_usec,float[] controls,byte group_mlx) 
         {
-              this.time_usec = time_usec;
-              this.controls = controls;
-              this.group_mlx = group_mlx;
+            this.time_usec = time_usec;
+            this.controls = controls;
+            this.group_mlx = group_mlx;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.   </summary>
+
+        /// <summary>Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.   </summary>
         [Units("")]
         [Description("Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
 		public float[] controls;
-            /// <summary>Actuator group. The '_mlx' indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.   </summary>
+
+        /// <summary>Actuator group. The '_mlx' indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.   </summary>
         [Units("")]
         [Description("Actuator group. The '_mlx' indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.")]
+        //[FieldOffset(40)]
         public  byte group_mlx;
-    
     };
 
     
@@ -14183,44 +16531,57 @@ public partial class MAVLink
     {
         public mavlink_altitude_t(ulong time_usec,float altitude_monotonic,float altitude_amsl,float altitude_local,float altitude_relative,float altitude_terrain,float bottom_clearance) 
         {
-              this.time_usec = time_usec;
-              this.altitude_monotonic = altitude_monotonic;
-              this.altitude_amsl = altitude_amsl;
-              this.altitude_local = altitude_local;
-              this.altitude_relative = altitude_relative;
-              this.altitude_terrain = altitude_terrain;
-              this.bottom_clearance = bottom_clearance;
+            this.time_usec = time_usec;
+            this.altitude_monotonic = altitude_monotonic;
+            this.altitude_amsl = altitude_amsl;
+            this.altitude_local = altitude_local;
+            this.altitude_relative = altitude_relative;
+            this.altitude_terrain = altitude_terrain;
+            this.bottom_clearance = bottom_clearance;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>This altitude measure is initialized on system boot and monotonic (it is never reset, but represents the local altitude change). The only guarantee on this field is that it will never be reset and is consistent within a flight. The recommended value for this field is the uncorrected barometric altitude at boot time. This altitude will also drift and vary between flights.  [m] </summary>
+
+        /// <summary>This altitude measure is initialized on system boot and monotonic (it is never reset, but represents the local altitude change). The only guarantee on this field is that it will never be reset and is consistent within a flight. The recommended value for this field is the uncorrected barometric altitude at boot time. This altitude will also drift and vary between flights.  [m] </summary>
         [Units("[m]")]
         [Description("This altitude measure is initialized on system boot and monotonic (it is never reset, but represents the local altitude change). The only guarantee on this field is that it will never be reset and is consistent within a flight. The recommended value for this field is the uncorrected barometric altitude at boot time. This altitude will also drift and vary between flights.")]
+        //[FieldOffset(8)]
         public  float altitude_monotonic;
-            /// <summary>This altitude measure is strictly above mean sea level and might be non-monotonic (it might reset on events like GPS lock or when a new QNH value is set). It should be the altitude to which global altitude waypoints are compared to. Note that it is *not* the GPS altitude, however, most GPS modules already output MSL by default and not the WGS84 altitude.  [m] </summary>
+
+        /// <summary>This altitude measure is strictly above mean sea level and might be non-monotonic (it might reset on events like GPS lock or when a new QNH value is set). It should be the altitude to which global altitude waypoints are compared to. Note that it is *not* the GPS altitude, however, most GPS modules already output MSL by default and not the WGS84 altitude.  [m] </summary>
         [Units("[m]")]
         [Description("This altitude measure is strictly above mean sea level and might be non-monotonic (it might reset on events like GPS lock or when a new QNH value is set). It should be the altitude to which global altitude waypoints are compared to. Note that it is *not* the GPS altitude, however, most GPS modules already output MSL by default and not the WGS84 altitude.")]
+        //[FieldOffset(12)]
         public  float altitude_amsl;
-            /// <summary>This is the local altitude in the local coordinate frame. It is not the altitude above home, but in reference to the coordinate origin (0, 0, 0). It is up-positive.  [m] </summary>
+
+        /// <summary>This is the local altitude in the local coordinate frame. It is not the altitude above home, but in reference to the coordinate origin (0, 0, 0). It is up-positive.  [m] </summary>
         [Units("[m]")]
         [Description("This is the local altitude in the local coordinate frame. It is not the altitude above home, but in reference to the coordinate origin (0, 0, 0). It is up-positive.")]
+        //[FieldOffset(16)]
         public  float altitude_local;
-            /// <summary>This is the altitude above the home position. It resets on each change of the current home position.  [m] </summary>
+
+        /// <summary>This is the altitude above the home position. It resets on each change of the current home position.  [m] </summary>
         [Units("[m]")]
         [Description("This is the altitude above the home position. It resets on each change of the current home position.")]
+        //[FieldOffset(20)]
         public  float altitude_relative;
-            /// <summary>This is the altitude above terrain. It might be fed by a terrain database or an altimeter. Values smaller than -1000 should be interpreted as unknown.  [m] </summary>
+
+        /// <summary>This is the altitude above terrain. It might be fed by a terrain database or an altimeter. Values smaller than -1000 should be interpreted as unknown.  [m] </summary>
         [Units("[m]")]
         [Description("This is the altitude above terrain. It might be fed by a terrain database or an altimeter. Values smaller than -1000 should be interpreted as unknown.")]
+        //[FieldOffset(24)]
         public  float altitude_terrain;
-            /// <summary>This is not the altitude, but the clear space below the system according to the fused clearance estimate. It generally should max out at the maximum range of e.g. the laser altimeter. It is generally a moving target. A negative value indicates no measurement available.  [m] </summary>
+
+        /// <summary>This is not the altitude, but the clear space below the system according to the fused clearance estimate. It generally should max out at the maximum range of e.g. the laser altimeter. It is generally a moving target. A negative value indicates no measurement available.  [m] </summary>
         [Units("[m]")]
         [Description("This is not the altitude, but the clear space below the system according to the fused clearance estimate. It generally should max out at the maximum range of e.g. the laser altimeter. It is generally a moving target. A negative value indicates no measurement available.")]
+        //[FieldOffset(28)]
         public  float bottom_clearance;
-    
     };
 
     
@@ -14231,36 +16592,45 @@ public partial class MAVLink
     {
         public mavlink_resource_request_t(byte request_id,byte uri_type,byte[] uri,byte transfer_type,byte[] storage) 
         {
-              this.request_id = request_id;
-              this.uri_type = uri_type;
-              this.uri = uri;
-              this.transfer_type = transfer_type;
-              this.storage = storage;
+            this.request_id = request_id;
+            this.uri_type = uri_type;
+            this.uri = uri;
+            this.transfer_type = transfer_type;
+            this.storage = storage;
             
         }
+
         /// <summary>Request ID. This ID should be re-used when sending back URI contents   </summary>
         [Units("")]
         [Description("Request ID. This ID should be re-used when sending back URI contents")]
+        //[FieldOffset(0)]
         public  byte request_id;
-            /// <summary>The type of requested URI. 0 = a file via URL. 1 = a UAVCAN binary   </summary>
+
+        /// <summary>The type of requested URI. 0 = a file via URL. 1 = a UAVCAN binary   </summary>
         [Units("")]
         [Description("The type of requested URI. 0 = a file via URL. 1 = a UAVCAN binary")]
+        //[FieldOffset(1)]
         public  byte uri_type;
-            /// <summary>The requested unique resource identifier (URI). It is not necessarily a straight domain name (depends on the URI type enum)   </summary>
+
+        /// <summary>The requested unique resource identifier (URI). It is not necessarily a straight domain name (depends on the URI type enum)   </summary>
         [Units("")]
         [Description("The requested unique resource identifier (URI). It is not necessarily a straight domain name (depends on the URI type enum)")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=120)]
 		public byte[] uri;
-            /// <summary>The way the autopilot wants to receive the URI. 0 = MAVLink FTP. 1 = binary stream.   </summary>
+
+        /// <summary>The way the autopilot wants to receive the URI. 0 = MAVLink FTP. 1 = binary stream.   </summary>
         [Units("")]
         [Description("The way the autopilot wants to receive the URI. 0 = MAVLink FTP. 1 = binary stream.")]
+        //[FieldOffset(122)]
         public  byte transfer_type;
-            /// <summary>The storage path the autopilot wants the URI to be stored in. Will only be valid if the transfer_type has a storage associated (e.g. MAVLink FTP).   </summary>
+
+        /// <summary>The storage path the autopilot wants the URI to be stored in. Will only be valid if the transfer_type has a storage associated (e.g. MAVLink FTP).   </summary>
         [Units("")]
         [Description("The storage path the autopilot wants the URI to be stored in. Will only be valid if the transfer_type has a storage associated (e.g. MAVLink FTP).")]
+        //[FieldOffset(123)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=120)]
 		public byte[] storage;
-    
     };
 
     
@@ -14271,34 +16641,43 @@ public partial class MAVLink
     {
         public mavlink_scaled_pressure3_t(uint time_boot_ms,float press_abs,float press_diff,short temperature,short temperature_press_diff) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.press_abs = press_abs;
-              this.press_diff = press_diff;
-              this.temperature = temperature;
-              this.temperature_press_diff = temperature_press_diff;
+            this.time_boot_ms = time_boot_ms;
+            this.press_abs = press_abs;
+            this.press_diff = press_diff;
+            this.temperature = temperature;
+            this.temperature_press_diff = temperature_press_diff;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Absolute pressure  [hPa] </summary>
+
+        /// <summary>Absolute pressure  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Absolute pressure")]
+        //[FieldOffset(4)]
         public  float press_abs;
-            /// <summary>Differential pressure  [hPa] </summary>
+
+        /// <summary>Differential pressure  [hPa] </summary>
         [Units("[hPa]")]
         [Description("Differential pressure")]
+        //[FieldOffset(8)]
         public  float press_diff;
-            /// <summary>Absolute pressure temperature  [cdegC] </summary>
+
+        /// <summary>Absolute pressure temperature  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Absolute pressure temperature")]
+        //[FieldOffset(12)]
         public  short temperature;
-            /// <summary>Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.  [cdegC] </summary>
+
+        /// <summary>Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Differential pressure temperature (0, if not available). Report values of 0 (or 1) as 1 cdegC.")]
+        //[FieldOffset(14)]
         public  short temperature_press_diff;
-    
     };
 
     
@@ -14309,69 +16688,90 @@ public partial class MAVLink
     {
         public mavlink_follow_target_t(ulong timestamp,ulong custom_state,int lat,int lon,float alt,float[] vel,float[] acc,float[] attitude_q,float[] rates,float[] position_cov,byte est_capabilities) 
         {
-              this.timestamp = timestamp;
-              this.custom_state = custom_state;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.vel = vel;
-              this.acc = acc;
-              this.attitude_q = attitude_q;
-              this.rates = rates;
-              this.position_cov = position_cov;
-              this.est_capabilities = est_capabilities;
+            this.timestamp = timestamp;
+            this.custom_state = custom_state;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.vel = vel;
+            this.acc = acc;
+            this.attitude_q = attitude_q;
+            this.rates = rates;
+            this.position_cov = position_cov;
+            this.est_capabilities = est_capabilities;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  ulong timestamp;
-            /// <summary>button states or switches of a tracker device   </summary>
+
+        /// <summary>button states or switches of a tracker device   </summary>
         [Units("")]
         [Description("button states or switches of a tracker device")]
+        //[FieldOffset(8)]
         public  ulong custom_state;
-            /// <summary>Latitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(16)]
         public  int lat;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(20)]
         public  int lon;
-            /// <summary>Altitude (MSL)  [m] </summary>
+
+        /// <summary>Altitude (MSL)  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL)")]
+        //[FieldOffset(24)]
         public  float alt;
-            /// <summary>target velocity (0,0,0) for unknown  [m/s] </summary>
+
+        /// <summary>target velocity (0,0,0) for unknown  [m/s] </summary>
         [Units("[m/s]")]
         [Description("target velocity (0,0,0) for unknown")]
+        //[FieldOffset(28)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
 		public float[] vel;
-            /// <summary>linear target acceleration (0,0,0) for unknown  [m/s/s] </summary>
+
+        /// <summary>linear target acceleration (0,0,0) for unknown  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("linear target acceleration (0,0,0) for unknown")]
+        //[FieldOffset(40)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
 		public float[] acc;
-            /// <summary>(1 0 0 0 for unknown)   </summary>
+
+        /// <summary>(1 0 0 0 for unknown)   </summary>
         [Units("")]
         [Description("(1 0 0 0 for unknown)")]
+        //[FieldOffset(52)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] attitude_q;
-            /// <summary>(0 0 0 for unknown)   </summary>
+
+        /// <summary>(0 0 0 for unknown)   </summary>
         [Units("")]
         [Description("(0 0 0 for unknown)")]
+        //[FieldOffset(68)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
 		public float[] rates;
-            /// <summary>eph epv   </summary>
+
+        /// <summary>eph epv   </summary>
         [Units("")]
         [Description("eph epv")]
+        //[FieldOffset(80)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
 		public float[] position_cov;
-            /// <summary>bit positions for tracker reporting capabilities (POS = 0, VEL = 1, ACCEL = 2, ATT + RATES = 3)   </summary>
+
+        /// <summary>bit positions for tracker reporting capabilities (POS = 0, VEL = 1, ACCEL = 2, ATT + RATES = 3)   </summary>
         [Units("")]
         [Description("bit positions for tracker reporting capabilities (POS = 0, VEL = 1, ACCEL = 2, ATT + RATES = 3)")]
+        //[FieldOffset(92)]
         public  byte est_capabilities;
-    
     };
 
     
@@ -14382,97 +16782,130 @@ public partial class MAVLink
     {
         public mavlink_control_system_state_t(ulong time_usec,float x_acc,float y_acc,float z_acc,float x_vel,float y_vel,float z_vel,float x_pos,float y_pos,float z_pos,float airspeed,float[] vel_variance,float[] pos_variance,float[] q,float roll_rate,float pitch_rate,float yaw_rate) 
         {
-              this.time_usec = time_usec;
-              this.x_acc = x_acc;
-              this.y_acc = y_acc;
-              this.z_acc = z_acc;
-              this.x_vel = x_vel;
-              this.y_vel = y_vel;
-              this.z_vel = z_vel;
-              this.x_pos = x_pos;
-              this.y_pos = y_pos;
-              this.z_pos = z_pos;
-              this.airspeed = airspeed;
-              this.vel_variance = vel_variance;
-              this.pos_variance = pos_variance;
-              this.q = q;
-              this.roll_rate = roll_rate;
-              this.pitch_rate = pitch_rate;
-              this.yaw_rate = yaw_rate;
+            this.time_usec = time_usec;
+            this.x_acc = x_acc;
+            this.y_acc = y_acc;
+            this.z_acc = z_acc;
+            this.x_vel = x_vel;
+            this.y_vel = y_vel;
+            this.z_vel = z_vel;
+            this.x_pos = x_pos;
+            this.y_pos = y_pos;
+            this.z_pos = z_pos;
+            this.airspeed = airspeed;
+            this.vel_variance = vel_variance;
+            this.pos_variance = pos_variance;
+            this.q = q;
+            this.roll_rate = roll_rate;
+            this.pitch_rate = pitch_rate;
+            this.yaw_rate = yaw_rate;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>X acceleration in body frame  [m/s/s] </summary>
+
+        /// <summary>X acceleration in body frame  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("X acceleration in body frame")]
+        //[FieldOffset(8)]
         public  float x_acc;
-            /// <summary>Y acceleration in body frame  [m/s/s] </summary>
+
+        /// <summary>Y acceleration in body frame  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Y acceleration in body frame")]
+        //[FieldOffset(12)]
         public  float y_acc;
-            /// <summary>Z acceleration in body frame  [m/s/s] </summary>
+
+        /// <summary>Z acceleration in body frame  [m/s/s] </summary>
         [Units("[m/s/s]")]
         [Description("Z acceleration in body frame")]
+        //[FieldOffset(16)]
         public  float z_acc;
-            /// <summary>X velocity in body frame  [m/s] </summary>
+
+        /// <summary>X velocity in body frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("X velocity in body frame")]
+        //[FieldOffset(20)]
         public  float x_vel;
-            /// <summary>Y velocity in body frame  [m/s] </summary>
+
+        /// <summary>Y velocity in body frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Y velocity in body frame")]
+        //[FieldOffset(24)]
         public  float y_vel;
-            /// <summary>Z velocity in body frame  [m/s] </summary>
+
+        /// <summary>Z velocity in body frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Z velocity in body frame")]
+        //[FieldOffset(28)]
         public  float z_vel;
-            /// <summary>X position in local frame  [m] </summary>
+
+        /// <summary>X position in local frame  [m] </summary>
         [Units("[m]")]
         [Description("X position in local frame")]
+        //[FieldOffset(32)]
         public  float x_pos;
-            /// <summary>Y position in local frame  [m] </summary>
+
+        /// <summary>Y position in local frame  [m] </summary>
         [Units("[m]")]
         [Description("Y position in local frame")]
+        //[FieldOffset(36)]
         public  float y_pos;
-            /// <summary>Z position in local frame  [m] </summary>
+
+        /// <summary>Z position in local frame  [m] </summary>
         [Units("[m]")]
         [Description("Z position in local frame")]
+        //[FieldOffset(40)]
         public  float z_pos;
-            /// <summary>Airspeed, set to -1 if unknown  [m/s] </summary>
+
+        /// <summary>Airspeed, set to -1 if unknown  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Airspeed, set to -1 if unknown")]
+        //[FieldOffset(44)]
         public  float airspeed;
-            /// <summary>Variance of body velocity estimate   </summary>
+
+        /// <summary>Variance of body velocity estimate   </summary>
         [Units("")]
         [Description("Variance of body velocity estimate")]
+        //[FieldOffset(48)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
 		public float[] vel_variance;
-            /// <summary>Variance in local position   </summary>
+
+        /// <summary>Variance in local position   </summary>
         [Units("")]
         [Description("Variance in local position")]
+        //[FieldOffset(60)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
 		public float[] pos_variance;
-            /// <summary>The attitude, represented as Quaternion   </summary>
+
+        /// <summary>The attitude, represented as Quaternion   </summary>
         [Units("")]
         [Description("The attitude, represented as Quaternion")]
+        //[FieldOffset(72)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>Angular rate in roll axis  [rad/s] </summary>
+
+        /// <summary>Angular rate in roll axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular rate in roll axis")]
+        //[FieldOffset(88)]
         public  float roll_rate;
-            /// <summary>Angular rate in pitch axis  [rad/s] </summary>
+
+        /// <summary>Angular rate in pitch axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular rate in pitch axis")]
+        //[FieldOffset(92)]
         public  float pitch_rate;
-            /// <summary>Angular rate in yaw axis  [rad/s] </summary>
+
+        /// <summary>Angular rate in yaw axis  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Angular rate in yaw axis")]
+        //[FieldOffset(96)]
         public  float yaw_rate;
-    
     };
 
     
@@ -14483,71 +16916,94 @@ public partial class MAVLink
     {
         public mavlink_battery_status_t(int current_consumed,int energy_consumed,short temperature,ushort[] voltages,short current_battery,byte id,/*MAV_BATTERY_FUNCTION*/byte battery_function,/*MAV_BATTERY_TYPE*/byte type,sbyte battery_remaining,int time_remaining,/*MAV_BATTERY_CHARGE_STATE*/byte charge_state,ushort[] voltages_ext) 
         {
-              this.current_consumed = current_consumed;
-              this.energy_consumed = energy_consumed;
-              this.temperature = temperature;
-              this.voltages = voltages;
-              this.current_battery = current_battery;
-              this.id = id;
-              this.battery_function = battery_function;
-              this.type = type;
-              this.battery_remaining = battery_remaining;
-              this.time_remaining = time_remaining;
-              this.charge_state = charge_state;
-              this.voltages_ext = voltages_ext;
+            this.current_consumed = current_consumed;
+            this.energy_consumed = energy_consumed;
+            this.temperature = temperature;
+            this.voltages = voltages;
+            this.current_battery = current_battery;
+            this.id = id;
+            this.battery_function = battery_function;
+            this.type = type;
+            this.battery_remaining = battery_remaining;
+            this.time_remaining = time_remaining;
+            this.charge_state = charge_state;
+            this.voltages_ext = voltages_ext;
             
         }
+
         /// <summary>Consumed charge, -1: autopilot does not provide consumption estimate  [mAh] </summary>
         [Units("[mAh]")]
         [Description("Consumed charge, -1: autopilot does not provide consumption estimate")]
+        //[FieldOffset(0)]
         public  int current_consumed;
-            /// <summary>Consumed energy, -1: autopilot does not provide energy consumption estimate  [hJ] </summary>
+
+        /// <summary>Consumed energy, -1: autopilot does not provide energy consumption estimate  [hJ] </summary>
         [Units("[hJ]")]
         [Description("Consumed energy, -1: autopilot does not provide energy consumption estimate")]
+        //[FieldOffset(4)]
         public  int energy_consumed;
-            /// <summary>Temperature of the battery. INT16_MAX for unknown temperature.  [cdegC] </summary>
+
+        /// <summary>Temperature of the battery. INT16_MAX for unknown temperature.  [cdegC] </summary>
         [Units("[cdegC]")]
         [Description("Temperature of the battery. INT16_MAX for unknown temperature.")]
+        //[FieldOffset(8)]
         public  short temperature;
-            /// <summary>Battery voltage of cells 1 to 10 (see voltages_ext for cells 11-14). Cells in this field above the valid cell count for this battery should have the UINT16_MAX value. If individual cell voltages are unknown or not measured for this battery, then the overall battery voltage should be filled in cell 0, with all others set to UINT16_MAX. If the voltage of the battery is greater than (UINT16_MAX - 1), then cell 0 should be set to (UINT16_MAX - 1), and cell 1 to the remaining voltage. This can be extended to multiple cells if the total voltage is greater than 2 * (UINT16_MAX - 1).  [mV] </summary>
+
+        /// <summary>Battery voltage of cells 1 to 10 (see voltages_ext for cells 11-14). Cells in this field above the valid cell count for this battery should have the UINT16_MAX value. If individual cell voltages are unknown or not measured for this battery, then the overall battery voltage should be filled in cell 0, with all others set to UINT16_MAX. If the voltage of the battery is greater than (UINT16_MAX - 1), then cell 0 should be set to (UINT16_MAX - 1), and cell 1 to the remaining voltage. This can be extended to multiple cells if the total voltage is greater than 2 * (UINT16_MAX - 1).  [mV] </summary>
         [Units("[mV]")]
         [Description("Battery voltage of cells 1 to 10 (see voltages_ext for cells 11-14). Cells in this field above the valid cell count for this battery should have the UINT16_MAX value. If individual cell voltages are unknown or not measured for this battery, then the overall battery voltage should be filled in cell 0, with all others set to UINT16_MAX. If the voltage of the battery is greater than (UINT16_MAX - 1), then cell 0 should be set to (UINT16_MAX - 1), and cell 1 to the remaining voltage. This can be extended to multiple cells if the total voltage is greater than 2 * (UINT16_MAX - 1).")]
+        //[FieldOffset(10)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
 		public ushort[] voltages;
-            /// <summary>Battery current, -1: autopilot does not measure the current  [cA] </summary>
+
+        /// <summary>Battery current, -1: autopilot does not measure the current  [cA] </summary>
         [Units("[cA]")]
         [Description("Battery current, -1: autopilot does not measure the current")]
+        //[FieldOffset(30)]
         public  short current_battery;
-            /// <summary>Battery ID   </summary>
+
+        /// <summary>Battery ID   </summary>
         [Units("")]
         [Description("Battery ID")]
+        //[FieldOffset(32)]
         public  byte id;
-            /// <summary>Function of the battery MAV_BATTERY_FUNCTION  </summary>
+
+        /// <summary>Function of the battery MAV_BATTERY_FUNCTION  </summary>
         [Units("")]
         [Description("Function of the battery")]
+        //[FieldOffset(33)]
         public  /*MAV_BATTERY_FUNCTION*/byte battery_function;
-            /// <summary>Type (chemistry) of the battery MAV_BATTERY_TYPE  </summary>
+
+        /// <summary>Type (chemistry) of the battery MAV_BATTERY_TYPE  </summary>
         [Units("")]
         [Description("Type (chemistry) of the battery")]
+        //[FieldOffset(34)]
         public  /*MAV_BATTERY_TYPE*/byte type;
-            /// <summary>Remaining battery energy. Values: [0-100], -1: autopilot does not estimate the remaining battery.  [%] </summary>
+
+        /// <summary>Remaining battery energy. Values: [0-100], -1: autopilot does not estimate the remaining battery.  [%] </summary>
         [Units("[%]")]
         [Description("Remaining battery energy. Values: [0-100], -1: autopilot does not estimate the remaining battery.")]
+        //[FieldOffset(35)]
         public  sbyte battery_remaining;
-            /// <summary>Remaining battery time, 0: autopilot does not provide remaining battery time estimate  [s] </summary>
+
+        /// <summary>Remaining battery time, 0: autopilot does not provide remaining battery time estimate  [s] </summary>
         [Units("[s]")]
         [Description("Remaining battery time, 0: autopilot does not provide remaining battery time estimate")]
+        //[FieldOffset(36)]
         public  int time_remaining;
-            /// <summary>State for extent of discharge, provided by autopilot for warning or external reactions MAV_BATTERY_CHARGE_STATE  </summary>
+
+        /// <summary>State for extent of discharge, provided by autopilot for warning or external reactions MAV_BATTERY_CHARGE_STATE  </summary>
         [Units("")]
         [Description("State for extent of discharge, provided by autopilot for warning or external reactions")]
+        //[FieldOffset(40)]
         public  /*MAV_BATTERY_CHARGE_STATE*/byte charge_state;
-            /// <summary>Battery voltages for cells 11 to 14. Cells above the valid cell count for this battery should have a value of 0, where zero indicates not supported (note, this is different than for the voltages field and allows empty byte truncation). If the measured value is 0 then 1 should be sent instead.  [mV] </summary>
+
+        /// <summary>Battery voltages for cells 11 to 14. Cells above the valid cell count for this battery should have a value of 0, where zero indicates not supported (note, this is different than for the voltages field and allows empty byte truncation). If the measured value is 0 then 1 should be sent instead.  [mV] </summary>
         [Units("[mV]")]
         [Description("Battery voltages for cells 11 to 14. Cells above the valid cell count for this battery should have a value of 0, where zero indicates not supported (note, this is different than for the voltages field and allows empty byte truncation). If the measured value is 0 then 1 should be sent instead.")]
+        //[FieldOffset(41)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public ushort[] voltages_ext;
-    
     };
 
     
@@ -14558,73 +17014,96 @@ public partial class MAVLink
     {
         public mavlink_autopilot_version_t(/*MAV_PROTOCOL_CAPABILITY*/ulong capabilities,ulong uid,uint flight_sw_version,uint middleware_sw_version,uint os_sw_version,uint board_version,ushort vendor_id,ushort product_id,byte[] flight_custom_version,byte[] middleware_custom_version,byte[] os_custom_version,byte[] uid2) 
         {
-              this.capabilities = capabilities;
-              this.uid = uid;
-              this.flight_sw_version = flight_sw_version;
-              this.middleware_sw_version = middleware_sw_version;
-              this.os_sw_version = os_sw_version;
-              this.board_version = board_version;
-              this.vendor_id = vendor_id;
-              this.product_id = product_id;
-              this.flight_custom_version = flight_custom_version;
-              this.middleware_custom_version = middleware_custom_version;
-              this.os_custom_version = os_custom_version;
-              this.uid2 = uid2;
+            this.capabilities = capabilities;
+            this.uid = uid;
+            this.flight_sw_version = flight_sw_version;
+            this.middleware_sw_version = middleware_sw_version;
+            this.os_sw_version = os_sw_version;
+            this.board_version = board_version;
+            this.vendor_id = vendor_id;
+            this.product_id = product_id;
+            this.flight_custom_version = flight_custom_version;
+            this.middleware_custom_version = middleware_custom_version;
+            this.os_custom_version = os_custom_version;
+            this.uid2 = uid2;
             
         }
+
         /// <summary>Bitmap of capabilities MAV_PROTOCOL_CAPABILITY  bitmask</summary>
         [Units("")]
         [Description("Bitmap of capabilities")]
+        //[FieldOffset(0)]
         public  /*MAV_PROTOCOL_CAPABILITY*/ulong capabilities;
-            /// <summary>UID if provided by hardware (see uid2)   </summary>
+
+        /// <summary>UID if provided by hardware (see uid2)   </summary>
         [Units("")]
         [Description("UID if provided by hardware (see uid2)")]
+        //[FieldOffset(8)]
         public  ulong uid;
-            /// <summary>Firmware version number   </summary>
+
+        /// <summary>Firmware version number   </summary>
         [Units("")]
         [Description("Firmware version number")]
+        //[FieldOffset(16)]
         public  uint flight_sw_version;
-            /// <summary>Middleware version number   </summary>
+
+        /// <summary>Middleware version number   </summary>
         [Units("")]
         [Description("Middleware version number")]
+        //[FieldOffset(20)]
         public  uint middleware_sw_version;
-            /// <summary>Operating system version number   </summary>
+
+        /// <summary>Operating system version number   </summary>
         [Units("")]
         [Description("Operating system version number")]
+        //[FieldOffset(24)]
         public  uint os_sw_version;
-            /// <summary>HW / board version (last 8 bytes should be silicon ID, if any)   </summary>
+
+        /// <summary>HW / board version (last 8 bytes should be silicon ID, if any)   </summary>
         [Units("")]
         [Description("HW / board version (last 8 bytes should be silicon ID, if any)")]
+        //[FieldOffset(28)]
         public  uint board_version;
-            /// <summary>ID of the board vendor   </summary>
+
+        /// <summary>ID of the board vendor   </summary>
         [Units("")]
         [Description("ID of the board vendor")]
+        //[FieldOffset(32)]
         public  ushort vendor_id;
-            /// <summary>ID of the product   </summary>
+
+        /// <summary>ID of the product   </summary>
         [Units("")]
         [Description("ID of the product")]
+        //[FieldOffset(34)]
         public  ushort product_id;
-            /// <summary>Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.   </summary>
+
+        /// <summary>Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.   </summary>
         [Units("")]
         [Description("Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.")]
+        //[FieldOffset(36)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
 		public byte[] flight_custom_version;
-            /// <summary>Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.   </summary>
+
+        /// <summary>Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.   </summary>
         [Units("")]
         [Description("Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.")]
+        //[FieldOffset(44)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
 		public byte[] middleware_custom_version;
-            /// <summary>Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.   </summary>
+
+        /// <summary>Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.   </summary>
         [Units("")]
         [Description("Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.")]
+        //[FieldOffset(52)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
 		public byte[] os_custom_version;
-            /// <summary>UID if provided by hardware (supersedes the uid field. If this is non-zero, use this field, otherwise use uid)   </summary>
+
+        /// <summary>UID if provided by hardware (supersedes the uid field. If this is non-zero, use this field, otherwise use uid)   </summary>
         [Units("")]
         [Description("UID if provided by hardware (supersedes the uid field. If this is non-zero, use this field, otherwise use uid)")]
+        //[FieldOffset(60)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=18)]
 		public byte[] uid2;
-    
     };
 
     
@@ -14635,80 +17114,107 @@ public partial class MAVLink
     {
         public mavlink_landing_target_t(ulong time_usec,float angle_x,float angle_y,float distance,float size_x,float size_y,byte target_num,/*MAV_FRAME*/byte frame,float x,float y,float z,float[] q,/*LANDING_TARGET_TYPE*/byte type,byte position_valid) 
         {
-              this.time_usec = time_usec;
-              this.angle_x = angle_x;
-              this.angle_y = angle_y;
-              this.distance = distance;
-              this.size_x = size_x;
-              this.size_y = size_y;
-              this.target_num = target_num;
-              this.frame = frame;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.q = q;
-              this.type = type;
-              this.position_valid = position_valid;
+            this.time_usec = time_usec;
+            this.angle_x = angle_x;
+            this.angle_y = angle_y;
+            this.distance = distance;
+            this.size_x = size_x;
+            this.size_y = size_y;
+            this.target_num = target_num;
+            this.frame = frame;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.q = q;
+            this.type = type;
+            this.position_valid = position_valid;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>X-axis angular offset of the target from the center of the image  [rad] </summary>
+
+        /// <summary>X-axis angular offset of the target from the center of the image  [rad] </summary>
         [Units("[rad]")]
         [Description("X-axis angular offset of the target from the center of the image")]
+        //[FieldOffset(8)]
         public  float angle_x;
-            /// <summary>Y-axis angular offset of the target from the center of the image  [rad] </summary>
+
+        /// <summary>Y-axis angular offset of the target from the center of the image  [rad] </summary>
         [Units("[rad]")]
         [Description("Y-axis angular offset of the target from the center of the image")]
+        //[FieldOffset(12)]
         public  float angle_y;
-            /// <summary>Distance to the target from the vehicle  [m] </summary>
+
+        /// <summary>Distance to the target from the vehicle  [m] </summary>
         [Units("[m]")]
         [Description("Distance to the target from the vehicle")]
+        //[FieldOffset(16)]
         public  float distance;
-            /// <summary>Size of target along x-axis  [rad] </summary>
+
+        /// <summary>Size of target along x-axis  [rad] </summary>
         [Units("[rad]")]
         [Description("Size of target along x-axis")]
+        //[FieldOffset(20)]
         public  float size_x;
-            /// <summary>Size of target along y-axis  [rad] </summary>
+
+        /// <summary>Size of target along y-axis  [rad] </summary>
         [Units("[rad]")]
         [Description("Size of target along y-axis")]
+        //[FieldOffset(24)]
         public  float size_y;
-            /// <summary>The ID of the target if multiple targets are present   </summary>
+
+        /// <summary>The ID of the target if multiple targets are present   </summary>
         [Units("")]
         [Description("The ID of the target if multiple targets are present")]
+        //[FieldOffset(28)]
         public  byte target_num;
-            /// <summary>Coordinate frame used for following fields. MAV_FRAME  </summary>
+
+        /// <summary>Coordinate frame used for following fields. MAV_FRAME  </summary>
         [Units("")]
         [Description("Coordinate frame used for following fields.")]
+        //[FieldOffset(29)]
         public  /*MAV_FRAME*/byte frame;
-            /// <summary>X Position of the landing target in MAV_FRAME  [m] </summary>
+
+        /// <summary>X Position of the landing target in MAV_FRAME  [m] </summary>
         [Units("[m]")]
         [Description("X Position of the landing target in MAV_FRAME")]
+        //[FieldOffset(30)]
         public  float x;
-            /// <summary>Y Position of the landing target in MAV_FRAME  [m] </summary>
+
+        /// <summary>Y Position of the landing target in MAV_FRAME  [m] </summary>
         [Units("[m]")]
         [Description("Y Position of the landing target in MAV_FRAME")]
+        //[FieldOffset(34)]
         public  float y;
-            /// <summary>Z Position of the landing target in MAV_FRAME  [m] </summary>
+
+        /// <summary>Z Position of the landing target in MAV_FRAME  [m] </summary>
         [Units("[m]")]
         [Description("Z Position of the landing target in MAV_FRAME")]
+        //[FieldOffset(38)]
         public  float z;
-            /// <summary>Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
+
+        /// <summary>Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
         [Units("")]
         [Description("Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)")]
+        //[FieldOffset(42)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>Type of landing target LANDING_TARGET_TYPE  </summary>
+
+        /// <summary>Type of landing target LANDING_TARGET_TYPE  </summary>
         [Units("")]
         [Description("Type of landing target")]
+        //[FieldOffset(58)]
         public  /*LANDING_TARGET_TYPE*/byte type;
-            /// <summary>Boolean indicating whether the position fields (x, y, z, q, type) contain valid target position information (valid: 1, invalid: 0). Default is 0 (invalid).   </summary>
+
+        /// <summary>Boolean indicating whether the position fields (x, y, z, q, type) contain valid target position information (valid: 1, invalid: 0). Default is 0 (invalid).   </summary>
         [Units("")]
         [Description("Boolean indicating whether the position fields (x, y, z, q, type) contain valid target position information (valid: 1, invalid: 0). Default is 0 (invalid).")]
+        //[FieldOffset(59)]
         public  byte position_valid;
-    
     };
 
     
@@ -14719,34 +17225,43 @@ public partial class MAVLink
     {
         public mavlink_fence_status_t(uint breach_time,ushort breach_count,byte breach_status,/*FENCE_BREACH*/byte breach_type,/*FENCE_MITIGATE*/byte breach_mitigation) 
         {
-              this.breach_time = breach_time;
-              this.breach_count = breach_count;
-              this.breach_status = breach_status;
-              this.breach_type = breach_type;
-              this.breach_mitigation = breach_mitigation;
+            this.breach_time = breach_time;
+            this.breach_count = breach_count;
+            this.breach_status = breach_status;
+            this.breach_type = breach_type;
+            this.breach_mitigation = breach_mitigation;
             
         }
+
         /// <summary>Time (since boot) of last breach.  [ms] </summary>
         [Units("[ms]")]
         [Description("Time (since boot) of last breach.")]
+        //[FieldOffset(0)]
         public  uint breach_time;
-            /// <summary>Number of fence breaches.   </summary>
+
+        /// <summary>Number of fence breaches.   </summary>
         [Units("")]
         [Description("Number of fence breaches.")]
+        //[FieldOffset(4)]
         public  ushort breach_count;
-            /// <summary>Breach status (0 if currently inside fence, 1 if outside).   </summary>
+
+        /// <summary>Breach status (0 if currently inside fence, 1 if outside).   </summary>
         [Units("")]
         [Description("Breach status (0 if currently inside fence, 1 if outside).")]
+        //[FieldOffset(6)]
         public  byte breach_status;
-            /// <summary>Last breach type. FENCE_BREACH  </summary>
+
+        /// <summary>Last breach type. FENCE_BREACH  </summary>
         [Units("")]
         [Description("Last breach type.")]
+        //[FieldOffset(7)]
         public  /*FENCE_BREACH*/byte breach_type;
-            /// <summary>Active action to prevent fence breach FENCE_MITIGATE  </summary>
+
+        /// <summary>Active action to prevent fence breach FENCE_MITIGATE  </summary>
         [Units("")]
         [Description("Active action to prevent fence breach")]
+        //[FieldOffset(8)]
         public  /*FENCE_MITIGATE*/byte breach_mitigation;
-    
     };
 
     
@@ -14757,99 +17272,134 @@ public partial class MAVLink
     {
         public mavlink_mag_cal_report_t(float fitness,float ofs_x,float ofs_y,float ofs_z,float diag_x,float diag_y,float diag_z,float offdiag_x,float offdiag_y,float offdiag_z,byte compass_id,byte cal_mask,/*MAG_CAL_STATUS*/byte cal_status,byte autosaved,float orientation_confidence,/*MAV_SENSOR_ORIENTATION*/byte old_orientation,/*MAV_SENSOR_ORIENTATION*/byte new_orientation,float scale_factor) 
         {
-              this.fitness = fitness;
-              this.ofs_x = ofs_x;
-              this.ofs_y = ofs_y;
-              this.ofs_z = ofs_z;
-              this.diag_x = diag_x;
-              this.diag_y = diag_y;
-              this.diag_z = diag_z;
-              this.offdiag_x = offdiag_x;
-              this.offdiag_y = offdiag_y;
-              this.offdiag_z = offdiag_z;
-              this.compass_id = compass_id;
-              this.cal_mask = cal_mask;
-              this.cal_status = cal_status;
-              this.autosaved = autosaved;
-              this.orientation_confidence = orientation_confidence;
-              this.old_orientation = old_orientation;
-              this.new_orientation = new_orientation;
-              this.scale_factor = scale_factor;
+            this.fitness = fitness;
+            this.ofs_x = ofs_x;
+            this.ofs_y = ofs_y;
+            this.ofs_z = ofs_z;
+            this.diag_x = diag_x;
+            this.diag_y = diag_y;
+            this.diag_z = diag_z;
+            this.offdiag_x = offdiag_x;
+            this.offdiag_y = offdiag_y;
+            this.offdiag_z = offdiag_z;
+            this.compass_id = compass_id;
+            this.cal_mask = cal_mask;
+            this.cal_status = cal_status;
+            this.autosaved = autosaved;
+            this.orientation_confidence = orientation_confidence;
+            this.old_orientation = old_orientation;
+            this.new_orientation = new_orientation;
+            this.scale_factor = scale_factor;
             
         }
+
         /// <summary>RMS milligauss residuals.  [mgauss] </summary>
         [Units("[mgauss]")]
         [Description("RMS milligauss residuals.")]
+        //[FieldOffset(0)]
         public  float fitness;
-            /// <summary>X offset.   </summary>
+
+        /// <summary>X offset.   </summary>
         [Units("")]
         [Description("X offset.")]
+        //[FieldOffset(4)]
         public  float ofs_x;
-            /// <summary>Y offset.   </summary>
+
+        /// <summary>Y offset.   </summary>
         [Units("")]
         [Description("Y offset.")]
+        //[FieldOffset(8)]
         public  float ofs_y;
-            /// <summary>Z offset.   </summary>
+
+        /// <summary>Z offset.   </summary>
         [Units("")]
         [Description("Z offset.")]
+        //[FieldOffset(12)]
         public  float ofs_z;
-            /// <summary>X diagonal (matrix 11).   </summary>
+
+        /// <summary>X diagonal (matrix 11).   </summary>
         [Units("")]
         [Description("X diagonal (matrix 11).")]
+        //[FieldOffset(16)]
         public  float diag_x;
-            /// <summary>Y diagonal (matrix 22).   </summary>
+
+        /// <summary>Y diagonal (matrix 22).   </summary>
         [Units("")]
         [Description("Y diagonal (matrix 22).")]
+        //[FieldOffset(20)]
         public  float diag_y;
-            /// <summary>Z diagonal (matrix 33).   </summary>
+
+        /// <summary>Z diagonal (matrix 33).   </summary>
         [Units("")]
         [Description("Z diagonal (matrix 33).")]
+        //[FieldOffset(24)]
         public  float diag_z;
-            /// <summary>X off-diagonal (matrix 12 and 21).   </summary>
+
+        /// <summary>X off-diagonal (matrix 12 and 21).   </summary>
         [Units("")]
         [Description("X off-diagonal (matrix 12 and 21).")]
+        //[FieldOffset(28)]
         public  float offdiag_x;
-            /// <summary>Y off-diagonal (matrix 13 and 31).   </summary>
+
+        /// <summary>Y off-diagonal (matrix 13 and 31).   </summary>
         [Units("")]
         [Description("Y off-diagonal (matrix 13 and 31).")]
+        //[FieldOffset(32)]
         public  float offdiag_y;
-            /// <summary>Z off-diagonal (matrix 32 and 23).   </summary>
+
+        /// <summary>Z off-diagonal (matrix 32 and 23).   </summary>
         [Units("")]
         [Description("Z off-diagonal (matrix 32 and 23).")]
+        //[FieldOffset(36)]
         public  float offdiag_z;
-            /// <summary>Compass being calibrated.   </summary>
+
+        /// <summary>Compass being calibrated.   </summary>
         [Units("")]
         [Description("Compass being calibrated.")]
+        //[FieldOffset(40)]
         public  byte compass_id;
-            /// <summary>Bitmask of compasses being calibrated.   bitmask</summary>
+
+        /// <summary>Bitmask of compasses being calibrated.   bitmask</summary>
         [Units("")]
         [Description("Bitmask of compasses being calibrated.")]
+        //[FieldOffset(41)]
         public  byte cal_mask;
-            /// <summary>Calibration Status. MAG_CAL_STATUS  </summary>
+
+        /// <summary>Calibration Status. MAG_CAL_STATUS  </summary>
         [Units("")]
         [Description("Calibration Status.")]
+        //[FieldOffset(42)]
         public  /*MAG_CAL_STATUS*/byte cal_status;
-            /// <summary>0=requires a MAV_CMD_DO_ACCEPT_MAG_CAL, 1=saved to parameters.   </summary>
+
+        /// <summary>0=requires a MAV_CMD_DO_ACCEPT_MAG_CAL, 1=saved to parameters.   </summary>
         [Units("")]
         [Description("0=requires a MAV_CMD_DO_ACCEPT_MAG_CAL, 1=saved to parameters.")]
+        //[FieldOffset(43)]
         public  byte autosaved;
-            /// <summary>Confidence in orientation (higher is better).   </summary>
+
+        /// <summary>Confidence in orientation (higher is better).   </summary>
         [Units("")]
         [Description("Confidence in orientation (higher is better).")]
+        //[FieldOffset(44)]
         public  float orientation_confidence;
-            /// <summary>orientation before calibration. MAV_SENSOR_ORIENTATION  </summary>
+
+        /// <summary>orientation before calibration. MAV_SENSOR_ORIENTATION  </summary>
         [Units("")]
         [Description("orientation before calibration.")]
+        //[FieldOffset(48)]
         public  /*MAV_SENSOR_ORIENTATION*/byte old_orientation;
-            /// <summary>orientation after calibration. MAV_SENSOR_ORIENTATION  </summary>
+
+        /// <summary>orientation after calibration. MAV_SENSOR_ORIENTATION  </summary>
         [Units("")]
         [Description("orientation after calibration.")]
+        //[FieldOffset(49)]
         public  /*MAV_SENSOR_ORIENTATION*/byte new_orientation;
-            /// <summary>field radius correction factor   </summary>
+
+        /// <summary>field radius correction factor   </summary>
         [Units("")]
         [Description("field radius correction factor")]
+        //[FieldOffset(50)]
         public  float scale_factor;
-    
     };
 
     
@@ -14860,94 +17410,127 @@ public partial class MAVLink
     {
         public mavlink_efi_status_t(float ecu_index,float rpm,float fuel_consumed,float fuel_flow,float engine_load,float throttle_position,float spark_dwell_time,float barometric_pressure,float intake_manifold_pressure,float intake_manifold_temperature,float cylinder_head_temperature,float ignition_timing,float injection_time,float exhaust_gas_temperature,float throttle_out,float pt_compensation,byte health) 
         {
-              this.ecu_index = ecu_index;
-              this.rpm = rpm;
-              this.fuel_consumed = fuel_consumed;
-              this.fuel_flow = fuel_flow;
-              this.engine_load = engine_load;
-              this.throttle_position = throttle_position;
-              this.spark_dwell_time = spark_dwell_time;
-              this.barometric_pressure = barometric_pressure;
-              this.intake_manifold_pressure = intake_manifold_pressure;
-              this.intake_manifold_temperature = intake_manifold_temperature;
-              this.cylinder_head_temperature = cylinder_head_temperature;
-              this.ignition_timing = ignition_timing;
-              this.injection_time = injection_time;
-              this.exhaust_gas_temperature = exhaust_gas_temperature;
-              this.throttle_out = throttle_out;
-              this.pt_compensation = pt_compensation;
-              this.health = health;
+            this.ecu_index = ecu_index;
+            this.rpm = rpm;
+            this.fuel_consumed = fuel_consumed;
+            this.fuel_flow = fuel_flow;
+            this.engine_load = engine_load;
+            this.throttle_position = throttle_position;
+            this.spark_dwell_time = spark_dwell_time;
+            this.barometric_pressure = barometric_pressure;
+            this.intake_manifold_pressure = intake_manifold_pressure;
+            this.intake_manifold_temperature = intake_manifold_temperature;
+            this.cylinder_head_temperature = cylinder_head_temperature;
+            this.ignition_timing = ignition_timing;
+            this.injection_time = injection_time;
+            this.exhaust_gas_temperature = exhaust_gas_temperature;
+            this.throttle_out = throttle_out;
+            this.pt_compensation = pt_compensation;
+            this.health = health;
             
         }
+
         /// <summary>ECU index   </summary>
         [Units("")]
         [Description("ECU index")]
+        //[FieldOffset(0)]
         public  float ecu_index;
-            /// <summary>RPM   </summary>
+
+        /// <summary>RPM   </summary>
         [Units("")]
         [Description("RPM")]
+        //[FieldOffset(4)]
         public  float rpm;
-            /// <summary>Fuel consumed  [cm^3] </summary>
+
+        /// <summary>Fuel consumed  [cm^3] </summary>
         [Units("[cm^3]")]
         [Description("Fuel consumed")]
+        //[FieldOffset(8)]
         public  float fuel_consumed;
-            /// <summary>Fuel flow rate  [cm^3/min] </summary>
+
+        /// <summary>Fuel flow rate  [cm^3/min] </summary>
         [Units("[cm^3/min]")]
         [Description("Fuel flow rate")]
+        //[FieldOffset(12)]
         public  float fuel_flow;
-            /// <summary>Engine load  [%] </summary>
+
+        /// <summary>Engine load  [%] </summary>
         [Units("[%]")]
         [Description("Engine load")]
+        //[FieldOffset(16)]
         public  float engine_load;
-            /// <summary>Throttle position  [%] </summary>
+
+        /// <summary>Throttle position  [%] </summary>
         [Units("[%]")]
         [Description("Throttle position")]
+        //[FieldOffset(20)]
         public  float throttle_position;
-            /// <summary>Spark dwell time  [ms] </summary>
+
+        /// <summary>Spark dwell time  [ms] </summary>
         [Units("[ms]")]
         [Description("Spark dwell time")]
+        //[FieldOffset(24)]
         public  float spark_dwell_time;
-            /// <summary>Barometric pressure  [kPa] </summary>
+
+        /// <summary>Barometric pressure  [kPa] </summary>
         [Units("[kPa]")]
         [Description("Barometric pressure")]
+        //[FieldOffset(28)]
         public  float barometric_pressure;
-            /// <summary>Intake manifold pressure(  [kPa] </summary>
+
+        /// <summary>Intake manifold pressure(  [kPa] </summary>
         [Units("[kPa]")]
         [Description("Intake manifold pressure(")]
+        //[FieldOffset(32)]
         public  float intake_manifold_pressure;
-            /// <summary>Intake manifold temperature  [degC] </summary>
+
+        /// <summary>Intake manifold temperature  [degC] </summary>
         [Units("[degC]")]
         [Description("Intake manifold temperature")]
+        //[FieldOffset(36)]
         public  float intake_manifold_temperature;
-            /// <summary>Cylinder head temperature  [degC] </summary>
+
+        /// <summary>Cylinder head temperature  [degC] </summary>
         [Units("[degC]")]
         [Description("Cylinder head temperature")]
+        //[FieldOffset(40)]
         public  float cylinder_head_temperature;
-            /// <summary>Ignition timing (Crank angle degrees)  [deg] </summary>
+
+        /// <summary>Ignition timing (Crank angle degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("Ignition timing (Crank angle degrees)")]
+        //[FieldOffset(44)]
         public  float ignition_timing;
-            /// <summary>Injection time  [ms] </summary>
+
+        /// <summary>Injection time  [ms] </summary>
         [Units("[ms]")]
         [Description("Injection time")]
+        //[FieldOffset(48)]
         public  float injection_time;
-            /// <summary>Exhaust gas temperature  [degC] </summary>
+
+        /// <summary>Exhaust gas temperature  [degC] </summary>
         [Units("[degC]")]
         [Description("Exhaust gas temperature")]
+        //[FieldOffset(52)]
         public  float exhaust_gas_temperature;
-            /// <summary>Output throttle  [%] </summary>
+
+        /// <summary>Output throttle  [%] </summary>
         [Units("[%]")]
         [Description("Output throttle")]
+        //[FieldOffset(56)]
         public  float throttle_out;
-            /// <summary>Pressure/temperature compensation   </summary>
+
+        /// <summary>Pressure/temperature compensation   </summary>
         [Units("")]
         [Description("Pressure/temperature compensation")]
+        //[FieldOffset(60)]
         public  float pt_compensation;
-            /// <summary>EFI health status   </summary>
+
+        /// <summary>EFI health status   </summary>
         [Units("")]
         [Description("EFI health status")]
+        //[FieldOffset(64)]
         public  byte health;
-    
     };
 
     
@@ -14958,59 +17541,78 @@ public partial class MAVLink
     {
         public mavlink_estimator_status_t(ulong time_usec,float vel_ratio,float pos_horiz_ratio,float pos_vert_ratio,float mag_ratio,float hagl_ratio,float tas_ratio,float pos_horiz_accuracy,float pos_vert_accuracy,/*ESTIMATOR_STATUS_FLAGS*/ushort flags) 
         {
-              this.time_usec = time_usec;
-              this.vel_ratio = vel_ratio;
-              this.pos_horiz_ratio = pos_horiz_ratio;
-              this.pos_vert_ratio = pos_vert_ratio;
-              this.mag_ratio = mag_ratio;
-              this.hagl_ratio = hagl_ratio;
-              this.tas_ratio = tas_ratio;
-              this.pos_horiz_accuracy = pos_horiz_accuracy;
-              this.pos_vert_accuracy = pos_vert_accuracy;
-              this.flags = flags;
+            this.time_usec = time_usec;
+            this.vel_ratio = vel_ratio;
+            this.pos_horiz_ratio = pos_horiz_ratio;
+            this.pos_vert_ratio = pos_vert_ratio;
+            this.mag_ratio = mag_ratio;
+            this.hagl_ratio = hagl_ratio;
+            this.tas_ratio = tas_ratio;
+            this.pos_horiz_accuracy = pos_horiz_accuracy;
+            this.pos_vert_accuracy = pos_vert_accuracy;
+            this.flags = flags;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Velocity innovation test ratio   </summary>
+
+        /// <summary>Velocity innovation test ratio   </summary>
         [Units("")]
         [Description("Velocity innovation test ratio")]
+        //[FieldOffset(8)]
         public  float vel_ratio;
-            /// <summary>Horizontal position innovation test ratio   </summary>
+
+        /// <summary>Horizontal position innovation test ratio   </summary>
         [Units("")]
         [Description("Horizontal position innovation test ratio")]
+        //[FieldOffset(12)]
         public  float pos_horiz_ratio;
-            /// <summary>Vertical position innovation test ratio   </summary>
+
+        /// <summary>Vertical position innovation test ratio   </summary>
         [Units("")]
         [Description("Vertical position innovation test ratio")]
+        //[FieldOffset(16)]
         public  float pos_vert_ratio;
-            /// <summary>Magnetometer innovation test ratio   </summary>
+
+        /// <summary>Magnetometer innovation test ratio   </summary>
         [Units("")]
         [Description("Magnetometer innovation test ratio")]
+        //[FieldOffset(20)]
         public  float mag_ratio;
-            /// <summary>Height above terrain innovation test ratio   </summary>
+
+        /// <summary>Height above terrain innovation test ratio   </summary>
         [Units("")]
         [Description("Height above terrain innovation test ratio")]
+        //[FieldOffset(24)]
         public  float hagl_ratio;
-            /// <summary>True airspeed innovation test ratio   </summary>
+
+        /// <summary>True airspeed innovation test ratio   </summary>
         [Units("")]
         [Description("True airspeed innovation test ratio")]
+        //[FieldOffset(28)]
         public  float tas_ratio;
-            /// <summary>Horizontal position 1-STD accuracy relative to the EKF local origin  [m] </summary>
+
+        /// <summary>Horizontal position 1-STD accuracy relative to the EKF local origin  [m] </summary>
         [Units("[m]")]
         [Description("Horizontal position 1-STD accuracy relative to the EKF local origin")]
+        //[FieldOffset(32)]
         public  float pos_horiz_accuracy;
-            /// <summary>Vertical position 1-STD accuracy relative to the EKF local origin  [m] </summary>
+
+        /// <summary>Vertical position 1-STD accuracy relative to the EKF local origin  [m] </summary>
         [Units("[m]")]
         [Description("Vertical position 1-STD accuracy relative to the EKF local origin")]
+        //[FieldOffset(36)]
         public  float pos_vert_accuracy;
-            /// <summary>Bitmap indicating which EKF outputs are valid. ESTIMATOR_STATUS_FLAGS  bitmask</summary>
+
+        /// <summary>Bitmap indicating which EKF outputs are valid. ESTIMATOR_STATUS_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Bitmap indicating which EKF outputs are valid.")]
+        //[FieldOffset(40)]
         public  /*ESTIMATOR_STATUS_FLAGS*/ushort flags;
-    
     };
 
     
@@ -15021,54 +17623,71 @@ public partial class MAVLink
     {
         public mavlink_wind_cov_t(ulong time_usec,float wind_x,float wind_y,float wind_z,float var_horiz,float var_vert,float wind_alt,float horiz_accuracy,float vert_accuracy) 
         {
-              this.time_usec = time_usec;
-              this.wind_x = wind_x;
-              this.wind_y = wind_y;
-              this.wind_z = wind_z;
-              this.var_horiz = var_horiz;
-              this.var_vert = var_vert;
-              this.wind_alt = wind_alt;
-              this.horiz_accuracy = horiz_accuracy;
-              this.vert_accuracy = vert_accuracy;
+            this.time_usec = time_usec;
+            this.wind_x = wind_x;
+            this.wind_y = wind_y;
+            this.wind_z = wind_z;
+            this.var_horiz = var_horiz;
+            this.var_vert = var_vert;
+            this.wind_alt = wind_alt;
+            this.horiz_accuracy = horiz_accuracy;
+            this.vert_accuracy = vert_accuracy;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Wind in X (NED) direction  [m/s] </summary>
+
+        /// <summary>Wind in X (NED) direction  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Wind in X (NED) direction")]
+        //[FieldOffset(8)]
         public  float wind_x;
-            /// <summary>Wind in Y (NED) direction  [m/s] </summary>
+
+        /// <summary>Wind in Y (NED) direction  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Wind in Y (NED) direction")]
+        //[FieldOffset(12)]
         public  float wind_y;
-            /// <summary>Wind in Z (NED) direction  [m/s] </summary>
+
+        /// <summary>Wind in Z (NED) direction  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Wind in Z (NED) direction")]
+        //[FieldOffset(16)]
         public  float wind_z;
-            /// <summary>Variability of the wind in XY. RMS of a 1 Hz lowpassed wind estimate.  [m/s] </summary>
+
+        /// <summary>Variability of the wind in XY. RMS of a 1 Hz lowpassed wind estimate.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Variability of the wind in XY. RMS of a 1 Hz lowpassed wind estimate.")]
+        //[FieldOffset(20)]
         public  float var_horiz;
-            /// <summary>Variability of the wind in Z. RMS of a 1 Hz lowpassed wind estimate.  [m/s] </summary>
+
+        /// <summary>Variability of the wind in Z. RMS of a 1 Hz lowpassed wind estimate.  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Variability of the wind in Z. RMS of a 1 Hz lowpassed wind estimate.")]
+        //[FieldOffset(24)]
         public  float var_vert;
-            /// <summary>Altitude (MSL) that this measurement was taken at  [m] </summary>
+
+        /// <summary>Altitude (MSL) that this measurement was taken at  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL) that this measurement was taken at")]
+        //[FieldOffset(28)]
         public  float wind_alt;
-            /// <summary>Horizontal speed 1-STD accuracy  [m] </summary>
+
+        /// <summary>Horizontal speed 1-STD accuracy  [m] </summary>
         [Units("[m]")]
         [Description("Horizontal speed 1-STD accuracy")]
+        //[FieldOffset(32)]
         public  float horiz_accuracy;
-            /// <summary>Vertical speed 1-STD accuracy  [m] </summary>
+
+        /// <summary>Vertical speed 1-STD accuracy  [m] </summary>
         [Units("[m]")]
         [Description("Vertical speed 1-STD accuracy")]
+        //[FieldOffset(36)]
         public  float vert_accuracy;
-    
     };
 
     
@@ -15079,104 +17698,141 @@ public partial class MAVLink
     {
         public mavlink_gps_input_t(ulong time_usec,uint time_week_ms,int lat,int lon,float alt,float hdop,float vdop,float vn,float ve,float vd,float speed_accuracy,float horiz_accuracy,float vert_accuracy,/*GPS_INPUT_IGNORE_FLAGS*/ushort ignore_flags,ushort time_week,byte gps_id,byte fix_type,byte satellites_visible,ushort yaw) 
         {
-              this.time_usec = time_usec;
-              this.time_week_ms = time_week_ms;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.hdop = hdop;
-              this.vdop = vdop;
-              this.vn = vn;
-              this.ve = ve;
-              this.vd = vd;
-              this.speed_accuracy = speed_accuracy;
-              this.horiz_accuracy = horiz_accuracy;
-              this.vert_accuracy = vert_accuracy;
-              this.ignore_flags = ignore_flags;
-              this.time_week = time_week;
-              this.gps_id = gps_id;
-              this.fix_type = fix_type;
-              this.satellites_visible = satellites_visible;
-              this.yaw = yaw;
+            this.time_usec = time_usec;
+            this.time_week_ms = time_week_ms;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.hdop = hdop;
+            this.vdop = vdop;
+            this.vn = vn;
+            this.ve = ve;
+            this.vd = vd;
+            this.speed_accuracy = speed_accuracy;
+            this.horiz_accuracy = horiz_accuracy;
+            this.vert_accuracy = vert_accuracy;
+            this.ignore_flags = ignore_flags;
+            this.time_week = time_week;
+            this.gps_id = gps_id;
+            this.fix_type = fix_type;
+            this.satellites_visible = satellites_visible;
+            this.yaw = yaw;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>GPS time (from start of GPS week)  [ms] </summary>
+
+        /// <summary>GPS time (from start of GPS week)  [ms] </summary>
         [Units("[ms]")]
         [Description("GPS time (from start of GPS week)")]
+        //[FieldOffset(8)]
         public  uint time_week_ms;
-            /// <summary>Latitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(12)]
         public  int lat;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(16)]
         public  int lon;
-            /// <summary>Altitude (MSL). Positive for up.  [m] </summary>
+
+        /// <summary>Altitude (MSL). Positive for up.  [m] </summary>
         [Units("[m]")]
         [Description("Altitude (MSL). Positive for up.")]
+        //[FieldOffset(20)]
         public  float alt;
-            /// <summary>GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
+
+        /// <summary>GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
         [Units("")]
         [Description("GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(24)]
         public  float hdop;
-            /// <summary>GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
+
+        /// <summary>GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX   </summary>
         [Units("")]
         [Description("GPS VDOP vertical dilution of position (unitless). If unknown, set to: UINT16_MAX")]
+        //[FieldOffset(28)]
         public  float vdop;
-            /// <summary>GPS velocity in north direction in earth-fixed NED frame  [m/s] </summary>
+
+        /// <summary>GPS velocity in north direction in earth-fixed NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("GPS velocity in north direction in earth-fixed NED frame")]
+        //[FieldOffset(32)]
         public  float vn;
-            /// <summary>GPS velocity in east direction in earth-fixed NED frame  [m/s] </summary>
+
+        /// <summary>GPS velocity in east direction in earth-fixed NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("GPS velocity in east direction in earth-fixed NED frame")]
+        //[FieldOffset(36)]
         public  float ve;
-            /// <summary>GPS velocity in down direction in earth-fixed NED frame  [m/s] </summary>
+
+        /// <summary>GPS velocity in down direction in earth-fixed NED frame  [m/s] </summary>
         [Units("[m/s]")]
         [Description("GPS velocity in down direction in earth-fixed NED frame")]
+        //[FieldOffset(40)]
         public  float vd;
-            /// <summary>GPS speed accuracy  [m/s] </summary>
+
+        /// <summary>GPS speed accuracy  [m/s] </summary>
         [Units("[m/s]")]
         [Description("GPS speed accuracy")]
+        //[FieldOffset(44)]
         public  float speed_accuracy;
-            /// <summary>GPS horizontal accuracy  [m] </summary>
+
+        /// <summary>GPS horizontal accuracy  [m] </summary>
         [Units("[m]")]
         [Description("GPS horizontal accuracy")]
+        //[FieldOffset(48)]
         public  float horiz_accuracy;
-            /// <summary>GPS vertical accuracy  [m] </summary>
+
+        /// <summary>GPS vertical accuracy  [m] </summary>
         [Units("[m]")]
         [Description("GPS vertical accuracy")]
+        //[FieldOffset(52)]
         public  float vert_accuracy;
-            /// <summary>Bitmap indicating which GPS input flags fields to ignore.  All other fields must be provided. GPS_INPUT_IGNORE_FLAGS  bitmask</summary>
+
+        /// <summary>Bitmap indicating which GPS input flags fields to ignore.  All other fields must be provided. GPS_INPUT_IGNORE_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Bitmap indicating which GPS input flags fields to ignore.  All other fields must be provided.")]
+        //[FieldOffset(56)]
         public  /*GPS_INPUT_IGNORE_FLAGS*/ushort ignore_flags;
-            /// <summary>GPS week number   </summary>
+
+        /// <summary>GPS week number   </summary>
         [Units("")]
         [Description("GPS week number")]
+        //[FieldOffset(58)]
         public  ushort time_week;
-            /// <summary>ID of the GPS for multiple GPS inputs   </summary>
+
+        /// <summary>ID of the GPS for multiple GPS inputs   </summary>
         [Units("")]
         [Description("ID of the GPS for multiple GPS inputs")]
+        //[FieldOffset(60)]
         public  byte gps_id;
-            /// <summary>0-1: no fix, 2: 2D fix, 3: 3D fix. 4: 3D with DGPS. 5: 3D with RTK   </summary>
+
+        /// <summary>0-1: no fix, 2: 2D fix, 3: 3D fix. 4: 3D with DGPS. 5: 3D with RTK   </summary>
         [Units("")]
         [Description("0-1: no fix, 2: 2D fix, 3: 3D fix. 4: 3D with DGPS. 5: 3D with RTK")]
+        //[FieldOffset(61)]
         public  byte fix_type;
-            /// <summary>Number of satellites visible.   </summary>
+
+        /// <summary>Number of satellites visible.   </summary>
         [Units("")]
         [Description("Number of satellites visible.")]
+        //[FieldOffset(62)]
         public  byte satellites_visible;
-            /// <summary>Yaw of vehicle relative to Earth's North, zero means not available, use 36000 for north  [cdeg] </summary>
+
+        /// <summary>Yaw of vehicle relative to Earth's North, zero means not available, use 36000 for north  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Yaw of vehicle relative to Earth's North, zero means not available, use 36000 for north")]
+        //[FieldOffset(63)]
         public  ushort yaw;
-    
     };
 
     
@@ -15187,25 +17843,30 @@ public partial class MAVLink
     {
         public mavlink_gps_rtcm_data_t(byte flags,byte len,byte[] data) 
         {
-              this.flags = flags;
-              this.len = len;
-              this.data = data;
+            this.flags = flags;
+            this.len = len;
+            this.data = data;
             
         }
+
         /// <summary>LSB: 1 means message is fragmented, next 2 bits are the fragment ID, the remaining 5 bits are used for the sequence ID. Messages are only to be flushed to the GPS when the entire message has been reconstructed on the autopilot. The fragment ID specifies which order the fragments should be assembled into a buffer, while the sequence ID is used to detect a mismatch between different buffers. The buffer is considered fully reconstructed when either all 4 fragments are present, or all the fragments before the first fragment with a non full payload is received. This management is used to ensure that normal GPS operation doesn't corrupt RTCM data, and to recover from a unreliable transport delivery order.   </summary>
         [Units("")]
         [Description("LSB: 1 means message is fragmented, next 2 bits are the fragment ID, the remaining 5 bits are used for the sequence ID. Messages are only to be flushed to the GPS when the entire message has been reconstructed on the autopilot. The fragment ID specifies which order the fragments should be assembled into a buffer, while the sequence ID is used to detect a mismatch between different buffers. The buffer is considered fully reconstructed when either all 4 fragments are present, or all the fragments before the first fragment with a non full payload is received. This management is used to ensure that normal GPS operation doesn't corrupt RTCM data, and to recover from a unreliable transport delivery order.")]
+        //[FieldOffset(0)]
         public  byte flags;
-            /// <summary>data length  [bytes] </summary>
+
+        /// <summary>data length  [bytes] </summary>
         [Units("[bytes]")]
         [Description("data length")]
+        //[FieldOffset(1)]
         public  byte len;
-            /// <summary>RTCM message (may be fragmented)   </summary>
+
+        /// <summary>RTCM message (may be fragmented)   </summary>
         [Units("")]
         [Description("RTCM message (may be fragmented)")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=180)]
 		public byte[] data;
-    
     };
 
     [Obsolete]
@@ -15216,129 +17877,176 @@ public partial class MAVLink
     {
         public mavlink_high_latency_t(uint custom_mode,int latitude,int longitude,short roll,short pitch,ushort heading,short heading_sp,short altitude_amsl,short altitude_sp,ushort wp_distance,/*MAV_MODE_FLAG*/byte base_mode,/*MAV_LANDED_STATE*/byte landed_state,sbyte throttle,byte airspeed,byte airspeed_sp,byte groundspeed,sbyte climb_rate,byte gps_nsat,/*GPS_FIX_TYPE*/byte gps_fix_type,byte battery_remaining,sbyte temperature,sbyte temperature_air,byte failsafe,byte wp_num) 
         {
-              this.custom_mode = custom_mode;
-              this.latitude = latitude;
-              this.longitude = longitude;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.heading = heading;
-              this.heading_sp = heading_sp;
-              this.altitude_amsl = altitude_amsl;
-              this.altitude_sp = altitude_sp;
-              this.wp_distance = wp_distance;
-              this.base_mode = base_mode;
-              this.landed_state = landed_state;
-              this.throttle = throttle;
-              this.airspeed = airspeed;
-              this.airspeed_sp = airspeed_sp;
-              this.groundspeed = groundspeed;
-              this.climb_rate = climb_rate;
-              this.gps_nsat = gps_nsat;
-              this.gps_fix_type = gps_fix_type;
-              this.battery_remaining = battery_remaining;
-              this.temperature = temperature;
-              this.temperature_air = temperature_air;
-              this.failsafe = failsafe;
-              this.wp_num = wp_num;
+            this.custom_mode = custom_mode;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.heading = heading;
+            this.heading_sp = heading_sp;
+            this.altitude_amsl = altitude_amsl;
+            this.altitude_sp = altitude_sp;
+            this.wp_distance = wp_distance;
+            this.base_mode = base_mode;
+            this.landed_state = landed_state;
+            this.throttle = throttle;
+            this.airspeed = airspeed;
+            this.airspeed_sp = airspeed_sp;
+            this.groundspeed = groundspeed;
+            this.climb_rate = climb_rate;
+            this.gps_nsat = gps_nsat;
+            this.gps_fix_type = gps_fix_type;
+            this.battery_remaining = battery_remaining;
+            this.temperature = temperature;
+            this.temperature_air = temperature_air;
+            this.failsafe = failsafe;
+            this.wp_num = wp_num;
             
         }
+
         /// <summary>A bitfield for use for autopilot-specific flags.   bitmask</summary>
         [Units("")]
         [Description("A bitfield for use for autopilot-specific flags.")]
+        //[FieldOffset(0)]
         public  uint custom_mode;
-            /// <summary>Latitude  [degE7] </summary>
+
+        /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(4)]
         public  int latitude;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(8)]
         public  int longitude;
-            /// <summary>roll  [cdeg] </summary>
+
+        /// <summary>roll  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("roll")]
+        //[FieldOffset(12)]
         public  short roll;
-            /// <summary>pitch  [cdeg] </summary>
+
+        /// <summary>pitch  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("pitch")]
+        //[FieldOffset(14)]
         public  short pitch;
-            /// <summary>heading  [cdeg] </summary>
+
+        /// <summary>heading  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("heading")]
+        //[FieldOffset(16)]
         public  ushort heading;
-            /// <summary>heading setpoint  [cdeg] </summary>
+
+        /// <summary>heading setpoint  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("heading setpoint")]
+        //[FieldOffset(18)]
         public  short heading_sp;
-            /// <summary>Altitude above mean sea level  [m] </summary>
+
+        /// <summary>Altitude above mean sea level  [m] </summary>
         [Units("[m]")]
         [Description("Altitude above mean sea level")]
+        //[FieldOffset(20)]
         public  short altitude_amsl;
-            /// <summary>Altitude setpoint relative to the home position  [m] </summary>
+
+        /// <summary>Altitude setpoint relative to the home position  [m] </summary>
         [Units("[m]")]
         [Description("Altitude setpoint relative to the home position")]
+        //[FieldOffset(22)]
         public  short altitude_sp;
-            /// <summary>distance to target  [m] </summary>
+
+        /// <summary>distance to target  [m] </summary>
         [Units("[m]")]
         [Description("distance to target")]
+        //[FieldOffset(24)]
         public  ushort wp_distance;
-            /// <summary>Bitmap of enabled system modes. MAV_MODE_FLAG  bitmask</summary>
+
+        /// <summary>Bitmap of enabled system modes. MAV_MODE_FLAG  bitmask</summary>
         [Units("")]
         [Description("Bitmap of enabled system modes.")]
+        //[FieldOffset(26)]
         public  /*MAV_MODE_FLAG*/byte base_mode;
-            /// <summary>The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown. MAV_LANDED_STATE  </summary>
+
+        /// <summary>The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown. MAV_LANDED_STATE  </summary>
         [Units("")]
         [Description("The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown.")]
+        //[FieldOffset(27)]
         public  /*MAV_LANDED_STATE*/byte landed_state;
-            /// <summary>throttle (percentage)  [%] </summary>
+
+        /// <summary>throttle (percentage)  [%] </summary>
         [Units("[%]")]
         [Description("throttle (percentage)")]
+        //[FieldOffset(28)]
         public  sbyte throttle;
-            /// <summary>airspeed  [m/s] </summary>
+
+        /// <summary>airspeed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("airspeed")]
+        //[FieldOffset(29)]
         public  byte airspeed;
-            /// <summary>airspeed setpoint  [m/s] </summary>
+
+        /// <summary>airspeed setpoint  [m/s] </summary>
         [Units("[m/s]")]
         [Description("airspeed setpoint")]
+        //[FieldOffset(30)]
         public  byte airspeed_sp;
-            /// <summary>groundspeed  [m/s] </summary>
+
+        /// <summary>groundspeed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("groundspeed")]
+        //[FieldOffset(31)]
         public  byte groundspeed;
-            /// <summary>climb rate  [m/s] </summary>
+
+        /// <summary>climb rate  [m/s] </summary>
         [Units("[m/s]")]
         [Description("climb rate")]
+        //[FieldOffset(32)]
         public  sbyte climb_rate;
-            /// <summary>Number of satellites visible. If unknown, set to 255   </summary>
+
+        /// <summary>Number of satellites visible. If unknown, set to 255   </summary>
         [Units("")]
         [Description("Number of satellites visible. If unknown, set to 255")]
+        //[FieldOffset(33)]
         public  byte gps_nsat;
-            /// <summary>GPS Fix type. GPS_FIX_TYPE  </summary>
+
+        /// <summary>GPS Fix type. GPS_FIX_TYPE  </summary>
         [Units("")]
         [Description("GPS Fix type.")]
+        //[FieldOffset(34)]
         public  /*GPS_FIX_TYPE*/byte gps_fix_type;
-            /// <summary>Remaining battery (percentage)  [%] </summary>
+
+        /// <summary>Remaining battery (percentage)  [%] </summary>
         [Units("[%]")]
         [Description("Remaining battery (percentage)")]
+        //[FieldOffset(35)]
         public  byte battery_remaining;
-            /// <summary>Autopilot temperature (degrees C)  [degC] </summary>
+
+        /// <summary>Autopilot temperature (degrees C)  [degC] </summary>
         [Units("[degC]")]
         [Description("Autopilot temperature (degrees C)")]
+        //[FieldOffset(36)]
         public  sbyte temperature;
-            /// <summary>Air temperature (degrees C) from airspeed sensor  [degC] </summary>
+
+        /// <summary>Air temperature (degrees C) from airspeed sensor  [degC] </summary>
         [Units("[degC]")]
         [Description("Air temperature (degrees C) from airspeed sensor")]
+        //[FieldOffset(37)]
         public  sbyte temperature_air;
-            /// <summary>failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS, bit4:fence)   </summary>
+
+        /// <summary>failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS, bit4:fence)   </summary>
         [Units("")]
         [Description("failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS, bit4:fence)")]
+        //[FieldOffset(38)]
         public  byte failsafe;
-            /// <summary>current waypoint number   </summary>
+
+        /// <summary>current waypoint number   </summary>
         [Units("")]
         [Description("current waypoint number")]
+        //[FieldOffset(39)]
         public  byte wp_num;
-    
     };
 
     
@@ -15349,144 +18057,197 @@ public partial class MAVLink
     {
         public mavlink_high_latency2_t(uint timestamp,int latitude,int longitude,ushort custom_mode,short altitude,short target_altitude,ushort target_distance,ushort wp_num,/*HL_FAILURE_FLAG*/ushort failure_flags,/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,byte heading,byte target_heading,byte throttle,byte airspeed,byte airspeed_sp,byte groundspeed,byte windspeed,byte wind_heading,byte eph,byte epv,sbyte temperature_air,sbyte climb_rate,sbyte battery,sbyte custom0,sbyte custom1,sbyte custom2) 
         {
-              this.timestamp = timestamp;
-              this.latitude = latitude;
-              this.longitude = longitude;
-              this.custom_mode = custom_mode;
-              this.altitude = altitude;
-              this.target_altitude = target_altitude;
-              this.target_distance = target_distance;
-              this.wp_num = wp_num;
-              this.failure_flags = failure_flags;
-              this.type = type;
-              this.autopilot = autopilot;
-              this.heading = heading;
-              this.target_heading = target_heading;
-              this.throttle = throttle;
-              this.airspeed = airspeed;
-              this.airspeed_sp = airspeed_sp;
-              this.groundspeed = groundspeed;
-              this.windspeed = windspeed;
-              this.wind_heading = wind_heading;
-              this.eph = eph;
-              this.epv = epv;
-              this.temperature_air = temperature_air;
-              this.climb_rate = climb_rate;
-              this.battery = battery;
-              this.custom0 = custom0;
-              this.custom1 = custom1;
-              this.custom2 = custom2;
+            this.timestamp = timestamp;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.custom_mode = custom_mode;
+            this.altitude = altitude;
+            this.target_altitude = target_altitude;
+            this.target_distance = target_distance;
+            this.wp_num = wp_num;
+            this.failure_flags = failure_flags;
+            this.type = type;
+            this.autopilot = autopilot;
+            this.heading = heading;
+            this.target_heading = target_heading;
+            this.throttle = throttle;
+            this.airspeed = airspeed;
+            this.airspeed_sp = airspeed_sp;
+            this.groundspeed = groundspeed;
+            this.windspeed = windspeed;
+            this.wind_heading = wind_heading;
+            this.eph = eph;
+            this.epv = epv;
+            this.temperature_air = temperature_air;
+            this.climb_rate = climb_rate;
+            this.battery = battery;
+            this.custom0 = custom0;
+            this.custom1 = custom1;
+            this.custom2 = custom2;
             
         }
+
         /// <summary>Timestamp (milliseconds since boot or Unix epoch)  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (milliseconds since boot or Unix epoch)")]
+        //[FieldOffset(0)]
         public  uint timestamp;
-            /// <summary>Latitude  [degE7] </summary>
+
+        /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(4)]
         public  int latitude;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(8)]
         public  int longitude;
-            /// <summary>A bitfield for use for autopilot-specific flags (2 byte version).   bitmask</summary>
+
+        /// <summary>A bitfield for use for autopilot-specific flags (2 byte version).   bitmask</summary>
         [Units("")]
         [Description("A bitfield for use for autopilot-specific flags (2 byte version).")]
+        //[FieldOffset(12)]
         public  ushort custom_mode;
-            /// <summary>Altitude above mean sea level  [m] </summary>
+
+        /// <summary>Altitude above mean sea level  [m] </summary>
         [Units("[m]")]
         [Description("Altitude above mean sea level")]
+        //[FieldOffset(14)]
         public  short altitude;
-            /// <summary>Altitude setpoint  [m] </summary>
+
+        /// <summary>Altitude setpoint  [m] </summary>
         [Units("[m]")]
         [Description("Altitude setpoint")]
+        //[FieldOffset(16)]
         public  short target_altitude;
-            /// <summary>Distance to target waypoint or position  [dam] </summary>
+
+        /// <summary>Distance to target waypoint or position  [dam] </summary>
         [Units("[dam]")]
         [Description("Distance to target waypoint or position")]
+        //[FieldOffset(18)]
         public  ushort target_distance;
-            /// <summary>Current waypoint number   </summary>
+
+        /// <summary>Current waypoint number   </summary>
         [Units("")]
         [Description("Current waypoint number")]
+        //[FieldOffset(20)]
         public  ushort wp_num;
-            /// <summary>Bitmap of failure flags. HL_FAILURE_FLAG  bitmask</summary>
+
+        /// <summary>Bitmap of failure flags. HL_FAILURE_FLAG  bitmask</summary>
         [Units("")]
         [Description("Bitmap of failure flags.")]
+        //[FieldOffset(22)]
         public  /*HL_FAILURE_FLAG*/ushort failure_flags;
-            /// <summary>Type of the MAV (quadrotor, helicopter, etc.) MAV_TYPE  </summary>
+
+        /// <summary>Type of the MAV (quadrotor, helicopter, etc.) MAV_TYPE  </summary>
         [Units("")]
         [Description("Type of the MAV (quadrotor, helicopter, etc.)")]
+        //[FieldOffset(24)]
         public  /*MAV_TYPE*/byte type;
-            /// <summary>Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers. MAV_AUTOPILOT  </summary>
+
+        /// <summary>Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers. MAV_AUTOPILOT  </summary>
         [Units("")]
         [Description("Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers.")]
+        //[FieldOffset(25)]
         public  /*MAV_AUTOPILOT*/byte autopilot;
-            /// <summary>Heading  [deg/2] </summary>
+
+        /// <summary>Heading  [deg/2] </summary>
         [Units("[deg/2]")]
         [Description("Heading")]
+        //[FieldOffset(26)]
         public  byte heading;
-            /// <summary>Heading setpoint  [deg/2] </summary>
+
+        /// <summary>Heading setpoint  [deg/2] </summary>
         [Units("[deg/2]")]
         [Description("Heading setpoint")]
+        //[FieldOffset(27)]
         public  byte target_heading;
-            /// <summary>Throttle  [%] </summary>
+
+        /// <summary>Throttle  [%] </summary>
         [Units("[%]")]
         [Description("Throttle")]
+        //[FieldOffset(28)]
         public  byte throttle;
-            /// <summary>Airspeed  [m/s*5] </summary>
+
+        /// <summary>Airspeed  [m/s*5] </summary>
         [Units("[m/s*5]")]
         [Description("Airspeed")]
+        //[FieldOffset(29)]
         public  byte airspeed;
-            /// <summary>Airspeed setpoint  [m/s*5] </summary>
+
+        /// <summary>Airspeed setpoint  [m/s*5] </summary>
         [Units("[m/s*5]")]
         [Description("Airspeed setpoint")]
+        //[FieldOffset(30)]
         public  byte airspeed_sp;
-            /// <summary>Groundspeed  [m/s*5] </summary>
+
+        /// <summary>Groundspeed  [m/s*5] </summary>
         [Units("[m/s*5]")]
         [Description("Groundspeed")]
+        //[FieldOffset(31)]
         public  byte groundspeed;
-            /// <summary>Windspeed  [m/s*5] </summary>
+
+        /// <summary>Windspeed  [m/s*5] </summary>
         [Units("[m/s*5]")]
         [Description("Windspeed")]
+        //[FieldOffset(32)]
         public  byte windspeed;
-            /// <summary>Wind heading  [deg/2] </summary>
+
+        /// <summary>Wind heading  [deg/2] </summary>
         [Units("[deg/2]")]
         [Description("Wind heading")]
+        //[FieldOffset(33)]
         public  byte wind_heading;
-            /// <summary>Maximum error horizontal position since last message  [dm] </summary>
+
+        /// <summary>Maximum error horizontal position since last message  [dm] </summary>
         [Units("[dm]")]
         [Description("Maximum error horizontal position since last message")]
+        //[FieldOffset(34)]
         public  byte eph;
-            /// <summary>Maximum error vertical position since last message  [dm] </summary>
+
+        /// <summary>Maximum error vertical position since last message  [dm] </summary>
         [Units("[dm]")]
         [Description("Maximum error vertical position since last message")]
+        //[FieldOffset(35)]
         public  byte epv;
-            /// <summary>Air temperature from airspeed sensor  [degC] </summary>
+
+        /// <summary>Air temperature from airspeed sensor  [degC] </summary>
         [Units("[degC]")]
         [Description("Air temperature from airspeed sensor")]
+        //[FieldOffset(36)]
         public  sbyte temperature_air;
-            /// <summary>Maximum climb rate magnitude since last message  [dm/s] </summary>
+
+        /// <summary>Maximum climb rate magnitude since last message  [dm/s] </summary>
         [Units("[dm/s]")]
         [Description("Maximum climb rate magnitude since last message")]
+        //[FieldOffset(37)]
         public  sbyte climb_rate;
-            /// <summary>Battery level (-1 if field not provided).  [%] </summary>
+
+        /// <summary>Battery level (-1 if field not provided).  [%] </summary>
         [Units("[%]")]
         [Description("Battery level (-1 if field not provided).")]
+        //[FieldOffset(38)]
         public  sbyte battery;
-            /// <summary>Field for custom payload.   </summary>
+
+        /// <summary>Field for custom payload.   </summary>
         [Units("")]
         [Description("Field for custom payload.")]
+        //[FieldOffset(39)]
         public  sbyte custom0;
-            /// <summary>Field for custom payload.   </summary>
+
+        /// <summary>Field for custom payload.   </summary>
         [Units("")]
         [Description("Field for custom payload.")]
+        //[FieldOffset(40)]
         public  sbyte custom1;
-            /// <summary>Field for custom payload.   </summary>
+
+        /// <summary>Field for custom payload.   </summary>
         [Units("")]
         [Description("Field for custom payload.")]
+        //[FieldOffset(41)]
         public  sbyte custom2;
-    
     };
 
     
@@ -15497,44 +18258,57 @@ public partial class MAVLink
     {
         public mavlink_vibration_t(ulong time_usec,float vibration_x,float vibration_y,float vibration_z,uint clipping_0,uint clipping_1,uint clipping_2) 
         {
-              this.time_usec = time_usec;
-              this.vibration_x = vibration_x;
-              this.vibration_y = vibration_y;
-              this.vibration_z = vibration_z;
-              this.clipping_0 = clipping_0;
-              this.clipping_1 = clipping_1;
-              this.clipping_2 = clipping_2;
+            this.time_usec = time_usec;
+            this.vibration_x = vibration_x;
+            this.vibration_y = vibration_y;
+            this.vibration_z = vibration_z;
+            this.clipping_0 = clipping_0;
+            this.clipping_1 = clipping_1;
+            this.clipping_2 = clipping_2;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Vibration levels on X-axis   </summary>
+
+        /// <summary>Vibration levels on X-axis   </summary>
         [Units("")]
         [Description("Vibration levels on X-axis")]
+        //[FieldOffset(8)]
         public  float vibration_x;
-            /// <summary>Vibration levels on Y-axis   </summary>
+
+        /// <summary>Vibration levels on Y-axis   </summary>
         [Units("")]
         [Description("Vibration levels on Y-axis")]
+        //[FieldOffset(12)]
         public  float vibration_y;
-            /// <summary>Vibration levels on Z-axis   </summary>
+
+        /// <summary>Vibration levels on Z-axis   </summary>
         [Units("")]
         [Description("Vibration levels on Z-axis")]
+        //[FieldOffset(16)]
         public  float vibration_z;
-            /// <summary>first accelerometer clipping count   </summary>
+
+        /// <summary>first accelerometer clipping count   </summary>
         [Units("")]
         [Description("first accelerometer clipping count")]
+        //[FieldOffset(20)]
         public  uint clipping_0;
-            /// <summary>second accelerometer clipping count   </summary>
+
+        /// <summary>second accelerometer clipping count   </summary>
         [Units("")]
         [Description("second accelerometer clipping count")]
+        //[FieldOffset(24)]
         public  uint clipping_1;
-            /// <summary>third accelerometer clipping count   </summary>
+
+        /// <summary>third accelerometer clipping count   </summary>
         [Units("")]
         [Description("third accelerometer clipping count")]
+        //[FieldOffset(28)]
         public  uint clipping_2;
-    
     };
 
     
@@ -15545,65 +18319,86 @@ public partial class MAVLink
     {
         public mavlink_home_position_t(int latitude,int longitude,int altitude,float x,float y,float z,float[] q,float approach_x,float approach_y,float approach_z,ulong time_usec) 
         {
-              this.latitude = latitude;
-              this.longitude = longitude;
-              this.altitude = altitude;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.q = q;
-              this.approach_x = approach_x;
-              this.approach_y = approach_y;
-              this.approach_z = approach_z;
-              this.time_usec = time_usec;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.altitude = altitude;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.q = q;
+            this.approach_x = approach_x;
+            this.approach_y = approach_y;
+            this.approach_z = approach_z;
+            this.time_usec = time_usec;
             
         }
+
         /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(0)]
         public  int latitude;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(4)]
         public  int longitude;
-            /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
+
+        /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL). Positive for up.")]
+        //[FieldOffset(8)]
         public  int altitude;
-            /// <summary>Local X position of this position in the local coordinate frame  [m] </summary>
+
+        /// <summary>Local X position of this position in the local coordinate frame  [m] </summary>
         [Units("[m]")]
         [Description("Local X position of this position in the local coordinate frame")]
+        //[FieldOffset(12)]
         public  float x;
-            /// <summary>Local Y position of this position in the local coordinate frame  [m] </summary>
+
+        /// <summary>Local Y position of this position in the local coordinate frame  [m] </summary>
         [Units("[m]")]
         [Description("Local Y position of this position in the local coordinate frame")]
+        //[FieldOffset(16)]
         public  float y;
-            /// <summary>Local Z position of this position in the local coordinate frame  [m] </summary>
+
+        /// <summary>Local Z position of this position in the local coordinate frame  [m] </summary>
         [Units("[m]")]
         [Description("Local Z position of this position in the local coordinate frame")]
+        //[FieldOffset(20)]
         public  float z;
-            /// <summary>World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground   </summary>
+
+        /// <summary>World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground   </summary>
         [Units("")]
         [Description("World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground")]
+        //[FieldOffset(24)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
+
+        /// <summary>Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
         [Units("[m]")]
         [Description("Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.")]
+        //[FieldOffset(40)]
         public  float approach_x;
-            /// <summary>Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
+
+        /// <summary>Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
         [Units("[m]")]
         [Description("Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.")]
+        //[FieldOffset(44)]
         public  float approach_y;
-            /// <summary>Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
+
+        /// <summary>Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
         [Units("[m]")]
         [Description("Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.")]
+        //[FieldOffset(48)]
         public  float approach_z;
-            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
+
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(52)]
         public  ulong time_usec;
-    
     };
 
     
@@ -15614,70 +18409,93 @@ public partial class MAVLink
     {
         public mavlink_set_home_position_t(int latitude,int longitude,int altitude,float x,float y,float z,float[] q,float approach_x,float approach_y,float approach_z,byte target_system,ulong time_usec) 
         {
-              this.latitude = latitude;
-              this.longitude = longitude;
-              this.altitude = altitude;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.q = q;
-              this.approach_x = approach_x;
-              this.approach_y = approach_y;
-              this.approach_z = approach_z;
-              this.target_system = target_system;
-              this.time_usec = time_usec;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.altitude = altitude;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.q = q;
+            this.approach_x = approach_x;
+            this.approach_y = approach_y;
+            this.approach_z = approach_z;
+            this.target_system = target_system;
+            this.time_usec = time_usec;
             
         }
+
         /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(0)]
         public  int latitude;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(4)]
         public  int longitude;
-            /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
+
+        /// <summary>Altitude (MSL). Positive for up.  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL). Positive for up.")]
+        //[FieldOffset(8)]
         public  int altitude;
-            /// <summary>Local X position of this position in the local coordinate frame  [m] </summary>
+
+        /// <summary>Local X position of this position in the local coordinate frame  [m] </summary>
         [Units("[m]")]
         [Description("Local X position of this position in the local coordinate frame")]
+        //[FieldOffset(12)]
         public  float x;
-            /// <summary>Local Y position of this position in the local coordinate frame  [m] </summary>
+
+        /// <summary>Local Y position of this position in the local coordinate frame  [m] </summary>
         [Units("[m]")]
         [Description("Local Y position of this position in the local coordinate frame")]
+        //[FieldOffset(16)]
         public  float y;
-            /// <summary>Local Z position of this position in the local coordinate frame  [m] </summary>
+
+        /// <summary>Local Z position of this position in the local coordinate frame  [m] </summary>
         [Units("[m]")]
         [Description("Local Z position of this position in the local coordinate frame")]
+        //[FieldOffset(20)]
         public  float z;
-            /// <summary>World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground   </summary>
+
+        /// <summary>World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground   </summary>
         [Units("")]
         [Description("World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground")]
+        //[FieldOffset(24)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
+
+        /// <summary>Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
         [Units("[m]")]
         [Description("Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.")]
+        //[FieldOffset(40)]
         public  float approach_x;
-            /// <summary>Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
+
+        /// <summary>Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
         [Units("[m]")]
         [Description("Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.")]
+        //[FieldOffset(44)]
         public  float approach_y;
-            /// <summary>Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
+
+        /// <summary>Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.  [m] </summary>
         [Units("[m]")]
         [Description("Local Z position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone.")]
+        //[FieldOffset(48)]
         public  float approach_z;
-            /// <summary>System ID.   </summary>
+
+        /// <summary>System ID.   </summary>
         [Units("")]
         [Description("System ID.")]
+        //[FieldOffset(52)]
         public  byte target_system;
-            /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
+
+        /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(53)]
         public  ulong time_usec;
-    
     };
 
     
@@ -15688,19 +18506,22 @@ public partial class MAVLink
     {
         public mavlink_message_interval_t(int interval_us,ushort message_id) 
         {
-              this.interval_us = interval_us;
-              this.message_id = message_id;
+            this.interval_us = interval_us;
+            this.message_id = message_id;
             
         }
+
         /// <summary>The interval between two messages. A value of -1 indicates this stream is disabled, 0 indicates it is not available, > 0 indicates the interval at which it is sent.  [us] </summary>
         [Units("[us]")]
         [Description("The interval between two messages. A value of -1 indicates this stream is disabled, 0 indicates it is not available, > 0 indicates the interval at which it is sent.")]
+        //[FieldOffset(0)]
         public  int interval_us;
-            /// <summary>The ID of the requested MAVLink message. v1.0 is limited to 254 messages.   </summary>
+
+        /// <summary>The ID of the requested MAVLink message. v1.0 is limited to 254 messages.   </summary>
         [Units("")]
         [Description("The ID of the requested MAVLink message. v1.0 is limited to 254 messages.")]
+        //[FieldOffset(4)]
         public  ushort message_id;
-    
     };
 
     
@@ -15711,19 +18532,22 @@ public partial class MAVLink
     {
         public mavlink_extended_sys_state_t(/*MAV_VTOL_STATE*/byte vtol_state,/*MAV_LANDED_STATE*/byte landed_state) 
         {
-              this.vtol_state = vtol_state;
-              this.landed_state = landed_state;
+            this.vtol_state = vtol_state;
+            this.landed_state = landed_state;
             
         }
+
         /// <summary>The VTOL state if applicable. Is set to MAV_VTOL_STATE_UNDEFINED if UAV is not in VTOL configuration. MAV_VTOL_STATE  </summary>
         [Units("")]
         [Description("The VTOL state if applicable. Is set to MAV_VTOL_STATE_UNDEFINED if UAV is not in VTOL configuration.")]
+        //[FieldOffset(0)]
         public  /*MAV_VTOL_STATE*/byte vtol_state;
-            /// <summary>The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown. MAV_LANDED_STATE  </summary>
+
+        /// <summary>The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown. MAV_LANDED_STATE  </summary>
         [Units("")]
         [Description("The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown.")]
+        //[FieldOffset(1)]
         public  /*MAV_LANDED_STATE*/byte landed_state;
-    
     };
 
     
@@ -15734,75 +18558,100 @@ public partial class MAVLink
     {
         public mavlink_adsb_vehicle_t(uint ICAO_address,int lat,int lon,int altitude,ushort heading,ushort hor_velocity,short ver_velocity,/*ADSB_FLAGS*/ushort flags,ushort squawk,/*ADSB_ALTITUDE_TYPE*/byte altitude_type,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitter_type,byte tslc) 
         {
-              this.ICAO_address = ICAO_address;
-              this.lat = lat;
-              this.lon = lon;
-              this.altitude = altitude;
-              this.heading = heading;
-              this.hor_velocity = hor_velocity;
-              this.ver_velocity = ver_velocity;
-              this.flags = flags;
-              this.squawk = squawk;
-              this.altitude_type = altitude_type;
-              this.callsign = callsign;
-              this.emitter_type = emitter_type;
-              this.tslc = tslc;
+            this.ICAO_address = ICAO_address;
+            this.lat = lat;
+            this.lon = lon;
+            this.altitude = altitude;
+            this.heading = heading;
+            this.hor_velocity = hor_velocity;
+            this.ver_velocity = ver_velocity;
+            this.flags = flags;
+            this.squawk = squawk;
+            this.altitude_type = altitude_type;
+            this.callsign = callsign;
+            this.emitter_type = emitter_type;
+            this.tslc = tslc;
             
         }
+
         /// <summary>ICAO address   </summary>
         [Units("")]
         [Description("ICAO address")]
+        //[FieldOffset(0)]
         public  uint ICAO_address;
-            /// <summary>Latitude  [degE7] </summary>
+
+        /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(4)]
         public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(8)]
         public  int lon;
-            /// <summary>Altitude(ASL)  [mm] </summary>
+
+        /// <summary>Altitude(ASL)  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude(ASL)")]
+        //[FieldOffset(12)]
         public  int altitude;
-            /// <summary>Course over ground  [cdeg] </summary>
+
+        /// <summary>Course over ground  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Course over ground")]
+        //[FieldOffset(16)]
         public  ushort heading;
-            /// <summary>The horizontal velocity  [cm/s] </summary>
+
+        /// <summary>The horizontal velocity  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("The horizontal velocity")]
+        //[FieldOffset(18)]
         public  ushort hor_velocity;
-            /// <summary>The vertical velocity. Positive is up  [cm/s] </summary>
+
+        /// <summary>The vertical velocity. Positive is up  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("The vertical velocity. Positive is up")]
+        //[FieldOffset(20)]
         public  short ver_velocity;
-            /// <summary>Bitmap to indicate various statuses including valid data fields ADSB_FLAGS  bitmask</summary>
+
+        /// <summary>Bitmap to indicate various statuses including valid data fields ADSB_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Bitmap to indicate various statuses including valid data fields")]
+        //[FieldOffset(22)]
         public  /*ADSB_FLAGS*/ushort flags;
-            /// <summary>Squawk code   </summary>
+
+        /// <summary>Squawk code   </summary>
         [Units("")]
         [Description("Squawk code")]
+        //[FieldOffset(24)]
         public  ushort squawk;
-            /// <summary>ADSB altitude type. ADSB_ALTITUDE_TYPE  </summary>
+
+        /// <summary>ADSB altitude type. ADSB_ALTITUDE_TYPE  </summary>
         [Units("")]
         [Description("ADSB altitude type.")]
+        //[FieldOffset(26)]
         public  /*ADSB_ALTITUDE_TYPE*/byte altitude_type;
-            /// <summary>The callsign, 8+null   </summary>
+
+        /// <summary>The callsign, 8+null   </summary>
         [Units("")]
         [Description("The callsign, 8+null")]
+        //[FieldOffset(27)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
 		public byte[] callsign;
-            /// <summary>ADSB emitter type. ADSB_EMITTER_TYPE  </summary>
+
+        /// <summary>ADSB emitter type. ADSB_EMITTER_TYPE  </summary>
         [Units("")]
         [Description("ADSB emitter type.")]
+        //[FieldOffset(36)]
         public  /*ADSB_EMITTER_TYPE*/byte emitter_type;
-            /// <summary>Time since last communication in seconds  [s] </summary>
+
+        /// <summary>Time since last communication in seconds  [s] </summary>
         [Units("[s]")]
         [Description("Time since last communication in seconds")]
+        //[FieldOffset(37)]
         public  byte tslc;
-    
     };
 
     
@@ -15813,44 +18662,57 @@ public partial class MAVLink
     {
         public mavlink_collision_t(uint id,float time_to_minimum_delta,float altitude_minimum_delta,float horizontal_minimum_delta,/*MAV_COLLISION_SRC*/byte src,/*MAV_COLLISION_ACTION*/byte action,/*MAV_COLLISION_THREAT_LEVEL*/byte threat_level) 
         {
-              this.id = id;
-              this.time_to_minimum_delta = time_to_minimum_delta;
-              this.altitude_minimum_delta = altitude_minimum_delta;
-              this.horizontal_minimum_delta = horizontal_minimum_delta;
-              this.src = src;
-              this.action = action;
-              this.threat_level = threat_level;
+            this.id = id;
+            this.time_to_minimum_delta = time_to_minimum_delta;
+            this.altitude_minimum_delta = altitude_minimum_delta;
+            this.horizontal_minimum_delta = horizontal_minimum_delta;
+            this.src = src;
+            this.action = action;
+            this.threat_level = threat_level;
             
         }
+
         /// <summary>Unique identifier, domain based on src field   </summary>
         [Units("")]
         [Description("Unique identifier, domain based on src field")]
+        //[FieldOffset(0)]
         public  uint id;
-            /// <summary>Estimated time until collision occurs  [s] </summary>
+
+        /// <summary>Estimated time until collision occurs  [s] </summary>
         [Units("[s]")]
         [Description("Estimated time until collision occurs")]
+        //[FieldOffset(4)]
         public  float time_to_minimum_delta;
-            /// <summary>Closest vertical distance between vehicle and object  [m] </summary>
+
+        /// <summary>Closest vertical distance between vehicle and object  [m] </summary>
         [Units("[m]")]
         [Description("Closest vertical distance between vehicle and object")]
+        //[FieldOffset(8)]
         public  float altitude_minimum_delta;
-            /// <summary>Closest horizontal distance between vehicle and object  [m] </summary>
+
+        /// <summary>Closest horizontal distance between vehicle and object  [m] </summary>
         [Units("[m]")]
         [Description("Closest horizontal distance between vehicle and object")]
+        //[FieldOffset(12)]
         public  float horizontal_minimum_delta;
-            /// <summary>Collision data source MAV_COLLISION_SRC  </summary>
+
+        /// <summary>Collision data source MAV_COLLISION_SRC  </summary>
         [Units("")]
         [Description("Collision data source")]
+        //[FieldOffset(16)]
         public  /*MAV_COLLISION_SRC*/byte src;
-            /// <summary>Action that is being taken to avoid this collision MAV_COLLISION_ACTION  </summary>
+
+        /// <summary>Action that is being taken to avoid this collision MAV_COLLISION_ACTION  </summary>
         [Units("")]
         [Description("Action that is being taken to avoid this collision")]
+        //[FieldOffset(17)]
         public  /*MAV_COLLISION_ACTION*/byte action;
-            /// <summary>How concerned the aircraft is about this collision MAV_COLLISION_THREAT_LEVEL  </summary>
+
+        /// <summary>How concerned the aircraft is about this collision MAV_COLLISION_THREAT_LEVEL  </summary>
         [Units("")]
         [Description("How concerned the aircraft is about this collision")]
+        //[FieldOffset(18)]
         public  /*MAV_COLLISION_THREAT_LEVEL*/byte threat_level;
-    
     };
 
     
@@ -15861,35 +18723,44 @@ public partial class MAVLink
     {
         public mavlink_v2_extension_t(ushort message_type,byte target_network,byte target_system,byte target_component,byte[] payload) 
         {
-              this.message_type = message_type;
-              this.target_network = target_network;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.payload = payload;
+            this.message_type = message_type;
+            this.target_network = target_network;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.payload = payload;
             
         }
+
         /// <summary>A code that identifies the software component that understands this message (analogous to USB device classes or mime type strings). If this code is less than 32768, it is considered a 'registered' protocol extension and the corresponding entry should be added to https://github.com/mavlink/mavlink/definition_files/extension_message_ids.xml. Software creators can register blocks of message IDs as needed (useful for GCS specific metadata, etc...). Message_types greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.   </summary>
         [Units("")]
         [Description("A code that identifies the software component that understands this message (analogous to USB device classes or mime type strings). If this code is less than 32768, it is considered a 'registered' protocol extension and the corresponding entry should be added to https://github.com/mavlink/mavlink/definition_files/extension_message_ids.xml. Software creators can register blocks of message IDs as needed (useful for GCS specific metadata, etc...). Message_types greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.")]
+        //[FieldOffset(0)]
         public  ushort message_type;
-            /// <summary>Network ID (0 for broadcast)   </summary>
+
+        /// <summary>Network ID (0 for broadcast)   </summary>
         [Units("")]
         [Description("Network ID (0 for broadcast)")]
+        //[FieldOffset(2)]
         public  byte target_network;
-            /// <summary>System ID (0 for broadcast)   </summary>
+
+        /// <summary>System ID (0 for broadcast)   </summary>
         [Units("")]
         [Description("System ID (0 for broadcast)")]
+        //[FieldOffset(3)]
         public  byte target_system;
-            /// <summary>Component ID (0 for broadcast)   </summary>
+
+        /// <summary>Component ID (0 for broadcast)   </summary>
         [Units("")]
         [Description("Component ID (0 for broadcast)")]
+        //[FieldOffset(4)]
         public  byte target_component;
-            /// <summary>Variable length payload. The length must be encoded in the payload as part of the message_type protocol, e.g. by including the length as payload data, or by terminating the payload data with a non-zero marker. This is required in order to reconstruct zero-terminated payloads that are (or otherwise would be) trimmed by MAVLink 2 empty-byte truncation. The entire content of the payload block is opaque unless you understand the encoding message_type. The particular encoding used can be extension specific and might not always be documented as part of the MAVLink specification.   </summary>
+
+        /// <summary>Variable length payload. The length must be encoded in the payload as part of the message_type protocol, e.g. by including the length as payload data, or by terminating the payload data with a non-zero marker. This is required in order to reconstruct zero-terminated payloads that are (or otherwise would be) trimmed by MAVLink 2 empty-byte truncation. The entire content of the payload block is opaque unless you understand the encoding message_type. The particular encoding used can be extension specific and might not always be documented as part of the MAVLink specification.   </summary>
         [Units("")]
         [Description("Variable length payload. The length must be encoded in the payload as part of the message_type protocol, e.g. by including the length as payload data, or by terminating the payload data with a non-zero marker. This is required in order to reconstruct zero-terminated payloads that are (or otherwise would be) trimmed by MAVLink 2 empty-byte truncation. The entire content of the payload block is opaque unless you understand the encoding message_type. The particular encoding used can be extension specific and might not always be documented as part of the MAVLink specification.")]
+        //[FieldOffset(5)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=249)]
 		public byte[] payload;
-    
     };
 
     
@@ -15900,30 +18771,37 @@ public partial class MAVLink
     {
         public mavlink_memory_vect_t(ushort address,byte ver,byte type,sbyte[] value) 
         {
-              this.address = address;
-              this.ver = ver;
-              this.type = type;
-              this.value = value;
+            this.address = address;
+            this.ver = ver;
+            this.type = type;
+            this.value = value;
             
         }
+
         /// <summary>Starting address of the debug variables   </summary>
         [Units("")]
         [Description("Starting address of the debug variables")]
+        //[FieldOffset(0)]
         public  ushort address;
-            /// <summary>Version code of the type variable. 0=unknown, type ignored and assumed int16_t. 1=as below   </summary>
+
+        /// <summary>Version code of the type variable. 0=unknown, type ignored and assumed int16_t. 1=as below   </summary>
         [Units("")]
         [Description("Version code of the type variable. 0=unknown, type ignored and assumed int16_t. 1=as below")]
+        //[FieldOffset(2)]
         public  byte ver;
-            /// <summary>Type code of the memory variables. for ver = 1: 0=16 x int16_t, 1=16 x uint16_t, 2=16 x Q15, 3=16 x 1Q14   </summary>
+
+        /// <summary>Type code of the memory variables. for ver = 1: 0=16 x int16_t, 1=16 x uint16_t, 2=16 x Q15, 3=16 x 1Q14   </summary>
         [Units("")]
         [Description("Type code of the memory variables. for ver = 1: 0=16 x int16_t, 1=16 x uint16_t, 2=16 x Q15, 3=16 x 1Q14")]
+        //[FieldOffset(3)]
         public  byte type;
-            /// <summary>Memory contents at specified address   </summary>
+
+        /// <summary>Memory contents at specified address   </summary>
         [Units("")]
         [Description("Memory contents at specified address")]
+        //[FieldOffset(4)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public sbyte[] value;
-    
     };
 
     
@@ -15934,35 +18812,44 @@ public partial class MAVLink
     {
         public mavlink_debug_vect_t(ulong time_usec,float x,float y,float z,byte[] name) 
         {
-              this.time_usec = time_usec;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.name = name;
+            this.time_usec = time_usec;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.name = name;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>x   </summary>
+
+        /// <summary>x   </summary>
         [Units("")]
         [Description("x")]
+        //[FieldOffset(8)]
         public  float x;
-            /// <summary>y   </summary>
+
+        /// <summary>y   </summary>
         [Units("")]
         [Description("y")]
+        //[FieldOffset(12)]
         public  float y;
-            /// <summary>z   </summary>
+
+        /// <summary>z   </summary>
         [Units("")]
         [Description("z")]
+        //[FieldOffset(16)]
         public  float z;
-            /// <summary>Name   </summary>
+
+        /// <summary>Name   </summary>
         [Units("")]
         [Description("Name")]
+        //[FieldOffset(20)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
 		public byte[] name;
-    
     };
 
     
@@ -15973,25 +18860,30 @@ public partial class MAVLink
     {
         public mavlink_named_value_float_t(uint time_boot_ms,float value,byte[] name) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.value = value;
-              this.name = name;
+            this.time_boot_ms = time_boot_ms;
+            this.value = value;
+            this.name = name;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Floating point value   </summary>
+
+        /// <summary>Floating point value   </summary>
         [Units("")]
         [Description("Floating point value")]
+        //[FieldOffset(4)]
         public  float value;
-            /// <summary>Name of the debug variable   </summary>
+
+        /// <summary>Name of the debug variable   </summary>
         [Units("")]
         [Description("Name of the debug variable")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
 		public byte[] name;
-    
     };
 
     
@@ -16002,25 +18894,30 @@ public partial class MAVLink
     {
         public mavlink_named_value_int_t(uint time_boot_ms,int value,byte[] name) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.value = value;
-              this.name = name;
+            this.time_boot_ms = time_boot_ms;
+            this.value = value;
+            this.name = name;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Signed integer value   </summary>
+
+        /// <summary>Signed integer value   </summary>
         [Units("")]
         [Description("Signed integer value")]
+        //[FieldOffset(4)]
         public  int value;
-            /// <summary>Name of the debug variable   </summary>
+
+        /// <summary>Name of the debug variable   </summary>
         [Units("")]
         [Description("Name of the debug variable")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
 		public byte[] name;
-    
     };
 
     
@@ -16031,30 +18928,37 @@ public partial class MAVLink
     {
         public mavlink_statustext_t(/*MAV_SEVERITY*/byte severity,byte[] text,ushort id,byte chunk_seq) 
         {
-              this.severity = severity;
-              this.text = text;
-              this.id = id;
-              this.chunk_seq = chunk_seq;
+            this.severity = severity;
+            this.text = text;
+            this.id = id;
+            this.chunk_seq = chunk_seq;
             
         }
+
         /// <summary>Severity of status. Relies on the definitions within RFC-5424. MAV_SEVERITY  </summary>
         [Units("")]
         [Description("Severity of status. Relies on the definitions within RFC-5424.")]
+        //[FieldOffset(0)]
         public  /*MAV_SEVERITY*/byte severity;
-            /// <summary>Status text message, without null termination character   </summary>
+
+        /// <summary>Status text message, without null termination character   </summary>
         [Units("")]
         [Description("Status text message, without null termination character")]
+        //[FieldOffset(1)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
 		public byte[] text;
-            /// <summary>Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the message can be emitted immediately.   </summary>
+
+        /// <summary>Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the message can be emitted immediately.   </summary>
         [Units("")]
         [Description("Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the message can be emitted immediately.")]
+        //[FieldOffset(51)]
         public  ushort id;
-            /// <summary>This chunk's sequence number; indexing is from zero.  Any null character in the text field is taken to mean this was the last chunk.   </summary>
+
+        /// <summary>This chunk's sequence number; indexing is from zero.  Any null character in the text field is taken to mean this was the last chunk.   </summary>
         [Units("")]
         [Description("This chunk's sequence number; indexing is from zero.  Any null character in the text field is taken to mean this was the last chunk.")]
+        //[FieldOffset(53)]
         public  byte chunk_seq;
-    
     };
 
     
@@ -16065,24 +18969,29 @@ public partial class MAVLink
     {
         public mavlink_debug_t(uint time_boot_ms,float value,byte ind) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.value = value;
-              this.ind = ind;
+            this.time_boot_ms = time_boot_ms;
+            this.value = value;
+            this.ind = ind;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>DEBUG value   </summary>
+
+        /// <summary>DEBUG value   </summary>
         [Units("")]
         [Description("DEBUG value")]
+        //[FieldOffset(4)]
         public  float value;
-            /// <summary>index of debug variable   </summary>
+
+        /// <summary>index of debug variable   </summary>
         [Units("")]
         [Description("index of debug variable")]
+        //[FieldOffset(8)]
         public  byte ind;
-    
     };
 
     
@@ -16093,30 +19002,37 @@ public partial class MAVLink
     {
         public mavlink_setup_signing_t(ulong initial_timestamp,byte target_system,byte target_component,byte[] secret_key) 
         {
-              this.initial_timestamp = initial_timestamp;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.secret_key = secret_key;
+            this.initial_timestamp = initial_timestamp;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.secret_key = secret_key;
             
         }
+
         /// <summary>initial timestamp   </summary>
         [Units("")]
         [Description("initial timestamp")]
+        //[FieldOffset(0)]
         public  ulong initial_timestamp;
-            /// <summary>system id of the target   </summary>
+
+        /// <summary>system id of the target   </summary>
         [Units("")]
         [Description("system id of the target")]
+        //[FieldOffset(8)]
         public  byte target_system;
-            /// <summary>component ID of the target   </summary>
+
+        /// <summary>component ID of the target   </summary>
         [Units("")]
         [Description("component ID of the target")]
+        //[FieldOffset(9)]
         public  byte target_component;
-            /// <summary>signing key   </summary>
+
+        /// <summary>signing key   </summary>
         [Units("")]
         [Description("signing key")]
+        //[FieldOffset(10)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] secret_key;
-    
     };
 
     
@@ -16127,24 +19043,29 @@ public partial class MAVLink
     {
         public mavlink_button_change_t(uint time_boot_ms,uint last_change_ms,byte state) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.last_change_ms = last_change_ms;
-              this.state = state;
+            this.time_boot_ms = time_boot_ms;
+            this.last_change_ms = last_change_ms;
+            this.state = state;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Time of last change of button state.  [ms] </summary>
+
+        /// <summary>Time of last change of button state.  [ms] </summary>
         [Units("[ms]")]
         [Description("Time of last change of button state.")]
+        //[FieldOffset(4)]
         public  uint last_change_ms;
-            /// <summary>Bitmap for state of buttons.   bitmask</summary>
+
+        /// <summary>Bitmap for state of buttons.   bitmask</summary>
         [Units("")]
         [Description("Bitmap for state of buttons.")]
+        //[FieldOffset(8)]
         public  byte state;
-    
     };
 
     
@@ -16155,31 +19076,38 @@ public partial class MAVLink
     {
         public mavlink_play_tune_t(byte target_system,byte target_component,byte[] tune,byte[] tune2) 
         {
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.tune = tune;
-              this.tune2 = tune2;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.tune = tune;
+            this.tune2 = tune2;
             
         }
+
         /// <summary>System ID   </summary>
         [Units("")]
         [Description("System ID")]
+        //[FieldOffset(0)]
         public  byte target_system;
-            /// <summary>Component ID   </summary>
+
+        /// <summary>Component ID   </summary>
         [Units("")]
         [Description("Component ID")]
+        //[FieldOffset(1)]
         public  byte target_component;
-            /// <summary>tune in board specific format   </summary>
+
+        /// <summary>tune in board specific format   </summary>
         [Units("")]
         [Description("tune in board specific format")]
+        //[FieldOffset(2)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=30)]
 		public byte[] tune;
-            /// <summary>tune extension (appended to tune)   </summary>
+
+        /// <summary>tune extension (appended to tune)   </summary>
         [Units("")]
         [Description("tune extension (appended to tune)")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=200)]
 		public byte[] tune2;
-    
     };
 
     
@@ -16190,77 +19118,102 @@ public partial class MAVLink
     {
         public mavlink_camera_information_t(uint time_boot_ms,uint firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,/*CAMERA_CAP_FLAGS*/uint flags,ushort resolution_h,ushort resolution_v,ushort cam_definition_version,byte[] vendor_name,byte[] model_name,byte lens_id,byte[] cam_definition_uri) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.firmware_version = firmware_version;
-              this.focal_length = focal_length;
-              this.sensor_size_h = sensor_size_h;
-              this.sensor_size_v = sensor_size_v;
-              this.flags = flags;
-              this.resolution_h = resolution_h;
-              this.resolution_v = resolution_v;
-              this.cam_definition_version = cam_definition_version;
-              this.vendor_name = vendor_name;
-              this.model_name = model_name;
-              this.lens_id = lens_id;
-              this.cam_definition_uri = cam_definition_uri;
+            this.time_boot_ms = time_boot_ms;
+            this.firmware_version = firmware_version;
+            this.focal_length = focal_length;
+            this.sensor_size_h = sensor_size_h;
+            this.sensor_size_v = sensor_size_v;
+            this.flags = flags;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.cam_definition_version = cam_definition_version;
+            this.vendor_name = vendor_name;
+            this.model_name = model_name;
+            this.lens_id = lens_id;
+            this.cam_definition_uri = cam_definition_uri;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff)   </summary>
+
+        /// <summary>Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff)   </summary>
         [Units("")]
         [Description("Version of the camera firmware, encoded as: (Dev & 0xff) << 24 | (Patch & 0xff) << 16 | (Minor & 0xff) << 8 | (Major & 0xff)")]
+        //[FieldOffset(4)]
         public  uint firmware_version;
-            /// <summary>Focal length  [mm] </summary>
+
+        /// <summary>Focal length  [mm] </summary>
         [Units("[mm]")]
         [Description("Focal length")]
+        //[FieldOffset(8)]
         public  float focal_length;
-            /// <summary>Image sensor size horizontal  [mm] </summary>
+
+        /// <summary>Image sensor size horizontal  [mm] </summary>
         [Units("[mm]")]
         [Description("Image sensor size horizontal")]
+        //[FieldOffset(12)]
         public  float sensor_size_h;
-            /// <summary>Image sensor size vertical  [mm] </summary>
+
+        /// <summary>Image sensor size vertical  [mm] </summary>
         [Units("[mm]")]
         [Description("Image sensor size vertical")]
+        //[FieldOffset(16)]
         public  float sensor_size_v;
-            /// <summary>Bitmap of camera capability flags. CAMERA_CAP_FLAGS  bitmask</summary>
+
+        /// <summary>Bitmap of camera capability flags. CAMERA_CAP_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Bitmap of camera capability flags.")]
+        //[FieldOffset(20)]
         public  /*CAMERA_CAP_FLAGS*/uint flags;
-            /// <summary>Horizontal image resolution  [pix] </summary>
+
+        /// <summary>Horizontal image resolution  [pix] </summary>
         [Units("[pix]")]
         [Description("Horizontal image resolution")]
+        //[FieldOffset(24)]
         public  ushort resolution_h;
-            /// <summary>Vertical image resolution  [pix] </summary>
+
+        /// <summary>Vertical image resolution  [pix] </summary>
         [Units("[pix]")]
         [Description("Vertical image resolution")]
+        //[FieldOffset(26)]
         public  ushort resolution_v;
-            /// <summary>Camera definition version (iteration)   </summary>
+
+        /// <summary>Camera definition version (iteration)   </summary>
         [Units("")]
         [Description("Camera definition version (iteration)")]
+        //[FieldOffset(28)]
         public  ushort cam_definition_version;
-            /// <summary>Name of the camera vendor   </summary>
+
+        /// <summary>Name of the camera vendor   </summary>
         [Units("")]
         [Description("Name of the camera vendor")]
+        //[FieldOffset(30)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] vendor_name;
-            /// <summary>Name of the camera model   </summary>
+
+        /// <summary>Name of the camera model   </summary>
         [Units("")]
         [Description("Name of the camera model")]
+        //[FieldOffset(62)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] model_name;
-            /// <summary>Reserved for a lens ID   </summary>
+
+        /// <summary>Reserved for a lens ID   </summary>
         [Units("")]
         [Description("Reserved for a lens ID")]
+        //[FieldOffset(94)]
         public  byte lens_id;
-            /// <summary>Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).   </summary>
+
+        /// <summary>Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).   </summary>
         [Units("")]
         [Description("Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).")]
+        //[FieldOffset(95)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=140)]
 		public byte[] cam_definition_uri;
-    
     };
 
     
@@ -16271,29 +19224,36 @@ public partial class MAVLink
     {
         public mavlink_camera_settings_t(uint time_boot_ms,/*CAMERA_MODE*/byte mode_id,float zoomLevel,float focusLevel) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.mode_id = mode_id;
-              this.zoomLevel = zoomLevel;
-              this.focusLevel = focusLevel;
+            this.time_boot_ms = time_boot_ms;
+            this.mode_id = mode_id;
+            this.zoomLevel = zoomLevel;
+            this.focusLevel = focusLevel;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Camera mode CAMERA_MODE  </summary>
+
+        /// <summary>Camera mode CAMERA_MODE  </summary>
         [Units("")]
         [Description("Camera mode")]
+        //[FieldOffset(4)]
         public  /*CAMERA_MODE*/byte mode_id;
-            /// <summary>Current zoom level (0.0 to 100.0, NaN if not known)   </summary>
+
+        /// <summary>Current zoom level (0.0 to 100.0, NaN if not known)   </summary>
         [Units("")]
         [Description("Current zoom level (0.0 to 100.0, NaN if not known)")]
+        //[FieldOffset(5)]
         public  float zoomLevel;
-            /// <summary>Current focus level (0.0 to 100.0, NaN if not known)   </summary>
+
+        /// <summary>Current focus level (0.0 to 100.0, NaN if not known)   </summary>
         [Units("")]
         [Description("Current focus level (0.0 to 100.0, NaN if not known)")]
+        //[FieldOffset(9)]
         public  float focusLevel;
-    
     };
 
     
@@ -16304,54 +19264,71 @@ public partial class MAVLink
     {
         public mavlink_storage_information_t(uint time_boot_ms,float total_capacity,float used_capacity,float available_capacity,float read_speed,float write_speed,byte storage_id,byte storage_count,/*STORAGE_STATUS*/byte status) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.total_capacity = total_capacity;
-              this.used_capacity = used_capacity;
-              this.available_capacity = available_capacity;
-              this.read_speed = read_speed;
-              this.write_speed = write_speed;
-              this.storage_id = storage_id;
-              this.storage_count = storage_count;
-              this.status = status;
+            this.time_boot_ms = time_boot_ms;
+            this.total_capacity = total_capacity;
+            this.used_capacity = used_capacity;
+            this.available_capacity = available_capacity;
+            this.read_speed = read_speed;
+            this.write_speed = write_speed;
+            this.storage_id = storage_id;
+            this.storage_count = storage_count;
+            this.status = status;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Total capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.  [MiB] </summary>
+
+        /// <summary>Total capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.  [MiB] </summary>
         [Units("[MiB]")]
         [Description("Total capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.")]
+        //[FieldOffset(4)]
         public  float total_capacity;
-            /// <summary>Used capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.  [MiB] </summary>
+
+        /// <summary>Used capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.  [MiB] </summary>
         [Units("[MiB]")]
         [Description("Used capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.")]
+        //[FieldOffset(8)]
         public  float used_capacity;
-            /// <summary>Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.  [MiB] </summary>
+
+        /// <summary>Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.  [MiB] </summary>
         [Units("[MiB]")]
         [Description("Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.")]
+        //[FieldOffset(12)]
         public  float available_capacity;
-            /// <summary>Read speed.  [MiB/s] </summary>
+
+        /// <summary>Read speed.  [MiB/s] </summary>
         [Units("[MiB/s]")]
         [Description("Read speed.")]
+        //[FieldOffset(16)]
         public  float read_speed;
-            /// <summary>Write speed.  [MiB/s] </summary>
+
+        /// <summary>Write speed.  [MiB/s] </summary>
         [Units("[MiB/s]")]
         [Description("Write speed.")]
+        //[FieldOffset(20)]
         public  float write_speed;
-            /// <summary>Storage ID (1 for first, 2 for second, etc.)   </summary>
+
+        /// <summary>Storage ID (1 for first, 2 for second, etc.)   </summary>
         [Units("")]
         [Description("Storage ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(24)]
         public  byte storage_id;
-            /// <summary>Number of storage devices   </summary>
+
+        /// <summary>Number of storage devices   </summary>
         [Units("")]
         [Description("Number of storage devices")]
+        //[FieldOffset(25)]
         public  byte storage_count;
-            /// <summary>Status of storage STORAGE_STATUS  </summary>
+
+        /// <summary>Status of storage STORAGE_STATUS  </summary>
         [Units("")]
         [Description("Status of storage")]
+        //[FieldOffset(26)]
         public  /*STORAGE_STATUS*/byte status;
-    
     };
 
     
@@ -16362,44 +19339,57 @@ public partial class MAVLink
     {
         public mavlink_camera_capture_status_t(uint time_boot_ms,float image_interval,uint recording_time_ms,float available_capacity,byte image_status,byte video_status,int image_count) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.image_interval = image_interval;
-              this.recording_time_ms = recording_time_ms;
-              this.available_capacity = available_capacity;
-              this.image_status = image_status;
-              this.video_status = video_status;
-              this.image_count = image_count;
+            this.time_boot_ms = time_boot_ms;
+            this.image_interval = image_interval;
+            this.recording_time_ms = recording_time_ms;
+            this.available_capacity = available_capacity;
+            this.image_status = image_status;
+            this.video_status = video_status;
+            this.image_count = image_count;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Image capture interval  [s] </summary>
+
+        /// <summary>Image capture interval  [s] </summary>
         [Units("[s]")]
         [Description("Image capture interval")]
+        //[FieldOffset(4)]
         public  float image_interval;
-            /// <summary>Time since recording started  [ms] </summary>
+
+        /// <summary>Time since recording started  [ms] </summary>
         [Units("[ms]")]
         [Description("Time since recording started")]
+        //[FieldOffset(8)]
         public  uint recording_time_ms;
-            /// <summary>Available storage capacity.  [MiB] </summary>
+
+        /// <summary>Available storage capacity.  [MiB] </summary>
         [Units("[MiB]")]
         [Description("Available storage capacity.")]
+        //[FieldOffset(12)]
         public  float available_capacity;
-            /// <summary>Current status of image capturing (0: idle, 1: capture in progress, 2: interval set but idle, 3: interval set and capture in progress)   </summary>
+
+        /// <summary>Current status of image capturing (0: idle, 1: capture in progress, 2: interval set but idle, 3: interval set and capture in progress)   </summary>
         [Units("")]
         [Description("Current status of image capturing (0: idle, 1: capture in progress, 2: interval set but idle, 3: interval set and capture in progress)")]
+        //[FieldOffset(16)]
         public  byte image_status;
-            /// <summary>Current status of video capturing (0: idle, 1: capture in progress)   </summary>
+
+        /// <summary>Current status of video capturing (0: idle, 1: capture in progress)   </summary>
         [Units("")]
         [Description("Current status of video capturing (0: idle, 1: capture in progress)")]
+        //[FieldOffset(17)]
         public  byte video_status;
-            /// <summary>Total number of images captured ('forever', or until reset using MAV_CMD_STORAGE_FORMAT).   </summary>
+
+        /// <summary>Total number of images captured ('forever', or until reset using MAV_CMD_STORAGE_FORMAT).   </summary>
         [Units("")]
         [Description("Total number of images captured ('forever', or until reset using MAV_CMD_STORAGE_FORMAT).")]
+        //[FieldOffset(18)]
         public  int image_count;
-    
     };
 
     
@@ -16410,66 +19400,87 @@ public partial class MAVLink
     {
         public mavlink_camera_image_captured_t(ulong time_utc,uint time_boot_ms,int lat,int lon,int alt,int relative_alt,float[] q,int image_index,byte camera_id,sbyte capture_result,byte[] file_url) 
         {
-              this.time_utc = time_utc;
-              this.time_boot_ms = time_boot_ms;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.relative_alt = relative_alt;
-              this.q = q;
-              this.image_index = image_index;
-              this.camera_id = camera_id;
-              this.capture_result = capture_result;
-              this.file_url = file_url;
+            this.time_utc = time_utc;
+            this.time_boot_ms = time_boot_ms;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.relative_alt = relative_alt;
+            this.q = q;
+            this.image_index = image_index;
+            this.camera_id = camera_id;
+            this.capture_result = capture_result;
+            this.file_url = file_url;
             
         }
+
         /// <summary>Timestamp (time since UNIX epoch) in UTC. 0 for unknown.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (time since UNIX epoch) in UTC. 0 for unknown.")]
+        //[FieldOffset(0)]
         public  ulong time_utc;
-            /// <summary>Timestamp (time since system boot).  [ms] </summary>
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(8)]
         public  uint time_boot_ms;
-            /// <summary>Latitude where image was taken  [degE7] </summary>
+
+        /// <summary>Latitude where image was taken  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude where image was taken")]
+        //[FieldOffset(12)]
         public  int lat;
-            /// <summary>Longitude where capture was taken  [degE7] </summary>
+
+        /// <summary>Longitude where capture was taken  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude where capture was taken")]
+        //[FieldOffset(16)]
         public  int lon;
-            /// <summary>Altitude (MSL) where image was taken  [mm] </summary>
+
+        /// <summary>Altitude (MSL) where image was taken  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (MSL) where image was taken")]
+        //[FieldOffset(20)]
         public  int alt;
-            /// <summary>Altitude above ground  [mm] </summary>
+
+        /// <summary>Altitude above ground  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude above ground")]
+        //[FieldOffset(24)]
         public  int relative_alt;
-            /// <summary>Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
+
+        /// <summary>Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)   </summary>
         [Units("")]
         [Description("Quaternion of camera orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)")]
+        //[FieldOffset(28)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>Zero based index of this image (i.e. a new image will have index CAMERA_CAPTURE_STATUS.image count -1)   </summary>
+
+        /// <summary>Zero based index of this image (i.e. a new image will have index CAMERA_CAPTURE_STATUS.image count -1)   </summary>
         [Units("")]
         [Description("Zero based index of this image (i.e. a new image will have index CAMERA_CAPTURE_STATUS.image count -1)")]
+        //[FieldOffset(44)]
         public  int image_index;
-            /// <summary>Deprecated/unused. Component IDs are used to differentiate multiple cameras.   </summary>
+
+        /// <summary>Deprecated/unused. Component IDs are used to differentiate multiple cameras.   </summary>
         [Units("")]
         [Description("Deprecated/unused. Component IDs are used to differentiate multiple cameras.")]
+        //[FieldOffset(48)]
         public  byte camera_id;
-            /// <summary>Boolean indicating success (1) or failure (0) while capturing this image.   </summary>
+
+        /// <summary>Boolean indicating success (1) or failure (0) while capturing this image.   </summary>
         [Units("")]
         [Description("Boolean indicating success (1) or failure (0) while capturing this image.")]
+        //[FieldOffset(49)]
         public  sbyte capture_result;
-            /// <summary>URL of image taken. Either local storage or http://foo.jpg if camera provides an HTTP interface.   </summary>
+
+        /// <summary>URL of image taken. Either local storage or http://foo.jpg if camera provides an HTTP interface.   </summary>
         [Units("")]
         [Description("URL of image taken. Either local storage or http://foo.jpg if camera provides an HTTP interface.")]
+        //[FieldOffset(50)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=205)]
 		public byte[] file_url;
-    
     };
 
     
@@ -16480,29 +19491,36 @@ public partial class MAVLink
     {
         public mavlink_flight_information_t(ulong arming_time_utc,ulong takeoff_time_utc,ulong flight_uuid,uint time_boot_ms) 
         {
-              this.arming_time_utc = arming_time_utc;
-              this.takeoff_time_utc = takeoff_time_utc;
-              this.flight_uuid = flight_uuid;
-              this.time_boot_ms = time_boot_ms;
+            this.arming_time_utc = arming_time_utc;
+            this.takeoff_time_utc = takeoff_time_utc;
+            this.flight_uuid = flight_uuid;
+            this.time_boot_ms = time_boot_ms;
             
         }
+
         /// <summary>Timestamp at arming (time since UNIX epoch) in UTC, 0 for unknown  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp at arming (time since UNIX epoch) in UTC, 0 for unknown")]
+        //[FieldOffset(0)]
         public  ulong arming_time_utc;
-            /// <summary>Timestamp at takeoff (time since UNIX epoch) in UTC, 0 for unknown  [us] </summary>
+
+        /// <summary>Timestamp at takeoff (time since UNIX epoch) in UTC, 0 for unknown  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp at takeoff (time since UNIX epoch) in UTC, 0 for unknown")]
+        //[FieldOffset(8)]
         public  ulong takeoff_time_utc;
-            /// <summary>Universally unique identifier (UUID) of flight, should correspond to name of log files   </summary>
+
+        /// <summary>Universally unique identifier (UUID) of flight, should correspond to name of log files   </summary>
         [Units("")]
         [Description("Universally unique identifier (UUID) of flight, should correspond to name of log files")]
+        //[FieldOffset(16)]
         public  ulong flight_uuid;
-            /// <summary>Timestamp (time since system boot).  [ms] </summary>
+
+        /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(24)]
         public  uint time_boot_ms;
-    
     };
 
     
@@ -16513,34 +19531,43 @@ public partial class MAVLink
     {
         public mavlink_mount_orientation_t(uint time_boot_ms,float roll,float pitch,float yaw,float yaw_absolute) 
         {
-              this.time_boot_ms = time_boot_ms;
-              this.roll = roll;
-              this.pitch = pitch;
-              this.yaw = yaw;
-              this.yaw_absolute = yaw_absolute;
+            this.time_boot_ms = time_boot_ms;
+            this.roll = roll;
+            this.pitch = pitch;
+            this.yaw = yaw;
+            this.yaw_absolute = yaw_absolute;
             
         }
+
         /// <summary>Timestamp (time since system boot).  [ms] </summary>
         [Units("[ms]")]
         [Description("Timestamp (time since system boot).")]
+        //[FieldOffset(0)]
         public  uint time_boot_ms;
-            /// <summary>Roll in global frame (set to NaN for invalid).  [deg] </summary>
+
+        /// <summary>Roll in global frame (set to NaN for invalid).  [deg] </summary>
         [Units("[deg]")]
         [Description("Roll in global frame (set to NaN for invalid).")]
+        //[FieldOffset(4)]
         public  float roll;
-            /// <summary>Pitch in global frame (set to NaN for invalid).  [deg] </summary>
+
+        /// <summary>Pitch in global frame (set to NaN for invalid).  [deg] </summary>
         [Units("[deg]")]
         [Description("Pitch in global frame (set to NaN for invalid).")]
+        //[FieldOffset(8)]
         public  float pitch;
-            /// <summary>Yaw relative to vehicle (set to NaN for invalid).  [deg] </summary>
+
+        /// <summary>Yaw relative to vehicle (set to NaN for invalid).  [deg] </summary>
         [Units("[deg]")]
         [Description("Yaw relative to vehicle (set to NaN for invalid).")]
+        //[FieldOffset(12)]
         public  float yaw;
-            /// <summary>Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).  [deg] </summary>
+
+        /// <summary>Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).  [deg] </summary>
         [Units("[deg]")]
         [Description("Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).")]
+        //[FieldOffset(16)]
         public  float yaw_absolute;
-    
     };
 
     
@@ -16551,40 +19578,51 @@ public partial class MAVLink
     {
         public mavlink_logging_data_t(ushort sequence,byte target_system,byte target_component,byte length,byte first_message_offset,byte[] data) 
         {
-              this.sequence = sequence;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.length = length;
-              this.first_message_offset = first_message_offset;
-              this.data = data;
+            this.sequence = sequence;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.length = length;
+            this.first_message_offset = first_message_offset;
+            this.data = data;
             
         }
+
         /// <summary>sequence number (can wrap)   </summary>
         [Units("")]
         [Description("sequence number (can wrap)")]
+        //[FieldOffset(0)]
         public  ushort sequence;
-            /// <summary>system ID of the target   </summary>
+
+        /// <summary>system ID of the target   </summary>
         [Units("")]
         [Description("system ID of the target")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>component ID of the target   </summary>
+
+        /// <summary>component ID of the target   </summary>
         [Units("")]
         [Description("component ID of the target")]
+        //[FieldOffset(3)]
         public  byte target_component;
-            /// <summary>data length  [bytes] </summary>
+
+        /// <summary>data length  [bytes] </summary>
         [Units("[bytes]")]
         [Description("data length")]
+        //[FieldOffset(4)]
         public  byte length;
-            /// <summary>offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to 255 if no start exists).  [bytes] </summary>
+
+        /// <summary>offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to 255 if no start exists).  [bytes] </summary>
         [Units("[bytes]")]
         [Description("offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to 255 if no start exists).")]
+        //[FieldOffset(5)]
         public  byte first_message_offset;
-            /// <summary>logged data   </summary>
+
+        /// <summary>logged data   </summary>
         [Units("")]
         [Description("logged data")]
+        //[FieldOffset(6)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=249)]
 		public byte[] data;
-    
     };
 
     
@@ -16595,40 +19633,51 @@ public partial class MAVLink
     {
         public mavlink_logging_data_acked_t(ushort sequence,byte target_system,byte target_component,byte length,byte first_message_offset,byte[] data) 
         {
-              this.sequence = sequence;
-              this.target_system = target_system;
-              this.target_component = target_component;
-              this.length = length;
-              this.first_message_offset = first_message_offset;
-              this.data = data;
+            this.sequence = sequence;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.length = length;
+            this.first_message_offset = first_message_offset;
+            this.data = data;
             
         }
+
         /// <summary>sequence number (can wrap)   </summary>
         [Units("")]
         [Description("sequence number (can wrap)")]
+        //[FieldOffset(0)]
         public  ushort sequence;
-            /// <summary>system ID of the target   </summary>
+
+        /// <summary>system ID of the target   </summary>
         [Units("")]
         [Description("system ID of the target")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>component ID of the target   </summary>
+
+        /// <summary>component ID of the target   </summary>
         [Units("")]
         [Description("component ID of the target")]
+        //[FieldOffset(3)]
         public  byte target_component;
-            /// <summary>data length  [bytes] </summary>
+
+        /// <summary>data length  [bytes] </summary>
         [Units("[bytes]")]
         [Description("data length")]
+        //[FieldOffset(4)]
         public  byte length;
-            /// <summary>offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to 255 if no start exists).  [bytes] </summary>
+
+        /// <summary>offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to 255 if no start exists).  [bytes] </summary>
         [Units("[bytes]")]
         [Description("offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to 255 if no start exists).")]
+        //[FieldOffset(5)]
         public  byte first_message_offset;
-            /// <summary>logged data   </summary>
+
+        /// <summary>logged data   </summary>
         [Units("")]
         [Description("logged data")]
+        //[FieldOffset(6)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=249)]
 		public byte[] data;
-    
     };
 
     
@@ -16639,24 +19688,29 @@ public partial class MAVLink
     {
         public mavlink_logging_ack_t(ushort sequence,byte target_system,byte target_component) 
         {
-              this.sequence = sequence;
-              this.target_system = target_system;
-              this.target_component = target_component;
+            this.sequence = sequence;
+            this.target_system = target_system;
+            this.target_component = target_component;
             
         }
+
         /// <summary>sequence number (must match the one in LOGGING_DATA_ACKED)   </summary>
         [Units("")]
         [Description("sequence number (must match the one in LOGGING_DATA_ACKED)")]
+        //[FieldOffset(0)]
         public  ushort sequence;
-            /// <summary>system ID of the target   </summary>
+
+        /// <summary>system ID of the target   </summary>
         [Units("")]
         [Description("system ID of the target")]
+        //[FieldOffset(2)]
         public  byte target_system;
-            /// <summary>component ID of the target   </summary>
+
+        /// <summary>component ID of the target   </summary>
         [Units("")]
         [Description("component ID of the target")]
+        //[FieldOffset(3)]
         public  byte target_component;
-    
     };
 
     
@@ -16667,71 +19721,94 @@ public partial class MAVLink
     {
         public mavlink_video_stream_information99_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,byte[] name,byte[] uri) 
         {
-              this.framerate = framerate;
-              this.bitrate = bitrate;
-              this.flags = flags;
-              this.resolution_h = resolution_h;
-              this.resolution_v = resolution_v;
-              this.rotation = rotation;
-              this.hfov = hfov;
-              this.stream_id = stream_id;
-              this.count = count;
-              this.type = type;
-              this.name = name;
-              this.uri = uri;
+            this.framerate = framerate;
+            this.bitrate = bitrate;
+            this.flags = flags;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.rotation = rotation;
+            this.hfov = hfov;
+            this.stream_id = stream_id;
+            this.count = count;
+            this.type = type;
+            this.name = name;
+            this.uri = uri;
             
         }
+
         /// <summary>Frame rate.  [Hz] </summary>
         [Units("[Hz]")]
         [Description("Frame rate.")]
+        //[FieldOffset(0)]
         public  float framerate;
-            /// <summary>Bit rate.  [bits/s] </summary>
+
+        /// <summary>Bit rate.  [bits/s] </summary>
         [Units("[bits/s]")]
         [Description("Bit rate.")]
+        //[FieldOffset(4)]
         public  uint bitrate;
-            /// <summary>Bitmap of stream status flags. VIDEO_STREAM_STATUS_FLAGS  </summary>
+
+        /// <summary>Bitmap of stream status flags. VIDEO_STREAM_STATUS_FLAGS  </summary>
         [Units("")]
         [Description("Bitmap of stream status flags.")]
+        //[FieldOffset(8)]
         public  /*VIDEO_STREAM_STATUS_FLAGS*/ushort flags;
-            /// <summary>Horizontal resolution.  [pix] </summary>
+
+        /// <summary>Horizontal resolution.  [pix] </summary>
         [Units("[pix]")]
         [Description("Horizontal resolution.")]
+        //[FieldOffset(10)]
         public  ushort resolution_h;
-            /// <summary>Vertical resolution.  [pix] </summary>
+
+        /// <summary>Vertical resolution.  [pix] </summary>
         [Units("[pix]")]
         [Description("Vertical resolution.")]
+        //[FieldOffset(12)]
         public  ushort resolution_v;
-            /// <summary>Video image rotation clockwise.  [deg] </summary>
+
+        /// <summary>Video image rotation clockwise.  [deg] </summary>
         [Units("[deg]")]
         [Description("Video image rotation clockwise.")]
+        //[FieldOffset(14)]
         public  ushort rotation;
-            /// <summary>Horizontal Field of view.  [deg] </summary>
+
+        /// <summary>Horizontal Field of view.  [deg] </summary>
         [Units("[deg]")]
         [Description("Horizontal Field of view.")]
+        //[FieldOffset(16)]
         public  ushort hfov;
-            /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
         [Units("")]
         [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(18)]
         public  byte stream_id;
-            /// <summary>Number of streams available.   </summary>
+
+        /// <summary>Number of streams available.   </summary>
         [Units("")]
         [Description("Number of streams available.")]
+        //[FieldOffset(19)]
         public  byte count;
-            /// <summary>Type of stream. VIDEO_STREAM_TYPE  </summary>
+
+        /// <summary>Type of stream. VIDEO_STREAM_TYPE  </summary>
         [Units("")]
         [Description("Type of stream.")]
+        //[FieldOffset(20)]
         public  /*VIDEO_STREAM_TYPE*/byte type;
-            /// <summary>Stream name.   </summary>
+
+        /// <summary>Stream name.   </summary>
         [Units("")]
         [Description("Stream name.")]
+        //[FieldOffset(21)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] name;
-            /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
+
+        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
         [Units("")]
         [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
+        //[FieldOffset(53)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=160)]
 		public byte[] uri;
-    
     };
 
     
@@ -16742,49 +19819,64 @@ public partial class MAVLink
     {
         public mavlink_video_stream_status_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id) 
         {
-              this.framerate = framerate;
-              this.bitrate = bitrate;
-              this.flags = flags;
-              this.resolution_h = resolution_h;
-              this.resolution_v = resolution_v;
-              this.rotation = rotation;
-              this.hfov = hfov;
-              this.stream_id = stream_id;
+            this.framerate = framerate;
+            this.bitrate = bitrate;
+            this.flags = flags;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.rotation = rotation;
+            this.hfov = hfov;
+            this.stream_id = stream_id;
             
         }
+
         /// <summary>Frame rate  [Hz] </summary>
         [Units("[Hz]")]
         [Description("Frame rate")]
+        //[FieldOffset(0)]
         public  float framerate;
-            /// <summary>Bit rate  [bits/s] </summary>
+
+        /// <summary>Bit rate  [bits/s] </summary>
         [Units("[bits/s]")]
         [Description("Bit rate")]
+        //[FieldOffset(4)]
         public  uint bitrate;
-            /// <summary>Bitmap of stream status flags VIDEO_STREAM_STATUS_FLAGS  </summary>
+
+        /// <summary>Bitmap of stream status flags VIDEO_STREAM_STATUS_FLAGS  </summary>
         [Units("")]
         [Description("Bitmap of stream status flags")]
+        //[FieldOffset(8)]
         public  /*VIDEO_STREAM_STATUS_FLAGS*/ushort flags;
-            /// <summary>Horizontal resolution  [pix] </summary>
+
+        /// <summary>Horizontal resolution  [pix] </summary>
         [Units("[pix]")]
         [Description("Horizontal resolution")]
+        //[FieldOffset(10)]
         public  ushort resolution_h;
-            /// <summary>Vertical resolution  [pix] </summary>
+
+        /// <summary>Vertical resolution  [pix] </summary>
         [Units("[pix]")]
         [Description("Vertical resolution")]
+        //[FieldOffset(12)]
         public  ushort resolution_v;
-            /// <summary>Video image rotation clockwise  [deg] </summary>
+
+        /// <summary>Video image rotation clockwise  [deg] </summary>
         [Units("[deg]")]
         [Description("Video image rotation clockwise")]
+        //[FieldOffset(14)]
         public  ushort rotation;
-            /// <summary>Horizontal Field of view  [deg] </summary>
+
+        /// <summary>Horizontal Field of view  [deg] </summary>
         [Units("[deg]")]
         [Description("Horizontal Field of view")]
+        //[FieldOffset(16)]
         public  ushort hfov;
-            /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
         [Units("")]
         [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(18)]
         public  byte stream_id;
-    
     };
 
     
@@ -16795,21 +19887,24 @@ public partial class MAVLink
     {
         public mavlink_wifi_config_ap_t(byte[] ssid,byte[] password) 
         {
-              this.ssid = ssid;
-              this.password = password;
+            this.ssid = ssid;
+            this.password = password;
             
         }
+
         /// <summary>Name of Wi-Fi network (SSID). Blank to leave it unchanged when setting. Current SSID when sent back as a response.   </summary>
         [Units("")]
         [Description("Name of Wi-Fi network (SSID). Blank to leave it unchanged when setting. Current SSID when sent back as a response.")]
+        //[FieldOffset(0)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] ssid;
-            /// <summary>Password. Blank for an open AP. MD5 hash when message is sent back as a response.   </summary>
+
+        /// <summary>Password. Blank for an open AP. MD5 hash when message is sent back as a response.   </summary>
         [Units("")]
         [Description("Password. Blank for an open AP. MD5 hash when message is sent back as a response.")]
+        //[FieldOffset(32)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=64)]
 		public byte[] password;
-    
     };
 
     [Obsolete]
@@ -16820,96 +19915,129 @@ public partial class MAVLink
     {
         public mavlink_ais_vessel_t(uint MMSI,int lat,int lon,ushort COG,ushort heading,ushort velocity,ushort dimension_bow,ushort dimension_stern,ushort tslc,/*AIS_FLAGS*/ushort flags,sbyte turn_rate,/*AIS_NAV_STATUS*/byte navigational_status,/*AIS_TYPE*/byte type,byte dimension_port,byte dimension_starboard,byte[] callsign,byte[] name) 
         {
-              this.MMSI = MMSI;
-              this.lat = lat;
-              this.lon = lon;
-              this.COG = COG;
-              this.heading = heading;
-              this.velocity = velocity;
-              this.dimension_bow = dimension_bow;
-              this.dimension_stern = dimension_stern;
-              this.tslc = tslc;
-              this.flags = flags;
-              this.turn_rate = turn_rate;
-              this.navigational_status = navigational_status;
-              this.type = type;
-              this.dimension_port = dimension_port;
-              this.dimension_starboard = dimension_starboard;
-              this.callsign = callsign;
-              this.name = name;
+            this.MMSI = MMSI;
+            this.lat = lat;
+            this.lon = lon;
+            this.COG = COG;
+            this.heading = heading;
+            this.velocity = velocity;
+            this.dimension_bow = dimension_bow;
+            this.dimension_stern = dimension_stern;
+            this.tslc = tslc;
+            this.flags = flags;
+            this.turn_rate = turn_rate;
+            this.navigational_status = navigational_status;
+            this.type = type;
+            this.dimension_port = dimension_port;
+            this.dimension_starboard = dimension_starboard;
+            this.callsign = callsign;
+            this.name = name;
             
         }
+
         /// <summary>Mobile Marine Service Identifier, 9 decimal digits   </summary>
         [Units("")]
         [Description("Mobile Marine Service Identifier, 9 decimal digits")]
+        //[FieldOffset(0)]
         public  uint MMSI;
-            /// <summary>Latitude  [degE7] </summary>
+
+        /// <summary>Latitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude")]
+        //[FieldOffset(4)]
         public  int lat;
-            /// <summary>Longitude  [degE7] </summary>
+
+        /// <summary>Longitude  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude")]
+        //[FieldOffset(8)]
         public  int lon;
-            /// <summary>Course over ground  [cdeg] </summary>
+
+        /// <summary>Course over ground  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("Course over ground")]
+        //[FieldOffset(12)]
         public  ushort COG;
-            /// <summary>True heading  [cdeg] </summary>
+
+        /// <summary>True heading  [cdeg] </summary>
         [Units("[cdeg]")]
         [Description("True heading")]
+        //[FieldOffset(14)]
         public  ushort heading;
-            /// <summary>Speed over ground  [cm/s] </summary>
+
+        /// <summary>Speed over ground  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Speed over ground")]
+        //[FieldOffset(16)]
         public  ushort velocity;
-            /// <summary>Distance from lat/lon location to bow  [m] </summary>
+
+        /// <summary>Distance from lat/lon location to bow  [m] </summary>
         [Units("[m]")]
         [Description("Distance from lat/lon location to bow")]
+        //[FieldOffset(18)]
         public  ushort dimension_bow;
-            /// <summary>Distance from lat/lon location to stern  [m] </summary>
+
+        /// <summary>Distance from lat/lon location to stern  [m] </summary>
         [Units("[m]")]
         [Description("Distance from lat/lon location to stern")]
+        //[FieldOffset(20)]
         public  ushort dimension_stern;
-            /// <summary>Time since last communication in seconds  [s] </summary>
+
+        /// <summary>Time since last communication in seconds  [s] </summary>
         [Units("[s]")]
         [Description("Time since last communication in seconds")]
+        //[FieldOffset(22)]
         public  ushort tslc;
-            /// <summary>Bitmask to indicate various statuses including valid data fields AIS_FLAGS  bitmask</summary>
+
+        /// <summary>Bitmask to indicate various statuses including valid data fields AIS_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Bitmask to indicate various statuses including valid data fields")]
+        //[FieldOffset(24)]
         public  /*AIS_FLAGS*/ushort flags;
-            /// <summary>Turn rate  [cdeg/s] </summary>
+
+        /// <summary>Turn rate  [cdeg/s] </summary>
         [Units("[cdeg/s]")]
         [Description("Turn rate")]
+        //[FieldOffset(26)]
         public  sbyte turn_rate;
-            /// <summary>Navigational status AIS_NAV_STATUS  </summary>
+
+        /// <summary>Navigational status AIS_NAV_STATUS  </summary>
         [Units("")]
         [Description("Navigational status")]
+        //[FieldOffset(27)]
         public  /*AIS_NAV_STATUS*/byte navigational_status;
-            /// <summary>Type of vessels AIS_TYPE  </summary>
+
+        /// <summary>Type of vessels AIS_TYPE  </summary>
         [Units("")]
         [Description("Type of vessels")]
+        //[FieldOffset(28)]
         public  /*AIS_TYPE*/byte type;
-            /// <summary>Distance from lat/lon location to port side  [m] </summary>
+
+        /// <summary>Distance from lat/lon location to port side  [m] </summary>
         [Units("[m]")]
         [Description("Distance from lat/lon location to port side")]
+        //[FieldOffset(29)]
         public  byte dimension_port;
-            /// <summary>Distance from lat/lon location to starboard side  [m] </summary>
+
+        /// <summary>Distance from lat/lon location to starboard side  [m] </summary>
         [Units("[m]")]
         [Description("Distance from lat/lon location to starboard side")]
+        //[FieldOffset(30)]
         public  byte dimension_starboard;
-            /// <summary>The vessel callsign   </summary>
+
+        /// <summary>The vessel callsign   </summary>
         [Units("")]
         [Description("The vessel callsign")]
+        //[FieldOffset(31)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=7)]
 		public byte[] callsign;
-            /// <summary>The vessel name   </summary>
+
+        /// <summary>The vessel name   </summary>
         [Units("")]
         [Description("The vessel name")]
+        //[FieldOffset(38)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
 		public byte[] name;
-    
     };
 
     
@@ -16920,39 +20048,50 @@ public partial class MAVLink
     {
         public mavlink_uavcan_node_status_t(ulong time_usec,uint uptime_sec,ushort vendor_specific_status_code,/*UAVCAN_NODE_HEALTH*/byte health,/*UAVCAN_NODE_MODE*/byte mode,byte sub_mode) 
         {
-              this.time_usec = time_usec;
-              this.uptime_sec = uptime_sec;
-              this.vendor_specific_status_code = vendor_specific_status_code;
-              this.health = health;
-              this.mode = mode;
-              this.sub_mode = sub_mode;
+            this.time_usec = time_usec;
+            this.uptime_sec = uptime_sec;
+            this.vendor_specific_status_code = vendor_specific_status_code;
+            this.health = health;
+            this.mode = mode;
+            this.sub_mode = sub_mode;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Time since the start-up of the node.  [s] </summary>
+
+        /// <summary>Time since the start-up of the node.  [s] </summary>
         [Units("[s]")]
         [Description("Time since the start-up of the node.")]
+        //[FieldOffset(8)]
         public  uint uptime_sec;
-            /// <summary>Vendor-specific status information.   </summary>
+
+        /// <summary>Vendor-specific status information.   </summary>
         [Units("")]
         [Description("Vendor-specific status information.")]
+        //[FieldOffset(12)]
         public  ushort vendor_specific_status_code;
-            /// <summary>Generalized node health status. UAVCAN_NODE_HEALTH  </summary>
+
+        /// <summary>Generalized node health status. UAVCAN_NODE_HEALTH  </summary>
         [Units("")]
         [Description("Generalized node health status.")]
+        //[FieldOffset(14)]
         public  /*UAVCAN_NODE_HEALTH*/byte health;
-            /// <summary>Generalized operating mode. UAVCAN_NODE_MODE  </summary>
+
+        /// <summary>Generalized operating mode. UAVCAN_NODE_MODE  </summary>
         [Units("")]
         [Description("Generalized operating mode.")]
+        //[FieldOffset(15)]
         public  /*UAVCAN_NODE_MODE*/byte mode;
-            /// <summary>Not used currently.   </summary>
+
+        /// <summary>Not used currently.   </summary>
         [Units("")]
         [Description("Not used currently.")]
+        //[FieldOffset(16)]
         public  byte sub_mode;
-    
     };
 
     
@@ -16963,56 +20102,73 @@ public partial class MAVLink
     {
         public mavlink_uavcan_node_info_t(ulong time_usec,uint uptime_sec,uint sw_vcs_commit,byte[] name,byte hw_version_major,byte hw_version_minor,byte[] hw_unique_id,byte sw_version_major,byte sw_version_minor) 
         {
-              this.time_usec = time_usec;
-              this.uptime_sec = uptime_sec;
-              this.sw_vcs_commit = sw_vcs_commit;
-              this.name = name;
-              this.hw_version_major = hw_version_major;
-              this.hw_version_minor = hw_version_minor;
-              this.hw_unique_id = hw_unique_id;
-              this.sw_version_major = sw_version_major;
-              this.sw_version_minor = sw_version_minor;
+            this.time_usec = time_usec;
+            this.uptime_sec = uptime_sec;
+            this.sw_vcs_commit = sw_vcs_commit;
+            this.name = name;
+            this.hw_version_major = hw_version_major;
+            this.hw_version_minor = hw_version_minor;
+            this.hw_unique_id = hw_unique_id;
+            this.sw_version_major = sw_version_major;
+            this.sw_version_minor = sw_version_minor;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Time since the start-up of the node.  [s] </summary>
+
+        /// <summary>Time since the start-up of the node.  [s] </summary>
         [Units("[s]")]
         [Description("Time since the start-up of the node.")]
+        //[FieldOffset(8)]
         public  uint uptime_sec;
-            /// <summary>Version control system (VCS) revision identifier (e.g. git short commit hash). Zero if unknown.   </summary>
+
+        /// <summary>Version control system (VCS) revision identifier (e.g. git short commit hash). Zero if unknown.   </summary>
         [Units("")]
         [Description("Version control system (VCS) revision identifier (e.g. git short commit hash). Zero if unknown.")]
+        //[FieldOffset(12)]
         public  uint sw_vcs_commit;
-            /// <summary>Node name string. For example, 'sapog.px4.io'.   </summary>
+
+        /// <summary>Node name string. For example, 'sapog.px4.io'.   </summary>
         [Units("")]
         [Description("Node name string. For example, 'sapog.px4.io'.")]
+        //[FieldOffset(16)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)]
 		public byte[] name;
-            /// <summary>Hardware major version number.   </summary>
+
+        /// <summary>Hardware major version number.   </summary>
         [Units("")]
         [Description("Hardware major version number.")]
+        //[FieldOffset(96)]
         public  byte hw_version_major;
-            /// <summary>Hardware minor version number.   </summary>
+
+        /// <summary>Hardware minor version number.   </summary>
         [Units("")]
         [Description("Hardware minor version number.")]
+        //[FieldOffset(97)]
         public  byte hw_version_minor;
-            /// <summary>Hardware unique 128-bit ID.   </summary>
+
+        /// <summary>Hardware unique 128-bit ID.   </summary>
         [Units("")]
         [Description("Hardware unique 128-bit ID.")]
+        //[FieldOffset(98)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] hw_unique_id;
-            /// <summary>Software major version number.   </summary>
+
+        /// <summary>Software major version number.   </summary>
         [Units("")]
         [Description("Software major version number.")]
+        //[FieldOffset(114)]
         public  byte sw_version_major;
-            /// <summary>Software minor version number.   </summary>
+
+        /// <summary>Software minor version number.   </summary>
         [Units("")]
         [Description("Software minor version number.")]
+        //[FieldOffset(115)]
         public  byte sw_version_minor;
-    
     };
 
     
@@ -17023,55 +20179,72 @@ public partial class MAVLink
     {
         public mavlink_obstacle_distance_t(ulong time_usec,ushort[] distances,ushort min_distance,ushort max_distance,/*MAV_DISTANCE_SENSOR*/byte sensor_type,byte increment,float increment_f,float angle_offset,/*MAV_FRAME*/byte frame) 
         {
-              this.time_usec = time_usec;
-              this.distances = distances;
-              this.min_distance = min_distance;
-              this.max_distance = max_distance;
-              this.sensor_type = sensor_type;
-              this.increment = increment;
-              this.increment_f = increment_f;
-              this.angle_offset = angle_offset;
-              this.frame = frame;
+            this.time_usec = time_usec;
+            this.distances = distances;
+            this.min_distance = min_distance;
+            this.max_distance = max_distance;
+            this.sensor_type = sensor_type;
+            this.increment = increment;
+            this.increment_f = increment_f;
+            this.angle_offset = angle_offset;
+            this.frame = frame;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.  [cm] </summary>
+
+        /// <summary>Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.  [cm] </summary>
         [Units("[cm]")]
         [Description("Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=72)]
 		public ushort[] distances;
-            /// <summary>Minimum distance the sensor can measure.  [cm] </summary>
+
+        /// <summary>Minimum distance the sensor can measure.  [cm] </summary>
         [Units("[cm]")]
         [Description("Minimum distance the sensor can measure.")]
+        //[FieldOffset(152)]
         public  ushort min_distance;
-            /// <summary>Maximum distance the sensor can measure.  [cm] </summary>
+
+        /// <summary>Maximum distance the sensor can measure.  [cm] </summary>
         [Units("[cm]")]
         [Description("Maximum distance the sensor can measure.")]
+        //[FieldOffset(154)]
         public  ushort max_distance;
-            /// <summary>Class id of the distance sensor type. MAV_DISTANCE_SENSOR  </summary>
+
+        /// <summary>Class id of the distance sensor type. MAV_DISTANCE_SENSOR  </summary>
         [Units("")]
         [Description("Class id of the distance sensor type.")]
+        //[FieldOffset(156)]
         public  /*MAV_DISTANCE_SENSOR*/byte sensor_type;
-            /// <summary>Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.  [deg] </summary>
+
+        /// <summary>Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.  [deg] </summary>
         [Units("[deg]")]
         [Description("Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.")]
+        //[FieldOffset(157)]
         public  byte increment;
-            /// <summary>Angular width in degrees of each array element as a float. If non-zero then this value is used instead of the uint8_t increment field. Positive is clockwise direction, negative is counter-clockwise.  [deg] </summary>
+
+        /// <summary>Angular width in degrees of each array element as a float. If non-zero then this value is used instead of the uint8_t increment field. Positive is clockwise direction, negative is counter-clockwise.  [deg] </summary>
         [Units("[deg]")]
         [Description("Angular width in degrees of each array element as a float. If non-zero then this value is used instead of the uint8_t increment field. Positive is clockwise direction, negative is counter-clockwise.")]
+        //[FieldOffset(158)]
         public  float increment_f;
-            /// <summary>Relative angle offset of the 0-index element in the distances array. Value of 0 corresponds to forward. Positive is clockwise direction, negative is counter-clockwise.  [deg] </summary>
+
+        /// <summary>Relative angle offset of the 0-index element in the distances array. Value of 0 corresponds to forward. Positive is clockwise direction, negative is counter-clockwise.  [deg] </summary>
         [Units("[deg]")]
         [Description("Relative angle offset of the 0-index element in the distances array. Value of 0 corresponds to forward. Positive is clockwise direction, negative is counter-clockwise.")]
+        //[FieldOffset(162)]
         public  float angle_offset;
-            /// <summary>Coordinate frame of reference for the yaw rotation and offset of the sensor data. Defaults to MAV_FRAME_GLOBAL, which is north aligned. For body-mounted sensors use MAV_FRAME_BODY_FRD, which is vehicle front aligned. MAV_FRAME  </summary>
+
+        /// <summary>Coordinate frame of reference for the yaw rotation and offset of the sensor data. Defaults to MAV_FRAME_GLOBAL, which is north aligned. For body-mounted sensors use MAV_FRAME_BODY_FRD, which is vehicle front aligned. MAV_FRAME  </summary>
         [Units("")]
         [Description("Coordinate frame of reference for the yaw rotation and offset of the sensor data. Defaults to MAV_FRAME_GLOBAL, which is north aligned. For body-mounted sensors use MAV_FRAME_BODY_FRD, which is vehicle front aligned.")]
+        //[FieldOffset(166)]
         public  /*MAV_FRAME*/byte frame;
-    
     };
 
     
@@ -17082,97 +20255,130 @@ public partial class MAVLink
     {
         public mavlink_odometry_t(ulong time_usec,float x,float y,float z,float[] q,float vx,float vy,float vz,float rollspeed,float pitchspeed,float yawspeed,float[] pose_covariance,float[] velocity_covariance,/*MAV_FRAME*/byte frame_id,/*MAV_FRAME*/byte child_frame_id,byte reset_counter,/*MAV_ESTIMATOR_TYPE*/byte estimator_type) 
         {
-              this.time_usec = time_usec;
-              this.x = x;
-              this.y = y;
-              this.z = z;
-              this.q = q;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.rollspeed = rollspeed;
-              this.pitchspeed = pitchspeed;
-              this.yawspeed = yawspeed;
-              this.pose_covariance = pose_covariance;
-              this.velocity_covariance = velocity_covariance;
-              this.frame_id = frame_id;
-              this.child_frame_id = child_frame_id;
-              this.reset_counter = reset_counter;
-              this.estimator_type = estimator_type;
+            this.time_usec = time_usec;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.q = q;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.rollspeed = rollspeed;
+            this.pitchspeed = pitchspeed;
+            this.yawspeed = yawspeed;
+            this.pose_covariance = pose_covariance;
+            this.velocity_covariance = velocity_covariance;
+            this.frame_id = frame_id;
+            this.child_frame_id = child_frame_id;
+            this.reset_counter = reset_counter;
+            this.estimator_type = estimator_type;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>X Position  [m] </summary>
+
+        /// <summary>X Position  [m] </summary>
         [Units("[m]")]
         [Description("X Position")]
+        //[FieldOffset(8)]
         public  float x;
-            /// <summary>Y Position  [m] </summary>
+
+        /// <summary>Y Position  [m] </summary>
         [Units("[m]")]
         [Description("Y Position")]
+        //[FieldOffset(12)]
         public  float y;
-            /// <summary>Z Position  [m] </summary>
+
+        /// <summary>Z Position  [m] </summary>
         [Units("[m]")]
         [Description("Z Position")]
+        //[FieldOffset(16)]
         public  float z;
-            /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)   </summary>
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)   </summary>
         [Units("")]
         [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation)")]
+        //[FieldOffset(20)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
-            /// <summary>X linear speed  [m/s] </summary>
+
+        /// <summary>X linear speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("X linear speed")]
+        //[FieldOffset(36)]
         public  float vx;
-            /// <summary>Y linear speed  [m/s] </summary>
+
+        /// <summary>Y linear speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Y linear speed")]
+        //[FieldOffset(40)]
         public  float vy;
-            /// <summary>Z linear speed  [m/s] </summary>
+
+        /// <summary>Z linear speed  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Z linear speed")]
+        //[FieldOffset(44)]
         public  float vz;
-            /// <summary>Roll angular speed  [rad/s] </summary>
+
+        /// <summary>Roll angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Roll angular speed")]
+        //[FieldOffset(48)]
         public  float rollspeed;
-            /// <summary>Pitch angular speed  [rad/s] </summary>
+
+        /// <summary>Pitch angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Pitch angular speed")]
+        //[FieldOffset(52)]
         public  float pitchspeed;
-            /// <summary>Yaw angular speed  [rad/s] </summary>
+
+        /// <summary>Yaw angular speed  [rad/s] </summary>
         [Units("[rad/s]")]
         [Description("Yaw angular speed")]
+        //[FieldOffset(56)]
         public  float yawspeed;
-            /// <summary>Row-major representation of a 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of a 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of a 6x6 pose cross-covariance matrix upper right triangle (states: x, y, z, roll, pitch, yaw; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(60)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
 		public float[] pose_covariance;
-            /// <summary>Row-major representation of a 6x6 velocity cross-covariance matrix upper right triangle (states: vx, vy, vz, rollspeed, pitchspeed, yawspeed; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
+
+        /// <summary>Row-major representation of a 6x6 velocity cross-covariance matrix upper right triangle (states: vx, vy, vz, rollspeed, pitchspeed, yawspeed; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.   </summary>
         [Units("")]
         [Description("Row-major representation of a 6x6 velocity cross-covariance matrix upper right triangle (states: vx, vy, vz, rollspeed, pitchspeed, yawspeed; first six entries are the first ROW, next five entries are the second ROW, etc.). If unknown, assign NaN value to first element in the array.")]
+        //[FieldOffset(144)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=21)]
 		public float[] velocity_covariance;
-            /// <summary>Coordinate frame of reference for the pose data. MAV_FRAME  </summary>
+
+        /// <summary>Coordinate frame of reference for the pose data. MAV_FRAME  </summary>
         [Units("")]
         [Description("Coordinate frame of reference for the pose data.")]
+        //[FieldOffset(228)]
         public  /*MAV_FRAME*/byte frame_id;
-            /// <summary>Coordinate frame of reference for the velocity in free space (twist) data. MAV_FRAME  </summary>
+
+        /// <summary>Coordinate frame of reference for the velocity in free space (twist) data. MAV_FRAME  </summary>
         [Units("")]
         [Description("Coordinate frame of reference for the velocity in free space (twist) data.")]
+        //[FieldOffset(229)]
         public  /*MAV_FRAME*/byte child_frame_id;
-            /// <summary>Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.   </summary>
+
+        /// <summary>Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.   </summary>
         [Units("")]
         [Description("Estimate reset counter. This should be incremented when the estimate resets in any of the dimensions (position, velocity, attitude, angular speed). This is designed to be used when e.g an external SLAM system detects a loop-closure and the estimate jumps.")]
+        //[FieldOffset(230)]
         public  byte reset_counter;
-            /// <summary>Type of estimator that is providing the odometry. MAV_ESTIMATOR_TYPE  </summary>
+
+        /// <summary>Type of estimator that is providing the odometry. MAV_ESTIMATOR_TYPE  </summary>
         [Units("")]
         [Description("Type of estimator that is providing the odometry.")]
+        //[FieldOffset(231)]
         public  /*MAV_ESTIMATOR_TYPE*/byte estimator_type;
-    
     };
 
     
@@ -17183,49 +20389,64 @@ public partial class MAVLink
     {
         public mavlink_isbd_link_status_t(ulong timestamp,ulong last_heartbeat,ushort failed_sessions,ushort successful_sessions,byte signal_quality,byte ring_pending,byte tx_session_pending,byte rx_session_pending) 
         {
-              this.timestamp = timestamp;
-              this.last_heartbeat = last_heartbeat;
-              this.failed_sessions = failed_sessions;
-              this.successful_sessions = successful_sessions;
-              this.signal_quality = signal_quality;
-              this.ring_pending = ring_pending;
-              this.tx_session_pending = tx_session_pending;
-              this.rx_session_pending = rx_session_pending;
+            this.timestamp = timestamp;
+            this.last_heartbeat = last_heartbeat;
+            this.failed_sessions = failed_sessions;
+            this.successful_sessions = successful_sessions;
+            this.signal_quality = signal_quality;
+            this.ring_pending = ring_pending;
+            this.tx_session_pending = tx_session_pending;
+            this.rx_session_pending = rx_session_pending;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong timestamp;
-            /// <summary>Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
+
+        /// <summary>Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(8)]
         public  ulong last_heartbeat;
-            /// <summary>Number of failed SBD sessions.   </summary>
+
+        /// <summary>Number of failed SBD sessions.   </summary>
         [Units("")]
         [Description("Number of failed SBD sessions.")]
+        //[FieldOffset(16)]
         public  ushort failed_sessions;
-            /// <summary>Number of successful SBD sessions.   </summary>
+
+        /// <summary>Number of successful SBD sessions.   </summary>
         [Units("")]
         [Description("Number of successful SBD sessions.")]
+        //[FieldOffset(18)]
         public  ushort successful_sessions;
-            /// <summary>Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.   </summary>
+
+        /// <summary>Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.   </summary>
         [Units("")]
         [Description("Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.")]
+        //[FieldOffset(20)]
         public  byte signal_quality;
-            /// <summary>1: Ring call pending, 0: No call pending.   </summary>
+
+        /// <summary>1: Ring call pending, 0: No call pending.   </summary>
         [Units("")]
         [Description("1: Ring call pending, 0: No call pending.")]
+        //[FieldOffset(21)]
         public  byte ring_pending;
-            /// <summary>1: Transmission session pending, 0: No transmission session pending.   </summary>
+
+        /// <summary>1: Transmission session pending, 0: No transmission session pending.   </summary>
         [Units("")]
         [Description("1: Transmission session pending, 0: No transmission session pending.")]
+        //[FieldOffset(22)]
         public  byte tx_session_pending;
-            /// <summary>1: Receiving session pending, 0: No receiving session pending.   </summary>
+
+        /// <summary>1: Receiving session pending, 0: No receiving session pending.   </summary>
         [Units("")]
         [Description("1: Receiving session pending, 0: No receiving session pending.")]
+        //[FieldOffset(23)]
         public  byte rx_session_pending;
-    
     };
 
     [Obsolete]
@@ -17236,19 +20457,22 @@ public partial class MAVLink
     {
         public mavlink_raw_rpm_t(float frequency,byte index) 
         {
-              this.frequency = frequency;
-              this.index = index;
+            this.frequency = frequency;
+            this.index = index;
             
         }
+
         /// <summary>Indicated rate  [rpm] </summary>
         [Units("[rpm]")]
         [Description("Indicated rate")]
+        //[FieldOffset(0)]
         public  float frequency;
-            /// <summary>Index of this RPM sensor (0-indexed)   </summary>
+
+        /// <summary>Index of this RPM sensor (0-indexed)   </summary>
         [Units("")]
         [Description("Index of this RPM sensor (0-indexed)")]
+        //[FieldOffset(4)]
         public  byte index;
-    
     };
 
     
@@ -17259,100 +20483,135 @@ public partial class MAVLink
     {
         public mavlink_utm_global_position_t(ulong time,int lat,int lon,int alt,int relative_alt,int next_lat,int next_lon,int next_alt,short vx,short vy,short vz,ushort h_acc,ushort v_acc,ushort vel_acc,ushort update_rate,byte[] uas_id,/*UTM_FLIGHT_STATE*/byte flight_state,/*UTM_DATA_AVAIL_FLAGS*/byte flags) 
         {
-              this.time = time;
-              this.lat = lat;
-              this.lon = lon;
-              this.alt = alt;
-              this.relative_alt = relative_alt;
-              this.next_lat = next_lat;
-              this.next_lon = next_lon;
-              this.next_alt = next_alt;
-              this.vx = vx;
-              this.vy = vy;
-              this.vz = vz;
-              this.h_acc = h_acc;
-              this.v_acc = v_acc;
-              this.vel_acc = vel_acc;
-              this.update_rate = update_rate;
-              this.uas_id = uas_id;
-              this.flight_state = flight_state;
-              this.flags = flags;
+            this.time = time;
+            this.lat = lat;
+            this.lon = lon;
+            this.alt = alt;
+            this.relative_alt = relative_alt;
+            this.next_lat = next_lat;
+            this.next_lon = next_lon;
+            this.next_alt = next_alt;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = vz;
+            this.h_acc = h_acc;
+            this.v_acc = v_acc;
+            this.vel_acc = vel_acc;
+            this.update_rate = update_rate;
+            this.uas_id = uas_id;
+            this.flight_state = flight_state;
+            this.flags = flags;
             
         }
+
         /// <summary>Time of applicability of position (microseconds since UNIX epoch).  [us] </summary>
         [Units("[us]")]
         [Description("Time of applicability of position (microseconds since UNIX epoch).")]
+        //[FieldOffset(0)]
         public  ulong time;
-            /// <summary>Latitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude (WGS84)")]
+        //[FieldOffset(8)]
         public  int lat;
-            /// <summary>Longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude (WGS84)")]
+        //[FieldOffset(12)]
         public  int lon;
-            /// <summary>Altitude (WGS84)  [mm] </summary>
+
+        /// <summary>Altitude (WGS84)  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (WGS84)")]
+        //[FieldOffset(16)]
         public  int alt;
-            /// <summary>Altitude above ground  [mm] </summary>
+
+        /// <summary>Altitude above ground  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude above ground")]
+        //[FieldOffset(20)]
         public  int relative_alt;
-            /// <summary>Next waypoint, latitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Next waypoint, latitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Next waypoint, latitude (WGS84)")]
+        //[FieldOffset(24)]
         public  int next_lat;
-            /// <summary>Next waypoint, longitude (WGS84)  [degE7] </summary>
+
+        /// <summary>Next waypoint, longitude (WGS84)  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Next waypoint, longitude (WGS84)")]
+        //[FieldOffset(28)]
         public  int next_lon;
-            /// <summary>Next waypoint, altitude (WGS84)  [mm] </summary>
+
+        /// <summary>Next waypoint, altitude (WGS84)  [mm] </summary>
         [Units("[mm]")]
         [Description("Next waypoint, altitude (WGS84)")]
+        //[FieldOffset(32)]
         public  int next_alt;
-            /// <summary>Ground X speed (latitude, positive north)  [cm/s] </summary>
+
+        /// <summary>Ground X speed (latitude, positive north)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground X speed (latitude, positive north)")]
+        //[FieldOffset(36)]
         public  short vx;
-            /// <summary>Ground Y speed (longitude, positive east)  [cm/s] </summary>
+
+        /// <summary>Ground Y speed (longitude, positive east)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground Y speed (longitude, positive east)")]
+        //[FieldOffset(38)]
         public  short vy;
-            /// <summary>Ground Z speed (altitude, positive down)  [cm/s] </summary>
+
+        /// <summary>Ground Z speed (altitude, positive down)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Ground Z speed (altitude, positive down)")]
+        //[FieldOffset(40)]
         public  short vz;
-            /// <summary>Horizontal position uncertainty (standard deviation)  [mm] </summary>
+
+        /// <summary>Horizontal position uncertainty (standard deviation)  [mm] </summary>
         [Units("[mm]")]
         [Description("Horizontal position uncertainty (standard deviation)")]
+        //[FieldOffset(42)]
         public  ushort h_acc;
-            /// <summary>Altitude uncertainty (standard deviation)  [mm] </summary>
+
+        /// <summary>Altitude uncertainty (standard deviation)  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude uncertainty (standard deviation)")]
+        //[FieldOffset(44)]
         public  ushort v_acc;
-            /// <summary>Speed uncertainty (standard deviation)  [cm/s] </summary>
+
+        /// <summary>Speed uncertainty (standard deviation)  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Speed uncertainty (standard deviation)")]
+        //[FieldOffset(46)]
         public  ushort vel_acc;
-            /// <summary>Time until next update. Set to 0 if unknown or in data driven mode.  [cs] </summary>
+
+        /// <summary>Time until next update. Set to 0 if unknown or in data driven mode.  [cs] </summary>
         [Units("[cs]")]
         [Description("Time until next update. Set to 0 if unknown or in data driven mode.")]
+        //[FieldOffset(48)]
         public  ushort update_rate;
-            /// <summary>Unique UAS ID.   </summary>
+
+        /// <summary>Unique UAS ID.   </summary>
         [Units("")]
         [Description("Unique UAS ID.")]
+        //[FieldOffset(50)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=18)]
 		public byte[] uas_id;
-            /// <summary>Flight state UTM_FLIGHT_STATE  </summary>
+
+        /// <summary>Flight state UTM_FLIGHT_STATE  </summary>
         [Units("")]
         [Description("Flight state")]
+        //[FieldOffset(68)]
         public  /*UTM_FLIGHT_STATE*/byte flight_state;
-            /// <summary>Bitwise OR combination of the data available flags. UTM_DATA_AVAIL_FLAGS  bitmask</summary>
+
+        /// <summary>Bitwise OR combination of the data available flags. UTM_DATA_AVAIL_FLAGS  bitmask</summary>
         [Units("")]
         [Description("Bitwise OR combination of the data available flags.")]
+        //[FieldOffset(69)]
         public  /*UTM_DATA_AVAIL_FLAGS*/byte flags;
-    
     };
 
     
@@ -17363,31 +20622,38 @@ public partial class MAVLink
     {
         public mavlink_debug_float_array_t(ulong time_usec,ushort array_id,byte[] name,float[] data) 
         {
-              this.time_usec = time_usec;
-              this.array_id = array_id;
-              this.name = name;
-              this.data = data;
+            this.time_usec = time_usec;
+            this.array_id = array_id;
+            this.name = name;
+            this.data = data;
             
         }
+
         /// <summary>Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Unique ID used to discriminate between arrays   </summary>
+
+        /// <summary>Unique ID used to discriminate between arrays   </summary>
         [Units("")]
         [Description("Unique ID used to discriminate between arrays")]
+        //[FieldOffset(8)]
         public  ushort array_id;
-            /// <summary>Name, for human-friendly display in a Ground Control Station   </summary>
+
+        /// <summary>Name, for human-friendly display in a Ground Control Station   </summary>
         [Units("")]
         [Description("Name, for human-friendly display in a Ground Control Station")]
+        //[FieldOffset(10)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=10)]
 		public byte[] name;
-            /// <summary>data   </summary>
+
+        /// <summary>data   </summary>
         [Units("")]
         [Description("data")]
+        //[FieldOffset(20)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=58)]
 		public float[] data;
-    
     };
 
     
@@ -17398,97 +20664,130 @@ public partial class MAVLink
     {
         public mavlink_smart_battery_info_t(int capacity_full_specification,int capacity_full,ushort cycle_count,ushort weight,ushort discharge_minimum_voltage,ushort charging_minimum_voltage,ushort resting_minimum_voltage,byte id,/*MAV_BATTERY_FUNCTION*/byte battery_function,/*MAV_BATTERY_TYPE*/byte type,byte[] serial_number,byte[] device_name,ushort charging_maximum_voltage,byte cells_in_series,uint discharge_maximum_current,uint discharge_maximum_burst_current,byte[] manufacture_date) 
         {
-              this.capacity_full_specification = capacity_full_specification;
-              this.capacity_full = capacity_full;
-              this.cycle_count = cycle_count;
-              this.weight = weight;
-              this.discharge_minimum_voltage = discharge_minimum_voltage;
-              this.charging_minimum_voltage = charging_minimum_voltage;
-              this.resting_minimum_voltage = resting_minimum_voltage;
-              this.id = id;
-              this.battery_function = battery_function;
-              this.type = type;
-              this.serial_number = serial_number;
-              this.device_name = device_name;
-              this.charging_maximum_voltage = charging_maximum_voltage;
-              this.cells_in_series = cells_in_series;
-              this.discharge_maximum_current = discharge_maximum_current;
-              this.discharge_maximum_burst_current = discharge_maximum_burst_current;
-              this.manufacture_date = manufacture_date;
+            this.capacity_full_specification = capacity_full_specification;
+            this.capacity_full = capacity_full;
+            this.cycle_count = cycle_count;
+            this.weight = weight;
+            this.discharge_minimum_voltage = discharge_minimum_voltage;
+            this.charging_minimum_voltage = charging_minimum_voltage;
+            this.resting_minimum_voltage = resting_minimum_voltage;
+            this.id = id;
+            this.battery_function = battery_function;
+            this.type = type;
+            this.serial_number = serial_number;
+            this.device_name = device_name;
+            this.charging_maximum_voltage = charging_maximum_voltage;
+            this.cells_in_series = cells_in_series;
+            this.discharge_maximum_current = discharge_maximum_current;
+            this.discharge_maximum_burst_current = discharge_maximum_burst_current;
+            this.manufacture_date = manufacture_date;
             
         }
+
         /// <summary>Capacity when full according to manufacturer, -1: field not provided.  [mAh] </summary>
         [Units("[mAh]")]
         [Description("Capacity when full according to manufacturer, -1: field not provided.")]
+        //[FieldOffset(0)]
         public  int capacity_full_specification;
-            /// <summary>Capacity when full (accounting for battery degradation), -1: field not provided.  [mAh] </summary>
+
+        /// <summary>Capacity when full (accounting for battery degradation), -1: field not provided.  [mAh] </summary>
         [Units("[mAh]")]
         [Description("Capacity when full (accounting for battery degradation), -1: field not provided.")]
+        //[FieldOffset(4)]
         public  int capacity_full;
-            /// <summary>Charge/discharge cycle count. UINT16_MAX: field not provided.   </summary>
+
+        /// <summary>Charge/discharge cycle count. UINT16_MAX: field not provided.   </summary>
         [Units("")]
         [Description("Charge/discharge cycle count. UINT16_MAX: field not provided.")]
+        //[FieldOffset(8)]
         public  ushort cycle_count;
-            /// <summary>Battery weight. 0: field not provided.  [g] </summary>
+
+        /// <summary>Battery weight. 0: field not provided.  [g] </summary>
         [Units("[g]")]
         [Description("Battery weight. 0: field not provided.")]
+        //[FieldOffset(10)]
         public  ushort weight;
-            /// <summary>Minimum per-cell voltage when discharging. If not supplied set to UINT16_MAX value.  [mV] </summary>
+
+        /// <summary>Minimum per-cell voltage when discharging. If not supplied set to UINT16_MAX value.  [mV] </summary>
         [Units("[mV]")]
         [Description("Minimum per-cell voltage when discharging. If not supplied set to UINT16_MAX value.")]
+        //[FieldOffset(12)]
         public  ushort discharge_minimum_voltage;
-            /// <summary>Minimum per-cell voltage when charging. If not supplied set to UINT16_MAX value.  [mV] </summary>
+
+        /// <summary>Minimum per-cell voltage when charging. If not supplied set to UINT16_MAX value.  [mV] </summary>
         [Units("[mV]")]
         [Description("Minimum per-cell voltage when charging. If not supplied set to UINT16_MAX value.")]
+        //[FieldOffset(14)]
         public  ushort charging_minimum_voltage;
-            /// <summary>Minimum per-cell voltage when resting. If not supplied set to UINT16_MAX value.  [mV] </summary>
+
+        /// <summary>Minimum per-cell voltage when resting. If not supplied set to UINT16_MAX value.  [mV] </summary>
         [Units("[mV]")]
         [Description("Minimum per-cell voltage when resting. If not supplied set to UINT16_MAX value.")]
+        //[FieldOffset(16)]
         public  ushort resting_minimum_voltage;
-            /// <summary>Battery ID   </summary>
+
+        /// <summary>Battery ID   </summary>
         [Units("")]
         [Description("Battery ID")]
+        //[FieldOffset(18)]
         public  byte id;
-            /// <summary>Function of the battery MAV_BATTERY_FUNCTION  </summary>
+
+        /// <summary>Function of the battery MAV_BATTERY_FUNCTION  </summary>
         [Units("")]
         [Description("Function of the battery")]
+        //[FieldOffset(19)]
         public  /*MAV_BATTERY_FUNCTION*/byte battery_function;
-            /// <summary>Type (chemistry) of the battery MAV_BATTERY_TYPE  </summary>
+
+        /// <summary>Type (chemistry) of the battery MAV_BATTERY_TYPE  </summary>
         [Units("")]
         [Description("Type (chemistry) of the battery")]
+        //[FieldOffset(20)]
         public  /*MAV_BATTERY_TYPE*/byte type;
-            /// <summary>Serial number in ASCII characters, 0 terminated. All 0: field not provided.   </summary>
+
+        /// <summary>Serial number in ASCII characters, 0 terminated. All 0: field not provided.   </summary>
         [Units("")]
         [Description("Serial number in ASCII characters, 0 terminated. All 0: field not provided.")]
+        //[FieldOffset(21)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public byte[] serial_number;
-            /// <summary>Static device name in ASCII characters, 0 terminated. All 0: field not provided. Encode as manufacturer name then product name separated using an underscore.   </summary>
+
+        /// <summary>Static device name in ASCII characters, 0 terminated. All 0: field not provided. Encode as manufacturer name then product name separated using an underscore.   </summary>
         [Units("")]
         [Description("Static device name in ASCII characters, 0 terminated. All 0: field not provided. Encode as manufacturer name then product name separated using an underscore.")]
+        //[FieldOffset(37)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=50)]
 		public byte[] device_name;
-            /// <summary>Maximum per-cell voltage when charged. 0: field not provided.  [mV] </summary>
+
+        /// <summary>Maximum per-cell voltage when charged. 0: field not provided.  [mV] </summary>
         [Units("[mV]")]
         [Description("Maximum per-cell voltage when charged. 0: field not provided.")]
+        //[FieldOffset(87)]
         public  ushort charging_maximum_voltage;
-            /// <summary>Number of battery cells in series. 0: field not provided.   </summary>
+
+        /// <summary>Number of battery cells in series. 0: field not provided.   </summary>
         [Units("")]
         [Description("Number of battery cells in series. 0: field not provided.")]
+        //[FieldOffset(89)]
         public  byte cells_in_series;
-            /// <summary>Maximum pack discharge current. 0: field not provided.  [mA] </summary>
+
+        /// <summary>Maximum pack discharge current. 0: field not provided.  [mA] </summary>
         [Units("[mA]")]
         [Description("Maximum pack discharge current. 0: field not provided.")]
+        //[FieldOffset(90)]
         public  uint discharge_maximum_current;
-            /// <summary>Maximum pack discharge burst current. 0: field not provided.  [mA] </summary>
+
+        /// <summary>Maximum pack discharge burst current. 0: field not provided.  [mA] </summary>
         [Units("[mA]")]
         [Description("Maximum pack discharge burst current. 0: field not provided.")]
+        //[FieldOffset(94)]
         public  uint discharge_maximum_burst_current;
-            /// <summary>Manufacture date (DD/MM/YYYY) in ASCII characters, 0 terminated. All 0: field not provided.   </summary>
+
+        /// <summary>Manufacture date (DD/MM/YYYY) in ASCII characters, 0 terminated. All 0: field not provided.   </summary>
         [Units("")]
         [Description("Manufacture date (DD/MM/YYYY) in ASCII characters, 0 terminated. All 0: field not provided.")]
+        //[FieldOffset(98)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=11)]
 		public byte[] manufacture_date;
-    
     };
 
     
@@ -17499,64 +20798,85 @@ public partial class MAVLink
     {
         public mavlink_generator_status_t(/*MAV_GENERATOR_STATUS_FLAG*/ulong status,float battery_current,float load_current,float power_generated,float bus_voltage,float bat_current_setpoint,uint runtime,int time_until_maintenance,ushort generator_speed,short rectifier_temperature,short generator_temperature) 
         {
-              this.status = status;
-              this.battery_current = battery_current;
-              this.load_current = load_current;
-              this.power_generated = power_generated;
-              this.bus_voltage = bus_voltage;
-              this.bat_current_setpoint = bat_current_setpoint;
-              this.runtime = runtime;
-              this.time_until_maintenance = time_until_maintenance;
-              this.generator_speed = generator_speed;
-              this.rectifier_temperature = rectifier_temperature;
-              this.generator_temperature = generator_temperature;
+            this.status = status;
+            this.battery_current = battery_current;
+            this.load_current = load_current;
+            this.power_generated = power_generated;
+            this.bus_voltage = bus_voltage;
+            this.bat_current_setpoint = bat_current_setpoint;
+            this.runtime = runtime;
+            this.time_until_maintenance = time_until_maintenance;
+            this.generator_speed = generator_speed;
+            this.rectifier_temperature = rectifier_temperature;
+            this.generator_temperature = generator_temperature;
             
         }
+
         /// <summary>Status flags. MAV_GENERATOR_STATUS_FLAG  bitmask</summary>
         [Units("")]
         [Description("Status flags.")]
+        //[FieldOffset(0)]
         public  /*MAV_GENERATOR_STATUS_FLAG*/ulong status;
-            /// <summary>Current into/out of battery. Positive for out. Negative for in. NaN: field not provided.  [A] </summary>
+
+        /// <summary>Current into/out of battery. Positive for out. Negative for in. NaN: field not provided.  [A] </summary>
         [Units("[A]")]
         [Description("Current into/out of battery. Positive for out. Negative for in. NaN: field not provided.")]
+        //[FieldOffset(8)]
         public  float battery_current;
-            /// <summary>Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided  [A] </summary>
+
+        /// <summary>Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided  [A] </summary>
         [Units("[A]")]
         [Description("Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided")]
+        //[FieldOffset(12)]
         public  float load_current;
-            /// <summary>The power being generated. NaN: field not provided  [W] </summary>
+
+        /// <summary>The power being generated. NaN: field not provided  [W] </summary>
         [Units("[W]")]
         [Description("The power being generated. NaN: field not provided")]
+        //[FieldOffset(16)]
         public  float power_generated;
-            /// <summary>Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a different voltage to main bus.  [V] </summary>
+
+        /// <summary>Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a different voltage to main bus.  [V] </summary>
         [Units("[V]")]
         [Description("Voltage of the bus seen at the generator, or battery bus if battery bus is controlled by generator and at a different voltage to main bus.")]
+        //[FieldOffset(20)]
         public  float bus_voltage;
-            /// <summary>The target battery current. Positive for out. Negative for in. NaN: field not provided  [A] </summary>
+
+        /// <summary>The target battery current. Positive for out. Negative for in. NaN: field not provided  [A] </summary>
         [Units("[A]")]
         [Description("The target battery current. Positive for out. Negative for in. NaN: field not provided")]
+        //[FieldOffset(24)]
         public  float bat_current_setpoint;
-            /// <summary>Seconds this generator has run since it was rebooted. UINT32_MAX: field not provided.  [s] </summary>
+
+        /// <summary>Seconds this generator has run since it was rebooted. UINT32_MAX: field not provided.  [s] </summary>
         [Units("[s]")]
         [Description("Seconds this generator has run since it was rebooted. UINT32_MAX: field not provided.")]
+        //[FieldOffset(28)]
         public  uint runtime;
-            /// <summary>Seconds until this generator requires maintenance.  A negative value indicates maintenance is past-due. INT32_MAX: field not provided.  [s] </summary>
+
+        /// <summary>Seconds until this generator requires maintenance.  A negative value indicates maintenance is past-due. INT32_MAX: field not provided.  [s] </summary>
         [Units("[s]")]
         [Description("Seconds until this generator requires maintenance.  A negative value indicates maintenance is past-due. INT32_MAX: field not provided.")]
+        //[FieldOffset(32)]
         public  int time_until_maintenance;
-            /// <summary>Speed of electrical generator or alternator. UINT16_MAX: field not provided.  [rpm] </summary>
+
+        /// <summary>Speed of electrical generator or alternator. UINT16_MAX: field not provided.  [rpm] </summary>
         [Units("[rpm]")]
         [Description("Speed of electrical generator or alternator. UINT16_MAX: field not provided.")]
+        //[FieldOffset(36)]
         public  ushort generator_speed;
-            /// <summary>The temperature of the rectifier or power converter. INT16_MAX: field not provided.  [degC] </summary>
+
+        /// <summary>The temperature of the rectifier or power converter. INT16_MAX: field not provided.  [degC] </summary>
         [Units("[degC]")]
         [Description("The temperature of the rectifier or power converter. INT16_MAX: field not provided.")]
+        //[FieldOffset(38)]
         public  short rectifier_temperature;
-            /// <summary>The temperature of the mechanical motor, fuel cell core or generator. INT16_MAX: field not provided.  [degC] </summary>
+
+        /// <summary>The temperature of the mechanical motor, fuel cell core or generator. INT16_MAX: field not provided.  [degC] </summary>
         [Units("[degC]")]
         [Description("The temperature of the mechanical motor, fuel cell core or generator. INT16_MAX: field not provided.")]
+        //[FieldOffset(40)]
         public  short generator_temperature;
-    
     };
 
     
@@ -17567,25 +20887,30 @@ public partial class MAVLink
     {
         public mavlink_actuator_output_status_t(ulong time_usec,uint active,float[] actuator) 
         {
-              this.time_usec = time_usec;
-              this.active = active;
-              this.actuator = actuator;
+            this.time_usec = time_usec;
+            this.active = active;
+            this.actuator = actuator;
             
         }
+
         /// <summary>Timestamp (since system boot).  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (since system boot).")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Active outputs   bitmask</summary>
+
+        /// <summary>Active outputs   bitmask</summary>
         [Units("")]
         [Description("Active outputs")]
+        //[FieldOffset(8)]
         public  uint active;
-            /// <summary>Servo / motor output array values. Zero values indicate unused channels.   </summary>
+
+        /// <summary>Servo / motor output array values. Zero values indicate unused channels.   </summary>
         [Units("")]
         [Description("Servo / motor output array values. Zero values indicate unused channels.")]
+        //[FieldOffset(12)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public float[] actuator;
-    
     };
 
     
@@ -17596,25 +20921,30 @@ public partial class MAVLink
     {
         public mavlink_wheel_distance_t(ulong time_usec,double[] distance,byte count) 
         {
-              this.time_usec = time_usec;
-              this.distance = distance;
-              this.count = count;
+            this.time_usec = time_usec;
+            this.distance = distance;
+            this.count = count;
             
         }
+
         /// <summary>Timestamp (synced to UNIX time or since system boot).  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (synced to UNIX time or since system boot).")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Distance reported by individual wheel encoders. Forward rotations increase values, reverse rotations decrease them. Not all wheels will necessarily have wheel encoders; the mapping of encoders to wheel positions must be agreed/understood by the endpoints.  [m] </summary>
+
+        /// <summary>Distance reported by individual wheel encoders. Forward rotations increase values, reverse rotations decrease them. Not all wheels will necessarily have wheel encoders; the mapping of encoders to wheel positions must be agreed/understood by the endpoints.  [m] </summary>
         [Units("[m]")]
         [Description("Distance reported by individual wheel encoders. Forward rotations increase values, reverse rotations decrease them. Not all wheels will necessarily have wheel encoders; the mapping of encoders to wheel positions must be agreed/understood by the endpoints.")]
+        //[FieldOffset(8)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
 		public double[] distance;
-            /// <summary>Number of wheels reported.   </summary>
+
+        /// <summary>Number of wheels reported.   </summary>
         [Units("")]
         [Description("Number of wheels reported.")]
+        //[FieldOffset(136)]
         public  byte count;
-    
     };
 
     [Obsolete]
@@ -17625,49 +20955,64 @@ public partial class MAVLink
     {
         public mavlink_winch_status_t(ulong time_usec,float line_length,float speed,float tension,float voltage,float current,/*MAV_WINCH_STATUS_FLAG*/uint status,short temperature) 
         {
-              this.time_usec = time_usec;
-              this.line_length = line_length;
-              this.speed = speed;
-              this.tension = tension;
-              this.voltage = voltage;
-              this.current = current;
-              this.status = status;
-              this.temperature = temperature;
+            this.time_usec = time_usec;
+            this.line_length = line_length;
+            this.speed = speed;
+            this.tension = tension;
+            this.voltage = voltage;
+            this.current = current;
+            this.status = status;
+            this.temperature = temperature;
             
         }
+
         /// <summary>Timestamp (synced to UNIX time or since system boot).  [us] </summary>
         [Units("[us]")]
         [Description("Timestamp (synced to UNIX time or since system boot).")]
+        //[FieldOffset(0)]
         public  ulong time_usec;
-            /// <summary>Length of line released. NaN if unknown  [m] </summary>
+
+        /// <summary>Length of line released. NaN if unknown  [m] </summary>
         [Units("[m]")]
         [Description("Length of line released. NaN if unknown")]
+        //[FieldOffset(8)]
         public  float line_length;
-            /// <summary>Speed line is being released or retracted. Positive values if being released, negative values if being retracted, NaN if unknown  [m/s] </summary>
+
+        /// <summary>Speed line is being released or retracted. Positive values if being released, negative values if being retracted, NaN if unknown  [m/s] </summary>
         [Units("[m/s]")]
         [Description("Speed line is being released or retracted. Positive values if being released, negative values if being retracted, NaN if unknown")]
+        //[FieldOffset(12)]
         public  float speed;
-            /// <summary>Tension on the line. NaN if unknown  [kg] </summary>
+
+        /// <summary>Tension on the line. NaN if unknown  [kg] </summary>
         [Units("[kg]")]
         [Description("Tension on the line. NaN if unknown")]
+        //[FieldOffset(16)]
         public  float tension;
-            /// <summary>Voltage of the battery supplying the winch. NaN if unknown  [V] </summary>
+
+        /// <summary>Voltage of the battery supplying the winch. NaN if unknown  [V] </summary>
         [Units("[V]")]
         [Description("Voltage of the battery supplying the winch. NaN if unknown")]
+        //[FieldOffset(20)]
         public  float voltage;
-            /// <summary>Current draw from the winch. NaN if unknown  [A] </summary>
+
+        /// <summary>Current draw from the winch. NaN if unknown  [A] </summary>
         [Units("[A]")]
         [Description("Current draw from the winch. NaN if unknown")]
+        //[FieldOffset(24)]
         public  float current;
-            /// <summary>Status flags MAV_WINCH_STATUS_FLAG  bitmask</summary>
+
+        /// <summary>Status flags MAV_WINCH_STATUS_FLAG  bitmask</summary>
         [Units("")]
         [Description("Status flags")]
+        //[FieldOffset(28)]
         public  /*MAV_WINCH_STATUS_FLAG*/uint status;
-            /// <summary>Temperature of the motor. INT16_MAX if unknown  [degC] </summary>
+
+        /// <summary>Temperature of the motor. INT16_MAX if unknown  [degC] </summary>
         [Units("[degC]")]
         [Description("Temperature of the motor. INT16_MAX if unknown")]
+        //[FieldOffset(32)]
         public  short temperature;
-    
     };
 
     
@@ -17678,50 +21023,65 @@ public partial class MAVLink
     {
         public mavlink_uavionix_adsb_out_cfg_t(uint ICAO,ushort stallSpeed,byte[] callsign,/*ADSB_EMITTER_TYPE*/byte emitterType,/*UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE*/byte aircraftSize,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT*/byte gpsOffsetLat,/*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON*/byte gpsOffsetLon,/*UAVIONIX_ADSB_OUT_RF_SELECT*/byte rfSelect) 
         {
-              this.ICAO = ICAO;
-              this.stallSpeed = stallSpeed;
-              this.callsign = callsign;
-              this.emitterType = emitterType;
-              this.aircraftSize = aircraftSize;
-              this.gpsOffsetLat = gpsOffsetLat;
-              this.gpsOffsetLon = gpsOffsetLon;
-              this.rfSelect = rfSelect;
+            this.ICAO = ICAO;
+            this.stallSpeed = stallSpeed;
+            this.callsign = callsign;
+            this.emitterType = emitterType;
+            this.aircraftSize = aircraftSize;
+            this.gpsOffsetLat = gpsOffsetLat;
+            this.gpsOffsetLon = gpsOffsetLon;
+            this.rfSelect = rfSelect;
             
         }
+
         /// <summary>Vehicle address (24 bit)   </summary>
         [Units("")]
         [Description("Vehicle address (24 bit)")]
+        //[FieldOffset(0)]
         public  uint ICAO;
-            /// <summary>Aircraft stall speed in cm/s  [cm/s] </summary>
+
+        /// <summary>Aircraft stall speed in cm/s  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("Aircraft stall speed in cm/s")]
+        //[FieldOffset(4)]
         public  ushort stallSpeed;
-            /// <summary>Vehicle identifier (8 characters, null terminated, valid characters are A-Z, 0-9, ' ' only)   </summary>
+
+        /// <summary>Vehicle identifier (8 characters, null terminated, valid characters are A-Z, 0-9, ' ' only)   </summary>
         [Units("")]
         [Description("Vehicle identifier (8 characters, null terminated, valid characters are A-Z, 0-9, ' ' only)")]
+        //[FieldOffset(6)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
 		public byte[] callsign;
-            /// <summary>Transmitting vehicle type. See ADSB_EMITTER_TYPE enum ADSB_EMITTER_TYPE  </summary>
+
+        /// <summary>Transmitting vehicle type. See ADSB_EMITTER_TYPE enum ADSB_EMITTER_TYPE  </summary>
         [Units("")]
         [Description("Transmitting vehicle type. See ADSB_EMITTER_TYPE enum")]
+        //[FieldOffset(15)]
         public  /*ADSB_EMITTER_TYPE*/byte emitterType;
-            /// <summary>Aircraft length and width encoding (table 2-35 of DO-282B) UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE  </summary>
+
+        /// <summary>Aircraft length and width encoding (table 2-35 of DO-282B) UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE  </summary>
         [Units("")]
         [Description("Aircraft length and width encoding (table 2-35 of DO-282B)")]
+        //[FieldOffset(16)]
         public  /*UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE*/byte aircraftSize;
-            /// <summary>GPS antenna lateral offset (table 2-36 of DO-282B) UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT  </summary>
+
+        /// <summary>GPS antenna lateral offset (table 2-36 of DO-282B) UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT  </summary>
         [Units("")]
         [Description("GPS antenna lateral offset (table 2-36 of DO-282B)")]
+        //[FieldOffset(17)]
         public  /*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT*/byte gpsOffsetLat;
-            /// <summary>GPS antenna longitudinal offset from nose [if non-zero, take position (in meters) divide by 2 and add one] (table 2-37 DO-282B) UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON  </summary>
+
+        /// <summary>GPS antenna longitudinal offset from nose [if non-zero, take position (in meters) divide by 2 and add one] (table 2-37 DO-282B) UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON  </summary>
         [Units("")]
         [Description("GPS antenna longitudinal offset from nose [if non-zero, take position (in meters) divide by 2 and add one] (table 2-37 DO-282B)")]
+        //[FieldOffset(18)]
         public  /*UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON*/byte gpsOffsetLon;
-            /// <summary>ADS-B transponder reciever and transmit enable flags UAVIONIX_ADSB_OUT_RF_SELECT  bitmask</summary>
+
+        /// <summary>ADS-B transponder reciever and transmit enable flags UAVIONIX_ADSB_OUT_RF_SELECT  bitmask</summary>
         [Units("")]
         [Description("ADS-B transponder reciever and transmit enable flags")]
+        //[FieldOffset(19)]
         public  /*UAVIONIX_ADSB_OUT_RF_SELECT*/byte rfSelect;
-    
     };
 
     
@@ -17732,89 +21092,120 @@ public partial class MAVLink
     {
         public mavlink_uavionix_adsb_out_dynamic_t(uint utcTime,int gpsLat,int gpsLon,int gpsAlt,int baroAltMSL,uint accuracyHor,ushort accuracyVert,ushort accuracyVel,short velVert,short velNS,short VelEW,/*UAVIONIX_ADSB_OUT_DYNAMIC_STATE*/ushort state,ushort squawk,/*UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX*/byte gpsFix,byte numSats,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus) 
         {
-              this.utcTime = utcTime;
-              this.gpsLat = gpsLat;
-              this.gpsLon = gpsLon;
-              this.gpsAlt = gpsAlt;
-              this.baroAltMSL = baroAltMSL;
-              this.accuracyHor = accuracyHor;
-              this.accuracyVert = accuracyVert;
-              this.accuracyVel = accuracyVel;
-              this.velVert = velVert;
-              this.velNS = velNS;
-              this.VelEW = VelEW;
-              this.state = state;
-              this.squawk = squawk;
-              this.gpsFix = gpsFix;
-              this.numSats = numSats;
-              this.emergencyStatus = emergencyStatus;
+            this.utcTime = utcTime;
+            this.gpsLat = gpsLat;
+            this.gpsLon = gpsLon;
+            this.gpsAlt = gpsAlt;
+            this.baroAltMSL = baroAltMSL;
+            this.accuracyHor = accuracyHor;
+            this.accuracyVert = accuracyVert;
+            this.accuracyVel = accuracyVel;
+            this.velVert = velVert;
+            this.velNS = velNS;
+            this.VelEW = VelEW;
+            this.state = state;
+            this.squawk = squawk;
+            this.gpsFix = gpsFix;
+            this.numSats = numSats;
+            this.emergencyStatus = emergencyStatus;
             
         }
+
         /// <summary>UTC time in seconds since GPS epoch (Jan 6, 1980). If unknown set to UINT32_MAX  [s] </summary>
         [Units("[s]")]
         [Description("UTC time in seconds since GPS epoch (Jan 6, 1980). If unknown set to UINT32_MAX")]
+        //[FieldOffset(0)]
         public  uint utcTime;
-            /// <summary>Latitude WGS84 (deg * 1E7). If unknown set to INT32_MAX  [degE7] </summary>
+
+        /// <summary>Latitude WGS84 (deg * 1E7). If unknown set to INT32_MAX  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Latitude WGS84 (deg * 1E7). If unknown set to INT32_MAX")]
+        //[FieldOffset(4)]
         public  int gpsLat;
-            /// <summary>Longitude WGS84 (deg * 1E7). If unknown set to INT32_MAX  [degE7] </summary>
+
+        /// <summary>Longitude WGS84 (deg * 1E7). If unknown set to INT32_MAX  [degE7] </summary>
         [Units("[degE7]")]
         [Description("Longitude WGS84 (deg * 1E7). If unknown set to INT32_MAX")]
+        //[FieldOffset(8)]
         public  int gpsLon;
-            /// <summary>Altitude (WGS84). UP +ve. If unknown set to INT32_MAX  [mm] </summary>
+
+        /// <summary>Altitude (WGS84). UP +ve. If unknown set to INT32_MAX  [mm] </summary>
         [Units("[mm]")]
         [Description("Altitude (WGS84). UP +ve. If unknown set to INT32_MAX")]
+        //[FieldOffset(12)]
         public  int gpsAlt;
-            /// <summary>Barometric pressure altitude (MSL) relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX  [mbar] </summary>
+
+        /// <summary>Barometric pressure altitude (MSL) relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX  [mbar] </summary>
         [Units("[mbar]")]
         [Description("Barometric pressure altitude (MSL) relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX")]
+        //[FieldOffset(16)]
         public  int baroAltMSL;
-            /// <summary>Horizontal accuracy in mm (m * 1E-3). If unknown set to UINT32_MAX  [mm] </summary>
+
+        /// <summary>Horizontal accuracy in mm (m * 1E-3). If unknown set to UINT32_MAX  [mm] </summary>
         [Units("[mm]")]
         [Description("Horizontal accuracy in mm (m * 1E-3). If unknown set to UINT32_MAX")]
+        //[FieldOffset(20)]
         public  uint accuracyHor;
-            /// <summary>Vertical accuracy in cm. If unknown set to UINT16_MAX  [cm] </summary>
+
+        /// <summary>Vertical accuracy in cm. If unknown set to UINT16_MAX  [cm] </summary>
         [Units("[cm]")]
         [Description("Vertical accuracy in cm. If unknown set to UINT16_MAX")]
+        //[FieldOffset(24)]
         public  ushort accuracyVert;
-            /// <summary>Velocity accuracy in mm/s (m * 1E-3). If unknown set to UINT16_MAX  [mm/s] </summary>
+
+        /// <summary>Velocity accuracy in mm/s (m * 1E-3). If unknown set to UINT16_MAX  [mm/s] </summary>
         [Units("[mm/s]")]
         [Description("Velocity accuracy in mm/s (m * 1E-3). If unknown set to UINT16_MAX")]
+        //[FieldOffset(26)]
         public  ushort accuracyVel;
-            /// <summary>GPS vertical speed in cm/s. If unknown set to INT16_MAX  [cm/s] </summary>
+
+        /// <summary>GPS vertical speed in cm/s. If unknown set to INT16_MAX  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("GPS vertical speed in cm/s. If unknown set to INT16_MAX")]
+        //[FieldOffset(28)]
         public  short velVert;
-            /// <summary>North-South velocity over ground in cm/s North +ve. If unknown set to INT16_MAX  [cm/s] </summary>
+
+        /// <summary>North-South velocity over ground in cm/s North +ve. If unknown set to INT16_MAX  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("North-South velocity over ground in cm/s North +ve. If unknown set to INT16_MAX")]
+        //[FieldOffset(30)]
         public  short velNS;
-            /// <summary>East-West velocity over ground in cm/s East +ve. If unknown set to INT16_MAX  [cm/s] </summary>
+
+        /// <summary>East-West velocity over ground in cm/s East +ve. If unknown set to INT16_MAX  [cm/s] </summary>
         [Units("[cm/s]")]
         [Description("East-West velocity over ground in cm/s East +ve. If unknown set to INT16_MAX")]
+        //[FieldOffset(32)]
         public  short VelEW;
-            /// <summary>ADS-B transponder dynamic input state flags UAVIONIX_ADSB_OUT_DYNAMIC_STATE  bitmask</summary>
+
+        /// <summary>ADS-B transponder dynamic input state flags UAVIONIX_ADSB_OUT_DYNAMIC_STATE  bitmask</summary>
         [Units("")]
         [Description("ADS-B transponder dynamic input state flags")]
+        //[FieldOffset(34)]
         public  /*UAVIONIX_ADSB_OUT_DYNAMIC_STATE*/ushort state;
-            /// <summary>Mode A code (typically 1200 [0x04B0] for VFR)   </summary>
+
+        /// <summary>Mode A code (typically 1200 [0x04B0] for VFR)   </summary>
         [Units("")]
         [Description("Mode A code (typically 1200 [0x04B0] for VFR)")]
+        //[FieldOffset(36)]
         public  ushort squawk;
-            /// <summary>0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS, 5: RTK UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX  </summary>
+
+        /// <summary>0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS, 5: RTK UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX  </summary>
         [Units("")]
         [Description("0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS, 5: RTK")]
+        //[FieldOffset(38)]
         public  /*UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX*/byte gpsFix;
-            /// <summary>Number of satellites visible. If unknown set to UINT8_MAX   </summary>
+
+        /// <summary>Number of satellites visible. If unknown set to UINT8_MAX   </summary>
         [Units("")]
         [Description("Number of satellites visible. If unknown set to UINT8_MAX")]
+        //[FieldOffset(39)]
         public  byte numSats;
-            /// <summary>Emergency status UAVIONIX_ADSB_EMERGENCY_STATUS  </summary>
+
+        /// <summary>Emergency status UAVIONIX_ADSB_EMERGENCY_STATUS  </summary>
         [Units("")]
         [Description("Emergency status")]
+        //[FieldOffset(40)]
         public  /*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus;
-    
     };
 
     
@@ -17825,70 +21216,15 @@ public partial class MAVLink
     {
         public mavlink_uavionix_adsb_transceiver_health_report_t(/*UAVIONIX_ADSB_RF_HEALTH*/byte rfHealth) 
         {
-              this.rfHealth = rfHealth;
+            this.rfHealth = rfHealth;
             
         }
+
         /// <summary>ADS-B transponder messages UAVIONIX_ADSB_RF_HEALTH  bitmask</summary>
         [Units("")]
         [Description("ADS-B transponder messages")]
+        //[FieldOffset(0)]
         public  /*UAVIONIX_ADSB_RF_HEALTH*/byte rfHealth;
-    
-    };
-
-    
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
-    ///<summary> Aircraft Registration. </summary>
-    public struct mavlink_uavionix_adsb_out_cfg_registration_t
-    {
-        public mavlink_uavionix_adsb_out_cfg_registration_t(byte[] registration) 
-        {
-              this.registration = registration;
-            
-        }
-        /// <summary>Aircraft Registration (ASCII string A-Z, 0-9 only), e.g. 'N8644B '. Trailing spaces (0x20) only. This is null-terminated.   </summary>
-        [Units("")]
-        [Description("Aircraft Registration (ASCII string A-Z, 0-9 only), e.g. 'N8644B '. Trailing spaces (0x20) only. This is null-terminated.")]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
-		public byte[] registration;
-    
-    };
-
-    
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
-    ///<summary> Flight Identification for ADSB-Out vehicles. </summary>
-    public struct mavlink_uavionix_adsb_out_cfg_flightid_t
-    {
-        public mavlink_uavionix_adsb_out_cfg_flightid_t(byte[] flight_id) 
-        {
-              this.flight_id = flight_id;
-            
-        }
-        /// <summary>Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable. Reflects Control message setting. This is null-terminated.   </summary>
-        [Units("")]
-        [Description("Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable. Reflects Control message setting. This is null-terminated.")]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
-		public byte[] flight_id;
-    
-    };
-
-    
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
-    ///<summary> Request messages. </summary>
-    public struct mavlink_uavionix_adsb_get_t
-    {
-        public mavlink_uavionix_adsb_get_t(uint ReqMessageId) 
-        {
-              this.ReqMessageId = ReqMessageId;
-            
-        }
-        /// <summary>Message ID to request. Supports any message in this 10000-10099 range   </summary>
-        [Units("")]
-        [Description("Message ID to request. Supports any message in this 10000-10099 range")]
-        public  uint ReqMessageId;
-    
     };
 
     
@@ -17899,14 +21235,15 @@ public partial class MAVLink
     {
         public mavlink_icarous_heartbeat_t(/*ICAROUS_FMS_STATE*/byte status) 
         {
-              this.status = status;
+            this.status = status;
             
         }
+
         /// <summary>See the FMS_STATE enum. ICAROUS_FMS_STATE  </summary>
         [Units("")]
         [Description("See the FMS_STATE enum.")]
+        //[FieldOffset(0)]
         public  /*ICAROUS_FMS_STATE*/byte status;
-    
     };
 
     
@@ -17917,89 +21254,120 @@ public partial class MAVLink
     {
         public mavlink_icarous_kinematic_bands_t(float min1,float max1,float min2,float max2,float min3,float max3,float min4,float max4,float min5,float max5,sbyte numBands,/*ICAROUS_TRACK_BAND_TYPES*/byte type1,/*ICAROUS_TRACK_BAND_TYPES*/byte type2,/*ICAROUS_TRACK_BAND_TYPES*/byte type3,/*ICAROUS_TRACK_BAND_TYPES*/byte type4,/*ICAROUS_TRACK_BAND_TYPES*/byte type5) 
         {
-              this.min1 = min1;
-              this.max1 = max1;
-              this.min2 = min2;
-              this.max2 = max2;
-              this.min3 = min3;
-              this.max3 = max3;
-              this.min4 = min4;
-              this.max4 = max4;
-              this.min5 = min5;
-              this.max5 = max5;
-              this.numBands = numBands;
-              this.type1 = type1;
-              this.type2 = type2;
-              this.type3 = type3;
-              this.type4 = type4;
-              this.type5 = type5;
+            this.min1 = min1;
+            this.max1 = max1;
+            this.min2 = min2;
+            this.max2 = max2;
+            this.min3 = min3;
+            this.max3 = max3;
+            this.min4 = min4;
+            this.max4 = max4;
+            this.min5 = min5;
+            this.max5 = max5;
+            this.numBands = numBands;
+            this.type1 = type1;
+            this.type2 = type2;
+            this.type3 = type3;
+            this.type4 = type4;
+            this.type5 = type5;
             
         }
+
         /// <summary>min angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("min angle (degrees)")]
+        //[FieldOffset(0)]
         public  float min1;
-            /// <summary>max angle (degrees)  [deg] </summary>
+
+        /// <summary>max angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("max angle (degrees)")]
+        //[FieldOffset(4)]
         public  float max1;
-            /// <summary>min angle (degrees)  [deg] </summary>
+
+        /// <summary>min angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("min angle (degrees)")]
+        //[FieldOffset(8)]
         public  float min2;
-            /// <summary>max angle (degrees)  [deg] </summary>
+
+        /// <summary>max angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("max angle (degrees)")]
+        //[FieldOffset(12)]
         public  float max2;
-            /// <summary>min angle (degrees)  [deg] </summary>
+
+        /// <summary>min angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("min angle (degrees)")]
+        //[FieldOffset(16)]
         public  float min3;
-            /// <summary>max angle (degrees)  [deg] </summary>
+
+        /// <summary>max angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("max angle (degrees)")]
+        //[FieldOffset(20)]
         public  float max3;
-            /// <summary>min angle (degrees)  [deg] </summary>
+
+        /// <summary>min angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("min angle (degrees)")]
+        //[FieldOffset(24)]
         public  float min4;
-            /// <summary>max angle (degrees)  [deg] </summary>
+
+        /// <summary>max angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("max angle (degrees)")]
+        //[FieldOffset(28)]
         public  float max4;
-            /// <summary>min angle (degrees)  [deg] </summary>
+
+        /// <summary>min angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("min angle (degrees)")]
+        //[FieldOffset(32)]
         public  float min5;
-            /// <summary>max angle (degrees)  [deg] </summary>
+
+        /// <summary>max angle (degrees)  [deg] </summary>
         [Units("[deg]")]
         [Description("max angle (degrees)")]
+        //[FieldOffset(36)]
         public  float max5;
-            /// <summary>Number of track bands   </summary>
+
+        /// <summary>Number of track bands   </summary>
         [Units("")]
         [Description("Number of track bands")]
+        //[FieldOffset(40)]
         public  sbyte numBands;
-            /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
         [Units("")]
         [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(41)]
         public  /*ICAROUS_TRACK_BAND_TYPES*/byte type1;
-            /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
         [Units("")]
         [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(42)]
         public  /*ICAROUS_TRACK_BAND_TYPES*/byte type2;
-            /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
         [Units("")]
         [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(43)]
         public  /*ICAROUS_TRACK_BAND_TYPES*/byte type3;
-            /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
         [Units("")]
         [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(44)]
         public  /*ICAROUS_TRACK_BAND_TYPES*/byte type4;
-            /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
+
+        /// <summary>See the TRACK_BAND_TYPES enum. ICAROUS_TRACK_BAND_TYPES  </summary>
         [Units("")]
         [Description("See the TRACK_BAND_TYPES enum.")]
+        //[FieldOffset(45)]
         public  /*ICAROUS_TRACK_BAND_TYPES*/byte type5;
-    
     };
 
     
@@ -18010,39 +21378,50 @@ public partial class MAVLink
     {
         public mavlink_heartbeat_t(uint custom_mode,/*MAV_TYPE*/byte type,/*MAV_AUTOPILOT*/byte autopilot,/*MAV_MODE_FLAG*/byte base_mode,/*MAV_STATE*/byte system_status,byte mavlink_version) 
         {
-              this.custom_mode = custom_mode;
-              this.type = type;
-              this.autopilot = autopilot;
-              this.base_mode = base_mode;
-              this.system_status = system_status;
-              this.mavlink_version = mavlink_version;
+            this.custom_mode = custom_mode;
+            this.type = type;
+            this.autopilot = autopilot;
+            this.base_mode = base_mode;
+            this.system_status = system_status;
+            this.mavlink_version = mavlink_version;
             
         }
+
         /// <summary>A bitfield for use for autopilot-specific flags   </summary>
         [Units("")]
         [Description("A bitfield for use for autopilot-specific flags")]
+        //[FieldOffset(0)]
         public  uint custom_mode;
-            /// <summary>Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type. MAV_TYPE  </summary>
+
+        /// <summary>Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type. MAV_TYPE  </summary>
         [Units("")]
         [Description("Vehicle or component type. For a flight controller component the vehicle type (quadrotor, helicopter, etc.). For other components the component type (e.g. camera, gimbal, etc.). This should be used in preference to component id for identifying the component type.")]
+        //[FieldOffset(4)]
         public  /*MAV_TYPE*/byte type;
-            /// <summary>Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers. MAV_AUTOPILOT  </summary>
+
+        /// <summary>Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers. MAV_AUTOPILOT  </summary>
         [Units("")]
         [Description("Autopilot type / class. Use MAV_AUTOPILOT_INVALID for components that are not flight controllers.")]
+        //[FieldOffset(5)]
         public  /*MAV_AUTOPILOT*/byte autopilot;
-            /// <summary>System mode bitmap. MAV_MODE_FLAG  bitmask</summary>
+
+        /// <summary>System mode bitmap. MAV_MODE_FLAG  bitmask</summary>
         [Units("")]
         [Description("System mode bitmap.")]
+        //[FieldOffset(6)]
         public  /*MAV_MODE_FLAG*/byte base_mode;
-            /// <summary>System status flag. MAV_STATE  </summary>
+
+        /// <summary>System status flag. MAV_STATE  </summary>
         [Units("")]
         [Description("System status flag.")]
+        //[FieldOffset(7)]
         public  /*MAV_STATE*/byte system_status;
-            /// <summary>MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version   </summary>
+
+        /// <summary>MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version   </summary>
         [Units("")]
         [Description("MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version")]
+        //[FieldOffset(8)]
         public  byte mavlink_version;
-    
     };
 
 }
