@@ -258,7 +258,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Console.WriteLine("Activate " + DateTime.Now.ToString("ss.fff"));
             BindParamList();
             Console.WriteLine("Activate Done " + DateTime.Now.ToString("ss.fff"));
-
+            /*
             try
             {
                 sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_CFG_FLIGHTID,
@@ -302,6 +302,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
 
             }
+            */
         }
 
         /// <summary>
@@ -671,7 +672,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         private void but_saveflid_Click(object sender, EventArgs e)
-        {
+        {/*
             var flid = new MAVLink.mavlink_uavionix_adsb_out_cfg_flightid_t(txt_flid.Text.MakeBytesSize(9));
 
             try
@@ -686,11 +687,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch (Exception exception)
             {
                 CustomMessageBox.Show(Strings.ErrorCommunicating + exception.ToString(), Strings.ERROR);
-            }
+            }*/
         }
 
         private void but_saveacreg_Click(object sender, EventArgs e)
-        {
+        {/*
             var acreg = new MAVLink.mavlink_uavionix_adsb_out_cfg_registration_t(txt_acreg.Text.MakeBytesSize(9));
 
             try
@@ -705,7 +706,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch (Exception exception)
             {
                 CustomMessageBox.Show(Strings.ErrorCommunicating + exception.ToString(), Strings.ERROR);
-            }
+            }*/
         }
     }
 }
