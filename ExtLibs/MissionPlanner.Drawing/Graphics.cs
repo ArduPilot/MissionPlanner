@@ -1208,7 +1208,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public SizeF MeasureString(string text, Font font, int width, StringFormat format)
         {
             var size = MeasureString(text, font, PointF.Empty, StringFormat.GenericDefault);
-            if (size.Width > width && width != 0)
+            if (size.Width > width && width > 0)
                 return new Size(width, (int) (Math.Ceiling((size.Width / width) + 1) * font.Height));
             return size;
         }
