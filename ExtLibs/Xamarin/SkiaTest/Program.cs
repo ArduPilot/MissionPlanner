@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -22,8 +21,6 @@ using WinApi.User32;
 using WinApi.Utils;
 using WinApi.Windows;
 using WinApi.Windows.Helpers;
-using System.Xml.Serialization;
-using LibVLC.NET;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.Utilities;
 using Rectangle = NetCoreEx.Geometry.Rectangle;
@@ -52,9 +49,21 @@ namespace SkiaTest
 
                 var file = File.ReadAllText("SkiaTest.deps.json");
                 var fileobject = JsonConvert.DeserializeObject(file) as JObject;
-                var baditem = ((JObject)fileobject["targets"][".NETCoreApp,Version=v3.1"]).Property("System.Drawing.Common/4.7.0");
+                var baditem = ((JObject)fileobject["targets"][".NETCoreApp,Version=v6.0"]).Property("System.Drawing.Common/5.0.0");
                 if(baditem != null)
                     baditem.Remove();
+                baditem = ((JObject)fileobject["libraries"]).Property("System.Drawing.Common/5.0.0");
+                if (baditem != null)
+                    baditem.Remove();
+
+                baditem = ((JObject)fileobject["libraries"]).Property("System.Windows.Extensions/5.0.0");
+                if (baditem != null)
+                    baditem.Remove();
+
+                baditem = ((JObject)fileobject["targets"]).Property("System.Windows.Extensions/5.0.0");
+                if (baditem != null)
+                    baditem.Remove();
+
                 File.WriteAllText("SkiaTest.deps.json", fileobject.ToString());
             }
 

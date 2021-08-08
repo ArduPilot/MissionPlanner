@@ -35,6 +35,8 @@ namespace System.Drawing
 
         public Bitmap(int width, int height, SKColorType colorType = (SKColorType.Bgra8888))
         {
+            if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width));
+            if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height));
             nativeSkBitmap = new SKBitmap(new SKImageInfo(width, height, colorType));
             nativeSkBitmap.Erase(SKColor.Empty);
         }

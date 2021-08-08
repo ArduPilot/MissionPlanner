@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <StartupObject>SkiaTest.Program</StartupObject>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -23,17 +23,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.12" />
-    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="NetCoreEx.Geometry" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SkiaSharp" Version="2.80.2" />
     <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="2.80.2" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
-    <PackageReference Include="System.Resources.Extensions" Version="4.7.1" />
-    <PackageReference Include="System.Security.Permissions" Version="4.7.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
     <PackageReference Include="WinApi" Version="4.0.0" />
     <PackageReference Include="WinApi.Desktop" Version="4.0.0" />
@@ -41,9 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ExtLibs\Interfaces\Interfaces.csproj" />
-    <ProjectReference Include="..\..\..\ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj" />
-    <ProjectReference Include="..\..\..\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj" />
+    <ProjectReference Include="..\..\..\ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj">
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
     <ProjectReference Include="..\..\..\ExtLibs\System.Drawing.android\System.Drawing.android.csproj">
       <Private>true</Private>
