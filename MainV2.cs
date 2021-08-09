@@ -71,10 +71,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_flightdata_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_flightdata_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDSdrone.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDSdrone.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.light_flightdata_icon;
+                        return global::MissionPlanner.Properties.Resources.FDSdrone;
                 }
             }
 
@@ -82,10 +82,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_flightplan_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_flightplan_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDSmisi.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDSmisi.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.light_flightplan_icon;
+                        return global::MissionPlanner.Properties.Resources.FDSmisi;
                 }
             }
 
@@ -93,10 +93,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_initialsetup_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_initialsetup_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDSsetting.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDSsetting.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.light_initialsetup_icon;
+                        return global::MissionPlanner.Properties.Resources.FDSsetting;
                 }
             }
 
@@ -104,10 +104,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_tuningconfig_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_tuningconfig_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDSconfig.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDSconfig.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.light_tuningconfig_icon;
+                        return global::MissionPlanner.Properties.Resources.FDSconfig;
                 }
             }
 
@@ -540,7 +540,7 @@ namespace MissionPlanner
 
         public void updateLayout(object sender, EventArgs e)
         {
-            MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
+            
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
@@ -1121,7 +1121,7 @@ namespace MissionPlanner
             }
 
             MenuArduPilot.Image = new Bitmap(Properties.Resources.FDSlogo,
-                (int) (115), 31);
+                (int) (130), 31);
             MenuArduPilot.Width = MenuArduPilot.Image.Width;
 
             if (Program.Logo2 != null)
@@ -1237,7 +1237,6 @@ namespace MissionPlanner
             MenuFlightData.Image = displayicons.fd;
             MenuFlightPlanner.Image = displayicons.fp;
             MenuInitConfig.Image = displayicons.initsetup;
-            MenuSimulation.Image = displayicons.sim;
             MenuConfigTune.Image = displayicons.config_tuning;
             MenuConnect.Image = displayicons.connect;
             MenuHelp.Image = displayicons.help;
@@ -1246,7 +1245,6 @@ namespace MissionPlanner
             MenuFlightData.ForeColor = ThemeManager.TextColor;
             MenuFlightPlanner.ForeColor = ThemeManager.TextColor;
             MenuInitConfig.ForeColor = ThemeManager.TextColor;
-            MenuSimulation.ForeColor = ThemeManager.TextColor;
             MenuConfigTune.ForeColor = ThemeManager.TextColor;
             MenuConnect.ForeColor = ThemeManager.TextColor;
             MenuHelp.ForeColor = ThemeManager.TextColor;
@@ -3138,11 +3136,6 @@ namespace MissionPlanner
             MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
             MyView.AddScreen(new MainSwitcher.Screen("Help", typeof(GCSViews.Help), false));
 
-            // hide simulation under mono
-            if (Program.MONO)
-            {
-                MenuSimulation.Visible = false;
-            }
 
             try
             {

@@ -571,6 +571,26 @@ namespace MissionPlanner.Maps {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FDSconfig {
+            get {
+                object obj = ResourceManager.GetObject("FDSconfig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FDSdrone {
+            get {
+                object obj = ResourceManager.GetObject("FDSdrone", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon fdsico {
@@ -586,6 +606,26 @@ namespace MissionPlanner.Maps {
         public static System.Drawing.Bitmap FDSlogo {
             get {
                 object obj = ResourceManager.GetObject("FDSlogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FDSmisi {
+            get {
+                object obj = ResourceManager.GetObject("FDSmisi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FDSsetting {
+            get {
+                object obj = ResourceManager.GetObject("FDSsetting", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -997,39 +1037,9 @@ namespace MissionPlanner.Maps {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap light_flightdata_icon {
-            get {
-                object obj = ResourceManager.GetObject("light_flightdata_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap light_flightplan_icon {
-            get {
-                object obj = ResourceManager.GetObject("light_flightplan_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap light_help_icon {
             get {
                 object obj = ResourceManager.GetObject("light_help_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap light_initialsetup_icon {
-            get {
-                object obj = ResourceManager.GetObject("light_initialsetup_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1050,16 +1060,6 @@ namespace MissionPlanner.Maps {
         public static System.Drawing.Bitmap light_terminal_icon {
             get {
                 object obj = ResourceManager.GetObject("light_terminal_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap light_tuningconfig_icon {
-            get {
-                object obj = ResourceManager.GetObject("light_tuningconfig_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
