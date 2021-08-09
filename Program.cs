@@ -187,7 +187,7 @@ namespace MissionPlanner
             }
             else
             {
-                IconFile = MissionPlanner.Properties.Resources.mpdesktop.ToBitmap();
+                IconFile = MissionPlanner.Properties.Resources.fdsico.ToBitmap();
             }
 
             if (File.Exists(Settings.GetRunningDirectory() + "splashbg.png")) // 600*375
