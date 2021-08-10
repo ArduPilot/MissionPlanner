@@ -570,6 +570,18 @@ namespace MissionPlanner.Utilities
             return pi.GetValue(obj);
         }
 
+        public static object GetPropertyOrFieldPrivate(this object obj, string name)
+        {
+            var type = obj.GetType();
+            var pi = type.GetProperty(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (pi == null)
+            {
+                var fi1 = type.GetField(name, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                return fi1.GetValue(obj);
+            }
+            return pi.GetValue(obj);
+        }
+
         public static int Search(this byte[] src, byte[] pattern, int startfrom = 0)
         {
             int maxFirstCharSlot = src.Length - pattern.Length + 1;
