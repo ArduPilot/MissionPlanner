@@ -12,18 +12,27 @@ namespace MissionPlanner
 
             string strVersion = typeof(Splash).GetType().Assembly.GetName().Version.ToString();
 
-            TXT_version.Text = "Version: " + Application.ProductVersion; // +" Build " + strVersion;
+            
 
             Console.WriteLine(strVersion);
 
-            if (Program.Logo != null)
-            {
-                pictureBox1.BackgroundImage = MissionPlanner.Properties.Resources.bgdark;
-                pictureBox1.Image = Program.Logo;
-                pictureBox1.Visible = true;
-            }
 
             Console.WriteLine("Splash .ctor");
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TXT_version_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
