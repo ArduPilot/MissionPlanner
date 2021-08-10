@@ -1449,8 +1449,8 @@ namespace MissionPlanner
             {
                 var dist = DistToHome / multiplierdist;
 
-                if (dist < 5)
-                    return 0;
+                //if (dist < 5)
+                    //return 0;
 
                 var altdiff = (float)(_altasl - TrackerLocation.Alt);
 
@@ -1478,10 +1478,10 @@ namespace MissionPlanner
                 //bearing = bearing - 180;//absolut return direction
                 //if (bearing < 0) bearing += 360;//normalization
 
-                var dist = DistToHome / multiplierdist;
+                //var dist = DistToHome / multiplierdist;
 
-                if (dist < 5)
-                    return 0;
+                //if (dist < 5)
+                    //return 0;
 
                 return (float)bearing;
             }
