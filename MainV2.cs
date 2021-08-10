@@ -137,10 +137,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "light_help_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "light_help_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDShelp.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDShelp.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.light_help_icon;
+                        return global::MissionPlanner.Properties.Resources.FDShelp;
                 }
             }
 
@@ -1121,7 +1121,7 @@ namespace MissionPlanner
             }
 
             MenuArduPilot.Image = new Bitmap(Properties.Resources.FDSlogo,
-                (int) (130), 31);
+                (int) (115), 31);
             MenuArduPilot.Width = MenuArduPilot.Image.Width;
 
             if (Program.Logo2 != null)

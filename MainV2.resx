@@ -331,6 +331,21 @@
   <data name="MainMenu.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt</value>
   </data>
+  <data name="MenuArduPilot.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="MenuArduPilot.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="MenuArduPilot.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="MenuArduPilot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 47</value>
+  </data>
+  <data name="MenuArduPilot.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>Overlay</value>
+  </data>
   <data name="MenuConnect.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAD4AAAAtCAYAAAD2g9hxAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -541,24 +556,6 @@
   <data name="toolStripConnectionControl.Size" type="System.Drawing.Size, System.Drawing">
     <value>241, 47</value>
   </data>
-  <data name="MenuArduPilot.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="MenuArduPilot.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="MenuArduPilot.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="MenuArduPilot.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="MenuArduPilot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 40</value>
-  </data>
-  <data name="MenuArduPilot.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
-    <value>Overlay</value>
-  </data>
   <data name="MenuFlightData.Font" type="System.Drawing.Font, System.Drawing">
     <value>Nirmala UI, 8.25pt</value>
   </data>
@@ -613,6 +610,36 @@
   <data name="MenuFlightPlanner.ToolTipText" xml:space="preserve">
     <value>Flight Planner</value>
   </data>
+  <data name="MenuConfigTune.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Nirmala UI, 8.25pt</value>
+  </data>
+  <data name="MenuConfigTune.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACsSURBVDhPrZOxDYNADEW9BDUVdTagp8kIjMAE6diAITJC
+        1kvu+8dngw7JQjzJEn4+Pjo45B7en6+WyEyh9MH3VMoc/B8XC4UyBD9QKUvwFTwZNz+0I+kA3BhrLAWS
+        AdbEImcBz/06a1y+OGgGdKVwHavgC7EFoxWwVeezgjcxoEU6YNwt4gwvF1tYgzvdwlSdzyaOjl8BuLAA
+        P4U+s9OYCgDpg3RrwMWf6TIiP8tq6KEd0J1kAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="MenuConfigTune.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="MenuConfigTune.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="MenuConfigTune.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 47</value>
+  </data>
+  <data name="MenuConfigTune.Text" xml:space="preserve">
+    <value>CONFIG</value>
+  </data>
+  <data name="MenuConfigTune.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
+    <value>Software Config</value>
+  </data>
   <data name="MenuInitConfig.Font" type="System.Drawing.Font, System.Drawing">
     <value>Nirmala UI, 8.25pt</value>
   </data>
@@ -644,81 +671,33 @@
   <data name="MenuInitConfig.ToolTipText" xml:space="preserve">
     <value>Hardware Config</value>
   </data>
-  <data name="MenuConfigTune.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="MenuHelp.Font" type="System.Drawing.Font, System.Drawing">
     <value>Nirmala UI, 8.25pt</value>
-  </data>
-  <data name="MenuConfigTune.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACsSURBVDhPrZOxDYNADEW9BDUVdTagp8kIjMAE6diAITJC
-        1kvu+8dngw7JQjzJEn4+Pjo45B7en6+WyEyh9MH3VMoc/B8XC4UyBD9QKUvwFTwZNz+0I+kA3BhrLAWS
-        AdbEImcBz/06a1y+OGgGdKVwHavgC7EFoxWwVeezgjcxoEU6YNwt4gwvF1tYgzvdwlSdzyaOjl8BuLAA
-        P4U+s9OYCgDpg3RrwMWf6TIiP8tq6KEd0J1kAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="MenuConfigTune.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="MenuConfigTune.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="MenuConfigTune.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 47</value>
-  </data>
-  <data name="MenuConfigTune.Text" xml:space="preserve">
-    <value>CONFIG</value>
-  </data>
-  <data name="MenuConfigTune.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
-    <value>Software Config</value>
   </data>
   <data name="MenuHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        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
-        KZUAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGhSURBVDhPdZOxS0JRFMY/adHS2sOIGrLBgrcUz7CEGhq0
+        ILShsDmIGiIqaEspSBdzeiYpFhFIERSN9Re0Fy0FQQ01BBI1WN3v6pP39HngB5fzfee+e887F4awCVrR
+        2zcC32gMCe0NJ9d/Eq6Zo0ZPxWuKFjid/QiFd2tFzaCHXtZUwyYTkeghDoqlmjGeesTCYlbCtZ6nJxzN
+        VTeRJ3EgGNmRwvHVrzQltAcMKFNCcwnaMaiEkNTupUYPvaxhrbyXvjvJnpUwEVxDR8cEdtNPEq6Zo2b0
+        yp6wOcZkuvABZXgLM3N55C5+kDv/xuT0HrzKIvYL7yavLxCDqdvkoPiF5Y078eUXcdwyUvlXeLzzwrwK
+        7fTT5GWtKUF4x6PLsqDSj85uFW73EDbjt3LDen9DwkiPZx52exeW1m8sdYJkxnwFI2pgBap/yVIjrIU6
+        FrcUSTLzLLHSiGxi/W804h+PS6w0Uhlti0HSsdpAHySOtBwkhsvlaRjlZtAzK0aZNYaoPqZITHS8MrLN
+        4GnrHpMefBgOtLV5RXO2G5+zyDU8Z+AfRM6jWwwYbs8AAAAASUVORK5CYII=
 </value>
+  </data>
+  <data name="MenuHelp.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
   </data>
   <data name="MenuHelp.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
   <data name="MenuHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 47</value>
+    <value>52, 47</value>
   </data>
   <data name="MenuHelp.Text" xml:space="preserve">
     <value>HELP</value>
-  </data>
-  <data name="MenuHelp.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomCenter</value>
-  </data>
-  <data name="MenuHelp.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
-    <value>ImageAboveText</value>
   </data>
   <data name="MenuHelp.ToolTipText" xml:space="preserve">
     <value>Help</value>
@@ -799,7 +778,7 @@
     <value>status1</value>
   </data>
   <data name="&gt;&gt;status1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.7891.25172, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.Status, MissionPlanner, Version=1.3.7892.19061, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;status1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -967,6 +946,12 @@
   <data name="&gt;&gt;connectionListToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;MenuArduPilot.Name" xml:space="preserve">
+    <value>MenuArduPilot</value>
+  </data>
+  <data name="&gt;&gt;MenuArduPilot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;MenuConnect.Name" xml:space="preserve">
     <value>MenuConnect</value>
   </data>
@@ -977,13 +962,7 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.7891.25172, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;MenuArduPilot.Name" xml:space="preserve">
-    <value>MenuArduPilot</value>
-  </data>
-  <data name="&gt;&gt;MenuArduPilot.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.3.7892.19061, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;MenuFlightData.Name" xml:space="preserve">
     <value>MenuFlightData</value>
@@ -997,16 +976,16 @@
   <data name="&gt;&gt;MenuFlightPlanner.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;MenuInitConfig.Name" xml:space="preserve">
-    <value>MenuInitConfig</value>
-  </data>
-  <data name="&gt;&gt;MenuInitConfig.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;MenuConfigTune.Name" xml:space="preserve">
     <value>MenuConfigTune</value>
   </data>
   <data name="&gt;&gt;MenuConfigTune.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuInitConfig.Name" xml:space="preserve">
+    <value>MenuInitConfig</value>
+  </data>
+  <data name="&gt;&gt;MenuInitConfig.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;MenuHelp.Name" xml:space="preserve">

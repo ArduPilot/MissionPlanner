@@ -591,6 +591,16 @@ namespace MissionPlanner.Maps {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FDShelp {
+            get {
+                object obj = ResourceManager.GetObject("FDShelp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon fdsico {
@@ -1030,16 +1040,6 @@ namespace MissionPlanner.Maps {
         public static System.Drawing.Bitmap light_disconnect_icon {
             get {
                 object obj = ResourceManager.GetObject("light_disconnect_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap light_help_icon {
-            get {
-                object obj = ResourceManager.GetObject("light_help_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
