@@ -124,7 +124,7 @@ namespace MissionPlanner.ArduPilot
 
         public static ManifestRoot Manifest { get; set; }
 
-        public static long? GetBoardID(DeviceInfo device)
+        public static long? GetBoardID(DeviceInfo device, bool boardidcheck = true)
         {
             GetList();
 
@@ -133,7 +133,10 @@ namespace MissionPlanner.ArduPilot
             // match the board description
             var ans = Manifest.Firmware.Where(a => (
                 a.Platform?.ToLower() == device.board?.ToLower() ||
-                a.BootloaderStr.Any(b => b?.ToLower() == device.board?.ToLower())) && a.BoardId != 0);
+                a.BootloaderStr.Any(b => b?.ToLower() == device.board?.ToLower())));
+
+            if (boardidcheck)
+                ans = ans.Where(a => a.BoardId != 0);
 
             if (ans.Any())
             {

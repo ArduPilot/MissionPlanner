@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.GCSViews
 {
@@ -222,28 +223,62 @@ namespace MissionPlanner.GCSViews
                 srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt.ToString(CultureInfo.InvariantCulture), heading.ToString(CultureInfo.InvariantCulture));
         }
 
+        /// <summary>
+        /// Try BundlePath first, then arm manifest, then cygwin on server
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         private async Task<string> CheckandGetSITLImage(string filename)
         {
             if (BundledPath != "")
             {
+                filename = filename.Replace(".elf", "");
                 var file = filename;
                 if (!File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
                 {
-                    file = file.ToLower();
-                    file = file.Replace("apmrover2", "ardurover");
-                    file = file.Replace(".exe","");
-                    file = file.Replace(".elf","");
-                    if (!File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
+                    string[] checks = new string[] { "{0}", "{0}.exe", "lib{0}.so", "{0}.so", "{0}.elf" };
+
+                    foreach (var template in checks)
                     {
-                        file = "lib" + file + ".so";
-                        if (!File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
+                        file = String.Format(template, filename);
+                        if (File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
                         {
-                            return "";
+                            return BundledPath + System.IO.Path.DirectorySeparatorChar + file;
+                        }
+                        file = file.ToLower();
+                        if (File.Exists(BundledPath + System.IO.Path.DirectorySeparatorChar + file))
+                        {
+                            return BundledPath + System.IO.Path.DirectorySeparatorChar + file;
                         }
                     }
                 }
 
-                return BundledPath + System.IO.Path.DirectorySeparatorChar + file;
+                return "";
+            }
+
+            if (RuntimeInformation.OSArchitecture == Architecture.Arm ||
+               RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                var type = APFirmware.MAV_TYPE.Copter;
+                if (filename.ToLower().Contains("copter"))
+                    type = APFirmware.MAV_TYPE.Copter;
+                if (filename.ToLower().Contains("plane"))
+                    type = APFirmware.MAV_TYPE.FIXED_WING;
+                if (filename.ToLower().Contains("rover"))
+                    type = APFirmware.MAV_TYPE.GROUND_ROVER;
+                if (filename.ToLower().Contains("heli"))
+                    type = APFirmware.MAV_TYPE.HELICOPTER;
+
+                var fw = APFirmware.GetOptions(new DeviceInfo() { board = "", hardwareid="" }, APFirmware.RELEASE_TYPES.OFFICIAL, type);
+                fw = fw.Where(a => a.Platform == "SITL_arm_linux_gnueabihf").ToList();
+                if (fw.Count > 0)
+                {
+                    if (!chk_skipdownload.Checked)
+                    {
+                        Download.getFilefromNetAsync(fw.First().Url.AbsoluteUri, sitldirectory + Path.GetFileNameWithoutExtension(filename));
+                    }
+                    return sitldirectory + Path.GetFileNameWithoutExtension(filename);
+                }
             }
 
             if (!chk_skipdownload.Checked)
@@ -257,20 +292,23 @@ namespace MissionPlanner.GCSViews
 
                 load.Refresh();
 
+                var files = new string[] { "cygatomic-1.dll",
+                    "cyggcc_s-1.dll",
+                    "cyggomp-1.dll",
+                    "cygquadmath-0.dll",
+                    "cygssp-0.dll",
+                    "cygstdc++-6.dll",
+                    "cygwin1.dll"
+                };
+
                 // dependancys
-                var depurl = new Uri(sitlurl, "cyggcc_s-1.dll");
-                var t2 = Download.getFilefromNetAsync(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
 
-                load.Refresh();
-                depurl = new Uri(sitlurl, "cygstdc++-6.dll");
-                var t3 = Download.getFilefromNetAsync(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
-
-                load.Refresh();
-                depurl = new Uri(sitlurl, "cygwin1.dll");
-                var t4 = Download.getFilefromNetAsync(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
-
-                await Task.WhenAll(t1, t2, t3, t4).ConfigureAwait(true);
-
+                Parallel.ForEach(files, new ParallelOptions() { MaxDegreeOfParallelism = 2 }, (a, b) =>
+                {
+                    var depurl = new Uri(sitlurl, a);
+                    var t2 = Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+                });
+                 
                 load.Close();
             }
 
