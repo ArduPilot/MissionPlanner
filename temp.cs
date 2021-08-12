@@ -1195,16 +1195,18 @@ namespace MissionPlanner
             string input = "";
             InputBox.Show("input", "enter the hex byte data", ref input, false, true);
 
+            var ishex = input.Contains("0x") || input.ToLower().Any(a => a >= 'a' && a <= 'f');
+
             var split = input.Replace("0x", ",").Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            var buffer = split.Select(a => Convert.ToByte(a, 16));
+            var buffer = split.Select(a => ishex ? Convert.ToByte(a, 16) : (byte)Convert.ToInt32(a, 10));
 
             MAVLink.MavlinkParse parse = new MAVLink.MavlinkParse();
 
             var packet = parse.ReadPacket(new MemoryStream(buffer.ToArray()));
 
             CustomMessageBox.Show(packet?.ToString() +
-                                  "\n" + packet.ToJSON().WrapText(5, new[] { ',' }));
+                                  "\n" + packet.ToJSON(Formatting.Indented));
         }
 
         private void but_acbarohight_Click(object sender, EventArgs e)
