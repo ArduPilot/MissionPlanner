@@ -206,10 +206,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_flightdata_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_flightdata_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDSdrone_black.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDSdrone_black.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
+                        return global::MissionPlanner.Properties.Resources.FDSdrone_black;
                 }
             }
 
@@ -217,10 +217,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_flightplan_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_flightplan_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDSmisi_black.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDSmisi_black.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
+                        return global::MissionPlanner.Properties.Resources.FDSmisi_black;
                 }
             }
 
@@ -228,10 +228,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_initialsetup_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_initialsetup_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDSsetting_black.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDSsetting_black.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
+                        return global::MissionPlanner.Properties.Resources.FDSsetting_black;
                 }
             }
 
@@ -239,10 +239,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_tuningconfig_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_tuningconfig_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDSconfig_black"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDSconfig_black.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
+                        return global::MissionPlanner.Properties.Resources.FDSconfig_black;
                 }
             }
 
@@ -272,10 +272,10 @@ namespace MissionPlanner
             {
                 get
                 {
-                    if (File.Exists(Settings.GetRunningDirectory() + "dark_help_icon.png"))
-                        return Image.FromFile(Settings.GetRunningDirectory() + "dark_help_icon.png");
+                    if (File.Exists(Settings.GetRunningDirectory() + "FDShelp_black.png"))
+                        return Image.FromFile(Settings.GetRunningDirectory() + "FDShelp_black.png");
                     else
-                        return global::MissionPlanner.Properties.Resources.dark_help_icon;
+                        return global::MissionPlanner.Properties.Resources.FDShelp_black;
                 }
             }
 

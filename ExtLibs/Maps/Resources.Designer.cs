@@ -483,46 +483,6 @@ namespace MissionPlanner.Maps {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap dark_flightdata_icon {
-            get {
-                object obj = ResourceManager.GetObject("dark_flightdata_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap dark_flightplan_icon {
-            get {
-                object obj = ResourceManager.GetObject("dark_flightplan_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap dark_help_icon {
-            get {
-                object obj = ResourceManager.GetObject("dark_help_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap dark_initialsetup_icon {
-            get {
-                object obj = ResourceManager.GetObject("dark_initialsetup_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap dark_simulation_icon {
             get {
                 object obj = ResourceManager.GetObject("dark_simulation_icon", resourceCulture);
@@ -536,16 +496,6 @@ namespace MissionPlanner.Maps {
         public static System.Drawing.Bitmap dark_terminal_icon {
             get {
                 object obj = ResourceManager.GetObject("dark_terminal_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap dark_tuningconfig_icon {
-            get {
-                object obj = ResourceManager.GetObject("dark_tuningconfig_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -583,6 +533,16 @@ namespace MissionPlanner.Maps {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap FDSconfig_black {
+            get {
+                object obj = ResourceManager.GetObject("FDSconfig_black", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap FDSdrone {
             get {
                 object obj = ResourceManager.GetObject("FDSdrone", resourceCulture);
@@ -593,9 +553,29 @@ namespace MissionPlanner.Maps {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap FDSdrone_black {
+            get {
+                object obj = ResourceManager.GetObject("FDSdrone_black", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap FDShelp {
             get {
                 object obj = ResourceManager.GetObject("FDShelp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FDShelp_black {
+            get {
+                object obj = ResourceManager.GetObject("FDShelp_black", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -633,9 +613,29 @@ namespace MissionPlanner.Maps {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap FDSmisi_black {
+            get {
+                object obj = ResourceManager.GetObject("FDSmisi_black", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap FDSsetting {
             get {
                 object obj = ResourceManager.GetObject("FDSsetting", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FDSsetting_black {
+            get {
+                object obj = ResourceManager.GetObject("FDSsetting_black", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

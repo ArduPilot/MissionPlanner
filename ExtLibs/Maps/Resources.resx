@@ -172,8 +172,8 @@
   <data name="up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\up.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dark_flightdata_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\dark_flightdata_icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FDSdrone_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\FDSdrone_black.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="calibration04" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\calibration04.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -199,8 +199,8 @@
   <data name="apmp5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\apmp5.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dark_flightplan_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\dark_flightplan_icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FDSmisi_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\FDSmisi_black.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FDSconfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\FDSconfig.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -412,8 +412,8 @@
   <data name="Hframe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\Hframe.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dark_help_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\dark_help_icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FDShelp_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\FDShelp_black.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="help_text" xml:space="preserve">
     <value>{\rtf1\ansi\ansicpg1252\deff0\deflang3081\deflangfe3081{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}}
@@ -476,8 +476,8 @@ Control-S - save grid file\par
   <data name="dark_simulation_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\dark_simulation_icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dark_initialsetup_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\dark_initialsetup_icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FDSsetting_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\FDSsetting_black.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="boat" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\boat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -578,8 +578,8 @@ Control-S - save grid file\par
   <data name="BT-hc06" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\BT-hc06.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dark_tuningconfig_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Resources\dark_tuningconfig_icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FDSconfig_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\FDSconfig_black.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PlusFrames_02" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\PlusFrames_02.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
