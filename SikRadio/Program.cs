@@ -74,6 +74,8 @@
  * 2.53 - For multipoint firmware, made 255 available as an option for destination node ID.
  * 2.55 - Changed encryption key text box max length from 32 to 64 hex numerals (for 256 bit encryption).  
  * 2.56 - Now recognises country code 255 as not locked to country.
+ * 2.57 - Now before programming firmware, checks whether modem says it is DINIO.  If it says it is DINIO, only allows
+ *          DINIO firmware to be programmed into modem.  
  */
 
 using System;

@@ -294,6 +294,15 @@ namespace RFD.RFD900
                         {
                             
                         }
+
+                        if (_ModemObject != null)
+                        {
+                            string ATIResponse = _ATCClient.DoQuery("ATI", true);
+                            if (ATIResponse != null && ATIResponse.Contains("DINIO"))
+                            {
+                                _ModemObject.SetDINIO();
+                            }
+                        }
                         break;
                     case TMode.BOOTLOADER:
                         _ModemObject = RFD900APU.GetObjectForModem(this);
@@ -1420,6 +1429,7 @@ namespace RFD.RFD900
     public abstract class RFD900
     {
         protected TSession _Session;
+        bool _IsDINIO = false;
 
         public RFD900(TSession Session)
         {
@@ -1450,6 +1460,18 @@ namespace RFD.RFD900
             }
         }
 
+        bool CheckFirmwareIncludingFileNameOK(string FilePath)
+        {
+            try
+            {
+                return (!IsDINIO || System.IO.Path.GetFileName(FilePath).Contains("DINIO")) && CheckFirmwareOK(FilePath);
+            }
+            catch
+            {
+                return CheckFirmwareOK(FilePath);
+            }
+        }
+
         /// <summary>
         /// Program firmware into modem, firstly doing necessary checks.
         /// </summary>
@@ -1458,7 +1480,7 @@ namespace RFD.RFD900
         /// <returns>true if succeeded, false if failed.</returns>
         public virtual bool ProgramFirmware(string FilePath, Action<string, double> Progress)
         {
-            if (CheckFirmwareOK(FilePath) || FirmwareDiffExempt())
+            if (CheckFirmwareIncludingFileNameOK(FilePath) || FirmwareDiffExempt())
             {
                 Progress("Putting into bootloader mode.", double.NaN);
                 var Mode = _Session.PutIntoBootloaderMode();
@@ -1476,6 +1498,7 @@ namespace RFD.RFD900
             else
             {
                 Progress("Incorrect firmware selected.", double.NaN);
+                System.Threading.Thread.Sleep(2000);
                 return false;
             }
         }
@@ -1593,6 +1616,19 @@ namespace RFD.RFD900
         }
 
         public abstract uploader.Uploader.Board Board { get; }
+
+        public bool IsDINIO
+        {
+            get
+            {
+                return _IsDINIO;
+            }
+        }
+
+        public void SetDINIO()
+        {
+            _IsDINIO = true;
+        }
 
         /// <summary>
         /// Tries to extract the firmware version string from the ATI command response.

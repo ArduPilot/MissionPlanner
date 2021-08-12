@@ -29,7 +29,7 @@ namespace MissionPlanner.Radio
 
         private bool beta;
 
-        private readonly string firmwarefile = Path.GetTempFileName();
+        private string firmwarefile = Path.GetTempFileName();
         private Dictionary<Control, bool> _DefaultLocalEnabled = new Dictionary<Control, bool>();
         private Dictionary<ComboBox, object> _DefaultCBObjects = new Dictionary<ComboBox, object>();
         RFD.RFD900.TSession _Session;
@@ -214,6 +214,8 @@ S15: MAX_WINDOW=131
             {
                 return getFirmwareLocal((device == Uploader.Board.DEVICE_ID_RFD900X) || (device == Uploader.Board.DEVICE_ID_RFD900UX));
             }
+            
+            firmwarefile = Path.GetTempFileName();
 
             if (device == Uploader.Board.DEVICE_ID_HM_TRP)
             {
@@ -280,7 +282,8 @@ S15: MAX_WINDOW=131
                 {
                     try
                     {
-                        File.Copy(openFileDialog1.FileName, firmwarefile, true);
+                        firmwarefile = openFileDialog1.FileName;
+                        //File.Copy(openFileDialog1.FileName, firmwarefile, true);
                     }
                     catch (Exception ex)
                     {
