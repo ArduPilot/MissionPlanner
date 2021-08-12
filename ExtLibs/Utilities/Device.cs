@@ -6,8 +6,12 @@ using System.Text;
 
 namespace MissionPlanner.Utilities
 {
+    /// <summary>
+    /// https://github.com/ArduPilot/ardupilot/blob/master/Tools/scripts/decode_devid.py
+    /// </summary>
     public class Device
     {
+
         // from ap_hal\device.h
         public enum BusType
         {
@@ -15,7 +19,9 @@ namespace MissionPlanner.Utilities
             BUS_TYPE_I2C = 1,
             BUS_TYPE_SPI = 2,
             BUS_TYPE_UAVCAN = 3,
-            BUS_TYPE_SITL = 4
+            BUS_TYPE_SITL = 4,
+            BUS_TYPE_MSP = 5,
+            BUS_TYPE_SERIAL = 6,
         }
 
         public enum Speed
@@ -53,9 +59,15 @@ namespace MissionPlanner.Utilities
             public BusType bus_type { get { return (BusType) (devid & 0x7); } } // : 3;
             public byte bus { get { return (byte)((devid >> 3) & 0x1f); } } //: 5;    // which instance of the bus type
             public byte address { get { return (byte) ((devid >> 8) & 0xff); } } // address on the bus (eg. I2C address)
-            public DevTypes devtype { get { return (DevTypes)((devid >> 16) & 0xff); } } // device class specific device type
+            public byte devtype { get { return (byte)((devid >> 16) & 0xff); } } // device class specific device type
 
-            public imu_types devtypeimu { get { return (imu_types)((devid >> 16) & 0xff); } }
+
+            public compass_type devtypecompass { get { return (compass_type)devtype; } }
+            public imu_types devtypeimu { get { return (imu_types)devtype; } }
+
+            public baro_types devtypebaro { get { return (baro_types)devtype; } }
+
+            public airspeed_types devtypeairspd { get { return (airspeed_types)devtype; } }
 
             public DeviceStructure(string paramname, UInt32 id)
             {
@@ -76,13 +88,17 @@ namespace MissionPlanner.Utilities
                 return string.Format("{5} devid {4} bus type {0} bus {1} address {2} devtype {3} ",
                     bus_type.ToString().Replace("BUS_TYPE_", ""),
                     bus, address,
-                    (_paramname.Contains("COMPASS") ? devtype.ToString() : devtypeimu.ToString()).Replace("DEVTYPE_",
+                    (_paramname.Contains("COMPASS") ? devtypecompass.ToString() :
+                        _paramname.Contains("BARO") ? devtypebaro.ToString() :
+                        _paramname.Contains("ASP") ? devtypeairspd.ToString() :
+                        _paramname.Contains("INS") ? devtypeimu.ToString() :
+                        $"{devtypecompass.ToString()} or {devtypeimu.ToString()} or {devtypebaro.ToString()} or {devtypeimu.ToString()} ").Replace("DEVTYPE_",
                         ""),
                     devid, _paramname);
             }
 
             // from AP_Compass_Backend.h
-            public enum DevTypes
+            public enum compass_type
             {
                 DEVTYPE_HMC5883_OLD = 0x01,
                 DEVTYPE_HMC5883 = 0x07,
@@ -100,6 +116,8 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_SITL = 0x0F,
                 DEVTYPE_IST8308 = 0x10,
                 DEVTYPE_RM3100 = 0x11,
+                DEVTYPE_RM3100_2 = 0x12, // unused, past mistake
+                DEVTYPE_MMC5883 = 0x13,
             }
 
             //AP_InertialSensor_Backend.h
@@ -126,10 +144,47 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_INS_ICM20948 = 0x2C,
                 DEVTYPE_INS_ICM20648 = 0x2D,
                 DEVTYPE_INS_ICM20649 = 0x2E,
-                DEVTYPE_INS_ICM20602 = 0x2F
+                DEVTYPE_INS_ICM20602 = 0x2F,
+                DEVTYPE_INS_ICM20601 = 0x30,
+                DEVTYPE_INS_ADIS1647X = 0x31,
+                DEVTYPE_SERIAL = 0x32,
+                DEVTYPE_INS_ICM40609 = 0x33,
+                DEVTYPE_INS_ICM42688 = 0x34,
+                DEVTYPE_INS_ICM42605 = 0x35,
             };
 
-        public enum px4_i2c_bus
+
+            public enum baro_types
+            {
+                DEVTYPE_BARO_SITL = 0x01,
+                DEVTYPE_BARO_BMP085 = 0x02,
+                DEVTYPE_BARO_BMP280 = 0x03,
+                DEVTYPE_BARO_BMP388 = 0x04,
+                DEVTYPE_BARO_DPS280 = 0x05,
+                DEVTYPE_BARO_DPS310 = 0x06,
+                DEVTYPE_BARO_FBM320 = 0x07,
+                DEVTYPE_BARO_ICM20789 = 0x08,
+                DEVTYPE_BARO_KELLERLD = 0x09,
+                DEVTYPE_BARO_LPS2XH = 0x0A,
+                DEVTYPE_BARO_MS5611 = 0x0B,
+                DEVTYPE_BARO_SPL06 = 0x0C,
+                DEVTYPE_BARO_UAVCAN = 0x0D,
+            };
+            public enum airspeed_types
+            {
+                DEVTYPE_AIRSPEED_SITL = 0x01,
+                DEVTYPE_AIRSPEED_MS4525 = 0x02,
+                DEVTYPE_AIRSPEED_MS5525 = 0x03,
+                DEVTYPE_AIRSPEED_DLVR = 0x04,
+                DEVTYPE_AIRSPEED_MSP = 0x05,
+                DEVTYPE_AIRSPEED_SDP3X = 0x06,
+                DEVTYPE_AIRSPEED_UAVCAN = 0x07,
+                DEVTYPE_AIRSPEED_ANALOG = 0x08,
+                DEVTYPE_AIRSPEED_NMEA = 0x09,
+                DEVTYPE_AIRSPEED_ASP5033 = 0x0A,
+            };
+
+    public enum px4_i2c_bus
             {
                 PX4_I2C_BUS_ONBOARD=0,
                 PX4_I2C_BUS_EXPANSION=1

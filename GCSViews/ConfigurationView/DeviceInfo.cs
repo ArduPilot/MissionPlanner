@@ -29,10 +29,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             get
             {
                 if (_devid.bus_type == Device.BusType.BUS_TYPE_UAVCAN)
-                    return "SENSOR_ID#" + ((int)_devid.devtype).ToString();
+                    return "SENSOR_ID#" + (_devid.devtype).ToString();
 
                 if(ParamName.Contains("COMP"))
-                    return _devid.devtype.ToString().Replace("DEVTYPE_", "");
+                    return _devid.devtypecompass.ToString().Replace("DEVTYPE_", "");
+
+                if (ParamName.Contains("BARO"))
+                    return _devid.devtypebaro.ToString().Replace("DEVTYPE_", "");
+
+                if (ParamName.Contains("ASP"))
+                    return _devid.devtypeairspd.ToString().Replace("DEVTYPE_", "");
 
                 return _devid.devtypeimu.ToString().Replace("DEVTYPE_", "");
             }
