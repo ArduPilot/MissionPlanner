@@ -7,6 +7,8 @@ namespace MissionPlanner.Controls
     {
         public new event EventHandler CheckedChanged;
 
+        private Action CallBackOnChange;
+
         [System.ComponentModel.Browsable(true)]
         public double OnValue { get; set; }
 
@@ -43,23 +45,24 @@ namespace MissionPlanner.Controls
         }
 
         public void setup(double OnValue, double OffValue, string[] paramname, MAVLink.MAVLinkParamList paramlist,
-            Control enabledisable = null)
+            Control enabledisable = null, Action callbackonchange = null)
         {
             foreach (var s in paramname)
             {
                 if (paramlist.ContainsKey(s))
                 {
-                    setup(OnValue, OffValue, s, paramlist, enabledisable);
+                    setup(OnValue, OffValue, s, paramlist, enabledisable, callbackonchange);
                     return;
                 }
             }
         }
 
         public void setup(double OnValue, double OffValue, string paramname, MAVLink.MAVLinkParamList paramlist,
-            Control enabledisable = null)
+            Control enabledisable = null, Action callbackonchange = null)
         {
             base.CheckedChanged -= MavlinkCheckBox_CheckedChanged;
 
+            this.CallBackOnChange = callbackonchange;
             this.OnValue = OnValue;
             this.OffValue = OffValue;
             this.ParamName = paramname;
@@ -73,17 +76,17 @@ namespace MissionPlanner.Controls
                 if (paramlist[paramname].Value == OnValue)
                 {
                     this.Checked = true;
-                    enableControl(true);
+                    enableBGControl(true);
                 }
                 else if (paramlist[paramname].Value == OffValue)
                 {
                     this.Checked = false;
-                    enableControl(false);
+                    enableBGControl(false);
                 }
                 else
                 {
                     this.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-                    enableControl(false);
+                    enableBGControl(false);
                 }
             }
             else
@@ -94,7 +97,7 @@ namespace MissionPlanner.Controls
             base.CheckedChanged += new EventHandler(MavlinkCheckBox_CheckedChanged);
         }
 
-        void enableControl(bool enable)
+        void enableBGControl(bool enable)
         {
             if (_control != null)
                 _control.Enabled = enable;
@@ -107,12 +110,14 @@ namespace MissionPlanner.Controls
 
             if (this.Checked)
             {
-                enableControl(true);
+                enableBGControl(true);
                 try
                 {
                     bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, OnValue);
                     if (ans == false)
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+                    else
+                        CallBackOnChange?.Invoke();
                 }
                 catch
                 {
@@ -121,12 +126,14 @@ namespace MissionPlanner.Controls
             }
             else
             {
-                enableControl(false);
+                enableBGControl(false);
                 try
                 {
                     bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, OffValue);
                     if (ans == false)
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+                    else
+                        CallBackOnChange?.Invoke();
                 }
                 catch
                 {

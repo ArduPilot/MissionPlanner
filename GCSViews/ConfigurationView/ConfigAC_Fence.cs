@@ -17,7 +17,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            mavlinkCheckBox1.setup(1, 0, "FENCE_ENABLE", MainV2.comPort.MAV.param);
+            mavlinkCheckBox1.setup(1, 0, "FENCE_ENABLE", MainV2.comPort.MAV.param, null, () => { if (mavlinkCheckBox1.Checked) MainV2.comPort.getParamList(); });
 
             mavlinkComboBox1.setup(
                 ParameterMetaDataRepository.GetParameterOptionsInt("FENCE_TYPE",
