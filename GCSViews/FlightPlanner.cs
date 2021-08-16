@@ -3456,9 +3456,14 @@ namespace MissionPlanner.GCSViews
                 }
             }
             redrawPolygonSurvey(currentWaypoints);
+            if (CustomMessageBox.Show("Clear current waypoints?", "Confirm",
+                                       MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            {
+                clearMissionToolStripMenuItem_Click(null, null);  // perhaps not best practice to directly call "click" events
+            }
         }
 
-            void DoGeofencePointsUpload(IProgressReporterDialogue PRD)
+        void DoGeofencePointsUpload(IProgressReporterDialogue PRD)
         {
             // points + return + close
             byte pointcount = (byte) (drawnpolygon.Points.Count + 2);
