@@ -3442,7 +3442,23 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        void DoGeofencePointsUpload(IProgressReporterDialogue PRD)
+        public void fromCurrentWaypointsMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Commands.Rows.Count == 0) return;
+            List<PointLatLngAlt> currentWaypoints = new List<PointLatLngAlt>();
+            foreach (DataGridViewRow row in Commands.Rows)
+            {
+                if (row.Cells[Command.Index].Value.ToString() == MAVLink.MAV_CMD.WAYPOINT.ToString())
+                {
+                    currentWaypoints.Add(new PointLatLngAlt(double.Parse(row.Cells[Lat.Index].Value.ToString()),
+                                                            double.Parse(row.Cells[Lon.Index].Value.ToString()),
+                                                            double.Parse(row.Cells[Alt.Index].Value.ToString())));
+                }
+            }
+            redrawPolygonSurvey(currentWaypoints);
+        }
+
+            void DoGeofencePointsUpload(IProgressReporterDialogue PRD)
         {
             // points + return + close
             byte pointcount = (byte) (drawnpolygon.Points.Count + 2);
