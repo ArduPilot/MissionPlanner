@@ -411,7 +411,9 @@ namespace GDAL
                 }
             }
 
+#pragma warning disable CS0162
             return null;
+#pragma warning restore CS0162
         }
 
         private static string GDALInfoGetPosition(Dataset ds, double x, double y)

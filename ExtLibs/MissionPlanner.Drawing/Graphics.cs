@@ -1606,7 +1606,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
             //get client rect
             //hwnd to hdc
-            return HwndToGraphics(windowHandle);
+            //return HwndToGraphics(windowHandle);
         }
 
         public void ReleaseHdc()

@@ -137,6 +137,7 @@ namespace GMap.NET.Internals
 #if PocketPC
             CacheLocation = CacheLocator.Location;
 #else
+#pragma warning disable CS0162
                 string newCache = CacheLocator.Location;
 
                 string oldCache = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + "GMap.NET" + Path.DirectorySeparatorChar;
@@ -166,6 +167,7 @@ namespace GMap.NET.Internals
                 {
                     CacheLocation = newCache;
                 }
+#pragma warning restore CS0162
 #endif
             }
         }

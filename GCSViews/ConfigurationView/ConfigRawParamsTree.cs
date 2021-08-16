@@ -698,13 +698,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //Params.RowHeight = 26;
                 return;
 
-                var size = TextRenderer.MeasureText(item.desc, Params.Font, new Size(olvColumn5.Width, 26), TextFormatFlags.WordBreak);
-                if (size.Height >= Params.RowHeight)
-                    Params.RowHeight = Math.Min(size.Height, 50);
+                //var size = TextRenderer.MeasureText(item.desc, Params.Font, new Size(olvColumn5.Width, 26), TextFormatFlags.WordBreak);
+                //if (size.Height >= Params.RowHeight)
+                //    Params.RowHeight = Math.Min(size.Height, 50);
 
-                size = TextRenderer.MeasureText(item.range, Params.Font, new Size(olvColumn4.Width, 26), TextFormatFlags.WordBreak);
-                if (size.Height >= Params.RowHeight)
-                    Params.RowHeight = Math.Min(size.Height, 50);
+                //size = TextRenderer.MeasureText(item.range, Params.Font, new Size(olvColumn4.Width, 26), TextFormatFlags.WordBreak);
+                //if (size.Height >= Params.RowHeight)
+                //    Params.RowHeight = Math.Min(size.Height, 50);
             }
         }
 

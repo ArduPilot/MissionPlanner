@@ -802,7 +802,9 @@ namespace MissionPlanner.Utilities
                             return true;
                         }
 
+#pragma warning disable CS0162
                         return false;
+#pragma warning restore CS0162
                     });
 
                     tasklist.Add(task);
