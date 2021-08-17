@@ -161,6 +161,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
             this.map = new MissionPlanner.Controls.myGMAP();
+            this.groupBoxSpiral = new System.Windows.Forms.GroupBox();
+            this.LBL_clockwise_circuits = new System.Windows.Forms.Label();
+            this.LBL_clockwise_circuits1 = new System.Windows.Forms.Label();
+            this.NUM_clockwise_circuits = new System.Windows.Forms.NumericUpDown();
+            this.label46 = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -196,6 +201,8 @@
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
+            this.groupBoxSpiral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_clockwise_circuits)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox5
@@ -716,6 +723,7 @@
             // 
             // tabGrid
             // 
+            this.tabGrid.Controls.Add(this.groupBoxSpiral);
             this.tabGrid.Controls.Add(this.groupBox7);
             this.tabGrid.Controls.Add(this.groupBox_copter);
             this.tabGrid.Controls.Add(this.groupBox1);
@@ -1368,6 +1376,47 @@
             this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
             this.map.MouseMove += new System.Windows.Forms.MouseEventHandler(this.map_MouseMove);
             // 
+            // groupBoxSpiral
+            // 
+            resources.ApplyResources(this.groupBoxSpiral, "groupBoxSpiral");
+            this.groupBoxSpiral.Controls.Add(this.LBL_clockwise_circuits);
+            this.groupBoxSpiral.Controls.Add(this.LBL_clockwise_circuits1);
+            this.groupBoxSpiral.Controls.Add(this.NUM_clockwise_circuits);
+            this.groupBoxSpiral.Controls.Add(this.label46);
+            this.groupBoxSpiral.Name = "groupBoxSpiral";
+            this.groupBoxSpiral.TabStop = false;
+            // 
+            // LBL_clockwise_circuits
+            // 
+            resources.ApplyResources(this.LBL_clockwise_circuits, "LBL_clockwise_circuits");
+            this.LBL_clockwise_circuits.Name = "LBL_clockwise_circuits";
+            // 
+            // LBL_clockwise_circuits1
+            // 
+            resources.ApplyResources(this.LBL_clockwise_circuits1, "LBL_clockwise_circuits1");
+            this.LBL_clockwise_circuits1.Name = "LBL_clockwise_circuits1";
+            // 
+            // NUM_clockwise_circuits
+            // 
+            resources.ApplyResources(this.NUM_clockwise_circuits, "NUM_clockwise_circuits");
+            this.NUM_clockwise_circuits.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUM_clockwise_circuits.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.NUM_clockwise_circuits.Name = "NUM_clockwise_circuits";
+            this.NUM_clockwise_circuits.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
+            // label46
+            // 
+            resources.ApplyResources(this.label46, "label46");
+            this.label46.Name = "label46";
+            // 
             // GridUI
             // 
             resources.ApplyResources(this, "$this");
@@ -1423,6 +1472,9 @@
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).EndInit();
+            this.groupBoxSpiral.ResumeLayout(false);
+            this.groupBoxSpiral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_clockwise_circuits)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1562,5 +1614,10 @@
         private System.Windows.Forms.CheckBox chk_spline;
         private System.Windows.Forms.NumericUpDown NUM_leadin2;
         private System.Windows.Forms.CheckBox chk_optimize_for_distance;
+        private System.Windows.Forms.GroupBox groupBoxSpiral;
+        private System.Windows.Forms.Label LBL_clockwise_circuits;
+        private System.Windows.Forms.Label LBL_clockwise_circuits1;
+        private System.Windows.Forms.NumericUpDown NUM_clockwise_circuits;
+        private System.Windows.Forms.Label label46;
     }
 }

@@ -292,6 +292,9 @@ namespace MissionPlanner.Grid
             // Plane Settings
             griddata.minlaneseparation = NUM_Lane_Dist.Value;
 
+            //Spiral Settings
+            griddata.clockwiseCircuits = NUM_clockwise_circuits.Value;
+
             griddata.trigdist = rad_trigdist.Checked;
             griddata.digicam = rad_digicam.Checked;
             griddata.repeatservo = rad_repeatservo.Checked;
@@ -351,6 +354,9 @@ namespace MissionPlanner.Grid
 
                 // Plane Settings
                 loadsetting("grid_min_lane_separation", NUM_Lane_Dist);
+
+                // Spiral Settings
+                loadsetting("grid_clockwise_laps", NUM_clockwise_circuits);
 
                 loadsetting("grid_internals", CHK_internals);
                 loadsetting("grid_footprints", CHK_footprints);
@@ -426,6 +432,9 @@ namespace MissionPlanner.Grid
 
             // Plane Settings
             plugin.Host.config["grid_min_lane_separation"] = NUM_Lane_Dist.Value.ToString();
+
+            // Spiral Settings
+            plugin.Host.config["grid_clockwise_laps"] = NUM_clockwise_circuits.Value.ToString();
         }
 
         private void xmlcamera(bool write, string filename)
@@ -574,7 +583,7 @@ namespace MissionPlanner.Grid
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.PlannedHomeLocation).ConfigureAwait(true);
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.PlannedHomeLocation, (int)NUM_clockwise_circuits.Value).ConfigureAwait(true);
             }
             else
             {
