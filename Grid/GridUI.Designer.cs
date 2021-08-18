@@ -76,7 +76,6 @@
             this.rad_repeatservo = new System.Windows.Forms.RadioButton();
             this.rad_trigdist = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.BUT_samplephoto = new MissionPlanner.Controls.MyButton();
             this.label21 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -94,8 +93,13 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.tabGrid = new System.Windows.Forms.TabPage();
+            this.groupBoxSpiral = new System.Windows.Forms.GroupBox();
+            this.CHK_match_spiral_perimeter = new System.Windows.Forms.CheckBox();
+            this.LBL_clockwise_circuits = new System.Windows.Forms.Label();
+            this.LBL_clockwise_circuits1 = new System.Windows.Forms.Label();
+            this.NUM_clockwise_circuits = new System.Windows.Forms.NumericUpDown();
+            this.label46 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.chk_optimize_for_distance = new System.Windows.Forms.CheckBox();
             this.LBL_Alternating_lanes = new System.Windows.Forms.Label();
@@ -157,15 +161,12 @@
             this.CHK_grid = new System.Windows.Forms.CheckBox();
             this.CHK_markers = new System.Windows.Forms.CheckBox();
             this.CHK_boundary = new System.Windows.Forms.CheckBox();
-            this.BUT_Accept = new MissionPlanner.Controls.MyButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
             this.map = new MissionPlanner.Controls.myGMAP();
-            this.groupBoxSpiral = new System.Windows.Forms.GroupBox();
-            this.LBL_clockwise_circuits = new System.Windows.Forms.Label();
-            this.LBL_clockwise_circuits1 = new System.Windows.Forms.Label();
-            this.NUM_clockwise_circuits = new System.Windows.Forms.NumericUpDown();
-            this.label46 = new System.Windows.Forms.Label();
+            this.BUT_Accept = new MissionPlanner.Controls.MyButton();
+            this.BUT_samplephoto = new MissionPlanner.Controls.MyButton();
+            this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -178,6 +179,8 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_focallength)).BeginInit();
             this.tabGrid.SuspendLayout();
+            this.groupBoxSpiral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_clockwise_circuits)).BeginInit();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Lane_Dist)).BeginInit();
             this.groupBox_copter.SuspendLayout();
@@ -201,8 +204,6 @@
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
-            this.groupBoxSpiral.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_clockwise_circuits)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox5
@@ -596,13 +597,6 @@
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
-            // BUT_samplephoto
-            // 
-            resources.ApplyResources(this.BUT_samplephoto, "BUT_samplephoto");
-            this.BUT_samplephoto.Name = "BUT_samplephoto";
-            this.BUT_samplephoto.UseVisualStyleBackColor = true;
-            this.BUT_samplephoto.Click += new System.EventHandler(this.BUT_samplephoto_Click);
-            // 
             // label21
             // 
             resources.ApplyResources(this.label21, "label21");
@@ -714,13 +708,6 @@
             resources.ApplyResources(this.label11, "label11");
             this.label11.Name = "label11";
             // 
-            // BUT_save
-            // 
-            resources.ApplyResources(this.BUT_save, "BUT_save");
-            this.BUT_save.Name = "BUT_save";
-            this.BUT_save.UseVisualStyleBackColor = true;
-            this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
-            // 
             // tabGrid
             // 
             this.tabGrid.Controls.Add(this.groupBoxSpiral);
@@ -732,6 +719,55 @@
             resources.ApplyResources(this.tabGrid, "tabGrid");
             this.tabGrid.Name = "tabGrid";
             this.tabGrid.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxSpiral
+            // 
+            resources.ApplyResources(this.groupBoxSpiral, "groupBoxSpiral");
+            this.groupBoxSpiral.Controls.Add(this.CHK_match_spiral_perimeter);
+            this.groupBoxSpiral.Controls.Add(this.LBL_clockwise_circuits);
+            this.groupBoxSpiral.Controls.Add(this.LBL_clockwise_circuits1);
+            this.groupBoxSpiral.Controls.Add(this.NUM_clockwise_circuits);
+            this.groupBoxSpiral.Controls.Add(this.label46);
+            this.groupBoxSpiral.Name = "groupBoxSpiral";
+            this.groupBoxSpiral.TabStop = false;
+            // 
+            // CHK_match_spiral_perimeter
+            // 
+            resources.ApplyResources(this.CHK_match_spiral_perimeter, "CHK_match_spiral_perimeter");
+            this.CHK_match_spiral_perimeter.Name = "CHK_match_spiral_perimeter";
+            this.CHK_match_spiral_perimeter.UseVisualStyleBackColor = true;
+            this.CHK_match_spiral_perimeter.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
+            // LBL_clockwise_circuits
+            // 
+            resources.ApplyResources(this.LBL_clockwise_circuits, "LBL_clockwise_circuits");
+            this.LBL_clockwise_circuits.Name = "LBL_clockwise_circuits";
+            // 
+            // LBL_clockwise_circuits1
+            // 
+            resources.ApplyResources(this.LBL_clockwise_circuits1, "LBL_clockwise_circuits1");
+            this.LBL_clockwise_circuits1.Name = "LBL_clockwise_circuits1";
+            // 
+            // NUM_clockwise_circuits
+            // 
+            resources.ApplyResources(this.NUM_clockwise_circuits, "NUM_clockwise_circuits");
+            this.NUM_clockwise_circuits.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUM_clockwise_circuits.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.NUM_clockwise_circuits.Name = "NUM_clockwise_circuits";
+            this.NUM_clockwise_circuits.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
+            // label46
+            // 
+            resources.ApplyResources(this.label46, "label46");
+            this.label46.Name = "label46";
             // 
             // groupBox7
             // 
@@ -1321,13 +1357,6 @@
             this.CHK_boundary.UseVisualStyleBackColor = true;
             this.CHK_boundary.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
-            // BUT_Accept
-            // 
-            resources.ApplyResources(this.BUT_Accept, "BUT_Accept");
-            this.BUT_Accept.Name = "BUT_Accept";
-            this.BUT_Accept.UseVisualStyleBackColor = true;
-            this.BUT_Accept.Click += new System.EventHandler(this.BUT_Accept_Click);
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabSimple);
@@ -1376,46 +1405,26 @@
             this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
             this.map.MouseMove += new System.Windows.Forms.MouseEventHandler(this.map_MouseMove);
             // 
-            // groupBoxSpiral
+            // BUT_Accept
             // 
-            resources.ApplyResources(this.groupBoxSpiral, "groupBoxSpiral");
-            this.groupBoxSpiral.Controls.Add(this.LBL_clockwise_circuits);
-            this.groupBoxSpiral.Controls.Add(this.LBL_clockwise_circuits1);
-            this.groupBoxSpiral.Controls.Add(this.NUM_clockwise_circuits);
-            this.groupBoxSpiral.Controls.Add(this.label46);
-            this.groupBoxSpiral.Name = "groupBoxSpiral";
-            this.groupBoxSpiral.TabStop = false;
+            resources.ApplyResources(this.BUT_Accept, "BUT_Accept");
+            this.BUT_Accept.Name = "BUT_Accept";
+            this.BUT_Accept.UseVisualStyleBackColor = true;
+            this.BUT_Accept.Click += new System.EventHandler(this.BUT_Accept_Click);
             // 
-            // LBL_clockwise_circuits
+            // BUT_samplephoto
             // 
-            resources.ApplyResources(this.LBL_clockwise_circuits, "LBL_clockwise_circuits");
-            this.LBL_clockwise_circuits.Name = "LBL_clockwise_circuits";
+            resources.ApplyResources(this.BUT_samplephoto, "BUT_samplephoto");
+            this.BUT_samplephoto.Name = "BUT_samplephoto";
+            this.BUT_samplephoto.UseVisualStyleBackColor = true;
+            this.BUT_samplephoto.Click += new System.EventHandler(this.BUT_samplephoto_Click);
             // 
-            // LBL_clockwise_circuits1
+            // BUT_save
             // 
-            resources.ApplyResources(this.LBL_clockwise_circuits1, "LBL_clockwise_circuits1");
-            this.LBL_clockwise_circuits1.Name = "LBL_clockwise_circuits1";
-            // 
-            // NUM_clockwise_circuits
-            // 
-            resources.ApplyResources(this.NUM_clockwise_circuits, "NUM_clockwise_circuits");
-            this.NUM_clockwise_circuits.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUM_clockwise_circuits.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
-            this.NUM_clockwise_circuits.Name = "NUM_clockwise_circuits";
-            this.NUM_clockwise_circuits.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
-            // 
-            // label46
-            // 
-            resources.ApplyResources(this.label46, "label46");
-            this.label46.Name = "label46";
+            resources.ApplyResources(this.BUT_save, "BUT_save");
+            this.BUT_save.Name = "BUT_save";
+            this.BUT_save.UseVisualStyleBackColor = true;
+            this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
             // GridUI
             // 
@@ -1443,6 +1452,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_focallength)).EndInit();
             this.tabGrid.ResumeLayout(false);
             this.tabGrid.PerformLayout();
+            this.groupBoxSpiral.ResumeLayout(false);
+            this.groupBoxSpiral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_clockwise_circuits)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Lane_Dist)).EndInit();
@@ -1472,9 +1484,6 @@
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).EndInit();
-            this.groupBoxSpiral.ResumeLayout(false);
-            this.groupBoxSpiral.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_clockwise_circuits)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1619,5 +1628,6 @@
         private System.Windows.Forms.Label LBL_clockwise_circuits1;
         private System.Windows.Forms.NumericUpDown NUM_clockwise_circuits;
         private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.CheckBox CHK_match_spiral_perimeter;
     }
 }

@@ -44,6 +44,7 @@ namespace MissionPlanner.Grid
         public decimal minlaneseparation;
         // spiral settings
         public decimal clockwiseCircuits;
+        public bool matchPerimeter;
 
         // camera config
         public bool trigdist;
