@@ -19,7 +19,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (!MainV2.comPort.BaseStream.IsOpen)
+            if (!MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.logreadmode)
             {
                 Enabled = false;
                 return;
@@ -30,7 +30,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _flow = new OpticalFlow(MainV2.comPort);
 
             // setup bitmap to screen
-            _flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
+            _flow.newImage += (s, eh) =>
+            {
+                imagebox.Image = eh.Image.ToSKImage().ToBitmap();
+            };
         }
 
         private void but_focusmode_Click(object sender, EventArgs e)

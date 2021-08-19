@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using SkiaSharp;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
@@ -80,21 +81,22 @@ namespace MissionPlanner.Utilities
                 if ((msgEncapsulatedData.seqnr+1) == msgDataTransmissionHandshake.packets)
                 {
                     using (
-                        Bitmap bmp = new Bitmap(msgDataTransmissionHandshake.width, msgDataTransmissionHandshake.height,
-                            PixelFormat.Format8bppIndexed))
+                        Bitmap bmp = new Bitmap(msgDataTransmissionHandshake.width, msgDataTransmissionHandshake.height))
                     {
-                        SetGrayscalePalette(bmp);
 
-                        var bitmapData = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), ImageLockMode.ReadWrite,
-                            bmp.PixelFormat);
+                        SetGrayscalePalette(bmp);
 
                         if (imageBuffer.Length > msgDataTransmissionHandshake.size)
                             return true;
 
                         var buffer = imageBuffer.ToArray();
 
-                        Marshal.Copy(buffer, 0, bitmapData.Scan0, buffer.Length);
-                        bmp.UnlockBits(bitmapData);
+                        int a = 0;
+                        foreach (var b in buffer)
+                        {
+                            bmp.SetPixel(a % bmp.Width, (int)(a/bmp.Width), bmp.Palette.Entries[b]);
+                            a++;
+                        }
 
                         if (newImage != null)
                             newImage(this, new ImageEventHandle(bmp));
