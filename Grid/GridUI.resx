@@ -904,7 +904,7 @@
     <value>Bottom</value>
   </data>
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 457</value>
+    <value>0, 565</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>755, 80</value>
@@ -1948,7 +1948,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabCamera.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 511</value>
+    <value>245, 619</value>
   </data>
   <data name="tabCamera.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1967,6 +1967,171 @@
   </data>
   <data name="&gt;&gt;tabCamera.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="groupBoxSpiral.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
+  <data name="CHK_match_spiral_perimeter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_match_spiral_perimeter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_match_spiral_perimeter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 72</value>
+  </data>
+  <data name="CHK_match_spiral_perimeter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 17</value>
+  </data>
+  <data name="CHK_match_spiral_perimeter.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="CHK_match_spiral_perimeter.Text" xml:space="preserve">
+    <value>Match Perimeter to Polygon</value>
+  </data>
+  <data name="&gt;&gt;CHK_match_spiral_perimeter.Name" xml:space="preserve">
+    <value>CHK_match_spiral_perimeter</value>
+  </data>
+  <data name="&gt;&gt;CHK_match_spiral_perimeter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHK_match_spiral_perimeter.Parent" xml:space="preserve">
+    <value>groupBoxSpiral</value>
+  </data>
+  <data name="&gt;&gt;CHK_match_spiral_perimeter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LBL_clockwise_laps.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_clockwise_laps.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LBL_clockwise_laps.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 25</value>
+  </data>
+  <data name="LBL_clockwise_laps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 13</value>
+  </data>
+  <data name="LBL_clockwise_laps.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="LBL_clockwise_laps.Text" xml:space="preserve">
+    <value>Number of Clockwise Laps</value>
+  </data>
+  <data name="&gt;&gt;LBL_clockwise_laps.Name" xml:space="preserve">
+    <value>LBL_clockwise_laps</value>
+  </data>
+  <data name="&gt;&gt;LBL_clockwise_laps.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_clockwise_laps.Parent" xml:space="preserve">
+    <value>groupBoxSpiral</value>
+  </data>
+  <data name="&gt;&gt;LBL_clockwise_laps.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LBL_clockwise_laps1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_clockwise_laps1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LBL_clockwise_laps1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 49</value>
+  </data>
+  <data name="LBL_clockwise_laps1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 13</value>
+  </data>
+  <data name="LBL_clockwise_laps1.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="LBL_clockwise_laps1.Text" xml:space="preserve">
+    <value>(-1 for Clockwise Spiral)</value>
+  </data>
+  <data name="&gt;&gt;LBL_clockwise_laps1.Name" xml:space="preserve">
+    <value>LBL_clockwise_laps1</value>
+  </data>
+  <data name="&gt;&gt;LBL_clockwise_laps1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_clockwise_laps1.Parent" xml:space="preserve">
+    <value>groupBoxSpiral</value>
+  </data>
+  <data name="&gt;&gt;LBL_clockwise_laps1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="NUM_clockwise_laps.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 47</value>
+  </data>
+  <data name="NUM_clockwise_laps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 20</value>
+  </data>
+  <data name="NUM_clockwise_laps.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;NUM_clockwise_laps.Name" xml:space="preserve">
+    <value>NUM_clockwise_laps</value>
+  </data>
+  <data name="&gt;&gt;NUM_clockwise_laps.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_clockwise_laps.Parent" xml:space="preserve">
+    <value>groupBoxSpiral</value>
+  </data>
+  <data name="&gt;&gt;NUM_clockwise_laps.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label46.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label46.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 23</value>
+  </data>
+  <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 13</value>
+  </data>
+  <data name="label46.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label46.Name" xml:space="preserve">
+    <value>label46</value>
+  </data>
+  <data name="&gt;&gt;label46.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label46.Parent" xml:space="preserve">
+    <value>groupBoxSpiral</value>
+  </data>
+  <data name="&gt;&gt;label46.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBoxSpiral.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 474</value>
+  </data>
+  <data name="groupBoxSpiral.Size" type="System.Drawing.Size, System.Drawing">
+    <value>233, 105</value>
+  </data>
+  <data name="groupBoxSpiral.TabIndex" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
+  <data name="groupBoxSpiral.Text" xml:space="preserve">
+    <value>Spiral Options</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSpiral.Name" xml:space="preserve">
+    <value>groupBoxSpiral</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSpiral.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSpiral.Parent" xml:space="preserve">
+    <value>tabGrid</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSpiral.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="groupBox7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
@@ -2131,7 +2296,7 @@
     <value>tabGrid</value>
   </data>
   <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="groupBox_copter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
@@ -2389,7 +2554,7 @@
     <value>tabGrid</value>
   </data>
   <data name="&gt;&gt;groupBox_copter.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
@@ -2905,7 +3070,7 @@
     <value>tabGrid</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2914,7 +3079,7 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 489</value>
+    <value>14, 595</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 13</value>
@@ -2938,10 +3103,10 @@
     <value>tabGrid</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="NUM_spacing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 487</value>
+    <value>150, 593</value>
   </data>
   <data name="NUM_spacing.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 20</value>
@@ -2962,7 +3127,7 @@
     <value>tabGrid</value>
   </data>
   <data name="&gt;&gt;NUM_spacing.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="tabGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -2971,7 +3136,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 511</value>
+    <value>245, 619</value>
   </data>
   <data name="tabGrid.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3632,7 +3797,7 @@ Control-O to load form file</value>
     <value>NoControl</value>
   </data>
   <data name="BUT_Accept.Location" type="System.Drawing.Point, System.Drawing">
-    <value>84, 479</value>
+    <value>84, 587</value>
   </data>
   <data name="BUT_Accept.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -3662,7 +3827,7 @@ Control-O to load form file</value>
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabSimple.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 511</value>
+    <value>245, 619</value>
   </data>
   <data name="tabSimple.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -3689,7 +3854,7 @@ Control-O to load form file</value>
     <value>755, 0</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>253, 537</value>
+    <value>253, 645</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -3719,7 +3884,7 @@ Control-O to load form file</value>
     <value>Vertical</value>
   </data>
   <data name="TRK_zoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 457</value>
+    <value>45, 565</value>
   </data>
   <data name="TRK_zoom.TabIndex" type="System.Int32, mscorlib">
     <value>47</value>
@@ -3743,7 +3908,7 @@ Control-O to load form file</value>
     <value>0, 0</value>
   </data>
   <data name="map.Size" type="System.Drawing.Size, System.Drawing">
-    <value>704, 457</value>
+    <value>704, 565</value>
   </data>
   <data name="map.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -3764,7 +3929,7 @@ Control-O to load form file</value>
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 537</value>
+    <value>1008, 645</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Survey (Grid)</value>

@@ -96,6 +96,12 @@
             this.label11 = new System.Windows.Forms.Label();
             this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.tabGrid = new System.Windows.Forms.TabPage();
+            this.groupBoxSpiral = new System.Windows.Forms.GroupBox();
+            this.CHK_match_spiral_perimeter = new System.Windows.Forms.CheckBox();
+            this.LBL_clockwise_laps = new System.Windows.Forms.Label();
+            this.LBL_clockwise_laps1 = new System.Windows.Forms.Label();
+            this.NUM_clockwise_laps = new System.Windows.Forms.NumericUpDown();
+            this.label46 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.chk_optimize_for_distance = new System.Windows.Forms.CheckBox();
             this.LBL_Alternating_lanes = new System.Windows.Forms.Label();
@@ -173,6 +179,8 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_focallength)).BeginInit();
             this.tabGrid.SuspendLayout();
+            this.groupBoxSpiral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_clockwise_laps)).BeginInit();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Lane_Dist)).BeginInit();
             this.groupBox_copter.SuspendLayout();
@@ -716,6 +724,7 @@
             // 
             // tabGrid
             // 
+            this.tabGrid.Controls.Add(this.groupBoxSpiral);
             this.tabGrid.Controls.Add(this.groupBox7);
             this.tabGrid.Controls.Add(this.groupBox_copter);
             this.tabGrid.Controls.Add(this.groupBox1);
@@ -724,6 +733,55 @@
             resources.ApplyResources(this.tabGrid, "tabGrid");
             this.tabGrid.Name = "tabGrid";
             this.tabGrid.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxSpiral
+            // 
+            resources.ApplyResources(this.groupBoxSpiral, "groupBoxSpiral");
+            this.groupBoxSpiral.Controls.Add(this.CHK_match_spiral_perimeter);
+            this.groupBoxSpiral.Controls.Add(this.LBL_clockwise_laps);
+            this.groupBoxSpiral.Controls.Add(this.LBL_clockwise_laps1);
+            this.groupBoxSpiral.Controls.Add(this.NUM_clockwise_laps);
+            this.groupBoxSpiral.Controls.Add(this.label46);
+            this.groupBoxSpiral.Name = "groupBoxSpiral";
+            this.groupBoxSpiral.TabStop = false;
+            // 
+            // CHK_match_spiral_perimeter
+            // 
+            resources.ApplyResources(this.CHK_match_spiral_perimeter, "CHK_match_spiral_perimeter");
+            this.CHK_match_spiral_perimeter.Name = "CHK_match_spiral_perimeter";
+            this.CHK_match_spiral_perimeter.UseVisualStyleBackColor = true;
+            this.CHK_match_spiral_perimeter.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
+            // LBL_clockwise_laps
+            // 
+            resources.ApplyResources(this.LBL_clockwise_laps, "LBL_clockwise_laps");
+            this.LBL_clockwise_laps.Name = "LBL_clockwise_laps";
+            // 
+            // LBL_clockwise_laps1
+            // 
+            resources.ApplyResources(this.LBL_clockwise_laps1, "LBL_clockwise_laps1");
+            this.LBL_clockwise_laps1.Name = "LBL_clockwise_laps1";
+            // 
+            // NUM_clockwise_laps
+            // 
+            resources.ApplyResources(this.NUM_clockwise_laps, "NUM_clockwise_laps");
+            this.NUM_clockwise_laps.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUM_clockwise_laps.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.NUM_clockwise_laps.Name = "NUM_clockwise_laps";
+            this.NUM_clockwise_laps.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
+            // label46
+            // 
+            resources.ApplyResources(this.label46, "label46");
+            this.label46.Name = "label46";
             // 
             // groupBox7
             // 
@@ -1394,6 +1452,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_focallength)).EndInit();
             this.tabGrid.ResumeLayout(false);
             this.tabGrid.PerformLayout();
+            this.groupBoxSpiral.ResumeLayout(false);
+            this.groupBoxSpiral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_clockwise_laps)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Lane_Dist)).EndInit();
@@ -1562,5 +1623,11 @@
         private System.Windows.Forms.CheckBox chk_spline;
         private System.Windows.Forms.NumericUpDown NUM_leadin2;
         private System.Windows.Forms.CheckBox chk_optimize_for_distance;
+        private System.Windows.Forms.GroupBox groupBoxSpiral;
+        private System.Windows.Forms.Label LBL_clockwise_laps;
+        private System.Windows.Forms.Label LBL_clockwise_laps1;
+        private System.Windows.Forms.NumericUpDown NUM_clockwise_laps;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.CheckBox CHK_match_spiral_perimeter;
     }
 }

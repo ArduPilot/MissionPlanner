@@ -243,6 +243,10 @@ namespace MissionPlanner.Grid
             // Plane Settings
             NUM_Lane_Dist.Value = griddata.minlaneseparation;
 
+            // Spiral Settings
+            NUM_clockwise_laps.Value = griddata.clockwiseLaps;
+            CHK_match_spiral_perimeter.Checked = griddata.matchPerimeter;
+
             // update display options last
             CHK_internals.Checked = griddata.internals;
             CHK_footprints.Checked = griddata.footprints;
@@ -291,6 +295,10 @@ namespace MissionPlanner.Grid
 
             // Plane Settings
             griddata.minlaneseparation = NUM_Lane_Dist.Value;
+
+            //Spiral Settings
+            griddata.clockwiseLaps = NUM_clockwise_laps.Value;
+            griddata.matchPerimeter = CHK_match_spiral_perimeter.Checked;
 
             griddata.trigdist = rad_trigdist.Checked;
             griddata.digicam = rad_digicam.Checked;
@@ -351,6 +359,10 @@ namespace MissionPlanner.Grid
 
                 // Plane Settings
                 loadsetting("grid_min_lane_separation", NUM_Lane_Dist);
+
+                // Spiral Settings
+                loadsetting("grid_clockwise_laps", NUM_clockwise_laps);
+                loadsetting("grid_match_spiral_perimeter", CHK_match_spiral_perimeter);
 
                 loadsetting("grid_internals", CHK_internals);
                 loadsetting("grid_footprints", CHK_footprints);
@@ -426,6 +438,10 @@ namespace MissionPlanner.Grid
 
             // Plane Settings
             plugin.Host.config["grid_min_lane_separation"] = NUM_Lane_Dist.Value.ToString();
+
+            // Spiral Settings
+            plugin.Host.config["grid_clockwise_laps"] = NUM_clockwise_laps.Value.ToString();
+            plugin.Host.config["grid_match_spiral_perimeter"] = CHK_match_spiral_perimeter.Checked.ToString();
         }
 
         private void xmlcamera(bool write, string filename)
@@ -574,7 +590,8 @@ namespace MissionPlanner.Grid
                     (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
-                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.PlannedHomeLocation).ConfigureAwait(true);
+                    (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.PlannedHomeLocation,
+                    (int)NUM_clockwise_laps.Value, CHK_match_spiral_perimeter.Checked).ConfigureAwait(true);
             }
             else
             {

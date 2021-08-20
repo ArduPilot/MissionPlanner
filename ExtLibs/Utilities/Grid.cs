@@ -187,13 +187,13 @@ namespace MissionPlanner.Utilities
             return ans;
         }
 
-        public static async Task<List<PointLatLngAlt>> CreateRotaryAsync(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        public static async Task<List<PointLatLngAlt>> CreateRotaryAsync(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation, int clockwise_laps, bool match_spiral_perimeter)
         {
             return await Task.Run((() => CreateRotary(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
-                startpos, shutter, minLaneSeparation, leadin, HomeLocation))).ConfigureAwait(false);
+                startpos, shutter, minLaneSeparation, leadin, HomeLocation, clockwise_laps, match_spiral_perimeter))).ConfigureAwait(false);
         }
 
-        public static List<PointLatLngAlt> CreateRotary(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation)
+        public static List<PointLatLngAlt> CreateRotary(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation, int clockwise_laps, bool match_spiral_perimeter)
         {
             spacing = 0;
 
@@ -231,10 +231,27 @@ namespace MissionPlanner.Utilities
                 if (tree.ChildCount == 0)
                     break;
 
+                if (lane < clockwise_laps || clockwise_laps < 0)
+                {
+                    ClipperLib.Clipper.ReversePaths(ClipperLib.Clipper.PolyTreeToPaths(tree));
+                }
+
                 foreach (var treeChild in tree.Childs)
                 {
                     ans1 = treeChild.Contour.Select(a => new utmpos(a.X / 1000.0, a.Y / 1000.0, utmzone))
                         .ToList();
+
+                    if (lane == 0 && clockwise_laps != 1 && match_spiral_perimeter)
+                    {
+                        ans1.Insert(0, ans1.Last<utmpos>());   // start at the last point of the first calculated lap
+                                                               // to make a closed polygon on the first trip around
+                    }
+
+
+                    if (lane == clockwise_laps - 1)
+                    {
+                        ans1.Add(ans1.First<utmpos>());  // revisit the first waypoint on this lap to cleanly exit the CW pattern
+                    }
 
                     if (ans.Count() > 2)
                     {
