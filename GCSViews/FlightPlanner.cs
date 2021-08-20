@@ -3442,6 +3442,27 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        public void fromCurrentWaypointsMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Commands.Rows.Count == 0) return;
+            List<PointLatLngAlt> currentWaypoints = new List<PointLatLngAlt>();
+            foreach (DataGridViewRow row in Commands.Rows)
+            {
+                if (row.Cells[Command.Index].Value.ToString() == MAVLink.MAV_CMD.WAYPOINT.ToString())
+                {
+                    currentWaypoints.Add(new PointLatLngAlt(double.Parse(row.Cells[Lat.Index].Value.ToString()),
+                                                            double.Parse(row.Cells[Lon.Index].Value.ToString()),
+                                                            double.Parse(row.Cells[Alt.Index].Value.ToString())));
+                }
+            }
+            redrawPolygonSurvey(currentWaypoints);
+            if (CustomMessageBox.Show("Clear current waypoints?", "Confirm",
+                                       MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            {
+                clearMissionToolStripMenuItem_Click(null, null);  // perhaps not best practice to directly call "click" events
+            }
+        }
+
         void DoGeofencePointsUpload(IProgressReporterDialogue PRD)
         {
             // points + return + close
