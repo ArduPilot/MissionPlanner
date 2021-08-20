@@ -1227,8 +1227,6 @@
         <param index="7" label="Altitude/Z">Altitude/Z position.</param>
       </entry>
       <entry value="260" name="MAV_CMD_OBLIQUE_SURVEY" hasLocation="false" isDestination="false">
-        <wip/>
-        <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
         <description>Mission command to set a Camera Auto Mount Pivoting Oblique Survey (Replaces CAM_TRIGG_DIST for this purpose). The camera is triggered each time this distance is exceeded, then the mount moves to the next position. Params 4~6 set-up the angle limits and number of positions for oblique survey, where mount-enabled vehicles automatically roll the camera between shots to emulate an oblique camera setup (providing an increased HFOV). This command can also be used to set the shutter integration time for the camera.</description>
         <param index="1" label="Distance" units="m" minValue="0">Camera trigger distance. 0 to stop triggering.</param>
         <param index="2" label="Shutter" units="ms" minValue="0" increment="1" default="0">Camera shutter integration time. 0 to ignore</param>
@@ -2386,6 +2384,48 @@
         <description>Battery is charging.</description>
       </entry>
     </enum>
+    <enum name="MAV_BATTERY_MODE">
+      <description>Battery mode. Note, the normal operation mode (i.e. when flying) should be reported as MAV_BATTERY_MODE_UNKNOWN to allow message trimming in normal flight.</description>
+      <entry value="0" name="MAV_BATTERY_MODE_UNKNOWN">
+        <description>Battery mode not supported/unknown battery mode/normal operation.</description>
+      </entry>
+      <entry value="1" name="MAV_BATTERY_MODE_AUTO_DISCHARGING">
+        <description>Battery is auto discharging (towards storage level).</description>
+      </entry>
+      <entry value="2" name="MAV_BATTERY_MODE_HOT_SWAP">
+        <description>Battery in hot-swap mode (current limited to prevent spikes that might damage sensitive electrical circuits).</description>
+      </entry>
+    </enum>
+    <enum name="MAV_BATTERY_FAULT" bitmask="true">
+      <description>Smart battery supply status/fault flags (bitmask) for health indication. The battery must also report either MAV_BATTERY_CHARGE_STATE_FAILED or MAV_BATTERY_CHARGE_STATE_UNHEALTHY if any of these are set.</description>
+      <entry value="1" name="MAV_BATTERY_FAULT_DEEP_DISCHARGE">
+        <description>Battery has deep discharged.</description>
+      </entry>
+      <entry value="2" name="MAV_BATTERY_FAULT_SPIKES">
+        <description>Voltage spikes.</description>
+      </entry>
+      <entry value="4" name="MAV_BATTERY_FAULT_CELL_FAIL">
+        <description>One or more cells have failed. Battery should also report MAV_BATTERY_CHARGE_STATE_FAILE (and should not be used).</description>
+      </entry>
+      <entry value="8" name="MAV_BATTERY_FAULT_OVER_CURRENT">
+        <description>Over-current fault.</description>
+      </entry>
+      <entry value="16" name="MAV_BATTERY_FAULT_OVER_TEMPERATURE">
+        <description>Over-temperature fault.</description>
+      </entry>
+      <entry value="32" name="MAV_BATTERY_FAULT_UNDER_TEMPERATURE">
+        <description>Under-temperature fault.</description>
+      </entry>
+      <entry value="64" name="MAV_BATTERY_FAULT_INCOMPATIBLE_VOLTAGE">
+        <description>Vehicle voltage is not compatible with this battery (batteries on same power rail should have similar voltage).</description>
+      </entry>
+      <entry value="128" name="MAV_BATTERY_FAULT_INCOMPATIBLE_FIRMWARE">
+        <description>Battery firmware is not compatible with current autopilot firmware.</description>
+      </entry>
+      <entry value="256" name="BATTERY_FAULT_INCOMPATIBLE_CELLS_CONFIGURATION">
+        <description>Battery is not compatible due to cell configuration (e.g. 5s1p when vehicle requires 6s).</description>
+      </entry>
+    </enum>
     <enum name="MAV_GENERATOR_STATUS_FLAG" bitmask="true">
       <description>Flags to report status/failure cases for a power generator (used in GENERATOR_STATUS). Note that FAULTS are conditions that cause the generator to fail. Warnings are conditions that require attention before the next use (they indicate the system is not operating properly).</description>
       <entry value="1" name="MAV_GENERATOR_STATUS_FLAG_OFF">
@@ -2985,6 +3025,42 @@
       </entry>
       <entry value="2" name="PARACHUTE_RELEASE">
         <description>Release parachute and kill motors.</description>
+      </entry>
+    </enum>
+    <!-- TUNNEL related enums, used by STorM32 gimbal-->
+    <enum name="MAV_TUNNEL_PAYLOAD_TYPE">
+      <entry value="0" name="MAV_TUNNEL_PAYLOAD_TYPE_UNKNOWN">
+        <description>Encoding of payload unknown.</description>
+      </entry>
+      <entry value="200" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED0">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="201" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED1">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="202" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED2">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="203" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED3">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="204" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED4">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="205" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED5">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="206" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED6">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="207" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED7">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="208" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED8">
+        <description>Registered for STorM32 gimbal controller.</description>
+      </entry>
+      <entry value="209" name="MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED9">
+        <description>Registered for STorM32 gimbal controller.</description>
       </entry>
     </enum>
     <!-- AIS related enums-->
@@ -3781,6 +3857,11 @@
       <description>Report status of a command. Includes feedback whether the command was executed. The command microservice is documented at https://mavlink.io/en/services/command.html</description>
       <field type="uint16_t" name="command" enum="MAV_CMD">Command ID (of acknowledged command).</field>
       <field type="uint8_t" name="result" enum="MAV_RESULT">Result of command.</field>
+      <extensions/>
+      <field type="uint8_t" name="progress">Also used as result_param1, it can be set with a enum containing the errors reasons of why the command was denied or the progress percentage or 255 if unknown the progress when result is MAV_RESULT_IN_PROGRESS.</field>
+      <field type="int32_t" name="result_param2">Additional parameter of the result, example: which parameter of MAV_CMD_NAV_WAYPOINT caused it to be denied.</field>
+      <field type="uint8_t" name="target_system">System which requested the command to be executed</field>
+      <field type="uint8_t" name="target_component">Component which requested the command to be executed</field>
     </message>
     <message id="81" name="MANUAL_SETPOINT">
       <description>Setpoint in roll, pitch, yaw and thrust from the operator</description>
@@ -4492,6 +4573,8 @@
       <field type="int32_t" name="time_remaining" units="s">Remaining battery time, 0: autopilot does not provide remaining battery time estimate</field>
       <field type="uint8_t" name="charge_state" enum="MAV_BATTERY_CHARGE_STATE">State for extent of discharge, provided by autopilot for warning or external reactions</field>
       <field type="uint16_t[4]" name="voltages_ext" units="mV">Battery voltages for cells 11 to 14. Cells above the valid cell count for this battery should have a value of 0, where zero indicates not supported (note, this is different than for the voltages field and allows empty byte truncation). If the measured value is 0 then 1 should be sent instead.</field>
+      <field type="uint8_t" name="mode" enum="MAV_BATTERY_MODE">Battery mode. Default (0) is that battery mode reporting is not supported or battery is in normal-use mode.</field>
+      <field type="uint32_t" name="fault_bitmask" display="bitmask" enum="MAV_BATTERY_FAULT">Fault/health indications. These should be set when charge_state is MAV_BATTERY_CHARGE_STATE_FAILED or MAV_BATTERY_CHARGE_STATE_UNHEALTHY (if not, fault reporting is not supported).</field>
     </message>
     <message id="148" name="AUTOPILOT_VERSION">
       <description>Version and capability of autopilot software. This should be emitted in response to a request with MAV_CMD_REQUEST_MESSAGE.</description>
@@ -5019,6 +5102,41 @@
       <field type="uint8_t" name="sw_version_minor">Software minor version number.</field>
       <field type="uint32_t" name="sw_vcs_commit">Version control system (VCS) revision identifier (e.g. git short commit hash). Zero if unknown.</field>
     </message>
+    <message id="320" name="PARAM_EXT_REQUEST_READ">
+      <description>Request to read the value of a parameter with either the param_id string id or param_index. PARAM_EXT_VALUE should be emitted in response.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="int16_t" name="param_index" invalid="-1">Parameter index. Set to -1 to use the Parameter ID field as identifier (else param_id will be ignored)</field>
+    </message>
+    <message id="321" name="PARAM_EXT_REQUEST_LIST">
+      <description>Request all parameters of this component. All parameters should be emitted in response as PARAM_EXT_VALUE.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+    </message>
+    <message id="322" name="PARAM_EXT_VALUE">
+      <description>Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout.</description>
+      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="char[128]" name="param_value">Parameter value</field>
+      <field type="uint8_t" name="param_type" enum="MAV_PARAM_EXT_TYPE">Parameter type.</field>
+      <field type="uint16_t" name="param_count">Total number of parameters</field>
+      <field type="uint16_t" name="param_index">Index of this parameter</field>
+    </message>
+    <message id="323" name="PARAM_EXT_SET">
+      <description>Set a parameter value. In order to deal with message loss (and retransmission of PARAM_EXT_SET), when setting a parameter value and the new value is the same as the current value, you will immediately get a PARAM_ACK_ACCEPTED response. If the current state is PARAM_ACK_IN_PROGRESS, you will accordingly receive a PARAM_ACK_IN_PROGRESS in response.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="char[128]" name="param_value">Parameter value</field>
+      <field type="uint8_t" name="param_type" enum="MAV_PARAM_EXT_TYPE">Parameter type.</field>
+    </message>
+    <message id="324" name="PARAM_EXT_ACK">
+      <description>Response from a PARAM_EXT_SET message.</description>
+      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="char[128]" name="param_value">Parameter value (new value if PARAM_ACK_ACCEPTED, current value otherwise)</field>
+      <field type="uint8_t" name="param_type" enum="MAV_PARAM_EXT_TYPE">Parameter type.</field>
+      <field type="uint8_t" name="param_result" enum="PARAM_ACK">Result code.</field>
+    </message>
     <message id="330" name="OBSTACLE_DISTANCE">
       <description>Obstacle distances in front of the sensor, starting from the left in increment degrees to the right</description>
       <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
@@ -5141,6 +5259,14 @@
       <field type="uint32_t" name="active" display="bitmask">Active outputs</field>
       <field type="float[32]" name="actuator">Servo / motor output array values. Zero values indicate unused channels.</field>
     </message>
+    <message id="385" name="TUNNEL">
+      <description>Message for transporting "arbitrary" variable-length data from one component to another (broadcast is not forbidden, but discouraged). The encoding of the data is usually extension specific, i.e. determined by the source, and is usually not documented as part of the MAVLink specification.</description>
+      <field type="uint8_t" name="target_system">System ID (can be 0 for broadcast, but this is discouraged)</field>
+      <field type="uint8_t" name="target_component">Component ID (can be 0 for broadcast, but this is discouraged)</field>
+      <field type="uint16_t" name="payload_type" enum="MAV_TUNNEL_PAYLOAD_TYPE">A code that identifies the content of the payload (0 for unknown, which is the default). If this code is less than 32768, it is a 'registered' payload type and the corresponding code should be added to the MAV_TUNNEL_PAYLOAD_TYPE enum. Software creators can register blocks of types as needed. Codes greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.</field>
+      <field type="uint8_t" name="payload_length">Length of the data transported in payload</field>
+      <field type="uint8_t[128]" name="payload">Variable length payload. The payload length is defined by payload_length. The entire content of this block is opaque unless you understand the encoding specified by payload_type.</field>
+    </message>
     <!-- Rover specific messages -->
     <message id="9000" name="WHEEL_DISTANCE">
       <description>Cumulative distance traveled for each reported wheel.</description>
@@ -5149,8 +5275,6 @@
       <field type="double[16]" name="distance" units="m">Distance reported by individual wheel encoders. Forward rotations increase values, reverse rotations decrease them. Not all wheels will necessarily have wheel encoders; the mapping of encoders to wheel positions must be agreed/understood by the endpoints.</field>
     </message>
     <message id="9005" name="WINCH_STATUS">
-      <wip/>
-      <!-- This message is work-in-progress and it can therefore change, and should NOT be used in stable production environments -->
       <description>Winch status.</description>
       <field type="uint64_t" name="time_usec" units="us">Timestamp (synced to UNIX time or since system boot).</field>
       <field type="float" name="line_length" units="m">Length of line released. NaN if unknown</field>
@@ -5160,6 +5284,12 @@
       <field type="float" name="current" units="A">Current draw from the winch. NaN if unknown</field>
       <field type="int16_t" name="temperature" units="degC">Temperature of the motor. INT16_MAX if unknown</field>
       <field type="uint32_t" name="status" display="bitmask" enum="MAV_WINCH_STATUS_FLAG">Status flags</field>
+    </message>
+    <message id="12920" name="HYGROMETER_SENSOR">
+      <description>Temperature and humidity from hygrometer.</description>
+      <field type="uint8_t" name="id" instance="true">Hygrometer ID</field>
+      <field type="int16_t" name="temperature" units="cdegC">Temperature</field>
+      <field type="uint16_t" name="humidity" units="c%">Humidity</field>
     </message>
   </messages>
 </mavlink>
