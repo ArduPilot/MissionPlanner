@@ -244,7 +244,7 @@ namespace MissionPlanner.Grid
             NUM_Lane_Dist.Value = griddata.minlaneseparation;
 
             // Spiral Settings
-            NUM_clockwise_circuits.Value = griddata.clockwiseCircuits;
+            NUM_clockwise_laps.Value = griddata.clockwiseLaps;
             CHK_match_spiral_perimeter.Checked = griddata.matchPerimeter;
 
             // update display options last
@@ -297,7 +297,7 @@ namespace MissionPlanner.Grid
             griddata.minlaneseparation = NUM_Lane_Dist.Value;
 
             //Spiral Settings
-            griddata.clockwiseCircuits = NUM_clockwise_circuits.Value;
+            griddata.clockwiseLaps = NUM_clockwise_laps.Value;
             griddata.matchPerimeter = CHK_match_spiral_perimeter.Checked;
 
             griddata.trigdist = rad_trigdist.Checked;
@@ -361,7 +361,7 @@ namespace MissionPlanner.Grid
                 loadsetting("grid_min_lane_separation", NUM_Lane_Dist);
 
                 // Spiral Settings
-                loadsetting("grid_clockwise_circuits", NUM_clockwise_circuits);
+                loadsetting("grid_clockwise_laps", NUM_clockwise_laps);
                 loadsetting("grid_match_spiral_perimeter", CHK_match_spiral_perimeter);
 
                 loadsetting("grid_internals", CHK_internals);
@@ -440,7 +440,7 @@ namespace MissionPlanner.Grid
             plugin.Host.config["grid_min_lane_separation"] = NUM_Lane_Dist.Value.ToString();
 
             // Spiral Settings
-            plugin.Host.config["grid_clockwise_circuits"] = NUM_clockwise_circuits.Value.ToString();
+            plugin.Host.config["grid_clockwise_laps"] = NUM_clockwise_laps.Value.ToString();
             plugin.Host.config["grid_match_spiral_perimeter"] = CHK_match_spiral_perimeter.Checked.ToString();
         }
 
@@ -591,7 +591,7 @@ namespace MissionPlanner.Grid
                     (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
                     (Utilities.Grid.StartPosition)Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text), false,
                     (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value, MainV2.comPort.MAV.cs.PlannedHomeLocation,
-                    (int)NUM_clockwise_circuits.Value, CHK_match_spiral_perimeter.Checked).ConfigureAwait(true);
+                    (int)NUM_clockwise_laps.Value, CHK_match_spiral_perimeter.Checked).ConfigureAwait(true);
             }
             else
             {

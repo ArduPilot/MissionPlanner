@@ -2001,85 +2001,85 @@
   <data name="&gt;&gt;CHK_match_spiral_perimeter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="LBL_clockwise_circuits.AutoSize" type="System.Boolean, mscorlib">
+  <data name="LBL_clockwise_laps.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="LBL_clockwise_circuits.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="LBL_clockwise_laps.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="LBL_clockwise_circuits.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LBL_clockwise_laps.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 25</value>
   </data>
-  <data name="LBL_clockwise_circuits.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 13</value>
+  <data name="LBL_clockwise_laps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 13</value>
   </data>
-  <data name="LBL_clockwise_circuits.TabIndex" type="System.Int32, mscorlib">
+  <data name="LBL_clockwise_laps.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="LBL_clockwise_circuits.Text" xml:space="preserve">
-    <value>Number of Clockwise Circuits</value>
+  <data name="LBL_clockwise_laps.Text" xml:space="preserve">
+    <value>Number of Clockwise Laps</value>
   </data>
-  <data name="&gt;&gt;LBL_clockwise_circuits.Name" xml:space="preserve">
-    <value>LBL_clockwise_circuits</value>
+  <data name="&gt;&gt;LBL_clockwise_laps.Name" xml:space="preserve">
+    <value>LBL_clockwise_laps</value>
   </data>
-  <data name="&gt;&gt;LBL_clockwise_circuits.Type" xml:space="preserve">
+  <data name="&gt;&gt;LBL_clockwise_laps.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LBL_clockwise_circuits.Parent" xml:space="preserve">
+  <data name="&gt;&gt;LBL_clockwise_laps.Parent" xml:space="preserve">
     <value>groupBoxSpiral</value>
   </data>
-  <data name="&gt;&gt;LBL_clockwise_circuits.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;LBL_clockwise_laps.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="LBL_clockwise_circuits1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="LBL_clockwise_laps1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="LBL_clockwise_circuits1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="LBL_clockwise_laps1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="LBL_clockwise_circuits1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LBL_clockwise_laps1.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 49</value>
   </data>
-  <data name="LBL_clockwise_circuits1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LBL_clockwise_laps1.Size" type="System.Drawing.Size, System.Drawing">
     <value>117, 13</value>
   </data>
-  <data name="LBL_clockwise_circuits1.TabIndex" type="System.Int32, mscorlib">
+  <data name="LBL_clockwise_laps1.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="LBL_clockwise_circuits1.Text" xml:space="preserve">
+  <data name="LBL_clockwise_laps1.Text" xml:space="preserve">
     <value>(-1 for Clockwise Spiral)</value>
   </data>
-  <data name="&gt;&gt;LBL_clockwise_circuits1.Name" xml:space="preserve">
-    <value>LBL_clockwise_circuits1</value>
+  <data name="&gt;&gt;LBL_clockwise_laps1.Name" xml:space="preserve">
+    <value>LBL_clockwise_laps1</value>
   </data>
-  <data name="&gt;&gt;LBL_clockwise_circuits1.Type" xml:space="preserve">
+  <data name="&gt;&gt;LBL_clockwise_laps1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LBL_clockwise_circuits1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;LBL_clockwise_laps1.Parent" xml:space="preserve">
     <value>groupBoxSpiral</value>
   </data>
-  <data name="&gt;&gt;LBL_clockwise_circuits1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;LBL_clockwise_laps1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="NUM_clockwise_circuits.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="NUM_clockwise_laps.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 47</value>
   </data>
-  <data name="NUM_clockwise_circuits.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="NUM_clockwise_laps.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 20</value>
   </data>
-  <data name="NUM_clockwise_circuits.TabIndex" type="System.Int32, mscorlib">
+  <data name="NUM_clockwise_laps.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="&gt;&gt;NUM_clockwise_circuits.Name" xml:space="preserve">
-    <value>NUM_clockwise_circuits</value>
+  <data name="&gt;&gt;NUM_clockwise_laps.Name" xml:space="preserve">
+    <value>NUM_clockwise_laps</value>
   </data>
-  <data name="&gt;&gt;NUM_clockwise_circuits.Type" xml:space="preserve">
+  <data name="&gt;&gt;NUM_clockwise_laps.Type" xml:space="preserve">
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;NUM_clockwise_circuits.Parent" xml:space="preserve">
+  <data name="&gt;&gt;NUM_clockwise_laps.Parent" xml:space="preserve">
     <value>groupBoxSpiral</value>
   </data>
-  <data name="&gt;&gt;NUM_clockwise_circuits.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;NUM_clockwise_laps.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="label46.AutoSize" type="System.Boolean, mscorlib">
