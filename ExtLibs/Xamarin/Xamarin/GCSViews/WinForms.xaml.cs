@@ -1035,7 +1035,9 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             Test.UsbDevices.USBEvent += DeviceAttached;
         }
 
+#pragma warning disable AsyncFixer03 // Fire-and-forget async-void methods or delegates
         private async void DeviceAttached(object sender, MissionPlanner.ArduPilot.DeviceInfo e)
+#pragma warning restore AsyncFixer03 // Fire-and-forget async-void methods or delegates
         {
             ICommsSerial portUsb = null;
             try

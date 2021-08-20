@@ -51,6 +51,11 @@ namespace System.Drawing
             return pen.nativePen;
         }
 
+        public static Bitmap ToBitmap(this SKImage skiaImage)
+        {
+            return new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skiaImage)};
+        }
+
 
         static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
 
