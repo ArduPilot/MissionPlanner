@@ -65,6 +65,12 @@ namespace MissionPlanner
                 return (new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw,
                     MAV.cs.target_bearing){ Tag = MAV});
             }
+            else if (MAV.aptype == MAVLink.MAV_TYPE.COAXIAL)
+            {
+                return (new GMapMarkerSingle(portlocation, MAV.cs.yaw,
+                   MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid)
+                { Tag = MAV });
+            }
             else if (MAV.cs.firmware == Firmwares.ArduCopter2 || MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
             {
                 if (MAV.param.ContainsKey("AVD_W_DIST_XY") && MAV.param.ContainsKey("AVD_F_DIST_XY"))
@@ -87,11 +93,6 @@ namespace MissionPlanner
                     ToolTipMode = String.IsNullOrEmpty(Settings.Instance["mapicondesc"]) ? MarkerTooltipMode.Never : MarkerTooltipMode.Always,
                     Tag = MAV
                 });
-            }
-            else if (MAV.aptype == MAVLink.MAV_TYPE.COAXIAL)
-            {
-                return (new GMapMarkerSingle(portlocation, MAV.cs.yaw,
-                   MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid){ Tag = MAV});
             }
             else
             {
