@@ -12,9 +12,6 @@
 @using System.Runtime.CompilerServices
 
 @using System.Text;
-@using BlazorWebSocketHelper;
-@using BlazorWebSocketHelper.Classes;
-@using static BlazorWebSocketHelper.Classes.BwsEnums;
 @using System.Security.Cryptography;
 @using System.Runtime.InteropServices
 @using Blazor.Extensions
@@ -25,8 +22,6 @@
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D
 @using Blazor.Extensions.Canvas.WebGL
-@using BlazorWebSocketHelper
-@using BlazorWebSocketHelper.Classes
 @using Microsoft.JSInterop.WebAssembly
 @using MissionPlanner.ArduPilot
 @inject Sotsera.Blazor.Toaster.IToaster Toaster
@@ -149,7 +144,7 @@
         try
         {
             Toaster.Success("Getting param list");
-            await mav.getParamListMavftpAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
+            await mav.getParamListAsync(mav.MAV.sysid, mav.MAV.compid).ConfigureAwait(false);
             Toaster.Success("Retrieved param list");
             StateHasChanged();
             await JSRuntime.InvokeAsync<object>("evalline", new object[] { @"$('#rawparams').DataTable( { searching: true,  serverSide: false, retrieve: true    } );" }).ConfigureAwait(false);
@@ -204,46 +199,44 @@
 
     protected override async Task OnInitializedAsync() => Log("OnInitializedAsync");
 
-    protected WebSocketHelper WebSocketHelper1;
+    //protected WebSocketHelper WebSocketHelper1;
 
     public async Task wsconnect()
     {
-        /*
+        
                 ClientWebSocket webSocket = new ClientWebSocket();
                 Console.WriteLine(wsuri);
-                await webSocket.ConnectAsync(new Uri(wsuri), CancellationToken.None);
-                Task.Run(async () =>
-                {
-                ArraySegment<byte>
-                    bytesReceived = new ArraySegment<byte>
-                        (new byte[1024]);
-                        while (webSocket.State == WebSocketState.Open)
-                        {
-                        await webSocket.ReceiveAsync(bytesReceived, CancellationToken.None);
-                        mavbasestream.AppendBuffer(bytesReceived.Array.ToArray());
-                        }
-                        });
+        await webSocket.ConnectAsync(new Uri(wsuri), CancellationToken.None).ContinueWith(async (a) =>
+    {
+        pageloadvisible = false;
+        running = false;
+        ArraySegment<byte>
+            bytesReceived = new ArraySegment<byte>
+                (new byte[1024]);
+                Toaster.Info(webSocket.State.ToString());
+        while (webSocket.State == WebSocketState.Open)
+        {
+            //Console.WriteLine("webSocket.ReceiveAsync");
+            await webSocket.ReceiveAsync(bytesReceived, CancellationToken.None);
+
+            ProcessPacket("", bytesReceived.Array.ToArray());
+        }
+    });
+
 
                         mavbasestream.ReadBufferUpdate += (sender, i) => { };
-                        mavbasestream.WriteCallback += async (sender, bytes) => { await webSocket.SendAsync(new ArraySegment<byte>
+                        mavbasestream.WriteCallback += async (sender, bytes) => {  await webSocket.SendAsync(new ArraySegment<byte>
                             (bytes.ToArray()), WebSocketMessageType.Binary, true, CancellationToken.None); };
 
-                            return;
-                            */
+                            
         //JSRuntime.InvokeAsync<object>("initWebSocket", wsuri);
-
-        WebSocketHelper1 = new WebSocketHelper(wsuri, BwsTransportType.ArrayBuffer, JSRuntime);
-        WebSocketHelper1.DoLog = false;
-        WebSocketHelper1.OnStateChange = WsOnStateChange;
-        WebSocketHelper1.OnMessage = WsOnMessage;
-        WebSocketHelper1.OnError = WsOnError;
 
         JSRuntime.InvokeAsync<object>("startChart");
 
         StateHasChanged();
 
     }
-
+        /*
     private void WsOnError(string obj)
     {
         SpeechSynthesis.Speak(obj);
@@ -271,7 +264,7 @@
         Toaster.Info(WebSocketHelper1.bwsState.ToString());
         StateHasChanged();
     }
-
+    */
 
     internal byte[] buffer = new byte[1024];
 
@@ -351,20 +344,7 @@
             mav = new MAVLinkInterface();
 
             // just to prevent null exceptions
-            mavbasestream = new CommsInjection();
             mav.BaseStream = mavbasestream;
-
-            mavbasestream.WriteCallback += async (sender, bytes) =>
-            {
-                //await JSRuntime.InvokeAsync<object>("evalline", new object[] { "socket.send(new Uint8Array(" + bytes.ToJSON() + "))" }).ConfigureAwait(false);
-
-                WebSocketHelper1.Send(bytes.ToArray(), false);
-
-            };
-            mavbasestream.ReadBufferUpdate += async (sender, count) =>
-            {
-
-            };
 
 
             mav.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT, packetReceived);
@@ -400,7 +380,7 @@
 
                                                     mav.logreadmode = true;
                                                     */
-        //Console.WriteLine("open {0} btr {1} {2} {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream?.GetType());
+        //Console.WriteLine("open {0} btr {1} type {2} type {3}", mav.BaseStream.IsOpen, mav.BaseStream.BytesToRead, mav.BaseStream.GetType(), mav.BaseStream.BaseStream?.GetType());
 
         var check1 = DateTime.Now;
 
@@ -419,6 +399,8 @@
 
     public async Task ProcessPacketsint()
     {
+        //Console.WriteLine($"ProcessPacketsint  {mav?.BaseStream?.BytesToRead} run {running} init {init} mav {mav}");
+
         if (running)
             return;
 
@@ -441,6 +423,7 @@
         if (mav.BaseStream.BytesToRead < 200)
             return;
 
+
         //Console.WriteLine("ProcessPacketsint btr:" + mav.BaseStream.BytesToRead);
 
         //var th = new Thread(() =>
@@ -449,7 +432,7 @@
             {
 
                 //running = true;
-                DateTime end = DateTime.Now.AddMilliseconds(10);
+                DateTime end = DateTime.Now.AddMilliseconds(30);
                 while (DateTime.Now < end && mav.BaseStream.BytesToRead > 15 && !mav.giveComport)
                 {
                     await mav.readPacketAsync().ConfigureAwait(false);
@@ -468,7 +451,7 @@
 
 
     DateTime nextUpdate = DateTime.Now.AddMilliseconds(100);
-    private CommsInjection mavbasestream;
+    private CommsInjection mavbasestream  = new CommsInjection();
 
     private bool packetReceived(MAVLink.MAVLinkMessage packet)
     {
@@ -614,7 +597,7 @@
     {
         mav?.Dispose();
 
-        WebSocketHelper1?.Close();
+        //WebSocketHelper1?.Close();
     }
 
 }

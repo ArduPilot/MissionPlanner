@@ -8,15 +8,18 @@ using System.Threading.Tasks;
 
 namespace MissionPlanner.Comms
 {
+    /// <summary>
+    /// use AppendBuffer to populate the Read buffer, and WriteCallback to send
+    /// </summary>
     public class CommsInjection : ICommsSerial
     {
-        private readonly CircularBuffer<byte> _buffer = new CircularBuffer<byte>(1024 * 100);
+        private readonly CircularBuffer<byte> _bufferRX = new CircularBuffer<byte>(1024 * 100);
 
         public void AppendBuffer(byte[] indata)
         {
             foreach (var b in indata)
             {
-                _buffer.Add(b);
+                _bufferRX.Add(b);
             }
         }
 
@@ -25,17 +28,17 @@ namespace MissionPlanner.Comms
 
         public void Close()
         {
-            _buffer.Clear();
+            _bufferRX.Clear();
         }
 
         public void DiscardInBuffer()
         {
-            _buffer.Clear();
+            _bufferRX.Clear();
         }
 
         public void Open()
         {
-            _buffer.Clear();
+            _bufferRX.Clear();
         }
 
         public int Read(byte[] buffer, int offset, int count)
@@ -49,8 +52,8 @@ namespace MissionPlanner.Comms
                 counttimeout++;
             }
 
-            var read = Math.Min(count, _buffer.Length());
-            for (var i = 0; i < read; i++) buffer[offset + i] = _buffer.Read();
+            var read = Math.Min(count, _bufferRX.Length());
+            for (var i = 0; i < read; i++) buffer[offset + i] = _bufferRX.Read();
 
             return read;
         }
@@ -147,7 +150,7 @@ namespace MissionPlanner.Comms
             get
             {
                 ReadBufferUpdate?.Invoke(this, 0);
-                return _buffer.Length();
+                return _bufferRX.Length();
             }
         }
 

@@ -298,13 +298,19 @@ namespace MissionPlanner.Utilities
             return await Task.Run(() => (content));
         }
 
+        public static event EventHandler<HttpRequestMessage> RequestModification;
+
         public static async Task<bool> getFilefromNetAsync(string url, string saveto, Action<int, string> status = null)
         {
             try
             {
                 log.Info("Get " + url);
 
-                using (var response = await client.GetAsync(url))
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+                RequestModification?.Invoke(url, request);
+
+                using (var response = await client.SendAsync(request))
                 {
                     lock (log)
                         log.Info(url + " " +(response).StatusCode.ToString());

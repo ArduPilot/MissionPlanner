@@ -6,7 +6,7 @@
 
     <RazorLangVersion>3.0</RazorLangVersion>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
-    <BlazorCacheBootResources>false</BlazorCacheBootResources>
+    <BlazorCacheBootResources>true</BlazorCacheBootResources>
     <RunAOTCompilation>true</RunAOTCompilation>
 
 
@@ -25,12 +25,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="BlazorWebSocketHelper-master\**" />
-    <Content Remove="BlazorWebSocketHelper-master\**" />
-    <EmbeddedResource Remove="BlazorWebSocketHelper-master\**" />
-    <None Remove="BlazorWebSocketHelper-master\**" />
-  </ItemGroup>
+
 
   <ItemGroup>
     <Content Remove="C:\Users\michael\.nuget\packages\uno.skiasharp.wasm\1.68.0-uno.290\build\netstandard2.0\..\libSkia\libSkiaSharp.bc" />
@@ -41,11 +36,11 @@
     <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.1.0-preview3" />
     <PackageReference Include="DotNetZip" Version="1.15.0" />
-    <PackageReference Include="Excubo.Blazor.Canvas" Version="2.6.6" />
+    <PackageReference Include="Excubo.Blazor.Canvas" Version="2.6.18" />
     <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -57,7 +52,7 @@
     <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.1.0.21158" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.2.0.21211" />
     <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="3.0.0" />
     <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="8.1.1" />
     <PackageReference Include="WebGLDotNET" Version="2.1.0" />
@@ -80,12 +75,6 @@
     </ProjectReference>
     <ProjectReference Include="..\Strings\MissionPlanner.Strings.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="BlazorWebSocketHelper">
-      <HintPath>BlazorWebSocketHelper-master\bin\Debug\netstandard2.0\BlazorWebSocketHelper.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -27,6 +27,7 @@ using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using System.IO;
 using System.Net;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 namespace wasm
 {
@@ -133,9 +134,17 @@ namespace wasm
 
                     return CustomMessageBox.DialogResult.OK;
                 };
+
+                MissionPlanner.Utilities.Download.RequestModification += Download_RequestModification;
             }
 
             await builder.Build().RunAsync();
+        }
+
+        private static void Download_RequestModification(object sender, HttpRequestMessage e)
+        {
+            Console.WriteLine("Download_RequestModification Set No-Cors");
+            e.SetBrowserRequestMode(BrowserRequestMode.NoCors);
         }
     }
 
