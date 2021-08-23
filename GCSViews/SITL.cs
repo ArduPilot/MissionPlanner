@@ -223,6 +223,24 @@ namespace MissionPlanner.GCSViews
                 srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt.ToString(CultureInfo.InvariantCulture), heading.ToString(CultureInfo.InvariantCulture));
         }
 
+        [DllImport("libc", SetLastError = true)]
+        private static extern int chmod(string pathname, int mode);
+
+        // user permissions
+        const int S_IRUSR = 0x100;
+        const int S_IWUSR = 0x80;
+        const int S_IXUSR = 0x40;
+
+        // group permission
+        const int S_IRGRP = 0x20;
+        const int S_IWGRP = 0x10;
+        const int S_IXGRP = 0x8;
+
+        // other permissions
+        const int S_IROTH = 0x4;
+        const int S_IWOTH = 0x2;
+        const int S_IXOTH = 0x1;
+
         /// <summary>
         /// Try BundlePath first, then arm manifest, then cygwin on server
         /// </summary>
@@ -273,11 +291,23 @@ namespace MissionPlanner.GCSViews
                 fw = fw.Where(a => a.Platform == "SITL_arm_linux_gnueabihf").ToList();
                 if (fw.Count > 0)
                 {
+                    var path = sitldirectory + Path.GetFileNameWithoutExtension(filename);
                     if (!chk_skipdownload.Checked)
                     {
-                        Download.getFilefromNetAsync(fw.First().Url.AbsoluteUri, sitldirectory + Path.GetFileNameWithoutExtension(filename));
+                        Download.getFilefromNet(fw.First().Url.AbsoluteUri, path);
+                        try {
+                            int _0755 =            S_IRUSR | S_IXUSR | S_IWUSR
+                                | S_IRGRP | S_IXGRP
+                                | S_IROTH | S_IXOTH;
+
+                            chmod(path, _0755);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
                     }
-                    return sitldirectory + Path.GetFileNameWithoutExtension(filename);
+                    return path;
                 }
             }
 
