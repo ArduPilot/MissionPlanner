@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -705,6 +706,33 @@ namespace MissionPlanner.Utilities
                 read = stream.Read(buffer, 0, buffer.Length);
                 yield return new Span<byte>(buffer, 0, read).ToArray();
             } while (read > 0);
+        }
+
+        public static string ToInvariantString(this object obj)
+        {
+            if (obj != null)
+            {
+                if (!(obj is DateTime))
+                {
+                    if (!(obj is DateTimeOffset))
+                    {
+                        IConvertible c = obj as IConvertible;
+                        if (c == null)
+                        {
+                            IFormattable f = obj as IFormattable;
+                            if (f == null)
+                            {
+                                return obj.ToString();
+                            }
+                            return f.ToString(null, CultureInfo.InvariantCulture);
+                        }
+                        return c.ToString(CultureInfo.InvariantCulture);
+                    }
+                    return ((DateTimeOffset)obj).ToString("o", CultureInfo.InvariantCulture);
+                }
+                return ((DateTime)obj).ToString("o", CultureInfo.InvariantCulture);
+            }
+            return null;
         }
 
         /*

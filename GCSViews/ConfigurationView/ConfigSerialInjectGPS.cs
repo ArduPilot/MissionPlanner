@@ -1,5 +1,4 @@
-﻿using Flurl.Util;
-using log4net;
+﻿using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;

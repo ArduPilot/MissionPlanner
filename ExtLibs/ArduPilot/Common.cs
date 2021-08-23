@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Flurl.Util;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot
@@ -287,9 +286,6 @@ union px4_custom_mode {
             }
 
             return input;
-        }
-
-       
-
-   }
+        } 
+    } 
 }
