@@ -12,14 +12,14 @@
     <Authors>Michael Oborne</Authors>
     <Company>Michael Oborne</Company>
     <Description>MAVLink 1/2 for Ardupilot</Description>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <Copyright>Michael Oborne</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseUrl>GPLv3</PackageLicenseUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
     <Configurations>Debug;Release</Configurations>
-    <FileVersion>1.0.5.0</FileVersion>
+    <FileVersion>1.0.7.0</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <RepositoryUrl>https://github.com/ArduPilot/MissionPlanner/tree/master/ExtLibs/Mavlink</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
