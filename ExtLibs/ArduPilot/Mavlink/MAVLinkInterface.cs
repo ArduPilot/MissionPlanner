@@ -6297,7 +6297,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         case MAV_TYPE.ANTENNA_TRACKER:
                             MAVlist[sysid, compid].cs.firmware = Firmwares.ArduTracker;
                             break;
-
+                        case MAV_TYPE.COAXIAL:
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.ArduCopter2;
+                            break;
                         default:
                             MAVlist[sysid, compid].cs.firmware = Firmwares.Other;
                             log.Error(MAVlist[sysid, compid].aptype + " not registered as valid type");
