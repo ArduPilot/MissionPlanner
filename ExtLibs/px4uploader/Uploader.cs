@@ -76,7 +76,7 @@ namespace px4uploader
         }
 
         public const byte BL_REV_MIN = 2;//	# minimum supported bootloader protocol 
-        public const byte BL_REV_MAX = 10;//	# maximum supported bootloader protocol
+        public const byte BL_REV_MAX = 20;//	# maximum supported bootloader protocol
         public const byte PROG_MULTI_MAX = 64;//		# protocol max is 255, must be multiple of 4
         public const byte READ_MULTI_MAX = 255;//		# protocol max is 255, something overflows with >= 64
 
