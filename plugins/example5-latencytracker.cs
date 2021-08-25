@@ -38,6 +38,7 @@ namespace LatencyTracker
 
         public override bool Init()
         {
+            this.loopratehz = 2;
             // to enable change this
             return false;
         }
@@ -98,8 +99,6 @@ namespace LatencyTracker
 
         public override bool Loop()
         {
-            this.loopratehz = 2;
-
             {
                 if (systemtime.Count == 0)
                     return true;

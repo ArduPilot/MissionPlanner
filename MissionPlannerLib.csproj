@@ -408,6 +408,7 @@
      <PrivateAssets>all</PrivateAssets>
      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
    </PackageReference>
+   <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="1.68.1.1" />
    <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1" />
    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
