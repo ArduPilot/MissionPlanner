@@ -19,16 +19,18 @@ namespace SkiaSharp.Views.Desktop
 			DoubleBuffered = true;
 			SetStyle(ControlStyles.ResizeRedraw, true);
 
-			designMode = DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+            designMode = DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime;
 		}
 
 		[Bindable(false)]
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public SKSize CanvasSize => bitmap == null ? SKSize.Empty : new SKSize(bitmap.Width, bitmap.Height);
+		public SKSize CanvasSize => Bitmap == null ? SKSize.Empty : new SKSize(Bitmap.Width, Bitmap.Height);
 
-		[Category("Appearance")]
+        public Bitmap Bitmap => bitmap;
+
+        [Category("Appearance")]
 		public event EventHandler<SKPaintSurfaceEventArgs> PaintSurface;
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -44,7 +46,7 @@ namespace SkiaSharp.Views.Desktop
 			if (info.Width == 0 || info.Height == 0)
 				return;
 
-			var data = bitmap.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.WriteOnly, bitmap.PixelFormat);
+			var data = Bitmap.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.WriteOnly, Bitmap.PixelFormat);
 
 			// create the surface
 			using (var surface = SKSurface.Create(info, data.Scan0, data.Stride))
@@ -56,8 +58,8 @@ namespace SkiaSharp.Views.Desktop
 			}
 
 			// write the bitmap to the graphics
-			bitmap.UnlockBits(data);
-			e.Graphics.DrawImage(bitmap, 0, 0);
+			Bitmap.UnlockBits(data);
+            e.Graphics.DrawImage(Bitmap, 0, 0);
 		}
 
 		protected virtual void OnPaintSurface(SKPaintSurfaceEventArgs e)
@@ -77,22 +79,22 @@ namespace SkiaSharp.Views.Desktop
 		{
 			var info = new SKImageInfo(Width, Height, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
 
-			if (bitmap == null || bitmap.Width != info.Width || bitmap.Height != info.Height)
+			if (Bitmap == null || Bitmap.Width != info.Width || Bitmap.Height != info.Height)
 			{
 				FreeBitmap();
 
 				if (info.Width != 0 && info.Height != 0)
 					bitmap = new Bitmap(info.Width, info.Height, PixelFormat.Format32bppPArgb);
-			}
+            }
 
 			return info;
 		}
 
 		private void FreeBitmap()
 		{
-			if (bitmap != null)
+			if (Bitmap != null)
 			{
-				bitmap.Dispose();
+				Bitmap.Dispose();
 				bitmap = null;
 			}
 		}

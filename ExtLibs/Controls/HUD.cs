@@ -2738,7 +2738,10 @@ namespace MissionPlanner.Controls
                 {
                     //if ((armedtimer.AddSeconds(8) > DateTime.Now))
                     {
-                        drawstring(HUDT.DISARMED, font, fontsize + 10, (SolidBrush) Brushes.Red, -85,
+                        
+                        var size = calcsize(HUDT.DISARMED, font, fontsize + 10, (SolidBrush)Brushes.Red, Width - 50 - 50);
+
+                        drawstring(HUDT.DISARMED, font, fontsize + 10, (SolidBrush) Brushes.Red, size.Width/ -2/* - 85*/,
                             halfheight / -3);
                         statuslast = status;
                     }
@@ -2747,7 +2750,8 @@ namespace MissionPlanner.Controls
                 {
                     if ((armedtimer.AddSeconds(8) > DateTime.Now))
                     {
-                        drawstring(HUDT.ARMED, font, fontsize + 20, (SolidBrush) Brushes.Red, -70,
+                        var size = calcsize(HUDT.ARMED, font, fontsize + 10, (SolidBrush)Brushes.Red, Width - 50 - 50);
+                        drawstring(HUDT.ARMED, font, fontsize + 20, (SolidBrush) Brushes.Red, size.Width / -2/* - 70*/,
                             halfheight / -3);
                         statuslast = status;
                     }
@@ -2770,9 +2774,11 @@ namespace MissionPlanner.Controls
                     else
                         brush = Brushes.White;
 
-                    var newfontsize = calcsize(message, font, fontsize + 10, (SolidBrush) brush, Width - 50 - 50);
+                    var newfontsize = calcfontsize(message, font, fontsize + 10, (SolidBrush) brush, Width - 50 - 50);
 
-                    drawstring(message, font, newfontsize, (SolidBrush) brush, -halfwidth + 50,
+                    var size = calcsize(message, font, newfontsize, (SolidBrush)Brushes.Red, Width - 50 - 50);
+
+                    drawstring(message, font, newfontsize, (SolidBrush) brush, size.Width / -2,
                         halfheight / 3);
                 }
 
@@ -2904,7 +2910,7 @@ namespace MissionPlanner.Controls
         /// </summary>
         private readonly GraphicsPath pth = new GraphicsPath();
 
-        float calcsize(string text, Font font, float fontsize, SolidBrush brush, int targetwidth)
+        float calcfontsize(string text, Font font, float fontsize, SolidBrush brush, int targetwidth)
         {
             if (text == null)
                 return fontsize;
@@ -2925,9 +2931,32 @@ namespace MissionPlanner.Controls
             }
 
             if (size > targetwidth && size > 3)
-                return calcsize(text, font, fontsize - 1, brush, targetwidth);
+                return calcfontsize(text, font, fontsize - 1, brush, targetwidth);
 
             return fontsize;
+        }
+
+        Size calcsize(string text, Font font, float fontsize, SolidBrush brush, int targetwidth)
+        {
+            if (text == null)
+                return new Size(0, 0);
+            float size = 0;
+            foreach (char cha in text)
+            {
+                int charno = (int)cha;
+                int charid = charno ^ (int)(fontsize * 1000) ^ brush.Color.ToArgb();
+
+                if (!charDict.ContainsKey(charid))
+                {
+                    size += fontsize;
+                }
+                else
+                {
+                    size += charDict[charid].width;
+                }
+            }
+
+            return new Size((int)size, (int)fontsize);
         }
 
         int NextPowerOf2(int n)
