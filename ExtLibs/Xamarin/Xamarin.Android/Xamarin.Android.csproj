@@ -154,6 +154,7 @@
     <Compile Include="Radio.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SysProp.cs" />
     <Compile Include="UsbDeviceReceiver.cs" />
     <Compile Include="USBDevices.cs" />
   </ItemGroup>

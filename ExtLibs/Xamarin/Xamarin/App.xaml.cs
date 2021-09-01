@@ -74,6 +74,8 @@ namespace Xamarin
 
         protected override void OnStart()
         {
+            MainV2.isHerelink = Test.SystemInfo?.GetSystemTag().Contains("CubePilot") ?? false;
+
             // Handle when your app starts
             /*
             Task.Run(async () =>

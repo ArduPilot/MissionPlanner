@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Android;
+using Android.Util;
 using Android.Bluetooth;
 using Android.Runtime;
 using AndroidX.Core.App;
@@ -210,6 +211,7 @@ namespace Xamarin.Droid
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
             Test.GPS = new GPS();
+            Test.SystemInfo = new SystemInfo();
 
             androidvideo = new AndroidVideo();
             //disable
@@ -587,6 +589,22 @@ namespace Xamarin.Droid
                         location.Result.Altitude.HasValue ? location.Result.Altitude.Value : 0.0);
                 }
             );
+        }
+    }
+
+    public class SystemInfo : ISystemInfo
+    {
+        public string GetSystemTag()
+        {
+            // android version
+            try
+            {
+                return SysProp.GetProp("ro.build.fingerprint");
+            }
+            catch
+            {
+                return "";
+            }
         }
     }
 }

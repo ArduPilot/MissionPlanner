@@ -506,6 +506,7 @@ namespace MissionPlanner
         /// </summary>
         public static MainV2 instance = null;
 
+        public static bool isHerelink = false;
 
         public static MainSwitcher View;
 
@@ -3354,6 +3355,11 @@ namespace MissionPlanner
 
             CameraProtocol.OnRTSPDetected += (sender, s) =>
             {
+                if (isHerelink)
+                {
+                    return;
+                }
+
                 if (!videourlseen.Contains(s) && videodetect.Wait(0))
                 {
                     videourlseen.Add(s);

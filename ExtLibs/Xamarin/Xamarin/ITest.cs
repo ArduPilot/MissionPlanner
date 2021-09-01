@@ -15,6 +15,16 @@ namespace Xamarin
         public static IRadio Radio { get; set; }
 
         public static IGPS GPS { get; set; }
+
+        public static ISystemInfo SystemInfo {
+            get;
+            set;
+        }
+    }
+
+    public interface ISystemInfo
+    {
+        string GetSystemTag();
     }
 
     public interface IGPS
