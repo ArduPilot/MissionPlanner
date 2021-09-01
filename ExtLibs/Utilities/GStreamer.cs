@@ -42,23 +42,25 @@ namespace MissionPlanner.Utilities
 
         public static class NativeMethods
         {
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            public const string lib = "libgstreamer-1.0-0.dll";
+                
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_init(ref int argc, ref IntPtr[] argv);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_init(IntPtr argc, IntPtr argv);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_init(ref int argc, string[] argv);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern bool gst_init_check(ref int argc, ref IntPtr[] argv, out IntPtr error);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern bool gst_init_check(IntPtr argc, IntPtr argv, out IntPtr error);
 
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_version(out guint major,
                 out guint minor,
                 out guint micro,
@@ -67,44 +69,44 @@ namespace MissionPlanner.Utilities
             [DllImport ("gstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             private static extern IntPtr gst_version_string ();
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern UIntPtr gst_buffer_extract(IntPtr raw, UIntPtr offset, byte[] dest, UIntPtr size);
 
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_buffer_extract_dup(IntPtr raw, UIntPtr offset, UIntPtr size, out IntPtr dest,
                 out UIntPtr dest_size);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_pipeline_new(string name);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_element_factory_make(string factoryname, string name);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_message_parse_error(IntPtr msg, out IntPtr err, out IntPtr debug);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_message_get_stream_status_object(IntPtr raw);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern GstStateChangeReturn gst_element_set_state(IntPtr pipeline, GstState gST_STATE_PLAYING);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_parse_launch(string cmdline, out IntPtr error);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_bus_timed_pop_filtered(IntPtr bus, ulong gST_CLOCK_TIME_NONE,
                 GstMessageType gstMessageType);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_element_get_bus(IntPtr pipeline);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_debug_bin_to_dot_file(IntPtr pipeline, GstDebugGraphDetails details,
                 string file_name);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_message_set_stream_status_object(IntPtr raw, IntPtr value);
 
             [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -118,44 +120,44 @@ namespace MissionPlanner.Utilities
             [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_app_sink_set_max_buffers(IntPtr appsink, guint max);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_bin_get_by_name(IntPtr pipeline, string name);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_sample_get_buffer(IntPtr sample);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr
                 gst_sample_get_caps(IntPtr sample);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr
                 gst_sample_get_info(IntPtr sample);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern
                 StringBuilder
                 gst_structure_to_string(IntPtr structure);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern bool
                 gst_structure_get_int(IntPtr structure,
                     string fieldname,
                     out int value);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr
                 gst_caps_get_structure(IntPtr caps,
                     guint index);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern
                 IntPtr gst_caps_to_string(IntPtr caps);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern bool gst_buffer_map(IntPtr buffer, out GstMapInfo info, GstMapFlags GstMapFlags);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_buffer_unmap(IntPtr buffer, out GstMapInfo info);
 
             public static void gst_sample_unref(IntPtr sample)
@@ -168,14 +170,14 @@ namespace MissionPlanner.Utilities
                 gst_mini_object_unref(buffer);
             }
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.StdCall)]
+            [DllImport(lib, CallingConvention = CallingConvention.StdCall)]
             public static extern void
                 gst_caps_unref(IntPtr caps);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_structure_free(IntPtr structure);
 
-            [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void
                 gst_mini_object_unref(IntPtr mini_object);
 
@@ -599,6 +601,8 @@ namespace MissionPlanner.Utilities
             List<string> dirs = new List<string>();
 
             dirs.Add("/usr/lib/x86_64-linux-gnu");
+
+            dirs.Add("/usr/lib/arm-linux-gnueabihf");
 
             dirs.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
