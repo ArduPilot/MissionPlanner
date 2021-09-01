@@ -409,6 +409,7 @@ namespace MissionPlanner.Utilities
 
             /* Set up the pipeline */
 
+            log.InfoFormat("GStreamer parse {0}", stringpipeline);
             var pipeline = NativeMethods.gst_parse_launch(
                 stringpipeline,
                 //@"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! x264enc speed-preset=1 threads=1 sliced-threads=1 mb-tree=0 rc-lookahead=0 sync-lookahead=0 bframes=0 ! rtph264pay ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
@@ -436,11 +437,12 @@ namespace MissionPlanner.Utilities
 
             // appsink is part of the parse launch
             var appsink = NativeMethods.gst_bin_get_by_name(pipeline, "outsink");
-
+            log.Info("got appsink ");
             //var appsink = NativeMethods.gst_element_factory_make("appsink", null);
 
             bool newdata = false;
             GstAppSinkCallbacks callbacks = new GstAppSinkCallbacks();
+            var callbackhandle = GCHandle.Alloc(callbacks, GCHandleType.Pinned);
             callbacks.new_buffer += (sink, data) =>
             {
                 newdata = true;
@@ -455,11 +457,12 @@ namespace MissionPlanner.Utilities
 
             NativeMethods.gst_app_sink_set_drop(appsink, true);
             NativeMethods.gst_app_sink_set_max_buffers(appsink, 1);
-            NativeMethods.gst_app_sink_set_callbacks(appsink, callbacks, IntPtr.Zero, IntPtr.Zero);
-
+            // callback fail on linux
+            //NativeMethods.gst_app_sink_set_callbacks(appsink, callbacks, IntPtr.Zero, IntPtr.Zero);
+            log.Info("set appsink params ");
             /* Start playing */
             var running = NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING) != GstStateChangeReturn.GST_STATE_CHANGE_FAILURE;
-
+            log.Info("set playing ");
             /* Wait until error or EOS */
             var bus = NativeMethods.gst_element_get_bus(pipeline);
 
@@ -470,16 +473,18 @@ namespace MissionPlanner.Utilities
             GstAppSinkCallbacks callbacks2 = callbacks;
 
             run = true;
-
+            log.Info("start frame loop gst_app_sink_is_eos");
             while (run && !NativeMethods.gst_app_sink_is_eos(appsink))
             {
                 try
                 {
+                    //log.Info("gst_app_sink_try_pull_sample ");
                     var sample = NativeMethods.gst_app_sink_try_pull_sample(appsink, GST_SECOND * 5);
                     if (sample != IntPtr.Zero)
                     {
                         trys = 0;
                         //var caps = gst_app_sink_get_caps(appsink);
+                        //log.Info("gst_sample_get_caps ");
                         var caps = NativeMethods.gst_sample_get_caps(sample);
                         var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
                         NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
@@ -488,6 +493,7 @@ namespace MissionPlanner.Utilities
                         //var capsstring = gst_caps_to_string(caps_s);
                         //var structure = gst_sample_get_info(sample);
                         //var structstring = gst_structure_to_string(structure);
+                        //log.Info("gst_sample_get_buffer ");
                         var buffer = NativeMethods.gst_sample_get_buffer(sample);
                         if (buffer != IntPtr.Zero)
                         {
@@ -520,6 +526,8 @@ namespace MissionPlanner.Utilities
 
             NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
             NativeMethods.gst_buffer_unref(bus);
+
+            callbackhandle.Free();
 
             // cleanup
             _onNewImage?.Invoke(null, null);
