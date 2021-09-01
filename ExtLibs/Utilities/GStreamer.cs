@@ -359,8 +359,20 @@ namespace MissionPlanner.Utilities
         [HandleProcessCorruptedStateExceptions, SecurityCritical]
         public static Thread StartA(string stringpipeline)
         {
+            var th = new Thread(ThreadStart) {IsBackground = true, Name = "gstreamer"};
+
+            th.Start(stringpipeline);
+
+            return th;
+        }
+
+
+        [HandleProcessCorruptedStateExceptions, SecurityCritical]
+        static void ThreadStart(object datao)
+        {
+            string stringpipeline = (string)datao;
             int argc = 1;
-            string[] argv = new string[] {"-vvv"};
+            string[] argv = new string[] { "-vvv" };
 
             try
             {
@@ -371,13 +383,13 @@ namespace MissionPlanner.Utilities
             {
                 CustomMessageBox.Show("The file was not found at " + gstlaunch +
                                       "\nPlease verify permissions " + ex.ToString());
-                return null;
+                return;
             }
             catch (BadImageFormatException)
             {
                 CustomMessageBox.Show("The incorrect exe architecture has been detected at " + gstlaunch +
                                       "\nPlease install gstreamer for the correct architecture");
-                return null;
+                return;
             }
 
             uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
@@ -392,7 +404,7 @@ namespace MissionPlanner.Utilities
             {
                 var er = Marshal.PtrToStructure<GError>(error);
                 log.Error("gst_init_check: " + er.message);
-                return null;
+                return;
             }
 
             /* Set up the pipeline */
@@ -405,13 +417,13 @@ namespace MissionPlanner.Utilities
                 out error);
 
             //rtspsrc location=rtsp://192.168.1.21/live ! application/x-rtp ! rtph265depay ! avdec_h265 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink
-
+            //videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink 
 
             if (error != IntPtr.Zero)
             {
                 var er = Marshal.PtrToStructure<GError>(error);
                 log.Error("gst_parse_launch: " + er.message);
-                return null;
+                return;
             }
 
             NativeMethods.gst_debug_bin_to_dot_file(pipeline, GstDebugGraphDetails.GST_DEBUG_GRAPH_SHOW_ALL,
@@ -420,19 +432,8 @@ namespace MissionPlanner.Utilities
             log.Info("graphviz of pipeline is at " + Path.GetTempPath() + "pipeline.dot");
 
             //var msg = GStreamer.gst_bus_timed_pop_filtered(bus, GStreamer.GST_CLOCK_TIME_NONE, GStreamer.GstMessageType.GST_MESSAGE_ERROR | GStreamer.GstMessageType.GST_MESSAGE_EOS);
-            
-            var th = new Thread(ThreadStart) {IsBackground = true, Name = "gstreamer"};
-
-            th.Start(pipeline);
-
-            return th;
-        }
 
 
-        [HandleProcessCorruptedStateExceptions, SecurityCritical]
-        static void ThreadStart(object datao)
-        {
-            var pipeline = (IntPtr) datao;
             // appsink is part of the parse launch
             var appsink = NativeMethods.gst_bin_get_by_name(pipeline, "outsink");
 
