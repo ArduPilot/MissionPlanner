@@ -545,7 +545,7 @@ namespace MissionPlanner
 
         public void Open(bool getparams, bool skipconnectedcheck = false)
         {
-            if (BaseStream == null || BaseStream.IsOpen && !skipconnectedcheck)
+            if (BaseStream == null || BaseStream.IsOpen && !skipconnectedcheck) 
                 return;
 
             MAVlist.Clear();
@@ -746,6 +746,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 SetupMavConnect(msg, (mavlink_heartbeat_t) msg.data);
                                 sysidcurrent = msg.sysid;
                                 compidcurrent = msg.compid;
+                                log.Info($"HB Selection {sysidcurrent}-{compidcurrent} seen {seentimes}");
                                 exit = true;
                                 break;
                             }
@@ -1642,10 +1643,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             try
             {
-                if ((MAV.cs.capabilities & (int) MAV_PROTOCOL_CAPABILITY.FTP) > 0)
+                if ((MAVlist[sysid,compid].cs.capabilities & (int) MAV_PROTOCOL_CAPABILITY.FTP) > 0)
                 {
                     if (frmProgressReporter != null)
-                        frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Param MAVFTP");
+                        frmProgressReporter.UpdateProgressAndStatus(-1, $"Checking for Param MAVFTP {sysid}-{compid}");
                     var cancel = new CancellationTokenSource();
                     var paramfileTask = Task.Run<MemoryStream>(() =>
                     {

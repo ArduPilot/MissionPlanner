@@ -1689,7 +1689,8 @@ namespace MissionPlanner
                     return;
                 }
 
-                if (getparams)
+                //158	MAV_COMP_ID_PERIPHERAL	Generic autopilot peripheral component ID. Meant for devices that do not implement the parameter microservice.
+                if (getparams && comPort.MAV.compid != (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_PERIPHERAL)
                 {
                     if (UseCachedParams && File.Exists(comPort.MAV.ParamCachePath) &&
                         new FileInfo(comPort.MAV.ParamCachePath).LastWriteTime > DateTime.Now.AddHours(-1))
@@ -3490,7 +3491,11 @@ namespace MissionPlanner
 
                         lock (locker)
                         {
-                            if (Comports.Any((a) => { return a.BaseStream.PortName == "UDPCl" + port.ToString(); }))
+                            if (Comports.Any((a) =>
+                                {
+                                    return a.BaseStream.PortName == "UDPCl" + port.ToString() && a.BaseStream.IsOpen;
+                                }
+                            ))
                                 return;
 
                             if (seen.Contains(zeroconfHost.Id))
@@ -3503,6 +3508,9 @@ namespace MissionPlanner
                                 (int) System.Windows.Forms.DialogResult.Yes)
                             {
                                 var mav = new MAVLinkInterface();
+
+                                if(!comPort.BaseStream.IsOpen)
+                                    mav = comPort;
 
                                 var udc = new UdpSerialConnect();
                                 udc.Port = port.ToString();

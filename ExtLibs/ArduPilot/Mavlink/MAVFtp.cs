@@ -543,6 +543,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public MemoryStream GetFile(string file, CancellationTokenSource cancel, bool burst = true, byte readsize = 0)
         {
+            log.InfoFormat("GetFile {0}-{1} {2}", _sysid, _compid, file);
             kCmdOpenFileRO(file, out var size, cancel);
             if (size == -1)
                 return null;
