@@ -367,10 +367,17 @@ namespace MissionPlanner.Joystick
 
         public new static IList<string> getDevices()
         {
-            return Directory.GetFiles("/dev/input/by-id/", "*joystick")
-                .Where(a => !a.Contains("-event-"))
-                .Select(a => a.Replace("/dev/input/by-id/", ""))
-                .ToList();
+            try
+            {
+                return Directory.GetFiles("/dev/input/by-id/", "*joystick")
+                    .Where(a => !a.Contains("-event-"))
+                    .Select(a => a.Replace("/dev/input/by-id/", ""))
+                    .ToList();
+            }
+            catch
+            {
+                return new List<string>();
+            }
         }
 
         public new static JoystickBase getJoyStickByName(string name)
