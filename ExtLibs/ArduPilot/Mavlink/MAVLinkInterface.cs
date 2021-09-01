@@ -455,6 +455,15 @@ namespace MissionPlanner
                 {
                     try
                     {
+
+                        // Open holds this
+                        while (!_openComplete)
+                        {
+                            await Task.Delay(1000);
+                        }
+
+                        await Task.Delay(2000);
+
                         await MAVlist[tuple.Item1, tuple.Item2]
                             .Camera.StartID(MAVlist[tuple.Item1, tuple.Item2])
                             .ConfigureAwait(false);
@@ -585,6 +594,8 @@ namespace MissionPlanner
 
         private void OpenBg(IProgressReporterDialogue PRsender, bool getparams)
         {
+            _openComplete = false;
+
             frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
 
             if (BaseStream is SerialPort)
@@ -825,6 +836,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             log.Info("Done open " + MAV.sysid + " " + MAV.compid);
             MAV.packetslost = 0;
             MAV.synclost = 0;
+            _openComplete = true;
         }
 
         private string getAppVersion()
@@ -6052,6 +6064,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         private EventHandler _MavChanged;
         private EventHandler _CommsClose;
         public bool printbps = true;
+        private bool _openComplete;
 
         private MAVLinkMessage readlogPacketMavlink()
         {
