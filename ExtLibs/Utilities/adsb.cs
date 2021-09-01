@@ -60,9 +60,11 @@ namespace MissionPlanner.Utilities
 
             if (thisthread != null)
             {
-                thisthread.Abort();
-                thisthread.Join();
-                thisthread = null;
+                try { 
+                    thisthread.Abort();
+                    thisthread.Join();
+                    thisthread = null;
+                } catch { }
             }
 
             log.Info("adsb stopped");
