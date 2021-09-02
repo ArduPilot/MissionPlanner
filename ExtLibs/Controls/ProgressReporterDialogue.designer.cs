@@ -90,15 +90,14 @@ namespace MissionPlanner.Controls
             // 
             // imgWarning
             // 
-            resources.ApplyResources(this.imgWarning, "imgWarning");
             this.imgWarning.Image = global::MissionPlanner.Controls.Properties.Resources.iconWarning48;
+            resources.ApplyResources(this.imgWarning, "imgWarning");
             this.imgWarning.Name = "imgWarning";
             this.imgWarning.TabStop = false;
             // 
             // ProgressReporterDialogue
             // 
             resources.ApplyResources(this, "$this");
-            
             this.ControlBox = false;
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.imgWarning);

@@ -205,10 +205,12 @@ namespace MissionPlanner.Controls
                     this.progressBar1.Style = ProgressBarStyle.Continuous;
                     this.progressBar1.Value = 100;
                     this.btnCancel.Visible = false;
-                    this.btnClose.Visible = false;
+                    this.btnClose.Visible = true;
                 });
 
             Thread.Sleep(100);
+
+            this.ControlBox = true;
 
             this.BeginInvoke((MethodInvoker)this.Close);
         }
