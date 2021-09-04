@@ -60,8 +60,10 @@ Building Mission Planner on other systems isn't support currently.
 
 ## Launching Mission Planner on other system
 
-Mission Planner can be use with Mono on non-Windows system. 
-Be aware that all the functionnalities aren't working.
+Mission Planner is available for Android via the Play Store.
+Mission Planner can be used with Mono on Linux systems. Be aware that not all functions are available on Linux.
+Native MacOS and iOS support is experimental and not recommended for inexperienced users.
+For MacOS users it is recommended to use Mission Planner for Windows via Boot Camp or Parallels (or equivalent).
 
 ### On Linux
 
