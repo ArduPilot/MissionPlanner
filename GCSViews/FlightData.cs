@@ -152,6 +152,37 @@ namespace MissionPlanner.GCSViews
             ADSB_Out_Ident
         }
 
+        private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
+        {
+            {0, "UNKNOWN" },
+            {1, "<20.0NM" },
+            {2, "<8.0NM" },
+            {3, "<4.0NM" },
+            {4, "<2.0NM" },
+            {5, "<1.0NM" },
+            {6, "<0.3NM" },
+            {7, "<0.2NM" },
+            {8, "<0.1NM" },
+            {9, "<75m" },
+            {10, "<25m" },
+            {11, "<7.5m" }
+        };
+        private Dictionary<int, string> NACp_table = new Dictionary<int, string>()
+        {
+            {0, "UNKNOWN" },
+            {1, "<10.0NM" },
+            {2, "<4.0NM" },
+            {3, "<2.0NM" },
+            {4, "<1.0NM" },
+            {5, "<0.5NM" },
+            {6, "<0.3NM" },
+            {7, "<0.1NM" },
+            {8, "<0.05NM" },
+            {9, "<30m" },
+            {10, "<10m" },
+            {11, "<3m" }
+        };
+
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -1545,13 +1576,16 @@ namespace MissionPlanner.GCSViews
                         param3 = 0;
                     }
 
-
-
-                    var cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
-                    if (cmd == null)
+                    MAVLink.MAV_CMD cmd;
+                    try
+                    {
+                        cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
+                    }
+                    catch (ArgumentException ex)
+                    {
                         cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD),
-                            "Do_Start_" + CMB_action.Text.ToUpper());
-                    
+                            "DO_START_" + CMB_action.Text.ToUpper());
+                    }
 
                     if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
                     {
@@ -3546,6 +3580,11 @@ namespace MissionPlanner.GCSViews
                     Tracking.AddException(ex);
                     Console.WriteLine("FD Main loop exception " + ex);
                 }
+
+                if (MainV2.comPort.MAV.cs.xpdr_status_pending)
+                {
+                    BeginInvoke((Action) updateTransponder);
+                }
             }
 
             Console.WriteLine("FD Main loop exit");
@@ -5235,6 +5274,264 @@ namespace MissionPlanner.GCSViews
             tabControlactions.SelectedTab = tabQuick;
             tabQuickDetached = false;
             contextMenuStripQuickView.Items["undockToolStripMenuItem"].Visible = true;
+        }
+
+        private void IDENT_btn_Click(object sender, EventArgs e)
+        {
+
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   8 |
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                                ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+        }
+
+        private void FlightID_tb_TextChanged(object sender, EventArgs e)
+        {
+            if (FlightID_tb.Text.Length > 8)
+            {
+                FlightID_tb.TextChanged -= new EventHandler(FlightID_tb_TextChanged);
+                FlightID_tb.Text = FlightID_tb.Text.Substring(0, 8);
+                FlightID_tb.TextChanged += new EventHandler(FlightID_tb_TextChanged);
+            }
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+        }
+
+        private void Squawk_nud_ValueChanged(object sender, EventArgs e)
+        {
+            UInt16 ones = (UInt16)(Squawk_nud.Value % 10);
+            UInt16 tens = (UInt16)((Squawk_nud.Value / 10) % 10);
+            UInt16 hundreds = (UInt16)((Squawk_nud.Value / 100) % 10);
+            UInt16 thousands = (UInt16)((Squawk_nud.Value / 1000) % 10);
+
+            if (ones == 9)
+                ones = 7;
+            if (tens == 9)
+                tens = 7;
+            if (hundreds == 9)
+                hundreds = 7;
+            if (thousands == 9)
+                thousands = 7;
+
+            if (ones > 7)
+            {
+                tens++;
+                ones = 0;
+            }
+            if (tens > 7)
+            {
+                hundreds++;
+                tens = 0;
+            }
+            if (hundreds > 7)
+            {
+                hundreds = 0;
+                thousands++;
+            }
+            if (thousands > 7)
+            {
+                thousands = 7;
+            }
+
+            Squawk_nud.ValueChanged -= new EventHandler(Squawk_nud_ValueChanged);
+            Squawk_nud.Value = ((thousands * 1000) + (hundreds * 100) + (tens * 10) + ones);
+            Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
+
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+        }
+
+        private void STBY_btn_Click(object sender, EventArgs e)
+        {
+            Mode_clb.SetItemChecked(0, false);
+            Mode_clb.SetItemChecked(1, false);
+            Mode_clb.SetItemChecked(2, false);
+            Mode_clb.SetItemChecked(3, false);
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+            STBY_btn.Font = new Font(STBY_btn.Font, FontStyle.Bold);
+            ON_btn.Font = new Font(ON_btn.Font, FontStyle.Regular);
+            ALT_btn.Font = new Font(ALT_btn.Font, FontStyle.Regular);
+        }
+
+        private void ON_btn_Click(object sender, EventArgs e)
+        {
+            Mode_clb.SetItemChecked(0, true);
+            Mode_clb.SetItemChecked(1, false);
+            Mode_clb.SetItemChecked(2, true);
+            Mode_clb.SetItemChecked(3, true);
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+            STBY_btn.Font = new Font(STBY_btn.Font, FontStyle.Regular);
+            ON_btn.Font = new Font(ON_btn.Font, FontStyle.Bold);
+            ALT_btn.Font = new Font(ALT_btn.Font, FontStyle.Regular);
+        }
+
+        private void ALT_btn_Click(object sender, EventArgs e)
+        {
+            Mode_clb.SetItemChecked(0, true);
+            Mode_clb.SetItemChecked(1, true);
+            Mode_clb.SetItemChecked(2, true);
+            Mode_clb.SetItemChecked(3, true);
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+            STBY_btn.Font = new Font(STBY_btn.Font, FontStyle.Regular);
+            ON_btn.Font = new Font(ON_btn.Font, FontStyle.Regular);
+            ALT_btn.Font = new Font(ALT_btn.Font, FontStyle.Bold);
+        }
+
+
+        private void Squawk_nud_MouseWheel(object sender, MouseEventArgs e)
+        {
+            NumericUpDown control = (NumericUpDown)sender;
+            ((HandledMouseEventArgs)e).Handled = true;
+            decimal value = control.Value + ((e.Delta > 0) ? control.Increment : -control.Increment);
+            control.Value = Math.Max(control.Minimum, Math.Min(value, control.Maximum));
+        }
+
+        private void XPDRConnect_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS, (float) 1000000.0, 0, 0, 0, 0, 0);
+                var start = DateTime.Now;
+                while (!MainV2.comPort.MAV.cs.xpdr_status_pending && (DateTime.Now - start).TotalSeconds < 3); // wait until we receive a status message
+                if (MainV2.comPort.MAV.cs.xpdr_status_pending)
+                {
+                    updateTransponder();
+                }
+                else CustomMessageBox.Show("Timeout.");
+
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Timeout.");
+            }
+        }
+
+        private void updateTransponder()
+        {
+            MainV2.comPort.MAV.cs.xpdr_status_pending = false;
+            if (!MainV2.comPort.MAV.cs.xpdr_status_unavail)
+            {
+                STBY_btn.Enabled = true;
+                ON_btn.Enabled = true;
+                ALT_btn.Enabled = true;
+                IDENT_btn.Enabled = true;
+                FlightID_tb.Enabled = true;
+                Squawk_nud.Enabled = true;
+
+                if (!(STBY_btn.Focused || ON_btn.Focused || ALT_btn.Focused))
+                {
+                    Mode_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.xpdr_mode_A_enabled);
+                    Mode_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.xpdr_mode_C_enabled);
+                    Mode_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.xpdr_mode_S_enabled);
+                    Mode_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.xpdr_es1090_tx_enabled);
+                    STBY_btn.Font = new Font(STBY_btn.Font, (!Mode_clb.GetItemChecked(0) && 
+                                                             !Mode_clb.GetItemChecked(1) && 
+                                                             !Mode_clb.GetItemChecked(2) && 
+                                                             !Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
+                    ON_btn.Font   = new Font(ON_btn.Font,   ( Mode_clb.GetItemChecked(0) &&
+                                                              Mode_clb.GetItemChecked(1) &&
+                                                             !Mode_clb.GetItemChecked(2) &&
+                                                              Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
+                    ALT_btn.Font  = new Font(ALT_btn.Font,  ( Mode_clb.GetItemChecked(0) &&
+                                                              Mode_clb.GetItemChecked(1) &&
+                                                              Mode_clb.GetItemChecked(2) &&
+                                                              Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
+                }
+
+                fault_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.xpdr_maint_req);
+                fault_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.xpdr_gps_unavail);
+                fault_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.xpdr_gps_no_fix);
+                fault_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.xpdr_adsb_tx_sys_fail);
+                fault_clb.SetItemChecked(4, MainV2.comPort.MAV.cs.xpdr_airborne_status);
+
+                if (!FlightID_tb.Focused)
+                {
+                    FlightID_tb.TextChanged -= new EventHandler(FlightID_tb_TextChanged);
+                    FlightID_tb.Text = System.Text.Encoding.UTF8.GetString(MainV2.comPort.MAV.cs.xpdr_flight_id);
+                    FlightID_tb.TextChanged += new EventHandler(FlightID_tb_TextChanged);
+                }
+
+                if (!Squawk_nud.Focused)
+                {
+                    Squawk_nud.ValueChanged -= new EventHandler(Squawk_nud_ValueChanged);
+                    Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.xpdr_mode_A_squawk_code;
+                    Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
+                }
+
+                NIC_tb.Text = NIC_table[MainV2.comPort.MAV.cs.xpdr_nic];
+                NACp_tb.Text = NACp_table[MainV2.comPort.MAV.cs.xpdr_nacp];
+
+                IDENT_btn.Font = new Font(IDENT_btn.Font, MainV2.comPort.MAV.cs.xpdr_ident_active ? FontStyle.Bold : FontStyle.Regular);
+
+                XPDRConnect_btn.Text = "Transponder Connected!";
+            }
+            else
+            {
+                STBY_btn.Enabled = false;
+                ON_btn.Enabled = false;
+                ALT_btn.Enabled = false;
+                IDENT_btn.Enabled = false;
+                FlightID_tb.Enabled = false;
+                Squawk_nud.Enabled = false;
+
+                XPDRConnect_btn.Text = "Connect to Transponder";
+            }
         }
     }
 }
