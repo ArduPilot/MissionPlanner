@@ -5213,6 +5213,17 @@ namespace MissionPlanner.GCSViews
             if (gMapControl1.Core.IsDragging)
                 return;
 
+            if (CurrentGMapMarker.Tag is MAVState && MouseDownStart == MouseDownEnd && Settings.Instance.GetBoolean("ClickSwapMAV", false))
+            {
+                var mavstate = CurrentGMapMarker.Tag as MAVState;
+                if (mavstate != null)
+                {
+                    MainV2.comPort = mavstate.parent;
+                    MainV2.comPort.sysidcurrent = mavstate.sysid;
+                    MainV2.comPort.compidcurrent = mavstate.compid;
+                }
+            }
+
             if (Math.Abs(posstart.X - e.X) <=2 && Math.Abs(posstart.Y - e.Y) <=2 && e.Button == MouseButtons.Left)
             {
                // contextMenuStripMap.Show(gMapControl1, e.Location);
