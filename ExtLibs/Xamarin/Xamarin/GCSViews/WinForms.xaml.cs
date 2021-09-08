@@ -465,6 +465,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
             private void _inputView_Completed(object sender, EventArgs e)
             {
+                Console.WriteLine("_inputView_Completed");
                 var focusctl = Control.FromHandle(_focusWindow);
                 var text = (sender as Entry)?.Text;
                 focusctl.BeginInvokeIfRequired(()=>{ 
@@ -477,7 +478,13 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
             private void _inputView_Unfocused(object sender, FocusEventArgs e)
             {
-                caretptr = IntPtr.Zero;
+                Console.WriteLine("_inputView_Unfocused");
+                if(Device.RuntimePlatform == Device.macOS)
+                {
+                    // osx only accepts the enter key - which in testing doesnt work
+                    _inputView_Completed(sender, new EventArgs());
+                }
+                caretptr = IntPtr.Zero;                
                 _inputView.Dispatcher.BeginInvokeOnMainThread(() =>
                     {
                 _inputView.IsVisible = false; });
