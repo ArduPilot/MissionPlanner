@@ -3324,6 +3324,15 @@ namespace MissionPlanner.GCSViews
                 WMSProvider.szWmsLayer = Settings.Instance["WMSLayer"];
             }
 
+            if (Settings.Instance["WMSTserver"] != null)
+            {
+                Task.Run(()=>{ 
+                    WMTSProvider.CustomWMTSURL = Settings.Instance["WMSTserver"];
+                    WMTSProvider.LayerName = WMTSProvider.Layers[int.Parse(Settings.Instance["WMSTLayer"])];
+                     this.BeginInvokeIfRequired(()=>{ MainMap.Core.ReloadMap(); });
+                });
+            }
+
             trackBar1.Value = (int) MainMap.Zoom;
 
             updateCMDParams();
@@ -7232,6 +7241,41 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 Settings.Instance["WMSserver"] = url;
                 WMSProvider.CustomWMSURL = url;
+            }
+
+            if (type == WMTSProvider.Instance)
+            {
+                string url = "";
+                if (Settings.Instance["WMSTserver"] != null)
+                    url = Settings.Instance["WMSTserver"];
+                if (DialogResult.Cancel == InputBox.Show("WMST Server", "Enter the WMST server URL", ref url))
+                    return;
+
+
+                Settings.Instance["WMSTserver"] = url;
+
+                WMTSProvider.CustomWMTSURL = url;
+                //now let the user select a layer
+                string szUserSelection = Settings.Instance["WMSTLayer"];
+                int c=0;
+                if (DialogResult.Cancel ==
+                    InputBox.Show("WMTS Server",
+                        "The following layers were detected:\n " + WMTSProvider.Layers.Aggregate("", (a, b) => a + "\r\n" + c++ + " " + b) +
+                        "\r\nPlease choose one by typing the associated number.", ref szUserSelection))
+                    return;
+                int iUserSelection = 0;
+                try
+                {
+                    iUserSelection = Convert.ToInt32(szUserSelection);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    iUserSelection = 0; //ignore all errors and default to first layer
+                }
+
+                Settings.Instance["WMSTLayer"] = iUserSelection.ToString();
+                WMTSProvider.LayerName = WMTSProvider.Layers[iUserSelection];
             }
         }
 

@@ -279,6 +279,7 @@ namespace MissionPlanner
             Console.WriteLine("Setup GMaps 2");
             // add my custom map providers
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMTSProvider.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Earthbuilder.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Statkart_Topo2.Instance);
