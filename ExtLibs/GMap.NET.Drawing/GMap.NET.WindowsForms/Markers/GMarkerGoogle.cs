@@ -222,7 +222,7 @@ namespace GMap.NET.WindowsForms.Markers
                 return;
 
 #if !PocketPC
-         //if(!Bearing.HasValue)
+         if(!Bearing.HasValue)
          {
             if(BitmapShadow != null)
             {
@@ -230,13 +230,18 @@ namespace GMap.NET.WindowsForms.Markers
             }
          }
 
-         //if(Bearing.HasValue)
-         //{
-         //   g.RotateTransform(Bearing.Value - Overlay.Control.Bearing);
-         //   g.FillPolygon(Brushes.Red, Arrow);
-         //}
+         if(Bearing.HasValue)
+         {
+                var old = g.Transform;
+                
+                g.TranslateTransform(this.LocalPosition.X - this.Offset.X, this.LocalPosition.Y - this.Offset.Y);
+                g.RotateTransform(Bearing.Value - Overlay.Control.Bearing);
+            g.FillPolygon(Brushes.Red, Arrow);
 
-         //if(!Bearing.HasValue)
+                g.Transform = old;
+            }
+
+         if(!Bearing.HasValue)
          {
             g.DrawImage(Bitmap, LocalPosition.X, LocalPosition.Y, Size.Width, Size.Height);
          }
