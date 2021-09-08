@@ -37,6 +37,13 @@ namespace MissionPlanner.Maps
             this.which = which;
             Size = icon.Size;
         }
+
+        public float Cog { get => cog; set => cog = value; }
+        public float Heading { get => heading; set => heading = value; }
+        public float Nav_bearing { get => nav_bearing; set => nav_bearing = value; }
+        public float Radius { get => radius; set => radius = value; }
+        public float Target { get => target; set => target = value; }
+
         public override void OnRender(IGraphics g)
         {
             var temp = g.Transform;
