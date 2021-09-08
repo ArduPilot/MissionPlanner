@@ -1174,6 +1174,8 @@ namespace MissionPlanner
                     }
 
                     instance.MyView.Reload();
+
+                    _connectionControl.UpdateSysIDS();
                 });
             }
             else
@@ -1185,6 +1187,8 @@ namespace MissionPlanner
                 }
 
                 instance.MyView.Reload();
+
+                _connectionControl.UpdateSysIDS();
             }
         }
 #if !NETSTANDARD2_0
