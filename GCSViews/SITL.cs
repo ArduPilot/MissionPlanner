@@ -802,7 +802,7 @@ SIM_DRIFT_TIME=0
 
             try
             {
-                Parallel.For(0, max, (a) =>
+                Parallel.For(0, max+1, (a) =>
                     //for (int a = (int)max; a >= 0; a--)
                 {
                     var mav = new MAVLinkInterface();
