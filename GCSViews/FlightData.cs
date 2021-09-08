@@ -5213,7 +5213,7 @@ namespace MissionPlanner.GCSViews
             if (gMapControl1.Core.IsDragging)
                 return;
 
-            if (CurrentGMapMarker.Tag is MAVState && MouseDownStart == MouseDownEnd && Settings.Instance.GetBoolean("ClickSwapMAV", false))
+            if (CurrentGMapMarker != null && CurrentGMapMarker.Tag is MAVState && MouseDownStart == MouseDownEnd && Settings.Instance.GetBoolean("ClickSwapMAV", false))
             {
                 var mavstate = CurrentGMapMarker.Tag as MAVState;
                 if (mavstate != null)
