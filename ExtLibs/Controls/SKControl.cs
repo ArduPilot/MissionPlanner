@@ -16,7 +16,7 @@ namespace SkiaSharp.Views.Desktop
 
 		public SKControl()
 		{
-			DoubleBuffered = true;
+			DoubleBuffered = false;
 			SetStyle(ControlStyles.ResizeRedraw, true);
 
             designMode = DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime;
@@ -28,7 +28,13 @@ namespace SkiaSharp.Views.Desktop
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public SKSize CanvasSize => Bitmap == null ? SKSize.Empty : new SKSize(Bitmap.Width, Bitmap.Height);
 
-        public Bitmap Bitmap => bitmap;
+        public Bitmap Bitmap
+        {
+            get
+            {
+                return bitmap;
+            }
+        }
 
         [Category("Appearance")]
 		public event EventHandler<SKPaintSurfaceEventArgs> PaintSurface;
@@ -40,6 +46,13 @@ namespace SkiaSharp.Views.Desktop
 
 			base.OnPaint(e);
 
+			Draw();
+
+			e.Graphics.DrawImage(Bitmap, 0, 0);
+		}
+
+		public void Draw()
+        {
 			// get the bitmap
 			var info = CreateBitmap();
 
@@ -59,7 +72,6 @@ namespace SkiaSharp.Views.Desktop
 
 			// write the bitmap to the graphics
 			Bitmap.UnlockBits(data);
-            e.Graphics.DrawImage(Bitmap, 0, 0);
 		}
 
 		protected virtual void OnPaintSurface(SKPaintSurfaceEventArgs e)

@@ -12,12 +12,14 @@ namespace MissionPlanner.Controls
     [DefaultEvent("Click")]
     public partial class ImageLabel : MyUserControl //ContainerControl
     {
+        private string _label;
+
         public new event EventHandler Click;
 
-       // [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-      //  public Label Label { get { return label1; } set { label1 = value; } }
-      //  [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-      //  public PictureBox PictureBox { get { return pictureBox1; } set { pictureBox1 = value; } }
+        //[System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public Label Label { get { return label1; } set { label1 = value; } }
+        //[System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public PictureBox PictureBox { get { return pictureBox1; } set { pictureBox1 = value; } }
 
         public ImageLabel()
         {
@@ -39,11 +41,11 @@ namespace MissionPlanner.Controls
             set { try { PictureBox.Image = value; } catch { try { PictureBox.Image = value; } catch { } } }
         }
 
-        [System.ComponentModel.Browsable(true)]
+        [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override string Text
         {
-            get { return Label.Text; }
-            set { Label.Text = value; }
+            get { /*if (DesignMode) return _label;*/  return Label.Text; }
+            set { /*if (DesignMode) { _label = value; return; }*/  Label.Text = value; }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
