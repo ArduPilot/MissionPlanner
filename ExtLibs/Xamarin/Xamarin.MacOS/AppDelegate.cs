@@ -26,6 +26,8 @@ namespace Xamarin.MacOS
             Test.BlueToothDevice = new BTDevice();
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
+            Test.GPS = new GPS();
+            Test.SystemInfo = new SystemInfo();
 
             new System.Drawing.android.android();
         }

@@ -44,4 +44,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: osx
-          path: ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/
+          path: |
+            ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/*.pkg
+            ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/*.app
+

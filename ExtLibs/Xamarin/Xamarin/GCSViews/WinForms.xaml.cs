@@ -419,8 +419,9 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
                 var caretl = caret;
 
-                //if (_focusWindow == handle && caret.Hwnd == _focusWindow)
-                    Device.BeginInvokeOnMainThread(() =>
+                //if (_focusWindow == handle && caret.Hwnd == _focusWindow)                                
+                //Device.BeginInvokeOnMainThread(() =>
+                _inputView.Dispatcher.BeginInvokeOnMainThread(()=>
                     {
                         if(caretptr == handle)
                             return;
@@ -447,7 +448,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                             _inputView.TextChanged -= View_TextChanged;
                             _inputView.Completed -= _inputView_Completed;
                             // set                  
-                            
+
                             _inputView.Text = focusctl.Text;
                             // rebind
                             _inputView.Completed += _inputView_Completed;
@@ -455,9 +456,9 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                             _inputView.Unfocused += _inputView_Unfocused;
                             //show
                             _inputView.IsVisible = true;
-                            _inputView.Focus();                            
+                            _inputView.Focus();
 
-                             caretptr = handle;
+                            caretptr = handle;
                         }                      
                     });
             }
@@ -465,16 +466,19 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             private void _inputView_Completed(object sender, EventArgs e)
             {
                 var focusctl = Control.FromHandle(_focusWindow);
-                focusctl.Text = (sender as Entry)?.Text;
-                 Device.BeginInvokeOnMainThread(() =>
+                var text = (sender as Entry)?.Text;
+                focusctl.BeginInvokeIfRequired(()=>{ 
+                    focusctl.Text = text;
+                });
+                _inputView.Dispatcher.BeginInvokeOnMainThread(() =>
                     {
                 _inputView.IsVisible = false; });
             }
 
             private void _inputView_Unfocused(object sender, FocusEventArgs e)
             {
-                caretptr = IntPtr.Zero;   
-                         Device.BeginInvokeOnMainThread(() =>
+                caretptr = IntPtr.Zero;
+                _inputView.Dispatcher.BeginInvokeOnMainThread(() =>
                     {
                 _inputView.IsVisible = false; });
             }
