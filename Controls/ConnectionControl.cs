@@ -101,7 +101,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            if (oldidx == -1 && selectidx != -1)
+            if (/*oldidx == -1 && */ selectidx != -1)
             {
                 cmb_sysid.SelectedIndex = selectidx;
             }
