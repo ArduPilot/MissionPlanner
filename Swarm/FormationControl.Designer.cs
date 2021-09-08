@@ -44,6 +44,7 @@
             this.PNL_status = new System.Windows.Forms.FlowLayoutPanel();
             this.timer_status = new System.Windows.Forms.Timer(this.components);
             this.but_guided = new MissionPlanner.Controls.MyButton();
+            this.but_auto = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -72,11 +73,11 @@
             // BUT_Start
             // 
             this.BUT_Start.Enabled = false;
-            this.BUT_Start.Location = new System.Drawing.Point(706, 12);
+            this.BUT_Start.Location = new System.Drawing.Point(787, 12);
             this.BUT_Start.Name = "BUT_Start";
             this.BUT_Start.Size = new System.Drawing.Size(75, 23);
             this.BUT_Start.TabIndex = 6;
-            this.BUT_Start.Text = global::MissionPlanner.Strings.Start;
+            this.BUT_Start.Text = "Start";
             this.BUT_Start.UseVisualStyleBackColor = true;
             this.BUT_Start.Click += new System.EventHandler(this.BUT_Start_Click);
             // 
@@ -156,7 +157,7 @@
             // BUT_Updatepos
             // 
             this.BUT_Updatepos.Enabled = false;
-            this.BUT_Updatepos.Location = new System.Drawing.Point(625, 12);
+            this.BUT_Updatepos.Location = new System.Drawing.Point(706, 12);
             this.BUT_Updatepos.Name = "BUT_Updatepos";
             this.BUT_Updatepos.Size = new System.Drawing.Size(75, 23);
             this.BUT_Updatepos.TabIndex = 10;
@@ -186,14 +187,24 @@
             this.but_guided.Name = "but_guided";
             this.but_guided.Size = new System.Drawing.Size(75, 23);
             this.but_guided.TabIndex = 12;
-            this.but_guided.Text = "Guided Mode";
+            this.but_guided.Text = "Guided Mode (exl leader)";
             this.but_guided.UseVisualStyleBackColor = true;
             this.but_guided.Click += new System.EventHandler(this.but_guided_Click);
             // 
+            // but_auto
+            // 
+            this.but_auto.Location = new System.Drawing.Point(625, 12);
+            this.but_auto.Name = "but_auto";
+            this.but_auto.Size = new System.Drawing.Size(75, 23);
+            this.but_auto.TabIndex = 13;
+            this.but_auto.Text = "Auto Mode  (exl leader)";
+            this.but_auto.UseVisualStyleBackColor = true;
+            this.but_auto.Click += new System.EventHandler(this.but_auto_Click);
+            // 
             // FormationControl
             // 
-            
             this.ClientSize = new System.Drawing.Size(931, 471);
+            this.Controls.Add(this.but_auto);
             this.Controls.Add(this.but_guided);
             this.Controls.Add(this.PNL_status);
             this.Controls.Add(this.BUT_Updatepos);
@@ -232,5 +243,6 @@
         private System.Windows.Forms.FlowLayoutPanel PNL_status;
         private System.Windows.Forms.Timer timer_status;
         private Controls.MyButton but_guided;
+        private Controls.MyButton but_auto;
     }
 }

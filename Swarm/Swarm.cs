@@ -91,6 +91,20 @@ namespace MissionPlanner.Swarm
             }
         }
 
+        public void AutoMode()
+        {
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    if (mav == Leader)
+                        continue;
+
+                    port.setMode(mav.sysid, mav.compid, "AUTO");
+                }
+            }
+        }
+
         public abstract void Update();
 
         public abstract void SendCommand();
