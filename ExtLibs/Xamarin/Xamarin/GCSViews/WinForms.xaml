@@ -8,7 +8,7 @@
         <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
         <forms:SKGLView x:Name="SkCanvasView" EnableTouchEvents="True" Touch="SkCanvasView_Touch" PaintSurface="SkCanvasView_PaintSurface" 
                         AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"  ></forms:SKGLView>
-        <Entry x:Name="Entry" IsVisible="false"  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" BackgroundColor="#D9D9D9"></Entry>
+        <Entry x:Name="Entry" IsVisible="false"  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0.2,1,1" BackgroundColor="#D9D9D9"></Entry>
         </AbsoluteLayout>
 
 </ContentPage>

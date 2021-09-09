@@ -204,7 +204,9 @@ namespace Xamarin.Droid
                 //pref.GetString("Directory", Application.Context.GetExternalFilesDir(null).ToString());
             Log.Info("MP", "Settings.CustomUserDataDirectory " + Settings.CustomUserDataDirectory);
 
-            WinForms.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
+            try { 
+                WinForms.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
+            } catch { }
             Log.Info("MP", "WinForms.BundledPath " + WinForms.BundledPath);
 
             Test.BlueToothDevice = new BTDevice();

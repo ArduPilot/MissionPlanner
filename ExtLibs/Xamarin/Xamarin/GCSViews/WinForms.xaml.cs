@@ -288,8 +288,8 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                         {
                             try
                             {
-                                var id = (int) typeof(files)
-                                    .GetField(file)
+                                var id = (int) typeof(MissionPlanner.files)
+                                    .GetProperty(file)
                                     .GetValue(null);
 
                                 var filename = pluginsdir + Path.DirectorySeparatorChar + file + ".cs";
@@ -326,8 +326,8 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                         {
                             try
                             {
-                                var id = typeof(files)
-                                    .GetField(file)
+                                var id = typeof(MissionPlanner.files)
+                                    .GetProperty(file)
                                     .GetValue(null);
 
                                 File.WriteAllText(
@@ -704,13 +704,16 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                     // right click handler
                     Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
                     {
-                        /*
-                         Console.WriteLine("Mouse rightclick check true={0} 1={1} {2} {3} {4}",                         
-                            touchDictionary.ContainsKey(e.Id),
-                            touchDictionary.Count, 
-                            touchDictionary.ContainsKey(e.Id) ? touchDictionary[e.Id] : null, now, DateTime.Now);
-                        */
-                        if(touchDictionary.ContainsKey(e.Id) && touchDictionary.Count == 1)
+                        // osx has right click, so ignore holding left down
+                        if (Device.RuntimePlatform == Device.macOS)
+                            return false;
+                            /*
+                             Console.WriteLine("Mouse rightclick check true={0} 1={1} {2} {3} {4}",                         
+                                touchDictionary.ContainsKey(e.Id),
+                                touchDictionary.Count, 
+                                touchDictionary.ContainsKey(e.Id) ? touchDictionary[e.Id] : null, now, DateTime.Now);
+                            */
+                            if (touchDictionary.ContainsKey(e.Id) && touchDictionary.Count == 1)
                             if (!touchDictionary[e.Id].hasmoved && touchDictionary[e.Id].DownTime == now)
                             {
                                 touchDictionary[e.Id].wasright = true;
