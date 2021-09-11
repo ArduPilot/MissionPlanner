@@ -3327,9 +3327,11 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance["WMSTserver"] != null)
             {
                 Task.Run(()=>{ 
+                    try { 
                     WMTSProvider.CustomWMTSURL = Settings.Instance["WMSTserver"];
                     WMTSProvider.LayerName = WMTSProvider.Layers[int.Parse(Settings.Instance["WMSTLayer"])];
                      this.BeginInvokeIfRequired(()=>{ MainMap.Core.ReloadMap(); });
+                    } catch (Exception ex) { log.Error(ex); }
                 });
             }
 

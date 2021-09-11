@@ -49,7 +49,7 @@ namespace MissionPlanner.Maps
             get { return id; }
         }
 
-        readonly string name = "WMST Custom";
+        readonly string name = "WMTS Custom";
 
         public override string Name
         {
