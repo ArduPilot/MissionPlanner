@@ -64,6 +64,9 @@ namespace MissionPlanner.ArduPilot
             [JsonProperty("mav-firmware-version-major", NullValueHandling = NullValueHandling.Ignore)]
             public long MavFirmwareVersionMajor { get; set; }
 
+            [JsonProperty("mav-firmware-version-str", NullValueHandling = NullValueHandling.Ignore)]
+            public string MavFirmwareVersionStr { get; set; }            
+
             [JsonProperty("latest")] public long Latest { get; set; }
         }
 
