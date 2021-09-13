@@ -1,5 +1,6 @@
 name: Android Build
 on: 
+    workflow_dispatch:
     push:
         branches:
             - master
@@ -93,4 +94,13 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: com.michaeloborne.MissionPlanner.apk.zip
-          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*.apk
+          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*-Signed.apk
+          
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Android Development Build"
+          files: '**/*-Signed.apk'
+

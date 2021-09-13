@@ -1,5 +1,5 @@
 name: OSX Build
-on: push
+on: [push, workflow_dispatch]
 
 jobs:
   buildIOS:
