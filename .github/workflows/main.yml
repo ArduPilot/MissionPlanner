@@ -1,5 +1,5 @@
 name: DotNet Build
-on: [push, workflow_dispatch]
+on: [push, workflow_dispatch, pull_request]
 
 jobs:
   build:
@@ -10,6 +10,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+          fetch-depth: 10
 
       - name: Build
         shell: pwsh
@@ -38,6 +39,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+          fetch-depth: 10
 
       - name: Build
         shell: pwsh

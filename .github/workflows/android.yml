@@ -1,6 +1,7 @@
 name: Android Build
 on: 
     workflow_dispatch:
+    pull_request:
     push:
         branches:
             - master
@@ -59,6 +60,7 @@ jobs:
           path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*.aab
 
       - name: Upload Android Release to Play Store
+        if: ${{ github.event_name == 'push' }}
         uses: r0adkll/upload-google-play@v1.0.11
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
@@ -97,6 +99,7 @@ jobs:
           path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*-Signed.apk
           
       - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        if: ${{ github.event_name == 'push' }}
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
