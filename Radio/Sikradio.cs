@@ -185,6 +185,15 @@ S15: MAX_WINDOW=131
                 return getFirmwareLocal(device == Uploader.Board.DEVICE_ID_RFD900X);
             }
 
+            if (device == Uploader.Board.DEVICE_ID_HB1060)
+            {
+                if (beta)
+                {
+                    return Download.getFilefromNet("https://firmware.ardupilot.org/SiK/beta/radio~hb1060.ihx", firmwarefile);
+                }
+                return Download.getFilefromNet("https://firmware.ardupilot.org/SiK/stable/radio~hb1060.ihx",
+                    firmwarefile);
+            }
             if (device == Uploader.Board.DEVICE_ID_HM_TRP)
             {
                 if (beta)
