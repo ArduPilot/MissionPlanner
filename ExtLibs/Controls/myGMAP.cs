@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GMap.NET;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -24,6 +28,59 @@ namespace MissionPlanner.Controls
         {
             this.Text = "Map";
             IgnoreMarkerOnMouseWheel = true;
+            GestureHappened += MyGMAP_GestureHappened;
+        }
+
+        GMapMarker p1 = new GMarkerGoogle(PointLatLng.Empty, GMarkerGoogleType.blue_small);
+        GMapMarker p2 = new GMarkerGoogle(PointLatLng.Empty, GMarkerGoogleType.blue_small);
+
+        private void MyGMAP_GestureHappened(object sender, GestureEventArgs e)
+        {
+            if(e.Operation == Gestures.Pan)
+            {
+                p1.Position = e.FirstPointLL;
+                p2.Position = e.SecondPointLL;
+                Overlays.First().Markers.Add(p1);
+                Overlays.First().Markers.Add(p2);
+
+                //Core.Position = e.FirstPointLL;
+
+                PointLatLng point = FromLocalToLatLng(e.SecondPoint.X, e.SecondPoint.Y);
+
+                double latdif = e.FirstPointLL.Lat - point.Lat;
+                double lngdif = e.FirstPointLL.Lng - point.Lng;
+
+                //Position = new PointLatLng(Position.Lat + latdif,
+                  //  Position.Lng + lngdif);
+            }
+            if(e.Operation== Gestures.Zoom)
+            {
+                // aim is to get the ll listed under the users finger
+
+                var startlocal = FromLatLngToLocal(e.FirstPointLL);
+
+                p1.Position = e.FirstPointLL;
+                p2.Position = e.SecondPointLL;
+                Overlays.First().Markers.Add(p1);
+                Overlays.First().Markers.Add(p2);
+
+
+                var scale = e.DistanceBetweenNow / (float)e.DistanceBetweenStart;
+
+                // use the start center as our center;
+                //Position = FromLocalToLatLng((int)startlocal.X, (int)startlocal.Y);
+                Core.Position = e.FirstPointLL;
+                //Core.mouseLastZoom.X = e.SecondPoint.X;
+                //Core.mouseLastZoom.Y = e.SecondPoint.Y;
+
+                Core.MouseWheelZooming = true;
+                Zoom += (scale - 1);
+                Core.MouseWheelZooming = false;
+
+                iArguments = e.DistanceBetweenNow;
+
+                Console.WriteLine("zoom " + e.FirstPoint + " " + e.SecondPoint + " ") ;
+            }
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
@@ -94,6 +151,8 @@ namespace MissionPlanner.Controls
 
         private Point first_point = new Point();
         private Point second_point = new Point();
+        PointLatLng first_pointLL = new PointLatLng();
+        PointLatLng second_pointLL = new PointLatLng();
         private int iArguments = 0;
         private const Int64 ULL_ARGUMENTS_BIT_MASK = 0xFFFFFFFFL;
         private const int WM_GESTURENOTIFY = 0x11A;
@@ -115,7 +174,7 @@ namespace MissionPlanner.Controls
             public int dwWant;
             public int dwBlock;
         }
-        private struct POINTS
+        public struct POINTS
         {
             public short x;
             public short y;
@@ -127,7 +186,7 @@ namespace MissionPlanner.Controls
             public int dwID;
             public IntPtr hwndTarget;
             [MarshalAs(UnmanagedType.Struct)]
-            internal POINTS ptsLocation;
+            public POINTS ptsLocation;
             public int dwInstanceID;
             public int dwSequenceID;
             public Int64 ullArguments;
@@ -153,13 +212,16 @@ namespace MissionPlanner.Controls
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m)
         {
+            if (_gestureConfigSize == 0)
+                SetupStructSizes();
+
             bool handled;
             switch (m.Msg)
             {
                 case WM_GESTURENOTIFY:
                     {
                         GESTURECONFIG gc = new GESTURECONFIG();
-                        gc.dwID = 0;
+                        gc.dwID = GID_ZOOM;
                         gc.dwWant = GC_ALLGESTURES;
                         gc.dwBlock = 0;
                         bool bResult = SetGestureConfig(Handle, 0, 1, ref gc, _gestureConfigSize);
@@ -233,7 +295,7 @@ namespace MissionPlanner.Controls
                                     iArguments = System.Convert.ToInt32(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK);
                                     first_point.X = gi.ptsLocation.x;
                                     first_point.Y = gi.ptsLocation.y;
-                                    first_point = PointToClient(first_point);
+                                    first_pointLL = FromLocalToLatLng(PointToClient(first_point));
                                     break;
                                 }
 
@@ -241,8 +303,8 @@ namespace MissionPlanner.Controls
                                 {
                                     second_point.X = gi.ptsLocation.x;
                                     second_point.Y = gi.ptsLocation.y;
-                                    second_point = PointToClient(second_point);
-                                    GestureHappened?.Invoke(this, new GestureEventArgs() { Operation = Gestures.Pan, FirstPoint = first_point, SecondPoint = second_point });
+                                    second_pointLL = FromLocalToLatLng(PointToClient(second_point));
+                                    GestureHappened?.Invoke(this, new GestureEventArgs() { Operation = Gestures.Zoom, DistanceBetweenStart = iArguments, DistanceBetweenNow = System.Convert.ToInt32(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK), FirstPoint = first_point, SecondPoint = second_point, FirstPointLL = first_pointLL, SecondPointLL = second_pointLL });
                                     break;
                                 }
                         }
@@ -258,7 +320,7 @@ namespace MissionPlanner.Controls
                                 {
                                     first_point.X = gi.ptsLocation.x;
                                     first_point.Y = gi.ptsLocation.y;
-                                    first_point = PointToClient(first_point);
+                                    first_pointLL = FromLocalToLatLng(PointToClient(first_point));
                                     break;
                                 }
 
@@ -266,8 +328,8 @@ namespace MissionPlanner.Controls
                                 {
                                     second_point.X = gi.ptsLocation.x;
                                     second_point.Y = gi.ptsLocation.y;
-                                    second_point = PointToClient(second_point);
-                                    GestureHappened?.Invoke(this, new GestureEventArgs() { Operation = Gestures.Pan, FirstPoint = first_point, SecondPoint = second_point });
+                                    second_pointLL = FromLocalToLatLng(PointToClient(second_point));
+                                    GestureHappened?.Invoke(this, new GestureEventArgs() { Operation = Gestures.Pan, FirstPoint = first_point, SecondPoint = second_point, FirstPointLL = first_pointLL, SecondPointLL = second_pointLL });
                                     break;
                                 }
                         }
@@ -300,6 +362,10 @@ namespace MissionPlanner.Controls
             public Gestures Operation { get; set; }
             public Point FirstPoint { get; set; }
             public Point SecondPoint { get; set; }
+            public PointLatLng FirstPointLL { get; set; }
+            public PointLatLng SecondPointLL { get; set; }
+            public int DistanceBetweenStart { get; set; }
+            public int DistanceBetweenNow { get; set; }
         }
 
         public event GestureHappenedEventHandler GestureHappened;

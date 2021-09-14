@@ -2470,6 +2470,11 @@ namespace GMap.NET.WindowsForms
             return status;
         }
 
+        public PointLatLng FromLocalToLatLng(Point pt)
+        {
+            return FromLocalToLatLng(pt.X, pt.Y);
+        }
+
         /// <summary>
         /// gets world coordinate from local control coordinate 
         /// </summary>
