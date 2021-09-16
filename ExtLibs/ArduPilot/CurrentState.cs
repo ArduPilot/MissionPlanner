@@ -577,6 +577,18 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float magfield3 => (float)Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2));
 
+        // hygrometer
+        [DisplayText("hygrotemp (cdegC)")]
+        [GroupText("Sensor")]
+        public short hygrotemp { get; set; }
+
+        [DisplayText("hygrohumi (c%)")]
+        [GroupText("Sensor")]
+        public ushort hygrohumi { get; set; }
+
+        [GroupText("Sensor")]
+        public byte hygro_id { get; set; }
+
         //radio
         [GroupText("RadioIn")] public float ch1in { get; set; }
 
@@ -3184,6 +3196,17 @@ namespace MissionPlanner
                             pidaxis = pid.axis;
                             piddesired = pid.desired;
                             pidachieved = pid.achieved;
+                        }
+
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.HYGROMETER_SENSOR:
+
+                        {
+                            var hygrometer = mavLinkMessage.ToStructure<MAVLink.mavlink_hygrometer_sensor_t>();
+
+                            hygrotemp = hygrometer.temperature;
+                            hygrohumi = hygrometer.humidity;
+                            hygro_id = hygrometer.id;
                         }
 
                         break;
