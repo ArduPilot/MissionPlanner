@@ -58,13 +58,12 @@ namespace Xamarin
 
         public IAsyncResult BeginInvoke(Delegate method)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public void Dispose()
         {
             _timer.Stop();
-            //throw new NotImplementedException();
         }
 
         public void RunBackgroundOperationAsync()
@@ -72,7 +71,6 @@ namespace Xamarin
             DoWork?.Invoke(this);
 
             _timer.Stop();
-            //throw new NotImplementedException();
         }
 
         Queue<string> queue = new Queue<string>();
@@ -82,6 +80,11 @@ namespace Xamarin
             Console.WriteLine("Queue message " + status);
             lock(queue)
                 queue.Enqueue(status);
+        }
+
+        void IProgressReporterDialogue.BeginInvoke(Delegate method)
+        {
+          
         }
     }
 }

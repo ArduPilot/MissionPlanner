@@ -17,6 +17,12 @@ namespace MissionPlanner.Utilities
 
         void UnSubscribeToPacketType(KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> item);
         void UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID msgtype, Func<MAVLink.MAVLinkMessage, bool> item);
+
+        event EventHandler<MAVLink.MAVLinkMessage> OnPacketReceived;
+        event EventHandler<MAVLink.MAVLinkMessage> OnPacketSent;
+        event EventHandler ParamListChanged;
+        event EventHandler MavChanged;
+        event EventHandler CommsClose;
     }
 
     public interface IMAVLinkInterfaceLogRead

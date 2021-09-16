@@ -552,14 +552,17 @@ namespace MissionPlanner
             Open(false);
         }
 
-        public void Open(bool getparams, bool skipconnectedcheck = false)
+        public void Open(bool getparams, bool skipconnectedcheck = false, bool showui = true)
         {
             if (BaseStream == null || BaseStream.IsOpen && !skipconnectedcheck) 
                 return;
 
             MAVlist.Clear();
 
-            frmProgressReporter = CreateIProgressReporterDialogue(Strings.ConnectingMavlink);
+            if (showui)
+                frmProgressReporter = CreateIProgressReporterDialogue(Strings.ConnectingMavlink);
+            else
+                frmProgressReporter = new NoUIReporter();
 
             if (getparams)
             {
@@ -601,6 +604,7 @@ namespace MissionPlanner
             if (BaseStream is SerialPort)
             {
                 // allow settings to settle - previous dtr
+                log.Debug("SerialPort Sleep 1");
                 Thread.Sleep(1000);
             }
 
@@ -634,6 +638,7 @@ namespace MissionPlanner
                     // other boards seem to have issues if there is no delay? posible bootloader timeout issue
                     if (BaseStream is SerialPort)
                     {
+                        log.Debug("SerialPort Sleep 2");
                         Thread.Sleep(1000);
                     }
                 }
@@ -6380,12 +6385,53 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             this.Close();
 
+            Terrain?.UnSub();
             Terrain = null;
 
             MirrorStream = null;
 
             logreadmode = false;
             logplaybackfile = null;
+        }
+
+        private class NoUIReporter : IProgressReporterDialogue
+        {
+            private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+            public ProgressWorkerEventArgs doWorkArgs { get; set; } = new ProgressWorkerEventArgs();
+
+            public event DoWorkEventHandler DoWork;
+
+            public void BeginInvoke(Delegate method)
+            {
+                method?.DynamicInvoke();
+            }
+
+            public void Dispose()
+            {
+               
+            }
+
+            public void RunBackgroundOperationAsync()
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        log.Info("DoWork");
+                        if (this.DoWork != null) this.DoWork(this);
+                        log.Info("DoWork Done");
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                }).Wait();
+            }
+
+            public void UpdateProgressAndStatus(int progress, string status)
+            {
+                log.Info(status);
+            }
         }
     }
 }

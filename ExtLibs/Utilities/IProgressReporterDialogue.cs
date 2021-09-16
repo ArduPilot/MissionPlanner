@@ -25,7 +25,7 @@ namespace MissionPlanner.Utilities
         /// <param name="status"></param>
         void UpdateProgressAndStatus(int progress, string status);
 
-        IAsyncResult BeginInvoke(Delegate method);
+        void BeginInvoke(Delegate method);
     }
 
     public class ProgressWorkerEventArgs : EventArgs

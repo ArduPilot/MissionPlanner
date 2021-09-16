@@ -17,8 +17,6 @@ namespace MissionPlanner.Utilities
         MAVLink.MAVLinkMessage lastmessage;
         MAVLink.mavlink_terrain_request_t lastrequest;
 
-        KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> subscription;
-
         private static ManualResetEvent mre = new ManualResetEvent(false);
 
         private IMAVLinkInterface _interface;
@@ -27,19 +25,28 @@ namespace MissionPlanner.Utilities
         {
             _interface = inInterface;
 
-            log.Info("Subscribe to packets");
-            subscription = _interface.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST, ReceivedPacket);
+            log.Info("OnPacketReceived to packets");
+            _interface.OnPacketReceived += _interface_OnPacketReceived;
+        }
+
+        private void _interface_OnPacketReceived(object sender, MAVLink.MAVLinkMessage e)
+        {
+            if(e.msgid == (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST 
+                || e.msgid == (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
+            {
+                ReceivedPacket(e);
+            }
         }
 
         ~TerrainFollow()
         {
-            UnSub();
+            _interface.OnPacketReceived -= _interface_OnPacketReceived;
         }
 
         public void UnSub()
         {
-            log?.Info("unSubscribe to packets");
-            _interface?.UnSubscribeToPacketType(subscription);
+            log?.Info("OnPacketReceived remove to packets");
+            _interface.OnPacketReceived -= _interface_OnPacketReceived;
         }
 
         private bool ReceivedPacket(MAVLink.MAVLinkMessage rawpacket)

@@ -351,6 +351,10 @@ namespace MissionPlanner.Controls
             this.Focus();
         }
 
+        void IProgressReporterDialogue.BeginInvoke(Delegate method)
+        {
+            this.BeginInvoke(method);
+        }
     }
 
 }
