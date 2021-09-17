@@ -702,14 +702,14 @@ namespace MissionPlanner.GCSViews
 
             if (keyData == (Keys.Control | Keys.D))
             {
-                _ = StartSwarmSeperate();
+                _ = StartSwarmSeperate(Firmwares.ArduCopter2);
                 return true;
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        public async Task StartSwarmSeperate()
+        public async Task StartSwarmSeperate(Firmwares firmware)
         {
             var max = 10;
 
@@ -731,10 +731,24 @@ namespace MissionPlanner.GCSViews
             catch
             {
             }
-
-            var exepath = CheckandGetSITLImage("ArduCopter.elf");
-            var model = "+";
-
+            Task<string> exepath;
+            string model = "";
+            if (firmware == Firmwares.ArduPlane)
+            {
+                exepath = CheckandGetSITLImage("ArduPlane.elf");
+                model = "plane";
+            } else 
+            if (firmware == Firmwares.ArduRover)
+            {
+                exepath = CheckandGetSITLImage("ArduRover.elf");
+                model = "rover";
+            }
+            else // (firmware == Firmwares.ArduCopter2)
+            {
+                exepath = CheckandGetSITLImage("ArduCopter.elf");
+                model = "+";
+            }
+            
             var config = await GetDefaultConfig(model);
             
             max--;
@@ -977,7 +991,17 @@ SIM_DRIFT_TIME=0
 
         private void but_swarmlink_Click(object sender, EventArgs e)
         {
-            _ = StartSwarmSeperate();
+            _ = StartSwarmSeperate(Firmwares.ArduCopter2);
+        }
+
+        private void but_swarmplane_Click(object sender, EventArgs e)
+        {
+            _ = StartSwarmSeperate(Firmwares.ArduPlane);
+        }
+
+        private void but_swarmrover_Click(object sender, EventArgs e)
+        {
+            _ = StartSwarmSeperate(Firmwares.ArduRover);
         }
     }
 }
