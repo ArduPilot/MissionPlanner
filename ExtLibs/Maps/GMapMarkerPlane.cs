@@ -11,12 +11,40 @@ namespace MissionPlanner.Maps
     {
         private readonly Bitmap icon = global::MissionPlanner.Maps.Resources.planeicon;
 
-        private readonly Bitmap icon1 = global::MissionPlanner.Maps.Resources.planeicon1;
-        private readonly Bitmap icon2 = global::MissionPlanner.Maps.Resources.planeicon2;
-        private readonly Bitmap icon3 = global::MissionPlanner.Maps.Resources.planeicon3;
-        private readonly Bitmap icon4 = global::MissionPlanner.Maps.Resources.planeicon4;
-        private readonly Bitmap icon5 = global::MissionPlanner.Maps.Resources.planeicon5;
-        private readonly Bitmap icon6 = global::MissionPlanner.Maps.Resources.planeicon6;
+        static SolidBrush shadow = new SolidBrush(Color.FromArgb(50, Color.Black));
+
+        static Point[] plane = new Point[] {
+            new Point(28,0),
+            new Point(32,13),
+            new Point(53,27),
+            new Point(55,32),
+            new Point(31,28),
+            new Point(30,35),
+            new Point(30,43),
+            new Point(37,48),
+            new Point(37,50),
+            new Point(29,50),
+            new Point(29,53),
+            // inverse
+            new Point(inv(29,28),53),
+            new Point(inv(29,28),50),
+            new Point(inv(37,28),50),
+            new Point(inv(37,28),48),
+            new Point(inv(30,28),43),
+            new Point(inv(30,28),35),
+            new Point(inv(31,28),28),
+            new Point(inv(55,28),32),
+            new Point(inv(53,28),27),
+            new Point(inv(32,28),13),
+            new Point(inv(28,28),0),
+            };
+
+        private static int inv(int input, int mid)
+        {
+            var delta = input - mid;
+
+            return mid - delta;
+        }
 
         float cog = -1;
         float heading = 0;
@@ -128,23 +156,29 @@ namespace MissionPlanner.Maps
             {
             }
 
-            // 'which' variable simply selects different coloured plane icon/s from the resource library
-            if (which == 0)
-                g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
-            if (which == 1)
-                g.DrawImageUnscaled(icon1, icon1.Width / -2, icon1.Height / -2);
-            if (which == 2)
-                g.DrawImageUnscaled(icon2, icon2.Width / -2, icon2.Height / -2);
-            if (which == 3)
-                g.DrawImageUnscaled(icon3, icon3.Width / -2, icon3.Height / -2);
-            if (which == 4)
-                g.DrawImageUnscaled(icon4, icon4.Width / -2, icon4.Height / -2);
-            if (which == 5)
-                g.DrawImageUnscaled(icon5, icon5.Width / -2, icon5.Height / -2);
-            if (which == 6)
-                g.DrawImageUnscaled(icon6, icon6.Width / -2, icon6.Height / -2);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            // the shadow
+            g.TranslateTransform(-26, -26);
 
+            g.FillPolygon(shadow, plane);
 
+            // the plane
+            g.TranslateTransform(-2, -2);
+
+            if (which % 7 == 0)
+                g.FillPolygon(Brushes.Red, plane);
+            if (which % 7 == 1)
+                g.FillPolygon(Brushes.Black, plane);
+            if (which % 7 == 2)
+                g.FillPolygon(Brushes.Blue, plane);
+            if (which % 7 == 3)
+                g.FillPolygon(Brushes.LimeGreen, plane);
+            if (which % 7 == 4)
+                g.FillPolygon(Brushes.Yellow, plane);
+            if (which % 7 == 5)
+                g.FillPolygon(Brushes.Orange, plane);
+            if (which % 7 == 6)
+                g.FillPolygon(Brushes.Pink, plane);
 
             g.Transform = temp;
         }
