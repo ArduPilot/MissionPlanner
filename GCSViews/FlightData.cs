@@ -822,71 +822,6 @@ namespace MissionPlanner.GCSViews
             POI.POIAdd(MouseDownStart);
         }
 
-        private void addpolygonmarker(string tag, double lng, double lat, int alt, Color? color, GMapOverlay overlay)
-        {
-            try
-            {
-                PointLatLng point = new PointLatLng(lat, lng);
-                GMarkerGoogle m = new GMarkerGoogle(point, GMarkerGoogleType.green);
-                m.ToolTipMode = MarkerTooltipMode.Always;
-                m.ToolTipText = tag + " - " + alt;
-                m.Tag = tag;
-
-                GMapMarkerRect mBorders = new GMapMarkerRect(point);
-                {
-                    mBorders.InnerMarker = m;
-                    try
-                    {
-                        mBorders.wprad = 
-                            (Settings.Instance.GetFloat("TXT_WPRad") / CurrentState.multiplierdist);
-                    }
-                    catch
-                    {
-                    }
-
-                    if (color.HasValue)
-                    {
-                        mBorders.Color = color.Value;
-                    }
-                }
-
-                BeginInvoke((Action) delegate
-                {
-                    overlay.Markers.Add(m);
-                    overlay.Markers.Add(mBorders);
-                });
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        private void addpolygonmarkerred(string tag, double lng, double lat, int alt, Color? color, GMapOverlay overlay)
-        {
-            try
-            {
-                PointLatLng point = new PointLatLng(lat, lng);
-                GMarkerGoogle m = new GMarkerGoogle(point, GMarkerGoogleType.red);
-                m.ToolTipMode = MarkerTooltipMode.Always;
-                m.ToolTipText = tag;
-                m.Tag = tag;
-
-                GMapMarkerRect mBorders = new GMapMarkerRect(point);
-                {
-                    mBorders.InnerMarker = m;
-                }
-
-                BeginInvoke((Action) delegate
-                {
-                    overlay.Markers.Add(m);
-                    overlay.Markers.Add(mBorders);
-                });
-            }
-            catch (Exception)
-            {
-            }
-        }
-
         private void altitudeAngelSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 #if !LIB
@@ -3283,7 +3218,7 @@ namespace MissionPlanner.GCSViews
                             waypoints = DateTime.Now;
                         }
 
-                        updateClearRoutesMarkers();
+                        //updateClearRoutesMarkers();
 
                         // add this after the mav icons are drawn
                         if (MainV2.comPort.MAV.cs.MovingBase != null &&
@@ -3547,7 +3482,7 @@ namespace MissionPlanner.GCSViews
                             if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" &&
                                 MainV2.comPort.MAV.GuidedMode.x != 0)
                             {
-                                addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y / 1e7,
+                                FlightPlanner.addpolygonmarker(this, "Guided Mode", MainV2.comPort.MAV.GuidedMode.y / 1e7,
                                     MainV2.comPort.MAV.GuidedMode.x / 1e7, (int) MainV2.comPort.MAV.GuidedMode.z,
                                     Color.Blue,
                                     routes);
@@ -3559,9 +3494,9 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
                                 {
-                                    var marker = Common.getMAVMarker(MAV);
+                                    var marker = Common.getMAVMarker(MAV, routes);
 
-                                    if (marker.Position.Lat == 0 && marker.Position.Lng == 0)
+                                    if (marker == null || marker.Position.Lat == 0 && marker.Position.Lng == 0)
                                         continue;
 
                                     addMissionRouteMarker(marker);
@@ -3593,7 +3528,10 @@ namespace MissionPlanner.GCSViews
 
                         if (gMapControl1.Visible)
                         {
-                            gMapControl1.Invalidate();
+                            this.BeginInvokeIfRequired(()=>
+                            {
+                                gMapControl1.Invalidate();
+                            });
                         }
 
                         tracklast = DateTime.Now;

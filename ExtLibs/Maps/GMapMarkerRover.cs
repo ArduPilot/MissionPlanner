@@ -21,12 +21,17 @@ namespace MissionPlanner.Maps
         public GMapMarkerRover(PointLatLng p, float heading, float cog, float nav_bearing, float target)
             : base(p)
         {
-            this.heading = heading;
-            this.cog = cog;
-            this.target = target;
-            this.nav_bearing = nav_bearing;
+            this.Heading = heading;
+            this.Cog = cog;
+            this.Target = target;
+            this.Nav_bearing = nav_bearing;
             Size = SizeSt;
         }
+
+        public float Heading { get => heading; set => heading = value; }
+        public float Cog { get => cog; set => cog = value; }
+        public float Target { get => target; set => target = value; }
+        public float Nav_bearing { get => nav_bearing; set => nav_bearing = value; }
 
         public override void OnRender(IGraphics g)
         {
@@ -40,8 +45,8 @@ namespace MissionPlanner.Maps
             {
                 if (DisplayHeading)
                     g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f,
-                        (float) Math.Cos((heading - 90) * MathHelper.deg2rad) * length,
-                        (float) Math.Sin((heading - 90) * MathHelper.deg2rad) * length);
+                        (float) Math.Cos((Heading - 90) * MathHelper.deg2rad) * length,
+                        (float) Math.Sin((Heading - 90) * MathHelper.deg2rad) * length);
             }
             catch
             {
@@ -49,21 +54,21 @@ namespace MissionPlanner.Maps
 
             if (DisplayNavBearing)
                 g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f,
-                    (float) Math.Cos((nav_bearing - 90) * MathHelper.deg2rad) * length,
-                    (float) Math.Sin((nav_bearing - 90) * MathHelper.deg2rad) * length);
+                    (float) Math.Cos((Nav_bearing - 90) * MathHelper.deg2rad) * length,
+                    (float) Math.Sin((Nav_bearing - 90) * MathHelper.deg2rad) * length);
             if (DisplayCOG)
                 g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f,
-                    (float) Math.Cos((cog - 90) * MathHelper.deg2rad) * length,
-                    (float) Math.Sin((cog - 90) * MathHelper.deg2rad) * length);
+                    (float) Math.Cos((Cog - 90) * MathHelper.deg2rad) * length,
+                    (float) Math.Sin((Cog - 90) * MathHelper.deg2rad) * length);
             if (DisplayTarget)
                 g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f,
-                    (float) Math.Cos((target - 90) * MathHelper.deg2rad) * length,
-                    (float) Math.Sin((target - 90) * MathHelper.deg2rad) * length);
+                    (float) Math.Cos((Target - 90) * MathHelper.deg2rad) * length,
+                    (float) Math.Sin((Target - 90) * MathHelper.deg2rad) * length);
             // anti NaN
 
             try
             {
-                g.RotateTransform(heading);
+                g.RotateTransform(Heading);
             }
             catch
             {

@@ -1601,27 +1601,31 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
-        private void addpolygonmarker(string tag, double lng, double lat, int alt, Color? color, GMapOverlay overlay)
+        internal static void addpolygonmarker(Control src, string tag, double lng, double lat, int alt, Color? color, GMapOverlay overlay)
         {
             try
             {
-                PointLatLng point = new PointLatLng(lat, lng);
-                GMarkerGoogle m = new GMarkerGoogle(point, GMarkerGoogleType.green);
-                m.ToolTipMode = MarkerTooltipMode.Always;
-                m.ToolTipText = tag;
-                m.Tag = tag;
-
-                GMapMarkerRect mBorders = new GMapMarkerRect(point);
+                var existing = overlay.Markers.Where(a => a.Tag == tag);
+                if (existing.Count() > 0)
                 {
-                    mBorders.InnerMarker = m;
+                    var item = existing.First();
+                    var pos = item.Position;
+                    pos.Lat = lat;
+                    pos.Lng = lng;
+                    item.Position = pos;
+                    item.ToolTipText = tag + " - " + alt;
+
+                    var rect = overlay.Markers.OfType<GMapMarkerRect>().Where(a => a.InnerMarker == item);
+                    var mBorders = rect.First();
+                    mBorders.Position = pos;
+
                     try
                     {
                         mBorders.wprad =
-                            (Settings.Instance.GetFloat("TXT_WPRad") / CurrentState.multiplieralt);
+                            (Settings.Instance.GetFloat("TXT_WPRad") / CurrentState.multiplierdist);
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        log.Error(ex);
                     }
 
                     if (color.HasValue)
@@ -1629,9 +1633,38 @@ namespace MissionPlanner.GCSViews
                         mBorders.Color = color.Value;
                     }
                 }
+                else
+                {
+                    PointLatLng point = new PointLatLng(lat, lng);
+                    GMarkerGoogle m = new GMarkerGoogle(point, GMarkerGoogleType.green);
+                    m.ToolTipMode = MarkerTooltipMode.Always;
+                    m.ToolTipText = tag + " - " + alt;
+                    m.Tag = tag;
 
-                overlay.Markers.Add(m);
-                overlay.Markers.Add(mBorders);
+                    GMapMarkerRect mBorders = new GMapMarkerRect(point);
+                    {
+                        mBorders.InnerMarker = m;
+                        try
+                        {
+                            mBorders.wprad =
+                                (Settings.Instance.GetFloat("TXT_WPRad") / CurrentState.multiplierdist);
+                        }
+                        catch
+                        {
+                        }
+
+                        if (color.HasValue)
+                        {
+                            mBorders.Color = color.Value;
+                        }
+                    }
+
+                    src.BeginInvoke((Action)delegate
+                    {
+                        overlay.Markers.Add(m);
+                        overlay.Markers.Add(mBorders);
+                    });
+                }
             }
             catch (Exception)
             {
@@ -6232,12 +6265,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 prop.Update(MainV2.comPort.MAV.cs.PlannedHomeLocation, MainV2.comPort.MAV.cs.Location,
                     MainV2.comPort.MAV.cs.battery_kmleft);
 
-                routesoverlay.Markers.Clear();
+                //routesoverlay.Markers.Clear();
 
                 if (MainV2.comPort.MAV.cs.TrackerLocation != MainV2.comPort.MAV.cs.PlannedHomeLocation &&
                     MainV2.comPort.MAV.cs.TrackerLocation.Lng != 0)
                 {
-                    addpolygonmarker("Tracker Home", MainV2.comPort.MAV.cs.TrackerLocation.Lng,
+                    addpolygonmarker(this, "Tracker Home", MainV2.comPort.MAV.cs.TrackerLocation.Lng,
                         MainV2.comPort.MAV.cs.TrackerLocation.Lat, (int) MainV2.comPort.MAV.cs.TrackerLocation.Alt,
                         Color.Blue, routesoverlay);
                 }
@@ -6245,13 +6278,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 if (MainV2.comPort.MAV.cs.lat == 0 || MainV2.comPort.MAV.cs.lng == 0)
                     return;
 
-                var marker = Common.getMAVMarker(MainV2.comPort.MAV);
+                var marker = Common.getMAVMarker(MainV2.comPort.MAV, routesoverlay);
 
-                routesoverlay.Markers.Add(marker);
+                if(marker != null)
+                    routesoverlay.Markers.Add(marker);
 
                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
                 {
-                    addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y / 1e7,
+                    addpolygonmarker(this, "Guided Mode", MainV2.comPort.MAV.GuidedMode.y / 1e7,
                         MainV2.comPort.MAV.GuidedMode.x / 1e7,
                         (int) MainV2.comPort.MAV.GuidedMode.z, Color.Blue, routesoverlay);
                 }

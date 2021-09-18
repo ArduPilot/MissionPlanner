@@ -6,6 +6,7 @@ using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -13,17 +14,60 @@ namespace MissionPlanner
 {
     public static class Common
     {
-        public static GMapMarker getMAVMarker(MAVState MAV)
+        public static GMapMarker getMAVMarker(MAVState MAV, GMapOverlay overlay = null)
         {
-            PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
+            PointLatLng portlocation = MAV.cs.Location;
+
+            if(overlay!= null)
+            {
+                var existing = overlay.Markers.Where((a)=>a.Tag == MAV);
+                if(existing.Count() > 1)
+                {
+                    existing.Skip(1).ToArray().ForEach((a) => overlay.Markers.Remove(a));
+                }
+                if(existing.Count() > 0) {
+                    var item = existing.First();
+                    if (item is GMapMarkerPlane)
+                    {
+                        var itemp = (GMapMarkerPlane)item;
+                        itemp.Position = portlocation;
+                        itemp.Heading = MAV.cs.yaw;
+                        itemp.Cog = MAV.cs.groundcourse;
+                        itemp.Target = MAV.cs.target_bearing;
+                        itemp.Nav_bearing = MAV.cs.nav_bearing;
+                        itemp.Radius = MAV.cs.radius * CurrentState.multiplierdist;
+                        return null;
+                    }
+                    else if (item is GMapMarkerQuad)
+                    {
+                        var itemq = (GMapMarkerQuad)item;
+                        itemq.Position = portlocation;
+                        itemq.Heading = MAV.cs.yaw;
+                        itemq.Cog = MAV.cs.groundcourse;
+                        itemq.Target = MAV.cs.nav_bearing;
+                        itemq.Sysid = MAV.sysid;
+                        return null;
+                    }
+                    else if (item is GMapMarkerRover)
+                    {
+                        var itemr = (GMapMarkerRover)item;
+                        itemr.Position = portlocation;
+                        itemr.Heading = MAV.cs.yaw;
+                        itemr.Cog = MAV.cs.groundcourse;
+                        itemr.Target = MAV.cs.nav_bearing;
+                        itemr.Nav_bearing = MAV.cs.nav_bearing;
+                        return null;
+                    }
+                    else
+                    {
+                        existing.ForEach((a)=> overlay.Markers.Remove(a));
+                    }
+                }
+            }
 
             if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING || MAV.aptype >= MAVLink.MAV_TYPE.VTOL_DUOROTOR && MAV.aptype <= MAVLink.MAV_TYPE.VTOL_RESERVED5)
             {
-                // colorise map marker/s based on their sysid, for common sysid/s used 1-6, 11-16, and 101-106
-                // its rare for ArduPilot to be used to fly more than 6 planes at a time from one console.
-                int which = MAV.sysid - 1; // default 0=red for other sysids
-
-                return (new GMapMarkerPlane(which, portlocation, MAV.cs.yaw,
+                return (new GMapMarkerPlane(MAV.sysid - 1, portlocation, MAV.cs.yaw,
                     MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing,
                     MAV.cs.radius * CurrentState.multiplierdist)
                 {

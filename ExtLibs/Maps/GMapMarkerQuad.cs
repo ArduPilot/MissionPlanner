@@ -19,28 +19,44 @@ namespace MissionPlanner.Maps
         public float warn = -1;
         public float danger = -1;
 
+        static Color green = ExtensionsMaps.ColorFromHex("8dc63f");
+        static Color blue = ExtensionsMaps.ColorFromHex("00aeef");
+        static Pen greenpen = new Pen(green, 3);
+        static Pen bluepen = new Pen(blue, 3);
+        static SolidBrush greenbrush = new SolidBrush(green);
+
+        public float Heading { get => heading; set => heading = value; }
+        public float Cog { get => cog; set => cog = value; }
+        public float Target { get => target; set => target = value; }
+        public int Sysid { get => sysid; set => sysid = value; }
+        public float framerotation { get; set; } = 0;
+
         public GMapMarkerQuad(PointLatLng p, float heading, float cog, float target, int sysid)
             : base(p)
         {
-            this.heading = heading;
-            this.cog = cog;
-            this.target = target;
-            this.sysid = sysid;
+            this.Heading = heading;
+            this.Cog = cog;
+            this.Target = target;
+            this.Sysid = sysid;
             Size = icon.Size;
+            // for hitzone
+            Offset = new Point(-icon.Width / 2, -icon.Width / 2);
         }
 
         public override void OnRender(IGraphics g)
         {
             var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+            // set centerpoint as 0,0
+            g.TranslateTransform(-Offset.X, -Offset.Y);
 
             // anti NaN
             try
             {
                 if (DisplayHeading)
                     g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f,
-                        (float) Math.Cos((heading - 90) * MathHelper.deg2rad) * length,
-                        (float) Math.Sin((heading - 90) * MathHelper.deg2rad) * length);
+                        (float) Math.Cos((Heading - 90) * MathHelper.deg2rad) * length,
+                        (float) Math.Sin((Heading - 90) * MathHelper.deg2rad) * length);
             }
             catch
             {
@@ -49,25 +65,50 @@ namespace MissionPlanner.Maps
             //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * MathHelper.deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * MathHelper.deg2rad) * length);
             if (DisplayCOG)
                 g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f,
-                    (float) Math.Cos((cog - 90) * MathHelper.deg2rad) * length,
-                    (float) Math.Sin((cog - 90) * MathHelper.deg2rad) * length);
+                    (float) Math.Cos((Cog - 90) * MathHelper.deg2rad) * length,
+                    (float) Math.Sin((Cog - 90) * MathHelper.deg2rad) * length);
             if (DisplayTarget)
                 g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f,
-                    (float) Math.Cos((target - 90) * MathHelper.deg2rad) * length,
-                    (float) Math.Sin((target - 90) * MathHelper.deg2rad) * length);
+                    (float) Math.Cos((Target - 90) * MathHelper.deg2rad) * length,
+                    (float) Math.Sin((Target - 90) * MathHelper.deg2rad) * length);
             // anti NaN
             try
             {
-                g.RotateTransform(heading);
+                g.RotateTransform(Heading);
             }
             catch
             {
             }
 
-            g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
+            //g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
 
-            g.DrawString(sysid.ToString(), new Font(FontFamily.GenericMonospace, 15, FontStyle.Bold), Brushes.Red, -8,
-                -8);
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                g.RotateTransform(framerotation);
+
+                //motors
+                g.DrawArc(greenpen, 35f - 10 + Offset.X, 12f - 10 + Offset.Y, 20, 20, 0, 360);
+                g.DrawArc(greenpen, 35f - 10 + Offset.X, 57f - 10 + Offset.Y, 20, 20, 0, 360);
+                g.DrawArc(greenpen, 57f - 10 + Offset.X, 35f - 10 + Offset.Y, 20, 20, 0, 360);
+                g.DrawArc(greenpen, 12f - 10 + Offset.X, 35f - 10 + Offset.Y, 20, 20, 0, 360);
+
+                g.DrawArc(greenpen, 35f - 2.5f + Offset.X, 12f - 2.5f + Offset.Y, 5, 5, 0, 360);
+                g.DrawArc(greenpen, 35f - 2.5f + Offset.X, 57f - 2.5f + Offset.Y, 5, 5, 0, 360);
+                g.DrawArc(greenpen, 57f - 2.5f + Offset.X, 35f - 2.5f + Offset.Y, 5, 5, 0, 360);
+                g.DrawArc(greenpen, 12f - 2.5f + Offset.X, 35f - 2.5f + Offset.Y, 5, 5, 0, 360);
+                                
+                g.DrawLine(bluepen, 35 + Offset.X, 12 + Offset.Y, 35 + Offset.X, 35 + Offset.Y);
+                g.DrawLine(greenpen, 35 + Offset.X, 36 + Offset.Y, 35 + Offset.X, 57 + Offset.Y);
+                g.DrawLine(greenpen, 57 + Offset.X, 35 + Offset.Y, 12 + Offset.X, 35 + Offset.Y);
+
+                g.FillRectangle(greenbrush, 32 + Offset.X, 30 + Offset.Y, 5, 8);
+
+                g.RotateTransform(-framerotation);
+            }
+
+            g.DrawString(Sysid.ToString(), new Font(FontFamily.GenericMonospace, 15, FontStyle.Bold), Brushes.Red, -8,
+              -8);
 
             g.Transform = temp;
 
