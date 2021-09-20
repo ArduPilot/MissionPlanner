@@ -3494,12 +3494,15 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
                                 {
-                                    var marker = Common.getMAVMarker(MAV, routes);
+                                    this.BeginInvokeIfRequired(() =>
+                                    {
+                                        var marker = Common.getMAVMarker(MAV, routes);
 
-                                    if (marker == null || marker.Position.Lat == 0 && marker.Position.Lng == 0)
-                                        continue;
+                                        if (marker == null || marker.Position.Lat == 0 && marker.Position.Lng == 0)
+                                            return;
 
-                                    addMissionRouteMarker(marker);
+                                        addMissionRouteMarker(marker);
+                                    });
                                 }
                             }
 

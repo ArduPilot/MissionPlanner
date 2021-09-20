@@ -1,12 +1,14 @@
 ﻿using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -14,16 +16,18 @@ namespace MissionPlanner
 {
     public static class Common
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static GMapMarker getMAVMarker(MAVState MAV, GMapOverlay overlay = null)
         {
             PointLatLng portlocation = MAV.cs.Location;
 
             if(overlay!= null)
             {
-                var existing = overlay.Markers.Where((a)=>a.Tag == MAV);
-                if(existing.Count() > 1)
+                var existing = overlay.Markers.Where((a)=>a.Tag == MAV);                
+                if (existing.Count() > 1)
                 {
-                    existing.Skip(1).ToArray().ForEach((a) => overlay.Markers.Remove(a));
+                    existing.Skip(1).ToArray().ForEach((a) => { overlay.Markers.Remove(a);});
                 }
                 if(existing.Count() > 0) {
                     var item = existing.First();
