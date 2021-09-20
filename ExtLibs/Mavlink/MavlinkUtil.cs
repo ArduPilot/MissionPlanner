@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -142,7 +143,7 @@ public static class MavlinkUtil
         handle = new GCHandle[no];
         gcbuffer = new byte[no][];
         semaphore = new SemaphoreSlim(no);
-        freebuffers = new Stack<int>(no);
+        freebuffers = new ConcurrentStack<int>();
 
         for (int a = 0; a < no; a++) {
             gcbuffer[a] = new byte[4096];
@@ -154,26 +155,32 @@ public static class MavlinkUtil
     static readonly byte[][] gcbuffer;
     static readonly GCHandle[] handle;
     static readonly SemaphoreSlim semaphore;
-    static readonly Stack<int> freebuffers;
+    static readonly ConcurrentStack<int> freebuffers;
 
     public static object ByteArrayToStructureGC(byte[] bytearray, Type typeinfoType, byte startoffset, byte payloadlength)
     {
         semaphore.Wait();
-        var bufferindex = freebuffers.Pop();
-        try {
-            // copy it
-            var len = Marshal.SizeOf(typeinfoType);
-            if (len - payloadlength > 0)
-                Array.Clear(gcbuffer[bufferindex], payloadlength, len - payloadlength);
-            Buffer.BlockCopy(bytearray, startoffset, gcbuffer[bufferindex], 0, payloadlength);
-                // structure it
-            return Marshal.PtrToStructure(handle[bufferindex].AddrOfPinnedObject(), typeinfoType);
+        int bufferindex = 0;
+        if (freebuffers.TryPop(out bufferindex)) { 
+            try {           
+                // copy it
+                var len = Marshal.SizeOf(typeinfoType);
+                if (len - payloadlength > 0)
+                    Array.Clear(gcbuffer[bufferindex], payloadlength, len - payloadlength);
+                Buffer.BlockCopy(bytearray, startoffset, gcbuffer[bufferindex], 0, payloadlength);
+                    // structure it
+                return Marshal.PtrToStructure(handle[bufferindex].AddrOfPinnedObject(), typeinfoType);
+            }
+            finally
+            {
+                freebuffers.Push(bufferindex);
+                semaphore.Release();
+            }
         }
-        finally
-        {
-            freebuffers.Push(bufferindex);
-            semaphore.Release();
-        }
+
+        semaphore.Release();
+
+        throw new InvalidOperationException("Failed to get free buffer");
     }
 
     public static object ByteArrayToStructureGCArray(byte[] bytearray, Type typeinfoType, byte startoffset, byte payloadlength)

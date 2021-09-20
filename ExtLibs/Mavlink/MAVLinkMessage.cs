@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Diagnostics;
 
 public partial class MAVLink
 {
@@ -84,6 +85,9 @@ public partial class MAVLink
                     }
                     catch (Exception ex)
                     {
+                        // should not happen
+                        if(Debugger.IsAttached)
+                            Debugger.Break();
                         System.Diagnostics.Debug.WriteLine(ex);
                     }
                 }
