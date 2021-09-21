@@ -39,18 +39,21 @@ namespace MissionPlanner.Warnings
 
             if (custwarning.type == CustomWarning.WarningType.SpeakAndText)
             {
+                //Fire the checkedchange event to enable/disable fields
+                CB_type.Checked = false;
+                CB_type_CheckedChanged(null, EventArgs.Empty);
+
                 NUM_repeattime.Value = custwarning.RepeatTime;
                 TXT_warningtext.Text = custwarning.Text;
                 CMB_color.Text = "NoColor";
-                CB_type.Checked = false;
-                //Fire the checkedchange event to enable/disable fields
-                CB_type_CheckedChanged(null, EventArgs.Empty);
+                             
             }
             else
             {
+                //Fire the checkedchange event to enable/disable fields
                 CB_type.Checked = true;
+                CB_type_CheckedChanged(null, EventArgs.Empty);               
                 CMB_color.Text = custwarning.color;
-                CB_type_CheckedChanged(null, EventArgs.Empty);
             }
 
         }
