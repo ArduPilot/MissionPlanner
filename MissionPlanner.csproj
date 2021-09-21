@@ -696,12 +696,6 @@
     <Compile Include="test\FirmwareSelection.xaml.cs">
       <DependentUpon>FirmwareSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserPanel\UserPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserPanel\UserPanel.Designer.cs">
-      <DependentUpon>UserPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\Speech.cs" />
@@ -4546,9 +4540,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\fftui.resx">
       <DependentUpon>fftui.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserPanel\UserPanel.resx">
-      <DependentUpon>UserPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\AltitudeAngel\AASettings.resx">
       <DependentUpon>AASettings.cs</DependentUpon>
