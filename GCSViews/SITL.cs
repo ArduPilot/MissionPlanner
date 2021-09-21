@@ -277,6 +277,44 @@ namespace MissionPlanner.GCSViews
                 return "";
             }
 
+            if ((RuntimeInformation.OSArchitecture == Architecture.X64 ||
+              RuntimeInformation.OSArchitecture == Architecture.X86) && RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                var type = APFirmware.MAV_TYPE.Copter;
+                if (filename.ToLower().Contains("copter"))
+                    type = APFirmware.MAV_TYPE.Copter;
+                if (filename.ToLower().Contains("plane"))
+                    type = APFirmware.MAV_TYPE.FIXED_WING;
+                if (filename.ToLower().Contains("rover"))
+                    type = APFirmware.MAV_TYPE.GROUND_ROVER;
+                if (filename.ToLower().Contains("heli"))
+                    type = APFirmware.MAV_TYPE.HELICOPTER;
+
+                var fw = APFirmware.GetOptions(new DeviceInfo() { board = "", hardwareid = "" }, APFirmware.RELEASE_TYPES.OFFICIAL, type);
+                fw = fw.Where(a => a.Platform == "SITL_x86_64_linux_gnu").ToList();
+                if (fw.Count > 0)
+                {
+                    var path = sitldirectory + Path.GetFileNameWithoutExtension(filename);
+                    if (!chk_skipdownload.Checked)
+                    {
+                        Download.getFilefromNet(fw.First().Url.AbsoluteUri, path);
+                        try
+                        {
+                            int _0755 = S_IRUSR | S_IXUSR | S_IWUSR
+                                | S_IRGRP | S_IXGRP
+                                | S_IROTH | S_IXOTH;
+
+                            chmod(path, _0755);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+                    }
+                    return path;
+                }
+            }
+            
             if (RuntimeInformation.OSArchitecture == Architecture.Arm ||
                RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
