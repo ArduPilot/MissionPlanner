@@ -389,6 +389,27 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float groundcourse2 { get; set; }
 
+
+        [DisplayText("Horizontal Accuracy")]
+        [GroupText("Position")]
+        public float gpsh_acc2 { get; private set; }
+
+        [DisplayText("Vertical Accuracy")]
+        [GroupText("Position")]
+        public float gpsv_acc2 { get; private set; }
+
+        [DisplayText("Velocity Accuracy")]
+        [GroupText("Position")]
+        public float gpsvel_acc2 { get; private set; }
+
+        [DisplayText("Heading Accuracy")]
+        [GroupText("Position")]
+        public float gpshdg_acc2 { get; private set; }
+
+        [DisplayText("GPS Yaw (deg)")]
+        [GroupText("Position")]
+        public float gpsyaw2 { get; private set; }
+
         [DisplayText("Sat Count Blend")]
         [GroupText("Position")]
         public float satcountB => satcount + satcount2;
@@ -2859,6 +2880,23 @@ namespace MissionPlanner
 
                             groundspeed2 = gps.vel * 1.0e-2f;
                             groundcourse2 = gps.cog * 1.0e-2f;
+
+                            if (mavLinkMessage.ismavlink2)
+                            {
+                                gpsh_acc2 = gps.h_acc / 1000.0f;
+                                gpsv_acc2 = gps.v_acc / 1000.0f;
+                                gpsvel_acc2 = gps.vel_acc / 1000.0f;
+                                gpshdg_acc2 = gps.hdg_acc / 1e5f;
+                                gpsyaw2 = gps.yaw / 100.0f;
+                            }
+                            else
+                            {
+                                gpsh_acc2 = -1;
+                                gpsv_acc2 = -1;
+                                gpsvel_acc2 = -1;
+                                gpshdg_acc2 = -1;
+                                gpsyaw2 = -1;
+                            }
                         }
 
                         break;
