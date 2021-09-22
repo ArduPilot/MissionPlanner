@@ -45,6 +45,7 @@ jobs:
           git log --pretty=oneline --abbrev-commit -5 > whatsnew\whatsnew-en-GB
 
       - name: Sign AAB
+        if: ${{ github.event_name == 'push' }}
         id: sign
         uses: r0adkll/sign-android-release@v1
         with:
