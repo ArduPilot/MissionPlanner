@@ -43,7 +43,9 @@ namespace MissionPlanner.Utilities
         public static class NativeMethods
         {
             public const string lib = "libgstreamer-1.0-0.dll";
-                
+
+            public const string applib = "libgstapp-1.0-0.dll";
+
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_init(ref int argc, ref IntPtr[] argv);
 
@@ -66,7 +68,7 @@ namespace MissionPlanner.Utilities
                 out guint micro,
                 out guint nano);
 
-            [DllImport ("gstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport (lib, CallingConvention = CallingConvention.Cdecl)]
             private static extern IntPtr gst_version_string ();
 
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
@@ -109,15 +111,15 @@ namespace MissionPlanner.Utilities
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_message_set_stream_status_object(IntPtr raw, IntPtr value);
 
-            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(applib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr gst_app_sink_try_pull_sample(IntPtr appsink,
                 GstClockTime timeout);
 
-            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(applib, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr
                 gst_app_sink_get_caps(IntPtr appsink);
 
-            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(applib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_app_sink_set_max_buffers(IntPtr appsink, guint max);
 
             [DllImport(lib, CallingConvention = CallingConvention.Cdecl)]
@@ -181,13 +183,13 @@ namespace MissionPlanner.Utilities
             public static extern void
                 gst_mini_object_unref(IntPtr mini_object);
 
-            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(applib, CallingConvention = CallingConvention.Cdecl)]
             public static extern bool gst_app_sink_is_eos(IntPtr appsink);
 
-            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(applib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_app_sink_set_drop(IntPtr appsink, bool v);
 
-            [DllImport("libgstapp-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport(applib, CallingConvention = CallingConvention.Cdecl)]
             public static extern void gst_app_sink_set_callbacks(IntPtr appsink, GstAppSinkCallbacks callbacks,
                 IntPtr user_data, IntPtr notify);
         }
@@ -634,7 +636,7 @@ namespace MissionPlanner.Utilities
             {
                 if (Directory.Exists(dir))
                 {
-                    var ans = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).Where(a => a.ToLower().Contains("libgstreamer-1.0-0.dll") || a.ToLower().Contains("libgstreamer-1.0.so.0")).ToArray();
+                    var ans = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).Where(a => a.ToLower().Contains("libgstreamer-1.0-0.dll") || a.ToLower().Contains("libgstreamer-1.0.so.0") || a.ToLower().Contains("libgstreamer_android.so")).ToArray();
 
                     ans = ans.Where(a =>
                         (!is64bit && !a.ToLower().Contains("_64")) || is64bit && a.ToLower().Contains("_64")).ToArray();
