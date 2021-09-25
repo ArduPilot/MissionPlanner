@@ -322,11 +322,12 @@ namespace ICSharpCode.SharpZipLib.Zip
 			set { key = value; }
 		}
 
-		/// <summary>
-		/// Password to be used for encrypting/decrypting files.
-		/// </summary>
-		/// <remarks>Set to null if no password is required.</remarks>
-		public string Password {
+        /// <summary>
+        /// Password to be used for encrypting/decrypting files.
+        /// </summary>
+        /// <remarks>Set to null if no password is required.</remarks>
+        [Obsolete]
+        public string Password {
 			set {
 				if (string.IsNullOrEmpty(value)) {
 					key = null;
@@ -914,15 +915,16 @@ namespace ICSharpCode.SharpZipLib.Zip
 			Header = 0x02,     // Check that this header contents are valid
 		}
 
-		/// <summary>
-		/// Test a local header against that provided from the central directory
-		/// </summary>
-		/// <param name="entry">
-		/// The entry to test against
-		/// </param>
-		/// <param name="tests">The type of <see cref="HeaderTest">tests</see> to carry out.</param>
-		/// <returns>The offset of the entries data in the file</returns>
-		long TestLocalHeader(ZipEntry entry, HeaderTest tests)
+        /// <summary>
+        /// Test a local header against that provided from the central directory
+        /// </summary>
+        /// <param name="entry">
+        /// The entry to test against
+        /// </param>
+        /// <param name="tests">The type of <see cref="HeaderTest">tests</see> to carry out.</param>
+        /// <returns>The offset of the entries data in the file</returns>
+        [Obsolete]
+        long TestLocalHeader(ZipEntry entry, HeaderTest tests)
 		{
 			lock (baseStream_) {
 				bool testHeader = (tests & HeaderTest.Header) != 0;
@@ -1326,13 +1328,14 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		/// <summary>
-		/// Commit current updates, updating this archive.
-		/// </summary>
-		/// <seealso cref="BeginUpdate()"></seealso>
-		/// <seealso cref="AbortUpdate"></seealso>
-		/// <exception cref="ObjectDisposedException">ZipFile has been closed.</exception>
-		public void CommitUpdate()
+        /// <summary>
+        /// Commit current updates, updating this archive.
+        /// </summary>
+        /// <seealso cref="BeginUpdate()"></seealso>
+        /// <seealso cref="AbortUpdate"></seealso>
+        /// <exception cref="ObjectDisposedException">ZipFile has been closed.</exception>
+        [Obsolete]
+        public void CommitUpdate()
 		{
 			if (isDisposed_) {
 				throw new ObjectDisposedException("ZipFile");
@@ -1747,7 +1750,8 @@ namespace ICSharpCode.SharpZipLib.Zip
 			WriteLEUint((uint)(value >> 32));
 		}
 
-		void WriteLocalEntryHeader(ZipUpdate update)
+        [Obsolete]
+        void WriteLocalEntryHeader(ZipUpdate update)
 		{
 			ZipEntry entry = update.OutEntry;
 
@@ -1864,7 +1868,8 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		int WriteCentralDirectoryHeader(ZipEntry entry)
+        [Obsolete]
+        int WriteCentralDirectoryHeader(ZipEntry entry)
 		{
 			if (entry.CompressedSize < 0) {
 				throw new ZipException("Attempt to write central directory entry with unknown csize");
@@ -2501,7 +2506,8 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		void RunUpdates()
+        [Obsolete]
+        void RunUpdates()
 		{
 			long sizeEntries = 0;
 			long endOfStream = 0;
@@ -2884,16 +2890,17 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		/// <summary>
-		/// Search for and read the central directory of a zip file filling the entries array.
-		/// </summary>
-		/// <exception cref="System.IO.IOException">
-		/// An i/o error occurs.
-		/// </exception>
-		/// <exception cref="ICSharpCode.SharpZipLib.Zip.ZipException">
-		/// The central directory is malformed or cannot be found
-		/// </exception>
-		void ReadEntries()
+        /// <summary>
+        /// Search for and read the central directory of a zip file filling the entries array.
+        /// </summary>
+        /// <exception cref="System.IO.IOException">
+        /// An i/o error occurs.
+        /// </exception>
+        /// <exception cref="ICSharpCode.SharpZipLib.Zip.ZipException">
+        /// The central directory is malformed or cannot be found
+        /// </exception>
+        [Obsolete]
+        void ReadEntries()
 		{
 			// Search for the End Of Central Directory.  When a zip comment is
 			// present the directory will start earlier
@@ -3264,14 +3271,16 @@ namespace ICSharpCode.SharpZipLib.Zip
 				}
 			}
 
-			void MakeTextAvailable()
+            [Obsolete]
+            void MakeTextAvailable()
 			{
 				if (comment_ == null) {
 					comment_ = ZipConstants.ConvertToString(rawComment_);
 				}
 			}
 
-			void MakeBytesAvailable()
+            [Obsolete]
+            void MakeBytesAvailable()
 			{
 				if (rawComment_ == null) {
 					rawComment_ = ZipConstants.ConvertToArray(comment_);

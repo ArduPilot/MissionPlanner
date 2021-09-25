@@ -51,6 +51,7 @@ namespace System.Drawing
             Debug.Assert(_surface != null);
         }
 
+        [Obsolete]
         public Graphics(IntPtr handle, int width, int height)
         {
             if (width == 0)

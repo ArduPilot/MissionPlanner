@@ -12,6 +12,7 @@ namespace Org.BouncyCastle.Asn1.Cms
         private X509Name	name;
         private DerInteger	serialNumber;
 
+        [Obsolete]
         public static IssuerAndSerialNumber GetInstance(object obj)
         {
             if (obj == null)

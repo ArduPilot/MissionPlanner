@@ -43,12 +43,13 @@ namespace Org.BouncyCastle.Asn1.Cms
             return GetInstance(Asn1Sequence.GetInstance(obj, explicitly));
         }
 
-		/**
+        /**
          * return an OriginatorPublicKey object from the given object.
          *
          * @param obj the object we want converted.
          * @exception ArgumentException if the object cannot be converted.
          */
+        [Obsolete]
         public static OriginatorPublicKey GetInstance(
             object obj)
         {

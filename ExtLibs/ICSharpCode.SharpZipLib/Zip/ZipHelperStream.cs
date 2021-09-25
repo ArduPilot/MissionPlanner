@@ -160,11 +160,12 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 		}
 
-		#endregion
+        #endregion
 
-		// Write the local file header
-		// TODO: ZipHelperStream.WriteLocalHeader is not yet used and needs checking for ZipFile and ZipOuptutStream usage
-		void WriteLocalHeader(ZipEntry entry, EntryPatchData patchData)
+        // Write the local file header
+        // TODO: ZipHelperStream.WriteLocalHeader is not yet used and needs checking for ZipFile and ZipOuptutStream usage
+        [Obsolete]
+        void WriteLocalHeader(ZipEntry entry, EntryPatchData patchData)
 		{
 			CompressionMethod method = entry.CompressionMethod;
 			bool headerInfoAvailable = true; // How to get this?

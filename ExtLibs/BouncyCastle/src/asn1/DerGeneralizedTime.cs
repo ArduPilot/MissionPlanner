@@ -158,6 +158,7 @@ namespace Org.BouncyCastle.Asn1
             return time + CalculateGmtOffset();
         }
 
+        [Obsolete]
         private string CalculateGmtOffset()
         {
             char sign = '+';

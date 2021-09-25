@@ -24,6 +24,7 @@ namespace Org.BouncyCastle.Crypto.Tls
             "secp224r1", "secp256k1", "secp256r1", "secp384r1", "secp521r1",
             "brainpoolP256r1", "brainpoolP384r1", "brainpoolP512r1"};
 
+        [Obsolete]
         public static void AddSupportedEllipticCurvesExtension(IDictionary extensions, int[] namedCurves)
         {
             extensions[ExtensionType.elliptic_curves] = CreateSupportedEllipticCurvesExtension(namedCurves);
@@ -34,6 +35,7 @@ namespace Org.BouncyCastle.Crypto.Tls
             extensions[ExtensionType.ec_point_formats] = CreateSupportedPointFormatsExtension(ecPointFormats);
         }
 
+        [Obsolete]
         public static int[] GetSupportedEllipticCurvesExtension(IDictionary extensions)
         {
             byte[] extensionData = TlsUtilities.GetExtensionData(extensions, ExtensionType.elliptic_curves);

@@ -8,6 +8,7 @@ namespace Org.BouncyCastle.Asn1.Pkcs
         private readonly KeyDerivationFunc func;
         private readonly EncryptionScheme scheme;
 
+        [Obsolete]
         public static PbeS2Parameters GetInstance(object obj)
         {
             if (obj == null)
