@@ -444,8 +444,8 @@ namespace MissionPlanner.Utilities
 
             bool newdata = false;
             GstAppSinkCallbacks callbacks = new GstAppSinkCallbacks();
-            var callbackhandle = GCHandle.Alloc(callbacks, GCHandleType.Pinned);
-            callbacks.new_buffer += (sink, data) =>
+            //var callbackhandle = GCHandle.Alloc(callbacks, GCHandleType.Pinned);
+            /*callbacks.new_buffer += (sink, data) =>
             {
                 newdata = true;
                 return GstFlowReturn.GST_FLOW_OK;
@@ -456,6 +456,7 @@ namespace MissionPlanner.Utilities
                 return GstFlowReturn.GST_FLOW_OK;
             };
             callbacks.eos += (sink, data) => { log.Info("EOS"); };
+            */
 
             NativeMethods.gst_app_sink_set_drop(appsink, true);
             NativeMethods.gst_app_sink_set_max_buffers(appsink, 1);
@@ -529,7 +530,7 @@ namespace MissionPlanner.Utilities
             NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
             NativeMethods.gst_buffer_unref(bus);
 
-            callbackhandle.Free();
+            //callbackhandle.Free();
 
             // cleanup
             _onNewImage?.Invoke(null, null);
