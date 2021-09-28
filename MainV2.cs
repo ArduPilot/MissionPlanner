@@ -804,7 +804,7 @@ namespace MissionPlanner
             PopulateSerialportList();
             if (_connectionControl.CMB_serialport.Items.Count > 0)
             {
-                _connectionControl.CMB_baudrate.SelectedIndex = 7;
+                _connectionControl.CMB_baudrate.SelectedIndex = 8;
                 _connectionControl.CMB_serialport.SelectedIndex = 0;
             }
             // ** Done
