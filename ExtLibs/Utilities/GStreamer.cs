@@ -612,14 +612,19 @@ namespace MissionPlanner.Utilities
         {
             List<string> dirs = new List<string>();
 
+            // linux
             dirs.Add("/usr/lib/x86_64-linux-gnu");
-
+            // rpi
             dirs.Add("/usr/lib/arm-linux-gnueabihf");
-
+            // current
             dirs.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            // settings
+            dirs.Add(Settings.GetDataDirectory());
+            // custom settings
+            dirs.Add(Settings.CustomUserDataDirectory);
+            // sitl bindle
+            dirs.Add(GStreamer.BundledPath);
 
-            dirs.Add(Settings.GetDataDirectory());                    
-            
             DriveInfo[] allDrives = DriveInfo.GetDrives();
             foreach (DriveInfo d in allDrives)
             {
@@ -635,6 +640,7 @@ namespace MissionPlanner.Utilities
 
             foreach (var dir in dirs)
             {
+                log.Info($"look in dir {dir}");
                 if (Directory.Exists(dir))
                 {
                     var ans = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).Where(a => a.ToLower().Contains("libgstreamer-1.0-0.dll") || a.ToLower().Contains("libgstreamer-1.0.so.0") || a.ToLower().Contains("libgstreamer_android.so")).ToArray();
@@ -676,6 +682,9 @@ namespace MissionPlanner.Utilities
                 });
             }
         }
+
+        // custom search path for .so
+        public static string BundledPath { get; set; }
 
         public static Process Start(string custompipelinesrc = "", bool externalpipeline = false,
             bool allowmultiple = false)

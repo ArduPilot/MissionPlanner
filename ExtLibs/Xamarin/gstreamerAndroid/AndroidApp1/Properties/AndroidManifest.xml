@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:versionCode="1" android:versionName="1.0" package="com.companyname.AndroidApp1" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="25" android:targetSdkVersion="28" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<application android:label="AndroidApp1" tools:replace="android:label" ></application>
+</manifest>

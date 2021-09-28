@@ -206,8 +206,17 @@ namespace Xamarin.Droid
 
             try { 
                 WinForms.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
+                GStreamer.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
             } catch { }
             Log.Info("MP", "WinForms.BundledPath " + WinForms.BundledPath);
+
+            try
+            {
+                JavaSystem.LoadLibrary("gstreamer_android");
+
+                Org.Freedesktop.Gstreamer.GStreamer.Init(this.ApplicationContext);
+            }
+            catch (Exception ex) { Log.Error("MP", ex.ToString()); }
 
             Test.BlueToothDevice = new BTDevice();
             Test.UsbDevices = new USBDevices();
