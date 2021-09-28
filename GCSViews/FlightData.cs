@@ -4062,7 +4062,7 @@ namespace MissionPlanner.GCSViews
         {
             string url = Settings.Instance["gstreamer_url"] != null
                 ? Settings.Instance["gstreamer_url"]
-                : @"rtspsrc location=rtsp://192.168.1.133:8554/video1 ! application/x-rtp ! rtpjpegdepay ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink";
+                : @"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink";
 
             if (DialogResult.OK == InputBox.Show("GStreamer url",
                 "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
