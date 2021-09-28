@@ -22,6 +22,8 @@ using SvgNet.SvgGdi;
 #endif
 using MathHelper = MissionPlanner.Utilities.MathHelper;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+using SkiaSharp.Views.Desktop;
+using SkiaSharp;
 
 
 // Control written by Michael Oborne 2011
@@ -29,6 +31,79 @@ using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace MissionPlanner.Controls
 {
+    public class HUD2: HUD
+    {
+        public HUD2(): base()
+        {
+            started = true;
+            opengl = false;
+        }
+
+        private Bitmap bitmap;
+
+        public Bitmap Bitmap
+        {
+            get
+            {
+                return bitmap;
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            opengl = false;
+
+            // get the bitmap
+            var info = CreateBitmap();
+
+            if (info.Width == 0 || info.Height == 0)
+                return;
+
+            var data = Bitmap.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.WriteOnly, Bitmap.PixelFormat);
+
+            // create the surface
+            using (var surface = SKSurface.Create(info, data.Scan0, data.Stride))
+            {
+                // start drawing
+                //OnPaintSurface(new SKPaintSurfaceEventArgs(surface, info));
+
+                graphicsObjectGDIP = new SkiaGraphics(surface);
+                doPaint();
+
+                surface.Canvas.Flush();
+            }
+
+            // write the bitmap to the graphics
+            Bitmap.UnlockBits(data);
+
+     
+        }
+
+        private SKImageInfo CreateBitmap()
+        {
+            var info = new SKImageInfo(Width, Height, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+
+            if (Bitmap == null || Bitmap.Width != info.Width || Bitmap.Height != info.Height)
+            {
+                FreeBitmap();
+
+                if (info.Width != 0 && info.Height != 0)
+                    bitmap = new Bitmap(info.Width, info.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            }
+
+            return info;
+        }
+
+        private void FreeBitmap()
+        {
+            if (Bitmap != null)
+            {
+                Bitmap.Dispose();
+                bitmap = null;
+            }
+        }
+    }
+
     public class HUD : GLControl
     {
         private static readonly ILog log =
@@ -135,7 +210,7 @@ namespace MissionPlanner.Controls
         private static ImageCodecInfo ici = GetImageCodec("image/jpeg");
         private static EncoderParameters eps = new EncoderParameters(1);
 
-        private bool started = false;
+        internal bool started = false;
 
         static HUD()
         {
@@ -848,7 +923,7 @@ namespace MissionPlanner.Controls
         private int count = 0;
         private DateTime countdate = DateTime.Now;
         private HUD graphicsObject;
-        private IGraphics graphicsObjectGDIP;
+        internal IGraphics graphicsObjectGDIP;
 
         private DateTime starttime = DateTime.MinValue;
 
@@ -1691,7 +1766,7 @@ namespace MissionPlanner.Controls
         private readonly Pen _greenPen = new Pen(Color.Green, 2);
         private readonly Pen _redPen = new Pen(Color.Red, 2);
 
-        void doPaint()
+        internal void doPaint()
         {
             //Console.WriteLine("hud paint "+DateTime.Now.Millisecond);
             bool isNaN = false;
@@ -3215,8 +3290,19 @@ namespace MissionPlanner.Controls
 
         protected override void OnHandleCreated(EventArgs e)
         {
+            log.Info("OnHandleCreated Start");
             try
             {
+                // rpi will crash here
+                if (File.Exists("/proc/cpuinfo"))
+                {
+                    // broadcom
+                    if (File.ReadAllText("/proc/cpuinfo").Contains("BCM"))
+                    {
+                        opengl=false;
+                    }
+                }
+
                 if (opengl && !DesignMode)
                 {
                     base.OnHandleCreated(e);
@@ -3224,7 +3310,7 @@ namespace MissionPlanner.Controls
             }
             catch (Exception ex)
             {
-                log.Error("Expected failure on max/linux due to opengl support");
+                log.Error("Expected failure on mac/linux due to opengl support");
                 log.Error(ex);
                 opengl = false;
             } // macs/linux fail here
@@ -3232,6 +3318,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnHandleDestroyed(EventArgs e)
         {
+            log.Info("OnHandleDestroyed Start");
             try
             {
                 if (opengl && !DesignMode)
@@ -3253,8 +3340,12 @@ namespace MissionPlanner.Controls
 
         protected override void OnResize(EventArgs e)
         {
+            log.Info("OnResize start");
+
             if (DesignMode || !IsHandleCreated || !started)
                 return;
+
+            log.Info("OnResize doing");
 
             base.OnResize(e);
 

@@ -826,19 +826,6 @@ namespace MissionPlanner
             flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
         }
 
-        private void myButton2_Click(object sender, EventArgs e)
-        {
-            var sp = new Sphere();
-
-            sp.Dock = DockStyle.Fill;
-
-            var frm = new Form();
-
-            frm.Controls.Add(sp);
-
-            frm.Show();
-        }
-
         private async void but_gpsinj_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
