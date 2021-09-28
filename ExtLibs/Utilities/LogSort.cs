@@ -68,6 +68,7 @@ namespace MissionPlanner.Log
                     bool issitl = false;
                     var sysid = 0;
                     var compid = 0;
+                    var brdsernum = 0;
                     var aptype = MAVLink.MAV_TYPE.GENERIC;
                     var packetsseen = 0;
 
@@ -78,8 +79,10 @@ namespace MissionPlanner.Log
                         //PARM, 68613507, SYSID_THISMAV, 1
 
                         var sysidlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "SYSID_THISMAV");
+                        var brdsernumlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "BRD_SERIAL_NUM");
 
                         sysid = int.Parse(sysidlist.First()["Value"].ToString());
+                        brdsernum = int.Parse(brdsernumlist.First()["Value"].ToString());
 
                         //logBuffer.dflog
 
@@ -90,7 +93,8 @@ namespace MissionPlanner.Log
                             var destdir = masterdestdir + Path.DirectorySeparatorChar
                                                         + "SITL" + Path.DirectorySeparatorChar
                                                         + aptype.ToString() + Path.DirectorySeparatorChar
-                                                        + sysid + Path.DirectorySeparatorChar;
+                                                        + sysid + Path.DirectorySeparatorChar
+                                                        + brdsernum + Path.DirectorySeparatorChar;
 
 
                             if (!Directory.Exists(destdir))
