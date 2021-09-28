@@ -87,6 +87,9 @@
     <None Update="MissionPlanner.Utilities.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="MissionPlanner.Utilities.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 
