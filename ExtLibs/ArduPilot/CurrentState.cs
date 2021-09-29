@@ -1701,6 +1701,8 @@ namespace MissionPlanner
 
         public bool landed { get; set; }
 
+        [GroupText("Saftey")] public bool safteyactive { get; set; }
+
         [GroupText("Terrain")] public bool terrainactive { get; set; }
 
         [GroupText("Terrain")]
@@ -2542,6 +2544,8 @@ namespace MissionPlanner
                             sensors_present.Value = sysstatus.onboard_control_sensors_present;
 
                             terrainactive = sensors_health.terrain && sensors_enabled.terrain && sensors_present.terrain;
+
+                            safteyactive = !sensors_enabled.motor_control;
 
                             if (errors_count1 > 0 || errors_count2 > 0)
                             {
