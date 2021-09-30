@@ -395,8 +395,12 @@ namespace MissionPlanner.GCSViews
                         QV.DataBindings.Clear();
                         try
                         {
-                            QV.DataBindings.Add(new Binding("number", bindingSourceQuickTab,
-                                Settings.Instance["quickView" + f], false));
+                            var b = new Binding("number", bindingSourceQuickTab,
+                                Settings.Instance["quickView" + f], true);
+                            b.Format += new ConvertEventHandler(BindingTypeToNumber);
+                            b.Parse += new ConvertEventHandler(NumberToBindingType);
+
+                            QV.DataBindings.Add(b);
                         }
                         catch (Exception ex)
                         {
@@ -1910,11 +1914,30 @@ namespace MissionPlanner.GCSViews
 
                 // set databinding for value
                 ((QuickView) checkbox.Tag).DataBindings.Clear();
-                ((QuickView) checkbox.Tag).DataBindings.Add(new Binding("number", bindingSourceQuickTab, checkbox.Name,
-                    true));
+
+                var b = new Binding("number", bindingSourceQuickTab, checkbox.Name,
+                    true);
+                b.Format += new ConvertEventHandler(BindingTypeToNumber);
+                b.Parse += new ConvertEventHandler(NumberToBindingType);
+
+                ((QuickView) checkbox.Tag).DataBindings.Add(b);
 
                 // close selection form
                 ((Form) checkbox.Parent).Close();
+            }
+        }
+
+        private void NumberToBindingType(object sender, ConvertEventArgs e)
+        {
+           
+        }
+
+        private void BindingTypeToNumber(object sender, ConvertEventArgs e)
+        {
+            if(e.Value is Boolean)
+            {
+                var ans = (bool)e.Value;
+                e.Value = ans ? 1 : 0;
             }
         }
 
@@ -3840,7 +3863,14 @@ namespace MissionPlanner.GCSViews
                     continue;
 
                 if (!fieldValue.IsNumber())
-                    continue;
+                {
+                    if(fieldValue is bool)
+                    {
+                        fieldValue = ((bool)fieldValue) == true ? 1 : 0;
+                    } 
+                    else 
+                        continue;
+                }
 
                 if (field.Name.Contains("customfield"))
                 {
