@@ -97,7 +97,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                    imageLabel.Text = first.VehicleType?.ToString() + " " + first.MavFirmwareVersion.ToString() + " " +
                                      first.MavFirmwareVersionType.ToString();
                else
-                   imageLabel.Text = first.MavFirmwareVersionStr;
+                   imageLabel.Text = first.VehicleType?.ToString() + " " + first.MavFirmwareVersionStr + " " +
+                                     first.MavFirmwareVersionType.ToString();
 
                this.Enabled = true;
            });
