@@ -353,6 +353,22 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             set { SITL.BundledPath = value; }
         }
 
+        public static bool Android
+        {
+            get { return MainV2.Android; }
+            set { MainV2.Android = value; }
+        }
+        public static bool IOS
+        {
+            get { return MainV2.IOS; }
+            set { MainV2.IOS = value; }
+        }
+        public static bool OSX
+        {
+            get { return MainV2.OSX; }
+            set { MainV2.OSX = value; }
+        }
+
         public static Action InitDevice
         {
             get => _initDevice;

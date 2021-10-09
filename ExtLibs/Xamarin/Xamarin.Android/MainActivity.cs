@@ -205,8 +205,10 @@ namespace Xamarin.Droid
             Log.Info("MP", "Settings.CustomUserDataDirectory " + Settings.CustomUserDataDirectory);
 
             try { 
+                WinForms.Android = true;
                 WinForms.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
                 GStreamer.BundledPath = Application.Context.ApplicationInfo.NativeLibraryDir;
+                GStreamer.Android = true;
             } catch { }
             Log.Info("MP", "WinForms.BundledPath " + WinForms.BundledPath);
 

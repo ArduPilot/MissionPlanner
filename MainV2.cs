@@ -439,6 +439,12 @@ namespace MissionPlanner
         /// </summary>
         public static bool MONO = false;
 
+        public bool UseCachedParams { get; set; } = false;
+        public static bool Android { get; set; }
+        public static bool IOS { get; set; }
+        public static bool OSX { get; set; }
+
+
         /// <summary>
         /// speech engine enable
         /// </summary>
@@ -1879,7 +1885,6 @@ namespace MissionPlanner
             }
         }
 
-        public bool UseCachedParams { get; set; } = false;
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
@@ -3314,7 +3319,7 @@ namespace MissionPlanner
                     log.Info("AutoConnect.NewVideoStream " + gststring);
                     GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-                    if (!File.Exists(GStreamer.gstlaunch))
+                    if (!GStreamer.gstlaunchexists)
                     {
                         if (CustomMessageBox.Show(
                                 "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
@@ -3322,7 +3327,7 @@ namespace MissionPlanner
                             (int) System.Windows.Forms.DialogResult.Yes)
                         {
                             GStreamerUI.DownloadGStreamer();
-                            if (!File.Exists(GStreamer.gstlaunch))
+                            if (!GStreamer.gstlaunchexists)
                             {
                                 return;
                             }
@@ -3746,7 +3751,7 @@ namespace MissionPlanner
                 {
                     GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-                    if (!File.Exists(GStreamer.gstlaunch))
+                    if (!GStreamer.gstlaunchexists)
                     {
                         if (CustomMessageBox.Show(
                                 "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",

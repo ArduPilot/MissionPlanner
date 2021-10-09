@@ -28,6 +28,8 @@ namespace Xamarin.iOS
             Test.UsbDevices = new USBDevices();
             Test.Radio = new Radio();
 
+            WinForms.IOS = true;
+
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
             UIApplication.Main(args, null, "AppDelegate");

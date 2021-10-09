@@ -608,6 +608,16 @@ namespace MissionPlanner.Utilities
             set { Settings.Instance["gstlaunchexe"] = value; }
         }
 
+        public static bool gstlaunchexists
+        {
+            get
+            {
+                if (Android)
+                    return true;
+                return File.Exists(gstlaunch); 
+            }
+        }
+
         public static string LookForGstreamer()
         {
             List<string> dirs = new List<string>();
@@ -685,6 +695,7 @@ namespace MissionPlanner.Utilities
 
         // custom search path for .so
         public static string BundledPath { get; set; }
+        public static bool Android { get; set; }
 
         public static Process Start(string custompipelinesrc = "", bool externalpipeline = false,
             bool allowmultiple = false)
@@ -698,7 +709,7 @@ namespace MissionPlanner.Utilities
                     return null;
                 }
 
-                if (File.Exists(gstlaunch))
+                if (GStreamer.gstlaunchexists)
                 {
                     ProcessStartInfo psi = new ProcessStartInfo(gstlaunch,
                         String.Format(

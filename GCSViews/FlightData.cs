@@ -2578,11 +2578,11 @@ namespace MissionPlanner.GCSViews
 
             GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -4104,11 +4104,11 @@ namespace MissionPlanner.GCSViews
 
                 GStreamer.LookForGstreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     GStreamerUI.DownloadGStreamer();
 
-                    if (!File.Exists(GStreamer.gstlaunch))
+                    if (!GStreamer.gstlaunchexists)
                     {
                         return;
                     }
