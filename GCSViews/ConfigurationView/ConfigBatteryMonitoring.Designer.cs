@@ -143,7 +143,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.GetString("CMB_HWVersion.Items5"),
             resources.GetString("CMB_HWVersion.Items6"),
             resources.GetString("CMB_HWVersion.Items7"),
-            resources.GetString("CMB_HWVersion.Items8")});
+            resources.GetString("CMB_HWVersion.Items8"),
+            resources.GetString("CMB_HWVersion.Items9")});
             resources.ApplyResources(this.CMB_HWVersion, "CMB_HWVersion");
             this.CMB_HWVersion.Name = "CMB_HWVersion";
             this.CMB_HWVersion.SelectedIndexChanged += new System.EventHandler(this.CMB_apmversion_SelectedIndexChanged);
