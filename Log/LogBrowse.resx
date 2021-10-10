@@ -175,7 +175,7 @@
     <value>75, 23</value>
   </data>
   <data name="BUT_cleargraph.TabIndex" type="System.Int32, mscorlib">
-    <value>32</value>
+    <value>33</value>
   </data>
   <data name="BUT_cleargraph.Text" xml:space="preserve">
     <value>Clear Graph</value>
@@ -202,7 +202,7 @@
     <value>75, 23</value>
   </data>
   <data name="BUT_loadlog.TabIndex" type="System.Int32, mscorlib">
-    <value>33</value>
+    <value>34</value>
   </data>
   <data name="BUT_loadlog.Text" xml:space="preserve">
     <value>Load A Log</value>
@@ -487,7 +487,7 @@
     <value>91, 17</value>
   </data>
   <data name="chk_params.TabIndex" type="System.Int32, mscorlib">
-    <value>45</value>
+    <value>39</value>
   </data>
   <data name="chk_params.Text" xml:space="preserve">
     <value>Show Params</value>
@@ -547,7 +547,7 @@
     <value>79, 17</value>
   </data>
   <data name="chk_datagrid.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
+    <value>38</value>
   </data>
   <data name="chk_datagrid.Text" xml:space="preserve">
     <value>Data Table</value>
@@ -577,7 +577,7 @@
     <value>50, 17</value>
   </data>
   <data name="chk_msg.TabIndex" type="System.Int32, mscorlib">
-    <value>42</value>
+    <value>43</value>
   </data>
   <data name="chk_msg.Text" xml:space="preserve">
     <value>MSG</value>
@@ -607,7 +607,7 @@
     <value>53, 17</value>
   </data>
   <data name="chk_errors.TabIndex" type="System.Int32, mscorlib">
-    <value>41</value>
+    <value>42</value>
   </data>
   <data name="chk_errors.Text" xml:space="preserve">
     <value>Errors</value>
@@ -637,7 +637,7 @@
     <value>53, 17</value>
   </data>
   <data name="chk_mode.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
+    <value>41</value>
   </data>
   <data name="chk_mode.Text" xml:space="preserve">
     <value>Mode</value>
@@ -664,7 +664,7 @@
     <value>72, 23</value>
   </data>
   <data name="BUT_Graphit_R.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
+    <value>32</value>
   </data>
   <data name="BUT_Graphit_R.Text" xml:space="preserve">
     <value>Graph Right</value>
@@ -694,7 +694,7 @@
     <value>49, 17</value>
   </data>
   <data name="chk_time.TabIndex" type="System.Int32, mscorlib">
-    <value>39</value>
+    <value>37</value>
   </data>
   <data name="chk_time.Text" xml:space="preserve">
     <value>Time</value>
@@ -724,7 +724,7 @@
     <value>47, 17</value>
   </data>
   <data name="CHK_map.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
+    <value>36</value>
   </data>
   <data name="CHK_map.Text" xml:space="preserve">
     <value>Map</value>
@@ -748,7 +748,7 @@
     <value>100, 21</value>
   </data>
   <data name="CMB_preselect.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
+    <value>40</value>
   </data>
   <data name="&gt;&gt;CMB_preselect.Name" xml:space="preserve">
     <value>CMB_preselect</value>
@@ -772,7 +772,7 @@
     <value>75, 23</value>
   </data>
   <data name="BUT_removeitem.TabIndex" type="System.Int32, mscorlib">
-    <value>36</value>
+    <value>35</value>
   </data>
   <data name="BUT_removeitem.Text" xml:space="preserve">
     <value>Remove Item</value>
@@ -946,7 +946,7 @@
     <value>130, 496</value>
   </data>
   <data name="treeView1.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
+    <value>45</value>
   </data>
   <data name="&gt;&gt;treeView1.Name" xml:space="preserve">
     <value>treeView1</value>
@@ -991,7 +991,7 @@
     <value>130, 40</value>
   </data>
   <data name="txt_info.TabIndex" type="System.Int32, mscorlib">
-    <value>39</value>
+    <value>46</value>
   </data>
   <data name="&gt;&gt;txt_info.Name" xml:space="preserve">
     <value>txt_info</value>
