@@ -37,7 +37,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_calib_accell = new MissionPlanner.Controls.MyButton();
             this.lineSeparator2 = new MissionPlanner.Controls.LineSeparator();
             this.BUT_level = new MissionPlanner.Controls.MyButton();
+            this.BUT_simpleAccelCal = new MissionPlanner.Controls.MyButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label5
@@ -80,13 +82,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_level.UseVisualStyleBackColor = true;
             this.BUT_level.Click += new System.EventHandler(this.BUT_level_Click);
             // 
+            // BUT_simpleAccelCal
+            // 
+            resources.ApplyResources(this.BUT_simpleAccelCal, "BUT_simpleAccelCal");
+            this.BUT_simpleAccelCal.Name = "BUT_simpleAccelCal";
+            this.BUT_simpleAccelCal.UseVisualStyleBackColor = true;
+            this.BUT_simpleAccelCal.Click += new System.EventHandler(this.BUT_simpleAccelCal_Click);
+            // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
             // ConfigAccelerometerCalibration
             // 
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_level);
             this.Controls.Add(this.lbl_Accel_user);
@@ -94,6 +109,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.lineSeparator2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
+            this.Controls.Add(this.BUT_simpleAccelCal);
             this.Name = "ConfigAccelerometerCalibration";
             resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
@@ -110,5 +126,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Label lbl_Accel_user;
         private MyButton BUT_level;
         private System.Windows.Forms.Label label1;
+        private MyButton BUT_simpleAccelCal;
+        private System.Windows.Forms.Label label2;
     }
 }

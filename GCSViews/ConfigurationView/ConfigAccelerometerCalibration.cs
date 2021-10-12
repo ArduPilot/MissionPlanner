@@ -154,5 +154,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Failed to level", Strings.ERROR);
             }
         }
+
+        private void BUT_simpleAccelCal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Log.Info("Sending simple accelerometer calibration command (mavlink 1.0)");
+                if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 4, 0, 0))
+                {
+                    BUT_simpleAccelCal.Text = Strings.Completed;
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Exception on simple accelerometer calibration", ex);
+                CustomMessageBox.Show("Failed to simple accelerometer calibration", Strings.ERROR);
+            }
+        }
     }
 }
