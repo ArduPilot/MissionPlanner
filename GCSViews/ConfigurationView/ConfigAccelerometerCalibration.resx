@@ -151,7 +151,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -182,7 +182,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="lbl_Accel_user.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -209,7 +209,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lbl_Accel_user.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BUT_calib_accell.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -236,7 +236,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_calib_accell.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lineSeparator2.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 30</value>
@@ -263,7 +263,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lineSeparator2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="BUT_level.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -290,7 +290,34 @@ This will ask you to place your autopilot on each edge.</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_level.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
+  </data>
+  <data name="BUT_simpleAccelCal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_simpleAccelCal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>188, 249</value>
+  </data>
+  <data name="BUT_simpleAccelCal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 21</value>
+  </data>
+  <data name="BUT_simpleAccelCal.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="BUT_simpleAccelCal.Text" xml:space="preserve">
+    <value>Simple Accel Cal</value>
+  </data>
+  <data name="&gt;&gt;BUT_simpleAccelCal.Name" xml:space="preserve">
+    <value>BUT_simpleAccelCal</value>
+  </data>
+  <data name="&gt;&gt;BUT_simpleAccelCal.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_simpleAccelCal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_simpleAccelCal.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -321,13 +348,44 @@ This requires you to place your autopilot flat and level.</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 220</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>401, 26</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>87</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Level your Autopilot to set default accelerometer scale factors for level flight (1 axis).
+This requires you to place your autopilot flat and level.</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>479, 192</value>
+    <value>479, 275</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigAccelerometerCalibration</value>
