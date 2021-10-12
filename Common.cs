@@ -24,7 +24,7 @@ namespace MissionPlanner
 
             if(overlay!= null)
             {
-                var existing = overlay.Markers.Where((a)=>a.Tag == MAV);                
+                var existing = overlay.Markers.Where((a)=>a.Tag == MAV).ToArray();                
                 if (existing.Count() > 1)
                 {
                     existing.Skip(1).ToArray().ForEach((a) => { overlay.Markers.Remove(a);});
