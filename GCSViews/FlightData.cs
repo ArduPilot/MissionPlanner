@@ -2070,8 +2070,10 @@ namespace MissionPlanner.GCSViews
         {
             (sender as Form).SaveStartupLocation();
             //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
-            SubMainLeft.Panel1.Controls.Add(hud1);
-            SubMainLeft.Panel1Collapsed = false;
+            ((sender as Form).Tag as Control).Controls.Add(hud1);
+            //SubMainLeft.Panel1.Controls.Add(hud1);
+            if (hud1.Parent == SubMainLeft.Panel1)
+                SubMainLeft.Panel1Collapsed = false;
             huddropout = false;
         }
 
@@ -2684,10 +2686,12 @@ namespace MissionPlanner.GCSViews
             if (huddropout)
                 return;
 
-            SubMainLeft.Panel1Collapsed = true;
+            if(hud1.Parent == SubMainLeft.Panel1)
+                SubMainLeft.Panel1Collapsed = true;
             Form dropout = new Form();
             dropout.Text = "HUD Dropout";
             dropout.Size = new Size(hud1.Width, hud1.Height + 20);
+            dropout.Tag = hud1.Parent;
             SubMainLeft.Panel1.Controls.Remove(hud1);
             dropout.Controls.Add(hud1);
             dropout.Resize += dropout_Resize;
