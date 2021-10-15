@@ -395,6 +395,16 @@
 
    <Compile Include="ExtLibs\Comms\System.IO.Ports\WinSerialStream.cs" />
 
+   <Compile Include="plugins\example3-fencedist.cs" />
+
+   <Compile Include="plugins\example4-herelink.cs" />
+
+   <Compile Include="plugins\example6-mapicondesc.cs" />
+
+   <Compile Include="plugins\example9-hudonoff.cs" />
+
+   <Compile Include="plugins\InitialParamsCalculator.cs" />
+
    <Compile Include="Properties\AssemblyInfo.cs" />
 
    <Compile Include="SikRadio\ISikRadioForm.cs" />
@@ -523,9 +533,6 @@
     <None Update="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup> 
-  <ItemGroup>
-    <Folder Include="plugins\" />
   </ItemGroup>
 
 </Project>
