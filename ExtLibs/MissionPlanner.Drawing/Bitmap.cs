@@ -151,6 +151,17 @@ namespace System.Drawing
             };
         }
 
+        public BitmapData LockBits(int x,int y, int w, int h, object writeOnly, SKColorType imgPixelFormat)
+        {
+            return new BitmapData()
+            {
+                Scan0 = nativeSkBitmap.GetPixels(),
+                Stride = nativeSkBitmap.RowBytes,
+                Width = nativeSkBitmap.Width,
+                Height = nativeSkBitmap.Height
+            };
+        }
+
         public void UnlockBits(BitmapData bmpData)
         {
             bmpData = null;

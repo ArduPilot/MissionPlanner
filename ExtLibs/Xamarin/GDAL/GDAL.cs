@@ -1,4 +1,5 @@
-﻿using GMap.NET;
+﻿extern alias MyDrawing;
+using GMap.NET;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,14 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Org.Gdal.Gdal;
 using Org.Gdal.Gdalconst;
-using Org.Gdal.Ogr;
 using Org.Gdal.Osr;
-using System.Linq;
 using GMap.NET.MapProviders;
 using MissionPlanner.Utilities;
+using Bitmap = MyDrawing::System.Drawing.Bitmap;
+using Graphics = MyDrawing::System.Drawing.Graphics;
+using PixelFormat = MyDrawing::System.Drawing.Imaging.PixelFormat;
+using GraphicsUnit = MyDrawing::System.Drawing.GraphicsUnit;
+using BitmapData = MyDrawing::System.Drawing.Imaging.BitmapData;
 
 namespace GDAL
 {
@@ -21,14 +25,17 @@ namespace GDAL
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        static List<GeoBitmap> _cache = new List<GeoBitmap>();
-
         static GDAL()
         {
+            // seed the assembly load
+            //new MissionPlanner.Drawing.Common.Common();
+
             log.InfoFormat("GDAL static ctor");
             //GdalConfiguration.ConfigureGdal();
             Gdal.AllRegister();
         }
+
+        static List<GeoBitmap> _cache = new List<GeoBitmap>();
 
         public delegate void Progress(double percent, string message);
 
@@ -137,7 +144,7 @@ namespace GDAL
 
             using (Graphics g = Graphics.FromImage(output))
             {
-                g.Clear(Color.Transparent);
+                //g.Clear(Color.Transparent);
 
                 RectLatLng request = new RectLatLng(lat1, lng1, lng2 - lng1, lat2 - lat1);
 
@@ -180,7 +187,7 @@ namespace GDAL
                                     continue;
 
                                 // this is wrong
-                                g.DrawImage(image.Bitmap, new RectangleF(0, 0, width, height), rect, GraphicsUnit.Pixel);
+                                g.DrawImage(image.Bitmap, 0, 0, width, height, rect.X, rect.Y, rect.Width, rect.Height, GraphicsUnit.Pixel);
 
                             }
                             a++;
@@ -225,27 +232,25 @@ namespace GDAL
 
                         ColorTable ct = band.GetRasterColorTable();
 
-                        PixelFormat format = PixelFormat.Format8bppIndexed;
-
                         // Create a Bitmap to store the GDAL image in
-                        Bitmap bitmap = new Bitmap(ds.RasterXSize, ds.RasterYSize, format);
+                        Bitmap bitmap = new Bitmap(ds.RasterXSize, ds.RasterYSize, SkiaSharp.SKColorType.Gray8);
 
                         // Obtaining the bitmap buffer
-                        BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, ds.RasterXSize, ds.RasterYSize),
-                            ImageLockMode.ReadWrite, format);
+                        BitmapData bitmapData = bitmap.LockBits(0, 0, ds.RasterXSize, ds.RasterYSize,
+                            ImageLockMode.ReadWrite, SkiaSharp.SKColorType.Rgba8888);
                         try
                         {
                             if (ct != null)
                             {
                                 int iCol = ct.GetCount();
-                                ColorPalette pal = bitmap.Palette;
+                                //ColorPalette pal = bitmap.Palette;
                                 for (int i = 0; i < iCol; i++)
                                 {
                                     ColorEntry ce = ct.GetColorEntry(i);
-                                    pal.Entries[i] = Color.FromArgb(ce.c4, ce.c1, ce.c2, ce.c3);
+                                    //pal.Entries[i] = Color.FromArgb(ce.c4, ce.c1, ce.c2, ce.c3);
                                 }
 
-                                bitmap.Palette = pal;
+                                //bitmap.Palette = pal;
                             }
                             else
                             {
@@ -293,8 +298,8 @@ namespace GDAL
 
                 
                             // Obtaining the bitmap buffer
-                            BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, ds.RasterXSize, ds.RasterYSize),
-                                ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                            BitmapData bitmapData = bitmap.LockBits(0, 0, ds.RasterXSize, ds.RasterYSize,
+                                ImageLockMode.ReadWrite, SkiaSharp.SKColorType.Rgba8888);
                             try
                             {
 

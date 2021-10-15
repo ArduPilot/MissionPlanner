@@ -308,7 +308,17 @@ namespace Xamarin.Droid
             }
 
             GC.Collect();
-            /*
+
+            try
+            {
+                Java.Lang.JavaSystem.LoadLibrary("gdal");
+
+                Java.Lang.JavaSystem.LoadLibrary("gdalalljni");
+
+                Java.Lang.JavaSystem.LoadLibrary("gdalwrap");
+            }
+            catch (System.Exception ex) { Log.Error("GDAL", ex.ToString()); }
+
             Task.Run(() =>
             {
                 var gdaldir = Settings.GetRunningDirectory() + "gdalimages";
@@ -320,7 +330,7 @@ namespace Xamarin.Droid
 
                 GMap.NET.MapProviders.GMapProviders.List.Add(GDAL.GDALProvider.Instance);
             });
-            */
+            
 
             DoToastMessage("Launch App");
 

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
-using GMap.NET.WindowsForms;
 
 namespace GDAL
 {
     using GMap.NET;
     using GMap.NET.MapProviders;
     using GMap.NET.Projections;
+    using GMap.NET.WindowsForms;
+    using SkiaSharp;
     using System;
     using System.Reflection;
 
@@ -92,7 +93,7 @@ namespace GDAL
 
             var ms = new MemoryStream();
 
-            bmp.Save(ms, ImageFormat.Png);
+            bmp.Save(ms, SKEncodedImageFormat.Png);
 
             return new GMapImage() { Data = ms };
         }

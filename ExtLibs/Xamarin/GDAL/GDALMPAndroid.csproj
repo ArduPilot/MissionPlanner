@@ -40,13 +40,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Android" />
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
@@ -59,9 +57,11 @@
     <PackageReference Include="log4net">
       <Version>2.0.12</Version>
     </PackageReference>
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{f0b58309-d8af-4f8c-b37a-c5988d88cf0a}</Project>
@@ -76,8 +76,13 @@
       <Name>Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj">
-      <Project>{9c263135-ffea-4e6d-87d9-071182f519b8}</Project>
+      <Project>{9742006a-7adf-4baa-929f-a148ac85e45a}</Project>
       <Name>MissionPlanner.Drawing.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Project>{4a1f5e42-04f3-4d76-9814-c5da680087d6}</Project>
+      <Name>MissionPlanner.Drawing</Name>
+      <Aliases>MyDrawing</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\..\System.Drawing.android\System.Drawing.android.csproj">
       <Project>{881e5ea0-9ba9-4811-bbfa-3669519d0f81}</Project>
