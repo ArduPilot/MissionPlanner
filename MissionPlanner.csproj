@@ -618,6 +618,12 @@
     <None Include="plugins\example11-trace.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="plugins\example12-forwarding.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="plugins\example13-herelink2.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Utilities\AirMarket.cs">
       <SubType>UserControl</SubType>
     </Compile>
