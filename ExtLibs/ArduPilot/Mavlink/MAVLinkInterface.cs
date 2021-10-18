@@ -4220,6 +4220,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             };
 
             target.type_mask = ushort.MaxValue;
+            target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_FORCE;
 
             if (pos && lat != 0 && lng != 0)
                 target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE;
