@@ -31,7 +31,11 @@ namespace MissionPlanner.GCSViews
         //https://regex101.com/r/cH3kV3/3
         Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\{}]+""default_params_filename""\s*:\s*\[*""([^""]+)""\s*[^\}]*\}");
 
-        Uri sitlurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
+        Uri sitlmasterurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
+
+        Uri sitlcopterstableurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/CopterStable/");
+        Uri sitlplanestableurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/PlaneStable/");
+        Uri sitlroverstableurl = new Uri("https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/RoverStable/");
 
         string sitldirectory = Settings.GetUserDataDirectory() + "sitl" +
                                Path.DirectorySeparatorChar;
@@ -354,7 +358,24 @@ namespace MissionPlanner.GCSViews
 
             if (!chk_skipdownload.Checked)
             {
-                Uri fullurl = new Uri(sitlurl, filename);
+                var url = sitlmasterurl;
+                var result = CustomMessageBox.Show("Select the version you want to use?", "Select your version", CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Question, "Latest(Dev)", "Stable");
+
+                if(result == CustomMessageBox.DialogResult.Yes)
+                {
+                    // master by default
+                }
+                else if (result == CustomMessageBox.DialogResult.No)
+                {
+                    if (filename.ToLower().Contains("copter"))
+                        url = sitlcopterstableurl;
+                    if (filename.ToLower().Contains("rover"))
+                        url = sitlroverstableurl;
+                    if (filename.ToLower().Contains("plane"))
+                        url = sitlplanestableurl;
+                }
+
+                Uri fullurl = new Uri(url, filename);
 
                 var load = Common.LoadingBox("Downloading", "Downloading sitl software");
 
@@ -376,7 +397,7 @@ namespace MissionPlanner.GCSViews
 
                 Parallel.ForEach(files, new ParallelOptions() { MaxDegreeOfParallelism = 2 }, (a, b) =>
                 {
-                    var depurl = new Uri(sitlurl, a);
+                    var depurl = new Uri(url, a);
                     var t2 = Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
                 });
                  
