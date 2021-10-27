@@ -70,7 +70,7 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(208, 541);
+            this.treeView1.Size = new System.Drawing.Size(208, 519);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView1_NodeMouseClick);
             // 
@@ -87,7 +87,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
-            this.splitContainer1.Size = new System.Drawing.Size(888, 541);
+            this.splitContainer1.Size = new System.Drawing.Size(888, 519);
             this.splitContainer1.SplitterDistance = 208;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -107,7 +107,7 @@
             this.listView1.LabelEdit = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(676, 541);
+            this.listView1.Size = new System.Drawing.Size(676, 519);
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -221,8 +221,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.statusStrip1);
             this.Name = "MavFTPUI";
             this.Size = new System.Drawing.Size(888, 541);
             this.Load += new System.EventHandler(this.MavFTPUI_Load);
