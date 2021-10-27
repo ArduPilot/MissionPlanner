@@ -160,11 +160,24 @@ namespace UAVCAN
             };
         }
 
+        public enum Baud
+        {
+            baud10kbit=0,
+            baud20kbit,
+            baud50kbit,
+            baud100kbit,
+            baud125kbit,
+            baud250kbit,
+            baud500kbit,
+            baud800kbit,
+            baud1mbit
+        }
+
         /// <summary>
         /// Start slcan stream sending a nodestatus packet every second
         /// </summary>
         /// <param name="stream"></param>
-        public void StartSLCAN(Stream stream)
+        public void StartSLCAN(Stream stream, Baud baud = Baud.baud1mbit)
         {
             if (LogFile != null)
                 logfile = File.OpenWrite(LogFile);
@@ -193,7 +206,7 @@ namespace UAVCAN
 
                 var resp1 = ReadLine(stream);
                 // speed 
-                stream.Write(new byte[] {(byte) 'S', (byte) '8', (byte) '\r'}, 0, 3);
+                stream.Write(new byte[] {(byte) 'S', (byte)baud, (byte) '\r'}, 0, 3);
 
                 var resp2 = ReadLine(stream);
                 //hwid
