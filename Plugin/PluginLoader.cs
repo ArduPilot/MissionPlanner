@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using MissionPlanner.Controls;
-using UAVCAN;
+using DroneCAN;
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
 

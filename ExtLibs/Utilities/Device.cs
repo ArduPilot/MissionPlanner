@@ -168,7 +168,7 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_BARO_LPS2XH = 0x0A,
                 DEVTYPE_BARO_MS5611 = 0x0B,
                 DEVTYPE_BARO_SPL06 = 0x0C,
-                DEVTYPE_BARO_UAVCAN = 0x0D,
+                DEVTYPE_BARO_DRONECAN = 0x0D,
             };
             public enum airspeed_types
             {
@@ -178,7 +178,7 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_AIRSPEED_DLVR = 0x04,
                 DEVTYPE_AIRSPEED_MSP = 0x05,
                 DEVTYPE_AIRSPEED_SDP3X = 0x06,
-                DEVTYPE_AIRSPEED_UAVCAN = 0x07,
+                DEVTYPE_AIRSPEED_DRONECAN = 0x07,
                 DEVTYPE_AIRSPEED_ANALOG = 0x08,
                 DEVTYPE_AIRSPEED_NMEA = 0x09,
                 DEVTYPE_AIRSPEED_ASP5033 = 0x0A,

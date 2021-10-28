@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
-    <ProjectReference Include="..\UAVCAN\UAVCAN.csproj" />
+    <ProjectReference Include="..\DroneCAN\DroneCAN.csproj" />
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
   </ItemGroup>
 

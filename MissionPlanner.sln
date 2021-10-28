@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31612.314
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner", "MissionPlanner.csproj", "{A2E22272-95FE-47B6-B050-9AE7E2055BF5}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -145,7 +145,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSDConfigurator", "ExtLibs\
 		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UAVCAN", "ExtLibs\UAVCAN\UAVCAN.csproj", "{3A413E59-A20E-477C-997E-64B1398E0E80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DroneCAN", "ExtLibs\DroneCAN\DroneCAN.csproj", "{3A413E59-A20E-477C-997E-64B1398E0E80}"
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "WindowsStore", "ExtLibs\WindowsStore\WindowsStore.wapproj", "{AADFFE7F-44CE-4FCA-BDB1-17C3F7020DCD}"
 EndProject
@@ -156,7 +156,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GMap.NET.Drawing", "ExtLibs
 		{3566E9FD-591D-4E42-BA38-11DBE2F13E82} = {3566E9FD-591D-4E42-BA38-11DBE2F13E82}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UAVCANFlasher", "ExtLibs\UAVCANFlasher\UAVCANFlasher.csproj", "{EECDFE74-6CDC-45E0-AA39-34FF55FFB49F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DroneCANFlasher", "ExtLibs\UAVCANFlasher\DroneCANFlasher.csproj", "{EECDFE74-6CDC-45E0-AA39-34FF55FFB49F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "ExtLibs\test\test.csproj", "{9BA6FC55-148D-4481-B9E6-B31A1D4BCD0F}"
 EndProject

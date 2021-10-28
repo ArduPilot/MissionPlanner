@@ -18,7 +18,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.Maps;
-using UAVCAN;
+using DroneCAN;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -37,7 +37,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         static nmea nmea = new nmea();
 
-        static uavcan can = new uavcan();
+        static DroneCAN.DroneCAN can = new DroneCAN.DroneCAN();
         // background thread 
         private static System.Threading.Thread t12;
         private static bool threadrun = false;
@@ -501,9 +501,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     msgseen[msgname] = 0;
                 msgseen[msgname] = (int) msgseen[msgname] + 1;
 
-                if (frame.MsgTypeID == (ushort) uavcan.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                if (frame.MsgTypeID == (ushort)DroneCAN.DroneCAN.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
                 {
-                    var rtcm = (uavcan.uavcan_equipment_gnss_RTCMStream) msg;
+                    var rtcm = (DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream) msg;
 
                     for (int a = 0; a < rtcm.data_len; a++)
                     {

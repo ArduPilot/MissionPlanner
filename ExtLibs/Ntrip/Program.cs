@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using UAVCAN;
+using DroneCAN;
 
 namespace Ntrip
 {
@@ -39,7 +39,7 @@ namespace Ntrip
 
             var ubx = new Ubx();
             var rtcm = new rtcm3();
-            var can = new UAVCAN.uavcan();
+            var can = new DroneCAN.DroneCAN();
             Stream file = null;
             DateTime filetime = DateTime.MinValue;
             SerialPort port = null;
@@ -54,9 +54,9 @@ namespace Ntrip
             // feed the rtcm data into the rtcm parser if we get a can message
             can.MessageReceived += (frame, msg, id) =>
             {
-                if (frame.MsgTypeID == (ushort)uavcan.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                if (frame.MsgTypeID == (ushort)DroneCAN.DroneCAN.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
                 {
-                    var rtcmcan = (uavcan.uavcan_equipment_gnss_RTCMStream)msg;
+                    var rtcmcan = (DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream)msg;
 
                     for (int a = 0; a < rtcmcan.data_len; a++)
                     {

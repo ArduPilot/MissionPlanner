@@ -1,0 +1,11 @@
+
+
+namespace DroneCAN
+{
+	public partial class DroneCAN {
+
+		const double UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_REQUESTVOTE_DT_ID = 31;
+		const double UAVCAN_PROTOCOL_DYNAMIC_NODE_ID_SERVER_REQUESTVOTE_DT_SIG = 0xCDDE07BB89A56356;
+	}
+}
+

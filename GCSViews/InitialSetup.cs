@@ -214,7 +214,7 @@ namespace MissionPlanner.GCSViews
             if (MainV2.DisplayConfiguration.displayCAN)
             {
                 //AddBackstageViewPage(typeof(ConfigHWCAN), "CAN", isConnected, opt);
-                AddBackstageViewPage(typeof(ConfigUAVCAN), "UAVCAN", true, opt);
+                AddBackstageViewPage(typeof(ConfigDroneCAN), "DroneCAN/UAVCAN", true, opt);
             }
             if (MainV2.DisplayConfiguration.displayJoystick)
             {

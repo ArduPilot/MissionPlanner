@@ -149,7 +149,10 @@ namespace MissionPlanner.GCSViews
             Trigger_Camera,
             System_Time,
             Battery_Reset,
-            ADSB_Out_Ident
+            ADSB_Out_Ident,
+            SCRIPTING_CMD_STOP_AND_RESTART,
+            SCRIPTING_CMD_STOP
+
         }
 
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()

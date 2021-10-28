@@ -17,6 +17,25 @@ using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
+    public class EqualityComparer<T> : IEqualityComparer<T>
+    {
+        public EqualityComparer(Func<T, T, bool> cmp)
+        {
+            this.cmp = cmp;
+        }
+        public bool Equals(T x, T y)
+        {
+            return cmp(x, y);
+        }
+
+        public int GetHashCode(T obj)
+        {
+            return obj.GetHashCode();
+        }
+
+        public Func<T, T, bool> cmp { get; set; }
+    }
+
     public static class Extensions
     {
         public static Action MessageLoop;
@@ -106,7 +125,26 @@ namespace MissionPlanner.Utilities
         {
             return input.Select(a => (byte) a).ToArray();
         }
-                
+
+        /// <summary>
+        /// from null terminated c-string
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string FromCString(this byte[] input)
+        {
+            string st = Encoding.ASCII.GetString(input);
+
+            int pos = st.IndexOf('\0');
+
+            if (pos != -1)
+            {
+                st = st.Substring(0, pos);
+            }
+
+            return st;
+        }
+
         public static string ToHexString(this byte[] input)
         {
             StringBuilder hex = new StringBuilder(input.Length * 2);
@@ -540,6 +578,35 @@ namespace MissionPlanner.Utilities
             }
 
             yield return new Tuple<T, T, T>(now, next, InvalidValue);
+        }
+
+        public static uint SwapBytes(this uint x)
+        {
+            // swap adjacent 16-bit blocks
+            x = (x >> 16) | (x << 16);
+            // swap adjacent 8-bit blocks
+            return ((x & 0xFF00FF00) >> 8) | ((x & 0x00FF00FF) << 8);
+        }
+
+        public static ushort SwapBytes(this ushort x)
+        {
+            // swap adjacent 8-bit blocks
+            return (ushort)(((x & 0xFF00) >> 8) | ((x & 0x00FF) << 8));
+        }
+
+        public static byte[] HexStringToByteArray(this string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
+        }
+
+        public static string HexStringToSpacedHex(this string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => hex.Substring(x, 2)).Aggregate((a, b) => a + " " + b);
         }
 
         public static IEnumerable<Tuple<T, T>> NowNextBy2<T>(this IEnumerable<T> list)
