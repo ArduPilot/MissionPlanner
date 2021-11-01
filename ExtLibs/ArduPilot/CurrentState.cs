@@ -598,17 +598,23 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float magfield3 => (float)Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2));
 
-        // hygrometer
-        [DisplayText("hygrotemp (cdegC)")]
+        // hygrometer1
+        [DisplayText("hygrotemp1 (cdegC)")]
         [GroupText("Sensor")]
-        public short hygrotemp { get; set; }
+        public short hygrotemp1 { get; set; }
 
-        [DisplayText("hygrohumi (c%)")]
+        [DisplayText("hygrohumi1 (c%)")]
         [GroupText("Sensor")]
-        public ushort hygrohumi { get; set; }
+        public ushort hygrohumi1 { get; set; }
 
+        // hygrometer2
+        [DisplayText("hygrotemp2 (cdegC)")]
         [GroupText("Sensor")]
-        public byte hygro_id { get; set; }
+        public short hygrotemp2 { get; set; }
+
+        [DisplayText("hygrohumi2 (c%)")]
+        [GroupText("Sensor")]
+        public ushort hygrohumi2 { get; set; }
 
         //radio
         [GroupText("RadioIn")] public float ch1in { get; set; }
@@ -3304,10 +3310,17 @@ namespace MissionPlanner
 
                         {
                             var hygrometer = mavLinkMessage.ToStructure<MAVLink.mavlink_hygrometer_sensor_t>();
-
-                            hygrotemp = hygrometer.temperature;
-                            hygrohumi = hygrometer.humidity;
-                            hygro_id = hygrometer.id;
+                            
+                            if (hygrometer.id == 0)
+                            {
+                                hygrotemp1 = hygrometer.temperature;
+                                hygrohumi1 = hygrometer.humidity;
+                            }
+                            else if (hygrometer.id == 1)
+                            {
+                                hygrotemp2 = hygrometer.temperature;
+                                hygrohumi2 = hygrometer.humidity;
+                            }
                         }
 
                         break;
