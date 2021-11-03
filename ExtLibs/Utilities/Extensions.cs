@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -17,6 +18,71 @@ using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
+
+    [StructLayout(LayoutKind.Explicit, Size = 8, Pack = 1)]
+    public struct typeunion
+    {
+        [FieldOffset(0)] public bool boolean;
+
+        ///< sizeof(bool) is implementation-defined, so it has to be handled separately
+        [FieldOffset(0)] public Byte u8;
+
+        ///< Also char
+        [FieldOffset(0)] public SByte s8;
+
+        [FieldOffset(0)] public UInt16 u16;
+        [FieldOffset(0)] public Int16 s16;
+        [FieldOffset(0)] public UInt32 u32;
+        [FieldOffset(0)] public Int32 s32;
+
+        ///< Also float, possibly double, possibly long double (depends on implementation)
+        [FieldOffset(0)] public UInt64 u64;
+
+        [FieldOffset(0)] public Int64 s64;
+
+        [FieldOffset(0)] public float f32;
+        [FieldOffset(0)] public double d64;
+
+        public Byte this[int index]
+        {
+            get { return BitConverter.GetBytes(u64)[index]; }
+            set
+            {
+                var temp = BitConverter.GetBytes(u64);
+                temp[index] = value;
+                u64 = BitConverter.ToUInt64(temp, 0);
+            }
+        }
+
+        ///< Also double, possibly float, possibly long double (depends on implementation)
+        public IReadOnlyList<Byte> bytes
+        {
+            get { return BitConverter.GetBytes(u64); }
+            /* set
+            {
+                var temp = value.ToArray();
+                Array.Resize(ref temp, 8);
+                u64 = BitConverter.ToUInt64(temp, 0);
+            }*/
+        }
+
+        public typeunion(bool b1 = false)
+        {
+            boolean = false;
+            u8 = 0;
+            s8 = 0;
+            u16 = 0;
+            u32 = 0;
+            u64 = 0;
+            s8 = 0;
+            s16 = 0;
+            s32 = 0;
+            s64 = 0;
+            f32 = 0;
+            d64 = 0;
+        }
+    }
+
     public class EqualityComparer<T> : IEqualityComparer<T>
     {
         public EqualityComparer(Func<T, T, bool> cmp)
@@ -30,10 +96,10 @@ namespace MissionPlanner.Utilities
 
         public int GetHashCode(T obj)
         {
-            return obj.GetHashCode();
+            return 0;
         }
 
-        public Func<T, T, bool> cmp { get; set; }
+        public Func<T, T, bool> cmp { get; }
     }
 
     public static class Extensions
@@ -143,6 +209,69 @@ namespace MissionPlanner.Utilities
             }
 
             return st;
+        }
+
+        /// <summary>
+        /// get upto 64 bits at a time
+        /// </summary>
+        /// <param name="buff"></param>
+        /// <param name="pos"></param>
+        /// <param name="len"></param>
+        /// <returns></returns>
+        public static ulong getbitu(this byte[] buff, uint pos, uint len)
+        {
+            ulong bits = 0;
+            uint i;
+            for (i = pos; i < pos + len; i++)
+                bits = (ulong)((bits << 1) + (byte)((buff[i / 8] >> (int)(7 - i % 8)) & 1u));
+            return bits;
+        }
+
+        public static long getbits(this byte[] buff, uint pos, uint len)
+        {
+            var bits = getbitu(buff, pos, len);
+            if (len <= 0 || 64 <= len || !((bits & (1u << (int)(len - 1))) != 0))
+                return (long)bits;
+            return (long)(bits | (~0ul << (int)len));
+        }
+
+        public static T GetBitOffsetLength<T>(this byte[] input, int start, int offset, int length, bool signed, double resolution = 0)
+        {
+            if (resolution == 0)
+                resolution = 1;
+
+            if (typeof(T) == typeof(string))
+            {
+                return (T)(object)Encoding.ASCII.GetString(BitConverter.GetBytes(input.getbitu((uint)offset, (uint)length)));
+            }
+
+            if (typeof(T) == typeof(int) && signed)
+            {
+                return (T)(object)input.getbits((uint)offset, (uint)length);
+            }
+            if (typeof(T) == typeof(uint) && !signed)
+            {
+                return (T)(object)input.getbitu((uint)offset, (uint)length);
+            }
+
+            if (typeof(T) == typeof(float) && signed)
+            {
+                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.f32;
+            }
+            if (typeof(T) == typeof(double) && signed)
+            {
+                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.d64;
+            }
+            if (typeof(T) == typeof(long) && signed)
+            {
+                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.s64;
+            }
+            if (typeof(T) == typeof(DateTime))
+            {
+                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.u32;
+            }
+
+            return default(T);
         }
 
         public static string ToHexString(this byte[] input)
