@@ -951,6 +951,8 @@ namespace RFD.RFD900
                     return new RFD900old(Session);
                 case Uploader.Board.DEVICE_ID_HM_TRP:
                     return new HM_TRP(Session);
+                case Uploader.Board.DEVICE_ID_HB1060:
+                    return new HB1060(Session);
                 default:
                     return null;
             }
@@ -1000,6 +1002,26 @@ namespace RFD.RFD900
             }
         }
     }
+
+    public class HB1060 : RFD900APU
+    {
+        public HB1060(TSession Session) : base(Session)
+        {
+        }
+
+        protected override string[] GetFirmwareSearchTokens()
+        {
+            return new string[] { "HB1060" };
+        }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_HB1060;
+            }
+        }
+    } 
     public class HM_TRP : RFD900APU
     {
         public HM_TRP(TSession Session)
