@@ -76,9 +76,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var num = new MavlinkNumericUpDown();
                     num.setup((float)min,(float)max,1,1,option, MainV2.comPort.MAV.param);
                 } else { 
-                    var cmb = new MavlinkComboBox();              
-                    cmb.setup(options, option, MainV2.comPort.MAV.param);
+                    var cmb = new MavlinkComboBox();
                     tableLayoutPanel1.Controls.Add(cmb);
+                    cmb.setup(options, option, MainV2.comPort.MAV.param);             
                 }
             }
 
