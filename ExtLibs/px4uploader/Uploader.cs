@@ -503,6 +503,10 @@ namespace px4uploader
         {
             __sync();
 
+            // use getInfo again to cope with possible reset of bl_state in old
+            // px4 bootloader
+            self.__getInfo(Info.BOARD_REV);
+
             __send(new byte[] { (byte)Code.CHIP_ERASE, (byte)Code.EOC });
             DateTime deadline = DateTime.Now.AddSeconds(20);
             while (DateTime.Now < deadline)
