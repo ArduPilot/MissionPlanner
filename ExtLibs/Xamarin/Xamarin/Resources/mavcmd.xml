@@ -367,6 +367,15 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </VTOL_LAND>
+    <SCRIPT_TIME>
+      <P1>commandId</P1>
+      <P2>timeout</P2>
+      <P3>arg1</P3>
+      <P4>arg2</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SCRIPT_TIME>
     <DO_VTOL_TRANSITION>
       <P1>mode (3=mc/4=plane)</P1>
       <P2></P2>

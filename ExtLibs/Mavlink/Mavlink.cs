@@ -675,6 +675,9 @@ public partial class MAVLink
         LOITER_TO_ALT=31, 
         ///<summary> Begin following a target |System ID (of the FOLLOW_TARGET beacon). Send 0 to disable follow-me and return to the default position hold mode.| Reserved| Reserved| Altitude mode: 0: Keep current altitude, 1: keep altitude difference to target, 2: go to a fixed altitude above home.| Altitude above home. (used if mode=2)| Reserved| Time to land in which the MAV should go to the default position hold mode after a message RX timeout.|  </summary>
         [Description("Begin following a target")]
+        SCRIPT_TIME=42702,
+        ///<summary> Scripted navigation command. |commandId| Timeout(s)| Arg1| Arg2| Empty| Empty| Empty|  </summary>
+        [Description("Scipted command (navigation command controlled by a lua script.")]
         DO_FOLLOW=32, 
         ///<summary> Reposition the MAV after a follow target command has been sent |Camera q1 (where 0 is on the ray from the camera to the tracking device)| Camera q2| Camera q3| Camera q4| altitude offset from target| X offset from target| Y offset from target|  </summary>
         [Description("Reposition the MAV after a follow target command has been sent")]
