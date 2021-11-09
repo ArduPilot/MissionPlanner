@@ -159,6 +159,9 @@
   <data name="backstageViewPageaccel.Text" xml:space="preserve">
     <value>Accel Calibration</value>
   </data>
+  <data name="backstageViewPageInitialParams.Text" xml:space="preserve">
+    <value>Initial Paramater Setup</value>
+  </data>
   <data name="backstageViewPageaccel.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
