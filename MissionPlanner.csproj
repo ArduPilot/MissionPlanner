@@ -543,6 +543,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigAdvanced.Designer.cs">
       <DependentUpon>ConfigAdvanced.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigInitialParams.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigInitialParams.Designer.cs">
+      <DependentUpon>ConfigInitialParams.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigOSD.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -644,9 +650,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="plugins\example7-canrtcm.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="plugins\InitialParamsCalculator.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="plugins\example8-modechange.cs">
@@ -911,6 +914,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAdvanced.resx">
       <DependentUpon>ConfigAdvanced.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigInitialParams.resx">
+      <DependentUpon>ConfigInitialParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOSD.resx">
       <DependentUpon>ConfigOSD.cs</DependentUpon>
@@ -3144,6 +3150,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.ar.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>

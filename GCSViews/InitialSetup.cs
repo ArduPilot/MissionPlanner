@@ -149,10 +149,17 @@ namespace MissionPlanner.GCSViews
                     mand);
             }
 
+            if (isCopter && MainV2.DisplayConfiguration.displayInitialParams)
+            {
+                AddBackstageViewPage(typeof(ConfigInitialParams), rm.GetString("backstageViewPageInitialParams.Text"), isConnected && gotAllParams, mand);
+            }
+
+
             if (MainV2.DisplayConfiguration.displayAccelCalibration)
             {
                 AddBackstageViewPage(typeof(ConfigAccelerometerCalibration), rm.GetString("backstageViewPageaccel.Text"), isConnected && gotAllParams, mand);
             }
+
 
             if (MainV2.DisplayConfiguration.displayCompassConfiguration)
             {
