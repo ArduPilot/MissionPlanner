@@ -54,6 +54,40 @@ public partial class MAVLink
             }
         }
 
+        // Only works if one param from the name list if found, will fail if multiple list items are found
+        // for use in cases of param conversion where the two names will not coexist
+        public MAVLinkParam this[string[] names]
+        {
+            get
+            {
+                MAVLinkParam item = null;
+                foreach (var s in names)
+                {
+                    MAVLinkParam new_item = this[s];
+                    if (new_item != null)
+                    {
+                        if (item != null)
+                        {
+                            // found multiple items in list
+                            return null;
+                        }
+                        item = new_item;
+                    }
+                }
+                return item;
+            }
+
+            set
+            {
+                MAVLinkParam item = this[names];
+                if (item != null)
+                {
+                    item = value;
+                }
+            }
+
+        }
+
         public IEnumerable<string> Keys
         {
             get
