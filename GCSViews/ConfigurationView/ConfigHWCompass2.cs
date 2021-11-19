@@ -30,17 +30,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public CompassDeviceInfo(int index, string ParamName, uint id) : base(index, ParamName, id)
             {
                 //set initial state
-                var id1 = MainV2.comPort.MAV.param["COMPASS_DEV_ID"];
-                var id2 = MainV2.comPort.MAV.param["COMPASS_DEV_ID2"];
-                var id3 = MainV2.comPort.MAV.param["COMPASS_DEV_ID3"];
+                var id1 = MainV2.comPort.MAV.param[new[] { "COMPASS_DEV_ID", "COMPASS1_DEV_ID"}];
+                var id2 = MainV2.comPort.MAV.param[new[] { "COMPASS_DEV_ID2", "COMPASS2_DEV_ID"}];
+                var id3 = MainV2.comPort.MAV.param[new[] { "COMPASS_DEV_ID3", "COMPASS3_DEV_ID"}];
 
-                var idO1 = MainV2.comPort.MAV.param["COMPASS_ORIENT"];
-                var idO2 = MainV2.comPort.MAV.param["COMPASS_ORIENT2"];
-                var idO3 = MainV2.comPort.MAV.param["COMPASS_ORIENT3"];
+                var idO1 = MainV2.comPort.MAV.param[new[] { "COMPASS_ORIENT", "COMPASS1_ORIENT"}];
+                var idO2 = MainV2.comPort.MAV.param[new[] { "COMPASS_ORIENT2", "COMPASS2_ORIENT"}];
+                var idO3 = MainV2.comPort.MAV.param[new[] { "COMPASS_ORIENT3", "COMPASS3_ORIENT"}];
 
-                var idE1 = MainV2.comPort.MAV.param["COMPASS_EXTERNAL"];
-                var idE2 = MainV2.comPort.MAV.param["COMPASS_EXTERN2"];
-                var idE3 = MainV2.comPort.MAV.param["COMPASS_EXTERN3"];
+                var idE1 = MainV2.comPort.MAV.param[new[] { "COMPASS_EXTERNAL", "COMPASS1_EXTERN"}];
+                var idE2 = MainV2.comPort.MAV.param[new[] { "COMPASS_EXTERN2", "COMPASS2_EXTERN"}];
+                var idE3 = MainV2.comPort.MAV.param[new[] { "COMPASS_EXTERN3", "COMPASS3_EXTERN"}];
 
                 if (id1 != null && id1?.Value == id)
                 {
@@ -86,7 +86,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             // COMPASS_DEV_ID get a list of all connected devices
-            list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS_DEV_ID") && a.Value != 0)
+            list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS") && a.Name.Contains("DEV_ID") && a.Value != 0)
                 .Select((a, b) => new CompassDeviceInfo(b, a.Name, (uint) a.Value))
                 .OrderBy((a) => a.ParamName).ToList();
 
@@ -121,15 +121,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkComboBoxfitness.setup(ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_CAL_FIT",
                 MainV2.comPort.MAV.cs.firmware.ToString()), "COMPASS_CAL_FIT", MainV2.comPort.MAV.param);
 
-            mavlinkCheckBoxUseCompass1.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxUseCompass2.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxUseCompass3.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxUseCompass1.setup(1, 0, new[] { "COMPASS_USE", "COMPASS1_USE"}, MainV2.comPort.MAV.param);
+            mavlinkCheckBoxUseCompass2.setup(1, 0, new[] { "COMPASS_USE2", "COMPASS2_USE"}, MainV2.comPort.MAV.param);
+            mavlinkCheckBoxUseCompass3.setup(1, 0, new[] { "COMPASS_USE3", "COMPASS3_USE"}, MainV2.comPort.MAV.param);
 
             CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
 
             {
                 // set the default items
-                var source = ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT",
+                var orient_param = MainV2.comPort.MAV.param[new[] { "COMPASS_ORIENT", "COMPASS1_ORIENT"}];
+                var source = ParameterMetaDataRepository.GetParameterOptionsInt(orient_param.Name,
                         MainV2.comPort.MAV.cs.firmware.ToString())
                     .Select(a => new KeyValuePair<string, string>(a.Key.ToString(), a.Value)).ToList();
                 Orientation.DataSource = source;
