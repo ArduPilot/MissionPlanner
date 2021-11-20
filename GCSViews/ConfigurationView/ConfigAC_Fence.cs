@@ -11,6 +11,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
 
             label6maxalt.Text += "[" + CurrentState.DistanceUnit + "]";
+            label8minalt.Text += "[" + CurrentState.DistanceUnit + "]";
             label7maxrad.Text += "[" + CurrentState.DistanceUnit + "]";
             label2rtlalt.Text += "[" + CurrentState.DistanceUnit + "]";
         }
@@ -31,6 +32,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // 3
             mavlinkNumericUpDown1.setup(10, 1000, (float)CurrentState.fromDistDisplayUnit(1), 1, "FENCE_ALT_MAX",
+                MainV2.comPort.MAV.param);
+
+            mavlinkNumericUpDown4.setup(-100, 100, (float)CurrentState.fromDistDisplayUnit(1), 1, "FENCE_ALT_MIN",
                 MainV2.comPort.MAV.param);
 
             mavlinkNumericUpDown2.setup(30, 65536, (float)CurrentState.fromDistDisplayUnit(1), 1, "FENCE_RADIUS",
