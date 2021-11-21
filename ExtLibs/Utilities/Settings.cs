@@ -289,6 +289,8 @@ namespace MissionPlanner.Utilities
             return (t != null);
         }
 
+        public static bool isUnix = Environment.OSVersion.Platform == PlatformID.Unix;
+
         /// <summary>
         /// Shared data directory
         /// </summary>
@@ -318,9 +320,19 @@ namespace MissionPlanner.Utilities
                 return CustomUserDataDirectory + Path.DirectorySeparatorChar + AppConfigName +
                        Path.DirectorySeparatorChar;
 
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + AppConfigName +
-                          Path.DirectorySeparatorChar;
+            var oldApproachPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
+                Path.DirectorySeparatorChar + AppConfigName + Path.DirectorySeparatorChar;
+            var path = "";
+            if (isUnix && !Directory.Exists(oldApproachPath)) // Do not use new AppData path if old path already exists
+            {                                                 // E.g. do not migrate to new aproach if directory exists
+                path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            }
+            else
+            {
+                path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            }
 
+            path += Path.DirectorySeparatorChar + AppConfigName + Path.DirectorySeparatorChar;
             return path;
         }
 
