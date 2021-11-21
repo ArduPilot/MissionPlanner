@@ -16,6 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
+using org.mariuszgromada.math.mxparser;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -378,8 +379,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 double max = 0;
 
                 var value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
+                value = value.Replace(',', '.');
 
-                var newvalue = float.Parse(value.Replace(',', '.'), CultureInfo.InvariantCulture);
+                var newvalue = (float) new Expression(value).calculate();
+                if (float.IsNaN(newvalue) || float.IsInfinity(newvalue))
+                {
+                    throw new Exception();
+                }
 
                 var readonly1 = ParameterMetaDataRepository.GetParameterMetaData(
                     Params[Command.Index, e.RowIndex].Value.ToString(),
@@ -420,9 +426,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 Params[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Green;
-                log.InfoFormat("Queue change {0} = {1}", Params[Command.Index, e.RowIndex].Value, Params[e.ColumnIndex, e.RowIndex].Value);
-                _changes[Params[Command.Index, e.RowIndex].Value] =
-                    float.Parse((((string)Params[e.ColumnIndex, e.RowIndex].Value).Replace(',','.')),CultureInfo.InvariantCulture);
+                log.InfoFormat("Queue change {0} = {1} ({2})", Params[Command.Index, e.RowIndex].Value, Params[e.ColumnIndex, e.RowIndex].Value, newvalue);
+                _changes[Params[Command.Index, e.RowIndex].Value] = newvalue;
+
+                Params.CellValueChanged -= Params_CellValueChanged;
+                Params[e.ColumnIndex, e.RowIndex].Value = newvalue;
+                Params.CellValueChanged += Params_CellValueChanged;
             }
             catch (Exception)
             {
