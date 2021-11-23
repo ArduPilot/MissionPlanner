@@ -6,6 +6,7 @@ namespace log4net
     {
         void Debug(string v);
         void Info(string v);
+        void InfoFormat(string Format, params object[] args);
     }
 
     internal class Log : ILog
@@ -18,6 +19,11 @@ namespace log4net
         public void Info(string v)
         {
             Console.WriteLine(v);
+        }
+
+        public void InfoFormat(string Format, params object[] args)
+        {
+            Console.WriteLine(Format, args);
         }
     }
 }
