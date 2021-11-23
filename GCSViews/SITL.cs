@@ -358,6 +358,22 @@ namespace MissionPlanner.GCSViews
 
             if (!chk_skipdownload.Checked)
             {
+                // kill old session - so we can overwrite if needed
+                try
+                {
+                    simulator.ForEach(a =>
+                    {
+                        try
+                        {
+                            a.Kill();
+                        }
+                        catch { }
+                    });
+                }
+                catch
+                {
+                }
+
                 var url = sitlmasterurl;
                 var result = CustomMessageBox.Show("Select the version you want to use?", "Select your version", CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Question, "Latest(Dev)", "Stable");
 
@@ -400,6 +416,8 @@ namespace MissionPlanner.GCSViews
                     var depurl = new Uri(url, a);
                     var t2 = Download.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
                 });
+
+                await t1;
                  
                 load.Close();
             }
