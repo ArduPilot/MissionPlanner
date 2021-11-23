@@ -328,18 +328,25 @@ namespace MissionPlanner.Comms
             var sw = new StreamWriter(st);
             var sr = new StreamReader(st);
 
-            var line = "GET " + remoteUri.PathAndQuery + " HTTP/1.0\r\n"
+            var linev1 = "GET " + remoteUri.PathAndQuery + " HTTP/1.0\r\n"
+                        + "User-Agent: NTRIP MissionPlanner/1.0\r\n"
+                        + auth
+                        + "Connection: close\r\n\r\n";
+
+            var linev2 = "GET " + remoteUri.PathAndQuery + " HTTP/1.1\r\n"
+                       + "Host: " + remoteUri.Host + ":" + remoteUri.Port + "\r\n"
+                       + "Ntrip-Version: Ntrip/2.0\r\n"
                        + "User-Agent: NTRIP MissionPlanner/1.0\r\n"
                        + auth
                        + "Connection: close\r\n\r\n";
 
-            sw.Write(line);
+            sw.Write(linev2);
 
-            log.Info(line);
+            log.Info(linev2);
 
             sw.Flush();
 
-            line = sr.ReadLine();
+            var line = sr.ReadLine();
 
             log.Info(line);
 
