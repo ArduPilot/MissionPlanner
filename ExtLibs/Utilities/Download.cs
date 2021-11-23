@@ -362,7 +362,7 @@ namespace MissionPlanner.Utilities
                             if (lastupdate.Second != DateTime.Now.Second)
                             {
                                 lastupdate = DateTime.Now;
-                                Console.WriteLine("{0} bps {1} {2}s {3}% of {4}     \r", size / elapsed, size, elapsed,
+                                log.InfoFormat("{0} bps {1} {2}s {3}% of {4}     \r", size / elapsed, size, elapsed,
                                     percent, contlen);
                                 var timeleft = TimeSpan.FromSeconds(((elapsed / percent) * (100 - percent)));
                                 status?.Invoke((int) percent,
@@ -381,6 +381,9 @@ namespace MissionPlanner.Utilities
 
                     if (File.Exists(saveto))
                     {
+                        // try prevent System.UnauthorizedAccessException: Access to the path
+                        GC.Collect();
+                        File.SetAttributes(saveto, FileAttributes.Normal);
                         File.Delete(saveto);
                     }
 
