@@ -1667,7 +1667,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     var cancel = new CancellationTokenSource();
                     var paramfileTask = Task.Run<MemoryStream>(() =>
                     {
-                        return new MAVFtp(this, sysid, compid).GetFile(
+                        var ftp = new MAVFtp(this, sysid, compid);
+                        ftp.Progress += (s,i) => {
+                            if (frmProgressReporter != null)
+                                frmProgressReporter.UpdateProgressAndStatus(i, $"Getting Param MAVFTP {sysid}-{compid}");
+                        };
+                        return ftp.GetFile(
                             "@PARAM/param.pck", cancel, false, 110);
                     });
                     while (!paramfileTask.IsCompleted)
@@ -4945,6 +4950,31 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                     }
 
+                    try
+                    {
+                        // this is to ensure the log is in packet order, as the events on Received may send a packet. (ie mavftp)
+                        SaveToTlog(new Span<byte>(buffer));
+
+                        if (logfile != null)
+                        {
+                            lock (logfile)
+                            {
+                                if (msgid == 0)
+                                {
+                                    // flush on heartbeat - 1 seconds
+                                    if (logfile != null)
+                                        logfile.Flush();
+                                    if (rawlogfile != null)
+                                        rawlogfile.Flush();
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+
                     // only process for active mav
                     if (sysidcurrent == sysid && compidcurrent == compid)
                         PacketReceived(message);
@@ -5041,30 +5071,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                     false);
                             }
                         }
-                    }
-
-                    try
-                    {
-                        SaveToTlog(new Span<byte>(buffer));
-
-                        if (logfile != null)
-                        {
-                            lock (logfile)
-                            {
-                                if (msgid == 0)
-                                {
-                                    // flush on heartbeat - 1 seconds
-                                    if (logfile != null)
-                                        logfile.Flush();
-                                    if (rawlogfile != null)
-                                        rawlogfile.Flush();
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
                     }
 
                     try

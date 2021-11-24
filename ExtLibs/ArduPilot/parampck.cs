@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using log4net;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.ArduPilot
 {
     public static class parampck
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         static readonly int magic = 0x671b;
         /*
           packed format:
@@ -80,7 +84,7 @@ namespace MissionPlanner.ArduPilot
                 data = data.Skip(2 + name_len + type_len).ToArray();
                 var v = decode_value(ptype, vdata);
                 count += 1;
-                Console.WriteLine("{0,-16} {1,-16} {2,-16} {3,-16}", name, v, type_len, type_format);
+                log.DebugFormat("{0,-16} {1,-16} {2,-16} {3,-16}", name, v, type_len, type_format);
                 //print("%-16s %f" % (name, float (v)))
 
                 list.Add(new MAVLink.MAVLinkParam(name, vdata.ToArray().MakeSize(4),

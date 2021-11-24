@@ -693,6 +693,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
                 FTPPayloadHeader ftphead = msg.payload;
+                //log.Debug("got " + ftphead.ToJSON());
                 //log.Debug(ftphead);
                 //Console.WriteLine(ftphead);
                 // error at far end
@@ -765,7 +766,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 if (ftphead.burst_complete == 1)
                 {
                     log.InfoFormat("next burst {0} {1} ", ftphead.burst_complete, ftphead.offset + ftphead.size);
-                    log.Debug(payload);
+                    //log.Debug("req " + payload.ToJSON());
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                 }
 
@@ -779,7 +780,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     log.Info($"cancel {payload.opcode}");
                     return;
                 }
-
+                //log.Debug("req " + payload.ToJSON());
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
             };
             timeout.DoWork();
@@ -1383,7 +1384,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 size = readsize
             };
             fileTransferProtocol.payload = payload;
-            log.Info("get " + payload.opcode + " " + file + " " + size);
+            log.Info("get " + payload.ToJSON() + " " + file + " " + size);
             Exception ex = null;
             MemoryStream answer = new MemoryStream(size);
             sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
@@ -1397,6 +1398,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
                 FTPPayloadHeader ftphead = msg.payload;
+                //log.Debug("got " + ftphead.ToJSON());
                 // error at far end
                 if (ftphead.opcode == FTPOpcode.kRspNak)
                 {
@@ -1457,6 +1459,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 payload.offset = ftphead.offset + ftphead.size;
                 payload.seq_number = seq_no++;
                 fileTransferProtocol.payload = payload;
+                //log.Debug("req " + payload.ToJSON());
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                 return true;
             });
@@ -1468,7 +1471,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     log.Info($"cancel {payload.opcode}");
                     return;
                 }
-
+                //log.Debug("req " + payload.ToJSON());
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
             };
             timeout.DoWork();
