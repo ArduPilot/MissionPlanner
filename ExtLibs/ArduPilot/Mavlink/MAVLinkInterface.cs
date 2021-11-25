@@ -69,7 +69,7 @@ namespace MissionPlanner
         {
             add
             {
-                log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value?.Method?.Name +
+                log.Debug("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value?.Method?.Name +
                          " " + value?.Target?.GetType()?.Name +
                          " " + value);
                 _OnPacketReceived += value;
@@ -77,7 +77,7 @@ namespace MissionPlanner
 
             remove
             {
-                log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " +
+                log.Debug("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " +
                          value?.Method?.Name + " " + value?.Target?.GetType()?.Name +
                          " " + value);
                 _OnPacketReceived -= value;
@@ -88,7 +88,7 @@ namespace MissionPlanner
         {
             add
             {
-                log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value?.Method?.Name +
+                log.Debug("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value?.Method?.Name +
                          " " + value?.Target?.GetType()?.Name +
                          " " + value);
                 _MAVDetected += value;
@@ -96,7 +96,7 @@ namespace MissionPlanner
 
             remove
             {
-                log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " +
+                log.Debug("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " +
                          value?.Method?.Name + " " + value?.Target?.GetType()?.Name +
                          " " + value);
                 _MAVDetected -= value;
@@ -114,14 +114,14 @@ namespace MissionPlanner
         {
             add
             {
-                log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name +
+                log.Debug("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name +
                          " " + value.Target.GetType().Name +
                          " " + value);
                 _OnPacketSent += value;
             }
             remove
             {
-                log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name +
+                log.Debug("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name +
                          " " + value.Target.GetType().Name +
                          " " + value);
                 _OnPacketSent -= value;
@@ -171,14 +171,14 @@ namespace MissionPlanner
         {
             add
             {
-                log.Info("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name +
+                log.Debug("Subscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name +
                          " " + value.Target.GetType().Name +
                          " " + value);
                 _ParamListChanged += value;
             }
             remove
             {
-                log.Info("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name +
+                log.Debug("UnSubscribed " + new StackTrace(1, true)?.GetFrame(0)?.ToString() + " " + value.Method.Name +
                          " " + value.Target.GetType().Name +
                          " " + value);
                 _ParamListChanged -= value;
