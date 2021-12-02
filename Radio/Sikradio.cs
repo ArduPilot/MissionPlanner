@@ -208,11 +208,11 @@ S15: MAX_WINDOW=131
             }
         }
 
-        private bool getFirmware(Uploader.Board device, bool custom = false)
+        private bool getFirmware(Uploader.Board device, RFD.RFD900.RFD900 RFD900, bool custom = false)
         {
             if (custom)
             {
-                return getFirmwareLocal((device == Uploader.Board.DEVICE_ID_RFD900X) || (device == Uploader.Board.DEVICE_ID_RFD900UX));
+                return getFirmwareLocal(RFD900);
             }
             
             firmwarefile = Path.GetTempFileName();
@@ -270,11 +270,22 @@ S15: MAX_WINDOW=131
         /// Loads a local firmware file after prompting user for file.
         /// </summary>
         /// <returns></returns>
-        private bool getFirmwareLocal(bool Bin)
+        private bool getFirmwareLocal(RFD.RFD900.RFD900 RFD900)
         {
             using (var openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = Bin ? "Firmware|*.bin" : "Firmware|*.hex;*.ihx";
+                string Filter = "Firmware|";
+                string[] Exts = RFD900.FirmwareFileNameExtensions;
+                for (int n = 0; n < Exts.Length; n++)
+                {
+                    if (n != 0)
+                    {
+                        Filter += ";";
+                    }
+                    Filter += "*." + Exts[n];
+                }
+
+                openFileDialog1.Filter = Filter;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = false;
 
@@ -313,76 +324,6 @@ S15: MAX_WINDOW=131
                     test++;
                 }
             }
-        }
-
-        /// <summary>
-        /// Tries to upload firmware to the modem using xmodem mode (after prompting user for file)
-        /// </summary>
-        /// <param name="comPort"></param>
-        /// <returns></returns>
-        bool upload_xmodem(ICommsSerial comPort)
-        {
-            // try xmodem mode
-            // xmodem - short cts to ground
-            try
-            {
-                uploader_LogEvent("Trying XModem Mode");
-                //comPort.BaudRate = 57600;
-                comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                comPort.ReadTimeout = 1000;
-
-                Thread.Sleep(2000);
-                var tempd = comPort.ReadExisting();
-                Console.WriteLine(tempd);
-                comPort.Write("U");
-                Thread.Sleep(1000);
-                var resp1 = Serial_ReadLine(comPort); // echo
-                var resp2 = Serial_ReadLine(comPort); // echo 2
-                var tempd2 = comPort.ReadExisting(); // posibly bootloader info / use to sync
-                // identify
-                comPort.Write("i");
-                // responce is rfd900....
-                var resp3 = Serial_ReadLine(comPort); //echo
-                var resp4 = Serial_ReadLine(comPort); // newline
-                var resp5 = Serial_ReadLine(comPort); // bootloader info
-                uploader_LogEvent(resp5);
-                if (resp5.Contains("RFD900"))
-                {
-                    // start upload
-                    comPort.Write("u");
-                    var resp6 = Serial_ReadLine(comPort); // echo
-                    var resp7 = Serial_ReadLine(comPort); // Ready
-                    if (resp7.Contains("Ready"))
-                    {
-                        comPort.ReadTimeout = 3500;
-                        // responce is C
-                        var isC = comPort.ReadByte();
-                        var temp = comPort.ReadExisting();
-                        if (isC == 'C')
-                        {
-                            if (getFirmwareLocal(false))
-                            {
-
-                                XModem.LogEvent += uploader_LogEvent;
-                                XModem.ProgressEvent += uploader_ProgressEvent;
-                                // start file send
-                                XModem.Upload(firmwarefile,
-                                    comPort);
-                                XModem.LogEvent -= uploader_LogEvent;
-                                XModem.ProgressEvent -= uploader_ProgressEvent;
-                                return true;
-                            }
-                            return false;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex2)
-            {
-                log.Error(ex2);
-            }
-
-            return false;
         }
 
         private void BUT_upload_Click(object sender, EventArgs e)
@@ -1150,13 +1091,13 @@ S15: MAX_WINDOW=131
         /// <param name="GetCC">The function to get the country code, given the modem object.  Must not be null.</param>
         /// <returns>The country code string.</returns>
         string GetCountryCodeFromSession(RFD.RFD900.TSession Session, 
-            Func<RFD.RFD900.RFD900xux, RFD.RFD900.RFD900xux.TCountry> GetCC)
+            Func<RFD.RFD900.RFD900xuxRevN, RFD.RFD900.RFD900xux.TCountry> GetCC)
         {
             RFD.RFD900.RFD900xux.TCountry CC;
             var Mdm = Session.GetModemObject();
 
-            if (Mdm == null || !(Mdm is RFD.RFD900.RFD900xux) ||
-                !RFD.RFD900.RFD900xux.GetIsCountryLocked(CC = GetCC((RFD.RFD900.RFD900xux)Mdm)))
+            if (Mdm == null || !(Mdm is RFD.RFD900.RFD900xuxRevN) ||
+                !RFD.RFD900.RFD900xux.GetIsCountryLocked(CC = GetCC((RFD.RFD900.RFD900xuxRevN)Mdm)))
             {
                 return "--";
             }
@@ -1968,7 +1909,7 @@ red LED solid - in firmware update mode");
                     {
                         UpdateStatus("Getting firmware from internet");
                     }
-                    if (getFirmware(RFD900.Board, Custom))
+                    if (getFirmware(RFD900.Board, RFD900, Custom))
                     {
                         UpdateStatus("Programming firmware into device");
                         if (RFD900.ProgramFirmware(firmwarefile, UpdateStatusCallback))

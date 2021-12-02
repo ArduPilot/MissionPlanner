@@ -75,64 +75,76 @@ namespace RFD900Tools
                     LogStringNonMainThread("Existing version is \"" + ATIResult + "\"");
 
                     var Mdm = Session.GetModemObject();
-                    if (Mdm == null || !(Mdm is RFD.RFD900.RFD900xux))
+                    if (Mdm == null || !(Mdm is RFD.RFD900.RFD900xuxRevN))
                     {
                         LogStringNonMainThread("Don't know how to lock this modem for country, aborting, aborting.");
                     }
                     else
                     {
-                        var CountryCode = ((RFD.RFD900.RFD900xux)Mdm).GetCountryCode();
-                        if (!RFD.RFD900.RFD900xux.GetIsCountryLocked(CountryCode))
+                        RFD.RFD900.RFD900xuxRevN RFDX = (RFD.RFD900.RFD900xuxRevN)Mdm;
+
+                        var CountryCode = RFDX.GetCountryCode();
+                        if (!RFD.RFD900.RFD900xuxRevN.GetIsCountryLocked(CountryCode))
                         {
-                            //AT+C32=x
-                            LogStringNonMainThread("Locking down for country...");
-                            bool Success = Session.ATCClient.DoCommand("AT+C32=" + ((int)Country).ToString());
-                            if (Success)
+                            var Band = RFDX.GetBand();
+
+                            //Check band is acceptable.
+                            if (RFD.RFD900.RFD900xuxRevN.GetCanBeLockedToCountry(Band, Country))
                             {
-                                LogStringNonMainThread("Modem reported done OK.");
-                                //AT&W
-                                LogStringNonMainThread("Writing to flash...");
-                                Success = Session.ATCClient.DoCommand("AT&W");
+                                //AT+C32=x
+                                LogStringNonMainThread("Locking down for country...");
+                                bool Success = RFDX.WriteCounty(Country);
                                 if (Success)
                                 {
                                     LogStringNonMainThread("Modem reported done OK.");
-                                    //ATZ
-                                    LogStringNonMainThread("Resetting modem...");
-                                    Success = Session.ATCClient.DoCommand("ATZ");
-                                    Success = true; //ATZ command doesn't return OK.
+                                    //AT&W
+                                    LogStringNonMainThread("Writing to flash...");
+                                    Success = Session.ATCClient.DoCommand("AT&W");
                                     if (Success)
                                     {
-                                        //LogStringNonMainThread("Modem reported done OK.");
-                                        //Get the version string using ATI and verify country code.
-                                        LogStringNonMainThread("Putting into AT command mode...");
-                                        Session.AssumeMode(RFD.RFD900.TSession.TMode.TRANSPARENT);
-                                        Mode = Session.PutIntoATCommandMode();
-                                        if (Mode == RFD.RFD900.TSession.TMode.AT_COMMAND)
+                                        LogStringNonMainThread("Modem reported done OK.");
+                                        //ATZ
+                                        LogStringNonMainThread("Resetting modem...");
+                                        Success = Session.ATCClient.DoCommand("ATZ");
+                                        Success = true; //ATZ command doesn't return OK.
+                                        if (Success)
                                         {
-                                            //Get the version string using ATI.
-                                            LogStringNonMainThread("Getting the version string...");
-                                            ATIResult = Session.ATCClient.DoQuery("ATI", true);
-                                            LogStringNonMainThread("Resulting version is \"" + ATIResult + "\"");
-                                            LogStringNonMainThread("Finished.");
+                                            //LogStringNonMainThread("Modem reported done OK.");
+                                            //Get the version string using ATI and verify country code.
+                                            LogStringNonMainThread("Putting into AT command mode...");
+                                            Session.AssumeMode(RFD.RFD900.TSession.TMode.TRANSPARENT);
+                                            Mode = Session.PutIntoATCommandMode();
+                                            if (Mode == RFD.RFD900.TSession.TMode.AT_COMMAND)
+                                            {
+                                                //Get the version string using ATI.
+                                                LogStringNonMainThread("Getting the version string...");
+                                                ATIResult = Session.ATCClient.DoQuery("ATI", true);
+                                                LogStringNonMainThread("Resulting version is \"" + ATIResult + "\"");
+                                                LogStringNonMainThread("Finished.");
+                                            }
+                                            else
+                                            {
+                                                LogStringNonMainThread("Failed to put into AT command mode, aborting.");
+                                            }
                                         }
                                         else
                                         {
-                                            LogStringNonMainThread("Failed to put into AT command mode, aborting.");
+                                            LogStringNonMainThread("Command didn't return OK.  Aborting.");
                                         }
                                     }
                                     else
                                     {
-                                        LogStringNonMainThread("Command didn't return OK.  Aborting.");
+                                        LogStringNonMainThread("Couldn't lock for country.  Aborting.");
                                     }
                                 }
                                 else
                                 {
-                                    LogStringNonMainThread("Couldn't lock for country.  Aborting.");
+                                    LogStringNonMainThread("Command didn't return OK.  Aborting.");
                                 }
                             }
                             else
                             {
-                                LogStringNonMainThread("Command didn't return OK.  Aborting.");
+                                LogStringNonMainThread("Modems with band " + Band.ToString() + " cannot be locked to " + Country.ToString());
                             }
                         }
                         else
@@ -181,10 +193,10 @@ namespace RFD900Tools
                     }
                     else
                     {
-                        if (Mdm is RFD.RFD900.RFD900xux)
+                        if (Mdm is RFD.RFD900.RFD900xuxRevN)
                         {
-                            var CountryCode = ((RFD.RFD900.RFD900xux)Mdm).GetCountryCode();
-                            if (!RFD.RFD900.RFD900xux.GetIsCountryLocked(CountryCode))
+                            var CountryCode = ((RFD.RFD900.RFD900xuxRevN)Mdm).GetCountryCode();
+                            if (!RFD.RFD900.RFD900xuxRevN.GetIsCountryLocked(CountryCode))
                             {
                                 //AT+C32=x
                                 LogStringNonMainThread("Doesn't appear to be locked down.");

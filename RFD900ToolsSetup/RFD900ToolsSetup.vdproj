@@ -178,7 +178,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RFD900Tools, Version=0.2.57.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:RFD900Tools, Version=0.2.58.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_187250387F8C41B79FF94F32E955C8A4"
@@ -331,7 +331,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph, Version=5.1.5.32287, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ZedGraph, Version=5.1.5.31310, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_4DF78503F56E46E9BA7217F9CE694C8F"
@@ -538,15 +538,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RFD900 Tools"
-        "ProductCode" = "8:{15C67590-705E-4290-8DC7-6796AD713B26}"
-        "PackageCode" = "8:{61B971E7-6FF0-496E-85F0-67C2073B2682}"
+        "ProductCode" = "8:{745B7DAC-B7DE-4832-AEF3-821BBA10B9EC}"
+        "PackageCode" = "8:{E986CA23-A27C-4CE7-9A91-DD6159C3690B}"
         "UpgradeCode" = "8:{5CF5324A-B273-4F09-80F8-04A7C58CA17F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.57.0"
+        "ProductVersion" = "8:2.58.0"
         "Manufacturer" = "8:RFDesign"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

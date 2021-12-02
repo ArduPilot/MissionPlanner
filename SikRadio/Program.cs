@@ -76,6 +76,7 @@
  * 2.56 - Now recognises country code 255 as not locked to country.
  * 2.57 - Now before programming firmware, checks whether modem says it is DINIO.  If it says it is DINIO, only allows
  *          DINIO firmware to be programmed into modem.  
+ * 2.58 - Now supports RFD X rev 2.  Now checks that band is compatible with country before locking to a country.  
  */
 
 using System;
