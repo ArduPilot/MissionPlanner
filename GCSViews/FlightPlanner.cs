@@ -2011,6 +2011,7 @@ namespace MissionPlanner.GCSViews
         public void chk_grid_CheckedChanged(object sender, EventArgs e)
         {
             grid = chk_grid.Checked;
+            this.MainMap.Refresh();
         }
 
         public void CHK_splinedefault_CheckedChanged(object sender, EventArgs e)
