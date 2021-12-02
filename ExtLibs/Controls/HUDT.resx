@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ARMED" xml:space="preserve">
     <value>ARMED</value>
@@ -126,6 +126,25 @@
   <data name="Bat" xml:space="preserve">
     <value>Bat </value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="batt_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\batt_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="batt_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\batt_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="batt_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\batt_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="batt_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\batt_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="batt_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\batt_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="batt_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\batt_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Cell" xml:space="preserve">
     <value>Cell</value>
   </data>
@@ -135,10 +154,20 @@
   <data name="E" xml:space="preserve">
     <value>E</value>
   </data>
+  <data name="ekf_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ekf_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ekf_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ekf_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ekf_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ekf_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="FAILSAFE" xml:space="preserve">
     <value>FAILSAFE</value>
   </data>
-  <data name="FailsafeH" type="System.Int32" xml:space="preserve">
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="FailsafeH" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="Font" xml:space="preserve">
@@ -162,7 +191,7 @@
   <data name="GPS5" xml:space="preserve">
     <value>GPS: rtk Float</value>
   </data>
-    <data name="GPS6" xml:space="preserve">
+  <data name="GPS6" xml:space="preserve">
     <value>GPS: rtk Fixed</value>
   </data>
   <data name="GS" xml:space="preserve">
@@ -174,8 +203,20 @@
   <data name="NE" xml:space="preserve">
     <value>NE</value>
   </data>
+  <data name="nofix_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\nofix_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nogps_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\nogps_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="NW" xml:space="preserve">
     <value>NW</value>
+  </data>
+  <data name="rtkfixed_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\rtkfixed_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rtkfloat_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\rtkfloat_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="S" xml:space="preserve">
     <value>S</value>
@@ -186,7 +227,28 @@
   <data name="SW" xml:space="preserve">
     <value>SW</value>
   </data>
+  <data name="unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\unknown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="vibe_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\vibe_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="vibe_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\vibe_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="vibe_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\vibe_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="W" xml:space="preserve">
     <value>W</value>
+  </data>
+  <data name="_2dfix_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\2dfix_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_3ddgps_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\3ddgps_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_3dfix_wide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\3dfix_wide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

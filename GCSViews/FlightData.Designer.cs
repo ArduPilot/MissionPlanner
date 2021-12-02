@@ -209,6 +209,7 @@ namespace MissionPlanner.GCSViews
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.showIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -411,7 +412,8 @@ namespace MissionPlanner.GCSViews
             this.russianHudToolStripMenuItem,
             this.swapWithMapToolStripMenuItem,
             this.groundColorToolStripMenuItem,
-            this.setBatteryCellCountToolStripMenuItem});
+            this.setBatteryCellCountToolStripMenuItem,
+            this.showIconsToolStripMenuItem});
             this.contextMenuStripHud.Name = "contextMenuStrip2";
             resources.ApplyResources(this.contextMenuStripHud, "contextMenuStripHud");
             // 
@@ -2389,7 +2391,7 @@ namespace MissionPlanner.GCSViews
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2589,6 +2591,12 @@ namespace MissionPlanner.GCSViews
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // showIconsToolStripMenuItem
+            // 
+            this.showIconsToolStripMenuItem.Name = "showIconsToolStripMenuItem";
+            resources.ApplyResources(this.showIconsToolStripMenuItem, "showIconsToolStripMenuItem");
+            this.showIconsToolStripMenuItem.Click += new System.EventHandler(this.showIconsToolStripMenuItem_Click);
             // 
             // FlightData
             // 
@@ -2870,5 +2878,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.Label NIC_lbl;
         private System.Windows.Forms.TextBox NACp_tb;
         private System.Windows.Forms.TextBox NIC_tb;
+        private ToolStripMenuItem showIconsToolStripMenuItem;
     }
 }
