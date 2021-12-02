@@ -347,6 +347,7 @@ namespace MissionPlanner.GCSViews
             myhud.skyColor2 = ThemeManager.HudSkyBot;
             myhud.hudcolor = ThemeManager.HudText;
 
+            hud1.displayicons = Settings.Instance.GetBoolean("HUD_showicons", false);
         }
 
         public void Activate()
@@ -5568,6 +5569,20 @@ namespace MissionPlanner.GCSViews
                 Squawk_nud.Enabled = false;
 
                 XPDRConnect_btn.Text = "Connect to Transponder";
+            }
+        }
+
+        private void showIconsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            myhud.displayicons = !myhud.displayicons;
+            Settings.Instance["HUD_showicons"] = myhud.displayicons.ToString();
+            if (myhud.displayicons)
+            {
+                showIconsToolStripMenuItem.Text = "Show text";
+            }
+            else
+            {
+                showIconsToolStripMenuItem.Text = "Show icons";
             }
         }
     }
