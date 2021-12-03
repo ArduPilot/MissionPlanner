@@ -973,7 +973,11 @@ namespace MissionPlanner.GCSViews
             try
             {
                 var cmds = WaypointFile.ReadWaypointFile(file);
-
+                if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE ||
+                    (MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+                {
+                    cmds.RemoveAt(0);
+                }
                 processToScreen(cmds, append);
 
                 writeKML();
