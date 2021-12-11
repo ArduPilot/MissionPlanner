@@ -58,7 +58,7 @@ namespace MissionPlanner
                         itemr.Position = portlocation;
                         itemr.Heading = MAV.cs.yaw;
                         itemr.Cog = MAV.cs.groundcourse;
-                        itemr.Target = MAV.cs.nav_bearing;
+                        itemr.Target = MAV.cs.target_bearing;
                         itemr.Nav_bearing = MAV.cs.nav_bearing;
                         return null;
                     }
