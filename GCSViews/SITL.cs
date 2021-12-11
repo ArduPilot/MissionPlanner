@@ -389,6 +389,8 @@ namespace MissionPlanner.GCSViews
                         url = sitlroverstableurl;
                     if (filename.ToLower().Contains("plane"))
                         url = sitlplanestableurl;
+                    if (filename.ToLower().Contains("heli"))
+                        url = sitlcopterstableurl;
                 }
 
                 Uri fullurl = new Uri(url, filename);
