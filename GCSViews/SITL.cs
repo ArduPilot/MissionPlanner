@@ -389,6 +389,9 @@ namespace MissionPlanner.GCSViews
                         url = sitlroverstableurl;
                     if (filename.ToLower().Contains("plane"))
                         url = sitlplanestableurl;
+                } else
+                {
+                    return null;
                 }
 
                 Uri fullurl = new Uri(url, filename);
@@ -573,6 +576,10 @@ namespace MissionPlanner.GCSViews
 
         private async void StartSITL(string exepath, string model, string homelocation, string extraargs = "", int speedup = 1)
         {
+
+            //If we got null, it means that the verison selection box was canceled.
+            if (exepath == null) return;
+
             if (String.IsNullOrEmpty(homelocation))
             {
                 CustomMessageBox.Show(Strings.Invalid_home_location, Strings.ERROR);
