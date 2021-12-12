@@ -57,10 +57,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BAR12 = new MissionPlanner.Controls.HorizontalProgressBar2();
             this.BAR11 = new MissionPlanner.Controls.HorizontalProgressBar2();
             this.BAR10 = new MissionPlanner.Controls.HorizontalProgressBar2();
-            this.CHK_revch3 = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_revch4 = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_revch2 = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CHK_revch1 = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_revthr = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_revyaw = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_revpitch = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_revroll = new MissionPlanner.Controls.MavlinkCheckBox();
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBoxElevons.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -401,43 +401,43 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // CHK_revch3
             // 
-            resources.ApplyResources(this.CHK_revch3, "CHK_revch3");
-            this.CHK_revch3.Name = "CHK_revch3";
-            this.CHK_revch3.OffValue = 0D;
-            this.CHK_revch3.OnValue = 1D;
-            this.CHK_revch3.ParamName = null;
-            this.CHK_revch3.UseVisualStyleBackColor = true;
-            this.CHK_revch3.CheckedChanged += new System.EventHandler(this.CHK_revch3_CheckedChanged);
+            resources.ApplyResources(this.CHK_revthr, "CHK_revch3");
+            this.CHK_revthr.Name = "CHK_revch3";
+            this.CHK_revthr.OffValue = 0D;
+            this.CHK_revthr.OnValue = 1D;
+            this.CHK_revthr.ParamName = null;
+            this.CHK_revthr.UseVisualStyleBackColor = true;
+            this.CHK_revthr.CheckedChanged += new System.EventHandler(this.CHK_revch3_CheckedChanged);
             // 
             // CHK_revch4
             // 
-            resources.ApplyResources(this.CHK_revch4, "CHK_revch4");
-            this.CHK_revch4.Name = "CHK_revch4";
-            this.CHK_revch4.OffValue = 0D;
-            this.CHK_revch4.OnValue = 1D;
-            this.CHK_revch4.ParamName = null;
-            this.CHK_revch4.UseVisualStyleBackColor = true;
-            this.CHK_revch4.CheckedChanged += new System.EventHandler(this.CHK_revch4_CheckedChanged);
+            resources.ApplyResources(this.CHK_revyaw, "CHK_revch4");
+            this.CHK_revyaw.Name = "CHK_revch4";
+            this.CHK_revyaw.OffValue = 0D;
+            this.CHK_revyaw.OnValue = 1D;
+            this.CHK_revyaw.ParamName = null;
+            this.CHK_revyaw.UseVisualStyleBackColor = true;
+            this.CHK_revyaw.CheckedChanged += new System.EventHandler(this.CHK_revch4_CheckedChanged);
             // 
             // CHK_revch2
             // 
-            resources.ApplyResources(this.CHK_revch2, "CHK_revch2");
-            this.CHK_revch2.Name = "CHK_revch2";
-            this.CHK_revch2.OffValue = 0D;
-            this.CHK_revch2.OnValue = 1D;
-            this.CHK_revch2.ParamName = null;
-            this.CHK_revch2.UseVisualStyleBackColor = true;
-            this.CHK_revch2.CheckedChanged += new System.EventHandler(this.CHK_revch2_CheckedChanged);
+            resources.ApplyResources(this.CHK_revpitch, "CHK_revch2");
+            this.CHK_revpitch.Name = "CHK_revch2";
+            this.CHK_revpitch.OffValue = 0D;
+            this.CHK_revpitch.OnValue = 1D;
+            this.CHK_revpitch.ParamName = null;
+            this.CHK_revpitch.UseVisualStyleBackColor = true;
+            this.CHK_revpitch.CheckedChanged += new System.EventHandler(this.CHK_revch2_CheckedChanged);
             // 
             // CHK_revch1
             // 
-            resources.ApplyResources(this.CHK_revch1, "CHK_revch1");
-            this.CHK_revch1.Name = "CHK_revch1";
-            this.CHK_revch1.OffValue = 0D;
-            this.CHK_revch1.OnValue = 1D;
-            this.CHK_revch1.ParamName = null;
-            this.CHK_revch1.UseVisualStyleBackColor = true;
-            this.CHK_revch1.CheckedChanged += new System.EventHandler(this.CHK_revch1_CheckedChanged);
+            resources.ApplyResources(this.CHK_revroll, "CHK_revch1");
+            this.CHK_revroll.Name = "CHK_revch1";
+            this.CHK_revroll.OffValue = 0D;
+            this.CHK_revroll.OnValue = 1D;
+            this.CHK_revroll.ParamName = null;
+            this.CHK_revroll.UseVisualStyleBackColor = true;
+            this.CHK_revroll.CheckedChanged += new System.EventHandler(this.CHK_revch1_CheckedChanged);
             // 
             // currentStateBindingSource
             // 
@@ -456,10 +456,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.BAR9);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBoxElevons);
-            this.Controls.Add(this.CHK_revch3);
-            this.Controls.Add(this.CHK_revch4);
-            this.Controls.Add(this.CHK_revch2);
-            this.Controls.Add(this.CHK_revch1);
+            this.Controls.Add(this.CHK_revthr);
+            this.Controls.Add(this.CHK_revyaw);
+            this.Controls.Add(this.CHK_revpitch);
+            this.Controls.Add(this.CHK_revroll);
             this.Controls.Add(this.BUT_Calibrateradio);
             this.Controls.Add(this.BAR8);
             this.Controls.Add(this.BAR7);
@@ -487,10 +487,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkCheckBox CHK_elevonch2rev;
         private MavlinkCheckBox CHK_elevonrev;
         private MavlinkCheckBox CHK_elevonch1rev;
-        private MavlinkCheckBox CHK_revch3;
-        private MavlinkCheckBox CHK_revch4;
-        private MavlinkCheckBox CHK_revch2;
-        private MavlinkCheckBox CHK_revch1;
+        private MavlinkCheckBox CHK_revthr;
+        private MavlinkCheckBox CHK_revyaw;
+        private MavlinkCheckBox CHK_revpitch;
+        private MavlinkCheckBox CHK_revroll;
         private Controls.MyButton BUT_Calibrateradio;
         private HorizontalProgressBar2 BAR8;
         private HorizontalProgressBar2 BAR7;
