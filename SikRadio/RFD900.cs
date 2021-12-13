@@ -23,6 +23,7 @@ namespace RFD.RFD900
         /// are described by an RTI5? command.
         /// </summary>
         Dictionary<string, TSetting> _DefaultSettings = new Dictionary<string, TSetting>();
+        const int BOOTLOADERX_BAUD = 57600;
         const int BOOTLOADER_BAUD = 115200;
         const string NODEID = "NODEID";
         const string NODEDESTINATION = "NODEDESTINATION";
@@ -65,6 +66,11 @@ namespace RFD.RFD900
             BOOTLOADER,     //For a,u,+
             BOOTLOADER_X,    //For x
             UNKNOWN
+        }
+
+        public void WriteToPort(string ToWrite)
+        {
+            _Port.Write(ToWrite);
         }
 
         public void Dispose()
@@ -167,6 +173,9 @@ namespace RFD.RFD900
         /// <returns></returns>
         bool IsInBootloaderXMode()
         {
+            int PrevBaud = _Port.BaudRate;
+            _Port.BaudRate = BOOTLOADERX_BAUD;
+
             //for (int n = 0; n < 3; n++)
             {
                 Thread.Sleep(200);
@@ -178,9 +187,11 @@ namespace RFD.RFD900
                 _Port.Write("CHIPID\r\n");
                 if (WaitForToken("RFD", 200))
                 {
+                    //Leave baud rate at bootloader X baud rate.
                     return true;
                 }
             }
+            _Port.BaudRate = PrevBaud;
             return false;
         }
 
@@ -188,12 +199,12 @@ namespace RFD.RFD900
         {
             _Port.ReadTimeout = 2000;
             //Console.WriteLine("Waiting 1500ms");
-            Thread.Sleep(2000);
+            Thread.Sleep(1500);
             _Port.DiscardInBuffer();
             //Console.WriteLine("Sending +++");
             _Port.Write("+++");
             //Console.WriteLine("Waiting up to 1.5s for OK");
-            return WaitForToken("OK\r\n", 2000);
+            return WaitForToken("OK\r\n", 1500);
         }
 
         TMode DetermineMode()
@@ -201,11 +212,6 @@ namespace RFD.RFD900
             if (IsInBootloaderXMode())
             {
                 return TMode.BOOTLOADER_X;
-            }
-
-            if (TryEscapeFromTransparent() || TryEscapeFromTransparent())
-            {
-                return TMode.AT_COMMAND;
             }
 
             //Check if already in AT command mode.
@@ -217,6 +223,12 @@ namespace RFD.RFD900
             {
                 return TMode.AT_COMMAND;
             }
+
+            if (TryEscapeFromTransparent() || TryEscapeFromTransparent())
+            {
+                return TMode.AT_COMMAND;
+            }
+
             //Not in transparent or at command mode.  Probably in bootloader mode.  Need to verify.
             if (IsInBootloaderXMode())
             {
@@ -380,6 +392,7 @@ namespace RFD.RFD900
                     Thread.Sleep(100);
                     _Port.Write("RESET\r\n");
                     Thread.Sleep(100);
+                    _Port.BaudRate = _MainFirmwareBaud;
                     _Mode = TMode.INIT;
                     break;
             }
@@ -451,7 +464,7 @@ namespace RFD.RFD900
         {
             if (Mode == TMode.BOOTLOADER_X)
             {
-                _Port.BaudRate = BOOTLOADER_BAUD;
+                _Port.BaudRate = BOOTLOADERX_BAUD;
             }
             else
             {
@@ -1870,19 +1883,22 @@ namespace RFD.RFD900
         /// </summary>
         /// <param name="Session">The session.  Must not be null.</param>
         /// <returns>null if could not generate modem object</returns>
-        public static RFD900xux GetObjectForModem(TSession Session)
+        public static RFD900xuxRevN GetObjectForModem(TSession Session)
         {
             Session.Port.Write("\r\n");
             Thread.Sleep(200);
             Session.Port.DiscardInBuffer();
             Session.Port.Write("CHIPID\r\n");
-            int TokenIndex = Session.WaitForAnyOfTheseTokens(new string[] { "RFD900x", "RFD900ux" }, 200);
+            int TokenIndex = Session.WaitForAnyOfTheseTokens(new string[] { "RFD900xSub:1", "RFD900uxSub:1", "RFD900xSub:2", "RFD900uxSub:2"}, 200);
             switch (TokenIndex)
             {
                 case 0:
                     return new RFD900x(Session);
                 case 1:
                     return new RFD900ux(Session);
+                case 2:
+                    return new RFD900X2(Session);
+                case 3:
                 default:
                     return null;
             }
@@ -1978,8 +1994,17 @@ namespace RFD.RFD900
                     return true;
             }
         }
+        protected virtual bool SetHigherBaud()
+        {
+            return false;
+        }
 
-        bool TryFirmwareProgrammingOnce(string FilePath, Action<string, double> Progress)
+        protected virtual void ReturnToNormalBaud()
+        {
+
+        }
+
+        bool DoProgramming(string FilePath, Action<string, double> Progress)
         {
             _Session.Port.Write("\r");
             Thread.Sleep(100);
@@ -2003,7 +2028,23 @@ namespace RFD.RFD900
             {
                 return false;
             }
+        }
 
+        bool TryFirmwareProgrammingOnce(string FilePath, Action<string, double> Progress)
+        {
+            bool Result;
+            bool HigherBaud;
+
+            HigherBaud = SetHigherBaud();
+
+            Result = DoProgramming(FilePath, Progress);
+
+            if (HigherBaud)
+            {
+                ReturnToNormalBaud();
+            }
+
+            return Result;
         }
 
         /// <summary>
@@ -2293,6 +2334,27 @@ namespace RFD.RFD900
         protected override string[] GetFirmwareSearchTokens()
         {
             return new string[0];
+        }
+
+        protected override bool SetHigherBaud()
+        {
+            _Session.WriteToPort("BAUDHI\r\n");
+
+            bool Result = _Session.WaitForToken("OK", 500);
+
+            if (Result)
+            {
+                _Session.Port.BaudRate = 1200000;
+            }
+
+            return Result;
+        }
+
+        protected override void ReturnToNormalBaud()
+        {
+            _Session.WriteToPort("BAUDLO\r\n");
+            _Session.WaitForToken("OK", 500);
+            _Session.Port.BaudRate = 57600;
         }
 
         public override bool WriteCounty(TCountry C)

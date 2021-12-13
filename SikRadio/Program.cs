@@ -77,6 +77,7 @@
  * 2.57 - Now before programming firmware, checks whether modem says it is DINIO.  If it says it is DINIO, only allows
  *          DINIO firmware to be programmed into modem.  
  * 2.58 - Now supports RFD X rev 2.  Now checks that band is compatible with country before locking to a country.  
+ * 2.60 - Now supports RFD X rev 2 programming firmware when baud rate other than 57600bps is used. 
  */
 
 using System;
