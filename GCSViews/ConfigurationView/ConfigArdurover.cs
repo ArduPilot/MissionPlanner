@@ -72,10 +72,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             WP_RADIUS.setup(0, 0, 1, 0.1f, "WP_RADIUS", MainV2.comPort.MAV.param);
             WP_OVERSHOOT.setup(0, 0, 1, 0.1f, "WP_OVERSHOOT", MainV2.comPort.MAV.param);
-            TURN_G_MAX.setup(0, 0, 1, 0.1f, "TURN_MAX_G", MainV2.comPort.MAV.param);
+            TURN_G_MAX.setup(0, 0, 1, 0.1f, new[] { "TURN_MAX_G", "ATC_TURN_MAX_G" }, MainV2.comPort.MAV.param);
             NAVL1_PERIOD.setup(0, 0, 1, 1, "NAVL1_PERIOD", MainV2.comPort.MAV.param);
             NAVL1_DAMPING.setup(0, 0, 1, 0.05f, "NAVL1_DAMPING", MainV2.comPort.MAV.param);
 
+            if (MainV2.comPort.MAV.param["SONAR_TRIGGER_CM"] == null && MainV2.comPort.MAV.param["RNGFND_TRIGGR_CM"] == null)
+            {
+                groupBox1.Visible = false;
+            }
+            
             SONAR_TRIGGER_CM.setup(0, 0, 1, 1, new[] { "SONAR_TRIGGER_CM", "RNGFND_TRIGGR_CM" }, MainV2.comPort.MAV.param);
             SONAR_TURN_ANGLE.setup(0, 0, 1, 1, new[] { "SONAR_TURN_ANGLE", "RNGFND_TURN_ANGL" }, MainV2.comPort.MAV.param);
             SONAR_TURN_TIME.setup(0, 0, 1, 1, new[] { "SONAR_TURN_TIME", "RNGFND_TURN_TIME" }, MainV2.comPort.MAV.param);

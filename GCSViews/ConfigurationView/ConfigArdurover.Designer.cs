@@ -138,15 +138,11 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label22);
-            this.groupBox3.Controls.Add(this.CRUISE_SPEED);
             this.groupBox3.Controls.Add(this.MOT_PWM_TYPE);
-            this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.THR_MAX);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.THR_MIN);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.CRUISE_THROTTLE);
-            this.groupBox3.Controls.Add(this.label8);
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
@@ -220,15 +216,19 @@
             // groupBox14
             // 
             this.groupBox14.Controls.Add(this.label23);
+            this.groupBox14.Controls.Add(this.CRUISE_SPEED);
             this.groupBox14.Controls.Add(this.ATC_ACCEL_MAX);
             this.groupBox14.Controls.Add(this.ATC_BRAKE);
             this.groupBox14.Controls.Add(this.label20);
+            this.groupBox14.Controls.Add(this.label12);
             this.groupBox14.Controls.Add(this.SPEED2THR_IMAX);
             this.groupBox14.Controls.Add(this.label73);
             this.groupBox14.Controls.Add(this.SPEED2THR_D);
             this.groupBox14.Controls.Add(this.label74);
+            this.groupBox14.Controls.Add(this.CRUISE_THROTTLE);
             this.groupBox14.Controls.Add(this.SPEED2THR_I);
             this.groupBox14.Controls.Add(this.label75);
+            this.groupBox14.Controls.Add(this.label8);
             this.groupBox14.Controls.Add(this.SPEED2THR_P);
             this.groupBox14.Controls.Add(this.label76);
             resources.ApplyResources(this.groupBox14, "groupBox14");
