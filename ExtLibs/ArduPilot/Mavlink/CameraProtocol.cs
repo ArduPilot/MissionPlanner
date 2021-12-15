@@ -30,7 +30,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                         CameraInformation = ((MAVLink.mavlink_camera_information_t) message.data);
 
-                        if (ASCIIEncoding.ASCII.GetString(CameraInformation.cam_definition_uri) != "")
+                        if (ASCIIEncoding.UTF8.GetString(CameraInformation.cam_definition_uri) != "")
                         {
                             // get the uri
                         }
@@ -63,7 +63,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         break;
                     case MAVLink.MAVLINK_MSG_ID.VIDEO_STREAM_INFORMATION:
                         VideoStreamInformation = ((MAVLink.mavlink_video_stream_information_t) message.data);
-                        var uri = ASCIIEncoding.ASCII.GetString(VideoStreamInformation.uri);
+                        var uri = ASCIIEncoding.UTF8.GetString(VideoStreamInformation.uri);
                         int ind = uri.IndexOf('\0');
                         if (ind != -1)
                             uri = uri.Substring(0, ind);

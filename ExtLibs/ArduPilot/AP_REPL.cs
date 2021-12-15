@@ -80,7 +80,7 @@ namespace MissionPlanner.ArduPilot
                             _mavftp.kCmdTerminateSession();
 
                             NewResponse?.Invoke(this,
-                                ASCIIEncoding.ASCII.GetString(stream.ToArray().Skip(_outskip).ToArray()));
+                                ASCIIEncoding.UTF8.GetString(stream.ToArray().Skip(_outskip).ToArray()));
 
                             _outskip = (int)stream.Length;
                         }
@@ -118,7 +118,7 @@ namespace MissionPlanner.ArduPilot
 
         public void SendLine(string line)
         {
-            SendLine(ASCIIEncoding.ASCII.GetBytes(line));
+            SendLine(ASCIIEncoding.UTF8.GetBytes(line));
         }
 
         private int _sessionwrite = 0;

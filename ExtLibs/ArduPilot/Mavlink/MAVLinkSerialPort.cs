@@ -124,7 +124,7 @@ namespace MissionPlanner.Comms
             packetwithdata++;
 
             Console.WriteLine(DateTime.Now.Millisecond + "data count " + item.count);
-                // ASCIIEncoding.ASCII.GetString(item.data, 0, item.count)
+                // ASCIIEncoding.UTF8.GetString(item.data, 0, item.count)
 
             lock (buffer)
             {
@@ -221,7 +221,7 @@ namespace MissionPlanner.Comms
             if (data.Length > 0)
                 Read(data, 0, data.Length);
 
-            string line = Encoding.ASCII.GetString(data, 0, data.Length);
+            string line = Encoding.UTF8.GetString(data, 0, data.Length);
 
             return line;
         }
@@ -243,7 +243,7 @@ namespace MissionPlanner.Comms
 
         public void Write(string text)
         {
-            Write(ASCIIEncoding.ASCII.GetBytes(text), 0, text.Length);
+            Write(ASCIIEncoding.UTF8.GetBytes(text), 0, text.Length);
         }
 
         public void WriteLine(string text)

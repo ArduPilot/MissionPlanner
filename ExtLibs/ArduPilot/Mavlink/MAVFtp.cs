@@ -572,7 +572,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdOpenFileRO,
-                data = ASCIIEncoding.ASCII.GetBytes(file),
+                data = ASCIIEncoding.UTF8.GetBytes(file),
                 seq_number = seq_no++,
                 session = 0
             };
@@ -800,7 +800,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdCalcFileCRC32,
-                data = ASCIIEncoding.ASCII.GetBytes(file),
+                data = ASCIIEncoding.UTF8.GetBytes(file),
                 seq_number = seq_no++,
                 session = 0
             };
@@ -932,7 +932,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdCreateDirectory,
-                data = ASCIIEncoding.ASCII.GetBytes(file),
+                data = ASCIIEncoding.UTF8.GetBytes(file),
                 seq_number = seq_no++,
                 session = 0
             };
@@ -1025,7 +1025,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdCreateFile,
-                data = ASCIIEncoding.ASCII.GetBytes(file),
+                data = ASCIIEncoding.UTF8.GetBytes(file),
                 seq_number = seq_no++,
                 session = 0
             };
@@ -1128,7 +1128,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdListDirectory,
-                data = ASCIIEncoding.ASCII.GetBytes(dir),
+                data = ASCIIEncoding.UTF8.GetBytes(dir),
                 seq_number = seq_no++,
                 offset = 0
             };
@@ -1280,7 +1280,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdOpenFileWO,
-                data = ASCIIEncoding.ASCII.GetBytes(file),
+                data = ASCIIEncoding.UTF8.GetBytes(file),
                 seq_number = seq_no++,
                 session = 0
             };
@@ -1492,7 +1492,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdRemoveDirectory,
-                data = ASCIIEncoding.ASCII.GetBytes(file),
+                data = ASCIIEncoding.UTF8.GetBytes(file),
                 seq_number = seq_no++,
                 session = 0
             };
@@ -1577,7 +1577,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdRemoveFile,
-                data = ASCIIEncoding.ASCII.GetBytes(file),
+                data = ASCIIEncoding.UTF8.GetBytes(file),
                 seq_number = seq_no++,
                 session = 0
             };
@@ -1661,7 +1661,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdRename,
-                data = ASCIIEncoding.ASCII.GetBytes(src + "\0" + dest),
+                data = ASCIIEncoding.UTF8.GetBytes(src + "\0" + dest),
                 seq_number = seq_no++,
                 session = 0
             };
@@ -1848,7 +1848,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdTruncateFile,
-                data = ASCIIEncoding.ASCII.GetBytes(file),
+                data = ASCIIEncoding.UTF8.GetBytes(file),
                 seq_number = seq_no++,
                 session = 0
             };

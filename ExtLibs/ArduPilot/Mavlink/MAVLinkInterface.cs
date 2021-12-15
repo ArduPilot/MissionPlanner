@@ -1491,7 +1491,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 {
                     mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
 
-                    string st = Encoding.ASCII.GetString(par.param_id);
+                    string st = Encoding.UTF8.GetString(par.param_id);
 
                     int pos = st.IndexOf('\0');
 
@@ -1622,7 +1622,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 {
                     var msg = buffer.ToStructure<mavlink_statustext_t>();
 
-                    string logdata = Encoding.ASCII.GetString(msg.text);
+                    string logdata = Encoding.UTF8.GetString(msg.text);
 
                     int ind = logdata.IndexOf('\0');
                     if (ind != -1)
@@ -1777,7 +1777,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 {
                     var msg = buffer.ToStructure<mavlink_statustext_t>();
 
-                    string logdata = Encoding.ASCII.GetString(msg.text);
+                    string logdata = Encoding.UTF8.GetString(msg.text);
 
                     int ind = logdata.IndexOf('\0');
                     if (ind != -1)
@@ -1828,7 +1828,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (param_total == 0)
                         return true;
 
-                    string paramID = Encoding.ASCII.GetString(par.param_id);
+                    string paramID = Encoding.UTF8.GetString(par.param_id);
 
                     int pos = paramID.IndexOf('\0');
                     if (pos != -1)
@@ -2120,7 +2120,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
 
-                        string st = Encoding.ASCII.GetString(par.param_id);
+                        string st = Encoding.UTF8.GetString(par.param_id);
 
                         int pos = st.IndexOf('\0');
 
@@ -2133,8 +2133,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (!(par.param_index == index || st == name))
                         {
                             log.ErrorFormat("Wrong Answer {0} - {1} - {2}    --- '{3}' vs '{4}'", par.param_index,
-                                Encoding.ASCII.GetString(par.param_id), par.param_value,
-                                Encoding.ASCII.GetString(req.param_id).TrimEnd(), st);
+                                Encoding.UTF8.GetString(par.param_id), par.param_value,
+                                Encoding.UTF8.GetString(req.param_id).TrimEnd(), st);
                             continue;
                         }
 
@@ -4861,7 +4861,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                         adsb.altitude / 1000.0, adsb.heading * 0.01f, adsb.hor_velocity * 0.01f, id,
                                         DateTime.Now)
                                     {
-                                        CallSign = Encoding.ASCII.GetString(adsb.callsign),
+                                        CallSign = Encoding.UTF8.GetString(adsb.callsign),
                                         Squawk = adsb.squawk,
                                         Raw = adsb
                                     }
@@ -4913,7 +4913,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         var cannode = message.ToStructure<mavlink_uavcan_node_info_t>();
 
-                        var name = Encoding.ASCII.GetString(cannode.name);
+                        var name = Encoding.UTF8.GetString(cannode.name);
 
                         MAVlist[sysid, compid].VersionString = name;
 
@@ -4990,7 +4990,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         byte sev = msg.severity;
 
-                        string logdata = Encoding.ASCII.GetString(msg.text);
+                        string logdata = Encoding.UTF8.GetString(msg.text);
                         int ind = logdata.IndexOf('\0');
                         if (ind != -1)
                             logdata = logdata.Substring(0, ind);
@@ -5378,7 +5378,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 mavlink_param_value_t value = buffer.ToStructure<mavlink_param_value_t>();
 
-                string st = Encoding.ASCII.GetString(value.param_id);
+                string st = Encoding.UTF8.GetString(value.param_id);
 
                 int pos = st.IndexOf('\0');
 
