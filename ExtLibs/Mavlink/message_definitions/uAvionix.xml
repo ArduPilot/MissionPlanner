@@ -82,18 +82,6 @@
       <entry value="6" name="UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY"/>
       <entry value="7" name="UAVIONIX_ADSB_OUT_RESERVED"/>
     </enum>
-        <enum name="MAV_CMD">
-      <entry value="54132" name="MAV_CMD_DO_START_ADSB_OUT_IDENT" hasLocation="false" isDestination="false">
-        <description>Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the ADSB-out hardware per the ADSB spec.</description>
-        <param index="1">Empty</param>
-        <param index="2">Empty</param>
-        <param index="3">Empty</param>
-        <param index="4">Empty</param>
-        <param index="5">Empty</param>
-        <param index="6">Empty</param>
-        <param index="7">Empty</param>
-      </entry>
-    </enum>
     <enum name="UAVIONIX_ADSB_OUT_CONTROL_STATE">
       <description>State flags for ADS-B transponder dynamic report</description>
       <entry value="1" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_EXTERNAL_BARO_CROSSCHECKED"/>
@@ -220,3 +208,4 @@
     </message>
   </messages>
 </mavlink>
+

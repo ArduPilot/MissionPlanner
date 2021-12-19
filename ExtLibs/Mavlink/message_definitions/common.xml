@@ -4622,7 +4622,7 @@
       <field type="uint32_t" name="flight_sw_version">Firmware version number</field>
       <field type="uint32_t" name="middleware_sw_version">Middleware version number</field>
       <field type="uint32_t" name="os_sw_version">Operating system version number</field>
-      <field type="uint32_t" name="board_version">HW / board version (last 8 bytes should be silicon ID, if any)</field>
+      <field type="uint32_t" name="board_version">HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/PX4/PX4-Bootloader/blob/master/board_types.txt</field>
       <field type="uint8_t[8]" name="flight_custom_version">Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.</field>
       <field type="uint8_t[8]" name="middleware_custom_version">Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.</field>
       <field type="uint8_t[8]" name="os_custom_version">Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases.</field>
@@ -5070,7 +5070,7 @@
       <field type="uint8_t" name="target_component">component ID of the target</field>
       <field type="uint16_t" name="sequence">sequence number (must match the one in LOGGING_DATA_ACKED)</field>
     </message>
-    <message id="269" name="VIDEO_STREAM_INFORMATION">
+    <message id="9269" name="VIDEO_STREAM_INFORMATION9">
       <description>Information about video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE, where param2 indicates the video stream id: 0 for all streams, 1 for first, 2 for second, etc.</description>
       <field type="uint8_t" name="stream_id" instance="true">Video Stream ID (1 for first, 2 for second, etc.)</field>
       <field type="uint8_t" name="count">Number of streams available.</field>
@@ -5369,3 +5369,4 @@
     </message>
   </messages>
 </mavlink>
+
