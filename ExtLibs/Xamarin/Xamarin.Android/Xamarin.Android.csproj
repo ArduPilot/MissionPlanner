@@ -47,7 +47,7 @@
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
-    <AndroidHttpClientHandlerType>System.Net.Http.HttpClientHandler</AndroidHttpClientHandlerType>
+    <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidEnableSGenConcurrent>false</AndroidEnableSGenConcurrent>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -256,7 +256,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionXamarinAndroidHideInfoBar="True" TriggeredFromHotReload="False" />
+      <UserProperties TriggeredFromHotReload="False" XamarinHotReloadDebuggerTimeoutExceptionXamarinAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

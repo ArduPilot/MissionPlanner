@@ -30,7 +30,9 @@ namespace MissionPlanner.Utilities
                     answer = ParameterMetaDataRepositoryAPMpdef.GetParameterMetaData(nodeKey, metaKey, "SITL");
                 if (answer == string.Empty)
                     answer = ParameterMetaDataRepositoryAPMpdef.GetParameterMetaData(nodeKey, metaKey, "AP_Periph");
-                 //   return ParameterMetaDataRepositoryAPM.GetParameterMetaData(nodeKey, metaKey, vechileType);
+                // add fallback
+                if (answer == string.Empty)
+                    return ParameterMetaDataRepositoryAPM.GetParameterMetaData(nodeKey, metaKey, vechileType);
                 return answer;
             }
         }

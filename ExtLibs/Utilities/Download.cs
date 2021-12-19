@@ -310,7 +310,7 @@ namespace MissionPlanner.Utilities
 
                 RequestModification?.Invoke(url, request);
 
-                using (var response = await client.SendAsync(request))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
                     lock (log)
                         log.Info(url + " " +(response).StatusCode.ToString());
@@ -339,7 +339,7 @@ namespace MissionPlanner.Utilities
                     }
 
                     int size = 0;
-                    using (Stream resstream = await response.Content.ReadAsStreamAsync())
+                    using (Stream resstream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                     using (FileStream fs = new FileStream(saveto + ".new", FileMode.Create))
                     {
                         byte[] buf1 = new byte[1024];
@@ -350,7 +350,7 @@ namespace MissionPlanner.Utilities
 
                         while (resstream.CanRead)
                         {
-                            int len = await resstream.ReadAsync(buf1, 0, 1024);
+                            int len = await resstream.ReadAsync(buf1, 0, 1024).ConfigureAwait(false);
                             if (len == 0)
                                 break;
                             fs.Write(buf1, 0, len);
