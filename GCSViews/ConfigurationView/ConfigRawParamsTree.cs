@@ -29,9 +29,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static Hashtable tooltips = new Hashtable();
         // Changes made to the params between writing to the copter
         private readonly Hashtable _changes = new Hashtable();
-        private List<GitHubContent.FileInfo> paramfiles;
+        private static List<GitHubContent.FileInfo> paramfiles;
         // ?
-        internal bool startup = true;
+        internal static bool startup = true;
+        internal static List<data> roots = new List<data>();
 
         public ConfigRawParamsTree()
         {
@@ -40,7 +41,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            startup = true;
+            if (!Settings.Instance.GetBoolean("SlowMachine",false)) startup = true;
+            if (roots.Count == 0) startup = true;
+
+            //gets counts of params in the tree
+            int paramcount = 0;
+            foreach (var i in roots)
+                paramcount = paramcount + i.children.Count();
+
+            //If we connected to another vehicle the do a full refresh
+            if (paramcount != MainV2.comPort.MAV.param.Count()) startup = true;
 
             _changes.Clear();
 
@@ -48,6 +58,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_reset_params.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_commitToFlash.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
+            BUT_refreshTable.Visible = Settings.Instance.GetBoolean("SlowMachine", false);
 
             SuspendLayout();
 
@@ -321,19 +332,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
             {
-                // If we have reached the target line length and the next      
-                // character is whitespace then begin a new line.   
+                // If we have reached the target line length and the next
+                // character is whitespace then begin a new line.
                 if (currentLinePosition >= lineLength &&
                     char.IsWhiteSpace(text[textIndex]))
                 {
                     sb.Append(Environment.NewLine);
                     currentLinePosition = 0;
                 }
-                // If we have just started a new line, skip all the whitespace.    
+                // If we have just started a new line, skip all the whitespace.
                 if (currentLinePosition == 0)
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
                         textIndex++;
-                // Append the next character.     
+                // Append the next character.
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
             }
@@ -367,76 +378,99 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
 
             var sorted = new List<string>();
-            foreach (string item in MainV2.comPort.MAV.param.Keys)
-                sorted.Add(item);
 
-            sorted.Sort(ComparisonTree);
-
-            var roots = new List<data>();
-            var lastroot = new data();
-
-            // process hashdefines and update display
-            foreach (var value in sorted)
+            if (startup)
             {
-                if (value == null || value == "")
-                    continue;
 
-                //System.Diagnostics.Debug.WriteLine("Doing: " + value);
+                foreach (string item in MainV2.comPort.MAV.param.Keys)
+                    sorted.Add(item);
 
-                var data = new data();
+                sorted.Sort(ComparisonTree);
 
-                var split = value.Split('_');
-                data.root = split[0];
+                //var roots = new List<data>();
+                roots.Clear();
+                var lastroot = new data();
 
-                data.paramname = value;
-                data.Value = MainV2.comPort.MAV.param[value].ToString();
-                try
+                // process hashdefines and update display
+                foreach (var value in sorted)
                 {
-                    var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
-                        ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
-                    if (!string.IsNullOrEmpty(metaDataDescription))
-                    {
-                        var range = ParameterMetaDataRepository.GetParameterMetaData(value,
-                            ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
-                        var options = ParameterMetaDataRepository.GetParameterMetaData(value,
-                            ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
-                        var units = ParameterMetaDataRepository.GetParameterMetaData(value,
-                            ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
+                    if (value == null || value == "")
+                        continue;
 
-                        data.unit = (units);
-                        data.range = (range + options.Replace(",", " "));
-                        data.desc = (metaDataDescription);
-                    }
+                    //System.Diagnostics.Debug.WriteLine("Doing: " + value);
 
-                    if (lastroot.root == split[0])
+                    var data = new data();
+
+                    var split = value.Split('_');
+                    data.root = split[0];
+
+                    data.paramname = value;
+                    data.Value = MainV2.comPort.MAV.param[value].ToString();
+                    try
                     {
-                        lastroot.children.Add(data);
+                        var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
+                            ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
+                        if (!string.IsNullOrEmpty(metaDataDescription))
+                        {
+                            var range = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
+                            var options = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
+                            var units = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
+
+                            data.unit = (units);
+                            data.range = (range + options.Replace(",", " "));
+                            data.desc = (metaDataDescription);
+                        }
+
+                        if (lastroot.root == split[0])
+                        {
+                            lastroot.children.Add(data);
+                        }
+                        else
+                        {
+                            var newroot = new data { root = split[0], paramname = split[0] };
+                            newroot.children.Add(data);
+                            roots.Add(newroot);
+                            lastroot = newroot;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        var newroot = new data { root = split[0], paramname = split[0] };
-                        newroot.children.Add(data);
-                        roots.Add(newroot);
-                        lastroot = newroot;
+                        log.Error(ex);
                     }
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
                 }
             }
 
+            //refresh values
+            Params.SuspendLayout();
+            Params.Visible = false;
+            Params.Enabled = false;
             foreach (var item in roots)
             {
                 // if the child has no children, we dont need the root.
                 if (item.children.Count == 1)
                 {
+                    //if we just reopen the control then just update the value
+                    if (!startup) item.children[0].Value = MainV2.comPort.MAV.param[item.children[0].paramname].ToString();
                     Params.AddObject(item.children[0]);
                     continue;
                 }
 
+                //if we just reopen the control then just update the value
+                if (!startup)
+                {
+                    foreach (var i in item.children)
+                        i.Value = MainV2.comPort.MAV.param[i.paramname].ToString();
+                }
+
                 Params.AddObject(item);
             }
+            Params.Enabled = true;
+            Params.Visible = true;
+            Params.ResumeLayout();
+
         }
 
         private int ComparisonTree(string s, string s1)
@@ -813,6 +847,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_modified_CheckedChanged(object sender, EventArgs e)
         {
             FilterTimerOnElapsed(null, null);
+        }
+
+        private void BUT_refreshTable_Click(object sender, EventArgs e)
+        {
+            startup = true;
+            processToScreen();
+            startup = false;
         }
     }
 }

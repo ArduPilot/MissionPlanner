@@ -31,9 +31,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static Hashtable tooltips = new Hashtable();
         // Changes made to the params between writing to the copter
         private readonly Hashtable _changes = new Hashtable();
-        private List<GitHubContent.FileInfo> paramfiles;
+        private static List<GitHubContent.FileInfo> paramfiles;
         // ?
-        internal bool startup = true;
+        internal static bool startup = true;
+        internal static List<DataGridViewRow> rowlist = new List<DataGridViewRow>();
 
         public ConfigRawParams()
         {
@@ -42,7 +43,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            startup = true;
+            if ((rowlist.Count == 0) || (!Settings.Instance.GetBoolean("SlowMachine", false))) startup = true;
+            //If we connected to another vehicle the do a full refresh
+            if (rowlist.Count != MainV2.comPort.MAV.param.Count()) startup = true;
 
             _changes.Clear();
 
@@ -50,6 +53,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BUT_rerequestparams.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_reset_params.Enabled = MainV2.comPort.BaseStream.IsOpen;
             BUT_commitToFlash.Visible = MainV2.DisplayConfiguration.displayParamCommitButton;
+            BUT_refreshTable.Visible = Settings.Instance.GetBoolean("SlowMachine", false);
 
             CMB_paramfiles.Enabled = false;
             BUT_paramfileload.Enabled = false;
@@ -451,19 +455,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
             {
-                // If we have reached the target line length and the next      
-                // character is whitespace then begin a new line.   
+                // If we have reached the target line length and the next
+                // character is whitespace then begin a new line.
                 if (currentLinePosition >= lineLength &&
                     char.IsWhiteSpace(text[textIndex]))
                 {
                     sb.Append(Environment.NewLine);
                     currentLinePosition = 0;
                 }
-                // If we have just started a new line, skip all the whitespace.    
+                // If we have just started a new line, skip all the whitespace.
                 if (currentLinePosition == 0)
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
                         textIndex++;
-                // Append the next character.     
+                // Append the next character.
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
             }
@@ -474,55 +478,70 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             toolTip1.RemoveAll();
             Params.Rows.Clear();
-
             log.Info("processToScreen");
 
             var list = new List<string>();
-            foreach (string item in MainV2.comPort.MAV.param.Keys)
-                list.Add(item);
-
-            var rowlist = new List<DataGridViewRow>();
 
             // process hashdefines and update display
-            Parallel.ForEach(list, value =>
+            // But only if startup is true, otherwise we assume that rowlist is valid and just put it back
+            // to the gridview
+
+            if (startup)
             {
-                if (value == null || value == "")
-                    return;
+                foreach (string item in MainV2.comPort.MAV.param.Keys)
+                    list.Add(item);
 
-                var row = new DataGridViewRow();
-                lock (rowlist)
-                    rowlist.Add(row);
-                row.CreateCells(Params);
-                row.Cells[Command.Index].Value = value;
-                row.Cells[Value.Index].Value = MainV2.comPort.MAV.param[value].ToString();
-                var fav_params = Settings.Instance.GetList("fav_params");
-                row.Cells[Fav.Index].Value = fav_params.Contains(value);
-                try
+                rowlist.Clear();
+
+                Parallel.ForEach(list, value =>
                 {
-                    var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
-                        ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
-                    if (!string.IsNullOrEmpty(metaDataDescription))
+                    if (value == null || value == "")
+                        return;
+
+                    var row = new DataGridViewRow();
+                    lock (rowlist)
+                        rowlist.Add(row);
+                    row.CreateCells(Params);
+                    row.Cells[Command.Index].Value = value;
+                    row.Cells[Value.Index].Value = MainV2.comPort.MAV.param[value].ToString();
+                    var fav_params = Settings.Instance.GetList("fav_params");
+                    row.Cells[Fav.Index].Value = fav_params.Contains(value);
+                    try
                     {
-                        row.Cells[Command.Index].ToolTipText = metaDataDescription;
-                        row.Cells[Value.Index].ToolTipText = metaDataDescription;
+                        var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
+                            ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
+                        if (!string.IsNullOrEmpty(metaDataDescription))
+                        {
+                            row.Cells[Command.Index].ToolTipText = metaDataDescription;
+                            row.Cells[Value.Index].ToolTipText = metaDataDescription;
 
-                        var range = ParameterMetaDataRepository.GetParameterMetaData(value,
-                            ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
-                        var options = ParameterMetaDataRepository.GetParameterMetaData(value,
-                            ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
-                        var units = ParameterMetaDataRepository.GetParameterMetaData(value,
-                            ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
+                            var range = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
+                            var options = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
+                            var units = ParameterMetaDataRepository.GetParameterMetaData(value,
+                                ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
 
-                        row.Cells[Units.Index].Value = units;
-                        row.Cells[Options.Index].Value = range + options.Replace(",", " ");
-                        row.Cells[Desc.Index].Value = metaDataDescription;
+                            row.Cells[Units.Index].Value = units;
+                            row.Cells[Options.Index].Value = range + options.Replace(",", " ");
+                            row.Cells[Desc.Index].Value = metaDataDescription;
+                        }
                     }
-                }
-                catch (Exception ex)
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                });
+            }
+            //update values in rowlist
+            if (!startup)
+            {
+                foreach (DataGridViewRow r in rowlist)
                 {
-                    log.Error(ex);
+                    r.Cells[Value.Index].Value = MainV2.comPort.MAV.param[r.Cells[Command.Index].Value.ToString()].ToString();
                 }
-            });
+            }
+
 
             log.Info("about to add all");
 
@@ -537,7 +556,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Params.SortCompare += OnParamsOnSortCompare;
 
             Params.Sort(Params.Columns[Command.Index], ListSortDirection.Ascending);
-            
+
             Params.Enabled = true;
             Params.Visible = true;
             Params.ResumeLayout();
@@ -847,6 +866,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Params_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             cellEditValue = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
+        }
+
+        private void BUT_refreshTable_Click(object sender, EventArgs e)
+        {
+            startup = true;
+            processToScreen();
+            startup = false;
         }
     }
 
