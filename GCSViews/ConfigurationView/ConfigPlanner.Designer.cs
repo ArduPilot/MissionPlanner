@@ -105,6 +105,7 @@
             this.num_gcsid = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.CHK_params_bg = new System.Windows.Forms.CheckBox();
+            this.chk_slowMachine = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).BeginInit();
             this.SuspendLayout();
@@ -727,9 +728,17 @@
             this.CHK_params_bg.UseVisualStyleBackColor = true;
             this.CHK_params_bg.CheckedChanged += new System.EventHandler(this.CHK_params_bg_CheckedChanged);
             // 
+            // chk_slowMachine
+            // 
+            resources.ApplyResources(this.chk_slowMachine, "chk_slowMachine");
+            this.chk_slowMachine.Name = "chk_slowMachine";
+            this.chk_slowMachine.UseVisualStyleBackColor = true;
+            this.chk_slowMachine.CheckedChanged += new System.EventHandler(this.chk_slowMachine_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.chk_slowMachine);
             this.Controls.Add(this.CHK_params_bg);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.num_gcsid);
@@ -893,5 +902,6 @@
         private System.Windows.Forms.NumericUpDown num_gcsid;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox CHK_params_bg;
+        private System.Windows.Forms.CheckBox chk_slowMachine;
     }
 }
