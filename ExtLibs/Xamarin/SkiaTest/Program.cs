@@ -249,7 +249,8 @@ namespace SkiaTest
                         var wparam = msg.WParam;
                         var lparam = msg.LParam;
 
-                        XplatUI.driver.SendMessage(hnd, msgid, wparam, lparam);                       
+                        if (msgid == Msg.WM_MOUSEMOVE || msgid == Msg.WM_LBUTTONDOWN || msgid == Msg.WM_LBUTTONUP || msgid == Msg.WM_MOUSEMOVE)
+                            XplatUI.driver.SendMessage(hnd, msgid, wparam, lparam);                      
                     }
                 }
 

@@ -44,7 +44,7 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override string Text
         {
-            get { /*if (DesignMode) return _label;*/  return Label.Text; }
+            get { /*if (DesignMode) return _label;*/ if (Label == null) return "";  return Label.Text; }
             set { /*if (DesignMode) { _label = value; return; }*/  Label.Text = value; }
         }
 
