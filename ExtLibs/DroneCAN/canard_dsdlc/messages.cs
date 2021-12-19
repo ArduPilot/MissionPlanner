@@ -11,7 +11,7 @@ public partial class DroneCAN {
 	(typeof(com_hex_equipment_gpio_GetInputStates_req), 225, 0x6147C4FB7586515E, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(com_hex_equipment_gpio_GetInputStates_req))),
 	(typeof(com_hex_equipment_gpio_GetInputStates_res), 225, 0x6147C4FB7586515E, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(com_hex_equipment_gpio_GetInputStates_res))),
 	(typeof(com_hex_equipment_gpio_InputStateArray), 42455, 0xE4C758178F4D1A45, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(com_hex_equipment_gpio_InputStateArray))),
-	(typeof(ardupilot_equipment_power_BatteryInfoAux), 20004, 0x12A50AF430686DAA, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(ardupilot_equipment_power_BatteryInfoAux))),
+	(typeof(ardupilot_equipment_power_BatteryInfoAux), 20004, 0x7D7F49FC75484882, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(ardupilot_equipment_power_BatteryInfoAux))),
 	(typeof(ardupilot_equipment_trafficmonitor_TrafficReport), 20790, 0x68E45DB60B6981F8, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(ardupilot_equipment_trafficmonitor_TrafficReport))),
 	(typeof(ardupilot_gnss_Heading), 20002, 0x315CAE39ECED3412, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(ardupilot_gnss_Heading))),
 	(typeof(ardupilot_gnss_Status), 20003, 0xBA3CB4ABBB007F69, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(ardupilot_gnss_Status))),
@@ -107,4 +107,7 @@ public partial class DroneCAN {
 	(typeof(uavcan_tunnel_Broadcast), 2010, 0x5AA2D4D9CF4B1E85, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(uavcan_tunnel_Broadcast))),
 	(typeof(uavcan_tunnel_Call_req), 63, 0xDB11EDC510502658, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(uavcan_tunnel_Call_req))),
 	(typeof(uavcan_tunnel_Call_res), 63, 0xDB11EDC510502658, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(uavcan_tunnel_Call_res))),
+	(typeof(mppt_Stream), 20020, 0xDD7096B255FB6358, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(mppt_Stream))),
+	(typeof(mppt_OutputEnable_req), 240, 0xEA251F2A6DD1D8A5, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(mppt_OutputEnable_req))),
+	(typeof(mppt_OutputEnable_res), 240, 0xEA251F2A6DD1D8A5, typeof(Extension).GetMethod("ByteArrayToDroneCANMsg").MakeGenericMethod(typeof(mppt_OutputEnable_res))),
 };}}

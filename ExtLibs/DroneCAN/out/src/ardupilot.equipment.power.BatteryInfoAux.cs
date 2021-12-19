@@ -128,6 +128,16 @@ namespace DroneCAN
 
 
 
+            memset(buffer,0,8);
+
+            canardEncodeScalar(buffer, 0, 8, msg.battery_id);
+
+            chunk_cb(buffer, 8, ctx);
+
+
+
+
+
         }
 
         static void _decode_ardupilot_equipment_power_BatteryInfoAux(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_equipment_power_BatteryInfoAux msg, bool tao) {
@@ -231,6 +241,18 @@ namespace DroneCAN
 
 
             bit_ofs += 1;
+
+
+
+
+
+
+
+
+            canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.battery_id);
+
+
+            bit_ofs += 8;
 
 
 

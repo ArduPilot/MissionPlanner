@@ -25,8 +25,8 @@ namespace DroneCAN
 //using uavcan.Timestamp.cs
 
 
-        public const int ARDUPILOT_EQUIPMENT_POWER_BATTERYINFOAUX_MAX_PACK_SIZE = 527;
-        public const ulong ARDUPILOT_EQUIPMENT_POWER_BATTERYINFOAUX_DT_SIG = 0x12A50AF430686DAA;
+        public const int ARDUPILOT_EQUIPMENT_POWER_BATTERYINFOAUX_MAX_PACK_SIZE = 528;
+        public const ulong ARDUPILOT_EQUIPMENT_POWER_BATTERYINFOAUX_DT_SIG = 0x7D7F49FC75484882;
 
         public const int ARDUPILOT_EQUIPMENT_POWER_BATTERYINFOAUX_DT_ID = 20004;
 
@@ -64,6 +64,10 @@ namespace DroneCAN
 
 
             public bool is_powering_off = new bool();
+
+
+
+            public uint8_t battery_id = new uint8_t();
 
 
 
