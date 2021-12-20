@@ -461,28 +461,128 @@ namespace MissionPlanner.Log
             }
         }
 
+        private string get_param_value_string(string param_name, string VehicleType)
+        {
+            var param = MainV2.comPort.MAV.param[param_name];
+            if (param == null)
+            {
+                return "";
+            }
+            var value_list = ParameterMetaDataRepository.GetParameterOptionsInt(param.Name, VehicleType);
+            foreach (var item in value_list)
+            {
+                if (item.Key == Convert.ToInt32(param.Value))
+                {
+                    return item.Value;
+                }
+            }
+            return "";
+        }
+
         // get extra info derived from paramters
         private string get_extra_info(string LogMSG, string felid, string VehicleType)
         {
             switch(LogMSG)
             {
                 case "RCOU":
-                    var servo_param =  MainV2.comPort.MAV.param["SERVO" + Regex.Match(felid, @"\d+").Value + "_FUNCTION"];
-                    if (servo_param == null)
                     {
-                        return "";
+                        return get_param_value_string("SERVO" + Regex.Match(felid, @"\d+").Value + "_FUNCTION", VehicleType);
                     }
-                    var function_list = ParameterMetaDataRepository.GetParameterOptionsInt(servo_param.Name, VehicleType);
-                    foreach (var item in function_list)
+
+                case "RCIN":
                     {
-                        if (item.Key == Convert.ToInt32(servo_param.Value))
+                        var rc_in_num = Regex.Match(felid, @"\d+").Value;
+                        if (rc_in_num.Length == 0)
                         {
-                            return item.Value;
+                            return "";
                         }
+                        var ret = "";
+
+                        // Check RCMAP values
+                        var rc_map = new[] { "ROLL", "PITCH", "THROTTLE", "YAW", "FORWARD", "LATERAL" };
+                        foreach (string map in rc_map)
+                        {
+                            var map_param = MainV2.comPort.MAV.param["RCMAP_" + map];
+                            if ((map_param != null) && (map_param.Value == Convert.ToDouble(rc_in_num)))
+                            {
+                                if (ret.Length > 0)
+                                {
+                                    ret += " + ";
+                                }
+                                ret += map;
+                            }
+                        }
+
+                        // Check flight mode switch
+                        var mode_param = MainV2.comPort.MAV.param["FLTMODE_CH"];
+                        if ((mode_param != null) && (mode_param.Value == Convert.ToDouble(rc_in_num)))
+                        {
+                            if (ret.Length > 0)
+                            {
+                                ret += " + ";
+                            }
+                            ret += "FlightMode";
+                        }
+
+                        // Check RCx_OPTION
+                        var opt = get_param_value_string("RC" + rc_in_num + "_OPTION", VehicleType);
+                        if (opt.Length > 0)
+                        {
+                            if (ret.Length > 0)
+                            {
+                                ret += " + ";
+                            }
+                            return ret + opt;
+                        }
+                        return ret;
                     }
-                    return "";
             }
 
+            return "";
+        }
+
+        // Get per intance info
+        private string get_instance_info(string LogMSG, string instance, string VehicleType)
+        {
+            switch (LogMSG)
+            {
+                case "BARO":
+                    {
+                        // convert to 1 indexed
+                        var param = "BARO" + (Convert.ToUInt32(instance) + 1).ToString() + "_DEVID";
+                        var dev_id = MainV2.comPort.MAV.param[param];
+                        if (dev_id == null)
+                        {
+                            return "";
+                        }
+                        Device.DeviceStructure baro = new Device.DeviceStructure(param, Convert.ToUInt32(dev_id.Value));
+                        return baro.ToString();
+                    }
+
+                case "GPS":
+                case "GPA":
+                    {
+                        var param = "GPS_TYPE";
+                        if (Convert.ToUInt32(instance) > 0)
+                        {
+                            // GPS instance 1 is GPS_TPYE2
+                            param += (Convert.ToUInt32(instance) + 2).ToString();
+                        }
+                        return get_param_value_string(param, VehicleType);
+                    }
+
+                case "MAG":
+                    {
+                        var param = "COMPASS_PRIO" + (Convert.ToUInt32(instance) + 1).ToString() + "_ID";
+                        var dev_id = MainV2.comPort.MAV.param[param];
+                        if (dev_id == null)
+                        {
+                            return "";
+                        }
+                        Device.DeviceStructure mag = new Device.DeviceStructure(param, Convert.ToUInt32(dev_id.Value));
+                        return mag.ToString();
+                    }
+            }
             return "";
         }
 
@@ -513,6 +613,7 @@ namespace MissionPlanner.Log
                         foreach (var instanceinfo in logdata.InstanceType[item.Id].value)
                         {
                             var instNode = msgNode.Nodes.Add(instanceinfo);
+                            instNode.ToolTipText = get_instance_info(item.Name, instanceinfo, VehicleType);
                             foreach (var item1 in item.FieldNames)
                             {
                                 var new_node = instNode.Nodes.Add(item1);
