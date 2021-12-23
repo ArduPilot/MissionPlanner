@@ -46,7 +46,7 @@ namespace MissionPlanner.Utilities
                     answer = ParameterMetaDataRepositoryAPMpdef.GetParameterMetaData(nodeKey, metaKey, "AP_Periph");
                 // add fallback
                 if (answer == string.Empty)
-                    return ParameterMetaDataRepositoryAPM.GetParameterMetaData(nodeKey, metaKey, vechileType);
+                    answer = ParameterMetaDataRepositoryAPM.GetParameterMetaData(nodeKey, metaKey, vechileType);
 
                 lock (_cache)
                 {
