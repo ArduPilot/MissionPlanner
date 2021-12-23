@@ -6280,7 +6280,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 prop.Update(MainV2.comPort.MAV.cs.PlannedHomeLocation, MainV2.comPort.MAV.cs.Location,
                     MainV2.comPort.MAV.cs.battery_kmleft);
 
-                //routesoverlay.Markers.Clear();
+                // clear every 10 seconds
+                if(DateTime.Now.Second % 10 == 0)
+                    routesoverlay.Markers.Clear();
 
                 if (MainV2.comPort.MAV.cs.TrackerLocation != MainV2.comPort.MAV.cs.PlannedHomeLocation &&
                     MainV2.comPort.MAV.cs.TrackerLocation.Lng != 0)
