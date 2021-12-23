@@ -35,12 +35,12 @@
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
     <PackageReference Include="Blazor.Extensions.Storage" Version="1.1.0-preview3" />
-    <PackageReference Include="DotNetZip" Version="1.15.0" />
-    <PackageReference Include="Excubo.Blazor.Canvas" Version="2.6.18" />
-    <PackageReference Include="log4net" Version="2.0.12" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.9" />
+    <PackageReference Include="DotNetZip" Version="1.16.0" />
+    <PackageReference Include="Excubo.Blazor.Canvas" Version="3.0.6" />
+    <PackageReference Include="log4net" Version="2.0.13" />
+    <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -49,14 +49,14 @@
     <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" Version="2.80.3" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.2.0.21211" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.3.0.21348" />
     <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="3.0.0" />
-    <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="8.1.1" />
+    <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="9.0.0" />
     <PackageReference Include="WebGLDotNET" Version="2.1.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
 
   </ItemGroup>
 
