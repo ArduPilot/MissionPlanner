@@ -1,4 +1,167 @@
-﻿*Mission Planner 1.3.75 - 1-08-2021
+﻿*Mission Planner 1.3.76 - 25-12-2021
+Vario: move to async
+FlightPlanner: clear mavmarkers every 10 seconds
+wasm: update nugets
+ParameterMetaDataRepository: fix legacy cache
+Fix tradiheli stable/dev selection
+LogBrowse: add more tool tips from param
+Speed up ConfigRawParams and ConfigRawParamsTree reload time
+ParameterMetaDataRepository: add memorycache
+Xamarin: null fix
+DroneCAN: update
+Mavlink: update
+Xamarin: change https provider (letsencrypt issue)
+Utilities: add old param data as fallback
+Ardupilot: switch to utf8
+ConfigArduRover: update #2740
+Fix for ISSUE #2714, Radio Calibration Screen reverse CB does not honor  RCMAP setting.
+fix ISSUE #2725
+Fix for canceling SITL version selection messagebox. ISSUE #2741
+remove first (home) cmd when loading saved fence or rally from file.
+Add iconised GPS, EKF, VIBE and Battery status to the HUD
+ConfigurationView: Show all text
+GCSViews: Add Servo15,16 and Relay5,6
+ConfigurationView: Add a minimum altitude item to the geofence setting screen
+LogBrowse: display extra info from params with log items
+update the map once click 'Grid' check box in FlightPlanner
+Example: add mass
+DroneCan: update dsdl
+MAVLinkInterface: ensure sent packets are in order
+MAVFtp: status feedback
+Config: Full Parameter List: allow math expressions
+Example: update lib include
+Installer: fix missing members
+GCSVews: Configuration: Compass2: support new compass param names
+MavLink ParamList: accept array of parameter names
+SITL: ensure previous instance is closed before next session started
+Download: reset attributes on sitl binary
+Comms: move to Ntrip v2
+MAVLink: update xml
+mavlink: added NAV_SCIPT_TIME
+Moving InitialParameterSetup to the SETUP tab.
+px4uploader: bl workaround
+ConfigUserDefined: fix init
+SIK: support hb1060
+Xamarin: NativeLib compression
+DroneCAN: rename
+UAVCan: add baud
+MAVFtp: fix control order
+GCSViews: If the delay of WAYPOINT is set to less than 0, set it to 0
+Hygrometer: support 2 hygrometer sensors
+Grid: Use PlannedHomeLocation altitude
+Camera footprints are not displayed if we don't have valid home altitude. This patch change startalt to PlannedHomeLocation.Alt.
+Now footprints are shown again :)
+SITL: add stable
+ConfigAccelerometerCalibration: use new packet ack
+Accel Cal: Add Simple Accel Cal feature button
+GDAL: android
+Plugins: add example13
+Xamarin: add  some plugins to build
+setPositionTargetGlobalInt: fix TYPE_MASK_FORCE handling
+FlightData: fix hud popout restore on map hud swap
+Common: fix icon flashing
+Fix tabindex order (#2695)
+ConfigBatteryMonitor: add ZealotH743 (#2699)
+ConfigBatteryMonitor: add ZealotH743
+GStreamer: android detection change
+ConfigBatteryMonitor: add Durandal #2683
+ConfigFirmware: fix name display
+FlightData: support bool type quickview
+CurrentState: add safteyactive
+HUD: skia
+flightdata: gstreamer update default
+gstreamerAndroid: add
+MainV2: update default baud
+GStreamer: remove unused callbacks
+Utilities: include .config file
+GStreamer: add dllmap
+ADSB: Add transponder control for ping200x support
+Actions: fix actions via pull_request
+CurrentState: add gpsyaw2
+FlightData: change label types
+SITL: add linux
+UserPanel: remove
+WarningManager: fix reload
+Bump SharpCompress from 0.26.0 to 0.29.0 in /ExtLibs/ArduPilot (#2690)
+Xamarin: fix build
+Common: Fix exception on collection change
+Mavlink: fix freebuffers thread issue
+Common: GMapMarker use existing
+Maps: Update Plane icon
+SITL: add plane and rover swarm multilink
+Actions: add pull request
+MAVLinkInterface: add gui-less connect
+Display hygrometer message (#2682)
+Update README.md (#2684)
+Clarify MacOS support
+MyGMAP: pinch zoom
+SIK: add HB1060
+Actions: test release
+WMTS: fix name type
+APFirmware: support new MavFirmwareVersionStr
+myGMAP: add gesture base
+Mono update
+Xamarin: osx WinForms disable left hold
+Xamarin: osx checks
+Xamarin: thread checks
+WMSTProvider: add
+ConnectionControl: fix preselected option
+MainV2: update connected mav on mavchange
+ProgressReporter: fix cross thread
+SITL: fix multisitl connect count
+FlightData: fix null
+Swarm: add Auto option
+FlightData: add click to change MAV focus "ClickSwapMAV" setting
+GMarker: add rotation
+Controls: imagelabel saving, skcontrol bitmap
+Maps: add new icons/tweaks
+MAVList: threadsaftey
+GStreamer: change leaky queue to single buffer
+ProgressReporterDialogue: show X/close on done
+MAVLinkInterface: add _openComplete
+GStreamer: fix rpi gstreamer
+JoystickLinux: fix bad init on no joysticks
+GStreamer: move to single thread
+MAVFtp: add debug
+GStreamer: add arm
+adsb: fix posible exception
+Xamarin: detect system
+Controls: Hud text center, skcontrol bitmap
+Plugins: add/update examples
+Uploader: update max bl version
+SITL: chmod
+wasm: update
+MAVLink: update for nuget
+Common: remove Flurl ref
+fix coax and single copter firmware type setting (#2680)
+Fix FlightPlanner CTRL-Z undo (#2664)
+Current waypoints to polygon feature (#2676)
+Initial commit
+Added dialog box
+Allow clockwise spiral grid patterns (#2677)
+added clockwise spiral feature
+added spiral perimeter closure
+circuits->laps
+Drawing: fix build Xamarin
+Mavlink: update
+OpticalFlow: fix
+SkiaGraphics update
+ConfigAC_Fence: update paramlist on enable
+temp: parse more types of mavlink raw hex/chr into sample decoder
+DeviceInfo: update tables
+SITL: support arm
+Support custom config file
+CurrentState: remove AZ and EL 5m restriction
+Utilities: Extensions ass private reflection helper
+MP.Drawing: handle negative MeasureString
+SkiaTest: upgrade net6
+Mono: rebase
+ConfigADSB: disable custom adsb config
+Mavlink: upstream update
+ConfigRawParam: fix offline local conversion
+DisplayView: add more disable options
+
+*Mission Planner 1.3.75 - 1-08-2021
 Xamarin: api 30
 Xamarin: remove GDAL
 Firmware: tweak begininvoke order
