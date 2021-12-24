@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Utilities
 {
@@ -21,10 +22,8 @@ namespace MissionPlanner.Utilities
             Vario.climbrate = climbrate;
         }
 
-        public static void mainloop(object o)
+        public static async void mainloop(object o)
         {
-            System.Threading.Thread.CurrentThread.IsBackground = true;
-
             while (run)
             {
                 float note = climbrate *30 + MidTone;
@@ -38,7 +37,7 @@ namespace MissionPlanner.Utilities
                         if (climbrate > 0)
                         {
                             Console.Beep((int)note, 300 - (int)(climbrate * 5));
-                            System.Threading.Thread.Sleep(20);
+                            await Task.Delay(20).ConfigureAwait(false);
                         }
                         else
                         {
@@ -48,7 +47,7 @@ namespace MissionPlanner.Utilities
                     else
                     {
                         // sleep when there is no sound required
-                        System.Threading.Thread.Sleep(100);
+                        await Task.Delay(100).ConfigureAwait(false);
                     }
 
                 }
@@ -60,7 +59,10 @@ namespace MissionPlanner.Utilities
         public static void Start()
         {
             run = true;
-            System.Threading.ThreadPool.QueueUserWorkItem(mainloop);
+            Task.Run(() =>
+            {
+                mainloop(null);
+            });
         }
 
         public static void Stop()
