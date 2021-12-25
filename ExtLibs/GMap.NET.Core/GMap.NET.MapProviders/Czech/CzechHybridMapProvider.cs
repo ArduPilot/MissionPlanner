@@ -1,76 +1,67 @@
-﻿
+﻿using System;
+
 namespace GMap.NET.MapProviders
 {
-   using System;
+    /// <summary>
+    ///     CzechHybridMap provider, http://www.mapy.cz/
+    /// </summary>
+    public class CzechHybridMapProvider : CzechMapProviderBase
+    {
+        public static readonly CzechHybridMapProvider Instance;
 
-   /// <summary>
-   /// CzechHybridMap provider, http://www.mapy.cz/
-   /// </summary>
-   public class CzechHybridMapProvider : CzechMapProviderBase
-   {
-      public static readonly CzechHybridMapProvider Instance;
+        CzechHybridMapProvider()
+        {
+            MaxZoom = 20;
+        }
 
-      CzechHybridMapProvider()
-      {
-      }
+        static CzechHybridMapProvider()
+        {
+            Instance = new CzechHybridMapProvider();
+        }
 
-      static CzechHybridMapProvider()
-      {
-         Instance = new CzechHybridMapProvider();
-      }
+        #region GMapProvider Members
 
-      #region GMapProvider Members
+        public override Guid Id
+        {
+            get;
+        } = new Guid("7540CE5B-F634-41E9-B23E-A6E0A97526FD");
 
-      readonly Guid id = new Guid("F785D98E-DD1D-46FD-8BC1-1AAB69604980");
-      public override Guid Id
-      {
-         get
-         {
-            return id;
-         }
-      }
+        public override string Name
+        {
+            get;
+        } = "CzechHybridMap";
 
-      readonly string name = "CzechHybridMap";
-      public override string Name
-      {
-         get
-         {
-            return name;
-         }
-      }
+        GMapProvider[] _overlays;
 
-      GMapProvider[] overlays;
-      public override GMapProvider[] Overlays
-      {
-         get
-         {
-            if(overlays == null)
+        public override GMapProvider[] Overlays
+        {
+            get
             {
-               overlays = new GMapProvider[] { CzechSatelliteMapProvider.Instance, this };
+                if (_overlays == null)
+                {
+                    _overlays = new GMapProvider[] {CzechSatelliteMapProvider.Instance, this};
+                }
+
+                return _overlays;
             }
-            return overlays;
-         }
-      }
+        }
 
-      public override PureImage GetTileImage(GPoint pos, int zoom)
-      {
-         string url = MakeTileImageUrl(pos, zoom, LanguageStr);
+        public override PureImage GetTileImage(GPoint pos, int zoom)
+        {
+            string url = MakeTileImageUrl(pos, zoom, LanguageStr);
 
-         return GetTileImageUsingHttp(url);
-      }
+            return GetTileImageUsingHttp(url);
+        }
 
-      #endregion
+        #endregion
 
-      string MakeTileImageUrl(GPoint pos, int zoom, string language)
-      {
-         // http://m2.mapserver.mapy.cz/hybrid/9_7d00000_7b80000
+        string MakeTileImageUrl(GPoint pos, int zoom, string language)
+        {
+            // http://m3.mapserver.mapy.cz/hybrid-m/14-8802-5528
 
-         long xx = pos.X << (28 - zoom);
-         long yy = ((((long)Math.Pow(2.0, (double)zoom)) - 1) - pos.Y) << (28 - zoom);
+            return string.Format(UrlFormat, GetServerNum(pos, 3) + 1, zoom, pos.X, pos.Y);
+        }
 
-         return string.Format(UrlFormat, GetServerNum(pos, 3) + 1, zoom, xx, yy);
-      }
-
-      static readonly string UrlFormat = "http://m{0}.mapserver.mapy.cz/hybrid/{1}_{2:x7}_{3:x7}";
-   }
+        static readonly string UrlFormat = "http://m{0}.mapserver.mapy.cz/hybrid-m/{1}-{2}-{3}";
+    }
 }
