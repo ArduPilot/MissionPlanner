@@ -5,17 +5,17 @@ namespace GMap.NET.MapProviders
     /// <summary>
     ///     CzechTuristMap provider, http://www.mapy.cz/
     /// </summary>
-    public class CzechTuristMapProvider : CzechMapProviderBase
+    public class CzechGeographicMapProvider : CzechMapProviderBase
     {
-        public static readonly CzechTuristMapProvider Instance;
+        public static readonly CzechGeographicMapProvider Instance;
 
-        CzechTuristMapProvider()
+        CzechGeographicMapProvider()
         {
         }
 
-        static CzechTuristMapProvider()
+        static CzechGeographicMapProvider()
         {
-            Instance = new CzechTuristMapProvider();
+            Instance = new CzechGeographicMapProvider();
         }
 
         #region GMapProvider Members
@@ -23,12 +23,12 @@ namespace GMap.NET.MapProviders
         public override Guid Id
         {
             get;
-        } = new Guid("102A54BE-3894-439B-9C1F-CA6FF2EA1FE9");
+        } = new Guid("50EC9FCC-E4D7-4F53-8700-2D1DB73A1D48");
 
         public override string Name
         {
             get;
-        } = "CzechTuristMap";
+        } = "CzechGeographicMap";
 
         public override PureImage GetTileImage(GPoint pos, int zoom)
         {
@@ -41,11 +41,11 @@ namespace GMap.NET.MapProviders
 
         string MakeTileImageUrl(GPoint pos, int zoom, string language)
         {
-            // http://m3.mapserver.mapy.cz/wtourist-m/14-8802-5528
+            // http://m3.mapserver.mapy.czzemepis-m/14-8802-5528
 
             return string.Format(UrlFormat, GetServerNum(pos, 3) + 1, zoom, pos.X, pos.Y);
         }
 
-        static readonly string UrlFormat = "https://mapserver.mapy.cz/turist-m/{1}-{2}-{3}";
+        static readonly string UrlFormat = "http://m{0}.mapserver.mapy.cz/zemepis-m/{1}-{2}-{3}";
     }
 }

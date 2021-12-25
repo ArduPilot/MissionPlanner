@@ -134,7 +134,13 @@ namespace GMap.NET.MapProviders
         public static readonly CzechSatelliteMapProvider CzechSatelliteMap = CzechSatelliteMapProvider.Instance;
         public static readonly CzechHybridMapProvider CzechHybridMap = CzechHybridMapProvider.Instance;
         public static readonly CzechTuristMapProvider CzechTuristMap = CzechTuristMapProvider.Instance;
+
+        public static readonly CzechTuristWinterMapProvider
+            CzechTuristWinterMap = CzechTuristWinterMapProvider.Instance;
+
         public static readonly CzechHistoryMapProvider CzechHistoryMap = CzechHistoryMapProvider.Instance;
+        public static readonly CzechGeographicMapProvider CzechGeographicMap = CzechGeographicMapProvider.Instance;
+
 
         public static readonly ArcGIS_Imagery_World_2D_MapProvider ArcGIS_Imagery_World_2D_Map = ArcGIS_Imagery_World_2D_MapProvider.Instance;
         public static readonly ArcGIS_ShadedRelief_World_2D_MapProvider ArcGIS_ShadedRelief_World_2D_Map = ArcGIS_ShadedRelief_World_2D_MapProvider.Instance;
