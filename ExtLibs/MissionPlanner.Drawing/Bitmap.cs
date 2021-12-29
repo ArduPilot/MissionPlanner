@@ -43,7 +43,19 @@ namespace System.Drawing
 
         public Bitmap(Stream stream)
         {
-            nativeSkBitmap = SKBitmap.Decode(stream);
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+            try
+            {
+                nativeSkBitmap = SKBitmap.Decode(stream);
+            }
+            catch (Exception ex)
+            {
+                nativeSkBitmap = new SKBitmap(new SKImageInfo(1, 1));
+                Console.WriteLine(ex);
+            }
         }
 
         public static implicit operator Bitmap(byte[] data)
@@ -73,12 +85,22 @@ namespace System.Drawing
 
         public Bitmap(string filename)
         {
+            if (filename is null)
+            {
+                throw new ArgumentNullException(nameof(filename));
+            }
+
             using (var f = File.OpenRead(filename))
                 nativeSkBitmap = SKBitmap.Decode(f);
         }
 
         public Bitmap(Image image)
         {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             nativeSkBitmap = image.nativeSkBitmap.Copy();
         }
 
@@ -90,6 +112,11 @@ namespace System.Drawing
 
         public new static Bitmap FromStream(Stream ms)
         {
+            if (ms is null)
+            {
+                throw new ArgumentNullException(nameof(ms));
+            }
+
             MemoryStream ms2 = new MemoryStream();
             ms.CopyTo(ms2);
             ms2.Position = 0;
