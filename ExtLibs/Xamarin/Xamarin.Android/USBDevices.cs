@@ -29,6 +29,9 @@ namespace Xamarin.Droid
         {
             var usbManager = (UsbManager)Application.Context.GetSystemService(Context.UsbService);
 
+            if (usbManager == null)
+                return new List<DeviceInfo>();
+
             foreach (var device in usbManager.DeviceList.Values)
             {
                 Log.Info(TAG,
@@ -117,8 +120,14 @@ namespace Xamarin.Droid
 
         public async Task<ICommsSerial> GetUSB(DeviceInfo di)
         {
-            var usbManager = (UsbManager) Application.Context.GetSystemService(Context.UsbService);
-            
+            var usbManager = (UsbManager)Application.Context.GetSystemService(Context.UsbService);
+
+            if (usbManager == null)
+            {
+                Log.Info(TAG, "GetUSB " + "No usbManager");
+                return null;
+            }
+
             foreach (var deviceListValue in usbManager.DeviceList.Values)
             {
                 Log.Info(TAG,"GetUSB "+ deviceListValue.DeviceName);
