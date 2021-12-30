@@ -21,14 +21,14 @@ namespace MissionPlanner.Controls
         public int Heading
         {
             get { return _heading; }
-            set { _heading = value; this.Invalidate(); }
+            set { if (_heading == value) return; _heading = value; this.Invalidate(); }
         }
 
         [System.ComponentModel.Browsable(true)]
         public int NavHeading
         {
             get { return _navbearing; }
-            set { _navbearing = value; }
+            set { if (_navbearing == value) return; _navbearing = value; }
         }
 
         /// <summary>
