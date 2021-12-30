@@ -554,7 +554,7 @@ namespace MissionPlanner
 
         public void Open(bool getparams, bool skipconnectedcheck = false, bool showui = true)
         {
-            if (BaseStream == null || BaseStream.IsOpen && !skipconnectedcheck) 
+            if (BaseStream == null || BaseStream.IsOpen && !skipconnectedcheck)
                 return;
 
             MAVlist.Clear();
@@ -4385,6 +4385,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             int readcount = 0;
             MAVLinkMessage message = null;
 
+            //These need to be function wide, because of the extension of ReadLock try/catch
+            byte sysid;
+            byte compid;
+            byte packetSeqNo;
+            uint msgid;
+            bool packetSeemValid;
+
             DateTime start = DateTime.Now;
 
             if (debug)
@@ -4613,11 +4620,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                 if (debug)
                     Console.WriteLine(DateTime.Now.Millisecond + " SR4 " + BaseStream?.BytesToRead);
-            } // end readlock
-            finally
-            {
-                readlock.Release();
-            }
+            //ReadLock ended here
 
             // resize the packet to the correct length
             Array.Resize<byte>(ref buffer, count);
@@ -4661,7 +4664,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             if (message == null)
                 message = new MAVLinkMessage(buffer, DateTime.UtcNow);
 
-            uint msgid = message.msgid;
+            msgid = message.msgid;
 
             message_info msginfo = MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid);
 
@@ -4702,9 +4705,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 return MAVLinkMessage.Invalid;
             }
 
-            byte sysid = message.sysid;
-            byte compid = message.compid;
-            byte packetSeqNo = message.seq;
+            sysid = message.sysid;
+            compid = message.compid;
+            packetSeqNo = message.seq;
 
             // create a state for any sysid/compid includes gcs on log playback
             if (!MAVlist.Contains(sysid, compid))
@@ -4781,13 +4784,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost * 0.8f);
                 MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost * 0.8f);
             }
-
-            try
-            {
+                packetSeemValid = false;
+                //The following IF had to be splitted to accomodate the new place of Readlock end.
+                //packetSeemValid helps it.
                 if ((message.header == 'U' || message.header == MAVLINK_STX_MAVLINK1 ||
                      message.header == MAVLINK_STX) &&
                     buffer.Length >= message.payloadlength)
                 {
+                    packetSeemValid = true;
                     // check if we lost pacakets based on seqno
                     int expectedPacketSeqNo = ((MAVlist[sysid, compid].recvpacketcount + 1) % 0x100);
 
@@ -4799,7 +4803,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             int numLost = 0;
 
                             if (packetSeqNo < ((MAVlist[sysid, compid].recvpacketcount + 1)))
-                                // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
+                            // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
                             {
                                 numLost = 0x100 - expectedPacketSeqNo + packetSeqNo;
                             }
@@ -4841,9 +4845,26 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                                                             msgid]) / 2));
 
                     MAVlist[sysid, compid].packetspersecondbuild[msgid] = DateTime.Now;
+                }
+                //Console.WriteLine("Packet {0}",temp[5]);
+                // store packet history
 
-                    //Console.WriteLine("Packet {0}",temp[5]);
-                    // store packet history
+
+            //ReadLock Release moved here to include packet seqence checking.
+            //Releasing the lock earlier casued packet sequence errors, when readPacketAsync() was called repeatedly.
+            //Especially during retries.
+
+            } // end readlock
+            finally
+            {
+                readlock.Release();
+            }
+
+            try
+            {
+            //The packet header checking IF had to be splitted to allow moving the Readlock try/catch.
+            if (packetSeemValid)
+                {
                     lock (objlock)
                     {
                         MAVlist[sysid, compid].addPacket(message);
@@ -4889,8 +4910,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                     }
 
-                    // set seens sysid's based on hb packet - this will hide 3dr radio packets
-                    if (msgid == (uint) MAVLINK_MSG_ID.UAVCAN_NODE_STATUS)
+            // set seens sysid's based on hb packet - this will hide 3dr radio packets
+            if (msgid == (uint) MAVLINK_MSG_ID.UAVCAN_NODE_STATUS)
                     {
                         var cannode = message.ToStructure<mavlink_uavcan_node_status_t>();
 
@@ -5097,7 +5118,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                     }
                 }
-            }
+        }
             catch (Exception ex)
             {
                 log.Error(ex);
@@ -6401,7 +6422,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             logplaybackfile = null;
         }
 
-        public void uAvionixADSBControl(int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,byte x_bit) 
+        public void uAvionixADSBControl(int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,byte x_bit)
         {
             mavlink_uavionix_adsb_out_control_t ctrl = new mavlink_uavionix_adsb_out_control_t();
             ctrl.state = state;
@@ -6428,7 +6449,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             public void Dispose()
             {
-               
+
             }
 
             public void RunBackgroundOperationAsync()
