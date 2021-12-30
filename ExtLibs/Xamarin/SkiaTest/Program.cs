@@ -56,6 +56,10 @@ namespace SkiaTest
                 if (baditem != null)
                     baditem.Remove();
 
+                baditem = ((JObject)fileobject["libraries"]).Property("System.Drawing.Common/6.0.0");
+                if (baditem != null)
+                    baditem.Remove();
+
                 baditem = ((JObject)fileobject["libraries"]).Property("System.Windows.Extensions/5.0.0");
                 if (baditem != null)
                     baditem.Remove();
@@ -409,7 +413,7 @@ namespace SkiaTest
                             if (hwnd.hwndbmpNC != null)
                                 Canvas.DrawImage(hwnd.hwndbmpNC,
                                     new SKPoint(x - borders.left, y - borders.top), paint);
-
+                           
                             Canvas.ClipRect(
                                 SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                     hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
