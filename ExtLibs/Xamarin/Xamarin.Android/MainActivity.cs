@@ -214,6 +214,20 @@ namespace Xamarin.Droid
 
             try
             {
+                var am = (ActivityManager)Application.Context.GetSystemService(Context.ActivityService);
+
+                var devinfo = am?.DeviceConfigurationInfo;
+
+                if (devinfo != null)
+                {
+                    Log.Info("MP", "opengl es version " + devinfo.GlEsVersion);
+                    Log.Info("MP", "opengl es app req " + devinfo.ReqGlEsVersion);
+                }
+            }
+            catch { }
+
+            try
+            {
                 JavaSystem.LoadLibrary("gstreamer_android");
 
                 Org.Freedesktop.Gstreamer.GStreamer.Init(this.ApplicationContext);
