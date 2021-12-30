@@ -50,6 +50,7 @@ using View = Android.Views.View;
 
 [assembly: UsesFeature("android.hardware.usb.host", Required = false)]
 [assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
+[assembly: UsesFeature(GLESVersion = 0x00030000, Required = true)]
 [assembly: UsesLibrary("org.apache.http.legacy", false)]
 [assembly: UsesPermission("android.permission.RECEIVE_D2D_COMMANDS")]
 //[assembly: UsesPermission("android.permission.MANAGE_EXTERNAL_STORAGE")]

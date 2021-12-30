@@ -22,5 +22,5 @@
 	<uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 	<uses-feature android:name="android.hardware.location" android:required="false" />
 	<uses-feature android:name="android.hardware.telephony" android:required="false" />
-	<uses-feature android:glEsVersion="0x00020000" android:required="true" />` 
+	<uses-feature android:glEsVersion="0x00030000" android:required="true" />
   <uses-feature android:name="android.hardware.faketouch" android:required="true" /><application android:label="Mission Planner" android:requestLegacyExternalStorage="false" android:hardwareAccelerated="true" android:extractNativeLibs="false" android:killAfterRestore="true" android:hasFragileUserData="true" android:icon="@mipmap/icon" /></manifest>
