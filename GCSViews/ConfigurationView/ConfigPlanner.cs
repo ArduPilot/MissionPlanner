@@ -373,14 +373,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-/*
+
             if (CMB_osdcolor.Text != "")
             {
                 Settings.Instance["hudcolor"] = CMB_osdcolor.Text;
                 FlightData.myhud.hudcolor =
                     Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor), CMB_osdcolor.Text));
             }
-            */
+
         }
 
         private void CHK_speechwaypoint_CheckedChanged(object sender, EventArgs e)
