@@ -42,6 +42,22 @@ namespace MissionPlanner.Utilities
 
         public static class NativeMethods
         {
+            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool SetDllDirectory(string lpPathName);
+
+            public const uint LOAD_LIBRARY_SEARCH_DEFAULT_DIRS = 0x00001000;
+
+            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            public static extern bool SetDefaultDllDirectories(uint DirectoryFlags);
+
+            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+            public static extern int AddDllDirectory(string NewDirectory);
+
+            [DllImport("kernel32", SetLastError = true)]
+            public static extern IntPtr LoadLibrary(string lpFileName);
+
             public const string lib = "libgstreamer-1.0-0.dll";
 
             public const string applib = "libgstapp-1.0-0.dll";
@@ -378,6 +394,8 @@ namespace MissionPlanner.Utilities
 
             try
             {
+                
+
                 //https://github.com/GStreamer/gstreamer/blob/master/tools/gst-launch.c#L1125
                 NativeMethods.gst_init(ref argc, argv);
             }
@@ -558,7 +576,9 @@ namespace MissionPlanner.Utilities
         private static void SetGSTPath(string gstdir)
         {
             //
-     //C:\gstreamer\1.0\x86_64\bin\gst-launch-1.0.exe
+            //C:\gstreamer\1.0\x86_64\bin\gst-launch-1.0.exe
+
+            var orig = gstdir;
 
             if (!File.Exists(gstdir))
                 return;
@@ -567,7 +587,7 @@ namespace MissionPlanner.Utilities
             gstdir = Path.GetDirectoryName(gstdir);
 
             // Prepend native path to environment path, to ensure the
-            // right libs are being used.
+            // right libs are being used. - worsk in 461, break in 48
             var path = Environment.GetEnvironmentVariable("PATH");
             if (!path.Contains(gstdir))
             {
@@ -583,6 +603,14 @@ namespace MissionPlanner.Utilities
             Environment.SetEnvironmentVariable("GST_PLUGIN_PATH", Path.Combine(gstdir, "lib"));
 
             Environment.SetEnvironmentVariable("GST_DEBUG_DUMP_DOT_DIR", Path.GetTempPath());
+
+            try
+            {
+                // fix for 48
+                NativeMethods.SetDefaultDllDirectories(NativeMethods.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
+                NativeMethods.AddDllDirectory(Path.Combine(gstdir, "bin"));
+                NativeMethods.LoadLibrary(orig);
+            }catch { }
         }
 
         //C:\ProgramData\Mission Planner\gstreamer\1.0\x86_64\bin
