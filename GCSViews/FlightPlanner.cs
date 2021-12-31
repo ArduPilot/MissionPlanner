@@ -132,6 +132,10 @@ namespace MissionPlanner.GCSViews
         public GMapOverlay top;
         public GMapPolygon wppolygon;
         private GMapMarker CurrentMidLine;
+        // maintain a list of mission commands, extended with UNKNOWN(nnn) as new items are found
+        private List<string> all_commands = new List<string>();
+        // and a mapping from UNKNOWN(nnn) to the corresponding command ID
+        private Dictionary<string,ushort> unknown_ids = new Dictionary<string,ushort>();
 
 
         public void Init()
@@ -666,7 +670,7 @@ namespace MissionPlanner.GCSViews
 
                     if (TXT_altwarn.Text == "") TXT_altwarn.Text = (0).ToString();
 
-                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().StartsWith("UNKNOWN"))
                         continue;
 
                     ushort cmd =
@@ -1903,7 +1907,7 @@ namespace MissionPlanner.GCSViews
 
                     if (TXT_altwarn.Text == "") TXT_altwarn.Text = (0).ToString();
 
-                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().StartsWith("UNKNOWN"))
                         continue;
 
                     ushort cmd =
@@ -2364,6 +2368,19 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        // return an UNKNOWN(nnn) string for an unknown mission command
+        // adding to the all_commands list so it can be displayed
+        private string UnknownValue(ushort tag)
+        {
+           string value = string.Format("UNKNOWN({0})", tag);
+           if (!all_commands.Contains(value)) {
+              Console.Write("FlightPlanner Added {0}\n", value);
+              all_commands.Add(value);
+              unknown_ids.Add(value, tag);
+           }
+           return value;
+        }
+
         public void Commands_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             for (int i = 0; i < Commands.ColumnCount; i++)
@@ -2491,9 +2508,16 @@ namespace MissionPlanner.GCSViews
                     {
                         if (cmdid != "-1")
                         {
-                            Commands.Rows[selectedrow].Cells[Command.Index].Tag = ushort.Parse(cmdid);
+                            ushort id = ushort.Parse(cmdid);
+                            Commands.Rows[selectedrow].Cells[Command.Index].Tag = id;
+                            Commands.Rows[selectedrow].Cells[Command.Index].Value = UnknownValue(id);
                         }
                     }
+                }
+                else if (((ComboBox) sender).Text.StartsWith("UNKNOWN("))
+                {
+                    Commands.Rows[selectedrow].Cells[Command.Index].Value = ((ComboBox) sender).Text;
+                    Commands.Rows[selectedrow].Cells[Command.Index].Tag = unknown_ids[((ComboBox) sender).Text];
                 }
 
                 for (int i = 0; i < Commands.ColumnCount; i++)
@@ -3005,9 +3029,13 @@ namespace MissionPlanner.GCSViews
             try
             {
                 Locationwp temp = new Locationwp();
-                if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                if (Commands.Rows[a].Cells[Command.Index].Value.ToString() == "UNKNOWN")
                 {
                     temp.id = (ushort) Commands.Rows[a].Cells[Command.Index].Tag;
+                }
+                else if (Commands.Rows[a].Cells[Command.Index].Value.ToString().StartsWith("UNKNOWN("))
+                {
+                    temp.id = unknown_ids[Commands.Rows[a].Cells[Command.Index].Value.ToString()];
                 }
                 else
                 {
@@ -5051,7 +5079,7 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// Processes a loaded EEPROM to the map and datagrid
         /// </summary>
-        private void processToScreen(List<Locationwp> cmds, bool append = false)
+        private void _processToScreen(List<Locationwp> cmds, bool append = false)
         {
             quickadd = true;
 
@@ -5098,8 +5126,8 @@ namespace MissionPlanner.GCSViews
                 DataGridViewTextBoxCell cell;
                 DataGridViewComboBoxCell cellcmd;
                 cellcmd = Commands.Rows[i].Cells[Command.Index] as DataGridViewComboBoxCell;
-                cellcmd.Value = "UNKNOWN";
                 cellcmd.Tag = temp.id;
+                cellcmd.Value = "UNKNOWN";
 
                 foreach (object value in Enum.GetValues(typeof(MAVLink.MAV_CMD)))
                 {
@@ -5109,6 +5137,15 @@ namespace MissionPlanner.GCSViews
                             cellcmd.Value = value.ToString();
                         break;
                     }
+                }
+
+                if (cellcmd.Value == "UNKNOWN")
+                {
+                    cellcmd.Value = UnknownValue(temp.id);
+                }
+                else if (cellcmd.Value.ToString().StartsWith("UNKNOWN("))
+                {
+                    cellcmd.Tag = unknown_ids[cellcmd.Value.ToString()];
                 }
 
                 // from ap_common.h
@@ -5197,6 +5234,20 @@ namespace MissionPlanner.GCSViews
             writeKML();
 
             MainMap_OnMapZoomChanged();
+        }
+
+        /// call _processToScreen, possibly calling a 2nd time if list of WP types
+        /// changes
+        private void processToScreen(List<Locationwp> cmds, bool append = false)
+        {
+           int count = all_commands.Count;
+           _processToScreen(cmds, append);
+           if (all_commands.Count != count) {
+               // we've added new UNKNOWN commands while processing the list
+               // we need to re-run the _processToScreen because the data source
+               // for the grid has changed
+               _processToScreen(cmds, append);
+           }
         }
 
         private Dictionary<string, string[]> readCMDXML()
@@ -5570,6 +5621,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             if (Commands.Rows[a].Cells[0].Value.ToString() == "UNKNOWN")
                             {
                                 mode = (ushort) Commands.Rows[a].Cells[Command.Index].Tag;
+                            }
+                            else if (Commands.Rows[a].Cells[0].Value.ToString().StartsWith("UNKNOWN("))
+                            {
+                                mode = unknown_ids[Commands.Rows[a].Cells[0].Value.ToString()];
                             }
                             else
                             {
@@ -6520,18 +6575,16 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 cmdParamNames.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString(), rally);
             }
 
-            List<string> cmds = new List<string>();
-
             foreach (string item in cmdParamNames.Keys)
             {
-                cmds.Add(item);
+                all_commands.Add(item);
             }
 
-            cmds.Add("UNKNOWN");
+            all_commands.Add("UNKNOWN");
 
-            Command.DataSource = cmds;
+            Command.DataSource = all_commands;
 
-            log.InfoFormat("Command item count {0} orig list {1}", Command.Items.Count, cmds.Count);
+            log.InfoFormat("Command item count {0} orig list {1}", Command.Items.Count, all_commands.Count);
         }
 
         private void updateHomeText()
