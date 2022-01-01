@@ -392,7 +392,8 @@ namespace SkiaTest
 
                 if (hwnd.ClientWindow != hwnd.WholeWindow)
                 {
-                    var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
+                    var ctl = Control.FromHandle(hwnd.ClientWindow);
+                    var frm = ctl as Form;
 
                     Hwnd.Borders borders = new Hwnd.Borders();
 
@@ -410,16 +411,26 @@ namespace SkiaTest
                     {
                         if (hwnd.DrawNeeded || forcerender)
                         {
-                            if (hwnd.hwndbmpNC != null)
-                                Canvas.DrawImage(hwnd.hwndbmpNC,
-                                    new SKPoint(x - borders.left, y - borders.top), paint);
+                                if (hwnd.hwndbmpNC != null)
+                                    Canvas.DrawImage(hwnd.hwndbmpNC,
+                                        new SKPoint(x - borders.left, y - borders.top), new SKPaint()
+                                        {
+                                            ColorFilter =
+                    SKColorFilter.CreateColorMatrix(new float[]
+                    {
+                    0.75f, 0.25f, 0.025f, 0, 0,
+                    0.25f, 0.75f, 0.25f, 0, 0,
+                    0.25f, 0.25f, 0.75f, 0, 0,
+                    0, 0, 0, 1, 0
+                    })
+                                        });
                            
                             Canvas.ClipRect(
                                 SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                     hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
 
-                            Canvas.DrawImage(hwnd.hwndbmp,
-                                new SKPoint(x, y), paint);
+                            Canvas.DrawDrawable(hwnd.hwndbmp,
+                                new SKPoint(x, y));
 
                             wasdrawn = true;
                         }
@@ -439,8 +450,8 @@ namespace SkiaTest
                     {
                         if (hwnd.DrawNeeded || forcerender)
                         {
-                            Canvas.DrawImage(hwnd.hwndbmp,
-                                new SKPoint(x + 0, y + 0), paint);
+                            Canvas.DrawDrawable(hwnd.hwndbmp,
+                                new SKPoint(x + 0, y + 0));
 
                             wasdrawn = true;
                         }
@@ -464,7 +475,9 @@ namespace SkiaTest
                 Monitor.Exit(XplatUIMine.paintlock);
             }
 
-            //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});
+                var ctrl = Control.FromHandle(hwnd.ClientWindow);
+
+            Canvas.DrawText(x + " " + y + " " + ctrl.Name + " " + hwnd.width + " " + hwnd.Height, x, y+10, new SKPaint() { Color =  SKColors.Red});
 
             if (hwnd.Mapped && hwnd.Visible)
             {

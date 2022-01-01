@@ -883,8 +883,8 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                                 SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                     hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
 
-                            Canvas.DrawImage(hwnd.hwndbmp,
-                                new SKPoint(x, y), paint);
+                            Canvas.DrawDrawable(hwnd.hwndbmp,
+                                new SKPoint(x, y));
 
                             wasdrawn = true;
                         }
@@ -904,8 +904,8 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                     {
                         if (hwnd.DrawNeeded || forcerender)
                         {
-                            Canvas.DrawImage(hwnd.hwndbmp,
-                                new SKPoint(x + 0, y + 0), paint);
+                            Canvas.DrawDrawable(hwnd.hwndbmp,
+                                new SKPoint(x + 0, y + 0));
 
                             wasdrawn = true;
                         }
