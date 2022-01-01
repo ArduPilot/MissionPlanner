@@ -1263,7 +1263,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void ResetTransform()
         {
             _image.ResetMatrix();
-            ResetClip();
         }
 
 
