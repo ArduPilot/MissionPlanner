@@ -441,6 +441,12 @@
     <Compile Include="Controls\DigitalSkyUI.Designer.cs">
       <DependentUpon>DigitalSkyUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MavCommandSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\MavCommandSelection.Designer.cs">
+      <DependentUpon>MavCommandSelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SerialOutputCoT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -819,6 +825,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\EKFStatus.ko-KR.resx">
       <DependentUpon>EKFStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MavCommandSelection.resx">
+      <DependentUpon>MavCommandSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PropagationSettings.ko-KR.resx">
       <DependentUpon>PropagationSettings.cs</DependentUpon>

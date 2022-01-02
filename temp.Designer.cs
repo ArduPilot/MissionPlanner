@@ -143,6 +143,8 @@
             this.but_remotedflogger = new MissionPlanner.Controls.MyButton();
             this.label12 = new System.Windows.Forms.Label();
             this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
+            this.but_ManageCMDList = new MissionPlanner.Controls.MyButton();
+            this.label28 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -262,6 +264,8 @@
             this.tableLayoutPanel1.Controls.Add(this.label55, 3, 28);
             this.tableLayoutPanel1.Controls.Add(this.but_remotedflogger, 0, 15);
             this.tableLayoutPanel1.Controls.Add(this.label12, 1, 29);
+            this.tableLayoutPanel1.Controls.Add(this.but_ManageCMDList, 2, 29);
+            this.tableLayoutPanel1.Controls.Add(this.label28, 3, 29);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // BUT_CoT
@@ -943,6 +947,18 @@
             resources.ApplyResources(this.controlSensorsStatus1, "controlSensorsStatus1");
             this.controlSensorsStatus1.Name = "controlSensorsStatus1";
             // 
+            // but_ManageCMDList
+            // 
+            resources.ApplyResources(this.but_ManageCMDList, "but_ManageCMDList");
+            this.but_ManageCMDList.Name = "but_ManageCMDList";
+            this.but_ManageCMDList.UseVisualStyleBackColor = true;
+            this.but_ManageCMDList.Click += new System.EventHandler(this.but_ManageCMDList_Click);
+            // 
+            // label28
+            // 
+            resources.ApplyResources(this.label28, "label28");
+            this.label28.Name = "label28";
+            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
@@ -1075,5 +1091,7 @@
         private Controls.MyButton but_remotedflogger;
         private Controls.MyButton BUT_CoT;
         private System.Windows.Forms.Label label12;
+        private Controls.MyButton but_ManageCMDList;
+        private System.Windows.Forms.Label label28;
     }
 }

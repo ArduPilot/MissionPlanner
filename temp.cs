@@ -1398,5 +1398,11 @@ namespace MissionPlanner
         {
             new SerialOutputCoT().Show();
         }
+
+        private void but_ManageCMDList_Click(object sender, EventArgs e)
+        {
+            var CMDList = new MavCommandSelection();
+            CMDList.Show();
+        }
     }
 }
