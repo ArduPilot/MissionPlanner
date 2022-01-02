@@ -49,6 +49,7 @@ using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using Resources = MissionPlanner.Properties.Resources;
+using Newtonsoft.Json;
 
 namespace MissionPlanner.GCSViews
 {
@@ -669,10 +670,7 @@ namespace MissionPlanner.GCSViews
                     if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
                         continue;
 
-                    ushort cmd =
-                        (ushort)
-                        Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(),
-                            false);
+                    ushort cmd = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
 
                     if (cmd < (ushort) MAVLink.MAV_CMD.LAST &&
                         double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
@@ -1906,11 +1904,8 @@ namespace MissionPlanner.GCSViews
                     if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
                         continue;
 
-                    ushort cmd =
-                        (ushort)
-                        Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(),
-                            false);
 
+                    ushort cmd = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
                     if (cmd < (ushort) MAVLink.MAV_CMD.LAST &&
                         double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
                     {
@@ -2459,8 +2454,13 @@ namespace MissionPlanner.GCSViews
             // update row headers
             ((ComboBox) sender).ForeColor = Color.White;
             ChangeColumnHeader(((ComboBox) sender).Text);
-            try
+                try
             {
+                //Put cmdID to a TAG, in case user delete the command from the list and it must change back to UNKNOWN
+                if (((ComboBox)sender).Text != "UNKNOWN")
+                {
+                    Commands.Rows[selectedrow].Cells[Command.Index].Tag = getCmdID(((ComboBox)sender).Text);
+                }
                 // default takeoff to non 0 alt
                 if (((ComboBox) sender).Text == "TAKEOFF")
                 {
@@ -3011,10 +3011,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    temp.id =
-                        (ushort)
-                        Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(),
-                            false);
+                    temp.id = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
                 }
 
                 temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
@@ -5110,6 +5107,14 @@ namespace MissionPlanner.GCSViews
                         break;
                     }
                 }
+                //Check for userdefined commands
+                try
+                {
+                    var id = getCmd(temp.id);
+                    if (id?.Length > 0) cellcmd.Value = id;
+                }
+                catch { }
+
 
                 // from ap_common.h
                 if (temp.id == (ushort) MAVLink.MAV_CMD.WAYPOINT ||
@@ -5272,9 +5277,64 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
+            //Load additional commands from config.xml and merge it with cmd
+            try
+            {
+                Dictionary<string, string[]> configCommands = new Dictionary<string, string[]>();
+                configCommands = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(Settings.Instance["PlannerExtraCommand"]);
+                var newCmdList = cmd.Concat(configCommands.Where(kvp => !cmd.ContainsKey(kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                return newCmdList;
 
-            return cmd;
+            }
+            catch
+            {
+                return cmd;
+            }
         }
+
+        //Get back MAvlink command ID based on the command name. Use this instead of Enum.Parse of MAV_CMD, because this inclues ID's of non Mavlink dictionary commands
+        public ushort getCmdID(string cmdName)
+        {
+            if (Enum.IsDefined(typeof(MAVLink.MAV_CMD),cmdName))
+            {
+                return (ushort) Enum.Parse(typeof(MAVLink.MAV_CMD), cmdName, false);
+            }
+
+            Dictionary<string, ushort> configCommands = new Dictionary<string, ushort>();
+            configCommands = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(Settings.Instance["PlannerExtraCommandIDs"]);
+
+            return configCommands[cmdName];
+
+        }
+        //Get back Mavlink command name based on commandID, includes commands not in MAV_CMD, but defined by user
+        //It returns null if command name is not included in the list.
+        public string getCmd(ushort cmdID)
+        {
+            //IS it defined in the MAV_CMD enum ?
+            if (Enum.IsDefined(typeof(MAVLink.MAV_CMD), cmdID))
+            {
+                string cmdName = ((MAVLink.MAV_CMD)cmdID).ToString();
+                // if it defined, was it inclued in the display list ?
+                if (cmdParamNames.ContainsKey(cmdName))
+                {
+                    return ((MAVLink.MAV_CMD)cmdID).ToString();
+                }
+                else
+                {
+                    //null will falls back to UNKNOWN
+                    return null;
+                }
+            }
+
+            //It is not defined in MAV_CMD
+
+            Dictionary<string, ushort> configCommands = new Dictionary<string, ushort>();
+            configCommands = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(Settings.Instance["PlannerExtraCommandIDs"]);
+            //It will return NULL to fall back to UNKNOWN if ID not defined
+            return configCommands.FirstOrDefault(x => x.Value == cmdID).Key;
+
+        }
+
 
         public void reverseWPsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -5573,11 +5633,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             }
                             else
                             {
-                                mode =
-                                    (ushort)
-                                    (MAVLink.MAV_CMD)
-                                    Enum.Parse(typeof(MAVLink.MAV_CMD),
-                                        Commands.Rows[a].Cells[Command.Index].Value.ToString());
+                                mode = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
                             }
 
                             sw.Write((a + 1)); // seq
@@ -6477,7 +6533,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             writeKML();
         }
 
-        private void updateCMDParams()
+        public void updateCMDParams()
         {
             cmdParamNames = readCMDXML();
 
@@ -6532,6 +6588,28 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             Command.DataSource = cmds;
 
             log.InfoFormat("Command item count {0} orig list {1}", Command.Items.Count, cmds.Count);
+
+            //We have to iterate through current mission items and if user deleted or added a command from the allowed list, change back it to UNKNOWN or replace unknown with the new name
+            for (var a = 0; a<Commands.RowCount;a++)
+            {
+                var cmdName = Commands.Rows[a].Cells[Command.Index].Value.ToString();
+
+                if (cmdName == "UNKNOWN")
+                {
+                    var newName = getCmd(ushort.Parse(Commands.Rows[a].Cells[Command.Index].Tag.ToString()));
+                    if (newName != null)
+                    {
+                        Commands.Rows[a].Cells[Command.Index].Value = newName;
+                    }
+                }
+                if (!cmds.Contains(cmdName))
+                {
+                    Commands.Rows[a].Cells[Command.Index].Value = "UNKNOWN";
+                    //No need to set the .Tag because we already did that when command was entered
+                }
+            }
+
+
         }
 
         private void updateHomeText()
