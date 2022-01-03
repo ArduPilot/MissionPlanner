@@ -340,7 +340,7 @@ namespace MissionPlanner.Log
             this.Text = "Log Browser - " + Path.GetFileName(FileName);
 
             CreateChart(zg1);
-
+            chk_time_CheckedChanged(null, null);
             // try and grab vehicle version from messages
             string vehicle_msg = null;
             foreach (var item in logdata.GetEnumeratorType("MSG"))
