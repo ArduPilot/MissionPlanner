@@ -2194,38 +2194,59 @@ main()
 
                             if (ans != null && ans.Lat != 0 && ans.Lng != 0)
                             {
-                                routelistcmd.Add(ans);
-                                samplelistcmd.Add(i);
-
-                                mapoverlay.Markers.Add(new GMapMarkerWP(ans, item["CNum"]));
-
-                                //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
-                                //CMD, 43368479, 19, 18, 85, 0, 0, 0, 0, -27.27409, 151.2901, 0
-
-                                if (item["CTot"] != null && item["CNum"] != null &&
-                                    (int.Parse(item["CTot"]) - 1) == int.Parse(item["CNum"]))
+                                bool duplicate = false;
+                                foreach (GMapMarkerWP m in mapoverlay.Markers)
                                 {
-                                    //split the route in several small parts (due to memory errors)
-                                    GMapRoute route_part = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
-                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
+                                    if (m.Tag?.ToString() == item["CNum"].ToString())
+                                    {
+                                        duplicate = true;
+                                        break;
+                                    }
+                                }
 
-                                    LogRouteInfo lri = new LogRouteInfo();
-                                    lri.firstpoint = firstpointpos;
-                                    lri.lastpoint = i;
-                                    lri.samples.AddRange(samplelistcmd);
-
-                                    route_part.Tag = lri;
-                                    route_part.IsHitTestVisible = false;
-                                    mapoverlay.Routes.Add(route_part);
-
-                                    rtcnt++;
-
-                                    //clear the list and set the last point as first point for the next route
-                                    routelistcmd.Clear();
-                                    samplelistcmd.Clear();
-                                    firstpointcmd = i;
-                                    samplelistcmd.Add(firstpointcmd);
+                                if (!duplicate)
+                                {
                                     routelistcmd.Add(ans);
+                                    samplelistcmd.Add(i);
+
+                                    GMapMarker newWP = new GMapMarkerWP(ans, item["CNum"]);
+                                    newWP.Tag = item["CNum"].ToString();
+
+                                    //mapoverlay.Markers.Add(new GMapMarkerWP(ans, item["CNum"]));
+                                    mapoverlay.Markers.Add(newWP);
+
+                                    //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
+                                    //CMD, 43368479, 19, 18, 85, 0, 0, 0, 0, -27.27409, 151.2901, 0
+
+                                    if (item["CTot"] != null && item["CNum"] != null &&
+                                        (int.Parse(item["CTot"]) - 1) == int.Parse(item["CNum"]))
+                                    {
+                                        //split the route in several small parts (due to memory errors)
+                                        GMapRoute route_part = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
+                                        route_part.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
+
+                                        LogRouteInfo lri = new LogRouteInfo();
+                                        lri.firstpoint = firstpointpos;
+                                        lri.lastpoint = i;
+                                        lri.samples.AddRange(samplelistcmd);
+
+                                        route_part.Tag = lri;
+                                        route_part.IsHitTestVisible = false;
+                                        mapoverlay.Routes.Add(route_part);
+
+                                        rtcnt++;
+
+                                        //clear the list and set the last point as first point for the next route
+                                        routelistcmd.Clear();
+                                        samplelistcmd.Clear();
+                                        firstpointcmd = i;
+                                        samplelistcmd.Add(firstpointcmd);
+                                        routelistcmd.Add(ans);
+                                    }
+                                }
+                                else
+                                {
+                                    mapoverlay.Markers.Add(new GMapMarkerWP(ans, item["CNum"]));
                                 }
                             }
                         }
