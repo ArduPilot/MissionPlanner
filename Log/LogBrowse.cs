@@ -3593,9 +3593,29 @@ main()
             var parmdata = logdata.GetEnumeratorType("PARM").Select(a =>
                 new MAVLink.MAVLinkParam(a["Name"], double.Parse(a["Value"], CultureInfo.InvariantCulture),
                     MAVLink.MAV_PARAM_TYPE.REAL32));
-            
+
+            //Check the list for duplicates and use the latest occurence for value
+            MAVLink.MAVLinkParamList newparamdata = new MAVLink.MAVLinkParamList();
+            foreach (MAVLink.MAVLinkParam sourceItem in parmdata)
+            {
+                //Lookup the next item in the target list
+                for (var idx_target = 0; idx_target < newparamdata.Count(); idx_target++)
+                {
+                    if (sourceItem.Name == newparamdata[idx_target].Name)
+                    {
+                        //This item is already in the parameters, since source is in time order, it means the value changed
+                        //We can replace the item in the output with this new value
+                        Console.WriteLine("Duplicated item Name:{0} Prev:{1} New:{2}", sourceItem.Name, newparamdata[idx_target].Value, sourceItem.Value);
+                        newparamdata[idx_target] = sourceItem;
+                        break;
+                    }
+                }
+                //item is not in target list, we can add it
+                newparamdata.Add(sourceItem);
+            }
+
             MainV2.comPort.MAV.param.Clear();
-            MainV2.comPort.MAV.param.AddRange(parmdata);
+            MainV2.comPort.MAV.param.AddRange(newparamdata);
 
             var frm = new ConfigRawParamsTree().ShowUserControl();
         }
