@@ -173,7 +173,6 @@ namespace MissionPlanner.GCSViews
             this.areaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createCircleSurveyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.surveyGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMeasure = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1125,8 +1124,7 @@ namespace MissionPlanner.GCSViews
             this.createSplineCircleToolStripMenuItem,
             this.areaToolStripMenuItem1,
             this.textToolStripMenuItem,
-            this.createCircleSurveyToolStripMenuItem,
-            this.surveyGridToolStripMenuItem});
+            this.createCircleSurveyToolStripMenuItem});
             this.autoWPToolStripMenuItem.Name = "autoWPToolStripMenuItem";
             resources.ApplyResources(this.autoWPToolStripMenuItem, "autoWPToolStripMenuItem");
             // 
@@ -1159,12 +1157,6 @@ namespace MissionPlanner.GCSViews
             this.createCircleSurveyToolStripMenuItem.Name = "createCircleSurveyToolStripMenuItem";
             resources.ApplyResources(this.createCircleSurveyToolStripMenuItem, "createCircleSurveyToolStripMenuItem");
             this.createCircleSurveyToolStripMenuItem.Click += new System.EventHandler(this.createCircleSurveyToolStripMenuItem_Click);
-            // 
-            // surveyGridToolStripMenuItem
-            // 
-            this.surveyGridToolStripMenuItem.Name = "surveyGridToolStripMenuItem";
-            resources.ApplyResources(this.surveyGridToolStripMenuItem, "surveyGridToolStripMenuItem");
-            this.surveyGridToolStripMenuItem.Click += new System.EventHandler(this.surveyGridToolStripMenuItem_Click);
             // 
             // mapToolToolStripMenuItem
             // 
@@ -1602,7 +1594,6 @@ namespace MissionPlanner.GCSViews
         public ToolStripMenuItem areaToolStripMenuItem1;
         public ToolStripMenuItem textToolStripMenuItem;
         public ToolStripMenuItem createCircleSurveyToolStripMenuItem;
-        public ToolStripMenuItem surveyGridToolStripMenuItem;
         public ToolStripMenuItem geoFenceToolStripMenuItem;
         public ToolStripMenuItem GeoFenceuploadToolStripMenuItem;
         public ToolStripMenuItem GeoFencedownloadToolStripMenuItem;

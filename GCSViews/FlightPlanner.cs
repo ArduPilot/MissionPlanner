@@ -10,7 +10,6 @@ using Ionic.Zip;
 using log4net;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
-using MissionPlanner.Grid;
 using MissionPlanner.Maps;
 using MissionPlanner.Plugin;
 using MissionPlanner.Properties;
@@ -6142,12 +6141,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
         }
 
-        public void surveyGridToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GridPlugin grid = new GridPlugin();
-            grid.Host = new PluginHost();
-            grid.but_Click(sender, e);
-        }
+        //public void surveyGridToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    GridPlugin grid = new GridPlugin();
+        //    grid.Host = new PluginHost();
+        //    grid.but_Click(sender, e);
+        //}
 
         public void switchDockingToolStripMenuItem_Click(object sender, EventArgs e)
         {

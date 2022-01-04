@@ -712,8 +712,6 @@
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
-    <Compile Include="Grid\camerainfo.cs" />
-    <Compile Include="Grid\GridData.cs" />
     <Compile Include="L10N.cs" />
     <Compile Include="MagCalib.cs" />
     <Compile Include="Controls\MovingBase.cs">
@@ -990,9 +988,6 @@
     <EmbeddedResource Include="GCSViews\SITL.ko-KR.resx">
       <DependentUpon>SITL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Grid\GridUI.ko-KR.resx">
-      <DependentUpon>GridUI.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickAxis.resx" />
     <EmbeddedResource Include="Log\LogStrings.resx">
       <DependentUpon>LogStrings.cs</DependentUpon>
@@ -1194,10 +1189,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GeoRef\georefimage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Grid\GridPlugin.cs" />
-    <Compile Include="Grid\GridUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Joystick\JoystickSetup.cs">
@@ -1543,9 +1534,6 @@
     </Compile>
     <Compile Include="GeoRef\georefimage.Designer.cs">
       <DependentUpon>georefimage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Grid\GridUI.Designer.cs">
-      <DependentUpon>GridUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Joystick\JoystickSetup.Designer.cs">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
@@ -4174,15 +4162,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GeoRef\georefimage.zh-TW.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Grid\GridUI.resx">
-      <DependentUpon>GridUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Grid\GridUI.ru-KZ.resx">
-      <DependentUpon>GridUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Grid\GridUI.tr.resx">
-      <DependentUpon>GridUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickSetup.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>

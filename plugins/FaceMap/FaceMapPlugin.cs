@@ -1,5 +1,4 @@
-﻿using MissionPlanner.Grid;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace MissionPlanner
@@ -32,7 +31,6 @@ namespace MissionPlanner
 
         public override bool Loaded()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
 
             but = new ToolStripMenuItem(Name);
             but.Click += but_Click;
