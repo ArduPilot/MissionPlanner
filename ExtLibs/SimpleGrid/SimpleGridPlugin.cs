@@ -18,6 +18,7 @@ namespace MissionPlanner.SimpleGrid
             get { return "SimpleGrid"; }
         }
 
+
         public override string Version
         {
             get { return "0.1"; }
