@@ -5610,9 +5610,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         try
                         {
                             sw.WriteLine("0\t1\t0\t16\t0\t0\t0\t0\t" +
-                                         double.Parse(TXT_homelat.Text).ToString("0.000000", new CultureInfo("en-US")) +
+                                         double.Parse(TXT_homelat.Text).ToString("0.0000000", new CultureInfo("en-US")) +
                                          "\t" +
-                                         double.Parse(TXT_homelng.Text).ToString("0.000000", new CultureInfo("en-US")) +
+                                         double.Parse(TXT_homelng.Text).ToString("0.0000000", new CultureInfo("en-US")) +
                                          "\t" +
                                          double.Parse(TXT_homealt.Text).ToString("0.000000", new CultureInfo("en-US")) +
                                          "\t1");
