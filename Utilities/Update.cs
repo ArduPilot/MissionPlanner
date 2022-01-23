@@ -298,8 +298,8 @@ namespace MissionPlanner.Utilities
 
                 for (int i = 0; i < matchs.Count; i++)
                 {
-                    string hash = matchs[i].Groups[1].Value.ToString();
-                    string file = matchs[i].Groups[2].Value.ToString();
+                    string hash = matchs[i].Groups[1].Value.ToString().Trim();
+                    string file = matchs[i].Groups[2].Value.ToString().Trim();
 
                     if (file.ToLower().EndsWith("files.html"))
                         continue;
