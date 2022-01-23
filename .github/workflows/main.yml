@@ -30,6 +30,20 @@ jobs:
         with:
           name: MissionPlannerBeta
           path: bin\Release\net461
+          
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/tags/beta' }}
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "betarelease"
+          prerelease: true
+          title: "Beta Build"
+          files: |
+            MissionPlannerBeta.zip
+            checksums.txt
+            version.txt
+            ChangeLog.txt
+
 
   buildDebug:
     name: Build Debug
