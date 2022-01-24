@@ -1,4 +1,3 @@
-using GMap.NET;
 using Newtonsoft.Json;
 
 namespace AltitudeAngelWings.ApiClient.Models
@@ -13,12 +12,6 @@ namespace AltitudeAngelWings.ApiClient.Models
         {
             Latitude = latitude;
             Longitude = longitude;
-        }
-
-        public LatLong(PointLatLng latLong)
-        {
-            Latitude = latLong.Lat;
-            Longitude = latLong.Lng;
         }
 
         [JsonProperty(PropertyName = "lat")]

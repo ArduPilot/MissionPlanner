@@ -725,7 +725,11 @@
     <Compile Include="test\FirmwareSelection.xaml.cs">
       <DependentUpon>FirmwareSelection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\AltitudeAngel\MapInfoDockPanel.cs" />
+    <Compile Include="Utilities\AltitudeAngel\MessageDisplay.cs" />
+    <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdapter.cs" />
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
+    <Compile Include="Utilities\AltitudeAngel\WpfAuthorizeDisplay.cs" />
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\OsdTuningSlotProvider.cs" />
     <Compile Include="Utilities\Speech.cs" />
@@ -1329,7 +1333,6 @@
     </Compile>
     <Compile Include="Utilities\AltitudeAngel\AltitudeAngel.cs" />
     <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
-    <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
     <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
     <Compile Include="Utilities\XMLColor.cs" />
     <Compile Include="Warnings\WarningControl.cs">
