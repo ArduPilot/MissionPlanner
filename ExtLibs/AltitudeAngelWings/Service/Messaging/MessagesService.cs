@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using AltitudeAngelWings.Models;
 
@@ -7,9 +8,13 @@ namespace AltitudeAngelWings.Service.Messaging
 {
     public class MessagesService : IMessagesService, IDisposable
     {
-        public MessagesService()
+        public MessagesService(IMessageDisplay messageDisplay)
         {
             Messages = new ObservableProperty<Message>(0);
+            Messages
+                .Do(messageDisplay.AddMessage)
+                .Delay(m => Observable.Timer(m.TimeToLive))
+                .Subscribe(messageDisplay.RemoveMessage);
         }
 
         public ObservableProperty<Message> Messages { get; }
