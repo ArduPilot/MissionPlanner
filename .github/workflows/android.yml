@@ -63,6 +63,7 @@ jobs:
       - name: Upload Android Release to Play Store
         if: ${{ github.event_name == 'push' }}
         uses: r0adkll/upload-google-play@v1.0.11
+        continue-on-error: true
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.michaeloborne.MissionPlanner
