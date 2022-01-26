@@ -221,8 +221,24 @@ namespace MissionPlanner.GCSViews
                 string[] lines = line.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string option in lines)
                 {
-                    string desc = MainV2.comPort.MAV.cs.GetNameandUnit(option);
-                    using (var cb = new CheckBox {Name = option, Checked = true, Text = desc})
+                    string name = option;
+                    if (option.StartsWith("customfield"))
+                    {
+                        // add empty custom felids so the are un-tickable
+                        if (option.Length <= 12)
+                        {
+                            // string only contains key
+                            CurrentState.custom_field_names.Add(option, "Unknown");
+                        }
+                        else
+                        {
+                            // both key and name
+                            name = option.Substring(0,12);
+                            CurrentState.custom_field_names.Add(name, option.Substring(12));
+                        }
+                    }
+                    string desc = MainV2.comPort.MAV.cs.GetNameandUnit(name);
+                    using (var cb = new CheckBox {Name = name, Checked = true, Text = desc})
                     {
                         chk_box_CheckedChanged(cb, EventArgs.Empty);
                     }
@@ -1784,7 +1800,12 @@ namespace MissionPlanner.GCSViews
                 {
                     foreach (var curve in zg1.GraphPane.CurveList)
                     {
-                        selected = selected + curve.Tag + "|";
+                        string curve_name = curve.Tag.ToString();
+                        if (curve_name.Contains("customfield"))
+                        {
+                            curve_name += ((CheckBox)sender).Text;
+                        }
+                        selected = selected + curve_name + "|";
                     }
                 }
                 catch
