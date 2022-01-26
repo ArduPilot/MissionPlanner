@@ -2635,6 +2635,10 @@ namespace MissionPlanner
                             {
                                 messageHigh = Strings.Bad_SatCom;
                             }
+                            else if (!sensors_health.differential_pressure && sensors_enabled.differential_pressure && sensors_present.differential_pressure)
+                            {
+                                messageHigh = Strings.BadAirspeed;
+                            }
                         }
 
                         break;

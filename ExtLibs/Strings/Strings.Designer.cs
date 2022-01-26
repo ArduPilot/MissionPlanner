@@ -187,6 +187,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to unhealthy airspeed.
+        /// </summary>
+        public static string BadAirspeed {
+            get {
+                return ResourceManager.GetString("BadAirspeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad Gyro Health.
         /// </summary>
         public static string BadGyroHealth {
