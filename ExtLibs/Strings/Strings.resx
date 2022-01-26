@@ -486,6 +486,9 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="BadGPSHealth" xml:space="preserve">
     <value>Unhealthy GPS Signal</value>
   </data>
+  <data name="BadAirspeed" xml:space="preserve">
+    <value>Unhealthy Airspeed</value>
+  </data>
   <data name="BadGyroHealth" xml:space="preserve">
     <value>Bad Gyro Health</value>
   </data>
