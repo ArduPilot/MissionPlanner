@@ -312,6 +312,9 @@ namespace RFD.RFD900
                                 case Uploader.Board.DEVICE_ID_RFD900X2:
                                     _ModemObject = new RFD900X2(this);
                                     break;
+                                case Uploader.Board.DEVICE_ID_RFD900UX2:
+                                    _ModemObject = new RFD900UX2(this);
+                                    break;
                             }
                         }
                         catch
@@ -1899,6 +1902,7 @@ namespace RFD.RFD900
                 case 2:
                     return new RFD900X2(Session);
                 case 3:
+                    return new RFD900UX2(Session);
                 default:
                     return null;
             }
@@ -2384,6 +2388,22 @@ namespace RFD.RFD900
             get
             {
                 return Uploader.Board.DEVICE_ID_RFD900X2;
+            }
+        }
+    }
+
+    public class RFD900UX2 : RFD900xuxRev2
+    {
+        public RFD900UX2(TSession Session)
+            : base(Session)
+        {
+        }
+
+        public override Uploader.Board Board
+        {
+            get
+            {
+                return Uploader.Board.DEVICE_ID_RFD900UX2;
             }
         }
     }

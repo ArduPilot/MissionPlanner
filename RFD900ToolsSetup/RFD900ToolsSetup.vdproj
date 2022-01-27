@@ -94,7 +94,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9FD9C67E7B7FF89C45CD846984E373B2"
+        "OwnerKey" = "8:_187250387F8C41B79FF94F32E955C8A4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,13 +136,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_187250387F8C41B79FF94F32E955C8A4"
+        "OwnerKey" = "8:_494F66904B10B605250F418204A4FF6D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_494F66904B10B605250F418204A4FF6D"
+        "OwnerKey" = "8:_9FD9C67E7B7FF89C45CD846984E373B2"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -244,7 +244,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RFD900Tools, Version=0.2.60.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:RFD900Tools, Version=0.2.61.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_187250387F8C41B79FF94F32E955C8A4"
@@ -371,11 +371,11 @@
                 {
                     "_494F66904B10B605250F418204A4FF6D"
                     {
-                    "Name" = "8:ZedGraph.DLL"
+                    "Name" = "8:ZedGraph.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:ZedGraph.DLL"
+            "SourcePath" = "8:ZedGraph.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_4EF5BB33A99546F6AF8628BF690979EF"
@@ -484,11 +484,11 @@
                 {
                     "_9FD9C67E7B7FF89C45CD846984E373B2"
                     {
-                    "Name" = "8:log4net.DLL"
+                    "Name" = "8:log4net.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:log4net.DLL"
+            "SourcePath" = "8:log4net.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_4EF5BB33A99546F6AF8628BF690979EF"
@@ -666,15 +666,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RFD900 Tools"
-        "ProductCode" = "8:{C9F8BB86-A6BC-4A78-89E3-C0E0D2AE54A2}"
-        "PackageCode" = "8:{0D3141FF-C51E-44A0-9278-588285EC9A1A}"
+        "ProductCode" = "8:{75B20EC0-B1C3-4562-BF76-63B09EF79039}"
+        "PackageCode" = "8:{537D0C76-53E6-4047-93F9-7BF1F7DB7EC2}"
         "UpgradeCode" = "8:{5CF5324A-B273-4F09-80F8-04A7C58CA17F}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.60.0"
+        "ProductVersion" = "8:2.61.0"
         "Manufacturer" = "8:RFDesign"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
