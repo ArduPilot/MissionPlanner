@@ -19,6 +19,13 @@ jobs:
           submodules: true
           fetch-depth: 10
 
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/obj
+          key: ${{ runner.os }}-buildAAB
+
       - name: Build
         shell: pwsh
         run: |

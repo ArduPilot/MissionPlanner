@@ -12,6 +12,13 @@ jobs:
           submodules: true
           fetch-depth: 10
 
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/obj
+          key: ${{ runner.os }}-buildIOS
+
       - name: Build
         shell: pwsh
         run: |
@@ -34,6 +41,13 @@ jobs:
         with:
           submodules: true
           fetch-depth: 10
+
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/obj
+          key: ${{ runner.os }}-buildOSX
 
       - name: Build
         shell: pwsh
