@@ -5280,11 +5280,15 @@ namespace MissionPlanner.GCSViews
             //Load additional commands from config.xml and merge it with cmd
             try
             {
-                Dictionary<string, string[]> configCommands = new Dictionary<string, string[]>();
-                configCommands = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(Settings.Instance["PlannerExtraCommand"]);
-                var newCmdList = cmd.Concat(configCommands.Where(kvp => !cmd.ContainsKey(kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-                return newCmdList;
+                if (Settings.Instance["PlannerExtraCommand"] != null)
+                {
+                    Dictionary<string, string[]> configCommands = new Dictionary<string, string[]>();
+                    configCommands = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(Settings.Instance["PlannerExtraCommand"]);
+                    var newCmdList = cmd.Concat(configCommands.Where(kvp => !cmd.ContainsKey(kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                    return newCmdList;
+                }
 
+                return cmd;
             }
             catch
             {
