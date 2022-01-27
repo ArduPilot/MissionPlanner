@@ -73,6 +73,7 @@
             this.paramNameDataGridViewTextBoxColumn.HeaderText = "ParamName";
             this.paramNameDataGridViewTextBoxColumn.Name = "paramNameDataGridViewTextBoxColumn";
             this.paramNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.paramNameDataGridViewTextBoxColumn.Width = 150;
             // 
             // devIDDataGridViewTextBoxColumn
             // 

@@ -56,9 +56,9 @@ namespace MissionPlanner.Utilities
             public UInt32 devid;
 
             // accessors
-            public BusType bus_type { get { return (BusType) (devid & 0x7); } } // : 3;
+            public BusType bus_type { get { return (BusType)(devid & 0x7); } } // : 3;
             public byte bus { get { return (byte)((devid >> 3) & 0x1f); } } //: 5;    // which instance of the bus type
-            public byte address { get { return (byte) ((devid >> 8) & 0xff); } } // address on the bus (eg. I2C address)
+            public byte address { get { return (byte)((devid >> 8) & 0xff); } } // address on the bus (eg. I2C address)
             public byte devtype { get { return (byte)((devid >> 16) & 0xff); } } // device class specific device type
 
 
@@ -97,7 +97,7 @@ namespace MissionPlanner.Utilities
                     devid, _paramname);
             }
 
-            // from AP_Compass_Backend.h
+            // https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Compass/AP_Compass_Backend.h#L49
             public enum compass_type
             {
                 DEVTYPE_HMC5883_OLD = 0x01,
@@ -118,9 +118,11 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_RM3100 = 0x11,
                 DEVTYPE_RM3100_2 = 0x12, // unused, past mistake
                 DEVTYPE_MMC5883 = 0x13,
+                DEVTYPE_AK09918 = 0x14,
+                DEVTYPE_AK09915 = 0x15,
             }
 
-            //AP_InertialSensor_Backend.h
+            //https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_InertialSensor/AP_InertialSensor_Backend.h#L95
             public enum imu_types
             {
                 DEVTYPE_BMI160 = 0x09,
@@ -151,9 +153,13 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_INS_ICM40609 = 0x33,
                 DEVTYPE_INS_ICM42688 = 0x34,
                 DEVTYPE_INS_ICM42605 = 0x35,
+                DEVTYPE_INS_ICM40605 = 0x36,
+                DEVTYPE_INS_IIM42652 = 0x37,
+                DEVTYPE_BMI270 = 0x38,
             };
 
 
+            //https://github.com/tridge/ardupilot/blob/master/libraries/AP_Baro/AP_Baro_Backend.h#L40
             public enum baro_types
             {
                 DEVTYPE_BARO_SITL = 0x01,
@@ -169,7 +175,10 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_BARO_MS5611 = 0x0B,
                 DEVTYPE_BARO_SPL06 = 0x0C,
                 DEVTYPE_BARO_DRONECAN = 0x0D,
+                DEVTYPE_BARO_MSP = 0x0E,
             };
+
+            //https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_Airspeed/AP_Airspeed_Backend.h#L99
             public enum airspeed_types
             {
                 DEVTYPE_AIRSPEED_SITL = 0x01,
@@ -184,18 +193,18 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_AIRSPEED_ASP5033 = 0x0A,
             };
 
-    public enum px4_i2c_bus
+            public enum px4_i2c_bus
             {
-                PX4_I2C_BUS_ONBOARD=0,
-                PX4_I2C_BUS_EXPANSION=1
+                PX4_I2C_BUS_ONBOARD = 0,
+                PX4_I2C_BUS_EXPANSION = 1
             }
 
             // from PX4Firmware\src\drivers\boards\px4fmu-v2\board_config.h
-            public enum px4_spi_bus 
+            public enum px4_spi_bus
             {
- PX4_SPI_BUS_SENSORS=	1,
- PX4_SPI_BUS_RAMTRON=	2,
- PX4_SPI_BUS_EXT	=	4,
+                PX4_SPI_BUS_SENSORS = 1,
+                PX4_SPI_BUS_RAMTRON = 2,
+                PX4_SPI_BUS_EXT = 4,
             }
         }
 
