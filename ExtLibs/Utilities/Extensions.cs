@@ -931,6 +931,58 @@ namespace MissionPlanner.Utilities
             return null;
         }
 
+        public static string ToSizeUnits(this int input)
+        {
+            if (input < 1024)
+                return input + "B";
+
+            if (input < 1024 * 1024)
+            {
+                return (input / 1024) + "KB";
+            }
+
+            return (input / 1024 / 1024) + "MB";
+        }
+
+        public static string ToSizeUnits(this uint input)
+        {
+            if (input < 1024)
+                return input + "B";
+
+            if (input < 1024 * 1024)
+            {
+                return (input / 1024) + "KB";
+            }
+
+            return (input / 1024 / 1024) + "MB";
+        }
+
+        public static string ToSizeUnits(this ulong input)
+        {
+            if (input < 1024)
+                return input + "B";
+
+            if (input < 1024 * 1024)
+            {
+                return (input / 1024) + "KB";
+            }
+
+            return (input / 1024 / 1024) + "MB";
+        }
+
+        public static string ToSizeUnits(this long input)
+        {
+            if (input < 1024)
+                return input + "B";
+
+            if (input < 1024 * 1024)
+            {
+                return (input / 1024) + "KB";
+            }
+
+            return (input / 1024 / 1024) + "MB";
+        }
+
         /*
         public static byte[] Compress(this byte[] input)
         {
