@@ -187,13 +187,13 @@ namespace MissionPlanner.Utilities
             return ans;
         }
 
-        public static async Task<List<PointLatLngAlt>> CreateRotaryAsync(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation, int clockwise_laps, bool match_spiral_perimeter)
+        public static async Task<List<PointLatLngAlt>> CreateRotaryAsync(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation, int clockwise_laps, bool match_spiral_perimeter, int laps)
         {
             return await Task.Run((() => CreateRotary(polygon, altitude, distance, spacing, angle, overshoot1, overshoot2,
-                startpos, shutter, minLaneSeparation, leadin, HomeLocation, clockwise_laps, match_spiral_perimeter))).ConfigureAwait(false);
+                startpos, shutter, minLaneSeparation, leadin, HomeLocation, clockwise_laps, match_spiral_perimeter, laps))).ConfigureAwait(false);
         }
 
-        public static List<PointLatLngAlt> CreateRotary(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation, int clockwise_laps, bool match_spiral_perimeter)
+        public static List<PointLatLngAlt> CreateRotary(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1, double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin, PointLatLngAlt HomeLocation, int clockwise_laps, bool match_spiral_perimeter, int laps)
         {
             spacing = 0;
 
@@ -215,7 +215,7 @@ namespace MissionPlanner.Utilities
             if (utmpositions[0] != utmpositions[utmpositions.Count - 1])
                 utmpositions.Add(utmpositions[0]); // make a full loop
 
-            var maxlane = 200;// (Centroid(utmpositions).GetDistance(utmpositions[0]) / distance);
+            var maxlane = laps;// (Centroid(utmpositions).GetDistance(utmpositions[0]) / distance);
 
             ClipperLib.ClipperOffset clipperOffset = new ClipperLib.ClipperOffset();
 
