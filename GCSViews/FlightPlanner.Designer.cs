@@ -152,6 +152,7 @@ namespace MissionPlanner.GCSViews
             this.loadPolygonToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.fromSHPToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.fromCurrentWaypointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offsetPolygonToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.areaToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.geoFenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GeoFenceuploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -211,6 +212,7 @@ namespace MissionPlanner.GCSViews
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStripPoly = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.convertWPToPolygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offsetPolygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.drawAPolygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -976,6 +978,7 @@ namespace MissionPlanner.GCSViews
             this.loadPolygonToolStripMenuItem2,
             this.fromSHPToolStripMenuItem2,
             this.fromCurrentWaypointsToolStripMenuItem,
+            this.offsetPolygonToolStripMenuItem2,
             this.areaToolStripMenuItem2});
             this.polygonToolStripMenuItem.Name = "polygonToolStripMenuItem";
             resources.ApplyResources(this.polygonToolStripMenuItem, "polygonToolStripMenuItem");
@@ -1015,6 +1018,12 @@ namespace MissionPlanner.GCSViews
             this.fromCurrentWaypointsToolStripMenuItem.Name = "fromCurrentWaypointsToolStripMenuItem";
             resources.ApplyResources(this.fromCurrentWaypointsToolStripMenuItem, "fromCurrentWaypointsToolStripMenuItem");
             this.fromCurrentWaypointsToolStripMenuItem.Click += new System.EventHandler(this.fromCurrentWaypointsMenuItem_Click);
+            // 
+            // offsetPolygonToolStripMenuItem2
+            // 
+            this.offsetPolygonToolStripMenuItem2.Name = "offsetPolygonToolStripMenuItem2";
+            resources.ApplyResources(this.offsetPolygonToolStripMenuItem2, "offsetPolygonToolStripMenuItem2");
+            this.offsetPolygonToolStripMenuItem2.Click += new System.EventHandler(this.offsetPolygonToolStripMenuItem_Click);
             // 
             // areaToolStripMenuItem2
             // 
@@ -1398,6 +1407,7 @@ namespace MissionPlanner.GCSViews
             this.loadPolygonToolStripMenuItem,
             this.fromSHPToolStripMenuItem,
             this.convertWPToPolygonToolStripMenuItem,
+            this.offsetPolygonToolStripMenuItem,
             this.areaToolStripMenuItem,
             this.fenceInclusionToolStripMenuItem,
             this.fenceExclusionToolStripMenuItem});
@@ -1411,6 +1421,12 @@ namespace MissionPlanner.GCSViews
             this.convertWPToPolygonToolStripMenuItem.Name = "convertWPToPolygonToolStripMenuItem";
             resources.ApplyResources(this.convertWPToPolygonToolStripMenuItem, "convertWPToPolygonToolStripMenuItem");
             this.convertWPToPolygonToolStripMenuItem.Click += new System.EventHandler(this.fromCurrentWaypointsMenuItem_Click);
+            // 
+            // offsetPolygonToolStripMenuItem
+            // 
+            this.offsetPolygonToolStripMenuItem.Name = "offsetPolygonToolStripMenuItem";
+            resources.ApplyResources(this.offsetPolygonToolStripMenuItem, "offsetPolygonToolStripMenuItem");
+            this.offsetPolygonToolStripMenuItem.Click += new System.EventHandler(this.offsetPolygonToolStripMenuItem_Click);
             // 
             // drawAPolygonToolStripMenuItem
             // 
@@ -1654,5 +1670,7 @@ namespace MissionPlanner.GCSViews
         private DataGridViewTextBoxColumn TagData;
         private ToolStripMenuItem convertWPToPolygonToolStripMenuItem;
         private ToolStripMenuItem fromCurrentWaypointsToolStripMenuItem;
+        private ToolStripMenuItem offsetPolygonToolStripMenuItem;
+        private ToolStripMenuItem offsetPolygonToolStripMenuItem2;
     }
 }

@@ -1170,7 +1170,7 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7898.21436, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8064.23188, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1910,6 +1910,12 @@
   <data name="fromCurrentWaypointsToolStripMenuItem.Text" xml:space="preserve">
     <value>From Current Waypoints</value>
   </data>
+  <data name="offsetPolygonToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="offsetPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>Offset Polygon</value>
+  </data>
   <data name="areaToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
     <value>204, 22</value>
   </data>
@@ -2007,37 +2013,37 @@
     <value>Rally Points</value>
   </data>
   <data name="createWpCircleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>179, 22</value>
   </data>
   <data name="createWpCircleToolStripMenuItem.Text" xml:space="preserve">
     <value>Create Wp Circle</value>
   </data>
   <data name="createSplineCircleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>179, 22</value>
   </data>
   <data name="createSplineCircleToolStripMenuItem.Text" xml:space="preserve">
     <value>Create Spline Circle</value>
   </data>
   <data name="areaToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>179, 22</value>
   </data>
   <data name="areaToolStripMenuItem1.Text" xml:space="preserve">
     <value>Area</value>
   </data>
   <data name="textToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>179, 22</value>
   </data>
   <data name="textToolStripMenuItem.Text" xml:space="preserve">
     <value>Text</value>
   </data>
   <data name="createCircleSurveyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>179, 22</value>
   </data>
   <data name="createCircleSurveyToolStripMenuItem.Text" xml:space="preserve">
     <value>Create Circle Survey</value>
   </data>
   <data name="surveyGridToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>179, 22</value>
   </data>
   <data name="surveyGridToolStripMenuItem.Text" xml:space="preserve">
     <value>Survey (Grid)</value>
@@ -2336,8 +2342,14 @@
   <data name="convertWPToPolygonToolStripMenuItem.Text" xml:space="preserve">
     <value>From Current Waypoints</value>
   </data>
+  <data name="offsetPolygonToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 22</value>
+  </data>
+  <data name="offsetPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Offset Polygon</value>
+  </data>
   <data name="contextMenuStripPoly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 202</value>
+    <value>180, 224</value>
   </data>
   <data name="&gt;&gt;contextMenuStripPoly.Name" xml:space="preserve">
     <value>contextMenuStripPoly</value>
@@ -2687,6 +2699,12 @@
   <data name="&gt;&gt;fromCurrentWaypointsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;offsetPolygonToolStripMenuItem2.Name" xml:space="preserve">
+    <value>offsetPolygonToolStripMenuItem2</value>
+  </data>
+  <data name="&gt;&gt;offsetPolygonToolStripMenuItem2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;areaToolStripMenuItem2.Name" xml:space="preserve">
     <value>areaToolStripMenuItem2</value>
   </data>
@@ -3027,6 +3045,12 @@
     <value>convertWPToPolygonToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;convertWPToPolygonToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;offsetPolygonToolStripMenuItem.Name" xml:space="preserve">
+    <value>offsetPolygonToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;offsetPolygonToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;drawAPolygonToolStripMenuItem.Name" xml:space="preserve">
