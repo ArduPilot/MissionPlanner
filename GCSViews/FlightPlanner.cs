@@ -3557,6 +3557,57 @@ namespace MissionPlanner.GCSViews
                 clearMissionToolStripMenuItem_Click(null, null);  // perhaps not best practice to directly call "click" events
             }
         }
+        private void offsetPolygonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (drawnpolygon.Points.Count == 0)
+            {
+                return;
+            }
+            string meter = "0";
+            double intmeter = 0;
+            if (InputBox.Show("Offset in Meters", "Please enter the offset in meters. Enter a negative value to make the polygon smaller", ref meter) == DialogResult.OK)
+            {
+                if (meter != "0")
+                {
+                    intmeter = double.Parse(meter);
+                }
+            }
+            List<PointLatLngAlt> list = new List<PointLatLngAlt>();
+            drawnpolygon.Points.ForEach(x => { list.Add(x); });
+
+            List<utmpos> ans = new List<utmpos>();
+
+            // utm zone distance calcs will be done in
+            int utmzone = list[0].GetUTMZone();
+
+            // utm position list
+            List<utmpos> utmpositions = utmpos.ToList(PointLatLngAlt.ToUTM(utmzone, list), utmzone);
+
+            // close the loop if its not already
+            if (utmpositions[0] != utmpositions[utmpositions.Count - 1])
+                utmpositions.Add(utmpositions[0]); // make a full loop
+
+            ClipperLib.ClipperOffset clipperOffset = new ClipperLib.ClipperOffset();
+
+            clipperOffset.AddPath(utmpositions.Select(a => { return new ClipperLib.IntPoint(a.x * 1000.0, a.y * 1000.0); }).ToList(), ClipperLib.JoinType.jtMiter, ClipperLib.EndType.etClosedPolygon);
+
+            List<utmpos> ans1 = new List<utmpos>();
+
+            ClipperLib.PolyTree tree = new ClipperLib.PolyTree();
+            clipperOffset.Execute(ref tree, (Int64)(intmeter * 1000.0));
+
+            if (tree.ChildCount == 0)
+                return;
+
+            foreach (var treeChild in tree.Childs)
+            {
+                ans1 = treeChild.Contour.Select(a => new utmpos(a.X / 1000.0, a.Y / 1000.0, utmzone))
+                    .ToList();
+
+                ans.AddRange(ans1);
+            }
+            redrawPolygonSurvey(ans.Select(plla => { var a = plla.ToLLA(); a.Tag = "S"; return a; }).ToList());
+        }
 
         void DoGeofencePointsUpload(IProgressReporterDialogue PRD)
         {
