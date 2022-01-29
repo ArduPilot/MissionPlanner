@@ -1971,6 +1971,57 @@
   <data name="groupBoxSpiral.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
   </data>
+  <data name="LBL_laps.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_laps.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LBL_laps.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 25</value>
+  </data>
+  <data name="LBL_laps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 13</value>
+  </data>
+  <data name="LBL_laps.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="LBL_laps.Text" xml:space="preserve">
+    <value>Number of Laps</value>
+  </data>
+  <data name="&gt;&gt;LBL_laps.Name" xml:space="preserve">
+    <value>LBL_laps</value>
+  </data>
+  <data name="&gt;&gt;LBL_laps.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_laps.Parent" xml:space="preserve">
+    <value>groupBoxSpiral</value>
+  </data>
+  <data name="&gt;&gt;LBL_laps.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="NUM_laps.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 23</value>
+  </data>
+  <data name="NUM_laps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 20</value>
+  </data>
+  <data name="NUM_laps.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;NUM_laps.Name" xml:space="preserve">
+    <value>NUM_laps</value>
+  </data>
+  <data name="&gt;&gt;NUM_laps.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_laps.Parent" xml:space="preserve">
+    <value>groupBoxSpiral</value>
+  </data>
+  <data name="&gt;&gt;NUM_laps.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="CHK_match_spiral_perimeter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1978,7 +2029,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_match_spiral_perimeter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 72</value>
+    <value>10, 94</value>
   </data>
   <data name="CHK_match_spiral_perimeter.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 17</value>
@@ -1999,7 +2050,7 @@
     <value>groupBoxSpiral</value>
   </data>
   <data name="&gt;&gt;CHK_match_spiral_perimeter.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="LBL_clockwise_laps.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2008,7 +2059,7 @@
     <value>NoControl</value>
   </data>
   <data name="LBL_clockwise_laps.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 25</value>
+    <value>7, 47</value>
   </data>
   <data name="LBL_clockwise_laps.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 13</value>
@@ -2029,7 +2080,7 @@
     <value>groupBoxSpiral</value>
   </data>
   <data name="&gt;&gt;LBL_clockwise_laps.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="LBL_clockwise_laps1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2038,7 +2089,7 @@
     <value>NoControl</value>
   </data>
   <data name="LBL_clockwise_laps1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 49</value>
+    <value>18, 71</value>
   </data>
   <data name="LBL_clockwise_laps1.Size" type="System.Drawing.Size, System.Drawing">
     <value>117, 13</value>
@@ -2059,10 +2110,10 @@
     <value>groupBoxSpiral</value>
   </data>
   <data name="&gt;&gt;LBL_clockwise_laps1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="NUM_clockwise_laps.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 47</value>
+    <value>143, 69</value>
   </data>
   <data name="NUM_clockwise_laps.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 20</value>
@@ -2080,7 +2131,7 @@
     <value>groupBoxSpiral</value>
   </data>
   <data name="&gt;&gt;NUM_clockwise_laps.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="label46.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2089,7 +2140,7 @@
     <value>NoControl</value>
   </data>
   <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 23</value>
+    <value>6, 45</value>
   </data>
   <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
     <value>0, 13</value>
@@ -2107,13 +2158,13 @@
     <value>groupBoxSpiral</value>
   </data>
   <data name="&gt;&gt;label46.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="groupBoxSpiral.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 474</value>
+    <value>6, 457</value>
   </data>
   <data name="groupBoxSpiral.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 105</value>
+    <value>233, 122</value>
   </data>
   <data name="groupBoxSpiral.TabIndex" type="System.Int32, mscorlib">
     <value>64</value>
@@ -2143,7 +2194,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_optimize_for_distance.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 72</value>
+    <value>10, 63</value>
   </data>
   <data name="chk_optimize_for_distance.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 17</value>
@@ -2173,7 +2224,7 @@
     <value>NoControl</value>
   </data>
   <data name="LBL_Alternating_lanes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 25</value>
+    <value>7, 19</value>
   </data>
   <data name="LBL_Alternating_lanes.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
@@ -2203,7 +2254,7 @@
     <value>NoControl</value>
   </data>
   <data name="LBL_Lane_Dist.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 49</value>
+    <value>26, 40</value>
   </data>
   <data name="LBL_Lane_Dist.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 13</value>
@@ -2227,7 +2278,7 @@
     <value>2</value>
   </data>
   <data name="NUM_Lane_Dist.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 47</value>
+    <value>143, 38</value>
   </data>
   <data name="NUM_Lane_Dist.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 20</value>
@@ -2278,7 +2329,7 @@
     <value>6, 363</value>
   </data>
   <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 105</value>
+    <value>233, 88</value>
   </data>
   <data name="groupBox7.TabIndex" type="System.Int32, mscorlib">
     <value>63</value>
