@@ -7789,5 +7789,19 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             if (MainMap.Zoom < 17)
                 MainMap.Zoom = 17;
         }
+
+        private void modifyandSetLoiterRad_Click(object sender, EventArgs e)
+        {
+            int newrad = (int)modifyandSetLoiterRad.Value;
+
+            try
+            {
+                MainV2.comPort.setParam(new[] { "LOITER_RAD", "WP_LOITER_RAD" }, newrad / CurrentState.multiplierdist);
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
+            }
+        }
     }
 }

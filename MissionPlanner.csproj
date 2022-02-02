@@ -4587,6 +4587,7 @@
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="logo_marinetech.png" />
     <Content Include="mavutil.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

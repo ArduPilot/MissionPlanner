@@ -78,6 +78,7 @@ namespace MissionPlanner.GCSViews
             this.coords1 = new MissionPlanner.Controls.Coords();
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new System.Windows.Forms.Panel();
+            this.modifyandSetLoiterRad = new MissionPlanner.Controls.ModifyandSet();
             this.but_mincommands = new MissionPlanner.Controls.MyButton();
             this.CMB_altmode = new System.Windows.Forms.ComboBox();
             this.CHK_splinedefault = new System.Windows.Forms.CheckBox();
@@ -402,6 +403,7 @@ namespace MissionPlanner.GCSViews
             // 
             // panelWaypoints
             // 
+            this.panelWaypoints.Controls.Add(this.modifyandSetLoiterRad);
             this.panelWaypoints.Controls.Add(this.but_mincommands);
             this.panelWaypoints.Controls.Add(this.CMB_altmode);
             this.panelWaypoints.Controls.Add(this.CHK_splinedefault);
@@ -419,6 +421,34 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.panelWaypoints, "panelWaypoints");
             this.panelWaypoints.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panelWaypoints.Name = "panelWaypoints";
+            // 
+            // modifyandSetLoiterRad
+            // 
+            resources.ApplyResources(this.modifyandSetLoiterRad, "modifyandSetLoiterRad");
+            this.modifyandSetLoiterRad.ButtonText = "Set Loiter Rad";
+            this.modifyandSetLoiterRad.DecimalPlaces = 0;
+            this.modifyandSetLoiterRad.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.modifyandSetLoiterRad.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.modifyandSetLoiterRad.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.modifyandSetLoiterRad.Name = "modifyandSetLoiterRad";
+            this.modifyandSetLoiterRad.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.modifyandSetLoiterRad.Click += new System.EventHandler(this.modifyandSetLoiterRad_Click);
             // 
             // but_mincommands
             // 
@@ -829,6 +859,7 @@ namespace MissionPlanner.GCSViews
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteWPToolStripMenuItem,
             this.insertWpToolStripMenuItem,
@@ -1391,6 +1422,7 @@ namespace MissionPlanner.GCSViews
             // 
             // contextMenuStripPoly
             // 
+            this.contextMenuStripPoly.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripPoly.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addPolygonPointToolStripMenuItem,
             this.clearPolygonToolStripMenuItem,
@@ -1429,6 +1461,7 @@ namespace MissionPlanner.GCSViews
             // 
             // contextMenuStripZoom
             // 
+            this.contextMenuStripZoom.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripZoom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomToVehicleToolStripMenuItem,
             this.zoomToMissionToolStripMenuItem,
@@ -1654,5 +1687,6 @@ namespace MissionPlanner.GCSViews
         private DataGridViewTextBoxColumn TagData;
         private ToolStripMenuItem convertWPToPolygonToolStripMenuItem;
         private ToolStripMenuItem fromCurrentWaypointsToolStripMenuItem;
+        private ModifyandSet modifyandSetLoiterRad;
     }
 }
