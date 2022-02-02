@@ -1773,6 +1773,10 @@ namespace MissionPlanner
 
         [GroupText("PID")] public float pidachieved { get; set; }
 
+        [GroupText("PID")] public float pidSRate { get; set; }
+
+        [GroupText("PID")] public float pidPDmod { get; set; }
+
         public uint vibeclip0 { get; set; }
 
         public uint vibeclip1 { get; set; }
@@ -3307,6 +3311,8 @@ namespace MissionPlanner
                             pidaxis = pid.axis;
                             piddesired = pid.desired;
                             pidachieved = pid.achieved;
+                            pidSRate = pid.SRate;
+                            pidPDmod = pid.PDmod;
                         }
 
                         break;
