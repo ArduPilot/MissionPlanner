@@ -5582,7 +5582,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                STBY_btn.Enabled = false;
+                STBY_btn.Enabled = true;
                 ON_btn.Enabled = false;
                 ALT_btn.Enabled = false;
                 IDENT_btn.Enabled = false;
