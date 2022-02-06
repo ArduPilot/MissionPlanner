@@ -420,7 +420,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     currentmode.Contains("autotune") || currentmode.Contains("land") ||
                     currentmode.Contains("loiter") || currentmode.Contains("ofloiter") ||
                     currentmode.Contains("poshold") || currentmode.Contains("rtl") ||
-                    currentmode.Contains("sport") || currentmode.Contains("stabilize"))
+                    currentmode.Contains("sport") || currentmode.Contains("stabilize") ||
+                    currentmode.Contains("flowhold") || currentmode.Contains("zigzag"))
                 {
                     //CMB_fmode1
                     //CB_simple1
