@@ -2600,7 +2600,7 @@ namespace MissionPlanner.GCSViews
             // 
             // ZedGraphTimer
             // 
-            this.ZedGraphTimer.Tick += new System.EventHandler(this.timer1_Tick);
+            this.ZedGraphTimer.Tick += new System.EventHandler(this.ZedGraphTimer_Tick);
             // 
             // toolTip1
             // 

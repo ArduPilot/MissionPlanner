@@ -240,7 +240,7 @@ namespace MissionPlanner.GCSViews
                     string desc = MainV2.comPort.MAV.cs.GetNameandUnit(name);
                     using (var cb = new CheckBox {Name = name, Checked = true, Text = desc})
                     {
-                        chk_box_CheckedChanged(cb, EventArgs.Empty);
+                        chk_box_tunningCheckedChanged(cb, EventArgs.Empty);
                     }
                 }
             }
@@ -248,22 +248,22 @@ namespace MissionPlanner.GCSViews
             {
                 using (var cb = new CheckBox {Name = "roll", Checked = true})
                 {
-                    chk_box_CheckedChanged(cb, EventArgs.Empty);
+                    chk_box_tunningCheckedChanged(cb, EventArgs.Empty);
                 }
 
                 using (var cb = new CheckBox {Name = "pitch", Checked = true})
                 {
-                    chk_box_CheckedChanged(cb, EventArgs.Empty);
+                    chk_box_tunningCheckedChanged(cb, EventArgs.Empty);
                 }
 
                 using (var cb = new CheckBox {Name = "nav_roll", Checked = true})
                 {
-                    chk_box_CheckedChanged(cb, EventArgs.Empty);
+                    chk_box_tunningCheckedChanged(cb, EventArgs.Empty);
                 }
 
                 using (var cb = new CheckBox {Name = "nav_pitch", Checked = true})
                 {
-                    chk_box_CheckedChanged(cb, EventArgs.Empty);
+                    chk_box_tunningCheckedChanged(cb, EventArgs.Empty);
                 }
             }
 
@@ -542,7 +542,7 @@ namespace MissionPlanner.GCSViews
             GraphPane myPane = zgc.GraphPane;
 
             // Set the titles and axis labels
-            myPane.Title.Text = "Tuning";
+            myPane.Title.Text = "Tuning - Double click to change items";
             myPane.XAxis.Title.Text = "Time (s)";
             myPane.YAxis.Title.Text = "Unit";
 
@@ -1681,7 +1681,7 @@ namespace MissionPlanner.GCSViews
             //GCSViews.FlightPlanner.instance.autopan = CHK_autopan.Checked;
         }
 
-        void chk_box_CheckedChanged(object sender, EventArgs e)
+        void chk_box_tunningCheckedChanged(object sender, EventArgs e)
         {
             ThemeManager.ApplyThemeTo((Control) sender);
 
@@ -1697,6 +1697,13 @@ namespace MissionPlanner.GCSViews
                         list1curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list1, Color.Red,
                             SymbolType.None);
                         list1curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list1curve.Label.Text += " R";
+                            list1curve.IsY2Axis = true;
+                            list1curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list2item == null)
@@ -1707,6 +1714,13 @@ namespace MissionPlanner.GCSViews
                         list2curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list2, Color.Blue,
                             SymbolType.None);
                         list2curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list2curve.Label.Text += " R";
+                            list2curve.IsY2Axis = true;
+                            list2curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list3item == null)
@@ -1717,6 +1731,13 @@ namespace MissionPlanner.GCSViews
                         list3curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list3, Color.Green,
                             SymbolType.None);
                         list3curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list3curve.Label.Text += " R";
+                            list3curve.IsY2Axis = true;
+                            list3curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list4item == null)
@@ -1727,6 +1748,13 @@ namespace MissionPlanner.GCSViews
                         list4curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list4, Color.Orange,
                             SymbolType.None);
                         list4curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list4curve.Label.Text += " R";
+                            list4curve.IsY2Axis = true;
+                            list4curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list5item == null)
@@ -1737,6 +1765,13 @@ namespace MissionPlanner.GCSViews
                         list5curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list5, Color.Yellow,
                             SymbolType.None);
                         list5curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list5curve.Label.Text += " R";
+                            list5curve.IsY2Axis = true;
+                            list5curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list6item == null)
@@ -1747,6 +1782,13 @@ namespace MissionPlanner.GCSViews
                         list6curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list6, Color.Magenta,
                             SymbolType.None);
                         list6curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list6curve.Label.Text += " R";
+                            list6curve.IsY2Axis = true;
+                            list6curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list7item == null)
@@ -1757,6 +1799,13 @@ namespace MissionPlanner.GCSViews
                         list7curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list7, Color.Purple,
                             SymbolType.None);
                         list7curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list7curve.Label.Text += " R";
+                            list7curve.IsY2Axis = true;
+                            list7curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list8item == null)
@@ -1767,6 +1816,13 @@ namespace MissionPlanner.GCSViews
                         list8curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list8, Color.LimeGreen,
                             SymbolType.None);
                         list8curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list8curve.Label.Text += " R";
+                            list8curve.IsY2Axis = true;
+                            list8curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list9item == null)
@@ -1777,6 +1833,13 @@ namespace MissionPlanner.GCSViews
                         list9curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list9, Color.Cyan,
                             SymbolType.None);
                         list9curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list9curve.Label.Text += " R";
+                            list9curve.IsY2Axis = true;
+                            list9curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else if (list10item == null)
@@ -1787,6 +1850,13 @@ namespace MissionPlanner.GCSViews
                         list10curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list10, Color.Violet,
                             SymbolType.None);
                         list10curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list10curve.Label.Text += " R";
+                            list10curve.IsY2Axis = true;
+                            list10curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
                     }
                 }
                 else
@@ -4576,7 +4646,7 @@ namespace MissionPlanner.GCSViews
             });
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void ZedGraphTimer_Tick(object sender, EventArgs e)
         {
             try
             {
@@ -5060,7 +5130,8 @@ namespace MissionPlanner.GCSViews
                 chk_box.Tag = "custom";
                 chk_box.Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height);
                 chk_box.Size = new Size(120, 20);
-                chk_box.CheckedChanged += chk_box_CheckedChanged;
+                chk_box.CheckedChanged += chk_box_tunningCheckedChanged;
+                chk_box.MouseDown += Chk_box_tunningMouseDown;
                 chk_box.AutoSize = true;
 
                 selectform.Controls.Add(chk_box);
@@ -5079,6 +5150,17 @@ namespace MissionPlanner.GCSViews
             };
 
             selectform.Show();
+        }
+
+        private void Chk_box_tunningMouseDown(object sender, MouseEventArgs e)
+        {
+            tuningwasrightclick = e.Button == MouseButtons.Right;
+            if (tuningwasrightclick)
+            {
+                var chk = sender as CheckBox;
+                if (chk != null)
+                    chk.Checked = !chk.Checked;
+            }
         }
 
         private void Zoomlevel_ValueChanged(object sender, EventArgs e)
@@ -5296,6 +5378,7 @@ namespace MissionPlanner.GCSViews
             hud1.batterycellcount = iCellCount;
         }
         private bool tabQuickDetached = false;
+        private bool tuningwasrightclick;
 
         private void undockDockToolStripMenuItem_Click(object sender, EventArgs e)
         {
