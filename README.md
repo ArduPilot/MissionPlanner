@@ -23,21 +23,14 @@ License : https://github.com/ArduPilot/MissionPlanner/blob/master/COPYING.txt
 
 Currently, Mission Planner needs:
 
-- Microsoft .NET Framework 4.6.1
-- Microsoft .NET standard 2.0
+Visual Studio 2022
 
 ##### IDE
 
 ###### Visual Studio Community
-The recommended way to compile Mission Planner is through Visual Studio. You could do it with Visual Studio Community (version 16.9 or newer to include .NET standard 2.0) : [Visual Studio Download page](https://visualstudio.microsoft.com/downloads/ "Visual Studio Download page").
-Visual Studio suite is quite complet and comes with Git support. On installation phase, please install support for :
-- ASP.NET and web development
-- .NET Desktop Developement
-- Desktop development with C++
-- Universal Windows Platform deveopment
-- Mobile development with .NET
-- Visual Studio extension development
-- .NET Core cross-platofrm developemnt
+The recommended way to compile Mission Planner is through Visual Studio.
+You could do it with Visual Studio Community [Visual Studio Download page](https://visualstudio.microsoft.com/downloads/ "Visual Studio Download page").
+Visual Studio suite is quite complex and comes with Git support. During the Selection phase, please goto More > import configuration, and use the file (https://raw.githubusercontent.com/ArduPilot/MissionPlanner/master/.vsconfig ".vsconfig")
 
 ###### VSCode
 Currently VSCode with C# plugin is able to parse the code but cannot build.
