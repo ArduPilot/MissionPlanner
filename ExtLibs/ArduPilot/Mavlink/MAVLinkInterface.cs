@@ -738,8 +738,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (Regex.IsMatch(plaintxtline, @"\rT[0-9A-Z]{9,32}$", RegexOptions.Multiline))
                     {
                         PRsender.doWorkArgs.ErrorMessage =
-                            "This appears to be a CAN port, please use the UAVCAN screen";
-                        throw new Exception(@"This appears to be a CAN port, please use the UAVCAN screen");
+                            "This appears to be a CAN port, please use the DroneCAN screen";
+                        throw new Exception(@"This appears to be a CAN port, please use the DroneCAN screen");
                     }
 
                     // check we have hb's
@@ -1000,6 +1000,23 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 MAV.aptype.ToString(), MAV.apname.ToString());
         }
 
+        private void SetupMavConnect(MAVLinkMessage message, mavlink_high_latency2_t hl)
+        {
+            mavlinkversion = 0;
+            MAVlist[message.sysid, message.compid].aptype = (MAV_TYPE)hl.type;
+            MAVlist[message.sysid, message.compid].apname = (MAV_AUTOPILOT)hl.autopilot;
+            MAVlist[message.sysid, message.compid].isHighLatency = true;
+
+            setAPType(message.sysid, message.compid);
+
+            MAVlist[message.sysid, message.compid].sysid = message.sysid;
+            MAVlist[message.sysid, message.compid].compid = message.compid;
+            MAVlist[message.sysid, message.compid].recvpacketcount = message.seq;
+            log.InfoFormat("ID HL sys {0} comp {1} ver{2} type {3} name {4}", message.sysid, message.compid,
+                mavlinkversion,
+                MAV.aptype.ToString(), MAV.apname.ToString());
+        }
+
         public MAVLinkMessage getHeartBeat()
         {
             return getHeartBeatAsync().AwaitSync();
@@ -1032,6 +1049,18 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (hb.type != (byte) MAV_TYPE.GCS)
                         {
                             SetupMavConnect(buffer, hb);
+
+                            giveComport = false;
+                            return buffer;
+                        }
+                    }
+                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.HIGH_LATENCY2)
+                    {
+                        mavlink_high_latency2_t hl = buffer.ToStructure<mavlink_high_latency2_t>();
+
+                        if (hl.type != (byte)MAV_TYPE.GCS)
+                        {
+                            SetupMavConnect(buffer, hl);
 
                             giveComport = false;
                             return buffer;
