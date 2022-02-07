@@ -150,9 +150,8 @@ namespace MissionPlanner.GCSViews
             System_Time,
             Battery_Reset,
             ADSB_Out_Ident,
-            SCRIPTING_CMD_STOP_AND_RESTART,
-            SCRIPTING_CMD_STOP
-
+            Scripting_cmd_stop_and_restart,
+            Scripting_cmd_stop
         }
 
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
@@ -1547,6 +1546,34 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 return;
+            }
+
+            if (CMB_action.Text == actions.Scripting_cmd_stop_and_restart.ToString())
+            {
+                try
+                {
+                    MainV2.comPort.doCommandInt(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_CMD.SCRIPTING, (int)MAVLink.SCRIPTING_CMD.STOP_AND_RESTART, 0, 0, 0, 0, 0, 0);
+                    return; 
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    return;
+                }
+            }
+
+            if (CMB_action.Text == actions.Scripting_cmd_stop.ToString())
+            {
+                try
+                {
+                    MainV2.comPort.doCommandInt(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_CMD.SCRIPTING, (int)MAVLink.SCRIPTING_CMD.STOP, 0, 0, 0, 0, 0, 0);
+                    return;
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    return;
+                }
             }
 
             if (CMB_action.Text == actions.System_Time.ToString())
