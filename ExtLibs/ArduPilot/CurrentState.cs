@@ -297,7 +297,7 @@ namespace MissionPlanner
         }
 
         [GroupText("Position")]
-        [DisplayText("Altitude (dist)")]
+        [DisplayText("Altitude (alt)")]
         public float altasl
         {
             get => _altasl * multiplieralt;
