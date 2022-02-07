@@ -1178,22 +1178,35 @@ namespace ZedGraph
 			}
 		}
 
-	#endregion
+		#endregion
 
-	#region Zoom Events
+		#region Zoom Events
 
-        private void HandleZoomDrag(Point mousePt)
+		Pen zoomborder = new Pen(Color.Wheat, 1) { DashStyle = DashStyle.Dash };
+
+		private void HandleZoomDrag(Point mousePt)
         {
-            // Hide the previous rectangle by calling the
-            // DrawReversibleFrame method with the same parameters.
-            Rectangle rect = CalcScreenRect(_dragStartPt, _dragEndPt);
-            ControlPaint.DrawReversibleFrame(rect, this.BackColor, FrameStyle.Dashed);
-
-            // Bound the zoom to the ChartRect
-            _dragEndPt = Point.Round(BoundPointToRect(mousePt, _dragPane.Chart._rect));
-            rect = CalcScreenRect(_dragStartPt, _dragEndPt);
-            // Draw the new rectangle by calling DrawReversibleFrame again.
-            ControlPaint.DrawReversibleFrame(rect, this.BackColor, FrameStyle.Dashed);
+			this.Invalidate();
+			using (Graphics g = Graphics.FromHwnd(this.Handle))
+			{
+				g.DrawRectangle(zoomborder, _dragStartPt.X < _dragEndPt.X ? _dragStartPt.X : _dragEndPt.X,
+					_dragStartPt.Y < _dragEndPt.Y ? _dragStartPt.Y : _dragEndPt.Y,
+					Math.Abs(_dragStartPt.X - _dragEndPt.X),
+					Math.Abs(_dragStartPt.Y - _dragEndPt.Y));
+				/*
+				// Hide the previous rectangle by calling the
+				// DrawReversibleFrame method with the same parameters.
+				Rectangle rect = CalcScreenRect(_dragStartPt, _dragEndPt);
+				ControlPaint.DrawReversibleFrame(rect, this.BackColor, FrameStyle.Dashed);
+				*/
+				// Bound the zoom to the ChartRect
+				_dragEndPt = Point.Round(BoundPointToRect(mousePt, _dragPane.Chart._rect));
+				/*
+				rect = CalcScreenRect(_dragStartPt, _dragEndPt);				
+				// Draw the new rectangle by calling DrawReversibleFrame again.
+				ControlPaint.DrawReversibleFrame(rect, this.BackColor, FrameStyle.Dashed);
+				*/
+			}
         }
         /*
         private void HandleZoomDrag(Point mousePt)
