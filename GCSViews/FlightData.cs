@@ -363,6 +363,9 @@ namespace MissionPlanner.GCSViews
             myhud.hudcolor = ThemeManager.HudText;
 
             hud1.displayicons = Settings.Instance.GetBoolean("HUD_showicons", false);
+
+            tabControlactions.Multiline = Settings.Instance.GetBoolean("tabControlactions_Multiline", false);
+
         }
 
         public void Activate()
@@ -5715,6 +5718,12 @@ namespace MissionPlanner.GCSViews
             {
                 showIconsToolStripMenuItem.Text = "Show icons";
             }
+        }
+
+        private void multiLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabControlactions.Multiline = !tabControlactions.Multiline;
+            Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
         }
     }
 }
