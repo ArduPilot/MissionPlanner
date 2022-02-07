@@ -1387,11 +1387,17 @@ namespace MissionPlanner
         private void MenuFlightData_Click(object sender, EventArgs e)
         {
             MyView.ShowScreen("FlightData");
+
+            // save config
+            SaveConfig();
         }
 
         private void MenuFlightPlanner_Click(object sender, EventArgs e)
         {
             MyView.ShowScreen("FlightPlanner");
+
+            // save config
+            SaveConfig();
         }
 
         public void MenuSetup_Click(object sender, EventArgs e)
@@ -1889,6 +1895,9 @@ namespace MissionPlanner
         private void MenuConnect_Click(object sender, EventArgs e)
         {
             Connect();
+
+            // save config
+            SaveConfig();
         }
 
         private void Connect()
