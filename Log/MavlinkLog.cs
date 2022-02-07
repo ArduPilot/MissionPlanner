@@ -1041,6 +1041,13 @@ namespace MissionPlanner.Log
                                 string text = "";
                                 mine.DebugPacket(packet, ref text, false, ",");
 
+                                if(packet.data is MAVLink.mavlink_file_transfer_protocol_t)
+                                {
+                                    var msg = (MAVLink.mavlink_file_transfer_protocol_t)packet.data;
+                                    ArduPilot.Mavlink.MAVFtp.FTPPayloadHeader ftphead = msg.payload;
+                                    text = text.TrimEnd() + ", " + ftphead.ToString() + Environment.NewLine;
+                                }
+
                                 if (!String.IsNullOrEmpty(text))
                                     sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss.fff") + "," + text);
                             }

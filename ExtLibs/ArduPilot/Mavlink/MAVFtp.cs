@@ -1478,6 +1478,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
             Progress?.Invoke(file, 100);
             _mavint.UnSubscribeToPacketType(sub);
             answer.Position = 0;
+            if (!timeout.Complete)
+                return null;
             if (ex != null)
                 throw ex;
             return answer;
@@ -2182,8 +2184,14 @@ namespace MissionPlanner.ArduPilot.Mavlink
             static public implicit operator byte[](FTPPayloadHeader value)
             {
                 if (value.data == null)
+                {
                     value.data = new byte[251 - 12];
-                value.size = (byte) (value.data.Length);
+                }
+                else 
+                {
+                    value.size = (byte)(value.data.Length);
+                }
+                               
                 value.data = value.data.MakeSize(251 - 12);
                 return MavlinkUtil.StructureToByteArray(value);
             }

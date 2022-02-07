@@ -1702,7 +1702,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 frmProgressReporter.UpdateProgressAndStatus(i, $"Getting Param MAVFTP {sysid}-{compid}");
                         };
                         return ftp.GetFile(
-                            "@PARAM/param.pck", cancel, false, 110);
+                            "@PARAM/param.pck", cancel, true, 110);
                     });
                     while (!paramfileTask.IsCompleted)
                     {
