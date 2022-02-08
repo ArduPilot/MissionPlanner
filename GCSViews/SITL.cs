@@ -844,7 +844,7 @@ namespace MissionPlanner.GCSViews
 
             for (int a = (int)max; a >= 0; a--)
             {
-                var extra = " --disable-fgview -r50 ";
+                var extra = " --disable-fgview ";
 
                 if (!string.IsNullOrEmpty(config))
                     extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
@@ -905,14 +905,21 @@ SIM_DRIFT_TIME=0
 
             try
             {
-                Parallel.For(0, max+1, (a) =>
-                    //for (int a = (int)max; a >= 0; a--)
+                Parallel.For(0, max + 1, (a) =>
+                //for (int a = (int)max; a >= 0; a--)
                 {
                     var mav = new MAVLinkInterface();
 
                     var client = new Comms.TcpSerial();
+                    try
+                    {
 
-                    client.client = new TcpClient("127.0.0.1", 5760 + (10 * (a)));
+                        client.client = new TcpClient("127.0.0.1", 5760 + (10 * (a)));
+                    }
+                    catch (Exception ex)
+                    {
+                        return;
+                    }
 
                     mav.BaseStream = client;
 
@@ -920,18 +927,21 @@ SIM_DRIFT_TIME=0
 
                     Thread.Sleep(200);
 
-                    this.InvokeIfRequired(() => { MainV2.instance.doConnect(mav, "preset", "5760", false); });
-
-                    lock(this)
-                        MainV2.Comports.Add(mav);
-
-                    try
+                    this.BeginInvokeIfRequired(() =>
                     {
-                        _ =  mav.getParamListMavftpAsync((byte) mav.sysidcurrent, (byte) mav.compidcurrent);
-                    }
-                    catch
-                    {
-                    }
+                        MainV2.instance.doConnect(mav, "preset", "5760", false);
+
+                        lock (this)
+                            MainV2.Comports.Add(mav);
+
+                        try
+                        {
+                            _ = mav.getParamListMavftpAsync((byte)mav.sysidcurrent, (byte)mav.compidcurrent);
+                        }
+                        catch
+                        {
+                        }
+                    });
                 }
                 );
 
@@ -977,7 +987,7 @@ SIM_DRIFT_TIME=0
 
             for (int a = (int)max; a >= 0; a--)
             {
-                var extra = " --disable-fgview -r50";
+                var extra = " --disable-fgview ";
 
                 if (!string.IsNullOrEmpty(config))
                     extra += @" --defaults """ + config + @",identity.parm"" -P SERIAL0_PROTOCOL=2 -P SERIAL1_PROTOCOL=2 ";
@@ -1054,15 +1064,17 @@ SIM_DRIFT_TIME=0
 
                 Thread.Sleep(200);
 
-                this.InvokeIfRequired(() => { MainV2.instance.doConnect(MainV2.comPort, "preset", "5760", false); });
-
-                try
+                this.BeginInvokeIfRequired(() =>
                 {
-                    _ = MainV2.comPort.getParamListMavftpAsync((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-                }
-                catch
-                {
-                }
+                    MainV2.instance.doConnect(MainV2.comPort, "preset", "5760", false);
+                    try
+                    {
+                        _ = MainV2.comPort.getParamListMavftpAsync((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                    }
+                    catch
+                    {
+                    }
+                });
 
                 return;
             }

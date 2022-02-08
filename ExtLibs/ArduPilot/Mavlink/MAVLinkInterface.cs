@@ -6528,7 +6528,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             public void UpdateProgressAndStatus(int progress, string status)
             {
-                log.Info(status);
+                log.Info(progress + "% " + status);
             }
         }
     }
