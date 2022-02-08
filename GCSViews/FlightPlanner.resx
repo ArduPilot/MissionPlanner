@@ -117,45 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CHK_verifyheight.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CHK_verifyheight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CHK_verifyheight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>370, 13</value>
-  </data>
-  <data name="CHK_verifyheight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 21</value>
-  </data>
-  <data name="CHK_verifyheight.TabIndex" type="System.Int32, mscorlib">
-    <value>45</value>
-  </data>
-  <data name="CHK_verifyheight.Text" xml:space="preserve">
-    <value>Verify Height</value>
-  </data>
-  <data name="&gt;&gt;CHK_verifyheight.Name" xml:space="preserve">
-    <value>CHK_verifyheight</value>
-  </data>
-  <data name="&gt;&gt;CHK_verifyheight.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CHK_verifyheight.Parent" xml:space="preserve">
-    <value>panelWaypoints</value>
-  </data>
-  <data name="&gt;&gt;CHK_verifyheight.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
   <data name="TXT_WPRad.Location" type="System.Drawing.Point, System.Drawing">
     <value>42, 20</value>
   </data>
   <data name="TXT_WPRad.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 22</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TXT_WPRad.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -172,35 +141,12 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_WPRad.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="TXT_DefaultAlt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>221, 20</value>
-  </data>
-  <data name="TXT_DefaultAlt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 22</value>
-  </data>
-  <data name="TXT_DefaultAlt.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="TXT_DefaultAlt.Text" xml:space="preserve">
-    <value>100</value>
-  </data>
-  <data name="&gt;&gt;TXT_DefaultAlt.Name" xml:space="preserve">
-    <value>TXT_DefaultAlt</value>
-  </data>
-  <data name="&gt;&gt;TXT_DefaultAlt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TXT_DefaultAlt.Parent" xml:space="preserve">
-    <value>panelWaypoints</value>
-  </data>
-  <data name="&gt;&gt;TXT_DefaultAlt.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>6</value>
   </data>
   <data name="LBL_WPRad.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LBL_WPRad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -226,37 +172,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;LBL_WPRad.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="LBL_defalutalt.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LBL_defalutalt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LBL_defalutalt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>206, 4</value>
-  </data>
-  <data name="LBL_defalutalt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 17</value>
-  </data>
-  <data name="LBL_defalutalt.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="LBL_defalutalt.Text" xml:space="preserve">
-    <value>Default Alt</value>
-  </data>
-  <data name="&gt;&gt;LBL_defalutalt.Name" xml:space="preserve">
-    <value>LBL_defalutalt</value>
-  </data>
-  <data name="&gt;&gt;LBL_defalutalt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LBL_defalutalt.Parent" xml:space="preserve">
-    <value>panelWaypoints</value>
-  </data>
-  <data name="&gt;&gt;LBL_defalutalt.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>2</value>
   </data>
   <data name="TXT_loiterrad.Location" type="System.Drawing.Point, System.Drawing">
     <value>141, 20</value>
@@ -280,7 +196,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;TXT_loiterrad.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>4</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -310,7 +226,7 @@
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>3</value>
   </data>
   <data name="but_writewpfast.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -728,7 +644,7 @@
     <value>GrowAndShrink</value>
   </data>
   <data name="modifyandSetLoiterRad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>720, 7</value>
+    <value>203, 10</value>
   </data>
   <data name="modifyandSetLoiterRad.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -746,7 +662,7 @@
     <value>modifyandSetLoiterRad</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8068.24905, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8074.20449, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -783,117 +699,6 @@
   </data>
   <data name="&gt;&gt;but_mincommands.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="CMB_altmode.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12pt</value>
-  </data>
-  <data name="CMB_altmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 5</value>
-  </data>
-  <data name="CMB_altmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 33</value>
-  </data>
-  <data name="CMB_altmode.TabIndex" type="System.Int32, mscorlib">
-    <value>54</value>
-  </data>
-  <data name="CMB_altmode.Text" xml:space="preserve">
-    <value>Relative</value>
-  </data>
-  <data name="&gt;&gt;CMB_altmode.Name" xml:space="preserve">
-    <value>CMB_altmode</value>
-  </data>
-  <data name="&gt;&gt;CMB_altmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CMB_altmode.Parent" xml:space="preserve">
-    <value>panelWaypoints</value>
-  </data>
-  <data name="&gt;&gt;CMB_altmode.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="CHK_splinedefault.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_splinedefault.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_splinedefault.Location" type="System.Drawing.Point, System.Drawing">
-    <value>648, 13</value>
-  </data>
-  <data name="CHK_splinedefault.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 21</value>
-  </data>
-  <data name="CHK_splinedefault.TabIndex" type="System.Int32, mscorlib">
-    <value>52</value>
-  </data>
-  <data name="CHK_splinedefault.Text" xml:space="preserve">
-    <value>Spline</value>
-  </data>
-  <data name="&gt;&gt;CHK_splinedefault.Name" xml:space="preserve">
-    <value>CHK_splinedefault</value>
-  </data>
-  <data name="&gt;&gt;CHK_splinedefault.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CHK_splinedefault.Parent" xml:space="preserve">
-    <value>panelWaypoints</value>
-  </data>
-  <data name="&gt;&gt;CHK_splinedefault.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="label17.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label17.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
-    <value>568, 3</value>
-  </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 17</value>
-  </data>
-  <data name="label17.TabIndex" type="System.Int32, mscorlib">
-    <value>51</value>
-  </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>Alt Warn</value>
-  </data>
-  <data name="&gt;&gt;label17.Name" xml:space="preserve">
-    <value>label17</value>
-  </data>
-  <data name="&gt;&gt;label17.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
-    <value>panelWaypoints</value>
-  </data>
-  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="TXT_altwarn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>590, 20</value>
-  </data>
-  <data name="TXT_altwarn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 22</value>
-  </data>
-  <data name="TXT_altwarn.TabIndex" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
-  <data name="TXT_altwarn.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;TXT_altwarn.Name" xml:space="preserve">
-    <value>TXT_altwarn</value>
-  </data>
-  <data name="&gt;&gt;TXT_altwarn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TXT_altwarn.Parent" xml:space="preserve">
-    <value>panelWaypoints</value>
-  </data>
-  <data name="&gt;&gt;TXT_altwarn.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="Commands.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -1212,46 +1017,13 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8068.24905, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8074.20449, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
   </data>
   <data name="&gt;&gt;Commands.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="BUT_Add.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_Add.Location" type="System.Drawing.Point, System.Drawing">
-    <value>487, 13</value>
-  </data>
-  <data name="BUT_Add.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="BUT_Add.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
-  </data>
-  <data name="BUT_Add.Text" xml:space="preserve">
-    <value>Add Below</value>
-  </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>172, 17</value>
-  </metadata>
-  <data name="BUT_Add.ToolTip" xml:space="preserve">
-    <value>Add a line to the grid bellow</value>
-  </data>
-  <data name="&gt;&gt;BUT_Add.Name" xml:space="preserve">
-    <value>BUT_Add</value>
-  </data>
-  <data name="&gt;&gt;BUT_Add.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_Add.Parent" xml:space="preserve">
-    <value>panelWaypoints</value>
-  </data>
-  <data name="&gt;&gt;BUT_Add.ZOrder" xml:space="preserve">
-    <value>14</value>
   </data>
   <data name="panelWaypoints.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -1370,6 +1142,9 @@
   <data name="comboBoxMapType.TabIndex" type="System.Int32, mscorlib">
     <value>42</value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>172, 17</value>
+  </metadata>
   <data name="comboBoxMapType.ToolTip" xml:space="preserve">
     <value>Change the current map type</value>
   </data>
@@ -1824,7 +1599,7 @@
     <value>Delete WP</value>
   </data>
   <data name="currentPositionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
+    <value>215, 26</value>
   </data>
   <data name="currentPositionToolStripMenuItem.Text" xml:space="preserve">
     <value>At Current Position</value>
@@ -1841,41 +1616,11 @@
   <data name="insertSplineWPToolStripMenuItem.Text" xml:space="preserve">
     <value>Insert Spline WP</value>
   </data>
-  <data name="loiterForeverToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="loiterForeverToolStripMenuItem.Text" xml:space="preserve">
-    <value>Forever</value>
-  </data>
-  <data name="loitertimeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="loitertimeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Time</value>
-  </data>
-  <data name="loitercirclesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="loitercirclesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Circles</value>
-  </data>
   <data name="loiterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 24</value>
   </data>
   <data name="loiterToolStripMenuItem.Text" xml:space="preserve">
     <value>Loiter</value>
-  </data>
-  <data name="jumpstartToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="jumpstartToolStripMenuItem.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="jumpwPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 26</value>
-  </data>
-  <data name="jumpwPToolStripMenuItem.Text" xml:space="preserve">
-    <value>WP #</value>
   </data>
   <data name="jumpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 24</value>
@@ -1963,42 +1708,6 @@
   </data>
   <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Polygon</value>
-  </data>
-  <data name="GeoFenceuploadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 26</value>
-  </data>
-  <data name="GeoFenceuploadToolStripMenuItem.Text" xml:space="preserve">
-    <value>Upload</value>
-  </data>
-  <data name="GeoFencedownloadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 26</value>
-  </data>
-  <data name="GeoFencedownloadToolStripMenuItem.Text" xml:space="preserve">
-    <value>Download</value>
-  </data>
-  <data name="setReturnLocationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 26</value>
-  </data>
-  <data name="setReturnLocationToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set Return Location</value>
-  </data>
-  <data name="loadFromFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 26</value>
-  </data>
-  <data name="loadFromFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load from File</value>
-  </data>
-  <data name="saveToFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 26</value>
-  </data>
-  <data name="saveToFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Save to File</value>
-  </data>
-  <data name="clearToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 26</value>
-  </data>
-  <data name="clearToolStripMenuItem.Text" xml:space="preserve">
-    <value>Clear</value>
   </data>
   <data name="geoFenceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 24</value>
@@ -2143,36 +1852,6 @@
   </data>
   <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
     <value>Map Tool</value>
-  </data>
-  <data name="loadWPFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 26</value>
-  </data>
-  <data name="loadWPFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load WP File</value>
-  </data>
-  <data name="loadAndAppendToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 26</value>
-  </data>
-  <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load and Append</value>
-  </data>
-  <data name="saveWPFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 26</value>
-  </data>
-  <data name="saveWPFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Save WP File</value>
-  </data>
-  <data name="loadKMLFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 26</value>
-  </data>
-  <data name="loadKMLFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load KML File</value>
-  </data>
-  <data name="loadSHPFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 26</value>
-  </data>
-  <data name="loadSHPFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load SHP File</value>
   </data>
   <data name="fileLoadSaveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 24</value>
@@ -2409,31 +2088,127 @@
     <value>528, 17</value>
   </metadata>
   <data name="zoomToVehicleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 24</value>
+    <value>190, 24</value>
   </data>
   <data name="zoomToVehicleToolStripMenuItem.Text" xml:space="preserve">
     <value>Zoom to Vehicle</value>
   </data>
   <data name="zoomToMissionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 24</value>
+    <value>190, 24</value>
   </data>
   <data name="zoomToMissionToolStripMenuItem.Text" xml:space="preserve">
     <value>Zoom to Mission</value>
   </data>
   <data name="zoomToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 24</value>
+    <value>190, 24</value>
   </data>
   <data name="zoomToHomeToolStripMenuItem.Text" xml:space="preserve">
     <value>Zoom to Home</value>
   </data>
   <data name="contextMenuStripZoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 104</value>
+    <value>191, 76</value>
   </data>
   <data name="&gt;&gt;contextMenuStripZoom.Name" xml:space="preserve">
     <value>contextMenuStripZoom</value>
   </data>
   <data name="&gt;&gt;contextMenuStripZoom.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="loadWPFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 26</value>
+  </data>
+  <data name="loadWPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load WP File</value>
+  </data>
+  <data name="loadAndAppendToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 26</value>
+  </data>
+  <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load and Append</value>
+  </data>
+  <data name="saveWPFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 26</value>
+  </data>
+  <data name="saveWPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Save WP File</value>
+  </data>
+  <data name="loadKMLFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 26</value>
+  </data>
+  <data name="loadKMLFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load KML File</value>
+  </data>
+  <data name="loadSHPFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 26</value>
+  </data>
+  <data name="loadSHPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load SHP File</value>
+  </data>
+  <data name="GeoFenceuploadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 26</value>
+  </data>
+  <data name="GeoFenceuploadToolStripMenuItem.Text" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="GeoFencedownloadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 26</value>
+  </data>
+  <data name="GeoFencedownloadToolStripMenuItem.Text" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="setReturnLocationToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 26</value>
+  </data>
+  <data name="setReturnLocationToolStripMenuItem.Text" xml:space="preserve">
+    <value>Set Return Location</value>
+  </data>
+  <data name="loadFromFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 26</value>
+  </data>
+  <data name="loadFromFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load from File</value>
+  </data>
+  <data name="saveToFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 26</value>
+  </data>
+  <data name="saveToFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Save to File</value>
+  </data>
+  <data name="clearToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 26</value>
+  </data>
+  <data name="clearToolStripMenuItem.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="jumpstartToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 26</value>
+  </data>
+  <data name="jumpstartToolStripMenuItem.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="jumpwPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 26</value>
+  </data>
+  <data name="jumpwPToolStripMenuItem.Text" xml:space="preserve">
+    <value>WP #</value>
+  </data>
+  <data name="loiterForeverToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 26</value>
+  </data>
+  <data name="loiterForeverToolStripMenuItem.Text" xml:space="preserve">
+    <value>Forever</value>
+  </data>
+  <data name="loitertimeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 26</value>
+  </data>
+  <data name="loitertimeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="loitercirclesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 26</value>
+  </data>
+  <data name="loitercirclesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Circles</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -2459,6 +2234,132 @@
   <data name="&gt;&gt;dataGridViewImageColumn2.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;Command.Name" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="&gt;&gt;Command.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Param1.Name" xml:space="preserve">
+    <value>Param1</value>
+  </data>
+  <data name="&gt;&gt;Param1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Param2.Name" xml:space="preserve">
+    <value>Param2</value>
+  </data>
+  <data name="&gt;&gt;Param2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Param3.Name" xml:space="preserve">
+    <value>Param3</value>
+  </data>
+  <data name="&gt;&gt;Param3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Param4.Name" xml:space="preserve">
+    <value>Param4</value>
+  </data>
+  <data name="&gt;&gt;Param4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lat.Name" xml:space="preserve">
+    <value>Lat</value>
+  </data>
+  <data name="&gt;&gt;Lat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lon.Name" xml:space="preserve">
+    <value>Lon</value>
+  </data>
+  <data name="&gt;&gt;Lon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Alt.Name" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="&gt;&gt;Alt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Frame.Name" xml:space="preserve">
+    <value>Frame</value>
+  </data>
+  <data name="&gt;&gt;Frame.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;coordZone.Name" xml:space="preserve">
+    <value>coordZone</value>
+  </data>
+  <data name="&gt;&gt;coordZone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;coordEasting.Name" xml:space="preserve">
+    <value>coordEasting</value>
+  </data>
+  <data name="&gt;&gt;coordEasting.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;coordNorthing.Name" xml:space="preserve">
+    <value>coordNorthing</value>
+  </data>
+  <data name="&gt;&gt;coordNorthing.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MGRS.Name" xml:space="preserve">
+    <value>MGRS</value>
+  </data>
+  <data name="&gt;&gt;MGRS.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Delete.Name" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="&gt;&gt;Delete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Up.Name" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="&gt;&gt;Up.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Down.Name" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="&gt;&gt;Down.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Grad.Name" xml:space="preserve">
+    <value>Grad</value>
+  </data>
+  <data name="&gt;&gt;Grad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Angle.Name" xml:space="preserve">
+    <value>Angle</value>
+  </data>
+  <data name="&gt;&gt;Angle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Dist.Name" xml:space="preserve">
+    <value>Dist</value>
+  </data>
+  <data name="&gt;&gt;Dist.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AZ.Name" xml:space="preserve">
+    <value>AZ</value>
+  </data>
+  <data name="&gt;&gt;AZ.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TagData.Name" xml:space="preserve">
+    <value>TagData</value>
+  </data>
+  <data name="&gt;&gt;TagData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;deleteWPToolStripMenuItem.Name" xml:space="preserve">
     <value>deleteWPToolStripMenuItem</value>
   </data>
@@ -2477,76 +2378,10 @@
   <data name="&gt;&gt;currentPositionToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;insertSplineWPToolStripMenuItem.Name" xml:space="preserve">
-    <value>insertSplineWPToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;insertSplineWPToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loiterToolStripMenuItem.Name" xml:space="preserve">
-    <value>loiterToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loiterToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loiterForeverToolStripMenuItem.Name" xml:space="preserve">
-    <value>loiterForeverToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loiterForeverToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loitertimeToolStripMenuItem.Name" xml:space="preserve">
-    <value>loitertimeToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loitertimeToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loitercirclesToolStripMenuItem.Name" xml:space="preserve">
-    <value>loitercirclesToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loitercirclesToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;jumpToolStripMenuItem.Name" xml:space="preserve">
-    <value>jumpToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;jumpToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;jumpstartToolStripMenuItem.Name" xml:space="preserve">
-    <value>jumpstartToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;jumpstartToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;jumpwPToolStripMenuItem.Name" xml:space="preserve">
-    <value>jumpwPToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;jumpwPToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;rTLToolStripMenuItem.Name" xml:space="preserve">
     <value>rTLToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;rTLToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;landToolStripMenuItem.Name" xml:space="preserve">
-    <value>landToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;landToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;takeoffToolStripMenuItem.Name" xml:space="preserve">
-    <value>takeoffToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;takeoffToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;setROIToolStripMenuItem.Name" xml:space="preserve">
-    <value>setROIToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;setROIToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;clearMissionToolStripMenuItem.Name" xml:space="preserve">
@@ -2554,12 +2389,6 @@
   </data>
   <data name="&gt;&gt;clearMissionToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
-    <value>toolStripSeparator1</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;polygonToolStripMenuItem.Name" xml:space="preserve">
     <value>polygonToolStripMenuItem</value>
@@ -2607,48 +2436,6 @@
     <value>areaToolStripMenuItem2</value>
   </data>
   <data name="&gt;&gt;areaToolStripMenuItem2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;geoFenceToolStripMenuItem.Name" xml:space="preserve">
-    <value>geoFenceToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;geoFenceToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GeoFenceuploadToolStripMenuItem.Name" xml:space="preserve">
-    <value>GeoFenceuploadToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;GeoFenceuploadToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GeoFencedownloadToolStripMenuItem.Name" xml:space="preserve">
-    <value>GeoFencedownloadToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;GeoFencedownloadToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;setReturnLocationToolStripMenuItem.Name" xml:space="preserve">
-    <value>setReturnLocationToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;setReturnLocationToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loadFromFileToolStripMenuItem.Name" xml:space="preserve">
-    <value>loadFromFileToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loadFromFileToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;saveToFileToolStripMenuItem.Name" xml:space="preserve">
-    <value>saveToFileToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;saveToFileToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;clearToolStripMenuItem.Name" xml:space="preserve">
-    <value>clearToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;clearToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;rallyPointsToolStripMenuItem.Name" xml:space="preserve">
@@ -2789,42 +2576,6 @@
   <data name="&gt;&gt;reverseWPsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;fileLoadSaveToolStripMenuItem.Name" xml:space="preserve">
-    <value>fileLoadSaveToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;fileLoadSaveToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loadWPFileToolStripMenuItem.Name" xml:space="preserve">
-    <value>loadWPFileToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loadWPFileToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loadAndAppendToolStripMenuItem.Name" xml:space="preserve">
-    <value>loadAndAppendToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loadAndAppendToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;saveWPFileToolStripMenuItem.Name" xml:space="preserve">
-    <value>saveWPFileToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;saveWPFileToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loadKMLFileToolStripMenuItem.Name" xml:space="preserve">
-    <value>loadKMLFileToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loadKMLFileToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;loadSHPFileToolStripMenuItem.Name" xml:space="preserve">
-    <value>loadSHPFileToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;loadSHPFileToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;pOIToolStripMenuItem.Name" xml:space="preserve">
     <value>pOIToolStripMenuItem</value>
   </data>
@@ -2847,30 +2598,6 @@
     <value>poieditToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;poieditToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;trackerHomeToolStripMenuItem.Name" xml:space="preserve">
-    <value>trackerHomeToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;trackerHomeToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;modifyAltToolStripMenuItem.Name" xml:space="preserve">
-    <value>modifyAltToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;modifyAltToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;enterUTMCoordToolStripMenuItem.Name" xml:space="preserve">
-    <value>enterUTMCoordToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;enterUTMCoordToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;switchDockingToolStripMenuItem.Name" xml:space="preserve">
-    <value>switchDockingToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;switchDockingToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;setHomeHereToolStripMenuItem.Name" xml:space="preserve">
@@ -2981,131 +2708,179 @@
   <data name="&gt;&gt;zoomToHomeToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Command.Name" xml:space="preserve">
-    <value>Command</value>
+  <data name="&gt;&gt;switchDockingToolStripMenuItem.Name" xml:space="preserve">
+    <value>switchDockingToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Command.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;switchDockingToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Param1.Name" xml:space="preserve">
-    <value>Param1</value>
+  <data name="&gt;&gt;enterUTMCoordToolStripMenuItem.Name" xml:space="preserve">
+    <value>enterUTMCoordToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Param1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;enterUTMCoordToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Param2.Name" xml:space="preserve">
-    <value>Param2</value>
+  <data name="&gt;&gt;modifyAltToolStripMenuItem.Name" xml:space="preserve">
+    <value>modifyAltToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Param2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;modifyAltToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Param3.Name" xml:space="preserve">
-    <value>Param3</value>
+  <data name="&gt;&gt;trackerHomeToolStripMenuItem.Name" xml:space="preserve">
+    <value>trackerHomeToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Param3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;trackerHomeToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Param4.Name" xml:space="preserve">
-    <value>Param4</value>
+  <data name="&gt;&gt;fileLoadSaveToolStripMenuItem.Name" xml:space="preserve">
+    <value>fileLoadSaveToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Param4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;fileLoadSaveToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Lat.Name" xml:space="preserve">
-    <value>Lat</value>
+  <data name="&gt;&gt;loadWPFileToolStripMenuItem.Name" xml:space="preserve">
+    <value>loadWPFileToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Lat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;loadWPFileToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Lon.Name" xml:space="preserve">
-    <value>Lon</value>
+  <data name="&gt;&gt;loadAndAppendToolStripMenuItem.Name" xml:space="preserve">
+    <value>loadAndAppendToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Lon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;loadAndAppendToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Alt.Name" xml:space="preserve">
-    <value>Alt</value>
+  <data name="&gt;&gt;saveWPFileToolStripMenuItem.Name" xml:space="preserve">
+    <value>saveWPFileToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Alt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;saveWPFileToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Frame.Name" xml:space="preserve">
-    <value>Frame</value>
+  <data name="&gt;&gt;loadKMLFileToolStripMenuItem.Name" xml:space="preserve">
+    <value>loadKMLFileToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Frame.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;loadKMLFileToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;coordZone.Name" xml:space="preserve">
-    <value>coordZone</value>
+  <data name="&gt;&gt;loadSHPFileToolStripMenuItem.Name" xml:space="preserve">
+    <value>loadSHPFileToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;coordZone.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;loadSHPFileToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;coordEasting.Name" xml:space="preserve">
-    <value>coordEasting</value>
+  <data name="&gt;&gt;geoFenceToolStripMenuItem.Name" xml:space="preserve">
+    <value>geoFenceToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;coordEasting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;geoFenceToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;coordNorthing.Name" xml:space="preserve">
-    <value>coordNorthing</value>
+  <data name="&gt;&gt;GeoFenceuploadToolStripMenuItem.Name" xml:space="preserve">
+    <value>GeoFenceuploadToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;coordNorthing.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;GeoFenceuploadToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;MGRS.Name" xml:space="preserve">
-    <value>MGRS</value>
+  <data name="&gt;&gt;GeoFencedownloadToolStripMenuItem.Name" xml:space="preserve">
+    <value>GeoFencedownloadToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;MGRS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;GeoFencedownloadToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Delete.Name" xml:space="preserve">
-    <value>Delete</value>
+  <data name="&gt;&gt;setReturnLocationToolStripMenuItem.Name" xml:space="preserve">
+    <value>setReturnLocationToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Delete.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;setReturnLocationToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Up.Name" xml:space="preserve">
-    <value>Up</value>
+  <data name="&gt;&gt;loadFromFileToolStripMenuItem.Name" xml:space="preserve">
+    <value>loadFromFileToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Up.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;loadFromFileToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Down.Name" xml:space="preserve">
-    <value>Down</value>
+  <data name="&gt;&gt;saveToFileToolStripMenuItem.Name" xml:space="preserve">
+    <value>saveToFileToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Down.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;saveToFileToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Grad.Name" xml:space="preserve">
-    <value>Grad</value>
+  <data name="&gt;&gt;clearToolStripMenuItem.Name" xml:space="preserve">
+    <value>clearToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Grad.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;clearToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Angle.Name" xml:space="preserve">
-    <value>Angle</value>
+  <data name="&gt;&gt;setROIToolStripMenuItem.Name" xml:space="preserve">
+    <value>setROIToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Angle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;setROIToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Dist.Name" xml:space="preserve">
-    <value>Dist</value>
+  <data name="&gt;&gt;takeoffToolStripMenuItem.Name" xml:space="preserve">
+    <value>takeoffToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;Dist.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;takeoffToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;AZ.Name" xml:space="preserve">
-    <value>AZ</value>
+  <data name="&gt;&gt;landToolStripMenuItem.Name" xml:space="preserve">
+    <value>landToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;AZ.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;landToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TagData.Name" xml:space="preserve">
-    <value>TagData</value>
+  <data name="&gt;&gt;jumpToolStripMenuItem.Name" xml:space="preserve">
+    <value>jumpToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;TagData.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;jumpToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;jumpstartToolStripMenuItem.Name" xml:space="preserve">
+    <value>jumpstartToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;jumpstartToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;jumpwPToolStripMenuItem.Name" xml:space="preserve">
+    <value>jumpwPToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;jumpwPToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;loiterToolStripMenuItem.Name" xml:space="preserve">
+    <value>loiterToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;loiterToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;loiterForeverToolStripMenuItem.Name" xml:space="preserve">
+    <value>loiterForeverToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;loiterForeverToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;loitertimeToolStripMenuItem.Name" xml:space="preserve">
+    <value>loitertimeToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;loitertimeToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;loitercirclesToolStripMenuItem.Name" xml:space="preserve">
+    <value>loitercirclesToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;loitercirclesToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;insertSplineWPToolStripMenuItem.Name" xml:space="preserve">
+    <value>insertSplineWPToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;insertSplineWPToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FlightPlanner</value>
