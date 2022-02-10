@@ -3780,7 +3780,7 @@ namespace MissionPlanner.GCSViews
 
         private void onOffCameraOverlapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CameraOverlap = onOffCameraOverlapToolStripMenuItem.Checked;
+            //CameraOverlap = onOffCameraOverlapToolStripMenuItem.Checked;
         }
 
         void POI_POIModified(object sender, EventArgs e)
