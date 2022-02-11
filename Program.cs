@@ -304,7 +304,6 @@ namespace MissionPlanner
                 log.Info(typeof(Xamarin.Essentials.DeviceInfo).ToJSON());
 
             Console.WriteLine("Setup GoogleMapProvider API");
-            GoogleMapProvider.APIKey = "AIzaSyA5nFp39fEHruCezXnG3r8rGyZtuAkmCug";
             if (Settings.Instance["GoogleApiKey"] != null) GoogleMapProvider.APIKey = Settings.Instance["GoogleApiKey"];
 
             Console.WriteLine("Setup Tracking.productName");

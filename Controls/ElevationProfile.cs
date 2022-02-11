@@ -66,7 +66,7 @@ namespace MissionPlanner.Controls
 
             Form frm = Common.LoadingBox("Loading", "using alt data");
 
-            gelocs = getGEAltPath(planlocs);
+            //gelocs = getGEAltPath(planlocs);
 
             srtmlocs = getSRTMAltPath(planlocs);
 
@@ -83,6 +83,7 @@ namespace MissionPlanner.Controls
                 return;
             }
             // GE plot
+            /*
             double a = 0;
             double increment = (distance / (float)(gelocs.Count - 1));
 
@@ -97,9 +98,9 @@ namespace MissionPlanner.Controls
 
                 a += increment;
             }
-
+            */
             // Planner Plot
-            a = 0;
+            double a = 0;
             int count = 0;
             PointLatLngAlt lastloc = null;
             foreach (PointLatLngAlt planloc in planlocs)
@@ -286,7 +287,7 @@ namespace MissionPlanner.Controls
             LineItem myCurve;
 
             myCurve = myPane.AddCurve("Planned Path", list1, Color.Red, SymbolType.None);
-            myCurve = myPane.AddCurve("Google", list2, Color.Green, SymbolType.None);
+            //myCurve = myPane.AddCurve("Google", list2, Color.Green, SymbolType.None);
             myCurve = myPane.AddCurve("DEM", list3, Color.Blue, SymbolType.None);
 
             foreach (PointPair pp in list1)
