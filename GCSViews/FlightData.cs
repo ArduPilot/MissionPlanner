@@ -1091,7 +1091,7 @@ namespace MissionPlanner.GCSViews
 
                 MainV2.joystick.clearRCOverride();
 
-                but_disablejoystick.Visible = false;
+                //but_disablejoystick.Visible = false;
             }
         }
 
@@ -1336,6 +1336,7 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_resumemis_Click(object sender, EventArgs e)
         {
+            
             if (
                 Common.MessageShowAgain("Resume Mission",
                     "Warning this will reprogram your mission, arm and issue a takeoff command (copter)") !=
@@ -1482,6 +1483,95 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.CommandFailed + "\n" + ex.ToString(), Strings.ERROR);
             }
         }
+
+        private void BUT_resumemis_V2_Click(object sender, EventArgs e)
+        {
+            // Alex : Attention pour l'instant l'utilisateur doit être suffisamment intelligent pour mettre un nombre qui fonctionne (qui existe)
+
+            try
+            {
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {                    
+                    int timeout = 0;
+                    int lastwpno = ushort.Parse(SelectWP.Text);
+
+                        // scan and check wp's we are skipping
+                        // get our target wp
+                        var lastwpdata = MainV2.comPort.getWP((ushort)lastwpno);
+
+                        // get all
+                        List<Locationwp> cmds = new List<Locationwp>();
+
+                        var wpcount = MainV2.comPort.getWPCount();
+
+                        for (ushort a = 0; a < wpcount; a++)
+                        {
+                            var wpdata = MainV2.comPort.getWP(a);
+
+                            if (a < lastwpno && a != 0) // allow home
+                            {
+                                if (wpdata.id != (ushort)MAVLink.MAV_CMD.TAKEOFF)
+                                    if (wpdata.id < (ushort)MAVLink.MAV_CMD.LAST)
+                                        continue;
+
+                                if (wpdata.id > (ushort)MAVLink.MAV_CMD.DO_LAST)
+                                    continue;
+                            }
+
+                            cmds.Add(wpdata);
+                        }
+
+                        ushort wpno = 0;
+                        // upload from wp 0 to end
+                        MainV2.comPort.setWPTotal((ushort)(cmds.Count));
+
+                        // add our do commands
+                        foreach (var loc in cmds)
+                        {
+                            MAVLink.MAV_MISSION_RESULT ans = MainV2.comPort.setWP(loc, wpno,
+                                (MAVLink.MAV_FRAME)(loc.frame));
+                            if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                            {
+                                CustomMessageBox.Show("Upload wps failed " +
+                                                      Enum.Parse(typeof(MAVLink.MAV_CMD), loc.id.ToString()) + " " +
+                                                      Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString()));
+                                return;
+                            }
+
+                            wpno++;
+                        }
+
+                        MainV2.comPort.setWPACK();
+
+                        FlightPlanner.instance.BUT_read_Click(this, null);
+
+                        // set index back to 1
+                        MainV2.comPort.setWPCurrent(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, 1);
+
+                        timeout = 0;
+                        while (MainV2.comPort.MAV.cs.mode.ToLower() != "AUTO".ToLower())
+                        {
+                            MainV2.comPort.setMode("AUTO");
+                            Thread.Sleep(1000);
+                            Application.DoEvents();
+                            timeout++;
+
+                            if (timeout > 30)
+                            {
+                                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                                return;
+                            }
+                        }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.CommandFailed + "\n" + ex.ToString(), Strings.ERROR);
+            }
+
+        }
+
 
         private void BUT_select_script_Click(object sender, EventArgs e)
         {
@@ -3115,7 +3205,7 @@ namespace MissionPlanner.GCSViews
                         // show disable joystick button
                         if (MainV2.joystick != null && MainV2.joystick.enabled)
                         {
-                            this.BeginInvoke((MethodInvoker) delegate { but_disablejoystick.Visible = true; });
+                            //this.BeginInvoke((MethodInvoker) delegate { but_disablejoystick.Visible = true; });
                         }
 
                         adsb.CurrentPosition = MainV2.comPort.MAV.cs.HomeLocation;
@@ -5605,11 +5695,6 @@ namespace MissionPlanner.GCSViews
             {
                 showIconsToolStripMenuItem.Text = "Show icons";
             }
-        }
-
-        private void pictureBoxMouseOver1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

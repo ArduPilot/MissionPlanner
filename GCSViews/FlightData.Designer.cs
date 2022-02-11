@@ -161,8 +161,6 @@ namespace MissionPlanner.GCSViews
             this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setEKFHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setHomeHereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.but_disablejoystick = new MissionPlanner.Controls.MyButton();
-            this.windDir1 = new MissionPlanner.Controls.WindDir();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -207,6 +205,7 @@ namespace MissionPlanner.GCSViews
             this.relayOptions5 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions6 = new MissionPlanner.Controls.RelayOptions();
             this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
+            this.SelectWP = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -533,6 +532,7 @@ namespace MissionPlanner.GCSViews
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.SelectWP);
             this.splitContainer2.Panel2.Controls.Add(this.myButton8);
             this.splitContainer2.Panel2.Controls.Add(this.myButton7);
             this.splitContainer2.Panel2.Controls.Add(this.myButton6);
@@ -2076,7 +2076,7 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.myButton6, "myButton6");
             this.myButton6.Name = "myButton6";
             this.myButton6.UseVisualStyleBackColor = true;
-            this.myButton6.Click += new System.EventHandler(this.BUT_resumemis_Click);
+            this.myButton6.Click += new System.EventHandler(this.BUT_resumemis_V2_Click);
             // 
             // myButton5
             // 
@@ -2119,9 +2119,7 @@ namespace MissionPlanner.GCSViews
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
-            this.splitContainer1.Panel2.Controls.Add(this.but_disablejoystick);
             this.splitContainer1.Panel2.Controls.Add(this.distanceBar1);
-            this.splitContainer1.Panel2.Controls.Add(this.windDir1);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
@@ -2185,26 +2183,6 @@ namespace MissionPlanner.GCSViews
             this.setHomeHereToolStripMenuItem1.Name = "setHomeHereToolStripMenuItem1";
             resources.ApplyResources(this.setHomeHereToolStripMenuItem1, "setHomeHereToolStripMenuItem1");
             this.setHomeHereToolStripMenuItem1.Click += new System.EventHandler(this.setHomeHereToolStripMenuItem_Click);
-            // 
-            // but_disablejoystick
-            // 
-            this.but_disablejoystick.ColorMouseDown = System.Drawing.Color.Empty;
-            this.but_disablejoystick.ColorMouseOver = System.Drawing.Color.Empty;
-            this.but_disablejoystick.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.but_disablejoystick, "but_disablejoystick");
-            this.but_disablejoystick.Name = "but_disablejoystick";
-            this.but_disablejoystick.UseVisualStyleBackColor = true;
-            this.but_disablejoystick.Click += new System.EventHandler(this.but_disablejoystick_Click);
-            // 
-            // windDir1
-            // 
-            this.windDir1.BackColor = System.Drawing.Color.Transparent;
-            this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
-            resources.ApplyResources(this.windDir1, "windDir1");
-            this.windDir1.Name = "windDir1";
-            this.windDir1.Speed = 0D;
             // 
             // bindingSource1
             // 
@@ -2608,6 +2586,12 @@ namespace MissionPlanner.GCSViews
             this.distanceBar1.totaldist = 100F;
             this.distanceBar1.traveleddist = 0F;
             // 
+            // SelectWP
+            // 
+            this.SelectWP.FormattingEnabled = true;
+            resources.ApplyResources(this.SelectWP, "SelectWP");
+            this.SelectWP.Name = "SelectWP";
+            // 
             // FlightData
             // 
             this.Controls.Add(this.MainH);
@@ -2806,7 +2790,6 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton BUT_matlab;
         private System.Windows.Forms.ComboBox CMB_mountmode;
         private Controls.MyButton BUT_mountmode;
-        public Controls.WindDir windDir1;
         private Controls.MyButton but_bintolog;
         private Controls.MyButton but_dflogtokml;
         private Controls.MyButton BUT_DFMavlink;
@@ -2825,7 +2808,6 @@ namespace MissionPlanner.GCSViews
         private Controls.PreFlight.CheckListControl checkListControl1;
         private System.Windows.Forms.ToolStripMenuItem swapWithMapToolStripMenuItem;
         private Controls.MyButton BUT_abortland;
-        private Controls.MyButton but_disablejoystick;
         private System.Windows.Forms.ToolStripMenuItem videoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recordHudToAVIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setMJPEGSourceToolStripMenuItem;
@@ -2890,5 +2872,6 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton myButton7;
         private Controls.MyButton myButton6;
         private Controls.MyButton myButton5;
+        private ComboBox SelectWP;
     }
 }
