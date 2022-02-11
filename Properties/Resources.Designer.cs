@@ -19,7 +19,7 @@ namespace MissionPlanner.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -816,7 +816,7 @@ namespace MissionPlanner.Properties {
         ///{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\sa200\sl276\slmult1\f0\fs22\par
         ///\tab Welcome to the \b Mission Planner\b0 , mission planning for Unmanned Aerial Vehicles (\b UAV\b0 ).\par
         ///\pard\nowidctlpar\fi720\b Help:\par
-        ///Arduplane: {\field{\*\fldinst{HYPERLINK &quot;http://ardupilot.org/plane&quot;}}{\fldrslt{\ul\cf1 http://ardupilot.org/plane}}}\f0\fs22\par [rest of string was truncated]&quot;;.
+        ///Arduplane: {\field{\*\fldinst{HYPERLINK &quot;http://ardupilot.org/plane&quot;}}{\fldrslt{\ul\cf1 http://ardupilot.org/plane}}}\f0\fs2 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string help_text {
             get {
@@ -1153,8 +1153,7 @@ namespace MissionPlanner.Properties {
         ///      &lt;P2&gt;&lt;/P2&gt;
         ///      &lt;P3&gt;Radius&lt;/P3&gt;
         ///      &lt;P4&gt;&lt;/P4&gt;
-        ///      &lt;X&gt;Lat&lt;/X&gt;
-        ///      &lt;Y&gt;Long [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         public static string mavcmd {
             get {
