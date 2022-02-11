@@ -29,7 +29,7 @@
     <PackageReference Include="Asyncify" Version="0.9.7" />
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="DotNetOpenAuth.OAuth2.Client" Version="4.3.4.13329" />
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
