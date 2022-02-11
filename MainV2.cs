@@ -1126,12 +1126,12 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap) Program.IconFile).GetHicon());
             }
 
-            MenuArduPilot.Image = new Bitmap(Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70,
-                (int) (200), 31);
-            MenuArduPilot.Width = MenuArduPilot.Image.Width;
+            //MenuArduPilot.Image = new Bitmap(Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70,
+            //    (int) (200), 31);
+            //MenuArduPilot.Width = MenuArduPilot.Image.Width;
 
-            if (Program.Logo2 != null)
-                MenuArduPilot.Image = Program.Logo2;
+            //if (Program.Logo2 != null)
+            //    MenuArduPilot.Image = Program.Logo2;
 
             Application.DoEvents();
 
@@ -4785,6 +4785,19 @@ namespace MissionPlanner
                     //We have our panel, color it and exit loop
                     break;
                 }
+            }
+        }
+
+        private void Logo_MarineTech_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(
+                    "https://www.marinetech.fr/");
+            }
+            catch
+            {
+                CustomMessageBox.Show("Link open failed. check your default webpage association");
             }
         }
     }

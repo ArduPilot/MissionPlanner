@@ -5606,5 +5606,10 @@ namespace MissionPlanner.GCSViews
                 showIconsToolStripMenuItem.Text = "Show icons";
             }
         }
+
+        private void pictureBoxMouseOver1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
