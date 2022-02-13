@@ -33,20 +33,23 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
 #elif VS15
                 var dteProgID = "VisualStudio.DTE.15.0";
 #elif VS16
-                var dteProgID = "VisualStudio.DTE.16.0";
+                var dteProgID = "VisualStudio.DTE.18.0";
 #endif
-                var dte = (EnvDTE.DTE)Marshal.GetActiveObject(dteProgID);
-                var fontProperty = dte.Properties["FontsAndColors", "Dialogs and Tool Windows"];
-                if (fontProperty != null)
+                try
                 {
-                    object objValue = fontProperty.Item("FontFamily").Value;
-                    var fontFamily = objValue.ToString();
-                    objValue = fontProperty.Item("FontSize").Value;
-                    var fontSize = Convert.ToSingle(objValue);
-                    var font = new Font(fontFamily, fontSize);
+                    var dte = (EnvDTE.DTE)Marshal.GetActiveObject(dteProgID);
+                    var fontProperty = dte.Properties["FontsAndColors", "Dialogs and Tool Windows"];
+                    if (fontProperty != null)
+                    {
+                        object objValue = fontProperty.Item("FontFamily").Value;
+                        var fontFamily = objValue.ToString();
+                        objValue = fontProperty.Item("FontSize").Value;
+                        var fontSize = Convert.ToSingle(objValue);
+                        var font = new Font(fontFamily, fontSize);
 
-                    return font;
-                }
+                        return font;
+                    }
+                } catch { }
 
                 return System.Drawing.SystemFonts.DefaultFont;
             }

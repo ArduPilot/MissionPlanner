@@ -28,21 +28,21 @@
     <PropertyRef Id="VS2013_ROOT_FOLDER" />
     <PropertyRef Id="VS2015_ROOT_FOLDER" />
     <PropertyRef Id="VS2017_ROOT_FOLDER" />
-    <PropertyRef Id="VS2019_ROOT_FOLDER" />
+ 
 
     <PropertyRef Id="VS2010_EXTENSIONS_DIR" />
     <PropertyRef Id="VS2012_EXTENSIONS_DIR" />
     <PropertyRef Id="VS2013_EXTENSIONS_DIR" />
     <PropertyRef Id="VS2015_EXTENSIONS_DIR" />
     <PropertyRef Id="VS2017_EXTENSIONS_DIR" />
-    <PropertyRef Id="VS2019_EXTENSIONS_DIR" />
+
 
     <PropertyRef Id="VS2010DEVENV" />
     <PropertyRef Id="VS2012DEVENV" />
     <PropertyRef Id="VS2013DEVENV" />
     <PropertyRef Id="VS2015DEVENV" />
     <PropertyRef Id="VS2017DEVENV" />
-    <PropertyRef Id="VS2019DEVENV" />
+  
 
 
     <CustomAction Id="VS2019TouchExtensions"

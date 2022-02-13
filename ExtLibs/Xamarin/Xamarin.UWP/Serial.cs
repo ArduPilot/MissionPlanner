@@ -30,12 +30,12 @@ namespace Xamarin.UWP
 
         public bool IsOpen => throw new NotImplementedException();
 
-        public Parity Parity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //public Parity Parity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string PortName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int ReadBufferSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int ReadTimeout { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool RtsEnable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public StopBits StopBits { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //public StopBits StopBits { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int WriteBufferSize { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public int WriteTimeout { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

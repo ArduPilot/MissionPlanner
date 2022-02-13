@@ -37,7 +37,7 @@ namespace Aberus.VisualStudio.Debugger.ImageVisualizer
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.8.0", IconResourceID = 400)] // Info on this package for Help/About
+    [InstalledProductRegistration("#110", "#112", "0.9.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(ImageVisualizerPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class ImageVisualizerPackage : Package

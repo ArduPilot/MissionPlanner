@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ImageVisualizerSkia</RootNamespace>
     <AssemblyName>ImageVisualizerSkia</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -40,6 +40,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
     <CreateVsixContainer>True</CreateVsixContainer>
+    <DeployExtension>False</DeployExtension>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -90,23 +91,32 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.14.0">
-      <Version>14.3.25407</Version>
+    <PackageReference Include="Microsoft.VisualStudio.SDK">
+      <Version>17.0.32112.339</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop">
+      <Version>17.0.32112.339</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Utilities">
+      <Version>17.0.32112.339</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VSSDK.BuildTools">
-      <Version>15.9.3039</Version>
+      <Version>17.0.5234</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.Vsixsigntool">
+      <Version>16.2.29116.78</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImageVisualizer16.DebuggeeSide\ImageVisualizer16.DebuggeeSide.csproj">
-      <Project>{552d4ce4-ef94-4232-b8ea-c5f26e930220}</Project>
-      <Name>ImageVisualizer16.DebuggeeSide</Name>
+    <ProjectReference Include="..\ImageVisualizer16.DebuggeeSide\ImageVisualizer.DebuggeeSide.csproj">
+      <Project>{28228D18-C1EB-414E-B5EE-D25508FC968A}</Project>
+      <Name>ImageVisualizer.DebuggeeSide</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ImageVisualizer16.UI\ImageVisualizer16.UI.csproj">
+    <ProjectReference Include="..\ImageVisualizer16.UI\ImageVisualizer.UI.csproj">
       <Project>{63d1d741-7c82-447b-b5f8-68b3be3470d2}</Project>
-      <Name>ImageVisualizer16.UI</Name>
+      <Name>ImageVisualizer.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

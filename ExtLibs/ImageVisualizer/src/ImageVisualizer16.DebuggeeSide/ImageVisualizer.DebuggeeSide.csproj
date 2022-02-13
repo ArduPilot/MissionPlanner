@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0;netcoreapp2.0</TargetFrameworks>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net461;netstandard2.0;netcoreapp2.0;net472</TargetFrameworks>
     <RootNamespace>Aberus.VisualStudio.Debugger.ImageVisualizer</RootNamespace>
     
     <AssemblyName>Aberus.VisualStudio.Debugger.ImageVisualizer.DebuggeeSide</AssemblyName>
@@ -27,13 +26,14 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.DebuggerVisualizers" Version="17.0.2021101" />
     <PackageReference Include="SkiaSharp">
       <Version>2.80.2</Version>
     </PackageReference>
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\ImageVisualizer16.Common\ImageVisualizer16.Common.csproj" />
+    <ProjectReference Include="..\ImageVisualizer16.Common\ImageVisualizer.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -37,16 +37,16 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImageVisualizer16.DebuggeeSide\ImageVisualizer16.DebuggeeSide.csproj">
-      <Name>ImageVisualizer16.DebuggeeSide</Name>
+    <ProjectReference Include="..\ImageVisualizer16.DebuggeeSide\ImageVisualizer.DebuggeeSide.csproj">
+      <Name>ImageVisualizer.DebuggeeSide</Name>
       <Project>{28228d18-c1eb-414e-b5ee-d25508fc968a}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\ImageVisualizer16.UI\ImageVisualizer16.UI.csproj">
-      <Name>ImageVisualizer16.UI</Name>
+    <ProjectReference Include="..\ImageVisualizer16.UI\ImageVisualizer.UI.csproj">
+      <Name>ImageVisualizer.UI</Name>
       <Project>{63d1d741-7c82-447b-b5f8-68b3be3470d2}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>

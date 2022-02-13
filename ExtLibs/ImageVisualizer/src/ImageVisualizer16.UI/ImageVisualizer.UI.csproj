@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Aberus.VisualStudio.Debugger.ImageVisualizer</RootNamespace>
     <AssemblyName>Aberus.VisualStudio.Debugger.ImageVisualizer.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -42,10 +42,6 @@
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.DebuggerVisualizers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -82,6 +78,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.DebuggerVisualizers">
+      <Version>17.0.2021101</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.DpiAwareness">
       <Version>6.5.29903</Version>
     </PackageReference>
@@ -90,13 +89,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImageVisualizer16.Common\ImageVisualizer16.Common.csproj">
+    <ProjectReference Include="..\ImageVisualizer16.Common\ImageVisualizer.Common.csproj">
       <Project>{0c5a5d4a-ff08-438c-bd2a-032946c4968a}</Project>
-      <Name>ImageVisualizer16.Common</Name>
+      <Name>ImageVisualizer.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ImageVisualizer16.DebuggeeSide\ImageVisualizer16.DebuggeeSide.csproj">
+    <ProjectReference Include="..\ImageVisualizer16.DebuggeeSide\ImageVisualizer.DebuggeeSide.csproj">
       <Project>{28228d18-c1eb-414e-b5ee-d25508fc968a}</Project>
-      <Name>ImageVisualizer16.DebuggeeSide</Name>
+      <Name>ImageVisualizer.DebuggeeSide</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
