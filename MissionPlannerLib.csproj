@@ -493,7 +493,6 @@
    <ProjectReference Include="ExtLibs\Strings\MissionPlanner.Strings.csproj" />
    <ProjectReference Include="ExtLibs\System.Drawing.android\System.Drawing.android.csproj" />
    <ProjectReference Include="ExtLibs\Transitions\Transitions.csproj" />
-   <ProjectReference Include="ExtLibs\UAVCAN\UAVCAN.csproj" />
    <ProjectReference Include="ExtLibs\Utilities\MissionPlanner.Utilities.csproj" />
    <ProjectReference Include="ExtLibs\WebAPIs\MissionPlanner.WebAPIs.csproj" />
    <ProjectReference Include="ExtLibs\ZedGraph\ZedGraph.csproj" />

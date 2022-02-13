@@ -12,6 +12,7 @@
     <AssemblyName>UsbSerialForAndroid</AssemblyName>
     <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <ReleaseVersion>0.2.3</ReleaseVersion>
+    <AndroidClassParser>class-parse</AndroidClassParser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
