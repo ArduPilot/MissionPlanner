@@ -147,7 +147,7 @@ namespace MissionPlanner.Controls
                         MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.altasl, "M", 0, "M", "");
 
                     string checksum = GetChecksum(line);
-                    NmeaStream.WriteLine(line + "*" + checksum);
+                    NmeaStream.WriteLine(line + "*" + checksum+"\r");
 
                     //GLL
                     line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
@@ -157,15 +157,46 @@ namespace MissionPlanner.Controls
                         DateTime.Now.ToUniversalTime(), "A", "A");
 
                     checksum = GetChecksum(line);
-                    NmeaStream.WriteLine(line + "*" + checksum);
+                    NmeaStream.WriteLine(line + "*" + checksum + "\r");
+                    /*
+                    //GSA
+                    // $GPGSA,A,3,19,28,14,18,27,22,31,39,,,,,1.7,1.0,1.3*35
+                    line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "$GP{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17}", "GSA",
+                        "A", 3, 19, 28, 14, 18, 27, 22, 31,
+                        39, "", "", "", "", 1.7, 1.0, 1.3);
 
+                    checksum = GetChecksum(line);
+                    NmeaStream.WriteLine(line + "*" + checksum + "\r");
+
+                    //GSV
+                    // $GPGSV,3,1,11,03,03,111,00,04,15,270,00,06,01,010,00,13,06,292,00*74
+                    line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "$GP{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19}",
+                        "GSV", 1, 1, 8,
+                        "03", 50, 0, 41,
+                        "19", 45, 90, 42, 
+                        "28", 50, 180, 43, 
+                        "14", 45, 270, 44);
+
+                    checksum = GetChecksum(line);
+                    NmeaStream.WriteLine(line + "*" + checksum + "\r");
+
+                    //ZDA
+                    //ZDA,hhmmss.ss,xx,xx,xxxx,xx,xx
+                    line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "$GP{0},{1:HHmmss.ff},{2:00},{3:00},{4:0000},{5:00},{6:00}", "ZDA", DateTime.Now.ToUniversalTime(), DateTime.Now.ToUniversalTime().Day, DateTime.Now.ToUniversalTime().Month, DateTime.Now.ToUniversalTime().Year, "00", "00");
+
+                    checksum = GetChecksum(line);
+                    NmeaStream.WriteLine(line + "*" + checksum + "\r");
+                    */
                     //HDG
                     line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
                         "$GP{0},{1:0.0},{2},{3},{4},{5}", "HDG",
                         MainV2.comPort.MAV.cs.yaw, 0, "E", 0, "E");
 
                     checksum = GetChecksum(line);
-                    NmeaStream.WriteLine(line + "*" + checksum);
+                    NmeaStream.WriteLine(line + "*" + checksum + "\r");
 
                     //VTG
                     line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
@@ -175,7 +206,7 @@ namespace MissionPlanner.Controls
                         (MainV2.comPort.MAV.cs.groundspeed * 3.6).ToString("00.0", CultureInfo.InvariantCulture));
 
                     checksum = GetChecksum(line);
-                    NmeaStream.WriteLine(line + "*" + checksum);
+                    NmeaStream.WriteLine(line + "*" + checksum + "\r");
 
                     //RMC
                     line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
@@ -186,7 +217,7 @@ namespace MissionPlanner.Controls
                         MainV2.comPort.MAV.cs.groundcourse.ToString("0.0", CultureInfo.InvariantCulture), DateTime.Now, 0, "E", "A");
 
                     checksum = GetChecksum(line);
-                    NmeaStream.WriteLine(line + "*" + checksum);
+                    NmeaStream.WriteLine(line + "*" + checksum + "\r");
 
                     if (counter % 20 == 0 && HomeLoc.Lat != 0 && HomeLoc.Lng != 0)
                     {
@@ -196,14 +227,14 @@ namespace MissionPlanner.Controls
                             HomeLoc.Lng < 0 ? "W" : "E", HomeLoc.Alt, "M");
 
                         checksum = GetChecksum(line);
-                        NmeaStream.WriteLine(line + "*" + checksum);
+                        NmeaStream.WriteLine(line + "*" + checksum + "\r");
                     }
 
                     line = string.Format(System.Globalization.CultureInfo.InvariantCulture, "$GP{0},{1},{2},{3},", "RPY",
                         MainV2.comPort.MAV.cs.roll.ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.pitch.ToString("0.00000", CultureInfo.InvariantCulture), MainV2.comPort.MAV.cs.yaw.ToString("0.00000", CultureInfo.InvariantCulture));
 
                     checksum = GetChecksum(line);
-                    NmeaStream.WriteLine(line + "*" + checksum);
+                    NmeaStream.WriteLine(line + "*" + checksum + "\r");
 
                     var nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
                     var sleepfor = Math.Min((int)Math.Abs((nextsend - DateTime.Now).TotalMilliseconds), 4000);
