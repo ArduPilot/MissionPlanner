@@ -395,7 +395,7 @@ namespace MissionPlanner.GCSViews
                 setQuickViewRowsCols(Settings.Instance["quickViewCols"], Settings.Instance["quickViewRows"]);
             }
 
-            for (int f = 1; f < 30; f++)
+            for (int f = 1; f < 10; f++) //f=30 de base
             {
                 // load settings
                 if (Settings.Instance["quickView" + f] != null)
@@ -421,6 +421,7 @@ namespace MissionPlanner.GCSViews
                             b.Parse += new ConvertEventHandler(NumberToBindingType);
 
                             QV.DataBindings.Add(b);
+                            QV.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
                         }
                         catch (Exception ex)
                         {
@@ -430,7 +431,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    // if no config, update description on predefined
+                    // if no config, update description on predefined // alex 
                     try
                     {
                         Control[] ctls = Controls.Find("quickView" + f, true);
@@ -441,6 +442,7 @@ namespace MissionPlanner.GCSViews
                             if (QV.Tag == null)
                                 QV.Tag = desc;
                             QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(QV.Tag.ToString());
+                            QV.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
                         }
                     }
                     catch (Exception ex)
@@ -4313,9 +4315,9 @@ namespace MissionPlanner.GCSViews
         private void setQuickViewRowsCols(string cols, string rows)
         {
             tableLayoutPanelQuick.PerformLayout();
-            tableLayoutPanelQuick.SuspendLayout();
-            tableLayoutPanelQuick.ColumnCount = Math.Max(1, int.Parse(cols));
-            tableLayoutPanelQuick.RowCount = Math.Max(1, int.Parse(rows));
+            tableLayoutPanelQuick.SuspendLayout();      
+            tableLayoutPanelQuick.ColumnCount = 3; //Math.Max(1, int.Parse(cols));
+            tableLayoutPanelQuick.RowCount = 3; //Math.Max(1, int.Parse(rows));
 
             Settings.Instance["quickViewRows"] = tableLayoutPanelQuick.RowCount.ToString();
             Settings.Instance["quickViewCols"] = tableLayoutPanelQuick.ColumnCount.ToString();
@@ -4407,7 +4409,7 @@ namespace MissionPlanner.GCSViews
 
         private void setViewCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string cols = "2", rows = "3";
+            string cols = "3", rows = "3"; //Alex
 
             if (Settings.Instance["quickViewRows"] != null)
             {
@@ -4424,7 +4426,7 @@ namespace MissionPlanner.GCSViews
 
                     Activate();
                 }
-            }
+            } 
         }
 
         private void startCameraToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5582,7 +5584,6 @@ namespace MissionPlanner.GCSViews
             ALT_btn.Font = new Font(ALT_btn.Font, FontStyle.Bold);
         }
 
-
         private void Squawk_nud_MouseWheel(object sender, MouseEventArgs e)
         {
             NumericUpDown control = (NumericUpDown)sender;
@@ -5696,5 +5697,6 @@ namespace MissionPlanner.GCSViews
                 showIconsToolStripMenuItem.Text = "Show icons";
             }
         }
+
     }
 }
