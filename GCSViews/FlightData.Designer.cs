@@ -684,6 +684,8 @@ namespace MissionPlanner.GCSViews
             this.quickView6.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.quickView6.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView6.numberformat = "0";
+            this.quickView6.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
+
             // 
             // quickView5
             // 
@@ -696,6 +698,7 @@ namespace MissionPlanner.GCSViews
             this.quickView5.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.quickView5.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView5.numberformat = "0";
+            this.quickView5.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
             // quickView4
             // 
@@ -708,6 +711,8 @@ namespace MissionPlanner.GCSViews
             this.quickView4.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.quickView4.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView4.numberformat = "0";
+            this.quickView4.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
+
             // 
             // quickView3
             // 
@@ -720,6 +725,8 @@ namespace MissionPlanner.GCSViews
             this.quickView3.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.quickView3.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView3.numberformat = "0";
+            this.quickView3.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
+
             // 
             // quickView1
             // 
@@ -732,6 +739,8 @@ namespace MissionPlanner.GCSViews
             this.quickView1.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.quickView1.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView1.numberformat = "0";
+            this.quickView1.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
+
             // 
             // quickView2
             // 
@@ -744,6 +753,8 @@ namespace MissionPlanner.GCSViews
             this.quickView2.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.quickView2.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView2.numberformat = "0";
+            this.quickView2.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
+
             // 
             // tabActions
             // 
