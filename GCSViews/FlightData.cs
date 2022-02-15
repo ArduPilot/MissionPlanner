@@ -4362,7 +4362,7 @@ namespace MissionPlanner.GCSViews
                 QV.DoubleClick += quickView_DoubleClick;
                 QV.ContextMenuStrip = contextMenuStripQuickView;
                 QV.Dock = DockStyle.Fill;
-                QV.numberColor = ThemeManager.getQvNumberColor();
+                QV.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
                 QV.numberColorBackup = QV.numberColor;
                 QV.number = 0;
 
@@ -5698,5 +5698,26 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void myButton9_Click(object sender, EventArgs e)
+        {
+            //MissionPlanner.Joystick.Joy_Do_Set_Relay;
+
+            //SynchronizationContext _context;
+            //_context = new SynchronizationContext();
+            //_context.Send(delegate
+            //{
+            //    try
+            //    {
+            //        int number = (int)myButton9.p1;
+            //        int state = buttondown == true ? 1 : 0;
+            //        Interface.doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, number, state, 0, 0, 0, 0, 0);
+            //    }
+            //    catch
+            //    {
+            //        CustomMessageBox.Show("Failed to DO_SET_RELAY");
+            //    }
+            //}, null);
+            
+        }
     }
 }

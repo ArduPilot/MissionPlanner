@@ -1780,9 +1780,6 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
-        private void BUT_grid_Click(object sender, EventArgs e)
-        {
-        }
 
         public void BUT_loadwpfile_Click(object sender, EventArgs e)
         {

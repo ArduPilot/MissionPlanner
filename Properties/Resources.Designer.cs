@@ -303,6 +303,16 @@ namespace MissionPlanner.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap bleu_marinetech {
+            get {
+                object obj = ResourceManager.GetObject("bleu_marinetech", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap boat {
             get {
                 object obj = ResourceManager.GetObject("boat", resourceCulture);
