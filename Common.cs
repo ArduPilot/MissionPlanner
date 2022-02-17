@@ -206,7 +206,7 @@ namespace MissionPlanner
             form.Text = title;
             label.Text = promptText;
 
-            chk.Tag = ($"SHOWAGAIN_{title.Replace(" ", "_").Replace('+', '_')}");
+            chk.Tag = ($"SHOWAGAIN_{title.Replace(" ", "_").Replace('+', '_').Replace('-', '_').Replace('.', '_')}");
             chk.AutoSize = true;
             chk.Text = Strings.ShowMeAgain;
             chk.Checked = true;
