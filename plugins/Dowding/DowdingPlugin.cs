@@ -101,17 +101,17 @@ namespace Dowding
 
         public override bool Loaded()
         {
-            MainV2.instance.Invoke((Action)
-                delegate
-                {
-                    System.Windows.Forms.ToolStripMenuItem men = new System.Windows.Forms.ToolStripMenuItem() { Text = "Dowding" };
-                    men.Click += men_Click;
-                    Host.FDMenuMap.Items.Add(men);
+            //MainV2.instance.Invoke((Action)
+            //    delegate
+            //    {
+            //        System.Windows.Forms.ToolStripMenuItem men = new System.Windows.Forms.ToolStripMenuItem() { Text = "Dowding" };
+            //        men.Click += men_Click;
+            //        Host.FDMenuMap.Items.Add(men);
 
-                    System.Windows.Forms.ToolStripMenuItem men2 = new System.Windows.Forms.ToolStripMenuItem() { Text = "Dowding Point At" };
-                    men2.Click += men2_Click;
-                    Host.FDMenuMap.Items.Add(men2);
-                });
+            //        System.Windows.Forms.ToolStripMenuItem men2 = new System.Windows.Forms.ToolStripMenuItem() { Text = "Dowding Point At" };
+            //        men2.Click += men2_Click;
+            //        Host.FDMenuMap.Items.Add(men2);
+            //    });
 
             return true;
         }

@@ -139,11 +139,13 @@ namespace MissionPlanner.GCSViews
 
         string updateBindingSourceThreadName = "";
 
-        public enum actions
+        public enum actions 
         {
             Loiter_Unlim,
             Return_To_Launch,
             Preflight_Calibration,
+            Do_Set_Relay,
+            Do_Repeat_Relay,
             Mission_Start,
             Preflight_Reboot_Shutdown,
             Trigger_Camera,
@@ -5741,26 +5743,156 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        #region do_set_relay
+        
+
+
+        //public int thisrelay { get; set; }
+
+        //private void BUT_Low_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
+        //            0, 0, 0))
+        //        {
+        //            myButton9.BGGradTop = Color.Red;
+        //        }
+        //        else
+        //        {
+        //            CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+        //    }
+        //}
+
+        //private void BUT_High_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
+        //            0, 0, 0))
+        //        {
+        //            TXT_rcchannel.BackColor = Color.Green;
+        //        }
+        //        else
+        //        {
+        //            CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+        //    }
+        //}
+
+        private void BUT_Repeat_Click(object sender, EventArgs e)
+        {
+        //    try
+        //    {
+        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
+        //            0, 0, 0))
+        //        {
+        //            TXT_rcchannel.BackColor = Color.Red;
+        //        }
+
+        //        Application.DoEvents();
+        //        System.Threading.Thread.Sleep(200);
+
+        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
+        //            0, 0, 0))
+        //        {
+        //            TXT_rcchannel.BackColor = Color.Green;
+        //        }
+
+        //        Application.DoEvents();
+        //        System.Threading.Thread.Sleep(200);
+
+        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
+        //            0, 0, 0))
+        //        {
+        //            TXT_rcchannel.BackColor = Color.Red;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+        //    }
+        }
+
         private void myButton9_Click(object sender, EventArgs e)
         {
-            //MissionPlanner.Joystick.Joy_Do_Set_Relay;
+            try
+            {
+                ((Control)sender).Enabled = false;
 
-            //SynchronizationContext _context;
-            //_context = new SynchronizationContext();
-            //_context.Send(delegate
-            //{
+                int param1 = 0;
+                int param2 = 0;
+                int param3 = 1;
+
+                MAVLink.MAV_CMD cmd;
+                try
+                {
+                    cmd = (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), "DO_SET_RELAY");
+                }
+                catch 
+                {
+                    cmd = (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD),
+                        "DO_START_" + "DO_SET_RELAY");
+                }
+
+                if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
+                {
+
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + " " + cmd, Strings.ERROR);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            }
+            //    //relay up
+
+            //    MissionPlanner.Controls.RelayOptions.loadSettings();
+
             //    try
             //    {
-            //        int number = (int)myButton9.p1;
-            //        int state = buttondown == true ? 1 : 0;
-            //        Interface.doCommand((byte)Interface.sysidcurrent, (byte)Interface.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, number, state, 0, 0, 0, 0, 0);
+            //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
+            //            0, 0, 0))
+            //        {
+            //            myButton9.BGGradTop = Color.Green;
+            //        }
+            //        else
+            //        {
+            //            CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            //        }
             //    }
-            //    catch
+            //    catch (Exception ex)
             //    {
-            //        CustomMessageBox.Show("Failed to DO_SET_RELAY");
+            //        try
+            //        {
+            //            if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
+            //                0, 0, 0))
+            //            {
+            //                myButton9.BGGradTop = Color.Red;
+            //            }
+            //            else
+            //            {
+            //                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            //            }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+            //        }
             //    }
-            //}, null);
-            
         }
+        #endregion
     }
 }

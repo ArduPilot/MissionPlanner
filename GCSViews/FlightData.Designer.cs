@@ -172,6 +172,7 @@ namespace MissionPlanner.GCSViews
             this.but_bintolog = new MissionPlanner.Controls.MyButton();
             this.but_dflogtokml = new MissionPlanner.Controls.MyButton();
             this.BUT_loganalysis = new MissionPlanner.Controls.MyButton();
+            this.myButton12 = new MissionPlanner.Controls.MyButton();
             this.myButton10 = new MissionPlanner.Controls.MyButton();
             this.myButton9 = new MissionPlanner.Controls.MyButton();
             this.SelectWP = new System.Windows.Forms.ComboBox();
@@ -211,8 +212,6 @@ namespace MissionPlanner.GCSViews
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
-            this.myButton11 = new MissionPlanner.Controls.MyButton();
-            this.myButton12 = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -541,7 +540,6 @@ namespace MissionPlanner.GCSViews
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(62)))), ((int)(((byte)(117)))));
             this.splitContainer2.Panel2.Controls.Add(this.myButton12);
-            this.splitContainer2.Panel2.Controls.Add(this.myButton11);
             this.splitContainer2.Panel2.Controls.Add(this.myButton10);
             this.splitContainer2.Panel2.Controls.Add(this.myButton9);
             this.splitContainer2.Panel2.Controls.Add(this.SelectWP);
@@ -685,7 +683,6 @@ namespace MissionPlanner.GCSViews
             this.quickView6.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView6.numberformat = "0";
             this.quickView6.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
-
             // 
             // quickView5
             // 
@@ -712,7 +709,6 @@ namespace MissionPlanner.GCSViews
             this.quickView4.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView4.numberformat = "0";
             this.quickView4.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
-
             // 
             // quickView3
             // 
@@ -726,7 +722,6 @@ namespace MissionPlanner.GCSViews
             this.quickView3.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView3.numberformat = "0";
             this.quickView3.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
-
             // 
             // quickView1
             // 
@@ -740,7 +735,6 @@ namespace MissionPlanner.GCSViews
             this.quickView1.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView1.numberformat = "0";
             this.quickView1.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
-
             // 
             // quickView2
             // 
@@ -754,7 +748,6 @@ namespace MissionPlanner.GCSViews
             this.quickView2.numberColorBackup = System.Drawing.Color.Empty;
             this.quickView2.numberformat = "0";
             this.quickView2.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
-
             // 
             // tabActions
             // 
@@ -2304,6 +2297,17 @@ namespace MissionPlanner.GCSViews
             this.BUT_loganalysis.UseVisualStyleBackColor = true;
             this.BUT_loganalysis.Click += new System.EventHandler(this.BUT_loganalysis_Click);
             // 
+            // myButton12
+            // 
+            this.myButton12.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton12.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton12.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton12, "myButton12");
+            this.myButton12.Name = "myButton12";
+            this.toolTip1.SetToolTip(this.myButton12, resources.GetString("myButton12.ToolTip"));
+            this.myButton12.UseVisualStyleBackColor = true;
+            this.myButton12.Click += new System.EventHandler(this.BUT_quickmanual_Click);
+            // 
             // myButton10
             // 
             this.myButton10.ColorMouseDown = System.Drawing.Color.Empty;
@@ -2313,6 +2317,7 @@ namespace MissionPlanner.GCSViews
             this.myButton10.Name = "myButton10";
             this.toolTip1.SetToolTip(this.myButton10, resources.GetString("myButton10.ToolTip"));
             this.myButton10.UseVisualStyleBackColor = true;
+            this.myButton10.Click += new System.EventHandler(this.BUT_Repeat_Click);
             // 
             // myButton9
             // 
@@ -2673,28 +2678,6 @@ namespace MissionPlanner.GCSViews
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
-            // myButton11
-            // 
-            this.myButton11.ColorMouseDown = System.Drawing.Color.Empty;
-            this.myButton11.ColorMouseOver = System.Drawing.Color.Empty;
-            this.myButton11.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.myButton11, "myButton11");
-            this.myButton11.Name = "myButton11";
-            this.toolTip1.SetToolTip(this.myButton11, resources.GetString("myButton11.ToolTip"));
-            this.myButton11.UseVisualStyleBackColor = true;
-            this.myButton11.Click += new System.EventHandler(this.BUT_quickauto_Click);
-            // 
-            // myButton12
-            // 
-            this.myButton12.ColorMouseDown = System.Drawing.Color.Empty;
-            this.myButton12.ColorMouseOver = System.Drawing.Color.Empty;
-            this.myButton12.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.myButton12, "myButton12");
-            this.myButton12.Name = "myButton12";
-            this.toolTip1.SetToolTip(this.myButton12, resources.GetString("myButton12.ToolTip"));
-            this.myButton12.UseVisualStyleBackColor = true;
-            this.myButton12.Click += new System.EventHandler(this.BUT_quickmanual_Click);
-            // 
             // FlightData
             // 
             this.Controls.Add(this.MainH);
@@ -2982,6 +2965,5 @@ namespace MissionPlanner.GCSViews
         private Controls.QuickView quickView3;
         private Controls.MyButton myButton10;
         private Controls.MyButton myButton12;
-        private Controls.MyButton myButton11;
     }
 }
