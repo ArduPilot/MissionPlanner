@@ -791,7 +791,8 @@ namespace MissionPlanner.Utilities
                             int altitude = 0;
                             try
                             {
-                                altitude = (int)double.Parse(strArray[11], CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
+                                // H = HAE
+                                altitude = (int)double.Parse(strArray[11].TrimEnd('H','h'), CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
                             }
                             catch { }
                            
