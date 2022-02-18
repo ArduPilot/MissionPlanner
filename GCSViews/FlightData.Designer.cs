@@ -611,6 +611,7 @@ namespace MissionPlanner.GCSViews
             // 
             this.quickView9.ContextMenuStrip = this.contextMenuStripQuickView;
             this.quickView9.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "battery_remaining", true));
+            //this.quickView9.DataBindings.Add(new System.Windows.Forms.Binding("mode", this.bindingSourceHud, "mode", true));
             this.quickView9.desc = "Mode";
             resources.ApplyResources(this.quickView9, "quickView9");
             this.quickView9.Name = "quickView9";
@@ -648,7 +649,7 @@ namespace MissionPlanner.GCSViews
             // quickView8
             // 
             this.quickView8.ContextMenuStrip = this.contextMenuStripQuickView;
-            this.quickView8.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "battery_remaining", true));
+            //this.quickView8.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "battery_remaining", true));
             this.quickView8.desc = "Instru Temp";
             resources.ApplyResources(this.quickView8, "quickView8");
             this.quickView8.Name = "quickView8";
@@ -661,7 +662,7 @@ namespace MissionPlanner.GCSViews
             // quickView7
             // 
             this.quickView7.ContextMenuStrip = this.contextMenuStripQuickView;
-            this.quickView7.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "battery_remaining", true));
+            //this.quickView7.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "battery_remaining", true));
             this.quickView7.desc = "Longueur Cable";
             resources.ApplyResources(this.quickView7, "quickView7");
             this.quickView7.Name = "quickView7";
@@ -674,8 +675,8 @@ namespace MissionPlanner.GCSViews
             // quickView6
             // 
             this.quickView6.ContextMenuStrip = this.contextMenuStripQuickView;
-            this.quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "battery_remaining", true));
-            this.quickView6.desc = "Obstacle";
+            //this.quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "rangefinder1", true));
+            this.quickView6.desc = "Distance Obs";
             resources.ApplyResources(this.quickView6, "quickView6");
             this.quickView6.Name = "quickView6";
             this.quickView6.number = 0D;

@@ -175,16 +175,13 @@
     <value>13</value>
   </data>
   <data name="TXT_DefaultAlt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>221, 20</value>
+    <value>0, 0</value>
   </data>
   <data name="TXT_DefaultAlt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 22</value>
+    <value>100, 22</value>
   </data>
   <data name="TXT_DefaultAlt.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="TXT_DefaultAlt.Text" xml:space="preserve">
-    <value>100</value>
+    <value>92</value>
   </data>
   <data name="&gt;&gt;TXT_DefaultAlt.Name" xml:space="preserve">
     <value>TXT_DefaultAlt</value>
@@ -228,23 +225,14 @@
   <data name="&gt;&gt;LBL_WPRad.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="LBL_defalutalt.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LBL_defalutalt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="LBL_defalutalt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>206, 4</value>
+    <value>0, 0</value>
   </data>
   <data name="LBL_defalutalt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 17</value>
+    <value>100, 23</value>
   </data>
   <data name="LBL_defalutalt.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="LBL_defalutalt.Text" xml:space="preserve">
-    <value>Default Alt</value>
+    <value>91</value>
   </data>
   <data name="&gt;&gt;LBL_defalutalt.Name" xml:space="preserve">
     <value>LBL_defalutalt</value>
@@ -728,7 +716,7 @@
     <value>GrowAndShrink</value>
   </data>
   <data name="modifyandSetLoiterRad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>720, 7</value>
+    <value>484, 7</value>
   </data>
   <data name="modifyandSetLoiterRad.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -746,7 +734,7 @@
     <value>modifyandSetLoiterRad</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8082.23052, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8084.26496, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -841,23 +829,14 @@
   <data name="&gt;&gt;CHK_splinedefault.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="label17.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label17.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
-    <value>568, 3</value>
+    <value>0, 0</value>
   </data>
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 17</value>
+    <value>100, 23</value>
   </data>
   <data name="label17.TabIndex" type="System.Int32, mscorlib">
-    <value>51</value>
-  </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>Alt Warn</value>
+    <value>89</value>
   </data>
   <data name="&gt;&gt;label17.Name" xml:space="preserve">
     <value>label17</value>
@@ -872,16 +851,13 @@
     <value>4</value>
   </data>
   <data name="TXT_altwarn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>590, 20</value>
+    <value>0, 0</value>
   </data>
   <data name="TXT_altwarn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 22</value>
+    <value>100, 22</value>
   </data>
   <data name="TXT_altwarn.TabIndex" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
-  <data name="TXT_altwarn.Text" xml:space="preserve">
-    <value>0</value>
+    <value>90</value>
   </data>
   <data name="&gt;&gt;TXT_altwarn.Name" xml:space="preserve">
     <value>TXT_altwarn</value>
@@ -1212,7 +1188,7 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8082.23052, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8084.26496, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1224,7 +1200,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_Add.Location" type="System.Drawing.Point, System.Drawing">
-    <value>487, 13</value>
+    <value>204, 11</value>
   </data>
   <data name="BUT_Add.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>

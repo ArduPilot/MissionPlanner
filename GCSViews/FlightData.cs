@@ -402,6 +402,7 @@ namespace MissionPlanner.GCSViews
                 // load settings
                 if (Settings.Instance["quickView" + f] != null)
                 {
+
                     Control[] ctls = Controls.Find("quickView" + f, true);
                     if (ctls.Length > 0)
                     {
@@ -2882,11 +2883,27 @@ namespace MissionPlanner.GCSViews
                 Thread.Sleep(1000);
             }
 
+            #region quickviews persistants Alex
+
+            quickView6.desc = "Obstacle";
+            //quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "rangefinder1", true));
+
+            quickView7.desc = "Longueur_Cable";
+
+            quickView8.desc = "Instru temp";
+            //quickView8.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "raw_temp", true));
+
+            quickView9.desc = "Mode";
+            //quickView9.DataBindings.Add(new System.Windows.Forms.Binding("string", this.bindingSourceQuickTab, "raw_temp", true));
+
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS,
+                            MainV2.comPort.MAV.cs.ratestatus); // mode
+            #endregion
+
             bool first_time_under_percent_limit = true;
             DateTime date_debut = DateTime.Now;
             bool first_time_under_voltage_limit = true;
             DateTime date_debut_pb_voltage = DateTime.Now;
-
 
             while (threadrun)
             {
@@ -3077,6 +3094,26 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
+                    #region alex test des fct de marintech
+                    
+
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS,
+                            MainV2.comPort.MAV.cs.ratestatus); // mode
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION,
+                        MainV2.comPort.MAV.cs.rateposition); // request gps
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1,
+                        MainV2.comPort.MAV.cs.rateattitude); // request attitude
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2,
+                        MainV2.comPort.MAV.cs.rateattitude); // request vfr
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3,
+                        MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS,
+                        MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS,
+                        MainV2.comPort.MAV.cs.raterc); // request rc info
+                    #endregion
+
+
                     //CheckAndBindPreFlightData();
                     //Console.WriteLine(DateTime.Now.Millisecond);
                     //int fixme;
@@ -3096,43 +3133,18 @@ namespace MissionPlanner.GCSViews
                     double critvolt = 23;
                     double critpercent = 90;
 
-                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_LOW_VOLT")) warnvolt = MainV2.comPort.MAV.param["BATT_LOW_VOLT"].Value;
-                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_LOW_MAH") && MainV2.comPort.MAV.param.ContainsKey("BATT_CAPACITY"))
-                    {
-                        if (MainV2.comPort.MAV.param["BATT_LOW_MAH"].Value > 0)
-                        {
-                            warnpercent = MainV2.comPort.MAV.param["BATT_LOW_MAH"].Value / MainV2.comPort.MAV.param["BATT_CAPACITY"].Value * 100 ;
-                        }
-                    }
-
-                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_CRT_VOLT")) critvolt = MainV2.comPort.MAV.param["BATT_CRT_VOLT"].Value;
-                    if (MainV2.comPort.MAV.param.ContainsKey("BATT_CRT_MAH") && MainV2.comPort.MAV.param.ContainsKey("BATT_CAPACITY"))
-                    {
-                        if (MainV2.comPort.MAV.param["BATT_CRT_MAH"].Value > 0) 
-                        {
-                            critpercent = MainV2.comPort.MAV.param["BATT_CRT_MAH"].Value / MainV2.comPort.MAV.param["BATT_CAPACITY"].Value * 100 ;
-                        }
-                    }
-
-                    if (warnvolt == 0)
-                    {
-                        warnvolt = Settings.Instance.GetDouble("speechbatteryvolt");
-                    }
-                    if (warnpercent == 0)
-                    {
-                        warnpercent = Settings.Instance.GetDouble("speechbatterypercent");
-                    }
-
-                    if (critvolt == 0) critvolt = warnvolt;
-                    if (critpercent == 0) critpercent = warnpercent;
 
                     if (MainV2.comPort.MAV.cs.battery_voltage <= warnvolt)
                     {
                         hud1.lowvoltagealert = true;
                         quickView1.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(105)))));
-
                     }              //quieview1 orange 
-                    else if ((MainV2.comPort.MAV.cs.battery_remaining) < warnpercent) 
+                    else
+                    {
+                        hud1.lowvoltagealert = false;
+                        quickView1.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+                    }                                                                //quickview 1 vert
+                    if ((MainV2.comPort.MAV.cs.battery_remaining) < warnpercent) 
                     {
                         hud1.lowvoltagealert = true;
                         quickView2.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(105)))));
@@ -3140,6 +3152,7 @@ namespace MissionPlanner.GCSViews
                     else
                     {
                         hud1.lowvoltagealert = false;
+                        quickView2.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
                     }
 
                     if (MainV2.comPort.MAV.cs.battery_voltage <= critvolt)
@@ -3188,6 +3201,8 @@ namespace MissionPlanner.GCSViews
                         hud1.criticalvoltagealert = false;
                     }
                     #endregion
+
+                    
 
                     // update opengltest
                     if (OpenGLtest.instance != null)
@@ -3302,7 +3317,8 @@ namespace MissionPlanner.GCSViews
                         {
                             //Console.WriteLine("Doing FD WP's");
                             updateClearMissionRouteMarkers();
-
+                            updateClearRoutesMarkers();
+                            
                             var wps = MainV2.comPort.MAV.wps.Values.ToList();
                             if (wps.Count >= 1)
                             {
@@ -4420,7 +4436,7 @@ namespace MissionPlanner.GCSViews
                 if (tableLayoutPanelQuick.ColumnStyles.Count <= i)
                     tableLayoutPanelQuick.ColumnStyles.Add(new ColumnStyle());
                 tableLayoutPanelQuick.ColumnStyles[i].SizeType = SizeType.Percent;
-                tableLayoutPanelQuick.ColumnStyles[i].Width = 100.0f / tableLayoutPanelQuick.ColumnCount;
+                tableLayoutPanelQuick.ColumnStyles[i].Width = 90.0f / tableLayoutPanelQuick.ColumnCount;
             }
 
             for (int j = 0; j < tableLayoutPanelQuick.RowCount; j++)
@@ -4428,7 +4444,7 @@ namespace MissionPlanner.GCSViews
                 if (tableLayoutPanelQuick.RowStyles.Count <= j)
                     tableLayoutPanelQuick.RowStyles.Add(new RowStyle());
                 tableLayoutPanelQuick.RowStyles[j].SizeType = SizeType.Percent;
-                tableLayoutPanelQuick.RowStyles[j].Height = 100.0f / tableLayoutPanelQuick.RowCount;
+                tableLayoutPanelQuick.RowStyles[j].Height = 90.0f / tableLayoutPanelQuick.RowCount;
             }
 
             tableLayoutPanelQuick.Controls.ForEach(a => ((Control) a).Invalidate());
@@ -5857,41 +5873,7 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
-            //    //relay up
-
-            //    MissionPlanner.Controls.RelayOptions.loadSettings();
-
-            //    try
-            //    {
-            //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
-            //            0, 0, 0))
-            //        {
-            //            myButton9.BGGradTop = Color.Green;
-            //        }
-            //        else
-            //        {
-            //            CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        try
-            //        {
-            //            if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
-            //                0, 0, 0))
-            //            {
-            //                myButton9.BGGradTop = Color.Red;
-            //            }
-            //            else
-            //            {
-            //                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
-            //        }
-            //    }
+            
         }
         #endregion
     }
