@@ -305,10 +305,10 @@ namespace MissionPlanner.GCSViews
             }
 
             // hide spline wp options if not arducopter
-            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
-                CHK_splinedefault.Visible = true;
-            else
-                CHK_splinedefault.Visible = false;
+            //if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
+            //    CHK_splinedefault.Visible = true;
+            //else
+            //    CHK_splinedefault.Visible = false;
 
             updateHome();
 
@@ -1093,34 +1093,34 @@ namespace MissionPlanner.GCSViews
 
 
             DataGridViewTextBoxCell cell;
-            if (alt == -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
-            {
-                if (CHK_verifyheight.Checked &&
-                    (altmode) CMB_altmode.SelectedValue != altmode.Terrain) //Drag with verifyheight // use srtm data
-                {
-                    cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                    float ans;
-                    if (float.TryParse(cell.Value.ToString(), out ans))
-                    {
-                        ans = (int) ans;
+            //if (alt == -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
+            //{
+            //    if (CHK_verifyheight.Checked &&
+            //        (altmode) CMB_altmode.SelectedValue != altmode.Terrain) //Drag with verifyheight // use srtm data
+            //    {
+            //        cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
+            //        float ans;
+            //        if (float.TryParse(cell.Value.ToString(), out ans))
+            //        {
+            //            ans = (int) ans;
 
-                        DataGridViewTextBoxCell celllat =
-                            Commands.Rows[selectedrow].Cells[Lat.Index] as DataGridViewTextBoxCell;
-                        DataGridViewTextBoxCell celllon =
-                            Commands.Rows[selectedrow].Cells[Lon.Index] as DataGridViewTextBoxCell;
-                        int oldsrtm =
-                            (int)
-                            ((srtm.getAltitude(double.Parse(celllat.Value.ToString()),
-                                double.Parse(celllon.Value.ToString())).alt) * CurrentState.multiplieralt);
-                        int newsrtm = (int) ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt);
-                        int newh = (int) (ans + newsrtm - oldsrtm);
+            //            DataGridViewTextBoxCell celllat =
+            //                Commands.Rows[selectedrow].Cells[Lat.Index] as DataGridViewTextBoxCell;
+            //            DataGridViewTextBoxCell celllon =
+            //                Commands.Rows[selectedrow].Cells[Lon.Index] as DataGridViewTextBoxCell;
+            //            int oldsrtm =
+            //                (int)
+            //                ((srtm.getAltitude(double.Parse(celllat.Value.ToString()),
+            //                    double.Parse(celllon.Value.ToString())).alt) * CurrentState.multiplieralt);
+            //            int newsrtm = (int) ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt);
+            //            int newh = (int) (ans + newsrtm - oldsrtm);
 
-                        cell.Value = newh;
+            //            cell.Value = newh;
 
-                        cell.DataGridView.EndEdit();
-                    }
-                }
-            }
+            //            cell.DataGridView.EndEdit();
+            //        }
+            //    }
+            //}
 
             if (Commands.Columns[Lat.Index].HeaderText.Equals("Lat"))
             {
@@ -1183,32 +1183,32 @@ namespace MissionPlanner.GCSViews
                         cell.Value = 15;
 
                     // not online and verify alt via srtm
-                    if (CHK_verifyheight.Checked) // use srtm data
-                    {
-                        // is absolute but no verify
-                        if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-                        {
-                            //abs
-                            cell.Value =
-                                ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                                 int.Parse(TXT_DefaultAlt.Text)).ToString();
-                        }
-                        else if ((altmode) CMB_altmode.SelectedValue == altmode.Terrain)
-                        {
-                            cell.Value = int.Parse(TXT_DefaultAlt.Text);
-                        }
-                        else
-                        {
-                            //relative and verify
-                            cell.Value =
-                                ((int) (srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                                 int.Parse(TXT_DefaultAlt.Text) -
-                                 (int)
-                                 srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
-                                     MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt)
-                                .ToString();
-                        }
-                    }
+                    //if (CHK_verifyheight.Checked) // use srtm data
+                    //{
+                    //    // is absolute but no verify
+                    //    if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
+                    //    {
+                    //        //abs
+                    //        cell.Value =
+                    //            ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
+                    //             int.Parse(TXT_DefaultAlt.Text)).ToString();
+                    //    }
+                    //    else if ((altmode) CMB_altmode.SelectedValue == altmode.Terrain)
+                    //    {
+                    //        cell.Value = int.Parse(TXT_DefaultAlt.Text);
+                    //    }
+                    //    else
+                    //    {
+                    //        //relative and verify
+                    //        cell.Value =
+                    //            ((int) (srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
+                    //             int.Parse(TXT_DefaultAlt.Text) -
+                    //             (int)
+                    //             srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                    //                 MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt)
+                    //            .ToString();
+                    //    }
+                    //}
 
                     cell.DataGridView.EndEdit();
                 }
@@ -1304,7 +1304,7 @@ namespace MissionPlanner.GCSViews
             createCircleSurveyToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayCircleSurveyAutoWp;
             pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
             //trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
-            CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
+            //CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
 
             //hide dynamically generated toolstrip items in the auto WP dropdown (these do not have name objects populated)
             foreach (ToolStripItem item in autoWPToolStripMenuItem.DropDownItems)
@@ -2012,7 +2012,7 @@ namespace MissionPlanner.GCSViews
 
         public void CHK_splinedefault_CheckedChanged(object sender, EventArgs e)
         {
-            splinemode = CHK_splinedefault.Checked;
+            //splinemode = CHK_splinedefault.Checked;
         }
 
         public void clearMissionToolStripMenuItem_Click(object sender, EventArgs e)
