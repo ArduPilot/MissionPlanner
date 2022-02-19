@@ -983,6 +983,25 @@ namespace MissionPlanner.Utilities
             return (input / 1024 / 1024) + "MB";
         }
 
+        public static IEnumerable<(int, int)> SimplifyIntervals(this IEnumerable<(int, int)> intervals)
+        {
+            var ordered = intervals.OrderBy(x => x.Item1);
+            var initialList = new List<(int, int)> { ordered.First() };
+            var simplifiedIntervals = ordered.Aggregate(initialList, (previousList, candidate) =>
+            {
+                var last = previousList.Last();
+                if (candidate.Item1 <= last.Item2)
+                {
+                    var toAdd = (Math.Min(last.Item1, candidate.Item1), Math.Max(last.Item2, candidate.Item2));
+                    return previousList.Take(previousList.Count() - 1).Concat(new[] { toAdd }).ToList();
+                }
+
+                return previousList.Concat(new[] { candidate }).ToList();
+            });
+
+            return simplifiedIntervals;
+        }
+
         /*
         public static byte[] Compress(this byte[] input)
         {

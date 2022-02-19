@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Org.BouncyCastle.Crypto.Digests;
+using System.Reflection;
 
 namespace MissionPlanner.Utilities
 {
@@ -336,7 +337,62 @@ namespace MissionPlanner.Utilities
 
                     return a.Item1.CompareTo(b.Item1);
                 });
+                /*
+                if (frmProgressReporter != null)
+                    frmProgressReporter.UpdateProgressAndStatus(-1, "Downloading parts");
 
+                // start download
+                if (baseurl.ToLower().Contains(".zip"))
+                {
+                    List<(int, int)> ranges = new List<(int, int)>();
+
+                    using (DownloadStream ds = new DownloadStream(baseurl))
+                    using (ZipArchive zip = new ZipArchive(ds))
+                    {
+                        FieldInfo fieldInfo = typeof(ZipArchiveEntry).GetField("_offsetOfLocalHeader", BindingFlags.NonPublic | BindingFlags.Instance);
+                        var extents = zip.Entries.Select(e =>
+                        {
+                            var _offsetOfLocalHeader = (long)fieldInfo.GetValue(e);
+                            return (e.FullName, _offsetOfLocalHeader);
+                        }).OrderBy(a => a._offsetOfLocalHeader);
+
+                        tasklist.ForEach(task => {
+
+                            task.Item3.Wait();
+                            bool match = task.Item3.GetAwaiter().GetResult();
+
+                            if (!match)
+                            {
+                                extents.ForEach(entry1 =>
+                                {
+                                    var fn = entry1.FullName;
+
+                                    var diskfn = task.Item1;
+
+                                    if (diskfn.EndsWith(fn))
+                                    {
+                                        var next = ds.Length;
+                                        zip.Entries.ForEach(entry2 => {
+                                            var _offsetOfLocalHeader2 = (long)fieldInfo.GetValue(entry2);
+                                            if (_offsetOfLocalHeader2 > entry1._offsetOfLocalHeader)
+                                                next = Math.Min(_offsetOfLocalHeader2, next);
+                                        });
+
+                                        ranges.Add(((int)entry1._offsetOfLocalHeader, (int)(next)));
+                                    }
+                                });
+                            }
+                        });
+
+                        ranges = ranges.SimplifyIntervals().ToList();
+                        ranges.ForEach(range => {
+                            ds.chunksize = range.Item2 - range.Item1;
+                            ds.getAllData(range.Item1, range.Item2);
+                        });
+                        
+                    }
+                }
+                */
                 int done = 0;
 
                 Parallel.ForEach(tasklist, opt, task =>
@@ -496,7 +552,7 @@ namespace MissionPlanner.Utilities
                     return;
                 }
 
-                ds.chunksize = (int) entry.CompressedLength;
+                ds.chunksize = (int)entry.CompressedLength + 2048;
 
                 log.InfoFormat("unzip {0}", file);
 

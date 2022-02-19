@@ -132,7 +132,12 @@ namespace MissionPlanner.Utilities
 
                 var maxcount = (int)Math.Min(chunkleft, count);
 
-                Array.Copy(chunk.Value.ToArray(), positioninchunk, buffer, offset, maxcount);
+                lock (chunk.Value)
+                {
+                    chunk.Value.Position = positioninchunk;
+                    chunk.Value.Read(buffer, offset, maxcount);
+                }
+                //Array.Copy(chunk.Value.ToArray(), positioninchunk, buffer, offset, maxcount);
 
                 bytesgot += maxcount;
                 offset += maxcount;
@@ -145,7 +150,7 @@ namespace MissionPlanner.Utilities
             return bytesgot;
         }
 
-        private bool getAllData(long start, long end)
+        public bool getAllData(long start, long end)
         {
             if (chunksize < 1024 * 2)
                 chunksize = 1024 * 2;
