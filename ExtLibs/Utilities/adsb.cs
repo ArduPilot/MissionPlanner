@@ -850,7 +850,7 @@ namespace MissionPlanner.Utilities
                             catch { }
 
                         }
-                        else if (strArray[1] == "1")
+                        else if (strArray[1] == "1" || strArray[1] == "5" || strArray[1] == "6")
                         {
                             String session_id = strArray[2];// String. Database session record number. 
                             String aircraft_id = strArray[3];// String. Database aircraft record number. 
