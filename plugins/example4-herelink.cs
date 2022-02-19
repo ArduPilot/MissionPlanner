@@ -20,7 +20,7 @@ namespace CameraControl
     {
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub;
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub1;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub2; 
+        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub2;
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub3;
         private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub4;
 
@@ -54,7 +54,7 @@ namespace CameraControl
             var but = new ToolStripMenuItem("Connect v1");
             but.Click += but3_Click;
             rootbut.DropDownItems.Add(but);
-            
+
 
             but = new ToolStripMenuItem("Set Video stream 1 v1");
             but.Click += but1_Click;
@@ -76,9 +76,13 @@ namespace CameraControl
             but = new ToolStripMenuItem("Connect air 1 v2");
             but.Click += but5_Click;
             rootbut.DropDownItems.Add(but);
-            
+
             but = new ToolStripMenuItem("Connect air 2 v2");
             but.Click += but6_Click;
+            rootbut.DropDownItems.Add(but);
+
+            but = new ToolStripMenuItem("Reset Baud");
+            but.Click += but9_Click;
             rootbut.DropDownItems.Add(but);
 
             return true;
@@ -95,11 +99,11 @@ namespace CameraControl
         {
             return true;
         }
-        
+
         void but_Click(object sender, EventArgs e)
         {
             var mav = Host.comPort.MAVlist.FirstOrDefault(a =>
-                a.compid == (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA);
+                a.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA);
 
             if (mav == null)
                 return;
@@ -134,8 +138,8 @@ namespace CameraControl
                     {
                         Console.WriteLine(message.ToJSON());
                         return true;
-                    }); 
-            
+                    });
+
             if (sub4 == null)
                 sub4 = mav.parent.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS,
                     message =>
@@ -373,6 +377,23 @@ namespace CameraControl
             }
 
             GStreamer.StartA(url);
+        }
+        private void but9_Click(object sender, EventArgs e)
+        {
+            //MAVLINK_MSG_ID_COMMAND_LONG
+            //MAV_CMD_USER_1
+            //p1 > 0
+            //p2 > 0
+            //p3=0
+
+            var mav = Host.comPort.MAVlist.FirstOrDefault(a => a.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_CAMERA);
+
+            if (mav == null)
+                return;
+
+            mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.USER_1, -1, 0, 0, 0, 0, 0, 0, false);
+
+            mav.parent.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.USER_1, 1, 57600, 0, 0, 0, 0, 0);
         }
     }
 }
