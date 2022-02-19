@@ -76,8 +76,7 @@ namespace MissionPlanner.Utilities
             {
                 MAVLink.mavlink_terrain_report_t packet =
                     rawpacket.ToStructure<MAVLink.mavlink_terrain_report_t>();
-                log.Info("received TERRAIN_REPORT " + packet.lat/1e7 + " " + packet.lon/1e7 + " " + packet.loaded + " " +
-                         packet.pending);
+                //log.Info("received TERRAIN_REPORT " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " " + packet.loaded + " " + packet.pending);
             }
             return false;
         }
