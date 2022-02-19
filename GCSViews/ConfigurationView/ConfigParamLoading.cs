@@ -46,5 +46,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (gotAllParams)
                 MainV2.View.Reload();
         }
+
+        private void but_forceparams_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.getParamList();
+        }
     }
 }

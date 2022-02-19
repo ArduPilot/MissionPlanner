@@ -131,7 +131,9 @@ namespace MissionPlanner.Controls
                     MainV2.comPort.sysidcurrent = temp.sysid;
                     MainV2.comPort.compidcurrent = temp.compid;
 
-                    if (MainV2.comPort.MAV.param.Count == 0 && !(Control.ModifierKeys == Keys.Control))
+                    if (MainV2.comPort.MAV.param.TotalReceived < MainV2.comPort.MAV.param.TotalReported && 
+                        /*MainV2.comPort.MAV.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1 && */
+                        !(Control.ModifierKeys == Keys.Control))
                         MainV2.comPort.getParamList();
 
                     MainV2.View.Reload();
