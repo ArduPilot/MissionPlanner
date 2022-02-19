@@ -57,6 +57,7 @@ namespace Updater
                     System.Diagnostics.Process P = new System.Diagnostics.Process();
                     if (MAC)
                     {
+                        P.StartInfo.WorkingDirectory = path;
                         P.StartInfo.FileName = "mono";
                         P.StartInfo.Arguments =
                             " \"" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
@@ -64,6 +65,7 @@ namespace Updater
                     }
                     else
                     {
+                        P.StartInfo.WorkingDirectory = path;
                         P.StartInfo.FileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
                                                Path.DirectorySeparatorChar + "MissionPlanner.exe";
                         P.StartInfo.Arguments = "";

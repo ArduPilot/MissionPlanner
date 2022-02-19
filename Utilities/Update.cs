@@ -65,12 +65,14 @@ namespace MissionPlanner.Utilities
                 string exePath = Path.GetDirectoryName(Application.ExecutablePath);
                 if (MONO)
                 {
+                    process.StartInfo.WorkingDirectory = exePath;
                     process.StartInfo.FileName = "/bin/bash";
                     process.StartInfo.Arguments = " -c 'mono \"" + exePath + Path.DirectorySeparatorChar + "Updater.exe\"" +
                                                   "  \"" + Application.ExecutablePath + "\"'";
                 }
                 else
                 {
+                    process.StartInfo.WorkingDirectory = exePath;
                     process.StartInfo.FileName = exePath + Path.DirectorySeparatorChar + "Updater.exe";
                     process.StartInfo.Arguments = Application.ExecutablePath;
                 }
