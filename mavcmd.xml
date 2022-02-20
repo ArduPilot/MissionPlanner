@@ -273,6 +273,15 @@
       <Y></Y>
       <Z></Z>
     </DO_MOUNT_CONTROL>
+    <DO_SPRAYER>
+      <P1>Sprayer Enable</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SPRAYER>
 
   </AC2>
   <!-- -->
@@ -592,6 +601,15 @@
       <Y></Y>
       <Z></Z>
     </DO_FENCE_ENABLE>
+    <DO_SPRAYER>
+      <P1>Sprayer Enable</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SPRAYER>
   </APM>
   <!-- -->
   <APRover>
@@ -802,5 +820,14 @@
       <Y></Y>
       <Z></Z>
     </DO_MOUNT_CONTROL>
+    <DO_SPRAYER>
+      <P1>Sprayer Enable</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SPRAYER>
   </APRover>
 </CMD>
