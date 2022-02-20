@@ -1577,7 +1577,6 @@ namespace MissionPlanner.GCSViews
 
         }
 
-
         private void BUT_select_script_Click(object sender, EventArgs e)
         {
             if (openScriptDialog.ShowDialog() == DialogResult.OK)
@@ -2859,6 +2858,7 @@ namespace MissionPlanner.GCSViews
         private void mainloop()
         {
             threadrun = true;
+
             EndPoint Remote = new IPEndPoint(IPAddress.Any, 0);
 
             DateTime tracklast = DateTime.Now.AddSeconds(0);
@@ -2882,23 +2882,6 @@ namespace MissionPlanner.GCSViews
                 //await Task.Delay(1000);
                 Thread.Sleep(1000);
             }
-
-            #region quickviews persistants Alex
-
-            quickView6.desc = "Obstacle";
-            //quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "rangefinder1", true));
-
-            quickView7.desc = "Longueur_Cable";
-
-            quickView8.desc = "Instru temp";
-            //quickView8.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "raw_temp", true));
-
-            quickView9.desc = "Mode";
-            //quickView9.DataBindings.Add(new System.Windows.Forms.Binding("string", this.bindingSourceQuickTab, "raw_temp", true));
-
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS,
-                            MainV2.comPort.MAV.cs.ratestatus); // mode
-            #endregion
 
             bool first_time_under_percent_limit = true;
             DateTime date_debut = DateTime.Now;
@@ -2946,7 +2929,6 @@ namespace MissionPlanner.GCSViews
                 {
                     log.Error("Failed to write avi");
                 }
-
                 // log playback
                 if (MainV2.comPort.logreadmode && MainV2.comPort.logplaybackfile != null)
                 {
@@ -3097,27 +3079,41 @@ namespace MissionPlanner.GCSViews
                     #region alex test des fct de marintech
                     
 
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS,
-                            MainV2.comPort.MAV.cs.ratestatus); // mode
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION,
-                        MainV2.comPort.MAV.cs.rateposition); // request gps
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1,
-                        MainV2.comPort.MAV.cs.rateattitude); // request attitude
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2,
-                        MainV2.comPort.MAV.cs.rateattitude); // request vfr
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3,
-                        MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS,
-                        MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS,
-                        MainV2.comPort.MAV.cs.raterc); // request rc info
+                    //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS,
+                    //        MainV2.comPort.MAV.cs.ratestatus); // mode
+                    //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION,
+                    //    MainV2.comPort.MAV.cs.rateposition); // request gps
+                    //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1,
+                    //    MainV2.comPort.MAV.cs.rateattitude); // request attitude
+                    //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2,
+                    //    MainV2.comPort.MAV.cs.rateattitude); // request vfr
+                    //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3,
+                    //    MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+                    //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS,
+                    //    MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+                    //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS,
+                    //    MainV2.comPort.MAV.cs.raterc); // request rc info
                     #endregion
 
+                    #region quickviews persistants Alex
 
-                    //CheckAndBindPreFlightData();
-                    //Console.WriteLine(DateTime.Now.Millisecond);
-                    //int fixme;
+                    quickView6.desc = "Obstacle";
+                    //quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "rangefinder1", true));
+
+                    quickView7.desc = "Longueur_Cable";
+
+                    quickView8.desc = "Instru temp";
+                    
+
+                    quickView9.desc = "Mode";
+                    //quickView9.DataBindings.Add(new System.Windows.Forms.Binding("string", this.bindingSourceQuickTab, "raw_temp", true));
+
+                    //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS,
+                                    //MainV2.comPort.MAV.cs.ratestatus); // mode
+                    #endregion
+
                     updateBindingSource();
+
                     // Console.WriteLine(DateTime.Now.Millisecond + " done ");
 
                     #region batterie warning
@@ -3132,7 +3128,6 @@ namespace MissionPlanner.GCSViews
                     double warnpercent = 95;
                     double critvolt = 23;
                     double critpercent = 90;
-
 
                     if (MainV2.comPort.MAV.cs.battery_voltage <= warnvolt)
                     {
@@ -3153,8 +3148,7 @@ namespace MissionPlanner.GCSViews
                     {
                         hud1.lowvoltagealert = false;
                         quickView2.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-                    }
-
+                    }                                                           //quickview2 vert
                     if (MainV2.comPort.MAV.cs.battery_voltage <= critvolt)
                     {
                         hud1.criticalvoltagealert = true;
@@ -3175,8 +3169,8 @@ namespace MissionPlanner.GCSViews
                                 date_debut_pb_voltage = DateTime.Now;
                         }
                     }       //quickview1 rouge clignotant 
-                    
-                    if ((MainV2.comPort.MAV.cs.battery_remaining) < critpercent)
+
+                    if ((MainV2.comPort.MAV.cs.battery_remaining) <= critpercent)
                     {
                         hud1.criticalvoltagealert = true;
                         if (first_time_under_percent_limit)
@@ -3202,8 +3196,7 @@ namespace MissionPlanner.GCSViews
                     }
                     #endregion
 
-                    
-
+                    #region opengl
                     // update opengltest
                     if (OpenGLtest.instance != null)
                     {
@@ -3228,6 +3221,7 @@ namespace MissionPlanner.GCSViews
                             MainV2.comPort.MAV.cs.vz);
                         OpenGLtest2.instance.WPs = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
                     }
+                    #endregion
 
                     // update vario info
                     Vario.SetValue(MainV2.comPort.MAV.cs.climbrate);
@@ -3794,7 +3788,6 @@ namespace MissionPlanner.GCSViews
 
             Console.WriteLine("FD Main loop exit");
         }
-
 
         public void updateMarkersAsNeeded<TBuilder, TMarker>(IEnumerable<TBuilder> list, GMapOverlay gMapOverlay,
             Func<TBuilder, string> GetTagSource, Func<GMapMarker, string> GetTagMarker,

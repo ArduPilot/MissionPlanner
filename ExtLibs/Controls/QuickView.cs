@@ -33,6 +33,7 @@ namespace MissionPlanner.Controls
                         return;
                     _number = value;
                     Invalidate();
+                    if (_number > 500) { _number = (int)(_number / 100); } //Alex : pas dingue de faire ca mais j'ai pas trouvé mieux 
                 }
             }
         }
@@ -53,6 +54,7 @@ namespace MissionPlanner.Controls
                 _numberformat = value;
                 this.Invalidate();
             }
+
         }
 
         [System.ComponentModel.Browsable(true)]
