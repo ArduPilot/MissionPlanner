@@ -910,7 +910,7 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
             }
         }
-         
+
         private void BUT_ARM_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
@@ -1272,7 +1272,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void BUT_quickstart_Click(object sender, EventArgs e)
+        private void BUT_quickauto_Click(object sender, EventArgs e)
         {
             try
             {
@@ -3125,9 +3125,9 @@ namespace MissionPlanner.GCSViews
                     // BATT_CRT_MAH
 
                     double warnvolt = 26;
+                    double warnpercent = 95;
                     double critvolt = 23;
-                    double warnpercent = 30;
-                    double critpercent = 20;
+                    double critpercent = 90;
 
                     if (MainV2.comPort.MAV.cs.battery_voltage <= warnvolt)
                     {
@@ -3143,7 +3143,7 @@ namespace MissionPlanner.GCSViews
                     {
                         hud1.lowvoltagealert = true;
                         quickView2.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(105)))));
-                    }   //quickview2 devient orange
+                    }   //quickview2 orange
                     else
                     {
                         hud1.lowvoltagealert = false;
@@ -3169,6 +3169,7 @@ namespace MissionPlanner.GCSViews
                                 date_debut_pb_voltage = DateTime.Now;
                         }
                     }       //quickview1 rouge clignotant 
+
                     if ((MainV2.comPort.MAV.cs.battery_remaining) <= critpercent)
                     {
                         hud1.criticalvoltagealert = true;
