@@ -172,6 +172,7 @@ namespace MissionPlanner.GCSViews
             this.but_bintolog = new MissionPlanner.Controls.MyButton();
             this.but_dflogtokml = new MissionPlanner.Controls.MyButton();
             this.BUT_loganalysis = new MissionPlanner.Controls.MyButton();
+            this.myButton11 = new MissionPlanner.Controls.MyButton();
             this.myButton12 = new MissionPlanner.Controls.MyButton();
             this.myButton10 = new MissionPlanner.Controls.MyButton();
             this.myButton9 = new MissionPlanner.Controls.MyButton();
@@ -539,6 +540,7 @@ namespace MissionPlanner.GCSViews
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(62)))), ((int)(((byte)(117)))));
+            this.splitContainer2.Panel2.Controls.Add(this.myButton11);
             this.splitContainer2.Panel2.Controls.Add(this.myButton12);
             this.splitContainer2.Panel2.Controls.Add(this.myButton10);
             this.splitContainer2.Panel2.Controls.Add(this.myButton9);
@@ -1052,7 +1054,7 @@ namespace MissionPlanner.GCSViews
             this.BUT_quickauto.Name = "BUT_quickauto";
             this.toolTip1.SetToolTip(this.BUT_quickauto, resources.GetString("BUT_quickauto.ToolTip"));
             this.BUT_quickauto.UseVisualStyleBackColor = true;
-            this.BUT_quickauto.Click += new System.EventHandler(this.BUT_quickauto_Click);
+            this.BUT_quickauto.Click += new System.EventHandler(this.BUT_quickstart_Click);
             // 
             // BUT_setmode
             // 
@@ -1117,7 +1119,7 @@ namespace MissionPlanner.GCSViews
             this.myButton3.Name = "myButton3";
             this.toolTip1.SetToolTip(this.myButton3, resources.GetString("myButton3.ToolTip"));
             this.myButton3.UseVisualStyleBackColor = true;
-            this.myButton3.Click += new System.EventHandler(this.BUT_quickauto_Click);
+            this.myButton3.Click += new System.EventHandler(this.BUT_quickstart_Click);
             // 
             // tabPagePreFlight
             // 
@@ -2294,6 +2296,17 @@ namespace MissionPlanner.GCSViews
             this.BUT_loganalysis.UseVisualStyleBackColor = true;
             this.BUT_loganalysis.Click += new System.EventHandler(this.BUT_loganalysis_Click);
             // 
+            // myButton11
+            // 
+            this.myButton11.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton11.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton11.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton11, "myButton11");
+            this.myButton11.Name = "myButton11";
+            this.toolTip1.SetToolTip(this.myButton11, resources.GetString("myButton11.ToolTip"));
+            this.myButton11.UseVisualStyleBackColor = true;
+            this.myButton11.Click += new System.EventHandler(this.BUT_quickstart_Click);
+            // 
             // myButton12
             // 
             this.myButton12.ColorMouseDown = System.Drawing.Color.Empty;
@@ -2385,7 +2398,7 @@ namespace MissionPlanner.GCSViews
             this.myButton4.Name = "myButton4";
             this.toolTip1.SetToolTip(this.myButton4, resources.GetString("myButton4.ToolTip"));
             this.myButton4.UseVisualStyleBackColor = true;
-            this.myButton4.Click += new System.EventHandler(this.BUT_quickauto_Click);
+            this.myButton4.Click += new System.EventHandler(this.BUT_quickstart_Click);
             // 
             // tableMap
             // 
@@ -2946,7 +2959,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.TextBox NIC_tb;
         private ToolStripMenuItem showIconsToolStripMenuItem;
         private SplitContainer splitContainer2;
-        private Controls.MyButton myButton4;
         private Controls.MyButton myButton8;
         private Controls.MyButton myButton7;
         private Controls.MyButton myButton6;
@@ -2962,5 +2974,7 @@ namespace MissionPlanner.GCSViews
         private Controls.QuickView quickView3;
         private Controls.MyButton myButton10;
         private Controls.MyButton myButton12;
+        private Controls.MyButton myButton11;
+        private Controls.MyButton myButton4;
     }
 }
