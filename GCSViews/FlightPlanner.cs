@@ -2641,55 +2641,55 @@ namespace MissionPlanner.GCSViews
         public void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
         {
             // update the displayed items
-            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
-            {
-                fenceInclusionToolStripMenuItem.Visible = false;
-                fenceExclusionToolStripMenuItem.Visible = false;
-            }
-            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
-            {
-                fenceInclusionToolStripMenuItem.Visible = true;
-                fenceExclusionToolStripMenuItem.Visible = true;
-            }
-            else
-            {
-                fenceInclusionToolStripMenuItem.Visible = false;
-                fenceExclusionToolStripMenuItem.Visible = false;
-            }
+            //if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            //{
+            //    fenceInclusionToolStripMenuItem.Visible = false;
+            //    fenceExclusionToolStripMenuItem.Visible = false;
+            //}
+            //else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            //{
+            //    fenceInclusionToolStripMenuItem.Visible = true;
+            //    fenceExclusionToolStripMenuItem.Visible = true;
+            //}
+            //else
+            //{
+            //    fenceInclusionToolStripMenuItem.Visible = false;
+            //    fenceExclusionToolStripMenuItem.Visible = false;
+            //}
         }
 
         private void convertFromGeographic(double lat, double lng)
         {
-            if (lat == 0 && lng == 0)
-            {
-                return;
-            }
+            //if (lat == 0 && lng == 0)
+            //{
+            //    return;
+            //}
 
-            // always update other systems, incase user switchs while planning
-            try
-            {
-                //UTM
-                var temp = new PointLatLngAlt(lat, lng);
-                int zone = temp.GetUTMZone();
-                var temp2 = temp.ToUTM();
-                Commands[coordZone.Index, selectedrow].Value = zone;
-                Commands[coordEasting.Index, selectedrow].Value = temp2[0].ToString("0.000");
-                Commands[coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            //// always update other systems, incase user switchs while planning
+            //try
+            //{
+            //    //UTM
+            //    var temp = new PointLatLngAlt(lat, lng);
+            //    int zone = temp.GetUTMZone();
+            //    var temp2 = temp.ToUTM();
+            //    Commands[coordZone.Index, selectedrow].Value = zone;
+            //    Commands[coordEasting.Index, selectedrow].Value = temp2[0].ToString("0.000");
+            //    Commands[coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
+            //}
+            //catch (Exception ex)
+            //{
+            //    log.Error(ex);
+            //}
 
-            try
-            {
-                //MGRS
-                Commands[MGRS.Index, selectedrow].Value = ((MGRS) new Geographic(lng, lat)).ToString();
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            //try
+            //{
+            //    //MGRS
+            //    Commands[MGRS.Index, selectedrow].Value = ((MGRS) new Geographic(lng, lat)).ToString();
+            //}
+            //catch (Exception ex)
+            //{
+            //    log.Error(ex);
+            //}
         }
 
         private void convertFromMGRS(int rowindex)
