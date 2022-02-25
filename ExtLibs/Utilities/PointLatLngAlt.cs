@@ -396,6 +396,35 @@ namespace MissionPlanner.Utilities
             return d;
         }
 
+
+        /// <summary>
+        /// https://www.movable-type.co.uk/scripts/latlong.html
+        /// </summary>
+        /// <param name="p2"></param>
+        /// <param name="f">0-1</param>
+        /// <returns></returns>
+        public PointLatLngAlt GetGreatCirclePathPoint(PointLatLngAlt p2, double f)
+        {
+            var dLat = (p2.Lat - Lat) * MathHelper.deg2rad;
+            var dLon = (p2.Lng - Lng) * MathHelper.deg2rad;
+            var R = 6378100.0; // 6371 km
+            var angdist = this.GetDistance(p2) / R;
+
+            //φ = lat
+            //δ = d/R
+            //λ2 = lon
+
+            var a = Math.Sin((1-f) * angdist) / Math.Sin(angdist);
+            var b = Math.Sin(f * angdist) / Math.Sin(angdist);
+            var x = a * Math.Cos(Lat * MathHelper.deg2rad) * Math.Cos(Lng * MathHelper.deg2rad) + b * Math.Cos(p2.Lat * MathHelper.deg2rad) * Math.Cos(p2.Lng * MathHelper.deg2rad);
+            var y = a * Math.Cos(Lat * MathHelper.deg2rad) * Math.Sin(Lng * MathHelper.deg2rad) + b * Math.Cos(p2.Lat * MathHelper.deg2rad) * Math.Sin(p2.Lng * MathHelper.deg2rad);
+            var z = a * Math.Sin(Lat * MathHelper.deg2rad) + b * Math.Sin(p2.Lat * MathHelper.deg2rad);
+            var alat = Math.Atan2(z, Math.Sqrt(x * x + y * y));
+            var alon = Math.Atan2(y, x);
+
+            return new PointLatLngAlt(alat * MathHelper.rad2deg, alon * MathHelper.rad2deg);
+        }
+
         public int CompareTo(object obj)
         {
             PointLatLngAlt pnt = obj as PointLatLngAlt;

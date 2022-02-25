@@ -508,6 +508,9 @@ namespace MissionPlanner.ArduPilot
                 }
             }
 
+            // interpolate
+            //wproute = wproute.Interpolate();
+
             int count = wproute.Count;
             int counter = 0;
             PointLatLngAlt homepoint = new PointLatLngAlt();

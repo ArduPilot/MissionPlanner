@@ -361,7 +361,11 @@ namespace SvgNet.SvgGdi
 
         public void DrawPath(Pen pen, GraphicsPath path)
         {
-            _g.DrawPath(pen, path);
+            try
+            {
+                _g.DrawPath(pen, path);
+            }
+            catch { }
         }
 
         public void DrawPie(Pen pen, RectangleF rect, float startAngle, float sweepAngle)

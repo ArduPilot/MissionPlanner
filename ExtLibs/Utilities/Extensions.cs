@@ -755,6 +755,28 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static List<PointLatLngAlt> Interpolate(this List<PointLatLngAlt> list)
+        {
+            var ans = new List<PointLatLngAlt>();
+            var count = list.Count();
+
+            for (int a = 0; a < count - 1; a++)
+            {                
+                var now = list[a];
+                var next = list[a + 1];
+
+                ans.Add(now);
+
+                for(float b = 0.1f; b < 1; b += 0.2f)
+                {
+                    ans.Add(now.GetGreatCirclePathPoint(next, b));
+                }
+                ans.Add(next);
+            }
+
+            return ans;
+        }
+
         public static object GetPropertyOrField(this object obj, string name)
         {
             var type = obj.GetType();
