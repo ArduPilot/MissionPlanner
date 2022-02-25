@@ -19,6 +19,18 @@ namespace px4uploader
         public string ardupilot_git_hash;
         public string image;
         public byte[] imagebyte;
+
+        public int image_maxsize;
+        public int flash_free;
+
+        public string extf_image;
+        public byte[] extf_imagebyte;
+        public int extf_image_size;
+        public int extflash_free;
+        public int extflash_total;
+
+        public string USBID;
+
         public int parameter_xml_size;
         public uint build_time;
         public string summary;
@@ -79,33 +91,64 @@ namespace px4uploader
             //fw = serializer.Deserialize<Firmware>(f.ReadToEnd());
             fw = JSON.Instance.ToObject<Firmware>(f.ReadToEnd());
             f.Close();
-            
-            byte[] data = Convert.FromBase64String(fw.image);
 
-            MemoryStream imagems = new MemoryStream(data, true);
-
-            ZlibStream decompressionStream = new ZlibStream(imagems, CompressionMode.Decompress);
-
-            int size = fw.image_size + (fw.image_size % 4);
-            fw.imagebyte = new byte[size];
-
-            for (int a = 0; a < fw.imagebyte.Length; a++)
             {
-                fw.imagebyte[a] = 0xff;
+                byte[] data = Convert.FromBase64String(fw.image);
+
+                MemoryStream imagems = new MemoryStream(data, true);
+
+                ZlibStream decompressionStream = new ZlibStream(imagems, CompressionMode.Decompress);
+
+                int size = fw.image_size + (fw.image_size % 4);
+                fw.imagebyte = new byte[size];
+
+                for (int a = 0; a < fw.imagebyte.Length; a++)
+                {
+                    fw.imagebyte[a] = 0xff;
+                }
+
+                try
+                {
+                    decompressionStream.Read(fw.imagebyte, 0, fw.image_size);
+                }
+                catch { Console.WriteLine("Possible bad file - usually safe to ignore"); }
+
+                Console.WriteLine("image_size {0} size {1}", fw.image_size, size);
+
+                // pad image to 4-byte length
+                while ((fw.imagebyte.Length % 4) != 0)
+                {
+                    Array.Resize(ref fw.imagebyte, fw.imagebyte.Length + (4 - (fw.imagebyte.Length % 4)));
+                }
             }
-
-            try
             {
-                decompressionStream.Read(fw.imagebyte, 0, fw.image_size);
-            }
-            catch { Console.WriteLine("Possible bad file - usually safe to ignore"); }
+                byte[] data = Convert.FromBase64String(fw.extf_image);
 
-            Console.WriteLine("image_size {0} size {1}",fw.image_size,size);
+                MemoryStream imagems = new MemoryStream(data, true);
 
-            // pad image to 4-byte length
-            while ((fw.imagebyte.Length % 4) != 0)
-            {
-                Array.Resize(ref fw.imagebyte, fw.imagebyte.Length + (4 - (fw.imagebyte.Length % 4)));
+                ZlibStream decompressionStream = new ZlibStream(imagems, CompressionMode.Decompress);
+
+                int size = fw.extf_image_size + (fw.extf_image_size % 4);
+                fw.extf_imagebyte = new byte[size];
+
+                for (int a = 0; a < fw.extf_imagebyte.Length; a++)
+                {
+                    fw.extf_imagebyte[a] = 0xff;
+                }
+
+                try
+                {
+                    decompressionStream.Read(fw.extf_imagebyte, 0, fw.extf_image_size);
+                }
+                catch { Console.WriteLine("Possible bad file - usually safe to ignore"); }
+
+                Console.WriteLine("extf_image_size {0} size {1}", fw.extf_image_size, size);
+
+                // pad image to 4-byte length
+                while ((fw.imagebyte.Length % 4) != 0)
+                {
+                    Array.Resize(ref fw.extf_imagebyte, fw.extf_imagebyte.Length + (4 - (fw.extf_imagebyte.Length % 4)));
+                }
             }
 
             return fw;

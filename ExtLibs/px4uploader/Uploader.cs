@@ -63,8 +63,13 @@ namespace px4uploader
             SET_DELAY = 0x2d, // set minimum boot delay
             GET_CHIP_DES = 0x2e,
             REBOOT = 0x30,
-            PROTO_DEBUG = 0x31,
-            PROTO_SET_BAUD = 0x33
+            DEBUG = 0x31,
+            SET_BAUD = 0x33,
+
+            EXTF_ERASE = 0x34,    // Erase sectors from external flash
+            EXTF_PROG_MULTI = 0x35,   // write bytes at external flash program address and increment
+            EXTF_READ_MULTI = 0x36,   // read bytes at address and increment
+            EXTF_GET_CRC = 0x37,	// compute & return a CRC of data in external flash
         }
 
         public enum Info {
@@ -72,13 +77,14 @@ namespace px4uploader
             BOARD_ID = 2,//	# board type
             BOARD_REV = 3,//	# board revision
             FLASH_SIZE = 4,//	# max firmware size in bytes
-            VEC_AREA = 5
+            VEC_AREA = 5,
+            EXTF_SIZE = 6
         }
 
         public const byte BL_REV_MIN = 2;//	# minimum supported bootloader protocol 
         public const byte BL_REV_MAX = 20;//	# maximum supported bootloader protocol
-        public const byte PROG_MULTI_MAX = 64;//		# protocol max is 255, must be multiple of 4
-        public const byte READ_MULTI_MAX = 255;//		# protocol max is 255, something overflows with >= 64
+        public const byte PROG_MULTI_MAX = 252;//		# protocol max is 255, must be multiple of 4
+        public const byte READ_MULTI_MAX = 252;//		# protocol max is 255, something overflows with >= 64
 
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -166,6 +172,7 @@ namespace px4uploader
         }
 
         static List<KeyValuePair<string, string>> certs = new List<KeyValuePair<string, string>>();
+        public int extf_maxsize;
 
         public static void readcerts()
         {
@@ -528,6 +535,38 @@ namespace px4uploader
             __getSync();
         }
 
+        public void __erase_extf()
+        {
+            __sync();
+
+            // fix for bootloader bug - must see a sync and a get_device
+            __getInfo(Info.BL_REV);
+
+            __send(new byte[] { (byte)Code.EXTF_ERASE, (byte)Code.EOC });
+            DateTime deadline = DateTime.Now.AddSeconds(20);
+            while (DateTime.Now < deadline)
+            {
+                System.Threading.Thread.Sleep(100);
+                if (port.BytesToRead > 0)
+                {
+                    Console.WriteLine("__erase_extf btr " + port.BytesToRead);
+                    break;
+                }
+            }
+            __getSync();
+        }
+
+        public void __program_multi_extf(byte[] data)
+        {
+            var length = (byte)data.Length;
+
+            __send((byte)Code.EXTF_PROG_MULTI);
+            __send(length);
+            __send(data);
+            __send((byte)Code.EOC);
+            __getSync();
+        }
+
         public void __program_multi(byte[] data)
         {
             __send(new byte[] { (byte)Code.PROG_MULTI, (byte)data.Length });
@@ -620,6 +659,23 @@ namespace px4uploader
             }
         }
 
+        public void __program_extf(Firmware fw)
+        {
+            byte[] code = fw.extf_imagebyte;
+            List<byte[]> groups = self.__split_len(code, PROG_MULTI_MAX);
+            int a = 1;
+            foreach (Byte[] bytes in groups)
+            {
+                self.__program_multi_extf(bytes);
+
+                System.Diagnostics.Debug.WriteLine("Program extf {0}/{1}", a, groups.Count);
+
+                a++;
+                if (ProgressEvent != null)
+                    ProgressEvent((a / (float)groups.Count) * 100.0);
+            }
+        }
+
         public void __verify_v2(Firmware fw)
         {
             self.__send(new byte[] {(byte)Code.CHIP_VERIFY
@@ -668,6 +724,24 @@ namespace px4uploader
                 throw new Exception("Program CRC failed");
             }
         }
+
+        public void __verify_extf(Firmware fw)
+        {
+            int expect_crc = fw.crc(self.extf_maxsize);
+            __send(new byte[] {(byte)Code.EXTF_GET_CRC,
+                (byte) Code.EOC});
+            int report_crc = __recv_int();
+            __getSync();
+
+            print("extf Expected 0x" + hexlify(BitConverter.GetBytes(expect_crc)) + " " + expect_crc);
+            print("extf Got      0x" + hexlify(BitConverter.GetBytes(report_crc)) + " " + report_crc);
+            if (report_crc != expect_crc)
+            {
+                throw new Exception("Program extf CRC failed");
+            }
+        }
+
+        
 
         public void currentChecksum(Firmware fw)
         {
@@ -725,6 +799,14 @@ namespace px4uploader
                     self.chip_desc = self.__getCHIPDES();
                 } catch {}
             }
+
+            if (bl_rev >= 6)
+            {
+                self.extf_maxsize = __getInfo(Info.EXTF_SIZE);
+            }
+
+            Console.WriteLine("Found board type {0} brdrev {1} blrev {2} fwmax {3} extf {7} chip {5:X} chipdes {6} on {4}", board_type,
+                        board_rev, bl_rev, fw_maxsize, port, chip, chip_desc, extf_maxsize);
         }
 
         public void upload(Firmware fw)
@@ -742,17 +824,32 @@ namespace px4uploader
             if (self.fw_maxsize < fw.image_size && self.fw_maxsize != 0)
                 throw new Exception("Firmware image is too large for this board");
 
-            print("erase...");
-            self.__erase();
+            if (self.extf_maxsize < fw.extf_image_size && self.extf_maxsize != 0)
+                throw new Exception("extf image is too large for this board");
 
-            print("program...");
-            self.__program(fw);
-            
-            print("verify...");
-            if (self.bl_rev == 2)
-                self.__verify_v2(fw);
-            else
-                self.__verify_v3(fw);
+            if (fw.image_size > 0)
+            {
+                print("erase...");
+                self.__erase();
+
+                print("program...");
+                self.__program(fw);
+
+                print("verify...");
+                if (self.bl_rev == 2)
+                    self.__verify_v2(fw);
+                else
+                    self.__verify_v3(fw);
+            }
+            if(fw.extf_image_size > 0)
+            {
+                print("erase...");
+                self.__erase_extf();
+                print("program...");
+                self.__program_extf(fw);
+                print("verify...");
+                self.__verify_extf(fw);
+            }
 
             print("done, rebooting.");
             self.__reboot();

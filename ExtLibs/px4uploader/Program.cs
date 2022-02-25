@@ -73,8 +73,6 @@ namespace px4uploader
                     try
                     {
                         up.identify();
-                        Console.WriteLine("Found board type {0} brdrev {1} blrev {2} fwmax {3} chip {5:X} chipdes {6} on {4}", up.board_type,
-                        up.board_rev, up.bl_rev, up.fw_maxsize, port, up.chip, up.chip_desc);
                     }
                     catch (Exception ex)
                     {
