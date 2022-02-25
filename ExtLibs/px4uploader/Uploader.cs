@@ -800,7 +800,7 @@ namespace px4uploader
                 } catch {}
             }
 
-            if (bl_rev >= 6)
+            if (bl_rev >= 5)
             {
                 self.extf_maxsize = __getInfo(Info.EXTF_SIZE);
             }
