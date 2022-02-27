@@ -78,6 +78,23 @@ jobs:
           track: internal
           whatsNewDirectory: whatsnew
 
+
+  buildAPK:
+    name: Build Release APK
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 10
+
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/obj
+          key: ${{ runner.os }}-buildAPK
       - name: Build
         shell: pwsh
         run: |
@@ -101,6 +118,27 @@ jobs:
           
           msbuild -v:m -restore -t:SignAndroidPackage -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.Android\Xamarin.Android.csproj"
           
+          del ExtLibs\Xamarin\Xamarin.Android\bin\Release\*-Signed.apk
+          
+          $apks = Get-ChildItem -include *.apk -path ExtLibs\Xamarin\Xamarin.Android\bin\Release\ -Recurse
+          
+          ForEach($i in $apks) {
+            echo $i.FullName
+            Move-Item -path $i.FullName temp.apk
+            C:\Android\android-sdk\build-tools\29.0.3\zipalign.exe -p -f -v 4 temp.apk $i.FullName
+            Remove-Item temp.apk
+          }
+
+      - name: Sign APK
+        if: ${{ github.event_name == 'push' }}
+        id: sign2
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: ExtLibs\Xamarin\Xamarin.Android\bin\Release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - uses: actions/upload-artifact@v2
         with:
