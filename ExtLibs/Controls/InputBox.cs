@@ -72,11 +72,14 @@ namespace MissionPlanner.Controls
             {
                 if (title != "")
                 {
-                    var oldlist = Settings.Instance.GetList("InputBox" + title.CleanString() + promptText.CleanString()).ToArray();
-                    textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    textBox.AutoCompleteCustomSource = new AutoCompleteStringCollection();
-                    textBox.AutoCompleteCustomSource.AddRange(oldlist);
+                    var oldlist = Settings.Instance.GetList("InputBox" + title.CleanString() + promptText.CleanString()).Where(a => a == null || a == "").ToArray();
+                    try
+                    {
+                        textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        textBox.AutoCompleteCustomSource = new AutoCompleteStringCollection();
+                        textBox.AutoCompleteCustomSource.AddRange(oldlist);
+                    } catch (Exception ex) { Console.WriteLine(ex); }
                 }
             }
 
