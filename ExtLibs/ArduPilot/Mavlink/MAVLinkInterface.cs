@@ -6441,7 +6441,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     switch (MAVlist[sysid, compid].aptype)
                     {
                         case MAV_TYPE.GIMBAL: // storm32 - name 83
-                            MAVlist[sysid, compid].cs.firmware = Firmwares.Gymbal;
+                            MAVlist[sysid, compid].cs.firmware = Firmwares.Gimbal;
                             break;
                     }
 

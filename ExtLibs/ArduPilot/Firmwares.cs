@@ -11,7 +11,7 @@
         ArduSub,
         Ateryx,
         ArduTracker,
-        Gymbal,
+        Gimbal,
         PX4,
         Other,
         AP_Periph
