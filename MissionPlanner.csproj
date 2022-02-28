@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <ProjectGuid>{A2E22272-95FE-47B6-B050-9AE7E2055BF5}</ProjectGuid>
-    <ApplicationIcon>logo marinetech v2.ico</ApplicationIcon>
+    <ApplicationIcon>mpdesktop.ico</ApplicationIcon>
     <OutputType>Exe</OutputType>
     <StartupObject>MissionPlanner.Program</StartupObject>
     <Authors>Michael Oborne</Authors>
@@ -49,9 +49,9 @@
     </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\MP_version_MarineTech\</OutputPath>
+    <OutputPath>bin\Release\net461\</OutputPath>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>
     </CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -4589,7 +4589,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="logo_marinetech.png" />
-    <Content Include="logo marinetech v2.ico" />
     <Content Include="mavutil.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
