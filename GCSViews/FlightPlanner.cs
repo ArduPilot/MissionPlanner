@@ -61,7 +61,6 @@ namespace MissionPlanner.GCSViews
             Init();
         }
 
-
         private void but_mincommands_Click(object sender, System.EventArgs e)
         {
             if (panelWaypoints.Height <= 30)
@@ -225,12 +224,12 @@ namespace MissionPlanner.GCSViews
 
             MainMap.Zoom = 3;
 
-            CMB_altmode.DisplayMember = "Value";
-            CMB_altmode.ValueMember = "Key";
-            CMB_altmode.DataSource = EnumTranslator.EnumToList<altmode>();
+            //CMB_altmode.DisplayMember = "Value";
+            //CMB_altmode.ValueMember = "Key";
+            //CMB_altmode.DataSource = EnumTranslator.EnumToList<altmode>();
 
-            //set default
-            CMB_altmode.SelectedItem = altmode.Relative;
+            ////set default
+            //CMB_altmode.SelectedItem = altmode.Relative;
 
             cmb_missiontype.DataSource = new List<MAVLink.MAV_MISSION_TYPE>()
                 {MAVLink.MAV_MISSION_TYPE.MISSION, MAVLink.MAV_MISSION_TYPE.FENCE, MAVLink.MAV_MISSION_TYPE.RALLY};
@@ -294,15 +293,15 @@ namespace MissionPlanner.GCSViews
             timer1.Start();
 
             // hide altmode if old copter version
-            if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
-                MainV2.comPort.MAV.cs.version < new Version(3, 3))
-            {
-                CMB_altmode.Visible = false;
-            }
-            else
-            {
-                CMB_altmode.Visible = true;
-            }
+            //if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2 &&
+            //    MainV2.comPort.MAV.cs.version < new Version(3, 3))
+            //{
+            //    CMB_altmode.Visible = false;
+            //}
+            //else
+            //{
+            //    CMB_altmode.Visible = true;
+            //}
 
             // hide spline wp options if not arducopter
             //if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -624,15 +623,15 @@ namespace MissionPlanner.GCSViews
         /// <param name="e"></param>
         public void BUT_write_Click(object sender, EventArgs e)
         {
-            if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-            {
-                if ((int) DialogResult.No ==
-                    CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
-                        MessageBoxButtons.YesNo))
-                {
-                    CMB_altmode.SelectedValue = (int) altmode.Relative;
-                }
-            }
+            //if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
+            //{
+            //    if ((int) DialogResult.No ==
+            //        CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
+            //            MessageBoxButtons.YesNo))
+            //    {
+            //        CMB_altmode.SelectedValue = (int) altmode.Relative;
+            //    }
+            //}
 
             // check home
             Locationwp home = new Locationwp();
@@ -642,7 +641,7 @@ namespace MissionPlanner.GCSViews
                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+                //home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
             }
             catch
             {
@@ -725,7 +724,7 @@ namespace MissionPlanner.GCSViews
             {
                 // auto update home alt
                 updateUndoBuffer(true);
-                TXT_homealt.Text = (srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt).ToString();
+                //TXT_homealt.Text = "0"; //(srtm.getAltitude(lat, lng).alt * CurrentState.multiplieralt).ToString();
 
                 TXT_homelat.Text = lat.ToString();
                 TXT_homelng.Text = lng.ToString();
@@ -1141,16 +1140,16 @@ namespace MissionPlanner.GCSViews
 
                 {
                     double result;
-                    bool pass = double.TryParse(TXT_homealt.Text, out result);
+                    //bool pass = double.TryParse(TXT_homealt.Text, out result);
 
-                    if (pass == false)
-                    {
-                        CustomMessageBox.Show("You must have a home altitude");
-                        string homealt = "100";
-                        if (DialogResult.Cancel == InputBox.Show("Home Alt", "Home Altitude", ref homealt))
-                            return;
-                        TXT_homealt.Text = homealt;
-                    }
+                    //if (pass == false)
+                    //{
+                    //    CustomMessageBox.Show("You must have a home altitude");
+                    //    string homealt = "100";
+                    //    if (DialogResult.Cancel == InputBox.Show("Home Alt", "Home Altitude", ref homealt))
+                    //        return;
+                    //    TXT_homealt.Text = homealt;
+                    //}
 
                     int results1;
                     if (!int.TryParse(TXT_DefaultAlt.Text, out results1))
@@ -1371,15 +1370,12 @@ namespace MissionPlanner.GCSViews
 
             updateRowNumbers();
 
-            PointLatLngAlt home = new PointLatLngAlt();
-            if (TXT_homealt.Text != "" && TXT_homelat.Text != "" && TXT_homelng.Text != "")
+            PointLatLng home = new PointLatLngAlt();
+            if (TXT_homelat.Text != "" && TXT_homelng.Text != "")
             {
                 try
                 {
-                    home = new PointLatLngAlt(
-                            double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
-                            double.Parse(TXT_homealt.Text) / CurrentState.multiplieralt, "H")
-                        {Tag2 = CMB_altmode.SelectedValue.ToString()};
+                    home = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
                 }
                 catch (Exception ex)
                 {
@@ -1849,15 +1845,15 @@ namespace MissionPlanner.GCSViews
 
         public void but_writewpfast_Click(object sender, EventArgs e)
         {
-            if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-            {
-                if ((int) DialogResult.No ==
-                    CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
-                        MessageBoxButtons.YesNo))
-                {
-                    CMB_altmode.SelectedValue = (int) altmode.Relative;
-                }
-            }
+            //if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
+            //{
+            //    if ((int) DialogResult.No ==
+            //        CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
+            //            MessageBoxButtons.YesNo))
+            //    {
+            //        CMB_altmode.SelectedValue = (int) altmode.Relative;
+            //    }
+            //}
 
             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue != MAVLink.MAV_MISSION_TYPE.MISSION)
             {
@@ -1872,7 +1868,7 @@ namespace MissionPlanner.GCSViews
                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+                home.alt = 0;//(float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
             }
             catch
             {
@@ -2109,14 +2105,14 @@ namespace MissionPlanner.GCSViews
 
         public void CMB_altmode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (CMB_altmode.SelectedValue == null)
-            {
-                CMB_altmode.SelectedIndex = 0;
-            }
-            else
-            {
-                currentaltmode = (altmode) CMB_altmode.SelectedValue;
-            }
+            //if (CMB_altmode.SelectedValue == null)
+            //{
+            //    CMB_altmode.SelectedIndex = 0;
+            //}
+            //else
+            //{
+            //    currentaltmode = (altmode) CMB_altmode.SelectedValue;
+            //}
         }
 
         public void Cmb_missiontype_SelectedIndexChanged(object sender, EventArgs e)
@@ -2295,7 +2291,7 @@ namespace MissionPlanner.GCSViews
 
         public void Commands_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            e.Row.Cells[Frame.Index].Value = CMB_altmode.SelectedValue;
+            //e.Row.Cells[Frame.Index].Value = CMB_altmode.SelectedValue;
             e.Row.Cells[Delete.Index].Value = "X";
             e.Row.Cells[Up.Index].Value = Resources.up;
             e.Row.Cells[Down.Index].Value = Resources.down;
@@ -2385,7 +2381,7 @@ namespace MissionPlanner.GCSViews
                 Commands.Rows[e.RowIndex].Cells[Frame.Index] as DataGridViewComboBoxCell;
             if (cellFrame.Value == null)
             {
-                cellFrame.Value = CMB_altmode.SelectedValue;
+                //cellFrame.Value = CMB_altmode.SelectedValue;
             }
 
 
@@ -2518,7 +2514,7 @@ namespace MissionPlanner.GCSViews
             {
                 Settings.Instance["TXT_homelat"] = TXT_homelat.Text;
                 Settings.Instance["TXT_homelng"] = TXT_homelng.Text;
-                Settings.Instance["TXT_homealt"] = TXT_homealt.Text;
+                Settings.Instance["TXT_homealt"] = "0";
 
 
                 Settings.Instance["TXT_WPRad"] = TXT_WPRad.Text;
@@ -2527,7 +2523,7 @@ namespace MissionPlanner.GCSViews
 
                 Settings.Instance["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
 
-                Settings.Instance["CMB_altmode"] = CMB_altmode.Text;
+                //Settings.Instance["CMB_altmode"] = CMB_altmode.Text;
 
                 Settings.Instance["fpminaltwarning"] = TXT_altwarn.Text;
 
@@ -2549,9 +2545,9 @@ namespace MissionPlanner.GCSViews
                         case "TXT_DefaultAlt":
                             TXT_DefaultAlt.Text = "" + Settings.Instance[key];
                             break;
-                        case "CMB_altmode":
-                            CMB_altmode.Text = "" + Settings.Instance[key];
-                            break;
+                        //case "CMB_altmode":
+                        //    CMB_altmode.Text = "" + Settings.Instance[key];
+                        //    break;
                         case "fpminaltwarning":
                             TXT_altwarn.Text = "" + Settings.Instance["fpminaltwarning"];
                             break;
@@ -3022,9 +3018,10 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                temp.alt =
-                    (float)
-                    (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplieralt);
+                //temp.alt =
+                //(float)
+                //(double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplieralt);
+                temp.alt = 0;
                 temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
                 temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
 
@@ -3176,12 +3173,12 @@ namespace MissionPlanner.GCSViews
 
         public void elevationGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            writeKML();
-            double homealt = MainV2.comPort.MAV.cs.HomeAlt;
-            Form temp = new ElevationProfile(pointlist, homealt,
-                (altmode) Enum.Parse(typeof(altmode), CMB_altmode.Text));
-            ThemeManager.ApplyThemeTo(temp);
-            temp.ShowDialog();
+            //writeKML();
+            //double homealt = MainV2.comPort.MAV.cs.HomeAlt;
+            //Form temp = new ElevationProfile(pointlist, homealt,
+            //    (altmode) Enum.Parse(typeof(altmode), CMB_altmode.Text));
+            //ThemeManager.ApplyThemeTo(temp);
+            //temp.ShowDialog();
         }
 
         public void enterUTMCoordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4113,7 +4110,7 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.MAV.cs.lat != 0)
             {
-                TXT_homealt.Text = (MainV2.comPort.MAV.cs.altasl).ToString("0");
+                //TXT_homealt.Text = "0";
                 TXT_homelat.Text = MainV2.comPort.MAV.cs.lat.ToString();
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.lng.ToString();
 
@@ -5120,7 +5117,7 @@ namespace MissionPlanner.GCSViews
                     // not home
                     if (i != 0)
                     {
-                        CMB_altmode.SelectedValue = temp.frame;
+                        //CMB_altmode.SelectedValue = temp.frame;
                     }
                 }
 
@@ -5175,8 +5172,8 @@ namespace MissionPlanner.GCSViews
                                 cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
                                 TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
                                 cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                                TXT_homealt.Text =
-                                    (double.Parse(cellhome.Value.ToString()) * CurrentState.multiplieralt).ToString();
+                                //TXT_homealt.Text = "0";
+                                    //(double.Parse(cellhome.Value.ToString()) * CurrentState.multiplieralt).ToString();
                             }
                         }
                     }
@@ -5589,8 +5586,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                                 home.lat = (double.Parse(TXT_homelat.Text));
                                 home.lng = (double.Parse(TXT_homelng.Text));
-                                home.alt = (float.Parse(TXT_homealt.Text) /
-                                            CurrentState.multiplieralt); // use saved home
+                                home.alt = 0; //(float.Parse(TXT_homealt.Text) /
+                                            //CurrentState.multiplieralt); // use saved home
                             }
                             catch
                             {
@@ -5598,10 +5595,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                             list.Insert(0, home);
 
-                            var format =
-                                MissionFile.ConvertFromLocationwps(list, (byte) (altmode) CMB_altmode.SelectedValue);
+                            //var format =
+                                //MissionFile.ConvertFromLocationwps(list, (byte) (altmode) CMB_altmode.SelectedValue);
 
-                            MissionFile.WriteFile(file, format);
+                            //MissionFile.WriteFile(file, format);
                             return;
                         }
 
@@ -5614,7 +5611,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                                          "\t" +
                                          double.Parse(TXT_homelng.Text).ToString("0.0000000", new CultureInfo("en-US")) +
                                          "\t" +
-                                         double.Parse(TXT_homealt.Text).ToString("0.000000", new CultureInfo("en-US")) +
+                                         double.Parse("0").ToString("0.000000", new CultureInfo("en-US")) +
                                          "\t1");
                         }
                         catch (Exception ex)
@@ -5701,7 +5698,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                     home.lat = (double.Parse(TXT_homelat.Text));
                     home.lng = (double.Parse(TXT_homelng.Text));
-                    home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
+                    home.alt = (float.Parse("0") / CurrentState.multiplieralt); // use saved home
                 }
                 catch
                 {
@@ -5861,7 +5858,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 home.frame = (byte) altmode.Absolute;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
+                home.alt = (float.Parse("0") / CurrentState.multiplieralt); // use saved home
             }
             catch
             {
@@ -6076,9 +6073,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         public void setHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TXT_homealt.Text =
-                (srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt * CurrentState.multiplieralt)
-                .ToString("0");
+            //TXT_homealt.Text = "0";
+                //(srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt * CurrentState.multiplieralt)
+                //.ToString("0");
             TXT_homelat.Text = MouseDownStart.Lat.ToString();
             TXT_homelng.Text = MouseDownStart.Lng.ToString();
         }
@@ -6432,17 +6429,17 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         public void TXT_homealt_TextChanged(object sender, EventArgs e)
         {
-            sethome = false;
-            try
-            {
-                MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt = double.Parse(TXT_homealt.Text);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            //sethome = false;
+            //try
+            //{
+            //    MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt = double.Parse(TXT_homealt.Text);
+            //}
+            //catch (Exception ex)
+            //{
+            //    log.Error(ex);
+            //}
 
-            writeKML();
+            //writeKML();
         }
 
         public void TXT_homelat_Enter(object sender, EventArgs e)
@@ -6621,7 +6618,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
+                //TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
 
                 writeKML();
             }
@@ -6632,7 +6629,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt.ToString();
+                //TXT_homealt.Text = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt.ToString();
 
                 writeKML();
             }
