@@ -33,6 +33,7 @@ namespace MissionPlanner.Controls
                         return;
                     _number = value;
                     Invalidate();
+                    
                     if (_number > 500) { _number = (int)(_number / 100); } //Alex : pas dingue de faire ca mais j'ai pas trouvé mieux 
                 }
             }
@@ -102,6 +103,8 @@ namespace MissionPlanner.Controls
                     newSize = 8;
 
                 extent = e.MeasureString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
+
+                newSize = 40; //fais par alex
 
                 e.DrawString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width / 2, y + ((this.Height - y) / 2 - extent.Height / 2));
             }

@@ -567,8 +567,6 @@ namespace MissionPlanner
                 Settings.Instance["menu_autohide"] = Settings.Instance.GetBoolean("menu_autohide").ToString();
             }
 
-
-
             //Flight data page
             if (MainV2.instance.FlightData != null)
             {
@@ -795,6 +793,13 @@ namespace MissionPlanner
             catch
             {
             }
+
+            #region menuconnect.color alex
+            if (comPort.BaseStream.IsOpen)
+                this.MenuConnect.BackColor = Color.Green;
+            else
+                this.MenuConnect.BackColor = Color.Red;
+            #endregion 
 
             Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
             Warnings.WarningEngine.Start(speechEnable ? speechEngine : null);
@@ -1241,12 +1246,12 @@ namespace MissionPlanner
 
             MainMenu.BackgroundImage = displayicons.bg;
 
-            MenuFlightData.Image = displayicons.fd;
-            MenuFlightPlanner.Image = displayicons.fp;
-            MenuInitConfig.Image = displayicons.initsetup;
-            MenuSimulation.Image = displayicons.sim;
-            MenuConfigTune.Image = displayicons.config_tuning;
-            MenuConnect.Image = displayicons.connect;
+            //MenuFlightData.Image = displayicons.fd;
+            //MenuFlightPlanner.Image = displayicons.fp;
+            //MenuInitConfig.Image = displayicons.initsetup;
+            //MenuSimulation.Image = displayicons.sim;
+            //MenuConfigTune.Image = displayicons.config_tuning;
+            //MenuConnect.Image = displayicons.connect;
             //MenuHelp.Image = displayicons.help;
 
 
@@ -1257,6 +1262,7 @@ namespace MissionPlanner
             MenuConfigTune.ForeColor = ThemeManager.TextColor;
             MenuConnect.ForeColor = ThemeManager.TextColor;
             //MenuHelp.ForeColor = ThemeManager.TextColor;
+
         }
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
@@ -1332,6 +1338,7 @@ namespace MissionPlanner
                 _connectionStats = new ConnectionStats(comPort);
                 this.connectionStatsForm.Controls.Add(_connectionStats);
                 ThemeManager.ApplyThemeTo(this.connectionStatsForm);
+                
             }
         }
 
@@ -1512,7 +1519,7 @@ namespace MissionPlanner
             {
             }
 
-            this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
+            //this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
         public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true, bool showui = true)
@@ -1861,7 +1868,7 @@ namespace MissionPlanner
                     HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                     // set connected icon
-                    this.MenuConnect.Image = displayicons.disconnect;
+                    //this.MenuConnect.Image = displayicons.disconnect;
                 });
             }
             catch (Exception ex)
@@ -1881,6 +1888,13 @@ namespace MissionPlanner
                 CustomMessageBox.Show($"Can not establish a connection\n\n{ex.Message}");
                 return;
             }
+
+            #region menuconnect.color alex
+            if (comPort.BaseStream.IsOpen)
+                this.MenuConnect.BackColor = Color.Green;
+            else
+                this.MenuConnect.BackColor = Color.Red;
+            #endregion
         }
 
 
@@ -1937,6 +1951,13 @@ namespace MissionPlanner
 
             if (comPort.BaseStream.IsOpen)
                 loadph_serial();
+
+            #region menuconnect.color alex
+            if (comPort.BaseStream.IsOpen)
+                this.MenuConnect.BackColor = Color.Green;
+            else
+                this.MenuConnect.BackColor = Color.Red;
+            #endregion
         }
 
         void loadph_serial()
@@ -2500,7 +2521,7 @@ namespace MissionPlanner
         /// </summary>
         private void UpdateConnectIcon()
         {
-            if ((DateTime.Now - connectButtonUpdate).Milliseconds > 500)
+            if ((DateTime.Now - connectButtonUpdate).Milliseconds > 10)
             {
                 //                        Console.WriteLine(DateTime.Now.Millisecond);
                 if (comPort.BaseStream.IsOpen)
@@ -2509,12 +2530,11 @@ namespace MissionPlanner
                     {
                         this.BeginInvoke((MethodInvoker) delegate
                         {
-                            this.MenuConnect.Image = displayicons.disconnect;
-                            this.MenuConnect.Image.Tag = "Disconnect";
-                            this.MenuConnect.Text = Strings.DISCONNECTc;
                             _connectionControl.IsConnected(true);
                         });
                     }
+                    
+                    this.MenuConnect.BackColor = Color.Green;
                 }
                 else
                 {
@@ -2522,9 +2542,6 @@ namespace MissionPlanner
                     {
                         this.BeginInvoke((MethodInvoker) delegate
                         {
-                            this.MenuConnect.Image = displayicons.connect;
-                            this.MenuConnect.Image.Tag = "Connect";
-                            this.MenuConnect.Text = Strings.CONNECTc;
                             _connectionControl.IsConnected(false);
                             if (_connectionStats != null)
                             {
@@ -2537,7 +2554,10 @@ namespace MissionPlanner
                     {
                         this.BeginInvoke((MethodInvoker) delegate { _connectionControl.IsConnected(true); });
                     }
+
+                    this.MenuConnect.BackColor = Color.Red;
                 }
+
 
                 connectButtonUpdate = DateTime.Now;
             }
@@ -2876,8 +2896,15 @@ namespace MissionPlanner
                                 try
                                 {
                                     while (comPort.giveComport == true)
+                                    {  
                                         Thread.Sleep(100);
-
+                                        #region menuconnect.color alex
+                                        if (comPort.BaseStream.IsOpen)
+                                            this.MenuConnect.BackColor = Color.Green;
+                                        else
+                                            this.MenuConnect.BackColor = Color.Red;
+                                        #endregion
+                                    }
                                     MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
                                     if (MyView.current != null && MyView.current.Name == "FlightPlanner")
                                     {

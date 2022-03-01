@@ -1024,7 +1024,6 @@ namespace MissionPlanner.GCSViews
             MainMap.Invalidate();
         }
 
-
         public void updateUndoBuffer(bool noBlankRow)
         {
             try

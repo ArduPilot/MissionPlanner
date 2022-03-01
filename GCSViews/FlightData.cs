@@ -397,7 +397,7 @@ namespace MissionPlanner.GCSViews
                 setQuickViewRowsCols(Settings.Instance["quickViewCols"], Settings.Instance["quickViewRows"]);
             }
 
-            for (int f = 1; f < 10; f++) //f=30 de base
+            for (int f = 1; f < 9; f++) //f=30 de base
             {
                 // load settings
                 if (Settings.Instance["quickView" + f] != null)
@@ -408,11 +408,24 @@ namespace MissionPlanner.GCSViews
                     {
                         QuickView QV = (QuickView) ctls[0];
                         
-                        // set description and unit
-                        string desc = Settings.Instance["quickView" + f];
-                        if (QV.Tag == null)
-                            QV.Tag = desc;
-                        QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+                        #region nom quickviews
+                        if (QV == quickView1)
+                            QV.desc = "Tension bat";
+                        if (QV == quickView2)
+                            QV.desc = "% Batterie";
+                        if (QV == quickView3)
+                            QV.desc = "Courant bat (A)";
+                        if (QV == quickView4)
+                            QV.desc = "Vitesse (nds)";
+                        if (QV == quickView5)
+                            QV.desc = "Hauteur d'eau";
+                        if (QV == quickView6)
+                            QV.desc = "Dist Obstacle (m)";
+                        if (QV == quickView7)
+                            QV.desc = "Long Cable (m)";
+                        if (QV == quickView8)
+                            QV.desc = "Temp process (°C)";
+                        #endregion
 
                         // set databinding for value
                         QV.DataBindings.Clear();
@@ -3097,15 +3110,13 @@ namespace MissionPlanner.GCSViews
 
                     #region quickviews persistants Alex
 
-                    quickView6.desc = "Obstacle";
-                    //quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "rangefinder1", true));
+                    quickView4.desc = "Obstacle";
+                    //quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "rangefinder1",
 
-                    quickView7.desc = "Longueur_Cable";
-
-                    quickView8.desc = "Instru temp";
+                    quickView5.desc = "Instru temp";
                     
 
-                    quickView9.desc = "Mode";
+                    //quickView9.desc = "Mode";
                     //quickView9.DataBindings.Add(new System.Windows.Forms.Binding("string", this.bindingSourceQuickTab, "raw_temp", true));
 
                     //MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS,
@@ -3169,7 +3180,6 @@ namespace MissionPlanner.GCSViews
                                 date_debut_pb_voltage = DateTime.Now;
                         }
                     }       //quickview1 rouge clignotant 
-
                     if ((MainV2.comPort.MAV.cs.battery_remaining) <= critpercent)
                     {
                         hud1.criticalvoltagealert = true;
@@ -3194,6 +3204,10 @@ namespace MissionPlanner.GCSViews
                     {
                         hud1.criticalvoltagealert = false;
                     }
+                    #endregion
+
+                    #region sensors warning
+
                     #endregion
 
                     #region opengl
@@ -3784,6 +3798,7 @@ namespace MissionPlanner.GCSViews
                     BeginInvoke((Action) updateTransponder);
                 }
 
+
             }
 
             Console.WriteLine("FD Main loop exit");
@@ -4370,8 +4385,8 @@ namespace MissionPlanner.GCSViews
         {
             tableLayoutPanelQuick.PerformLayout();
             tableLayoutPanelQuick.SuspendLayout();      
-            tableLayoutPanelQuick.ColumnCount = 3; //Math.Max(1, int.Parse(cols));
-            tableLayoutPanelQuick.RowCount = 3; //Math.Max(1, int.Parse(rows));
+            tableLayoutPanelQuick.ColumnCount = 2; //Math.Max(1, int.Parse(cols));
+            tableLayoutPanelQuick.RowCount = 4; //Math.Max(1, int.Parse(rows));
 
             Settings.Instance["quickViewRows"] = tableLayoutPanelQuick.RowCount.ToString();
             Settings.Instance["quickViewCols"] = tableLayoutPanelQuick.ColumnCount.ToString();
@@ -4406,24 +4421,6 @@ namespace MissionPlanner.GCSViews
                 }
             }).ToList();
 
-            // add extra
-            while (total > tableLayoutPanelQuick.Controls.Count)
-            {
-                var QV = new QuickView()
-                {
-                    Name = "quickView" + (tableLayoutPanelQuick.Controls.Count + 1)
-                };
-                QV.DoubleClick += quickView_DoubleClick;
-                QV.ContextMenuStrip = contextMenuStripQuickView;
-                QV.Dock = DockStyle.Fill;
-                QV.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-                QV.numberColorBackup = QV.numberColor;
-                QV.number = 0;
-
-                tableLayoutPanelQuick.Controls.Add(QV);
-                QV.Invalidate();
-            }
-
             for (int i = 0; i < tableLayoutPanelQuick.ColumnCount; i++)
             {
                 if (tableLayoutPanelQuick.ColumnStyles.Count <= i)
@@ -4437,11 +4434,9 @@ namespace MissionPlanner.GCSViews
                 if (tableLayoutPanelQuick.RowStyles.Count <= j)
                     tableLayoutPanelQuick.RowStyles.Add(new RowStyle());
                 tableLayoutPanelQuick.RowStyles[j].SizeType = SizeType.Percent;
-                tableLayoutPanelQuick.RowStyles[j].Height = 90.0f / tableLayoutPanelQuick.RowCount;
+                tableLayoutPanelQuick.RowStyles[j].Height = 80.0f / tableLayoutPanelQuick.RowCount;
             }
-
             tableLayoutPanelQuick.Controls.ForEach(a => ((Control) a).Invalidate());
-
             tableLayoutPanelQuick.ResumeLayout(true);
         }
 
@@ -4463,24 +4458,24 @@ namespace MissionPlanner.GCSViews
 
         private void setViewCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string cols = "3", rows = "3"; //Alex
+            //string cols = "2", rows = "4"; //Alex
 
-            if (Settings.Instance["quickViewRows"] != null)
-            {
-                rows = Settings.Instance["quickViewRows"];
-                cols = Settings.Instance["quickViewCols"];
-            }
+            //if (Settings.Instance["quickViewRows"] != null)
+            //{
+            //    rows = Settings.Instance["quickViewRows"];
+            //    cols = Settings.Instance["quickViewCols"];
+            //}
 
-            if (InputBox.Show("Columns", "Enter number of columns to have.", ref cols) == DialogResult.OK)
-            {
-                if (InputBox.Show("Rows", "Enter number of rows to have.", ref rows) == DialogResult.OK)
-                {
-                    if (rows.IsNumber() && cols.IsNumber())
-                        setQuickViewRowsCols(cols, rows);
+            //if (InputBox.Show("Columns", "Enter number of columns to have.", ref cols) == DialogResult.OK)
+            //{
+            //    if (InputBox.Show("Rows", "Enter number of rows to have.", ref rows) == DialogResult.OK)
+            //    {
+            //        if (rows.IsNumber() && cols.IsNumber())
+            //            setQuickViewRowsCols(cols, rows);
 
-                    Activate();
-                }
-            } 
+            //        Activate();
+            //    }
+            //} 
         }
 
         private void startCameraToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5753,122 +5748,27 @@ namespace MissionPlanner.GCSViews
         }
 
         #region do_set_relay
-        
 
-
-        //public int thisrelay { get; set; }
-
-        //private void BUT_Low_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
-        //            0, 0, 0))
-        //        {
-        //            myButton9.BGGradTop = Color.Red;
-        //        }
-        //        else
-        //        {
-        //            CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
-        //    }
-        //}
-
-        //private void BUT_High_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
-        //            0, 0, 0))
-        //        {
-        //            TXT_rcchannel.BackColor = Color.Green;
-        //        }
-        //        else
-        //        {
-        //            CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
-        //    }
-        //}
-
-        private void BUT_Repeat_Click(object sender, EventArgs e)
-        {
-        //    try
-        //    {
-        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
-        //            0, 0, 0))
-        //        {
-        //            TXT_rcchannel.BackColor = Color.Red;
-        //        }
-
-        //        Application.DoEvents();
-        //        System.Threading.Thread.Sleep(200);
-
-        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
-        //            0, 0, 0))
-        //        {
-        //            TXT_rcchannel.BackColor = Color.Green;
-        //        }
-
-        //        Application.DoEvents();
-        //        System.Threading.Thread.Sleep(200);
-
-        //        if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
-        //            0, 0, 0))
-        //        {
-        //            TXT_rcchannel.BackColor = Color.Red;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
-        //    }
-        }
+        #endregion
 
         private void myButton9_Click(object sender, EventArgs e)
         {
-            try
+            //buttonfunction.Do_Set_Servo
+        }
+
+        private void SelectWP_Click(object sender, EventArgs e)
+        {
+            SelectWP.Items.Clear();
+            
+            for (int z = 0; z < MainV2.comPort.MAV.wps.Count; z++)
             {
-                ((Control)sender).Enabled = false;
-
-                int param1 = 0;
-                int param2 = 0;
-                int param3 = 1;
-
-                MAVLink.MAV_CMD cmd;
-                try
-                {
-                    cmd = (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), "DO_SET_RELAY");
-                }
-                catch 
-                {
-                    cmd = (MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD),
-                        "DO_START_" + "DO_SET_RELAY");
-                }
-
-                if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
-                {
-
-                }
+                if (z!=0)
+                    SelectWP.Items.Add(z.ToString());
                 else
-                {
-                    CustomMessageBox.Show(Strings.CommandFailed + " " + cmd, Strings.ERROR);
-                }
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    SelectWP.Items.Add("0 (home)");
             }
             
         }
-        #endregion
 
     }
 }
