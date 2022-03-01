@@ -374,8 +374,8 @@ namespace MissionPlanner.GCSViews
 
             OnResize(EventArgs.Empty);
 
-            if (CB_tuning.Checked)
-                ZedGraphTimer.Start();
+            //if (CB_tuning.Checked)
+            //    ZedGraphTimer.Start();
 
             hud1.altunit = CurrentState.AltUnit;
             hud1.speedunit = CurrentState.SpeedUnit;
@@ -1759,21 +1759,21 @@ namespace MissionPlanner.GCSViews
 
         private void CB_tuning_CheckedChanged(object sender, EventArgs e)
         {
-            if (CB_tuning.Checked)
-            {
-                splitContainer1.Panel1Collapsed = false;
-                ZedGraphTimer.Enabled = true;
-                ZedGraphTimer.Start();
-                zg1.Visible = true;
-                zg1.Refresh();
-            }
-            else
-            {
-                splitContainer1.Panel1Collapsed = true;
-                ZedGraphTimer.Enabled = false;
-                ZedGraphTimer.Stop();
-                zg1.Visible = false;
-            }
+            //if (CB_tuning.Checked)
+            //{
+            //    splitContainer1.Panel1Collapsed = false;
+            //    ZedGraphTimer.Enabled = true;
+            //    ZedGraphTimer.Start();
+            //    zg1.Visible = true;
+            //    zg1.Refresh();
+            //}
+            //else
+            //{
+            //    splitContainer1.Panel1Collapsed = true;
+            //    ZedGraphTimer.Enabled = false;
+            //    ZedGraphTimer.Stop();
+            //    zg1.Visible = false;
+            //}
         }
 
         private void CheckAndBindPreFlightData()
@@ -3110,12 +3110,6 @@ namespace MissionPlanner.GCSViews
 
                     #region quickviews persistants Alex
 
-                    quickView4.desc = "Obstacle";
-                    //quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "rangefinder1",
-
-                    quickView5.desc = "Instru temp";
-                    
-
                     //quickView9.desc = "Mode";
                     //quickView9.DataBindings.Add(new System.Windows.Forms.Binding("string", this.bindingSourceQuickTab, "raw_temp", true));
 
@@ -3241,30 +3235,32 @@ namespace MissionPlanner.GCSViews
                     Vario.SetValue(MainV2.comPort.MAV.cs.climbrate);
 
                     // udpate tunning tab
-                    if (tunning.AddMilliseconds(75) < DateTime.Now && CB_tuning.Checked)
-                    {
-                        double time = (Environment.TickCount - tickStart) / 1000.0;
-                        if (list1item != null)
-                            list1.Add(time, (list1item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list2item != null)
-                            list2.Add(time, (list2item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list3item != null)
-                            list3.Add(time, (list3item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list4item != null)
-                            list4.Add(time, (list4item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list5item != null)
-                            list5.Add(time, (list5item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list6item != null)
-                            list6.Add(time, (list6item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list7item != null)
-                            list7.Add(time, (list7item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list8item != null)
-                            list8.Add(time, (list8item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list9item != null)
-                            list9.Add(time, (list9item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                        if (list10item != null)
-                            list10.Add(time, (list10item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
-                    }
+                    #region tuning
+                    //if (tunning.AddMilliseconds(75) < DateTime.Now && CB_tuning.Checked)
+                    //{
+                    //    double time = (Environment.TickCount - tickStart) / 1000.0;
+                    //    if (list1item != null)
+                    //        list1.Add(time, (list1item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list2item != null)
+                    //        list2.Add(time, (list2item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list3item != null)
+                    //        list3.Add(time, (list3item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list4item != null)
+                    //        list4.Add(time, (list4item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list5item != null)
+                    //        list5.Add(time, (list5item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list6item != null)
+                    //        list6.Add(time, (list6item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list7item != null)
+                    //        list7.Add(time, (list7item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list8item != null)
+                    //        list8.Add(time, (list8item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list9item != null)
+                    //        list9.Add(time, (list9item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //    if (list10item != null)
+                    //        list10.Add(time, (list10item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                    //}
+                    #endregion
 
                     // update map - 0.3sec if connected , 2 sec if not connected
                     if (((MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode) && 

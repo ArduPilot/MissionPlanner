@@ -149,6 +149,7 @@ namespace MissionPlanner.GCSViews
             this.but_bintolog = new MissionPlanner.Controls.MyButton();
             this.but_dflogtokml = new MissionPlanner.Controls.MyButton();
             this.BUT_loganalysis = new MissionPlanner.Controls.MyButton();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.myButton10 = new MissionPlanner.Controls.MyButton();
             this.myButton9 = new MissionPlanner.Controls.MyButton();
             this.SelectWP = new System.Windows.Forms.ComboBox();
@@ -179,7 +180,6 @@ namespace MissionPlanner.GCSViews
             this.Zoomlevel = new System.Windows.Forms.NumericUpDown();
             this.label1 = new MissionPlanner.Controls.MyLabel();
             this.CHK_autopan = new System.Windows.Forms.CheckBox();
-            this.CB_tuning = new System.Windows.Forms.CheckBox();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
@@ -188,7 +188,6 @@ namespace MissionPlanner.GCSViews
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
             this.contextMenu2 = new System.Windows.Forms.ContextMenu();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.baseRenderer1 = new BrightIdeasSoftware.BaseRenderer();
             this.modifyandSetLoiterRad = new MissionPlanner.Controls.ModifyandSet();
             this.modifyandSetAlt = new MissionPlanner.Controls.ModifyandSet();
@@ -2081,6 +2080,14 @@ namespace MissionPlanner.GCSViews
             this.BUT_loganalysis.UseVisualStyleBackColor = true;
             this.BUT_loganalysis.Click += new System.EventHandler(this.BUT_loganalysis_Click);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.Info;
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.richTextBox1, "richTextBox1");
+            this.richTextBox1.ForeColor = System.Drawing.SystemColors.Menu;
+            this.richTextBox1.Name = "richTextBox1";
+            // 
             // myButton10
             // 
             this.myButton10.ColorMouseDown = System.Drawing.Color.Empty;
@@ -2337,7 +2344,6 @@ namespace MissionPlanner.GCSViews
             this.panel1.Controls.Add(this.Zoomlevel);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.CHK_autopan);
-            this.panel1.Controls.Add(this.CB_tuning);
             this.panel1.Name = "panel1";
             // 
             // coords1
@@ -2398,14 +2404,6 @@ namespace MissionPlanner.GCSViews
             this.CHK_autopan.UseVisualStyleBackColor = true;
             this.CHK_autopan.CheckedChanged += new System.EventHandler(this.CHK_autopan_CheckedChanged);
             // 
-            // CB_tuning
-            // 
-            resources.ApplyResources(this.CB_tuning, "CB_tuning");
-            this.CB_tuning.Name = "CB_tuning";
-            this.toolTip1.SetToolTip(this.CB_tuning, resources.GetString("CB_tuning.ToolTip"));
-            this.CB_tuning.UseVisualStyleBackColor = true;
-            this.CB_tuning.CheckedChanged += new System.EventHandler(this.CB_tuning_CheckedChanged);
-            // 
             // ZedGraphTimer
             // 
             this.ZedGraphTimer.Tick += new System.EventHandler(this.timer1_Tick);
@@ -2431,14 +2429,6 @@ namespace MissionPlanner.GCSViews
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.MenuText;
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.richTextBox1, "richTextBox1");
-            this.richTextBox1.ForeColor = System.Drawing.SystemColors.Menu;
-            this.richTextBox1.Name = "richTextBox1";
             // 
             // modifyandSetLoiterRad
             // 
@@ -2737,7 +2727,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem goHereToolStripMenuItem;
         private Controls.HUD hud1;
         private Controls.MyButton BUT_clear_track;
-        private System.Windows.Forms.CheckBox CB_tuning;
         private Controls.MyButton BUT_RAWSensor;
         private Controls.MyButton BUTactiondo;
         private Controls.MyButton BUTrestartmission;
