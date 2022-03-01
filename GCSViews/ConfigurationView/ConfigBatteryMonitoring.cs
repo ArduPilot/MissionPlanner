@@ -292,7 +292,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT_VOLT_MULT Failed", Strings.ERROR);
+                if (MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR") &&
+                    (MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 3 ||
+                     MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 4)) {
+                   CustomMessageBox.Show("Set BATT_VOLT_MULT Failed", Strings.ERROR);
+                }
             }
         }
 
@@ -312,7 +316,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT_VOLT_MULT Failed", Strings.ERROR);
+                if (MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR") &&
+                    (MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 3 ||
+                     MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 4)) {
+                  CustomMessageBox.Show("Set BATT_VOLT_MULT Failed", Strings.ERROR);
+                }
             }
         }
 
@@ -332,7 +340,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT_AMP_PERVOLT Failed", Strings.ERROR);
+                if (MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR") &&
+                    (MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 3 ||
+                     MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 4)) {
+                  CustomMessageBox.Show("Set BATT_AMP_PERVOLT Failed", Strings.ERROR);
+                }
             }
         }
 
@@ -621,7 +633,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT_AMP_PERVOLT Failed", Strings.ERROR);
+                if (MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR") &&
+                    (MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 3 ||
+                     MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 4)) {
+                  CustomMessageBox.Show("Set BATT_AMP_PERVOLT Failed", Strings.ERROR);
+                }
             }
         }
     }
