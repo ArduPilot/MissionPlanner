@@ -143,7 +143,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: com.michaeloborne.MissionPlanner.apk.zip
-          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*-Signed.apk
+          path: ExtLibs\Xamarin\Xamarin.Android\bin\Release\*-signed.apk
           
       - uses: "marvinpinto/action-automatic-releases@v1.2.1"
         if: ${{ github.event_name == 'push' }}
@@ -152,5 +152,5 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: true
           title: "Android Development Build"
-          files: '**/*-Signed.apk'
+          files: '**/*-signed.apk'
 
