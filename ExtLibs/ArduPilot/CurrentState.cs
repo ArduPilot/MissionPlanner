@@ -1526,10 +1526,10 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("Sonar Range (meters)")]
+        [DisplayText("Sonar Range (alt)")]
         public float sonarrange
         {
-            get => (float)toDistDisplayUnit(_sonarrange);
+            get => (float)toAltDisplayUnit(_sonarrange);
             set => _sonarrange = value;
         }
 
@@ -3518,6 +3518,11 @@ namespace MissionPlanner
         public static double toDistDisplayUnit(double input)
         {
             return input * multiplierdist;
+        }
+
+        public static double toAltDisplayUnit(double input)
+        {
+            return input * multiplieralt;
         }
 
         public static double toSpeedDisplayUnit(double input)
