@@ -132,6 +132,14 @@ namespace MissionPlanner.GCSViews
             this.currentPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rTLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearMissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.polygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addPolygonPointToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearPolygonToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.savePolygonToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadPolygonToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromSHPToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromCurrentWaypointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.areaToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.rallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setRallyPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getRallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -182,14 +190,6 @@ namespace MissionPlanner.GCSViews
             this.loiterForeverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loitertimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loitercirclesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addPolygonPointToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearPolygonToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.savePolygonToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadPolygonToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromSHPToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromCurrentWaypointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.areaToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.polygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panelWaypoints.SuspendLayout();
@@ -246,7 +246,6 @@ namespace MissionPlanner.GCSViews
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.but_writewpfast);
             this.panel5.Controls.Add(this.BUT_write);
             this.panel5.Controls.Add(this.BUT_read);
             resources.ApplyResources(this.panel5, "panel5");
@@ -276,10 +275,8 @@ namespace MissionPlanner.GCSViews
             // panel1
             // 
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.Label1);
-            this.panel1.Controls.Add(this.TXT_homealt);
             this.panel1.Controls.Add(this.TXT_homelng);
             this.panel1.Controls.Add(this.TXT_homelat);
             resources.ApplyResources(this.panel1, "panel1");
@@ -370,9 +367,7 @@ namespace MissionPlanner.GCSViews
             // 
             this.panelWaypoints.Controls.Add(this.modifyandSetLoiterRad);
             this.panelWaypoints.Controls.Add(this.but_mincommands);
-            this.panelWaypoints.Controls.Add(this.CMB_altmode);
             this.panelWaypoints.Controls.Add(this.label17);
-            this.panelWaypoints.Controls.Add(this.TXT_altwarn);
             this.panelWaypoints.Controls.Add(this.LBL_WPRad);
             this.panelWaypoints.Controls.Add(this.label5);
             this.panelWaypoints.Controls.Add(this.TXT_loiterrad);
@@ -381,6 +376,11 @@ namespace MissionPlanner.GCSViews
             this.panelWaypoints.Controls.Add(this.TXT_DefaultAlt);
             this.panelWaypoints.Controls.Add(this.TXT_WPRad);
             this.panelWaypoints.Controls.Add(this.BUT_Add);
+            this.panelWaypoints.Controls.Add(this.CMB_altmode);
+            this.panelWaypoints.Controls.Add(this.TXT_altwarn);
+            this.panelWaypoints.Controls.Add(this.label3);
+            this.panelWaypoints.Controls.Add(this.TXT_homealt);
+            this.panelWaypoints.Controls.Add(this.but_writewpfast);
             resources.ApplyResources(this.panelWaypoints, "panelWaypoints");
             this.panelWaypoints.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panelWaypoints.Name = "panelWaypoints";
@@ -422,8 +422,8 @@ namespace MissionPlanner.GCSViews
             // 
             // CMB_altmode
             // 
-            resources.ApplyResources(this.CMB_altmode, "CMB_altmode");
             this.CMB_altmode.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_altmode, "CMB_altmode");
             this.CMB_altmode.Name = "CMB_altmode";
             this.CMB_altmode.SelectedIndexChanged += new System.EventHandler(this.CMB_altmode_SelectedIndexChanged);
             // 
@@ -440,7 +440,6 @@ namespace MissionPlanner.GCSViews
             // Commands
             // 
             this.Commands.AllowUserToAddRows = false;
-            resources.ApplyResources(this.Commands, "Commands");
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -449,6 +448,7 @@ namespace MissionPlanner.GCSViews
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.Commands.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            resources.ApplyResources(this.Commands, "Commands");
             this.Commands.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Command,
             this.Param1,
@@ -865,6 +865,61 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.clearMissionToolStripMenuItem, "clearMissionToolStripMenuItem");
             this.clearMissionToolStripMenuItem.Click += new System.EventHandler(this.clearMissionToolStripMenuItem_Click);
             // 
+            // polygonToolStripMenuItem
+            // 
+            this.polygonToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addPolygonPointToolStripMenuItem2,
+            this.clearPolygonToolStripMenuItem2,
+            this.savePolygonToolStripMenuItem2,
+            this.loadPolygonToolStripMenuItem2,
+            this.fromSHPToolStripMenuItem2,
+            this.fromCurrentWaypointsToolStripMenuItem,
+            this.areaToolStripMenuItem2});
+            this.polygonToolStripMenuItem.Name = "polygonToolStripMenuItem";
+            resources.ApplyResources(this.polygonToolStripMenuItem, "polygonToolStripMenuItem");
+            // 
+            // addPolygonPointToolStripMenuItem2
+            // 
+            this.addPolygonPointToolStripMenuItem2.Name = "addPolygonPointToolStripMenuItem2";
+            resources.ApplyResources(this.addPolygonPointToolStripMenuItem2, "addPolygonPointToolStripMenuItem2");
+            this.addPolygonPointToolStripMenuItem2.Click += new System.EventHandler(this.addPolygonPointToolStripMenuItem_Click);
+            // 
+            // clearPolygonToolStripMenuItem2
+            // 
+            this.clearPolygonToolStripMenuItem2.Name = "clearPolygonToolStripMenuItem2";
+            resources.ApplyResources(this.clearPolygonToolStripMenuItem2, "clearPolygonToolStripMenuItem2");
+            this.clearPolygonToolStripMenuItem2.Click += new System.EventHandler(this.clearPolygonToolStripMenuItem_Click);
+            // 
+            // savePolygonToolStripMenuItem2
+            // 
+            this.savePolygonToolStripMenuItem2.Name = "savePolygonToolStripMenuItem2";
+            resources.ApplyResources(this.savePolygonToolStripMenuItem2, "savePolygonToolStripMenuItem2");
+            this.savePolygonToolStripMenuItem2.Click += new System.EventHandler(this.savePolygonToolStripMenuItem_Click);
+            // 
+            // loadPolygonToolStripMenuItem2
+            // 
+            this.loadPolygonToolStripMenuItem2.Name = "loadPolygonToolStripMenuItem2";
+            resources.ApplyResources(this.loadPolygonToolStripMenuItem2, "loadPolygonToolStripMenuItem2");
+            this.loadPolygonToolStripMenuItem2.Click += new System.EventHandler(this.loadPolygonToolStripMenuItem_Click);
+            // 
+            // fromSHPToolStripMenuItem2
+            // 
+            this.fromSHPToolStripMenuItem2.Name = "fromSHPToolStripMenuItem2";
+            resources.ApplyResources(this.fromSHPToolStripMenuItem2, "fromSHPToolStripMenuItem2");
+            this.fromSHPToolStripMenuItem2.Click += new System.EventHandler(this.fromSHPToolStripMenuItem_Click);
+            // 
+            // fromCurrentWaypointsToolStripMenuItem
+            // 
+            this.fromCurrentWaypointsToolStripMenuItem.Name = "fromCurrentWaypointsToolStripMenuItem";
+            resources.ApplyResources(this.fromCurrentWaypointsToolStripMenuItem, "fromCurrentWaypointsToolStripMenuItem");
+            this.fromCurrentWaypointsToolStripMenuItem.Click += new System.EventHandler(this.fromCurrentWaypointsMenuItem_Click);
+            // 
+            // areaToolStripMenuItem2
+            // 
+            this.areaToolStripMenuItem2.Name = "areaToolStripMenuItem2";
+            resources.ApplyResources(this.areaToolStripMenuItem2, "areaToolStripMenuItem2");
+            this.areaToolStripMenuItem2.Click += new System.EventHandler(this.areaToolStripMenuItem_Click);
+            // 
             // rallyPointsToolStripMenuItem
             // 
             this.rallyPointsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1196,61 +1251,6 @@ namespace MissionPlanner.GCSViews
             this.loitercirclesToolStripMenuItem.Name = "loitercirclesToolStripMenuItem";
             resources.ApplyResources(this.loitercirclesToolStripMenuItem, "loitercirclesToolStripMenuItem");
             this.loitercirclesToolStripMenuItem.Click += new System.EventHandler(this.loitercirclesToolStripMenuItem_Click);
-            // 
-            // addPolygonPointToolStripMenuItem2
-            // 
-            this.addPolygonPointToolStripMenuItem2.Name = "addPolygonPointToolStripMenuItem2";
-            resources.ApplyResources(this.addPolygonPointToolStripMenuItem2, "addPolygonPointToolStripMenuItem2");
-            this.addPolygonPointToolStripMenuItem2.Click += new System.EventHandler(this.addPolygonPointToolStripMenuItem_Click);
-            // 
-            // clearPolygonToolStripMenuItem2
-            // 
-            this.clearPolygonToolStripMenuItem2.Name = "clearPolygonToolStripMenuItem2";
-            resources.ApplyResources(this.clearPolygonToolStripMenuItem2, "clearPolygonToolStripMenuItem2");
-            this.clearPolygonToolStripMenuItem2.Click += new System.EventHandler(this.clearPolygonToolStripMenuItem_Click);
-            // 
-            // savePolygonToolStripMenuItem2
-            // 
-            this.savePolygonToolStripMenuItem2.Name = "savePolygonToolStripMenuItem2";
-            resources.ApplyResources(this.savePolygonToolStripMenuItem2, "savePolygonToolStripMenuItem2");
-            this.savePolygonToolStripMenuItem2.Click += new System.EventHandler(this.savePolygonToolStripMenuItem_Click);
-            // 
-            // loadPolygonToolStripMenuItem2
-            // 
-            this.loadPolygonToolStripMenuItem2.Name = "loadPolygonToolStripMenuItem2";
-            resources.ApplyResources(this.loadPolygonToolStripMenuItem2, "loadPolygonToolStripMenuItem2");
-            this.loadPolygonToolStripMenuItem2.Click += new System.EventHandler(this.loadPolygonToolStripMenuItem_Click);
-            // 
-            // fromSHPToolStripMenuItem2
-            // 
-            this.fromSHPToolStripMenuItem2.Name = "fromSHPToolStripMenuItem2";
-            resources.ApplyResources(this.fromSHPToolStripMenuItem2, "fromSHPToolStripMenuItem2");
-            this.fromSHPToolStripMenuItem2.Click += new System.EventHandler(this.fromSHPToolStripMenuItem_Click);
-            // 
-            // fromCurrentWaypointsToolStripMenuItem
-            // 
-            this.fromCurrentWaypointsToolStripMenuItem.Name = "fromCurrentWaypointsToolStripMenuItem";
-            resources.ApplyResources(this.fromCurrentWaypointsToolStripMenuItem, "fromCurrentWaypointsToolStripMenuItem");
-            this.fromCurrentWaypointsToolStripMenuItem.Click += new System.EventHandler(this.fromCurrentWaypointsMenuItem_Click);
-            // 
-            // areaToolStripMenuItem2
-            // 
-            this.areaToolStripMenuItem2.Name = "areaToolStripMenuItem2";
-            resources.ApplyResources(this.areaToolStripMenuItem2, "areaToolStripMenuItem2");
-            this.areaToolStripMenuItem2.Click += new System.EventHandler(this.areaToolStripMenuItem_Click);
-            // 
-            // polygonToolStripMenuItem
-            // 
-            this.polygonToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addPolygonPointToolStripMenuItem2,
-            this.clearPolygonToolStripMenuItem2,
-            this.savePolygonToolStripMenuItem2,
-            this.loadPolygonToolStripMenuItem2,
-            this.fromSHPToolStripMenuItem2,
-            this.fromCurrentWaypointsToolStripMenuItem,
-            this.areaToolStripMenuItem2});
-            this.polygonToolStripMenuItem.Name = "polygonToolStripMenuItem";
-            resources.ApplyResources(this.polygonToolStripMenuItem, "polygonToolStripMenuItem");
             // 
             // FlightPlanner
             // 
