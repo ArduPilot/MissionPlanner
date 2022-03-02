@@ -624,15 +624,15 @@ namespace MissionPlanner.GCSViews
         /// <param name="e"></param>
         public void BUT_write_Click(object sender, EventArgs e)
         {
-            //if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-            //{
-            //    if ((int) DialogResult.No ==
-            //        CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
-            //            MessageBoxButtons.YesNo))
-            //    {
-            //        CMB_altmode.SelectedValue = (int) altmode.Relative;
-            //    }
-            //}
+            if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
+            {
+                if ((int) DialogResult.No ==
+                    CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
+                        MessageBoxButtons.YesNo))
+                {
+                    CMB_altmode.SelectedValue = (int) altmode.Relative;
+                }
+            }
 
             // check home
             Locationwp home = new Locationwp();
@@ -642,7 +642,7 @@ namespace MissionPlanner.GCSViews
                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = 0;// (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
             }
             catch
             {
@@ -672,17 +672,17 @@ namespace MissionPlanner.GCSViews
 
                     ushort cmd = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
 
-                    //if (cmd < (ushort) MAVLink.MAV_CMD.LAST)
-                    //{
-                    //    if (cmd != (ushort) MAVLink.MAV_CMD.TAKEOFF &&
-                    //        cmd != (ushort) MAVLink.MAV_CMD.LAND &&
-                    //        cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
-                    //    {
-                    //        CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
-                    //                              "\nPlease reduce the alt warning, or increase the altitude");
-                    //        return;
-                    //    }
-                    //}
+                    if (cmd < (ushort) MAVLink.MAV_CMD.LAST)
+                    {
+                        if (cmd != (ushort) MAVLink.MAV_CMD.TAKEOFF &&
+                            cmd != (ushort) MAVLink.MAV_CMD.LAND &&
+                            cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
+                        {
+                            CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
+                                                  "\nPlease reduce the alt warning, or increase the altitude");
+                            return;
+                        }
+                    }
                 }
             }
 
