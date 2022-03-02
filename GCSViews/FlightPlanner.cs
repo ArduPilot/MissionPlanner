@@ -251,9 +251,9 @@ namespace MissionPlanner.GCSViews
             Down.Image = Resources.down;
 
 
-            Frame.DisplayMember = "Value";
-            Frame.ValueMember = "Key";
-            Frame.DataSource = EnumTranslator.EnumToList<altmode>();
+            //Frame.DisplayMember = "Value";
+            //Frame.ValueMember = "Key";
+            //Frame.DataSource = EnumTranslator.EnumToList<altmode>();
 
             updateMapType(null, null);
 
@@ -624,15 +624,15 @@ namespace MissionPlanner.GCSViews
         /// <param name="e"></param>
         public void BUT_write_Click(object sender, EventArgs e)
         {
-            if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-            {
-                if ((int) DialogResult.No ==
-                    CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
-                        MessageBoxButtons.YesNo))
-                {
-                    CMB_altmode.SelectedValue = (int) altmode.Relative;
-                }
-            }
+            //if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
+            //{
+            //    if ((int) DialogResult.No ==
+            //        CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode",
+            //            MessageBoxButtons.YesNo))
+            //    {
+            //        CMB_altmode.SelectedValue = (int) altmode.Relative;
+            //    }
+            //}
 
             // check home
             Locationwp home = new Locationwp();
@@ -642,7 +642,7 @@ namespace MissionPlanner.GCSViews
                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+                home.alt = 0;// (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
             }
             catch
             {
@@ -672,18 +672,17 @@ namespace MissionPlanner.GCSViews
 
                     ushort cmd = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
 
-                    if (cmd < (ushort) MAVLink.MAV_CMD.LAST &&
-                        double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
-                    {
-                        if (cmd != (ushort) MAVLink.MAV_CMD.TAKEOFF &&
-                            cmd != (ushort) MAVLink.MAV_CMD.LAND &&
-                            cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
-                        {
-                            CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
-                                                  "\nPlease reduce the alt warning, or increase the altitude");
-                            return;
-                        }
-                    }
+                    //if (cmd < (ushort) MAVLink.MAV_CMD.LAST)
+                    //{
+                    //    if (cmd != (ushort) MAVLink.MAV_CMD.TAKEOFF &&
+                    //        cmd != (ushort) MAVLink.MAV_CMD.LAND &&
+                    //        cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
+                    //    {
+                    //        CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
+                    //                              "\nPlease reduce the alt warning, or increase the altitude");
+                    //        return;
+                    //    }
+                    //}
                 }
             }
 
@@ -1135,88 +1134,88 @@ namespace MissionPlanner.GCSViews
                 cell.DataGridView.EndEdit();
             }
 
-            if (alt != -1 && alt != -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
-            {
-                cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
+            //if (alt != -1 && alt != -2 && Commands.Columns[Alt.Index].HeaderText.Equals("Alt"))
+            //{
+            //    cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
 
-                {
-                    double result;
-                    bool pass = double.TryParse(TXT_homealt.Text, out result);
+            //    {
+            //        double result;
+            //        bool pass = double.TryParse(TXT_homealt.Text, out result);
 
-                    if (pass == false)
-                    {
-                        CustomMessageBox.Show("You must have a home altitude");
-                        string homealt = "100";
-                        if (DialogResult.Cancel == InputBox.Show("Home Alt", "Home Altitude", ref homealt))
-                            return;
-                        TXT_homealt.Text = homealt;
-                    }
+            //        if (pass == false)
+            //        {
+            //            CustomMessageBox.Show("You must have a home altitude");
+            //            string homealt = "100";
+            //            if (DialogResult.Cancel == InputBox.Show("Home Alt", "Home Altitude", ref homealt))
+            //                return;
+            //            TXT_homealt.Text = homealt;
+            //        }
 
-                    int results1;
-                    if (!int.TryParse(TXT_DefaultAlt.Text, out results1))
-                    {
-                        CustomMessageBox.Show("Your default alt is not valid");
-                        return;
-                    }
+            //        int results1;
+            //        if (!int.TryParse(TXT_DefaultAlt.Text, out results1))
+            //        {
+            //            CustomMessageBox.Show("Your default alt is not valid");
+            //            return;
+            //        }
 
-                    if (results1 == 0)
-                    {
-                        string defalt = "100";
-                        if (DialogResult.Cancel == InputBox.Show("Default Alt", "Default Altitude", ref defalt))
-                            return;
-                        TXT_DefaultAlt.Text = defalt;
-                    }
-                }
+            //        if (results1 == 0)
+            //        {
+            //            string defalt = "100";
+            //            if (DialogResult.Cancel == InputBox.Show("Default Alt", "Default Altitude", ref defalt))
+            //                return;
+            //            TXT_DefaultAlt.Text = defalt;
+            //        }
+            //    }
 
-                cell.Value = TXT_DefaultAlt.Text;
+            //    cell.Value = TXT_DefaultAlt.Text;
 
-                float ans;
-                if (float.TryParse(cell.Value.ToString(), out ans))
-                {
-                    ans = (int) ans;
-                    if (alt != 0) // use passed in value;
-                        cell.Value = alt.ToString();
-                    if (ans == 0) // default
-                        cell.Value = 50;
-                    if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2))
-                        cell.Value = 15;
+            //    float ans;
+            //    if (float.TryParse(cell.Value.ToString(), out ans))
+            //    {
+            //        ans = (int) ans;
+            //        if (alt != 0) // use passed in value;
+            //            cell.Value = alt.ToString();
+            //        if (ans == 0) // default
+            //            cell.Value = 50;
+            //        if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2))
+            //            cell.Value = 15;
 
-                    // not online and verify alt via srtm
-                    //if (CHK_verifyheight.Checked) // use srtm data
-                    //{
-                    //    // is absolute but no verify
-                    //    if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-                    //    {
-                    //        //abs
-                    //        cell.Value =
-                    //            ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                    //             int.Parse(TXT_DefaultAlt.Text)).ToString();
-                    //    }
-                    //    else if ((altmode) CMB_altmode.SelectedValue == altmode.Terrain)
-                    //    {
-                    //        cell.Value = int.Parse(TXT_DefaultAlt.Text);
-                    //    }
-                    //    else
-                    //    {
-                    //        //relative and verify
-                    //        cell.Value =
-                    //            ((int) (srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                    //             int.Parse(TXT_DefaultAlt.Text) -
-                    //             (int)
-                    //             srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
-                    //                 MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt)
-                    //            .ToString();
-                    //    }
-                    //}
+            //        // not online and verify alt via srtm
+            //        //if (CHK_verifyheight.Checked) // use srtm data
+            //        //{
+            //        //    // is absolute but no verify
+            //        //    if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
+            //        //    {
+            //        //        //abs
+            //        //        cell.Value =
+            //        //            ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
+            //        //             int.Parse(TXT_DefaultAlt.Text)).ToString();
+            //        //    }
+            //        //    else if ((altmode) CMB_altmode.SelectedValue == altmode.Terrain)
+            //        //    {
+            //        //        cell.Value = int.Parse(TXT_DefaultAlt.Text);
+            //        //    }
+            //        //    else
+            //        //    {
+            //        //        //relative and verify
+            //        //        cell.Value =
+            //        //            ((int) (srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
+            //        //             int.Parse(TXT_DefaultAlt.Text) -
+            //        //             (int)
+            //        //             srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+            //        //                 MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt)
+            //        //            .ToString();
+            //        //    }
+            //        //}
 
-                    cell.DataGridView.EndEdit();
-                }
-                else
-                {
-                    CustomMessageBox.Show("Invalid Home or wp Alt");
-                    cell.Style.BackColor = Color.Red;
-                }
-            }
+            //        cell.DataGridView.EndEdit();
+            //    }
+            //    else
+            //    {
+            //        CustomMessageBox.Show("Invalid Home or wp Alt");
+            //        cell.Style.BackColor = Color.Red;
+            //    }
+            //}
 
             // convert to utm
             convertFromGeographic(lat, lng);
@@ -1902,8 +1901,7 @@ namespace MissionPlanner.GCSViews
 
 
                     ushort cmd = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
-                    if (cmd < (ushort) MAVLink.MAV_CMD.LAST &&
-                        double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
+                    if (cmd < (ushort) MAVLink.MAV_CMD.LAST)
                     {
                         if (cmd != (ushort) MAVLink.MAV_CMD.TAKEOFF &&
                             cmd != (ushort) MAVLink.MAV_CMD.LAND &&
@@ -2295,7 +2293,7 @@ namespace MissionPlanner.GCSViews
 
         public void Commands_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            e.Row.Cells[Frame.Index].Value = CMB_altmode.SelectedValue;
+            //e.Row.Cells[Frame.Index].Value = CMB_altmode.SelectedValue;
             e.Row.Cells[Delete.Index].Value = "X";
             e.Row.Cells[Up.Index].Value = Resources.up;
             e.Row.Cells[Down.Index].Value = Resources.down;
@@ -2381,12 +2379,12 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            DataGridViewComboBoxCell cellFrame =
-                Commands.Rows[e.RowIndex].Cells[Frame.Index] as DataGridViewComboBoxCell;
-            if (cellFrame.Value == null)
-            {
-                cellFrame.Value = CMB_altmode.SelectedValue;
-            }
+            //DataGridViewComboBoxCell cellFrame =
+            //    Commands.Rows[e.RowIndex].Cells[Frame.Index] as DataGridViewComboBoxCell;
+            //if (cellFrame.Value == null)
+            //{
+            //    cellFrame.Value = CMB_altmode.SelectedValue;
+            //}
 
 
             if (quickadd)
@@ -2457,20 +2455,22 @@ namespace MissionPlanner.GCSViews
                 {
                     Commands.Rows[selectedrow].Cells[Command.Index].Tag = getCmdID(((ComboBox)sender).Text);
                 }
+                #region takeoff et land pas nécessaires pour RSV
                 // default takeoff to non 0 alt
-                if (((ComboBox) sender).Text == "TAKEOFF")
-                {
-                    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null &&
-                        Commands.Rows[selectedrow].Cells[Alt.Index].Value.ToString() == "0")
-                        Commands.Rows[selectedrow].Cells[Alt.Index].Value = TXT_DefaultAlt.Text;
-                }
+                //if (((ComboBox) sender).Text == "TAKEOFF")
+                //{
+                //    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null &&
+                //        Commands.Rows[selectedrow].Cells[Alt.Index].Value.ToString() == "0")
+                //        Commands.Rows[selectedrow].Cells[Alt.Index].Value = TXT_DefaultAlt.Text;
+                //}
 
                 // default land to 0
-                if (((ComboBox) sender).Text == "LAND")
-                {
-                    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null)
-                        Commands.Rows[selectedrow].Cells[Alt.Index].Value = "0";
-                }
+                //if (((ComboBox) sender).Text == "LAND")
+                //{
+                //    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null)
+                //        Commands.Rows[selectedrow].Cells[Alt.Index].Value = "0";
+                //}
+                #endregion
 
                 // default to take shot
                 if (((ComboBox) sender).Text == "DO_DIGICAM_CONTROL")
@@ -3022,9 +3022,9 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                temp.alt =
-                    (float)
-                    (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplieralt);
+                temp.alt = 0;
+                //    (float)
+                //    (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplieralt);
                 temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
                 temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
 
@@ -3034,7 +3034,7 @@ namespace MissionPlanner.GCSViews
 
                 temp.Tag = Commands.Rows[a].Cells[TagData.Index].Value;
 
-                temp.frame = (byte) (int) Commands.Rows[a].Cells[Frame.Index].Value;
+                //temp.frame = (byte) (int) Commands.Rows[a].Cells[Frame.Index].Value;
 
                 return temp;
             }
@@ -3324,10 +3324,12 @@ namespace MissionPlanner.GCSViews
                 // add delay if supplied
                 Commands.Rows[rowIndex].Cells[Param1.Index].Value = p1;
 
+                z = 0;
                 setfromMap(y, x, (int) z, Math.Round(p1, 1));
             }
             else if (cmd == MAVLink.MAV_CMD.LOITER_UNLIM)
             {
+                z = 0;
                 setfromMap(y, x, (int) z);
             }
             else
@@ -3338,7 +3340,7 @@ namespace MissionPlanner.GCSViews
                 Commands.Rows[rowIndex].Cells[Param4.Index].Value = p4;
                 Commands.Rows[rowIndex].Cells[Lat.Index].Value = y;
                 Commands.Rows[rowIndex].Cells[Lon.Index].Value = x;
-                Commands.Rows[rowIndex].Cells[Alt.Index].Value = z;
+                //Commands.Rows[rowIndex].Cells[Alt.Index].Value = z;
             }
         }
 
@@ -3542,8 +3544,8 @@ namespace MissionPlanner.GCSViews
                 if (row.Cells[Command.Index].Value.ToString() == MAVLink.MAV_CMD.WAYPOINT.ToString())
                 {
                     currentWaypoints.Add(new PointLatLngAlt(double.Parse(row.Cells[Lat.Index].Value.ToString()),
-                                                            double.Parse(row.Cells[Lon.Index].Value.ToString()),
-                                                            double.Parse(row.Cells[Alt.Index].Value.ToString())));
+                                                            double.Parse(row.Cells[Lon.Index].Value.ToString()), 0));
+                                                            //double.Parse(row.Cells[Alt.Index].Value.ToString())));
                 }
             }
             redrawPolygonSurvey(currentWaypoints);
@@ -4775,11 +4777,11 @@ namespace MissionPlanner.GCSViews
             }
 
 
-            foreach (DataGridViewRow line in Commands.Rows)
-            {
-                line.Cells[Alt.Index].Value =
-                    float.Parse(line.Cells[Alt.Index].Value.ToString()) * multiplyer + altchange;
-            }
+            //foreach (DataGridViewRow line in Commands.Rows)
+            //{
+            //    line.Cells[Alt.Index].Value =
+            //        float.Parse(line.Cells[Alt.Index].Value.ToString()) * multiplyer + altchange;
+            //}
         }
 
         private void obj_KeyDown(object sender, KeyEventArgs e)
@@ -5124,10 +5126,10 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                DataGridViewComboBoxCell cellframe = Commands.Rows[i].Cells[Frame.Index] as DataGridViewComboBoxCell;
-                cellframe.Value = (int) temp.frame;
-                cell = Commands.Rows[i].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                cell.Value = temp.alt * CurrentState.multiplieralt;
+                //DataGridViewComboBoxCell cellframe = Commands.Rows[i].Cells[Frame.Index] as DataGridViewComboBoxCell;
+                //cellframe.Value = (int) temp.frame;
+                //cell = Commands.Rows[i].Cells[Alt.Index] as DataGridViewTextBoxCell;
+                //cell.Value = temp.alt * CurrentState.multiplieralt;
                 cell = Commands.Rows[i].Cells[Lat.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.lat;
                 cell = Commands.Rows[i].Cells[Lon.Index] as DataGridViewTextBoxCell;
@@ -5174,7 +5176,7 @@ namespace MissionPlanner.GCSViews
                                 TXT_homelat.Text = (double.Parse(cellhome.Value.ToString())).ToString();
                                 cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
                                 TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
-                                cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
+                                //cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
                                 TXT_homealt.Text =
                                     (double.Parse(cellhome.Value.ToString()) * CurrentState.multiplieralt).ToString();
                             }
@@ -5638,7 +5640,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                             sw.Write((a + 1)); // seq
                             sw.Write("\t" + 0); // current
-                            sw.Write("\t" + ((int) Commands.Rows[a].Cells[Frame.Index].Value).ToString()); //frame
+                            //sw.Write("\t" + ((int) Commands.Rows[a].Cells[Frame.Index].Value).ToString()); //frame
                             sw.Write("\t" + mode);
                             sw.Write("\t" +
                                      double.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString())
@@ -5658,9 +5660,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             sw.Write("\t" +
                                      double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString())
                                          .ToString("0.00000000", new CultureInfo("en-US")));
-                            sw.Write("\t" +
-                                     (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) /
-                                      CurrentState.multiplieralt).ToString("0.000000", new CultureInfo("en-US")));
+                            //sw.Write("\t" +
+                                     //(double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) /
+                                      //CurrentState.multiplieralt).ToString("0.000000", new CultureInfo("en-US")));
                             sw.Write("\t" + 1);
                             sw.WriteLine("");
                         }
@@ -6263,7 +6265,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             Commands.Rows[selectedrow].Cells[Param1.Index].Value = topi;
 
-            Commands.Rows[selectedrow].Cells[Alt.Index].Value = alti;
+            //Commands.Rows[selectedrow].Cells[Alt.Index].Value = alti;
 
             ChangeColumnHeader(MAVLink.MAV_CMD.TAKEOFF.ToString());
 
