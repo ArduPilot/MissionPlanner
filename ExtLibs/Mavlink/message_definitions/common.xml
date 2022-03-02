@@ -495,6 +495,21 @@
         <description>Camera does not supply storage status information. Capacity information in STORAGE_INFORMATION fields will be ignored.</description>
       </entry>
     </enum>
+    <enum name="AUTOTUNE_AXIS" bitmask="true">
+      <description>Enable axes that will be tuned via autotuning. Used in MAV_CMD_DO_AUTOTUNE_ENABLE.</description>
+      <entry value="0" name="AUTOTUNE_AXIS_DEFAULT">
+        <description>Flight stack tunes axis according to its default settings.</description>
+      </entry>
+      <entry value="1" name="AUTOTUNE_AXIS_ROLL">
+        <description>Autotune roll axis.</description>
+      </entry>
+      <entry value="2" name="AUTOTUNE_AXIS_PITCH">
+        <description>Autotune pitch axis.</description>
+      </entry>
+      <entry value="4" name="AUTOTUNE_AXIS_YAW">
+        <description>Autotune yaw axis.</description>
+      </entry>
+    </enum>
     <!-- The MAV_CMD enum entries describe either: -->
     <!--  * the data payload of mission items (as used in the MISSION_ITEM_INT message) -->
     <!--  * the data payload of mavlink commands (as used in the COMMAND_INT and COMMAND_LONG messages) -->
@@ -1117,7 +1132,7 @@
       <entry value="212" name="MAV_CMD_DO_AUTOTUNE_ENABLE" hasLocation="false" isDestination="false">
         <description>Enable/disable autotune.</description>
         <param index="1" label="Enable" minValue="0" maxValue="1" increment="1">Enable (1: enable, 0:disable).</param>
-        <param index="2">Empty.</param>
+        <param index="2" label="Axis" enum="AUTOTUNE_AXIS">Specify which axes are autotuned. 0 indicates autopilot default settings.</param>
         <param index="3">Empty.</param>
         <param index="4">Empty.</param>
         <param index="5">Empty.</param>
@@ -1811,6 +1826,16 @@
         <param index="7">User defined</param>
       </entry>
       <!-- END of user range (31000 to 31999) -->
+      <entry value="32000" name="MAV_CMD_CAN_FORWARD" hasLocation="false" isDestination="false">
+        <description>Request forwarding of CAN packets from the given CAN bus to this interface. CAN Frames are sent using CAN_FRAME and CANFD_FRAME messages</description>
+        <param index="1" label="bus">Bus number (0 to disable forwarding, 1 for first bus, 2 for 2nd bus, 3 for 3rd bus).</param>
+        <param index="2">Empty.</param>
+        <param index="3">Empty.</param>
+        <param index="4">Empty.</param>
+        <param index="5">Empty.</param>
+        <param index="6">Empty.</param>
+        <param index="7">Empty.</param>
+      </entry>
     </enum>
     <enum name="MAV_DATA_STREAM">
       <description>A data stream is not a fixed set of messages, but rather a
@@ -1926,6 +1951,42 @@
       </entry>
       <entry value="10" name="MAV_PARAM_TYPE_REAL64">
         <description>64-bit floating-point</description>
+      </entry>
+    </enum>
+    <enum name="MAV_PARAM_EXT_TYPE">
+      <description>Specifies the datatype of a MAVLink extended parameter.</description>
+      <entry value="1" name="MAV_PARAM_EXT_TYPE_UINT8">
+        <description>8-bit unsigned integer</description>
+      </entry>
+      <entry value="2" name="MAV_PARAM_EXT_TYPE_INT8">
+        <description>8-bit signed integer</description>
+      </entry>
+      <entry value="3" name="MAV_PARAM_EXT_TYPE_UINT16">
+        <description>16-bit unsigned integer</description>
+      </entry>
+      <entry value="4" name="MAV_PARAM_EXT_TYPE_INT16">
+        <description>16-bit signed integer</description>
+      </entry>
+      <entry value="5" name="MAV_PARAM_EXT_TYPE_UINT32">
+        <description>32-bit unsigned integer</description>
+      </entry>
+      <entry value="6" name="MAV_PARAM_EXT_TYPE_INT32">
+        <description>32-bit signed integer</description>
+      </entry>
+      <entry value="7" name="MAV_PARAM_EXT_TYPE_UINT64">
+        <description>64-bit unsigned integer</description>
+      </entry>
+      <entry value="8" name="MAV_PARAM_EXT_TYPE_INT64">
+        <description>64-bit signed integer</description>
+      </entry>
+      <entry value="9" name="MAV_PARAM_EXT_TYPE_REAL32">
+        <description>32-bit floating-point</description>
+      </entry>
+      <entry value="10" name="MAV_PARAM_EXT_TYPE_REAL64">
+        <description>64-bit floating-point</description>
+      </entry>
+      <entry value="11" name="MAV_PARAM_EXT_TYPE_CUSTOM">
+        <description>Custom Type</description>
       </entry>
     </enum>
     <enum name="MAV_RESULT">
@@ -2899,6 +2960,21 @@
         <description>Stream is h.264 on MPEG TS (URI gives the port number)</description>
       </entry>
     </enum>
+    <enum name="PARAM_ACK">
+      <description>Result from PARAM_EXT_SET message (or a PARAM_SET within a transaction).</description>
+      <entry value="0" name="PARAM_ACK_ACCEPTED">
+        <description>Parameter value ACCEPTED and SET</description>
+      </entry>
+      <entry value="1" name="PARAM_ACK_VALUE_UNSUPPORTED">
+        <description>Parameter value UNKNOWN/UNSUPPORTED</description>
+      </entry>
+      <entry value="2" name="PARAM_ACK_FAILED">
+        <description>Parameter failed to set</description>
+      </entry>
+      <entry value="3" name="PARAM_ACK_IN_PROGRESS">
+        <description>Parameter value received but not yet set/accepted. A subsequent PARAM_ACK_TRANSACTION or PARAM_EXT_ACK with the final result will follow once operation is completed. This is returned immediately for parameters that take longer to set, indicating taht the the parameter was recieved and does not need to be resent.</description>
+      </entry>
+    </enum>
     <enum name="CAMERA_MODE">
       <description>Camera Modes.</description>
       <entry value="0" name="CAMERA_MODE_IMAGE">
@@ -3304,6 +3380,11 @@
       <entry value="6" name="MAG_CAL_BAD_ORIENTATION"/>
       <entry value="7" name="MAG_CAL_BAD_RADIUS"/>
     </enum>
+    <enum name="CAN_FILTER_OP">
+      <entry value="0" name="CAN_FILTER_REPLACE"/>
+      <entry value="1" name="CAN_FILTER_ADD"/>
+      <entry value="2" name="CAN_FILTER_REMOVE"/>
+    </enum>
   </enums>
   <messages>
     <message id="1" name="SYS_STATUS">
@@ -3360,6 +3441,7 @@
       <field type="uint32_t" name="custom_mode">The new autopilot-specific mode. This field can be ignored by an autopilot.</field>
     </message>
     <!-- IDs 15-17 reserved for PARAM_VALUE_UNION and other param messages -->
+    <!-- IDs 19 reserved for PARAM_ACK_TRANSACTION (development.xml) -->
     <message id="20" name="PARAM_REQUEST_READ">
       <description>Request to read the onboard parameter with the param_id string id. Onboard parameters are stored as key[const char*] -&gt; value[float]. This allows to send a parameter to any other component (such as the GCS) without the need of previous knowledge of possible parameter names. Thus the same GCS can store different parameters for different autopilots. See also https://mavlink.io/en/services/parameter.html for a full documentation of QGroundControl and IMU code.</description>
       <field type="uint8_t" name="target_system">System ID</field>
@@ -4844,6 +4926,7 @@
       <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
     </message>
     <message id="243" name="SET_HOME_POSITION">
+      <deprecated since="2022-02" replaced_by="MAV_CMD_DO_SET_HOME">This message is being superseded by MAV_CMD_DO_SET_HOME.  Using the command protocols allows a GCS to detect setting of the home position has failed.</deprecated>
       <description>The position the system will return to and land on. The position is set automatically by the system during the takeoff in case it was not explicitly set by the operator before or after. The global and local positions encode the position in the respective coordinate frames, while the q parameter encodes the orientation of the surface. Under normal conditions it describes the heading and terrain slope, which can be used by the aircraft to adjust the approach. The approach 3D vector describes the point to which the system should fly in normal flight mode and then perform a landing sequence along the vector.</description>
       <field type="uint8_t" name="target_system">System ID.</field>
       <field type="int32_t" name="latitude" units="degE7">Latitude (WGS84)</field>
@@ -5070,7 +5153,7 @@
       <field type="uint8_t" name="target_component">component ID of the target</field>
       <field type="uint16_t" name="sequence">sequence number (must match the one in LOGGING_DATA_ACKED)</field>
     </message>
-    <message id="9269" name="VIDEO_STREAM_INFORMATION9">
+    <message id="269" name="VIDEO_STREAM_INFORMATION">
       <description>Information about video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE, where param2 indicates the video stream id: 0 for all streams, 1 for first, 2 for second, etc.</description>
       <field type="uint8_t" name="stream_id" instance="true">Video Stream ID (1 for first, 2 for second, etc.)</field>
       <field type="uint8_t" name="count">Number of streams available.</field>
@@ -5342,6 +5425,33 @@
       <field type="uint16_t" name="payload_type" enum="MAV_TUNNEL_PAYLOAD_TYPE">A code that identifies the content of the payload (0 for unknown, which is the default). If this code is less than 32768, it is a 'registered' payload type and the corresponding code should be added to the MAV_TUNNEL_PAYLOAD_TYPE enum. Software creators can register blocks of types as needed. Codes greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.</field>
       <field type="uint8_t" name="payload_length">Length of the data transported in payload</field>
       <field type="uint8_t[128]" name="payload">Variable length payload. The payload length is defined by payload_length. The entire content of this block is opaque unless you understand the encoding specified by payload_type.</field>
+    </message>
+    <message id="386" name="CAN_FRAME">
+      <description>A forwarded CAN frame as requested by MAV_CMD_CAN_FORWARD.</description>
+      <field type="uint8_t" name="target_system">System ID.</field>
+      <field type="uint8_t" name="target_component">Component ID.</field>
+      <field type="uint8_t" name="bus">bus number</field>
+      <field type="uint8_t" name="len">Frame length</field>
+      <field type="uint32_t" name="id">Frame ID</field>
+      <field type="uint8_t[8]" name="data">Frame data</field>
+    </message>
+    <message id="387" name="CANFD_FRAME">
+      <description>A forwarded CANFD frame as requested by MAV_CMD_CAN_FORWARD. These are separated from CAN_FRAME as they need different handling (eg. TAO handling)</description>
+      <field type="uint8_t" name="target_system">System ID.</field>
+      <field type="uint8_t" name="target_component">Component ID.</field>
+      <field type="uint8_t" name="bus">bus number</field>
+      <field type="uint8_t" name="len">Frame length</field>
+      <field type="uint32_t" name="id">Frame ID</field>
+      <field type="uint8_t[64]" name="data">Frame data</field>
+    </message>
+    <message id="388" name="CAN_FILTER_MODIFY">
+      <description>Modify the filter of what CAN messages to forward over the mavlink. This can be used to make CAN forwarding work well on low bandwith links. The filtering is applied on bits 8 to 24 of the CAN id (2nd and 3rd bytes) which corresponds to the DroneCAN message ID for DroneCAN. Filters with more than 16 IDs can be constructed by sending multiple CAN_FILTER_MODIFY messages.</description>
+      <field type="uint8_t" name="target_system">System ID.</field>
+      <field type="uint8_t" name="target_component">Component ID.</field>
+      <field type="uint8_t" name="bus">bus number</field>
+      <field type="uint8_t" name="operation" enum="CAN_FILTER_OP">what operation to perform on the filter list. See CAN_FILTER_OP enum.</field>
+      <field type="uint8_t" name="num_ids">number of IDs in filter list</field>
+      <field type="uint16_t[16]" name="ids">filter IDs, length num_ids</field>
     </message>
     <!-- Rover specific messages -->
     <message id="9000" name="WHEEL_DISTANCE">

@@ -26,5 +26,5 @@ class x25crc(object):
         accum = self.crc
         import array
         bytes = array.array('B')
-        bytes.fromstring(buf)
+        #bytes.fromstring(buf)
         self.accumulate(bytes)

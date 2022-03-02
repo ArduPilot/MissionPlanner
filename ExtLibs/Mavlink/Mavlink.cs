@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sun Dec 19 2021";
+    public const string MAVLINK_BUILD_DATE = "Wed Mar 02 2022";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -37,261 +37,263 @@ public partial class MAVLink
         
     // msgid, name, crc, minlength, length, type
     public static message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
-        new message_info(1, "SYS_STATUS", 124, 31, 31, typeof( mavlink_sys_status_t )),
-        new message_info(2, "SYSTEM_TIME", 137, 12, 12, typeof( mavlink_system_time_t )),
-        new message_info(4, "PING", 237, 14, 14, typeof( mavlink_ping_t )),
-        new message_info(5, "CHANGE_OPERATOR_CONTROL", 217, 28, 28, typeof( mavlink_change_operator_control_t )),
-        new message_info(6, "CHANGE_OPERATOR_CONTROL_ACK", 104, 3, 3, typeof( mavlink_change_operator_control_ack_t )),
-        new message_info(7, "AUTH_KEY", 119, 32, 32, typeof( mavlink_auth_key_t )),
-        new message_info(11, "SET_MODE", 89, 6, 6, typeof( mavlink_set_mode_t )),
-        new message_info(20, "PARAM_REQUEST_READ", 214, 20, 20, typeof( mavlink_param_request_read_t )),
-        new message_info(21, "PARAM_REQUEST_LIST", 159, 2, 2, typeof( mavlink_param_request_list_t )),
-        new message_info(22, "PARAM_VALUE", 220, 25, 25, typeof( mavlink_param_value_t )),
-        new message_info(23, "PARAM_SET", 168, 23, 23, typeof( mavlink_param_set_t )),
-        new message_info(24, "GPS_RAW_INT", 24, 30, 52, typeof( mavlink_gps_raw_int_t )),
-        new message_info(25, "GPS_STATUS", 23, 101, 101, typeof( mavlink_gps_status_t )),
-        new message_info(26, "SCALED_IMU", 170, 22, 24, typeof( mavlink_scaled_imu_t )),
-        new message_info(27, "RAW_IMU", 144, 26, 29, typeof( mavlink_raw_imu_t )),
-        new message_info(28, "RAW_PRESSURE", 67, 16, 16, typeof( mavlink_raw_pressure_t )),
-        new message_info(29, "SCALED_PRESSURE", 115, 14, 16, typeof( mavlink_scaled_pressure_t )),
-        new message_info(30, "ATTITUDE", 39, 28, 28, typeof( mavlink_attitude_t )),
-        new message_info(31, "ATTITUDE_QUATERNION", 246, 32, 48, typeof( mavlink_attitude_quaternion_t )),
-        new message_info(32, "LOCAL_POSITION_NED", 185, 28, 28, typeof( mavlink_local_position_ned_t )),
-        new message_info(33, "GLOBAL_POSITION_INT", 104, 28, 28, typeof( mavlink_global_position_int_t )),
-        new message_info(34, "RC_CHANNELS_SCALED", 237, 22, 22, typeof( mavlink_rc_channels_scaled_t )),
-        new message_info(35, "RC_CHANNELS_RAW", 244, 22, 22, typeof( mavlink_rc_channels_raw_t )),
-        new message_info(36, "SERVO_OUTPUT_RAW", 222, 21, 37, typeof( mavlink_servo_output_raw_t )),
-        new message_info(37, "MISSION_REQUEST_PARTIAL_LIST", 212, 6, 7, typeof( mavlink_mission_request_partial_list_t )),
-        new message_info(38, "MISSION_WRITE_PARTIAL_LIST", 9, 6, 7, typeof( mavlink_mission_write_partial_list_t )),
-        new message_info(39, "MISSION_ITEM", 254, 37, 38, typeof( mavlink_mission_item_t )),
-        new message_info(40, "MISSION_REQUEST", 230, 4, 5, typeof( mavlink_mission_request_t )),
-        new message_info(41, "MISSION_SET_CURRENT", 28, 4, 4, typeof( mavlink_mission_set_current_t )),
-        new message_info(42, "MISSION_CURRENT", 28, 2, 2, typeof( mavlink_mission_current_t )),
-        new message_info(43, "MISSION_REQUEST_LIST", 132, 2, 3, typeof( mavlink_mission_request_list_t )),
-        new message_info(44, "MISSION_COUNT", 221, 4, 5, typeof( mavlink_mission_count_t )),
-        new message_info(45, "MISSION_CLEAR_ALL", 232, 2, 3, typeof( mavlink_mission_clear_all_t )),
-        new message_info(46, "MISSION_ITEM_REACHED", 11, 2, 2, typeof( mavlink_mission_item_reached_t )),
-        new message_info(47, "MISSION_ACK", 153, 3, 4, typeof( mavlink_mission_ack_t )),
-        new message_info(48, "SET_GPS_GLOBAL_ORIGIN", 41, 13, 21, typeof( mavlink_set_gps_global_origin_t )),
-        new message_info(49, "GPS_GLOBAL_ORIGIN", 39, 12, 20, typeof( mavlink_gps_global_origin_t )),
-        new message_info(50, "PARAM_MAP_RC", 78, 37, 37, typeof( mavlink_param_map_rc_t )),
-        new message_info(51, "MISSION_REQUEST_INT", 196, 4, 5, typeof( mavlink_mission_request_int_t )),
-        new message_info(54, "SAFETY_SET_ALLOWED_AREA", 15, 27, 27, typeof( mavlink_safety_set_allowed_area_t )),
-        new message_info(55, "SAFETY_ALLOWED_AREA", 3, 25, 25, typeof( mavlink_safety_allowed_area_t )),
-        new message_info(61, "ATTITUDE_QUATERNION_COV", 167, 72, 72, typeof( mavlink_attitude_quaternion_cov_t )),
-        new message_info(62, "NAV_CONTROLLER_OUTPUT", 183, 26, 26, typeof( mavlink_nav_controller_output_t )),
-        new message_info(63, "GLOBAL_POSITION_INT_COV", 119, 181, 181, typeof( mavlink_global_position_int_cov_t )),
-        new message_info(64, "LOCAL_POSITION_NED_COV", 191, 225, 225, typeof( mavlink_local_position_ned_cov_t )),
-        new message_info(65, "RC_CHANNELS", 118, 42, 42, typeof( mavlink_rc_channels_t )),
-        new message_info(66, "REQUEST_DATA_STREAM", 148, 6, 6, typeof( mavlink_request_data_stream_t )),
-        new message_info(67, "DATA_STREAM", 21, 4, 4, typeof( mavlink_data_stream_t )),
-        new message_info(69, "MANUAL_CONTROL", 243, 11, 11, typeof( mavlink_manual_control_t )),
-        new message_info(70, "RC_CHANNELS_OVERRIDE", 124, 18, 38, typeof( mavlink_rc_channels_override_t )),
-        new message_info(73, "MISSION_ITEM_INT", 38, 37, 38, typeof( mavlink_mission_item_int_t )),
-        new message_info(74, "VFR_HUD", 20, 20, 20, typeof( mavlink_vfr_hud_t )),
-        new message_info(75, "COMMAND_INT", 158, 35, 35, typeof( mavlink_command_int_t )),
-        new message_info(76, "COMMAND_LONG", 152, 33, 33, typeof( mavlink_command_long_t )),
-        new message_info(77, "COMMAND_ACK", 143, 3, 10, typeof( mavlink_command_ack_t )),
-        new message_info(81, "MANUAL_SETPOINT", 106, 22, 22, typeof( mavlink_manual_setpoint_t )),
-        new message_info(82, "SET_ATTITUDE_TARGET", 49, 39, 39, typeof( mavlink_set_attitude_target_t )),
-        new message_info(83, "ATTITUDE_TARGET", 22, 37, 37, typeof( mavlink_attitude_target_t )),
-        new message_info(84, "SET_POSITION_TARGET_LOCAL_NED", 143, 53, 53, typeof( mavlink_set_position_target_local_ned_t )),
-        new message_info(85, "POSITION_TARGET_LOCAL_NED", 140, 51, 51, typeof( mavlink_position_target_local_ned_t )),
-        new message_info(86, "SET_POSITION_TARGET_GLOBAL_INT", 5, 53, 53, typeof( mavlink_set_position_target_global_int_t )),
-        new message_info(87, "POSITION_TARGET_GLOBAL_INT", 150, 51, 51, typeof( mavlink_position_target_global_int_t )),
-        new message_info(89, "LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET", 231, 28, 28, typeof( mavlink_local_position_ned_system_global_offset_t )),
-        new message_info(90, "HIL_STATE", 183, 56, 56, typeof( mavlink_hil_state_t )),
-        new message_info(91, "HIL_CONTROLS", 63, 42, 42, typeof( mavlink_hil_controls_t )),
-        new message_info(92, "HIL_RC_INPUTS_RAW", 54, 33, 33, typeof( mavlink_hil_rc_inputs_raw_t )),
-        new message_info(93, "HIL_ACTUATOR_CONTROLS", 47, 81, 81, typeof( mavlink_hil_actuator_controls_t )),
-        new message_info(100, "OPTICAL_FLOW", 175, 26, 34, typeof( mavlink_optical_flow_t )),
-        new message_info(101, "GLOBAL_VISION_POSITION_ESTIMATE", 102, 32, 117, typeof( mavlink_global_vision_position_estimate_t )),
-        new message_info(102, "VISION_POSITION_ESTIMATE", 158, 32, 117, typeof( mavlink_vision_position_estimate_t )),
-        new message_info(103, "VISION_SPEED_ESTIMATE", 208, 20, 57, typeof( mavlink_vision_speed_estimate_t )),
-        new message_info(104, "VICON_POSITION_ESTIMATE", 56, 32, 116, typeof( mavlink_vicon_position_estimate_t )),
-        new message_info(105, "HIGHRES_IMU", 93, 62, 63, typeof( mavlink_highres_imu_t )),
-        new message_info(106, "OPTICAL_FLOW_RAD", 138, 44, 44, typeof( mavlink_optical_flow_rad_t )),
-        new message_info(107, "HIL_SENSOR", 108, 64, 65, typeof( mavlink_hil_sensor_t )),
-        new message_info(108, "SIM_STATE", 32, 84, 84, typeof( mavlink_sim_state_t )),
-        new message_info(109, "RADIO_STATUS", 185, 9, 9, typeof( mavlink_radio_status_t )),
-        new message_info(110, "FILE_TRANSFER_PROTOCOL", 84, 254, 254, typeof( mavlink_file_transfer_protocol_t )),
-        new message_info(111, "TIMESYNC", 34, 16, 16, typeof( mavlink_timesync_t )),
-        new message_info(112, "CAMERA_TRIGGER", 174, 12, 12, typeof( mavlink_camera_trigger_t )),
-        new message_info(113, "HIL_GPS", 124, 36, 39, typeof( mavlink_hil_gps_t )),
-        new message_info(114, "HIL_OPTICAL_FLOW", 237, 44, 44, typeof( mavlink_hil_optical_flow_t )),
-        new message_info(115, "HIL_STATE_QUATERNION", 4, 64, 64, typeof( mavlink_hil_state_quaternion_t )),
-        new message_info(116, "SCALED_IMU2", 76, 22, 24, typeof( mavlink_scaled_imu2_t )),
-        new message_info(117, "LOG_REQUEST_LIST", 128, 6, 6, typeof( mavlink_log_request_list_t )),
-        new message_info(118, "LOG_ENTRY", 56, 14, 14, typeof( mavlink_log_entry_t )),
-        new message_info(119, "LOG_REQUEST_DATA", 116, 12, 12, typeof( mavlink_log_request_data_t )),
-        new message_info(120, "LOG_DATA", 134, 97, 97, typeof( mavlink_log_data_t )),
-        new message_info(121, "LOG_ERASE", 237, 2, 2, typeof( mavlink_log_erase_t )),
-        new message_info(122, "LOG_REQUEST_END", 203, 2, 2, typeof( mavlink_log_request_end_t )),
-        new message_info(123, "GPS_INJECT_DATA", 250, 113, 113, typeof( mavlink_gps_inject_data_t )),
-        new message_info(124, "GPS2_RAW", 87, 35, 57, typeof( mavlink_gps2_raw_t )),
-        new message_info(125, "POWER_STATUS", 203, 6, 6, typeof( mavlink_power_status_t )),
-        new message_info(126, "SERIAL_CONTROL", 220, 79, 79, typeof( mavlink_serial_control_t )),
-        new message_info(127, "GPS_RTK", 25, 35, 35, typeof( mavlink_gps_rtk_t )),
-        new message_info(128, "GPS2_RTK", 226, 35, 35, typeof( mavlink_gps2_rtk_t )),
-        new message_info(129, "SCALED_IMU3", 46, 22, 24, typeof( mavlink_scaled_imu3_t )),
-        new message_info(130, "DATA_TRANSMISSION_HANDSHAKE", 29, 13, 13, typeof( mavlink_data_transmission_handshake_t )),
-        new message_info(131, "ENCAPSULATED_DATA", 223, 255, 255, typeof( mavlink_encapsulated_data_t )),
-        new message_info(132, "DISTANCE_SENSOR", 85, 14, 39, typeof( mavlink_distance_sensor_t )),
-        new message_info(133, "TERRAIN_REQUEST", 6, 18, 18, typeof( mavlink_terrain_request_t )),
-        new message_info(134, "TERRAIN_DATA", 229, 43, 43, typeof( mavlink_terrain_data_t )),
-        new message_info(135, "TERRAIN_CHECK", 203, 8, 8, typeof( mavlink_terrain_check_t )),
-        new message_info(136, "TERRAIN_REPORT", 1, 22, 22, typeof( mavlink_terrain_report_t )),
-        new message_info(137, "SCALED_PRESSURE2", 195, 14, 16, typeof( mavlink_scaled_pressure2_t )),
-        new message_info(138, "ATT_POS_MOCAP", 109, 36, 120, typeof( mavlink_att_pos_mocap_t )),
-        new message_info(139, "SET_ACTUATOR_CONTROL_TARGET", 168, 43, 43, typeof( mavlink_set_actuator_control_target_t )),
-        new message_info(140, "ACTUATOR_CONTROL_TARGET", 181, 41, 41, typeof( mavlink_actuator_control_target_t )),
-        new message_info(141, "ALTITUDE", 47, 32, 32, typeof( mavlink_altitude_t )),
-        new message_info(142, "RESOURCE_REQUEST", 72, 243, 243, typeof( mavlink_resource_request_t )),
-        new message_info(143, "SCALED_PRESSURE3", 131, 14, 16, typeof( mavlink_scaled_pressure3_t )),
-        new message_info(144, "FOLLOW_TARGET", 127, 93, 93, typeof( mavlink_follow_target_t )),
-        new message_info(146, "CONTROL_SYSTEM_STATE", 103, 100, 100, typeof( mavlink_control_system_state_t )),
-        new message_info(147, "BATTERY_STATUS", 154, 36, 54, typeof( mavlink_battery_status_t )),
-        new message_info(148, "AUTOPILOT_VERSION", 178, 60, 78, typeof( mavlink_autopilot_version_t )),
-        new message_info(149, "LANDING_TARGET", 200, 30, 60, typeof( mavlink_landing_target_t )),
-        new message_info(150, "SENSOR_OFFSETS", 134, 42, 42, typeof( mavlink_sensor_offsets_t )),
-        new message_info(151, "SET_MAG_OFFSETS", 219, 8, 8, typeof( mavlink_set_mag_offsets_t )),
-        new message_info(152, "MEMINFO", 208, 4, 8, typeof( mavlink_meminfo_t )),
-        new message_info(153, "AP_ADC", 188, 12, 12, typeof( mavlink_ap_adc_t )),
-        new message_info(154, "DIGICAM_CONFIGURE", 84, 15, 15, typeof( mavlink_digicam_configure_t )),
-        new message_info(155, "DIGICAM_CONTROL", 22, 13, 13, typeof( mavlink_digicam_control_t )),
-        new message_info(156, "MOUNT_CONFIGURE", 19, 6, 6, typeof( mavlink_mount_configure_t )),
-        new message_info(157, "MOUNT_CONTROL", 21, 15, 15, typeof( mavlink_mount_control_t )),
-        new message_info(158, "MOUNT_STATUS", 134, 14, 14, typeof( mavlink_mount_status_t )),
-        new message_info(160, "FENCE_POINT", 78, 12, 12, typeof( mavlink_fence_point_t )),
-        new message_info(161, "FENCE_FETCH_POINT", 68, 3, 3, typeof( mavlink_fence_fetch_point_t )),
-        new message_info(162, "FENCE_STATUS", 189, 8, 9, typeof( mavlink_fence_status_t )),
-        new message_info(163, "AHRS", 127, 28, 28, typeof( mavlink_ahrs_t )),
-        new message_info(164, "SIMSTATE", 154, 44, 44, typeof( mavlink_simstate_t )),
-        new message_info(165, "HWSTATUS", 21, 3, 3, typeof( mavlink_hwstatus_t )),
-        new message_info(166, "RADIO", 21, 9, 9, typeof( mavlink_radio_t )),
-        new message_info(167, "LIMITS_STATUS", 144, 22, 22, typeof( mavlink_limits_status_t )),
-        new message_info(168, "WIND", 1, 12, 12, typeof( mavlink_wind_t )),
-        new message_info(169, "DATA16", 234, 18, 18, typeof( mavlink_data16_t )),
-        new message_info(170, "DATA32", 73, 34, 34, typeof( mavlink_data32_t )),
-        new message_info(171, "DATA64", 181, 66, 66, typeof( mavlink_data64_t )),
-        new message_info(172, "DATA96", 22, 98, 98, typeof( mavlink_data96_t )),
-        new message_info(173, "RANGEFINDER", 83, 8, 8, typeof( mavlink_rangefinder_t )),
-        new message_info(174, "AIRSPEED_AUTOCAL", 167, 48, 48, typeof( mavlink_airspeed_autocal_t )),
-        new message_info(175, "RALLY_POINT", 138, 19, 19, typeof( mavlink_rally_point_t )),
-        new message_info(176, "RALLY_FETCH_POINT", 234, 3, 3, typeof( mavlink_rally_fetch_point_t )),
-        new message_info(177, "COMPASSMOT_STATUS", 240, 20, 20, typeof( mavlink_compassmot_status_t )),
-        new message_info(178, "AHRS2", 47, 24, 24, typeof( mavlink_ahrs2_t )),
-        new message_info(179, "CAMERA_STATUS", 189, 29, 29, typeof( mavlink_camera_status_t )),
-        new message_info(180, "CAMERA_FEEDBACK", 52, 45, 47, typeof( mavlink_camera_feedback_t )),
-        new message_info(181, "BATTERY2", 174, 4, 4, typeof( mavlink_battery2_t )),
-        new message_info(182, "AHRS3", 229, 40, 40, typeof( mavlink_ahrs3_t )),
-        new message_info(183, "AUTOPILOT_VERSION_REQUEST", 85, 2, 2, typeof( mavlink_autopilot_version_request_t )),
-        new message_info(184, "REMOTE_LOG_DATA_BLOCK", 159, 206, 206, typeof( mavlink_remote_log_data_block_t )),
-        new message_info(185, "REMOTE_LOG_BLOCK_STATUS", 186, 7, 7, typeof( mavlink_remote_log_block_status_t )),
-        new message_info(186, "LED_CONTROL", 72, 29, 29, typeof( mavlink_led_control_t )),
-        new message_info(191, "MAG_CAL_PROGRESS", 92, 27, 27, typeof( mavlink_mag_cal_progress_t )),
-        new message_info(192, "MAG_CAL_REPORT", 36, 44, 54, typeof( mavlink_mag_cal_report_t )),
-        new message_info(193, "EKF_STATUS_REPORT", 71, 22, 26, typeof( mavlink_ekf_status_report_t )),
-        new message_info(194, "PID_TUNING", 98, 25, 33, typeof( mavlink_pid_tuning_t )),
-        new message_info(195, "DEEPSTALL", 120, 37, 37, typeof( mavlink_deepstall_t )),
-        new message_info(200, "GIMBAL_REPORT", 134, 42, 42, typeof( mavlink_gimbal_report_t )),
-        new message_info(201, "GIMBAL_CONTROL", 205, 14, 14, typeof( mavlink_gimbal_control_t )),
-        new message_info(214, "GIMBAL_TORQUE_CMD_REPORT", 69, 8, 8, typeof( mavlink_gimbal_torque_cmd_report_t )),
-        new message_info(215, "GOPRO_HEARTBEAT", 101, 3, 3, typeof( mavlink_gopro_heartbeat_t )),
-        new message_info(216, "GOPRO_GET_REQUEST", 50, 3, 3, typeof( mavlink_gopro_get_request_t )),
-        new message_info(217, "GOPRO_GET_RESPONSE", 202, 6, 6, typeof( mavlink_gopro_get_response_t )),
-        new message_info(218, "GOPRO_SET_REQUEST", 17, 7, 7, typeof( mavlink_gopro_set_request_t )),
-        new message_info(219, "GOPRO_SET_RESPONSE", 162, 2, 2, typeof( mavlink_gopro_set_response_t )),
-        new message_info(225, "EFI_STATUS", 208, 65, 65, typeof( mavlink_efi_status_t )),
-        new message_info(226, "RPM", 207, 8, 8, typeof( mavlink_rpm_t )),
-        new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
-        new message_info(231, "WIND_COV", 105, 40, 40, typeof( mavlink_wind_cov_t )),
-        new message_info(232, "GPS_INPUT", 151, 63, 65, typeof( mavlink_gps_input_t )),
-        new message_info(233, "GPS_RTCM_DATA", 35, 182, 182, typeof( mavlink_gps_rtcm_data_t )),
-        new message_info(234, "HIGH_LATENCY", 150, 40, 40, typeof( mavlink_high_latency_t )),
-        new message_info(235, "HIGH_LATENCY2", 179, 42, 42, typeof( mavlink_high_latency2_t )),
-        new message_info(241, "VIBRATION", 90, 32, 32, typeof( mavlink_vibration_t )),
-        new message_info(242, "HOME_POSITION", 104, 52, 60, typeof( mavlink_home_position_t )),
-        new message_info(243, "SET_HOME_POSITION", 85, 53, 61, typeof( mavlink_set_home_position_t )),
-        new message_info(244, "MESSAGE_INTERVAL", 95, 6, 6, typeof( mavlink_message_interval_t )),
-        new message_info(245, "EXTENDED_SYS_STATE", 130, 2, 2, typeof( mavlink_extended_sys_state_t )),
-        new message_info(246, "ADSB_VEHICLE", 184, 38, 38, typeof( mavlink_adsb_vehicle_t )),
-        new message_info(247, "COLLISION", 81, 19, 19, typeof( mavlink_collision_t )),
-        new message_info(248, "V2_EXTENSION", 8, 254, 254, typeof( mavlink_v2_extension_t )),
-        new message_info(249, "MEMORY_VECT", 204, 36, 36, typeof( mavlink_memory_vect_t )),
-        new message_info(250, "DEBUG_VECT", 49, 30, 30, typeof( mavlink_debug_vect_t )),
-        new message_info(251, "NAMED_VALUE_FLOAT", 170, 18, 18, typeof( mavlink_named_value_float_t )),
-        new message_info(252, "NAMED_VALUE_INT", 44, 18, 18, typeof( mavlink_named_value_int_t )),
-        new message_info(253, "STATUSTEXT", 83, 51, 54, typeof( mavlink_statustext_t )),
-        new message_info(254, "DEBUG", 46, 9, 9, typeof( mavlink_debug_t )),
-        new message_info(256, "SETUP_SIGNING", 71, 42, 42, typeof( mavlink_setup_signing_t )),
-        new message_info(257, "BUTTON_CHANGE", 131, 9, 9, typeof( mavlink_button_change_t )),
-        new message_info(258, "PLAY_TUNE", 187, 32, 232, typeof( mavlink_play_tune_t )),
-        new message_info(259, "CAMERA_INFORMATION", 92, 235, 235, typeof( mavlink_camera_information_t )),
-        new message_info(260, "CAMERA_SETTINGS", 146, 5, 13, typeof( mavlink_camera_settings_t )),
-        new message_info(261, "STORAGE_INFORMATION", 179, 27, 60, typeof( mavlink_storage_information_t )),
-        new message_info(262, "CAMERA_CAPTURE_STATUS", 12, 18, 22, typeof( mavlink_camera_capture_status_t )),
-        new message_info(263, "CAMERA_IMAGE_CAPTURED", 133, 255, 255, typeof( mavlink_camera_image_captured_t )),
-        new message_info(264, "FLIGHT_INFORMATION", 49, 28, 28, typeof( mavlink_flight_information_t )),
-        new message_info(265, "MOUNT_ORIENTATION", 26, 16, 20, typeof( mavlink_mount_orientation_t )),
-        new message_info(266, "LOGGING_DATA", 193, 255, 255, typeof( mavlink_logging_data_t )),
-        new message_info(267, "LOGGING_DATA_ACKED", 35, 255, 255, typeof( mavlink_logging_data_acked_t )),
-        new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
-        new message_info(270, "VIDEO_STREAM_STATUS", 59, 19, 19, typeof( mavlink_video_stream_status_t )),
-        new message_info(283, "GIMBAL_DEVICE_INFORMATION", 74, 144, 144, typeof( mavlink_gimbal_device_information_t )),
-        new message_info(286, "AUTOPILOT_STATE_FOR_GIMBAL_DEVICE", 210, 53, 53, typeof( mavlink_autopilot_state_for_gimbal_device_t )),
-        new message_info(299, "WIFI_CONFIG_AP", 19, 96, 96, typeof( mavlink_wifi_config_ap_t )),
-        new message_info(301, "AIS_VESSEL", 243, 58, 58, typeof( mavlink_ais_vessel_t )),
-        new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
-        new message_info(311, "UAVCAN_NODE_INFO", 95, 116, 116, typeof( mavlink_uavcan_node_info_t )),
-        new message_info(320, "PARAM_EXT_REQUEST_READ", 243, 20, 20, typeof( mavlink_param_ext_request_read_t )),
-        new message_info(321, "PARAM_EXT_REQUEST_LIST", 88, 2, 2, typeof( mavlink_param_ext_request_list_t )),
-        new message_info(322, "PARAM_EXT_VALUE", 243, 149, 149, typeof( mavlink_param_ext_value_t )),
-        new message_info(323, "PARAM_EXT_SET", 78, 147, 147, typeof( mavlink_param_ext_set_t )),
-        new message_info(324, "PARAM_EXT_ACK", 132, 146, 146, typeof( mavlink_param_ext_ack_t )),
-        new message_info(330, "OBSTACLE_DISTANCE", 23, 158, 167, typeof( mavlink_obstacle_distance_t )),
-        new message_info(331, "ODOMETRY", 91, 230, 232, typeof( mavlink_odometry_t )),
-        new message_info(335, "ISBD_LINK_STATUS", 225, 24, 24, typeof( mavlink_isbd_link_status_t )),
-        new message_info(339, "RAW_RPM", 199, 5, 5, typeof( mavlink_raw_rpm_t )),
-        new message_info(340, "UTM_GLOBAL_POSITION", 99, 70, 70, typeof( mavlink_utm_global_position_t )),
-        new message_info(350, "DEBUG_FLOAT_ARRAY", 232, 20, 252, typeof( mavlink_debug_float_array_t )),
-        new message_info(370, "SMART_BATTERY_INFO", 75, 87, 109, typeof( mavlink_smart_battery_info_t )),
-        new message_info(373, "GENERATOR_STATUS", 117, 42, 42, typeof( mavlink_generator_status_t )),
-        new message_info(375, "ACTUATOR_OUTPUT_STATUS", 251, 140, 140, typeof( mavlink_actuator_output_status_t )),
-        new message_info(385, "TUNNEL", 147, 133, 133, typeof( mavlink_tunnel_t )),
-        new message_info(9000, "WHEEL_DISTANCE", 113, 137, 137, typeof( mavlink_wheel_distance_t )),
-        new message_info(9005, "WINCH_STATUS", 117, 34, 34, typeof( mavlink_winch_status_t )),
-        new message_info(9269, "VIDEO_STREAM_INFORMATION9", 13, 213, 213, typeof( mavlink_video_stream_information9_t )),
-        new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
-        new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
-        new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
-        new message_info(10004, "UAVIONIX_ADSB_OUT_CFG_REGISTRATION", 133, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_registration_t )),
-        new message_info(10005, "UAVIONIX_ADSB_OUT_CFG_FLIGHTID", 103, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_flightid_t )),
-        new message_info(10006, "UAVIONIX_ADSB_GET", 193, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
-        new message_info(10007, "UAVIONIX_ADSB_OUT_CONTROL", 71, 17, 17, typeof( mavlink_uavionix_adsb_out_control_t )),
-        new message_info(10008, "UAVIONIX_ADSB_OUT_STATUS", 240, 14, 14, typeof( mavlink_uavionix_adsb_out_status_t )),
-        new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
-        new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
-        new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
-        new message_info(11003, "DEVICE_OP_WRITE_REPLY", 64, 5, 5, typeof( mavlink_device_op_write_reply_t )),
-        new message_info(11010, "ADAP_TUNING", 46, 49, 49, typeof( mavlink_adap_tuning_t )),
-        new message_info(11011, "VISION_POSITION_DELTA", 106, 44, 44, typeof( mavlink_vision_position_delta_t )),
-        new message_info(11020, "AOA_SSA", 205, 16, 16, typeof( mavlink_aoa_ssa_t )),
-        new message_info(11030, "ESC_TELEMETRY_1_TO_4", 144, 44, 44, typeof( mavlink_esc_telemetry_1_to_4_t )),
-        new message_info(11031, "ESC_TELEMETRY_5_TO_8", 133, 44, 44, typeof( mavlink_esc_telemetry_5_to_8_t )),
-        new message_info(11032, "ESC_TELEMETRY_9_TO_12", 85, 44, 44, typeof( mavlink_esc_telemetry_9_to_12_t )),
-        new message_info(11033, "OSD_PARAM_CONFIG", 195, 37, 37, typeof( mavlink_osd_param_config_t )),
-        new message_info(11034, "OSD_PARAM_CONFIG_REPLY", 79, 5, 5, typeof( mavlink_osd_param_config_reply_t )),
-        new message_info(11035, "OSD_PARAM_SHOW_CONFIG", 128, 8, 8, typeof( mavlink_osd_param_show_config_t )),
-        new message_info(11036, "OSD_PARAM_SHOW_CONFIG_REPLY", 177, 34, 34, typeof( mavlink_osd_param_show_config_reply_t )),
-        new message_info(11037, "OBSTACLE_DISTANCE_3D", 130, 28, 28, typeof( mavlink_obstacle_distance_3d_t )),
-        new message_info(11038, "WATER_DEPTH", 47, 38, 38, typeof( mavlink_water_depth_t )),
-        new message_info(11039, "MCU_STATUS", 142, 9, 9, typeof( mavlink_mcu_status_t )),
-        new message_info(12920, "HYGROMETER_SENSOR", 20, 5, 5, typeof( mavlink_hygrometer_sensor_t )),
-        new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
-        new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
-        new message_info(269, "VIDEO_STREAM_INFORMATION", 58, 246, 246, typeof( mavlink_video_stream_information_t )),
-        new message_info(0, "HEARTBEAT", 50, 9, 9, typeof( mavlink_heartbeat_t )),
+        new message_info(1, "SYS_STATUS", 0, 31, 31, typeof( mavlink_sys_status_t )),
+        new message_info(2, "SYSTEM_TIME", 0, 12, 12, typeof( mavlink_system_time_t )),
+        new message_info(4, "PING", 0, 14, 14, typeof( mavlink_ping_t )),
+        new message_info(5, "CHANGE_OPERATOR_CONTROL", 69, 28, 28, typeof( mavlink_change_operator_control_t )),
+        new message_info(6, "CHANGE_OPERATOR_CONTROL_ACK", 0, 3, 3, typeof( mavlink_change_operator_control_ack_t )),
+        new message_info(7, "AUTH_KEY", 171, 32, 32, typeof( mavlink_auth_key_t )),
+        new message_info(11, "SET_MODE", 0, 6, 6, typeof( mavlink_set_mode_t )),
+        new message_info(20, "PARAM_REQUEST_READ", 25, 20, 20, typeof( mavlink_param_request_read_t )),
+        new message_info(21, "PARAM_REQUEST_LIST", 0, 2, 2, typeof( mavlink_param_request_list_t )),
+        new message_info(22, "PARAM_VALUE", 25, 25, 25, typeof( mavlink_param_value_t )),
+        new message_info(23, "PARAM_SET", 25, 23, 23, typeof( mavlink_param_set_t )),
+        new message_info(24, "GPS_RAW_INT", 0, 30, 52, typeof( mavlink_gps_raw_int_t )),
+        new message_info(25, "GPS_STATUS", 111, 101, 101, typeof( mavlink_gps_status_t )),
+        new message_info(26, "SCALED_IMU", 0, 22, 24, typeof( mavlink_scaled_imu_t )),
+        new message_info(27, "RAW_IMU", 0, 26, 29, typeof( mavlink_raw_imu_t )),
+        new message_info(28, "RAW_PRESSURE", 0, 16, 16, typeof( mavlink_raw_pressure_t )),
+        new message_info(29, "SCALED_PRESSURE", 0, 14, 16, typeof( mavlink_scaled_pressure_t )),
+        new message_info(30, "ATTITUDE", 0, 28, 28, typeof( mavlink_attitude_t )),
+        new message_info(31, "ATTITUDE_QUATERNION", 0, 32, 48, typeof( mavlink_attitude_quaternion_t )),
+        new message_info(32, "LOCAL_POSITION_NED", 0, 28, 28, typeof( mavlink_local_position_ned_t )),
+        new message_info(33, "GLOBAL_POSITION_INT", 0, 28, 28, typeof( mavlink_global_position_int_t )),
+        new message_info(34, "RC_CHANNELS_SCALED", 0, 22, 22, typeof( mavlink_rc_channels_scaled_t )),
+        new message_info(35, "RC_CHANNELS_RAW", 0, 22, 22, typeof( mavlink_rc_channels_raw_t )),
+        new message_info(36, "SERVO_OUTPUT_RAW", 0, 21, 37, typeof( mavlink_servo_output_raw_t )),
+        new message_info(37, "MISSION_REQUEST_PARTIAL_LIST", 0, 6, 7, typeof( mavlink_mission_request_partial_list_t )),
+        new message_info(38, "MISSION_WRITE_PARTIAL_LIST", 0, 6, 7, typeof( mavlink_mission_write_partial_list_t )),
+        new message_info(39, "MISSION_ITEM", 0, 37, 38, typeof( mavlink_mission_item_t )),
+        new message_info(40, "MISSION_REQUEST", 0, 4, 5, typeof( mavlink_mission_request_t )),
+        new message_info(41, "MISSION_SET_CURRENT", 0, 4, 4, typeof( mavlink_mission_set_current_t )),
+        new message_info(42, "MISSION_CURRENT", 0, 2, 2, typeof( mavlink_mission_current_t )),
+        new message_info(43, "MISSION_REQUEST_LIST", 0, 2, 3, typeof( mavlink_mission_request_list_t )),
+        new message_info(44, "MISSION_COUNT", 0, 4, 5, typeof( mavlink_mission_count_t )),
+        new message_info(45, "MISSION_CLEAR_ALL", 0, 2, 3, typeof( mavlink_mission_clear_all_t )),
+        new message_info(46, "MISSION_ITEM_REACHED", 0, 2, 2, typeof( mavlink_mission_item_reached_t )),
+        new message_info(47, "MISSION_ACK", 0, 3, 4, typeof( mavlink_mission_ack_t )),
+        new message_info(48, "SET_GPS_GLOBAL_ORIGIN", 0, 13, 21, typeof( mavlink_set_gps_global_origin_t )),
+        new message_info(49, "GPS_GLOBAL_ORIGIN", 0, 12, 20, typeof( mavlink_gps_global_origin_t )),
+        new message_info(50, "PARAM_MAP_RC", 25, 37, 37, typeof( mavlink_param_map_rc_t )),
+        new message_info(51, "MISSION_REQUEST_INT", 0, 4, 5, typeof( mavlink_mission_request_int_t )),
+        new message_info(54, "SAFETY_SET_ALLOWED_AREA", 0, 27, 27, typeof( mavlink_safety_set_allowed_area_t )),
+        new message_info(55, "SAFETY_ALLOWED_AREA", 0, 25, 25, typeof( mavlink_safety_allowed_area_t )),
+        new message_info(61, "ATTITUDE_QUATERNION_COV", 19, 72, 72, typeof( mavlink_attitude_quaternion_cov_t )),
+        new message_info(62, "NAV_CONTROLLER_OUTPUT", 0, 26, 26, typeof( mavlink_nav_controller_output_t )),
+        new message_info(63, "GLOBAL_POSITION_INT_COV", 201, 181, 181, typeof( mavlink_global_position_int_cov_t )),
+        new message_info(64, "LOCAL_POSITION_NED_COV", 149, 225, 225, typeof( mavlink_local_position_ned_cov_t )),
+        new message_info(65, "RC_CHANNELS", 0, 42, 42, typeof( mavlink_rc_channels_t )),
+        new message_info(66, "REQUEST_DATA_STREAM", 0, 6, 6, typeof( mavlink_request_data_stream_t )),
+        new message_info(67, "DATA_STREAM", 0, 4, 4, typeof( mavlink_data_stream_t )),
+        new message_info(69, "MANUAL_CONTROL", 0, 11, 11, typeof( mavlink_manual_control_t )),
+        new message_info(70, "RC_CHANNELS_OVERRIDE", 0, 18, 38, typeof( mavlink_rc_channels_override_t )),
+        new message_info(73, "MISSION_ITEM_INT", 0, 37, 38, typeof( mavlink_mission_item_int_t )),
+        new message_info(74, "VFR_HUD", 0, 20, 20, typeof( mavlink_vfr_hud_t )),
+        new message_info(75, "COMMAND_INT", 0, 35, 35, typeof( mavlink_command_int_t )),
+        new message_info(76, "COMMAND_LONG", 0, 33, 33, typeof( mavlink_command_long_t )),
+        new message_info(77, "COMMAND_ACK", 0, 3, 10, typeof( mavlink_command_ack_t )),
+        new message_info(81, "MANUAL_SETPOINT", 0, 22, 22, typeof( mavlink_manual_setpoint_t )),
+        new message_info(82, "SET_ATTITUDE_TARGET", 234, 39, 39, typeof( mavlink_set_attitude_target_t )),
+        new message_info(83, "ATTITUDE_TARGET", 234, 37, 37, typeof( mavlink_attitude_target_t )),
+        new message_info(84, "SET_POSITION_TARGET_LOCAL_NED", 0, 53, 53, typeof( mavlink_set_position_target_local_ned_t )),
+        new message_info(85, "POSITION_TARGET_LOCAL_NED", 0, 51, 51, typeof( mavlink_position_target_local_ned_t )),
+        new message_info(86, "SET_POSITION_TARGET_GLOBAL_INT", 0, 53, 53, typeof( mavlink_set_position_target_global_int_t )),
+        new message_info(87, "POSITION_TARGET_GLOBAL_INT", 0, 51, 51, typeof( mavlink_position_target_global_int_t )),
+        new message_info(89, "LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET", 0, 28, 28, typeof( mavlink_local_position_ned_system_global_offset_t )),
+        new message_info(90, "HIL_STATE", 0, 56, 56, typeof( mavlink_hil_state_t )),
+        new message_info(91, "HIL_CONTROLS", 0, 42, 42, typeof( mavlink_hil_controls_t )),
+        new message_info(92, "HIL_RC_INPUTS_RAW", 0, 33, 33, typeof( mavlink_hil_rc_inputs_raw_t )),
+        new message_info(93, "HIL_ACTUATOR_CONTROLS", 25, 81, 81, typeof( mavlink_hil_actuator_controls_t )),
+        new message_info(100, "OPTICAL_FLOW", 0, 26, 34, typeof( mavlink_optical_flow_t )),
+        new message_info(101, "GLOBAL_VISION_POSITION_ESTIMATE", 0, 32, 117, typeof( mavlink_global_vision_position_estimate_t )),
+        new message_info(102, "VISION_POSITION_ESTIMATE", 0, 32, 117, typeof( mavlink_vision_position_estimate_t )),
+        new message_info(103, "VISION_SPEED_ESTIMATE", 0, 20, 57, typeof( mavlink_vision_speed_estimate_t )),
+        new message_info(104, "VICON_POSITION_ESTIMATE", 0, 32, 116, typeof( mavlink_vicon_position_estimate_t )),
+        new message_info(105, "HIGHRES_IMU", 0, 62, 63, typeof( mavlink_highres_imu_t )),
+        new message_info(106, "OPTICAL_FLOW_RAD", 0, 44, 44, typeof( mavlink_optical_flow_rad_t )),
+        new message_info(107, "HIL_SENSOR", 0, 64, 65, typeof( mavlink_hil_sensor_t )),
+        new message_info(108, "SIM_STATE", 0, 84, 84, typeof( mavlink_sim_state_t )),
+        new message_info(109, "RADIO_STATUS", 0, 9, 9, typeof( mavlink_radio_status_t )),
+        new message_info(110, "FILE_TRANSFER_PROTOCOL", 157, 254, 254, typeof( mavlink_file_transfer_protocol_t )),
+        new message_info(111, "TIMESYNC", 0, 16, 16, typeof( mavlink_timesync_t )),
+        new message_info(112, "CAMERA_TRIGGER", 0, 12, 12, typeof( mavlink_camera_trigger_t )),
+        new message_info(113, "HIL_GPS", 0, 36, 39, typeof( mavlink_hil_gps_t )),
+        new message_info(114, "HIL_OPTICAL_FLOW", 0, 44, 44, typeof( mavlink_hil_optical_flow_t )),
+        new message_info(115, "HIL_STATE_QUATERNION", 234, 64, 64, typeof( mavlink_hil_state_quaternion_t )),
+        new message_info(116, "SCALED_IMU2", 0, 22, 24, typeof( mavlink_scaled_imu2_t )),
+        new message_info(117, "LOG_REQUEST_LIST", 0, 6, 6, typeof( mavlink_log_request_list_t )),
+        new message_info(118, "LOG_ENTRY", 0, 14, 14, typeof( mavlink_log_entry_t )),
+        new message_info(119, "LOG_REQUEST_DATA", 0, 12, 12, typeof( mavlink_log_request_data_t )),
+        new message_info(120, "LOG_DATA", 170, 97, 97, typeof( mavlink_log_data_t )),
+        new message_info(121, "LOG_ERASE", 0, 2, 2, typeof( mavlink_log_erase_t )),
+        new message_info(122, "LOG_REQUEST_END", 0, 2, 2, typeof( mavlink_log_request_end_t )),
+        new message_info(123, "GPS_INJECT_DATA", 122, 113, 113, typeof( mavlink_gps_inject_data_t )),
+        new message_info(124, "GPS2_RAW", 0, 35, 57, typeof( mavlink_gps2_raw_t )),
+        new message_info(125, "POWER_STATUS", 0, 6, 6, typeof( mavlink_power_status_t )),
+        new message_info(126, "SERIAL_CONTROL", 157, 79, 79, typeof( mavlink_serial_control_t )),
+        new message_info(127, "GPS_RTK", 0, 35, 35, typeof( mavlink_gps_rtk_t )),
+        new message_info(128, "GPS2_RTK", 0, 35, 35, typeof( mavlink_gps2_rtk_t )),
+        new message_info(129, "SCALED_IMU3", 0, 22, 24, typeof( mavlink_scaled_imu3_t )),
+        new message_info(130, "DATA_TRANSMISSION_HANDSHAKE", 0, 13, 13, typeof( mavlink_data_transmission_handshake_t )),
+        new message_info(131, "ENCAPSULATED_DATA", 206, 255, 255, typeof( mavlink_encapsulated_data_t )),
+        new message_info(132, "DISTANCE_SENSOR", 0, 14, 39, typeof( mavlink_distance_sensor_t )),
+        new message_info(133, "TERRAIN_REQUEST", 0, 18, 18, typeof( mavlink_terrain_request_t )),
+        new message_info(134, "TERRAIN_DATA", 25, 43, 43, typeof( mavlink_terrain_data_t )),
+        new message_info(135, "TERRAIN_CHECK", 0, 8, 8, typeof( mavlink_terrain_check_t )),
+        new message_info(136, "TERRAIN_REPORT", 0, 22, 22, typeof( mavlink_terrain_report_t )),
+        new message_info(137, "SCALED_PRESSURE2", 0, 14, 16, typeof( mavlink_scaled_pressure2_t )),
+        new message_info(138, "ATT_POS_MOCAP", 234, 36, 120, typeof( mavlink_att_pos_mocap_t )),
+        new message_info(139, "SET_ACTUATOR_CONTROL_TARGET", 76, 43, 43, typeof( mavlink_set_actuator_control_target_t )),
+        new message_info(140, "ACTUATOR_CONTROL_TARGET", 76, 41, 41, typeof( mavlink_actuator_control_target_t )),
+        new message_info(141, "ALTITUDE", 0, 32, 32, typeof( mavlink_altitude_t )),
+        new message_info(142, "RESOURCE_REQUEST", 66, 243, 243, typeof( mavlink_resource_request_t )),
+        new message_info(143, "SCALED_PRESSURE3", 0, 14, 16, typeof( mavlink_scaled_pressure3_t )),
+        new message_info(144, "FOLLOW_TARGET", 104, 93, 93, typeof( mavlink_follow_target_t )),
+        new message_info(146, "CONTROL_SYSTEM_STATE", 161, 100, 100, typeof( mavlink_control_system_state_t )),
+        new message_info(147, "BATTERY_STATUS", 125, 36, 54, typeof( mavlink_battery_status_t )),
+        new message_info(148, "AUTOPILOT_VERSION", 196, 60, 78, typeof( mavlink_autopilot_version_t )),
+        new message_info(149, "LANDING_TARGET", 0, 30, 60, typeof( mavlink_landing_target_t )),
+        new message_info(150, "SENSOR_OFFSETS", 0, 42, 42, typeof( mavlink_sensor_offsets_t )),
+        new message_info(151, "SET_MAG_OFFSETS", 0, 8, 8, typeof( mavlink_set_mag_offsets_t )),
+        new message_info(152, "MEMINFO", 0, 4, 8, typeof( mavlink_meminfo_t )),
+        new message_info(153, "AP_ADC", 0, 12, 12, typeof( mavlink_ap_adc_t )),
+        new message_info(154, "DIGICAM_CONFIGURE", 0, 15, 15, typeof( mavlink_digicam_configure_t )),
+        new message_info(155, "DIGICAM_CONTROL", 0, 13, 13, typeof( mavlink_digicam_control_t )),
+        new message_info(156, "MOUNT_CONFIGURE", 0, 6, 6, typeof( mavlink_mount_configure_t )),
+        new message_info(157, "MOUNT_CONTROL", 0, 15, 15, typeof( mavlink_mount_control_t )),
+        new message_info(158, "MOUNT_STATUS", 0, 14, 15, typeof( mavlink_mount_status_t )),
+        new message_info(160, "FENCE_POINT", 0, 12, 12, typeof( mavlink_fence_point_t )),
+        new message_info(161, "FENCE_FETCH_POINT", 0, 3, 3, typeof( mavlink_fence_fetch_point_t )),
+        new message_info(162, "FENCE_STATUS", 0, 8, 9, typeof( mavlink_fence_status_t )),
+        new message_info(163, "AHRS", 0, 28, 28, typeof( mavlink_ahrs_t )),
+        new message_info(164, "SIMSTATE", 0, 44, 44, typeof( mavlink_simstate_t )),
+        new message_info(165, "HWSTATUS", 0, 3, 3, typeof( mavlink_hwstatus_t )),
+        new message_info(166, "RADIO", 0, 9, 9, typeof( mavlink_radio_t )),
+        new message_info(167, "LIMITS_STATUS", 0, 22, 22, typeof( mavlink_limits_status_t )),
+        new message_info(168, "WIND", 0, 12, 12, typeof( mavlink_wind_t )),
+        new message_info(169, "DATA16", 25, 18, 18, typeof( mavlink_data16_t )),
+        new message_info(170, "DATA32", 171, 34, 34, typeof( mavlink_data32_t )),
+        new message_info(171, "DATA64", 206, 66, 66, typeof( mavlink_data64_t )),
+        new message_info(172, "DATA96", 237, 98, 98, typeof( mavlink_data96_t )),
+        new message_info(173, "RANGEFINDER", 0, 8, 8, typeof( mavlink_rangefinder_t )),
+        new message_info(174, "AIRSPEED_AUTOCAL", 0, 48, 48, typeof( mavlink_airspeed_autocal_t )),
+        new message_info(175, "RALLY_POINT", 0, 19, 19, typeof( mavlink_rally_point_t )),
+        new message_info(176, "RALLY_FETCH_POINT", 0, 3, 3, typeof( mavlink_rally_fetch_point_t )),
+        new message_info(177, "COMPASSMOT_STATUS", 0, 20, 20, typeof( mavlink_compassmot_status_t )),
+        new message_info(178, "AHRS2", 0, 24, 24, typeof( mavlink_ahrs2_t )),
+        new message_info(179, "CAMERA_STATUS", 0, 29, 29, typeof( mavlink_camera_status_t )),
+        new message_info(180, "CAMERA_FEEDBACK", 0, 45, 47, typeof( mavlink_camera_feedback_t )),
+        new message_info(181, "BATTERY2", 0, 4, 4, typeof( mavlink_battery2_t )),
+        new message_info(182, "AHRS3", 0, 40, 40, typeof( mavlink_ahrs3_t )),
+        new message_info(183, "AUTOPILOT_VERSION_REQUEST", 0, 2, 2, typeof( mavlink_autopilot_version_request_t )),
+        new message_info(184, "REMOTE_LOG_DATA_BLOCK", 134, 206, 206, typeof( mavlink_remote_log_data_block_t )),
+        new message_info(185, "REMOTE_LOG_BLOCK_STATUS", 0, 7, 7, typeof( mavlink_remote_log_block_status_t )),
+        new message_info(186, "LED_CONTROL", 221, 29, 29, typeof( mavlink_led_control_t )),
+        new message_info(191, "MAG_CAL_PROGRESS", 125, 27, 27, typeof( mavlink_mag_cal_progress_t )),
+        new message_info(192, "MAG_CAL_REPORT", 0, 44, 54, typeof( mavlink_mag_cal_report_t )),
+        new message_info(193, "EKF_STATUS_REPORT", 0, 22, 26, typeof( mavlink_ekf_status_report_t )),
+        new message_info(194, "PID_TUNING", 0, 25, 33, typeof( mavlink_pid_tuning_t )),
+        new message_info(195, "DEEPSTALL", 0, 37, 37, typeof( mavlink_deepstall_t )),
+        new message_info(200, "GIMBAL_REPORT", 0, 42, 42, typeof( mavlink_gimbal_report_t )),
+        new message_info(201, "GIMBAL_CONTROL", 0, 14, 14, typeof( mavlink_gimbal_control_t )),
+        new message_info(214, "GIMBAL_TORQUE_CMD_REPORT", 0, 8, 8, typeof( mavlink_gimbal_torque_cmd_report_t )),
+        new message_info(215, "GOPRO_HEARTBEAT", 0, 3, 3, typeof( mavlink_gopro_heartbeat_t )),
+        new message_info(216, "GOPRO_GET_REQUEST", 0, 3, 3, typeof( mavlink_gopro_get_request_t )),
+        new message_info(217, "GOPRO_GET_RESPONSE", 234, 6, 6, typeof( mavlink_gopro_get_response_t )),
+        new message_info(218, "GOPRO_SET_REQUEST", 234, 7, 7, typeof( mavlink_gopro_set_request_t )),
+        new message_info(219, "GOPRO_SET_RESPONSE", 0, 2, 2, typeof( mavlink_gopro_set_response_t )),
+        new message_info(225, "EFI_STATUS", 0, 65, 65, typeof( mavlink_efi_status_t )),
+        new message_info(226, "RPM", 0, 8, 8, typeof( mavlink_rpm_t )),
+        new message_info(230, "ESTIMATOR_STATUS", 0, 42, 42, typeof( mavlink_estimator_status_t )),
+        new message_info(231, "WIND_COV", 0, 40, 40, typeof( mavlink_wind_cov_t )),
+        new message_info(232, "GPS_INPUT", 0, 63, 65, typeof( mavlink_gps_input_t )),
+        new message_info(233, "GPS_RTCM_DATA", 212, 182, 182, typeof( mavlink_gps_rtcm_data_t )),
+        new message_info(234, "HIGH_LATENCY", 0, 40, 40, typeof( mavlink_high_latency_t )),
+        new message_info(235, "HIGH_LATENCY2", 0, 42, 42, typeof( mavlink_high_latency2_t )),
+        new message_info(241, "VIBRATION", 0, 32, 32, typeof( mavlink_vibration_t )),
+        new message_info(242, "HOME_POSITION", 234, 52, 60, typeof( mavlink_home_position_t )),
+        new message_info(243, "SET_HOME_POSITION", 234, 53, 61, typeof( mavlink_set_home_position_t )),
+        new message_info(244, "MESSAGE_INTERVAL", 0, 6, 6, typeof( mavlink_message_interval_t )),
+        new message_info(245, "EXTENDED_SYS_STATE", 0, 2, 2, typeof( mavlink_extended_sys_state_t )),
+        new message_info(246, "ADSB_VEHICLE", 212, 38, 38, typeof( mavlink_adsb_vehicle_t )),
+        new message_info(247, "COLLISION", 0, 19, 19, typeof( mavlink_collision_t )),
+        new message_info(248, "V2_EXTENSION", 172, 254, 254, typeof( mavlink_v2_extension_t )),
+        new message_info(249, "MEMORY_VECT", 171, 36, 36, typeof( mavlink_memory_vect_t )),
+        new message_info(250, "DEBUG_VECT", 125, 30, 30, typeof( mavlink_debug_vect_t )),
+        new message_info(251, "NAMED_VALUE_FLOAT", 125, 18, 18, typeof( mavlink_named_value_float_t )),
+        new message_info(252, "NAMED_VALUE_INT", 125, 18, 18, typeof( mavlink_named_value_int_t )),
+        new message_info(253, "STATUSTEXT", 11, 51, 54, typeof( mavlink_statustext_t )),
+        new message_info(254, "DEBUG", 0, 9, 9, typeof( mavlink_debug_t )),
+        new message_info(256, "SETUP_SIGNING", 171, 42, 42, typeof( mavlink_setup_signing_t )),
+        new message_info(257, "BUTTON_CHANGE", 0, 9, 9, typeof( mavlink_button_change_t )),
+        new message_info(258, "PLAY_TUNE", 142, 32, 232, typeof( mavlink_play_tune_t )),
+        new message_info(259, "CAMERA_INFORMATION", 8, 235, 235, typeof( mavlink_camera_information_t )),
+        new message_info(260, "CAMERA_SETTINGS", 0, 5, 13, typeof( mavlink_camera_settings_t )),
+        new message_info(261, "STORAGE_INFORMATION", 0, 27, 60, typeof( mavlink_storage_information_t )),
+        new message_info(262, "CAMERA_CAPTURE_STATUS", 0, 18, 22, typeof( mavlink_camera_capture_status_t )),
+        new message_info(263, "CAMERA_IMAGE_CAPTURED", 187, 255, 255, typeof( mavlink_camera_image_captured_t )),
+        new message_info(264, "FLIGHT_INFORMATION", 0, 28, 28, typeof( mavlink_flight_information_t )),
+        new message_info(265, "MOUNT_ORIENTATION", 0, 16, 20, typeof( mavlink_mount_orientation_t )),
+        new message_info(266, "LOGGING_DATA", 172, 255, 255, typeof( mavlink_logging_data_t )),
+        new message_info(267, "LOGGING_DATA_ACKED", 172, 255, 255, typeof( mavlink_logging_data_acked_t )),
+        new message_info(268, "LOGGING_ACK", 0, 4, 4, typeof( mavlink_logging_ack_t )),
+        new message_info(269, "VIDEO_STREAM_INFORMATION", 247, 213, 213, typeof( mavlink_video_stream_information_t )),
+        new message_info(270, "VIDEO_STREAM_STATUS", 0, 19, 19, typeof( mavlink_video_stream_status_t )),
+        new message_info(283, "GIMBAL_DEVICE_INFORMATION", 1, 144, 144, typeof( mavlink_gimbal_device_information_t )),
+        new message_info(286, "AUTOPILOT_STATE_FOR_GIMBAL_DEVICE", 234, 53, 53, typeof( mavlink_autopilot_state_for_gimbal_device_t )),
+        new message_info(299, "WIFI_CONFIG_AP", 30, 96, 96, typeof( mavlink_wifi_config_ap_t )),
+        new message_info(301, "AIS_VESSEL", 254, 58, 58, typeof( mavlink_ais_vessel_t )),
+        new message_info(310, "UAVCAN_NODE_STATUS", 0, 17, 17, typeof( mavlink_uavcan_node_status_t )),
+        new message_info(311, "UAVCAN_NODE_INFO", 253, 116, 116, typeof( mavlink_uavcan_node_info_t )),
+        new message_info(320, "PARAM_EXT_REQUEST_READ", 25, 20, 20, typeof( mavlink_param_ext_request_read_t )),
+        new message_info(321, "PARAM_EXT_REQUEST_LIST", 0, 2, 2, typeof( mavlink_param_ext_request_list_t )),
+        new message_info(322, "PARAM_EXT_VALUE", 192, 149, 149, typeof( mavlink_param_ext_value_t )),
+        new message_info(323, "PARAM_EXT_SET", 192, 147, 147, typeof( mavlink_param_ext_set_t )),
+        new message_info(324, "PARAM_EXT_ACK", 192, 146, 146, typeof( mavlink_param_ext_ack_t )),
+        new message_info(330, "OBSTACLE_DISTANCE", 10, 158, 167, typeof( mavlink_obstacle_distance_t )),
+        new message_info(331, "ODOMETRY", 161, 230, 232, typeof( mavlink_odometry_t )),
+        new message_info(335, "ISBD_LINK_STATUS", 0, 24, 24, typeof( mavlink_isbd_link_status_t )),
+        new message_info(339, "RAW_RPM", 0, 5, 5, typeof( mavlink_raw_rpm_t )),
+        new message_info(340, "UTM_GLOBAL_POSITION", 40, 70, 70, typeof( mavlink_utm_global_position_t )),
+        new message_info(350, "DEBUG_FLOAT_ARRAY", 125, 20, 252, typeof( mavlink_debug_float_array_t )),
+        new message_info(370, "SMART_BATTERY_INFO", 207, 87, 109, typeof( mavlink_smart_battery_info_t )),
+        new message_info(373, "GENERATOR_STATUS", 0, 42, 42, typeof( mavlink_generator_status_t )),
+        new message_info(375, "ACTUATOR_OUTPUT_STATUS", 171, 140, 140, typeof( mavlink_actuator_output_status_t )),
+        new message_info(385, "TUNNEL", 4, 133, 133, typeof( mavlink_tunnel_t )),
+        new message_info(386, "CAN_FRAME", 76, 16, 16, typeof( mavlink_can_frame_t )),
+        new message_info(387, "CANFD_FRAME", 206, 72, 72, typeof( mavlink_canfd_frame_t )),
+        new message_info(388, "CAN_FILTER_MODIFY", 25, 37, 37, typeof( mavlink_can_filter_modify_t )),
+        new message_info(9000, "WHEEL_DISTANCE", 25, 137, 137, typeof( mavlink_wheel_distance_t )),
+        new message_info(9005, "WINCH_STATUS", 0, 34, 34, typeof( mavlink_winch_status_t )),
+        new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 212, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
+        new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 0, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
+        new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 0, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
+        new message_info(10004, "UAVIONIX_ADSB_OUT_CFG_REGISTRATION", 212, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_registration_t )),
+        new message_info(10005, "UAVIONIX_ADSB_OUT_CFG_FLIGHTID", 212, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_flightid_t )),
+        new message_info(10006, "UAVIONIX_ADSB_GET", 0, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
+        new message_info(10007, "UAVIONIX_ADSB_OUT_CONTROL", 76, 17, 17, typeof( mavlink_uavionix_adsb_out_control_t )),
+        new message_info(10008, "UAVIONIX_ADSB_OUT_STATUS", 76, 14, 14, typeof( mavlink_uavionix_adsb_out_status_t )),
+        new message_info(11000, "DEVICE_OP_READ", 111, 51, 52, typeof( mavlink_device_op_read_t )),
+        new message_info(11001, "DEVICE_OP_READ_REPLY", 4, 135, 136, typeof( mavlink_device_op_read_reply_t )),
+        new message_info(11002, "DEVICE_OP_WRITE", 218, 179, 180, typeof( mavlink_device_op_write_t )),
+        new message_info(11003, "DEVICE_OP_WRITE_REPLY", 0, 5, 5, typeof( mavlink_device_op_write_reply_t )),
+        new message_info(11010, "ADAP_TUNING", 0, 49, 49, typeof( mavlink_adap_tuning_t )),
+        new message_info(11011, "VISION_POSITION_DELTA", 163, 44, 44, typeof( mavlink_vision_position_delta_t )),
+        new message_info(11020, "AOA_SSA", 0, 16, 16, typeof( mavlink_aoa_ssa_t )),
+        new message_info(11030, "ESC_TELEMETRY_1_TO_4", 0, 44, 44, typeof( mavlink_esc_telemetry_1_to_4_t )),
+        new message_info(11031, "ESC_TELEMETRY_5_TO_8", 0, 44, 44, typeof( mavlink_esc_telemetry_5_to_8_t )),
+        new message_info(11032, "ESC_TELEMETRY_9_TO_12", 0, 44, 44, typeof( mavlink_esc_telemetry_9_to_12_t )),
+        new message_info(11033, "OSD_PARAM_CONFIG", 25, 37, 37, typeof( mavlink_osd_param_config_t )),
+        new message_info(11034, "OSD_PARAM_CONFIG_REPLY", 0, 5, 5, typeof( mavlink_osd_param_config_reply_t )),
+        new message_info(11035, "OSD_PARAM_SHOW_CONFIG", 0, 8, 8, typeof( mavlink_osd_param_show_config_t )),
+        new message_info(11036, "OSD_PARAM_SHOW_CONFIG_REPLY", 25, 34, 34, typeof( mavlink_osd_param_show_config_reply_t )),
+        new message_info(11037, "OBSTACLE_DISTANCE_3D", 0, 28, 28, typeof( mavlink_obstacle_distance_3d_t )),
+        new message_info(11038, "WATER_DEPTH", 0, 38, 38, typeof( mavlink_water_depth_t )),
+        new message_info(11039, "MCU_STATUS", 0, 9, 9, typeof( mavlink_mcu_status_t )),
+        new message_info(12920, "HYGROMETER_SENSOR", 0, 5, 5, typeof( mavlink_hygrometer_sensor_t )),
+        new message_info(42000, "ICAROUS_HEARTBEAT", 0, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
+        new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 0, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
+        new message_info(0, "HEARTBEAT", 0, 9, 9, typeof( mavlink_heartbeat_t )),
 
     };
 
@@ -528,6 +530,7 @@ public partial class MAVLink
         LOGGING_DATA = 266,
         LOGGING_DATA_ACKED = 267,
         LOGGING_ACK = 268,
+        VIDEO_STREAM_INFORMATION = 269,
         VIDEO_STREAM_STATUS = 270,
         GIMBAL_DEVICE_INFORMATION = 283,
         AUTOPILOT_STATE_FOR_GIMBAL_DEVICE = 286,
@@ -550,9 +553,11 @@ public partial class MAVLink
         GENERATOR_STATUS = 373,
         ACTUATOR_OUTPUT_STATUS = 375,
         TUNNEL = 385,
+        CAN_FRAME = 386,
+        CANFD_FRAME = 387,
+        CAN_FILTER_MODIFY = 388,
         WHEEL_DISTANCE = 9000,
         WINCH_STATUS = 9005,
-        VIDEO_STREAM_INFORMATION9 = 9269,
         UAVIONIX_ADSB_OUT_CFG = 10001,
         UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
         UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
@@ -581,7 +586,6 @@ public partial class MAVLink
         HYGROMETER_SENSOR = 12920,
         ICAROUS_HEARTBEAT = 42000,
         ICAROUS_KINEMATIC_BANDS = 42001,
-        VIDEO_STREAM_INFORMATION = 269,
         HEARTBEAT = 0,
     }
     
@@ -646,7 +650,7 @@ public partial class MAVLink
         ///<summary> Navigate to waypoint. |Hold time. (ignored by fixed wing, time to stay at waypoint for rotary wing)| Acceptance radius (if the sphere with this radius is hit, the waypoint counts as reached)| 0 radius to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.| Desired yaw angle at waypoint (rotary wing). NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Navigate to waypoint.")]
         WAYPOINT=16, 
-        ///<summary> Loiter around this waypoint an unlimited amount of time |Empty| Empty| Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, else counter-clockwise| me, etc.).| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Loiter around this waypoint an unlimited amount of time |Empty| Empty| Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, else counter-clockwise| Desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Loiter around this waypoint an unlimited amount of time")]
         LOITER_UNLIM=17, 
         ///<summary> Loiter around this waypoint for X turns |Number of turns.| Empty| Radius around waypoint. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
@@ -679,7 +683,7 @@ public partial class MAVLink
         ///<summary> Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached. Additionally, if the Heading Required parameter is non-zero the aircraft will not leave the loiter until heading toward the next waypoint. |Heading Required (0 = False)| Radius. If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.| Empty| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location| Latitude| Longitude| Altitude|  </summary>
         [Description("Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached. Additionally, if the Heading Required parameter is non-zero the aircraft will not leave the loiter until heading toward the next waypoint.")]
         LOITER_TO_ALT=31, 
-        ///<summary> Begin following a target |System ID (of the FOLLOW_TARGET beacon). Send 0 to disable follow-me and return to the default position hold mode.| Reserved| Reserved| Altitude mode: 0: Keep current altitude, 1: keep altitude difference to target, 2: go to a fixed altitude above home.| Altitude above home. (used if mode=2)| Reserved| the default position hold mode after a message RX timeout.|  </summary>
+        ///<summary> Begin following a target |System ID (of the FOLLOW_TARGET beacon). Send 0 to disable follow-me and return to the default position hold mode.| Reserved| Reserved| Altitude mode: 0: Keep current altitude, 1: keep altitude difference to target, 2: go to a fixed altitude above home.| Altitude above home. (used if mode=2)| Reserved| Time to land in which the MAV should go to the default position hold mode after a message RX timeout.|  </summary>
         [Description("Begin following a target")]
         DO_FOLLOW=32, 
         ///<summary> Reposition the MAV after a follow target command has been sent |Camera q1 (where 0 is on the ray from the camera to the tracking device)| Camera q2| Camera q3| Camera q4| altitude offset from target| X offset from target| Y offset from target|  </summary>
@@ -698,7 +702,7 @@ public partial class MAVLink
         ///<summary> Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up. |Altitude.| Descent speed.| How long to wiggle the control surfaces to prevent them seizing up.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up.")]
         ALTITUDE_WAIT=83, 
-        ///<summary> Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. |Empty| Front transition heading.| Empty| current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. |Empty| Front transition heading.| Empty| Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude|  </summary>
         [Description("Takeoff from ground using VTOL mode, and transition to forward flight with specified heading.")]
         VTOL_TAKEOFF=84, 
         ///<summary> Land using VTOL mode |Empty| Empty| Approach altitude (with the same reference as the Altitude field). NaN if unspecified.| Yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).| Latitude| Longitude| Altitude (ground level)|  </summary>
@@ -725,7 +729,7 @@ public partial class MAVLink
         ///<summary> Delay mission state machine until within desired distance of next NAV point. |Distance.| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Delay mission state machine until within desired distance of next NAV point.")]
         CONDITION_DISTANCE=114, 
-        ///<summary> Reach a certain target angle. |target angle, 0 is north| peed| direction: -1: counter clockwise, 1: clockwise| 0: absolute angle, 1: relative offset| Empty| Empty| Empty|  </summary>
+        ///<summary> Reach a certain target angle. |target angle, 0 is north| angular speed| direction: -1: counter clockwise, 1: clockwise| 0: absolute angle, 1: relative offset| Empty| Empty| Empty|  </summary>
         [Description("Reach a certain target angle.")]
         CONDITION_YAW=115, 
         ///<summary> NOP - This command is only used to mark the upper limit of the CONDITION commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -767,7 +771,7 @@ public partial class MAVLink
         ///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence. |Empty| Empty| Empty| Empty| Latitude| Longitude| Empty|  </summary>
         [Description("Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0 if not needed. If specified then it will be used to help find the closest landing sequence.")]
         DO_LAND_START=189, 
-        ///<summary> Mission command to perform a landing from a rally point. |Break altitude| Landing speed| Empty| Empty| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to perform a landing from a rally point. |Break altitude| Landing speed| Empty| ty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to perform a landing from a rally point.")]
         DO_RALLY_LAND=190, 
         ///<summary> Mission command to safely abort an autonomous landing. |Altitude| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -776,7 +780,7 @@ public partial class MAVLink
         ///<summary> Reposition the vehicle to a specific WGS84 global position. |Ground speed, less than 0 (-1) for default| Bitmask of option flags.| Reserved| Yaw heading. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.). For planes indicates loiter direction (0: clockwise, 1: counter clockwise)| Latitude| Longitude| Altitude|  </summary>
         [Description("Reposition the vehicle to a specific WGS84 global position.")]
         DO_REPOSITION=192, 
-        ///<summary> If in a GPS controlled position mode, hold the current position or continue. |0: Pause current mission or reposition command, hold current position. 1: Continue mission. A VTOL capable vehicle should enter hover mode (multicopter and VTOL planes). A plane should loiter with the default loiter radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
+        ///<summary> If in a GPS controlled position mode, hold the current position or continue. |should loiter with the default loiter radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("If in a GPS controlled position mode, hold the current position or continue.")]
         DO_PAUSE_CONTINUE=193, 
         ///<summary> Set moving direction to forward or reverse. |Direction (0=Forward, 1=Reverse)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -794,7 +798,7 @@ public partial class MAVLink
         ///<summary> Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means. |System ID| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means.")]
         DO_SET_ROI_SYSID=198, 
-        ///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| 0: single images every n seconds| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
+        ///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| mages every n seconds| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
         [Description("Control onboard camera system.")]
         DO_CONTROL_VIDEO=200, 
         ///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicle's control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of interest mode.| Waypoint index/ target ID (depends on param 1).| Region of interest index. (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
@@ -807,10 +811,10 @@ public partial class MAVLink
         ///<summary> Control digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ). |Session control e.g. show/hide lens| Zoom's absolute position| Zooming step value to offset zoom from the current position| Focus Locking, Unlocking or Re-locking| Shooting Command| Command Identity| Test shot identifier. If set to 1, image will only be captured, but not counted towards internal frame count.|  </summary>
         [Description("Control digital camera. This is a fallback message for systems that have not yet implemented PARAM_EXT_XXX messages and camera definition files (see https://mavlink.io/en/services/camera_def.html ).")]
         DO_DIGICAM_CONTROL=203, 
-        ///<summary> Mission command to configure a camera or antenna mount |Mount operation mode| stabilize roll? (1 = yes, 0 = no)| stabilize pitch? (1 = yes, 0 = no)| stabilize yaw? (1 = yes, 0 = no)| Empty| Empty| Empty|  </summary>
+        ///<summary> Mission command to configure a camera or antenna mount |Mount operation mode| stabilize roll? (1 = yes, 0 = no)| h? (1 = yes, 0 = no)| stabilize yaw? (1 = yes, 0 = no)| Empty| Empty| Empty|  </summary>
         [Description("Mission command to configure a camera or antenna mount")]
         DO_MOUNT_CONFIGURE=204, 
-        ///<summary> Mission command to control a camera or antenna mount |pitch (WIP: DEPRECATED: or lat in degrees) depending on mount mode.| or lon in degrees) depending on mount mode.| yaw (WIP: DEPRECATED: or alt in meters) depending on mount mode.| WIP: alt in meters depending on mount mode.| WIP: latitude in degrees * 1E7, set if appropriate mount mode.| WIP: longitude in degrees * 1E7, set if appropriate mount mode.| Mount mode.|  </summary>
+        ///<summary> Mission command to control a camera or antenna mount |pitch (WIP: DEPRECATED: or lat in degrees) depending on mount mode.| roll (WIP: DEPRECATED: or lon in degrees) depending on mount mode.| yaw (WIP: DEPRECATED: or alt in meters) depending on mount mode.| WIP: alt in meters depending on mount mode.| WIP: latitude in degrees * 1E7, set if appropriate mount mode.| WIP: longitude in degrees * 1E7, set if appropriate mount mode.| Mount mode.|  </summary>
         [Description("Mission command to control a camera or antenna mount")]
         DO_MOUNT_CONTROL=205, 
         ///<summary> Mission command to set camera trigger distance for this flight. The camera is triggered each time this distance is exceeded. This command can also be used to set the shutter integration time for the camera. |Camera trigger distance. 0 to stop triggering.| Camera shutter integration time. -1 or 0 to ignore| Trigger camera once immediately. (0 = no trigger, 1 = trigger)| Empty| Empty| Empty| Empty|  </summary>
@@ -831,7 +835,7 @@ public partial class MAVLink
         ///<summary> Mission command to operate a gripper. |Gripper instance number.| Gripper action to perform.| Empty| Empty| Empty| Empty| Empty|  </summary>
         [Description("Mission command to operate a gripper.")]
         DO_GRIPPER=211, 
-        ///<summary> Enable/disable autotune. |Enable (1: enable, 0:disable).| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Enable/disable autotune. |Enable (1: enable, 0:disable).| Specify which axes are autotuned. 0 indicates autopilot default settings.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Enable/disable autotune.")]
         DO_AUTOTUNE_ENABLE=212, 
         ///<summary> Sets a desired vehicle turn angle and speed change. |Yaw angle to adjust steering by.| Speed.| Final angle. (0=absolute, 1=relative)| Empty| Empty| Empty| Empty|  </summary>
@@ -873,13 +877,13 @@ public partial class MAVLink
         ///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero. |1: gyro calibration, 3: gyro temperature calibration| 1: magnetometer calibration| 1: ground pressure calibration| 1: radio RC calibration, 2: RC trim calibration| 1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration, 4: simple accelerometer calibration| 1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration| 1: ESC calibration, 3: barometer temperature calibration|  </summary>
         [Description("Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero.")]
         PREFLIGHT_CALIBRATION=241, 
-        ///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |Sensor to adjust the offsets for: 0: gyros, 1: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer, 6: third magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
+        ///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer, 6: third magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
         [Description("Set sensor offsets. This command will be only accepted if in pre-flight mode.")]
         PREFLIGHT_SET_SENSOR_OFFSETS=242, 
         ///<summary> Trigger UAVCAN configuration (actuator ID assignment and direction mapping). Note that this maps to the legacy UAVCAN v0 function UAVCAN_ENUMERATE, which is intended to be executed just once during initial vehicle configuration (it is not a normal pre-flight command and has been poorly named). |1: Trigger actuator ID assignment and direction mapping. 0: Cancel command.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         [Description("Trigger UAVCAN configuration (actuator ID assignment and direction mapping). Note that this maps to the legacy UAVCAN v0 function UAVCAN_ENUMERATE, which is intended to be executed just once during initial vehicle configuration (it is not a normal pre-flight command and has been poorly named).")]
         PREFLIGHT_UAVCAN=243, 
-        ///<summary> Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode. |Parameter storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| Mission storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| 1: logging rate (e.g. set to 1000 for 1000 Hz logging)| Reserved| Empty| Empty| Empty|  </summary>
+        ///<summary> Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode. |EPROM, 2: Reset to defaults| Mission storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| 1: logging rate (e.g. set to 1000 for 1000 Hz logging)| Reserved| Empty| Empty| Empty|  </summary>
         [Description("Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode.")]
         PREFLIGHT_STORAGE=245, 
         ///<summary> Request the reboot or shutdown of system components. |0: Do nothing for autopilot, 1: Reboot autopilot, 2: Shutdown autopilot, 3: Reboot autopilot and keep it in the bootloader until upgraded.| 0: Do nothing for onboard computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.| WIP: 0: Do nothing for camera, 1: Reboot onboard camera, 2: Shutdown onboard camera, 3: Reboot onboard camera and keep it in the bootloader until upgraded| WIP: 0: Do nothing for mount (e.g. gimbal), 1: Reboot mount, 2: Shutdown mount, 3: Reboot mount and keep it in the bootloader until upgraded| Reserved (set to 0)| Reserved (set to 0)| WIP: ID (e.g. camera ID -1 for all IDs)|  </summary>
@@ -958,7 +962,7 @@ public partial class MAVLink
         ///<summary> Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number. |Target tag to jump to.| Repeat count.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number.")]
         DO_JUMP_TAG=601, 
-        ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| Desired elapsed time between two consecutive pictures (in seconds). Minimum values depend on hardware (typically greater than 2 seconds).| ges to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| Capture sequence number starting from 1. This is only valid for single-capture (param3 == 1), otherwise set to 0. Increment the capture ID for each capture command to prevent double captures when a command is re-transmitted.| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)|  </summary>
+        ///<summary> Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values. |Reserved (Set to 0)| Desired elapsed time between two consecutive pictures (in seconds). Minimum values depend on hardware (typically greater than 2 seconds).| Total number of images to capture. 0 to capture forever/until MAV_CMD_IMAGE_STOP_CAPTURE.| Capture sequence number starting from 1. This is only valid for single-capture (param3 == 1), otherwise set to 0. Increment the capture ID for each capture command to prevent double captures when a command is re-transmitted.| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)|  </summary>
         [Description("Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.")]
         IMAGE_START_CAPTURE=2000, 
         ///<summary> Stop image capture sequence Use NaN for reserved values. |Reserved (Set to 0)| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:NaN)| Reserved (default:0)| Reserved (default:0)| Reserved (default:NaN)|  </summary>
@@ -987,7 +991,7 @@ public partial class MAVLink
         [Description("Request video stream status (VIDEO_STREAM_STATUS)")]
         [Obsolete]
         REQUEST_VIDEO_STREAM_STATUS=2505, 
-        ///<summary> Request to start streaming logging data over MAVLink (see also LOGGING_DATA message) |Format: 0: ULog| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
+        ///<summary> Request to start streaming logging data over MAVLink (see also LOGGING_DATA message) |Format: 0: ULog| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| eserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Request to start streaming logging data over MAVLink (see also LOGGING_DATA message)")]
         LOGGING_START=2510, 
         ///<summary> Request to stop streaming log data over MAVLink |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
@@ -1002,7 +1006,7 @@ public partial class MAVLink
         ///<summary> Create a panorama at the current position |Viewing angle horizontal of the panorama (+- 0.5 the total angle)| Viewing angle vertical of panorama.| Speed of the horizontal rotation.| Speed of the vertical rotation.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Create a panorama at the current position")]
         PANORAMA_CREATE=2800, 
-        ///<summary> Request VTOL transition |arget VTOL state. Only MAV_VTOL_STATE_MC and MAV_VTOL_STATE_FW can be used.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
+        ///<summary> Request VTOL transition |The target VTOL state. Only MAV_VTOL_STATE_MC and MAV_VTOL_STATE_FW can be used.| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
         [Description("Request VTOL transition")]
         DO_VTOL_TRANSITION=3000, 
         ///<summary> Request authorization to arm the vehicle to a external entity, the arm authorizer is responsible to request all data that is needs from the vehicle before authorize or deny the request. If approved the progress of command_ack message should be set with period of time that this authorization is valid in seconds or in case it was denied it should be set with one of the reasons in ARM_AUTH_DENIED_REASON.          |Vehicle system id, this way ground station can request arm authorization on behalf of any vehicle| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  </summary>
@@ -1029,16 +1033,16 @@ public partial class MAVLink
         ///<summary> Circular fence area. The vehicle must stay outside this area.          |Radius.| Reserved| Reserved| Reserved| Latitude| Longitude| Reserved|  </summary>
         [Description("Circular fence area. The vehicle must stay outside this area.         ")]
         FENCE_CIRCLE_EXCLUSION=5004, 
-        ///<summary> Rally point. You can have multiple rally points defined.          |Reserved| Reserved| Reserved| served| Latitude| Longitude| Altitude|  </summary>
+        ///<summary> Rally point. You can have multiple rally points defined.          |Reserved| Reserved| Reserved| Reserved| Latitude| Longitude| Altitude|  </summary>
         [Description("Rally point. You can have multiple rally points defined.         ")]
         RALLY_POINT=5100, 
-        ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
+        ///<summary> Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| 0)| Reserved (set to 0)|  </summary>
         [Description("Commands the vehicle to respond with a sequence of messages UAVCAN_NODE_INFO, one message per every UAVCAN node that is online. Note that some of the response messages can be lost, which the receiver can detect easily by checking whether every received UAVCAN_NODE_STATUS has a matching message UAVCAN_NODE_INFO received earlier; if not, this command should be sent again in order to request re-transmission of the node information messages.")]
         UAVCAN_GET_NODE_INFO=5200, 
         ///<summary> Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec.")]
         DO_ADSB_OUT_IDENT=10001, 
-        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
+        ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| d at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
         [Description("Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity.")]
         PAYLOAD_PREPARE_DEPLOY=30001, 
         ///<summary> Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal mission. 1: switch to payload deployment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
@@ -1056,7 +1060,7 @@ public partial class MAVLink
         ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
         WAYPOINT_USER_4=31003, 
-        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
+        ///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| ned| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
         [Description("User defined waypoint item. Ground Station will show the Vehicle as flying through this item.")]
         WAYPOINT_USER_5=31004, 
         ///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude (MSL)|  </summary>
@@ -1089,6 +1093,9 @@ public partial class MAVLink
         ///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
         [Description("User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item.")]
         USER_5=31014, 
+        ///<summary> Request forwarding of CAN packets from the given CAN bus to this interface. CAN Frames are sent using CAN_FRAME and CANFD_FRAME messages |Bus number (0 to disable forwarding, 1 for first bus, 2 for 2nd bus, 3 for 3rd bus).| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        [Description("Request forwarding of CAN packets from the given CAN bus to this interface. CAN Frames are sent using CAN_FRAME and CANFD_FRAME messages")]
+        CAN_FORWARD=32000, 
         ///<summary> A system wide power-off event has been initiated. |Empty.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("A system wide power-off event has been initiated.")]
         POWER_OFF_INITIATED=42000, 
@@ -1107,7 +1114,7 @@ public partial class MAVLink
         ///<summary> Magnetometer calibration based on fixed expected field values. |Field strength X.| Field strength Y.| th Z.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on fixed expected field values.")]
         FIXED_MAG_CAL_FIELD=42005, 
-        ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |Yaw of vehicle in earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |n earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location.")]
         FIXED_MAG_CAL_YAW=42006, 
         ///<summary> Set EKF sensor source set. |Source Set Id.| Empty.| Empty.| Empty.| Empty.| Empty.| Empty.|  </summary>
@@ -1143,7 +1150,7 @@ public partial class MAVLink
         ///<summary> Erases gimbal application and parameters. |Magic number.| Magic number.| Magic number.| Magic number.| Magic number.| Magic number.| Magic number.|  </summary>
         [Description("Erases gimbal application and parameters.")]
         GIMBAL_FULL_RESET=42505, 
-        ///<summary> Command to operate winch. |Winch instance number.| Action to perform.| (negative to wind).| Release rate (negative to wind).| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Command to operate winch. |Winch instance number.| Action to perform.| Length of cable to release (negative to wind).| Release rate (negative to wind).| Empty.| Empty.| Empty.|  </summary>
         [Description("Command to operate winch.")]
         DO_WINCH=42600, 
         ///<summary> Update the bootloader |Empty| Empty| Empty| Empty| Magic number - set to 290876 to actually flash| Empty| Empty|  </summary>
@@ -2304,7 +2311,6 @@ public partial class MAVLink
     };
     
     
-    
     ///<summary> These values define the type of firmware release.  These values indicate the first version or release of this type.  For example the first alpha release would be 64, the second would be 65. </summary>
     public enum FIRMWARE_VERSION_TYPE: int /*default*/
     {
@@ -2843,6 +2849,24 @@ public partial class MAVLink
         
     };
     
+    ///<summary> Enable axes that will be tuned via autotuning. Used in MAV_CMD_DO_AUTOTUNE_ENABLE. </summary>
+    public enum AUTOTUNE_AXIS: int /*default*/
+    {
+        ///<summary> Flight stack tunes axis according to its default settings. | </summary>
+        [Description("Flight stack tunes axis according to its default settings.")]
+        DEFAULT=0, 
+        ///<summary> Autotune roll axis. | </summary>
+        [Description("Autotune roll axis.")]
+        ROLL=1, 
+        ///<summary> Autotune pitch axis. | </summary>
+        [Description("Autotune pitch axis.")]
+        PITCH=2, 
+        ///<summary> Autotune yaw axis. | </summary>
+        [Description("Autotune yaw axis.")]
+        YAW=4, 
+        
+    };
+    
     ///<summary> A data stream is not a fixed set of messages, but rather a      recommendation to the autopilot software. Individual autopilots may or may not obey      the recommended messages. </summary>
     public enum MAV_DATA_STREAM: int /*default*/
     {
@@ -2963,6 +2987,45 @@ public partial class MAVLink
         ///<summary> 64-bit floating-point | </summary>
         [Description("64-bit floating-point")]
         REAL64=10, 
+        
+    };
+    
+    ///<summary> Specifies the datatype of a MAVLink extended parameter. </summary>
+    public enum MAV_PARAM_EXT_TYPE: byte
+    {
+        ///<summary> 8-bit unsigned integer | </summary>
+        [Description("8-bit unsigned integer")]
+        UINT8=1, 
+        ///<summary> 8-bit signed integer | </summary>
+        [Description("8-bit signed integer")]
+        INT8=2, 
+        ///<summary> 16-bit unsigned integer | </summary>
+        [Description("16-bit unsigned integer")]
+        UINT16=3, 
+        ///<summary> 16-bit signed integer | </summary>
+        [Description("16-bit signed integer")]
+        INT16=4, 
+        ///<summary> 32-bit unsigned integer | </summary>
+        [Description("32-bit unsigned integer")]
+        UINT32=5, 
+        ///<summary> 32-bit signed integer | </summary>
+        [Description("32-bit signed integer")]
+        INT32=6, 
+        ///<summary> 64-bit unsigned integer | </summary>
+        [Description("64-bit unsigned integer")]
+        UINT64=7, 
+        ///<summary> 64-bit signed integer | </summary>
+        [Description("64-bit signed integer")]
+        INT64=8, 
+        ///<summary> 32-bit floating-point | </summary>
+        [Description("32-bit floating-point")]
+        REAL32=9, 
+        ///<summary> 64-bit floating-point | </summary>
+        [Description("64-bit floating-point")]
+        REAL64=10, 
+        ///<summary> Custom Type | </summary>
+        [Description("Custom Type")]
+        CUSTOM=11, 
         
     };
     
@@ -4117,6 +4180,24 @@ public partial class MAVLink
         
     };
     
+    ///<summary> Result from PARAM_EXT_SET message (or a PARAM_SET within a transaction). </summary>
+    public enum PARAM_ACK: byte
+    {
+        ///<summary> Parameter value ACCEPTED and SET | </summary>
+        [Description("Parameter value ACCEPTED and SET")]
+        ACCEPTED=0, 
+        ///<summary> Parameter value UNKNOWN/UNSUPPORTED | </summary>
+        [Description("Parameter value UNKNOWN/UNSUPPORTED")]
+        VALUE_UNSUPPORTED=1, 
+        ///<summary> Parameter failed to set | </summary>
+        [Description("Parameter failed to set")]
+        FAILED=2, 
+        ///<summary> Parameter value received but not yet set/accepted. A subsequent PARAM_ACK_TRANSACTION or PARAM_EXT_ACK with the final result will follow once operation is completed. This is returned immediately for parameters that take longer to set, indicating taht the the parameter was recieved and does not need to be resent. | </summary>
+        [Description("Parameter value received but not yet set/accepted. A subsequent PARAM_ACK_TRANSACTION or PARAM_EXT_ACK with the final result will follow once operation is completed. This is returned immediately for parameters that take longer to set, indicating taht the the parameter was recieved and does not need to be resent.")]
+        IN_PROGRESS=3, 
+        
+    };
+    
     ///<summary> Camera Modes. </summary>
     public enum CAMERA_MODE: byte
     {
@@ -4803,6 +4884,21 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         MAG_CAL_BAD_RADIUS=7, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum CAN_FILTER_OP: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        CAN_FILTER_REPLACE=0, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CAN_FILTER_ADD=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        CAN_FILTER_REMOVE=2, 
         
     };
     
@@ -5815,6 +5911,9 @@ public partial class MAVLink
         ///<summary> Gimbal #6. | </summary>
         [Description("Gimbal #6.")]
         MAV_COMP_ID_GIMBAL6=175, 
+        ///<summary> CAN over MAVLink client. | </summary>
+        [Description("CAN over MAVLink client.")]
+        MAV_COMP_ID_MAVCAN=189, 
         ///<summary> Component that can generate/supply a mission flight plan (e.g. GCS or developer API). | </summary>
         [Description("Component that can generate/supply a mission flight plan (e.g. GCS or developer API).")]
         MAV_COMP_ID_MISSIONPLANNER=190, 
@@ -6383,18 +6482,19 @@ public partial class MAVLink
     };
 
     
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
+    /// extensions_start 5
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=15)]
     ///<summary> Message with some status from autopilot to GCS about camera or antenna mount. </summary>
     public struct mavlink_mount_status_t
     {
-        public mavlink_mount_status_t(int pointing_a,int pointing_b,int pointing_c,byte target_system,byte target_component) 
+        public mavlink_mount_status_t(int pointing_a,int pointing_b,int pointing_c,byte target_system,byte target_component,/*MAV_MOUNT_MODE*/byte mount_mode) 
         {
             this.pointing_a = pointing_a;
             this.pointing_b = pointing_b;
             this.pointing_c = pointing_c;
             this.target_system = target_system;
             this.target_component = target_component;
+            this.mount_mode = mount_mode;
             
         }
 
@@ -6427,6 +6527,12 @@ public partial class MAVLink
         [Description("Component ID.")]
         //[FieldOffset(13)]
         public  byte target_component;
+
+        /// <summary>Mount operating mode. MAV_MOUNT_MODE  </summary>
+        [Units("")]
+        [Description("Mount operating mode.")]
+        //[FieldOffset(14)]
+        public  /*MAV_MOUNT_MODE*/byte mount_mode;
     };
 
     
@@ -9521,75 +9627,6 @@ public partial class MAVLink
         [Description("MCU instance")]
         //[FieldOffset(8)]
         public  byte id;
-    };
-
-    [Obsolete]
-    /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
-    ///<summary> Information about video stream </summary>
-    public struct mavlink_video_stream_information_t
-    {
-        public mavlink_video_stream_information_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
-        {
-            this.framerate = framerate;
-            this.bitrate = bitrate;
-            this.resolution_h = resolution_h;
-            this.resolution_v = resolution_v;
-            this.rotation = rotation;
-            this.camera_id = camera_id;
-            this.status = status;
-            this.uri = uri;
-            
-        }
-
-        /// <summary>Frame rate.  [Hz] </summary>
-        [Units("[Hz]")]
-        [Description("Frame rate.")]
-        //[FieldOffset(0)]
-        public  float framerate;
-
-        /// <summary>Bit rate.  [bits/s] </summary>
-        [Units("[bits/s]")]
-        [Description("Bit rate.")]
-        //[FieldOffset(4)]
-        public  uint bitrate;
-
-        /// <summary>Horizontal resolution.  [pix] </summary>
-        [Units("[pix]")]
-        [Description("Horizontal resolution.")]
-        //[FieldOffset(8)]
-        public  ushort resolution_h;
-
-        /// <summary>Vertical resolution.  [pix] </summary>
-        [Units("[pix]")]
-        [Description("Vertical resolution.")]
-        //[FieldOffset(10)]
-        public  ushort resolution_v;
-
-        /// <summary>Video image rotation clockwise.  [deg] </summary>
-        [Units("[deg]")]
-        [Description("Video image rotation clockwise.")]
-        //[FieldOffset(12)]
-        public  ushort rotation;
-
-        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
-        [Units("")]
-        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
-        //[FieldOffset(14)]
-        public  byte camera_id;
-
-        /// <summary>Number of streams available.   </summary>
-        [Units("")]
-        [Description("Number of streams available.")]
-        //[FieldOffset(15)]
-        public  byte status;
-
-        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
-        [Units("")]
-        [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
-        //[FieldOffset(16)]
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
-		public byte[] uri;
     };
 
     
@@ -18835,7 +18872,7 @@ public partial class MAVLink
         public  ulong time_usec;
     };
 
-    
+    [Obsolete]
     /// extensions_start 11
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=61)]
     ///<summary> The position the system will return to and land on. The position is set automatically by the system during the takeoff in case it was not explicitly set by the operator before or after. The global and local positions encode the position in the respective coordinate frames, while the q parameter encodes the orientation of the surface. Under normal conditions it describes the heading and terrain slope, which can be used by the aircraft to adjust the approach. The approach 3D vector describes the point to which the system should fly in normal flight mode and then perform a landing sequence along the vector. </summary>
@@ -20166,9 +20203,9 @@ public partial class MAVLink
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=213)]
     ///<summary> Information about video stream. It may be requested using MAV_CMD_REQUEST_MESSAGE, where param2 indicates the video stream id: 0 for all streams, 1 for first, 2 for second, etc. </summary>
-    public struct mavlink_video_stream_information9_t
+    public struct mavlink_video_stream_information_t
     {
-        public mavlink_video_stream_information9_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,byte[] name,byte[] uri) 
+        public mavlink_video_stream_information_t(float framerate,uint bitrate,/*VIDEO_STREAM_STATUS_FLAGS*/ushort flags,ushort resolution_h,ushort resolution_v,ushort rotation,ushort hfov,byte stream_id,byte count,/*VIDEO_STREAM_TYPE*/byte type,byte[] name,byte[] uri) 
         {
             this.framerate = framerate;
             this.bitrate = bitrate;
@@ -21832,6 +21869,171 @@ public partial class MAVLink
         //[FieldOffset(5)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
 		public byte[] payload;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
+    ///<summary> A forwarded CAN frame as requested by MAV_CMD_CAN_FORWARD. </summary>
+    public struct mavlink_can_frame_t
+    {
+        public mavlink_can_frame_t(uint id,byte target_system,byte target_component,byte bus,byte len,byte[] data) 
+        {
+            this.id = id;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.bus = bus;
+            this.len = len;
+            this.data = data;
+            
+        }
+
+        /// <summary>Frame ID   </summary>
+        [Units("")]
+        [Description("Frame ID")]
+        //[FieldOffset(0)]
+        public  uint id;
+
+        /// <summary>System ID.   </summary>
+        [Units("")]
+        [Description("System ID.")]
+        //[FieldOffset(4)]
+        public  byte target_system;
+
+        /// <summary>Component ID.   </summary>
+        [Units("")]
+        [Description("Component ID.")]
+        //[FieldOffset(5)]
+        public  byte target_component;
+
+        /// <summary>bus number   </summary>
+        [Units("")]
+        [Description("bus number")]
+        //[FieldOffset(6)]
+        public  byte bus;
+
+        /// <summary>Frame length   </summary>
+        [Units("")]
+        [Description("Frame length")]
+        //[FieldOffset(7)]
+        public  byte len;
+
+        /// <summary>Frame data   </summary>
+        [Units("")]
+        [Description("Frame data")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
+		public byte[] data;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=72)]
+    ///<summary> A forwarded CANFD frame as requested by MAV_CMD_CAN_FORWARD. These are separated from CAN_FRAME as they need different handling (eg. TAO handling) </summary>
+    public struct mavlink_canfd_frame_t
+    {
+        public mavlink_canfd_frame_t(uint id,byte target_system,byte target_component,byte bus,byte len,byte[] data) 
+        {
+            this.id = id;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.bus = bus;
+            this.len = len;
+            this.data = data;
+            
+        }
+
+        /// <summary>Frame ID   </summary>
+        [Units("")]
+        [Description("Frame ID")]
+        //[FieldOffset(0)]
+        public  uint id;
+
+        /// <summary>System ID.   </summary>
+        [Units("")]
+        [Description("System ID.")]
+        //[FieldOffset(4)]
+        public  byte target_system;
+
+        /// <summary>Component ID.   </summary>
+        [Units("")]
+        [Description("Component ID.")]
+        //[FieldOffset(5)]
+        public  byte target_component;
+
+        /// <summary>bus number   </summary>
+        [Units("")]
+        [Description("bus number")]
+        //[FieldOffset(6)]
+        public  byte bus;
+
+        /// <summary>Frame length   </summary>
+        [Units("")]
+        [Description("Frame length")]
+        //[FieldOffset(7)]
+        public  byte len;
+
+        /// <summary>Frame data   </summary>
+        [Units("")]
+        [Description("Frame data")]
+        //[FieldOffset(8)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=64)]
+		public byte[] data;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
+    ///<summary> Modify the filter of what CAN messages to forward over the mavlink. This can be used to make CAN forwarding work well on low bandwith links. The filtering is applied on bits 8 to 24 of the CAN id (2nd and 3rd bytes) which corresponds to the DroneCAN message ID for DroneCAN. Filters with more than 16 IDs can be constructed by sending multiple CAN_FILTER_MODIFY messages. </summary>
+    public struct mavlink_can_filter_modify_t
+    {
+        public mavlink_can_filter_modify_t(ushort[] ids,byte target_system,byte target_component,byte bus,/*CAN_FILTER_OP*/byte operation,byte num_ids) 
+        {
+            this.ids = ids;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.bus = bus;
+            this.operation = operation;
+            this.num_ids = num_ids;
+            
+        }
+
+        /// <summary>filter IDs, length num_ids   </summary>
+        [Units("")]
+        [Description("filter IDs, length num_ids")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public ushort[] ids;
+
+        /// <summary>System ID.   </summary>
+        [Units("")]
+        [Description("System ID.")]
+        //[FieldOffset(32)]
+        public  byte target_system;
+
+        /// <summary>Component ID.   </summary>
+        [Units("")]
+        [Description("Component ID.")]
+        //[FieldOffset(33)]
+        public  byte target_component;
+
+        /// <summary>bus number   </summary>
+        [Units("")]
+        [Description("bus number")]
+        //[FieldOffset(34)]
+        public  byte bus;
+
+        /// <summary>what operation to perform on the filter list. See CAN_FILTER_OP enum. CAN_FILTER_OP  </summary>
+        [Units("")]
+        [Description("what operation to perform on the filter list. See CAN_FILTER_OP enum.")]
+        //[FieldOffset(35)]
+        public  /*CAN_FILTER_OP*/byte operation;
+
+        /// <summary>number of IDs in filter list   </summary>
+        [Units("")]
+        [Description("number of IDs in filter list")]
+        //[FieldOffset(36)]
+        public  byte num_ids;
     };
 
     
