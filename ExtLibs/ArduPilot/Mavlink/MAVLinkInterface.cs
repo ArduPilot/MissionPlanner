@@ -4731,6 +4731,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             message.crc16);
                     if (logreadmode)
                         log.InfoFormat("bad packet pos {0} ", logplaybackfile.BaseStream.Position);
+                    // unknown packet
+                    if (buffer.Length > 5 && String.IsNullOrEmpty(msginfo.name))
+                        ProcessMirrorStream(buffer);
                     return MAVLinkMessage.Invalid;
                 }
 
@@ -5152,29 +5155,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                     }
 
-                    try
-                    {
-                        // full rw from mirror stream
-                        if (MirrorStream != null && MirrorStream.IsOpen)
-                        {
-                            MirrorStream.Write(buffer, 0, buffer.Length);
-
-                            while (MirrorStream.BytesToRead > 0)
-                            {
-                                var len = MirrorStream.BytesToRead;
-
-                                byte[] buf = new byte[len];
-
-                                len = MirrorStream.Read(buf, 0, len);
-
-                                if (MirrorStreamWrite)
-                                    BaseStream.Write(buf, 0, len);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                    }
+                    ProcessMirrorStream(buffer);
                 }
             }
             catch (Exception ex)
@@ -5186,6 +5167,33 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             MAVlist[sysid, compid].lastvalidpacket = DateTime.Now;
 
             return message;
+        }
+
+        private void ProcessMirrorStream(byte[] buffer)
+        {
+            try
+            {
+                // full rw from mirror stream
+                if (MirrorStream != null && MirrorStream.IsOpen)
+                {
+                    MirrorStream.Write(buffer, 0, buffer.Length);
+
+                    while (MirrorStream.BytesToRead > 0)
+                    {
+                        var len = MirrorStream.BytesToRead;
+
+                        byte[] buf = new byte[len];
+
+                        len = MirrorStream.Read(buf, 0, len);
+
+                        if (MirrorStreamWrite)
+                            BaseStream.Write(buf, 0, len);
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
 
         private bool CheckSignature(byte[] AuthKey, MAVLinkMessage message, byte sysid, byte compid)
