@@ -98,7 +98,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -394,12 +399,6 @@
       <Version>4.7.0</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-    <PackageReference Include="System.IO.Compression">
-      <Version>4.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.IO.Compression.ZipFile">
-      <Version>4.3.0</Version>
-    </PackageReference>
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
     <PackageReference Include="System.Reactive" Version="4.0.0" />
     <PackageReference Include="System.Reactive.Core" Version="4.0.0" />
@@ -4958,11 +4957,6 @@
     <None Update="C:\Users\hog\.nuget\packages\skiasharp\1.59.3\build\net45\..\..\runtimes\win7-x64\native\libSkiaSharp.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Update="System.IO.Compression.FileSystem">
-      <Private>true</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

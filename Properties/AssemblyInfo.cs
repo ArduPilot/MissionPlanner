@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Michael Oborne")]
 [assembly: AssemblyProduct("Mission Planner")]
-[assembly: AssemblyCopyright("Copyright ©  2010-2019")]
+[assembly: AssemblyCopyright("Copyright ©  2010-2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

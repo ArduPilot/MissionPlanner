@@ -1,5 +1,7 @@
+$msbuildPath = Split-Path (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\Current\Bin\amd64\MSBuild.exe | Select-Object -First 1) -Parent
+$env:PATH = $msbuildPath + ';' + $env:PATH
 
-$env:PATH="$env:PATH;C:\Program Files\7-Zip;C:\Program Files (x86)\Android\android-sdk\build-tools\29.0.2;C:\Program Files\Android\Android Studio\jre\bin;C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin;C:\Program Files (x86)\Microsoft Visual Studio\Preview\Community\MSBuild\15.0\Bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin"
+$env:PATH="$env:PATH;C:\Program Files\7-Zip;C:\Program Files (x86)\Android\android-sdk\build-tools\29.0.2;C:\Program Files\Android\Android Studio\jre\bin;C:\Program Files (x86)\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin;C:\Program Files (x86)\Microsoft Visual Studio\Preview\Community\MSBuild\15.0\Bin;C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\MSBuild\15.0\Bin"
 
 #prep 
 $current = Get-Location
