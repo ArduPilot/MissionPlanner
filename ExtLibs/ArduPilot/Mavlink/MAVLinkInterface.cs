@@ -4498,7 +4498,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     }
 
                     // check if looks like a mavlink packet and check for exclusions and write to console
-                    if (buffer[0] != 0xfe && buffer[0] != 'U' && buffer[0] != 0xfd)
+                    if (buffer[0] != MAVLINK_STX_MAVLINK1 && buffer[0] != 'U' && buffer[0] != MAVLINK_STX)
                     {
                         if (buffer[0] >= 0x20 && buffer[0] <= 127 || buffer[0] == '\n' || buffer[0] == '\r')
                         {
@@ -4532,7 +4532,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         Console.WriteLine(DateTime.Now.Millisecond + " SR2 " + BaseStream?.BytesToRead);
 
                     // check for a header
-                    if (buffer[0] == 0xfe || buffer[0] == 0xfd || buffer[0] == 'U')
+                    if (buffer[0] == MAVLINK_STX_MAVLINK1 || buffer[0] == MAVLINK_STX || buffer[0] == 'U')
                     {
                         var mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
 
@@ -4702,7 +4702,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 ushort crc = MavlinkCRC.crc_calculate(buffer, message.Length - sigsize - MAVLINK_NUM_CHECKSUM_BYTES);
 
                 // calc extra bit of crc for mavlink 1.0/2.0
-                if (message.header == 0xfe || message.header == 0xfd)
+                if (message.header == MAVLINK_STX_MAVLINK1 || message.header == MAVLINK_STX)
                 {
                     crc = MavlinkCRC.crc_accumulate(msginfo.crc, crc);
                 }
