@@ -163,9 +163,6 @@ namespace MissionPlanner.GCSViews
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pointCameraHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setEKFHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setHomeHereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -189,6 +186,7 @@ namespace MissionPlanner.GCSViews
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
             this.contextMenu2 = new System.Windows.Forms.ContextMenu();
             this.baseRenderer1 = new BrightIdeasSoftware.BaseRenderer();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyandSetLoiterRad = new MissionPlanner.Controls.ModifyandSet();
             this.modifyandSetAlt = new MissionPlanner.Controls.ModifyandSet();
             this.modifyandSetSpeed = new MissionPlanner.Controls.ModifyandSet();
@@ -2203,7 +2201,7 @@ namespace MissionPlanner.GCSViews
             this.contextMenuStripMap.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.goHereToolStripMenuItem,
             this.pointCameraHereToolStripMenuItem,
-            this.setHomeHereToolStripMenuItem});
+            this.toolStripMenuItem1});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -2218,26 +2216,6 @@ namespace MissionPlanner.GCSViews
             this.pointCameraHereToolStripMenuItem.Name = "pointCameraHereToolStripMenuItem";
             resources.ApplyResources(this.pointCameraHereToolStripMenuItem, "pointCameraHereToolStripMenuItem");
             this.pointCameraHereToolStripMenuItem.Click += new System.EventHandler(this.pointCameraHereToolStripMenuItem_Click);
-            // 
-            // setHomeHereToolStripMenuItem
-            // 
-            this.setHomeHereToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setEKFHomeHereToolStripMenuItem,
-            this.setHomeHereToolStripMenuItem1});
-            this.setHomeHereToolStripMenuItem.Name = "setHomeHereToolStripMenuItem";
-            resources.ApplyResources(this.setHomeHereToolStripMenuItem, "setHomeHereToolStripMenuItem");
-            // 
-            // setEKFHomeHereToolStripMenuItem
-            // 
-            this.setEKFHomeHereToolStripMenuItem.Name = "setEKFHomeHereToolStripMenuItem";
-            resources.ApplyResources(this.setEKFHomeHereToolStripMenuItem, "setEKFHomeHereToolStripMenuItem");
-            this.setEKFHomeHereToolStripMenuItem.Click += new System.EventHandler(this.setEKFHomeHereToolStripMenuItem_Click);
-            // 
-            // setHomeHereToolStripMenuItem1
-            // 
-            this.setHomeHereToolStripMenuItem1.Name = "setHomeHereToolStripMenuItem1";
-            resources.ApplyResources(this.setHomeHereToolStripMenuItem1, "setHomeHereToolStripMenuItem1");
-            this.setHomeHereToolStripMenuItem1.Click += new System.EventHandler(this.setHomeHereToolStripMenuItem_Click);
             // 
             // label6
             // 
@@ -2425,6 +2403,12 @@ namespace MissionPlanner.GCSViews
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.setHomeHereToolStripMenuItem_Click);
             // 
             // modifyandSetLoiterRad
             // 
@@ -2821,7 +2805,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.BindingSource bindingSourceQuickTab;
         private System.Windows.Forms.BindingSource bindingSourceStatusTab;
         private System.Windows.Forms.BindingSource bindingSourceGaugesTab;
-        private System.Windows.Forms.ToolStripMenuItem setHomeHereToolStripMenuItem;
         private MissionPlanner.Controls.Coords coords1;
         private Controls.MyButton BUT_matlab;
         private System.Windows.Forms.ComboBox CMB_mountmode;
@@ -2854,7 +2837,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ContextMenuStrip contextMenuStripQuickView;
         private System.Windows.Forms.ToolStripMenuItem setViewCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setGStreamerSourceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setEKFHomeHereToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPayload;
         private System.Windows.Forms.BindingSource bindingSourcePayloadTab;
         private System.Windows.Forms.TrackBar trackBarYaw;
@@ -2868,7 +2850,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.GroupBox groupBoxYaw;
         private System.Windows.Forms.GroupBox groupBoxPitch;
         private Controls.MyButton BUT_PayloadFolder;
-        private System.Windows.Forms.ToolStripMenuItem setHomeHereToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem groundColorToolStripMenuItem;
         private Controls.RelayOptions relayOptions1;
         private Controls.RelayOptions relayOptions2;
@@ -2919,5 +2900,6 @@ namespace MissionPlanner.GCSViews
         private RichTextBox richTextBox1;
         private ContextMenu contextMenu2;
         private BrightIdeasSoftware.BaseRenderer baseRenderer1;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }

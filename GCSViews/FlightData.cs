@@ -4321,13 +4321,13 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng);
+                    //var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng);
 
-                    if (alt.currenttype != srtm.tiletype.valid)
-                    {
-                        CustomMessageBox.Show("No SRTM data for this area", Strings.ERROR);
-                        return;
-                    }
+                    //if (alt.currenttype != srtm.tiletype.valid)
+                    //{
+                    //    CustomMessageBox.Show("No SRTM data for this area", Strings.ERROR);
+                    //    return;
+                    //}
 
                     if (CustomMessageBox.Show(
                             "This will reset the onboard home position (effects RTL etc). Are you Sure?",
@@ -4337,7 +4337,7 @@ namespace MissionPlanner.GCSViews
                         MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
                             (byte) MainV2.comPort.compidcurrent,
                             MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, (float) MouseDownStart.Lat,
-                            (float) MouseDownStart.Lng, (float) alt.alt);
+                            (float) MouseDownStart.Lng, (float) 0);
                     }
 
                     await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,

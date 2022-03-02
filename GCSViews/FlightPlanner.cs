@@ -1297,21 +1297,21 @@ namespace MissionPlanner.GCSViews
         {
             rallyPointsToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayRallyPointsMenu;
             //geoFenceToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayGeoFenceMenu;
-            createSplineCircleToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displaySplineCircleAutoWp;
-            textToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTextAutoWp;
-            createCircleSurveyToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayCircleSurveyAutoWp;
+            //createSplineCircleToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displaySplineCircleAutoWp;
+            //textToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTextAutoWp;
+            //createCircleSurveyToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayCircleSurveyAutoWp;
             pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
             //trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
             //CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
 
             //hide dynamically generated toolstrip items in the auto WP dropdown (these do not have name objects populated)
-            foreach (ToolStripItem item in autoWPToolStripMenuItem.DropDownItems)
-            {
-                if (item.Name.Equals(""))
-                {
-                    item.Visible = MainV2.DisplayConfiguration.displayPluginAutoWp;
-                }
-            }
+            //foreach (ToolStripItem item in autoWPToolStripMenuItem.DropDownItems)
+            //{
+            //    if (item.Name.Equals(""))
+            //    {
+            //        item.Visible = MainV2.DisplayConfiguration.displayPluginAutoWp;
+            //    }
+            //}
         }
 
         public void updateHome()
@@ -2611,14 +2611,14 @@ namespace MissionPlanner.GCSViews
 
         public void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            if (CurentRectMarker == null && CurrentRallyPt == null && groupmarkers.Count == 0)
-            {
-                deleteWPToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                deleteWPToolStripMenuItem.Enabled = true;
-            }
+            //if (CurentRectMarker == null && CurrentRallyPt == null && groupmarkers.Count == 0)
+            //{
+            //    deleteWPToolStripMenuItem.Enabled = false;
+            //}
+            //else
+            //{
+            //    deleteWPToolStripMenuItem.Enabled = true;
+            //}
 
             if (MainV2.comPort != null && MainV2.comPort.MAV != null)
             {
@@ -2640,21 +2640,21 @@ namespace MissionPlanner.GCSViews
         public void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
         {
             // update the displayed items
-            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
-            {
-                fenceInclusionToolStripMenuItem.Visible = false;
-                fenceExclusionToolStripMenuItem.Visible = false;
-            }
-            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
-            {
-                fenceInclusionToolStripMenuItem.Visible = true;
-                fenceExclusionToolStripMenuItem.Visible = true;
-            }
-            else
-            {
-                fenceInclusionToolStripMenuItem.Visible = false;
-                fenceExclusionToolStripMenuItem.Visible = false;
-            }
+            //if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            //{
+            //    fenceInclusionToolStripMenuItem.Visible = false;
+            //    fenceExclusionToolStripMenuItem.Visible = false;
+            //}
+            //else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            //{
+            //    fenceInclusionToolStripMenuItem.Visible = true;
+            //    fenceExclusionToolStripMenuItem.Visible = true;
+            //}
+            //else
+            //{
+            //    fenceInclusionToolStripMenuItem.Visible = false;
+            //    fenceExclusionToolStripMenuItem.Visible = false;
+            //}
         }
 
         private void convertFromGeographic(double lat, double lng)
@@ -3053,7 +3053,7 @@ namespace MissionPlanner.GCSViews
                 {
                     try
                     {
-                        if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
+                        if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue ==
                             MAVLink.MAV_MISSION_TYPE.FENCE)
                             ReCalcFence(no - 1, false, true);
 
@@ -3098,13 +3098,13 @@ namespace MissionPlanner.GCSViews
                     catch (Exception ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("error selecting wp, please try again.");
+                        CustomMessageBox.Show("Erreur de sélection wp, Veuillez ré-essayer.");
                     }
                 }
 
                 groupmarkers.Clear();
             }
-
+            else CustomMessageBox.Show("Veuillez sélectionner un WP !");
 
             if (currentMarker != null)
                 CurentRectMarker = null;
@@ -3869,45 +3869,10 @@ namespace MissionPlanner.GCSViews
             WPtoScreen(cmds);
         }
 
-        public void insertSplineWPToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string wpno = (selectedrow + 1).ToString("0");
-            if (InputBox.Show("Insert WP", "Insert WP after wp#", ref wpno) == DialogResult.OK)
-            {
-                try
-                {
-                    Commands.Rows.Insert(int.Parse(wpno), 1);
-                }
-                catch
-                {
-                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
-                    return;
-                }
-
-                selectedrow = int.Parse(wpno);
-
-                try
-                {
-                    Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
-                }
-                catch
-                {
-                    CustomMessageBox.Show("SPLINE_WAYPOINT command not supported.");
-                    Commands.Rows.RemoveAt(selectedrow);
-                    return;
-                }
-
-                ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
-
-                updateUndoBuffer(false);
-                setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
-            }
-        }
-
         public void insertWpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string wpno = (selectedrow + 1).ToString("0");
-            if (InputBox.Show("Insert WP", "Insert WP after wp#", ref wpno) == DialogResult.OK)
+            if (InputBox.Show("Insertion WP", "Insérer après le WP n° : (0 si premier WP)", ref wpno) == DialogResult.OK)
             {
                 try
                 {
