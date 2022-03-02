@@ -744,7 +744,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                CustomMessageBox.Show("Please select a valid script", "Bad Script");
+                CustomMessageBox.Show("Veuillez sélectionner un script valide", "Mauvais script");
             }
         }
 
@@ -936,9 +936,8 @@ namespace MissionPlanner.GCSViews
                 var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
 
                 if (isitarmed)
-                    if (CustomMessageBox.Show("Are you sure you want to " + action, action,
-                            CustomMessageBox.MessageBoxButtons.YesNo) !=
-                        CustomMessageBox.DialogResult.Yes)
+                    if (CustomMessageBox.Show("Êtes vous surs de vouloir effectuer l'action suivante : " + action, action,
+                            CustomMessageBox.MessageBoxButtons.YesNo) != CustomMessageBox.DialogResult.Yes)
                         return;
                 StringBuilder sb = new StringBuilder();
                 var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
@@ -952,10 +951,10 @@ namespace MissionPlanner.GCSViews
                 if (ans == false)
                 {
                     if (CustomMessageBox.Show(
-                            action + " failed.\n" + sb.ToString() + "\nForce " + action +
-                            " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
+                            action + " n'a pas abouti.\n" + sb.ToString() + "\nForcer l'action : " + action +
+                            " peut outrepasser les mesures de sécurité ce qui peut conduire \n à la destruction du véhicule ou à de serieuses blessures. \n Êtes vous certain de vouloir poursuivre ?" +
                             action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
-                            CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
+                            CustomMessageBox.MessageBoxIcon.Exclamation, "Forcer " + action, "Annuler") ==
                         CustomMessageBox.DialogResult.Yes)
                     {
                         ans = MainV2.comPort.doARM(!isitarmed, true);
@@ -1085,7 +1084,7 @@ namespace MissionPlanner.GCSViews
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex);
+                            CustomMessageBox.Show("Erreur d'exécution fichier. \nAssurez vous que le fichier n'est pas en cours d'utilisation " + ex);
                         }
 
                         lo.writeKML(logfile + ".kml");
@@ -1203,7 +1202,7 @@ namespace MissionPlanner.GCSViews
                         }
                         catch (IOException ex)
                         {
-                            CustomMessageBox.Show("File access issue: " + ex.Message, Strings.ERROR);
+                            CustomMessageBox.Show("Erreur d'accès fichier : " + ex.Message, Strings.ERROR);
                             return;
                         }
 
@@ -1228,12 +1227,12 @@ namespace MissionPlanner.GCSViews
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Failed to load analyzer results\n" + ex.ToString());
+                            CustomMessageBox.Show("Impossible de charger l'analyseur de résultats\n" + ex.ToString());
                         }
                     }
                     else
                     {
-                        CustomMessageBox.Show("Bad input file");
+                        CustomMessageBox.Show("Fichier d'entrée corrompu");
                     }
 
                     if (!String.IsNullOrEmpty(newlogfile))
@@ -1369,7 +1368,7 @@ namespace MissionPlanner.GCSViews
                     if (lastwp == "-1")
                         lastwp = "1";
 
-                    if (InputBox.Show("Resume at", "Resume mission at waypoint#", ref lastwp) == DialogResult.OK)
+                    if (InputBox.Show("Retour", "Reprendre la mission au WP :", ref lastwp) == DialogResult.OK)
                     {
                         int timeout = 0;
                         int lastwpno = int.Parse(lastwp);
@@ -1411,7 +1410,7 @@ namespace MissionPlanner.GCSViews
                                 (MAVLink.MAV_FRAME) (loc.frame));
                             if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                             {
-                                CustomMessageBox.Show("Upload wps failed " +
+                                CustomMessageBox.Show("Impossible de charger les WP " +
                                                       Enum.Parse(typeof(MAVLink.MAV_CMD), loc.id.ToString()) + " " +
                                                       Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString()));
                                 return;
@@ -1550,7 +1549,7 @@ namespace MissionPlanner.GCSViews
                                 (MAVLink.MAV_FRAME)(loc.frame));
                             if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                             {
-                                CustomMessageBox.Show("Upload wps failed " +
+                                CustomMessageBox.Show("Impossible de charger les WP " +
                                                       Enum.Parse(typeof(MAVLink.MAV_CMD), loc.id.ToString()) + " " +
                                                       Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString()));
                                 return;
@@ -1608,7 +1607,7 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.MAV.cs.failsafe)
             {
-                if (CustomMessageBox.Show("You are in failsafe, are you sure?", "Failsafe", MessageBoxButtons.YesNo) !=
+                if (CustomMessageBox.Show("Entrée dans le mode Failsafe, êtes vous sûrs ?", "Failsafe", MessageBoxButtons.YesNo) !=
                     (int) DialogResult.Yes)
                 {
                     return;
@@ -1676,7 +1675,7 @@ namespace MissionPlanner.GCSViews
             }
 
             if (
-                CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action",
+                CustomMessageBox.Show("Êtes vous certain de vouloir executer l'action : " + CMB_action.Text + " ?", "Action",
                     MessageBoxButtons.YesNo) == (int) DialogResult.Yes)
             {
                 try
@@ -1898,7 +1897,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    CustomMessageBox.Show("Max 10 at a time.");
+                    CustomMessageBox.Show("Max 10 en une fois.");
                     ((CheckBox) sender).Checked = false;
                 }
 
@@ -2003,7 +2002,7 @@ namespace MissionPlanner.GCSViews
                 if (Settings.Instance["hud1_useritem_" + checkbox.Name] != null)
                     prefix = Settings.Instance["hud1_useritem_" + checkbox.Name];
 
-                if (DialogResult.Cancel == InputBox.Show("Hud Header", "Please enter your item prefix", ref prefix))
+                if (DialogResult.Cancel == InputBox.Show("Hud Header", "Veuillez entrer votre prefixe", ref prefix))
                 {
                     checkbox.Checked = false;
                     return;
@@ -2460,7 +2459,7 @@ namespace MissionPlanner.GCSViews
 
         private void flyToHereAltToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string alt = "100";
+            string alt = "0";
 
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
@@ -2474,7 +2473,7 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance.ContainsKey("guided_alt"))
                 alt = Settings.Instance["guided_alt"];
 
-            if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Guided Mode Alt", ref alt))
+            if (DialogResult.Cancel == InputBox.Show("Veuillez entrer l'altitude", "Altitude", ref alt))
                 return;
 
             Settings.Instance["guided_alt"] = alt;
@@ -2482,7 +2481,7 @@ namespace MissionPlanner.GCSViews
             int intalt = (int) (100 * CurrentState.multiplieralt);
             if (!int.TryParse(alt, out intalt))
             {
-                CustomMessageBox.Show("Bad Alt");
+                CustomMessageBox.Show("Altitude incorrecte");
                 return;
             }
 
@@ -2681,7 +2680,7 @@ namespace MissionPlanner.GCSViews
         private void Gspeed_DoubleClick(object sender, EventArgs e)
         {
             string max = "60";
-            if (DialogResult.OK == InputBox.Show("Enter Max Speed", "Enter Max Speed", ref max))
+            if (DialogResult.OK == InputBox.Show("Veuillez entrer la vitesse maximale", "Vitesse maximale :", ref max))
             {
                 Gspeed.MaxValue = float.Parse(max);
                 Settings.Instance["GspeedMAX"] = Gspeed.MaxValue.ToString();
@@ -2702,7 +2701,7 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance["herelinkip"] != null)
                 ipaddr = Settings.Instance["herelinkip"].ToString();
 
-            InputBox.Show("herelink ip", "Enter herelink ip address", ref ipaddr);
+            InputBox.Show("Adresse IP", "Veuillez entrer l'adresse IP", ref ipaddr);
 
             Settings.Instance["herelinkip"] = ipaddr;
 
@@ -3948,7 +3947,7 @@ namespace MissionPlanner.GCSViews
         private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt(abs)' or 'lat;long'", ref location);
+            InputBox.Show("Veuillez entrer les coordonnées", "Veuillez entrer les coordonnées au format 'lat;long'", ref location);
 
             var split = location.Split(';');
 
@@ -3982,24 +3981,23 @@ namespace MissionPlanner.GCSViews
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Please Connect First");
+                CustomMessageBox.Show("Veuillez vous connecter dans un premier temps");
                 return;
             }
 
             string alt = "0";
-            if (DialogResult.Cancel == InputBox.Show("Enter Alt",
-                "Enter Target Alt (Relative to home)", ref alt))
+            if (DialogResult.Cancel == InputBox.Show("Veuillez entrer l'altitude", "Altitude de la cible (par rapport à Home)", ref alt))
                 return;
 
             if (!float.TryParse(alt, out var intalt))
             {
-                CustomMessageBox.Show("Bad Alt");
+                CustomMessageBox.Show("Altitude incorrecte");
                 return;
             }
 
             if (MouseDownStart.Lat == 0.0 || MouseDownStart.Lng == 0.0)
             {
-                CustomMessageBox.Show("Bad Lat/Long");
+                CustomMessageBox.Show("Erreur de Latitude/Longitude");
                 return;
             }
 
@@ -4119,7 +4117,7 @@ namespace MissionPlanner.GCSViews
         {
             stopRecordToolStripMenuItem_Click(sender, e);
 
-            CustomMessageBox.Show("Output avi will be saved to the log folder");
+            CustomMessageBox.Show("Le fichier avi de sortie sera sauvé dans le dossier 'log'");
 
             aviwriter = new AviWriter();
             try
@@ -4259,7 +4257,7 @@ namespace MissionPlanner.GCSViews
 
             if (alt.currenttype != srtm.tiletype.valid)
             {
-                CustomMessageBox.Show("No SRTM data for this area", Strings.ERROR);
+                CustomMessageBox.Show("Aucune donnée SRTM pour cette surface", Strings.ERROR);
                 return;
             }
 
@@ -4281,7 +4279,7 @@ namespace MissionPlanner.GCSViews
                 : @"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink";
 
             if (DialogResult.OK == InputBox.Show("GStreamer url",
-                "Enter the source pipeline\nEnsure the final payload is ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                "Enter the source pipeline\nAttention, le format du payload doit être : \n! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
                 ref url))
             {
                 Settings.Instance["gstreamer_url"] = url;
@@ -4330,7 +4328,7 @@ namespace MissionPlanner.GCSViews
                     //}
 
                     if (CustomMessageBox.Show(
-                            "This will reset the onboard home position (effects RTL etc). Are you Sure?",
+                            "Vous êtes sur le point de reset la position 'home'. Êtes vous sur ?",
                             "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
                         CustomMessageBox.DialogResult.OK)
                     {
@@ -4361,7 +4359,7 @@ namespace MissionPlanner.GCSViews
                 ? Settings.Instance["mjpeg_url"]
                 : @"http://127.0.0.1:56781/map.jpg";
 
-            if (DialogResult.OK == InputBox.Show("Mjpeg url", "Enter the url to the mjpeg source url", ref url))
+            if (DialogResult.OK == InputBox.Show("Mjpeg url", "Entrez l'url vers la source url mjpeg", ref url))
             {
                 Settings.Instance["mjpeg_url"] = url;
 
@@ -4490,7 +4488,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+                    CustomMessageBox.Show("Echec Camera: " + ex.ToString(), Strings.ERROR);
                 }
             }
         }
@@ -4666,29 +4664,29 @@ namespace MissionPlanner.GCSViews
 
         private void takeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MainV2.comPort.BaseStream.IsOpen)
-            {
-                string alt = Settings.Instance["takeoff_alt", "5"];
+            //if (MainV2.comPort.BaseStream.IsOpen)
+            //{
+            //    string alt = Settings.Instance["takeoff_alt", "5"];
 
-                if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Takeoff Alt", ref alt))
-                    return;
+            //    if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Takeoff Alt", ref alt))
+            //        return;
 
-                var altf = float.Parse(alt, CultureInfo.InvariantCulture);
+            //    var altf = float.Parse(alt, CultureInfo.InvariantCulture);
 
-                Settings.Instance["takeoff_alt"] = altf.ToString();
+            //    Settings.Instance["takeoff_alt"] = altf.ToString();
 
-                MainV2.comPort.setMode("GUIDED");
+            //    MainV2.comPort.setMode("GUIDED");
 
-                try
-                {
-                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
-                        MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, altf);
-                }
-                catch
-                {
-                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
-                }
-            }
+            //    try
+            //    {
+            //        MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+            //            MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, altf);
+            //    }
+            //    catch
+            //    {
+            //        CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            //    }
+            //}
         }
 
         void tfr_GotTFRs(object sender, EventArgs e)
@@ -5244,7 +5242,7 @@ namespace MissionPlanner.GCSViews
         private void flyToCoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Fly To Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show("Coordonnées cible", "Veuillez entrer les coordonées de la cible au format 'lat;long'", ref location);
 
             var split = location.Split(';');
 
@@ -5305,7 +5303,7 @@ namespace MissionPlanner.GCSViews
         private void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter POI Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show("POI Coords", "Veuillez entrer les coordonnées du point d'intérêt au format 'lat;long;alt' ou 'lat;long'", ref location);
 
             var split = location.Split(';');
 
@@ -5418,12 +5416,12 @@ namespace MissionPlanner.GCSViews
             string CellCount = "4";
             int iCellCount;
 
-            if (DialogResult.Cancel == InputBox.Show("Battery Cell Count", "Cell Count", ref CellCount))
+            if (DialogResult.Cancel == InputBox.Show("Nombre de cellules batterie ", "Nombre", ref CellCount))
                 return;
             
             if (!int.TryParse(CellCount, out iCellCount))
             {
-                CustomMessageBox.Show("Bad Radius");
+                CustomMessageBox.Show("Rayon incorrect");
                 return;
             }
             Settings.Instance["HUD_batterycellcount"] = iCellCount.ToString();
@@ -5648,12 +5646,12 @@ namespace MissionPlanner.GCSViews
                 {
                     updateTransponder();
                 }
-                else CustomMessageBox.Show("Timeout.");
+                else CustomMessageBox.Show("Fin du temps imparti");
 
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Timeout.");
+                CustomMessageBox.Show("Fin du temps imparti");
             }
         }
 
