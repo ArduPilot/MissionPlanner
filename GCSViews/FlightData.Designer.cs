@@ -188,6 +188,7 @@ namespace MissionPlanner.GCSViews
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
             this.contextMenu2 = new System.Windows.Forms.ContextMenu();
             this.baseRenderer1 = new BrightIdeasSoftware.BaseRenderer();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             this.modifyandSetLoiterRad = new MissionPlanner.Controls.ModifyandSet();
             this.modifyandSetAlt = new MissionPlanner.Controls.ModifyandSet();
@@ -268,6 +269,7 @@ namespace MissionPlanner.GCSViews
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceStatusTab)).BeginInit();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainH
@@ -538,14 +540,7 @@ namespace MissionPlanner.GCSViews
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(62)))), ((int)(((byte)(117)))));
-            this.splitContainer2.Panel2.Controls.Add(this.richTextBox1);
-            this.splitContainer2.Panel2.Controls.Add(this.myButton10);
-            this.splitContainer2.Panel2.Controls.Add(this.myButton9);
-            this.splitContainer2.Panel2.Controls.Add(this.SelectWP);
-            this.splitContainer2.Panel2.Controls.Add(this.myButton7);
-            this.splitContainer2.Panel2.Controls.Add(this.myButton6);
-            this.splitContainer2.Panel2.Controls.Add(this.myButton5);
-            this.splitContainer2.Panel2.Controls.Add(this.myButton4);
+            this.splitContainer2.Panel2.Controls.Add(this.tableLayoutPanel4);
             // 
             // tableLayoutPanel3
             // 
@@ -683,28 +678,28 @@ namespace MissionPlanner.GCSViews
             // 
             // richTextBox1
             // 
-            resources.ApplyResources(this.richTextBox1, "richTextBox1");
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Info;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.richTextBox1, "richTextBox1");
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Menu;
             this.richTextBox1.Name = "richTextBox1";
             // 
             // myButton10
             // 
-            resources.ApplyResources(this.myButton10, "myButton10");
             this.myButton10.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton10.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton10.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton10, "myButton10");
             this.myButton10.Name = "myButton10";
             this.toolTip1.SetToolTip(this.myButton10, resources.GetString("myButton10.ToolTip"));
             this.myButton10.UseVisualStyleBackColor = true;
             // 
             // myButton9
             // 
-            resources.ApplyResources(this.myButton9, "myButton9");
             this.myButton9.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton9.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton9.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton9, "myButton9");
             this.myButton9.Name = "myButton9";
             this.toolTip1.SetToolTip(this.myButton9, resources.GetString("myButton9.ToolTip"));
             this.myButton9.UseVisualStyleBackColor = true;
@@ -712,17 +707,17 @@ namespace MissionPlanner.GCSViews
             // 
             // SelectWP
             // 
-            this.SelectWP.FormattingEnabled = true;
             resources.ApplyResources(this.SelectWP, "SelectWP");
+            this.SelectWP.FormattingEnabled = true;
             this.SelectWP.Name = "SelectWP";
             this.SelectWP.Click += new System.EventHandler(this.SelectWP_Click);
             // 
             // myButton7
             // 
-            resources.ApplyResources(this.myButton7, "myButton7");
             this.myButton7.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton7.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton7.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton7, "myButton7");
             this.myButton7.Name = "myButton7";
             this.toolTip1.SetToolTip(this.myButton7, resources.GetString("myButton7.ToolTip"));
             this.myButton7.UseVisualStyleBackColor = true;
@@ -730,20 +725,20 @@ namespace MissionPlanner.GCSViews
             // 
             // myButton6
             // 
-            resources.ApplyResources(this.myButton6, "myButton6");
             this.myButton6.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton6.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton6.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton6, "myButton6");
             this.myButton6.Name = "myButton6";
             this.myButton6.UseVisualStyleBackColor = true;
             this.myButton6.Click += new System.EventHandler(this.BUT_resumemis_V2_Click);
             // 
             // myButton5
             // 
-            resources.ApplyResources(this.myButton5, "myButton5");
             this.myButton5.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton5.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton5.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton5, "myButton5");
             this.myButton5.Name = "myButton5";
             this.toolTip1.SetToolTip(this.myButton5, resources.GetString("myButton5.ToolTip"));
             this.myButton5.UseVisualStyleBackColor = true;
@@ -751,10 +746,10 @@ namespace MissionPlanner.GCSViews
             // 
             // myButton4
             // 
-            resources.ApplyResources(this.myButton4, "myButton4");
             this.myButton4.ColorMouseDown = System.Drawing.Color.Empty;
             this.myButton4.ColorMouseOver = System.Drawing.Color.Empty;
             this.myButton4.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton4, "myButton4");
             this.myButton4.Name = "myButton4";
             this.toolTip1.SetToolTip(this.myButton4, resources.GetString("myButton4.ToolTip"));
             this.myButton4.UseVisualStyleBackColor = true;
@@ -2417,6 +2412,19 @@ namespace MissionPlanner.GCSViews
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
+            // tableLayoutPanel4
+            // 
+            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
+            this.tableLayoutPanel4.Controls.Add(this.myButton5, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.myButton10, 2, 2);
+            this.tableLayoutPanel4.Controls.Add(this.richTextBox1, 3, 2);
+            this.tableLayoutPanel4.Controls.Add(this.myButton9, 2, 1);
+            this.tableLayoutPanel4.Controls.Add(this.myButton4, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.myButton7, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.myButton6, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.SelectWP, 1, 2);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            // 
             // distanceBar1
             // 
             resources.ApplyResources(this.distanceBar1, "distanceBar1");
@@ -2701,6 +2709,7 @@ namespace MissionPlanner.GCSViews
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceStatusTab)).EndInit();
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2909,5 +2918,6 @@ namespace MissionPlanner.GCSViews
         private BrightIdeasSoftware.BaseRenderer baseRenderer1;
         private ToolStripMenuItem toolStripMenuItem1;
         private TableLayoutPanel tableLayoutPanel3;
+        private TableLayoutPanel tableLayoutPanel4;
     }
 }
