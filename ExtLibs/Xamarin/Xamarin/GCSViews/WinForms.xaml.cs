@@ -30,6 +30,8 @@ using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using MissionPlanner.Controls;
 using System.Globalization;
+using log4net;
+using System.Text.RegularExpressions;
 
 namespace Xamarin.GCSViews
 {
@@ -1149,11 +1151,19 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
     public class Speech : ISpeech
     {
+        DateTime lastmsg = DateTime.MinValue;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public bool speechEnable { get; set; }
+
+        public Speech()
+        {
+
+        }
 
         public bool IsReady
         {
-            get { return !isBusy; }
+            get { if (lastmsg.AddSeconds(5) < DateTime.Now) return true;  return !isBusy; }
         }
 
         CancellationTokenSource cts;
@@ -1163,22 +1173,47 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
         {
             if (!speechEnable)
                 return;
+
+            if (text == null || String.IsNullOrWhiteSpace(text))
+                return;
+
+            text = Regex.Replace(text, @"\bPreArm\b", "Pre Arm", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\bdist\b", "distance", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\bNAV\b", "Navigation", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\b([0-9]+)m\b", "$1 meters", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\b([0-9]+)ft\b", "$1 feet", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\b([0-9]+)\bbaud\b", "$1 baudrate", RegexOptions.IgnoreCase);
+
             cts = new CancellationTokenSource();
+            lastmsg = DateTime.Now;
             isBusy = true;
-            Task.Run(async () =>
-            {
-                try
-                {
-                    await TextToSpeech.SpeakAsync(text, cts.Token).ConfigureAwait(false);
-                }
-                catch (Exception e)
-                {
-                }
-                finally
-                {
-                    isBusy = false;
-                }
-            });
+            log.Info("TTS: say " + text);
+            _ = Task.Run(async () =>
+              {
+                  try
+                  {
+                    var locales = await TextToSpeech.GetLocalesAsync();
+
+                    // Grab the first locale
+                    var locale = locales.FirstOrDefault();
+
+                      var settings = new SpeechOptions()
+                      {
+                          Volume = 1.0f,
+                          Pitch = 1.0f,
+                          Locale = locale
+                      };
+
+                      await TextToSpeech.SpeakAsync(text, settings, cts.Token).ConfigureAwait(false);
+                  }
+                  catch (Exception e)
+                  {
+                  }
+                  finally
+                  {
+                      isBusy = false;
+                  }
+              });
         }
 
         public void SpeakAsyncCancelAll()
@@ -1187,6 +1222,8 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                 return;
 
             cts.Cancel();
+
+            isBusy = false;
         }
     }
 

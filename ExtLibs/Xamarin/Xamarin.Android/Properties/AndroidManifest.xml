@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="57854" android:versionName="57854" package="com.michaeloborne.MissionPlanner" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="57854" android:versionName="57854" package="com.michaeloborne.MissionPlanner" android:installLocation="preferExternal">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.LOCATION_HARDWARE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -23,4 +23,11 @@
 	<uses-feature android:name="android.hardware.location" android:required="false" />
 	<uses-feature android:name="android.hardware.telephony" android:required="false" />
 	<uses-feature android:glEsVersion="0x00030000" android:required="true" />
-  <uses-feature android:name="android.hardware.faketouch" android:required="true" /><application android:label="Mission Planner" android:requestLegacyExternalStorage="false" android:hardwareAccelerated="true" android:extractNativeLibs="false" android:killAfterRestore="true" android:hasFragileUserData="true" android:icon="@mipmap/icon" /></manifest>
+	<uses-feature android:name="android.hardware.faketouch" android:required="true" />
+	<application android:label="Mission Planner" android:requestLegacyExternalStorage="false" android:hardwareAccelerated="true" android:extractNativeLibs="false" android:killAfterRestore="true" android:hasFragileUserData="true" android:icon="@mipmap/icon" />
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.TTS_SERVICE" />
+    </intent>
+  </queries>
+</manifest>
