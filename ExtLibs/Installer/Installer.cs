@@ -112,7 +112,7 @@ namespace Installer
                         var entry = zip.GetEntry(file);
                         UpdateText(String.Format("Getting {0}\nFile {1} of {2}\nCompressed size {3}\nSize {4}", file, got, filestoget.Count,
                             entry?.CompressedLength, entry?.Length));
-                        ds.chunksize = (int)entry.CompressedLength;
+                        ds.chunksize = (int)entry.CompressedLength + 2048;
                         var output = tmp + file.Replace('/', Path.DirectorySeparatorChar);
                         var dir = Path.GetDirectoryName(output);
                         if (!Directory.Exists(dir))
