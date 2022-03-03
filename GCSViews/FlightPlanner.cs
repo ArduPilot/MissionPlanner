@@ -1399,12 +1399,12 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
-                        if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
+                        if (TXT_loiterradv1.Text == "") TXT_loiterradv1.Text = "10";
 
                         wpOverlay.CreateOverlay(home,
                             commandlist,
                             double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
-                            double.Parse(TXT_loiterrad.Text) / CurrentState.multiplieralt, CurrentState.multiplieralt);
+                            double.Parse(TXT_loiterradv1.Text) / CurrentState.multiplieralt, CurrentState.multiplieralt);
                     }
                     catch (FormatException)
                     {
@@ -2523,7 +2523,7 @@ namespace MissionPlanner.GCSViews
 
                 Settings.Instance["TXT_WPRad"] = TXT_WPRad.Text;
 
-                Settings.Instance["TXT_loiterrad"] = TXT_loiterrad.Text;
+                Settings.Instance["TXT_loiterrad"] = TXT_loiterradv1.Text;
 
                 Settings.Instance["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
 
@@ -2544,7 +2544,7 @@ namespace MissionPlanner.GCSViews
                             startupWPradius = TXT_WPRad.Text;
                             break;
                         case "TXT_loiterrad":
-                            TXT_loiterrad.Text = "" + Settings.Instance[key];
+                            TXT_loiterradv1.Text = "" + Settings.Instance[key];
                             break;
                         case "TXT_DefaultAlt":
                             TXT_DefaultAlt.Text = "" + Settings.Instance[key];
@@ -5748,7 +5748,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 try
                 {
                     port.setParam(new[] {"LOITER_RAD", "WP_LOITER_RAD"},
-                        float.Parse(TXT_loiterrad.Text) / CurrentState.multiplierdist);
+                        float.Parse(TXT_loiterradv1.Text) / CurrentState.multiplierdist);
                 }
                 catch
                 {
@@ -6138,21 +6138,21 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 try
                 {
-                    TXT_loiterrad.Enabled = false;
+                    TXT_loiterradv1.Enabled = false;
                     if (param.ContainsKey("LOITER_RADIUS"))
                     {
-                        TXT_loiterrad.Text =
+                        TXT_loiterradv1.Text =
                             (((double) param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
-                        TXT_loiterrad.Enabled = true;
+                        TXT_loiterradv1.Enabled = true;
                     }
                     else if (param.ContainsKey("WP_LOITER_RAD"))
                     {
-                        TXT_loiterrad.Text =
+                        TXT_loiterradv1.Text =
                             (((double) param["WP_LOITER_RAD"] * CurrentState.multiplierdist)).ToString();
-                        TXT_loiterrad.Enabled = true;
+                        TXT_loiterradv1.Enabled = true;
                     }
 
-                    log.Info("param LOITER_RADIUS " + TXT_loiterrad.Text);
+                    log.Info("param LOITER_RADIUS " + TXT_loiterradv1.Text);
                 }
                 catch (Exception ex)
                 {
@@ -6465,9 +6465,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         public void TXT_loiterrad_Leave(object sender, EventArgs e)
         {
             float isNumber = 0;
-            if (!float.TryParse(TXT_loiterrad.Text, out isNumber))
+            if (!float.TryParse(TXT_loiterradv1.Text, out isNumber))
             {
-                TXT_loiterrad.Text = "45";
+                TXT_loiterradv1.Text = "45";
             }
         }
 
@@ -7753,18 +7753,37 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 MainMap.Zoom = 17;
         }
 
-        private void modifyandSetLoiterRad_Click(object sender, EventArgs e)
+        private void modifyandSetSpeed_Click(object sender, EventArgs e)
         {
-            int newrad = (int)modifyandSetLoiterRad.Value;
-
             try
             {
-                MainV2.comPort.setParam(new[] { "LOITER_RAD", "WP_LOITER_RAD" }, newrad / CurrentState.multiplierdist);
+                decimal Valeur_vitesse = Cruise_Speed_modif.Value;
+                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "CRUISE_SPEED", (double)Valeur_vitesse);
             }
             catch
+            { return; }
+        }
+
+        private void Rad_WP_Modif_Click(object sender, EventArgs e)
+        {
+            try
             {
-                CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
+                decimal Valeur = Rad_WP_Modif.Value;
+                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "WP_RADIUS", (double)Valeur);
             }
+            catch
+            { return; }
+        }
+
+        private void Rad_Loiter_modif_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                decimal Valeur = Rad_Loiter_modif.Value;
+                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "LOIT_RADIUS", (double)Valeur);
+            }
+            catch
+            { return; }
         }
     }
 }

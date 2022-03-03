@@ -3914,10 +3914,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void modifyandSetSpeed_ParentChanged(object sender, EventArgs e)
-        {
-        }
-
         void mymap_Paint(object sender, PaintEventArgs e)
         {
             distanceBar1.DoPaintRemote(e);
@@ -5745,11 +5741,6 @@ namespace MissionPlanner.GCSViews
 
         #endregion
 
-        private void myButton9_Click(object sender, EventArgs e)
-        {
-            //buttonfunction.Do_Set_Servo
-        }
-
         private void SelectWP_Click(object sender, EventArgs e)
         {
             SelectWP.Items.Clear();
@@ -5764,5 +5755,21 @@ namespace MissionPlanner.GCSViews
             
         }
 
+        private void Set_relay_Click(object sender, EventArgs e)
+        {
+            try 
+            { 
+                if (MainV2.comPort.GetParam("RELAY_DEFAULT") ==0 )
+                { 
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_DEFAULT", 1); 
+                    //Set_Relay.ForeColor =
+                }
+                else
+                { 
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_DEFAULT", 0);
+                }
+            }
+            catch { return; }
+        }
     }
 }
