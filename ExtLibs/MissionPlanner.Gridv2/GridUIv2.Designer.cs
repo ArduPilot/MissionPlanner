@@ -301,6 +301,7 @@
             this.map.EmptyTileColor = System.Drawing.Color.Gray;
             this.map.GrayScaleMode = false;
             this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.map.HoldInvalidation = false;
             this.map.LevelsKeepInMemmory = 5;
             this.map.MarkersEnabled = true;
             this.map.MaxZoom = 24;
@@ -428,6 +429,7 @@
             this.quickViewimagecount.Name = "quickViewimagecount";
             this.quickViewimagecount.number = -9999D;
             this.quickViewimagecount.numberColor = System.Drawing.Color.LimeGreen;
+            this.quickViewimagecount.numberColorBackup = System.Drawing.Color.Empty;
             this.quickViewimagecount.numberformat = "0";
             // 
             // quickViewgroundres
@@ -437,6 +439,7 @@
             this.quickViewgroundres.Name = "quickViewgroundres";
             this.quickViewgroundres.number = -9999D;
             this.quickViewgroundres.numberColor = System.Drawing.Color.Chocolate;
+            this.quickViewgroundres.numberColorBackup = System.Drawing.Color.Empty;
             this.quickViewgroundres.numberformat = "0.00";
             // 
             // quickViewflighttime
@@ -446,6 +449,7 @@
             this.quickViewflighttime.Name = "quickViewflighttime";
             this.quickViewflighttime.number = -9999D;
             this.quickViewflighttime.numberColor = System.Drawing.SystemColors.Highlight;
+            this.quickViewflighttime.numberColorBackup = System.Drawing.Color.Empty;
             this.quickViewflighttime.numberformat = "0";
             // 
             // quickViewarea
@@ -455,6 +459,7 @@
             this.quickViewarea.Name = "quickViewarea";
             this.quickViewarea.number = -9999D;
             this.quickViewarea.numberColor = System.Drawing.Color.Red;
+            this.quickViewarea.numberColorBackup = System.Drawing.Color.Empty;
             this.quickViewarea.numberformat = "0.00";
             // 
             // groupBox7
@@ -602,6 +607,7 @@
             // toolStrip1
             // 
             resources.ApplyResources(this.toolStrip1, "toolStrip1");
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonpan,
             this.toolStripButtonbox,

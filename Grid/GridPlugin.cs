@@ -36,6 +36,7 @@ namespace MissionPlanner.Grid
 
         public void but_Click(object sender, EventArgs e)
         {
+            #region version d'avant 
             using (var gridui = new GridUI(this))
             {
                 MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
@@ -46,19 +47,26 @@ namespace MissionPlanner.Grid
                 }
                 else
                 {
-                    if (
-                        CustomMessageBox.Show("No polygon defined. Load a file?", "Load File", MessageBoxButtons.YesNo) ==
-                        (int)DialogResult.Yes)
-                    {
-                        gridui.LoadGrid();
-                        gridui.ShowDialog();
-                    }
-                    else
-                    {
-                        CustomMessageBox.Show("Please define a polygon.", "Error");
-                    }
+                    //if (
+                    //    CustomMessageBox.Show("No polygon defined. Load a file?", "Load File", MessageBoxButtons.YesNo) ==
+                    //    (int)DialogResult.Yes)
+                    //{
+                    //    gridui.LoadGrid();
+                    //    gridui.ShowDialog();
+                    //}
+                    //else
+                    //{
+                    CustomMessageBox.Show("Please define a polygon.", "Error");
+                    //}
                 }
             }
+            #endregion
+
+            //using (Form gridui = new GridUI(this))
+            //{
+            //    MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
+            //    gridui.ShowDialog();
+            //}
         }
 
         public override bool Exit()

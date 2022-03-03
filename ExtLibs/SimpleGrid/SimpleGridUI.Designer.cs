@@ -49,10 +49,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.NUM_overshoot2 = new System.Windows.Forms.NumericUpDown();
             this.NUM_angle = new System.Windows.Forms.NumericUpDown();
-            this.NUM_altitude = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.BUT_Accept = new MissionPlanner.Controls.MyButton();
-            this.label1 = new System.Windows.Forms.Label();
             this.CMB_startfrom = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.NUM_Distance = new System.Windows.Forms.NumericUpDown();
@@ -71,7 +69,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Distance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -174,10 +171,8 @@
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.NUM_overshoot2);
             this.groupBox6.Controls.Add(this.NUM_angle);
-            this.groupBox6.Controls.Add(this.NUM_altitude);
             this.groupBox6.Controls.Add(this.label6);
             this.groupBox6.Controls.Add(this.BUT_Accept);
-            this.groupBox6.Controls.Add(this.label1);
             this.groupBox6.Controls.Add(this.CMB_startfrom);
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Controls.Add(this.NUM_Distance);
@@ -268,32 +263,6 @@
             this.NUM_angle.Name = "NUM_angle";
             this.NUM_angle.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
-            // NUM_altitude
-            // 
-            this.NUM_altitude.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            resources.ApplyResources(this.NUM_altitude, "NUM_altitude");
-            this.NUM_altitude.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUM_altitude.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.NUM_altitude.Name = "NUM_altitude";
-            this.NUM_altitude.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.NUM_altitude.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
-            // 
             // label6
             // 
             resources.ApplyResources(this.label6, "label6");
@@ -305,11 +274,6 @@
             this.BUT_Accept.Name = "BUT_Accept";
             this.BUT_Accept.UseVisualStyleBackColor = true;
             this.BUT_Accept.Click += new System.EventHandler(this.BUT_Accept_Click);
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
             // 
             // CMB_startfrom
             // 
@@ -432,7 +396,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Distance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot)).EndInit();
             this.groupBox4.ResumeLayout(false);
@@ -460,10 +423,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown NUM_overshoot2;
         private System.Windows.Forms.NumericUpDown NUM_angle;
-        private System.Windows.Forms.NumericUpDown NUM_altitude;
         private System.Windows.Forms.Label label6;
         private Controls.MyButton BUT_Accept;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox CMB_startfrom;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown NUM_Distance;
