@@ -1398,12 +1398,12 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
+                        //if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
                         if (TXT_loiterradv1.Text == "") TXT_loiterradv1.Text = "10";
 
                         wpOverlay.CreateOverlay(home,
                             commandlist,
-                            double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
+                            //double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
                             double.Parse(TXT_loiterradv1.Text) / CurrentState.multiplieralt, CurrentState.multiplieralt);
                     }
                     catch (FormatException)

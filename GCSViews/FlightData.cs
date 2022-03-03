@@ -5757,19 +5757,19 @@ namespace MissionPlanner.GCSViews
 
         private void Set_relay_Click(object sender, EventArgs e)
         {
-            try 
-            { 
-                if (MainV2.comPort.GetParam("RELAY_DEFAULT") ==0 )
-                { 
-                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_DEFAULT", 1); 
-                    //Set_Relay.ForeColor =
-                }
-                else
-                { 
-                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_DEFAULT", 0);
-                }
-            }
-            catch { return; }
+            //try 
+            //{ 
+            //    if (MainV2.comPort.GetParam("RELAY_DEFAULT") ==0 )
+            //    { 
+            //        MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_DEFAULT", 1); 
+            //        //Set_Relay.ForeColor =
+            //    }
+            //    else
+            //    { 
+            //        MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_DEFAULT", 0);
+            //    }
+            //}
+            //catch { return; }
         }
     }
 }
