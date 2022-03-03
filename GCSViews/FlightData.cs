@@ -410,7 +410,7 @@ namespace MissionPlanner.GCSViews
                         
                         #region nom quickviews
                         if (QV == quickView1)
-                            QV.desc = "Tension bat";
+                            QV.desc = "Tension bat (V)";
                         if (QV == quickView2)
                             QV.desc = "% Batterie";
                         if (QV == quickView3)
@@ -418,7 +418,7 @@ namespace MissionPlanner.GCSViews
                         if (QV == quickView4)
                             QV.desc = "Vitesse (nds)";
                         if (QV == quickView5)
-                            QV.desc = "Hauteur d'eau";
+                            QV.desc = "Hauteur d'eau (m)";
                         if (QV == quickView6)
                             QV.desc = "Dist Obstacle (m)";
                         if (QV == quickView7)
