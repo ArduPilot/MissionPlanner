@@ -337,7 +337,7 @@
     <value>100, 27</value>
   </data>
   <data name="quickView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 53</value>
+    <value>143, 61</value>
   </data>
   <data name="quickView1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -367,7 +367,7 @@
     <value>100, 27</value>
   </data>
   <data name="quickView2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 53</value>
+    <value>143, 61</value>
   </data>
   <data name="quickView2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -391,13 +391,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="quickView3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 62</value>
+    <value>3, 70</value>
   </data>
   <data name="quickView3.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 53</value>
+    <value>143, 61</value>
   </data>
   <data name="quickView3.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -421,10 +421,10 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="quickView4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>152, 62</value>
+    <value>152, 70</value>
   </data>
   <data name="quickView4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 53</value>
+    <value>143, 61</value>
   </data>
   <data name="quickView4.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -448,13 +448,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="quickView5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 121</value>
+    <value>3, 137</value>
   </data>
   <data name="quickView5.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 53</value>
+    <value>143, 61</value>
   </data>
   <data name="quickView5.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -478,13 +478,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="quickView6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>152, 121</value>
+    <value>152, 137</value>
   </data>
   <data name="quickView6.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 53</value>
+    <value>143, 61</value>
   </data>
   <data name="quickView6.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -508,13 +508,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="quickView7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 180</value>
+    <value>3, 204</value>
   </data>
   <data name="quickView7.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 53</value>
+    <value>143, 63</value>
   </data>
   <data name="quickView7.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -538,13 +538,13 @@
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="quickView8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>152, 180</value>
+    <value>152, 204</value>
   </data>
   <data name="quickView8.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 53</value>
+    <value>143, 63</value>
   </data>
   <data name="quickView8.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -571,7 +571,7 @@
     <value>4</value>
   </data>
   <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>298, 236</value>
+    <value>298, 270</value>
   </data>
   <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -616,7 +616,7 @@
     <value>151, 3</value>
   </data>
   <data name="myButton5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 27</value>
+    <value>98, 16</value>
   </data>
   <data name="myButton5.TabIndex" type="System.Int32, mscorlib">
     <value>80</value>
@@ -649,10 +649,10 @@
     <value>NoControl</value>
   </data>
   <data name="myButton10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 69</value>
+    <value>151, 47</value>
   </data>
   <data name="myButton10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 30</value>
+    <value>98, 18</value>
   </data>
   <data name="myButton10.TabIndex" type="System.Int32, mscorlib">
     <value>91</value>
@@ -682,10 +682,10 @@
     <value>NoControl</value>
   </data>
   <data name="myButton9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 36</value>
+    <value>151, 25</value>
   </data>
   <data name="myButton9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 27</value>
+    <value>98, 16</value>
   </data>
   <data name="myButton9.TabIndex" type="System.Int32, mscorlib">
     <value>90</value>
@@ -718,7 +718,7 @@
     <value>3, 3</value>
   </data>
   <data name="myButton4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 27</value>
+    <value>92, 16</value>
   </data>
   <data name="myButton4.TabIndex" type="System.Int32, mscorlib">
     <value>75</value>
@@ -748,10 +748,10 @@
     <value>NoControl</value>
   </data>
   <data name="myButton7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 36</value>
+    <value>3, 25</value>
   </data>
   <data name="myButton7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 27</value>
+    <value>92, 16</value>
   </data>
   <data name="myButton7.TabIndex" type="System.Int32, mscorlib">
     <value>87</value>
@@ -781,10 +781,10 @@
     <value>NoControl</value>
   </data>
   <data name="myButton6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 69</value>
+    <value>3, 47</value>
   </data>
   <data name="myButton6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 30</value>
+    <value>92, 18</value>
   </data>
   <data name="myButton6.TabIndex" type="System.Int32, mscorlib">
     <value>86</value>
@@ -808,7 +808,7 @@
     <value>Fill</value>
   </data>
   <data name="SelectWP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 69</value>
+    <value>101, 47</value>
   </data>
   <data name="SelectWP.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 24</value>
@@ -832,7 +832,7 @@
     <value>Trebuchet MS, 11.8pt, style=Bold</value>
   </data>
   <data name="richTextBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>255, 69</value>
+    <value>255, 47</value>
   </data>
   <data name="richTextBox1.MaxLength" type="System.Int32, mscorlib">
     <value>21</value>
@@ -841,7 +841,7 @@
     <value>False</value>
   </data>
   <data name="richTextBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 24</value>
+    <value>40, 18</value>
   </data>
   <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
     <value>92</value>
@@ -871,7 +871,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>298, 102</value>
+    <value>298, 68</value>
   </data>
   <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
@@ -907,7 +907,7 @@
     <value>300, 347</value>
   </data>
   <data name="splitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>238</value>
+    <value>272</value>
   </data>
   <data name="splitContainer2.SplitterWidth" type="System.Int32, mscorlib">
     <value>5</value>
