@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Plugin;
 
 namespace MissionPlanner.SimpleGrid
 {
@@ -37,7 +38,7 @@ namespace MissionPlanner.SimpleGrid
         {
             Host2 = Host;
 
-            but = new ToolStripMenuItem("SimpleGrid");
+            but = new ToolStripMenuItem("Simple Grid");
             but.Click += but_Click;
 
             bool hit = false;
@@ -45,7 +46,7 @@ namespace MissionPlanner.SimpleGrid
             int index = col.Count;
             foreach (ToolStripItem item in col)
             {
-                if (item.Text.Equals(Strings.AutoWP))
+                if (item.Text.Equals(Strings.WP))
                 {
                     index = col.IndexOf(item);
                     ((ToolStripMenuItem)item).DropDownItems.Add(but);

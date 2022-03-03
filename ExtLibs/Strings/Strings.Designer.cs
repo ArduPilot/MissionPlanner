@@ -79,11 +79,11 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto WP.
+        ///   Looks up a localized string similar to WP.
         /// </summary>
-        public static string AutoWP {
+        public static string WP {
             get {
-                return ResourceManager.GetString("AutoWP", resourceCulture);
+                return ResourceManager.GetString("WP", resourceCulture);
             }
         }
         

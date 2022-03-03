@@ -282,6 +282,8 @@ namespace MissionPlanner.GCSViews
 
             timer.Start();
             */
+
+            Plugin.PluginLoader.LoadAll(); //Alex tente des trucs
         }
 
         public static FlightPlanner instance { get; set; }
@@ -6167,9 +6169,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         public void surveyGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GridPlugin grid = new GridPlugin();
-            grid.Host = new PluginHost();
-            grid.but_Click(sender, e);
+
         }
 
         public void switchDockingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -7765,6 +7765,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
             }
+        }
+
+        private void grilleDeSurveillanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
         }
     }
 }
