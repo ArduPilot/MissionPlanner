@@ -139,7 +139,11 @@
     <Compile Update="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MissionPlanner.csproj" />
+    <ProjectReference Include="..\..\MissionPlanner.csproj">
+      <Project>{A2E22272-95FE-47B6-B050-9AE7E2055BF5}</Project>
+      <Name>MissionPlanner</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Controls\MissionPlanner.Controls.csproj">
       <Project>{C8B88795-6D01-494D-83AD-6944BD4C5023}</Project>
       <Name>MissionPlanner.Controls</Name>
