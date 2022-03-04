@@ -6804,19 +6804,17 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             //  Console.WriteLine("MainMap MM " + point);
 
-            #region boutons Alex
+            #region boutons 
             if (MainV2.comPort.BaseStream.IsOpen)
             {
                 try
                 {
-                    //TXT_DefaultAlt.Text = "0";
                     Cruise_Speed_modif.Value = (decimal)((MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "CRUISE_SPEED")) / 0.51444);
                     Rad_WP_Modif.Value = (decimal)(MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "WP_RADIUS"));
                     Rad_Loiter_modif.Value = (decimal)(MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "LOIT_RADIUS"));
                 }
                 catch
                 {
-                    //CustomMessageBox.Show("Please fix your default alt value");
                     Cruise_Speed_modif.Value = (decimal)(5 / 0.51444);
                     Rad_WP_Modif.Value = 5;
                     Rad_Loiter_modif.Value = 5;

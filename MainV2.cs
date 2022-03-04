@@ -794,7 +794,7 @@ namespace MissionPlanner
             {
             }
 
-            #region menuconnect.color alex
+            #region menuconnect.color 
             if (comPort.BaseStream.IsOpen)
                 this.MenuConnect.BackColor = Color.Green;
             else
@@ -1131,7 +1131,7 @@ namespace MissionPlanner
 
             //MenuArduPilot.Image = new Bitmap(Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70,
             //    (int) (200), 31);
-            //MenuArduPilot.Width = MenuArduPilot.Image.Width; //Alex
+            //MenuArduPilot.Width = MenuArduPilot.Image.Width; 
 
             //if (Program.Logo2 != null)
             //    MenuArduPilot.Image = Program.Logo2;
@@ -1889,7 +1889,7 @@ namespace MissionPlanner
                 return;
             }
 
-            #region menuconnect.color alex
+            #region menuconnect.color 
             if (comPort.BaseStream.IsOpen)
                 this.MenuConnect.BackColor = Color.Green;
             else
@@ -1952,7 +1952,7 @@ namespace MissionPlanner
             if (comPort.BaseStream.IsOpen)
                 loadph_serial();
 
-            #region menuconnect.color alex
+            #region menuconnect.color 
             if (comPort.BaseStream.IsOpen)
                 this.MenuConnect.BackColor = Color.Green;
             else
@@ -2898,7 +2898,7 @@ namespace MissionPlanner
                                     while (comPort.giveComport == true)
                                     {  
                                         Thread.Sleep(100);
-                                        #region menuconnect.color alex
+                                        #region menuconnect.color 
                                         if (comPort.BaseStream.IsOpen)
                                             this.MenuConnect.BackColor = Color.Green;
                                         else

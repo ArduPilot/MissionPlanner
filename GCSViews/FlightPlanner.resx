@@ -891,7 +891,7 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8098.21084, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8098.30282, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -945,7 +945,7 @@
     <value>Rad_Loiter_modif</value>
   </data>
   <data name="&gt;&gt;Rad_Loiter_modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.21084, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.30282, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Rad_Loiter_modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -978,7 +978,7 @@
     <value>Rad_WP_Modif</value>
   </data>
   <data name="&gt;&gt;Rad_WP_Modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.21084, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.30282, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Rad_WP_Modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1011,7 +1011,7 @@
     <value>Cruise_Speed_modif</value>
   </data>
   <data name="&gt;&gt;Cruise_Speed_modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.21084, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.30282, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Cruise_Speed_modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
