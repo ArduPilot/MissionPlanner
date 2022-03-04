@@ -282,6 +282,7 @@ namespace MissionPlanner.GCSViews
 
             timer.Start();
             */
+
         }
 
         public static FlightPlanner instance { get; set; }
@@ -318,15 +319,6 @@ namespace MissionPlanner.GCSViews
 
             updateDisplayView();
 
-            try
-            {
-                int.Parse("0");
-            }
-            catch
-            {
-                //CustomMessageBox.Show("Please fix your default alt value");
-                TXT_DefaultAlt.Text = "0";// (50 * CurrentState.multiplieralt).ToString("0");
-            }
         }
 
         public void Deactivate()
@@ -1361,6 +1353,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         public void writeKML()
         {
+            
             // quickadd is for when loading wps from eeprom or file, to prevent slow, loading times
             if (quickadd)
                 return;
@@ -1399,12 +1392,11 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         //if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
-                        if (TXT_loiterradv1.Text == "") TXT_loiterradv1.Text = "10";
+                        //if (TXT_loiterradv1.Text == "") TXT_loiterradv1.Text = "10";
 
                         wpOverlay.CreateOverlay(home,
-                            commandlist,
-                            //double.Parse(TXT_WPRad.Text) / CurrentState.multiplieralt,
-                            double.Parse(TXT_loiterradv1.Text) / CurrentState.multiplieralt, CurrentState.multiplieralt);
+                            commandlist, (double)Rad_WP_Modif.Value,
+                            (double)(Rad_Loiter_modif.Value) / CurrentState.multiplieralt, CurrentState.multiplieralt);
                     }
                     catch (FormatException)
                     {
@@ -1777,7 +1769,6 @@ namespace MissionPlanner.GCSViews
 
             writeKML();
         }
-
 
         public void BUT_loadwpfile_Click(object sender, EventArgs e)
         {
@@ -2521,7 +2512,7 @@ namespace MissionPlanner.GCSViews
                 Settings.Instance["TXT_homealt"] = TXT_homealt.Text;
 
 
-                Settings.Instance["TXT_WPRad"] = TXT_WPRad.Text;
+                Settings.Instance["TXT_WPRad"] = (Rad_WP_Modif.Value).ToString();
 
                 Settings.Instance["TXT_loiterrad"] = TXT_loiterradv1.Text;
 
@@ -2539,10 +2530,10 @@ namespace MissionPlanner.GCSViews
                 {
                     switch (key)
                     {
-                        case "TXT_WPRad":
-                            TXT_WPRad.Text = "" + Settings.Instance[key];
-                            startupWPradius = TXT_WPRad.Text;
-                            break;
+                        //case "TXT_WPRad":
+                        //    TXT_WPRad.Text = "" + Settings.Instance[key];
+                        //    startupWPradius = TXT_WPRad.Text;
+                        //    break;
                         case "TXT_loiterrad":
                             TXT_loiterradv1.Text = "" + Settings.Instance[key];
                             break;
@@ -5118,6 +5109,8 @@ namespace MissionPlanner.GCSViews
 
             setWPParams();
 
+            
+
             var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
             {
                 return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
@@ -5740,10 +5733,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
 
                 // m
-                port.setParam("WP_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
+                //port.setParam("WP_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
 
                 // cm's
-                port.setParam("WPNAV_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist * 100.0);
+                //port.setParam("WPNAV_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist * 100.0);
 
                 try
                 {
@@ -6122,28 +6115,29 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 Dictionary<string, double> param =
                     new Dictionary<string, double>((Dictionary<string, double>) MainV2.comPort.MAV.param);
 
-                if (param.ContainsKey("WP_RADIUS"))
-                {
-                    TXT_WPRad.Text = string.Format("{0:N2}",
-                        (((double) param["WP_RADIUS"] * CurrentState.multiplierdist)));
-                }
+                //if (param.ContainsKey("WP_RADIUS"))
+                //{
+                //    TXT_WPRad.Text = string.Format("{0:N2}",
+                //        (((double) param["WP_RADIUS"] * CurrentState.multiplierdist)));
+                //}
 
-                if (param.ContainsKey("WPNAV_RADIUS"))
-                {
-                    TXT_WPRad.Text = string.Format("{0:N2}",
-                        (((double) param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)));
-                }
+                //if (param.ContainsKey("WPNAV_RADIUS"))
+                //{
+                //    TXT_WPRad.Text = string.Format("{0:N2}",
+                //        (((double) param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)));
+                //}
 
-                log.Info("param WP_RADIUS " + TXT_WPRad.Text);
+                //log.Info("param WP_RADIUS " + TXT_WPRad.Text);
 
                 try
                 {
-                    TXT_loiterradv1.Enabled = false;
+                    //TXT_loiterradv1.Enabled = false;
                     if (param.ContainsKey("LOITER_RADIUS"))
                     {
-                        TXT_loiterradv1.Text =
-                            (((double) param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
-                        TXT_loiterradv1.Enabled = true;
+                        Rad_Loiter_modif.Value = ((decimal) (param["LOITER_RADIUS"] * CurrentState.multiplierdist));
+                        //TXT_loiterradv1.Text =
+                        //TXT_loiterradv1.Enabled = true;
+
                     }
                     else if (param.ContainsKey("WP_LOITER_RAD"))
                     {
@@ -6486,18 +6480,18 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         public void TXT_WPRad_Leave(object sender, EventArgs e)
         {
             float isNumber = 0;
-            if (!float.TryParse(TXT_WPRad.Text, out isNumber))
-            {
-                if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
-            }
+            //if (!float.TryParse(TXT_WPRad.Text, out isNumber))
+            //{
+            //    if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
+            //}
 
-            if (isNumber > (127 * CurrentState.multiplierdist))
-            {
+            //if (isNumber > (127 * CurrentState.multiplierdist))
+            //{
                 //CustomMessageBox.Show("The value can only be between 0 and 127 m");
                 //TXT_WPRad.Text = (127 * CurrentState.multiplierdist).ToString();
-            }
+            //}
 
-            writeKML();
+            //writeKML();
         }
 
         public void updateCMDParams()
@@ -6809,6 +6803,28 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 return;
 
             //  Console.WriteLine("MainMap MM " + point);
+
+            #region boutons Alex
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                try
+                {
+                    //TXT_DefaultAlt.Text = "0";
+                    Cruise_Speed_modif.Value = (decimal)((MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "CRUISE_SPEED")) / 0.51444);
+                    Rad_WP_Modif.Value = (decimal)(MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "WP_RADIUS"));
+                    Rad_Loiter_modif.Value = (decimal)(MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "LOIT_RADIUS"));
+                }
+                catch
+                {
+                    //CustomMessageBox.Show("Please fix your default alt value");
+                    Cruise_Speed_modif.Value = (decimal)(5 / 0.51444);
+                    Rad_WP_Modif.Value = 5;
+                    Rad_Loiter_modif.Value = 5;
+
+                }
+            }
+            #endregion
+
 
             currentMarker.Position = point;
 
@@ -7758,10 +7774,31 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             try
             {
                 decimal Valeur_vitesse = Cruise_Speed_modif.Value;
-                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "CRUISE_SPEED", (double)Valeur_vitesse);
+
+                if (Valeur_vitesse > 15)
+                {
+                    CustomMessageBox.Show("Valeur Max Atteinte");
+                    Valeur_vitesse = 15;//Conversion noeuds m/s => noeuds
+                      
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "CRUISE_SPEED", ((double)Valeur_vitesse * 0.51444));
+                }
+                else if (Valeur_vitesse < 0)
+                {
+                    CustomMessageBox.Show("Valeur Min Atteinte");
+                    Valeur_vitesse = 0;
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "CRUISE_SPEED", (double)Valeur_vitesse);
+                }
+                else
+                {
+                    //Conversion noeuds m/s => noeuds 
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "CRUISE_SPEED", ((double)Valeur_vitesse * 0.51444));
+                }
             }
             catch
-            { return; }
+            {
+                CustomMessageBox.Show("Impossible de modifier la vitesse");
+                
+            }
         }
 
         private void Rad_WP_Modif_Click(object sender, EventArgs e)
@@ -7769,10 +7806,27 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             try
             {
                 decimal Valeur = Rad_WP_Modif.Value;
-                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "WP_RADIUS", (double)Valeur);
+                if (Valeur > 100)
+                {
+                    CustomMessageBox.Show("Valeur Max Atteinte");
+                    Valeur = 100;
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "WP_RADIUS", (double)Valeur);
+                }
+                else if (Valeur < 1)
+                {
+                    CustomMessageBox.Show("Valeur Min Atteinte");
+                    Valeur = 1;
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "WP_RADIUS", (double)Valeur);
+                }
+                else
+                {
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "WP_RADIUS", (double)Valeur);
+                }
             }
             catch
-            { return; }
+            {
+                CustomMessageBox.Show("Impossible de modifier le rayon WP");
+            }
         }
 
         private void Rad_Loiter_modif_Click(object sender, EventArgs e)
@@ -7780,10 +7834,28 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             try
             {
                 decimal Valeur = Rad_Loiter_modif.Value;
-                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "LOIT_RADIUS", (double)Valeur);
+                if (Valeur > 20)
+                {
+                    CustomMessageBox.Show("Valeur Max Atteinte");
+                    Valeur = 20;
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "LOIT_RADIUS", (double)Valeur);
+                }
+                else if (Valeur < 1)
+                {
+                    CustomMessageBox.Show("Valeur Min Atteinte");
+                    Valeur = 1;
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "LOIT_RADIUS", (double)Valeur);
+                }
+                else
+                {
+                    MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "LOIT_RADIUS", (double)Valeur);
+                }
             }
             catch
-            { return; }
+            {
+                CustomMessageBox.Show("Impossible de modifier le rayon Loiter");
+            }
         }
+
     }
 }
