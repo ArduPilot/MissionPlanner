@@ -929,46 +929,65 @@ namespace MissionPlanner.GCSViews
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            // arm the MAV
+            #region arm the MAV version 1
+            //try
+            //{
+            //    var isitarmed = MainV2.comPort.MAV.cs.armed;
+            //    var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
+
+            //    if (isitarmed)
+            //        if (CustomMessageBox.Show("Êtes vous surs de vouloir effectuer l'action suivante : " + action, action,
+            //                CustomMessageBox.MessageBoxButtons.YesNo) != CustomMessageBox.DialogResult.Yes)
+            //            return;
+            //    StringBuilder sb = new StringBuilder();
+            //    var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
+            //    {
+            //        sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text)
+            //            .TrimEnd('\0'));
+            //        return true;
+            //    });
+            //    bool ans = MainV2.comPort.doARM(!isitarmed);
+            //    MainV2.comPort.UnSubscribeToPacketType(sub);
+            //    if (ans == false)
+            //    {
+            //        if (CustomMessageBox.Show(
+            //                action + " n'a pas abouti.\n" + sb.ToString() + "\nForcer l'action : " + action +
+            //                " peut outrepasser les mesures de sécurité ce qui peut conduire \n à la destruction du véhicule ou à de serieuses blessures. \n Êtes vous certain de vouloir poursuivre ?" +
+            //                action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
+            //                CustomMessageBox.MessageBoxIcon.Exclamation, "Forcer " + action, "Annuler") ==
+            //            CustomMessageBox.DialogResult.Yes)
+            //        {
+            //            ans = MainV2.comPort.doARM(!isitarmed, true);
+            //            if (ans == false)
+            //            {
+            //                CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+            //            }
+            //        }
+            //    }
+            //}
+            //catch
+            //{
+            //    CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+            //}
+            #endregion
+
             try
             {
-                var isitarmed = MainV2.comPort.MAV.cs.armed;
-                var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
-
-                if (isitarmed)
-                    if (CustomMessageBox.Show("Êtes vous surs de vouloir effectuer l'action suivante : " + action, action,
-                            CustomMessageBox.MessageBoxButtons.YesNo) != CustomMessageBox.DialogResult.Yes)
-                        return;
-                StringBuilder sb = new StringBuilder();
-                var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
+                if (MainV2.comPort.MAV.cs.armed)
                 {
-                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text)
-                        .TrimEnd('\0'));
-                    return true;
-                });
-                bool ans = MainV2.comPort.doARM(!isitarmed);
-                MainV2.comPort.UnSubscribeToPacketType(sub);
-                if (ans == false)
+                    MainV2.comPort.doARM(false);
+                }
+                else
                 {
-                    if (CustomMessageBox.Show(
-                            action + " n'a pas abouti.\n" + sb.ToString() + "\nForcer l'action : " + action +
-                            " peut outrepasser les mesures de sécurité ce qui peut conduire \n à la destruction du véhicule ou à de serieuses blessures. \n Êtes vous certain de vouloir poursuivre ?" +
-                            action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
-                            CustomMessageBox.MessageBoxIcon.Exclamation, "Forcer " + action, "Annuler") ==
-                        CustomMessageBox.DialogResult.Yes)
-                    {
-                        ans = MainV2.comPort.doARM(!isitarmed, true);
-                        if (ans == false)
-                        {
-                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                        }
-                    }
+                    MainV2.comPort.doARM(false);
                 }
             }
             catch
             {
-                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                CustomMessageBox.Show("Impossible d'armer le véhicule");
             }
+
+
         }
 
         private void but_bintolog_Click(object sender, EventArgs e)
@@ -2322,6 +2341,7 @@ namespace MissionPlanner.GCSViews
                 thisthread.Name = "FD Mainloop";
                 thisthread.IsBackground = true;
                 thisthread.Start();
+
             }
             catch (NotSupportedException)
             {
@@ -3792,7 +3812,6 @@ namespace MissionPlanner.GCSViews
                 {
                     BeginInvoke((Action) updateTransponder);
                 }
-
 
             }
 
@@ -5737,10 +5756,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        #region do_set_relay
-
-        #endregion
-
         private void SelectWP_Click(object sender, EventArgs e)
         {
             SelectWP.Items.Clear();
@@ -5755,21 +5770,52 @@ namespace MissionPlanner.GCSViews
             
         }
 
+
         private void Set_relay_Click(object sender, EventArgs e)
         {
-            //try 
-            //{ 
-            //    if (MainV2.comPort.GetParam("RELAY_DEFAULT") ==0 )
-            //    { 
-            //        MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_DEFAULT", 1); 
-            //        //Set_Relay.ForeColor =
-            //    }
-            //    else
-            //    { 
-            //        MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_DEFAULT", 0);
-            //    }
-            //}
-            //catch { return; }
+            try
+            {
+                // Notice do_set_relay : n° pin | 0(on) 1(off) | 0 | 0 | 0 | 0 | 0
+                
+                if (MainV2.comPort.GetParam("RELAY_DEFAULT") == 0)
+                {
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 1, 1, 0, 0, 0, 0, 0);
+
+                    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+                    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+                    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+                }
+                else
+                {
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 1, 0, 0, 0, 0, 0, 0);
+
+                    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+                    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+                    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+                }
+            }
+            catch 
+            {
+                CustomMessageBox.Show("Impossible d'accéder au relai");
+            }
+        }
+
+        private void Repeat_Relay_go_Click(object sender, EventArgs e)
+        {
+            // Notice do_repeat_relay : n° pin | nbre de répétitions | delay | 0 | 0 | 0 | 0
+            try
+            {
+                double delay = Convert.ToDouble(Repeat_Relay_Delay.Text);
+                
+                if (delay == 0)
+                    delay = 1;
+
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, 0, 5 ,(float)delay, 0, 0, 0, 0);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Impossible d'activer la répétition relay");
+            }
         }
     }
 }

@@ -46,13 +46,13 @@ namespace MissionPlanner.GCSViews
             this.quickView8 = new MissionPlanner.Controls.QuickView();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.myButton5 = new MissionPlanner.Controls.MyButton();
-            this.myButton10 = new MissionPlanner.Controls.MyButton();
+            this.Repeat_Relay_go = new MissionPlanner.Controls.MyButton();
             this.Set_Relay = new MissionPlanner.Controls.MyButton();
             this.myButton4 = new MissionPlanner.Controls.MyButton();
             this.myButton7 = new MissionPlanner.Controls.MyButton();
             this.myButton6 = new MissionPlanner.Controls.MyButton();
             this.SelectWP = new System.Windows.Forms.ComboBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.Repeat_Relay_Delay = new System.Windows.Forms.RichTextBox();
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
@@ -682,13 +682,13 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
             this.tableLayoutPanel4.Controls.Add(this.myButton5, 2, 0);
-            this.tableLayoutPanel4.Controls.Add(this.myButton10, 2, 2);
+            this.tableLayoutPanel4.Controls.Add(this.Repeat_Relay_go, 2, 2);
             this.tableLayoutPanel4.Controls.Add(this.Set_Relay, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.myButton4, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.myButton7, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.myButton6, 0, 2);
             this.tableLayoutPanel4.Controls.Add(this.SelectWP, 1, 2);
-            this.tableLayoutPanel4.Controls.Add(this.richTextBox1, 3, 2);
+            this.tableLayoutPanel4.Controls.Add(this.Repeat_Relay_Delay, 3, 2);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             // 
             // myButton5
@@ -702,15 +702,16 @@ namespace MissionPlanner.GCSViews
             this.myButton5.UseVisualStyleBackColor = true;
             this.myButton5.Click += new System.EventHandler(this.BUT_ARM_Click);
             // 
-            // myButton10
+            // Repeat_Relay_go
             // 
-            this.myButton10.ColorMouseDown = System.Drawing.Color.Empty;
-            this.myButton10.ColorMouseOver = System.Drawing.Color.Empty;
-            this.myButton10.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.myButton10, "myButton10");
-            this.myButton10.Name = "myButton10";
-            this.toolTip1.SetToolTip(this.myButton10, resources.GetString("myButton10.ToolTip"));
-            this.myButton10.UseVisualStyleBackColor = true;
+            this.Repeat_Relay_go.ColorMouseDown = System.Drawing.Color.Empty;
+            this.Repeat_Relay_go.ColorMouseOver = System.Drawing.Color.Empty;
+            this.Repeat_Relay_go.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.Repeat_Relay_go, "Repeat_Relay_go");
+            this.Repeat_Relay_go.Name = "Repeat_Relay_go";
+            this.toolTip1.SetToolTip(this.Repeat_Relay_go, resources.GetString("Repeat_Relay_go.ToolTip"));
+            this.Repeat_Relay_go.UseVisualStyleBackColor = true;
+            this.Repeat_Relay_go.Click += new System.EventHandler(this.Repeat_Relay_go_Click);
             // 
             // Set_Relay
             // 
@@ -762,13 +763,13 @@ namespace MissionPlanner.GCSViews
             this.SelectWP.Name = "SelectWP";
             this.SelectWP.Click += new System.EventHandler(this.SelectWP_Click);
             // 
-            // richTextBox1
+            // Repeat_Relay_Delay
             // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.Info;
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.richTextBox1, "richTextBox1");
-            this.richTextBox1.ForeColor = System.Drawing.SystemColors.Menu;
-            this.richTextBox1.Name = "richTextBox1";
+            this.Repeat_Relay_Delay.BackColor = System.Drawing.SystemColors.Info;
+            this.Repeat_Relay_Delay.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.Repeat_Relay_Delay, "Repeat_Relay_Delay");
+            this.Repeat_Relay_Delay.ForeColor = System.Drawing.SystemColors.Menu;
+            this.Repeat_Relay_Delay.Name = "Repeat_Relay_Delay";
             // 
             // tableMap
             // 
@@ -2909,11 +2910,11 @@ namespace MissionPlanner.GCSViews
         private Controls.QuickView quickView4;
         private Controls.QuickView quickView3;
         private Controls.QuickView quickView2;
-        private Controls.MyButton myButton10;
+        private Controls.MyButton Repeat_Relay_go;
         private Controls.QuickView quickView7;
         private Controls.QuickView quickView8;
         private ContextMenu contextMenu1;
-        private RichTextBox richTextBox1;
+        private RichTextBox Repeat_Relay_Delay;
         private ContextMenu contextMenu2;
         private BrightIdeasSoftware.BaseRenderer baseRenderer1;
         private ToolStripMenuItem toolStripMenuItem1;
