@@ -92,6 +92,7 @@ namespace px4uploader
             fw = JSON.Instance.ToObject<Firmware>(f.ReadToEnd());
             f.Close();
 
+            if (fw.image_size > 0)
             {
                 byte[] data = Convert.FromBase64String(fw.image);
 
@@ -121,6 +122,7 @@ namespace px4uploader
                     Array.Resize(ref fw.imagebyte, fw.imagebyte.Length + (4 - (fw.imagebyte.Length % 4)));
                 }
             }
+            if(fw.extf_image_size > 0)
             {
                 byte[] data = Convert.FromBase64String(fw.extf_image);
 

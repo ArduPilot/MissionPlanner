@@ -797,12 +797,16 @@ namespace px4uploader
                 {
                     self.chip = self.__getCHIP();
                     self.chip_desc = self.__getCHIPDES();
-                } catch {}
+                } catch { __sync(); }
             }
 
             if (bl_rev >= 5)
             {
-                self.extf_maxsize = __getInfo(Info.EXTF_SIZE);
+                try
+                {
+                    self.extf_maxsize = __getInfo(Info.EXTF_SIZE);
+                }
+                catch { __sync(); }
             }
 
             Console.WriteLine("Found board type {0} brdrev {1} blrev {2} fwmax {3} extf {7} chip {5:X} chipdes {6} on {4}", board_type,
