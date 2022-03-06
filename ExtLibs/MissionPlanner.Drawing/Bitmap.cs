@@ -78,6 +78,10 @@ namespace System.Drawing
 
         public Bitmap(int clientSizeWidth, int clientSizeHeight, Graphics realDc)
         {
+            if (clientSizeHeight < 1)
+                clientSizeHeight = 1;
+            if (clientSizeWidth < 1)
+                clientSizeWidth = 1;
             nativeSkBitmap = new SKBitmap(new SKImageInfo(clientSizeWidth, clientSizeHeight, SKColorType.Bgra8888));
             nativeSkBitmap.Erase(SKColor.Empty);
             //nativeSkBitmap.SetPixels(realDc._surface.);
