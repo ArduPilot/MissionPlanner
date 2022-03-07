@@ -1900,7 +1900,7 @@ namespace MissionPlanner
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
-            if (!MainV2.comPort.BaseStream.IsOpen)
+            if (!MainV2.comPort.BaseStream.IsOpen & !toolStripConnectionControl.Visible)
             {
                 string[] all_names = SerialPort.GetPortNames();
                 foreach (string name in all_names)
@@ -4856,6 +4856,15 @@ namespace MissionPlanner
             {
                 CustomMessageBox.Show("Link open failed. check your default webpage association");
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (toolStripConnectionControl.Visible)
+                toolStripConnectionControl.Visible = false;
+            else
+                toolStripConnectionControl.Visible = true;
+
         }
     }
 }
