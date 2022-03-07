@@ -185,8 +185,8 @@ namespace MissionPlanner
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.checkBox1);
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.status1);
             this.panel1.Controls.Add(this.MainMenu);
             resources.ApplyResources(this.panel1, "panel1");
