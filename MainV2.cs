@@ -1142,6 +1142,8 @@ namespace MissionPlanner
 
             MainV2.comPort.MavChanged += comPort_MavChanged;
 
+            //string[] names = SerialPort.GetPortNames();
+
             // save config to test we have write access
             SaveConfig();
         }
@@ -1382,7 +1384,6 @@ namespace MissionPlanner
 
             _connectionControl.CMB_serialport.Items.Add("AUTO");
             _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
-
             _connectionControl.CMB_serialport.Items.Add("TCP");
             _connectionControl.CMB_serialport.Items.Add("UDP");
             _connectionControl.CMB_serialport.Items.Add("UDPCl");
@@ -1897,13 +1898,44 @@ namespace MissionPlanner
             #endregion
         }
 
-
         private void MenuConnect_Click(object sender, EventArgs e)
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                string[] all_names = SerialPort.GetPortNames();
+                foreach (string name in all_names)
+                {
+                    string nice_name = name + " " + SerialPort.GetNiceName(name);
+                    string[] list_de_mots = Regex.Split(nice_name, @"\s+");
+                    int nom_trouve = 0;
+                    foreach (string item in list_de_mots)
+                    {
+                        if (item == "ArduPilot")
+                        {
+                            //CustomMessageBox.Show("Ardupilot trouvé");
+                            nom_trouve += 1;
+                        }
+                        if (item == "MAVLink")
+                        {
+                            nom_trouve += 1;
+                            //CustomMessageBox.Show("MAVLink trouvé");
+                        }
+                    }
+                    if (nom_trouve == 2)
+                    {
+                        //CustomMessageBox.Show("C'est à ce port qu'il faut se connecter");
+                        _connectionControl.CMB_serialport.Text = name;
+                        _connectionControl.CMB_baudrate.Text = "57600";
+                    }
+                }
+            }
+                
+                
+                
             Connect();
         }
 
-        private void Connect()
+        public void Connect()
         {
             comPort.giveComport = false;
 
@@ -1917,7 +1949,7 @@ namespace MissionPlanner
                 {
                     return;
                 }
-            }
+            } //si on est enn train d'avancer trop vite ca connecte pas 
 
             try
             {

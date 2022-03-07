@@ -1,6 +1,7 @@
 ﻿using MissionPlanner.Comms;
 using System;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -51,7 +52,7 @@ namespace MissionPlanner.Controls
         private void cmb_Connection_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
-                return;
+                return ;
 
             ComboBox combo = sender as ComboBox;
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
@@ -64,7 +65,31 @@ namespace MissionPlanner.Controls
             string text = combo.Items[e.Index].ToString();
             if (!MainV2.MONO)
             {
-                text = text + " " + SerialPort.GetNiceName(text);
+                string textv2 = text + " " + SerialPort.GetNiceName(text);
+                string[] list_de_mots = Regex.Split(textv2, @"\s+");
+                int nom_trouve = 0;
+                foreach (string item in list_de_mots)
+                {
+                    if (item == "ArduPilot")
+                    {
+                        //CustomMessageBox.Show("Ardupilot trouvé");
+                        nom_trouve += 1;
+                    }
+                    if (item == "MAVLink")
+                    {
+                        nom_trouve += 1;
+                        //CustomMessageBox.Show("MAVLink trouvé");
+                    }
+                }
+                if (nom_trouve == 2)
+                {
+                    //CustomMessageBox.Show("C'est à ce port qu'il faut se connecter");
+                    //MainV2.instance.doConnect(MainV2.comPort,text, "57600");
+                    //MainV2._connectionControl.CMB_serialport.Text = text;
+                    //MainV2.instance.Connect();                                  //connexion auto si on trouve un ardupilot mavlink
+                }
+                text = textv2;
+                
             }
 
             e.Graphics.DrawString(text, e.Font,

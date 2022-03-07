@@ -978,7 +978,7 @@ namespace MissionPlanner.GCSViews
             //{
             //    if (MainV2.comPort.MAV.cs.armed)
             //    {
-            //        MainV2.comPort.doARM(false);
+            //        MainV2.comPort.doARM(true);
             //    }
             //    else
             //    {
@@ -5786,24 +5786,28 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                // Notice do_set_relay : n° pin | 0(on) 1(off) | 0 | 0 | 0 | 0 | 0
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, 1000, 0, 0, 0, 0, 0);
+                // Notice
+                //                      do_set_relay : n° pin | 0(on) 1(off) | 0 | 0 | 0 | 0 | 0
+                //finalement on utilise
+                //                      do_set_servo : n°pin | PWM Value (ms) | 0 | 0 | 0 | 0 | 0
 
-                if (MainV2.comPort.GetParam("RELAY_PIN1") == 0)
-                {
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 1, 1, 0, 0, 0, 0, 0);
+                //if (MainV2.comPort.GetParam("RELAY_PIN1") == 0)
+                //{
+                //    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, 2000, 0, 0, 0, 0, 0);
 
-                    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-                    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-                    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-                }
-                else
-                {
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 1, 0, 0, 0, 0, 0, 0);
+                //    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+                //    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+                //    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+                //}
+                //else
+                //{
+                //    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, 1000, 0, 0, 0, 0, 0);
 
-                    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-                    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-                    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-                }
+                //    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+                //    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+                //    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+                //}
             }
             catch
             {
