@@ -937,10 +937,7 @@ namespace MissionPlanner.GCSViews
                 var isitarmed = MainV2.comPort.MAV.cs.armed;
                 var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
 
-                if (isitarmed)
-                    if (CustomMessageBox.Show("Êtes vous surs de vouloir effectuer l'action suivante : " + action, action,
-                            CustomMessageBox.MessageBoxButtons.YesNo) != CustomMessageBox.DialogResult.Yes)
-                        return;
+
                 StringBuilder sb = new StringBuilder();
                 var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
                 {
@@ -2284,6 +2281,9 @@ namespace MissionPlanner.GCSViews
         {
             POI.POIModified += POI_POIModified;
 
+            quickView5.number = 5;                  //TODO enlever ca 
+            quickView7.number = 1.111;
+
             tfr.GotTFRs += tfr_GotTFRs;
 
             if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
@@ -2338,8 +2338,13 @@ namespace MissionPlanner.GCSViews
 
             splitContainer1.Panel1Collapsed = true;
 
+            //if (MainV2.comPort.BaseStream.IsOpen())
+            //if (MainV2.comPort.GetParam("RELAY_PIN1") == 0)
+            //Repeat_Relay_go.BackColor= System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            
             try
             {
+                //float a = MainV2.comPort.GetParam("RELAY_PIN1");
                 thisthread = new Thread(mainloop);
                 thisthread.Name = "FD Mainloop";
                 thisthread.IsBackground = true;
@@ -3109,6 +3114,7 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
+
                 try
                 {
                     #region quick view databinding
@@ -3116,9 +3122,9 @@ namespace MissionPlanner.GCSViews
                     quickView2.number = MainV2.comPort.MAV.cs.battery_remaining;
                     quickView3.number = MainV2.comPort.MAV.cs.current;
                     quickView4.number = MainV2.comPort.MAV.cs.groundspeed;
-                    quickView5.number = 1.111;                                         //TODO relier à l'hauteur d'eau
+                    //quickView5.number = 1.111;                                         //TODO relier à l'hauteur d'eau
                     quickView6.number = MainV2.comPort.MAV.cs.rangefinder1;
-                    quickView7.number = 1.111;                                         //TODO relier à longueur cable 
+                    //quickView7.number = 1.111;                                         //TODO relier à longueur cable 
                     quickView8.number = MainV2.comPort.MAV.cs.raw_temp;
 
 
@@ -3134,9 +3140,9 @@ namespace MissionPlanner.GCSViews
                     // BATT_CRT_MAH
 
                     double warnvolt = 26;
-                    double warnpercent = 95;
+                    double warnpercent = 30;
                     double critvolt = 23;
-                    double critpercent = 90;
+                    double critpercent = 20;
 
                     if (MainV2.comPort.MAV.cs.battery_voltage <= warnvolt)
                     {
@@ -3791,10 +3797,16 @@ namespace MissionPlanner.GCSViews
 
                 // Alerte niveau d'eau 
                 if (quickView5.number <= 1)
+                {
+                    pb_niveau_eau();
+                }
+                else
+                {
+                    quickView5.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128))))); 
+                }
 
 
-
-                    if (MainV2.comPort.MAV.cs.xpdr_status_pending)
+                if (MainV2.comPort.MAV.cs.xpdr_status_pending)
                     {
                         BeginInvoke((Action)updateTransponder);
                     }
@@ -3811,7 +3823,7 @@ namespace MissionPlanner.GCSViews
 
             if (first_alerte_niveau_eau)
             {
-                MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "MODE1", 4);
+                MainV2.comPort.setMode("Hold");
                 first_alerte_niveau_eau = false;
                 date_debut_pb_water_level = DateTime.Now;
             }
@@ -3826,8 +3838,6 @@ namespace MissionPlanner.GCSViews
                 if (DateTime.Now - date_debut_pb_water_level > TimeSpan.FromMilliseconds(1000))
                     date_debut_pb_water_level = DateTime.Now;
             }
-            
-             
         }
 
         public void updateMarkersAsNeeded<TBuilder, TMarker>(IEnumerable<TBuilder> list, GMapOverlay gMapOverlay,
@@ -5786,28 +5796,29 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, 1000, 0, 0, 0, 0, 0);
+
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 1, 1, 0, 0, 0, 0, 0);
                 // Notice
                 //                      do_set_relay : n° pin | 0(on) 1(off) | 0 | 0 | 0 | 0 | 0
                 //finalement on utilise
                 //                      do_set_servo : n°pin | PWM Value (ms) | 0 | 0 | 0 | 0 | 0
 
-                //if (MainV2.comPort.GetParam("RELAY_PIN1") == 0)
-                //{
-                //    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, 2000, 0, 0, 0, 0, 0);
+                if (MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_PIN1") == 0)
+                {
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 0, 1, 0, 0, 0, 0, 0);
 
-                //    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-                //    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-                //    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-                //}
-                //else
-                //{
-                //    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, 1000, 0, 0, 0, 0, 0);
+                    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+                    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+                    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+                }
+                else
+                {
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 0, 0, 0, 0, 0, 0, 0);
 
-                //    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-                //    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-                //    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-                //}
+                    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+                    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+                    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+                }
             }
             catch
             {
@@ -5825,12 +5836,22 @@ namespace MissionPlanner.GCSViews
                 if (delay == 0)
                     delay = 1;
 
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, 0, 5, (float)delay, 0, 0, 0, 0);
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, 0, 1, (float)delay, 0, 0, 0, 0);
+
+
             }
             catch
             {
                 CustomMessageBox.Show("Impossible d'activer la répétition relay");
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (quickView5.number > 1)
+                quickView5.number = 0.8;            //Todo : enlever ca et la check box avant de continuer 
+            else
+                quickView5.number = 5;
         }
     }
 }
