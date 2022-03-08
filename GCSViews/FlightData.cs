@@ -503,6 +503,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            
             hud1.doResize();
         }
 
@@ -5792,58 +5793,38 @@ namespace MissionPlanner.GCSViews
 
         }
 
-        private void Set_relay_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 1, 1, 0, 0, 0, 0, 0);
-                // Notice
-                //                      do_set_relay : n° pin | 0(on) 1(off) | 0 | 0 | 0 | 0 | 0
-                //finalement on utilise
-                //                      do_set_servo : n°pin | PWM Value (ms) | 0 | 0 | 0 | 0 | 0
-
-                if (MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "RELAY_PIN1") == 0)
-                {
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 0, 1, 0, 0, 0, 0, 0);
-
-                    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-                    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-                    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-                }
-                else
-                {
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, 0, 0, 0, 0, 0, 0, 0);
-
-                    Set_Relay.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-                    Set_Relay.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-                    Set_Relay.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-                }
-            }
-            catch
-            {
-                CustomMessageBox.Show("Impossible d'accéder au relai");
-            }
-        }
-
         private void Repeat_Relay_go_Click(object sender, EventArgs e)
         {
-            // Notice do_repeat_relay : n° pin | nbre de répétitions | delay | 0 | 0 | 0 | 0
-            try
+            //notice : on fait 3 set_relay, le premier a 0, le deuxième à 1 et le troisième à 0.           
+            
+            if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, 0, 0, 0, 0,
+                0, 0, 0))
             {
-                double delay = Convert.ToDouble(Repeat_Relay_Delay.Text);
-
-                if (delay == 0)
-                    delay = 1;
-
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, 0, 1, (float)delay, 0, 0, 0, 0);
-
-
+                Repeat_Relay_go.BGGradBot = Color.Red;
+                Repeat_Relay_go.BGGradTop = Color.Red;
             }
-            catch
+
+            Application.DoEvents();
+
+            System.Threading.Thread.Sleep(200);
+
+            if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, 0, 1, 0, 0,
+                0, 0, 0))
             {
-                CustomMessageBox.Show("Impossible d'activer la répétition relay");
+                Repeat_Relay_go.BGGradTop = Color.Green;
+                Repeat_Relay_go.BGGradBot = Color.Green;
             }
+
+            Application.DoEvents();
+            System.Threading.Thread.Sleep((int)(Repeat_Relay_Delay.Text.ConvertToDouble())*1000);
+
+            if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, 0, 0, 0, 0,
+                0, 0, 0))
+            {
+                Repeat_Relay_go.BGGradBot = Color.Red;
+                Repeat_Relay_go.BGGradTop = Color.Red;
+            }
+
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

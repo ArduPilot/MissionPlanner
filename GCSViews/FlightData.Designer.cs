@@ -47,12 +47,13 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.myButton5 = new MissionPlanner.Controls.MyButton();
             this.Repeat_Relay_go = new MissionPlanner.Controls.MyButton();
-            this.Set_Relay = new MissionPlanner.Controls.MyButton();
             this.myButton4 = new MissionPlanner.Controls.MyButton();
             this.myButton7 = new MissionPlanner.Controls.MyButton();
             this.myButton6 = new MissionPlanner.Controls.MyButton();
             this.SelectWP = new System.Windows.Forms.ComboBox();
             this.Repeat_Relay_Delay = new System.Windows.Forms.RichTextBox();
+            this.myUserControl1 = new System.Windows.Forms.MyUserControl();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
@@ -61,6 +62,7 @@ namespace MissionPlanner.GCSViews
             this.pointCameraHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gMapControl1 = new MissionPlanner.Controls.myGMAP();
+            this.Set_Relay = new MissionPlanner.Controls.MyButton();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -189,6 +191,7 @@ namespace MissionPlanner.GCSViews
             this.contextMenu1 = new System.Windows.Forms.ContextMenu();
             this.contextMenu2 = new System.Windows.Forms.ContextMenu();
             this.baseRenderer1 = new BrightIdeasSoftware.BaseRenderer();
+            this.relayOptions1 = new MissionPlanner.Controls.RelayOptions();
             this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             this.modifyandSetLoiterRad = new MissionPlanner.Controls.ModifyandSet();
             this.modifyandSetAlt = new MissionPlanner.Controls.ModifyandSet();
@@ -206,14 +209,11 @@ namespace MissionPlanner.GCSViews
             this.servoOptions10 = new MissionPlanner.Controls.ServoOptions();
             this.servoOptions11 = new MissionPlanner.Controls.ServoOptions();
             this.servoOptions12 = new MissionPlanner.Controls.ServoOptions();
-            this.relayOptions1 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions2 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions3 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions4 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions5 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions6 = new MissionPlanner.Controls.RelayOptions();
-            this.myUserControl1 = new System.Windows.Forms.MyUserControl();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -685,7 +685,6 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
             this.tableLayoutPanel4.Controls.Add(this.myButton5, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.Repeat_Relay_go, 2, 2);
-            this.tableLayoutPanel4.Controls.Add(this.Set_Relay, 2, 1);
             this.tableLayoutPanel4.Controls.Add(this.myButton4, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.myButton7, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.myButton6, 0, 2);
@@ -693,6 +692,7 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel4.Controls.Add(this.Repeat_Relay_Delay, 3, 2);
             this.tableLayoutPanel4.Controls.Add(this.myUserControl1, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.checkBox1, 3, 0);
+            this.tableLayoutPanel4.Controls.Add(this.relayOptions1, 2, 1);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             // 
             // myButton5
@@ -716,17 +716,6 @@ namespace MissionPlanner.GCSViews
             this.toolTip1.SetToolTip(this.Repeat_Relay_go, resources.GetString("Repeat_Relay_go.ToolTip"));
             this.Repeat_Relay_go.UseVisualStyleBackColor = true;
             this.Repeat_Relay_go.Click += new System.EventHandler(this.Repeat_Relay_go_Click);
-            // 
-            // Set_Relay
-            // 
-            this.Set_Relay.ColorMouseDown = System.Drawing.Color.Empty;
-            this.Set_Relay.ColorMouseOver = System.Drawing.Color.Empty;
-            this.Set_Relay.ColorNotEnabled = System.Drawing.Color.Empty;
-            resources.ApplyResources(this.Set_Relay, "Set_Relay");
-            this.Set_Relay.Name = "Set_Relay";
-            this.toolTip1.SetToolTip(this.Set_Relay, resources.GetString("Set_Relay.ToolTip"));
-            this.Set_Relay.UseVisualStyleBackColor = true;
-            this.Set_Relay.Click += new System.EventHandler(this.Set_relay_Click);
             // 
             // myButton4
             // 
@@ -775,6 +764,18 @@ namespace MissionPlanner.GCSViews
             this.Repeat_Relay_Delay.ForeColor = System.Drawing.SystemColors.Menu;
             this.Repeat_Relay_Delay.Name = "Repeat_Relay_Delay";
             // 
+            // myUserControl1
+            // 
+            resources.ApplyResources(this.myUserControl1, "myUserControl1");
+            this.myUserControl1.Name = "myUserControl1";
+            // 
+            // checkBox1
+            // 
+            resources.ApplyResources(this.checkBox1, "checkBox1");
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // tableMap
             // 
             resources.ApplyResources(this.tableMap, "tableMap");
@@ -796,6 +797,7 @@ namespace MissionPlanner.GCSViews
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
             this.splitContainer1.Panel2.Controls.Add(this.gMapControl1);
             this.splitContainer1.Panel2.Controls.Add(this.distanceBar1);
+            this.splitContainer1.Panel2.Controls.Add(this.Set_Relay);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
@@ -877,6 +879,15 @@ namespace MissionPlanner.GCSViews
             this.gMapControl1.MouseLeave += new System.EventHandler(this.gMapControl1_MouseLeave);
             this.gMapControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gMapControl1_MouseMove);
             this.gMapControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gMapControl1_MouseUp);
+            // 
+            // Set_Relay
+            // 
+            this.Set_Relay.ColorMouseDown = System.Drawing.Color.Empty;
+            this.Set_Relay.ColorMouseOver = System.Drawing.Color.Empty;
+            this.Set_Relay.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.Set_Relay, "Set_Relay");
+            this.Set_Relay.Name = "Set_Relay";
+            this.Set_Relay.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
@@ -1905,7 +1916,6 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions10);
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions11);
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions12);
-            this.flowLayoutPanelServos.Controls.Add(this.relayOptions1);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions2);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions3);
             this.flowLayoutPanelServos.Controls.Add(this.relayOptions4);
@@ -2432,6 +2442,12 @@ namespace MissionPlanner.GCSViews
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
+            // relayOptions1
+            // 
+            resources.ApplyResources(this.relayOptions1, "relayOptions1");
+            this.relayOptions1.Name = "relayOptions1";
+            this.relayOptions1.thisrelay = 0;
+            // 
             // distanceBar1
             // 
             resources.ApplyResources(this.distanceBar1, "distanceBar1");
@@ -2600,12 +2616,6 @@ namespace MissionPlanner.GCSViews
             this.servoOptions12.Name = "servoOptions12";
             this.servoOptions12.thisservo = 16;
             // 
-            // relayOptions1
-            // 
-            resources.ApplyResources(this.relayOptions1, "relayOptions1");
-            this.relayOptions1.Name = "relayOptions1";
-            this.relayOptions1.thisrelay = 0;
-            // 
             // relayOptions2
             // 
             resources.ApplyResources(this.relayOptions2, "relayOptions2");
@@ -2635,18 +2645,6 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.relayOptions6, "relayOptions6");
             this.relayOptions6.Name = "relayOptions6";
             this.relayOptions6.thisrelay = 5;
-            // 
-            // myUserControl1
-            // 
-            resources.ApplyResources(this.myUserControl1, "myUserControl1");
-            this.myUserControl1.Name = "myUserControl1";
-            // 
-            // checkBox1
-            // 
-            resources.ApplyResources(this.checkBox1, "checkBox1");
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // FlightData
             // 

@@ -1930,8 +1930,6 @@ namespace MissionPlanner
                 }
             }
                 
-                
-                
             Connect();
         }
 

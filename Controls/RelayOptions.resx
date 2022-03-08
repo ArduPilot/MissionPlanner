@@ -121,14 +121,8 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="renameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 22</value>
-  </data>
-  <data name="renameToolStripMenuItem.Text" xml:space="preserve">
-    <value>Rename</value>
-  </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 26</value>
+    <value>133, 28</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>
@@ -140,7 +134,7 @@
     <value>0, 1</value>
   </data>
   <data name="BUT_Low.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 21</value>
+    <value>37, 21</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BUT_Low.TabIndex" type="System.Int32, mscorlib">
@@ -153,19 +147,29 @@
     <value>BUT_Low</value>
   </data>
   <data name="&gt;&gt;BUT_Low.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Low.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_Low.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
+  </data>
+  <data name="renameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 24</value>
+  </data>
+  <data name="renameToolStripMenuItem.Text" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BUT_High.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="BUT_High.Location" type="System.Drawing.Point, System.Drawing">
-    <value>44, 1</value>
+    <value>43, 1</value>
   </data>
   <data name="BUT_High.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 21</value>
+    <value>37, 21</value>
   </data>
   <data name="BUT_High.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -177,19 +181,19 @@
     <value>BUT_High</value>
   </data>
   <data name="&gt;&gt;BUT_High.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_High.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_High.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="BUT_Repeat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 1</value>
+    <value>162, 456</value>
   </data>
   <data name="BUT_Repeat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 21</value>
+    <value>10, 10</value>
   </data>
   <data name="BUT_Repeat.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -201,25 +205,25 @@
     <value>BUT_Repeat</value>
   </data>
   <data name="&gt;&gt;BUT_Repeat.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Repeat.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_Repeat.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="TXT_rcchannel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 0</value>
+    <value>86, 0</value>
   </data>
   <data name="TXT_rcchannel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 21</value>
+    <value>13, 21</value>
   </data>
   <data name="TXT_rcchannel.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
   <data name="TXT_rcchannel.Text" xml:space="preserve">
-    <value>0</value>
+    <value>E</value>
   </data>
   <data name="TXT_rcchannel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
@@ -234,13 +238,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_rcchannel.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>295, 22</value>
+    <value>99, 23</value>
   </data>
   <data name="&gt;&gt;renameToolStripMenuItem.Name" xml:space="preserve">
     <value>renameToolStripMenuItem</value>

@@ -18,7 +18,7 @@ namespace MissionPlanner.Controls
 
             thisrelay = relay;
 
-            TXT_rcchannel.Text = "Relay " + thisrelay.ToString();
+            TXT_rcchannel.Text = "E";//"Relay " + thisrelay.ToString();
 
             loadSettings();
 
@@ -41,12 +41,12 @@ namespace MissionPlanner.Controls
 
             if (!string.IsNullOrEmpty(highdesc))
             {
-                BUT_High.Text = highdesc;
+                BUT_High.Text = "Haut";//highdesc;
             }
 
             if (!string.IsNullOrEmpty(lowdesc))
             {
-                BUT_Low.Text = lowdesc;
+                BUT_Low.Text = "Bas";//lowdesc;
             }
         }
 
@@ -54,8 +54,8 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
-                    0, 0, 0))
+                thisrelay = 1;      //Alex
+                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0, 0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
                 }
@@ -74,6 +74,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
+                thisrelay = 1;      //Alex
                 if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
                     0, 0, 0))
                 {
@@ -90,10 +91,11 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private void BUT_Repeat_Click(object sender, EventArgs e)
+        public void BUT_Repeat_Click(object sender, EventArgs e)
         {
             try
             {
+                thisrelay = 0;
                 if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0,
                     0, 0, 0))
                 {

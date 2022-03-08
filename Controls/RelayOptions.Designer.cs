@@ -49,6 +49,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.renameToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -84,10 +85,10 @@
             // 
             // RelayOptions
             // 
-            this.Controls.Add(this.TXT_rcchannel);
             this.Controls.Add(this.BUT_Repeat);
             this.Controls.Add(this.BUT_High);
             this.Controls.Add(this.BUT_Low);
+            this.Controls.Add(this.TXT_rcchannel);
             this.Name = "RelayOptions";
             resources.ApplyResources(this, "$this");
             this.contextMenuStrip1.ResumeLayout(false);
