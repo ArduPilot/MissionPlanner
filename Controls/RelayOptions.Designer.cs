@@ -41,10 +41,13 @@
             // 
             // BUT_Low
             // 
-            this.BUT_Low.ContextMenuStrip = this.contextMenuStrip1;
             resources.ApplyResources(this.BUT_Low, "BUT_Low");
+            this.BUT_Low.BackColor = System.Drawing.Color.LightGray;
+            this.BUT_Low.BGGradBot = System.Drawing.Color.LightGray;
+            this.BUT_Low.BGGradTop = System.Drawing.Color.LightGray;
+            this.BUT_Low.ContextMenuStrip = this.contextMenuStrip1;
             this.BUT_Low.Name = "BUT_Low";
-            this.BUT_Low.UseVisualStyleBackColor = true;
+            this.BUT_Low.UseVisualStyleBackColor = false;
             this.BUT_Low.Click += new System.EventHandler(this.BUT_Low_Click);
             // 
             // contextMenuStrip1
@@ -63,8 +66,10 @@
             // 
             // BUT_High
             // 
-            this.BUT_High.ContextMenuStrip = this.contextMenuStrip1;
             resources.ApplyResources(this.BUT_High, "BUT_High");
+            this.BUT_High.BGGradBot = System.Drawing.Color.LightGray;
+            this.BUT_High.BGGradTop = System.Drawing.Color.LightGray;
+            this.BUT_High.ContextMenuStrip = this.contextMenuStrip1;
             this.BUT_High.Name = "BUT_High";
             this.BUT_High.UseVisualStyleBackColor = true;
             this.BUT_High.Click += new System.EventHandler(this.BUT_High_Click);
@@ -85,21 +90,27 @@
             // 
             // RelayOptions
             // 
-            this.Controls.Add(this.BUT_Repeat);
+            this.BackColor = System.Drawing.Color.LightGray;
+            //this.Controls.Add(this.BUT_Repeat);
+            this.BUT_High.BGGradBot = System.Drawing.Color.LightGray;
+            this.BUT_High.BGGradTop = System.Drawing.Color.LightGray;
+            this.BUT_Low.BGGradBot = System.Drawing.Color.LightGray;
+            this.BUT_Low.BGGradBot = System.Drawing.Color.LightGray;
             this.Controls.Add(this.BUT_High);
             this.Controls.Add(this.BUT_Low);
-            this.Controls.Add(this.TXT_rcchannel);
+            //this.Controls.Add(this.TXT_rcchannel);
             this.Name = "RelayOptions";
             resources.ApplyResources(this, "$this");
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private MyButton BUT_Low;
-        private MyButton BUT_High;
+        public MyButton BUT_Low;
+        public MyButton BUT_High;
         private MyButton BUT_Repeat;
         private System.Windows.Forms.Label TXT_rcchannel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;

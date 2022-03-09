@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BUT_Low.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -131,12 +135,11 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="BUT_Low.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 1</value>
+    <value>0, 0</value>
   </data>
   <data name="BUT_Low.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 21</value>
+    <value>43, 31</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BUT_Low.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -161,15 +164,21 @@
   <data name="renameToolStripMenuItem.Text" xml:space="preserve">
     <value>Rename</value>
   </data>
+  <data name="BUT_High.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BUT_High.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_High.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 1</value>
+    <value>49, 0</value>
+  </data>
+  <data name="BUT_High.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>40, 25</value>
   </data>
   <data name="BUT_High.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 21</value>
+    <value>47, 31</value>
   </data>
   <data name="BUT_High.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -214,7 +223,7 @@
     <value>1</value>
   </data>
   <data name="TXT_rcchannel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 0</value>
+    <value>143, 451</value>
   </data>
   <data name="TXT_rcchannel.Size" type="System.Drawing.Size, System.Drawing">
     <value>13, 21</value>
@@ -244,7 +253,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 23</value>
+    <value>90, 31</value>
   </data>
   <data name="&gt;&gt;renameToolStripMenuItem.Name" xml:space="preserve">
     <value>renameToolStripMenuItem</value>

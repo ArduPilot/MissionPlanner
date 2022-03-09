@@ -1931,6 +1931,12 @@ namespace MissionPlanner
             }
                 
             Connect();
+
+            FlightData.relayOptions1.BUT_High.BGGradBot = Color.LightGray;
+            FlightData.relayOptions1.BUT_High.BGGradTop = Color.LightGray;
+            FlightData.relayOptions1.BUT_Low.BGGradBot = Color.LightGray;
+            FlightData.relayOptions1.BUT_Low.BGGradTop = Color.LightGray;
+            FlightData.relayOptions1.BackColor = Color.LightGray;
         }
 
         public void Connect()

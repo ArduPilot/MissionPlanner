@@ -9,6 +9,7 @@ namespace MissionPlanner.Controls
     {
         // start at 0 increment each instance
         static int relay = 0;
+        Color couleur = Color.LightGray;
 
         public int thisrelay { get; set; }
 
@@ -24,7 +25,17 @@ namespace MissionPlanner.Controls
 
             relay++;
 
-            TXT_rcchannel.BackColor = Color.Gray;
+            TXT_rcchannel.BackColor = Color.LightGray;
+
+            #region tout change de couleur
+            BUT_High.BackColor = couleur;
+            BUT_High.BGGradBot = couleur;
+            BUT_High.BGGradTop = couleur;
+            BUT_Low.BackColor = couleur;
+            BUT_Low.BGGradBot = couleur;
+            BUT_Low.BGGradTop = couleur; 
+            BackColor = couleur;
+            #endregion
         }
 
         void loadSettings()
@@ -48,6 +59,16 @@ namespace MissionPlanner.Controls
             {
                 BUT_Low.Text = "Bas";//lowdesc;
             }
+
+            #region tout change de couleur
+            BUT_High.BackColor = couleur;
+            BUT_High.BGGradBot = couleur;
+            BUT_High.BGGradTop = couleur;
+            BUT_Low.BackColor = couleur;
+            BUT_Low.BGGradBot = couleur;
+            BUT_Low.BGGradTop = couleur;
+            BackColor = couleur;
+            #endregion
         }
 
         private void BUT_Low_Click(object sender, EventArgs e)
@@ -57,7 +78,16 @@ namespace MissionPlanner.Controls
                 thisrelay = 1;      //Alex
                 if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 0, 0, 0, 0, 0, 0))
                 {
-                    TXT_rcchannel.BackColor = Color.Red;
+                    couleur = Color.FromArgb(255, 120, 120); 
+                    #region tout change de couleur
+                    BUT_High.BackColor = couleur;
+                    BUT_High.BGGradBot = couleur;
+                    BUT_High.BGGradTop = couleur;
+                    BUT_Low.BackColor = couleur;
+                    BUT_Low.BGGradBot = couleur;
+                    BUT_Low.BGGradTop = couleur;
+                    BackColor = couleur;
+                    #endregion
                 }
                 else
                 {
@@ -78,7 +108,16 @@ namespace MissionPlanner.Controls
                 if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, thisrelay, 1, 0, 0,
                     0, 0, 0))
                 {
-                    TXT_rcchannel.BackColor = Color.Green;
+                    couleur = Color.PaleGreen;
+                    #region tout change de couleur
+                    BUT_High.BackColor = couleur;
+                    BUT_High.BGGradBot = couleur;
+                    BUT_High.BGGradTop = couleur;
+                    BUT_Low.BackColor = couleur;
+                    BUT_Low.BGGradBot = couleur;
+                    BUT_Low.BGGradTop = couleur;
+                    BackColor = couleur;
+                    #endregion
                 }
                 else
                 {

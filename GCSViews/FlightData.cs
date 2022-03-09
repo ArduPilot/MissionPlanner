@@ -366,6 +366,7 @@ namespace MissionPlanner.GCSViews
             myhud.hudcolor = ThemeManager.HudText;
 
             hud1.displayicons = Settings.Instance.GetBoolean("HUD_showicons", false);
+
         }
 
         public void Activate()
@@ -2282,7 +2283,7 @@ namespace MissionPlanner.GCSViews
         {
             POI.POIModified += POI_POIModified;
 
-            quickView5.number = 5;                  //TODO enlever ca 
+            quickView5.number = 5;                  //TODO enlever ca et la check box profondeur 
             quickView7.number = 1.111;
 
             tfr.GotTFRs += tfr_GotTFRs;
@@ -2351,6 +2352,10 @@ namespace MissionPlanner.GCSViews
                 thisthread.IsBackground = true;
                 thisthread.Start();
 
+                this.relayOptions1.BUT_High.BGGradBot = Color.LightGray;
+                this.relayOptions1.BUT_High.BGGradTop = Color.LightGray;
+                this.relayOptions1.BUT_Low.BGGradBot = Color.LightGray;
+                this.relayOptions1.BUT_Low.BGGradTop = Color.LightGray;
             }
             catch (NotSupportedException)
             {
@@ -5800,8 +5805,8 @@ namespace MissionPlanner.GCSViews
             if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, 0, 0, 0, 0,
                 0, 0, 0))
             {
-                Repeat_Relay_go.BGGradBot = Color.Red;
-                Repeat_Relay_go.BGGradTop = Color.Red;
+                Repeat_Relay_go.BGGradBot = Color.FromArgb(255, 120, 120);
+                Repeat_Relay_go.BGGradTop = Color.FromArgb(255, 120, 120);
             }
 
             Application.DoEvents();
@@ -5811,8 +5816,8 @@ namespace MissionPlanner.GCSViews
             if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, 0, 1, 0, 0,
                 0, 0, 0))
             {
-                Repeat_Relay_go.BGGradTop = Color.Green;
-                Repeat_Relay_go.BGGradBot = Color.Green;
+                Repeat_Relay_go.BGGradTop = Color.PaleGreen;
+                Repeat_Relay_go.BGGradBot = Color.PaleGreen;
             }
 
             Application.DoEvents();
@@ -5821,8 +5826,8 @@ namespace MissionPlanner.GCSViews
             if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_RELAY, 0, 0, 0, 0,
                 0, 0, 0))
             {
-                Repeat_Relay_go.BGGradBot = Color.Red;
-                Repeat_Relay_go.BGGradTop = Color.Red;
+                Repeat_Relay_go.BGGradBot = Color.FromArgb(255, 120, 120);
+                Repeat_Relay_go.BGGradTop = Color.FromArgb(255, 120, 120);
             }
 
         }
