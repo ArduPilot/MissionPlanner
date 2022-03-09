@@ -708,7 +708,7 @@ namespace RFD.RFD900
             return Result;
         }
 
-        static float GetScaleFactor(string Name, int[] Ints)
+        static float GetScaleFactor(string Name, int[] Ints, int Value)
         {
             switch (Name)
             {
@@ -721,6 +721,26 @@ namespace RFD.RFD900
                         }
                     }
                     return 0.001F;
+                default:
+                    if (Value != 0)
+                    {
+                        //Check if value matches one of the options divided by 1000.
+                        foreach (var i in Ints)
+                        {
+                            if (i == Value)
+                            {
+                                return 1;
+                            }
+                        }
+                        foreach (var i in Ints)
+                        {
+                            if ((i / 1000) == Value)
+                            {
+                                return 0.001F;
+                            }
+                        }
+                    }
+                    break;
             }
             return 1;
         }
@@ -777,7 +797,7 @@ namespace RFD.RFD900
             if (Ints != null)
             {
                 TSetting.TOption[] Result = new TSetting.TOption[Ints.Length];
-                float SF = GetScaleFactor(Name, Ints);
+                float SF = GetScaleFactor(Name, Ints, Value);
                 for (int n = 0; n < Result.Length; n++)
                 {
                     Result[n] = new TSetting.TOption((int)(SF * Ints[n]), Options[n]);
@@ -909,7 +929,9 @@ namespace RFD.RFD900
 
                 n++;
                 string Name = ParseName(Line, ref n);
-                if (Name == null || Name.Length == 0)
+
+                //Ignore "reserved" setting (it's not a setting, just a reserved place for a setting).
+                if (Name == null || Name.Length == 0 || Name == "RESERVED")
                 {
                     return null;
                 }
@@ -1310,6 +1332,16 @@ namespace RFD.RFD900
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Returns whether this setting is a flag/boolean.
+        /// </summary>
+        /// <returns></returns>
+        public bool GetIsFlag()
+        {
+            return (Range != null) && Range.GetOptions().Length == 2 && 
+                Range.GetOptions()[0] == 0 && Range.GetOptions()[1] == 1;
         }
 
         public abstract class TRange

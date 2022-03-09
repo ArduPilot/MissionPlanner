@@ -2264,7 +2264,7 @@ red LED solid - in firmware update mode</value>
     <value>BUT_SetPPMFailSafeRemote</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.61.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafeRemote.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
@@ -2297,7 +2297,7 @@ red LED solid - in firmware update mode</value>
     <value>BUT_SetPPMFailSafe</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafe.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.61.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_SetPPMFailSafe.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
@@ -2729,34 +2729,34 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;GPO1_3AUXOUT.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label53.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblGPO1_3AUXOUT.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label53.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblGPO1_3AUXOUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label53.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblGPO1_3AUXOUT.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 436</value>
   </data>
-  <data name="label53.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblGPO1_3AUXOUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 13</value>
   </data>
-  <data name="label53.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblGPO1_3AUXOUT.TabIndex" type="System.Int32, mscorlib">
     <value>159</value>
   </data>
-  <data name="label53.Text" xml:space="preserve">
+  <data name="lblGPO1_3AUXOUT.Text" xml:space="preserve">
     <value>GPO1_3AUXOUT</value>
   </data>
-  <data name="&gt;&gt;label53.Name" xml:space="preserve">
-    <value>label53</value>
+  <data name="&gt;&gt;lblGPO1_3AUXOUT.Name" xml:space="preserve">
+    <value>lblGPO1_3AUXOUT</value>
   </data>
-  <data name="&gt;&gt;label53.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_3AUXOUT.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label53.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_3AUXOUT.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label53.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_3AUXOUT.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="GPI1_2AUXIN.Enabled" type="System.Boolean, mscorlib">
@@ -2786,64 +2786,64 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;GPI1_2AUXIN.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="label52.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblGPI1_2AUXIN.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label52.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblGPI1_2AUXIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label52.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblGPI1_2AUXIN.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 411</value>
   </data>
-  <data name="label52.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblGPI1_2AUXIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 13</value>
   </data>
-  <data name="label52.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblGPI1_2AUXIN.TabIndex" type="System.Int32, mscorlib">
     <value>157</value>
   </data>
-  <data name="label52.Text" xml:space="preserve">
+  <data name="lblGPI1_2AUXIN.Text" xml:space="preserve">
     <value>GPI1_2AUXIN</value>
   </data>
-  <data name="&gt;&gt;label52.Name" xml:space="preserve">
-    <value>label52</value>
+  <data name="&gt;&gt;lblGPI1_2AUXIN.Name" xml:space="preserve">
+    <value>lblGPI1_2AUXIN</value>
   </data>
-  <data name="&gt;&gt;label52.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblGPI1_2AUXIN.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label52.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblGPI1_2AUXIN.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label52.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblGPI1_2AUXIN.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="label48.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblGPIO1_1FUNC.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label48.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblGPIO1_1FUNC.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblGPIO1_1FUNC.Location" type="System.Drawing.Point, System.Drawing">
     <value>182, 411</value>
   </data>
-  <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblGPIO1_1FUNC.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 13</value>
   </data>
-  <data name="label48.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblGPIO1_1FUNC.TabIndex" type="System.Int32, mscorlib">
     <value>156</value>
   </data>
-  <data name="label48.Text" xml:space="preserve">
+  <data name="lblGPIO1_1FUNC.Text" xml:space="preserve">
     <value>GPIO1_1FUNC</value>
   </data>
-  <data name="&gt;&gt;label48.Name" xml:space="preserve">
-    <value>label48</value>
+  <data name="&gt;&gt;lblGPIO1_1FUNC.Name" xml:space="preserve">
+    <value>lblGPIO1_1FUNC</value>
   </data>
-  <data name="&gt;&gt;label48.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblGPIO1_1FUNC.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label48.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblGPIO1_1FUNC.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label48.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblGPIO1_1FUNC.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="GPIO1_1FUNC.Enabled" type="System.Boolean, mscorlib">
@@ -2870,64 +2870,64 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;GPIO1_1FUNC.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="lbl245.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblGPO1_0TXEN485.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lbl245.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblGPO1_0TXEN485.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lbl245.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblGPO1_0TXEN485.Location" type="System.Drawing.Point, System.Drawing">
     <value>182, 386</value>
   </data>
-  <data name="lbl245.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblGPO1_0TXEN485.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 13</value>
   </data>
-  <data name="lbl245.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblGPO1_0TXEN485.TabIndex" type="System.Int32, mscorlib">
     <value>152</value>
   </data>
-  <data name="lbl245.Text" xml:space="preserve">
+  <data name="lblGPO1_0TXEN485.Text" xml:space="preserve">
     <value>GPO1_0TXEN485</value>
   </data>
-  <data name="&gt;&gt;lbl245.Name" xml:space="preserve">
-    <value>lbl245</value>
+  <data name="&gt;&gt;lblGPO1_0TXEN485.Name" xml:space="preserve">
+    <value>lblGPO1_0TXEN485</value>
   </data>
-  <data name="&gt;&gt;lbl245.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_0TXEN485.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lbl245.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_0TXEN485.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;lbl245.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_0TXEN485.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="label43.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblGPO1_3STATLED.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label43.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblGPO1_3STATLED.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label43.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblGPO1_3STATLED.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 386</value>
   </data>
-  <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblGPO1_3STATLED.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 13</value>
   </data>
-  <data name="label43.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblGPO1_3STATLED.TabIndex" type="System.Int32, mscorlib">
     <value>150</value>
   </data>
-  <data name="label43.Text" xml:space="preserve">
+  <data name="lblGPO1_3STATLED.Text" xml:space="preserve">
     <value>GPO1_3STATLED</value>
   </data>
-  <data name="&gt;&gt;label43.Name" xml:space="preserve">
-    <value>label43</value>
+  <data name="&gt;&gt;lblGPO1_3STATLED.Name" xml:space="preserve">
+    <value>lblGPO1_3STATLED</value>
   </data>
-  <data name="&gt;&gt;label43.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_3STATLED.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label43.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_3STATLED.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label43.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_3STATLED.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
   <data name="GPO1_3SBUSOUT.Enabled" type="System.Boolean, mscorlib">
@@ -3392,64 +3392,64 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;NODEID.ZOrder" xml:space="preserve">
     <value>30</value>
   </data>
-  <data name="label40.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblGPO1_1R_COUT.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label40.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblGPO1_1R_COUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label40.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblGPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 311</value>
   </data>
-  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblGPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 13</value>
   </data>
-  <data name="label40.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblGPO1_1R_COUT.TabIndex" type="System.Int32, mscorlib">
     <value>130</value>
   </data>
-  <data name="label40.Text" xml:space="preserve">
+  <data name="lblGPO1_1R_COUT.Text" xml:space="preserve">
     <value>GPO1_1R/COUT</value>
   </data>
-  <data name="&gt;&gt;label40.Name" xml:space="preserve">
-    <value>label40</value>
+  <data name="&gt;&gt;lblGPO1_1R_COUT.Name" xml:space="preserve">
+    <value>lblGPO1_1R_COUT</value>
   </data>
-  <data name="&gt;&gt;label40.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_1R_COUT.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label40.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_1R_COUT.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblGPO1_1R_COUT.ZOrder" xml:space="preserve">
     <value>31</value>
   </data>
-  <data name="label39.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblGPI1_1R_CIN.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label39.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblGPI1_1R_CIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label39.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblGPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 286</value>
   </data>
-  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblGPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 13</value>
   </data>
-  <data name="label39.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblGPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
     <value>128</value>
   </data>
-  <data name="label39.Text" xml:space="preserve">
+  <data name="lblGPI1_1R_CIN.Text" xml:space="preserve">
     <value>GPI1_1R/CIN</value>
   </data>
-  <data name="&gt;&gt;label39.Name" xml:space="preserve">
-    <value>label39</value>
+  <data name="&gt;&gt;lblGPI1_1R_CIN.Name" xml:space="preserve">
+    <value>lblGPI1_1R_CIN</value>
   </data>
-  <data name="&gt;&gt;label39.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblGPI1_1R_CIN.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label39.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblGPI1_1R_CIN.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label39.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblGPI1_1R_CIN.ZOrder" xml:space="preserve">
     <value>33</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
@@ -3563,154 +3563,154 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>41</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblNETID.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblNETID.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblNETID.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 161</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblNETID.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 13</value>
   </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblNETID.TabIndex" type="System.Int32, mscorlib">
     <value>118</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
+  <data name="lblNETID.Text" xml:space="preserve">
     <value>Net ID</value>
   </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
+  <data name="&gt;&gt;lblNETID.Name" xml:space="preserve">
+    <value>lblNETID</value>
   </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblNETID.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblNETID.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblNETID.ZOrder" xml:space="preserve">
     <value>43</value>
   </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblTXPOWER.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblTXPOWER.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblTXPOWER.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 186</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblTXPOWER.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 13</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblTXPOWER.TabIndex" type="System.Int32, mscorlib">
     <value>120</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
+  <data name="lblTXPOWER.Text" xml:space="preserve">
     <value>Tx Power</value>
   </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
+  <data name="&gt;&gt;lblTXPOWER.Name" xml:space="preserve">
+    <value>lblTXPOWER</value>
   </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblTXPOWER.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblTXPOWER.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblTXPOWER.ZOrder" xml:space="preserve">
     <value>45</value>
   </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblECC.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblECC.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblECC.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 211</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblECC.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 13</value>
   </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblECC.TabIndex" type="System.Int32, mscorlib">
     <value>122</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
+  <data name="lblECC.Text" xml:space="preserve">
     <value>ECC</value>
   </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
+  <data name="&gt;&gt;lblECC.Name" xml:space="preserve">
+    <value>lblECC</value>
   </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblECC.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblECC.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblECC.ZOrder" xml:space="preserve">
     <value>47</value>
   </data>
-  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblOPPRESEND.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblOPPRESEND.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblOPPRESEND.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 261</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblOPPRESEND.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
   </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblOPPRESEND.TabIndex" type="System.Int32, mscorlib">
     <value>125</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
+  <data name="lblOPPRESEND.Text" xml:space="preserve">
     <value>Op Resend</value>
   </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
+  <data name="&gt;&gt;lblOPPRESEND.Name" xml:space="preserve">
+    <value>lblOPPRESEND</value>
   </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblOPPRESEND.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblOPPRESEND.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblOPPRESEND.ZOrder" xml:space="preserve">
     <value>48</value>
   </data>
-  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblMAVLINK.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblMAVLINK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblMAVLINK.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 236</value>
   </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblMAVLINK.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 13</value>
   </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblMAVLINK.TabIndex" type="System.Int32, mscorlib">
     <value>123</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
+  <data name="lblMAVLINK.Text" xml:space="preserve">
     <value>Mavlink</value>
   </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
+  <data name="&gt;&gt;lblMAVLINK.Name" xml:space="preserve">
+    <value>lblMAVLINK</value>
   </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblMAVLINK.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblMAVLINK.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblMAVLINK.ZOrder" xml:space="preserve">
     <value>50</value>
   </data>
   <data name="lblANT_MODE.AutoSize" type="System.Boolean, mscorlib">
@@ -4007,34 +4007,34 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;lblMAX_DATA.ZOrder" xml:space="preserve">
     <value>60</value>
   </data>
-  <data name="label36.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblENCRYPTION_LEVEL.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label36.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblENCRYPTION_LEVEL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label36.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblENCRYPTION_LEVEL.Location" type="System.Drawing.Point, System.Drawing">
     <value>181, 261</value>
   </data>
-  <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblENCRYPTION_LEVEL.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
   </data>
-  <data name="label36.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblENCRYPTION_LEVEL.TabIndex" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
-  <data name="label36.Text" xml:space="preserve">
+  <data name="lblENCRYPTION_LEVEL.Text" xml:space="preserve">
     <value>AES Encryption</value>
   </data>
-  <data name="&gt;&gt;label36.Name" xml:space="preserve">
-    <value>label36</value>
+  <data name="&gt;&gt;lblENCRYPTION_LEVEL.Name" xml:space="preserve">
+    <value>lblENCRYPTION_LEVEL</value>
   </data>
-  <data name="&gt;&gt;label36.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblENCRYPTION_LEVEL.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label36.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblENCRYPTION_LEVEL.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label36.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblENCRYPTION_LEVEL.ZOrder" xml:space="preserve">
     <value>61</value>
   </data>
   <data name="label35.AutoSize" type="System.Boolean, mscorlib">
@@ -4091,34 +4091,34 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;txt_aeskey.ZOrder" xml:space="preserve">
     <value>63</value>
   </data>
-  <data name="label19.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRTSCTS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label19.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRTSCTS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRTSCTS.Location" type="System.Drawing.Point, System.Drawing">
     <value>181, 211</value>
   </data>
-  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRTSCTS.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
   </data>
-  <data name="label19.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRTSCTS.TabIndex" type="System.Int32, mscorlib">
     <value>97</value>
   </data>
-  <data name="label19.Text" xml:space="preserve">
+  <data name="lblRTSCTS.Text" xml:space="preserve">
     <value>RTS CTS</value>
   </data>
-  <data name="&gt;&gt;label19.Name" xml:space="preserve">
-    <value>label19</value>
+  <data name="&gt;&gt;lblRTSCTS.Name" xml:space="preserve">
+    <value>lblRTSCTS</value>
   </data>
-  <data name="&gt;&gt;label19.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRTSCTS.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRTSCTS.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRTSCTS.ZOrder" xml:space="preserve">
     <value>65</value>
   </data>
   <data name="linkLabel_mavlink.AutoSize" type="System.Boolean, mscorlib">
@@ -4181,184 +4181,184 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;linkLabel_lowlatency.ZOrder" xml:space="preserve">
     <value>67</value>
   </data>
-  <data name="label18.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblMAX_WINDOW.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label18.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblMAX_WINDOW.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblMAX_WINDOW.Location" type="System.Drawing.Point, System.Drawing">
     <value>182, 236</value>
   </data>
-  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblMAX_WINDOW.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 13</value>
   </data>
-  <data name="label18.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblMAX_WINDOW.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
   </data>
-  <data name="label18.Text" xml:space="preserve">
+  <data name="lblMAX_WINDOW.Text" xml:space="preserve">
     <value>Max Window (ms)</value>
   </data>
-  <data name="&gt;&gt;label18.Name" xml:space="preserve">
-    <value>label18</value>
+  <data name="&gt;&gt;lblMAX_WINDOW.Name" xml:space="preserve">
+    <value>lblMAX_WINDOW</value>
   </data>
-  <data name="&gt;&gt;label18.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblMAX_WINDOW.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblMAX_WINDOW.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblMAX_WINDOW.ZOrder" xml:space="preserve">
     <value>68</value>
   </data>
-  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblMIN_FREQ.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblMIN_FREQ.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblMIN_FREQ.Location" type="System.Drawing.Point, System.Drawing">
     <value>182, 86</value>
   </data>
-  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblMIN_FREQ.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 13</value>
   </data>
-  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblMIN_FREQ.TabIndex" type="System.Int32, mscorlib">
     <value>87</value>
   </data>
-  <data name="label13.Text" xml:space="preserve">
+  <data name="lblMIN_FREQ.Text" xml:space="preserve">
     <value>Min Freq</value>
   </data>
-  <data name="&gt;&gt;label13.Name" xml:space="preserve">
-    <value>label13</value>
+  <data name="&gt;&gt;lblMIN_FREQ.Name" xml:space="preserve">
+    <value>lblMIN_FREQ</value>
   </data>
-  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblMIN_FREQ.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblMIN_FREQ.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblMIN_FREQ.ZOrder" xml:space="preserve">
     <value>70</value>
   </data>
-  <data name="label17.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblLBT_RSSI.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label17.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblLBT_RSSI.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblLBT_RSSI.Location" type="System.Drawing.Point, System.Drawing">
     <value>182, 186</value>
   </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblLBT_RSSI.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
   </data>
-  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblLBT_RSSI.TabIndex" type="System.Int32, mscorlib">
     <value>91</value>
   </data>
-  <data name="label17.Text" xml:space="preserve">
+  <data name="lblLBT_RSSI.Text" xml:space="preserve">
     <value>LBT Rssi</value>
   </data>
-  <data name="&gt;&gt;label17.Name" xml:space="preserve">
-    <value>label17</value>
+  <data name="&gt;&gt;lblLBT_RSSI.Name" xml:space="preserve">
+    <value>lblLBT_RSSI</value>
   </data>
-  <data name="&gt;&gt;label17.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblLBT_RSSI.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblLBT_RSSI.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblLBT_RSSI.ZOrder" xml:space="preserve">
     <value>73</value>
   </data>
-  <data name="label16.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblDUTY_CYCLE.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblDUTY_CYCLE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblDUTY_CYCLE.Location" type="System.Drawing.Point, System.Drawing">
     <value>182, 161</value>
   </data>
-  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblDUTY_CYCLE.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 13</value>
   </data>
-  <data name="label16.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblDUTY_CYCLE.TabIndex" type="System.Int32, mscorlib">
     <value>90</value>
   </data>
-  <data name="label16.Text" xml:space="preserve">
+  <data name="lblDUTY_CYCLE.Text" xml:space="preserve">
     <value>Duty Cycle</value>
   </data>
-  <data name="&gt;&gt;label16.Name" xml:space="preserve">
-    <value>label16</value>
+  <data name="&gt;&gt;lblDUTY_CYCLE.Name" xml:space="preserve">
+    <value>lblDUTY_CYCLE</value>
   </data>
-  <data name="&gt;&gt;label16.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblDUTY_CYCLE.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label16.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblDUTY_CYCLE.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblDUTY_CYCLE.ZOrder" xml:space="preserve">
     <value>75</value>
   </data>
-  <data name="label15.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblNUM_CHANNELS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblNUM_CHANNELS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblNUM_CHANNELS.Location" type="System.Drawing.Point, System.Drawing">
     <value>182, 136</value>
   </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblNUM_CHANNELS.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 13</value>
   </data>
-  <data name="label15.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblNUM_CHANNELS.TabIndex" type="System.Int32, mscorlib">
     <value>89</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
+  <data name="lblNUM_CHANNELS.Text" xml:space="preserve">
     <value># of Channels</value>
   </data>
-  <data name="&gt;&gt;label15.Name" xml:space="preserve">
-    <value>label15</value>
+  <data name="&gt;&gt;lblNUM_CHANNELS.Name" xml:space="preserve">
+    <value>lblNUM_CHANNELS</value>
   </data>
-  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblNUM_CHANNELS.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblNUM_CHANNELS.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblNUM_CHANNELS.ZOrder" xml:space="preserve">
     <value>77</value>
   </data>
-  <data name="label14.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblMAX_FREQ.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblMAX_FREQ.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblMAX_FREQ.Location" type="System.Drawing.Point, System.Drawing">
     <value>182, 111</value>
   </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblMAX_FREQ.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 13</value>
   </data>
-  <data name="label14.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblMAX_FREQ.TabIndex" type="System.Int32, mscorlib">
     <value>88</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
+  <data name="lblMAX_FREQ.Text" xml:space="preserve">
     <value>Max Freq</value>
   </data>
-  <data name="&gt;&gt;label14.Name" xml:space="preserve">
-    <value>label14</value>
+  <data name="&gt;&gt;lblMAX_FREQ.Name" xml:space="preserve">
+    <value>lblMAX_FREQ</value>
   </data>
-  <data name="&gt;&gt;label14.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblMAX_FREQ.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblMAX_FREQ.Parent" xml:space="preserve">
     <value>groupBoxLocal</value>
   </data>
-  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblMAX_FREQ.ZOrder" xml:space="preserve">
     <value>78</value>
   </data>
   <data name="ATI2.Location" type="System.Drawing.Point, System.Drawing">
@@ -4409,34 +4409,34 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;groupBoxLocal.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="label55.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRFSFRAMELOSS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label55.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRFSFRAMELOSS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label55.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRFSFRAMELOSS.Location" type="System.Drawing.Point, System.Drawing">
     <value>427, 387</value>
   </data>
-  <data name="label55.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRFSFRAMELOSS.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 13</value>
   </data>
-  <data name="label55.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRFSFRAMELOSS.TabIndex" type="System.Int32, mscorlib">
     <value>168</value>
   </data>
-  <data name="label55.Text" xml:space="preserve">
+  <data name="lblRFSFRAMELOSS.Text" xml:space="preserve">
     <value>Failsafe Frame Loss</value>
   </data>
-  <data name="&gt;&gt;label55.Name" xml:space="preserve">
-    <value>label55</value>
+  <data name="&gt;&gt;lblRFSFRAMELOSS.Name" xml:space="preserve">
+    <value>lblRFSFRAMELOSS</value>
   </data>
-  <data name="&gt;&gt;label55.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRFSFRAMELOSS.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label55.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRFSFRAMELOSS.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label55.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRFSFRAMELOSS.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="RGPO1_3AUXOUT.Enabled" type="System.Boolean, mscorlib">
@@ -4466,34 +4466,34 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;RGPO1_3AUXOUT.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label56.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRGPO1_3AUXOUT.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label56.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRGPO1_3AUXOUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label56.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRGPO1_3AUXOUT.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 436</value>
   </data>
-  <data name="label56.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRGPO1_3AUXOUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>93, 13</value>
   </data>
-  <data name="label56.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRGPO1_3AUXOUT.TabIndex" type="System.Int32, mscorlib">
     <value>165</value>
   </data>
-  <data name="label56.Text" xml:space="preserve">
+  <data name="lblRGPO1_3AUXOUT.Text" xml:space="preserve">
     <value>GPO1_3AUXOUT</value>
   </data>
-  <data name="&gt;&gt;label56.Name" xml:space="preserve">
-    <value>label56</value>
+  <data name="&gt;&gt;lblRGPO1_3AUXOUT.Name" xml:space="preserve">
+    <value>lblRGPO1_3AUXOUT</value>
   </data>
-  <data name="&gt;&gt;label56.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_3AUXOUT.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label56.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_3AUXOUT.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label56.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_3AUXOUT.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="RGPI1_2AUXIN.Enabled" type="System.Boolean, mscorlib">
@@ -4523,64 +4523,64 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;RGPI1_2AUXIN.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="label57.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRGPI1_2AUXIN.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label57.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRGPI1_2AUXIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label57.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRGPI1_2AUXIN.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 411</value>
   </data>
-  <data name="label57.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRGPI1_2AUXIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 13</value>
   </data>
-  <data name="label57.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRGPI1_2AUXIN.TabIndex" type="System.Int32, mscorlib">
     <value>163</value>
   </data>
-  <data name="label57.Text" xml:space="preserve">
+  <data name="lblRGPI1_2AUXIN.Text" xml:space="preserve">
     <value>GPI1_2AUXIN</value>
   </data>
-  <data name="&gt;&gt;label57.Name" xml:space="preserve">
-    <value>label57</value>
+  <data name="&gt;&gt;lblRGPI1_2AUXIN.Name" xml:space="preserve">
+    <value>lblRGPI1_2AUXIN</value>
   </data>
-  <data name="&gt;&gt;label57.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPI1_2AUXIN.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label57.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPI1_2AUXIN.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label57.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPI1_2AUXIN.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="label51.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRGPIO1_1FUNC.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label51.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRGPIO1_1FUNC.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label51.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRGPIO1_1FUNC.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 408</value>
   </data>
-  <data name="label51.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRGPIO1_1FUNC.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 13</value>
   </data>
-  <data name="label51.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRGPIO1_1FUNC.TabIndex" type="System.Int32, mscorlib">
     <value>162</value>
   </data>
-  <data name="label51.Text" xml:space="preserve">
+  <data name="lblRGPIO1_1FUNC.Text" xml:space="preserve">
     <value>GPIO1_1FUNC</value>
   </data>
-  <data name="&gt;&gt;label51.Name" xml:space="preserve">
-    <value>label51</value>
+  <data name="&gt;&gt;lblRGPIO1_1FUNC.Name" xml:space="preserve">
+    <value>lblRGPIO1_1FUNC</value>
   </data>
-  <data name="&gt;&gt;label51.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPIO1_1FUNC.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label51.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPIO1_1FUNC.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label51.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPIO1_1FUNC.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
   <data name="RGPIO1_1FUNC.Enabled" type="System.Boolean, mscorlib">
@@ -4607,64 +4607,64 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;RGPIO1_1FUNC.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="label44.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRGPO1_0TXEN485.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label44.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRGPO1_0TXEN485.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label44.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRGPO1_0TXEN485.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 386</value>
   </data>
-  <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRGPO1_0TXEN485.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 13</value>
   </data>
-  <data name="label44.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRGPO1_0TXEN485.TabIndex" type="System.Int32, mscorlib">
     <value>158</value>
   </data>
-  <data name="label44.Text" xml:space="preserve">
+  <data name="lblRGPO1_0TXEN485.Text" xml:space="preserve">
     <value>GPO1_0TXEN485</value>
   </data>
-  <data name="&gt;&gt;label44.Name" xml:space="preserve">
-    <value>label44</value>
+  <data name="&gt;&gt;lblRGPO1_0TXEN485.Name" xml:space="preserve">
+    <value>lblRGPO1_0TXEN485</value>
   </data>
-  <data name="&gt;&gt;label44.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_0TXEN485.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label44.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_0TXEN485.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label44.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_0TXEN485.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="label47.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRGPO1_3STATLED.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label47.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRGPO1_3STATLED.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label47.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRGPO1_3STATLED.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 386</value>
   </data>
-  <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRGPO1_3STATLED.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 13</value>
   </data>
-  <data name="label47.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRGPO1_3STATLED.TabIndex" type="System.Int32, mscorlib">
     <value>156</value>
   </data>
-  <data name="label47.Text" xml:space="preserve">
+  <data name="lblRGPO1_3STATLED.Text" xml:space="preserve">
     <value>GPO1_3STATLED</value>
   </data>
-  <data name="&gt;&gt;label47.Name" xml:space="preserve">
-    <value>label47</value>
+  <data name="&gt;&gt;lblRGPO1_3STATLED.Name" xml:space="preserve">
+    <value>lblRGPO1_3STATLED</value>
   </data>
-  <data name="&gt;&gt;label47.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_3STATLED.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label47.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_3STATLED.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label47.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_3STATLED.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
   <data name="RGPO1_3SBUSOUT.Enabled" type="System.Boolean, mscorlib">
@@ -5087,34 +5087,34 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;RNODEID.ZOrder" xml:space="preserve">
     <value>29</value>
   </data>
-  <data name="label41.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRGPO1_1R_COUT.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label41.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRGPO1_1R_COUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label41.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRGPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 311</value>
   </data>
-  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRGPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 13</value>
   </data>
-  <data name="label41.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRGPO1_1R_COUT.TabIndex" type="System.Int32, mscorlib">
     <value>121</value>
   </data>
-  <data name="label41.Text" xml:space="preserve">
+  <data name="lblRGPO1_1R_COUT.Text" xml:space="preserve">
     <value>GPO1_1R/COUT</value>
   </data>
-  <data name="&gt;&gt;label41.Name" xml:space="preserve">
-    <value>label41</value>
+  <data name="&gt;&gt;lblRGPO1_1R_COUT.Name" xml:space="preserve">
+    <value>lblRGPO1_1R_COUT</value>
   </data>
-  <data name="&gt;&gt;label41.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_1R_COUT.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label41.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_1R_COUT.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label41.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPO1_1R_COUT.ZOrder" xml:space="preserve">
     <value>30</value>
   </data>
   <data name="RFORMAT.Location" type="System.Drawing.Point, System.Drawing">
@@ -5138,184 +5138,184 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;RFORMAT.ZOrder" xml:space="preserve">
     <value>33</value>
   </data>
-  <data name="label42.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRGPI1_1R_CIN.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label42.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRGPI1_1R_CIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label42.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRGPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 286</value>
   </data>
-  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRGPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 13</value>
   </data>
-  <data name="label42.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRGPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
     <value>118</value>
   </data>
-  <data name="label42.Text" xml:space="preserve">
+  <data name="lblRGPI1_1R_CIN.Text" xml:space="preserve">
     <value>GPI1_1R/CIN</value>
   </data>
-  <data name="&gt;&gt;label42.Name" xml:space="preserve">
-    <value>label42</value>
+  <data name="&gt;&gt;lblRGPI1_1R_CIN.Name" xml:space="preserve">
+    <value>lblRGPI1_1R_CIN</value>
   </data>
-  <data name="&gt;&gt;label42.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPI1_1R_CIN.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label42.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPI1_1R_CIN.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label42.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRGPI1_1R_CIN.ZOrder" xml:space="preserve">
     <value>34</value>
   </data>
-  <data name="label25.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblROPPRESEND.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label25.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblROPPRESEND.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblROPPRESEND.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 261</value>
   </data>
-  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblROPPRESEND.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
   </data>
-  <data name="label25.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblROPPRESEND.TabIndex" type="System.Int32, mscorlib">
     <value>129</value>
   </data>
-  <data name="label25.Text" xml:space="preserve">
+  <data name="lblROPPRESEND.Text" xml:space="preserve">
     <value>Op Resend</value>
   </data>
-  <data name="&gt;&gt;label25.Name" xml:space="preserve">
-    <value>label25</value>
+  <data name="&gt;&gt;lblROPPRESEND.Name" xml:space="preserve">
+    <value>lblROPPRESEND</value>
   </data>
-  <data name="&gt;&gt;label25.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblROPPRESEND.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label25.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblROPPRESEND.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblROPPRESEND.ZOrder" xml:space="preserve">
     <value>39</value>
   </data>
-  <data name="label26.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRMAVLINK.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label26.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRMAVLINK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRMAVLINK.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 236</value>
   </data>
-  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRMAVLINK.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 13</value>
   </data>
-  <data name="label26.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRMAVLINK.TabIndex" type="System.Int32, mscorlib">
     <value>128</value>
   </data>
-  <data name="label26.Text" xml:space="preserve">
+  <data name="lblRMAVLINK.Text" xml:space="preserve">
     <value>Mavlink</value>
   </data>
-  <data name="&gt;&gt;label26.Name" xml:space="preserve">
-    <value>label26</value>
+  <data name="&gt;&gt;lblRMAVLINK.Name" xml:space="preserve">
+    <value>lblRMAVLINK</value>
   </data>
-  <data name="&gt;&gt;label26.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAVLINK.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label26.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAVLINK.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAVLINK.ZOrder" xml:space="preserve">
     <value>41</value>
   </data>
-  <data name="label27.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRECC.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label27.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRECC.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRECC.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 211</value>
   </data>
-  <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRECC.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 13</value>
   </data>
-  <data name="label27.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRECC.TabIndex" type="System.Int32, mscorlib">
     <value>127</value>
   </data>
-  <data name="label27.Text" xml:space="preserve">
+  <data name="lblRECC.Text" xml:space="preserve">
     <value>ECC</value>
   </data>
-  <data name="&gt;&gt;label27.Name" xml:space="preserve">
-    <value>label27</value>
+  <data name="&gt;&gt;lblRECC.Name" xml:space="preserve">
+    <value>lblRECC</value>
   </data>
-  <data name="&gt;&gt;label27.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRECC.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label27.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRECC.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRECC.ZOrder" xml:space="preserve">
     <value>43</value>
   </data>
-  <data name="label28.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRTXPOWER.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label28.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRTXPOWER.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label28.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRTXPOWER.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 186</value>
   </data>
-  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRTXPOWER.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 13</value>
   </data>
-  <data name="label28.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRTXPOWER.TabIndex" type="System.Int32, mscorlib">
     <value>126</value>
   </data>
-  <data name="label28.Text" xml:space="preserve">
+  <data name="lblRTXPOWER.Text" xml:space="preserve">
     <value>Tx Power</value>
   </data>
-  <data name="&gt;&gt;label28.Name" xml:space="preserve">
-    <value>label28</value>
+  <data name="&gt;&gt;lblRTXPOWER.Name" xml:space="preserve">
+    <value>lblRTXPOWER</value>
   </data>
-  <data name="&gt;&gt;label28.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRTXPOWER.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label28.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRTXPOWER.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRTXPOWER.ZOrder" xml:space="preserve">
     <value>44</value>
   </data>
-  <data name="label29.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRNETID.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label29.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRNETID.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRNETID.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 161</value>
   </data>
-  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRNETID.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 13</value>
   </data>
-  <data name="label29.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRNETID.TabIndex" type="System.Int32, mscorlib">
     <value>125</value>
   </data>
-  <data name="label29.Text" xml:space="preserve">
+  <data name="lblRNETID.Text" xml:space="preserve">
     <value>Net ID</value>
   </data>
-  <data name="&gt;&gt;label29.Name" xml:space="preserve">
-    <value>label29</value>
+  <data name="&gt;&gt;lblRNETID.Name" xml:space="preserve">
+    <value>lblRNETID</value>
   </data>
-  <data name="&gt;&gt;label29.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRNETID.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label29.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRNETID.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRNETID.ZOrder" xml:space="preserve">
     <value>46</value>
   </data>
   <data name="label32.AutoSize" type="System.Boolean, mscorlib">
@@ -5744,244 +5744,244 @@ this ensures you wont lose radio link</value>
   <data name="&gt;&gt;txt_Raeskey.ZOrder" xml:space="preserve">
     <value>61</value>
   </data>
-  <data name="label37.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRENCRYPTION_LEVEL.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label37.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRENCRYPTION_LEVEL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label37.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRENCRYPTION_LEVEL.Location" type="System.Drawing.Point, System.Drawing">
     <value>173, 261</value>
   </data>
-  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRENCRYPTION_LEVEL.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
   </data>
-  <data name="label37.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRENCRYPTION_LEVEL.TabIndex" type="System.Int32, mscorlib">
     <value>92</value>
   </data>
-  <data name="label37.Text" xml:space="preserve">
+  <data name="lblRENCRYPTION_LEVEL.Text" xml:space="preserve">
     <value>AES Encryption</value>
   </data>
-  <data name="&gt;&gt;label37.Name" xml:space="preserve">
-    <value>label37</value>
+  <data name="&gt;&gt;lblRENCRYPTION_LEVEL.Name" xml:space="preserve">
+    <value>lblRENCRYPTION_LEVEL</value>
   </data>
-  <data name="&gt;&gt;label37.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRENCRYPTION_LEVEL.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label37.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRENCRYPTION_LEVEL.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label37.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRENCRYPTION_LEVEL.ZOrder" xml:space="preserve">
     <value>62</value>
   </data>
-  <data name="label33.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRRTSCTS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label33.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRRTSCTS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRRTSCTS.Location" type="System.Drawing.Point, System.Drawing">
     <value>173, 211</value>
   </data>
-  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRRTSCTS.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 13</value>
   </data>
-  <data name="label33.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRRTSCTS.TabIndex" type="System.Int32, mscorlib">
     <value>99</value>
   </data>
-  <data name="label33.Text" xml:space="preserve">
+  <data name="lblRRTSCTS.Text" xml:space="preserve">
     <value>RTS CTS</value>
   </data>
-  <data name="&gt;&gt;label33.Name" xml:space="preserve">
-    <value>label33</value>
+  <data name="&gt;&gt;lblRRTSCTS.Name" xml:space="preserve">
+    <value>lblRRTSCTS</value>
   </data>
-  <data name="&gt;&gt;label33.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRRTSCTS.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label33.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRRTSCTS.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRRTSCTS.ZOrder" xml:space="preserve">
     <value>64</value>
   </data>
-  <data name="label34.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRMAX_WINDOW.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label34.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRMAX_WINDOW.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label34.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRMAX_WINDOW.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 236</value>
   </data>
-  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRMAX_WINDOW.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 13</value>
   </data>
-  <data name="label34.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRMAX_WINDOW.TabIndex" type="System.Int32, mscorlib">
     <value>97</value>
   </data>
-  <data name="label34.Text" xml:space="preserve">
+  <data name="lblRMAX_WINDOW.Text" xml:space="preserve">
     <value>Max Window (ms)</value>
   </data>
-  <data name="&gt;&gt;label34.Name" xml:space="preserve">
-    <value>label34</value>
+  <data name="&gt;&gt;lblRMAX_WINDOW.Name" xml:space="preserve">
+    <value>lblRMAX_WINDOW</value>
   </data>
-  <data name="&gt;&gt;label34.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAX_WINDOW.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label34.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAX_WINDOW.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAX_WINDOW.ZOrder" xml:space="preserve">
     <value>65</value>
   </data>
-  <data name="label24.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRMIN_FREQ.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label24.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRMIN_FREQ.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRMIN_FREQ.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 86</value>
   </data>
-  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRMIN_FREQ.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 13</value>
   </data>
-  <data name="label24.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRMIN_FREQ.TabIndex" type="System.Int32, mscorlib">
     <value>87</value>
   </data>
-  <data name="label24.Text" xml:space="preserve">
+  <data name="lblRMIN_FREQ.Text" xml:space="preserve">
     <value>Min Freq</value>
   </data>
-  <data name="&gt;&gt;label24.Name" xml:space="preserve">
-    <value>label24</value>
+  <data name="&gt;&gt;lblRMIN_FREQ.Name" xml:space="preserve">
+    <value>lblRMIN_FREQ</value>
   </data>
-  <data name="&gt;&gt;label24.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRMIN_FREQ.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label24.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRMIN_FREQ.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRMIN_FREQ.ZOrder" xml:space="preserve">
     <value>67</value>
   </data>
-  <data name="label23.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRMAX_FREQ.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label23.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRMAX_FREQ.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRMAX_FREQ.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 111</value>
   </data>
-  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRMAX_FREQ.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 13</value>
   </data>
-  <data name="label23.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRMAX_FREQ.TabIndex" type="System.Int32, mscorlib">
     <value>88</value>
   </data>
-  <data name="label23.Text" xml:space="preserve">
+  <data name="lblRMAX_FREQ.Text" xml:space="preserve">
     <value>Max Freq</value>
   </data>
-  <data name="&gt;&gt;label23.Name" xml:space="preserve">
-    <value>label23</value>
+  <data name="&gt;&gt;lblRMAX_FREQ.Name" xml:space="preserve">
+    <value>lblRMAX_FREQ</value>
   </data>
-  <data name="&gt;&gt;label23.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAX_FREQ.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label23.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAX_FREQ.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRMAX_FREQ.ZOrder" xml:space="preserve">
     <value>73</value>
   </data>
-  <data name="label22.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRNUM_CHANNELS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label22.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRNUM_CHANNELS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRNUM_CHANNELS.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 136</value>
   </data>
-  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRNUM_CHANNELS.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 13</value>
   </data>
-  <data name="label22.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRNUM_CHANNELS.TabIndex" type="System.Int32, mscorlib">
     <value>89</value>
   </data>
-  <data name="label22.Text" xml:space="preserve">
+  <data name="lblRNUM_CHANNELS.Text" xml:space="preserve">
     <value># of Channels</value>
   </data>
-  <data name="&gt;&gt;label22.Name" xml:space="preserve">
-    <value>label22</value>
+  <data name="&gt;&gt;lblRNUM_CHANNELS.Name" xml:space="preserve">
+    <value>lblRNUM_CHANNELS</value>
   </data>
-  <data name="&gt;&gt;label22.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRNUM_CHANNELS.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label22.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRNUM_CHANNELS.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRNUM_CHANNELS.ZOrder" xml:space="preserve">
     <value>74</value>
   </data>
-  <data name="label21.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRDUTY_CYCLE.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRDUTY_CYCLE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRDUTY_CYCLE.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 161</value>
   </data>
-  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRDUTY_CYCLE.Size" type="System.Drawing.Size, System.Drawing">
     <value>58, 13</value>
   </data>
-  <data name="label21.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRDUTY_CYCLE.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
   </data>
-  <data name="label21.Text" xml:space="preserve">
+  <data name="lblRDUTY_CYCLE.Text" xml:space="preserve">
     <value>Duty Cycle</value>
   </data>
-  <data name="&gt;&gt;label21.Name" xml:space="preserve">
-    <value>label21</value>
+  <data name="&gt;&gt;lblRDUTY_CYCLE.Name" xml:space="preserve">
+    <value>lblRDUTY_CYCLE</value>
   </data>
-  <data name="&gt;&gt;label21.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRDUTY_CYCLE.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label21.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRDUTY_CYCLE.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRDUTY_CYCLE.ZOrder" xml:space="preserve">
     <value>75</value>
   </data>
-  <data name="label20.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblRLBT_RSSI.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label20.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lblRLBT_RSSI.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label20.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="lblRLBT_RSSI.Location" type="System.Drawing.Point, System.Drawing">
     <value>174, 186</value>
   </data>
-  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="lblRLBT_RSSI.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
   </data>
-  <data name="label20.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblRLBT_RSSI.TabIndex" type="System.Int32, mscorlib">
     <value>95</value>
   </data>
-  <data name="label20.Text" xml:space="preserve">
+  <data name="lblRLBT_RSSI.Text" xml:space="preserve">
     <value>LBT Rssi</value>
   </data>
-  <data name="&gt;&gt;label20.Name" xml:space="preserve">
-    <value>label20</value>
+  <data name="&gt;&gt;lblRLBT_RSSI.Name" xml:space="preserve">
+    <value>lblRLBT_RSSI</value>
   </data>
-  <data name="&gt;&gt;label20.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblRLBT_RSSI.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label20.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblRLBT_RSSI.Parent" xml:space="preserve">
     <value>groupBoxRemote</value>
   </data>
-  <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblRLBT_RSSI.ZOrder" xml:space="preserve">
     <value>76</value>
   </data>
   <data name="RTI2.Location" type="System.Drawing.Point, System.Drawing">
@@ -6108,7 +6108,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_loadcustom</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.61.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadcustom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6135,7 +6135,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_resettodefault</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.61.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6165,7 +6165,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_savesettings</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.61.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6192,7 +6192,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_getcurrent</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.61.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6222,7 +6222,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_upload</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.61.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Parent" xml:space="preserve">
     <value>$this</value>
@@ -6252,7 +6252,7 @@ this ensures you wont lose radio link</value>
     <value>BUT_Syncoptions</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.53.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, RFD900Tools, Version=0.2.61.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Parent" xml:space="preserve">
     <value>$this</value>

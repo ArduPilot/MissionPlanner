@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace RFDLib.GUI.Settings
@@ -20,6 +21,156 @@ namespace RFDLib.GUI.Settings
             {
                 return new string[] { Editor.Name };
             }
+        }
+    }
+
+    /// <summary>
+    /// A TLabelEditorPair which remembers the original name and label.
+    /// </summary>
+    public class TOrigLabelEditorPair : TLabelEditorPair
+    {
+        public readonly string OriginalLabel;
+        public readonly string OriginalName;
+        public readonly bool OrigVisible;
+
+        public TOrigLabelEditorPair(Label L, Control Editor)
+            : base(L, Editor)
+        {
+            this.OriginalLabel = L.Text;
+            this.OriginalName = Editor.Name;
+            this.OrigVisible = Editor.Visible;
+        }
+
+        /// <summary>
+        /// Reset to original values.
+        /// </summary>
+        public void Reset()
+        {
+            L.Text = OriginalLabel;
+            Editor.Name = OriginalName;
+            L.Visible = OrigVisible;
+            Editor.Visible = OrigVisible;
+        }
+    }
+
+    /// <summary>
+    /// This is for dynamically re-using spare label-editor pairs for which there is no setting in the modem.
+    /// </summary>
+    public class TLabelEditorPairRegister
+    {
+        Dictionary<string, TOrigLabelEditorPair> _Pairs = new Dictionary<string, TOrigLabelEditorPair>();
+        Dictionary<string, TOrigLabelEditorPair> _Spare = new Dictionary<string, TOrigLabelEditorPair>();
+
+        /// <summary>
+        /// Add a label-editor pair.
+        /// </summary>
+        /// <param name="Pair"></param>
+        public void Add(TOrigLabelEditorPair Pair)
+        {
+            _Pairs[Pair.OriginalName] = Pair;
+        }
+
+        /// <summary>
+        /// Add a label-editor pair.
+        /// </summary>
+        /// <param name="L"></param>
+        /// <param name="Editor"></param>
+        public void Add(Label L, Control Editor)
+        {
+            Add(new TOrigLabelEditorPair(L, Editor));
+        }
+
+        /// <summary>
+        /// Reset all label-editor pairs to their original labels and names.
+        /// </summary>
+        public void Reset()
+        {
+            foreach (var P in _Pairs.Values)
+            {
+                P.Reset();
+            }
+
+            _Spare.Clear();
+        }
+
+        /// <summary>
+        /// Call this when the list of setting names has been read from the modem, so the spare
+        /// label-editor pairs can be put into a separate list.
+        /// </summary>
+        /// <param name="SettingNamesSet">The list of setting names read from the modem.  Must not be null.</param>
+        public void SetUp(List<string> SettingNamesSet)
+        {
+            foreach (var kvp in _Pairs)
+            {
+                if (!SettingNamesSet.Contains(kvp.Value.Editor.Name))
+                {
+                    _Spare[kvp.Key] = kvp.Value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get a spare editor control for an unexpected setting read from the modem.  Set the editor's label
+        /// to the setting name, if a spare editor was found.
+        /// </summary>
+        /// <param name="SettingName">The setting name.  Must not be null.</param>
+        /// <param name="Condition">The condition the editor control must meet.  Must not be null.</param>
+        /// <returns></returns>
+        Control GetSpare(string SettingName, Func<Control, bool> Condition, string Description)
+        {
+            TOrigLabelEditorPair Pair = null;
+
+            foreach (var kvp in _Spare)
+            {
+                if (Condition(kvp.Value.Editor))
+                {
+                    //Assign to a variable and break, instead of processing here, because
+                    //part of the processing is removing it from _Spare, but _Spare is being iterated here.
+                    Pair = kvp.Value;
+                    break;
+                }
+            }
+
+            if (Pair == null)
+            {
+                return null;
+            }
+            else
+            {
+                Pair.Editor.Name = SettingName;
+                Pair.L.Text = Description;
+                if (Pair.L.Bottom > Pair.Editor.Top)
+                {
+                    while (Pair.L.Width > (Pair.Editor.Left - Pair.L.Left) && Pair.L.Font.Size > 1)
+                    {
+                        Pair.L.Font = new System.Drawing.Font(Pair.L.Font.FontFamily, Pair.L.Font.Size - 1);
+                    }
+                }
+                Pair.L.Visible = true;
+                Pair.Editor.Visible = true;
+                _Spare.Remove(Pair.OriginalName);
+                return Pair.Editor;
+            }
+        }
+
+        /// <summary>
+        /// Return a spare combobox if there is one, otherwise return null.
+        /// </summary>
+        /// <param name="SettingName"></param>
+        /// <returns></returns>
+        public ComboBox GetSpareComboBox(string SettingName, string Description)
+        {
+            return (ComboBox)GetSpare(SettingName, (C) => C is ComboBox, Description);
+        }
+
+        /// <summary>
+        /// Return a spare checkbox if there is one, otherwise return null.
+        /// </summary>
+        /// <param name="SettingName"></param>
+        /// <returns></returns>
+        public CheckBox GetSpareCheckbox(string SettingName, string Description)
+        {
+            return (CheckBox)GetSpare(SettingName, (C) => C is CheckBox, Description);
         }
     }
 

@@ -38,6 +38,15 @@ namespace MissionPlanner.Radio
 
         RFDLib.GUI.Settings.TDynamicLabelEditorPairRegister _DynamicLabelEditorPairRegister;
 
+        RFDLib.GUI.Settings.TLabelEditorPairRegister _LocalLabelEditorPairs = new RFDLib.GUI.Settings.TLabelEditorPairRegister();
+        RFDLib.GUI.Settings.TLabelEditorPairRegister _RemoteLabelEditorPairs = new RFDLib.GUI.Settings.TLabelEditorPairRegister();
+        Dictionary<string, string> _KnownNameDescriptions = new Dictionary<string, string>()
+        {
+            {"RSSI_IN_DBM", "RSSI in dBm"},
+            {"AUXSER_SPEED", "Aux Baud"},
+            {"AIR_FRAMELEN", "Air Frame Length"},
+        };
+
         public event Action DoDisconnectReconnect;
 
         /*
@@ -146,6 +155,66 @@ S15: MAX_WINDOW=131
                 {
                     SBUSIN, RSBUSIN, SBUSOUT, RSBUSOUT,
                 });
+
+            _LocalLabelEditorPairs.Add(lblNODEID, NODEID);
+            _LocalLabelEditorPairs.Add(lblDESTID, DESTID);
+            _LocalLabelEditorPairs.Add(lblTX_ENCAP_METHOD, TX_ENCAP_METHOD);
+            _LocalLabelEditorPairs.Add(lblRX_ENCAP_METHOD, RX_ENCAP_METHOD);
+            _LocalLabelEditorPairs.Add(lblMAX_DATA, MAX_DATA);
+            _LocalLabelEditorPairs.Add(lblMAX_RETRIES, MAX_RETRIES);
+            _LocalLabelEditorPairs.Add(lblGLOBAL_RETRIES, GLOBAL_RETRIES);
+            _LocalLabelEditorPairs.Add(lblSER_BRK_DETMS, SER_BRK_DETMS);
+            _LocalLabelEditorPairs.Add(label54, FSFRAMELOSS);
+            _LocalLabelEditorPairs.Add(lblNETID, NETID);
+            _LocalLabelEditorPairs.Add(lblTXPOWER, TXPOWER);
+            _LocalLabelEditorPairs.Add(lblECC, ECC);
+            _LocalLabelEditorPairs.Add(lblMAVLINK, MAVLINK);
+            _LocalLabelEditorPairs.Add(lblOPPRESEND, OPPRESEND);
+            _LocalLabelEditorPairs.Add(lblGPI1_1R_CIN, GPI1_1R_CIN);
+            _LocalLabelEditorPairs.Add(lblGPO1_1R_COUT, GPO1_1R_COUT);
+            _LocalLabelEditorPairs.Add(lblGPO1_3STATLED, GPO1_3STATLED);
+            _LocalLabelEditorPairs.Add(lblGPI1_2AUXIN, GPI1_2AUXIN);
+            _LocalLabelEditorPairs.Add(lblGPO1_3AUXOUT, GPO1_3AUXOUT);
+            _LocalLabelEditorPairs.Add(lblMIN_FREQ, MIN_FREQ);
+            _LocalLabelEditorPairs.Add(lblMAX_FREQ, MAX_FREQ);
+            _LocalLabelEditorPairs.Add(lblNUM_CHANNELS, NUM_CHANNELS);
+            _LocalLabelEditorPairs.Add(lblDUTY_CYCLE, DUTY_CYCLE);
+            _LocalLabelEditorPairs.Add(lblLBT_RSSI, LBT_RSSI);
+            _LocalLabelEditorPairs.Add(lblRTSCTS, RTSCTS);
+            _LocalLabelEditorPairs.Add(lblMAX_WINDOW, MAX_WINDOW);
+            _LocalLabelEditorPairs.Add(lblENCRYPTION_LEVEL, ENCRYPTION_LEVEL);
+            _LocalLabelEditorPairs.Add(lblGPO1_0TXEN485, GPO1_0TXEN485);
+            _LocalLabelEditorPairs.Add(lblGPIO1_1FUNC, GPIO1_1FUNC);
+
+            _RemoteLabelEditorPairs.Add(lblRNODEID, RNODEID);
+            _RemoteLabelEditorPairs.Add(lblRDESTID, RDESTID);
+            _RemoteLabelEditorPairs.Add(lblRTX_ENCAP_METHOD, RTX_ENCAP_METHOD);
+            _RemoteLabelEditorPairs.Add(lblRRX_ENCAP_METHOD, RRX_ENCAP_METHOD);
+            _RemoteLabelEditorPairs.Add(lblRMAX_DATA, RMAX_DATA);
+            _RemoteLabelEditorPairs.Add(lblRMAX_RETRIES, RMAX_RETRIES);
+            _RemoteLabelEditorPairs.Add(lblRGLOBAL_RETRIES, RGLOBAL_RETRIES);
+            _RemoteLabelEditorPairs.Add(lblRSER_BRK_DETMS, RSER_BRK_DETMS);
+            _RemoteLabelEditorPairs.Add(lblRFSFRAMELOSS, RFSFRAMELOSS);
+            _RemoteLabelEditorPairs.Add(lblRNETID, RNETID);
+            _RemoteLabelEditorPairs.Add(lblRTXPOWER, RTXPOWER);
+            _RemoteLabelEditorPairs.Add(lblRECC, RECC);
+            _RemoteLabelEditorPairs.Add(lblRMAVLINK, RMAVLINK);
+            _RemoteLabelEditorPairs.Add(lblROPPRESEND, ROPPRESEND);
+            _RemoteLabelEditorPairs.Add(lblRGPI1_1R_CIN, RGPI1_1R_CIN);
+            _RemoteLabelEditorPairs.Add(lblRGPO1_1R_COUT, RGPO1_1R_COUT);
+            _RemoteLabelEditorPairs.Add(lblRGPO1_3STATLED, RGPO1_3STATLED);
+            _RemoteLabelEditorPairs.Add(lblRGPI1_2AUXIN, RGPI1_2AUXIN);
+            _RemoteLabelEditorPairs.Add(lblRGPO1_3AUXOUT, RGPO1_3AUXOUT);
+            _RemoteLabelEditorPairs.Add(lblRMIN_FREQ, RMIN_FREQ);
+            _RemoteLabelEditorPairs.Add(lblRMAX_FREQ, RMAX_FREQ);
+            _RemoteLabelEditorPairs.Add(lblRNUM_CHANNELS, RNUM_CHANNELS);
+            _RemoteLabelEditorPairs.Add(lblRDUTY_CYCLE, RDUTY_CYCLE);
+            _RemoteLabelEditorPairs.Add(lblRLBT_RSSI, RLBT_RSSI);
+            _RemoteLabelEditorPairs.Add(lblRRTSCTS, RRTSCTS);
+            _RemoteLabelEditorPairs.Add(lblRMAX_WINDOW, RMAX_WINDOW);
+            _RemoteLabelEditorPairs.Add(lblRENCRYPTION_LEVEL, RENCRYPTION_LEVEL);
+            _RemoteLabelEditorPairs.Add(lblRGPO1_0TXEN485, RGPO1_0TXEN485);
+            _RemoteLabelEditorPairs.Add(lblRGPIO1_1FUNC, RGPIO1_1FUNC);
 
             this.Disposed += DisposedEvtHdlr;
         }
@@ -1005,6 +1074,37 @@ S15: MAX_WINDOW=131
         }
 
         /// <summary>
+        /// Configure and return a spare editor if one is available.
+        /// </summary>
+        /// <param name="ThisSetting">The name of the setting to get the editor for.  Must not be null.</param>
+        /// <param name="Setting">The setting to get the editor for.  Must not be null.</param>
+        /// <param name="Remote">Whether it is the remote set of settings.</param>
+        /// <returns>A control to use, or null if none available.</returns>
+        Control GetSpareEditor(string ThisSetting, RFD.RFD900.TSetting Setting, bool Remote)
+        {
+            RFDLib.GUI.Settings.TLabelEditorPairRegister Reg = Remote ? _RemoteLabelEditorPairs : _LocalLabelEditorPairs;
+            Control Result = null;
+            string Description = Remote ? ThisSetting.Substring(1) : ThisSetting;
+
+            if (_KnownNameDescriptions.ContainsKey(Description))
+            {
+                Description = _KnownNameDescriptions[Description];
+            }
+
+            if (Setting.GetIsFlag())
+            {
+                Result = Reg.GetSpareCheckbox(ThisSetting, Description);
+            }
+
+            if (Result == null)
+            {
+                Result = Reg.GetSpareComboBox(ThisSetting, Description);
+            }
+
+            return Result;
+        }
+
+        /// <summary>
         /// Given a groupbox containing a set of controls, load them with the given values and settings.
         /// </summary>
         /// <param name="GB">The groupbox.  Must not be null.</param>
@@ -1019,6 +1119,11 @@ S15: MAX_WINDOW=131
             Cfg.Update(Settings, items);
             frm.Show();*/
 
+            _LocalLabelEditorPairs.SetUp(new List<string>(Settings.Keys));
+            _RemoteLabelEditorPairs.SetUp(new List<string>(
+                RFDLib.Array.CherryPickArray(Settings.Keys.ToArray(), 
+                    (n) => "R" + n)));
+
             bool SomeSettingsInvalid = false;
 
             foreach (var item in items)
@@ -1032,9 +1137,21 @@ S15: MAX_WINDOW=131
 
                 if (values.Length == 3)
                 {
-                    values[1] = values[1].Replace("/", "_");
+                    string SettingName = values[1].Replace("/", "_").Trim();
 
-                    var control = FindControlInGroupBox(GB, (Remote ? "R" : "") + values[1].Trim());
+                    var control = FindControlInGroupBox(GB, (Remote ? "R" : "") + SettingName);
+
+                    if (control == null)
+                    {
+                        if (Settings.ContainsKey(SettingName))
+                        {
+                            var Setting = Settings[SettingName];
+                            if (Setting.Range != null || Setting.Options != null)
+                            {
+                                control = GetSpareEditor((Remote ? "R" : "") + SettingName, Setting, Remote);
+                            }
+                        }
+                    }
 
                     if (control != null)
                     {
@@ -1064,7 +1181,7 @@ S15: MAX_WINDOW=131
                         else if (control is ComboBox)
                         {
                             if (!SetupCBWithSetting((ComboBox)control, Settings,
-                                values[2].Trim(), Remote, values[1].Trim()))
+                                values[2].Trim(), Remote, SettingName))
                             {
                                 ((ComboBox)control).Text = values[2].Trim();
                                 if (((ComboBox)control).Text != values[2].Trim())
@@ -1353,6 +1470,8 @@ S15: MAX_WINDOW=131
                         kvp.Key.Enabled = kvp.Value;
                     }
 
+                    _LocalLabelEditorPairs.Reset();
+
                     if (ATI.Text.Contains("ASYNC"))
                     {
                         _LocalExtraParams.SetModel(Model.ASYNC, Settings);
@@ -1459,6 +1578,7 @@ S15: MAX_WINDOW=131
                         }
 
                         items = answer.Split('\n');
+                        _RemoteLabelEditorPairs.Reset();
 
                         if (RTI.Text.Contains("ASYNC"))
                         {
