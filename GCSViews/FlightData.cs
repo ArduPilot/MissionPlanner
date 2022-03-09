@@ -2283,8 +2283,8 @@ namespace MissionPlanner.GCSViews
         {
             POI.POIModified += POI_POIModified;
 
-            quickView5.number = 5;                  //TODO enlever ca et la check box profondeur 
-            quickView7.number = 1.111;
+            quickView5.number = 0.1;                  //TODO enlever ca et la check box profondeur 
+            quickView7.number = 0.1;
 
             tfr.GotTFRs += tfr_GotTFRs;
 
@@ -2356,6 +2356,7 @@ namespace MissionPlanner.GCSViews
                 this.relayOptions1.BUT_High.BGGradTop = Color.LightGray;
                 this.relayOptions1.BUT_Low.BGGradBot = Color.LightGray;
                 this.relayOptions1.BUT_Low.BGGradTop = Color.LightGray;
+                this.relayOptions1.label1.ForeColor = Color.Black;
             }
             catch (NotSupportedException)
             {
@@ -2905,6 +2906,8 @@ namespace MissionPlanner.GCSViews
         {
             threadrun = true;
 
+
+
             EndPoint Remote = new IPEndPoint(IPAddress.Any, 0);
 
             DateTime tracklast = DateTime.Now.AddSeconds(0);
@@ -3127,7 +3130,8 @@ namespace MissionPlanner.GCSViews
                     quickView1.number = MainV2.comPort.MAV.cs.battery_voltage;
                     quickView2.number = MainV2.comPort.MAV.cs.battery_remaining;
                     quickView3.number = MainV2.comPort.MAV.cs.current;
-                    quickView4.number = MainV2.comPort.MAV.cs.groundspeed;
+
+                    quickView4.number = MainV2.comPort.MAV.cs.groundspeed;// CurrentState.multiplierspeed;
                     //quickView5.number = 1.111;                                         //TODO relier à l'hauteur d'eau
                     quickView6.number = MainV2.comPort.MAV.cs.rangefinder1;
                     //quickView7.number = 1.111;                                         //TODO relier à longueur cable 
@@ -5835,7 +5839,7 @@ namespace MissionPlanner.GCSViews
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (quickView5.number > 1)
-                quickView5.number = 0.8;            //Todo : enlever ca et la check box avant de continuer 
+                quickView5.number = 0.1;            //Todo : enlever ca et la check box avant de continuer 
             else
                 quickView5.number = 5;
         }

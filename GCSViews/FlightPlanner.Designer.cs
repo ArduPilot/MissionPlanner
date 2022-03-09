@@ -536,7 +536,7 @@ namespace MissionPlanner.GCSViews
             // Rad_Loiter_modif
             // 
             resources.ApplyResources(this.Rad_Loiter_modif, "Rad_Loiter_modif");
-            this.Rad_Loiter_modif.ButtonText = "Rayon Loiter";
+            this.Rad_Loiter_modif.ButtonText = "Rayon Loiter (m)";
             this.Rad_Loiter_modif.DecimalPlaces = 1;
             this.Rad_Loiter_modif.Increment = new decimal(new int[] {
             1,
@@ -564,7 +564,7 @@ namespace MissionPlanner.GCSViews
             // Rad_WP_Modif
             // 
             resources.ApplyResources(this.Rad_WP_Modif, "Rad_WP_Modif");
-            this.Rad_WP_Modif.ButtonText = "Rayon WP";
+            this.Rad_WP_Modif.ButtonText = "Rayon WP (m)";
             this.Rad_WP_Modif.DecimalPlaces = 1;
             this.Rad_WP_Modif.Increment = new decimal(new int[] {
             1,
@@ -592,7 +592,7 @@ namespace MissionPlanner.GCSViews
             // Cruise_Speed_modif
             // 
             resources.ApplyResources(this.Cruise_Speed_modif, "Cruise_Speed_modif");
-            this.Cruise_Speed_modif.ButtonText = "Vitesse de croisière";
+            this.Cruise_Speed_modif.ButtonText = "Vitesse de croisière (nds)";
             this.Cruise_Speed_modif.DecimalPlaces = 1;
             this.Cruise_Speed_modif.Increment = new decimal(new int[] {
             1,

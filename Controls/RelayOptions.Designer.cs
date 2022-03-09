@@ -36,7 +36,10 @@
             this.BUT_High = new MissionPlanner.Controls.MyButton();
             this.BUT_Repeat = new MissionPlanner.Controls.MyButton();
             this.TXT_rcchannel = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_Low
@@ -88,20 +91,29 @@
             resources.ApplyResources(this.TXT_rcchannel, "TXT_rcchannel");
             this.TXT_rcchannel.Name = "TXT_rcchannel";
             // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.BUT_Low, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.BUT_High, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // label1
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.label1, 2);
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
             // RelayOptions
             // 
-            this.BackColor = System.Drawing.Color.LightGray;
-            //this.Controls.Add(this.BUT_Repeat);
-            this.BUT_High.BGGradBot = System.Drawing.Color.LightGray;
-            this.BUT_High.BGGradTop = System.Drawing.Color.LightGray;
-            this.BUT_Low.BGGradBot = System.Drawing.Color.LightGray;
-            this.BUT_Low.BGGradBot = System.Drawing.Color.LightGray;
-            this.Controls.Add(this.BUT_High);
-            this.Controls.Add(this.BUT_Low);
-            //this.Controls.Add(this.TXT_rcchannel);
-            this.Name = "RelayOptions";
             resources.ApplyResources(this, "$this");
+            this.BackColor = System.Drawing.Color.LightGray;
+            this.Controls.Add(this.tableLayoutPanel2);
+            this.Name = "RelayOptions";
             this.contextMenuStrip1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -115,5 +127,7 @@
         private System.Windows.Forms.Label TXT_rcchannel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        public System.Windows.Forms.Label label1;
     }
 }

@@ -223,7 +223,7 @@
     <value>Démarrer</value>
   </data>
   <data name="BUT_read.Text" xml:space="preserve">
-    <value>Lecture PNs</value>
+    <value>Lecture pts</value>
   </data>
   <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Load Polygon</value>
@@ -295,7 +295,7 @@
     <value>Baisser la rangée</value>
   </data>
   <data name="BUT_write.Text" xml:space="preserve">
-    <value>Écrire PNs</value>
+    <value>Écrire pts</value>
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>Bas</value>

@@ -199,7 +199,7 @@
     <value>8</value>
   </data>
   <data name="BUT_write.Text" xml:space="preserve">
-    <value>Write</value>
+    <value>Ecrire pts</value>
   </data>
   <data name="&gt;&gt;BUT_write.Name" xml:space="preserve">
     <value>BUT_write</value>
@@ -226,7 +226,7 @@
     <value>7</value>
   </data>
   <data name="BUT_read.Text" xml:space="preserve">
-    <value>Read</value>
+    <value>Lire pts</value>
   </data>
   <data name="&gt;&gt;BUT_read.Name" xml:space="preserve">
     <value>BUT_read</value>
@@ -891,7 +891,7 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8098.30282, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8103.19689, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -936,7 +936,7 @@
     <value>26, 26</value>
   </data>
   <data name="Rad_Loiter_modif.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 27</value>
+    <value>165, 27</value>
   </data>
   <data name="Rad_Loiter_modif.TabIndex" type="System.Int32, mscorlib">
     <value>103</value>
@@ -945,7 +945,7 @@
     <value>Rad_Loiter_modif</value>
   </data>
   <data name="&gt;&gt;Rad_Loiter_modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.30282, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8103.19689, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Rad_Loiter_modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -969,7 +969,7 @@
     <value>26, 26</value>
   </data>
   <data name="Rad_WP_Modif.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 27</value>
+    <value>151, 27</value>
   </data>
   <data name="Rad_WP_Modif.TabIndex" type="System.Int32, mscorlib">
     <value>102</value>
@@ -978,7 +978,7 @@
     <value>Rad_WP_Modif</value>
   </data>
   <data name="&gt;&gt;Rad_WP_Modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.30282, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8103.19689, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Rad_WP_Modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1002,7 +1002,7 @@
     <value>26, 26</value>
   </data>
   <data name="Cruise_Speed_modif.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 27</value>
+    <value>220, 27</value>
   </data>
   <data name="Cruise_Speed_modif.TabIndex" type="System.Int32, mscorlib">
     <value>101</value>
@@ -1011,7 +1011,7 @@
     <value>Cruise_Speed_modif</value>
   </data>
   <data name="&gt;&gt;Cruise_Speed_modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8098.30282, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8103.19689, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Cruise_Speed_modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1293,7 +1293,7 @@
     <value>46</value>
   </data>
   <data name="BUT_loadwpfile.Text" xml:space="preserve">
-    <value>Load File</value>
+    <value>Charger fichier</value>
   </data>
   <data name="&gt;&gt;BUT_loadwpfile.Name" xml:space="preserve">
     <value>BUT_loadwpfile</value>
@@ -1320,7 +1320,7 @@
     <value>47</value>
   </data>
   <data name="BUT_saveWPFile.Text" xml:space="preserve">
-    <value>Save File</value>
+    <value>Sauvegarder</value>
   </data>
   <data name="&gt;&gt;BUT_saveWPFile.Name" xml:space="preserve">
     <value>BUT_saveWPFile</value>

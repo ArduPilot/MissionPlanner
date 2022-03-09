@@ -550,7 +550,7 @@ namespace MissionPlanner
 
         public void updateLayout(object sender, EventArgs e)
         {
-            MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
+            //MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
             //MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
@@ -931,7 +931,7 @@ namespace MissionPlanner
                 //System.ArgumentException: Font 'Arial' does not support style 'Regular'.
 
                 log.Fatal(e);
-                CustomMessageBox.Show($"{e}\n\n Font Issues? Please install this http://www.microsoft.com/en-us/download/details.aspx?id=16083");
+                CustomMessageBox.Show($"{e}\n\n Font Issues? Veuillez installer : http://www.microsoft.com/en-us/download/details.aspx?id=16083");
                 //splash.Close();
                 //this.Close();
                 Application.Exit();
@@ -939,7 +939,7 @@ namespace MissionPlanner
             catch (Exception e)
             {
                 log.Fatal(e);
-                CustomMessageBox.Show($"A Major error has occured : {e}");
+                CustomMessageBox.Show($"Une erreur majeure a été rencontrée : {e}");
                 Application.Exit();
             }
 
@@ -1078,7 +1078,7 @@ namespace MissionPlanner
 
             if (CurrentState.rateattitudebackup == 0) // initilised to 10, configured above from save
             {
-                CustomMessageBox.Show("NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
+                CustomMessageBox.Show("Problème dans le paramètre 'attitude rate' qui vaut 0, l'hud ne pourra pas charger\nVeuillez changer cela dans Configuration > Planner > Telemetry Rates");
             }
 
             // create log dir if it doesnt exist
@@ -1112,7 +1112,7 @@ namespace MissionPlanner
 
                     if (Framework < 4.0)
                     {
-                        CustomMessageBox.Show("This program requires .NET Framework 4.0. You currently have " + Framework);
+                        CustomMessageBox.Show("Ce programme à besoin du .NET Framework 4.0. Vous avez actuellement : " + Framework);
                     }
                 }
                 catch (Exception ex)
@@ -1409,14 +1409,14 @@ namespace MissionPlanner
             else
             {
                 var pw = "";
-                if (InputBox.Show("Enter Password", "Please enter your password", ref pw, true) ==
+                if (InputBox.Show("Veuillez entrer le mot de passe", "Mot de passe :", ref pw, true) ==
                     System.Windows.Forms.DialogResult.OK)
                 {
                     bool ans = Password.ValidatePassword(pw);
 
                     if (ans == false)
                     {
-                        CustomMessageBox.Show("Bad Password", "Bad Password");
+                        CustomMessageBox.Show("Mot de passe incorrect", "Mot de passe Incorrect");
                     }
                 }
 
@@ -1441,14 +1441,14 @@ namespace MissionPlanner
             else
             {
                 var pw = "";
-                if (InputBox.Show("Enter Password", "Please enter your password", ref pw, true) ==
+                if (InputBox.Show("Veuillez entrer votre mot de passe", "Mot de passe", ref pw, true) ==
                     System.Windows.Forms.DialogResult.OK)
                 {
                     bool ans = Password.ValidatePassword(pw);
 
                     if (ans == false)
                     {
-                        CustomMessageBox.Show("Bad Password", "Bad Password");
+                        CustomMessageBox.Show("Mot de passe incorrect", "Mot de passe incorrect");
                     }
                 }
 
@@ -1886,7 +1886,7 @@ namespace MissionPlanner
                     log.Warn(ex2);
                 }
 
-                CustomMessageBox.Show($"Can not establish a connection\n\n{ex.Message}");
+                CustomMessageBox.Show($"Impossible d'établir la connexion : \n\n{ex.Message}");
                 return;
             }
 
@@ -2955,7 +2955,7 @@ namespace MissionPlanner
                                         (Action)
                                         delegate
                                         {
-                                            CustomMessageBox.Show("Failed to update home location (" +
+                                            CustomMessageBox.Show("Impossible d'accéder à la position 'home' (" +
                                                                   MainV2.comPort.MAV.sysid + ")");
                                         });
                                 }
@@ -3270,7 +3270,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                log.Error("Error starting TCP listener thread: ", ex);
+                log.Error("Erreur en démarrant le thread d'écoute TCP : ", ex);
                 CustomMessageBox.Show(ex.ToString());
             }
 
@@ -3382,8 +3382,7 @@ namespace MissionPlanner
 
                     if (!GStreamer.gstlaunchexists)
                     {
-                        if (CustomMessageBox.Show(
-                                "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                        if (CustomMessageBox.Show("Stream vidéo détecté en l'absence de gstreamer, voulez vous l'installer/le configurer maintenant ?",
                                 "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                             (int) System.Windows.Forms.DialogResult.Yes)
                         {
@@ -3424,7 +3423,7 @@ namespace MissionPlanner
                 {
                     videourlseen.Add(s);
                     if (CustomMessageBox.Show(
-                            "A video stream has been detected, Do you want to connect to it? " + s,
+                            "Détection d'un stream vidéo. Voulez vous vous y connecter ?" + s,
                             "Mavlink Camera", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                         (int) System.Windows.Forms.DialogResult.Yes)
                     {
@@ -3561,8 +3560,8 @@ namespace MissionPlanner
                                 return;
 
                             if (CustomMessageBox.Show(
-                                    "A Mavlink stream has been detected, " + zeroconfHost.DisplayName + "(" +
-                                    zeroconfHost.Id + "). Would you like to connect to it?",
+                                    "Stream MAVLink détecté, " + zeroconfHost.DisplayName + "(" +
+                                    zeroconfHost.Id + "). Voulez vous vous y connecter ?",
                                     "Mavlink", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                                 (int) System.Windows.Forms.DialogResult.Yes)
                             {
@@ -3731,7 +3730,7 @@ namespace MissionPlanner
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Start script failed: " + ex.ToString(), Strings.ERROR);
+                            CustomMessageBox.Show("Echec démarrage du script : " + ex.ToString(), Strings.ERROR);
                         }
                     });
                 }
@@ -3764,7 +3763,7 @@ namespace MissionPlanner
                     }
                     else
                     {
-                        CustomMessageBox.Show("Failed to start joystick");
+                        CustomMessageBox.Show("Impossible de démarrer le joystick");
                     }
                 }
 
@@ -3815,7 +3814,7 @@ namespace MissionPlanner
                     if (!GStreamer.gstlaunchexists)
                     {
                         if (CustomMessageBox.Show(
-                                "A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to install/config it now?",
+                                "Stream vidéo détecté en l'absence de gstreamer, voulez vous l'installer/le configurer maintenant ?",
                                 "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) ==
                             (int) System.Windows.Forms.DialogResult.Yes)
                         {
@@ -4215,13 +4214,13 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Invalid command");
+                    CustomMessageBox.Show("Commande Invalide");
                     return true;
                 }
 
                 //read
                 ///////MainV2.comPort.doCommand(MAVLink09.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-                CustomMessageBox.Show("Done MAV_ACTION_STORAGE_WRITE");
+                CustomMessageBox.Show("Fin MAV_ACTION_STORAGE_WRITE");
                 return true;
             }
 
@@ -4326,7 +4325,7 @@ namespace MissionPlanner
                 }
 
                 // speed
-                if (Settings.Instance["speedunits"] != null)
+                if (Settings.Instance["speedunits"] != null) 
                 {
                     switch ((speeds) Enum.Parse(typeof(speeds), Settings.Instance["speedunits"].ToString()))
                     {
@@ -4463,15 +4462,15 @@ namespace MissionPlanner
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(
-                    "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
-            }
-            catch
-            {
-                CustomMessageBox.Show("Link open failed. check your default webpage association");
-            }
+            //try
+            //{
+            //    System.Diagnostics.Process.Start(
+            //        "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
+            //}
+            //catch
+            //{
+            //    CustomMessageBox.Show("Link open failed. check your default webpage association");
+            //}
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -4716,7 +4715,7 @@ namespace MissionPlanner
             }
             catch
             {
-                CustomMessageBox.Show("Failed to open url https://ardupilot.org");
+                CustomMessageBox.Show("Impossible d'ouvrir l'url https://ardupilot.org");
             }
         }
 
@@ -4858,7 +4857,7 @@ namespace MissionPlanner
             }
             catch
             {
-                CustomMessageBox.Show("Link open failed. check your default webpage association");
+                CustomMessageBox.Show("Impossible d'ouvrir le lien");
             }
         }
 
