@@ -4869,5 +4869,40 @@ namespace MissionPlanner
                 toolStripConnectionControl.Visible = true;
 
         }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (MenuConfigTune.Visible)
+            {
+                MenuConfigTune.Visible = false;
+                MenuSimulation.Visible = false;
+                MenuInitConfig.Visible = false;
+            }
+                
+            else
+            {
+                var pw = "";
+                if (InputBox.Show("Veuillez entrer le mot de passe", "Mot de passe :", ref pw, false) ==
+                    System.Windows.Forms.DialogResult.OK)
+                {
+                    string ans = "Jean_Luc";
+
+                    if (ans != pw)
+                    {
+                        CustomMessageBox.Show("Mot de passe incorrect", "Mot de passe Incorrect");
+                        checkBox2.Checked = false;
+                    }
+                    else
+                    {
+                        MenuConfigTune.Visible = true;
+                        MenuSimulation.Visible = true;
+                        MenuInitConfig.Visible = true;
+                    }
+                        
+
+                }
+            }
+                
+        }
     }
 }

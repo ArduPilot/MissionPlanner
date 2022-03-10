@@ -55,6 +55,7 @@ namespace MissionPlanner
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.status1 = new MissionPlanner.Controls.Status();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -196,6 +197,7 @@ namespace MissionPlanner
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.checkBox2);
             this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.status1);
@@ -226,6 +228,14 @@ namespace MissionPlanner
             resources.ApplyResources(this.status1, "status1");
             this.status1.Name = "status1";
             this.status1.Percent = 0D;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AllowDrop = true;
+            resources.ApplyResources(this.checkBox2, "checkBox2");
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // MainV2
             // 
@@ -269,5 +279,6 @@ namespace MissionPlanner
         public Controls.Status status1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
