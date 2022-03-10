@@ -67,7 +67,7 @@ namespace MissionPlanner.SimpleGrid
             if (plugin.Host.config.ContainsKey("simplegrid_camera"))
             {
                 
-                //loadsetting("simplegrid_alt", NUM_altitude);
+                loadsetting("simplegrid_alt", NUM_altitude);
 
                 loadsetting("simplegrid_dist", NUM_Distance);
                 loadsetting("simplegrid_overshoot1", NUM_overshoot);
@@ -101,7 +101,7 @@ namespace MissionPlanner.SimpleGrid
 
         void savesettings()
         {
-            //plugin.Host.config["simplegrid_alt"] = NUM_altitude.Value.ToString();
+            plugin.Host.config["simplegrid_alt"] = NUM_altitude.Value.ToString();
             plugin.Host.config["simplegrid_angle"] = NUM_angle.Value.ToString();
 
             plugin.Host.config["simplegrid_dist"] = NUM_Distance.Value.ToString();
@@ -285,7 +285,7 @@ namespace MissionPlanner.SimpleGrid
         {
             Host2 = plugin.Host;
 
-            grid = Utilities.Grid.CreateGrid(list, (double) 0, (double) NUM_Distance.Value,
+            grid = Utilities.Grid.CreateGrid(list, (double) NUM_altitude.Value, (double) NUM_Distance.Value,
                 (double) NUM_spacing.Value, (double) NUM_angle.Value, (double) NUM_overshoot.Value,
                 (double) NUM_overshoot2.Value,
                 (Utilities.Grid.StartPosition) Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text),
