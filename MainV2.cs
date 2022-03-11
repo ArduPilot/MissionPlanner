@@ -3308,6 +3308,12 @@ namespace MissionPlanner
                             MainV2.instance.doConnect(mav, "preset", serial.PortName);
 
                             MainV2.Comports.Add(mav);
+
+                            try
+                            {
+                                Comports = Comports.Distinct().ToList();
+                            }
+                            catch { }
                         }
                         else
                         {
@@ -3532,6 +3538,12 @@ namespace MissionPlanner
 
                                     MainV2.Comports.Add(mav);
 
+                                    try
+                                    {
+                                        Comports = Comports.Distinct().ToList();
+                                    }
+                                    catch { }
+
                                     MainV2._connectionControl.UpdateSysIDS();
                                 });
 
@@ -3567,6 +3579,12 @@ namespace MissionPlanner
                             mav.BaseStream = port;
                             MainV2.instance.doConnect(mav, "preset", "0");
                             MainV2.Comports.Add(mav);
+
+                            try
+                            {
+                                Comports = Comports.Distinct().ToList();
+                            }
+                            catch { }
                         });
                 }
                 else
@@ -3577,6 +3595,12 @@ namespace MissionPlanner
                     mav.BaseStream = port;
                     MainV2.instance.doConnect(mav, "preset", "0");
                     MainV2.Comports.Add(mav);
+
+                    try
+                    {
+                        Comports = Comports.Distinct().ToList();
+                    }
+                    catch { }
                 }
             };
 
@@ -4752,6 +4776,12 @@ namespace MissionPlanner
                     Console.WriteLine("Process connect " + mav);
                     doConnect(mav, "preset", "0", false, false);
                     Comports.Add(mav);
+
+                    try
+                    {
+                        Comports = Comports.Distinct().ToList();
+                    }
+                    catch { }
                 });
             }
         }
