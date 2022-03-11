@@ -82,7 +82,7 @@ namespace MissionPlanner.Controls
                 var compidnodes = sysidnode.Nodes.Find(mavLinkMessage.compid.ToString(), false);
                 if (compidnodes.Length == 0)
                 {
-                    compidnode = new TreeNode("Comp " + mavLinkMessage.compid)
+                    compidnode = new TreeNode("Comp " + mavLinkMessage.compid + " " + (MAVLink.MAV_COMPONENT) mavLinkMessage.compid)
                     {
                         Name = mavLinkMessage.compid.ToString()
                     };
