@@ -235,7 +235,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flasher", "ExtLibs\Flasher\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NMEA2000", "ExtLibs\NMEA2000\NMEA2000.csproj", "{63F10356-A09B-46B0-9AFA-FAB8326A52DD}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MissionPlanner.win.setup", "..\MissionPlanner.win.setup\MissionPlanner.win.setup.vdproj", "{F20EF1D7-BB55-43D3-BF62-4A02756C1BD1}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "setup_project", "..\setup_project\setup_project.vdproj", "{3D71E15A-2E67-4996-A920-7665EA2E1AA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -553,8 +553,8 @@ Global
 		{63F10356-A09B-46B0-9AFA-FAB8326A52DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63F10356-A09B-46B0-9AFA-FAB8326A52DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63F10356-A09B-46B0-9AFA-FAB8326A52DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F20EF1D7-BB55-43D3-BF62-4A02756C1BD1}.Debug|Any CPU.ActiveCfg = Debug
-		{F20EF1D7-BB55-43D3-BF62-4A02756C1BD1}.Release|Any CPU.ActiveCfg = Release
+		{3D71E15A-2E67-4996-A920-7665EA2E1AA1}.Debug|Any CPU.ActiveCfg = Debug
+		{3D71E15A-2E67-4996-A920-7665EA2E1AA1}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
