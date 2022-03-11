@@ -4325,6 +4325,8 @@ namespace MissionPlanner
                 }
 
                 // speed
+
+
                 if (Settings.Instance["speedunits"] != null) 
                 {
                     switch ((speeds) Enum.Parse(typeof(speeds), Settings.Instance["speedunits"].ToString()))

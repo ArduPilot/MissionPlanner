@@ -1314,7 +1314,7 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem cercleDeWPToolStripMenuItem;
         private ToolStripMenuItem grilleDeSurveillanceToolStripMenuItem;
         private ToolStripMenuItem insérerIciToolStripMenuItem;
-        private ModifyandSet Cruise_Speed_modif;
+        public ModifyandSet Cruise_Speed_modif;
         private ModifyandSet Rad_Loiter_modif;
         private ModifyandSet Rad_WP_Modif;
     }
