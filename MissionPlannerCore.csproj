@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFramework>netcoreapp5.0.403</TargetFramework>    <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>false</Deterministic><StartupObject>MissionPlanner.Program</StartupObject><ApplicationIcon /><RootNamespace>MissionPlanner</RootNamespace>
  
