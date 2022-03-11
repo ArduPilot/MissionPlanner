@@ -106,7 +106,7 @@ namespace MissionPlanner.Controls
 
                 newSize = 40; //fais par alex
 
-                e.DrawString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width / 2, y + 10 + ((this.Height - y) / 2 - extent.Height / 2));
+                e.DrawString(numb, new Font(this.Font.FontFamily, (float)newSize, this.Font.Style), new SolidBrush(this.numberColor), this.Width / 2 - extent.Width / 2, y + 15 + ((this.Height - y) / 2 - extent.Height / 2));
             }
         }
 

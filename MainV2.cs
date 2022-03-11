@@ -65,6 +65,7 @@ namespace MissionPlanner
             public abstract Image wizard { get; }
         }
 
+
         public class burntkermitmenuicons : menuicons
         {
             public override Image fd
@@ -356,6 +357,7 @@ namespace MissionPlanner
             }
         }
 
+
         public static bool ShowAirports { get; set; }
         public static bool ShowTFR { get; set; }
 
@@ -442,6 +444,7 @@ namespace MissionPlanner
         public static bool IOS { get; set; }
         public static bool OSX { get; set; }
 
+
         /// <summary>
         /// speech engine enable
         /// </summary>
@@ -520,6 +523,7 @@ namespace MissionPlanner
 
         DateTime nodatawarning = DateTime.Now;
         DateTime OpenTime = DateTime.Now;
+
 
         DateTime connectButtonUpdate = DateTime.Now;
 
@@ -678,6 +682,7 @@ namespace MissionPlanner
                 MainV2.instance.FlightPlanner.updateDisplayView();
             }
         }
+
 
         public MainV2()
         {
@@ -1321,6 +1326,7 @@ namespace MissionPlanner
                 }
             }
         }
+
 
         private void ResetConnectionStats()
         {
@@ -2082,6 +2088,7 @@ namespace MissionPlanner
             }
         }
 
+
         /// <summary>
         /// overriding the OnCLosing is a bit cleaner than handling the event, since it
         /// is this object.
@@ -2270,6 +2277,7 @@ namespace MissionPlanner
             if (MONO)
                 this.Dispose();
         }
+
 
         /// <summary>
         /// this happens after FormClosing...
@@ -3997,6 +4005,7 @@ namespace MissionPlanner
             }
         }
 
+
         void KIndex_KIndex(object sender, EventArgs e)
         {
             CurrentState.KIndexstatic = (int) sender;
@@ -4079,6 +4088,7 @@ namespace MissionPlanner
         {
             MyView.ShowScreen("Help");
         }
+
 
         /// <summary>
         /// keyboard shortcuts override
@@ -4264,6 +4274,7 @@ namespace MissionPlanner
                 }
             }
         }
+
 
         public void ChangeUnits()
         {
@@ -4496,6 +4507,7 @@ namespace MissionPlanner
             public string dbcc_name;
         }
 
+
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -4625,6 +4637,7 @@ namespace MissionPlanner
         const Int32 DIGCF_DEVICEINTERFACE = 0X10;
         const Int32 WM_DEVICECHANGE = 0X219;
         public static Guid GUID_DEVINTERFACE_USB_DEVICE = new Guid("A5DCBF10-6530-11D2-901F-00C04FB951ED");
+
 
         public enum WM_DEVICECHANGE_enum
         {
