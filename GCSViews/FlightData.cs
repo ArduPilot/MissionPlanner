@@ -3123,21 +3123,6 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                if (MainV2.comPort.BaseStream.IsOpen)
-                {
-                    if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
-                    {
-                        if (MainV2.comPort.MAV.cs.groundspeed > 15)
-                        {
-
-                            CustomMessageBox.Show("pb de vitesse");
-                            double valeur = (double)((MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "CRUISE_SPEED")));
-                            //double valeur2 = (double)((MainV2.comPort.GetParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "TRIM_ARSPD_CM")));
-                            //MainV2.comPort.setParam(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, "TRIM_ARSPD_CM", valeur);
-
-                        }
-                    }
-                }
 
                 try
                 {
@@ -3146,11 +3131,12 @@ namespace MissionPlanner.GCSViews
                     quickView2.number = MainV2.comPort.MAV.cs.battery_remaining;
                     quickView3.number = MainV2.comPort.MAV.cs.current;
 
-                    quickView4.number = MainV2.comPort.MAV.cs.groundspeed;  
-                    //quickView5.number = 1.111;                                            //TODO relier à l'hauteur d'eau
+                    quickView4.number = MainV2.comPort.MAV.cs.groundspeed;// CurrentState.multiplierspeed;
+                    //quickView5.number = 1.111;                                         //TODO relier à l'hauteur d'eau
                     quickView6.number = MainV2.comPort.MAV.cs.rangefinder1;
-                    //quickView7.number = 1.111;                                            //TODO relier à longueur cable 
+                    //quickView7.number = 1.111;                                         //TODO relier à longueur cable 
                     quickView8.number = MainV2.comPort.MAV.cs.raw_temp;
+
 
                     updateBindingSource();                                          //TODO voir si on en a encore besoin après avoir 5 et 7
                     #endregion
