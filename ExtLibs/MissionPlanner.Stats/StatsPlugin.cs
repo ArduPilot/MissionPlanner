@@ -66,8 +66,8 @@ namespace MissionPlanner.Stats
 
             System.Windows.Forms.ToolStripMenuItem men = new System.Windows.Forms.ToolStripMenuItem() { Text = "Stats" };
             men.Click += men_Click;
-            Host.FDMenuMap.Items.Add(men);
-            });
+                    //Host.FDMenuMap.Items.Add(men); //contextMenuStripMap
+                });
 
             statsoverall.appstarts++;
 

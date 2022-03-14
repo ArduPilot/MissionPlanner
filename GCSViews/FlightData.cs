@@ -939,7 +939,6 @@ namespace MissionPlanner.GCSViews
                 var isitarmed = MainV2.comPort.MAV.cs.armed;
                 var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
 
-
                 StringBuilder sb = new StringBuilder();
                 var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
                 {
@@ -3123,6 +3122,9 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
+                MAVLink.MAVLINK_MSG_ID mon_nouveau_message = MAVLink.MAVLINK_MSG_ID.BATTERY_STATUS;
+
+                
 
                 try
                 {

@@ -891,7 +891,7 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8103.19689, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8108.27175, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -945,7 +945,7 @@
     <value>Rad_Loiter_modif</value>
   </data>
   <data name="&gt;&gt;Rad_Loiter_modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8103.19689, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8108.27175, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Rad_Loiter_modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -978,7 +978,7 @@
     <value>Rad_WP_Modif</value>
   </data>
   <data name="&gt;&gt;Rad_WP_Modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8103.19689, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8108.27175, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Rad_WP_Modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1011,7 +1011,7 @@
     <value>Cruise_Speed_modif</value>
   </data>
   <data name="&gt;&gt;Cruise_Speed_modif.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8103.19689, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ModifyandSet, MissionPlanner, Version=1.3.8108.27175, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Cruise_Speed_modif.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -2024,8 +2024,20 @@
   <metadata name="contextMenuStripPoly.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>356, 17</value>
   </metadata>
+  <data name="fenceInclusionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 24</value>
+  </data>
+  <data name="fenceInclusionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fence Inclusion</value>
+  </data>
+  <data name="fenceExclusionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 24</value>
+  </data>
+  <data name="fenceExclusionToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fence Exclusion</value>
+  </data>
   <data name="contextMenuStripPoly.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 100</value>
+    <value>220, 148</value>
   </data>
   <data name="&gt;&gt;contextMenuStripPoly.Name" xml:space="preserve">
     <value>contextMenuStripPoly</value>
@@ -2446,6 +2458,18 @@
   </data>
   <data name="&gt;&gt;timer1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fenceInclusionToolStripMenuItem.Name" xml:space="preserve">
+    <value>fenceInclusionToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;fenceInclusionToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fenceExclusionToolStripMenuItem.Name" xml:space="preserve">
+    <value>fenceExclusionToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;fenceExclusionToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;drawAPolygonToolStripMenuItem.Name" xml:space="preserve">
     <value>drawAPolygonToolStripMenuItem</value>

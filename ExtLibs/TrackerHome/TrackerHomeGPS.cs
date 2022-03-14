@@ -39,21 +39,21 @@ using TrackerHomeGPS;
 
             trkrHome.DropDownItems.AddRange( new ToolStripItem[] { obtainFrmMod, setAtLoc } );
 
-            ToolStripItemCollection col = Host.FPMenuMap.Items;
-            int index = col.Count;
-            foreach (ToolStripItem item in col)
-            {
-                if (item.Text.Equals(Strings.TrackerHome))
-                {
-                    index = col.IndexOf(item);
-                    col.Remove(item);
-                    break;
-                }
-            }
-            if (index != col.Count) col.Insert(index, trkrHome);
-            else col.Add(trkrHome);
+        //ToolStripItemCollection col = Host.FPMenuMap.Items; //flightplanner.contextMenuStrip1
+        //int index = col.Count;
+        //foreach (ToolStripItem item in col)
+        //{
+        //    if (item.Text.Equals(Strings.TrackerHome))
+        //    {
+        //        index = col.IndexOf(item);
+        //        col.Remove(item);
+        //        break;
+        //    }
+        //}
+        //if (index != col.Count) col.Insert(index, trkrHome);
+        //else col.Add(trkrHome);
 
-            if (getDevice() != null) _Available = true;
+        if (getDevice() != null) _Available = true;
             
             return true;
         }

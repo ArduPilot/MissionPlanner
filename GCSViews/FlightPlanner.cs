@@ -102,6 +102,7 @@ namespace MissionPlanner.GCSViews
         public GMapOverlay drawnpolygonsoverlay;
         private bool fetchpathrip;
         public GMapOverlay geofenceoverlay;
+
         public GMapPolygon geofencepolygon;
         private bool grid;
         private List<int> groupmarkers = new List<int>();
@@ -2630,22 +2631,22 @@ namespace MissionPlanner.GCSViews
 
         public void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
         {
-            // update the displayed items
-            //if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
-            //{
-            //    fenceInclusionToolStripMenuItem.Visible = false;
-            //    fenceExclusionToolStripMenuItem.Visible = false;
-            //}
-            //else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
-            //{
-            //    fenceInclusionToolStripMenuItem.Visible = true;
-            //    fenceExclusionToolStripMenuItem.Visible = true;
-            //}
-            //else
-            //{
-            //    fenceInclusionToolStripMenuItem.Visible = false;
-            //    fenceExclusionToolStripMenuItem.Visible = false;
-            //}
+            //update the displayed items;
+            if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            {
+                fenceInclusionToolStripMenuItem.Visible = false;
+                fenceExclusionToolStripMenuItem.Visible = false;
+            }
+            else if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            {
+                fenceInclusionToolStripMenuItem.Visible = true;
+                fenceExclusionToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                fenceInclusionToolStripMenuItem.Visible = false;
+                fenceExclusionToolStripMenuItem.Visible = false;
+            }
         }
 
         private void convertFromGeographic(double lat, double lng)

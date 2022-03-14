@@ -127,10 +127,10 @@ namespace MissionPlanner.Plugin
         /// <summary>
         /// add things to flightdata map menu
         /// </summary>
-        public ContextMenuStrip FDMenuMap
-        {
-            get { return MainV2.instance.FlightData.contextMenuStripMap; }
-        }
+        //public ContextMenuStrip FDMenuMap
+        //{
+            //get { return MainV2.instance.FlightData.contextMenuStripMap; }
+        //}
 
         /// <summary>
         /// The point where the menu was drawn
@@ -156,10 +156,10 @@ namespace MissionPlanner.Plugin
         /// <summary>
         /// add things to flightplanner map menu
         /// </summary>
-        public ContextMenuStrip FPMenuMap
-        {
-            get { return MainV2.instance.FlightPlanner.contextMenuStrip1; }
-        }
+        //public ContextMenuStrip FPMenuMap
+        //{
+        //    get { return MainV2.instance.FlightPlanner.contextMenuStrip1; }
+        //}
 
         /// <summary>
         /// The point where the menu was drawn

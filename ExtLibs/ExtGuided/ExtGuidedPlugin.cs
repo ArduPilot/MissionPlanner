@@ -27,9 +27,9 @@ using MissionPlanner.Utilities;
             ToolStripLabel item = new ToolStripLabel("External Guided");
             item.Click += item_Click;
 
-            Host.FDMenuMap.Items.Add(item);
+        //Host.FDMenuMap.Items.Add(item); //contextMenuStripMap
 
-            return true; 
+        return true; 
         }
 
         void item_Click(object sender, EventArgs e)

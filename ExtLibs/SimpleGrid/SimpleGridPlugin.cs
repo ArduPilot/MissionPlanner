@@ -41,7 +41,7 @@ namespace MissionPlanner.SimpleGrid
             but.Click += but_Click;
 
             bool hit = false;
-            ToolStripItemCollection col = Host.FPMenuMap.Items;
+            //ToolStripItemCollection col = Host.FPMenuMap.Items;
             int index = col.Count;
             foreach (ToolStripItem item in col)
             {
