@@ -65,7 +65,6 @@ namespace MissionPlanner
             public abstract Image wizard { get; }
         }
 
-
         public class burntkermitmenuicons : menuicons
         {
             public override Image fd
@@ -356,7 +355,6 @@ namespace MissionPlanner
                 LayoutChanged?.Invoke(null, EventArgs.Empty);
             }
         }
-
 
         public static bool ShowAirports { get; set; }
         public static bool ShowTFR { get; set; }
@@ -4868,41 +4866,41 @@ namespace MissionPlanner
             else
                 toolStripConnectionControl.Visible = true;
 
-        }
+        } // ports visibles
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            if (MenuConfigTune.Visible)
-            {
-                MenuConfigTune.Visible = false;
-                MenuSimulation.Visible = false;
-                MenuInitConfig.Visible = false;
-            }
+            //if (MenuConfigTune.Visible)
+            //{
+            //    MenuConfigTune.Visible = false;
+            //    MenuSimulation.Visible = false;
+            //    MenuInitConfig.Visible = false;
+            //}
                 
-            else
-            {
-                var pw = "";
-                if (InputBox.Show("Veuillez entrer le mot de passe", "Mot de passe :", ref pw, false) ==
-                    System.Windows.Forms.DialogResult.OK)
-                {
-                    string ans = "Jean_Luc";
+            //else
+            //{
+            //    var pw = "";
+            //    if (InputBox.Show("Veuillez entrer le mot de passe", "Mot de passe :", ref pw, false) ==
+            //        System.Windows.Forms.DialogResult.OK)
+            //    {
+            //        string ans = "Jean_Luc";
 
-                    if (ans != pw)
-                    {
-                        CustomMessageBox.Show("Mot de passe incorrect", "Mot de passe Incorrect");
-                        checkBox2.Checked = false;
-                    }
-                    else
-                    {
-                        MenuConfigTune.Visible = true;
-                        MenuSimulation.Visible = true;
-                        MenuInitConfig.Visible = true;
-                    }
+            //        if (ans != pw)
+            //        {
+            //            CustomMessageBox.Show("Mot de passe incorrect", "Mot de passe Incorrect");
+            //            checkBox2.Checked = false;
+            //        }
+            //        else
+            //        {
+            //            MenuConfigTune.Visible = true;
+            //            MenuSimulation.Visible = true;
+            //            MenuInitConfig.Visible = true;
+            //        }
                         
 
-                }
-            }
+            //    }
+            //}
                 
-        }
+        } //onglets visibles 
     }
 }
