@@ -657,7 +657,6 @@
             this.CMB_Layout.FormattingEnabled = true;
             resources.ApplyResources(this.CMB_Layout, "CMB_Layout");
             this.CMB_Layout.Name = "CMB_Layout";
-            this.CMB_Layout.Text = "Advanced";
             this.CMB_Layout.SelectedIndexChanged += new System.EventHandler(this.CMB_Layout_SelectedIndexChanged);
             // 
             // label5

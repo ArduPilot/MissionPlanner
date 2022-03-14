@@ -31014,14 +31014,7 @@
       <Group>FOLL</Group>
       <Path>../libraries/AP_Follow/AP_Follow.cpp</Path>
     </CRASH_ANGLE>
-    <
-		
-
-
-
-
-
->
+    <CRUISE_SPEED>
       <DisplayName>Target cruise speed in auto modes</DisplayName>
       <Description>The target speed in auto missions.</Description>
       <Units>m/s</Units>

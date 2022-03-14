@@ -31513,12 +31513,7 @@
       <Group>FOLL</Group>
       <Path>../libraries/AP_Follow/AP_Follow.cpp</Path>
     </CRASH_ANGLE>
-    <
-		
-
-
-
->
+    <CRUISE_SPEED>
       <DisplayName>Target cruise speed in auto modes</DisplayName>
       <Description>The target speed in auto missions.</Description>
       <Units>m/s</Units>
@@ -40061,7 +40056,7 @@
       <DisplayName>Speed maximum</DisplayName>
       <Description>Maximum speed vehicle can obtain at full throttle. If 0, it will be estimated based on CRUISE_SPEED and CRUISE_THROTTLE.</Description>
       <Units>m/s</Units>
-      <Range>0</Range>
+      <Range>0 30</Range>
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </SPEED_MAX>
