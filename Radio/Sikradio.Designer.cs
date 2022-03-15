@@ -68,8 +68,6 @@
             this.OPPRESEND = new System.Windows.Forms.CheckBox();
             this.ENCRYPTION_LEVEL = new System.Windows.Forms.ComboBox();
             this.RENCRYPTION_LEVEL = new System.Windows.Forms.ComboBox();
-            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
-            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.FSFRAMELOSS = new System.Windows.Forms.ComboBox();
             this.RFSFRAMELOSS = new System.Windows.Forms.ComboBox();
             this.GPO1_3SBUSIN = new System.Windows.Forms.CheckBox();
@@ -133,7 +131,7 @@
             this.lblMAX_DATA = new System.Windows.Forms.Label();
             this.lblENCRYPTION_LEVEL = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
-            this.txt_aeskey = new System.Windows.Forms.TextBox();
+            this.AESKEY = new System.Windows.Forms.TextBox();
             this.lblRTSCTS = new System.Windows.Forms.Label();
             this.linkLabel_mavlink = new System.Windows.Forms.LinkLabel();
             this.linkLabel_lowlatency = new System.Windows.Forms.LinkLabel();
@@ -191,7 +189,7 @@
             this.RMAX_DATA = new System.Windows.Forms.ComboBox();
             this.lblRMAX_DATA = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
-            this.txt_Raeskey = new System.Windows.Forms.TextBox();
+            this.RAESKEY = new System.Windows.Forms.TextBox();
             this.lblRENCRYPTION_LEVEL = new System.Windows.Forms.Label();
             this.lblRRTSCTS = new System.Windows.Forms.Label();
             this.lblRMAX_WINDOW = new System.Windows.Forms.Label();
@@ -203,12 +201,20 @@
             this.RTI2 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.dlgSave = new System.Windows.Forms.SaveFileDialog();
+            this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
             this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
+            this.btnRemoteLoadFromFile = new MissionPlanner.Controls.MyButton();
+            this.btnRemoteSaveToFile = new MissionPlanner.Controls.MyButton();
+            this.BUT_SetPPMFailSafeRemote = new MissionPlanner.Controls.MyButton();
+            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.BUT_savesettings = new MissionPlanner.Controls.MyButton();
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
+            this.btnSaveToFile = new MissionPlanner.Controls.MyButton();
+            this.btnLoadFromFile = new MissionPlanner.Controls.MyButton();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -278,7 +284,6 @@
             resources.GetString("RMAX_WINDOW.Items29"),
             resources.GetString("RMAX_WINDOW.Items30")});
             this.RMAX_WINDOW.Name = "RMAX_WINDOW";
-            this.toolTip1.SetToolTip(this.RMAX_WINDOW, resources.GetString("RMAX_WINDOW.ToolTip"));
             // 
             // RMAX_FREQ
             // 
@@ -385,7 +390,6 @@
             resources.ApplyResources(this.RMAVLINK, "RMAVLINK");
             this.RMAVLINK.FormattingEnabled = true;
             this.RMAVLINK.Name = "RMAVLINK";
-            this.toolTip1.SetToolTip(this.RMAVLINK, resources.GetString("RMAVLINK.ToolTip"));
             // 
             // RGPO1_1R_COUT
             // 
@@ -551,7 +555,6 @@
             resources.GetString("MAX_WINDOW.Items29"),
             resources.GetString("MAX_WINDOW.Items30")});
             this.MAX_WINDOW.Name = "MAX_WINDOW";
-            this.toolTip1.SetToolTip(this.MAX_WINDOW, resources.GetString("MAX_WINDOW.ToolTip"));
             // 
             // MAX_FREQ
             // 
@@ -865,22 +868,6 @@
             this.toolTip1.SetToolTip(this.RENCRYPTION_LEVEL, resources.GetString("RENCRYPTION_LEVEL.ToolTip"));
             this.RENCRYPTION_LEVEL.SelectedValueChanged += new System.EventHandler(this.RENCRYPTION_LEVEL_CheckedChanged);
             // 
-            // BUT_SetPPMFailSafeRemote
-            // 
-            resources.ApplyResources(this.BUT_SetPPMFailSafeRemote, "BUT_SetPPMFailSafeRemote");
-            this.BUT_SetPPMFailSafeRemote.Name = "BUT_SetPPMFailSafeRemote";
-            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafeRemote, resources.GetString("BUT_SetPPMFailSafeRemote.ToolTip"));
-            this.BUT_SetPPMFailSafeRemote.UseVisualStyleBackColor = true;
-            this.BUT_SetPPMFailSafeRemote.Click += new System.EventHandler(this.BUT_SetPPMFailSafeRemote_Click);
-            // 
-            // BUT_SetPPMFailSafe
-            // 
-            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
-            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
-            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
-            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
-            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
-            // 
             // FSFRAMELOSS
             // 
             this.FSFRAMELOSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -964,6 +951,8 @@
             // 
             // groupBoxLocal
             // 
+            this.groupBoxLocal.Controls.Add(this.btnLoadFromFile);
+            this.groupBoxLocal.Controls.Add(this.btnSaveToFile);
             this.groupBoxLocal.Controls.Add(this.label54);
             this.groupBoxLocal.Controls.Add(this.FSFRAMELOSS);
             this.groupBoxLocal.Controls.Add(this.GPO1_3AUXOUT);
@@ -1027,7 +1016,7 @@
             this.groupBoxLocal.Controls.Add(this.lblMAX_DATA);
             this.groupBoxLocal.Controls.Add(this.lblENCRYPTION_LEVEL);
             this.groupBoxLocal.Controls.Add(this.label35);
-            this.groupBoxLocal.Controls.Add(this.txt_aeskey);
+            this.groupBoxLocal.Controls.Add(this.AESKEY);
             this.groupBoxLocal.Controls.Add(this.RTSCTS);
             this.groupBoxLocal.Controls.Add(this.lblRTSCTS);
             this.groupBoxLocal.Controls.Add(this.linkLabel_mavlink);
@@ -1322,10 +1311,10 @@
             resources.ApplyResources(this.label35, "label35");
             this.label35.Name = "label35";
             // 
-            // txt_aeskey
+            // txt_aeskeyraeskey
             // 
-            resources.ApplyResources(this.txt_aeskey, "txt_aeskey");
-            this.txt_aeskey.Name = "txt_aeskey";
+            resources.ApplyResources(this.AESKEY, "txt_aeskey");
+            this.AESKEY.Name = "AESKEY";
             // 
             // lblRTSCTS
             // 
@@ -1382,6 +1371,8 @@
             // 
             // groupBoxRemote
             // 
+            this.groupBoxRemote.Controls.Add(this.btnRemoteLoadFromFile);
+            this.groupBoxRemote.Controls.Add(this.btnRemoteSaveToFile);
             this.groupBoxRemote.Controls.Add(this.lblRFSFRAMELOSS);
             this.groupBoxRemote.Controls.Add(this.RFSFRAMELOSS);
             this.groupBoxRemote.Controls.Add(this.RGPO1_3AUXOUT);
@@ -1443,7 +1434,7 @@
             this.groupBoxRemote.Controls.Add(this.RMAX_DATA);
             this.groupBoxRemote.Controls.Add(this.lblRMAX_DATA);
             this.groupBoxRemote.Controls.Add(this.label38);
-            this.groupBoxRemote.Controls.Add(this.txt_Raeskey);
+            this.groupBoxRemote.Controls.Add(this.RAESKEY);
             this.groupBoxRemote.Controls.Add(this.lblRENCRYPTION_LEVEL);
             this.groupBoxRemote.Controls.Add(this.RRTSCTS);
             this.groupBoxRemote.Controls.Add(this.lblRRTSCTS);
@@ -1724,8 +1715,8 @@
             // 
             // txt_Raeskey
             // 
-            resources.ApplyResources(this.txt_Raeskey, "txt_Raeskey");
-            this.txt_Raeskey.Name = "txt_Raeskey";
+            resources.ApplyResources(this.RAESKEY, "txt_Raeskey");
+            this.RAESKEY.Name = "RAESKEY";
             // 
             // lblRENCRYPTION_LEVEL
             // 
@@ -1783,6 +1774,16 @@
             resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
             // 
+            // dlgSave
+            // 
+            this.dlgSave.FileName = "*.ini";
+            resources.ApplyResources(this.dlgSave, "dlgSave");
+            // 
+            // dlgOpen
+            // 
+            this.dlgOpen.FileName = "*.ini";
+            resources.ApplyResources(this.dlgOpen, "dlgOpen");
+            // 
             // BUT_loadcustom
             // 
             resources.ApplyResources(this.BUT_loadcustom, "BUT_loadcustom");
@@ -1796,6 +1797,36 @@
             this.BUT_resettodefault.Name = "BUT_resettodefault";
             this.BUT_resettodefault.UseVisualStyleBackColor = true;
             this.BUT_resettodefault.Click += new System.EventHandler(this.BUT_resettodefault_Click);
+            // 
+            // btnRemoteLoadFromFile
+            // 
+            resources.ApplyResources(this.btnRemoteLoadFromFile, "btnRemoteLoadFromFile");
+            this.btnRemoteLoadFromFile.Name = "btnRemoteLoadFromFile";
+            this.btnRemoteLoadFromFile.UseVisualStyleBackColor = true;
+            this.btnRemoteLoadFromFile.Click += new System.EventHandler(this.btnRemoteLoadFromFile_Click);
+            // 
+            // btnRemoteSaveToFile
+            // 
+            resources.ApplyResources(this.btnRemoteSaveToFile, "btnRemoteSaveToFile");
+            this.btnRemoteSaveToFile.Name = "btnRemoteSaveToFile";
+            this.btnRemoteSaveToFile.UseVisualStyleBackColor = true;
+            this.btnRemoteSaveToFile.Click += new System.EventHandler(this.btnRemoteSaveToFile_Click);
+            // 
+            // BUT_SetPPMFailSafeRemote
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafeRemote, "BUT_SetPPMFailSafeRemote");
+            this.BUT_SetPPMFailSafeRemote.Name = "BUT_SetPPMFailSafeRemote";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafeRemote, resources.GetString("BUT_SetPPMFailSafeRemote.ToolTip"));
+            this.BUT_SetPPMFailSafeRemote.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafeRemote.Click += new System.EventHandler(this.BUT_SetPPMFailSafeRemote_Click);
+            // 
+            // BUT_SetPPMFailSafe
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
+            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
+            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
             // 
             // BUT_savesettings
             // 
@@ -1824,6 +1855,20 @@
             this.BUT_Syncoptions.Name = "BUT_Syncoptions";
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
+            // 
+            // btnSaveToFile
+            // 
+            resources.ApplyResources(this.btnSaveToFile, "btnSaveToFile");
+            this.btnSaveToFile.Name = "btnSaveToFile";
+            this.btnSaveToFile.UseVisualStyleBackColor = true;
+            this.btnSaveToFile.Click += new System.EventHandler(this.btnSaveToFile_Click);
+            // 
+            // btnLoadFromFile
+            // 
+            resources.ApplyResources(this.btnLoadFromFile, "btnLoadFromFile");
+            this.btnLoadFromFile.Name = "btnLoadFromFile";
+            this.btnLoadFromFile.UseVisualStyleBackColor = true;
+            this.btnLoadFromFile.Click += new System.EventHandler(this.btnLoadFromFile_Click);
             // 
             // Sikradio
             // 
@@ -1916,7 +1961,7 @@
         private System.Windows.Forms.Label lblMAX_DATA;
         private System.Windows.Forms.Label lblENCRYPTION_LEVEL;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.TextBox txt_aeskey;
+        private System.Windows.Forms.TextBox AESKEY;
         private System.Windows.Forms.CheckBox RTSCTS;
         private System.Windows.Forms.Label lblRTSCTS;
         private System.Windows.Forms.LinkLabel linkLabel_mavlink;
@@ -1972,7 +2017,7 @@
         private System.Windows.Forms.ComboBox RMAX_DATA;
         private System.Windows.Forms.Label lblRMAX_DATA;
         private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.TextBox txt_Raeskey;
+        private System.Windows.Forms.TextBox RAESKEY;
         private System.Windows.Forms.Label lblRENCRYPTION_LEVEL;
         private System.Windows.Forms.CheckBox RRTSCTS;
         private System.Windows.Forms.Label lblRRTSCTS;
@@ -2032,5 +2077,11 @@
         private System.Windows.Forms.Label lblRGPO1_3AUXOUT;
         private System.Windows.Forms.CheckBox RGPI1_2AUXIN;
         private System.Windows.Forms.Label lblRGPI1_2AUXIN;
+        private Controls.MyButton btnSaveToFile;
+        private System.Windows.Forms.SaveFileDialog dlgSave;
+        private Controls.MyButton btnRemoteSaveToFile;
+        private Controls.MyButton btnLoadFromFile;
+        private System.Windows.Forms.OpenFileDialog dlgOpen;
+        private Controls.MyButton btnRemoteLoadFromFile;
     }
 }

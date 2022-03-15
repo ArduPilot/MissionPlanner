@@ -1055,8 +1055,8 @@ namespace RFD.RFD900
         /// </summary>
         /// <param name="ATI5Response">The full ATI5 query response.  Must not be null.</param>
         /// <returns>A dictionary of settings found, with name as key.  Never null.</returns>
-        Dictionary<string, TSetting> ParseATI5QueryResponse(string ATI5Response,
-            Dictionary<string, TSetting> Dict)
+        Dictionary<string, TBaseSetting> ParseATI5QueryResponse(string ATI5Response,
+            Dictionary<string, TBaseSetting> Dict)
         {
             foreach (var Line in ATI5Response.Split('\n', '\r'))
             {
@@ -1085,6 +1085,31 @@ namespace RFD.RFD900
             return Dict;
         }
 
+        TTextSetting GetEncryptionKey(bool Remote)
+        {
+            string Temp = _ATCClient.DoQuery((Remote ? "R" : "A") + "T&E?", true);
+
+            if (!Temp.Contains("OK") && !Temp.Contains("ERROR"))
+            {
+                foreach (char c in Temp)
+                {
+                    if (!RFDLib.Text.CheckIsHexNumeral(c))
+                    {
+                        return null;
+                    }
+                }
+
+                var Result = new TTextSetting();
+                Result.Designator = "&E";
+                Result.Name = ENC_KEY_SETTING_NAME;
+                Result.Text = Temp;
+
+                return Result;
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Parse the ATI5? and ATI5 responses to get a set of settings objects.  Settings are only returned if they're
         /// in the ATI5QResponse, or Ranges.
@@ -1095,13 +1120,13 @@ namespace RFD.RFD900
         /// <param name="Ranges">A previous set of settings received to use the ranges from, in the
         /// case that they can't be ascertained from ATI5QResponse.  Can be null if not specified.</param>
         /// <returns>Never null</returns>
-        public Dictionary<string, TSetting> GetSettings(string ATI5QResponse,
+        public Dictionary<string, TBaseSetting> GetSettings(string ATI5QResponse,
             uploader.Uploader.Board Board, string ATI5Response,
-            Dictionary<string, TSetting> Ranges, out bool UseRanges)
+            Dictionary<string, TBaseSetting> Ranges, out bool UseRanges)
         {
             UseRanges = false;
 
-            Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
+            Dictionary<string, TBaseSetting> Result = new Dictionary<string, TBaseSetting>();
             ParseATI5QueryResponse(ATI5QResponse, Result);
 
             if (Result.Count == 0)
@@ -1111,11 +1136,11 @@ namespace RFD.RFD900
             else
             {
                 string SerialName = "SERIAL_SPEED";
-                if (Result.ContainsKey(SerialName))
+                if (Result.ContainsKey(SerialName) && Result[SerialName] is TSetting)
                 {
-                    if (Result[SerialName].Options == null)
+                    if (((TSetting)Result[SerialName]).Options == null)
                     {
-                        Result[SerialName].Options = GetDefaultBaudRateSettingForBoard(Board);
+                        ((TSetting)Result[SerialName]).Options = GetDefaultBaudRateSettingForBoard(Board);
                     }
                 }
             }
@@ -1143,10 +1168,11 @@ namespace RFD.RFD900
             //and it needs its settings ranges modified...
             //We want the node dest to have the same options as node id, except we want the 
             //last value parsed for node dest to be appended to the end for the node dest.
-            if (Result.ContainsKey(NODEID) && Result.ContainsKey(NODEDESTINATION))
+            if (Result.ContainsKey(NODEID) && Result.ContainsKey(NODEDESTINATION) &&
+                Result[NODEID] is TSetting && Result[NODEDESTINATION] is TSetting)
             {
-                var NodeIDRange = Result[NODEID].Range;
-                var NodeDestRange = Result[NODEDESTINATION].Range;
+                var NodeIDRange = ((TSetting)Result[NODEID]).Range;
+                var NodeDestRange = ((TSetting)Result[NODEDESTINATION]).Range;
                 //If the destination id range is null...
                 if (NodeDestRange == null)
                 {
@@ -1158,11 +1184,11 @@ namespace RFD.RFD900
                     if (NodeIDRange is TSetting.TSimpleRange)
                     {
                         //The node id range is a simple range.
-                        var NodeIDOptions = NodeIDRange.GetOptionsIncludingValue(Result[NODEID].Value);
-                        var NodeDestOptions = NodeDestRange.GetOptionsIncludingValue(Result[NODEDESTINATION].Value);
+                        var NodeIDOptions = NodeIDRange.GetOptionsIncludingValue(((TSetting)Result[NODEID]).Value);
+                        var NodeDestOptions = NodeDestRange.GetOptionsIncludingValue(((TSetting)Result[NODEDESTINATION]).Value);
                         if (NodeDestOptions[NodeDestOptions.Length-1] > NodeIDOptions[NodeIDOptions.Length-1])
                         {
-                            Result[NODEDESTINATION].Range = new TSetting.TMultiRange(new TSetting.TSimpleRange[]
+                            ((TSetting)Result[NODEDESTINATION]).Range = new TSetting.TMultiRange(new TSetting.TSimpleRange[]
                                 {
                                     (TSetting.TSimpleRange)NodeIDRange,
                                     new TSetting.TSimpleRange(NodeDestOptions[NodeDestOptions.Length-1], NodeDestOptions[NodeDestOptions.Length-1], 1)
@@ -1189,15 +1215,15 @@ namespace RFD.RFD900
         /// <param name="Settings">The ranges/options to use in the result.</param>
         /// <returns>The resulting settings which contains the same values as Values, but has ranges/options
         /// as specified in Settings (if they exist in there)</returns>
-        public Dictionary<string, TSetting> CopySettingsButUseDifferentRanges(
+        public Dictionary<string, TBaseSetting> CopySettingsButUseDifferentRanges(
             Dictionary<string, TShortSetting> Values,
-            Dictionary<string, TSetting> Settings)
+            Dictionary<string, TBaseSetting> Settings)
         {
-            Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
+            Dictionary<string, TBaseSetting> Result = new Dictionary<string, TBaseSetting>();
 
             foreach (var kvp in Values)
             {
-                if (Settings.ContainsKey(kvp.Key))
+                if (Settings.ContainsKey(kvp.Key) && Settings[kvp.Key] is TSetting)
                 {
                     var S = (TSetting)Settings[kvp.Key].Clone();
                     S.Value = kvp.Value.Value;
@@ -1246,8 +1272,8 @@ namespace RFD.RFD900
         /// <param name="Ranges">A previous set of settings received to use the ranges from, in the
         /// case that they can't be ascertained from querying the modem.  Can be null if not specified.</param>
         /// <returns>Never null</returns>
-        public Dictionary<string, TSetting> GetSettings(bool Remote, uploader.Uploader.Board Board, string ATI5Response,
-            Dictionary<string, TSetting> Ranges, out bool UseRanges)
+        public Dictionary<string, TBaseSetting> GetSettings(bool Remote, uploader.Uploader.Board Board, string ATI5Response,
+            Dictionary<string, TBaseSetting> Ranges, out bool UseRanges)
         {
             string ATI5QR = UseATI10ToGetATI5QueryResponse(Remote);
             if (ATI5QR == null || (ATI5QR.Length == 0))
@@ -1255,14 +1281,186 @@ namespace RFD.RFD900
                 ATI5QR = ATCClient.DoQueryWithMultiLineResponse(Remote ? "RTI5?" : "ATI5?");
             }
 
-            return GetSettings(ATI5QR, Board, ATI5Response, Ranges, out UseRanges);
+            var Result = GetSettings(ATI5QR, Board, ATI5Response, Ranges, out UseRanges);
+
+            var EncKey = GetEncryptionKey(Remote);
+
+            if (EncKey != null)
+            {
+                Result[ENC_KEY_SETTING_NAME] = EncKey;
+            }
+
+            return Result;
+        }
+
+        const string ENC_KEY_SETTING_NAME = "AESKEY";
+    }
+
+    public class TSettings
+    {
+        Dictionary<string, TBaseSetting> _Settings = new Dictionary<string, TBaseSetting>();
+
+        public TSettings(Dictionary<string, TBaseSetting> Settings)
+        {
+            _Settings = Settings;
+        }
+
+        public Dictionary<string, TBaseSetting> Settings
+        {
+            get
+            {
+                return _Settings;
+            }
+        }
+
+        public TSettings Clone()
+        {
+            Dictionary<string, TBaseSetting> Temp = new Dictionary<string, TBaseSetting>();
+
+            foreach (var kvp in _Settings)
+            {
+                Temp[kvp.Key] = (TBaseSetting)kvp.Value.Clone();
+            }
+
+            return new TSettings(Temp);
+        }
+
+        public bool SaveToFile(string Path)
+        {
+            try
+            {
+                using (StreamWriter Writer = File.CreateText(Path))
+                {
+                    //Save in alphabetical order...
+                    List<string> Names = new List<string>(_Settings.Keys);
+                    Names.Sort();
+
+                    foreach (var N in Names)
+                    {
+                        Writer.WriteLine(N + " = " + _Settings[N].GetValueAsString());
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        TNameAndValue ParseINILine(string Line)
+        {
+            if (!Line.Trim().StartsWith(";") && !Line.Trim().StartsWith("#"))
+            {
+                string[] ContentAndComment = Line.Split(';', '#');
+
+                if (ContentAndComment.Length >= 1)
+                {
+                    string Content = ContentAndComment[0];
+
+                    if (Content.Contains("="))
+                    {
+                        string[] NameAndValue = Content.Split('=');
+
+                        if (NameAndValue.Length == 2)
+                        {
+                            string Name = NameAndValue[0].Trim();
+
+                            return new TNameAndValue(Name, NameAndValue[1].Trim());
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Update these settings from a file.
+        /// </summary>
+        /// <param name="Path">The path of the settings file.  Must not be null.</param>
+        /// <returns>The names and values loaded.  Null if failed.</returns>
+        public Dictionary<string, TNameAndValue> LoadFromFile(string Path)
+        {
+            Dictionary<string, TNameAndValue> Result = new Dictionary<string, TNameAndValue>();
+
+            try
+            {
+                using (StreamReader Reader = File.OpenText(Path))
+                {
+                    string Line;
+
+                    while ((Line = Reader.ReadLine()) != null)
+                    {
+                        var NV = ParseINILine(Line);
+                        if (NV != null && _Settings.ContainsKey(NV.Name))
+                        {
+                            _Settings[NV.Name].SetValueFromString(NV.Value);
+                            Result[NV.Name] = NV;
+                        }
+                    }
+                }
+
+                return Result;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public class TNameAndValue
+        {
+            public readonly string Name;
+            public readonly string Value;
+
+            public TNameAndValue(string Name, string Value)
+            {
+                this.Name = Name;
+                this.Value = Value;
+            }
         }
     }
 
-    public class TShortSetting : ICloneable
+    public abstract class TBaseSetting : ICloneable
     {
         public string Designator;
         public string Name;
+
+        public abstract string GetValueAsString();
+        public abstract void SetValueFromString(string Text);
+        public abstract object Clone();
+    }
+
+    public class TTextSetting : TBaseSetting
+    {
+        public string Text;
+
+        public override string GetValueAsString()
+        {
+            return Text;
+        }
+
+        public override void SetValueFromString(string Text)
+        {
+            this.Text = Text;
+        }
+
+        public override object Clone()
+        {
+            TTextSetting Result = new TTextSetting();
+            Result.Designator = Designator;
+            Result.Name = Name;
+            Result.Text = Text;
+
+            return Result;
+        }
+    }
+
+
+    public class TShortSetting : TBaseSetting
+    {
         public int Value;
 
         public TShortSetting(string Designator, string Name, int Value)
@@ -1272,9 +1470,19 @@ namespace RFD.RFD900
             this.Value = Value;
         }
 
-        public virtual object Clone()
+        public override object Clone()
         {
             return new TShortSetting(Designator, Name, Value);
+        }
+
+        public override string GetValueAsString()
+        {
+            return Value.ToString();
+        }
+
+        public override void SetValueFromString(string Text)
+        {
+            int.TryParse(Text, out this.Value);
         }
     }
 

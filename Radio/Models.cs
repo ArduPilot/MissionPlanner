@@ -64,7 +64,7 @@ namespace MissionPlanner.Radio
         /// </summary>
         /// <param name="M">The modem firmware type.</param>
         /// <param name="Settings">The settings retrieved from the modem.  Must not be null.</param>
-        public void SetModel(Model M, Dictionary<string, RFD.RFD900.TSetting> Settings)
+        public void SetModel(Model M, Dictionary<string, RFD.RFD900.TBaseSetting> Settings)
         {
             NodeID.Reset();
             DestID.Reset();

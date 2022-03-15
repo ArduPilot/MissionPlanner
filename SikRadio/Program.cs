@@ -79,8 +79,9 @@
  * 2.58 - Now supports RFD X rev 2.  Now checks that band is compatible with country before locking to a country.  
  * 2.60 - Now supports RFD X rev 2 programming firmware when baud rate other than 57600bps is used. 
  * 2.61 - Now supports RFD UX rev 2.
- * 2.63 - Settings GUI can now dynamically shows settings read from the modem which are unknown to this software.  Supports the
+ * 2.63 - Settings GUI can now dynamically show settings read from the modem which are unknown to this software.  Supports the
  *          RSSI_IN_DBM, AUXSER_SPEED and AIR_FRAMELEN settings.  
+ * 2.64 - Can now save settings to file and load settings from file.
  */
 
 using System;

@@ -34,5 +34,10 @@ namespace RFDLib
         {
             return (c >= '0' && c <= '9');
         }
+
+        public static bool CheckIsHexNumeral(char c)
+        {
+            return CheckIsNumeral(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+        }
     }
 }

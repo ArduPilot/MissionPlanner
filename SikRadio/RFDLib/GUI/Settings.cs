@@ -32,13 +32,17 @@ namespace RFDLib.GUI.Settings
         public readonly string OriginalLabel;
         public readonly string OriginalName;
         public readonly bool OrigVisible;
+        public readonly ToolTip OrigToolTip;
+        public readonly string OrigToolTipText;
 
-        public TOrigLabelEditorPair(Label L, Control Editor)
+        public TOrigLabelEditorPair(Label L, Control Editor, ToolTip TT)
             : base(L, Editor)
         {
             this.OriginalLabel = L.Text;
             this.OriginalName = Editor.Name;
             this.OrigVisible = Editor.Visible;
+            this.OrigToolTip = TT;
+            this.OrigToolTipText = TT.GetToolTip(Editor);
         }
 
         /// <summary>
@@ -50,6 +54,7 @@ namespace RFDLib.GUI.Settings
             Editor.Name = OriginalName;
             L.Visible = OrigVisible;
             Editor.Visible = OrigVisible;
+            OrigToolTip.SetToolTip(Editor, OrigToolTipText);
         }
     }
 
@@ -75,9 +80,9 @@ namespace RFDLib.GUI.Settings
         /// </summary>
         /// <param name="L"></param>
         /// <param name="Editor"></param>
-        public void Add(Label L, Control Editor)
+        public void Add(Label L, Control Editor, ToolTip TT)
         {
-            Add(new TOrigLabelEditorPair(L, Editor));
+            Add(new TOrigLabelEditorPair(L, Editor, TT));
         }
 
         /// <summary>
@@ -148,6 +153,7 @@ namespace RFDLib.GUI.Settings
                 }
                 Pair.L.Visible = true;
                 Pair.Editor.Visible = true;
+                Pair.OrigToolTip.SetToolTip(Pair.Editor, Description);
                 _Spare.Remove(Pair.OriginalName);
                 return Pair.Editor;
             }
