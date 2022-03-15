@@ -544,6 +544,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public MemoryStream GetFile(string file, CancellationTokenSource cancel, bool burst = true, byte readsize = 0)
         {
             log.InfoFormat("GetFile {0}-{1} {2}", _sysid, _compid, file);
+            Progress?.Invoke("Opening file " + file, -1);
             kCmdOpenFileRO(file, out var size, cancel);
             if (size == -1)
                 return null;
@@ -578,7 +579,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             };
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode + " " + file);
-            var timeout = new RetryTimeout();
+            var timeout = new RetryTimeout(5, 2000);
             size = -1;
             Exception ex = null;
             var localsize = size;
@@ -660,6 +661,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             size = localsize;
             if (ex != null)
                 throw ex;
+            Progress?.Invoke("Opened " + file + " " + ans, -1);
             return ans;
         }
 
@@ -679,6 +681,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             };
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode + " " + file + " " + size);
+            Progress?.Invoke(file, 0);
             Exception ex = null;
             SortedList<uint, uint> chunkSortedList = new SortedList<uint, uint>();
             MemoryStream answer = new MemoryStream(size);
@@ -1385,6 +1388,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             };
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.ToJSON() + " " + file + " " + size);
+            Progress?.Invoke(file, 0);
             Exception ex = null;
             MemoryStream answer = new MemoryStream(size);
             sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>

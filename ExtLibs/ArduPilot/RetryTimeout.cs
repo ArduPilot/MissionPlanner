@@ -24,6 +24,9 @@ namespace MissionPlanner.ArduPilot
         /// timeout between retrys
         /// </summary>
         public int TimeoutMS = 1000;
+
+        private readonly string _memberName;
+
         /// <summary>
         /// Action to do on retry
         /// </summary>
@@ -31,10 +34,11 @@ namespace MissionPlanner.ArduPilot
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private DateTime _timeOutDateTime = DateTime.MinValue;
 
-        public RetryTimeout(int Retrys = 30, int TimeoutMS = 1000)
+        public RetryTimeout(int Retrys = 30, int TimeoutMS = 1000, [System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
         {
             this.Retries = Retrys;
             this.TimeoutMS = TimeoutMS;
+            _memberName = memberName;
         }
 
         public DateTime TimeOutDateTime
@@ -58,7 +62,7 @@ namespace MissionPlanner.ArduPilot
                 Complete = false;
                 for (RetriesCurrent = 0; RetriesCurrent < Retries; RetriesCurrent++)
                 {
-                    log.InfoFormat("Retry {0} - {1}", RetriesCurrent,
+                    log.InfoFormat($"Retry {_memberName} {0} - {1}", RetriesCurrent,
                         TimeOutDateTime.ToString("yyyy-MM-ddTHH:mm:ss.fff"));
                     WorkToDo();
                     TimeOutDateTime = DateTime.Now.AddMilliseconds(TimeoutMS);

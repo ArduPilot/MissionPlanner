@@ -1697,9 +1697,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     var paramfileTask = Task.Run<MemoryStream>(() =>
                     {
                         var ftp = new MAVFtp(this, sysid, compid);
-                        ftp.Progress += (s,i) => {
+                        ftp.Progress += (s,i) =>
+                        {
                             if (frmProgressReporter != null)
-                                frmProgressReporter.UpdateProgressAndStatus(i, $"Getting Param MAVFTP {sysid}-{compid}");
+                                frmProgressReporter.UpdateProgressAndStatus(i,
+                                    $"Getting Param MAVFTP {sysid}-{compid} : {s}");
                         };
                         return ftp.GetFile(
                             "@PARAM/param.pck", cancel, true, 110);
