@@ -610,7 +610,7 @@ namespace MissionPlanner.Log
                     var instance = logdata.InstanceType.ContainsKey(item.Id);
                     if (instance)
                     {
-                        foreach (var instanceinfo in logdata.InstanceType[item.Id].value)
+                        foreach (var instanceinfo in logdata.InstanceType[item.Id].value.OrderBy(a=>a))
                         {
                             var instNode = msgNode.Nodes.Add(instanceinfo);
                             instNode.ToolTipText = get_instance_info(item.Name, instanceinfo, VehicleType);
