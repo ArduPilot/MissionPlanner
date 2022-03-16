@@ -68,33 +68,9 @@ namespace MissionPlanner.Comms
 
         public bool DtrEnable { get; set; }
 
-        public void Open()
+        public void Open(string host, string port)
         {
-            if (client.Client.Connected)
-            {
-                log.Warn("UdpSerialConnect socket already open");
-                return;
-            }
-
-            log.Info("UDP Open");
-
-            var dest = Port;
-            var host = "127.0.0.1";
-
-            dest = OnSettings("UDP_port" + ConfigRef, dest);
-
-            host = OnSettings("UDP_host" + ConfigRef, host);
-
-            //if (!MainV2.MONO)
-            {
-                if (inputboxreturn.Cancel == OnInputBoxShow("remote host",
-                        "Enter host name/ip (ensure remote end is already started)", ref host))
-                    throw new Exception("Canceled by request");
-                if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
-                    throw new Exception("Canceled by request");
-            }
-
-            Port = dest;
+            Port = port;
 
             OnSettings("UDP_port" + ConfigRef, Port, true);
             OnSettings("UDP_host" + ConfigRef, host, true);
@@ -124,6 +100,35 @@ namespace MissionPlanner.Comms
             IsOpen = true;
 
             VerifyConnected();
+        }
+
+        public void Open()
+        {
+            if (client.Client.Connected)
+            {
+                log.Warn("UdpSerialConnect socket already open");
+                return;
+            }
+
+            log.Info("UDP Open");
+
+            var dest = Port;
+            var host = "127.0.0.1";
+
+            dest = OnSettings("UDP_port" + ConfigRef, dest);
+
+            host = OnSettings("UDP_host" + ConfigRef, host);
+
+            //if (!MainV2.MONO)
+            {
+                if (inputboxreturn.Cancel == OnInputBoxShow("remote host",
+                        "Enter host name/ip (ensure remote end is already started)", ref host))
+                    throw new Exception("Canceled by request");
+                if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
+                    throw new Exception("Canceled by request");
+            }
+
+            Open(host, Port);
         }
 
         public static bool IsInRange(string startIpAddr, string endIpAddr, string address)

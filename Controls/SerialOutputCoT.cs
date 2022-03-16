@@ -32,6 +32,8 @@ namespace MissionPlanner.Controls
             CMB_serialport.Items.Add("UDP Host - 14551");
             CMB_serialport.Items.Add("UDP Client");
 
+            CMB_serialport.Items.Add("ATAK MC");
+
             CMB_updaterate.Text = updaterate + "hz";
 
             if (threadrun)
@@ -97,6 +99,11 @@ namespace MissionPlanner.Controls
                         break;
                     case "UDP Client":
                         CoTStream = new UdpSerialConnect();
+                        CMB_baudrate.SelectedIndex = 0;
+                        break;
+                    case "ATAK MC":
+                        CoTStream = new UdpSerialConnect() { ConfigRef = "ATAK" };
+                        ((UdpSerialConnect)CoTStream).Open("239.2.3.1", "6969");
                         CMB_baudrate.SelectedIndex = 0;
                         break;
                     default:
