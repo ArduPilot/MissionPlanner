@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using log4net;
 
 // dns, ip address
@@ -90,8 +91,23 @@ namespace MissionPlanner.Comms
             {
                 log.Info($"UdpSerialConnect bind to port {Port}");
                 client = new UdpClient(int.Parse(Port));
-                log.Info($"UdpSerialConnect join multicast group {host}");
-                client.JoinMulticastGroup(IPAddress.Parse(host));
+
+                IsOpen = true;
+
+                Task.Run(() => {
+                    while (IsOpen)
+                    {
+                        log.Info($"UdpSerialConnect join multicast group {host}");
+                        try
+                        {
+                            client.JoinMulticastGroup(IPAddress.Parse(host));
+                        } catch { return; }
+
+                        Thread.Sleep(30 * 1000);
+                    }
+                });
+                log.Info($"UdpSerialConnect default endpoint {hostEndPoint}");
+                client.Connect(hostEndPoint);
             }
             else
             {
@@ -130,7 +146,7 @@ namespace MissionPlanner.Comms
                     throw new Exception("Canceled by request");
             }
 
-            Open(host, Port);
+            Open(host, dest);
         }
 
         public static bool IsInRange(string startIpAddr, string endIpAddr, string address)
