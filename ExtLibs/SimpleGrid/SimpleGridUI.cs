@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
@@ -42,12 +39,19 @@ namespace MissionPlanner.SimpleGrid
             layerpolygons = new GMapOverlay( "polygons");
             map.Overlays.Add(layerpolygons);
 
-            CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
+            CMB_startfrom.DataSource = Enum.GetNames(typeof(Utilities.Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
 
             // set and angle that is good
             list = new List<PointLatLngAlt>();
             plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
+            var area = calcpolygonarea(plugin.Host.FPDrawnPolygon.Points);
+            if (area > 10000)
+            {
+                NUM_Distance.Value = (int) Math.Sqrt(area) / 10;
+                NUM_spacing.Value = (int) Math.Sqrt(area) / 10;
+            }
+
             NUM_angle.Value = (decimal)((getAngleOfLongestSide(list) + 360) % 360);
 
             // Map Events
@@ -116,6 +120,8 @@ namespace MissionPlanner.SimpleGrid
         bool isMouseDown = false;
         bool isMouseDraging = false;
         static public Object thisLock = new Object();
+
+        public PluginHost Host2 { get; private set; }
 
         private void map_OnMarkerLeave(GMapMarker item)
         {
@@ -277,12 +283,13 @@ namespace MissionPlanner.SimpleGrid
 
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Grid.Host2 = plugin.Host;
-            
-            grid = Grid.CreateGrid(list, (double) NUM_altitude.Value, (double) NUM_Distance.Value,
+            Host2 = plugin.Host;
+
+            grid = Utilities.Grid.CreateGrid(list, (double) NUM_altitude.Value, (double) NUM_Distance.Value,
                 (double) NUM_spacing.Value, (double) NUM_angle.Value, (double) NUM_overshoot.Value,
                 (double) NUM_overshoot2.Value,
-                (Grid.StartPosition) Enum.Parse(typeof (Grid.StartPosition), CMB_startfrom.Text), false, 0);
+                (Utilities.Grid.StartPosition) Enum.Parse(typeof(Utilities.Grid.StartPosition), CMB_startfrom.Text),
+                false, 0, 0,0, plugin.Host.cs.PlannedHomeLocation);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -293,13 +300,15 @@ namespace MissionPlanner.SimpleGrid
             layerpolygons.Polygons.Clear();
             layerpolygons.Markers.Clear();
 
-            if (grid.Count == 0)
-            {
-                return;
-            }
 
             if (chk_boundary.Checked)
                 AddDrawPolygon();
+
+            if (grid.Count == 0)
+            {
+                map.ZoomAndCenterMarkers("polygons");
+                return;
+            }
 
             int strips = 0;
             int a = 1;
@@ -374,7 +383,7 @@ namespace MissionPlanner.SimpleGrid
 
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
             int utmzone = (int)((polygon[0].Lng - -186.0) / 6.0);
 
@@ -412,6 +421,10 @@ namespace MissionPlanner.SimpleGrid
                 MainV2.instance.FlightPlanner.quickadd = true;
 
                 PointLatLngAlt lastpnt = PointLatLngAlt.Zero;
+
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 1,
+                    (int)((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed), 0, 0, 0, 0, 0,
+                    null);
 
                 grid.ForEach(plla =>
                 {
@@ -451,6 +464,11 @@ namespace MissionPlanner.SimpleGrid
         private void GridUI_Load(object sender, EventArgs e)
         {
             loadsettings();
+        }
+
+        private void groupBox6_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -105,7 +105,7 @@
             // ConfigHWRangeFinder
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.LBL_volt);
             this.Controls.Add(this.LBL_dist);
             this.Controls.Add(this.label4);

@@ -14,6 +14,12 @@ namespace MissionPlanner.Controls.BackstageView
         public BackStageViewMenuPanel()
         {
             this.SetStyle(ControlStyles.UserPaint, true);
+
+            HorizontalScroll.Enabled = false;
+            HorizontalScroll.Visible = false;
+            HorizontalScroll.Maximum = 0;
+            HScroll = false;
+            AutoScroll = true;
         }
 
         protected override void OnPaintBackground(PaintEventArgs pevent)
@@ -21,6 +27,10 @@ namespace MissionPlanner.Controls.BackstageView
             base.OnPaintBackground(pevent);
 
             var rc = new Rectangle(ClientSize.Width - GradientWidth, 0, GradientWidth, this.ClientSize.Height);
+
+            // prevent LinearGradientBrush exception on 0 height
+            if (rc.Height == 0 || rc.Width == 0)
+                return;
 
             using (var brush = new LinearGradientBrush(rc, BackColor, GradColor, LinearGradientMode.Horizontal))
             {

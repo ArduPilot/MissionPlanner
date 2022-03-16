@@ -8,7 +8,7 @@ Class=Ports
 ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
 Provider=%MFGNAME%
 LayoutFile=layout.inf
-CatalogFile=vrbrain.cat
+CatalogFile=vrmapper.cat
 DriverVer=01/01/2015,2.0.0.9
 
 [Manufacturer]

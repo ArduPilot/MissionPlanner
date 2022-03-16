@@ -98,7 +98,16 @@
             this.but_AAsignin = new MissionPlanner.Controls.MyButton();
             this.CMB_Layout = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.CHK_AutoParamCommit = new System.Windows.Forms.CheckBox();
+            this.chk_shownofly = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CMB_altunits = new System.Windows.Forms.ComboBox();
+            this.num_gcsid = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.CHK_params_bg = new System.Windows.Forms.CheckBox();
+            this.chk_slowMachine = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).BeginInit();
             this.SuspendLayout();
             // 
             // label33
@@ -122,7 +131,10 @@
             resources.GetString("CMB_ratesensors.Items8"),
             resources.GetString("CMB_ratesensors.Items9"),
             resources.GetString("CMB_ratesensors.Items10"),
-            resources.GetString("CMB_ratesensors.Items11")});
+            resources.GetString("CMB_ratesensors.Items11"),
+            resources.GetString("CMB_ratesensors.Items12"),
+            resources.GetString("CMB_ratesensors.Items13"),
+            resources.GetString("CMB_ratesensors.Items14")});
             resources.ApplyResources(this.CMB_ratesensors, "CMB_ratesensors");
             this.CMB_ratesensors.Name = "CMB_ratesensors";
             this.CMB_ratesensors.SelectedIndexChanged += new System.EventHandler(this.CMB_ratesensors_SelectedIndexChanged);
@@ -208,8 +220,6 @@
             // 
             // CHK_resetapmonconnect
             // 
-            this.CHK_resetapmonconnect.Checked = true;
-            this.CHK_resetapmonconnect.CheckState = System.Windows.Forms.CheckState.Checked;
             resources.ApplyResources(this.CHK_resetapmonconnect, "CHK_resetapmonconnect");
             this.CHK_resetapmonconnect.Name = "CHK_resetapmonconnect";
             this.CHK_resetapmonconnect.UseVisualStyleBackColor = true;
@@ -242,7 +252,11 @@
             resources.GetString("CMB_raterc.Items7"),
             resources.GetString("CMB_raterc.Items8"),
             resources.GetString("CMB_raterc.Items9"),
-            resources.GetString("CMB_raterc.Items10")});
+            resources.GetString("CMB_raterc.Items10"),
+            resources.GetString("CMB_raterc.Items11"),
+            resources.GetString("CMB_raterc.Items12"),
+            resources.GetString("CMB_raterc.Items13"),
+            resources.GetString("CMB_raterc.Items14")});
             resources.ApplyResources(this.CMB_raterc, "CMB_raterc");
             this.CMB_raterc.Name = "CMB_raterc";
             this.CMB_raterc.SelectedIndexChanged += new System.EventHandler(this.CMB_raterc_SelectedIndexChanged);
@@ -282,7 +296,11 @@
             resources.GetString("CMB_ratestatus.Items7"),
             resources.GetString("CMB_ratestatus.Items8"),
             resources.GetString("CMB_ratestatus.Items9"),
-            resources.GetString("CMB_ratestatus.Items10")});
+            resources.GetString("CMB_ratestatus.Items10"),
+            resources.GetString("CMB_ratestatus.Items11"),
+            resources.GetString("CMB_ratestatus.Items12"),
+            resources.GetString("CMB_ratestatus.Items13"),
+            resources.GetString("CMB_ratestatus.Items14")});
             resources.ApplyResources(this.CMB_ratestatus, "CMB_ratestatus");
             this.CMB_ratestatus.Name = "CMB_ratestatus";
             this.CMB_ratestatus.SelectedIndexChanged += new System.EventHandler(this.CMB_ratestatus_SelectedIndexChanged);
@@ -302,7 +320,11 @@
             resources.GetString("CMB_rateposition.Items7"),
             resources.GetString("CMB_rateposition.Items8"),
             resources.GetString("CMB_rateposition.Items9"),
-            resources.GetString("CMB_rateposition.Items10")});
+            resources.GetString("CMB_rateposition.Items10"),
+            resources.GetString("CMB_rateposition.Items11"),
+            resources.GetString("CMB_rateposition.Items12"),
+            resources.GetString("CMB_rateposition.Items13"),
+            resources.GetString("CMB_rateposition.Items14")});
             resources.ApplyResources(this.CMB_rateposition, "CMB_rateposition");
             this.CMB_rateposition.Name = "CMB_rateposition";
             this.CMB_rateposition.SelectedIndexChanged += new System.EventHandler(this.CMB_rateposition_SelectedIndexChanged);
@@ -322,7 +344,10 @@
             resources.GetString("CMB_rateattitude.Items7"),
             resources.GetString("CMB_rateattitude.Items8"),
             resources.GetString("CMB_rateattitude.Items9"),
-            resources.GetString("CMB_rateattitude.Items10")});
+            resources.GetString("CMB_rateattitude.Items10"),
+            resources.GetString("CMB_rateattitude.Items11"),
+            resources.GetString("CMB_rateattitude.Items12"),
+            resources.GetString("CMB_rateattitude.Items13")});
             resources.ApplyResources(this.CMB_rateattitude, "CMB_rateattitude");
             this.CMB_rateattitude.Name = "CMB_rateattitude";
             this.CMB_rateattitude.SelectedIndexChanged += new System.EventHandler(this.CMB_rateattitude_SelectedIndexChanged);
@@ -639,9 +664,88 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // CHK_AutoParamCommit
+            // 
+            resources.ApplyResources(this.CHK_AutoParamCommit, "CHK_AutoParamCommit");
+            this.CHK_AutoParamCommit.Checked = true;
+            this.CHK_AutoParamCommit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_AutoParamCommit.Name = "CHK_AutoParamCommit";
+            this.CHK_AutoParamCommit.UseVisualStyleBackColor = true;
+            this.CHK_AutoParamCommit.CheckedChanged += new System.EventHandler(this.CHK_AutoParamCommit_CheckedChanged);
+            // 
+            // chk_shownofly
+            // 
+            resources.ApplyResources(this.chk_shownofly, "chk_shownofly");
+            this.chk_shownofly.Checked = true;
+            this.chk_shownofly.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_shownofly.Name = "chk_shownofly";
+            this.chk_shownofly.UseVisualStyleBackColor = true;
+            this.chk_shownofly.CheckedChanged += new System.EventHandler(this.chk_shownofly_CheckedChanged);
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // CMB_altunits
+            // 
+            this.CMB_altunits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_altunits.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_altunits, "CMB_altunits");
+            this.CMB_altunits.Name = "CMB_altunits";
+            this.CMB_altunits.SelectedIndexChanged += new System.EventHandler(this.CMB_altunits_SelectedIndexChanged);
+            // 
+            // num_gcsid
+            // 
+            resources.ApplyResources(this.num_gcsid, "num_gcsid");
+            this.num_gcsid.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.num_gcsid.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_gcsid.Name = "num_gcsid";
+            this.num_gcsid.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.num_gcsid.ValueChanged += new System.EventHandler(this.num_gcsid_ValueChanged);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // CHK_params_bg
+            // 
+            resources.ApplyResources(this.CHK_params_bg, "CHK_params_bg");
+            this.CHK_params_bg.Name = "CHK_params_bg";
+            this.CHK_params_bg.UseVisualStyleBackColor = true;
+            this.CHK_params_bg.CheckedChanged += new System.EventHandler(this.CHK_params_bg_CheckedChanged);
+            // 
+            // chk_slowMachine
+            // 
+            resources.ApplyResources(this.chk_slowMachine, "chk_slowMachine");
+            this.chk_slowMachine.Name = "chk_slowMachine";
+            this.chk_slowMachine.UseVisualStyleBackColor = true;
+            this.chk_slowMachine.CheckedChanged += new System.EventHandler(this.chk_slowMachine_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.chk_slowMachine);
+            this.Controls.Add(this.CHK_params_bg);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.num_gcsid);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.CMB_altunits);
+            this.Controls.Add(this.chk_shownofly);
+            this.Controls.Add(this.CHK_AutoParamCommit);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CMB_Layout);
             this.Controls.Add(this.but_AAsignin);
@@ -712,9 +816,9 @@
             this.Controls.Add(this.BUT_videostop);
             this.Controls.Add(this.BUT_videostart);
             this.Name = "ConfigPlanner";
-            resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.ConfigPlanner_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -791,5 +895,13 @@
         private Controls.MyButton but_AAsignin;
         public System.Windows.Forms.ComboBox CMB_Layout;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox CHK_AutoParamCommit;
+        private System.Windows.Forms.CheckBox chk_shownofly;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox CMB_altunits;
+        private System.Windows.Forms.NumericUpDown num_gcsid;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox CHK_params_bg;
+        private System.Windows.Forms.CheckBox chk_slowMachine;
     }
 }

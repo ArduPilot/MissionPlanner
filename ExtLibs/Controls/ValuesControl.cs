@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-   public partial class ValuesControl : UserControl, IDynamicParameterControl
+   public partial class ValuesControl : MyUserControl, IDynamicParameterControl
    {
       #region Properties
 
@@ -53,6 +53,16 @@ namespace MissionPlanner.Controls
       }
 
       #endregion
+
+      protected override void OnPaint(PaintEventArgs e)
+      {
+          if (e.ClipRectangle.IsEmpty)
+              return;
+          // this is to improve first render time when not onscreen.
+          if (!ComboBoxControl.Visible)
+              ComboBoxControl.Visible = true;
+          base.OnPaint(e);
+      }
 
       private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
       {

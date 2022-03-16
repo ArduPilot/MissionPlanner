@@ -1,0 +1,7 @@
+#
+# Command
+#
+
+uint8 gimbal_id                 #0 means broadcast, any gimbal should listen
+
+uint8[<=128] payload

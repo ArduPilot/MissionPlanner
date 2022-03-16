@@ -1,4 +1,4 @@
-namespace AltitudeAngel.IsolatedPlugin.Common
+namespace AltitudeAngelWings.Extra
 {
     public interface IMissionPlannerState
     {

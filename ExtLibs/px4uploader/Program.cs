@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO.Ports;
-using System.Windows.Forms;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Crypto.Parameters;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
 namespace px4uploader
@@ -35,21 +27,7 @@ namespace px4uploader
             if (args.Length == 0)
             {
                 Console.WriteLine(@"Usage: px4uploader.exe C:\px4\Firmware\Images\px4fmu.px4");
-
-                OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Filter = "Firmware (*.px4)|*.px4";
-                ofd.FileName = "px4fmu.px4";
-                if (Directory.Exists(@"C:\px4\Firmware\Images"))
-                    ofd.InitialDirectory = @"C:\px4\Firmware\Images";
-                ofd.ShowDialog();
-                if (File.Exists(ofd.FileName))
-                {
-                    args = new string[] { ofd.FileName };
-                }
-                else
-                {
-                    return;
-                }
+                return;
             }
 
             Uploader(args[0]);
@@ -95,9 +73,8 @@ namespace px4uploader
                     try
                     {
                         up.identify();
-                        Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev,up.bl_rev,up.fw_maxsize, port);
                     }
-                    catch ( Exception)
+                    catch (Exception ex)
                     {
                         try
                         {
@@ -107,7 +84,7 @@ namespace px4uploader
                             //up.close();
                         }
 
-                        Console.WriteLine(DateTime.Now.Millisecond + " " + "Not There..");
+                        Console.WriteLine(DateTime.Now.Millisecond + " " + "Not There.. " + ex.Message);
                         //Console.WriteLine(ex.Message);
                         try
                         {

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -7,13 +10,10 @@ using System.Reflection;
 using System.Text;
 using System.Timers;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigFriendlyParams : UserControl, IActivate
+    public partial class ConfigFriendlyParams : MyUserControl, IActivate
     {
         string searchfor = "";
 
@@ -36,18 +36,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             searchfor = textbox.Text;
 
-            filterTimer.Elapsed -= FilterTimerOnElapsed;
-            filterTimer.Stop();
-            filterTimer.Interval = 500;
-            filterTimer.Elapsed += FilterTimerOnElapsed;
-            filterTimer.Start();
+            _filterTimer.Elapsed -= FilterTimerOnElapsed;
+            _filterTimer.Stop();
+            _filterTimer.Interval = 500;
+            _filterTimer.Elapsed += FilterTimerOnElapsed;
+            _filterTimer.Start();
         }
 
-        private System.Timers.Timer filterTimer = new System.Timers.Timer();
+        private readonly System.Timers.Timer _filterTimer = new System.Timers.Timer();
 
         private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            filterTimer.Stop();
+            _filterTimer.Stop();
             Invoke((Action)delegate
             {
                 filterList(searchfor);
@@ -60,17 +60,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 y = 10;
                 tableLayoutPanel1.Enabled = false;
+                tableLayoutPanel1.SuspendLayout();
 
                 foreach (Control ctl in tableLayoutPanel1.Controls)
                 {
-                    if (ctl.GetType() == typeof (RangeControl))
+                    if (ctl.GetType() == typeof(RangeControl))
                     {
-                        var rng = (RangeControl) ctl;
+                        var rng = (RangeControl)ctl;
                         if (rng.LabelText.ToLower().Contains(searchfor.ToLower()) ||
                             rng.DescriptionText.ToLower().Contains(searchfor.ToLower()))
                         {
                             ctl.Visible = true;
-                            ctl.Location = new Point(ctl.Location.X, y);
+                            //ctl.Location = new Point(ctl.Location.X, y);
                             y += ctl.Height;
                         }
                         else
@@ -78,14 +79,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             ctl.Visible = false;
                         }
                     }
-                    else if (ctl.GetType() == typeof (ValuesControl))
+                    else if (ctl.GetType() == typeof(ValuesControl))
                     {
-                        var vctl = (ValuesControl) ctl;
+                        var vctl = (ValuesControl)ctl;
                         if (vctl.LabelText.ToLower().Contains(searchfor.ToLower()) ||
                             vctl.DescriptionText.ToLower().Contains(searchfor.ToLower()))
                         {
                             ctl.Visible = true;
-                            ctl.Location = new Point(ctl.Location.X, y);
+                            //ctl.Location = new Point(ctl.Location.X, y);
                             y += ctl.Height;
                         }
                         else
@@ -100,7 +101,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             bctl.myLabel1.Text.ToLower().Contains(searchfor.ToLower()))
                         {
                             ctl.Visible = true;
-                            ctl.Location = new Point(ctl.Location.X, y);
+                            //ctl.Location = new Point(ctl.Location.X, y);
                             y += ctl.Height;
                         }
                         else
@@ -110,6 +111,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
 
+                tableLayoutPanel1.ResumeLayout();
                 tableLayoutPanel1.Enabled = true;
             }
         }
@@ -211,10 +213,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            if (DialogResult.OK ==
+            if ((int)DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
-                ((Control) sender).Enabled = false;
+                ((Control)sender).Enabled = false;
 
                 try
                 {
@@ -227,7 +229,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
 
-                ((Control) sender).Enabled = true;
+                ((Control)sender).Enabled = true;
 
                 Activate();
             }
@@ -351,13 +353,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             var toadd = new List<Control>();
 
-            _params.OrderBy(x => x.Key).ForEach(x =>
+            var list = Settings.Instance.GetList("fav_params");
+
+            _params.OrderBy(x =>
+            {
+                if (list.Contains(x.Key))
+                    return "0" + x.Key;
+                return x.Key;
+            }).ForEach(x =>
             {
                 AddControl(x, toadd); //,ref ypos);
                 Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("ss.fff"));
             });
-
+            
+            tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel1.Visible = false;
             tableLayoutPanel1.Controls.AddRange(toadd.ToArray());
+            tableLayoutPanel1.Visible = true;
+            tableLayoutPanel1.ResumeLayout();
 
             Console.WriteLine("Add done" + DateTime.Now.ToString("ss.fff"));
 
@@ -374,31 +387,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     var value = (MainV2.comPort.MAV.param[x.Key].Value).ToString("0.###");
 
-                    var items = Controls.Find(x.Key, true);
+                    var items = tableLayoutPanel1.Controls.Find(x.Key, false);
                     if (items.Length > 0)
                     {
-                        if (items[0].GetType() == typeof (RangeControl))
+                        if (items[0].GetType() == typeof(RangeControl))
                         {
-                            ((RangeControl) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((RangeControl) items[0]).DeAttachEvents();
-                            ((RangeControl) items[0]).Value = value;
-                            ThemeManager.ApplyThemeTo(((RangeControl) items[0]));
-                            ((RangeControl) items[0]).AttachEvents();
-                            ((RangeControl) items[0]).ValueChanged += Control_ValueChanged;
+                            ((RangeControl)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((RangeControl)items[0]).DeAttachEvents();
+                            ((RangeControl)items[0]).Value = value;
+                            ThemeManager.ApplyThemeTo(((RangeControl)items[0]));
+                            ((RangeControl)items[0]).AttachEvents();
+                            ((RangeControl)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
-                        if (items[0].GetType() == typeof (ValuesControl))
+                        if (items[0].GetType() == typeof(ValuesControl))
                         {
-                            ((ValuesControl) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((ValuesControl) items[0]).Value = value;
-                            ((ValuesControl) items[0]).ValueChanged += Control_ValueChanged;
+                            ((ValuesControl)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((ValuesControl)items[0]).Value = value;
+                            ((ValuesControl)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
-                        if (items[0].GetType() == typeof (MavlinkCheckBoxBitMask))
+                        if (items[0].GetType() == typeof(MavlinkCheckBoxBitMask))
                         {
-                            ((MavlinkCheckBoxBitMask) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((MavlinkCheckBoxBitMask) items[0]).Value = Convert.ToSingle(value);
-                            ((MavlinkCheckBoxBitMask) items[0]).ValueChanged += Control_ValueChanged;
+                            ((MavlinkCheckBoxBitMask)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((MavlinkCheckBoxBitMask)items[0]).Value = Convert.ToSingle(value);
+                            ((MavlinkCheckBoxBitMask)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
                     }
@@ -473,7 +486,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             rangeControl.ValueChanged += Control_ValueChanged;
 
                             // set pos
-                            rangeControl.Location = new Point(0, y);
+                         //   rangeControl.Location = new Point(0, y);
                             // add control - let it autosize height
                             toadd.Add(rangeControl);
                             // add height for next control
@@ -495,13 +508,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             bitmask.setup(x.Key, MainV2.comPort.MAV.param);
 
                             bitmask.myLabel1.Text = displayName;
-                            bitmask.label1.Text = FitDescriptionText(units, description, tableLayoutPanel1.Width-50);
+                            bitmask.label1.Text = FitDescriptionText(units, description, tableLayoutPanel1.Width - 50);
                             bitmask.Width = tableLayoutPanel1.Width - 50;
 
                             ThemeManager.ApplyThemeTo(bitmask);
 
                             // set pos
-                            bitmask.Location = new Point(0, y);
+                            //bitmask.Location = new Point(0, y);
                             // add control - let it autosize height
                             toadd.Add(bitmask);
                             // add height for next control
@@ -549,7 +562,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 valueControl.ValueChanged += Control_ValueChanged;
 
                                 // set pos
-                                valueControl.Location = new Point(0, y);
+                                //valueControl.Location = new Point(0, y);
                                 // add control - let it autosize height
                                 toadd.Add(valueControl);
                                 // add height for next control
@@ -598,7 +611,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var appendtext = string.Format("{0} ", descriptionParts[i]);
                     returnDescription.Append(appendtext);
 
-                    if (i != 0 && i%(width/40) == 0)
+                    if (i != 0 && i % (width / 40) == 0)
                     {
                         returnDescription.Append(Environment.NewLine);
                     }

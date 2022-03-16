@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>MissionPlanner.Strings</AssemblyName>
+    <RootNamespace>MissionPlanner</RootNamespace>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
+    <NeutralLanguage>en</NeutralLanguage>
+  
+ </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+ 
+    <EmbeddedResource Update="Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.az-Latn-AZ.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.de-DE.resx"></EmbeddedResource>
+    <EmbeddedResource Update="Strings.id-ID.resx"></EmbeddedResource>
+    <EmbeddedResource Update="Strings.ja-JP.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.ko-KR.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.pt.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.ru-KZ.resx"></EmbeddedResource>
+    <EmbeddedResource Update="Strings.tr.resx"> </EmbeddedResource>
+    <EmbeddedResource Update="Strings.zh-Hans.resx"></EmbeddedResource>
+ 
+
+  </ItemGroup>
+
+</Project>

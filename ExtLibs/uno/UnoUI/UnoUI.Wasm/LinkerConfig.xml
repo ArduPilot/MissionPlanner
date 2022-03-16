@@ -1,0 +1,8 @@
+﻿<linker>
+  <assembly fullname="UnoUI.Wasm" />
+  <assembly fullname="Uno.UI" />
+
+  <assembly fullname="System.Core">
+	<type fullname="System.Linq.Expressions*" />
+  </assembly>
+</linker>

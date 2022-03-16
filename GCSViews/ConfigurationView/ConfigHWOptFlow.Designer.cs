@@ -70,7 +70,7 @@
             // ConfigHWOptFlow
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.CHK_enableoptflow);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox4);

@@ -1,0 +1,1 @@
+namespace MissionPlanner.Swarm { public partial class FollowPathControl{public FollowPathControl(){this.InitializeComponent();}}}

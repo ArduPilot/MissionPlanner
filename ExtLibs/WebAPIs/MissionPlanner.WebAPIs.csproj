@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461; netstandard2.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dowding\bin\**" />
+    <Compile Remove="Dowding\docs\**" />
+    <Compile Remove="Dowding\packages\**" />
+    <Compile Remove="Dowding\src\Dowding.Test\**" />
+    <Compile Remove="Dronelogbook\bin\**" />
+    <Compile Remove="Dronelogbook\docs\**" />
+    <Compile Remove="Dronelogbook\packages\**" />
+    <Compile Remove="Dronelogbook\src\Dronelogbook.Test\**" />
+    <EmbeddedResource Remove="Dowding\bin\**" />
+    <EmbeddedResource Remove="Dowding\docs\**" />
+    <EmbeddedResource Remove="Dowding\packages\**" />
+    <EmbeddedResource Remove="Dowding\src\Dowding.Test\**" />
+    <EmbeddedResource Remove="Dronelogbook\bin\**" />
+    <EmbeddedResource Remove="Dronelogbook\docs\**" />
+    <EmbeddedResource Remove="Dronelogbook\packages\**" />
+    <EmbeddedResource Remove="Dronelogbook\src\Dronelogbook.Test\**" />
+    <None Remove="Dowding\bin\**" />
+    <None Remove="Dowding\docs\**" />
+    <None Remove="Dowding\packages\**" />
+    <None Remove="Dowding\src\Dowding.Test\**" />
+    <None Remove="Dronelogbook\bin\**" />
+    <None Remove="Dronelogbook\docs\**" />
+    <None Remove="Dronelogbook\packages\**" />
+    <None Remove="Dronelogbook\src\Dronelogbook.Test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Dowding\src\Dowding\Dowding.csproj" />
+    <None Include="Dronelogbook\src\Dronelogbook\Dronelogbook.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AsyncFixer" Version="1.5.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Asyncify" Version="0.9.7" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net461" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="RestSharp" Version="106.12.0" />
+    <PackageReference Include="SuperSocket.ClientEngine.Core" Version="0.10.0"></PackageReference>
+    <PackageReference Include="WebSocket4Net" Version="0.15.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
+    <Reference Include="WebSocket4Net">
+      <HintPath>$(NuGetPackageRoot)\websocket4net\0.15.2\lib\netstandard1.3\WebSocket4Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

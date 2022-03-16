@@ -1,15 +1,15 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
+using System;
 using System.Collections.Generic;
-using System.IO.Ports;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWBT : UserControl, IActivate
+    public partial class ConfigHWBT : MyUserControl, IActivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -60,45 +60,54 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             foreach (var baud in baudmap)
             {
                 log.Info("Try baud " + baud);
-                using (var port = new SerialPort(MainV2.comPortName, baud.Key))
+                try
                 {
-                    try
+                    using (var port = new SerialPort(MainV2.comPortName, baud.Key))
                     {
-                        port.Open();
-                    }
-                    catch (Exception ex)
-                    {
-                        CustomMessageBox.Show(Strings.SelectComport + " " + ex.ToString(), Strings.ERROR);
-                        return;
-                    }
-
-                    port.Write("AT");
-
-                    Thread.Sleep(1100);
-
-                    port.Write("\r\n");
-
-                    Thread.Sleep(200);
-
-                    var isok = port.ReadExisting();
-
-                    if (isok.Contains("OK"))
-                    {
-                        log.Info("Valid Answer");
-
-                        foreach (var cmd in commands)
+                        try
                         {
-                            log.Info("Sending " + cmd);
-                            port.Write(cmd);
-                            Thread.Sleep(1000);
-                            log.Info("Resp " + port.ReadExisting());
+                            port.Open();
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show(Strings.SelectComport + " " + ex.ToString(), Strings.ERROR);
+                            return;
                         }
 
-                        pass = true;
-                        break;
+                        port.Write("AT");
+
+                        Thread.Sleep(1100);
+
+                        port.Write("\r\n");
+
+                        Thread.Sleep(200);
+
+                        var isok = port.ReadExisting();
+
+                        if (isok.Contains("OK"))
+                        {
+                            log.Info("Valid Answer");
+
+                            foreach (var cmd in commands)
+                            {
+                                log.Info("Sending " + cmd);
+                                port.Write(cmd);
+                                Thread.Sleep(1000);
+                                log.Info("Resp " + port.ReadExisting());
+                            }
+
+                            pass = true;
+                            break;
+                        }
+
+                        log.Info("No Answer");
+                        Thread.Sleep(1100);
                     }
-                    log.Info("No Answer");
-                    Thread.Sleep(1100);
+                }
+                catch (Exception)
+                {
+                    CustomMessageBox.Show(Strings.SelectComport + " Invalid port", Strings.ERROR);
+                    return;
                 }
             }
 

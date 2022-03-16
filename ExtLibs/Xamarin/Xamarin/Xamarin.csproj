@@ -1,0 +1,199 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <ApplicationIcon />
+    <Win32Resource />
+    <NeutralLanguage>en</NeutralLanguage>
+    <RootNamespace>MissionPlanner</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Forms\**" />
+    <Compile Remove="GMap.NET.WindowsForms\**" />
+    <EmbeddedResource Remove="Forms\**" />
+    <EmbeddedResource Remove="GMap.NET.WindowsForms\**" />
+    <None Remove="Forms\**" />
+    <None Remove="GMap.NET.WindowsForms\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controls\Cursors.cs" />
+    <Compile Remove="Controls\MouseEventArgs.cs" />
+    <Compile Remove="Controls\PaintEventArgs.cs" />
+    <Compile Remove="GCSViews\FlightData.xaml.cs" />
+    <Compile Remove="Linked\Control.cs" />
+    <Compile Remove="Linked\MainV2.cs" />
+    <Compile Remove="Linked\UserControl.cs" />
+    <Compile Remove="RTSP\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="GCSViews\FlightData.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\Controls\MavlinkCheckBox.cs" Link="GCSViews\MavlinkCheckBox.cs" />
+    <Compile Include="..\..\..\Controls\MavlinkCheckBoxBitMask.cs" Link="GCSViews\MavlinkCheckBoxBitMask.cs" />
+    <Compile Include="..\..\..\Controls\MavlinkComboBox.cs" Link="GCSViews\MavlinkComboBox.cs" />
+    <Compile Include="..\..\..\Controls\MAVLinkParamChanged.cs" Link="GCSViews\MAVLinkParamChanged.cs" />
+    <Compile Include="..\..\..\Controls\MyDataGridView.cs" Link="GCSViews\MyDataGridView.cs" />
+    <Compile Include="..\..\..\Controls\paramcompare.cs" Link="GCSViews\paramcompare.cs" />
+    <Compile Include="..\..\..\Controls\paramcompare.Designer.cs" Link="GCSViews\paramcompare.Designer.cs" />
+    <Compile Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.cs" Link="GCSViews\ConfigurationView\ConfigRawParams.cs" />
+    <Compile Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.Designer.cs" Link="GCSViews\ConfigurationView\ConfigRawParams.Designer.cs" />
+    <Compile Include="..\..\..\test\FirmwareSelection.xaml.cs" Link="Linked\FirmwareSelection.xaml.cs" />
+    <None Include="..\..\..\Utilities\ExtensionsMP.cs" Link="GCSViews\ExtensionsMP.cs" />
+    <Compile Include="..\..\Controls\IDynamicParameterControl.cs" Link="GCSViews\IDynamicParameterControl.cs" />
+    <Compile Include="..\..\Controls\MyButton.cs" Link="GCSViews\MyButton.cs" />
+    <Compile Include="..\..\Controls\MyUserControl.cs" Link="GCSViews\MyUserControl.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.452" />
+    <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NLog" Version="4.7.4" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.2" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Parallel" Version="4.3.0" />
+    <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
+    <PackageReference Include="Xam.Plugin.TabView" Version="1.1.1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Xamarin.Forms.DataGrid" Version="3.1.0" />
+    <PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.1.41" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\Controls\MavlinkCheckBoxBitMask.resx" Link="GCSViews\MavlinkCheckBoxBitMask.resx" />
+    <EmbeddedResource Include="..\..\..\Controls\paramcompare.resx" Link="GCSViews\paramcompare.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.ar.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.ar.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.az-Latn-AZ.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.az-Latn-AZ.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.de-DE.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.de-DE.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.fr.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.fr.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.id-ID.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.id-ID.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.it-IT.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.it-IT.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.ja-JP.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.ja-JP.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.ko-KR.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.ko-KR.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.pt.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.pt.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.ru-KZ.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.ru-KZ.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.tr.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.tr.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.zh-Hans.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.zh-Hans.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.zh-Hant.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.zh-Hant.resx" />
+    <EmbeddedResource Include="..\..\..\GCSViews\ConfigurationView\ConfigRawParams.zh-TW.resx" Link="GCSViews\ConfigurationView\ConfigRawParams.zh-TW.resx" />
+    <EmbeddedResource Include="..\..\..\test\FirmwareSelection.xaml" Link="Linked\FirmwareSelection.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controls\Cursors.cs" />
+    <None Include="Controls\MouseEventArgs.cs" />
+    <None Include="Controls\PaintEventArgs.cs" />
+    <None Include="Linked\Control.cs" />
+    <None Include="Linked\MainV2.cs" />
+    <None Include="Linked\UserControl.cs" />
+    <None Include="RTSP\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\MissionPlannerLib.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\..\7zip\7zip.csproj" />
+    <ProjectReference Include="..\..\alglibnet\alglibnet.csproj" />
+    <ProjectReference Include="..\..\ArduPilot\MissionPlanner.ArduPilot.csproj" />
+    <ProjectReference Include="..\..\BouncyCastle\BouncyCastle.csproj" />
+    <ProjectReference Include="..\..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\..\GeoUtility\GeoUtility.csproj" />
+    <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj" />
+    <ProjectReference Include="..\..\ICSharpCode.SharpZipLib\ICSharpCode.SharpZipLib.csproj" />
+    <ProjectReference Include="..\..\Interfaces\Interfaces.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Mavlink\MAVLink.csproj" />
+    <ProjectReference Include="..\..\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
+    <ProjectReference Include="..\..\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
+    <ProjectReference Include="..\..\px4uploader\px4uploader.csproj" />
+    <ProjectReference Include="..\..\Strings\MissionPlanner.Strings.csproj" />
+    <ProjectReference Include="..\..\Utilities\MissionPlanner.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\AGauge.cs" />
+    <Compile Update="files.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>files.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\HUD.cs" />
+    <Compile Update="Controls\HUDT.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>HUDT.resx</DependentUpon>
+    </Compile>
+    <Compile Update="MainPage_old.xaml.cs">
+      <DependentUpon>MainPage_old.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MainPage.xaml.cs">
+      <DependentUpon>MainPage</DependentUpon>
+    </Compile>
+    <Compile Update="MasterDetailPage1MenuItem.cs" />
+    <Compile Update="Properties\ResourcesX.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ResourcesX.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Controls\AGauge.resx">
+      <DependentUpon>AGauge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\HUDT.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="files.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>files.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+   
+    <EmbeddedResource Update="GCSViews\WinForms.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MasterDetailPage1Detail.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MasterDetailPage1Master.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\ResourcesX.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesX.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GCSViews\ConfigurationView\" />
+  </ItemGroup>
+</Project>

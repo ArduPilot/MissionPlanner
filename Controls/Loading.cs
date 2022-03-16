@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using IronPython.Runtime;
+﻿using log4net;
 using MissionPlanner.Utilities;
+using System;
+using System.ComponentModel;
+using System.Reflection;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
     public partial class Loading : Form
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         static Loading Instance;
 
         static object locker = new object();
@@ -23,98 +21,99 @@ namespace MissionPlanner.Controls
             InitializeComponent();
         }
 
-        public new string Text 
+        ~Loading()
         {
-            get { return label1.Text; }
-            set
+            Instance = null;
+        }
+
+        public new string Text { get; set; }
+
+        public new static void Close()
+        {
+            log.Info("Loading.Close()");
+            lock (locker)
             {
-                if (this.IsHandleCreated && !IsDisposed)
+                if (Instance != null)
                 {
-                    if (this.InvokeRequired)
+                    if (!Instance.IsDisposed)
                     {
-                        this.Invoke((MethodInvoker) delegate
+                        if (Instance.IsHandleCreated)
                         {
-                            label1.Text = value;
-                            this.Refresh();
-                        });
-                    }
-                    else
-                    {
-                        label1.Text = value;
-                        this.Refresh();
+                            MainV2.instance.BeginInvoke((MethodInvoker)delegate
+                           {
+                               if (Instance == null)
+                                   return;
+                               uiSemaphoreSlim.Wait();
+                               try
+                               {
+                                   ((Form)Instance).Close();
+                               }
+                               finally
+                               {
+                                   uiSemaphoreSlim.Release();
+                               }
+                               Instance = null;
+                           });
+                        }
                     }
                 }
             }
         }
 
-        public new static void Close()
-        {
-            if (Instance != null)
-            {
-                if (!Instance.IsDisposed)
-                {
-                    if (Instance.IsHandleCreated)
-                    {
-                        Instance.Invoke((MethodInvoker)delegate
-                        {
-                            ((Form) Instance).Close();
-                        });
-                        Instance = null;
-                    }
-                }
-            }
-        }
+        static SemaphoreSlim uiSemaphoreSlim = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Create a new dialog or use an existing one if its still valid
         /// </summary>
         /// <param name="Text"></param>
         /// <returns></returns>
-        public static Loading ShowLoading(string Text, IWin32Window owner = null)
+        public static void ShowLoading(string Text, IWin32Window owner = null)
         {
-            // ensure we only have one instance at a time
-            lock (locker)
-            {
-                if (Instance != null && !Instance.IsDisposed)
-                {
-                    Instance.Text = Text;
-                    return Instance;
-                }
+            log.Info(Text);
+            // create form on ui thread
+            MainV2.instance.BeginInvokeIfRequired((Action)delegate
+           {
+               uiSemaphoreSlim.Wait();
+               try
+               {
+                   if (Instance != null && !Instance.IsDisposed)
+                   {
+                       Instance.Text = Text;
+                       return;
+                   }
 
-                Loading frm = new Loading();
-                frm.TopMost = true;
-                frm.StartPosition = FormStartPosition.CenterParent;
-                frm.Closing += Frm_Closing;
+                   log.Info("Create Instance");
 
-                // set instance
-                Instance = frm;
-                // set text
-                Instance.label1.Text = Text;
+                   Loading frm = new Loading();
+                   if (owner == null)
+                       frm.TopMost = true;
+                   frm.StartPosition = FormStartPosition.CenterParent;
+                   frm.Closing += Frm_Closing;
 
-                ThemeManager.ApplyThemeTo(frm);
+                    // set instance
+                    Instance = frm;
+                    // set text
+                    Instance.label1.Text = Text;
 
-                // display on ui thread
-                if (MainV2.instance.InvokeRequired)
-                {
-                    MainV2.instance.Invoke((MethodInvoker) delegate
-                    {
-                        frm.Show(owner);
-                        Application.DoEvents();
-                    });
-                }
-                else
-                {
-                    frm.Show(owner);
-                    Application.DoEvents();
-                }
-
-                return frm;
-            }
+                   ThemeManager.ApplyThemeTo(frm);
+                   frm.Show(owner);
+                   frm.Focus();
+               }
+               finally
+               {
+                   uiSemaphoreSlim.Release();
+               }
+           });
         }
 
         private static void Frm_Closing(object sender, CancelEventArgs e)
         {
             Instance = null;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label1.Text = Text;
         }
     }
 }

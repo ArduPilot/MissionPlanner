@@ -1,0 +1,1284 @@
+{
+    "basePath": "",
+    "consumes": [
+        "application/json"
+    ],
+    "definitions": {
+        "ApiResponse": {
+            "properties": {
+                "data": {
+                    "items": {},
+                    "type": "array"
+                },
+                "has_more": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "identification": {
+                    "properties": {
+                        "company_admin": {
+                            "format": "int32",
+                            "type": "integer"
+                        },
+                        "login": {
+                            "type": "string"
+                        },
+                        "susbcripiion": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "num_page": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "object": {
+                    "type": "string"
+                },
+                "response": {
+                    "properties": {
+                        "code": {
+                            "format": "int32",
+                            "type": "integer"
+                        },
+                        "date": {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "total_object": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "total_return_data": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "ApiResponse"
+            }
+        },
+        "company": {
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "email_contact": {
+                    "type": "string"
+                },
+                "government_license": {
+                    "type": "string"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "has_insurance": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "incorporation": {
+                    "type": "string"
+                },
+                "industry": {
+                    "type": "string"
+                },
+                "insurance_coverage_amount": {
+                    "type": "string"
+                },
+                "legal_identifier": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_contact": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "website_url": {
+                    "type": "string"
+                },
+                "zip_code": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "${name}"
+            }
+        },
+        "customer": {
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "email_contact": {
+                    "type": "string"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "name_contact": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "phone_contact": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "website_url": {
+                    "type": "string"
+                },
+                "zip_code": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "${name}"
+            }
+        },
+        "drone": {
+            "properties": {
+                "brand": {
+                    "type": "string"
+                },
+                "color": {
+                    "type": "string"
+                },
+                "controller_serial_number": {
+                    "type": "string"
+                },
+                "controller_serial_number2": {
+                    "type": "string"
+                },
+                "drone_type": {
+                    "type": "string"
+                },
+                "firmware_version": {
+                    "type": "string"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "hardware_version": {
+                    "type": "string"
+                },
+                "identification_number": {
+                    "type": "string"
+                },
+                "insurable_value": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "inventory_number": {
+                    "type": "string"
+                },
+                "max_horizontal_speed": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "max_vertical_speed": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "payload_capacity": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "propulsion_Type": {
+                    "enum": [
+                        "",
+                        "ELECTRIC",
+                        "FUEL"
+                    ],
+                    "type": "string"
+                },
+                "purchase_date": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "serial_number": {
+                    "type": "string"
+                },
+                "status": {
+                    "enum": [
+                        "Airworthy",
+                        "Retired",
+                        "In Maintenance"
+                    ],
+                    "type": "string"
+                },
+                "tech_number": {
+                    "type": "string"
+                },
+                "weight": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "${name}"
+            }
+        },
+        "equipment": {
+            "properties": {
+                "active": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "capacity": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "drone_guid": {
+                    "type": "string"
+                },
+                "equipment_type": {
+                    "type": "string"
+                },
+                "firmware_version": {
+                    "type": "string"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "hardware_version": {
+                    "type": "string"
+                },
+                "insurable_value": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "inventory_number": {
+                    "type": "string"
+                },
+                "is_battery": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "life": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "life_span": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "max_battery_duration": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nb_cell": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "nb_cycle": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "nb_cycle_smart_battery": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "purchase_date": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "serial_number": {
+                    "type": "string"
+                },
+                "serial_number_internal": {
+                    "type": "string"
+                },
+                "weight": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "${name}"
+            }
+        },
+        "flight": {
+            "properties": {
+                "approval_status": {
+                    "type": "string"
+                },
+                "archived": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "asset_inspected": {
+                    "type": "string"
+                },
+                "asset_inspected_count": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "cancel_cause": {
+                    "type": "string"
+                },
+                "cancel_notes": {
+                    "type": "string"
+                },
+                "communication_with_authorities": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "complete_status": {
+                    "type": "string"
+                },
+                "country_code": {
+                    "type": "string"
+                },
+                "creation_date": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "customer_guid": {
+                    "type": "string"
+                },
+                "data_plan_area": {
+                    "type": "string"
+                },
+                "distance": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "drone_guid": {
+                    "type": "string"
+                },
+                "duration_seconds": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "emergency_contact_numbers": {
+                    "type": "string"
+                },
+                "equipments": {
+                    "type": "string"
+                },
+                "flight_date": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "flight_date_utc": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "flight_number": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "flight_scenario": {
+                    "type": "string"
+                },
+                "flight_time": {
+                    "type": "string"
+                },
+                "flight_type": {
+                    "type": "string"
+                },
+                "fuel_used": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "legal_rule": {
+                    "type": "string"
+                },
+                "legal_rule_detail": {
+                    "type": "string"
+                },
+                "local_area_frequencies": {
+                    "type": "string"
+                },
+                "main_flight_type": {
+                    "type": "string"
+                },
+                "max_altitude": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "max_altitude_agl": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "mission_guid": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nb_flight": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "night_flight": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "operation_type": {
+                    "type": "string"
+                },
+                "ops_approval_type": {
+                    "type": "string"
+                },
+                "payload_description": {
+                    "type": "string"
+                },
+                "payload_weight": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "personnel": {
+                    "type": "string"
+                },
+                "place_guid": {
+                    "type": "string"
+                },
+                "place_name": {
+                    "type": "string"
+                },
+                "project_guid": {
+                    "type": "string"
+                },
+                "project_reference": {
+                    "type": "string"
+                },
+                "sun_time": {
+                    "enum": [
+                        "NIGHT",
+                        "ASTRONOMICAL",
+                        "NAUTICAL",
+                        "CIVIL",
+                        "DAY"
+                    ],
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "type_altitude": {
+                    "type": "string"
+                },
+                "upcoming_flight": {
+                    "type": "string"
+                },
+                "utm_auth_info": {
+                    "type": "string"
+                },
+                "weather_detail": {
+                    "type": "string"
+                },
+                "weather_note": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "${name}"
+            }
+        },
+        "place": {
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "altitude": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "archived": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "longitude": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "zip_code": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "${name}"
+            }
+        },
+        "project": {
+            "properties": {
+                "archived": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "customer_guid": {
+                    "type": "string"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "income_amount": {
+                    "format": "double",
+                    "type": "number"
+                },
+                "income_currency": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "${name}"
+            }
+        },
+        "user": {
+            "properties": {
+                "company_admin": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "date_creation": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "last_login_date": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "legal_profile": {
+                    "enum": [
+                        "",
+                        "FAA",
+                        "CAA",
+                        "CASA",
+                        "Transport Canada",
+                        "Hong-Kong CAD",
+                        "Europe EASA",
+                        "France DGAC",
+                        "Denmark TBST",
+                        "Other"
+                    ],
+                    "type": "string"
+                },
+                "license_number": {
+                    "type": "string"
+                },
+                "license_type": {
+                    "enum": [
+                        "",
+                        "Basic Operations",
+                        "Advanced Operations",
+                        "Flight Reviewer Rating",
+                        "CASA RePL",
+                        "CASA ReOC"
+                    ],
+                    "type": "string"
+                },
+                "login": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "roles": {
+                    "items": {
+                        "enum": [
+                            "Manager",
+                            "Pilot",
+                            "Observer",
+                            "Payload operator",
+                            "Ground Support Crew",
+                            "Instructor"
+                        ],
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "timezone": {
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "user"
+            }
+        }
+    },
+    "host": "api.dronelogbook.com",
+    "info": {
+        "contact": {
+            "email": "support@dronelogbook.com"
+        },
+        "description": "This is the swagger file that describes Dronelogbook API",
+        "termsOfService": "https://www.dronelogbook.com/hp/1/terms.php",
+        "title": "Dronelogbook API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/company": {
+            "get": {
+                "description": "Returns the list of companies according to your access rights",
+                "operationId": "endpoint.company.ReadAll",
+                "parameters": [
+                    {
+                        "description": "Page Number",
+                        "in": "query",
+                        "name": "num_page",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/company"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Returns the list of companies",
+                "tags": [
+                    "company"
+                ]
+            }
+        },
+        "/company/{token}": {
+            "get": {
+                "description": "Returns single company according to your access rights",
+                "operationId": "endpoint.company.ReadOne",
+                "parameters": [
+                    {
+                        "description": "token of company to return",
+                        "in": "path",
+                        "name": "token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/company"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Finds company by token",
+                "tags": [
+                    "company"
+                ]
+            }
+        },
+        "/customer": {
+            "get": {
+                "description": "Returns the list of customers according to your access rights",
+                "operationId": "endpoint.customer.ReadAll",
+                "parameters": [
+                    {
+                        "description": "Page Number",
+                        "in": "query",
+                        "name": "num_page",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/customer"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Returns the list of customers",
+                "tags": [
+                    "customer"
+                ]
+            }
+        },
+        "/customer/{guid}": {
+            "get": {
+                "description": "Returns single customer according to your access rights",
+                "operationId": "endpoint.customer.ReadOne",
+                "parameters": [
+                    {
+                        "description": "guid of customer to return",
+                        "in": "path",
+                        "name": "guid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/customer"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Finds customer by guid",
+                "tags": [
+                    "customer"
+                ]
+            }
+        },
+        "/drone": {
+            "get": {
+                "description": "Returns the list of drones according to your access rights",
+                "operationId": "endpoint.drone.ReadAll",
+                "parameters": [
+                    {
+                        "description": "Page Number",
+                        "in": "query",
+                        "name": "num_page",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/drone"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Returns the list of drones",
+                "tags": [
+                    "drone"
+                ]
+            }
+        },
+        "/drone/{guid}": {
+            "get": {
+                "description": "Returns single drone according to your access rights",
+                "operationId": "endpoint.drone.ReadOne",
+                "parameters": [
+                    {
+                        "description": "guid of drone to return",
+                        "in": "path",
+                        "name": "guid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/drone"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Finds drone by guid",
+                "tags": [
+                    "drone"
+                ]
+            }
+        },
+        "/equipment": {
+            "get": {
+                "description": "Returns the list of equipments according to your access rights",
+                "operationId": "endpoint.equipment.ReadAll",
+                "parameters": [
+                    {
+                        "description": "Page Number",
+                        "in": "query",
+                        "name": "num_page",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/equipment"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Returns the list of equipments",
+                "tags": [
+                    "equipment"
+                ]
+            }
+        },
+        "/equipment/{guid}": {
+            "get": {
+                "description": "Returns single equipment according to your access rights",
+                "operationId": "endpoint.equipment.ReadOne",
+                "parameters": [
+                    {
+                        "description": "guid of equipment to return",
+                        "in": "path",
+                        "name": "guid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/equipment"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Finds equipment by guid",
+                "tags": [
+                    "equipment"
+                ]
+            }
+        },
+        "/flight": {
+            "get": {
+                "description": "Returns the list of flights according to your access rights",
+                "operationId": "endpoint.flight.ReadAll",
+                "parameters": [
+                    {
+                        "description": "Page Number",
+                        "in": "query",
+                        "name": "num_page",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/flight"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Returns the list of flights",
+                "tags": [
+                    "flight"
+                ]
+            }
+        },
+        "/flight/{guid}": {
+            "get": {
+                "description": "Returns single flight according to your access rights",
+                "operationId": "endpoint.flight.ReadOne",
+                "parameters": [
+                    {
+                        "description": "guid of flight to return",
+                        "in": "path",
+                        "name": "guid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/flight"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Finds flight by guid",
+                "tags": [
+                    "flight"
+                ]
+            }
+        },
+        "/place": {
+            "get": {
+                "description": "Returns the list of places according to your access rights",
+                "operationId": "endpoint.place.ReadAll",
+                "parameters": [
+                    {
+                        "description": "Page Number",
+                        "in": "query",
+                        "name": "num_page",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/place"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Returns the list of places",
+                "tags": [
+                    "place"
+                ]
+            }
+        },
+        "/place/{guid}": {
+            "get": {
+                "description": "Returns single place according to your access rights",
+                "operationId": "endpoint.place.ReadOne",
+                "parameters": [
+                    {
+                        "description": "guid of place to return",
+                        "in": "path",
+                        "name": "guid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/place"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Finds place by guid",
+                "tags": [
+                    "place"
+                ]
+            }
+        },
+        "/project": {
+            "get": {
+                "description": "Returns the list of projects according to your access rights",
+                "operationId": "endpoint.project.ReadAll",
+                "parameters": [
+                    {
+                        "description": "Page Number",
+                        "in": "query",
+                        "name": "num_page",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/project"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Returns the list of projects",
+                "tags": [
+                    "project"
+                ]
+            }
+        },
+        "/project/{guid}": {
+            "get": {
+                "description": "Returns single project according to your access rights",
+                "operationId": "endpoint.project.ReadOne",
+                "parameters": [
+                    {
+                        "description": "guid of project to return",
+                        "in": "path",
+                        "name": "guid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/project"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Finds project by guid",
+                "tags": [
+                    "project"
+                ]
+            }
+        },
+        "/user": {
+            "get": {
+                "description": "Returns the list of users according to your access rights",
+                "operationId": "endpoint.user.ReadAll",
+                "parameters": [
+                    {
+                        "description": "Page Number",
+                        "in": "query",
+                        "name": "num_page",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Returns the list of users",
+                "tags": [
+                    "user"
+                ]
+            }
+        },
+        "/user/{login}": {
+            "get": {
+                "description": "Returns single user according to your access rights",
+                "operationId": "endpoint.user.ReadOne",
+                "parameters": [
+                    {
+                        "description": "login of user to return",
+                        "in": "path",
+                        "name": "login",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Operation",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/UnauthorizedError"
+                    }
+                },
+                "summary": "Finds user by login",
+                "tags": [
+                    "user"
+                ]
+            }
+        }
+    },
+    "produces": [
+        "application/json"
+    ],
+    "responses": {
+        "UnauthorizedError": {
+            "description": "API key is missing or invalid",
+            "headers": {
+                "ApiKey": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "security": [
+        {
+            "APIKeyHeader": []
+        }
+    ],
+    "securityDefinitions": {
+        "APIKeyHeader": {
+            "in": "header",
+            "name": "ApiKey",
+            "type": "apiKey",
+            "x-apikeyInfoFunc": "app.apikey_auth"
+        }
+    },
+    "swagger": "2.0",
+    "tags": [
+        {
+            "description": "Everything about your equipments",
+            "name": "equipment"
+        },
+        {
+            "description": "Everything about your flights",
+            "name": "flight"
+        },
+        {
+            "description": "Everything about your customers",
+            "name": "customer"
+        },
+        {
+            "description": "Everything about your projects",
+            "name": "project"
+        },
+        {
+            "description": "Everything about your users",
+            "name": "user"
+        },
+        {
+            "description": "Everything about your drones",
+            "name": "drone"
+        },
+        {
+            "description": "Everything about your company",
+            "name": "company"
+        },
+        {
+            "description": "Everything about your places",
+            "name": "place"
+        }
+    ]
+}

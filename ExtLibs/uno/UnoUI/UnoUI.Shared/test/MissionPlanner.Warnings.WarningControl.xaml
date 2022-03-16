@@ -1,0 +1,23 @@
+<UserControl x:Class="MissionPlanner.Warnings.WarningControl" d:DesignHeight="27" d:DesignWidth="619"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="but_remove" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="580,3,0,0" Width="25" Height="20">-</Button>
+<Button Name="but_addchild" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="549,3,0,0" Width="25" Height="20">+</Button>
+<TextBox Name="TXT_warningtext" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="WARNING: {name} is {value}" FontSize="8.25" Margin="261,2,0,0" Width="236" Height="20"></TextBox>
+<Custom:DecimalUpDown Name="NUM_repeattime" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="503,3,0,0" Width="39"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="NUM_warning" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,3,0,0" Width="65"></Custom:DecimalUpDown>
+<ComboBox Name="CMB_condition" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="130,2,0,0" Width="54" Height="21"></ComboBox>
+<ComboBox Name="CMB_Source" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,2,0,0" Width="121" Height="21"></ComboBox>
+</Grid></UserControl>

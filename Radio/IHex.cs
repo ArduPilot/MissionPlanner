@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MissionPlanner;
 
-namespace uploader
+namespace MissionPlanner.Radio
 {
     public class IHex : SortedList<uint, byte[]>
     {
+        public delegate void LogEventHandler(string message, int level = 0);
+
+        public delegate void ProgressEventHandler(double completed);
+
         public bool bankingDetected;
 
         private readonly SortedList<uint, uint> merge_index;
@@ -18,9 +21,9 @@ namespace uploader
             merge_index = new SortedList<uint, uint>();
         }
 
-        public event Sikradio.LogEventHandler LogEvent;
+        public event LogEventHandler LogEvent;
 
-        public event Sikradio.ProgressEventHandler ProgressEvent;
+        public event ProgressEventHandler ProgressEvent;
 
         public void load(string fromPath)
         {
@@ -42,7 +45,7 @@ namespace uploader
                     throw new Exception("invalid IntelHex file");
 
                 if (ProgressEvent != null)
-                    ProgressEvent(sr.BaseStream.Position/(double) sr.BaseStream.Length);
+                    ProgressEvent(sr.BaseStream.Position / (double)sr.BaseStream.Length);
 
                 // parse the record type and data length, assume ihex8
                 // ignore the checksum
@@ -54,12 +57,12 @@ namespace uploader
                 if (rtype == 0)
                 {
                     var b = new byte[length];
-                    var hexbytes = line.Substring(9, length*2);
+                    var hexbytes = line.Substring(9, length * 2);
 
                     // convert hex bytes
                     for (var i = 0; i < length; i++)
                     {
-                        b[i] = Convert.ToByte(hexbytes.Substring(i*2, 2), 16);
+                        b[i] = Convert.ToByte(hexbytes.Substring(i * 2, 2), 16);
                     }
 
                     // add for banking address
@@ -92,14 +95,14 @@ namespace uploader
 
         private void idx_record(uint start, byte[] data)
         {
-            var len = (uint) data.GetLength(0);
+            var len = (uint)data.GetLength(0);
 
             merge_index.Add(start + len, start);
         }
 
         private void idx_remove(uint start, byte[] data)
         {
-            var len = (uint) data.GetLength(0);
+            var len = (uint)data.GetLength(0);
 
             merge_index.Remove(start + len);
         }
@@ -116,7 +119,7 @@ namespace uploader
 
             // value of the key that would come after this one
             other = key;
-            other += (uint) data.GetLength(0);
+            other += (uint)data.GetLength(0);
 
             // can we merge with the next block
             if (TryGetValue(other, out mergedata))

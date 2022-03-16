@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+
+    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0">
+      <Aliases></Aliases>
+    </PackageReference>
+
+    <PackageReference Include="System.IO.Ports" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\DroneCAN\DroneCAN.csproj" />
+    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -112,33 +112,27 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_calib_accell.Text" xml:space="preserve">
-    <value>Calibrate Accel</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>'Plus'</value>
-  </data>
   <data name="label3.Text" xml:space="preserve">
     <value>'X'</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Rahmen Einstellungen</value>
+  <data name="label7.Text" xml:space="preserve">
+    <value>HINWEIS: Dies ist Y6B Typ. Propellerdrehrichtung hat gegenüber  altem Y6A geändert</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Level den Multicopter um den Beschleunigungsmesser zu Kalibrieren</value>
+    <value>HINWEIS: X und H Typen sind nicht kompatibel. Prop Drehrichtungen sind unterschiedlich</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Beschleunigungsmesser Kalibrieren</value>
+    <value>'Y6B' </value>
   </data>
-  <data name="lbl_Accel_user.Text" xml:space="preserve">
-    <value>ArduCopter 2.9+</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Rahmentyp</value>
   </data>
-  <data name="BUT_levelac2.Text" xml:space="preserve">
-    <value>Jetzt Kalibrieren</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Default Eisntellungen</value>
   </data>
 </root>

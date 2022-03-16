@@ -360,7 +360,7 @@ namespace GMap.NET
          Size = new System.Drawing.Size(size, size);
       }
 
-      public override void OnRender(Graphics g)
+      public override void OnRender(IGraphics g)
       {
          g.FillRectangle(Fill, new System.Drawing.Rectangle(LocalPosition.X, LocalPosition.Y, Size.Width, Size.Height));
       }

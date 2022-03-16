@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using ProjNet.CoordinateSystems.Transformations;
-using ProjNet.CoordinateSystems;
-using ProjNet.Converters;
 
 namespace MissionPlanner.Swarm
 {
@@ -32,6 +24,9 @@ namespace MissionPlanner.Swarm
                     mavStates.Add(port.BaseStream.PortName + " " + mav.sysid + " " + mav.compid, mav);
                 }
             }
+
+            if (mavStates.Count == 0)
+                return;
 
             bindingSource1.DataSource = mavStates;
 
@@ -66,7 +61,7 @@ namespace MissionPlanner.Swarm
 
             if (SwarmInterface != null)
             {
-                new System.Threading.Thread(mainloop) {IsBackground = true}.Start();
+                new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
                 BUT_Start.Text = Strings.Stop;
             }
         }
@@ -75,7 +70,7 @@ namespace MissionPlanner.Swarm
         {
             threadrun = true;
 
-            while (threadrun)
+            while (threadrun && !this.IsDisposed)
             {
                 // update leader pos
                 SwarmInterface.Update();
@@ -131,7 +126,7 @@ namespace MissionPlanner.Swarm
 
         private void BUT_connect_Click(object sender, EventArgs e)
         {
-            Comms.CommsSerialScan.Scan(false);
+            Comms.CommsSerialScan.Scan(true);
 
             DateTime deadline = DateTime.Now.AddSeconds(50);
 
@@ -146,15 +141,6 @@ namespace MissionPlanner.Swarm
                 }
             }
 
-            MAVLinkInterface com2 = new MAVLinkInterface();
-
-            com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
-            com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;
-
-            com2.Open(true);
-
-            MainV2.Comports.Add(com2);
-
             bindingSource1.ResetBindings(false);
         }
 
@@ -168,7 +154,7 @@ namespace MissionPlanner.Swarm
             // clean up old
             foreach (Control ctl in PNL_status.Controls)
             {
-                if (!MainV2.Comports.Contains((MAVLinkInterface) ctl.Tag))
+                if (!MainV2.Comports.Contains((MAVLinkInterface)ctl.Tag))
                 {
                     ctl.Dispose();
                 }
@@ -183,11 +169,11 @@ namespace MissionPlanner.Swarm
                     if (ctl is Status && ctl.Tag == port)
                     {
                         exists = true;
-                        ((Status) ctl).GPS.Text = port.MAV.cs.gpsstatus >= 3 ? "OK" : "Bad";
-                        ((Status) ctl).Armed.Text = port.MAV.cs.armed.ToString();
-                        ((Status) ctl).Mode.Text = port.MAV.cs.mode;
-                        ((Status) ctl).MAV.Text = port.ToString();
-                        ((Status) ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," +
+                        ((Status)ctl).GPS.Text = port.MAV.cs.gpsstatus >= 3 ? "OK" : "Bad";
+                        ((Status)ctl).Armed.Text = port.MAV.cs.armed.ToString();
+                        ((Status)ctl).Mode.Text = port.MAV.cs.mode;
+                        ((Status)ctl).MAV.Text = port.ToString();
+                        ((Status)ctl).Guided.Text = port.MAV.GuidedMode.x / 1e7 + "," + port.MAV.GuidedMode.y / 1e7 + "," +
                                                      port.MAV.GuidedMode.z;
                     }
                 }

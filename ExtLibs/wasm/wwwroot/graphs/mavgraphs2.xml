@@ -1,0 +1,385 @@
+<graphs>
+
+ <graph name='TECS/Speed Demand vs Speed'>
+  <description>shows demanded speed vs speed</description>
+  <expression>TECS.sp TECS.sp_dem</expression>
+ </graph>
+
+ <graph name='Sensors/Lidar/Rangefinder vs Baro'>
+  <description></description>
+  <expression>RANGEFINDER.distance GLOBAL_POSITION_INT.relative_alt*0.001</expression>
+ </graph>
+
+ <graph name='Board/Power'>
+  <description>Board VCC and servo voltage</description>
+  <expression>POWER_STATUS.Vcc*0.001 POWER_STATUS.Vservo*0.001</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/Vibration'>
+  <description>This shows the raw vibration values before filtering in the accelerometers. If you see values above 50 m/s/s then you should redo your vibration isolation system</description>
+  <expression>VIBE.VibeX VIBE.VibeY VIBE.VibeZ</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/Clipping'>
+  <description>This shows the clipping count for the accelerometers. A clipping event is when any axis of an accelerometer goes above 16g. You should only see clipping events if the vehicle hits a surface very hard, such as a crash or hard landing. If you see any clipping events (the clipping value rising) in flight then you should redo your vibration isolation system</description>
+  <expression>VIBE.Clip0 VIBE.Clip1 VIBE.Clip2</expression>
+ </graph>
+
+ <graph name='Sensors/Lidar/Corrected'>
+  <description></description>
+  <expression>BARO.Alt/(cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))) RFND.Dist1</expression>
+ </graph>
+
+ <graph name='Sensors/Lidar/Corrected Baro'>
+  <description></description>
+  <expression>BARO.Alt/(cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))) RFND.Dist1</expression>
+ </graph>
+
+ <graph name='Sensors/Lidar/Corrected Distance'>
+  <description></description>
+  <expression>BARO.Alt RFND.Dist1*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))</expression>
+ </graph>
+
+ <graph name='System/Performance'>
+  <description></description>
+  <expression>PM.NLon PM.MaxT:2</expression>
+ </graph>
+
+ <graph name='Radio/RSSI_Distance'>
+  <description></description>
+  <expression>RADIO_STATUS.rssi RADIO_STATUS.noise RADIO_STATUS.remrssi RADIO_STATUS.remnoise distance_home(GPS_RAW_INT):2</expression>
+ </graph>
+
+ <graph name='Servos/Servos 5-8'>
+  <description></description>
+  <expression>RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8</expression>
+  <expression>RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8</expression>
+ </graph>
+
+ <graph name='Servos/Servos 1-4'>
+  <description></description>
+  <expression>RCOU.Ch1 RCOU.Ch2 RCOU.Ch3 RCOU.Ch4</expression>
+  <expression>RCOU.C1 RCOU.C2 RCOU.C3 RCOU.C4</expression>
+ </graph>
+
+ <graph name='Power/Current and Voltage'>
+  <description></description>
+  <expression>SYS_STATUS.voltage_battery*0.001 SYS_STATUS.current_battery*0.01</expression>
+ </graph>
+
+ <graph name='Servos/Servos 5-12'>
+  <description></description>
+  <expression>RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8 RCOU.Ch9 RCOU.Ch10 RCOU.Ch11 RCOU.Ch12</expression>
+  <expression>RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8 RCOU.C9 RCOU.C10 RCOU.C11 RCOU.C12</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad'>
+  <description></description>
+  <expression>RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8 RCOU.Ch9 RCOU.Ch10 RCOU.Ch11 RCOU.Ch12</expression>
+  <expression>RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8 RCOU.C9 RCOU.C10 RCOU.C11 RCOU.C12</expression>
+ </graph>
+
+ <graph name='Quadplane/Climb Rate'>
+  <description></description>
+  <expression>QTUN.CRt QTUN.DCRt BARO.Alt:2</expression>
+ </graph>
+
+ <graph name='Quadplane/Velocity XY'>
+  <description></description>
+  <expression>QTUN.DVx QTUN.DVy NKF1.VN NKF1.VE</expression>
+ </graph>
+
+ <graph name='Quadplane/Leonard'>
+  <description></description>
+  <expression>QTUN.DVx QTUN.DVy NKF1.VN NKF1.VE ATT.DesPitch:2 ATT.Pitch:2</expression>
+ </graph>
+
+ <graph name='Quadplane/Landing'>
+  <description></description>
+  <expression>QTUN.DVx QTUN.DVy NKF1.VN NKF1.VE ATT.DesPitch ATT.Pitch NTUN.WpDist:2 BARO.Alt:2</expression>
+ </graph>
+
+ <graph name='Replay/Roll'>
+  <description></description>
+  <expression>SIM.Roll ATT.Roll NKF1.Roll NKF6.Roll EKF1.Roll</expression>
+ </graph>
+
+ <graph name='Replay/Pitch'>
+  <description></description>
+  <expression>SIM.Pitch ATT.Pitch NKF1.Pitch NKF6.Pitch EKF1.Pitch</expression>
+ </graph>
+
+ <graph name='Replay/Yaw'>
+  <description></description>
+  <expression>SIM.Yaw ATT.Yaw NKF1.Yaw NKF6.Yaw EKF1.Yaw</expression>
+ </graph>
+
+ <graph name='PM/Perf'>
+  <description></description>
+  <expression>PM.MaxT PM.NLon:2</expression>
+ </graph>
+
+ <graph name='PM/LogDrop'>
+  <description></description>
+  <expression>PM.MaxT PM.NLon:2 PM.LogDrop:2</expression>
+ </graph>
+
+ <graph name='Tridge/FireFly Tilt'>
+  <description></description>
+  <expression>CTUN.NavRoll CTUN.Roll CTUN.NavPitch CTUN.Pitch RCOU.Ch8:2 RCOU.Ch10:2 RCOU.Ch11:2</expression>
+ </graph>
+
+ <graph name='Tridge/OSC Roll'>
+  <description></description>
+  <expression>PTUN.Value sqrt(lowpass((PIDR.P+PIDR.D)**2,"f",0.95)):2</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/Accuracy'>
+  <description></description>
+  <expression>GPA.HAcc GPA.SAcc GPA.VAcc GPS.NSats:2</expression>
+ </graph>
+
+ <graph name='Copter/Controller RMS'>
+  <description></description>
+  <expression>CTRL.RMSRoll CTRL.RMSPitch CTRL.RMSYaw</expression>
+  <expression>CTRL.RMSRollP CTRL.RMSRollD CTRL.RMSPitchP CTRL.RMSPitchD CTRL.RMSYaw</expression>
+ </graph>
+
+ <graph name='Radio/Projected Distance'>
+  <description></description>
+  <expression>lowpass(pow(2,(RADIO_STATUS.rssi-RADIO_STATUS.noise)*0.5/6)*distance_home(GPS_RAW_INT),"r1",0.99) lowpass(pow(2,(RADIO_STATUS.remrssi-RADIO_STATUS.remnoise)*0.5/6)*distance_home(GPS_RAW_INT),"r2",0.99)</expression>
+ </graph>
+
+ <graph name='Rover/Steering'>
+  <description></description>
+  <expression>STER.Achieved STER.Demanded</expression>
+ </graph>
+
+ <graph name='Speed/GPS vs NKF1'>
+  <description></description>
+  <expression>GPS.Spd sqrt(NKF1.VN**2+NKF1.VE**2)</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad-CCW'>
+  <description></description>
+  <expression>RCOU.Ch5 RCOU.Ch7 RCOU.Ch9 RCOU.Ch11</expression>
+  <expression>RCOU.C5 RCOU.C7 RCOU.C9 RCOU.C11</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad-CW'>
+  <description></description>
+  <expression>RCOU.Ch6 RCOU.Ch8 RCOU.Ch10 RCOU.Ch12</expression>
+  <expression>RCOU.C6 RCOU.C8 RCOU.C10 RCOU.C12</expression>
+ </graph>
+
+ <graph name='Copter/RateOutputs'>
+  <description></description>
+  <expression>RATE.ROut RATE.POut RATE.YOut RATE.AOut</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/Gyros'>
+  <description></description>
+  <expression>degrees(IMU.GyrX) degrees(IMU.GyrY) degrees(IMU.GyrZ)</expression>
+ </graph>
+
+ <graph name='Gyroscope Two Output'>
+  <description></description>
+  <expression>degrees(IMU2.GyrX) degrees(IMU2.GyrY) degrees(IMU2.GyrZ)</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad-FRONT'>
+  <description></description>
+  <expression>RCOU.C5 RCOU.C6 RCOU.C9 RCOU.C10</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad-REAR'>
+  <description></description>
+  <expression>RCOU.C7 RCOU.C8 RCOU.C11 RCOU.C12</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad-Front-Rear'>
+  <description></description>
+  <expression>RCOU.C5+RCOU.C6+RCOU.C9+RCOU.C10 RCOU.C7+RCOU.C8+RCOU.C11+RCOU.C12</expression>
+ </graph>
+
+ <graph name='RADIO/RSSI_Distance'>
+  <description></description>
+  <expression>RAD.RSSI RAD.Noise RAD.RemRSSI RAD.RemNoise distance_home(GPS):2</expression>
+ </graph>
+
+ <graph name='Radio/RSSI_Noise'>
+  <description></description>
+  <expression>RAD.RSSI RAD.Noise RAD.RemRSSI RAD.RemNoise</expression>
+ </graph>
+
+ <graph name='Flow/FlowAGL vs Terrain'>
+  <description></description>
+  <expression>lowpass(max((GPS.Spd/(OF.flowY-OF.bodyY)),0)*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch)),"flowheight",0.95) TERR.CHeight</expression>
+ </graph>
+
+ <graph name='Servos/TiltTri'>
+  <description></description>
+  <expression>RCOU.C5 RCOU.C6 RCOU.C8 RCOU.C11 RCOU.C12</expression>
+ </graph>
+
+ <graph name='Flow/FlowHeight'>
+  <description></description>
+  <expression>max(min(cos(radians(ATT.Roll))*cos(radians(ATT.Pitch))*GPS.Spd/lowpass(ROF.Fx-ROF.By,"r",0.95),100),0) BARO.Alt</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad CCW-CW'>
+  <description></description>
+  <expression>(RCOU.C5+RCOU.C7+RCOU.C9+RCOU.C11)/4 (RCOU.C6+RCOU.C8+RCOU.C10+RCOU.C12)/4</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad-CCW-CW'>
+  <description></description>
+  <expression>0.25*(SERVO_OUTPUT_RAW.servo5_raw+SERVO_OUTPUT_RAW.servo7_raw+SERVO_OUTPUT_RAW.servo9_raw+SERVO_OUTPUT_RAW.servo11_raw) 0.25*(SERVO_OUTPUT_RAW.servo6_raw+SERVO_OUTPUT_RAW.servo8_raw+SERVO_OUTPUT_RAW.servo10_raw+SERVO_OUTPUT_RAW.servo12_raw)</expression>
+ </graph>
+
+ <graph name='Servos/OctaQuad-Front-Back'>
+  <description></description>
+  <expression>0.25*(SERVO_OUTPUT_RAW.servo5_raw+SERVO_OUTPUT_RAW.servo6_raw+SERVO_OUTPUT_RAW.servo9_raw+SERVO_OUTPUT_RAW.servo10_raw) 0.25*(SERVO_OUTPUT_RAW.servo7_raw+SERVO_OUTPUT_RAW.servo8_raw+SERVO_OUTPUT_RAW.servo11_raw+SERVO_OUTPUT_RAW.servo12_raw)</expression>
+ </graph>
+
+ <graph name='OBC/Link Status'>
+  <description></description>
+  <expression>link_up(GPS_RAW_INT,0) link_up(GPS_RAW_INT,1) link_up(GPS_RAW_INT,2) link_up(GPS_RAW_INT,3) GLOBAL_POSITION_INT.relative_alt*0.001:2</expression>
+ </graph>
+
+ <graph name='Link/Heartbeat-outages'>
+  <description></description>
+  <expression>diff(HEARTBEAT._timestamp,"t")</expression>
+ </graph>
+
+ <graph name='Link/TimeLag'>
+  <description></description>
+  <expression>SYSTEM_TIME._timestamp-SYSTEM_TIME.time_unix_usec*1.0e-6</expression>
+ </graph>
+
+ <graph name='ADAP/K1H'>
+  <description></description>
+  <expression>ADAP.K1H</expression>
+ </graph>
+
+ <graph name='Sensors/Compass Compare 1-2'>
+  <description></description>
+  <expression>MAG.MagX MAG.MagY MAG.MagZ MAG2.MagX MAG2.MagY MAG2.MagZ</expression>
+ </graph>
+
+ <graph name='Sensors/Wind Speed'>
+  <description></description>
+  <expression>sqrt(NKF2.VWE**2+NKF2.VWN**2)</expression>
+ </graph>
+
+ <graph name='TECS/Height'>
+  <description></description>
+  <expression>TECS.h TECS.hdem BARO.Alt</expression>
+ </graph>
+
+ <graph name='TECS/Speed'>
+  <description></description>
+  <expression>TECS.sp TECS.spdem</expression>
+ </graph>
+
+ <graph name='Sensors/GPS Time Jitter'>
+  <description></description>
+  <expression>diff(GPS.TimeUS,"t")*1.0e-6 diff(GPS.GMS,"gt")*1.0e-3</expression>
+ </graph>
+
+ <graph name='EKF/PositionInnov1'>
+  <description></description>
+  <expression>NKF3.IPN NKF3.IPE</expression>
+ </graph>
+
+ <graph name='Copter/PIDR Desired vs Achieved'>
+  <description></description>
+  <expression>degrees(PIDR.Des) degrees(IMU.GyrX)</expression>
+ </graph>
+
+ <graph name='Vibe/AccZ'>
+  <description></description>
+  <expression>ACC1.AccZ IMU.AccZ</expression>
+ </graph>
+
+ <graph name='Vibe/AccY'>
+  <description></description>
+  <expression>ACC1.AccY IMU.AccY</expression>
+ </graph>
+
+ <graph name='Flow/FlowX'>
+  <description></description>
+  <expression>OF.flowX OF.bodyX IMU.GyrX</expression>
+ </graph>
+
+ <graph name='Flow/FlowY'>
+  <description></description>
+  <expression>OF.flowY OF.bodyY IMU.GyrY</expression>
+ </graph>
+
+ <graph name='Flow/Velocity vs GPS'>
+  <description></description>
+  <expression>sqrt((OF.flowX-OF.bodyX)**2+(OF.flowY-OF.bodyY)**2)*RFND.Dist1*cos(radians(ATT.Roll))*cos(radians(ATT.Pitch)) GPS.Spd BARO.Alt:2</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/Vibration'>
+  <description></description>
+  <expression>VIBRATION.vibration_x VIBRATION.vibration_y VIBRATION.vibration_z</expression>
+ </graph>
+
+ <graph name='EKF/GPS Vel NE'>
+  <description></description>
+  <expression>GPS.Spd*sin(radians(GPS.GCrs)) NKF1.VE GPS.Spd*cos(radians(GPS.GCrs)) NKF1.VN</expression>
+ </graph>
+
+ <graph name='Flow/Flow vel vs EKF'>
+  <description></description>
+  <expression>NKF1.VN NKF1.VE flow_vel_ef(OF,RFND,ATT).x flow_vel_ef(OF,RFND,ATT).y</expression>
+ </graph>
+
+ <graph name='Flow/GPS vel body'>
+  <description></description>
+  <expression>gps_vel_body(GPS,ATT).x (OF.flowY-OF.bodyY)*RFND.Dist1 gps_vel_body(GPS,ATT).y (OF.flowX-OF.bodyX)*RFND.Dist1*-1</expression>
+ </graph>
+
+ <graph name='EKF/EKF3 Accel Offsets'>
+  <description></description>
+  <expression>XKF2.AX XKF2.AY XKF2.AZ</expression>
+ </graph>
+
+ <graph name='Copter/PID Tuning/PIQP'>
+  <description></description>
+  <expression>PIQP.P PIQP.I PIQP.D</expression>
+ </graph>
+
+ <graph name='Copter/PID Tuning/PIQR'>
+  <description></description>
+  <expression>PIQR.P PIQR.I PIQR.D</expression>
+ </graph>
+
+ <graph name='Copter/PID Tuning/PIQY'>
+  <description></description>
+  <expression>PIQY.P PIQY.I PIQY.D</expression>
+ </graph>
+
+ <graph name='Copter/PID Tuning/PIQA'>
+  <description></description>
+  <expression>PIQA.P PIQA.I PIQA.D</expression>
+ </graph>
+
+ <graph name='Plane/PID Tuning/PIDR'>
+  <description></description>
+  <expression>PIDR.P PIDR.I PIDR.D</expression>
+ </graph>
+
+ <graph name='Plane/PID Tuning/PIDP'>
+  <description></description>
+  <expression>PIDP.P PIDP.I PIDP.D</expression>
+ </graph>
+
+ <graph name='Plane/PID Tuning/PIDS'>
+  <description></description>
+  <expression>PIDS.P PIDS.I PIDS.D</expression>
+ </graph>
+
+</graphs>

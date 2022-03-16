@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <StartupObject>SkiaTest.Program</StartupObject>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="NetCoreEx.Geometry" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
+    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="2.80.3" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0">
+      <Aliases>nothanks</Aliases>
+      <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+    <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
+    <PackageReference Include="WinApi" Version="4.0.0" />
+    <PackageReference Include="WinApi.Desktop" Version="4.0.0" />
+    <PackageReference Include="WinApi.Utils" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ExtLibs\MissionPlanner.Drawing.Common\MissionPlanner.Drawing.Common.csproj">
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ExtLibs\mono\mcs\class\System.Windows.Forms\System.Windows.Forms-net_4_x.csproj" />
+    <ProjectReference Include="..\..\..\ExtLibs\System.Drawing.android\System.Drawing.android.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MissionPlannerLib.csproj">
+      <IncludeAssets></IncludeAssets>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <PrivateAssets>true</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+
+
+</Project>

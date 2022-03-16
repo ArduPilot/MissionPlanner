@@ -29,10 +29,10 @@ using MissionPlanner.Controls;
 
 namespace AGaugeApp
 {
-    [ToolboxBitmapAttribute(typeof(AGauge), "AGauge.bmp"), 
+    [ToolboxBitmapAttribute(typeof(AGauge)), 
     DefaultEvent("ValueInRangeChanged"), 
     Description("Displays a value on an analog gauge. Raises an event if the value enters one of the definable ranges.")]
-    public partial class AGauge : UserControl
+    public partial class AGauge : MyUserControl
     {
 #region enum, var, delegate, event
         public enum NeedleColorEnum
@@ -89,7 +89,7 @@ namespace AGaugeApp
 
         private Byte m_RangeIdx;
         private Boolean[] m_RangeEnabled = { true, true, false, false, false };
-        private Color[] m_RangeColor = { Color.LightGreen, Color.Red, Color.FromKnownColor(KnownColor.Control), Color.FromKnownColor(KnownColor.Control), Color.FromKnownColor(KnownColor.Control) };
+        private Color[] m_RangeColor = { Color.LightGreen, Color.Red, SystemColors.Control, SystemColors.Control, SystemColors.Control };
         private Single[] m_RangeStartValue = { -100.0f, 300.0f, 0.0f, 0.0f, 0.0f };
         private Single[] m_RangeEndValue = { 300.0f, 400.0f, 0.0f, 0.0f, 0.0f };
         private Int32[] m_RangeInnerRadius = { 70, 70, 70, 70, 70 };
@@ -221,13 +221,13 @@ namespace AGaugeApp
 
 #region properties
         [System.ComponentModel.Browsable(true)]
-        public Single Value0 { get { return m_value[0]; } set { m_NeedIdx = 0; m_value[0] = value; this.Invalidate(); } }
+        public Single Value0 { get { return m_value[0]; } set { m_NeedIdx = 0; if (m_value[0] == value) return; m_value[0] = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true)]
-        public Single Value1 { get { return m_value[1]; } set { m_NeedIdx = 1; m_value[1] = value; this.Invalidate(); } }
+        public Single Value1 { get { return m_value[1]; } set { m_NeedIdx = 1; if (m_value[1] == value) return; m_value[1] = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true)]
-        public Single Value2 { get { return m_value[2]; } set { m_NeedIdx = 2; m_value[2] = value; this.Invalidate(); } }
+        public Single Value2 { get { return m_value[2]; } set { m_NeedIdx = 2; if (m_value[2] == value) return; m_value[2] = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true)]
-        public Single Value3 { get { return m_value[3]; } set { m_NeedIdx = 3; m_value[3] = value; this.Invalidate(); } }
+        public Single Value3 { get { return m_value[3]; } set { m_NeedIdx = 3; if (m_value[3] == value) return; m_value[3] = value; this.Invalidate(); } }
 
         [System.ComponentModel.Browsable(true),
         System.ComponentModel.Category("AGauge"),

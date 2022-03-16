@@ -112,27 +112,36 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CMB_history_label.Text" xml:space="preserve">
     <value>Vorgänger Firmware auswählen</value>
   </data>
+  <data name="lbl_devfw.Text" xml:space="preserve">
+    <value>Beta Firmware</value>
+  </data>
+  <data name="lbl_dlfw.Text" xml:space="preserve">
+    <value>Download Firmware</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Images by Max Levine and Marooned</value>
+    <value>Grafiken von Max Levine and Marooned</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Bitte klicken Sie die Bilder oben für "Flug Versionen"</value>
+    <value>Bilder anklicken um "Fluggeräte-Version" auszuwählen</value>
   </data>
-  <data name="lbl_status.Text" xml:space="preserve">
-    <value>Status</value>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Motorsetup Kopter</value>
   </data>
-  <data name="BUT_setup.Text" xml:space="preserve">
-    <value>APM Setup (Plane and Quad)</value>
+  <data name="lbl_Custom_firmware_label.Text" xml:space="preserve">
+    <value>'Custom' Firmware laden</value>
   </data>
-  <data name="Custom_firmware_label.Text" xml:space="preserve">
-    <value>Eigene firmware laden</value>
+  <data name="lbl_px4bl.Text" xml:space="preserve">
+    <value>PX4 Bootloader erzwingen</value>
+  </data>
+  <data name="lbl_licence.Text" xml:space="preserve">
+    <value>Ardupilot ist offene Software. Klicken um "Open Source Firmware Lizenz" zu lesen.</value>
   </data>
 </root>

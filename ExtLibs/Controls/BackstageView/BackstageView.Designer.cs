@@ -36,11 +36,10 @@
             // 
             this.pnlPages.AutoScroll = true;
             this.pnlPages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlPages.Location = new System.Drawing.Point(203, 0);
+            this.pnlPages.Location = new System.Drawing.Point(200, 0);
             this.pnlPages.Margin = new System.Windows.Forms.Padding(4);
-            this.pnlPages.MinimumSize = new System.Drawing.Size(133, 0);
             this.pnlPages.Name = "pnlPages";
-            this.pnlPages.Size = new System.Drawing.Size(454, 422);
+            this.pnlPages.Size = new System.Drawing.Size(436, 360);
             this.pnlPages.TabIndex = 0;
             // 
             // pnlMenu
@@ -49,17 +48,16 @@
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlMenu.Margin = new System.Windows.Forms.Padding(4);
             this.pnlMenu.Name = "pnlMenu";
-            this.pnlMenu.Size = new System.Drawing.Size(203, 422);
+            this.pnlMenu.Size = new System.Drawing.Size(200, 360);
             this.pnlMenu.TabIndex = 1;
             // 
             // BackstageView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.pnlPages);
             this.Controls.Add(this.pnlMenu);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "BackstageView";
-            this.Size = new System.Drawing.Size(657, 422);
+            this.Size = new System.Drawing.Size(636, 360);
             this.Load += new System.EventHandler(this.BackstageView_Load);
             this.ResumeLayout(false);
 

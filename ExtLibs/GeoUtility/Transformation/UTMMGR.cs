@@ -62,7 +62,7 @@ namespace GeoUtility
 
             // North Koordinate
             string north = ((int)Math.Round(utm.North)).ToString();
-            if (north.Length > 2) north = north.Remove(0, 2);
+            if (north.Length > 5) north = north.Remove(0, north.Length - 5);
 
             // Anzahl Stellen bei East und North müssen gleich sein
             if (east.Length < north.Length)

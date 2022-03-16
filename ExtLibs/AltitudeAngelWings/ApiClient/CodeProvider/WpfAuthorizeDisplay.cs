@@ -1,17 +1,21 @@
+using AltitudeAngelWings.ApiClient.Client;
 using System;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using AltitudeAngelWings.ApiClient.Client;
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace AltitudeAngelWings.ApiClient.CodeProvider
 {
     /// <summary>
     ///     Provides auth code URIs from an auth URI.
     /// </summary>
-    public class WpfAuthorizeDisplay : Window, IAuthorizeCodeProvider
+    public class WpfAuthorizeDisplay : Form, IAuthorizeCodeProvider
     {
+        private readonly TaskCompletionSource<Uri> _tcs = new TaskCompletionSource<Uri>();
+        private Uri _redirectUri;
+        private readonly WebBrowser _webBrowser;
+        private bool seturl = false;
+
         /// <summary>
         ///     Constructor. Ensure this is called from the UI thread.
         /// </summary>
@@ -20,38 +24,50 @@ namespace AltitudeAngelWings.ApiClient.CodeProvider
             Width = 800;
             Height = 600;
 
-            _webBrowser = new WebBrowser();
-            _webBrowser.Navigating += WebBrowserOnNavigating;
-            Content = new Grid { Children = { _webBrowser } };
+            try
+            {
+                _webBrowser = new WebBrowser();
+                _webBrowser.Navigating += WebBrowserOnNavigating;
+                _webBrowser.Navigated += WebBrowserOnNavigated;
+                _webBrowser.Dock = DockStyle.Fill;
+                Controls.Add(_webBrowser);
+            }
+            catch { }
+        }
+
+        private void WebBrowserOnNavigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            if (!e.Url.ToString()
+                .StartsWith(_redirectUri.ToString(), StringComparison.OrdinalIgnoreCase)) return;
+            seturl = true;
+            _tcs.SetResult(e.Url);
+            Close();
         }
 
         public Task<Uri> GetCodeUri(Uri authorizeUri, Uri redirectUri)
         {
             _redirectUri = redirectUri;
 
-            _webBrowser.Navigate(authorizeUri);
-
-            bool? result = ShowDialog();
-            if (result == true)
+            if (_webBrowser != null)
             {
+                _webBrowser.Navigate(authorizeUri);
+                ShowDialog();
             }
 
+            if(!seturl)
+                _tcs.SetResult(_redirectUri);
 
             return _tcs.Task;
         }
 
-        private void WebBrowserOnNavigating(object sender, NavigatingCancelEventArgs navigatingCancelEventArgs)
+        private void WebBrowserOnNavigating(object sender, WebBrowserNavigatingEventArgs navigatingCancelEventArgs)
         {
-            if (navigatingCancelEventArgs.Uri.ToString().StartsWith(_redirectUri.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                navigatingCancelEventArgs.Cancel = true;
-                _tcs.SetResult(navigatingCancelEventArgs.Uri);
-                Close();
-            }
+            if (!navigatingCancelEventArgs.Url.ToString()
+                .StartsWith(_redirectUri.ToString(), StringComparison.OrdinalIgnoreCase)) return;
+            navigatingCancelEventArgs.Cancel = true;
+            seturl = true;
+            _tcs.SetResult(navigatingCancelEventArgs.Url);
+            Close();
         }
-
-        private readonly TaskCompletionSource<Uri> _tcs = new TaskCompletionSource<Uri>();
-        private Uri _redirectUri;
-        private readonly WebBrowser _webBrowser;
     }
 }

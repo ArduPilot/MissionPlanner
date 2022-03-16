@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ARMED" xml:space="preserve">
     <value>    已解锁</value>
@@ -132,7 +132,7 @@
   <data name="FAILSAFE" xml:space="preserve">
     <value>    故障保护</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FailsafeH" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
@@ -155,7 +155,10 @@
     <value>GPS: 3D DGPS</value>
   </data>
   <data name="GPS5" xml:space="preserve">
-    <value>GPS: 3D RTK</value>
+    <value>GPS: rtk Float</value>
+  </data>
+  <data name="GPS6" xml:space="preserve">
+    <value>GPS: rtk Fixed</value>
   </data>
   <data name="GS" xml:space="preserve">
     <value>地速 </value>

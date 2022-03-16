@@ -175,7 +175,6 @@
             // 
             // LogDownloadscp
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "LogDownloadscp";

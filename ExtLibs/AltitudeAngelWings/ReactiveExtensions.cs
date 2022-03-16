@@ -7,15 +7,13 @@ namespace AltitudeAngelWings
 {
     public static class ReactiveExtensions
     {
-        public static IDisposable SubscribeAsync<T>(this IObservable<T> source, Func<T, Task> onNextAsync)
+        public static IObservable<T> RepeatLastValue<T>(this IObservable<T> source, TimeSpan repeatInterval)
         {
-            return source.Subscribe(i => onNextAsync(i).Wait());
-        }
-
-        public static IDisposable SubscribeVisualState<T>(this IObservable<T> source, FrameworkElement stateElement)
-        {
-            return source.ObserveOnDispatcher()
-                         .Subscribe(state => VisualStateManager.GoToElementState(stateElement, state.ToString(), true));
+            return source.Select(s => Observable
+                    .Interval(repeatInterval)
+                    .Select(_ => s)
+                    .StartWith(s))
+                .Switch();
         }
     }
 }

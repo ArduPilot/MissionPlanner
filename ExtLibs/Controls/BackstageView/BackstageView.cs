@@ -15,7 +15,7 @@ namespace MissionPlanner.Controls.BackstageView
     /// <remarks>
     /// 'Tabs' are added as a control in a <see cref="BackstageViewPage"/>
     /// </remarks>
-    public partial class BackstageView : UserControl, IContainerControl
+    public partial class BackstageView : MyUserControl, IContainerControl
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -76,7 +76,7 @@ namespace MissionPlanner.Controls.BackstageView
             pnlMenu.PencilBorderColor = _buttonsAreaPencilColor;
             pnlMenu.GradColor = this.BackColor;
 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
         }
 
         public void UpdateDisplay()
@@ -202,8 +202,6 @@ namespace MissionPlanner.Controls.BackstageView
 
             _items.Add(page);
 
-            DrawMenu(_activePage, false);
-
             return page;
         }
 
@@ -274,9 +272,6 @@ namespace MissionPlanner.Controls.BackstageView
                 }
             }
 
-            pnlMenu.Visible = false;
-            pnlMenu.SuspendLayout();
-
             pnlMenu.Controls.Clear();
 
             // reset back to 0
@@ -344,9 +339,7 @@ namespace MissionPlanner.Controls.BackstageView
                 }
             }
 
-            pnlMenu.ResumeLayout(false);
-            pnlMenu.PerformLayout();
-            pnlMenu.Visible = true;
+            pnlMenu.Invalidate();
         }
 
         private bool PageHasChildren(BackstageViewPage parent)
@@ -443,14 +436,14 @@ namespace MissionPlanner.Controls.BackstageView
         {
             if (associatedPage == null)
             {
-                if (associatedPage.Page == null)
-                    return;
                 if (_activePage == null)
                     DrawMenu(null, true);
                 return;
             }
 
             Tracking?.Invoke(associatedPage.Page.GetType().ToString(), associatedPage.LinkText);
+
+            var start = DateTime.Now;
 
             this.SuspendLayout();
             associatedPage.Page.SuspendLayout();
@@ -501,7 +494,14 @@ namespace MissionPlanner.Controls.BackstageView
             // so plain old user controls can be added
             if (associatedPage.Page is IActivate)
             {
-                ((IActivate)(associatedPage.Page)).Activate();
+                try
+                {
+                    ((IActivate) (associatedPage.Page)).Activate();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
             }
 
             try
@@ -514,15 +514,23 @@ namespace MissionPlanner.Controls.BackstageView
                 log.Error(ex);
             }
 
+            var end = DateTime.Now;
+
+            log.DebugFormat("{0} {1} {2}", associatedPage.Page.GetType().ToString(), associatedPage.LinkText,
+                (end - start).TotalMilliseconds);
+
             _activePage = associatedPage;
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            if (pnlMenu.Controls.Count == 0)
+                DrawMenu(null, false);
+
             base.OnPaint(e);
         }
 
-        public void Close()
+        public new void Close()
         {
             foreach (var page in _items)
             {

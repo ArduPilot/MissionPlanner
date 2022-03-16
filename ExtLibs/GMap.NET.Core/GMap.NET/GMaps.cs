@@ -753,7 +753,7 @@ namespace GMap.NET
                      {
                         if(UseMemoryCache)
                         {
-                           MemoryCache.AddTileToMemoryCache(rtile, ret.Data.GetBuffer());
+                           MemoryCache.AddTileToMemoryCache(rtile, ret.Data.ToArray());
                         }
                         return ret;
                      }
@@ -772,9 +772,9 @@ namespace GMap.NET
                      {
                         if(UseMemoryCache)
                         {
-                           MemoryCache.AddTileToMemoryCache(rtile, ret.Data.GetBuffer());
+                           MemoryCache.AddTileToMemoryCache(rtile, ret.Data.ToArray());
                         }
-                        EnqueueCacheTask(new CacheQueueItem(rtile, ret.Data.GetBuffer(), CacheUsage.First));
+                        EnqueueCacheTask(new CacheQueueItem(rtile, ret.Data.ToArray(), CacheUsage.First));
                         return ret;
                      }
                   }
@@ -789,12 +789,12 @@ namespace GMap.NET
                      {
                         if(UseMemoryCache)
                         {
-                           MemoryCache.AddTileToMemoryCache(rtile, ret.Data.GetBuffer());
+                           MemoryCache.AddTileToMemoryCache(rtile, ret.Data.ToArray());
                         }
 
                         if (Mode != AccessMode.ServerOnly && !provider.BypassCache)
                         {
-                           EnqueueCacheTask(new CacheQueueItem(rtile, ret.Data.GetBuffer(), CacheUsage.Both));
+                           EnqueueCacheTask(new CacheQueueItem(rtile, ret.Data.ToArray(), CacheUsage.Both));
                         }
                      }
                   }

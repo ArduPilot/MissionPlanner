@@ -1,118 +1,111 @@
-﻿
+﻿using System;
+using GMap.NET.Projections;
+
 namespace GMap.NET.MapProviders
 {
-   using System;
-   using GMap.NET.Projections;
+    public abstract class CzechMapProviderBase : GMapProvider
+    {
+        public CzechMapProviderBase()
+        {
+            RefererUrl = "http://www.mapy.cz/";
+            Area = new RectLatLng(51.2024819920053, 11.8401353319027, 7.22833716731277, 2.78312271922872);
+        }
 
-   public abstract class CzechMapProviderBase : GMapProvider
-   {
-      public CzechMapProviderBase()
-      {
-         RefererUrl = "http://www.mapy.cz/";
-         Area = new RectLatLng(51.2024819920053, 11.8401353319027, 7.22833716731277, 2.78312271922872);
-      }
+        #region GMapProvider Members
 
-      #region GMapProvider Members
-      public override Guid Id
-      {
-         get
-         {
-            throw new NotImplementedException();
-         }
-      }
-
-      public override string Name
-      {
-         get
-         {
-            throw new NotImplementedException();
-         }
-      }
-
-      public override PureProjection Projection
-      {
-         get
-         {
-            return MapyCZProjection.Instance;
-         }
-      }
-
-      GMapProvider[] overlays;
-      public override GMapProvider[] Overlays
-      {
-         get
-         {
-            if(overlays == null)
+        public override Guid Id
+        {
+            get
             {
-               overlays = new GMapProvider[] { this };
+                throw new NotImplementedException();
             }
-            return overlays;
-         }
-      }
+        }
 
-      public override PureImage GetTileImage(GPoint pos, int zoom)
-      {
-         throw new NotImplementedException();
-      }
-      #endregion
-   }
+        public override string Name
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-   /// <summary>
-   /// CzechMap provider, http://www.mapy.cz/
-   /// </summary>
-   public class CzechMapProvider : CzechMapProviderBase
-   {
-      public static readonly CzechMapProvider Instance;
+        public override PureProjection Projection
+        {
+            get
+            {
+                return MercatorProjection.Instance;
+            }
+        }
 
-      CzechMapProvider()
-      {
-      }
+        GMapProvider[] _overlays;
 
-      static CzechMapProvider()
-      {
-         Instance = new CzechMapProvider();
-      }
+        public override GMapProvider[] Overlays
+        {
+            get
+            {
+                if (_overlays == null)
+                {
+                    _overlays = new GMapProvider[] {this};
+                }
 
-      #region GMapProvider Members
+                return _overlays;
+            }
+        }
 
-      readonly Guid id = new Guid("6A1AF99A-84C6-4EF6-91A5-77B9D03257C2");
-      public override Guid Id
-      {
-         get
-         {
-            return id;
-         }
-      }
+        public override PureImage GetTileImage(GPoint pos, int zoom)
+        {
+            throw new NotImplementedException();
+        }
 
-      readonly string name = "CzechMap";
-      public override string Name
-      {
-         get
-         {
-            return name;
-         }
-      }
+        #endregion
+    }
 
-      public override PureImage GetTileImage(GPoint pos, int zoom)
-      {
-         string url = MakeTileImageUrl(pos, zoom, LanguageStr);
+    /// <summary>
+    ///     CzechMap provider, http://www.mapy.cz/
+    /// </summary>
+    public class CzechMapProvider : CzechMapProviderBase
+    {
+        public static readonly CzechMapProvider Instance;
 
-         return GetTileImageUsingHttp(url);
-      }
+        CzechMapProvider()
+        {
+        }
 
-      #endregion
+        static CzechMapProvider()
+        {
+            Instance = new CzechMapProvider();
+        }
 
-      string MakeTileImageUrl(GPoint pos, int zoom, string language)
-      {
-         // ['base','ophoto','turist','army2']  
-         // http://m1.mapserver.mapy.cz/base-n/3_8000000_8000000
+        #region GMapProvider Members
 
-         long xx = pos.X << (28 - zoom);
-         long yy = ((((long)Math.Pow(2.0, (double)zoom)) - 1) - pos.Y) << (28 - zoom);
+        public override Guid Id
+        {
+            get;
+        } = new Guid("13AB92EF-8C3B-4FAC-B2CD-2594C05F8BFC");
 
-         return string.Format(UrlFormat, GetServerNum(pos, 3) + 1, zoom, xx, yy);
-      }
+        public override string Name
+        {
+            get;
+        } = "CzechMap";
 
-      static readonly string UrlFormat = "http://m{0}.mapserver.mapy.cz/base-n/{1}_{2:x7}_{3:x7}";
-   }
+        public override PureImage GetTileImage(GPoint pos, int zoom)
+        {
+            string url = MakeTileImageUrl(pos, zoom, LanguageStr);
+
+            return GetTileImageUsingHttp(url);
+        }
+
+        #endregion
+
+        string MakeTileImageUrl(GPoint pos, int zoom, string language)
+        {
+            // ['base-m','ophoto-m','turist-m','army2-m']
+            // http://m3.mapserver.mapy.cz/base-m/14-8802-5528
+
+            return string.Format(UrlFormat, GetServerNum(pos, 3) + 1, zoom, pos.X, pos.Y);
+        }
+
+        static readonly string UrlFormat = "http://m{0}.mapserver.mapy.cz/base-m/{1}-{2}-{3}";
+        //static readonly string UrlFormat = "https://m{0}.mapserver.mapy.cz/turist-m/{1}-{2}-{3}";
+    }
 }

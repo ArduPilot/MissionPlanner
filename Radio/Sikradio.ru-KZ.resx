@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>Радиостанции 3DR имеют 2 светодиодных индикатора состояния, один красный и один зеленый. зеленый светодиод мигает - поиск другого радио. зеленое светодиод горит - соединение установлено. красный светодиод мигает - передача данных. красный светодиод горит - обновление прошивки.</value>
+  </data>
+  <data name="RTXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER - это мощность передачи в дБм. 20 дБм - 100 мВт. Полезно установить это на более низкие уровни для краткосрочного тестирования.</value>
+  </data>
+  <data name="RNETID.ToolTip" xml:space="preserve">
+    <value>NETID - это 16-битный «сетевой идентификатор». Это используется для засеивания последовательности скачкообразной перестройки частоты и для идентификации пакетов, поступающих с правильного радио. Убедитесь, что вы используете другой NETID от кого-либо другого, который работает в этом районе.</value>
+  </data>
+  <data name="AIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED - это скорость передачи данных между радиоканалами в  kbps. Таким образом, 128 означает 128 Кбит / с. Макс - 192, мин - 2. Я бы не рекомендовал значения ниже 16, так как частота скачкообразного изменения частоты и времени синхронизации tdm слишком велики.</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Мин. Частота</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Рабочий цикл</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="RAIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED - это скорость передачи данных между радиоканалами в  kbps. Таким образом, 128 означает 128 Кбит / с. Макс - 192, мин - 2. Я бы не рекомендовал значения ниже 16, так как частота скачкообразного изменения частоты и времени синхронизации tdm слишком велики.</value>
+  </data>
+  <data name="BUT_Syncoptions.Text" xml:space="preserve">
+    <value>Копия, требуемая для удаленного</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Макс. Частота</value>
+  </data>
+  <data name="NUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>количество каналов скачкообразной перестройки частоты</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Максим. окно (мс)</value>
+  </data>
+  <data name="BUT_savesettings.Text" xml:space="preserve">
+    <value>Сохранить настройки</value>
+  </data>
+  <data name="RMAVLINK.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED - это скорость передачи данных между радиоканалами в  kbps. Таким образом, 128 означает 128 Кбит / с. Макс - 192, мин - 2. Я бы не рекомендовал значения ниже 16, так как частота скачкообразного изменения частоты и времени синхронизации tdm слишком велики.</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Рабочий цикл</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Макс. Частота</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Мин. Частота</value>
+  </data>
+  <data name="OPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND включает / отключает «оппортунистическую повторную отправку». Когда включено, радио будет отправлять пакет дважды, если в буфере последовательного ввода меньше 256 байтов. Вторая передача помечена как повторная отправка и отбрасывается принимающей радиостанцией, если она получила первый пакет «ОК». Это существенно влияет на качество связи, особенно для команд восходящей линии связи.</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="linkLabel_mavlink.Text" xml:space="preserve">
+    <value>Настройки для стандартного Mavlink</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Воздушная скорость</value>
+  </data>
+  <data name="SERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>Скорость последовательной передачи в округлых килобайтах. Таким образом, 57 означает 57600.</value>
+  </data>
+  <data name="ROPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND включает / отключает «оппортунистическую повторную отправку». Когда включено, радио будет отправлять пакет дважды, если в буфере последовательного ввода меньше 256 байтов. Вторая передача помечена как повторная отправка и отбрасывается принимающей радиостанцией, если она получила первый пакет «ОК». Это существенно влияет на качество связи, особенно для команд восходящей линии связи.</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Мощность Tx</value>
+  </data>
+  <data name="BUT_resettodefault.Text" xml:space="preserve">
+    <value>Сбросить настройки</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="MIN_FREQ.ToolTip" xml:space="preserve">
+    <value>минимальная частота в кГц</value>
+  </data>
+  <data name="RSERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>Скорость последовательной передачи в округлых килобайтах. Таким образом, 57 означает 57600.</value>
+  </data>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>ПРИМЕЧАНИЕ. При изменении нажмите «Копировать на удаленный». это гарантирует, что вы не потеряете радиосвязь.</value>
+  </data>
+  <data name="RGPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND включает / отключает «оппортунистическую повторную отправку». Когда включено, радио будет отправлять пакет дважды, если в буфере последовательного ввода меньше 256 байтов. Вторая передача помечена как повторная отправка и отбрасывается принимающей радиостанцией, если она получила первый пакет «ОК». Это существенно влияет на качество связи, особенно для команд восходящей линии связи.</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Индикаторы Состояния</value>
+  </data>
+  <data name="MAX_WINDOW.ToolTip" xml:space="preserve">
+    <value>Идентификатор узла. Идентификатор базового узла равен 0. Один узел должен действовать как основа для работы многоточечной среды.</value>
+  </data>
+  <data name="RNUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>количество каналов скачкообразной перестройки частоты</value>
+  </data>
+  <data name="groupBoxRemote.Text" xml:space="preserve">
+    <value>Дистанционное управление</value>
+  </data>
+  <data name="groupBoxLocal.Text" xml:space="preserve">
+    <value>Локально</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Воздушная скорость</value>
+  </data>
+  <data name="linkLabel_lowlatency.Text" xml:space="preserve">
+    <value>Настройки для низкой задержки</value>
+  </data>
+  <data name="ECC.ToolTip" xml:space="preserve">
+    <value>ECC - включить / отключить код исправления ошибок golay. По умолчанию он отключен. Если вы включите его, вы получите в два раза больше байтов, чтобы потерять половину полосы пропускания, но он может исправить до 3-х битных ошибок на каждые 12 бит данных. Используйте это для дальнего действия, обычно в сочетании с более низкой скоростью передачи данных. Голай-декодирование занимает 20 микросекунд на каждый передаваемый байт (40 мкс на каждый байт данных пользователя), что означает, что вы также будете иметь ограниченный процессор с максимальной скоростью передачи данных. Таким образом, вы обычно используете голею со скоростью 128 Кбит / с или меньше.</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>Максим. окно (мс)</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>Шифрование AES</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Шифрование AES</value>
+  </data>
+  <data name="DUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>процент времени для передачи</value>
+  </data>
+  <data name="RMIN_FREQ.ToolTip" xml:space="preserve">
+    <value>минимальная частота в кГц</value>
+  </data>
+  <data name="GPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND включает / отключает «оппортунистическую повторную отправку». Когда включено, радио будет отправлять пакет дважды, если в буфере последовательного ввода меньше 256 байтов. Вторая передача помечена как повторная отправка и отбрасывается принимающей радиостанцией, если она получила первый пакет «ОК». Это существенно влияет на качество связи, особенно для команд восходящей линии связи.</value>
+  </data>
+  <data name="BUT_loadcustom.Text" xml:space="preserve">
+    <value>Загрузка пользовательской прошивки</value>
+  </data>
+  <data name="BUT_upload.Text" xml:space="preserve">
+    <value>Загрузка прошивки (локальная)</value>
+  </data>
+  <data name="RDUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>процент времени для передачи</value>
+  </data>
+  <data name="RMAX_WINDOW.ToolTip" xml:space="preserve">
+    <value>Идентификатор узла. Идентификатор базового узла равен 0. Один узел должен действовать как основа для работы многоточечной среды.</value>
+  </data>
+  <data name="RMAX_FREQ.ToolTip" xml:space="preserve">
+    <value>максимальная частота в кГц</value>
+  </data>
+  <data name="BUT_getcurrent.Text" xml:space="preserve">
+    <value>Настройки загрузки</value>
+  </data>
+  <data name="RGPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND включает / отключает «оппортунистическую повторную отправку». Когда включено, радио будет отправлять пакет дважды, если в буфере последовательного ввода меньше 256 байтов. Вторая передача помечена как повторная отправка и отбрасывается принимающей радиостанцией, если она получила первый пакет «ОК». Это существенно влияет на качество связи, особенно для команд восходящей линии связи.</value>
+  </data>
+  <data name="RECC.ToolTip" xml:space="preserve">
+    <value>ECC - включить / отключить код исправления ошибок golay. По умолчанию он отключен. Если вы включите его, вы получите в два раза больше байтов, чтобы потерять половину полосы пропускания, но он может исправить до 3-х битных ошибок на каждые 12 бит данных. Используйте это для дальнего действия, обычно в сочетании с более низкой скоростью передачи данных. Голай-декодирование занимает 20 микросекунд на каждый передаваемый байт (40 мкс на каждый байт данных пользователя), что означает, что вы также будете иметь ограниченный процессор с максимальной скоростью передачи данных. Таким образом, вы обычно используете голею со скоростью 128 Кбит / с или меньше.</value>
+  </data>
+  <data name="MAX_FREQ.ToolTip" xml:space="preserve">
+    <value>максимальная частота в кГц</value>
+  </data>
+  <data name="RSSI.ToolTip" xml:space="preserve">
+    <value>см. спецификацию для графика RSSI на дБм. Числа в конце: txe: количество ошибок передачи (например, тайм-ауты передачи). rxe: количество ошибок приема (ошибка crc, ошибка кадрирования и т. д.). stx: количество последовательных пересылок. rrx: количество последовательных переполнений. ecc: количество 12-битных слов, успешно скорректированных с помощью кода голиада. которые приводят к действительному пакетному CRC</value>
+  </data>
+  <data name="GPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND включает / отключает «оппортунистическую повторную отправку». Когда включено, радио будет отправлять пакет дважды, если в буфере последовательного ввода меньше 256 байтов. Вторая передача помечена как повторная отправка и отбрасывается принимающей радиостанцией, если она получила первый пакет «ОК». Это существенно влияет на качество связи, особенно для команд восходящей линии связи.</value>
+  </data>
+  <data name="RRTSCTS.ToolTip" xml:space="preserve">
+    <value>Включение или отключение контроля аппаратного потока</value>
+  </data>
+  <data name="MAVLINK.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED - это скорость передачи данных между радиоканалами в округлых kbps. Таким образом, 128 означает 128 Кбит / с. Макс - 192, мин - 2. Я бы не рекомендовал значения ниже 16, так как частота скачкообразного изменения частоты и времени синхронизации tdm слишком велики.</value>
+  </data>
+  <data name="TXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER - это мощность передачи в дБм. 20 дБм - 100 мВт. Полезно установить это на более низкие уровни для краткосрочного тестирования.</value>
+  </data>
+  <data name="RTSCTS.ToolTip" xml:space="preserve">
+    <value>Включение или отключение контроля аппаратного потока</value>
+  </data>
+</root>

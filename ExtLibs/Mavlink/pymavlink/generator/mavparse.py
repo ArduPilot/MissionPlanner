@@ -5,8 +5,16 @@ mavlink python parse functions
 Copyright Andrew Tridgell 2011
 Released under GNU GPL version 3 or later
 '''
+from __future__ import print_function
+from builtins import range
+from builtins import object
 
-import xml.parsers.expat, os, errno, time, sys, operator, struct
+import errno
+import operator
+import os
+import sys
+import time
+import xml.parsers.expat
 
 PROTOCOL_0_9 = "0.9"
 PROTOCOL_1_0 = "1.0"
@@ -25,12 +33,14 @@ class MAVParseError(Exception):
         return self.message
 
 class MAVField(object):
-    def __init__(self, name, type, print_format, xml, description='', enum=''):
+    def __init__(self, name, type, print_format, xml, description='', enum='', display='', units=''):
         self.name = name
         self.name_upper = name.upper()
         self.description = description
         self.array_length = 0
         self.enum = enum
+        self.display = display
+        self.units = units
         self.omit_arg = False
         self.const_value = None
         self.print_format = print_format
@@ -94,7 +104,7 @@ class MAVField(object):
         elif self.type in ['int64_t', 'uint64_t']:
             return 93372036854775807 + self.wire_offset*63 + i
         else:
-            raise MAVError('unknown type %s' % self.type)
+            raise MAVParseError('unknown type %s' % self.type)
 
     def set_test_value(self):
         '''set a testsuite value for a MAVField'''
@@ -129,9 +139,26 @@ class MAVType(object):
         return len(self.fields[:self.extensions_start])
 
 class MAVEnumParam(object):
-    def __init__(self, index, description=''):
+    def __init__(self, index, description='', label='', units='', enum='', increment='', minValue='', maxValue='', reserved=False, default=''):
         self.index = index
         self.description = description
+        self.label = label
+        self.units = units
+        self.enum = enum
+        self.increment = increment
+        self.minValue = minValue
+        self.maxValue = maxValue
+        self.reserved = reserved
+        self.default = default
+        if self.reserved and not self.default:
+            self.default = '0'
+        self.set_description(description)
+
+    def set_description(self, description):
+        if not description.strip() and self.reserved:
+            self.description = 'Reserved (default:%s)' % self.default
+        else:
+            self.description = description
 
 class MAVEnumEntry(object):
     def __init__(self, name, value, description='', end_marker=False, autovalue=False, origin_file='', origin_line=0):
@@ -204,7 +231,7 @@ class MAVXML(object):
 
         def check_attrs(attrs, check, where):
             for c in check:
-                if not c in attrs:
+                if c not in attrs:
                     raise MAVParseError('expected missing %s "%s" attribute at %s:%u' % (
                         where, c, filename, p.CurrentLineNumber))
 
@@ -219,15 +246,13 @@ class MAVXML(object):
                 self.message[-1].extensions_start = len(self.message[-1].fields)
             elif in_element == "mavlink.messages.message.field":
                 check_attrs(attrs, ['name', 'type'], 'field')
-                if 'print_format' in attrs:
-                    print_format = attrs['print_format']
-                else:
-                    print_format = None
-                if 'enum' in attrs:
-                    enum = attrs['enum']
-                else:
-                    enum = ''
-                new_field = MAVField(attrs['name'], attrs['type'], print_format, self, enum=enum)
+                print_format = attrs.get('print_format', None)
+                enum = attrs.get('enum', '')
+                display = attrs.get('display', '')
+                units = attrs.get('units', '')
+                if units:
+                    units = '[' + units + ']'
+                new_field = MAVField(attrs['name'], attrs['type'], print_format, self, enum=enum, display=display, units=units)
                 if self.message[-1].extensions_start is None or self.allow_extensions:
                     self.message[-1].fields.append(new_field)
             elif in_element == "mavlink.enums.enum":
@@ -243,7 +268,7 @@ class MAVXML(object):
                     value = self.enum[-1].highest_value + 1
                     autovalue = True
                 # check lowest value
-                if (self.enum[-1].start_value == None or value < self.enum[-1].start_value):
+                if (self.enum[-1].start_value is None or value < self.enum[-1].start_value):
                     self.enum[-1].start_value = value
                 # check highest value
                 if (value > self.enum[-1].highest_value):
@@ -252,7 +277,24 @@ class MAVXML(object):
                 self.enum[-1].entry.append(MAVEnumEntry(attrs['name'], value, '', False, autovalue, self.filename, p.CurrentLineNumber))
             elif in_element == "mavlink.enums.enum.entry.param":
                 check_attrs(attrs, ['index'], 'enum param')
-                self.enum[-1].entry[-1].param.append(MAVEnumParam(attrs['index']))
+                self.enum[-1].entry[-1].param.append(
+                                                MAVEnumParam(attrs['index'], 
+                                                        label=attrs.get('label', ''), units=attrs.get('units', ''), 
+                                                        enum=attrs.get('enum', ''), increment=attrs.get('increment', ''), 
+                                                        minValue=attrs.get('minValue', ''), 
+                                                        maxValue=attrs.get('maxValue', ''), default=attrs.get('default', '0'), 
+                                                        reserved=attrs.get('reserved', False) ))
+            elif "mavlink.messages.message.deprecated" in in_element or "mavlink.messages.message.wip" in in_element:
+                self.message[-1].deprecated = True
+            elif "mavlink.enums.enum.entry.deprecated" in in_element or "mavlink.enums.enum.entry.wip" in in_element:
+                self.enum[-1].entry[-1].deprecated = True
+
+        def is_target_system_field(m, f):
+            if f.name == 'target_system':
+                return True
+            if m.name == "MANUAL_CONTROL" and f.name == "target":
+                return True
+            return False
 
         def end_element(name):
             in_element_list.pop()
@@ -269,7 +311,7 @@ class MAVXML(object):
             elif in_element == "mavlink.enums.enum.entry.description":
                 self.enum[-1].entry[-1].description += data
             elif in_element == "mavlink.enums.enum.entry.param":
-                self.enum[-1].entry[-1].param[-1].description += data
+                self.enum[-1].entry[-1].param[-1].set_description(data.strip())
             elif in_element == "mavlink.version":
                 self.version = int(data)
             elif in_element == "mavlink.include":
@@ -282,6 +324,27 @@ class MAVXML(object):
         p.CharacterDataHandler = char_data
         p.ParseFile(f)
         f.close()
+   
+
+        #Post process to add reserved params (for docs)
+        for current_enum in self.enum:
+            if not 'MAV_CMD' in current_enum.name:
+                continue
+            print(current_enum.name)
+            for enum_entry in current_enum.entry:
+                print(enum_entry.name)
+                if len(enum_entry.param) == 7:
+                    continue
+                params_dict=dict()
+                for param_index in range (1,8):
+                    params_dict[param_index] = MAVEnumParam(param_index, label='', units='', enum='', increment='', 
+                                                        minValue='', maxValue='', default='0', reserved='True')
+
+                for a_param in enum_entry.param:
+                    params_dict[int(a_param.index)] = a_param
+                enum_entry.param=params_dict.values()
+                
+
 
         self.message_lengths = {}
         self.message_min_lengths = {}
@@ -311,6 +374,8 @@ class MAVXML(object):
             m.fieldnames = []
             m.fieldlengths = []
             m.ordered_fieldnames = []
+            m.ordered_fieldtypes = []
+            m.fieldtypes = []
             m.message_flags = 0
             m.target_system_ofs = 0
             m.target_component_ofs = 0
@@ -333,6 +398,7 @@ class MAVXML(object):
                     m.fieldlengths.append(1)
                 else:
                     m.fieldlengths.append(L)
+                m.fieldtypes.append(f.type)
             for i in range(len(m.ordered_fields)):
                 f = m.ordered_fields[i]
                 f.wire_offset = m.wire_length
@@ -340,11 +406,12 @@ class MAVXML(object):
                 if m.extensions_start is None or i < m.extensions_start:
                     m.wire_min_length = m.wire_length
                 m.ordered_fieldnames.append(f.name)
+                m.ordered_fieldtypes.append(f.type)
                 f.set_test_value()
                 if f.name.find('[') != -1:
                     raise MAVParseError("invalid field name with array descriptor %s" % f.name)
                 # having flags for target_system and target_component helps a lot for routing code
-                if f.name == 'target_system':
+                if is_target_system_field(m, f):
                     m.message_flags |= FLAG_HAVE_TARGET_SYSTEM
                     m.target_system_ofs = f.wire_offset
                 elif f.name == 'target_component':
@@ -405,7 +472,7 @@ def merge_enums(xml):
                 if (emapitem.start_value <= enum.highest_value and emapitem.highest_value >= enum.start_value):
                     for entry in emapitem.entry:
                         # correct the value if necessary, but only if it was auto-assigned to begin with
-                        if entry.value <= enum.highest_value and entry.autovalue == True:
+                        if entry.value <= enum.highest_value and entry.autovalue is True:
                             entry.value = enum.highest_value + 1
                             enum.highest_value = entry.value
                 # merge the entries
@@ -432,6 +499,7 @@ def check_duplicates(xml):
     merge_enums(xml)
 
     msgmap = {}
+    msg_name_map = {}
     enummap = {}
     for x in xml:
         for m in x.message:
@@ -452,9 +520,18 @@ def check_duplicates(xml):
                     return True
                 fieldset.add(f.name)
             msgmap[key] = '%s (%s:%u)' % (m.name, x.filename, m.linenumber)
+            # Check for duplicate message names
+            if m.name in msg_name_map:
+                print("ERROR: Duplicate message name %s for id:%u (%s:%u) also used by %s" % (
+                    m.name,
+                    m.id,
+                    x.filename, m.linenumber,
+                    msg_name_map[m.name]))
+                return True
+            msg_name_map[m.name] = '%s (%s:%u)' % (m.id, x.filename, m.linenumber)
         for enum in x.enum:
             for entry in enum.entry:
-                if entry.autovalue == True and "common.xml" not in entry.origin_file:
+                if entry.autovalue is True and "common.xml" not in entry.origin_file:
                     print("Note: An enum value was auto-generated: %s = %u" % (entry.name, entry.value))
                 s1 = "%s.%s" % (enum.name, entry.name)
                 s2 = "%s.%s" % (enum.name, entry.value)
@@ -481,9 +558,8 @@ def mkdir_p(dir):
     try:
         os.makedirs(dir)
     except OSError as exc:
-        if exc.errno == errno.EEXIST:
-            pass
-        else: raise
+        if exc.errno != errno.EEXIST:
+            raise
 
 # check version consistent
 # add test.xml

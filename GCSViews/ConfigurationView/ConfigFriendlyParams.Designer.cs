@@ -29,7 +29,7 @@
       private void InitializeComponent()
       {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigFriendlyParams));
-            this.tableLayoutPanel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
             this.BUT_Find = new MissionPlanner.Controls.MyButton();
@@ -62,7 +62,7 @@
             // ConfigFriendlyParams
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.BUT_Find);
             this.Controls.Add(this.BUT_rerequestparams);
             this.Controls.Add(this.BUT_writePIDS);
@@ -75,7 +75,7 @@
 
       #endregion
 
-      private System.Windows.Forms.Panel tableLayoutPanel1;
+      private System.Windows.Forms.FlowLayoutPanel tableLayoutPanel1;
       private Controls.MyButton BUT_rerequestparams;
       private Controls.MyButton BUT_writePIDS;
       private Controls.MyButton BUT_Find;

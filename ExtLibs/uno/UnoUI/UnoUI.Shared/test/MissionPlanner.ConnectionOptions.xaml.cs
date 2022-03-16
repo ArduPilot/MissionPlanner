@@ -1,0 +1,1 @@
+namespace MissionPlanner { public partial class ConnectionOptions{public ConnectionOptions(){this.InitializeComponent();}}}

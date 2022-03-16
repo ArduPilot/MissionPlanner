@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace AltitudeAngelWings.ApiClient.Models

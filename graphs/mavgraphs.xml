@@ -1,0 +1,519 @@
+<graphs>
+  <graph name="Speed/Ground vs Air Speed">
+    <expression>VFR_HUD.groundspeed VFR_HUD.airspeed</expression>
+    <expression>GPS.Spd ARSP.Airspeed</expression>
+    <description>
+      This shows the ground speed of the vehicle versus its air speed
+    </description>
+  </graph>
+
+  <graph name="Speed/Ground Speed">
+    <expression>VFR_HUD.groundspeed</expression>
+    <expression>GPS.Spd</expression>
+    <description>
+      This shows the ground speed of the vehicle
+    </description>
+  </graph>
+  
+  <graph name='Attitude/Roll and Pitch'>
+    <description>Roll and Pitch</description>
+    <expression>degrees(ATTITUDE.roll) degrees(ATTITUDE.pitch)</expression>
+    <expression>ATT.Roll ATT.Pitch</expression>
+  </graph>
+
+  <graph name='Attitude/RP Comparison'>
+    <description>Roll and pitch comparison between primary and secondary attitude estimator</description>
+    <expression>degrees(ATTITUDE.roll) degrees(ATTITUDE.pitch) degrees(AHRS2.roll) degrees(AHRS2.pitch)</expression>
+    <expression>ATT.Roll ATT.Pitch AHR2.Roll AHR2.Pitch</expression>
+  </graph>
+  
+  <graph name='Attitude/Attitude Control'>
+  <description>Desired versus achieved roll and pitch. This shows you how well the attitude controller are for your aircraft. In a well tuned aircraft the desired and achieved roll and pitch should match to within a couple of degrees for any portion of the flight where stabilisation is enabled.</description>
+    <expression>NAV_CONTROLLER_OUTPUT.nav_roll NAV_CONTROLLER_OUTPUT.nav_pitch degrees(ATTITUDE.roll) degrees(ATTITUDE.pitch)</expression>
+    <expression>ATT.DesRoll ATT.Roll ATT.DesPitch ATT.Pitch</expression>
+    <expression>CTUN.NavRoll CTUN.Roll CTUN.NavPitch CTUN.Pitch</expression>
+  </graph>
+
+  <graph name='Sensors/Accelerometer/Accelerometers'>
+    <description>Accelerometer Output</description>
+    <expression>RAW_IMU.xacc*9.81*0.001 RAW_IMU.yacc*9.81*0.001 RAW_IMU.zacc*9.81*0.001 gravity(RAW_IMU)</expression>
+    <expression>IMU[0].AccX IMU[0].AccY IMU[0].AccZ sqrt(IMU[0].AccX**2+IMU[0].AccY**2+IMU[0].AccZ**2)</expression>
+    <expression>IMU.AccX IMU.AccY IMU.AccZ sqrt(IMU.AccX**2+IMU.AccY**2+IMU.AccZ**2)</expression>
+  </graph>
+
+  <graph name='Sensors/Accelerometer/Accelerometer(2)'>
+    <description>Accelerometer Two Output</description>
+    <expression>SCALED_IMU2.xacc*9.81*0.001 SCALED_IMU2.yacc*9.81*0.001 SCALED_IMU2.zacc*9.81*0.001</expression>
+    <expression>IMU[1].AccX IMU[1].AccY IMU[1].AccZ sqrt(IMU[1].AccX**2+IMU[1].AccY**2+IMU[1].AccZ**2)</expression>
+    <expression>IMU2.AccX IMU2.AccY IMU2.AccZ sqrt(IMU2.AccX**2+IMU2.AccY**2+IMU2.AccZ**2)</expression>
+  </graph>
+
+  <graph name='Sensors/Accelerometer/Accelerometer(3)'>
+    <description>Accelerometer Three Output</description>
+    <expression>SCALED_IMU3.xacc*9.81*0.001 SCALED_IMU3.yacc*9.81*0.001 SCALED_IMU3.zacc*9.81*0.001</expression>
+    <expression>IMU[2].AccX IMU[2].AccY IMU[2].AccZ sqrt(IMU[2].AccX**2+IMU[2].AccY**2+IMU[2].AccZ**2)</expression>
+    <expression>IMU3.AccX IMU3.AccY IMU3.AccZ sqrt(IMU3.AccX**2+IMU3.AccY**2+IMU3.AccZ**2)</expression>
+  </graph>
+  
+  <graph name='Sensors/Accelerometer/Accelerometer Comparison'>
+    <description>Accelerometer Comparison</description>
+    <expression>
+      RAW_IMU.xacc*9.81*0.001 RAW_IMU.yacc*9.81*0.001 RAW_IMU.zacc*9.81*0.001
+      SCALED_IMU2.xacc*9.81*0.001 SCALED_IMU2.yacc*9.81*0.001 SCALED_IMU2.zacc*9.81*0.001
+      SCALED_IMU3.xacc*9.81*0.001 SCALED_IMU3.yacc*9.81*0.001 SCALED_IMU3.zacc*9.81*0.001
+    </expression>
+    <expression>
+      RAW_IMU.xacc*9.81*0.001 RAW_IMU.yacc*9.81*0.001 RAW_IMU.zacc*9.81*0.001
+      SCALED_IMU2.xacc*9.81*0.001 SCALED_IMU2.yacc*9.81*0.001 SCALED_IMU2.zacc*9.81*0.001
+    </expression>
+    <expression>IMU[0].AccX IMU[0].AccY IMU[0].AccZ IMU[1].AccX IMU[1].AccY IMU[1].AccZ IMU[2].AccX IMU[2].AccY IMU[2].AccZ</expression>
+    <expression>IMU[0].AccX IMU[0].AccY IMU[0].AccZ IMU[1].AccX IMU[1].AccY IMU[1].AccZ</expression>
+    <expression>IMU.AccX IMU.AccY IMU.AccZ IMU2.AccX IMU2.AccY IMU2.AccZ IMU3.AccX IMU3.AccY IMU3.AccZ</expression>
+    <expression>IMU.AccX IMU.AccY IMU.AccZ IMU2.AccX IMU2.AccY IMU2.AccZ</expression>
+  </graph>
+
+  <graph name='Sensors/Gyroscope/Gyros'>
+    <description>Gyroscope Output</description>
+    <expression>degrees(RAW_IMU.xgyro*0.001) degrees(RAW_IMU.ygyro*0.001) degrees(RAW_IMU.zgyro*0.001)</expression>
+    <expression>IMU[0].GyrX IMU[0].GyrY IMU[0].GyrZ</expression>
+    <expression>IMU.GyrX IMU.GyrY IMU.GyrZ</expression>
+  </graph>
+
+  <graph name='Sensors/Gyroscope/Gyros(2)'>
+    <description>Gyroscope Two Output</description>
+    <expression>degrees(SCALED_IMU2.xgyro*0.001) degrees(SCALED_IMU2.ygyro*0.001) degrees(SCALED_IMU2.zgyro*0.001)</expression>
+    <expression>IMU[1].GyrX IMU[1].GyrY IMU[1].GyrZ</expression>
+    <expression>IMU2.GyrX IMU2.GyrY IMU2.GyrZ</expression>
+  </graph>
+
+  <graph name='Sensors/Gyroscope/Gyros(3)'>
+    <description>Gyroscope Three Output</description>
+    <expression>degrees(SCALED_IMU3.xgyro*0.001) degrees(SCALED_IMU3.ygyro*0.001) degrees(SCALED_IMU3.zgyro*0.001)</expression>
+    <expression>IMU[2].GyrX IMU[2].GyrY IMU[2].GyrZ</expression>
+    <expression>IMU3.GyrX IMU3.GyrY IMU3.GyrZ</expression>
+  </graph>
+
+  <graph name='Sensors/Gyroscope/Gyro Comparison'>
+    <description>Gyroscope Comparison</description>
+    <expression>
+      degrees(RAW_IMU.xgyro*0.001) degrees(RAW_IMU.ygyro*0.001) degrees(RAW_IMU.zgyro*0.001)
+      degrees(SCALED_IMU2.xgyro*0.001) degrees(SCALED_IMU2.ygyro*0.001) degrees(SCALED_IMU2.zgyro*0.001)
+      degrees(SCALED_IMU3.xgyro*0.001) degrees(SCALED_IMU3.ygyro*0.001) degrees(SCALED_IMU3.zgyro*0.001)
+    </expression>
+    <expression>
+      degrees(RAW_IMU.xgyro*0.001) degrees(RAW_IMU.ygyro*0.001) degrees(RAW_IMU.zgyro*0.001)
+      degrees(SCALED_IMU2.xgyro*0.001) degrees(SCALED_IMU2.ygyro*0.001) degrees(SCALED_IMU2.zgyro*0.001)
+    </expression>
+    <expression>
+      IMU[0].GyrX IMU[0].GyrY IMU[0].GyrZ
+      IMU[1].GyrX IMU[1].GyrY IMU[1].GyrZ
+      IMU[2].GyrX IMU[2].GyrY IMU[2].GyrZ
+    </expression>
+    <expression>
+      IMU[0].GyrX IMU[0].GyrY IMU[0].GyrZ
+      IMU[1].GyrX IMU[1].GyrY IMU[1].GyrZ
+    </expression>
+    <expression>
+      IMU.GyrX IMU.GyrY IMU.GyrZ
+      IMU2.GyrX IMU2.GyrY IMU2.GyrZ
+      IMU3.GyrX IMU3.GyrY IMU3.GyrZ
+    </expression>
+    <expression>
+      IMU.GyrX IMU.GyrY IMU.GyrZ
+      IMU2.GyrX IMU2.GyrY IMU2.GyrZ
+    </expression>
+  </graph>
+
+  <graph name='Sensors/Barometer/Barometer'>
+    <description>Barometer</description>
+    <expression>altitude(SCALED_PRESSURE) SCALED_PRESSURE.temperature*0.01:2</expression>
+    <expression>BARO[0].Alt BARO[0].Temp:2</expression>
+    <expression>BARO.Alt BARO.Temp:2</expression>
+  </graph>
+
+  <graph name='Sensors/Barometer/Barometer(2)'>
+    <description>Barometric Altitude</description>
+    <expression>altitude(SCALED_PRESSURE2) SCALED_PRESSURE2.temperature*0.01:2</expression>
+    <expression>BARO[1].Alt BARO[1].Temp:2</expression>
+    <expression>BAR2.Alt BAR2.Temp:2</expression>
+  </graph>
+
+  <graph name='Sensors/Barometer/Barometer(3)'>
+    <description>Barometric Altitude</description>
+    <expression>altitude(SCALED_PRESSURE3) SCALED_PRESSURE3.temperature*0.01:2</expression>
+    <expression>BARO[2].Alt BARO[2].Temp:2</expression>
+    <expression>BAR3.Alt BAR3.Temp:2</expression>
+  </graph>
+
+  <graph name='Sensors/Barometer/Barometer Comparison'>
+    <description>Barometer Comparison</description>
+    <expression>
+      altitude(SCALED_PRESSURE) SCALED_PRESSURE.temperature*0.01:2
+      altitude(SCALED_PRESSURE2) SCALED_PRESSURE2.temperature*0.01:2
+      altitude(SCALED_PRESSURE3) SCALED_PRESSURE3.temperature*0.01:2
+    </expression>
+    <expression>
+      altitude(SCALED_PRESSURE) SCALED_PRESSURE.temperature*0.01:2
+      altitude(SCALED_PRESSURE2) SCALED_PRESSURE2.temperature*0.01:2
+    </expression>
+    <expression>
+      BARO[0].Alt BARO[0].Temp:2
+      BARO[1].Alt BARO[1].Temp:2
+      BARO[2].Alt BARO[2].Temp:2
+    </expression>
+    <expression>
+      BARO[0].Alt BARO[0].Temp:2
+      BARO[1].Alt BARO[1].Temp:2
+    </expression>
+    <expression>
+      BARO.Alt BARO.Temp:2
+      BAR2.Alt BAR2.Temp:2
+      BAR3.Alt BAR3.Temp:2
+    </expression>
+    <expression>
+      BARO.Alt BARO.Temp:2
+      BAR2.Alt BAR2.Temp:2
+    </expression>
+  </graph>
+
+  <graph name='Sensors/Barometer/Barometric Pressure'>
+    <description>Barometric Pressure</description>
+    <expression>SCALED_PRESSURE.press_abs</expression>
+    <expression>BARO.Press</expression>
+  </graph>
+
+  <graph name='Sensors/Compass/Compass'>
+    <description>Primary Compass</description>
+    <expression>RAW_IMU.xmag RAW_IMU.ymag RAW_IMU.zmag mag_field(RAW_IMU)</expression>
+    <expression>MAG[0].MagX MAG[0].MagY MAG[0].MagZ sqrt(MAG[0].MagX**2+MAG[0].MagY**2+MAG[0].MagZ**2)</expression>
+    <expression>MAG.MagX MAG.MagY MAG.MagZ sqrt(MAG.MagX**2+MAG.MagY**2+MAG.MagZ**2)</expression>
+  </graph>
+
+  <graph name='Sensors/Compass/Compass(2)'>
+    <description>Second Compass</description>
+    <expression>SCALED_IMU2.xmag SCALED_IMU2.ymag SCALED_IMU2.zmag mag_field(SCALED_IMU2)</expression>
+    <expression>MAG[1].MagX MAG[1].MagY MAG[1].MagZ sqrt(MAG[1].MagX**2+MAG[1].MagY**2+MAG[1].MagZ**2)</expression>
+    <expression>MAG2.MagX MAG2.MagY MAG2.MagZ sqrt(MAG2.MagX**2+MAG2.MagY**2+MAG2.MagZ**2)</expression>
+  </graph>
+
+  <graph name='Sensors/Compass/Compass(3)'>
+    <description>Third Compass</description>
+    <expression>SCALED_IMU3.xmag SCALED_IMU3.ymag SCALED_IMU3.zmag mag_field(SCALED_IMU3)</expression>
+    <expression>MAG[2].MagX MAG[2].MagY MAG[2].MagZ sqrt(MAG[2].MagX**2+MAG[2].MagY**2+MAG[2].MagZ**2)</expression>
+    <expression>MAG3.MagX MAG3.MagY MAG3.MagZ sqrt(MAG3.MagX**2+MAG3.MagY**2+MAG3.MagZ**2)</expression>
+  </graph>
+
+  <graph name='Sensors/Compass/Compass vs Yaw'>
+    <description>Primary Compass vs Yaw</description>
+    <expression>mag_heading(RAW_IMU,ATTITUDE) degrees(ATTITUDE.yaw)</expression>
+    <expression>mag_heading_df(MAG,ATT) ATT.Yaw</expression>
+  </graph>
+
+  <graph name='Servos/Servos 1-4'>
+    <description>First 4 servo outputs</description>
+    <expression>
+      SERVO_OUTPUT_RAW.servo1_raw SERVO_OUTPUT_RAW.servo2_raw SERVO_OUTPUT_RAW.servo3_raw SERVO_OUTPUT_RAW.servo4_raw
+    </expression>
+    <expression>
+      RCOU.Ch1 RCOU.Ch2 RCOU.Ch3 RCOU.Ch4
+    </expression>
+    <expression>
+      RCOU.C1 RCOU.C2 RCOU.C3 RCOU.C4
+    </expression>
+  </graph>
+
+  <graph name='Servos/Servos 1-8'>
+    <description>First 8 servo outputs</description>
+    <expression>
+      SERVO_OUTPUT_RAW.servo1_raw SERVO_OUTPUT_RAW.servo2_raw SERVO_OUTPUT_RAW.servo3_raw SERVO_OUTPUT_RAW.servo4_raw
+      SERVO_OUTPUT_RAW.servo5_raw SERVO_OUTPUT_RAW.servo6_raw SERVO_OUTPUT_RAW.servo7_raw SERVO_OUTPUT_RAW.servo8_raw
+    </expression>
+    <expression>
+      RCOU.Ch1 RCOU.Ch2 RCOU.Ch3 RCOU.Ch4
+      RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8
+    </expression>
+    <expression>
+      RCOU.C1 RCOU.C2 RCOU.C3 RCOU.C4
+      RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8
+    </expression>
+  </graph>
+
+  <graph name='RC/RC Input 1-4'>
+    <description>First 4 RC inputs</description>
+    <expression>
+      RC_CHANNELS.chan1_raw RC_CHANNELS.chan2_raw RC_CHANNELS.chan3_raw RC_CHANNELS.chan4_raw
+    </expression>
+    <expression>
+      RC_CHANNELS_RAW.chan1_raw RC_CHANNELS_RAW.chan2_raw RC_CHANNELS_RAW.chan3_raw RC_CHANNELS_RAW.chan4_raw
+    </expression>
+    <expression>
+      RCIN.C1 RCIN.C2 RCIN.C3 RCIN.C4
+    </expression>
+  </graph>
+
+  <graph name='RC/RC Input 1-8'>
+    <description>First 8 RC inputs</description>
+    <expression>
+      RC_CHANNELS.chan1_raw RC_CHANNELS.chan2_raw RC_CHANNELS.chan3_raw RC_CHANNELS.chan4_raw
+      RC_CHANNELS.chan5_raw RC_CHANNELS.chan6_raw RC_CHANNELS.chan7_raw RC_CHANNELS.chan8_raw
+    </expression>
+    <expression>
+      RC_CHANNELS_RAW.chan1_raw RC_CHANNELS_RAW.chan2_raw RC_CHANNELS_RAW.chan3_raw RC_CHANNELS_RAW.chan4_raw
+      RC_CHANNELS_RAW.chan5_raw RC_CHANNELS_RAW.chan6_raw RC_CHANNELS_RAW.chan7_raw RC_CHANNELS_RAW.chan8_raw
+    </expression>
+    <expression>
+      RCIN.C1 RCIN.C2 RCIN.C3 RCIN.C4
+      RCIN.C5 RCIN.C6 RCIN.C7 RCIN.C8
+    </expression>
+  </graph>
+
+ <graph name='Sensors/Lidar/Rangefinder vs Baro'>
+  <description>Rangefinders vs Barometric Altitude</description>
+  <expression>BARO.Alt RFND.Dist1 RFND.Dist2</expression>
+ </graph>
+
+ <graph name='Plane/PID Tuning/Pitch Controller'>
+  <description>This shows how well the pitch controller is tracking the desired pitch rate.
+For a well tuned aircraft PIDP.Des should match the smoothed IMU.GyrY value. 
+If PIDP.I has a constant positive value then it means the aircraft is a bit tail heavy, and the integrator is learning the elevator offset needed to keep the aircraft level. If PIDP.I has a constant negative value then the aircraft is a bit nose heavy.
+You should also check PIDP.D and look for signs of oscillation, in which case PTCH2SRV_D is too high.</description>
+  <expression>PIDP.Des PIDP.P PIDP.I PIDP.D lowpass(degrees(IMU.GyrY),"gy",0.9)</expression>
+ </graph>
+
+ <graph name='Plane/PID Tuning/Roll Controller'>
+  <description>This shows how well the roll controller is tracking the desired roll rate.
+For a well tuned aircraft PIDR.Des should match the smoothed IMU.GyrX value. 
+If PIDR.I has a constant positive value then it means the aircraft is trimmed to roll to the left side, and the integrator is learning the aileron offset needed to keep the aircraft level. If PIDR.I has a constant negative value then the aircraft is trimmed a bit to the right.</description>
+  <expression>PIDR.Des PIDR.P PIDR.I PIDR.D lowpass(degrees(IMU.GyrX),"gx",0.9)</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted'>
+  <description></description>
+  <expression>MAG[0].MagX expected_mag(GPS,ATT).x MAG[0].MagY expected_mag(GPS,ATT).y MAG[0].MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>MAG.MagX expected_mag(GPS,ATT).x MAG.MagY expected_mag(GPS,ATT).y MAG.MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>RAW_IMU.xmag expected_mag(GPS_RAW_INT,ATTITUDE).x RAW_IMU.ymag expected_mag(GPS_RAW_INT,ATTITUDE).y RAW_IMU.zmag expected_mag(GPS_RAW_INT,ATTITUDE).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted2'>
+  <description></description>
+  <expression>MAG[1].MagX expected_mag(GPS,ATT).x MAG[1].MagY expected_mag(GPS,ATT).y MAG[1].MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>MAG2.MagX expected_mag(GPS,ATT).x MAG2.MagY expected_mag(GPS,ATT).y MAG2.MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>SCALED_IMU2.xmag expected_mag(GPS_RAW_INT,ATTITUDE).x SCALED_IMU2.ymag expected_mag(GPS_RAW_INT,ATTITUDE).y SCALED_IMU2.zmag expected_mag(GPS_RAW_INT,ATTITUDE).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted3'>
+  <description></description>
+  <expression>MAG[2].MagX expected_mag(GPS,ATT).x MAG[2].MagY expected_mag(GPS,ATT).y MAG[2].MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>MAG3.MagX expected_mag(GPS,ATT).x MAG3.MagY expected_mag(GPS,ATT).y MAG3.MagZ expected_mag(GPS,ATT).z</expression>
+  <expression>SCALED_IMU3.xmag expected_mag(GPS_RAW_INT,ATTITUDE).x SCALED_IMU3.ymag expected_mag(GPS_RAW_INT,ATTITUDE).y SCALED_IMU3.zmag expected_mag(GPS_RAW_INT,ATTITUDE).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted Yaw'>
+  <description></description>
+  <expression>MAG[0].MagX expected_mag_yaw(GPS,ATT,MAG[0]).x MAG[0].MagY expected_mag_yaw(GPS,ATT,MAG[0]).y MAG[0].MagZ expected_mag_yaw(GPS,ATT,MAG[0]).z</expression>
+  <expression>MAG.MagX expected_mag_yaw(GPS,ATT,MAG).x MAG.MagY expected_mag_yaw(GPS,ATT,MAG).y MAG.MagZ expected_mag_yaw(GPS,ATT,MAG).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted2 Yaw'>
+  <description></description>
+  <expression>MAG[1].MagX expected_mag_yaw(GPS,ATT,MAG[1]).x MAG[1].MagY expected_mag_yaw(GPS,ATT,MAG[1]).y MAG[1].MagZ expected_mag_yaw(GPS,ATT,MAG[1]).z</expression>
+  <expression>MAG2.MagX expected_mag_yaw(GPS,ATT,MAG2).x MAG2.MagY expected_mag_yaw(GPS,ATT,MAG2).y MAG2.MagZ expected_mag_yaw(GPS,ATT,MAG2).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted3 Yaw'>
+  <description></description>
+  <expression>MAG[2].MagX expected_mag_yaw(GPS,ATT,MAG[2]).x MAG[2].MagY expected_mag_yaw(GPS,ATT,MAG[2]).y MAG[2].MagZ expected_mag_yaw(GPS,ATT,MAG[2]).z</expression>
+  <expression>MAG3.MagX expected_mag_yaw(GPS,ATT,MAG3).x MAG3.MagY expected_mag_yaw(GPS,ATT,MAG3).y MAG3.MagZ expected_mag_yaw(GPS,ATT,MAG3).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted Yaw NKF1'>
+  <description></description>
+  <expression>MAG[0].MagX expected_mag_yaw(GPS,NKF1,MAG[0]).x MAG[0].MagY expected_mag_yaw(GPS,NKF1,MAG[0]).y MAG[0].MagZ expected_mag_yaw(GPS,NKF1,MAG[0]).z</expression>
+  <expression>MAG.MagX expected_mag_yaw(GPS,NKF1,MAG).x MAG.MagY expected_mag_yaw(GPS,NKF1,MAG).y MAG.MagZ expected_mag_yaw(GPS,NKF1,MAG).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted2 Yaw NKF1'>
+  <description></description>
+  <expression>MAG[1].MagX expected_mag_yaw(GPS,NKF1,MAG[1]).x MAG[1].MagY expected_mag_yaw(GPS,NKF1,MAG[1]).y MAG[1].MagZ expected_mag_yaw(GPS,NKF1,MAG[1]).z</expression>
+  <expression>MAG2.MagX expected_mag_yaw(GPS,NKF1,MAG2).x MAG2.MagY expected_mag_yaw(GPS,NKF1,MAG2).y MAG2.MagZ expected_mag_yaw(GPS,NKF1,MAG2).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted3 Yaw NKF1'>
+  <description></description>
+  <expression>MAG[2].MagX expected_mag_yaw(GPS,NKF1,MAG[2]).x MAG[2].MagY expected_mag_yaw(GPS,NKF1,MAG[2]).y MAG[2].MagZ expected_mag_yaw(GPS,NKF1,MAG[2]).z</expression>
+  <expression>MAG3.MagX expected_mag_yaw(GPS,NKF1,MAG3).x MAG3.MagY expected_mag_yaw(GPS,NKF1,MAG3).y MAG3.MagZ expected_mag_yaw(GPS,NKF1,MAG3).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted Yaw XKF1'>
+  <description></description>
+  <expression>MAG[0].MagX expected_mag_yaw(GPS,XKF1,MAG[0]).x MAG[0].MagY expected_mag_yaw(GPS,XKF1,MAG[0]).y MAG[0].MagZ expected_mag_yaw(GPS,XKF1,MAG[0]).z</expression>
+  <expression>MAG.MagX expected_mag_yaw(GPS,XKF1,MAG).x MAG.MagY expected_mag_yaw(GPS,XKF1,MAG).y MAG.MagZ expected_mag_yaw(GPS,XKF1,MAG).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted2 Yaw XKF1'>
+  <description></description>
+  <expression>MAG[1].MagX expected_mag_yaw(GPS,XKF1,MAG[1]).x MAG[1].MagY expected_mag_yaw(GPS,XKF1,MAG[1]).y MAG[1].MagZ expected_mag_yaw(GPS,XKF1,MAG[1]).z</expression>
+  <expression>MAG2.MagX expected_mag_yaw(GPS,XKF1,MAG2).x MAG2.MagY expected_mag_yaw(GPS,XKF1,MAG2).y MAG2.MagZ expected_mag_yaw(GPS,XKF1,MAG2).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/Compare Predicted3 Yaw XKF1'>
+  <description></description>
+  <expression>MAG[2].MagX expected_mag_yaw(GPS,XKF1,MAG[2]).x MAG[2].MagY expected_mag_yaw(GPS,XKF1,MAG[2]).y MAG[2].MagZ expected_mag_yaw(GPS,XKF1,MAG[2]).z</expression>
+  <expression>MAG3.MagX expected_mag_yaw(GPS,XKF1,MAG3).x MAG3.MagY expected_mag_yaw(GPS,XKF1,MAG3).y MAG3.MagZ expected_mag_yaw(GPS,XKF1,MAG3).z</expression>
+ </graph>
+ 
+ <graph name='Sensors/Compass/EarthField Error EK2 Lane1'>
+  <description></description>
+  <expression>earth_field_error(GPS,NKF2[0]).x earth_field_error(GPS,NKF2[0]).y earth_field_error(GPS,NKF2[0]).z</expression>
+  <expression>earth_field_error(GPS,NKF2).x earth_field_error(GPS,NKF2).y earth_field_error(GPS,NKF2).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/EarthField Error EK2 Lane2'>
+  <description></description>
+  <expression>earth_field_error(GPS,NKF2[1]).x earth_field_error(GPS,NKF2[1]).y earth_field_error(GPS,NKF2[1]).z</expression>
+  <expression>earth_field_error(GPS,NKF7).x earth_field_error(GPS,NKF7).y earth_field_error(GPS,NKF7).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/EarthField Error EK3 Lane1'>
+  <description></description>
+  <expression>earth_field_error(GPS,XKF2).x earth_field_error(GPS,XKF2).y earth_field_error(GPS,XKF2).z</expression>
+  <expression>earth_field_error(GPS,XKF2[0]).x earth_field_error(GPS,XKF2[0]).y earth_field_error(GPS,XKF2[0]).z</expression>
+ </graph>
+
+ <graph name='Sensors/Compass/EarthField Error EK3 Lane2'>
+  <description></description>
+  <expression>earth_field_error(GPS,XKF7).x earth_field_error(GPS,XKF7).y earth_field_error(GPS,XKF7).z</expression>
+  <expression>earth_field_error(GPS,XKF2[1]).x earth_field_error(GPS,XKF2[1]).y earth_field_error(GPS,XKF2[1]).z</expression>
+ </graph>
+ 
+ <graph name='Copter/PID/PIDP'>
+  <description></description>
+  <expression>PIDP.P PIDP.I PIDP.D</expression>
+ </graph>
+
+ <graph name='Copter/PID/PIDR'>
+  <description></description>
+  <expression>PIDR.P PIDR.I PIDR.D</expression>
+ </graph>
+
+ <graph name='Copter/PID/PIDY'>
+  <description></description>
+  <expression>PIDY.P PIDY.I PIDY.D</expression>
+ </graph>
+
+ <graph name='Copter/PID/PIDA'>
+  <description></description>
+  <expression>PIDA.P PIDA.I PIDA.D</expression>
+ </graph>
+
+  <graph name='SITL/SIM RollRate vs GyrX'>
+  <description></description>
+  <expression>IMU[0].GyrX sim_body_rates(SIM).x</expression>
+  <expression>IMU.GyrX sim_body_rates(SIM).x</expression>
+ </graph>
+
+ <graph name='SITL/SIM PitchRate vs GyrY'>
+  <description></description>
+  <expression>IMU[0].GyrY sim_body_rates(SIM).y</expression>
+  <expression>IMU.GyrY sim_body_rates(SIM).y</expression>
+ </graph>
+
+ <graph name='SITL/SIM YawRate vs GyrZ'>
+  <description></description>
+  <expression>IMU[0].GyrZ sim_body_rates(SIM).z</expression>
+  <expression>IMU.GyrZ sim_body_rates(SIM).z</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/GPS Accuracy'>
+  <description></description>
+  <expression>GPA[0].HAcc GPA[0].SAcc GPA[0].VAcc GPS[0].NSats:2</expression>
+  <expression>GPA.HAcc GPA.SAcc GPA.VAcc GPS.NSats:2</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/GPS2 Accuracy'>
+  <description></description>
+  <expression>GPA[1].HAcc GPA[1].SAcc GPA[1].VAcc GPS[1].NSats:2</expression>
+  <expression>GPA2.HAcc GPA2.SAcc GPA2.VAcc GPS2.NSats:2</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/RTKPosAltDiff'>
+  <description></description>
+  <expression>distance_two(GPS,GPS2){GPS2.GMS==GPS.GMS} GPS2.Alt-GPS.Alt{GPS2.GMS==GPS.GMS}</expression>
+ </graph>
+
+ <graph name='EKF3/GSF Yaws Lane1'>
+  <description></description>
+  <expression>degrees(XKY0[0].Y0) degrees(XKY0[0].Y1) degrees(XKY0[0].Y2) degrees(XKY0[0].Y3) degrees(XKY0[0].Y4) degrees(XKY0[0].YC)</expression>
+ </graph>
+
+ <graph name='EKF3/GSF Yaws Lane2'>
+  <description></description>
+  <expression>degrees(XKY0[1].Y0) degrees(XKY0[1].Y1) degrees(XKY0[1].Y2) degrees(XKY0[1].Y3) degrees(XKY0[1].Y4) degrees(XKY0[1].YC)</expression>
+ </graph>
+
+ <graph name='EKF3/GSF VelInnov Lane1'>
+  <description></description>
+  <expression>sqrt(XKY1[0].IVN0**2+XKY1[0].IVE0**2) sqrt(XKY1[0].IVN1**2+XKY1[0].IVE1**2) sqrt(XKY1[0].IVN2**2+XKY1[0].IVE2**2) sqrt(XKY1[0].IVN3**2+XKY1[0].IVE3**2) sqrt(XKY1[0].IVN4**2+XKY1[0].IVE4**2) ATT.Yaw:2</expression>
+ </graph>
+
+ <graph name='Replay/EK3 VelNE'>
+  <description></description>
+  <expression>XKF1[0].VN-XKF1[100].VN{XKF1.C==100} XKF1[0].VE-XKF1[100].VE{XKF1.C==100}</expression>
+ </graph>
+
+ <graph name='Replay/RollPitchDiff'>
+  <description></description>
+  <expression>XKF1[0].Pitch-XKF1[100].Pitch{XKF1.C==100} XKF1[0].Roll-XKF1[100].Roll{XKF1.C==100}</expression>
+ </graph>
+
+ <graph name='Replay/EK2 RollPitchDiff'>
+  <description></description>
+  <expression>NKF1[0].Pitch-NKF1[100].Pitch{NKF1.C==100} NKF1[0].Roll-NKF1[100].Roll{NKF1.C==100} NKF1[0].Yaw-NKF1[100].Yaw{NKF1.C==100}</expression>
+ </graph>
+
+ <graph name='Replay/EK3 DiffPNPE'>
+  <description></description>
+  <expression>XKF1[0].PN-XKF1[100].PN{XKF1.C==100} XKF1[0].PE-XKF1[100].PE{XKF1.C==100}</expression>
+ </graph>
+
+ <graph name='Replay/EK2 DiffPNPE'>
+  <description></description>
+  <expression>NKF1[0].PN-NKF1[100].PN{NKF1.C==100} NKF1[0].PE-NKF1[100].PE{NKF1.C==100}</expression>
+ </graph>
+
+ <graph name='Replay/EK2 DiffPD'>
+  <description></description>
+  <expression>NKF1[0].PD-NKF1[100].PD{NKF1.C==100}</expression>
+ </graph>
+
+ <graph name='Replay/EK3 DiffPD'>
+  <description></description>
+  <expression>XKF1[0].PD-XKF1[100].PD{XKF1.C==100}</expression>
+ </graph>
+
+ <graph name='Aliasing/AccX'>
+  <description></description>
+  <expression>lowpass(IMU[0].AccX,0,0.9) lowpass(IMU[1].AccX,1,0.9) lowpass(IMU[2].AccX,2,0.9)</expression>
+  <expression>lowpass(IMU[0].AccX,0,0.9) lowpass(IMU[1].AccX,1,0.9)</expression>
+  <expression>lowpass(IMU.AccX,0,0.9) lowpass(IMU2.AccX,1,0.9) lowpass(IMU3.AccX,2,0.9)</expression>
+  <expression>lowpass(IMU.AccX,0,0.9) lowpass(IMU2.AccX,1,0.9)</expression>
+ </graph>
+
+ <graph name='Aliasing/AccY'>
+  <description></description>
+  <expression>lowpass(IMU[0].AccY,0,0.9) lowpass(IMU[1].AccY,1,0.9) lowpass(IMU[2].AccY,2,0.9)</expression>
+  <expression>lowpass(IMU[0].AccY,0,0.9) lowpass(IMU[1].AccY,1,0.9)</expression>
+  <expression>lowpass(IMU.AccY,0,0.9) lowpass(IMU2.AccY,1,0.9) lowpass(IMU3.AccY,2,0.9)</expression>
+  <expression>lowpass(IMU.AccY,0,0.9) lowpass(IMU2.AccY,1,0.9)</expression>
+ </graph>
+
+ <graph name='Aliasing/AccZ'>
+  <description></description>
+  <expression>lowpass(IMU[0].AccZ,0,0.9) lowpass(IMU[1].AccZ,1,0.9) lowpass(IMU[2].AccZ,2,0.9)</expression>
+  <expression>lowpass(IMU[0].AccZ,0,0.9) lowpass(IMU[1].AccZ,1,0.9)</expression>
+  <expression>lowpass(IMU.AccZ,0,0.9) lowpass(IMU2.AccZ,1,0.9) lowpass(IMU3.AccZ,2,0.9)</expression>
+  <expression>lowpass(IMU.AccZ,0,0.9) lowpass(IMU2.AccZ,1,0.9)</expression>
+ </graph>
+ 
+</graphs>
+

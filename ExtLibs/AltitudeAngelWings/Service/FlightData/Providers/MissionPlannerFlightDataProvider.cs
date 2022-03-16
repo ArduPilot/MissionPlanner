@@ -1,5 +1,4 @@
-using System;
-using AltitudeAngel.IsolatedPlugin.Common;
+using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
 
 namespace AltitudeAngelWings.Service.FlightData.Providers

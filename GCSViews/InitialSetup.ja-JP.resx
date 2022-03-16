@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="backstageViewPageairspeed.Text" xml:space="preserve">
     <value>エアスピード</value>
@@ -124,22 +124,22 @@
     <value>OSD</value>
   </data>
   <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
-    <value>アンテナ トラッカー</value>
+    <value>アンテナトラッカー</value>
   </data>
   <data name="backstageViewPagehwbt.Text" xml:space="preserve">
     <value>Bluetooth設定</value>
   </data>
   <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
-    <value>コンパス/モータ キャリブレ</value>
+    <value>コンパス/モータキャリブレーション</value>
   </data>
   <data name="backstageViewPageopt.Text" xml:space="preserve">
-    <value>オプション ハードウェア</value>
+    <value>オプションハードウェア</value>
   </data>
   <data name="backstageViewPageradio.Text" xml:space="preserve">
-    <value>ラジオ キャリブレ</value>
+    <value>ラジオキャリブレーション</value>
   </data>
   <data name="backstageViewPageaccelplane.Text" xml:space="preserve">
-    <value>加速度 キャリブレ</value>
+    <value>加速度キャリブレーション</value>
   </data>
   <data name="backstageViewPageframetype.Text" xml:space="preserve">
     <value>フレーム タイプ</value>
@@ -148,16 +148,16 @@
     <value>3DR Radio</value>
   </data>
   <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
-    <value>ファームウェア インストール</value>
+    <value>ファームウェアインストール</value>
   </data>
   <data name="backstageViewPagefs.Text" xml:space="preserve">
     <value>フェイルセーフ</value>
   </data>
   <data name="backstageViewPagefw.Text" xml:space="preserve">
-    <value>ファームウェア インストール</value>
+    <value>ファームウェアインストール</value>
   </data>
   <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
-    <value>モーター テスト</value>
+    <value>モーターテスト</value>
   </data>
   <data name="backstageViewPagebatmon.Text" xml:space="preserve">
     <value>バッテリー モニタ</value>
@@ -166,7 +166,7 @@
     <value>ウィザード</value>
   </data>
   <data name="backstageViewPageacceltracker.Text" xml:space="preserve">
-    <value>加速度 キャリブレ</value>
+    <value>加速度キャリブレーション</value>
   </data>
   <data name="backstageViewPagetradheli.Text" xml:space="preserve">
     <value>ヘリ セットアップ</value>
@@ -187,10 +187,10 @@
     <value>カメラ ジンバル</value>
   </data>
   <data name="backstageViewPageaccelquad.Text" xml:space="preserve">
-    <value>加速度 キャリブレ</value>
+    <value>加速度キャリブレーション</value>
   </data>
   <data name="backstageViewPageinstfw.Text" xml:space="preserve">
-    <value>ファームウェア インストール</value>
+    <value>ファームウェアインストール</value>
   </data>
   <data name="backstageViewPagesonar.Text" xml:space="preserve">
     <value>ソナー</value>

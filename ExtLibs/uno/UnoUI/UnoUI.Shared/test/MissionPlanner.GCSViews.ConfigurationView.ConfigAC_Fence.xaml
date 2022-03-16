@@ -1,0 +1,31 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigAC_Fence" d:DesignHeight="231" d:DesignWidth="528"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Grid Name="tableLayoutPanel1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,35,0,0" Width="460" Height="169">
+<TextBlock Name="label2rtlalt" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,145,0,0" Width="82" Height="17">RTL Altitude[m]</TextBlock>
+<ComboBox Name="mavlinkComboBox2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="136,61,0,0" Width="121" Height="21"></ComboBox>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDown1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="136,90,0,0" Width="120"></Custom:DecimalUpDown>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDown2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="136,119,0,0" Width="120"></Custom:DecimalUpDown>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="136,3,0,0" Width="59" Height="18"></Controls:MavlinkCheckBox>
+<TextBlock Name="label3enable" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,0,0,0" Width="40" Height="17">Enable</TextBlock>
+<ComboBox Name="mavlinkComboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="136,32,0,0" Width="121" Height="21"></ComboBox>
+<TextBlock Name="label4type" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,29,0,0" Width="29" Height="17">Type</TextBlock>
+<TextBlock Name="label5action" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,58,0,0" Width="36" Height="17">Action</TextBlock>
+<TextBlock Name="label6maxalt" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,87,0,0" Width="58" Height="17">Max Alt[m]</TextBlock>
+<TextBlock Name="label7maxrad" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="3,116,0,0" Width="80" Height="17">Max Radius[m]</TextBlock>
+<Custom:DecimalUpDown Name="mavlinkNumericUpDown3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="136,148,0,0" Width="120"></Custom:DecimalUpDown>
+</Grid>
+<TextBlock Name="label1gftitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="19,4,0,0" Width="87" Height="24">Geo Fence</TextBlock>
+</Grid></UserControl>

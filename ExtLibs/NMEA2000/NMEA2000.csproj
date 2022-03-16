@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+    <DebugType>portable</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <Authors>Michael Oborne</Authors>
+    <Company>Michael Oborne</Company>
+    <Copyright>Michael Oborne</Copyright>
+    <NeutralLanguage>en</NeutralLanguage>
+
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Optimize>false</Optimize>
+    <DefineConstants>TRACE;UNSAFE</DefineConstants>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\pgns.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+</Project>

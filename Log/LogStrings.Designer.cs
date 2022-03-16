@@ -19,10 +19,10 @@ namespace MissionPlanner.Log {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class LogStrings {
+    public partial class LogStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace MissionPlanner.Log {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MissionPlanner.Log.LogStrings", typeof(LogStrings).Assembly);
@@ -51,7 +51,7 @@ namespace MissionPlanner.Log {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to You are downloading a log file, do you want to cancel?.
         /// </summary>
-        public static string CancelDownload {
+        internal static string CancelDownload {
             get {
                 return ResourceManager.GetString("CancelDownload", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
-        public static string Confirmation {
+        internal static string Confirmation {
             get {
                 return ResourceManager.GetString("Confirmation", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Creating KML for {0}.
         /// </summary>
-        public static string CreatingKmlPrompt {
+        internal static string CreatingKmlPrompt {
             get {
                 return ResourceManager.GetString("CreatingKmlPrompt", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Done.
         /// </summary>
-        public static string Done {
+        internal static string Done {
             get {
                 return ResourceManager.GetString("Done", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Downloading log files to: {0}.
         /// </summary>
-        public static string DownloadStarting {
+        internal static string DownloadStarting {
             get {
                 return ResourceManager.GetString("DownloadStarting", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to !!Allow 30-90 seconds for erase.
         /// </summary>
-        public static string EraseComplete {
+        internal static string EraseComplete {
             get {
                 return ResourceManager.GetString("EraseComplete", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Error processing file. Make sure the file is not in use.
         /// </summary>
-        public static string ErrorProcessingLogfile {
+        internal static string ErrorProcessingLogfile {
             get {
                 return ResourceManager.GetString("ErrorProcessingLogfile", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Fetching log file {0} ....
         /// </summary>
-        public static string FetchingLog {
+        internal static string FetchingLog {
             get {
                 return ResourceManager.GetString("FetchingLog", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Getting list of log files....
         /// </summary>
-        public static string FetchingLogfileList {
+        internal static string FetchingLogfileList {
             get {
                 return ResourceManager.GetString("FetchingLogfileList", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Could not create log file directory: {0}.
         /// </summary>
-        public static string LogDirectoryError {
+        internal static string LogDirectoryError {
             get {
                 return ResourceManager.GetString("LogDirectoryError", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to No logs to download.
         /// </summary>
-        public static string NoLogsFound {
+        internal static string NoLogsFound {
             get {
                 return ResourceManager.GetString("NoLogsFound", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Please connect your drone.
         /// </summary>
-        public static string NotConnected {
+        internal static string NotConnected {
             get {
                 return ResourceManager.GetString("NotConnected", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Please select some logs by checking the check boxes in the list.
         /// </summary>
-        public static string NothingSelected {
+        internal static string NothingSelected {
             get {
                 return ResourceManager.GetString("NothingSelected", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Processing {0}.
         /// </summary>
-        public static string ProcessingLog {
+        internal static string ProcessingLog {
             get {
                 return ResourceManager.GetString("ProcessingLog", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Found {0} log files, note: item sizes are just an estimate..
         /// </summary>
-        public static string SomeLogsFound {
+        internal static string SomeLogsFound {
             get {
                 return ResourceManager.GetString("SomeLogsFound", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace MissionPlanner.Log {
         /// <summary>
         ///   Looks up a localized string similar to Error:.
         /// </summary>
-        public static string UnhandledException {
+        internal static string UnhandledException {
             get {
                 return ResourceManager.GetString("UnhandledException", resourceCulture);
             }

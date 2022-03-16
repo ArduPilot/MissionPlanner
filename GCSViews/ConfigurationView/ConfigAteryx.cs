@@ -1,4 +1,7 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
@@ -6,12 +9,10 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAteryx : UserControl, IActivate
+    public partial class ConfigAteryx : MyUserControl, IActivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -35,7 +36,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
             {
                 Enabled = true;
             }
@@ -58,7 +59,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -90,7 +91,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     disableNumericUpDownControls(ctl);
                 }
-                if (ctl.GetType() == typeof (NumericUpDown))
+                if (ctl.GetType() == typeof(NumericUpDown))
                 {
                     ctl.Enabled = false;
                 }
@@ -115,13 +116,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     try
                     {
-                        if (ctl.GetType() == typeof (NumericUpDown))
+                        if (ctl.GetType() == typeof(NumericUpDown))
                         {
-                            var thisctl = ((NumericUpDown) ctl);
+                            var thisctl = ((NumericUpDown)ctl);
                             thisctl.Maximum = 9000;
                             thisctl.Minimum = -9000;
-                            thisctl.Value = (decimal) (float) MainV2.comPort.MAV.param[value];
-                            thisctl.Increment = (decimal) 0.001;
+                            thisctl.Value = (decimal)(float)MainV2.comPort.MAV.param[value];
+                            thisctl.Increment = (decimal)0.001;
                             if (thisctl.Name.EndsWith("_P") || thisctl.Name.EndsWith("_I") ||
                                 thisctl.Name.EndsWith("_D")
                                 || thisctl.Name.EndsWith("_LOW") || thisctl.Name.EndsWith("_HIGH") || thisctl.Value == 0
@@ -149,7 +150,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             {
                                 try
                                 {
-                                    toolTip1.SetToolTip(ctl, ((paramsettings) tooltips[value]).desc);
+                                    toolTip1.SetToolTip(ctl, ((paramsettings)tooltips[value]).desc);
                                 }
                                 catch
                                 {
@@ -157,11 +158,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
                             thisctl.Validated += EEPROM_View_float_TextChanged;
                         }
-                        else if (ctl.GetType() == typeof (ComboBox))
+                        else if (ctl.GetType() == typeof(ComboBox))
                         {
-                            var thisctl = ((ComboBox) ctl);
+                            var thisctl = ((ComboBox)ctl);
 
-                            thisctl.SelectedIndex = (int) (float) MainV2.comPort.MAV.param[value];
+                            thisctl.SelectedIndex = (int)(float)MainV2.comPort.MAV.param[value];
 
                             thisctl.Validated += ComboBox_Validated;
                         }
@@ -190,38 +191,38 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         internal void EEPROM_View_float_TextChanged(object sender, EventArgs e)
         {
             float value = 0;
-            var name = ((Control) sender).Name;
+            var name = ((Control)sender).Name;
 
             // do domainupdown state check
             try
             {
-                if (sender.GetType() == typeof (NumericUpDown))
+                if (sender.GetType() == typeof(NumericUpDown))
                 {
-                    value = float.Parse(((Control) sender).Text);
+                    value = float.Parse(((Control)sender).Text);
                     changes[name] = value;
                 }
-                else if (sender.GetType() == typeof (ComboBox))
+                else if (sender.GetType() == typeof(ComboBox))
                 {
-                    value = ((ComboBox) sender).SelectedIndex;
+                    value = ((ComboBox)sender).SelectedIndex;
                     changes[name] = value;
                 }
-                ((Control) sender).BackColor = Color.Green;
+                ((Control)sender).BackColor = Color.Green;
             }
             catch (Exception)
             {
-                ((Control) sender).BackColor = Color.Red;
+                ((Control)sender).BackColor = Color.Red;
             }
         }
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            var temp = (Hashtable) changes.Clone();
+            var temp = (Hashtable)changes.Clone();
 
             foreach (string value in temp.Keys)
             {
                 try
                 {
-                    MainV2.comPort.setParam(value, (float) changes[value]);
+                    MainV2.comPort.setParam(value, (float)changes[value]);
 
                     try
                     {
@@ -253,7 +254,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
             try
             {
@@ -265,7 +266,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
             Activate();
         }
@@ -290,47 +291,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Button)sender).Enabled = false;
 
                 if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 10.0))
                 {
-                    MessageBox.Show("Unable - UAV airborne");
-                    ((Button) sender).Enabled = true;
+                    CustomMessageBox.Show("Unable - UAV airborne");
+                    ((Button)sender).Enabled = true;
                     return;
                 }
 
                 //MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), "MAV_CMD_PREFLIGHT_STORAGE"));
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
             }
             catch
             {
-                MessageBox.Show("The Command failed to execute");
+                CustomMessageBox.Show("The Command failed to execute");
             }
-            ((Button) sender).Enabled = true;
+            ((Button)sender).Enabled = true;
         }
 
         private void BUT_read_flash_Click(object sender, EventArgs e)
         {
             try
             {
-                var dr = MessageBox.Show("Reset Flash to Factory Defaults?", "Continue", MessageBoxButtons.YesNo);
-                if (dr == DialogResult.Yes)
+                var dr = CustomMessageBox.Show("Reset Flash to Factory Defaults?", "Continue", MessageBoxButtons.YesNo);
+                if (dr == (int)DialogResult.Yes)
                 {
                     if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 7.0))
                     {
                         MessageBox.Show("Unable - UAV airborne");
-                        ((Button) sender).Enabled = true;
+                        ((Button)sender).Enabled = true;
                         return;
                     }
                     //MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), "MAV_CMD_PREFLIGHT_STORAGE"));
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
                 }
             }
             catch
             {
-                MessageBox.Show("The Command failed to execute");
+                CustomMessageBox.Show("The Command failed to execute");
             }
-            ((Button) sender).Enabled = true;
+            ((Button)sender).Enabled = true;
         }
 
         public struct paramsettings // hk's

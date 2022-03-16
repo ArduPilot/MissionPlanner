@@ -1,0 +1,1 @@
+namespace MissionPlanner { public partial class FollowMe{public FollowMe(){this.InitializeComponent();}}}

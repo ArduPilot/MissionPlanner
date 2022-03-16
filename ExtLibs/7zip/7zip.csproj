@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0; net461</TargetFrameworks>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <Description>7zip</Description>
+    <NeutralLanguage>en</NeutralLanguage>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Compress\LzmaAlone\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Compress\LzmaAlone\Properties\Settings.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Compress\LzmaAlone\Properties\AssemblyInfo.cs" />
+    <None Include="Compress\LzmaAlone\Properties\Settings.cs" />
+  </ItemGroup>
+
+</Project>

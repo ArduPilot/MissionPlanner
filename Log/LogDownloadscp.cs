@@ -1,30 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-using System.IO.Ports;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using KMLib;
-using KMLib.Feature;
-using KMLib.Geometry;
-using Core.Geometry;
-using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Checksums;
-using ICSharpCode.SharpZipLib.Core;
-using log4net;
-using MissionPlanner.Comms;
-using MissionPlanner.Utilities;
-using System.Diagnostics;
-using System.Threading;
+﻿using log4net;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Log
 {
@@ -62,7 +48,7 @@ namespace MissionPlanner.Log
 
             ThemeManager.ApplyThemeTo(this);
 
-            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);            
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void Log_Load(object sender, EventArgs e)
@@ -79,14 +65,14 @@ namespace MissionPlanner.Log
         {
             string path = Settings.Instance["LogDownloadscppath"];
 
-            if(path == null)
+            if (path == null)
                 path = "user:edison@10.0.1.128:/home/user/dflogger/dataflash/";
 
             //solo - root:TjSDBkAu@10.1.1.10:/log/dataflash/
 
             InputBox.Show("", "Please enter scp path eg (user:password@host:/dir/path/to/files/)", ref path);
 
-            Uri ur = new Uri("http://"+path);
+            Uri ur = new Uri("http://" + path);
 
             Settings.Instance["LogDownloadscppath"] = path;
 
@@ -229,17 +215,17 @@ namespace MissionPlanner.Log
         {
             log.Info("GetLog " + no);
 
-            
+
             status = SerialStatus.Reading;
 
-                logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
-                          + MakeValidFileName(fileName) + ".bin";
+            logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
+                      + MakeValidFileName(fileName) + ".bin";
 
-                // make log dir
-                Directory.CreateDirectory(Path.GetDirectoryName(logfile));
+            // make log dir
+            Directory.CreateDirectory(Path.GetDirectoryName(logfile));
 
-                log.Info("about to write: " + logfile);
-                // save memorystream to file
+            log.Info("about to write: " + logfile);
+            // save memorystream to file
 
 
             SftpClient client = new SftpClient(_connectionInfo);
@@ -264,7 +250,7 @@ namespace MissionPlanner.Log
             // rename file if needed
             log.Info("about to GetFirstGpsTime: " + logfile);
             // get gps time of assci log
-            DateTime logtime = new DFLog().GetFirstGpsTime(logfile);
+            DateTime logtime = new DFLog(null).GetFirstGpsTime(logfile);
 
             // rename log is we have a valid gps time
             if (logtime != DateTime.MinValue)
@@ -308,7 +294,7 @@ namespace MissionPlanner.Log
             if (status == SerialStatus.Reading)
             {
                 if (CustomMessageBox.Show(LogStrings.CancelDownload, "Cancel Download", MessageBoxButtons.YesNo) ==
-                    System.Windows.Forms.DialogResult.No)
+                    (int)System.Windows.Forms.DialogResult.No)
                 {
                     e.Cancel = true;
                     return;
@@ -384,7 +370,7 @@ namespace MissionPlanner.Log
 
                     tallyBytes += receivedbytes;
                     receivedbytes = 0;
-                    UpdateProgress(0, totalBytes, tallyBytes);                    
+                    UpdateProgress(0, totalBytes, tallyBytes);
                 }
 
                 UpdateProgress(0, totalBytes, totalBytes);
@@ -465,7 +451,7 @@ namespace MissionPlanner.Log
         private void BUT_clearlogs_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show(LogStrings.Confirmation, "sure", MessageBoxButtons.YesNo) ==
-                System.Windows.Forms.DialogResult.Yes)
+                (int)System.Windows.Forms.DialogResult.Yes)
             {
                 try
                 {
@@ -517,14 +503,13 @@ namespace MissionPlanner.Log
                         LogOutput lo = new LogOutput();
                         try
                         {
-                            TextReader tr = new StreamReader(logfile);
-
-                            while (tr.Peek() != -1)
+                            using (TextReader tr = new StreamReader(logfile))
                             {
-                                lo.processLine(tr.ReadLine());
+                                while (tr.Peek() != -1)
+                                {
+                                    lo.processLine(tr.ReadLine());
+                                }
                             }
-
-                            tr.Close();
                         }
                         catch (Exception ex)
                         {
@@ -604,7 +589,7 @@ namespace MissionPlanner.Log
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Binary Log|*.bin";
+                ofd.Filter = "Binary Log|*.bin;*.BIN";
 
                 ofd.ShowDialog();
 
@@ -612,7 +597,7 @@ namespace MissionPlanner.Log
                 {
                     using (SaveFileDialog sfd = new SaveFileDialog())
                     {
-                        sfd.Filter = "log|*.log";
+                        sfd.Filter = "log|*.log;*.LOG";
 
                         DialogResult res = sfd.ShowDialog();
 

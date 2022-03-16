@@ -1,11 +1,11 @@
-﻿using System.ComponentModel;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigPlannerAdv : UserControl, IActivate
+    public partial class ConfigPlannerAdv : MyUserControl, IActivate
     {
         public ConfigPlannerAdv()
         {

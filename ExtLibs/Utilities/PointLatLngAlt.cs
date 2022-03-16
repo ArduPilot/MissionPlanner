@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using GMap.NET;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 using GeoUtility;
 using GeoUtility.GeoSystem;
+using System.Collections;
+using GeoAPI.Geometries;
 
 namespace MissionPlanner.Utilities
 {
@@ -15,15 +19,15 @@ namespace MissionPlanner.Utilities
     public class PointLatLngAlt: IComparable
     {
         public static readonly PointLatLngAlt Zero = new PointLatLngAlt();
-        public double Lat = 0;
-        public double Lng = 0;
-        public double Alt = 0;
-        public string Tag = "";
-        public string Tag2 = "";
-        public Color color = Color.White;
+        public double Lat { get; set; } = 0;
+        public double Lng { get; set; } = 0;
+        public double Alt { get; set; } = 0;
+        public string Tag { get; set; } = "";
+        public string Tag2 { get; set; } = "";
+        public Color color { get; set; } = Color.White;
 
         static CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
-        static GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+        static IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
         public PointLatLngAlt(double lat, double lng, double alt, string tag)
         {
@@ -64,6 +68,14 @@ namespace MissionPlanner.Utilities
             this.Alt = locwp.alt;
         }
 
+        public PointLatLngAlt(double[] dblarr)
+        {
+            this.Lat = dblarr[0];
+            this.Lng = dblarr[1];
+            if (dblarr.Length > 2)
+                this.Alt = dblarr[2];
+        }
+
         public PointLatLngAlt(PointLatLngAlt plla)
         {
             this.Lat = plla.Lat;
@@ -96,6 +108,10 @@ namespace MissionPlanner.Utilities
 
         public static implicit operator PointLatLngAlt(double[] a)
         {
+            if (a.Count() == 3)
+            {
+                return new PointLatLngAlt() { Lng = a[0], Lat = a[1], Alt = a[2]};
+            }
             return new PointLatLngAlt() { Lng =  a[0], Lat = a[1] };
         }
 
@@ -122,14 +138,51 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
+
+        public static bool operator ==(PointLatLngAlt p1, PointLatLngAlt p2)
+        {
+            if (p1 is null && p2 is null)
+                return true;
+
+            if (p1 is null && !(p2 is null))
+                return false;
+
+            return p1.Equals(p2);
+        }
+
+        public static bool operator !=(PointLatLngAlt p1, PointLatLngAlt p2)
+        {
+            return !(p1 == p2);
+        }
+
+        public static bool operator ==(PointLatLngAlt p1, PointLatLng p2)
+        {
+            if (p1 == null || p2 == null)
+                return false;
+
+            if (p1.Lat == p2.Lat &&
+                p1.Lng == p2.Lng)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool operator !=(PointLatLngAlt p1, PointLatLng p2)
+        {
+            return !(p1 == p2);
+        }
+
         public override int GetHashCode()
         {
-            return (int)((Lat + (Lng * 100) + (Alt * 10000)) * 100);
+            return (int) (BitConverter.DoubleToInt64Bits(Lat) ^
+                          BitConverter.DoubleToInt64Bits(Lng) ^
+                          BitConverter.DoubleToInt64Bits(Alt));
         }
 
         public override string ToString()
         {
-            return Lat + "," + Lng + "," + Alt;
+            return Lat + "," + Lng + "," + Alt + "," + Tag;
         }
 
         public int GetUTMZone()
@@ -139,6 +192,18 @@ namespace MissionPlanner.Utilities
                 zone *= -1;
 
             return zone;
+        }
+
+        public int GetLngStartFromZone()
+        {
+            int zone = GetUTMZone();
+            return ((Math.Abs(zone) * 6) - 180) - 6;
+        }
+
+        public int GetLngEndFromZone()
+        {
+            int zone = GetUTMZone();
+            return ((Math.Abs(zone) * 6) - 180);
         }
 
         public string GetFriendlyZone()
@@ -153,6 +218,16 @@ namespace MissionPlanner.Utilities
             MGRS mgrs = (MGRS)geo;
 
             return mgrs.ToString();
+        }
+
+        public static Coordinate[] Transform(Coordinate[] points, string sourceCoordinateSystemString, string targetCoordinateSystemString = "GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137,298.257223563]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]]")
+        {
+            CoordinateSystemFactory coordinateSystemFactory = new CoordinateSystemFactory();
+            ICoordinateSystem sourceCoordinateSystem = coordinateSystemFactory.CreateFromWkt(sourceCoordinateSystemString);
+            ICoordinateSystem targetCoordinateSystem = coordinateSystemFactory.CreateFromWkt(targetCoordinateSystemString);
+            ICoordinateTransformation trans = (new CoordinateTransformationFactory()).CreateFromCoordinateSystems(sourceCoordinateSystem, targetCoordinateSystem);
+
+            return trans.MathTransform.TransformList(points).ToArray();
         }
 
         public static PointLatLngAlt FromUTM(int zone,double x, double y)
@@ -172,9 +247,7 @@ namespace MissionPlanner.Utilities
         // force a zone
         public double[] ToUTM(int utmzone)
         {
-            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), Lat < 0 ? false : true);
-
-            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
+            ICoordinateTransformation trans = TryGetTransform(utmzone, Lat);
 
             double[] pll = { Lng, Lat };
 
@@ -184,17 +257,43 @@ namespace MissionPlanner.Utilities
             return utmxy;
         }
 
+        private static Dictionary<int, ICoordinateTransformation> coordtrans = new Dictionary<int, ICoordinateTransformation>();
+
+        static ICoordinateTransformation TryGetTransform(int utmzone, double lat)
+        {
+            if (lat < 0 && utmzone > 0)
+                utmzone *= -1;
+
+            lock (coordtrans)
+                if (coordtrans.ContainsKey(utmzone))
+                    return coordtrans[utmzone];
+
+            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), lat < 0 ? false : true);
+            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
+
+            lock(coordtrans)
+                coordtrans[utmzone] = trans;
+
+            lock (coordtrans)
+                return coordtrans[utmzone];
+        }
+
         public static List<double[]> ToUTM(int utmzone, List<PointLatLngAlt> list)
         {
-            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), list[0].Lat < 0 ? false : true);
-
-            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
+            ICoordinateTransformation trans = TryGetTransform(utmzone, list[0].Lat);
 
             List<double[]> data = new List<double[]>();
 
             list.ForEach(x => { data.Add((double[])x); });
 
-            return trans.MathTransform.TransformList(data);
+            return trans.MathTransform.TransformList(data).ToList();
+        }
+
+        public static double[] ToUTM(int utmzone, double lat, double lng)
+        {
+            ICoordinateTransformation trans = TryGetTransform(utmzone, lat);
+
+            return trans.MathTransform.Transform(new double[] { lng, lat});
         }
 
 
@@ -247,6 +346,21 @@ namespace MissionPlanner.Utilities
             return (MathHelper.rad2deg * (Math.Atan2(y, x)) + 360) % 360;
         }
 
+        public double GetAngle(PointLatLngAlt point, double heading)
+        {
+            double angle = GetBearing(point) - heading;
+            if (angle < -180.0)
+            {
+                angle += 360.0;
+            }
+            if (angle > 180.0)
+            {
+                angle -= 360.0;
+            }
+            return angle;
+        }
+
+
         /// <summary>
         /// Calc Distance in M
         /// </summary>
@@ -282,6 +396,35 @@ namespace MissionPlanner.Utilities
             return d;
         }
 
+
+        /// <summary>
+        /// https://www.movable-type.co.uk/scripts/latlong.html
+        /// </summary>
+        /// <param name="p2"></param>
+        /// <param name="f">0-1</param>
+        /// <returns></returns>
+        public PointLatLngAlt GetGreatCirclePathPoint(PointLatLngAlt p2, double f)
+        {
+            var dLat = (p2.Lat - Lat) * MathHelper.deg2rad;
+            var dLon = (p2.Lng - Lng) * MathHelper.deg2rad;
+            var R = 6378100.0; // 6371 km
+            var angdist = this.GetDistance(p2) / R;
+
+            //φ = lat
+            //δ = d/R
+            //λ2 = lon
+
+            var a = Math.Sin((1-f) * angdist) / Math.Sin(angdist);
+            var b = Math.Sin(f * angdist) / Math.Sin(angdist);
+            var x = a * Math.Cos(Lat * MathHelper.deg2rad) * Math.Cos(Lng * MathHelper.deg2rad) + b * Math.Cos(p2.Lat * MathHelper.deg2rad) * Math.Cos(p2.Lng * MathHelper.deg2rad);
+            var y = a * Math.Cos(Lat * MathHelper.deg2rad) * Math.Sin(Lng * MathHelper.deg2rad) + b * Math.Cos(p2.Lat * MathHelper.deg2rad) * Math.Sin(p2.Lng * MathHelper.deg2rad);
+            var z = a * Math.Sin(Lat * MathHelper.deg2rad) + b * Math.Sin(p2.Lat * MathHelper.deg2rad);
+            var alat = Math.Atan2(z, Math.Sqrt(x * x + y * y));
+            var alon = Math.Atan2(y, x);
+
+            return new PointLatLngAlt(alat * MathHelper.rad2deg, alon * MathHelper.rad2deg);
+        }
+
         public int CompareTo(object obj)
         {
             PointLatLngAlt pnt = obj as PointLatLngAlt;
@@ -309,6 +452,11 @@ namespace MissionPlanner.Utilities
             {
                 return 0;
             }
+        }
+
+        public static explicit operator PointLatLngAlt(Locationwp v)
+        {
+            return new PointLatLngAlt(v.lat, v.lng, v.alt);
         }
     }
 

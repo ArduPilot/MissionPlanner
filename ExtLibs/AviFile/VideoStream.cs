@@ -242,7 +242,7 @@ namespace AviFile
 
             Avi.AVISTREAMINFO strhdr = new Avi.AVISTREAMINFO();
             strhdr.fccType = Avi.NativeMethods.mmioStringToFOURCC("vids", 0);
-            strhdr.fccHandler = Avi.NativeMethods.mmioStringToFOURCC("CVID", 0);
+            strhdr.fccHandler = 0;
             strhdr.dwFlags = 0;
             strhdr.dwCaps = 0;
             strhdr.wPriority = 0;
@@ -261,7 +261,7 @@ namespace AviFile
             strhdr.rcFrame.right = (uint)width;
             strhdr.dwEditCount = 0;
             strhdr.dwFormatChangeCount = 0;
-            strhdr.szName = new UInt16[64];
+            strhdr.szName = "";
 
             int result = Avi.NativeMethods.AVIFileCreateStream(aviFile, out aviStream, ref strhdr);
 

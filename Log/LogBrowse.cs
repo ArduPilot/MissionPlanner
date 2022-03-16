@@ -1,24 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using log4net;
-using ZedGraph; // Graphs
-using System.Xml;
-using System.Collections;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using MissionPlanner.Controls;
-using GMap.NET;
+﻿using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using IronPython.Hosting;
+using log4net;
+using Microsoft.Scripting.Runtime;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Log;
+using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml;
+using IronPython.Runtime;
+using Microsoft.Scripting.Hosting;
+using MissionPlanner.GCSViews.ConfigurationView;
+using ZedGraph; // Graphs
+
+#if !LIB
+[assembly: ExtensionType(typeof(Dictionary<string, object>), typeof(LogBrowse.ext))]
+#endif
 
 namespace MissionPlanner.Log
 {
@@ -26,13 +39,18 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        CollectionBuffer logdata;
+        private static string lastLogDir;
+
+        DFLogBuffer logdata;
         Hashtable logdatafilter = new Hashtable();
-        Hashtable seenmessagetypes = new Hashtable();
 
         List<TextObj> ModeCache = new List<TextObj>();
+        List<TextObj> ModePolyCache = new List<TextObj>();
+        List<TextObj> MSGCache = new List<TextObj>();
         List<TextObj> ErrorCache = new List<TextObj>();
+        List<TextObj> EVCache = new List<TextObj>();
         List<TextObj> TimeCache = new List<TextObj>();
+        DFLog.DFItem[] gpscache = new DFLog.DFItem[0];
 
         const int typecoloum = 2;
 
@@ -42,11 +60,9 @@ namespace MissionPlanner.Log
         LineObj m_cursorLine = null;
         Hashtable dataModifierHash = new Hashtable();
 
-        DFLog dflog = new DFLog();
-
+        DFLog dflog;
         public string logfilename;
 
-        private bool readmavgraphsxml_runonce = false;
 
         class DataModifer
         {
@@ -75,7 +91,7 @@ namespace MissionPlanner.Log
                     return false;
                 }
 
-                char[] splitOnThese = {' ', ','};
+                char[] splitOnThese = { ' ', ',' };
                 string[] split = _commandString.Trim().Split(splitOnThese, 2, StringSplitOptions.RemoveEmptyEntries);
 
                 if (split.Length < 1)
@@ -98,7 +114,7 @@ namespace MissionPlanner.Log
                     string param = strTrimmed.Substring(1);
                     double value = 0;
 
-                    if (double.TryParse(param, out value) == false)
+                    if (double.TryParse(param, NumberStyles.Number, CultureInfo.InvariantCulture, out value) == false)
                     {
                         return false;
                     }
@@ -111,7 +127,7 @@ namespace MissionPlanner.Log
                             break;
                         case '\\':
                         case '/':
-                            this.scalar = 1.0/value;
+                            this.scalar = 1.0 / value;
                             break;
 
                         case '+':
@@ -127,6 +143,7 @@ namespace MissionPlanner.Log
                             return false;
                     } // switch
                 } // for i
+
                 return true;
             }
 
@@ -135,202 +152,14 @@ namespace MissionPlanner.Log
                 return this.isValid;
             }
 
-            public static string GetNodeName(string parent, string child)
+            public static string GetNodeName(string parent,int instance, string child)
             {
+                if (instance >= 0)
+                    return parent + "[" + instance + "]." + child;
                 return parent + "." + child;
             }
         }
 
-
-        class displayitem
-        {
-            public string type;
-            public string field;
-            public string expression;
-            public bool left = true;
-        }
-
-        class displaylist
-        {
-            public string Name;
-            public displayitem[] items;
-
-            public override string ToString()
-            {
-                return Name;
-            }
-        }
-
-        List<displaylist> graphs = new List<displaylist>()
-        {
-            new displaylist() {Name = "None"},
-            new displaylist()
-            {
-                Name = "Mechanical Failure",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "ATT", field = "Roll"},
-                    new displayitem() {type = "ATT", field = "DesRoll"},
-                    new displayitem() {type = "ATT", field = "Pitch"},
-                    new displayitem() {type = "ATT", field = "DesPitch"},
-                    new displayitem() {type = "CTUN", field = "Alt", left = false},
-                    new displayitem() {type = "CTUN", field = "DAlt", left = false}
-                }
-            },
-            new displaylist()
-            {
-                Name = "Mechanical Failure - Stab",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "ATT", field = "Roll"},
-                        new displayitem() {type = "ATT", field = "DesRoll"}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Mechanical Failure - Auto",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "ATT", field = "Roll"},
-                        new displayitem() {type = "NTUN", field = "DRoll"}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Vibrations",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "IMU", field = "AccX"},
-                        new displayitem() {type = "IMU", field = "AccY"},
-                        new displayitem() {type = "IMU", field = "AccZ"}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Vibrations 3.3",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "VIBE", field = "VibeX"},
-                    new displayitem() {type = "VIBE", field = "VibeY"},
-                    new displayitem() {type = "VIBE", field = "VibeZ"}
-                    , new displayitem() {type = "VIBE", field = "Clip0", left = false},
-                    new displayitem() {type = "VIBE", field = "Clip1", left = false},
-                    new displayitem() {type = "VIBE", field = "Clip2", left = false}
-                }
-            },
-            new displaylist()
-            {
-                Name = "GPS Glitch",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "GPS", field = "HDop"},
-                        new displayitem() {type = "GPS", field = "NSats", left = false}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "Power Issues",
-                items = new displayitem[] {new displayitem() {type = "CURR", field = "Vcc"}}
-            },
-            new displaylist()
-            {
-                Name = "Errors",
-                items = new displayitem[] {new displayitem() {type = "ERR", field = "ECode"}}
-            },
-            new displaylist()
-            {
-                Name = "Battery Issues",
-                items =
-                    new displayitem[]
-                    {
-                        new displayitem() {type = "CTUN", field = "ThrIn"},
-                        new displayitem() {type = "CURR", field = "ThrOut"},
-                        new displayitem() {type = "CURR", field = "Volt", left = false}
-                    }
-            },
-            new displaylist()
-            {
-                Name = "imu consistency xyz",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "IMU", field = "AccX"},
-                    new displayitem() {type = "IMU2", field = "AccX"},
-                    new displayitem() {type = "IMU", field = "AccY"},
-                    new displayitem() {type = "IMU2", field = "AccY"},
-                    new displayitem() {type = "IMU", field = "AccZ", left = false},
-                    new displayitem() {type = "IMU2", field = "AccZ", left = false},
-                }
-            },
-            new displaylist()
-            {
-                Name = "mag consistency xyz",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "MAG", field = "MagX"},
-                    new displayitem() {type = "MAG2", field = "MagX"},
-                    new displayitem() {type = "MAG", field = "MagY", left = false},
-                    new displayitem() {type = "MAG2", field = "MagY", left = false},
-                    new displayitem() {type = "MAG", field = "MagZ"},
-                    new displayitem() {type = "MAG2", field = "MagZ"},
-                }
-            },
-            new displaylist()
-            {
-                Name = "copter loiter",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "NTUN", field = "DVelX"},
-                    new displayitem() {type = "NTUN", field = "VelX"},
-                    new displayitem() {type = "NTUN", field = "DVelY"},
-                    new displayitem() {type = "NTUN", field = "VelY"},
-                }
-            },
-            new displaylist()
-            {
-                Name = "copter althold",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "CTUN", field = "BarAlt"},
-                    new displayitem() {type = "CTUN", field = "DAlt"},
-                    new displayitem() {type = "CTUN", field = "Alt"},
-                    new displayitem() {type = "GPS", field = "Alt"},
-                }
-            },
-            new displaylist()
-            {
-                Name = "ekf VEL tune",
-                items = new displayitem[]
-                {
-                    new displayitem() {type = "NKF3", field = "IVN"},
-                    new displayitem() {type = "NKF3", field = "IPN"},
-                    new displayitem() {type = "NKF3", field = "IVE"},
-                    new displayitem() {type = "NKF3", field = "IPE"},
-                    new displayitem() {type = "NKF3", field = "IVD"},
-                    new displayitem() {type = "NKF3", field = "IPD"},
-                }
-            },
-        };
-
-        /*  
-    105    +Format characters in the format string for binary log messages  
-    106    +  b   : int8_t  
-    107    +  B   : uint8_t  
-    108    +  h   : int16_t  
-    109    +  H   : uint16_t  
-    110    +  i   : int32_t  
-    111    +  I   : uint32_t  
-    112    +  f   : float  
-    113    +  N   : char[16]  
-    114    +  c   : int16_t * 100  
-    115    +  C   : uint16_t * 100  
-    116    +  e   : int32_t * 100  
-    117    +  E   : uint32_t * 100  
-    118    +  L   : uint32_t latitude/longitude  
-    119    + */
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -368,121 +197,18 @@ namespace MissionPlanner.Log
             if (GCSViews.FlightData.mymap != null)
                 myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
 
+            myGMAP1.MaxZoom = 24;
+
             myGMAP1.Overlays.Add(mapoverlay);
             myGMAP1.Overlays.Add(markeroverlay);
-
-            //chk_time.Checked = true;
 
             dataGridView1.RowUnshared += dataGridView1_RowUnshared;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
-        public class graphitem
-        {
-            public string name;
-            public List<string> expressions = new List<string>();
-            public string description;
-        }
 
-        private void readmavgraphsxml()
-        {
-            if (readmavgraphsxml_runonce)
-                return;
 
-            readmavgraphsxml_runonce = true;
-
-            List<graphitem> items = new List<graphitem>();
-
-            using (
-                XmlReader reader =
-                    XmlReader.Create(Settings.GetRunningDirectory() + "mavgraphs.xml"))
-            {
-                while (reader.Read())
-                {
-                    if (reader.ReadToFollowing("graph"))
-                    {
-                        graphitem newGraphitem = new graphitem();
-
-                        for (int a = 0; a < reader.AttributeCount; a++)
-                        {
-                            reader.MoveToAttribute(a);
-                            if (reader.Name.ToLower() == "name")
-                            {
-                                newGraphitem.name = reader.Value;
-                            }
-                        }
-
-                        reader.MoveToElement();
-
-                        XmlReader inner = reader.ReadSubtree();
-
-                        while (inner.Read())
-                        {
-                            if (inner.IsStartElement())
-                            {
-                                if (inner.Name.ToLower() == "expression")
-                                    newGraphitem.expressions.Add(inner.ReadString().Trim());
-                                else if (inner.Name.ToLower() == "description")
-                                    newGraphitem.description = inner.ReadString().Trim();
-                            }
-                        }
-
-                        processGraphItem(newGraphitem);
-
-                        items.Add(newGraphitem);
-                    }
-                }
-            }
-        }
-
-        void processGraphItem(graphitem graphitem)
-        {
-            List<displayitem> list = new List<displayitem>();
-
-            foreach (var expression in graphitem.expressions)
-            {
-                var items = expression.Split(new char[] {' ', '\t', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var item in items)
-                {
-                    var matchs = Regex.Matches(item.Trim(), @"^([A-z0-9_]+)\.([A-z0-9_]+)[:2]*$");
-
-                    if (matchs.Count > 0)
-                    {
-                        foreach (Match match in matchs)
-                        {
-                            var temp = new displayitem();
-                            // right axis
-                            if (item.EndsWith(":2"))
-                                temp.left = false;
-
-                            temp.type = match.Groups[1].Value.ToString();
-                            temp.field = match.Groups[2].Value.ToString();
-
-                            list.Add(temp);
-                        }
-                    }
-                    else
-                    {
-                        var temp = new displayitem();
-                        if (item.EndsWith(":2"))
-                            temp.left = false;
-                        temp.expression = item;
-                        temp.type = item;
-                        list.Add(temp);
-                    }
-                }
-            }
-
-            var dispitem = new displaylist()
-            {
-                Name = graphitem.name,
-                items = list.ToArray()
-            };
-
-            graphs.Add(dispitem);
-        }
 
         void dataGridView1_RowUnshared(object sender, DataGridViewRowEventArgs e)
         {
@@ -500,25 +226,31 @@ namespace MissionPlanner.Log
 
             GC.Collect();
 
-            ErrorCache = new List<TextObj>();
-            ModeCache = new List<TextObj>();
-            TimeCache = new List<TextObj>();
+            myGMAP1.DisableFocusOnMouseEnter = true;
 
-            seenmessagetypes = new Hashtable();
+            ErrorCache = new List<TextObj>();
+            EVCache = new List<TextObj>();
+            ModeCache = new List<TextObj>();
+            ModePolyCache = new List<TextObj>();
+            TimeCache = new List<TextObj>();
+            MSGCache = new List<TextObj>();
+            gpscache = new DFLog.DFItem[0];
+
+            chk_time_CheckedChanged(null, null);
 
             if (!File.Exists(logfilename))
             {
                 using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
                 {
-                    openFileDialog1.Filter = "Log Files|*.log;*.bin";
+                    openFileDialog1.Filter = "Log Files|*.log;*.bin;*.BIN;*.LOG";
                     openFileDialog1.FilterIndex = 2;
-                    openFileDialog1.RestoreDirectory = true;
                     openFileDialog1.Multiselect = true;
-
-                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
+                    openFileDialog1.InitialDirectory = lastLogDir ?? Settings.Instance.LogDir;
 
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
+                        lastLogDir = Path.GetDirectoryName(openFileDialog1.FileName);
+
                         int a = 0;
                         foreach (var fileName in openFileDialog1.FileNames)
                         {
@@ -540,12 +272,13 @@ namespace MissionPlanner.Log
                                     browse.Show(this);
                                 }
                             }
+
                             a++;
                         }
                     }
                     else
                     {
-                        this.Close();
+                        this.BeginInvoke((Action)delegate { this.Close(); });
                         return;
                     }
                 }
@@ -554,155 +287,107 @@ namespace MissionPlanner.Log
             {
                 ThreadPool.QueueUserWorkItem(o => LoadLog(logfilename));
             }
+
+            log.Info("LogBrowse_Load Done");
         }
 
         public void LoadLog(string FileName)
         {
+            while (!this.IsHandleCreated)
+                Thread.Sleep(100);
+
             Loading.ShowLoading(Strings.Scanning_File, this);
 
             try
             {
-                Stream stream;
+                log.Info("before read " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                stream = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                logdata = new DFLogBuffer(FileName);
 
-                log.Info("before read " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                dflog = logdata.dflog;
 
-                logdata = new CollectionBuffer(stream);
+                log.Info("got log lines " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                log.Info("got log lines " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                log.Info("process to datagrid " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                log.Info("process to datagrid " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                 Loading.ShowLoading("Scanning coloum widths", this);
 
-                int b = 0;
+                colcount = 0;
 
-                int colcount = 0;
-
-                foreach (var item2 in logdata)
+                foreach (var msgid in logdata.FMT)
                 {
-                    b++;
-                    var item = dflog.GetDFItemFromLine(item2, b);
-
-                    if (item.items != null)
-                    {
-                        colcount = Math.Max(colcount, (item.items.Length + typecoloum));
-
-                        seenmessagetypes[item.msgtype] = "";
-
-                        // check first 1000000 lines for max coloums needed
-                        if (b > 1000000)
-                            break;
-                    }
+                    if (msgid.Value.Item4 == null)
+                        continue;
+                    var colsplit = msgid.Value.Item4.FirstOrDefault().ToString().Split(',').Length;
+                    colcount = Math.Max(colcount, (msgid.Value.Item4.Length + typecoloum + colsplit));
                 }
 
-                log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                log.Info("Done " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                this.Invoke((Action) delegate {
-                    LoadLog2(FileName, logdata, colcount);
-                });
+                this.BeginInvokeIfRequired(() => { LoadLog2(FileName, logdata, colcount); });
             }
             catch (Exception ex)
             {
                 CustomMessageBox.Show("Failed to read File: " + ex.ToString());
                 return;
             }
+
+            log.Info("LoadLog Done");
         }
 
-        void LoadLog2(String FileName, CollectionBuffer logdata, int colcount)
+        void LoadLog2(String FileName, DFLogBuffer logdata, int colcount)
         {
-            try
-            {
-                this.Text = "Log Browser - " + Path.GetFileName(FileName);
-
-                log.Info("set dgv datasourse " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                if (MainV2.MONO)
-                {
-                    int rowstartoffset = 0;
-
-                    dataGridView1.ScrollBars = ScrollBars.Horizontal;
-
-                    var VBar = new VScrollBar();
-                    VBar.Visible = true;
-                    VBar.Top = 0;
-                    VBar.Height = dataGridView1.Height;
-                    VBar.Dock = DockStyle.Right;
-                    VBar.Maximum = logdata.Count;
-
-                    dataGridView1.Controls.Add(VBar);
-
-                    dataGridView1.PerformLayout();
-
-                    dataGridView1.RowPrePaint += (sender, args) =>
-                    {
-                        VBar.Maximum = logdata.Count;
-                        populateRowData(rowstartoffset + args.RowIndex, args.RowIndex);
-                    };
-
-                    dataGridView1.ColumnCount = colcount;
-
-                    int a = 0;
-                    while (a++ < 1000)
-                        dataGridView1.Rows.Add();
-
-                    // populate first row
-                    populateRowData(0, 0);
-
-                    VBar.ValueChanged += (sender, args) =>
-                    {
-                        rowstartoffset = VBar.Value;
-                        dataGridView1.Invalidate();
-                    };
-                }
-                else
-                {
-                    dataGridView1.VirtualMode = true;
-                    dataGridView1.RowCount = 0;
-                    dataGridView1.RowCount = logdata.Count;
-                    dataGridView1.ColumnCount = colcount;
-
-                    log.Info("datagrid size set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-                }
-
-                log.Info("datasource set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show("Failed to read File: " + ex.ToString());
-                return;
-            }
-
-            foreach (DataGridViewColumn column in dataGridView1.Columns)
-            {
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
-
-            log.Info("Done timetable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-            Loading.ShowLoading("Generating Time", this);
-
-            try
-            {
-                DrawTime();
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-
-            log.Info("Done time " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+            this.Text = "Log Browser - " + Path.GetFileName(FileName);
 
             CreateChart(zg1);
+            chk_time_CheckedChanged(null, null);
+            // try and grab vehicle version from messages
+            string vehicle_msg = null;
+            foreach (var item in logdata.GetEnumeratorType("MSG"))
+            {
+               if (new string[] { "AntennaTracker V", "ArduCopter V", "ArduPlane V", "ArduSub V", "Blimp V" }.Any(s => item.items[2].Contains(s)))
+               {
+                    if (vehicle_msg != null)
+                    {
+                        // should not find multiple vehicle messages
+                        if (vehicle_msg == item.items[2])
+                        {
+                            // allow if both are the same
+                            continue;
+                        }
+                        vehicle_msg = null;
+                        break;
+                    }
+                    vehicle_msg = item.items[2];
+               }
+            }
+            var VehicleType = "";
+            if (vehicle_msg != null)
+            {
+                this.Text += " - " + vehicle_msg;
+                VehicleType = vehicle_msg.Split()[0];
+            }
 
-            ResetTreeView(seenmessagetypes);
+            ResetTreeView(logdata.SeenMessageTypes, VehicleType);
 
-            Loading.ShowLoading("Generating Map", this);
+            
 
-            DrawMap();
+            chk_datagrid.Checked = Settings.Instance.GetBoolean("LB_Grid", false);
+            chk_time.Checked = Settings.Instance.GetBoolean("LB_Time", true);
+            CHK_map.Checked = Settings.Instance.GetBoolean("LB_Map", false);
+            chk_errors.Checked = Settings.Instance.GetBoolean("LB_Error", true);
+            chk_mode.Checked = Settings.Instance.GetBoolean("LB_Mode", true);
+            chk_msg.Checked = Settings.Instance.GetBoolean("LB_MSG", true);
 
-            log.Info("Done map " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+            chk_datagrid.CheckedChanged += (e, a) =>
+            {
+                Settings.Instance["LB_Grid"] = chk_datagrid.Checked.ToString();
+            };
+            chk_time.CheckedChanged += (e, a) => { Settings.Instance["LB_Time"] = chk_time.Checked.ToString(); };
+            CHK_map.CheckedChanged += (e, a) => { Settings.Instance["LB_Map"] = CHK_map.Checked.ToString(); };
+            chk_errors.CheckedChanged += (e, a) => { Settings.Instance["LB_Error"] = chk_errors.Checked.ToString(); };
+            chk_mode.CheckedChanged += (e, a) => { Settings.Instance["LB_Mode"] = chk_mode.Checked.ToString(); };
+            chk_msg.CheckedChanged += (e, a) => { Settings.Instance["LB_MSG"] = chk_msg.Checked.ToString(); };
 
             Loading.Close();
 
@@ -714,29 +399,50 @@ namespace MissionPlanner.Log
             }
 
             // update preselection graphs
-            readmavgraphsxml();
+            mavgraph.readmavgraphsxml();
+
+            mavgraph.graphs.Sort((a, b) => a.Name.CompareTo(b.Name));
 
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = null;
-            CMB_preselect.DataSource = graphs;
+            CMB_preselect.DataSource = mavgraph.graphs;
+
+            zg1_ZoomEvent(zg1, null, null);
+
+            log.Info("LoadLog2 Done");
         }
 
-        private void populateRowData(int rowIndex, int destDGV = -1)
+        private void populateRowData(int rowstartoffset, int rowIndex, int destDGV = -1)
         {
-            var DGVrow = (destDGV == -1) ? rowIndex : destDGV;
-
-            if (DGVrow > dataGridView1.Rows.Count)
-                return;
+            //Console.WriteLine("populateRowData {0} {1} {2}", rowstartoffset, rowIndex, destDGV);
+            var DGVrow = (destDGV == -1) ? rowstartoffset + rowIndex : destDGV;
 
             var cellcount = dataGridView1.Rows[DGVrow].Cells.Count;
             for (int i = 0; i < cellcount; i++)
             {
-                var data = new DataGridViewCellValueEventArgs(i, rowIndex);
+                if (DGVrow > dataGridView1.Rows.Count)
+                {
+                    dataGridView1.Rows[DGVrow].Cells[i].Value = "";
+                    continue;
+                }
+
+                var data = new DataGridViewCellValueEventArgs(i, rowstartoffset + rowIndex);
 
                 dataGridView1_CellValueNeeded(dataGridView1, data);
 
-                dataGridView1.Rows[DGVrow].Cells[i].Value = data.Value;
+                string existing = dataGridView1.Rows[DGVrow].Cells[i].Value as string;
+                string newvalue = data.Value as string;
+
+                if (existing == newvalue)
+                {
+                    continue;
+                }
+
+                //Console.WriteLine("set data {0} = {1}", dataGridView1.Rows[DGVrow].Cells[i].Value, data.Value);
+                dataGridView1.Rows[DGVrow].Cells[i].Value = String.IsNullOrEmpty(newvalue) ? "" : newvalue;
             }
+
+            //Console.WriteLine("populateRowData done {0} {1} {2}", rowstartoffset, rowIndex, destDGV);
         }
 
         private void UntickTreeView()
@@ -755,24 +461,176 @@ namespace MissionPlanner.Log
             }
         }
 
-        private void ResetTreeView(Hashtable seenmessagetypes)
+        private string get_param_value_string(string param_name, string VehicleType)
+        {
+            var param = MainV2.comPort.MAV.param[param_name];
+            if (param == null)
+            {
+                return "";
+            }
+            var value_list = ParameterMetaDataRepository.GetParameterOptionsInt(param.Name, VehicleType);
+            foreach (var item in value_list)
+            {
+                if (item.Key == Convert.ToInt32(param.Value))
+                {
+                    return item.Value;
+                }
+            }
+            return "";
+        }
+
+        // get extra info derived from paramters
+        private string get_extra_info(string LogMSG, string felid, string VehicleType)
+        {
+            switch(LogMSG)
+            {
+                case "RCOU":
+                    {
+                        return get_param_value_string("SERVO" + Regex.Match(felid, @"\d+").Value + "_FUNCTION", VehicleType);
+                    }
+
+                case "RCIN":
+                    {
+                        var rc_in_num = Regex.Match(felid, @"\d+").Value;
+                        if (rc_in_num.Length == 0)
+                        {
+                            return "";
+                        }
+                        var ret = "";
+
+                        // Check RCMAP values
+                        var rc_map = new[] { "ROLL", "PITCH", "THROTTLE", "YAW", "FORWARD", "LATERAL" };
+                        foreach (string map in rc_map)
+                        {
+                            var map_param = MainV2.comPort.MAV.param["RCMAP_" + map];
+                            if ((map_param != null) && (map_param.Value == Convert.ToDouble(rc_in_num)))
+                            {
+                                if (ret.Length > 0)
+                                {
+                                    ret += " + ";
+                                }
+                                ret += map;
+                            }
+                        }
+
+                        // Check flight mode switch
+                        var mode_param = MainV2.comPort.MAV.param["FLTMODE_CH"];
+                        if ((mode_param != null) && (mode_param.Value == Convert.ToDouble(rc_in_num)))
+                        {
+                            if (ret.Length > 0)
+                            {
+                                ret += " + ";
+                            }
+                            ret += "FlightMode";
+                        }
+
+                        // Check RCx_OPTION
+                        var opt = get_param_value_string("RC" + rc_in_num + "_OPTION", VehicleType);
+                        if (opt.Length > 0)
+                        {
+                            if (ret.Length > 0)
+                            {
+                                ret += " + ";
+                            }
+                            return ret + opt;
+                        }
+                        return ret;
+                    }
+            }
+
+            return "";
+        }
+
+        // Get per intance info
+        private string get_instance_info(string LogMSG, string instance, string VehicleType)
+        {
+            switch (LogMSG)
+            {
+                case "BARO":
+                    {
+                        // convert to 1 indexed
+                        var param = "BARO" + (Convert.ToUInt32(instance) + 1).ToString() + "_DEVID";
+                        var dev_id = MainV2.comPort.MAV.param[param];
+                        if (dev_id == null)
+                        {
+                            return "";
+                        }
+                        Device.DeviceStructure baro = new Device.DeviceStructure(param, Convert.ToUInt32(dev_id.Value));
+                        return baro.ToString();
+                    }
+
+                case "GPS":
+                case "GPA":
+                    {
+                        var param = "GPS_TYPE";
+                        if (Convert.ToUInt32(instance) > 0)
+                        {
+                            // GPS instance 1 is GPS_TPYE2
+                            param += (Convert.ToUInt32(instance) + 2).ToString();
+                        }
+                        return get_param_value_string(param, VehicleType);
+                    }
+
+                case "MAG":
+                    {
+                        var param = "COMPASS_PRIO" + (Convert.ToUInt32(instance) + 1).ToString() + "_ID";
+                        var dev_id = MainV2.comPort.MAV.param[param];
+                        if (dev_id == null)
+                        {
+                            return "";
+                        }
+                        Device.DeviceStructure mag = new Device.DeviceStructure(param, Convert.ToUInt32(dev_id.Value));
+                        return mag.ToString();
+                    }
+            }
+            return "";
+        }
+
+        private void ResetTreeView(List<string> seenmessagetypes, string VehicleType)
         {
             treeView1.Nodes.Clear();
+            treeView1.ShowNodeToolTips = true;
             dataModifierHash = new Hashtable();
 
-            var sorted = new SortedList(dflog.logformat);
+            var parmdata = logdata.GetEnumeratorType("PARM").Select(a =>
+                new MAVLink.MAVLinkParam(a["Name"], double.Parse(a["Value"], CultureInfo.InvariantCulture),
+                    MAVLink.MAV_PARAM_TYPE.REAL32));
+            MainV2.comPort.MAV.param.Clear();
+            MainV2.comPort.MAV.param.AddRange(parmdata);
 
+            var sorted = new SortedList(dflog.logformat);
+            // go through all fmt's
             foreach (DFLog.Label item in sorted.Values)
             {
-                TreeNode tn = new TreeNode(item.Name);
-
-                if (seenmessagetypes.ContainsKey(item.Name))
+                // only show msg names for what we have seen
+                if (seenmessagetypes.Contains(item.Name))
                 {
-                    treeView1.Nodes.Add(tn);
-                    foreach (var item1 in item.FieldNames)
+                    TreeNode msgNode = new TreeNode(item.Name);
+
+                    var instance = logdata.InstanceType.ContainsKey(item.Id);
+                    if (instance)
                     {
-                        tn.Nodes.Add(item1);
+                        foreach (var instanceinfo in logdata.InstanceType[item.Id].value)
+                        {
+                            var instNode = msgNode.Nodes.Add(instanceinfo);
+                            instNode.ToolTipText = get_instance_info(item.Name, instanceinfo, VehicleType);
+                            foreach (var item1 in item.FieldNames)
+                            {
+                                var new_node = instNode.Nodes.Add(item1);
+                                new_node.ToolTipText = get_extra_info(item.Name, item1, VehicleType);
+                            }
+                        }
                     }
+                    else
+                    {
+                        // no instance add the fields
+                        foreach (var item1 in item.FieldNames)
+                        {
+                            var new_node = msgNode.Nodes.Add(item1);
+                            new_node.ToolTipText = get_extra_info(item.Name, item1, VehicleType);
+                        }
+                    }
+                    treeView1.Nodes.Add(msgNode);
                 }
             }
         }
@@ -795,6 +653,7 @@ namespace MissionPlanner.Log
             catch
             {
             }
+
             try
             {
                 // process the line type
@@ -809,6 +668,7 @@ namespace MissionPlanner.Log
                         dataGridView1.Columns[a].HeaderText = name;
                         a++;
                     }
+
                     for (; a < dataGridView1.Columns.Count; a++)
                     {
                         dataGridView1.Columns[a].HeaderText = "";
@@ -848,11 +708,11 @@ namespace MissionPlanner.Log
                 {
                     reader.Read();
                     reader.ReadStartElement("LOGFORMAT");
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                    if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
                     {
                         reader.ReadToFollowing("APM");
                     }
-                    else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                    else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
                     {
                         reader.ReadToFollowing("APRover");
                     }
@@ -860,6 +720,7 @@ namespace MissionPlanner.Log
                     {
                         reader.ReadToFollowing("AC2");
                     }
+
                     reader.ReadToFollowing(option);
 
                     dataGridView1.Columns[1].HeaderText = "";
@@ -917,6 +778,115 @@ namespace MissionPlanner.Log
             Color.WhiteSmoke
         };
 
+        private Color[] colourspastal = new Color[]
+        {
+            ConvertFromRange(1.0, 0, 0),
+
+            ConvertFromRange(0, 1.0, 0),
+
+            ConvertFromRange(0, 0, 1.0),
+
+
+
+            ConvertFromRange(0, 1.0, 1.0),
+
+            ConvertFromRange(1.0, 0, 1.0),
+
+            ConvertFromRange(1.0, 1.0, 0),
+
+
+
+            ConvertFromRange(1.0, 0.5, 0),
+
+            ConvertFromRange(1.0, 0, 0.5),
+
+            ConvertFromRange(0.5, 1.0, 0),
+
+            ConvertFromRange(0, 1.0, 0.5),
+
+            ConvertFromRange(0.5, 0, 1.0),
+
+            ConvertFromRange(0, 0.5, 1.0),
+
+            ConvertFromRange(1.0, 0.5, 0.5),
+
+            ConvertFromRange(0.5, 1.0, 0.5),
+
+            ConvertFromRange(0.5, 0.5, 1.0),
+            ConvertFromHex("#5757FF"),
+            ConvertFromHex("#62A9FF"),
+            ConvertFromHex("#62D0FF"),
+            ConvertFromHex("#06DCFB"),
+            ConvertFromHex("#01FCEF"),
+            ConvertFromHex("#03EBA6"),
+            ConvertFromHex("#01F33E"),
+            ConvertFromHex("#6A6AFF"),
+            ConvertFromHex("#75B4FF"),
+            ConvertFromHex("#75D6FF"),
+            ConvertFromHex("#24E0FB"),
+            ConvertFromHex("#1FFEF3"),
+            ConvertFromHex("#03F3AB"),
+            ConvertFromHex("#0AFE47"),
+            ConvertFromHex("#7979FF"),
+            ConvertFromHex("#86BCFF"),
+            ConvertFromHex("#8ADCFF"),
+            ConvertFromHex("#3DE4FC"),
+            ConvertFromHex("#5FFEF7"),
+            ConvertFromHex("#33FDC0"),
+            ConvertFromHex("#4BFE78"),
+            ConvertFromHex("#8C8CFF"),
+            ConvertFromHex("#99C7FF"),
+            ConvertFromHex("#99E0FF"),
+            ConvertFromHex("#63E9FC"),
+            ConvertFromHex("#74FEF8"),
+            ConvertFromHex("#62FDCE"),
+            ConvertFromHex("#72FE95"),
+            ConvertFromHex("#9999FF"),
+            ConvertFromHex("#99C7FF"),
+            ConvertFromHex("#A8E4FF"),
+            ConvertFromHex("#75ECFD"),
+            ConvertFromHex("#92FEF9"),
+            ConvertFromHex("#7DFDD7"),
+            ConvertFromHex("#8BFEA8"),
+            ConvertFromHex("#AAAAFF"),
+            ConvertFromHex("#A8CFFF"),
+            ConvertFromHex("#BBEBFF"),
+            ConvertFromHex("#8CEFFD"),
+            ConvertFromHex("#A5FEFA"),
+            ConvertFromHex("#8FFEDD"),
+            ConvertFromHex("#A3FEBA"),
+            ConvertFromHex("#BBBBFF"),
+            ConvertFromHex("#BBDAFF"),
+            ConvertFromHex("#CEF0FF"),
+            ConvertFromHex("#ACF3FD"),
+            ConvertFromHex("#B5FFFC"),
+            ConvertFromHex("#A5FEE3"),
+            ConvertFromHex("#B5FFC8"),
+            ConvertFromHex("#CACAFF"),
+            ConvertFromHex("#D0E6FF"),
+            ConvertFromHex("#D9F3FF"),
+            ConvertFromHex("#C0F7FE"),
+            ConvertFromHex("#CEFFFD"),
+            ConvertFromHex("#BEFEEB"),
+            ConvertFromHex("#CAFFD8")
+        };
+
+        public static Color ConvertFromRange(double r, double g, double b)
+        {
+            return Color.FromArgb(255, (int)(r * 127.0) + 127, (int)(g * 127.0) + 127, (int)(b * 127.0) + 127);
+        }
+
+        public static Color ConvertFromHex(string hex)
+        {
+            hex = hex.TrimStart('#');
+
+            var r = Convert.ToInt32(hex.Substring(0, 2), 16);
+            var g = Convert.ToInt32(hex.Substring(2, 2), 16);
+            var b = Convert.ToInt32(hex.Substring(4, 2), 16);
+
+            return Color.FromArgb(20, r, g, b);
+        }
+
         public void CreateChart(ZedGraphControl zgc)
         {
             GraphPane myPane = zgc.GraphPane;
@@ -924,7 +894,7 @@ namespace MissionPlanner.Log
             // Set the titles and axis labels
             myPane.Title.Text = "Value Graph";
             myPane.XAxis.Title.Text = "Line Number";
-            myPane.YAxis.Title.Text = "Output";
+            myPane.YAxis.Title.Text = "";
 
             // Show the x axis grid
             myPane.XAxis.MajorGrid.IsVisible = true;
@@ -953,6 +923,7 @@ namespace MissionPlanner.Log
             try
             {
                 zg1.AxisChange();
+                zg1.Invalidate();
             }
             catch
             {
@@ -984,7 +955,8 @@ namespace MissionPlanner.Log
 
             if (col == 0)
             {
-                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph", Strings.ERROR);
+                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph",
+                    Strings.ERROR);
                 return;
             }
 
@@ -1000,7 +972,7 @@ namespace MissionPlanner.Log
                 return;
             }
 
-            if (dflog.logformat[type].FieldNames.Length <= (col - typecoloum - 1))
+            if (dflog.logformat[type].FieldNames.Count <= (col - typecoloum - 1))
             {
                 CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
                 return;
@@ -1008,43 +980,90 @@ namespace MissionPlanner.Log
 
             string fieldname = dflog.logformat[type].FieldNames[col - typecoloum - 1];
 
-            GraphItem(type, fieldname, left);
+            var typeno = dflog.logformat[type].Id;
+
+            var unittypes = logdata.FMTU[typeno].Item1;
+
+            string instance = "";
+
+            // has instance type
+            if (unittypes.Contains("#"))
+            {
+                int colinst = typecoloum + unittypes.IndexOf("#") + 1;
+                instance = dataGridView1[colinst, row].Value.ToString().Trim();
+            }
+
+            GraphItem(type, fieldname, left, true, false, instance);
         }
 
         void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
-            bool isexpression = false)
+            bool isexpression = false, string instance = "")
         {
+            log.InfoFormat("GraphItem: {0} {1} {2}", type, fieldname, instance);
             DataModifer dataModifier = new DataModifer();
-            string nodeName = DataModifer.GetNodeName(type, fieldname);
+            string nodeName = DataModifer.GetNodeName(type, instance != "" ? int.Parse(instance) : -1, fieldname);
 
             foreach (var curve in zg1.GraphPane.CurveList)
             {
+                if (instance != "")
+                {
+                    nodeName = type + "[" + instance + "]." + fieldname;
+                }
+
                 // its already on the graph, abort
-                if (curve.Label.Text.StartsWith(nodeName+" (") ||
-                    curve.Label.Text.StartsWith(nodeName + " R ("))
+                if (curve.Label.Text.StartsWith(nodeName + " "))
                     return;
             }
 
             if (dataModifierHash.ContainsKey(nodeName))
             {
-                dataModifier = (DataModifer) dataModifierHash[nodeName];
+                dataModifier = (DataModifer)dataModifierHash[nodeName];
             }
 
             // ensure we tick the treeview
+            string extra_label = "";
             foreach (TreeNode node in treeView1.Nodes)
             {
                 if (node.Text == type)
                 {
                     foreach (TreeNode subnode in node.Nodes)
                     {
-                        if (subnode.Text == fieldname && subnode.Checked != true)
+                        if (instance != "")
                         {
-                            subnode.Checked = true;
-                            break;
+                            if (subnode.Text == instance)
+                            {
+                                foreach (TreeNode subsubnode in subnode.Nodes)
+                                {
+                                    if (subsubnode.Text == fieldname)
+                                    {
+                                        if (subsubnode.Checked != true)
+                                        {
+                                            subsubnode.Checked = true;
+                                        }
+                                        extra_label = " " + subsubnode.ToolTipText;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (subnode.Text == fieldname)
+                            {
+                                if (subnode.Checked != true)
+                                {
+                                    subnode.Checked = true;
+                                }
+                                extra_label = " " + subnode.ToolTipText;
+                                break;
+                            }
                         }
                     }
                 }
             }
+
+            // clear the filter on add
+            logdatafilter.Clear();
 
             if (!isexpression)
             {
@@ -1059,22 +1078,237 @@ namespace MissionPlanner.Log
 
                 Loading.ShowLoading("Graphing " + type + " - " + fieldname, this);
 
-                ThreadPool.QueueUserWorkItem(o => GraphItem_GetList(fieldname, type, dflog, dataModifier, left));
+                ThreadPool.QueueUserWorkItem(o =>
+                {
+                    try
+                    {
+                        GraphItem_GetList(fieldname, type, dflog, dataModifier, left, instance, extra_label);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Failed to graph item: " + ex.Message, Strings.ERROR);
+                    }
+                });
             }
             else
             {
-                var list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
-                GraphItem_AddCurve(list1, type, fieldname, left);
+                List<Tuple<DFLog.DFItem, double>> list1 = null;
+                try
+                {
+                    list1 = TestPython(dflog, logdata, type.Replace(":2", ""));
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+
+                if (list1 == null)
+                    list1 = DFLogScript.ProcessExpression(dflog, logdata, type);
+                var newlist = new PointPairList();
+                list1.ForEach(a =>
+                {
+                    if (chk_time.Checked)
+                        newlist.Add(new PointPair(new XDate(a.Item1.time), a.Item2));
+                    else
+                        newlist.Add(new PointPair(a.Item1.lineno, a.Item2));
+                });
+                GraphItem_AddCurve(newlist, type, fieldname, left, instance, isexpression, extra_label);
             }
         }
 
-        void GraphItem_GetList(string fieldname, string type, DFLog dflog, DataModifer dataModifier, bool left)
+        private List<Tuple<DFLog.DFItem, double>> TestPython(DFLog dflog, DFLogBuffer logdata, string expression)
         {
+
+            var engine = Python.CreateEngine();
+
+            var paths = engine.GetSearchPaths();
+            paths.Add(Settings.GetRunningDirectory() + "Lib.zip");
+            paths.Add(Settings.GetRunningDirectory() + "lib");
+            paths.Add(Settings.GetRunningDirectory());
+            engine.SetSearchPaths(paths);
+
+            var scope = engine.CreateScope();
+
+            var all = System.Reflection.Assembly.GetExecutingAssembly();
+            var asss = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var ass in asss)
+            {
+                engine.Runtime.LoadAssembly(ass);
+            }
+
+            Dictionary<string, List<string>> fieldsUsed = new Dictionary<string, List<string>>();
+
+            var fieldmatchs = Regex.Matches(expression, @"(([A-z0-9_]{2,20})\.([A-z0-9_]+))|([A-z0-9_]{2,20})");
+
+            if (fieldmatchs.Count > 0)
+            {
+                foreach (Match match in fieldmatchs)
+                {
+                    var type = match.Groups[2].Value.ToString();
+                    var field = match.Groups[3].Value.ToString();
+
+                    if (type == "")
+                        type = match.Groups[4].Value.ToString();
+
+                    if (!fieldsUsed.ContainsKey(type))
+                        fieldsUsed[type] = new List<string>();
+
+                    fieldsUsed[type].Add(field);
+                }
+            }
+
+            foreach (var logformatKey in dflog.logformat.Keys)
+            {
+                var ans = new Dictionary<string, object>();
+                foreach (var fieldName in dflog.logformat[logformatKey].FieldNames)
+                {
+                    ans[fieldName] = 0;
+                }
+
+                //scope.SetVariable(logformatKey, ans);
+            }
+            
+            List<Tuple<DFLog.DFItem, double>> answer = new List<Tuple<DFLog.DFItem, double>>();
+
+            if (!fieldsUsed.Any(x => dflog.logformat.ContainsKey(x.Key)))
+                return answer;
+
+            scope.SetVariable("answer", answer);
+
+            scope.SetVariable("logdata", logdata);
+
+            var exp = "[" + expression
+                .Split(new char[] {'(', ')', ',', ' ', '.', '-', '+', '*', '/'},
+                    StringSplitOptions.RemoveEmptyEntries).Where(a => dflog.logformat.Keys.Any(b => a == b))
+                .Aggregate("", (a, b) => a + ",\"" + b + "\"").TrimStart(',') + "]";
+
+            var scriptsrc = String.Format(@"
+import clr
+import sys
+import os
+import System
+clr.AddReference('MissionPlanner.Utilities')
+from MissionPlanner.Utilities import DFLog
+from math import *
+from mavextra import *
+from rotmat import *
+
+exp_as_func = eval('lambda: ' + ""{1}"")
+
+invalid = 0
+
+class AttrDict(dict):
+    def __init__(self, *args, **kwargs):
+        super(AttrDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
+
+def evaluate_expression():
+    '''evaluation an expression'''
+    global invalid
+    try:
+        v = exp_as_func()
+    except NameError as ne:
+        print ne, invalid 
+        invalid = invalid + 1
+        if invalid > 200:
+            raise ne
+        return None
+    except ZeroDivisionError:
+        print ZeroDivisionError
+        return None
+    except IndexError:
+        print IndexError
+        return None
+    return v
+
+def main():
+    vars = {{}}
+    a=0
+    for line in logdata.GetEnumeratorType(System.Array[System.String]({0})):
+        if line.instance != '' and line.instance != '0':
+            continue
+        globals()[line.msgtype] = AttrDict(line.ToDictionary())
+        v = evaluate_expression()
+        a += 1
+        if (a % 10000) == 0:
+            print a
+        if v is not None:
+            answer.Add(System.Tuple[DFLog.DFItem, float](line, v))
+
+main()
+", exp, expression.Replace("\"", "\\\""));
+
+            var script = engine.CreateScriptSourceFromString(scriptsrc);
+
+            Loading.ShowLoading("Processing via Python", this);
+
+            try
+            {
+                script.Execute(scope);
+            }
+            catch (Exception ex)
+            {
+                log.Error(engine.GetService<ExceptionOperations>().FormatException(ex));
+                throw;
+            }
+
+            if (false)
+            {
+                foreach (var line in logdata.GetEnumeratorType(exp))
+                {
+                    if (expression.Contains(line.msgtype))
+                    {
+                        var dict = line.ToDictionary();
+                        scope.SetVariable(line.msgtype, dict);
+                        var result = script.Execute(scope);
+                        answer.Add(line, (double) result);
+                    }
+                }
+            }
+
+            return answer;
+        }
+
+        public static class ext
+        {
+            [SpecialName]
+
+            public static object GetBoundMember(Dictionary<string, object> dict, string name)
+
+            {
+
+                if (dict.ContainsKey(name))
+
+                    return dict[name];
+
+                else
+
+                    return OperationFailed.Value;
+
+            }
+
+            [SpecialName]
+
+            public static void SetMemberAfter(Dictionary<string, object> dict, string methodName, object o)
+
+            {
+
+                dict.Add(methodName, o);
+
+            }
+        }
+
+        void GraphItem_GetList(string fieldname, string type, DFLog dflog, DataModifer dataModifier, bool left, string instance, string extra_label)
+        {
+            log.Info("GraphItem_GetList " + type + " " + fieldname + " " + instance);
             int col = dflog.FindMessageOffset(type, fieldname);
 
             // field does not exist
             if (col == -1)
+            {
+                Loading.Close();
                 return;
+            }
 
             PointPairList list1 = new PointPairList();
 
@@ -1095,7 +1329,8 @@ namespace MissionPlanner.Log
                     screenupdate = DateTime.Now;
                 }
 
-                if (item.msgtype == type)
+                // same message type, with no instance, or same message with instance
+                if (item.msgtype == type && (instance == "" || item.instance == instance))
                 {
                     try
                     {
@@ -1116,6 +1351,7 @@ namespace MissionPlanner.Log
                                 // there is a glitch in the data, reject it by replacing it with the previous value
                                 value = value_prev;
                             }
+
                             value_prev = value;
 
                             if (dataModifier.doOffsetFirst)
@@ -1132,10 +1368,7 @@ namespace MissionPlanner.Log
 
                         if (chk_time.Checked)
                         {
-                            var e = new DataGridViewCellValueEventArgs(1, (int) b);
-                            dataGridView1_CellValueNeeded(dataGridView1, e);
-
-                            XDate time = new XDate(DateTime.Parse(e.Value.ToString()));
+                            XDate time = new XDate(item.time);
 
                             list1.Add(time, value);
                         }
@@ -1159,9 +1392,7 @@ namespace MissionPlanner.Log
                 a++;
             }
 
-            Invoke((Action) delegate {
-                GraphItem_AddCurve(list1, type, fieldname, left);
-            });
+            Invoke((Action)delegate { GraphItem_AddCurve(list1, type, fieldname, left, instance, false, extra_label); });
         }
 
         Color pickColour()
@@ -1178,10 +1409,10 @@ namespace MissionPlanner.Log
                 return notused.First();
 
             // failback to old method
-            return colours[zg1.GraphPane.CurveList.Count%colours.Length];
+            return colours[zg1.GraphPane.CurveList.Count % colours.Length];
         }
-        
-        void GraphItem_AddCurve(PointPairList list1,string type, string header, bool left)
+
+        void GraphItem_AddCurve(PointPairList list1, string type, string header, bool left, string instance, bool isexpression, string extra_label)
         {
             if (list1.Count < 1)
             {
@@ -1189,12 +1420,79 @@ namespace MissionPlanner.Log
                 return;
             }
 
+            var ans = logdata.GetUnit(type, header);
+            string unit = ans.Item1;
+            double multiplier = ans.Item2;
+
+            // this is so precaned graphs draw on a singel axis
+            if (isexpression)
+                unit = "";
+
+            if (unit != "")
+                header += " (" + unit + ")";
+
+            if (multiplier != 0 && multiplier != 1)
+            {
+                log.InfoFormat("{0}[{1}].{2} * {3}", type, instance, header, multiplier);
+                for (var i = 0; i < list1.Count; i++)
+                {
+                    list1[i].Y *= multiplier;
+                }
+            }
+
             LineItem myCurve;
 
-            myCurve = zg1.GraphPane.AddCurve(type + "." + header, list1,
+            myCurve = zg1.GraphPane.AddCurve(type + (instance != "" ? "[" + instance + "]" : "") + "." + header + extra_label, list1,
                 pickColour(), SymbolType.None);
 
+            var rightclick = !left;
+
+            var index = zg1.GraphPane.YAxisList.IndexOf(unit);
+
+            var index2 = zg1.GraphPane.Y2AxisList.IndexOf(unit);
+
+            if (index != -1 && !rightclick)
+            {
+                myCurve.YAxisIndex = index;
+                myCurve.GetYAxis(zg1.GraphPane).IsVisible = true;
+            }
+            else if (index2 != -1 && rightclick)
+            {
+                myCurve.IsY2Axis = true;
+                myCurve.YAxisIndex = index2;
+                myCurve.GetYAxis(zg1.GraphPane).IsVisible = true;
+            }
+            else
+            {
+                if (rightclick)
+                {
+                    index = zg1.GraphPane.AddY2Axis(unit);
+                    myCurve.IsY2Axis = true;
+                    myCurve.YAxisIndex = index;
+                }
+                else
+                {
+                    index = zg1.GraphPane.AddYAxis(unit);
+                    myCurve.YAxisIndex = index;
+                }
+
+                // Make the Y axis scale red
+                myCurve.GetYAxis(zg1.GraphPane).Scale.FontSpec.FontColor = Color.Red;
+                myCurve.GetYAxis(zg1.GraphPane).Title.FontSpec.FontColor = Color.Red;
+                // turn off the opposite tics so the Y tics don't show up on the Y2 axis
+                myCurve.GetYAxis(zg1.GraphPane).MajorTic.IsOpposite = false;
+                myCurve.GetYAxis(zg1.GraphPane).MinorTic.IsOpposite = false;
+                // Don't display the Y zero line
+                myCurve.GetYAxis(zg1.GraphPane).MajorGrid.IsZeroLine = true;
+                // Align the Y axis labels so they are flush to the axis
+                myCurve.GetYAxis(zg1.GraphPane).Scale.Align = AlignP.Inside;
+
+                myCurve.GetYAxis(zg1.GraphPane).Title.FontSpec.Size = 10;
+            }
+
             leftorrightaxis(left, myCurve);
+
+            CleanupYAxis();
 
             // Make sure the Y axis is rescaled to accommodate actual data
             try
@@ -1204,242 +1502,498 @@ namespace MissionPlanner.Log
             catch
             {
             }
+
             // Zoom all
             zg1.ZoomOutAll(zg1.GraphPane);
 
-            try
-            {
-                DrawModes();
-
-                DrawErrors();
-
-                DrawTime();
-            }
-            catch
-            {
-            }
+            zg1_ZoomEvent(zg1, null, null);
 
             // Force a redraw
             zg1.Refresh();
             Loading.Close();
         }
 
-        void DrawErrors()
+        private void CleanupYAxis()
         {
-            bool top = false;
-            double a = 0;
-
-            if (ErrorCache.Count > 0)
+            try
             {
-                foreach (var item in ErrorCache)
+                // cleanup the displayed yaxis list
+                var ylist = zg1.GraphPane.YAxisList;
+                var y2list = zg1.GraphPane.Y2AxisList;
+                var curvelist = zg1.GraphPane.CurveList;
+
+                ylist.Where(axis =>
                 {
-                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
-                    zg1.GraphPane.GraphObjList.Add(item);
-                }
-                return;
+                    if (curvelist.Select(a => a.GetYAxis(zg1.GraphPane)).Any(a => a == axis))
+                        return false;
+                    axis.IsVisible = false;
+                    return false;
+                }).ToList();
+
+                y2list.Where(axis =>
+                {
+                    if (curvelist.Select(a => a.GetYAxis(zg1.GraphPane)).Any(a => a == axis))
+                        return false;
+                    axis.IsVisible = false;
+                    return false;
+                }).ToList();
             }
-
-            ErrorCache.Clear();
-
-            double b = 0;
-
-            //ErrorCache.Add(new TextObj("", -500, 0));
-
-            if (!dflog.logformat.ContainsKey("ERR"))
-                return;
-
-            foreach (var item in logdata.GetEnumeratorType("ERR"))
+            catch
             {
-                b = item.lineno;
-
-                if (item.msgtype == "ERR")
-                {
-                    if (!dflog.logformat.ContainsKey("ERR"))
-                        return;
-
-                    int index = dflog.FindMessageOffset("ERR", "Subsys");
-                    if (index == -1)
-                    {
-                        continue;
-                    }
-
-                    int index2 = dflog.FindMessageOffset("ERR", "ECode");
-                    if (index2 == -1)
-                    {
-                        continue;
-                    }
-
-                    if (chk_time.Checked)
-                    {
-                        XDate date = new XDate(item.time);
-                        b = date.XLDate;
-                    }
-
-                    string mode = "Err: " + ((DFLog.error_subsystem) int.Parse(item.items[index].ToString())) + "-" +
-                                  item.items[index2].ToString().Trim();
-                    if (top)
-                    {
-                        var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Top);
-                        temp.FontSpec.Fill.Color = Color.Red;
-                        ErrorCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    else
-                    {
-                        var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Bottom);
-                        temp.FontSpec.Fill.Color = Color.Red;
-                        ErrorCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    top = !top;
-                }
-                a++;
             }
         }
 
-        void DrawModes()
+        async Task DrawErrors()
         {
-            bool top = false;
-            double a = 0;
-
-            zg1.GraphPane.GraphObjList.Clear();
-
-            if (ModeCache.Count > 0)
+            await Task.Run(() =>
             {
-                foreach (var item in ModeCache)
+                log.Info("Start DrawErrors");
+                bool top = false;
+                double a = 0;
+
+                if (ErrorCache.Count > 0)
                 {
-                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
-                    zg1.GraphPane.GraphObjList.Add(item);
+                    foreach (var item in ErrorCache)
+                    {
+                        item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(item));
+                    }
+
+                    return;
                 }
-                return;
-            }
 
-            ModeCache.Clear();
+                ErrorCache.Clear();
 
-            foreach (var item in logdata.GetEnumeratorType("MODE"))
-            {
-                a = item.lineno;
+                double b = 0;
 
-                if (item.msgtype == "MODE")
+                //ErrorCache.Add(new TextObj("", -500, 0));
+
+                if (!dflog.logformat.ContainsKey("ERR"))
+                    return;
+
+                foreach (var item in logdata.GetEnumeratorType("ERR"))
                 {
-                    if (!dflog.logformat.ContainsKey("MODE"))
-                        return;
+                    b = item.lineno;
 
-                    int index = dflog.FindMessageOffset("MODE", "Mode");
-                    if (index == -1)
+                    if (item.msgtype == "ERR")
                     {
-                        continue;
-                    }
+                        if (!dflog.logformat.ContainsKey("ERR"))
+                            return;
 
-                    if (chk_time.Checked)
-                    {
-                        XDate date = new XDate(item.time);
-                        a = date.XLDate;
-                    }
-
-                    string mode = item.items[index].ToString().Trim();
-                    if (top)
-                    {
-                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Top);
-                        ModeCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    else
-                    {
-                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
-                            AlignH.Left, AlignV.Bottom);
-                        ModeCache.Add(temp);
-                        zg1.GraphPane.GraphObjList.Add(temp);
-                    }
-                    top = !top;
-                }
-                a++;
-            }
-        }
-
-        void DrawTime()
-        {
-            if (chk_time.Checked)
-                return;
-
-            int a = 0;
-
-            DateTime starttime = DateTime.MinValue;
-            UInt64 startdelta = 0;
-            DateTime workingtime = starttime;
-
-            DateTime lastdrawn = DateTime.MinValue;
-
-
-            if (TimeCache.Count > 0)
-            {
-                foreach (var item in TimeCache)
-                {
-                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
-                    zg1.GraphPane.GraphObjList.Add(item);
-                }
-                return;
-            }
-
-            double b = 0;
-
-            foreach (var item in logdata.GetEnumeratorType("GPS"))
-            {
-                b = item.lineno;
-
-                if (item.msgtype == "GPS")
-                {
-                    if (!dflog.logformat.ContainsKey("GPS"))
-                        break;
-
-                    int index = dflog.FindMessageOffset("GPS", "TimeMS");
-                    int index2 = dflog.FindMessageOffset("GPS", "TimeUS");
-                    if (index == -1)
-                    {
-                        if (index2 == -1)
+                        int index = dflog.FindMessageOffset("ERR", "Subsys");
+                        if (index == -1)
                         {
-                            a++;
                             continue;
                         }
+
+                        int index2 = dflog.FindMessageOffset("ERR", "ECode");
+                        if (index2 == -1)
+                        {
+                            continue;
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            XDate date = new XDate(item.time);
+                            b = date.XLDate;
+                        }
+
+                        if (item.items.Length <= index)
+                            continue;
+
+                        string mode = "Err: " + ((DFLog.LogErrorSubsystem)int.Parse(item.items[index].ToString())) +
+                                      "-" +
+                                      item.items[index2].ToString().Trim();
+                        if (top)
+                        {
+                            var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Top);
+                            temp.FontSpec.Fill.Color = Color.Red;
+                            ErrorCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
                         else
                         {
-                            index = index2;
+                            var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Bottom);
+                            temp.FontSpec.Fill.Color = Color.Red;
+                            ErrorCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
                         }
+
+                        top = !top;
                     }
 
-                    string time = double.Parse(item.items[index]).ToString();
-                    UInt64 tempt;
-                    if (UInt64.TryParse(time, out tempt))
-                    {
-                        if (startdelta == 0)
-                            startdelta = tempt;
-
-                        if (index2 != -1)
-                        {
-                            workingtime = starttime.AddMilliseconds(((tempt) - startdelta)/1000.0);
-                        }
-                        else
-                        {
-                            workingtime = starttime.AddMilliseconds((double) (tempt - startdelta));
-                        }
-
-                        TimeSpan span = workingtime - starttime;
-
-                        if (workingtime.Minute != lastdrawn.Minute)
-                        {
-                            var temp = new TextObj(span.TotalMinutes.ToString("0") + " min", b,
-                                zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Top);
-                            TimeCache.Add(temp);
-                            zg1.GraphPane.GraphObjList.Add(temp);
-                            lastdrawn = workingtime;
-                        }
-                    }
+                    a++;
                 }
-                a++;
-            }
+
+                log.Info("End DrawErrors");
+            }).ConfigureAwait(false);
+        }
+
+        async Task DrawEV()
+        {
+            await Task.Run(() =>
+            {
+                log.Info("Start DrawEV");
+                bool top = false;
+                double a = 0;
+
+                if (EVCache.Count > 0)
+                {
+                    foreach (var item in EVCache)
+                    {
+                        item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(item));
+                    }
+
+                    return;
+                }
+
+                EVCache.Clear();
+
+                double b = 0;
+
+                //ErrorCache.Add(new TextObj("", -500, 0));
+
+                if (!dflog.logformat.ContainsKey("EV"))
+                    return;
+
+                foreach (var item in logdata.GetEnumeratorType("EV"))
+                {
+                    b = item.lineno;
+
+                    if (item.msgtype == "EV")
+                    {
+                        if (!dflog.logformat.ContainsKey("EV"))
+                            return;
+
+                        int index = dflog.FindMessageOffset("EV", "Id");
+                        if (index == -1)
+                        {
+                            continue;
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            XDate date = new XDate(item.time);
+                            b = date.XLDate;
+                        }
+
+                        if (item.items.Length <= index)
+                            continue;
+
+                        string mode = "EV: " + ((DFLog.Log_Event)int.Parse(item.items[index].ToString()));
+                        if (top)
+                        {
+                            var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Top);
+                            temp.FontSpec.Fill.Color = Color.Red;
+                            EVCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+                        else
+                        {
+                            var temp = new TextObj(mode, b, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Bottom);
+                            temp.FontSpec.Fill.Color = Color.Red;
+                            EVCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+
+                        top = !top;
+                    }
+
+                    a++;
+                }
+
+                log.Info("End DrawEV");
+            }).ConfigureAwait(false);
+        }
+
+
+        async Task DrawModes()
+        {
+            await Task.Run(() =>
+            {
+                log.Info("Start DrawModes");
+                bool top = false;
+
+                var prevx = zg1.GraphPane.XAxis.Scale.Min;
+                int prevmodeno = 0;
+                // 2% of total
+                var modeheighty = zg1.GraphPane.YAxis.Scale.Max -
+                                  (zg1.GraphPane.YAxis.Scale.Max - zg1.GraphPane.YAxis.Scale.Min) * 0.02;
+
+                ModePolyCache.Clear();
+                ModeCache.Clear();
+
+                int modenum = 0;
+
+                foreach (var item in logdata.GetEnumeratorType("MODE"))
+                {
+                    double a = item.lineno;
+
+                    if (item.msgtype == "MODE")
+                    {
+                        if (!dflog.logformat.ContainsKey("MODE"))
+                            return;
+
+                        int index = dflog.FindMessageOffset("MODE", "Mode");
+                        if (index == -1)
+                        {
+                            continue;
+                        }
+
+                        int indexnum = dflog.FindMessageOffset("MODE", "ModeNum");
+                        if (indexnum == -1)
+                        {
+                            continue;
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            XDate date = new XDate(item.time);
+                            a = date.XLDate;
+                        }
+
+                        if (item.items.Length <= index)
+                            continue;
+
+                        string mode = item.items[index].ToString().Trim();
+
+                        prevmodeno = modenum;
+
+                        modenum = int.Parse(item.items[indexnum].ToString().Trim());
+
+                        var poly = new PolyObj()
+                        {
+                            Points = new[]
+                            {
+                                new PointD(prevx, modeheighty), // bl
+                                new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
+                                new PointD(Math.Min(Math.Max(a, prevx), zg1.GraphPane.XAxis.Scale.Max),
+                                    zg1.GraphPane.YAxis.Scale.Max), // tr
+                                new PointD(Math.Min(Math.Max(a, prevx), zg1.GraphPane.XAxis.Scale.Max),
+                                    modeheighty), // br                                
+                            },
+                            Fill = new Fill(colourspastal[prevmodeno]),
+                            ZOrder = ZOrder.E_BehindCurves
+                        };
+
+                        // only draw if our start position is less than the graph max and our end position is > our start (dont draw offscreen elements)
+                        if (prevx < zg1.GraphPane.XAxis.Scale.Max && a > zg1.GraphPane.XAxis.Scale.Min)
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(poly));
+
+                        if (top)
+                        {
+                            var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Top);
+                            ModeCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+                        else
+                        {
+                            var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Bottom);
+                            ModeCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+
+                        top = !top;
+                    }
+
+                    a++;
+                }
+
+                // put from last to end of graph as well
+                {
+                    var a = zg1.GraphPane.XAxis.Scale.Max;
+                    var poly2 = new PolyObj()
+                    {
+                        Points = new[]
+                        {
+                            new PointD(Math.Min(prevx, a), modeheighty), // bl
+                            new PointD(Math.Min(prevx, a), zg1.GraphPane.YAxis.Scale.Max), // tl
+                            new PointD(a, zg1.GraphPane.YAxis.Scale.Max), // tr
+                            new PointD(a, modeheighty), // br   
+                        },
+                        Fill = new Fill(colourspastal[modenum]),
+                        ZOrder = ZOrder.E_BehindCurves
+                    };
+
+                    this.BeginInvokeIfRequired(() =>
+                    {
+                        zg1.GraphPane.GraphObjList.Add(poly2);
+                        zg1.Invalidate();
+                    });
+                }
+                log.Info("End DrawModes");
+            }).ConfigureAwait(false);
+        }
+
+        async Task DrawMSG()
+        {
+            await Task.Run(() =>
+            {
+                log.Info("Start DrawMSG");
+                bool top = false;
+                double a = 0;
+
+                if (MSGCache.Count > 0)
+                {
+                    foreach (var item in MSGCache)
+                    {
+                        item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(item));
+                    }
+
+                    return;
+                }
+
+                MSGCache.Clear();
+
+                foreach (var item in logdata.GetEnumeratorType("MSG"))
+                {
+                    a = item.lineno;
+
+                    if (item.msgtype == "MSG")
+                    {
+                        if (!dflog.logformat.ContainsKey("MSG"))
+                            return;
+
+                        int index = dflog.FindMessageOffset("MSG", "Message");
+                        if (index == -1)
+                        {
+                            continue;
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            XDate date = new XDate(item.time);
+                            a = date.XLDate;
+                        }
+
+                        if (item.items.Length <= index)
+                            continue;
+
+                        string mode = item.items[index].ToString().Trim();
+                        if (top)
+                        {
+                            var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Top);
+                            MSGCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+                        else
+                        {
+                            var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                                AlignH.Left, AlignV.Bottom);
+                            MSGCache.Add(temp);
+                            this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                        }
+
+                        top = !top;
+                    }
+
+                    a++;
+                }
+
+                log.Info("End DrawMSG");
+            }).ConfigureAwait(false);
+        }
+
+        async Task DrawTime()
+        {
+            await Task.Run(() =>
+            {
+                log.Info("Start DrawTime");
+                if (chk_time.Checked)
+                    return;
+
+                int a = 0;
+
+                DateTime starttime = DateTime.MinValue;
+                UInt64 startdelta = 0;
+                DateTime workingtime = starttime;
+
+                DateTime lastdrawn = DateTime.MinValue;
+
+
+                if (TimeCache.Count > 0)
+                {
+                    foreach (var item in TimeCache)
+                    {
+                        item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
+                        this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(item));
+                    }
+
+                    return;
+                }
+
+                double b = 0;
+
+                foreach (var item in logdata.GetEnumeratorType("GPS"))
+                {
+                    b = item.lineno;
+
+                    if (item.msgtype == "GPS")
+                    {
+                        if (!dflog.logformat.ContainsKey("GPS"))
+                            break;
+
+                        int index = dflog.FindMessageOffset("GPS", "TimeMS");
+                        int index2 = dflog.FindMessageOffset("GPS", "TimeUS");
+                        if (index == -1)
+                        {
+                            if (index2 == -1)
+                            {
+                                a++;
+                                continue;
+                            }
+                            else
+                            {
+                                index = index2;
+                            }
+                        }
+
+                        if (item.items.Length <= index)
+                            continue;
+
+                        string time = double.Parse(item.items[index], CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
+                        UInt64 tempt;
+                        if (UInt64.TryParse(time,NumberStyles.Any, CultureInfo.InvariantCulture, out tempt))
+                        {
+                            if (startdelta == 0)
+                                startdelta = tempt;
+
+                            if (index2 != -1)
+                            {
+                                workingtime = starttime.AddMilliseconds(((tempt) - startdelta) / 1000.0);
+                            }
+                            else
+                            {
+                                workingtime = starttime.AddMilliseconds((double)(tempt - startdelta));
+                            }
+
+                            TimeSpan span = workingtime - starttime;
+
+                            if (workingtime.Minute != lastdrawn.Minute)
+                            {
+                                var temp = new TextObj(span.TotalMinutes.ToString("0") + " min", b,
+                                    zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Top);
+                                TimeCache.Add(temp);
+                                this.BeginInvokeIfRequired(() => zg1.GraphPane.GraphObjList.Add(temp));
+                                lastdrawn = workingtime;
+                            }
+                        }
+                    }
+
+                    a++;
+                }
+
+                log.Info("End DrawTime");
+            }).ConfigureAwait(false);
         }
 
         class LogRouteInfo
@@ -1449,250 +2003,357 @@ namespace MissionPlanner.Log
             public List<int> samples = new List<int>();
         }
 
-        void DrawMap()
+        async Task DrawMap(long startline = 0, long endline = long.MaxValue)
         {
-            int rtcnt = 0;
-
-            try
+            await Task.Run(() =>
             {
-                mapoverlay.Routes.Clear();
+                log.Info("Start DrawMap");
+                int rtcnt = 0;
 
-                DateTime starttime = DateTime.MinValue;
-                DateTime workingtime = starttime;
-
-                DateTime lastdrawn = DateTime.MinValue;
-
-                List<PointLatLng> routelist = new List<PointLatLng>();
-                List<int> samplelist = new List<int>();
-
-                List<PointLatLng> routelistgps2 = new List<PointLatLng>();
-                List<int> samplelistgps2 = new List<int>();
-
-                List<PointLatLng> routelistgpsb = new List<PointLatLng>();
-                List<int> samplelistgpsb = new List<int>();
-
-                List<PointLatLng> routelistpos = new List<PointLatLng>();
-                List<int> samplelistpos = new List<int>();
-
-                int i = 0;
-                int firstpoint = 0;
-                int firstpointpos = 0;
-                int firstpointgps2 = 0;
-                int firstpointgpsb = 0;
-
-                foreach (var item in logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB"}))
+                try
                 {
-                    i = item.lineno;
+                    var mapoverlay = new GMapOverlay("overlay");
+                    if (gpscache.Length == 0)
+                        gpscache = logdata.GetEnumeratorType(new string[]
+                                {"GPS", "POS", "GPS2", "GPSB", "CMD", "CAM", "TRIG", "SIM", "RALY"})
+                            .ToArray();
 
-                    if (item.msgtype == "GPS")
+                    DateTime starttime = DateTime.MinValue;
+                    DateTime workingtime = starttime;
+
+                    DateTime lastdrawn = DateTime.MinValue;
+
+                    List<PointLatLng> routelist = new List<PointLatLng>();
+                    List<int> samplelist = new List<int>();
+
+                    List<PointLatLng> routelistgps2 = new List<PointLatLng>();
+                    List<int> samplelistgps2 = new List<int>();
+
+                    List<PointLatLng> routelistgpsb = new List<PointLatLng>();
+                    List<int> samplelistgpsb = new List<int>();
+
+                    List<PointLatLng> routelistpos = new List<PointLatLng>();
+                    List<int> samplelistpos = new List<int>();
+
+                    List<PointLatLng> routelistcmd = new List<PointLatLng>();
+                    List<int> samplelistcmd = new List<int>();
+
+                    int i = 0;
+                    int firstpoint = 0;
+                    int firstpointpos = 0;
+                    int firstpointgps2 = 0;
+                    int firstpointgpsb = 0;
+                    int firstpointcmd = 0;
+
+                    foreach (var item in gpscache)
                     {
-                        var ans = getPointLatLng(item);
+                        i = item.lineno;
 
-                        if (ans.HasValue)
+                        if (i < startline || i > endline)
+                            continue;
+
+                        if (item.msgtype == "GPS" && (item.instance == "0" || item.instance == ""))
                         {
-                            routelist.Add(ans.Value);
-                            samplelist.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            if (routelist.Count > 1000)
+                            if (ans != null)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelist, "route_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
+                                routelist.Add(ans);
+                                samplelist.Add(i);
 
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpoint;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelist);
+                                if (routelist.Count > 1000)
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelist, "route_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
 
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpoint;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelist);
 
-                                //clear the list and set the last point as first point for the next route
-                                routelist.Clear();
-                                samplelist.Clear();
-                                firstpoint = i;
-                                samplelist.Add(firstpoint);
-                                routelist.Add(ans.Value);
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelist.Clear();
+                                    samplelist.Clear();
+                                    firstpoint = i;
+                                    samplelist.Add(firstpoint);
+                                    routelist.Add(ans);
+                                }
                             }
                         }
-                    }
-
-                    if (item.msgtype == "GPS2")
-                    {
-                        var ans = getPointLatLng(item);
-
-                        if (ans.HasValue)
+                        else if (item.msgtype == "GPS2" || item.msgtype == "GPS" && item.instance == "1")
                         {
-                            routelistgps2.Add(ans.Value);
-                            samplelistgps2.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            if (routelistgps2.Count > 1000)
+                            if (ans != null)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelistgps2, "routegps2_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
+                                routelistgps2.Add(ans);
+                                samplelistgps2.Add(i);
 
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpointgps2;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelistgps2);
+                                if (routelistgps2.Count > 1000)
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelistgps2, "routegps2_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
 
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpointgps2;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelistgps2);
 
-                                //clear the list and set the last point as first point for the next route
-                                routelistgps2.Clear();
-                                samplelistgps2.Clear();
-                                firstpointgps2 = i;
-                                samplelistgps2.Add(firstpointgps2);
-                                routelistgps2.Add(ans.Value);
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelistgps2.Clear();
+                                    samplelistgps2.Clear();
+                                    firstpointgps2 = i;
+                                    samplelistgps2.Add(firstpointgps2);
+                                    routelistgps2.Add(ans);
+                                }
                             }
                         }
-                    }
-
-                    if (item.msgtype == "GPSB")
-                    {
-                        var ans = getPointLatLng(item);
-
-                        if (ans.HasValue)
+                        else if (item.msgtype == "GPSB" || item.msgtype == "GPS" && item.instance == "2")
                         {
-                            routelistgpsb.Add(ans.Value);
-                            samplelistgpsb.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            if (routelistgpsb.Count > 1000)
+                            if (ans != null)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
+                                routelistgpsb.Add(ans);
+                                samplelistgpsb.Add(i);
 
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpointgpsb;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelistgpsb);
+                                if (routelistgpsb.Count > 1000)
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
 
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpointgpsb;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelistgpsb);
 
-                                //clear the list and set the last point as first point for the next route
-                                routelistgpsb.Clear();
-                                samplelistgpsb.Clear();
-                                firstpointgpsb = i;
-                                samplelistgpsb.Add(firstpointgpsb);
-                                routelistgpsb.Add(ans.Value);
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelistgpsb.Clear();
+                                    samplelistgpsb.Clear();
+                                    firstpointgpsb = i;
+                                    samplelistgpsb.Add(firstpointgpsb);
+                                    routelistgpsb.Add(ans);
+                                }
                             }
                         }
-                    }
-
-                    if (item.msgtype == "POS")
-                    {
-                        var ans = getPointLatLng(item);
-
-                        if (ans.HasValue)
+                        else if (item.msgtype == "POS")
                         {
-                            routelistpos.Add(ans.Value);
-                            samplelistpos.Add(i);
+                            var ans = getPointLatLng(item);
 
-                            if (routelistpos.Count > 1000)
+                            if (ans != null)
                             {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelistpos, "routepos_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
+                                routelistpos.Add(ans);
+                                samplelistpos.Add(i);
 
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpointpos;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelistpos);
+                                if (routelistpos.Count > 1000)
+                                {
+                                    //split the route in several small parts (due to memory errors)
+                                    GMapRoute route_part = new GMapRoute(routelistpos, "routepos_" + rtcnt);
+                                    route_part.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
 
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = false;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
+                                    LogRouteInfo lri = new LogRouteInfo();
+                                    lri.firstpoint = firstpointpos;
+                                    lri.lastpoint = i;
+                                    lri.samples.AddRange(samplelistpos);
 
-                                //clear the list and set the last point as first point for the next route
-                                routelistpos.Clear();
-                                samplelistpos.Clear();
-                                firstpointpos = i;
-                                samplelistpos.Add(firstpointpos);
-                                routelistpos.Add(ans.Value);
+                                    route_part.Tag = lri;
+                                    route_part.IsHitTestVisible = false;
+                                    mapoverlay.Routes.Add(route_part);
+                                    rtcnt++;
+
+                                    //clear the list and set the last point as first point for the next route
+                                    routelistpos.Clear();
+                                    samplelistpos.Clear();
+                                    firstpointpos = i;
+                                    samplelistpos.Add(firstpointpos);
+                                    routelistpos.Add(ans);
+                                }
                             }
                         }
+                        else if (item.msgtype == "CMD")
+                        {
+                            var ans = getPointLatLng(item);
+
+                            if (ans != null && ans.Lat != 0 && ans.Lng != 0)
+                            {
+                                bool duplicate = false;
+                                foreach (GMapMarkerWP m in mapoverlay.Markers)
+                                {
+                                    if (m.Tag?.ToString() == item["CNum"].ToString())
+                                    {
+                                        duplicate = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!duplicate)
+                                {
+                                    routelistcmd.Add(ans);
+                                    samplelistcmd.Add(i);
+
+                                    GMapMarker newWP = new GMapMarkerWP(ans, item["CNum"]);
+                                    newWP.Tag = item["CNum"].ToString();
+
+                                    //mapoverlay.Markers.Add(new GMapMarkerWP(ans, item["CNum"]));
+                                    mapoverlay.Markers.Add(newWP);
+
+                                    //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
+                                    //CMD, 43368479, 19, 18, 85, 0, 0, 0, 0, -27.27409, 151.2901, 0
+
+                                    if (item["CTot"] != null && item["CNum"] != null &&
+                                        (int.Parse(item["CTot"]) - 1) == int.Parse(item["CNum"]))
+                                    {
+                                        //split the route in several small parts (due to memory errors)
+                                        GMapRoute route_part = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
+                                        route_part.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
+
+                                        LogRouteInfo lri = new LogRouteInfo();
+                                        lri.firstpoint = firstpointpos;
+                                        lri.lastpoint = i;
+                                        lri.samples.AddRange(samplelistcmd);
+
+                                        route_part.Tag = lri;
+                                        route_part.IsHitTestVisible = false;
+                                        mapoverlay.Routes.Add(route_part);
+
+                                        rtcnt++;
+
+                                        //clear the list and set the last point as first point for the next route
+                                        routelistcmd.Clear();
+                                        samplelistcmd.Clear();
+                                        firstpointcmd = i;
+                                        samplelistcmd.Add(firstpointcmd);
+                                        routelistcmd.Add(ans);
+                                    }
+                                }
+                                else
+                                {
+                                    mapoverlay.Markers.Add(new GMapMarkerWP(ans, item["CNum"]));
+                                }
+                            }
+                        }
+                        else if (item.msgtype == "CAM")
+                        {
+                            var ans = getPointLatLng(item);
+
+                            if (ans != null && ans.Lat != 0 && ans.Lng != 0)
+                            {
+                                mapoverlay.Markers.Add(new GMapMarkerPhoto(new MAVLink.mavlink_camera_feedback_t()
+                                { lat = (int)(ans.Lat * 1e7), lng = (int)(ans.Lng * 1e7), alt_rel = (float)ans.Alt }));
+                            }
+                        }
+
+                        i++;
                     }
-                    i++;
+
+                    log.Info("done reading map points");
+
+                    // add last part of each
+                    // gps1
+                    GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
+                    route.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
+                    route.IsHitTestVisible = false;
+
+                    LogRouteInfo lri2 = new LogRouteInfo();
+                    lri2.firstpoint = firstpoint;
+                    lri2.lastpoint = i;
+                    lri2.samples.AddRange(samplelist);
+                    route.Tag = lri2;
+                    route.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(route);
+
+                    // gps2
+                    GMapRoute route2 = new GMapRoute(routelistgps2, "routegps2_" + rtcnt);
+                    route2.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
+                    route2.IsHitTestVisible = false;
+
+                    LogRouteInfo lri3 = new LogRouteInfo();
+                    lri3.firstpoint = firstpointgps2;
+                    lri3.lastpoint = i;
+                    lri3.samples.AddRange(samplelistgps2);
+                    route2.Tag = lri3;
+                    route2.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(route2);
+
+                    // gpsb
+                    GMapRoute routeb = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
+                    routeb.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
+                    routeb.IsHitTestVisible = false;
+
+                    LogRouteInfo lrib = new LogRouteInfo();
+                    lrib.firstpoint = firstpointgpsb;
+                    lrib.lastpoint = i;
+                    lrib.samples.AddRange(samplelistgpsb);
+                    routeb.Tag = lrib;
+                    routeb.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(routeb);
+
+                    // pos
+                    GMapRoute route3 = new GMapRoute(routelistpos, "routepos_" + rtcnt);
+                    route3.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
+                    route3.IsHitTestVisible = false;
+
+                    LogRouteInfo lri4 = new LogRouteInfo();
+                    lri4.firstpoint = firstpointpos;
+                    lri4.lastpoint = i;
+                    lri4.samples.AddRange(samplelistpos);
+                    route3.Tag = lri4;
+                    route3.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(route3);
+
+                    // cmd
+                    GMapRoute route4 = new GMapRoute(routelistcmd, "routecmd_" + rtcnt);
+                    route4.Stroke = new Pen(Color.FromArgb(127, Color.Indigo), 2);
+                    route4.IsHitTestVisible = false;
+
+                    LogRouteInfo lri5 = new LogRouteInfo();
+                    lri5.firstpoint = firstpointcmd;
+                    lri5.lastpoint = i;
+                    lri5.samples.AddRange(samplelistcmd);
+                    route4.Tag = lri5;
+                    route4.IsHitTestVisible = false;
+                    mapoverlay.Routes.Add(route4);
+
+
+                    rtcnt++;
+                    this.BeginInvokeIfRequired(() =>
+                    {
+                        if (rtcnt > 0)
+                            myGMAP1.RoutesEnabled = true;
+                        myGMAP1.Overlays.Remove(myGMAP1.Overlays.First(a => a.Id == mapoverlay.Id));
+                        myGMAP1.Overlays.Add(mapoverlay);
+                        myGMAP1.ZoomAndCenterRoutes(mapoverlay.Id);
+                        zg1.Invalidate();
+                    });
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
                 }
 
-                log.Info("done reading map points");
-
-                // add last part of each
-                // gps1
-                GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
-                route.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
-                route.IsHitTestVisible = false;
-
-                LogRouteInfo lri2 = new LogRouteInfo();
-                lri2.firstpoint = firstpoint;
-                lri2.lastpoint = i;
-                lri2.samples.AddRange(samplelist);
-                route.Tag = lri2;
-                route.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(route);
-
-                // gps2
-                GMapRoute route2 = new GMapRoute(routelistgps2, "routegps2_" + rtcnt);
-                route2.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
-                route2.IsHitTestVisible = false;
-
-                LogRouteInfo lri3 = new LogRouteInfo();
-                lri3.firstpoint = firstpointgps2;
-                lri3.lastpoint = i;
-                lri3.samples.AddRange(samplelistgps2);
-                route2.Tag = lri3;
-                route2.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(route2);
-
-                // gpsb
-                GMapRoute routeb = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
-                routeb.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
-                routeb.IsHitTestVisible = false;
-
-                LogRouteInfo lrib = new LogRouteInfo();
-                lrib.firstpoint = firstpointgpsb;
-                lrib.lastpoint = i;
-                lrib.samples.AddRange(samplelistgpsb);
-                routeb.Tag = lrib;
-                routeb.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(routeb);
-
-                // pos
-                GMapRoute route3 = new GMapRoute(routelistpos, "route2_" + rtcnt);
-                route3.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
-                route3.IsHitTestVisible = false;
-
-                LogRouteInfo lri4 = new LogRouteInfo();
-                lri4.firstpoint = firstpointpos;
-                lri4.lastpoint = i;
-                lri4.samples.AddRange(samplelistpos);
-                route3.Tag = lri4;
-                route3.IsHitTestVisible = false;
-                mapoverlay.Routes.Add(route3);
-
-                rtcnt++;
-                myGMAP1.ZoomAndCenterRoutes(mapoverlay.Id);
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
-            if (rtcnt > 0)
-                myGMAP1.RoutesEnabled = true;
+                log.Info("End DrawMap");
+            }).ConfigureAwait(false);
         }
 
-        PointLatLng? getPointLatLng(DFLog.DFItem item)
+        PointLatLngAlt getPointLatLng(DFLog.DFItem item)
         {
             if (item.msgtype == "GPS")
             {
@@ -1728,18 +2389,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() {};
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "GPS2")
+            else if (item.msgtype == "GPS2")
             {
                 if (!dflog.logformat.ContainsKey("GPS2"))
                     return null;
@@ -1773,18 +2433,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() { };
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "GPSB")
+            else if (item.msgtype == "GPSB")
             {
                 if (!dflog.logformat.ContainsKey("GPSB"))
                     return null;
@@ -1818,18 +2477,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() { };
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "POS")
+            else if (item.msgtype == "POS")
             {
                 if (!dflog.logformat.ContainsKey("POS"))
                     return null;
@@ -1851,10 +2509,10 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() {};
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     if (Math.Abs(pnt.Lat) > 90 || Math.Abs(pnt.Lng) > 180)
                         return null;
 
@@ -1864,22 +2522,80 @@ namespace MissionPlanner.Log
                 {
                 }
             }
+            else if (item.msgtype == "CMD")
+            {
+                //FMT, 146, 45, CMD, QHHHfffffff, TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt
+                if (!dflog.logformat.ContainsKey("CMD"))
+                    return null;
+
+                int index = dflog.FindMessageOffset("CMD", "Lat");
+                if (index == -1)
+                {
+                    return null;
+                }
+
+                int index2 = dflog.FindMessageOffset("CMD", "Lng");
+                if (index2 == -1)
+                {
+                    return null;
+                }
+
+                try
+                {
+                    string lat = item.items[index].ToString();
+                    string lng = item.items[index2].ToString();
+
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
+                    pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Tag = item.lineno.ToString();
+                    if (Math.Abs(pnt.Lat) > 90 || Math.Abs(pnt.Lng) > 180)
+                        return null;
+
+                    return pnt;
+                }
+                catch
+                {
+                }
+            }
+            else
+            {
+                if (!dflog.logformat.ContainsKey(item.msgtype))
+                    return null;
+
+                int index = dflog.FindMessageOffset(item.msgtype, "Lat");
+                if (index == -1)
+                {
+                    return null;
+                }
+
+                int index2 = dflog.FindMessageOffset(item.msgtype, "Lng");
+                if (index2 == -1)
+                {
+                    return null;
+                }
+
+                try
+                {
+
+                    string lat = item.items[index].ToString();
+                    string lng = item.items[index2].ToString();
+
+                    if (lat == "0" || lng == "0")
+                        return null;
+
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
+                    pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Tag = item.lineno.ToString();
+                    return pnt;
+                }
+                catch
+                {
+                }
+            }
 
             return null;
-        }
-
-        int FindInArray(string[] array, string find)
-        {
-            int a = 0;
-            foreach (string item in array)
-            {
-                if (item == find)
-                {
-                    return a;
-                }
-                a++;
-            }
-            return -1;
         }
 
         private void leftorrightaxis(bool left, CurveItem myCurve)
@@ -1924,20 +2640,16 @@ namespace MissionPlanner.Log
 
             int b = 0;
 
-            foreach (var item2 in logdata)
+            foreach (string item2 in logdata.SeenMessageTypes)
             {
-                b++;
-                var item = dflog.GetDFItemFromLine(item2, b);
-
-                if (item.msgtype == null)
-                    continue;
-
-                string celldata = item.msgtype.Trim();
+                string celldata = item2.Trim();
                 if (!options.Contains(celldata))
                 {
                     options.Add(celldata);
                 }
             }
+
+            options.Sort();
 
             Controls.OptionForm opt = new Controls.OptionForm();
 
@@ -1946,9 +2658,21 @@ namespace MissionPlanner.Log
 
             opt.Combobox.DataSource = options;
             opt.Button1.Text = "Filter";
+            opt.Button1.DialogResult = DialogResult.OK;
             opt.Button2.Text = "Cancel";
+            opt.Button2.DialogResult = DialogResult.Cancel;
 
-            opt.ShowDialog(this);
+            var dr = opt.ShowDialog(this);
+
+            // on not OK clear the filter
+            if (dr != DialogResult.OK)
+            {
+                logdatafilter.Clear();
+                dataGridView1.Rows.Clear();
+                dataGridView1.RowCount = logdata.Count;
+                dataGridView1.Invalidate();
+                return;
+            }
 
             if (opt.SelectedItem != "")
             {
@@ -1957,12 +2681,11 @@ namespace MissionPlanner.Log
                 int a = 0;
                 b = 0;
 
-                foreach (var item2 in logdata)
+                foreach (var item in logdata.GetEnumeratorType(opt.SelectedItem.ToUpper()))
                 {
                     b++;
-                    var item = dflog.GetDFItemFromLine(item2, b);
 
-                    if (item.msgtype == opt.SelectedItem)
+                    if (item.msgtype.ToUpper() == opt.SelectedItem.ToUpper())
                     {
                         logdatafilter.Add(a, item);
                         a++;
@@ -1985,41 +2708,7 @@ namespace MissionPlanner.Log
                 }
             }
 
-            /*
-            dataGridView1.SuspendLayout();
-            
-            foreach (DataGridViewRow datarow in dataGridView1.Rows)
-            {
-                string celldata = datarow.Cells[0].Value.ToString().Trim();
-                if (celldata == opt.SelectedItem || opt.SelectedItem == "")
-                    datarow.Visible = true;
-                else
-                {
-                    try
-                    {
-                        datarow.Visible = false;
-                    }
-                    catch { }
-                }
-            }
-
-            dataGridView1.ResumeLayout();
-             * */
             dataGridView1.Invalidate();
-        }
-
-        void BUT_go_Click(object sender, EventArgs e)
-        {
-            Controls.MyButton but = sender as Controls.MyButton;
-        }
-
-        /// <summary>
-        /// Update row number display for those only in view
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
         }
 
         private void BUT_Graphit_R_Click(object sender, EventArgs e)
@@ -2027,30 +2716,95 @@ namespace MissionPlanner.Log
             graphit_clickprocess(false);
         }
 
-        private void zg1_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
+        private SemaphoreSlim zg1LabelSemaphoreSlim = new SemaphoreSlim(1);
+
+        private async void zg1_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
         {
             try
             {
-                DrawModes();
-                DrawErrors();
-                DrawTime();
+                await zg1LabelSemaphoreSlim.WaitAsync();
+
+                sender.GraphPane.GraphObjList.Clear();
+
+                Task a = null, b = null, c = null, d = null, e = null, f = null;
+
+                if (chk_mode.Checked)
+                    a = DrawModes();
+                if (chk_errors.Checked)
+                    b = DrawErrors();
+                if (!chk_time.Checked)
+                    c = DrawTime();
+
+                if (chk_events.Checked)
+                    f = DrawEV();
+
+                if (chk_msg.Checked)
+                    d = DrawMSG();
+
+                if (!chk_time.Checked && CHK_map.Checked)
+                {
+                    if (sender.GraphPane.CurveList.Count == 0)
+                    {
+                        e = DrawMap();
+                    }
+                    else
+                    {
+                        e = DrawMap((long) sender.GraphPane.XAxis.Scale.Min,
+                            (long) sender.GraphPane.XAxis.Scale.Max);
+                    }
+                }
+
+                if (chk_time.Checked && CHK_map.Checked)
+                {
+                    if (sender.GraphPane.CurveList.Count == 0)
+                    {
+                        e = DrawMap();
+                    }
+                    else
+                    {
+                        e = DrawMap(
+                            dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Min).DateTime),
+                            dflog.GetLineNoFromTime(logdata, new XDate(sender.GraphPane.XAxis.Scale.Max).DateTime));
+                    }
+                }
+
+                if (a != null)
+                    await a.ConfigureAwait(true);
+                if (b != null)
+                    await b.ConfigureAwait(true);
+                if (c != null)
+                    await c.ConfigureAwait(true);
+                if (d != null)
+                    await d.ConfigureAwait(true);
+                if (e != null)
+                    await e.ConfigureAwait(true);
+                if (f != null)
+                    await f.ConfigureAwait(true);
+
+                zg1.Invalidate();
             }
             catch
             {
+            }
+            finally
+            {
+                zg1LabelSemaphoreSlim.Release();
             }
         }
 
         private void CHK_map_CheckedChanged(object sender, EventArgs e)
         {
-            splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
+            splitContainerZgMap.Panel2Collapsed = !splitContainerZgMap.Panel2Collapsed;
 
             if (CHK_map.Checked)
             {
+                splitContainerZgMap.SplitterDistance = splitContainerZgMap.Width / 2;
+
                 log.Info("Get map");
 
                 myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
 
-                // DrawMap();
+                zg1_ZoomEvent(zg1, null, null);
 
                 log.Info("map done");
             }
@@ -2090,6 +2844,8 @@ namespace MissionPlanner.Log
                 }
             }
 
+            opt.Dispose();
+
             zg1.Invalidate();
         }
 
@@ -2103,11 +2859,17 @@ namespace MissionPlanner.Log
             }
 
             string dataModifer_str = "";
-            string nodeName = DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Text, treeView1.SelectedNode.Text);
+            string nodeName = "";
+            if(treeView1.SelectedNode.Parent.Parent != null)
+                nodeName = DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Parent.Text, int.Parse(treeView1.SelectedNode.Parent.Text), treeView1.SelectedNode.Text);
+            else 
+                nodeName = DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Text, -1, treeView1.SelectedNode.Text);
+
+
 
             if (dataModifierHash.ContainsKey(nodeName))
             {
-                DataModifer initialDataModifier = (DataModifer) dataModifierHash[nodeName];
+                DataModifer initialDataModifier = (DataModifer)dataModifierHash[nodeName];
                 if (initialDataModifier.IsValid())
                     dataModifer_str = initialDataModifier.commandString;
             }
@@ -2115,7 +2877,8 @@ namespace MissionPlanner.Log
             string title = "Apply scaler and offset to " + nodeName;
             string instructions =
                 "Enter modifer then value, they are applied in the order you provide. Modifiers are x + - /\n";
-            instructions += "Example: Convert cm to to m with an offset of 50: '/100 +50' or 'x0.01 +50' or '*0.01,+50'";
+            instructions +=
+                "Example: Convert cm to to m with an offset of 50: '/100 +50' or 'x0.01 +50' or '*0.01,+50'";
             InputBox.Show(title, instructions, ref dataModifer_str);
 
             // if it's already there, remove it.
@@ -2128,37 +2891,44 @@ namespace MissionPlanner.Log
             }
         }
 
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
+            toolTip1.Hide(treeView1);
+
             if (e.Node != null && e.Node.Parent != null)
             {
-                // set the check if we right click
-                if (e.Button == System.Windows.Forms.MouseButtons.Right)
-                {
-                    e.Node.Checked = !e.Node.Checked;
-                }
+                var nodepath = e.Node.FullPath;
+                var parts = nodepath.Split('\\');
 
                 if (e.Node.Checked)
                 {
-                    if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                    if (wasrightclick)
                     {
-                        GraphItem(e.Node.Parent.Text, e.Node.Text, false);
+                        if (parts.Length == 3)
+                            GraphItem(parts[0], parts[2], false, true, false, parts[1]);
+                        else
+                            GraphItem(parts[0], parts[1], false);
                     }
                     else
                     {
-                        GraphItem(e.Node.Parent.Text, e.Node.Text, true);
+                        if (parts.Length == 3)
+                            GraphItem(parts[0], parts[2], true, true, false, parts[1]);
+                        else
+                            GraphItem(parts[0], parts[1], true);
                     }
                 }
                 else
                 {
                     List<CurveItem> removeitems = new List<CurveItem>();
 
+                    var name = parts.Length == 3
+                        ? parts[0] + "[" + parts[1] + "]." + parts[2]
+                        : parts[0] + "." + parts[1];
+
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
-                        if (item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text + " ") ||
-                            item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text + " R ") ||
-                            item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text) ||
-                            item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text + " R"))
+                        if (item.Label.Text.StartsWith(name + " ") ||
+                            item.Label.Text.StartsWith(name + " R "))
                         {
                             removeitems.Add(item);
                             //break;
@@ -2169,13 +2939,15 @@ namespace MissionPlanner.Log
                         zg1.GraphPane.CurveList.Remove(item);
                 }
 
+                CleanupYAxis();
+                zg1.AxisChange();
                 zg1.Invalidate();
             }
         }
 
         private void CMB_preselect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displaylist selectlist = (displaylist) CMB_preselect.SelectedValue;
+            mavgraph.displaylist selectlist = (mavgraph.displaylist)CMB_preselect.SelectedValue;
 
             if (selectlist == null || selectlist.items == null)
                 return;
@@ -2192,13 +2964,17 @@ namespace MissionPlanner.Log
                     }
                     else
                     {
-                        GraphItem(item.type, item.field, item.left, false);
+                        GraphItem(item.type + "." + item.field, "", item.left, false, true);
                     }
                 }
                 catch
+                    (Exception ex)
                 {
+                    log.Error(ex);
                 }
             }
+
+            zg1_ZoomEvent(zg1, null, null);
         }
 
         private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
@@ -2243,13 +3019,48 @@ namespace MissionPlanner.Log
                 if (e.RowIndex >= logdata.Count)
                     return;
 
-                var item2 = logdata[e.RowIndex];
+                //var item2 = logdata[e.RowIndex];
 
-                var item = dflog.GetDFItemFromLine(item2, e.RowIndex);
+                var item = logdata[(long)e.RowIndex];// dflog.GetDFItemFromLine(item2, e.RowIndex);
 
                 if (logdatafilter.Count > 0)
                 {
-                    item = (DFLog.DFItem) logdatafilter[e.RowIndex];
+                    if (e.RowIndex > logdatafilter.Count)
+                        return;
+
+                    item = (DFLog.DFItem)logdatafilter[e.RowIndex];
+                }
+
+                if (item.msgtype == "EV")
+                {
+                    try
+                    {
+                        var temp = item.raw.ToList();
+                        temp.AddRange(new[] {"" + (DFLog.Log_Event) int.Parse(item["Id"])});
+
+                        item.raw = temp.ToArray();
+                    }
+                    catch
+                    {
+                    }
+                } 
+                else if (item.msgtype == "ERR")
+                {
+                    try
+                    {
+                        var temp = item.raw.ToList();
+                        temp.AddRange(new[]
+                        {
+                            ((DFLog.LogErrorSubsystem) int.Parse(item["Subsys"].ToString())) +
+                            "-" +
+                            item["ECode"].ToString().Trim()
+                        });
+
+                        item.raw = temp.ToArray();
+                    }
+                    catch
+                    {
+                    }
                 }
 
                 if (e.ColumnIndex == 0)
@@ -2281,12 +3092,24 @@ namespace MissionPlanner.Log
             double x, y;
             zg1.GraphPane.ReverseTransform(ptClick, out x, out y);
 
-            GoToSample((int) x, true, false, true);
+            try
+            {
+                if (chk_time.Checked)
+                {
+                    x = dflog.GetLineNoFromTime(logdata, XDate.XLDateToDateTime(x));
+                }
+
+                //TODO - time fails
+                GoToSample((int)x, true, false, true);
+            }
+            catch
+            {
+            }
         }
 
         private void scrollGrid(DataGridView dataGridView, int index)
         {
-            int halfWay = (dataGridView.DisplayedRowCount(false)/2);
+            int halfWay = (dataGridView.DisplayedRowCount(false) / 2);
 
             if ((index < 0) && (dataGridView.SelectedRows.Count > 0))
             {
@@ -2310,7 +3133,7 @@ namespace MissionPlanner.Log
                 }
             }
         }
-        
+
         bool GetGPSFromRow(int lineNumber, out PointLatLng pt)
         {
             bool ret = false;
@@ -2407,8 +3230,9 @@ namespace MissionPlanner.Log
         }
 
 
-        private void myGMAP1_OnRouteClick(GMapRoute item, MouseEventArgs e)
+        private void myGMAP1_OnRouteClick(GMapRoute item, object ei)
         {
+            var e = ei as MouseEventArgs;
             if ((item.Name != null) && (item.Name.StartsWith("route_")))
             {
                 LogRouteInfo lri = item.Tag as LogRouteInfo;
@@ -2423,15 +3247,17 @@ namespace MissionPlanner.Log
                     {
                         PointLatLng pt = item.Points[i];
                         double d =
-                            Math.Sqrt((pt.Lat - pt2.Lat)*(pt.Lat - pt2.Lat) + (pt.Lng - pt2.Lng)*(pt.Lng - pt2.Lng));
+                            Math.Sqrt((pt.Lat - pt2.Lat) * (pt.Lat - pt2.Lat) +
+                                      (pt.Lng - pt2.Lng) * (pt.Lng - pt2.Lng));
                         if (d < dBest)
                         {
                             dBest = d;
                             nBest = i;
                         }
                     }
-                    double perc = (double) nBest/(double) item.LocalPoints.Count;
-                    int SampleID = (int) (lri.firstpoint + (lri.lastpoint - lri.firstpoint)*perc);
+
+                    double perc = (double)nBest / (double)item.LocalPoints.Count;
+                    int SampleID = (int)(lri.firstpoint + (lri.lastpoint - lri.firstpoint) * perc);
 
                     if ((lri.samples.Count > 0) && (nBest < lri.samples.Count))
                         SampleID = lri.samples[nBest];
@@ -2467,6 +3293,7 @@ namespace MissionPlanner.Log
             {
                 zg1.GraphPane.GraphObjList.Remove(m_cursorLine);
             }
+
             m_cursorLine = new LineObj(Color.Black, SampleID, 0, SampleID, 1);
 
             m_cursorLine.Location.CoordinateFrame = CoordType.XScaleYChartFraction; // This do the trick !
@@ -2481,10 +3308,11 @@ namespace MissionPlanner.Log
             if (movegraph)
             {
                 double delta = zg1.GraphPane.XAxis.Scale.Max - zg1.GraphPane.XAxis.Scale.Min;
-                zg1.GraphPane.XAxis.Scale.Min = SampleID - delta/2;
-                zg1.GraphPane.XAxis.Scale.Max = SampleID + delta/2;
+                zg1.GraphPane.XAxis.Scale.Min = SampleID - delta / 2;
+                zg1.GraphPane.XAxis.Scale.Max = SampleID + delta / 2;
                 zg1.AxisChange();
             }
+
             zg1.Invalidate();
 
 
@@ -2496,8 +3324,8 @@ namespace MissionPlanner.Log
                     dataGridView1.CurrentCell = dataGridView1.Rows[SampleID].Cells[1];
 
                     dataGridView1.ClearSelection();
-                    dataGridView1.Rows[(int) SampleID].Selected = true;
-                    dataGridView1.Rows[(int) SampleID].Cells[1].Selected = true;
+                    dataGridView1.Rows[(int)SampleID].Selected = true;
+                    dataGridView1.Rows[(int)SampleID].Cells[1].Selected = true;
                 }
                 catch
                 {
@@ -2517,31 +3345,42 @@ namespace MissionPlanner.Log
         private void chk_time_CheckedChanged(object sender, EventArgs e)
         {
             ModeCache.Clear();
+            EVCache.Clear();
             ErrorCache.Clear();
             TimeCache.Clear();
+            MSGCache.Clear();
+
+            BUT_cleargraph_Click(null, null);
 
             if (chk_time.Checked)
             {
-                zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
-
                 zg1.GraphPane.XAxis.Type = AxisType.Date;
                 zg1.GraphPane.XAxis.Scale.Format = "HH:mm:ss.fff";
+                zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
                 zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
                 zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
+                zg1.GraphPane.YAxis.Title.Text = "";
+                zg1.PointDateFormat = "HH:mm:ss.fff";
             }
             else
             {
                 // Set the titles and axis labels
                 zg1.GraphPane.XAxis.Type = AxisType.Linear;
                 zg1.GraphPane.XAxis.Scale.Format = "f0";
+                zg1.GraphPane.XAxis.Scale.MagAuto = false;
                 zg1.GraphPane.Title.Text = "Value Graph";
                 zg1.GraphPane.XAxis.Title.Text = "Line Number";
-                zg1.GraphPane.YAxis.Title.Text = "Output";
+                zg1.GraphPane.YAxis.Title.Text = "";
             }
+
+            CleanupYAxis();
+            zg1.AxisChange();
+            zg1.Invalidate();
         }
 
         double prevMouseX = 0;
         double prevMouseY = 0;
+        private int colcount;
 
         private bool zg1_MouseMoveEvent(ZedGraphControl sender, MouseEventArgs e)
         {
@@ -2555,6 +3394,265 @@ namespace MissionPlanner.Log
 
             // not handled
             return false;
+        }
+
+        private void exportVisibleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "output.csv";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(sfd.OpenFile()))
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            sb.Append(cell.FormattedValue);
+                            sb.Append(',');
+                        }
+
+                        sw.WriteLine(sb.ToString());
+                    }
+                }
+            }
+        }
+
+        private void chk_mode_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void chk_errors_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void chk_msg_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void splitContainer2_Resize(object sender, EventArgs e)
+        {
+            splitContainerZgMap.Visible = false;
+            splitContainerZgMap.Visible = true;
+            splitContainerZgMap.Panel1.Invalidate();
+            splitContainerZgMap.Panel2.Invalidate();
+        }
+
+        private void splitContainer1_Resize(object sender, EventArgs e)
+        {
+            splitContainerZgGrid.Visible = false;
+            splitContainerZgGrid.Visible = true;
+            splitContainerZgGrid.Panel1.Invalidate();
+            splitContainerZgGrid.Panel2.Invalidate();
+        }
+
+        private void chk_datagrid_CheckedChanged(object sender1, EventArgs e)
+        {
+            splitContainerButGrid.Panel2Collapsed = !splitContainerButGrid.Panel2Collapsed;
+
+
+            if (!splitContainerButGrid.Panel2Collapsed)
+            {
+                splitContainerZgGrid.SplitterDistance = splitContainerZgGrid.Height / 2;
+                try
+                {
+                    log.Info("set dgv datasourse " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+
+                    if (MainV2.MONO)
+                    {
+                        int rowstartoffset = 0;
+
+                        dataGridView1.ScrollBars = ScrollBars.Horizontal;
+
+                        var VBar = new VScrollBar();
+                        VBar.Visible = true;
+                        VBar.Top = 0;
+                        VBar.Height = dataGridView1.Height;
+                        VBar.Dock = DockStyle.Right;
+                        VBar.Maximum = logdata.Count;
+
+                        dataGridView1.Controls.Add(VBar);
+
+                        dataGridView1.PerformLayout();
+
+                        dataGridView1.RowPrePaint += (sender, args) =>
+                        {
+                            VBar.Maximum = logdata.Count;
+                            populateRowData(rowstartoffset, args.RowIndex, args.RowIndex);
+                        };
+
+                        dataGridView1.ColumnCount = colcount;
+
+                        int a = 0;
+                        while (a++ < 1000)
+                            dataGridView1.Rows.Add();
+
+                        // populate first row
+                        populateRowData(0, 0, 0);
+
+                        VBar.ValueChanged += (sender, args) =>
+                        {
+                            rowstartoffset = VBar.Value;
+                            dataGridView1.Invalidate();
+                        };
+                    }
+                    else
+                    {
+                        dataGridView1.VirtualMode = true;
+                        dataGridView1.ColumnCount = colcount;
+                        dataGridView1.RowCount = logdata.Count;
+                        log.Info("datagrid size set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+                    }
+
+                    log.Info("datasource set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show("Failed to read File: " + ex.ToString());
+                    return;
+                }
+
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                {
+                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+
+                log.Info("Done timetable " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+            }
+            else
+            {
+                splitContainerZgGrid.SplitterDistance =
+                    splitContainerZgGrid.Height - splitContainerButGrid.Panel1.MinimumSize.Height;
+            }
+        }
+
+        bool mousedown = false;
+        private PointLatLng MouseDownStart;
+        private bool wasrightclick;
+
+        private void myGMAP1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousedown = true;
+            MouseDownStart = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+        }
+
+        private void myGMAP1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mousedown)
+            {
+                PointLatLng point = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+
+                double latdif = MouseDownStart.Lat - point.Lat;
+                double lngdif = MouseDownStart.Lng - point.Lng;
+
+                try
+                {
+                    myGMAP1.Position = new PointLatLng(myGMAP1.Position.Lat + latdif, myGMAP1.Position.Lng + lngdif);
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private void myGMAP1_MouseUp(object sender, MouseEventArgs e)
+        {
+            mousedown = false;
+        }
+
+        private void LogBrowse_Resize(object sender, EventArgs e)
+        {
+            if (chk_datagrid.Checked)
+                splitContainerZgGrid.SplitterDistance = this.Height / 2;
+            if (!chk_datagrid.Checked)
+                splitContainerZgGrid.SplitterDistance = this.Height - splitContainerButGrid.Panel2.Height;
+        }
+
+        private void chk_events_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void treeView1_TreeNodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
+        {
+            var pos = treeView1.PointToClient(Control.MousePosition);
+            var node = treeView1.GetNodeAt(pos);
+            if (node != null)
+            {
+                var items = node.FullPath.Split('\\');
+                if (items.Length >= 2 && LogMetaData.MetaData.ContainsKey(items[0]) &&
+                    LogMetaData.MetaData[items[0]].ContainsKey(items[items.Length - 1]))
+                {
+                    var desc = LogMetaData.MetaData[items[0]][items[items.Length - 1]];
+                    pos.Y -= 30;
+                    pos.X += 30;
+                    txt_info.Text = desc;
+                    //toolTip1.Show(desc, treeView1, pos, 2000);
+                } else if (items.Length == 1 && LogMetaData.MetaData.ContainsKey(items[0]) &&
+                           LogMetaData.MetaData[items[0]].ContainsKey("description"))
+                {
+                    var desc = LogMetaData.MetaData[items[0]]["description"];
+                    pos.Y -= 30;
+                    pos.X += 30;
+                    txt_info.Text = desc;
+                    //toolTip1.Show(desc, treeView1, pos, 2000);
+                }
+            }
+        }
+
+        private void chk_params_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_params.Checked == false)
+                return;
+
+            chk_params.Checked = false;
+
+            var parmdata = logdata.GetEnumeratorType("PARM").Select(a =>
+                new MAVLink.MAVLinkParam(a["Name"], double.Parse(a["Value"], CultureInfo.InvariantCulture),
+                    MAVLink.MAV_PARAM_TYPE.REAL32));
+
+            //Check the list for duplicates and use the latest occurence for value
+            MAVLink.MAVLinkParamList newparamdata = new MAVLink.MAVLinkParamList();
+            foreach (MAVLink.MAVLinkParam sourceItem in parmdata)
+            {
+                //Lookup the next item in the target list
+                for (var idx_target = 0; idx_target < newparamdata.Count(); idx_target++)
+                {
+                    if (sourceItem.Name == newparamdata[idx_target].Name)
+                    {
+                        //This item is already in the parameters, since source is in time order, it means the value changed
+                        //We can replace the item in the output with this new value
+                        Console.WriteLine("Duplicated item Name:{0} Prev:{1} New:{2}", sourceItem.Name, newparamdata[idx_target].Value, sourceItem.Value);
+                        newparamdata[idx_target] = sourceItem;
+                        break;
+                    }
+                }
+                //item is not in target list, we can add it
+                newparamdata.Add(sourceItem);
+            }
+
+            MainV2.comPort.MAV.param.Clear();
+            MainV2.comPort.MAV.param.AddRange(newparamdata);
+
+            var frm = new ConfigRawParamsTree().ShowUserControl();
+        }
+
+        private void treeView1_MouseDown(object sender, MouseEventArgs e)
+        {
+            wasrightclick = e.Button == MouseButtons.Right;
+            if (wasrightclick)
+            {
+                var pos = treeView1.PointToClient(Control.MousePosition);
+                var node = treeView1.GetNodeAt(pos);
+                if (node != null)
+                {
+                    node.Checked = !node.Checked;
+                }
+            }
         }
     }
 }

@@ -1120,19 +1120,6 @@ namespace Sonic
 
         #region Helper Methods
 
-        protected T TryCast<T>() where T : class
-        {
-            try
-            {
-                T _interface = (T)Marshal.GetTypedObjectForIUnknown(m_pUnknown, typeof(T));
-                return _interface;
-            }
-            catch
-            {
-            }
-            return null;
-        }
-
         protected T GetProcDelegate<T>(int nIndex) where T : class
         {
             IntPtr pVtable = Marshal.ReadIntPtr(m_pUnknown);

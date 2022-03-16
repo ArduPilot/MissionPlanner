@@ -126,7 +126,7 @@
     <value>106, 80</value>
   </data>
   <data name="richTextBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>778, 283</value>
+    <value>348, 161</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;richTextBox1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="CHK_showconsole.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom</value>
@@ -154,7 +154,7 @@
     <value>True</value>
   </data>
   <data name="CHK_showconsole.Location" type="System.Drawing.Point, System.Drawing">
-    <value>403, 425</value>
+    <value>188, 303</value>
   </data>
   <data name="CHK_showconsole.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 17</value>
@@ -175,13 +175,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_showconsole.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="BUT_updatecheck.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom</value>
   </data>
   <data name="BUT_updatecheck.Location" type="System.Drawing.Point, System.Drawing">
-    <value>361, 390</value>
+    <value>146, 268</value>
   </data>
   <data name="BUT_updatecheck.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 29</value>
@@ -196,13 +196,13 @@
     <value>BUT_updatecheck</value>
   </data>
   <data name="&gt;&gt;BUT_updatecheck.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_updatecheck.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_updatecheck.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="linkLabel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom</value>
@@ -211,7 +211,7 @@
     <value>True</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>459, 445</value>
+    <value>244, 323</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 13</value>
@@ -232,33 +232,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="PIC_wizard.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="PIC_wizard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>438, 4</value>
-  </data>
-  <data name="PIC_wizard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 70</value>
-  </data>
-  <data name="PIC_wizard.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>Zoom</value>
-  </data>
-  <data name="PIC_wizard.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;PIC_wizard.Name" xml:space="preserve">
-    <value>PIC_wizard</value>
-  </data>
-  <data name="&gt;&gt;PIC_wizard.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PIC_wizard.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;PIC_wizard.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="BUT_betaupdate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -268,7 +241,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_betaupdate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>490, 390</value>
+    <value>275, 268</value>
   </data>
   <data name="BUT_betaupdate.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 29</value>
@@ -283,7 +256,7 @@
     <value>BUT_betaupdate</value>
   </data>
   <data name="&gt;&gt;BUT_betaupdate.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_betaupdate.Parent" xml:space="preserve">
     <value>$this</value>
@@ -298,12 +271,12 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 461</value>
+    <value>578, 339</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Help</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

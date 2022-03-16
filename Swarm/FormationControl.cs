@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using ProjNet.CoordinateSystems.Transformations;
+﻿using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
-using ProjNet.Converters;
-using MissionPlanner;
-using MissionPlanner.Utilities;
+using ProjNet.CoordinateSystems.Transformations;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 
 namespace MissionPlanner.Swarm
 {
@@ -25,7 +21,9 @@ namespace MissionPlanner.Swarm
 
             SwarmInterface = new Formation();
 
-            Dictionary<String,MAVState> mavStates = new Dictionary<string, MAVState>();
+            TopMost = true;
+
+            Dictionary<String, MAVState> mavStates = new Dictionary<string, MAVState>();
 
             foreach (var port in MainV2.Comports)
             {
@@ -34,6 +32,9 @@ namespace MissionPlanner.Swarm
                     mavStates.Add(port.BaseStream.PortName + " " + mav.sysid + " " + mav.compid, mav);
                 }
             }
+
+            if (mavStates.Count == 0)
+                return;
 
             bindingSource1.DataSource = mavStates;
 
@@ -72,14 +73,14 @@ namespace MissionPlanner.Swarm
                 {
                     if (mav == SwarmInterface.getLeader())
                     {
-                        ((Formation) SwarmInterface).setOffsets(mav, 0, 0, 0);
+                        ((Formation)SwarmInterface).setOffsets(mav, 0, 0, 0);
                         var vector = SwarmInterface.getOffsets(mav);
-                        grid1.UpdateIcon(mav, (float) vector.x, (float) vector.y, (float) vector.z, false);
+                        grid1.UpdateIcon(mav, (float)vector.x, (float)vector.y, (float)vector.z, false);
                     }
                     else
                     {
                         var vector = SwarmInterface.getOffsets(mav);
-                        grid1.UpdateIcon(mav, (float) vector.x, (float) vector.y, (float) vector.z, true);
+                        grid1.UpdateIcon(mav, (float)vector.x, (float)vector.y, (float)vector.z, true);
                     }
                 }
             }
@@ -113,7 +114,7 @@ namespace MissionPlanner.Swarm
 
             if (SwarmInterface != null)
             {
-                new System.Threading.Thread(mainloop) {IsBackground = true}.Start();
+                new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
                 BUT_Start.Text = Strings.Stop;
             }
         }
@@ -123,10 +124,11 @@ namespace MissionPlanner.Swarm
             threadrun = true;
 
             // make sure leader is high freq updates
-            SwarmInterface.Leader.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 5, SwarmInterface.Leader.sysid, SwarmInterface.Leader.compid);
-            SwarmInterface.Leader.cs.rateposition = 5;
+            SwarmInterface.Leader.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 10, SwarmInterface.Leader.sysid, SwarmInterface.Leader.compid);
+            SwarmInterface.Leader.cs.rateposition = 10;
+            SwarmInterface.Leader.cs.rateattitude = 10;
 
-            while (threadrun)
+            while (threadrun && !this.IsDisposed)
             {
                 // update leader pos
                 SwarmInterface.Update();
@@ -183,9 +185,9 @@ namespace MissionPlanner.Swarm
                     {
                         var vector = SwarmInterface.getOffsets(mav);
 
-                        SwarmInterface.setOffsets(mav, (float) (vector.x - vectorlead.x),
-                            (float) (vector.y - vectorlead.y),
-                            (float) (vector.z - vectorlead.z));
+                        SwarmInterface.setOffsets(mav, (float)(vector.x - vectorlead.x),
+                            (float)(vector.y - vectorlead.y),
+                            (float)(vector.z - vectorlead.z));
                     }
                 }
 
@@ -198,7 +200,7 @@ namespace MissionPlanner.Swarm
 
         private void BUT_connect_Click(object sender, EventArgs e)
         {
-            Comms.CommsSerialScan.Scan(false);
+            Comms.CommsSerialScan.Scan(true);
 
             DateTime deadline = DateTime.Now.AddSeconds(50);
 
@@ -213,56 +215,41 @@ namespace MissionPlanner.Swarm
                 }
             }
 
-            MAVLinkInterface com2 = new MAVLinkInterface();
-
-            com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
-            com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;
-
-            com2.Open(true);
-
-            MainV2.Comports.Add(com2);
-
-            // CMB_mavs.DataSource = MainV2.Comports;
-
-            //CMB_mavs.DataSource
-
-            updateicons();
-
             bindingSource1.ResetBindings(false);
         }
 
-        public HIL.Vector3 getOffsetFromLeader(MAVState leader, MAVState mav)
+        public Vector3 getOffsetFromLeader(MAVState leader, MAVState mav)
         {
             //convert Wgs84ConversionInfo to utm
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+            IGeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
-            int utmzone = (int) ((leader.cs.lng - -186.0)/6.0);
+            int utmzone = (int)((leader.cs.lng - -186.0) / 6.0);
 
             IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone,
                 leader.cs.lat < 0 ? false : true);
 
             ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
 
-            double[] masterpll = {leader.cs.lng, leader.cs.lat};
+            double[] masterpll = { leader.cs.lng, leader.cs.lat };
 
             // get leader utm coords
             double[] masterutm = trans.MathTransform.Transform(masterpll);
 
-            double[] mavpll = {mav.cs.lng, mav.cs.lat};
+            double[] mavpll = { mav.cs.lng, mav.cs.lat };
 
             //getLeader follower utm coords
             double[] mavutm = trans.MathTransform.Transform(mavpll);
 
             var heading = -leader.cs.yaw;
 
-           var norotation = new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
+            var norotation = new Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
 
             norotation.x *= -1;
             norotation.y *= -1;
 
-            return new HIL.Vector3( norotation.x * Math.Cos(heading * MathHelper.deg2rad) - norotation.y * Math.Sin(heading * MathHelper.deg2rad), norotation.x * Math.Sin(heading * MathHelper.deg2rad) + norotation.y * Math.Cos(heading * MathHelper.deg2rad), 0);
+            return new Vector3(norotation.x * Math.Cos(heading * MathHelper.deg2rad) - norotation.y * Math.Sin(heading * MathHelper.deg2rad), norotation.x * Math.Sin(heading * MathHelper.deg2rad) + norotation.y * Math.Cos(heading * MathHelper.deg2rad), 0);
         }
 
         private void grid1_UpdateOffsets(MAVState mav, float x, float y, float z, Grid.icon ico)
@@ -274,7 +261,7 @@ namespace MissionPlanner.Swarm
             }
             else
             {
-                ((Formation) SwarmInterface).setOffsets(mav, x, y, z);
+                ((Formation)SwarmInterface).setOffsets(mav, x, y, z);
             }
         }
 
@@ -294,12 +281,12 @@ namespace MissionPlanner.Swarm
                     if (mav == SwarmInterface.Leader)
                         continue;
 
-                    HIL.Vector3 offset = getOffsetFromLeader(((Formation) SwarmInterface).getLeader(), mav);
+                    Vector3 offset = getOffsetFromLeader(((Formation)SwarmInterface).getLeader(), mav);
 
                     if (Math.Abs(offset.x) < 200 && Math.Abs(offset.y) < 200)
                     {
-                        grid1.UpdateIcon(mav, (float) offset.y, (float) offset.x, (float) offset.z, true);
-                        ((Formation) SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
+                        grid1.UpdateIcon(mav, (float)offset.y, (float)offset.x, (float)offset.z, true);
+                        ((Formation)SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
                     }
                 }
             }
@@ -315,10 +302,10 @@ namespace MissionPlanner.Swarm
                 {
                     foreach (var mav in port.MAVlist)
                     {
-                        if (mav == (MAVState) ctl.Tag)
+                        if (mav == (MAVState)ctl.Tag)
                         {
                             match = true;
-                            
+
                         }
                     }
                 }
@@ -338,22 +325,22 @@ namespace MissionPlanner.Swarm
                         if (ctl is Status && ctl.Tag == mav)
                         {
                             exists = true;
-                            ((Status) ctl).GPS.Text = mav.cs.gpsstatus >= 3 ? "OK" : "Bad";
-                            ((Status) ctl).Armed.Text = mav.cs.armed.ToString();
-                            ((Status) ctl).Mode.Text = mav.cs.mode;
-                            ((Status) ctl).MAV.Text = ToString();
-                            ((Status) ctl).Guided.Text = mav.GuidedMode.x + "," + mav.GuidedMode.y + "," +
+                            ((Status)ctl).GPS.Text = mav.cs.gpsstatus >= 3 ? "OK" : "Bad";
+                            ((Status)ctl).Armed.Text = mav.cs.armed.ToString();
+                            ((Status)ctl).Mode.Text = mav.cs.mode;
+                            ((Status)ctl).MAV.Text = mav.ToString();
+                            ((Status)ctl).Guided.Text = mav.GuidedMode.x / 1e7 + "," + mav.GuidedMode.y / 1e7 + "," +
                                                          mav.GuidedMode.z;
-                            ((Status) ctl).Location1.Text = mav.cs.lat + "," + mav.cs.lng + "," +
+                            ((Status)ctl).Location1.Text = mav.cs.lat + "," + mav.cs.lng + "," +
                                                             mav.cs.alt;
 
                             if (mav == SwarmInterface.Leader)
                             {
-                                ((Status) ctl).ForeColor = Color.Red;
+                                ((Status)ctl).ForeColor = Color.Red;
                             }
                             else
                             {
-                                ((Status) ctl).ForeColor = Color.Black;
+                                ((Status)ctl).ForeColor = Color.Black;
                             }
                         }
                     }
@@ -373,6 +360,14 @@ namespace MissionPlanner.Swarm
             if (SwarmInterface != null)
             {
                 SwarmInterface.GuidedMode();
+            }
+        }
+
+        private void but_auto_Click(object sender, EventArgs e)
+        {
+            if (SwarmInterface != null)
+            {
+                SwarmInterface.AutoMode();
             }
         }
     }

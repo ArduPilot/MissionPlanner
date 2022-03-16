@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class RangeControl : UserControl, IDynamicParameterControl
+    public partial class RangeControl : MyUserControl, IDynamicParameterControl
     {
         #region Properties
 
@@ -135,11 +135,17 @@ namespace MissionPlanner.Controls
             float maxrange, string value)
         {
             InitializeComponent();
+            setup(param, Desc, Label, increment, Displayscale, minrange, maxrange, value);
+        }
+
+        public void setup(string param, string Desc, string Label, float increment, float Displayscale, float minrange,
+            float maxrange, string value)
+        {
             this.DisplayScale = Displayscale;
 
             // disable the mouse wheel
             trackBar1.MouseWheel +=
-                delegate (object sender, MouseEventArgs args) { ((HandledMouseEventArgs)args).Handled = true; };
+                delegate(object sender, MouseEventArgs args) { ((HandledMouseEventArgs) args).Handled = true; };
 
             Name = param;
             Increment = increment;
@@ -150,11 +156,23 @@ namespace MissionPlanner.Controls
             float delta = maxrange - minrange;
 
             this.Value = value;
+
+            AttachEvents();
         }
 
         #endregion
 
         #region Methods
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            if (e.ClipRectangle.IsEmpty)
+                return;
+            // this is to improve first render time when not onscreen.
+            if (!numericUpDown1.Visible)
+                numericUpDown1.Visible = true;
+            base.OnPaint(e);
+        }
 
         public void AttachEvents()
         {
@@ -184,9 +202,13 @@ namespace MissionPlanner.Controls
                 trackBar1.Value =
                     (int) map(numericUpDown1.Value, numericUpDown1.Minimum, numericUpDown1.Maximum, 0, 1000);
 
-            // if the increment is 1, its most likerly a int on the ap, so treat it as such
-            if (Increment == 1.0)
-                numericUpDown1.Value = (int) (numericUpDown1.Value);
+            // if the increment is divisible by one, always round to an int
+            if ((Increment % 1) == 0)
+            {
+                var round = Math.Round(numericUpDown1.Value, 0);
+                if(round > numericUpDown1.Minimum)
+                    numericUpDown1.Value = (int) round;
+            }
 
             numericUpDown1.BackColor = Color.Green;
 

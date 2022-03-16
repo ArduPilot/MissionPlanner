@@ -1,0 +1,27 @@
+<UserControl x:Class="MissionPlanner.Joystick.JoystickSetup" d:DesignHeight="370" d:DesignWidth="718"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><CheckBox Name="chk_manualcontrol" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="464,47,0,0" Width="100" Height="18">Manual Control</CheckBox>
+<TextBlock Name="label14" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="442,17,0,0" Width="94" Height="17">Loaded Config for</TextBlock>
+<CheckBox Name="CHK_elevons" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="434,81,0,0" Width="64" Height="18">Elevons</CheckBox>
+<TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="411,47,0,0" Width="46" Height="17">Reverse</TextBlock>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="69,47,0,0" Width="78" Height="17">Controller Axis</TextBlock>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="197,47,0,0" Width="38" Height="17">Output</TextBlock>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="307,47,0,0" Width="30" Height="17">Expo</TextBlock>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="19,15,0,0" Width="45" Height="17">Joystick</TextBlock>
+<Button Name="BUT_enable" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="280,12,0,0" Width="75" Height="23">Enable</Button>
+<Button Name="BUT_save" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="361,12,0,0" Width="75" Height="23">Save</Button>
+<ComboBox Name="CMB_joysticks" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="72,12,0,0" Width="202" Height="21"></ComboBox>
+</Grid></UserControl>

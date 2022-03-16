@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class ValuesControl{public ValuesControl(){this.InitializeComponent();}}}

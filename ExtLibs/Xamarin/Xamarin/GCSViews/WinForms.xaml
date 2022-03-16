@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Xamarin.Controls;assembly=Xamarin"
+             xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             x:Class="Xamarin.GCSViews.WinForms">
+ 
+        <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <forms:SKGLView x:Name="SkCanvasView" EnableTouchEvents="True" Touch="SkCanvasView_Touch" PaintSurface="SkCanvasView_PaintSurface" 
+                        AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"  ></forms:SKGLView>
+        <Entry x:Name="Entry" IsVisible="false"  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" BackgroundColor="#D9D9D9"></Entry>
+        </AbsoluteLayout>
+
+</ContentPage>

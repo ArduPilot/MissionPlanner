@@ -12,18 +12,35 @@ namespace px4uploader
     public class Firmware
     {
         public int board_id;
+        public string airframe_xml;
+        public int airframe_xml_size;
         public string magic;
         public string description;
+        public string ardupilot_git_hash;
         public string image;
         public byte[] imagebyte;
+
+        public int image_maxsize;
+        public int flash_free;
+
+        public string extf_image;
+        public byte[] extf_imagebyte;
+        public int extf_image_size;
+        public int extflash_free;
+        public int extflash_total;
+
+        public string USBID;
+
+        public int parameter_xml_size;
         public uint build_time;
         public string summary;
+        public string nuttx_git_hash;
         public string version;
+        public string parameter_xml;
         public int image_size;
         public string git_identity;
+        public int mav_autopilot;
         public int board_revision;
-
-        static Firmware fw;
 
         readonly uint[] crctab = new uint[] {
 		0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
@@ -65,9 +82,7 @@ namespace px4uploader
 
         public static Firmware ProcessFirmware(string path)
         {
-            
-
-           // JavaScriptSerializer serializer = new JavaScriptSerializer();
+            Firmware fw;
 
             Console.WriteLine("Read File " + path);
 
@@ -76,44 +91,67 @@ namespace px4uploader
             //fw = serializer.Deserialize<Firmware>(f.ReadToEnd());
             fw = JSON.Instance.ToObject<Firmware>(f.ReadToEnd());
             f.Close();
-            
-            byte[] data = Convert.FromBase64String(fw.image);
 
-            MemoryStream imagems = new MemoryStream(data, true);
-
-            ZlibStream decompressionStream = new ZlibStream(imagems, CompressionMode.Decompress);
-
-
-            int size = fw.image_size + (fw.image_size % 4);
-            fw.imagebyte = new byte[size];
-
-            for (int a = 0; a < fw.imagebyte.Length; a++)
+            if (fw.image_size > 0)
             {
-                fw.imagebyte[a] = 0xff;
-            }
+                byte[] data = Convert.FromBase64String(fw.image);
 
-            try
-            {
-                decompressionStream.Read(fw.imagebyte, 0, fw.image_size);
-            }
-            catch { Console.WriteLine("Possible bad file - usually safe to ignore"); }
+                MemoryStream imagems = new MemoryStream(data, true);
 
-            Console.WriteLine("image_size {0} size {1}",fw.image_size,size);
+                ZlibStream decompressionStream = new ZlibStream(imagems, CompressionMode.Decompress);
 
-            using (BinaryWriter sw = new BinaryWriter(File.Open("px4fw.bin", FileMode.Create)))
-            {
-                foreach (byte by in fw.imagebyte)
+                int size = fw.image_size + (fw.image_size % 4);
+                fw.imagebyte = new byte[size];
+
+                for (int a = 0; a < fw.imagebyte.Length; a++)
                 {
-                    sw.Write(by);
-                    //   Console.Write("{0:x2}", by);
+                    fw.imagebyte[a] = 0xff;
                 }
 
-                sw.Close();
-            }
+                try
+                {
+                    decompressionStream.Read(fw.imagebyte, 0, fw.image_size);
+                }
+                catch { Console.WriteLine("Possible bad file - usually safe to ignore"); }
 
-            // pad image to 4-byte length
-            //while ((fw.imagebyte.Length % 4) != 0) {
-            //fw.imagebyte. += b'\x00'
+                Console.WriteLine("image_size {0} size {1}", fw.image_size, size);
+
+                // pad image to 4-byte length
+                while ((fw.imagebyte.Length % 4) != 0)
+                {
+                    Array.Resize(ref fw.imagebyte, fw.imagebyte.Length + (4 - (fw.imagebyte.Length % 4)));
+                }
+            }
+            if(fw.extf_image_size > 0)
+            {
+                byte[] data = Convert.FromBase64String(fw.extf_image);
+
+                MemoryStream imagems = new MemoryStream(data, true);
+
+                ZlibStream decompressionStream = new ZlibStream(imagems, CompressionMode.Decompress);
+
+                int size = fw.extf_image_size + (fw.extf_image_size % 4);
+                fw.extf_imagebyte = new byte[size];
+
+                for (int a = 0; a < fw.extf_imagebyte.Length; a++)
+                {
+                    fw.extf_imagebyte[a] = 0xff;
+                }
+
+                try
+                {
+                    decompressionStream.Read(fw.extf_imagebyte, 0, fw.extf_image_size);
+                }
+                catch { Console.WriteLine("Possible bad file - usually safe to ignore"); }
+
+                Console.WriteLine("extf_image_size {0} size {1}", fw.extf_image_size, size);
+
+                // pad image to 4-byte length
+                while ((fw.imagebyte.Length % 4) != 0)
+                {
+                    Array.Resize(ref fw.extf_imagebyte, fw.extf_imagebyte.Length + (4 - (fw.extf_imagebyte.Length % 4)));
+                }
+            }
 
             return fw;
         }
@@ -130,9 +168,9 @@ namespace px4uploader
 
         public int crc(int padlen)
         {
-            uint state = __crc32(fw.imagebyte, 0);
+            uint state = __crc32(imagebyte, 0);
 
-            for (int i = fw.imagebyte.Length; i < (padlen -1); i += 4)
+            for (int i = imagebyte.Length; i < (padlen -1); i += 4)
             {
                 state = __crc32(crcpad, state);
             }

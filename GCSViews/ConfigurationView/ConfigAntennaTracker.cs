@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAntennaTracker : UserControl, IActivate, IDeactivate
+    public partial class ConfigAntennaTracker : MyUserControl, IActivate, IDeactivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -29,7 +29,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduTracker)
             {
                 Enabled = true;
             }
@@ -109,7 +109,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -133,61 +133,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return sb.ToString();
         }
 
-        private void ComboBox_Validated(object sender, EventArgs e)
-        {
-            EEPROM_View_float_TextChanged(sender, e);
-        }
-
-        private void Configuration_Validating(object sender, CancelEventArgs e)
-        {
-            EEPROM_View_float_TextChanged(sender, e);
-        }
-
-        internal void EEPROM_View_float_TextChanged(object sender, EventArgs e)
-        {
-            if (startup)
-                return;
-
-            float value = 0;
-            var name = ((Control) sender).Name;
-
-            // do domainupdown state check
-            try
-            {
-                if (sender.GetType() == typeof (NumericUpDown))
-                {
-                    value = (float) ((NumericUpDown) sender).Value;
-                    MAVLinkInterface.modifyParamForDisplay(false, ((Control) sender).Name, ref value);
-                    changes[name] = value;
-                }
-                else if (sender.GetType() == typeof (ComboBox))
-                {
-                    value = (int) ((ComboBox) sender).SelectedValue;
-                    changes[name] = value;
-                }
-                ((Control) sender).BackColor = Color.Green;
-            }
-            catch (Exception)
-            {
-                ((Control) sender).BackColor = Color.Red;
-            }
-        }
-
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            var temp = (Hashtable) changes.Clone();
+            var temp = (Hashtable)changes.Clone();
 
             foreach (string value in temp.Keys)
             {
                 try
                 {
-                    if ((float) changes[value] > MainV2.comPort.MAV.param[value].Value*2.0f)
+                    if ((float)changes[value] > MainV2.comPort.MAV.param[value].Value * 2.0f)
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
-                                "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                                "Large Value", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                             return;
 
-                    MainV2.comPort.setParam(value, (float) changes[value]);
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        return;
+                    }
+
+                    MainV2.comPort.setParam(value, (float)changes[value]);
 
                     try
                     {
@@ -219,7 +185,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
             try
             {
@@ -231,7 +197,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
 
             Activate();
@@ -242,12 +208,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
 
             updateparam(this);
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
 
             Activate();
@@ -257,7 +223,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (Control ctl in parentctl.Controls)
             {
-                if (typeof (NumericUpDown) == ctl.GetType() || typeof (ComboBox) == ctl.GetType())
+                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
                 {
                     try
                     {
@@ -282,17 +248,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!mavlinkCheckBox1.Checked)
             {
                 output = map(myTrackBar1.Value, myTrackBar1.Maximum, myTrackBar1.Minimum,
-                    (double) mavlinkNumericUpDown1.Value, (double) mavlinkNumericUpDown2.Value);
+                    (double)mavlinkNumericUpDown1.Value, (double)mavlinkNumericUpDown2.Value);
             }
             else
             {
                 output = map(myTrackBar1.Value, myTrackBar1.Minimum, myTrackBar1.Maximum,
-                    (double) mavlinkNumericUpDown1.Value, (double) mavlinkNumericUpDown2.Value);
+                    (double)mavlinkNumericUpDown1.Value, (double)mavlinkNumericUpDown2.Value);
             }
 
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float) output, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float)output, 0, 0, 0, 0, 0);
             }
             catch
             {
@@ -305,18 +271,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             double output = 1500;
             if (mavlinkCheckBox2.Checked)
             {
-                output = map(myTrackBar2.Value, myTrackBar2.Maximum, myTrackBar2.Minimum, 
+                output = map(myTrackBar2.Value, myTrackBar2.Maximum, myTrackBar2.Minimum,
                     (double)mavlinkNumericUpDown6.Value, (double)mavlinkNumericUpDown5.Value);
             }
             else
             {
                 output = map(myTrackBar2.Value, myTrackBar2.Minimum, myTrackBar2.Maximum,
-                    (double) mavlinkNumericUpDown6.Value, (double) mavlinkNumericUpDown5.Value);
+                    (double)mavlinkNumericUpDown6.Value, (double)mavlinkNumericUpDown5.Value);
             }
 
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float) output, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float)output, 0, 0, 0, 0, 0);
             }
             catch
             {
@@ -326,7 +292,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private double map(double x, double in_min, double in_max, double out_min, double out_max)
         {
-            return (x - in_min)*(out_max - out_min)/(in_max - in_min) + out_min;
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -337,7 +303,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-             timer1.Stop();
+            timer1.Stop();
         }
     }
 }

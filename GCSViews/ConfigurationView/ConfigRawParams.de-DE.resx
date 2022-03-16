@@ -112,41 +112,44 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Value.HeaderText" xml:space="preserve">
     <value>Wert</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>All Units are in raw 
-format with no scaling</value>
+    <value>Einheiten in RAW F
+ormat, ohne Skalierung</value>
   </data>
   <data name="BUT_load.Text" xml:space="preserve">
-    <value>Laden</value>
+    <value>Datei laden</value>
   </data>
   <data name="Units.HeaderText" xml:space="preserve">
-    <value>Units</value>
+    <value>Einheiten</value>
   </data>
   <data name="Command.HeaderText" xml:space="preserve">
     <value>Komando</value>
   </data>
-  <data name="Desc.HeaderText" xml:space="preserve">
-    <value>Desc</value>
-  </data>
   <data name="BUT_save.Text" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Datei speichern</value>
   </data>
   <data name="Options.HeaderText" xml:space="preserve">
-    <value>Options</value>
+    <value>Optionen</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
     <value>Parameter speichern</value>
   </data>
+  <data name="BUT_reset_params.Text" xml:space="preserve">
+    <value>Auf Standard zurücksezten</value>
+  </data>
   <data name="BUT_compare.Text" xml:space="preserve">
     <value>Parameter vergleichen</value>
+  </data>
+  <data name="BUT_paramfileload.Text" xml:space="preserve">
+    <value>'Presaved' laden</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Parameter aktualisieren</value>

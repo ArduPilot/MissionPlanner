@@ -6,7 +6,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner;
 
 namespace MissionPlanner.Controls
 {
@@ -150,15 +149,15 @@ namespace MissionPlanner.Controls
             var packetsReceived = xs.Sum(t => t.Item1);
             var packetsLost = xs.Sum(t => t.Item2);
 
-            return packetsReceived/(packetsReceived + (double) packetsLost);
+            return packetsReceived / (packetsReceived + (double)packetsLost);
         }
 
         private static string ToHumanReadableByteCount(int i)
         {
-            if (i > 1024*1024)
-                return string.Format("{0:0.00}Mb", i/(float) (1024*1024));
+            if (i > 1024 * 1024)
+                return string.Format("{0:0.00}Mb", i / (float)(1024 * 1024));
             if (i > 1024)
-                return string.Format("{0:0.00}K", i/(float) 1024);
+                return string.Format("{0:0.00}K", i / (float)1024);
             return string.Format("{0:####}", i);
         }
 
@@ -170,6 +169,12 @@ namespace MissionPlanner.Controls
         private void chk_signing_CheckedChanged(object sender, EventArgs e)
         {
             _mavlink.MAV.signing = chk_signing.Checked;
+        }
+
+        private void but_reset_Click(object sender, EventArgs e)
+        {
+            StopUpdates();
+            ConnectionStats_Load(this, null);
         }
     }
 

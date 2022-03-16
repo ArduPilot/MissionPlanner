@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="UnoUI.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UnoUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:gcsViews="using:MissionPlanner.GCSViews"
+    mc:Ignorable="d" d:DesignHeight="3192.1">
+    <ScrollViewer>
+        <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <gcsViews:FlightData></gcsViews:FlightData>
+            <gcsViews:FlightPlanner></gcsViews:FlightPlanner>
+            <gcsViews:Help></gcsViews:Help>
+            <gcsViews:InitialSetup></gcsViews:InitialSetup>
+            <gcsViews:SoftwareConfig></gcsViews:SoftwareConfig>
+            <gcsViews:SITL></gcsViews:SITL>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

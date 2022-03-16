@@ -1,16 +1,16 @@
-﻿using System;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
-using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigArduplane : UserControl, IActivate
+    public partial class ConfigArduplane : MyUserControl, IActivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -30,7 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
                 Enabled = true;
             }
@@ -47,10 +47,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             THR_MIN.setup(0, 0, 1, 0, "THR_MIN", MainV2.comPort.MAV.param);
             TRIM_THROTTLE.setup(0, 0, 1, 0, "TRIM_THROTTLE", MainV2.comPort.MAV.param);
 
-            ARSPD_RATIO.setup(0, 0, 1, 0, "ARSPD_RATIO", MainV2.comPort.MAV.param);
+            ARSPD_RATIO.setup(0, 2.5f, 1, 0.005f, "ARSPD_RATIO", MainV2.comPort.MAV.param);
             ARSPD_FBW_MAX.setup(0, 0, 1, 0, "ARSPD_FBW_MAX", MainV2.comPort.MAV.param);
             ARSPD_FBW_MIN.setup(0, 0, 1, 0, "ARSPD_FBW_MIN", MainV2.comPort.MAV.param);
-            TRIM_ARSPD_CM.setup(0, 0, 100, 0, "TRIM_ARSPD_CM", MainV2.comPort.MAV.param);
+            TRIM_ARSPD_CM.setup(0, 5000, 100, 0.1f, "TRIM_ARSPD_CM", MainV2.comPort.MAV.param);
 
             LIM_PITCH_MIN.setup(0, 0, 100, 0, "LIM_PITCH_MIN", MainV2.comPort.MAV.param);
             LIM_PITCH_MAX.setup(0, 0, 100, 0, "LIM_PITCH_MAX", MainV2.comPort.MAV.param);
@@ -79,15 +79,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             YAW2SRV_INT.setup(0, 0, 1, 0, "YAW2SRV_INT", MainV2.comPort.MAV.param);
             YAW2SRV_RLL.setup(0, 0, 1, 0, "YAW2SRV_RLL", MainV2.comPort.MAV.param);
 
-            PTCH2SRV_IMAX.setup(0, 0, 100, 0, "PTCH2SRV_IMAX", MainV2.comPort.MAV.param);
-            PTCH2SRV_D.setup(0, 0, 1, 0, "PTCH2SRV_D", MainV2.comPort.MAV.param);
-            PTCH2SRV_I.setup(0, 0, 1, 0, "PTCH2SRV_I", MainV2.comPort.MAV.param);
-            PTCH2SRV_P.setup(0, 0, 1, 0, "PTCH2SRV_P", MainV2.comPort.MAV.param);
+            PTCH2SRV_IMAX.setup(0, 0, 100, 0, new String[] {"PTCH2SRV_IMAX","PTCH_RATE_IMAX"}, MainV2.comPort.MAV.param);
+            PTCH2SRV_D.setup(0, 0, 1, 0, new String[] {"PTCH2SRV_D","PTCH_RATE_D"}, MainV2.comPort.MAV.param);
+            PTCH2SRV_I.setup(0, 0, 1, 0, new String[] {"PTCH2SRV_I","PTCH_RATE_I"}, MainV2.comPort.MAV.param);
+            PTCH2SRV_P.setup(0, 0, 1, 0, new String[] {"PTCH2SRV_P","PTCH_RATE_P"}, MainV2.comPort.MAV.param);
 
-            RLL2SRV_IMAX.setup(0, 0, 100, 0, "RLL2SRV_IMAX", MainV2.comPort.MAV.param);
-            RLL2SRV_D.setup(0, 0, 1, 0, "RLL2SRV_D", MainV2.comPort.MAV.param);
-            RLL2SRV_I.setup(0, 0, 1, 0, "RLL2SRV_I", MainV2.comPort.MAV.param);
-            RLL2SRV_P.setup(0, 0, 1, 0, "RLL2SRV_P", MainV2.comPort.MAV.param);
+            RLL2SRV_IMAX.setup(0, 0, 100, 0, new String[] {"RLL2SRV_IMAX","RLL_RATE_IMAX"}, MainV2.comPort.MAV.param);
+            RLL2SRV_D.setup(0, 0, 1, 0, new String[] {"RLL2SRV_D","RLL_RATE_D"}, MainV2.comPort.MAV.param);
+            RLL2SRV_I.setup(0, 0, 1, 0, new String[] {"RLL2SRV_I","RLL_RATE_I"}, MainV2.comPort.MAV.param);
+            RLL2SRV_P.setup(0, 0, 1, 0, new String[] {"RLL2SRV_P","RLL_RATE_P"}, MainV2.comPort.MAV.param);
 
             NAVL1_DAMPING.setup(0, 0, 1, 0, "NAVL1_DAMPING", MainV2.comPort.MAV.param);
             NAVL1_PERIOD.setup(0, 0, 1, 0, "NAVL1_PERIOD", MainV2.comPort.MAV.param);
@@ -140,7 +140,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -202,7 +202,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            var temp = (Hashtable) changes.Clone();
+            var temp = (Hashtable)changes.Clone();
 
             foreach (string value in temp.Keys)
             {
@@ -211,7 +211,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if ((float)changes[value] > (float)MainV2.comPort.MAV.param[value] * 2.0f)
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
-                                "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                                "Large Value", MessageBoxButtons.YesNo) == (int)DialogResult.No)
                         {
                             try
                             {
@@ -229,6 +229,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
                             return;
                         }
+
+                    if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        CustomMessageBox.Show("Your are not connected", Strings.ERROR);
+                        return;
+                    }
 
                     MainV2.comPort.setParam(value, (float)changes[value]);
 
@@ -264,7 +270,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
             try
             {
@@ -276,7 +282,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
             Activate();
         }
@@ -286,12 +292,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
 
             updateparam(this);
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
 
             Activate();
@@ -301,7 +307,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (Control ctl in parentctl.Controls)
             {
-                if (typeof (NumericUpDown) == ctl.GetType() || typeof (ComboBox) == ctl.GetType())
+                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
                 {
                     try
                     {

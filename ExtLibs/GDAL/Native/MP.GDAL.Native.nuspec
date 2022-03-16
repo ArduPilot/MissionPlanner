@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MP.GDAL.Native</id>
+    <version>2.2.3</version>
+    <authors>Michael Oborne</authors>
+    <owners>Michael Oborne</owners>
+    <licenseUrl>http://trac.osgeo.org/gdal/wiki/FAQGeneral#WhatlicensedoesGDALOGRuse</licenseUrl>
+    <projectUrl>http://www.gdal.org/</projectUrl>
+    <iconUrl>http://www.gdal.org/gdalicon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>GDAL 2.2.3 is a translator library for raster geospatial data formats that is released under an X/MIT style Open Source license by the Open Source Geospatial Foundation. As a library, it presents a single abstract data model to the calling application for all supported formats.</description>
+    <tags>GDAL OGR Geospatial</tags>
+    <dependencies>
+      <dependency id="GDAL" version="1.11.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="gdal\**" target="gdal" />
+    <file src="MP.GDAL.Native.targets" target="build\net40" />
+	  <file src="MP.GDAL.Native.targets" target="build\netstandard2.0" />
+  </files>
+</package>

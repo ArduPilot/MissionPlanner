@@ -1,0 +1,12 @@
+{
+  "name": "icm 20649",
+  "scan": [
+    {
+      "name": "gyro",
+      "device": "icm20649",
+      "query": "0x0000",
+      "length": 1,
+      "responce": [ "0xe1" ]
+    }
+  ]
+}

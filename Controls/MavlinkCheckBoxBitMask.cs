@@ -1,10 +1,7 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -48,7 +45,7 @@ namespace MissionPlanner.Controls
                 else if (Type == MAVLink.MAV_PARAM_TYPE.INT32)
                 {
                     answer = (int)answer;
-                } 
+                }
 
                 return (float)answer;
             }
@@ -56,10 +53,10 @@ namespace MissionPlanner.Controls
             {
                 for (int a = 0; a < chkcount; a++)
                 {
-                    CheckBox chk = (CheckBox) panel1.Controls[a];
+                    CheckBox chk = (CheckBox)panel1.Controls[a];
 
 
-                    chk.Checked = (((uint) value & (1 << list[a].Key)) > 0);
+                    chk.Checked = (((uint)value & (1 << list[a].Key)) > 0);
                 }
             }
         }
@@ -82,6 +79,13 @@ namespace MissionPlanner.Controls
             {
                 this.Enabled = true;
 
+                Name = paramname;
+
+                myLabel1.Text = ParameterMetaDataRepository.GetParameterMetaData(paramname,
+                    ParameterMetaDataConstants.DisplayName, MainV2.comPort.MAV.cs.firmware.ToString());
+                label1.Text = ParameterMetaDataRepository.GetParameterMetaData(paramname,
+                    ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
+
                 list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName,
                     MainV2.comPort.MAV.cs.firmware.ToString());
                 chkcount = list.Count;
@@ -90,7 +94,7 @@ namespace MissionPlanner.Controls
                 int top = 9;
                 int bottom = 0;
 
-                uint value = (uint) paramlist[paramname].Value;
+                uint value = (uint)paramlist[paramname].Value;
 
                 Type = paramlist[paramname].TypeAP;
 
@@ -145,7 +149,7 @@ namespace MissionPlanner.Controls
             }
             try
             {
-                bool ans = MainV2.comPort.setParam(ParamName, Value);
+                bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, ParamName, Value);
                 if (ans == false)
                     CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
             }

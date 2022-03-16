@@ -1,0 +1,17 @@
+{
+	"name": "lsm 9ds0",
+	"scan": [{
+        "type":"spi",
+        "name":"gyro",
+		"device": "lsm9ds0_ext_g",
+		"query": { "data":"0x8f","length":1},
+		"response": ["0xd4", "0xd7"]
+	},{
+        "type":"spi",
+        "name":"accel",
+		"device": "lsm9ds0_ext_am",
+		"query": { "data":"0x8f","length":1},
+		"response": ["0x49"]
+	}
+    ]
+}

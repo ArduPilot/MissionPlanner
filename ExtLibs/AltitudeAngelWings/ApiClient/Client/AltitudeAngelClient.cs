@@ -1,5 +1,4 @@
 using System;
-using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Models;
 using DotNetOpenAuth.OAuth2;
@@ -7,12 +6,18 @@ using Flurl;
 using Flurl.Http;
 using GMap.NET;
 using Newtonsoft.Json.Linq;
+using TimeZoneConverter;
 
 namespace AltitudeAngelWings.ApiClient.Client
 {
-    public class AltitudeAngelClient
+    public class AltitudeAngelClient : IAltitudeAngelClient
     {
-        public delegate AltitudeAngelClient Create(string authUrl, string apiUrl, AuthorizationState existingState);
+        private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffffff";
+
+        private readonly string _apiUrl;
+        private readonly string _authUrl;
+        private readonly FlurlClient _client;
+        private readonly AltitudeAngelHttpHandlerFactory _handlerFactory;
 
         public IAuthorizationState AuthorizationState => _handlerFactory.AuthorizationState;
 
@@ -26,9 +31,8 @@ namespace AltitudeAngelWings.ApiClient.Client
         public AltitudeAngelClient(
             string authUrl,
             string apiUrl,
-            AuthorizationState existingState,
-            AltitudeAngelHttpHandlerFactory.Create handlerFactory
-            )
+            IAuthorizationState existingState,
+            Func<string, IAuthorizationState, AltitudeAngelHttpHandlerFactory> handlerFactory)
         {
             _authUrl = authUrl;
             _apiUrl = apiUrl;
@@ -38,11 +42,8 @@ namespace AltitudeAngelWings.ApiClient.Client
                 Settings =
                 {
                     HttpClientFactory = _handlerFactory
-                },
-                AutoDispose = false
+                }
             };
-
-            _disposer.Add(_client);
         }
 
         /// <summary>
@@ -69,7 +70,9 @@ namespace AltitudeAngelWings.ApiClient.Client
                     n = latLongBounds.Top,
                     e = latLongBounds.Right,
                     s = latLongBounds.Bottom,
-                    w = latLongBounds.Left
+                    w = latLongBounds.Left,
+                    isCompact = false,
+                    include = "flight_report"
                 })
                 .WithClient(_client)
                 .GetJsonAsync<AAFeatureCollection>();
@@ -118,10 +121,49 @@ namespace AltitudeAngelWings.ApiClient.Client
                 .GetJsonAsync<UserProfileInfo>();
         }
 
-        private readonly string _apiUrl;
-        private readonly string _authUrl;
-        private readonly FlurlClient _client;
-        private readonly AltitudeAngelHttpHandlerFactory _handlerFactory;
-        private readonly CompositeDisposable _disposer = new CompositeDisposable();
+        public async Task<string> CreateFlightReport(string flightReportName, bool isCommerial, DateTime localStartTime, DateTime localEndTime, PointLatLng location, int radius)
+        {
+            var response = await _apiUrl
+                .AppendPathSegments("flightReport")
+                .WithClient(_client)
+                .PutJsonAsync(new
+                {
+                    name = flightReportName,
+                    flight_type = isCommerial ? "com" : "rec",
+                    timezone = TZConvert.WindowsToIana(TimeZoneInfo.Local.Id),
+                    start = localStartTime.ToString(DateTimeFormat),
+                    end = localEndTime.ToString(DateTimeFormat),
+                    radius_meters = radius,
+                    loc = new
+                    {
+                        lat = location.Lat,
+                        lng = location.Lng
+                    }
+                })
+                .ReceiveJson<JObject>();
+            return response.SelectToken("flightId").ToString();
+        }
+
+        public Task CompleteFlightReport(string flightId)
+        {
+            return _apiUrl
+                .AppendPathSegments("flightReport", flightId)
+                .WithClient(_client)
+                .DeleteAsync();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _client?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

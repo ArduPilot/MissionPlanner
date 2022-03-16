@@ -1,4 +1,3 @@
-using System;
 using GMap.NET;
 using Newtonsoft.Json;
 

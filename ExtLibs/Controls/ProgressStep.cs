@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class ProgressStep : UserControl
+    public partial class ProgressStep : MyUserControl
     {
         public int Maximum { get { return _maximum; } set { _maximum = value; progressBar1.Maximum = value; this.Invalidate(); } }
         public int Step { 

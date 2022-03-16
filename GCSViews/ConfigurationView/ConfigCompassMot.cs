@@ -1,13 +1,14 @@
-﻿using System;
+﻿using MissionPlanner.Controls;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
 using ZedGraph;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigCompassMot : UserControl, IActivate, IDeactivate
+    public partial class ConfigCompassMot : MyUserControl, IActivate, IDeactivate
     {
         private readonly LineItem current = new LineItem("Current");
         private readonly PointPairList currentlist = new PointPairList();
@@ -24,6 +25,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             BUT_compassmot.Text = lbl_start.Text;
+
+            sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS, ProcessCompassMotMSG);
         }
 
         public void Deactivate()
@@ -33,6 +36,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.BaseStream.IsOpen)
                     MainV2.comPort.SendAck();
+
+                MainV2.comPort.UnSubscribeToPacketType(sub);
+
             }
             catch
             {
@@ -57,7 +63,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 current.Clear();
                 try
                 {
-                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 0, 1, 0);
+                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 0, 1, 0);
                 }
                 catch
                 {
@@ -67,11 +73,49 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub;
+
         private void BUT_compassmot_Click(object sender, EventArgs e)
         {
             BUT_compassmot.Text = lbl_finish.Text;
             DoCompassMot();
+
+
             timer1.Start();
+        }
+
+        private bool ProcessCompassMotMSG(MAVLink.MAVLinkMessage arg)
+        {
+            if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS)
+            {
+                var status = (MAVLink.mavlink_compassmot_status_t)arg.data;
+
+                interferencelist.Add(status.throttle / 10.0, status.interference);
+                currentlist.Add(status.throttle / 10.0, status.current);
+
+                interferencelist.Sort();
+                currentlist.Sort();
+
+                var msg = "Current: " + status.current.ToString("0.00") + "\nx,y,z " +
+                          status.CompensationX.ToString("0.00") + "," +
+                          status.CompensationY.ToString("0.00") +
+                          "," + status.CompensationZ.ToString("0.00") + "\nThrottle: " +
+                          (status.throttle / 10.0) +
+                          "\nInterference: " + status.interference;
+
+                this.BeginInvokeIfRequired(() =>
+                {
+                    lbl_status.Text = msg;
+
+                    interference.Points = interferencelist;
+                    current.Points = currentlist;
+
+                    zedGraphControl1.AxisChange();
+                    zedGraphControl1.Invalidate();
+                });
+            }
+
+            return true;
         }
 
         private void setupgraph()
@@ -121,35 +165,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var message = new StringBuilder();
 
-            MainV2.comPort.MAV.cs.messages.ForEach(x => { message.AppendLine(x); });
+            MainV2.comPort.MAV.cs.messages.ForEach(x => { message.AppendLine(x.message); });
 
             txt_status.Text = message.ToString();
             txt_status.SelectionStart = txt_status.Text.Length;
             txt_status.ScrollToCaret();
-
-            var bytearray = MainV2.comPort.MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS);
-
-            if (bytearray != null)
-            {
-                var status = bytearray.ToStructure<MAVLink.mavlink_compassmot_status_t>();
-
-                lbl_status.Text = "Current: " + status.current.ToString("0.00") + "\nx,y,z " +
-                                  status.CompensationX.ToString("0.00") + "," + status.CompensationY.ToString("0.00") +
-                                  "," + status.CompensationZ.ToString("0.00") + "\nThrottle: " + (status.throttle/10.0) +
-                                  "\nInterference: " + status.interference;
-
-                interferencelist.Add(status.throttle/10.0, status.interference);
-                currentlist.Add(status.throttle/10.0, status.current);
-
-                interferencelist.Sort();
-                currentlist.Sort();
-
-                interference.Points = interferencelist;
-                current.Points = currentlist;
-
-                zedGraphControl1.AxisChange();
-                zedGraphControl1.Invalidate();
-            }
         }
     }
 }

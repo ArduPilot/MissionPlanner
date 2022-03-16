@@ -1,0 +1,39 @@
+﻿namespace MissionPlanner.Joystick
+{
+    public enum joystickaxis
+    {
+        None,
+        Pass,
+        ARx,
+        ARy,
+        ARz,
+        AX,
+        AY,
+        AZ,
+        FRx,
+        FRy,
+        FRz,
+        FX,
+        FY,
+        FZ,
+        Rx,
+        Ry,
+        Rz,
+        VRx,
+        VRy,
+        VRz,
+        VX,
+        VY,
+        VZ,
+        X,
+        Y,
+        Z,
+        Slider1,
+        Slider2,
+        Hatud1,
+        Hatlr2,
+        Custom1,
+        Custom2,
+        UINT16_MAX
+    }
+}

@@ -1,0 +1,7 @@
+#
+# Notify
+#
+
+uint8 type
+uint8 subtype
+uint8[<=64] payload

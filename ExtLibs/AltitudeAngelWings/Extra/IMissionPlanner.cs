@@ -1,6 +1,6 @@
-using AltitudeAngel.IsolatedPlugin.Common.Maps;
+using AltitudeAngelWings.Models;
 
-namespace AltitudeAngel.IsolatedPlugin.Common
+namespace AltitudeAngelWings.Extra
 {
     public interface IMissionPlanner
     {
@@ -9,5 +9,6 @@ namespace AltitudeAngel.IsolatedPlugin.Common
         void SaveSetting(string key, string data);
         string LoadSetting(string key);
         void ClearSetting(string key);
+        FlightPlan GetFlightPlan();
     }
 }

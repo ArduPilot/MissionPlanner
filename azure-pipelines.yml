@@ -1,0 +1,50 @@
+# .NET Desktop
+# Build and run tests for .NET Desktop or Windows classic desktop solutions.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
+trigger:
+- master
+- refs/tags/beta
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  solution: '**/MissionPlanner.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- script: date /t
+  displayName: Get the date
+- script: dir /s
+  workingDirectory: $(Agent.BuildDirectory)
+  displayName: List contents of a folder
+
+- script: dotnet nuget locals all --clear
+- script: git submodule update --init --depth 2 --no-single-branch 
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    msbuildArgs: '-restore /m'
+    logFileVerbosity: minimal
+
+- script: dir
+  workingDirectory: '$(Build.BinariesDirectory)' 
+  displayName: List contents of a folder
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.Repository.LocalPath)/bin/Release/net461' 
+    includeRootFolder: false
+    archiveFile: '$(Build.ArtifactStagingDirectory)/MissionPlanner.zip' 
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'MissionPlanner' 
+    targetPath: '$(Build.ArtifactStagingDirectory)/MissionPlanner.zip'
+    

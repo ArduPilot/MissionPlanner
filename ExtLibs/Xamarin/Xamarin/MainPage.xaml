@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xamarin.MainPage"
+             xmlns:pages="clr-namespace:Xamarin" xmlns:gcsviews="clr-namespace:Xamarin.GCSViews">
+	<MasterDetailPage.ToolbarItems>
+		<ToolbarItem Text="toggle radio" Clicked="MenuItem_OnClicked"/>
+	</MasterDetailPage.ToolbarItems>
+  <MasterDetailPage.Master>
+    <pages:MasterDetailPage1Master x:Name="MasterPage" />
+  </MasterDetailPage.Master>
+  <MasterDetailPage.Detail>
+      <gcsviews:WinForms></gcsviews:WinForms>
+  </MasterDetailPage.Detail>
+</MasterDetailPage>

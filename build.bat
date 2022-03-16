@@ -1,20 +1,27 @@
 
+set PATH=%PATH%;C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin;C:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\MSBuild\Current\Bin;C:\Program Files (x86)\Microsoft Visual Studio\Preview\Community\MSBuild\15.0\Bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin
+
 del bin\release\MissionPlannerBeta.zip
 
-"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release
+.nuget\nuget.exe restore MissionPlanner.sln
 
-
-rem DesktopAppConverter.exe -installer MissionPlanner-1.3.39.msi -destination f:\temp\appx -packagename "MissionPlanner" -publisher "CN=3B1842DF-8664-4A02-B840-61F61DA8A94E" -Version 1.3.39.0 -makeappx -Verbose
-
-rem "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /p:TargetFrameworkVersion=v4.6 /p:OutputPath=bin\4.6
+MSBuild.exe MissionPlanner.sln /restore /m /p:Configuration=Release /verbosity:n
 
 echo create appx?
 pause
 
-"C:\Program Files (x86)\Windows Kits\10\bin\x86\makeappx" pack /d bin\release /p MissionPlanner.appx
+cd bin\release\net461
 
-"C:\Program Files (x86)\Windows Kits\10\bin\x86\signtool" sign /a /v /fd SHA256 /t http://timestamp.verisign.com/scripts/timestamp.dll /n "3B1842DF-8664-4A02-B840-61F61DA8A94E" MissionPlanner.appx
+powershell -command "ls plugins -recurse | ForEach-Object { if (Test-Path ($_.fullname -replace '\\plugins\\','\') -PathType Leaf) { $_.fullname }} | ForEach-Object { del $_ }"
 
-c:\cygwin\bin\rsync.exe -Pv -e '/usr/bin/ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /cygdrive/c/Users/michael/sitl' MissionPlanner.appx michael@bios.ardupilot.org:MissionPlanner/
+cd ..
+cd ..
+cd ..
+
+"C:\Program Files (x86)\Windows Kits\10\Tools\bin\i386\makeappx" pack /d bin\release\net461 /p MissionPlanner.appx
+
+"C:\Program Files (x86)\Windows Kits\10\Tools\bin\i386\signtool" sign /a /v /fd SHA256 /t http://timestamp.verisign.com/scripts/timestamp.dll /n "michael oborne" MissionPlanner.appx
+
+c:\cygwin\bin\rsync.exe -Pv -e '/usr/bin/ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /cygdrive/c/Users/michael/sitl' MissionPlanner.appx michael@mega.ardupilot.org:MissionPlanner/
 
 pause

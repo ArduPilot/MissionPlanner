@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using AltitudeAngelWings.ApiClient.Models;
 using AltitudeAngelWings.Commands;
@@ -89,8 +90,7 @@ namespace AltitudeAngelWings.ViewModels
                                  .Subscribe(UpdateSignInState);
 
             _altitudeAngelService.WeatherReport
-                                 .ObserveOnDispatcher()
-                                 .Subscribe(WeatherChanged);
+                .Subscribe(WeatherChanged);
 
             _altitudeAngelService.SentTelemetry
                                  .Subscribe(i => NewTelemetry());

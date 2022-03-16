@@ -1,14 +1,13 @@
-﻿using System;
-using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
-using log4net;
+﻿using log4net;
 using MissionPlanner.Controls;
+using System;
+using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAccelerometerCalibration : UserControl, IActivate, IDeactivate
+    public partial class ConfigAccelerometerCalibration : MyUserControl, IActivate, IDeactivate
     {
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;
@@ -16,6 +15,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private byte count;
 
         bool _incalibrate = false;
+        private MAVLink.ACCELCAL_VEHICLE_POS pos;
 
         public ConfigAccelerometerCalibration()
         {
@@ -41,7 +41,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 count++;
                 try
                 {
-                    MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t {command = 1, result = count},
+                    // old
+                    //MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t { command = 1, result = count },
+                        //MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
+                    // new
+                    MainV2.comPort.sendPacket(new MAVLink.mavlink_command_long_t { param1 = (float)pos, command = (ushort)MAVLink.MAV_CMD.ACCELCAL_VEHICLE_POS },
                         MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
                 }
                 catch
@@ -59,13 +63,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 Log.Info("Sending accel command (mavlink 1.0)");
 
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0))
+                {
+                    _incalibrate = true;
 
-                _incalibrate = true;
+                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
+                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
 
-                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
-
-                BUT_calib_accell.Text = Strings.Click_when_Done;
+                    BUT_calib_accell.Text = Strings.Click_when_Done;
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
             }
             catch (Exception ex)
             {
@@ -79,7 +90,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.STATUSTEXT)
             {
-                var message = ASCIIEncoding.ASCII.GetString(arg.ToStructure<MAVLink.mavlink_statustext_t>().text);
+                var message = Encoding.ASCII.GetString(arg.ToStructure<MAVLink.mavlink_statustext_t>().text);
 
                 UpdateUserMessage(message);
 
@@ -96,10 +107,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         _incalibrate = false;
                         MainV2.comPort.UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, receivedPacket);
+                        MainV2.comPort.UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, receivedPacket);
                     }
                     catch
                     {
                     }
+                }
+            }
+
+            if (arg.msgid == (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_LONG)
+            {
+                var message = arg.ToStructure<MAVLink.mavlink_command_long_t>();
+                if (message.command == (ushort)MAVLink.MAV_CMD.ACCELCAL_VEHICLE_POS)
+                {
+                    pos = (MAVLink.ACCELCAL_VEHICLE_POS)message.param1;
+
+                    UpdateUserMessage("Please place vehicle " + pos.ToString());
                 }
             }
 
@@ -108,11 +131,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void UpdateUserMessage(string message)
         {
-            Invoke((MethodInvoker) delegate
-            {
-                if (message.ToLower().Contains("place vehicle") || message.ToLower().Contains("calibration"))
-                    lbl_Accel_user.Text = message;
-            });
+            Invoke((MethodInvoker)delegate
+           {
+               if (message.ToLower().Contains("place vehicle") || message.ToLower().Contains("calibration"))
+                   lbl_Accel_user.Text = message;
+           });
         }
 
         private void BUT_level_Click(object sender, EventArgs e)
@@ -120,14 +143,42 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 Log.Info("Sending level command (mavlink 1.0)");
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 2, 0, 0);
-
-                BUT_level.Text = Strings.Completed;
+                if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 2, 0, 0))
+                {
+                    BUT_level.Text = Strings.Completed;
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
             }
             catch (Exception ex)
             {
                 Log.Error("Exception on level", ex);
                 CustomMessageBox.Show("Failed to level", Strings.ERROR);
+            }
+        }
+
+        private void BUT_simpleAccelCal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Log.Info("Sending simple accelerometer calibration command (mavlink 1.0)");
+                if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 4, 0, 0))
+                {
+                    BUT_simpleAccelCal.Text = Strings.Completed;
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Exception on simple accelerometer calibration", ex);
+                CustomMessageBox.Show("Failed to simple accelerometer calibration", Strings.ERROR);
             }
         }
     }

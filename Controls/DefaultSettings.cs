@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
+﻿using log4net;
 using MissionPlanner.Utilities;
-using System.Collections;
-using log4net;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
@@ -32,30 +27,36 @@ namespace MissionPlanner.Controls
             CMB_paramfiles.Enabled = false;
             BUT_paramfileload.Enabled = false;
 
-            System.Threading.ThreadPool.QueueUserWorkItem(updatedefaultlist);
+            UpdateDefaultList();
         }
 
-        void updatedefaultlist(object crap)
+        void UpdateDefaultList()
         {
-            try
+            Task.Run(delegate ()
             {
-                if (paramfiles == null)
+                try
                 {
-                    paramfiles = GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/", ".param");
-                }
+                    if (paramfiles == null)
+                    {
+                        paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
+                    }
 
-                this.BeginInvoke((Action) delegate
+                    if (!this.IsHandleCreated || this.IsDisposed)
+                        return;
+
+                    this.BeginInvoke((Action)delegate
+                   {
+                       CMB_paramfiles.DataSource = paramfiles.ToArray();
+                       CMB_paramfiles.DisplayMember = "name";
+                       CMB_paramfiles.Enabled = true;
+                       BUT_paramfileload.Enabled = true;
+                   });
+                }
+                catch (Exception ex)
                 {
-                    CMB_paramfiles.DataSource = paramfiles.ToArray();
-                    CMB_paramfiles.DisplayMember = "name";
-                    CMB_paramfiles.Enabled = true;
-                    BUT_paramfileload.Enabled = true;
-                });
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+                    log.Error(ex);
+                }
+            });
         }
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
@@ -71,11 +72,11 @@ namespace MissionPlanner.Controls
             try
             {
                 byte[] data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
-                    ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
+                    ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
 
-                Hashtable param2 = Utilities.ParamFile.loadParamFile(filepath);
+                var param2 = Utilities.ParamFile.loadParamFile(filepath);
 
                 Form paramCompareForm = new ParamCompare(null, MainV2.comPort.MAV.param, param2);
 

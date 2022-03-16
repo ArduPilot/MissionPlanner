@@ -1,0 +1,40 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigHWESP8266" d:DesignHeight="302" d:DesignWidth="650"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><TextBlock Name="label1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="98,61,0,0" Width="31" Height="17">SSID</TextBlock>
+<TextBlock Name="label3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="98,89,0,0" Width="54" Height="17">Password</TextBlock>
+<Grid Name="groupBoxsta" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="316,55,0,0" Width="218" Height="109">
+<TextBlock Name="label9" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,52,0,0" Width="49" Height="17">Gateway</TextBlock>
+<TextBox Name="txt_gateway" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="1234" FontSize="8.25" Margin="83,44,0,0" Width="121" Height="20"></TextBox>
+<TextBlock Name="label8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,78,0,0" Width="40" Height="17">Subnet</TextBlock>
+<TextBox Name="txt_subnet" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="1234" FontSize="8.25" Margin="83,70,0,0" Width="121" Height="20"></TextBox>
+<TextBlock Name="label7" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,26,0,0" Width="15" Height="17">IP</TextBlock>
+<TextBox Name="txt_ip" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="1234" FontSize="8.25" Margin="83,18,0,0" Width="121" Height="20"></TextBox>
+</Grid>
+<TextBox Name="txt_ssid" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="Ardupilot" FontSize="8.25" Margin="175,55,0,0" Width="121" Height="20"></TextBox>
+<ComboBox Name="cmb_baud" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="175,107,0,0" Width="121" Height="21"></ComboBox>
+<TextBox Name="txt_password" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" Text="1234" FontSize="8.25" Margin="175,81,0,0" Width="121" Height="20"></TextBox>
+<TextBlock Name="label4" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="98,142,0,0" Width="46" Height="17">Channel</TextBlock>
+<CheckBox Name="chk_mode" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="96,34,0,0" Width="84" Height="18">Client Mode</CheckBox>
+<TextBlock Name="label5" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="8,165,0,0" Width="14" Height="17">...</TextBlock>
+<TextBlock Name="label2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="98,116,0,0" Width="31" Height="17">Baud</TextBlock>
+<Button Name="but_resetdefault" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="11,116,0,0" Width="60" Height="23">Reset to Defaults</Button>
+<Button Name="BUT_espsettings" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="278,213,0,0" Width="60" Height="23">Save Settings</Button>
+<ComboBox Name="cmb_channel" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="175,134,0,0" Width="121" Height="21"></ComboBox>
+<TextBlock Name="label6" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="12" Margin="7,5,0,0" Width="95" Height="20">ESP8266</TextBlock>
+<Grid Name="groupBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,23,0,0" Width="644" Height="5">
+</Grid>
+<Image Name="pictureBox5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="11,35,0,0" Width="75" Height="75"></Image>
+</Grid></UserControl>

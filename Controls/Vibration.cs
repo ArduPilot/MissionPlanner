@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -26,9 +20,9 @@ namespace MissionPlanner.Controls
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            VibBarX.Value = (int) MainV2.comPort.MAV.cs.vibex;
-            VibBarY.Value = (int) MainV2.comPort.MAV.cs.vibey;
-            VibBarZ.Value = (int) MainV2.comPort.MAV.cs.vibez;
+            VibBarX.Value = (int)MainV2.comPort.MAV.cs.vibex;
+            VibBarY.Value = (int)MainV2.comPort.MAV.cs.vibey;
+            VibBarZ.Value = (int)MainV2.comPort.MAV.cs.vibez;
 
             txt_clip0.Text = MainV2.comPort.MAV.cs.vibeclip0.ToString();
             txt_clip1.Text = MainV2.comPort.MAV.cs.vibeclip1.ToString();

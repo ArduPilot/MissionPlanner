@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Runtime.Serialization;
 
 public partial class MAVLink
 {
@@ -11,10 +9,15 @@ public partial class MAVLink
         /// Paramater name
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Over the wire storage format
+        /// </summary>
+        public MAV_PARAM_TYPE Type { get; set; }
+
         /// <summary>
         /// Value of paramter as a double
         /// </summary>
-
         public double Value
         {
             get
@@ -26,16 +29,12 @@ public partial class MAVLink
                 SetValue(value);
             }
         }
-        /// <summary>
-        /// Over the wire storage format
-        /// </summary>
-        public MAV_PARAM_TYPE Type { get; set; }
 
-        private MAV_PARAM_TYPE _typeap = MAV_PARAM_TYPE.ENUM_END;
+        private MAV_PARAM_TYPE _typeap = 0;
         public MAV_PARAM_TYPE TypeAP {
             get 
             { 
-                if (_typeap != MAV_PARAM_TYPE.ENUM_END) 
+                if (_typeap != 0) 
                     return _typeap;
                 return Type;
             }
@@ -52,10 +51,12 @@ public partial class MAVLink
         short int16_value { get { return BitConverter.ToInt16(data, 0); } }
         UInt32 uint32_value { get { return BitConverter.ToUInt32(data, 0); } }
         Int32 int32_value { get { return BitConverter.ToInt32(data, 0); } }
+        [IgnoreDataMember]
         public float float_value { get { return BitConverter.ToSingle(data, 0); } }
 
         byte[] _data = new byte[4];
 
+        [IgnoreDataMember]
         public byte[] data
         {
             get { return _data; }
@@ -66,16 +67,20 @@ public partial class MAVLink
             }
         }
 
+        private MAVLinkParam()
+        {
+        }
+
         /// <summary>
         /// used as a generic input to type the input data
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        /// <param name="type"></param>
-        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE type)
+        /// <param name="wiretype"></param>
+        public MAVLinkParam(string name, double value, MAV_PARAM_TYPE wiretype)
         {
             Name = name;
-            Type = type;
+            Type = wiretype;
             Value = value;
         }
 
@@ -84,12 +89,12 @@ public partial class MAVLink
         /// </summary>
         /// <param name="name"></param>
         /// <param name="inputwire"></param>
-        /// <param name="type"></param>
+        /// <param name="wiretype"></param>
         /// <param name="typeap"></param>
-        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE type, MAV_PARAM_TYPE typeap)
+        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE wiretype, MAV_PARAM_TYPE typeap)
         {
             Name = name;
-            Type = type;
+            Type = wiretype;
             TypeAP = typeap;
             Array.Copy(inputwire, _data, 4);
         }

@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.ComponentModel;
+﻿using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
-using MissionPlanner.Models;
-using MissionPlanner.Utilities;
 using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigMount : UserControl, IActivate
+    public partial class ConfigMount : MyUserControl, IActivate
     {
         private readonly Transition _NoErrorTransition;
         private Transition[] _ErrorTransition;
@@ -26,32 +25,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var delay = new Transition(new TransitionType_Linear(2000));
             var fadeIn = new Transition(new TransitionType_Linear(800));
 
-            _ErrorTransition = new[] {delay, fadeIn};
+            _ErrorTransition = new[] { delay, fadeIn };
 
             _NoErrorTransition = new Transition(new TransitionType_Linear(10));
 
-            //setup button actions
-            foreach (var btn in Controls.Cast<Control>().OfType<Button>())
-                btn.Click += HandleButtonClick;
-
-            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel) s, Color.CornflowerBlue);
-            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel) s, Color.WhiteSmoke);
+            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel)s, Color.CornflowerBlue);
+            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel)s, Color.WhiteSmoke);
 
             SetErrorMessageOpacity();
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
             {
-                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelap)));
-                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelap)));
-                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelap)));
-                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
+                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof(Channelap)));
+                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof(Channelap)));
+                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof(Channelap)));
+                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof(ChannelCameraShutter)));
             }
             else
             {
-                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelac)));
-                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelac)));
-                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelac)));
-                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
+                mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof(Channelac)));
+                mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof(Channelac)));
+                mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof(Channelac)));
+                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof(ChannelCameraShutter)));
             }
 
             string remove = "SERVO";
@@ -108,13 +103,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            var copy = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
+            var copy = new Dictionary<string, double>((Dictionary<string, double>)MainV2.comPort.MAV.param);
 
             if (!copy.ContainsKey("CAM_TRIGG_TYPE"))
             {
                 Enabled = false;
                 return;
             }
+
+            startup = true;
 
             CMB_shuttertype.SelectedItem = Enum.GetName(typeof(ChannelCameraShutter),
                 (Int32)MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
@@ -182,7 +179,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 string item = itemobj.ToString();
                 if (MainV2.comPort.MAV.param.ContainsKey(item + "_FUNCTION"))
                 {
-                    var ans = (float) MainV2.comPort.MAV.param[item + "_FUNCTION"];
+                    var ans = (float)MainV2.comPort.MAV.param[item + "_FUNCTION"];
 
                     if (item == exclude)
                         continue;
@@ -206,25 +203,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (CMB_shuttertype.Text == ChannelCameraShutter.Relay.ToString())
                 {
                     ensureDisabled(CMB_shuttertype, 10);
-                    MainV2.comPort.setParam("CAM_TRIGG_TYPE", 1);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAM_TRIGG_TYPE", 1);
                 }
                 else if (CMB_shuttertype.Text == ChannelCameraShutter.Transistor.ToString())
                 {
                     ensureDisabled(CMB_shuttertype, 10);
-                    MainV2.comPort.setParam("CAM_TRIGG_TYPE", 4);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAM_TRIGG_TYPE", 4);
                 }
                 else
                 {
                     ensureDisabled(CMB_shuttertype, 10);
                     MainV2.comPort.setParam(CMB_shuttertype.Text + "_FUNCTION", 10);
                     // servo
-                    MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);
+                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAM_TRIGG_TYPE", 0);
                 }
             }
             else
             {
                 // servo
-                MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAM_TRIGG_TYPE", 0);
                 ensureDisabled(CMB_shuttertype, 10);
             }
 
@@ -259,10 +256,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownTSMX.setup(800, 2200, 1, 1, mavlinkComboBoxTilt.Text + "_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownTAM.setup(-90, 0, 100, 1, ParamHead + "ANGMIN_TIL", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownTAMX.setup(0, 90, 100, 1, ParamHead + "ANGMAX_TIL", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxTR.setup(new double[] {-1, 1}, new double[] {1, 0},
-                new string[] {mavlinkComboBoxTilt.Text + "_REV", mavlinkComboBoxTilt.Text + "_REVERSED"},
+            mavlinkCheckBoxTR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
+                new string[] { mavlinkComboBoxTilt.Text + "_REV", mavlinkComboBoxTilt.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CMB_inputch_tilt.setup(typeof (Channelinput), ParamHead + "RC_IN_TILT", MainV2.comPort.MAV.param);
+            CMB_inputch_tilt.setup(typeof(Channelinput), ParamHead + "RC_IN_TILT", MainV2.comPort.MAV.param);
         }
 
         private void updateRoll()
@@ -289,7 +286,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkCheckBoxRR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
                 new string[] { mavlinkComboBoxRoll.Text + "_REV", mavlinkComboBoxRoll.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CMB_inputch_roll.setup(typeof (Channelinput), ParamHead + "RC_IN_ROLL", MainV2.comPort.MAV.param);
+            CMB_inputch_roll.setup(typeof(Channelinput), ParamHead + "RC_IN_ROLL", MainV2.comPort.MAV.param);
         }
 
         private void updateYaw()
@@ -316,7 +313,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkCheckBoxPR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
                 new string[] { mavlinkComboBoxPan.Text + "_REV", mavlinkComboBoxPan.Text + "_REVERSED" },
                 MainV2.comPort.MAV.param);
-            CMB_inputch_pan.setup(typeof (Channelinput), ParamHead + "RC_IN_PAN", MainV2.comPort.MAV.param);
+            CMB_inputch_pan.setup(typeof(Channelinput), ParamHead + "RC_IN_PAN", MainV2.comPort.MAV.param);
         }
 
         private void SetErrorMessageOpacity()
@@ -342,32 +339,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var changeColorTransition = new Transition(new TransitionType_Linear(300));
             changeColorTransition.add(l, "LinkColor", c);
             changeColorTransition.run();
-        }
-
-        // Common handler for all buttons
-        // Will execute an ICommand if one is found on the button Tag
-        private static void HandleButtonClick(object sender, EventArgs e)
-        {
-            if (sender is Button)
-            {
-                var cmd = (sender as Button).Tag as ICommand;
-
-                if (cmd != null)
-                    if (cmd.CanExecute(null))
-                        cmd.Execute(null);
-            }
-        }
-
-        // Something has changed on the presenter - This may be an Icommand
-        // enabled state, so update the buttons as appropriate
-        private void CheckCommandStates(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            foreach (var btn in Controls.Cast<Control>().OfType<Button>())
-            {
-                var cmd = btn.Tag as ICommand;
-                if (cmd != null)
-                    btn.Enabled = cmd.CanExecute(null);
-            }
         }
 
         private void LNK_Wiki_Clicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -420,6 +391,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC12 = 1,
             RC13 = 1,
             RC14 = 1,
+            SERVO1 = 1,
+            SERVO2 = 1,
+            SERVO3 = 1,
+            SERVO4 = 1,
             SERVO5 = 1,
             SERVO6 = 1,
             SERVO7 = 1,
@@ -446,6 +421,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC12 = 1,
             RC13 = 1,
             RC14 = 1,
+            SERVO1 = 1,
+            SERVO2 = 1,
+            SERVO3 = 1,
+            SERVO4 = 1,
             SERVO5 = 1,
             SERVO6 = 1,
             SERVO7 = 1,
@@ -471,6 +450,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC12 = 12,
             RC13 = 13,
             RC14 = 14,
+            SERVO1 = 1,
+            SERVO2 = 2,
+            SERVO3 = 3,
+            SERVO4 = 4,
             SERVO5 = 5,
             SERVO6 = 6,
             SERVO7 = 7,

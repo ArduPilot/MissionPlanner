@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class myGMAP{public myGMAP(){this.InitializeComponent();}}}

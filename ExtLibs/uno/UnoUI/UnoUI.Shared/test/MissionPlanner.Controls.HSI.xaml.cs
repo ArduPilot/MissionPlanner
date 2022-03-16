@@ -1,0 +1,1 @@
+namespace MissionPlanner.Controls { public partial class HSI{public HSI(){this.InitializeComponent();}}}

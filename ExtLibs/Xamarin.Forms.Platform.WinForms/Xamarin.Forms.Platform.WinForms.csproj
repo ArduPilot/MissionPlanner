@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{563D7C2E-14E2-47EC-95E4-4EA0BBA75C18}</ProjectGuid>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyTitle>Xamarin.Forms for Windows Forms</AssemblyTitle>
+    <Product>Xamarin.Forms.Platform.WinForms</Product>
+    <Copyright>Copyright (c) Yasuhiro Taniuchi</Copyright>
+    <AssemblyVersion>4.1.0.1</AssemblyVersion>
+    <FileVersion>4.1.0.1</FileVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Controls\WFormsCarouselPage.cs" />
+    <Compile Update="Controls\WFormsSearchBar.cs" />
+    <Compile Update="PlatformRenderer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+  </ItemGroup>
+</Project>

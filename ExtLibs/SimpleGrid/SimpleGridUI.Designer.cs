@@ -41,6 +41,8 @@
             this.label22 = new System.Windows.Forms.Label();
             this.tabSimple = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.NUM_UpDownFlySpeed = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.NUM_spacing = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
@@ -65,6 +67,7 @@
             this.groupBox5.SuspendLayout();
             this.tabSimple.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownFlySpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).BeginInit();
@@ -83,18 +86,18 @@
             this.map.EmptyTileColor = System.Drawing.Color.Gray;
             this.map.GrayScaleMode = false;
             this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.map.HoldInvalidation = false;
             this.map.LevelsKeepInMemmory = 5;
             this.map.MarkersEnabled = true;
-            this.map.MaxZoom = 19;
+            this.map.MaxZoom = 24;
             this.map.MinZoom = 2;
-            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.map.Name = "map";
             this.map.NegativeMode = false;
             this.map.PolygonsEnabled = true;
             this.map.RetryLoadTile = 0;
             this.map.RoutesEnabled = true;
             this.map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Fractional;
-            this.map.SelectedArea = ((GMap.NET.RectLatLng)(resources.GetObject("map.SelectedArea")));
             this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.map.ShowTileGridLines = false;
             this.map.Zoom = 3D;
@@ -163,6 +166,8 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.label24);
+            this.groupBox6.Controls.Add(this.NUM_UpDownFlySpeed);
             this.groupBox6.Controls.Add(this.label3);
             this.groupBox6.Controls.Add(this.NUM_spacing);
             this.groupBox6.Controls.Add(this.label7);
@@ -181,6 +186,28 @@
             resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
+            this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
+            // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            // 
+            // NUM_UpDownFlySpeed
+            // 
+            resources.ApplyResources(this.NUM_UpDownFlySpeed, "NUM_UpDownFlySpeed");
+            this.NUM_UpDownFlySpeed.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.NUM_UpDownFlySpeed.Name = "NUM_UpDownFlySpeed";
+            this.NUM_UpDownFlySpeed.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.NUM_UpDownFlySpeed.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // label3
             // 
@@ -189,9 +216,10 @@
             // 
             // NUM_spacing
             // 
+            this.NUM_spacing.DecimalPlaces = 2;
             resources.ApplyResources(this.NUM_spacing, "NUM_spacing");
             this.NUM_spacing.Maximum = new decimal(new int[] {
-            9999,
+            99999,
             0,
             0,
             0});
@@ -199,7 +227,7 @@
             1,
             0,
             0,
-            0});
+            65536});
             this.NUM_spacing.Name = "NUM_spacing";
             this.NUM_spacing.Value = new decimal(new int[] {
             50,
@@ -297,9 +325,10 @@
             // 
             // NUM_Distance
             // 
+            this.NUM_Distance.DecimalPlaces = 2;
             resources.ApplyResources(this.NUM_Distance, "NUM_Distance");
             this.NUM_Distance.Maximum = new decimal(new int[] {
-            9999,
+            99999,
             0,
             0,
             0});
@@ -387,7 +416,6 @@
             // 
             // GridUI
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.map);
             this.Controls.Add(this.groupBox5);
@@ -400,6 +428,7 @@
             this.tabSimple.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownFlySpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).EndInit();
@@ -448,5 +477,7 @@
         private System.Windows.Forms.CheckBox CHK_internals;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown NUM_spacing;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.NumericUpDown NUM_UpDownFlySpeed;
     }
 }

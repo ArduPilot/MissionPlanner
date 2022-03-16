@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using log4net;
+﻿using log4net;
 using System.Reflection;
-using MissionPlanner.Utilities;
-using MissionPlanner;
 
 namespace MissionPlanner.Swarm
 {
@@ -61,7 +55,7 @@ namespace MissionPlanner.Swarm
                     if (mav == Leader)
                         continue;
 
-                    port.setMode(mav.sysid,mav.compid,"GUIDED");
+                    port.setMode(mav.sysid, mav.compid, "GUIDED");
 
                     port.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5);
                 }
@@ -93,6 +87,20 @@ namespace MissionPlanner.Swarm
                         continue;
 
                     port.setMode(mav.sysid, mav.compid, "GUIDED");
+                }
+            }
+        }
+
+        public void AutoMode()
+        {
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    if (mav == Leader)
+                        continue;
+
+                    port.setMode(mav.sysid, mav.compid, "AUTO");
                 }
             }
         }

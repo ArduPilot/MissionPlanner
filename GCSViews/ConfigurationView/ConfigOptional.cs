@@ -1,9 +1,9 @@
-﻿using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigOptional : UserControl, IActivate
+    public partial class ConfigOptional : MyUserControl, IActivate
     {
         public ConfigOptional()
         {

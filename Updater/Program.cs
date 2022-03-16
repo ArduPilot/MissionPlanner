@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 
 namespace Updater
 {
-    static class Program
+    internal static class Program
     {
-        static bool MAC = false;
+        private static bool MAC = false;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             OperatingSystem os = Environment.OSVersion;
 
@@ -24,7 +24,7 @@ namespace Updater
                 MAC = true;
             }
 
-            string path = Path.GetDirectoryName(Application.ExecutablePath);
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             // give 4 seconds grace
             System.Threading.Thread.Sleep(5000);
@@ -41,32 +41,78 @@ namespace Updater
             {
                 try
                 {
+                    Directory.GetFiles(path, "*.old").ForEach(a =>
+                    {
+                        try
+                        {
+                            File.SetAttributes(a, FileAttributes.Normal);
+                            File.Delete(a);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                    });
+
                     System.Diagnostics.Process P = new System.Diagnostics.Process();
                     if (MAC)
                     {
+                        P.StartInfo.WorkingDirectory = path;
                         P.StartInfo.FileName = "mono";
-                        P.StartInfo.Arguments = " \"" + Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "MissionPlanner.exe\"";
+                        P.StartInfo.Arguments =
+                            " \"" + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                            Path.DirectorySeparatorChar + "MissionPlanner.exe\"";
                     }
                     else
                     {
-                        P.StartInfo.FileName = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
+                        P.StartInfo.WorkingDirectory = path;
+                        P.StartInfo.FileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                                               Path.DirectorySeparatorChar + "MissionPlanner.exe";
                         P.StartInfo.Arguments = "";
                     }
+
                     Console.WriteLine("Start " + P.StartInfo.FileName + " with " + P.StartInfo.Arguments);
                     P.Start();
                 }
-                catch { } // likely file didnt exist
+                catch
+                {
+                } // likely file didnt exist
             }
         }
 
-        static bool UpdateFiles(string directory)
+        private static bool UpdateFiles(string directory)
         {
             bool all_done = true;
             try
             {
                 string[] files = Directory.GetFiles(directory);
 
-                Console.WriteLine("dir: "+directory);
+                Console.WriteLine("dir: " + directory);
+
+                //cleanup old
+                foreach (string file in files)
+                {
+                    if (file.ToLower().EndsWith(".old"))
+                    {
+                        try
+                        {
+                            File.Delete(file);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            try
+                            {
+                                File.SetAttributes(file, FileAttributes.Normal);
+                                File.Delete(file);
+                            }
+                            catch (Exception ex2)
+                            {
+                                Console.WriteLine(ex2);
+                            }
+                        }
+                    }
+                }
 
                 foreach (string file in files)
                 {
@@ -75,42 +121,60 @@ namespace Updater
                         Console.WriteLine("\t file: " + file);
 
                         bool done = false;
-                        for (int try_count = 0; try_count < 10 && !done; try_count++)  // try no more than 5 times
+                        for (int try_count = 0; try_count < 10 && !done; try_count++) // try no more than 5 times
                         {
                             if (file.ToLower().Contains("updater.exe"))
-                            { // cant self update on windows
+                            {
+                                // cant self update on windows
                                 done = true;
                                 break;
                             }
+
                             try
                             {
-                                Console.Write("Move: " + file + " TO " + file.Remove(file.Length - 4));
-                                File.Copy(file, file.Remove(file.Length - 4), true);
+                                var oldfile = file.Remove(file.Length - 4) + ".old";
+                                var newfile = file.Remove(file.Length - 4);
+
+
+                                Console.Write("Move: " + file + " TO " + newfile);
+                                // move existing to .old
+                                if (File.Exists(newfile))
+                                    File.Move(newfile, oldfile);
+                                // move .new to existing
+                                File.Move(file, newfile);
                                 done = true;
-                                File.Delete(file);
                                 Console.WriteLine(" Done.");
                             }
-                            catch
+                            catch (Exception ex)
                             {
                                 Console.WriteLine(file + " Failed.");
+                                Console.WriteLine(ex);
                                 System.Threading.Thread.Sleep(500);
                                 // normally in use by explorer.exe
                                 if (file.ToLower().Contains("tlogthumbnailhandler"))
                                     done = true;
                             }
                         }
+
                         all_done = all_done && done;
                     }
                 }
-
             }
-            catch { }
+            catch
+            {
+            }
 
             foreach (string subdir in Directory.GetDirectories(directory))
                 all_done = all_done && UpdateFiles(subdir);
 
             return all_done;
             //P.StartInfo.RedirectStandardOutput = true;
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
+        {
+            foreach (T obj in enumerable)
+                action(obj);
         }
     }
 }

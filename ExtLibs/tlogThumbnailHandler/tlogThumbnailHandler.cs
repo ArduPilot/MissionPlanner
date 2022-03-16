@@ -1,78 +1,41 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Threading;
+using GMap.NET;
+using GMap.NET.Internals;
+using GMap.NET.MapProviders;
+using MissionPlanner.Log;
+
+namespace MissionPlanner.Log
+{
+
+}
 
 namespace tlogThumbnailHandler
 {
-    //C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /regfile tlogThumbnailHandler.dll
+    //C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /regfile /codebase tlogThumbnailHandler.dll
 
-    //C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm /regfile tlogThumbnailHandler.dll
+    //C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm /regfile /codebase tlogThumbnailHandler.dll
 
     // reg add HKEY_CLASSES_ROOT\.tlog\shellex\{BB2E617C-0920-11D1-9A0B-00C04FC2D6C1} /d {f3b857f1-0b79-4e77-9d0b-8b8b7e874f56}
 
     // reg add HKEY_CLASSES_ROOT\MissionPlanner.tlog\shellex\{BB2E617C-0920-11D1-9A0B-00C04FC2D6C1} /d {f3b857f1-0b79-4e77-9d0b-8b8b7e874f56}
 
-    enum IEIFLAG
-    {
-        ASYNC = 0x0001, // ask the extractor if it supports ASYNC extract (free threaded)      
-        CACHE = 0x0002, // returned from the extractor if it does NOT cache the thumbnail      
-        ASPECT = 0x0004, // passed to the extractor to beg it to render to the aspect ratio of the supplied rect       
-        OFFLINE = 0x0008, // if the extractor shouldn't hit the net to get any content neede for the rendering     
-        GLEAM = 0x0010, // does the image have a gleam ? this will be returned if it does       
-        SCREEN = 0x0020, // render as if for the screen (this is exlusive with IEIFLAG_ASPECT )      
-        ORIGSIZE = 0x0040, // render to the approx size passed, but crop if neccessary       
-        NOSTAMP = 0x0080, // returned from the extractor if it does NOT want an icon stamp on the thumbnail    
-        NOBORDER = 0x0100, // returned from the extractor if it does NOT want an a border around the thumbnail    
-        QUALITY = 0x0200 // passed to the Extract method to indicate that a slower, higher quality image is desired, re-compute the thumbnail    
-    }
-
-    [ComVisible(false)]
-    public struct SIZE
-    {
-        public int cx;
-        public int cy;
-
-        public SIZE(int cx, int cy)
-        {
-            this.cx = cx;
-            this.cy = cy;
-        }
-    }
-
-    [ComImport]
-    [GuidAttribute("BB2E617C-0920-11d1-9A0B-00C04FC2D6C1")]
-    [InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IExtractImage
-    {       
-        [PreserveSig]
-        long GetLocation(out StringBuilder pszPathBuffer, int cch, ref int pdwPriority, ref SIZE prgSize, int dwRecClrDepth, ref int pdwFlags);
-   
-        [PreserveSig]
-        long Extract(out IntPtr phBmpThumbnail);
-    }
-
-    [ComImport]
-    [Guid("953BB1EE-93B4-11d1-98A3-00C04FB687DA")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IExtractImage2 : IExtractImage
-    {
-        int GetDateStamp([In, Out]ref System.Runtime.InteropServices.ComTypes.FILETIME pDateStamp);
-    }
-
     [ComVisible(true), ClassInterface(ClassInterfaceType.None)]
-    //[ProgId("IExtractImage.TxtThumbnailHandler")]
+    [ProgId("tlogThumbnailHandler.tlogThumbnailHandler")]
     [Guid("f3b857f1-0b79-4e77-9d0b-8b8b7e874f56")]
-    public class tlogThumbnailHandler : IExtractImage, IPersistFile
+    public class tlogThumbnailHandler : IThumbnailProvider, IInitializeWithStream, IExtractImage2, IExtractImage, IPersistFile, IDisposable
     {
         private Size m_size = Size.Empty; 
         private string m_filename = String.Empty;
         private const long S_OK = 0x00000000L;
+        private const long E_FAIL = 0x80004005L;
         private const long E_PENDING = 0x8000000AL;
 
         private const int STD_OUTPUT_HANDLE = -11;
@@ -99,24 +62,55 @@ namespace tlogThumbnailHandler
             internal static extern int AllocConsole();
         }
 
+        void WriteLine(string format, params object[] arg)
+        {
+            try
+            {
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " " + format, arg);
+            }
+            catch
+            {
+            }
+        }
+
+        static bool init = false;
+
         public tlogThumbnailHandler()
         {
-            /*
-            NativeMethods.AllocConsole();
-            IntPtr stdHandle = NativeMethods.GetStdHandle(STD_OUTPUT_HANDLE);
-            SafeFileHandle safeFileHandle = new SafeFileHandle(stdHandle, true);
-            FileStream fileStream = new FileStream(safeFileHandle, FileAccess.Write);
-            Encoding encoding = System.Text.Encoding.GetEncoding(MY_CODE_PAGE);
-            StreamWriter standardOutput = new StreamWriter(fileStream, encoding);
-            standardOutput.AutoFlush = true;
-            Console.SetOut(standardOutput);
-             */
-            Console.WriteLine("tlogThumbnailHandler ctor");
+            if (!init)
+            {
+                /*
+                NativeMethods.AllocConsole();
+                IntPtr stdHandle = NativeMethods.GetStdHandle(STD_OUTPUT_HANDLE);
+                SafeFileHandle safeFileHandle = new SafeFileHandle(stdHandle, true);
+                FileStream fileStream = new FileStream(safeFileHandle, FileAccess.Write);
+                Encoding encoding = System.Text.Encoding.GetEncoding(MY_CODE_PAGE);
+                var standardOutput = new StreamWriter(fileStream, encoding);
+                standardOutput.AutoFlush = true;
+                Console.SetOut(standardOutput);
+                */
+                init = true;
+            }
+
+            //Debugger.Launch();
+
+            WriteLine("tlogThumbnailHandler ctor");
+        }
+
+        ~tlogThumbnailHandler()
+        {
+            try
+            {
+                WriteLine("tlogThumbnailHandler dtor");
+            }
+            catch { }
+
+            Dispose();
         }
 
         public long GetLocation(out StringBuilder pszPathBuffer, int cch, ref int pdwPriority, ref SIZE prgSize, int dwRecClrDepth, ref int pdwFlags)
         {
-            Console.WriteLine("tlogThumbnailHandler GetLocation");
+            WriteLine("tlogThumbnailHandler GetLocation");
             pszPathBuffer = new StringBuilder();
             pszPathBuffer.Append(m_filename);
             m_size = new Size(prgSize.cx, prgSize.cy);
@@ -128,37 +122,55 @@ namespace tlogThumbnailHandler
 
         public long Extract(out IntPtr phBmpThumbnail)
         {
-            Console.WriteLine("tlogThumbnailHandler Extract");
+            WriteLine("tlogThumbnailHandler Extract");
             string jpgfile = m_filename + ".jpg";
+            phBmpThumbnail = IntPtr.Zero;
 
-            Bitmap bmp = new Bitmap(m_size.Width, m_size.Height);
-            using (Graphics g = Graphics.FromImage(bmp))
+            try
             {
-                g.Clear(Color.White);
+                var Core = new GMap.NET.Internals.Core();
+                GMaps.Instance.UseMemoryCache = false;
+                GMaps.Instance.CacheOnIdleRead = false;
+                GMaps.Instance.BoostCacheEngine = true;
+                GMap.NET.GMaps.Instance.PrimaryCache = new MissionPlanner.Maps.MyImageCache();
+                Core.Provider = GMapProviders.GoogleSatelliteMap;
 
-                Console.WriteLine("doing " + jpgfile);
+                if (!File.Exists(jpgfile))
+                    LogMap.ProcessFile(m_filename);
 
-                if (File.Exists(jpgfile))
+                Bitmap bmp = new Bitmap(m_size.Width, m_size.Height);
+                using (Graphics g = Graphics.FromImage(bmp))
                 {
-                    using (FileStream stream = File.OpenRead(jpgfile))
+                    g.Clear(Color.White);
+
+                    WriteLine("doing " + jpgfile);
+
+                    if (File.Exists(jpgfile))
                     {
                         using (Image map = Bitmap.FromFile(m_filename + ".jpg"))
                         {
                             g.DrawImage(map, 0, 0, m_size.Width, m_size.Height);
                         }
                     }
-                }
-                else
-                {
-                    AddFiletoGenerate(m_filename);
+                    else
+                    {
+                        return E_FAIL;
+                    }
 
-                    g.DrawString("No Map\nGenerated", SystemFonts.DefaultFont, Brushes.Black, new PointF(0, 0));
+                    phBmpThumbnail = bmp.GetHbitmap();
                 }
+
+                WriteLine("tlogThumbnailHandler Extract Return");
+
+                GC.Collect();
+
+                return S_OK;
             }
-
-            phBmpThumbnail = bmp.GetHbitmap();
-
-            return S_OK;
+            catch (Exception e)
+            {
+                WriteLine("{0}", e);
+                return E_FAIL;
+            }
         }
 
         public void AddFiletoGenerate(string filename)
@@ -178,44 +190,148 @@ namespace tlogThumbnailHandler
                     st.Write(data, 0, data.Length);
                 }
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (Exception ex) { WriteLine(ex.ToString()); }
+        }
+
+        public int GetDateStamp([In, Out] ref System.Runtime.InteropServices.ComTypes.FILETIME pDateStamp)
+        {
+            WriteLine("tlogThumbnailHandler GetDateStamp");
+            FileInfo fi = new FileInfo(m_filename);
+            pDateStamp = new System.Runtime.InteropServices.ComTypes.FILETIME();
+            pDateStamp.dwLowDateTime = (int) fi.LastWriteTime.ToFileTime();
+            pDateStamp.dwHighDateTime = (int) (fi.LastWriteTime.ToFileTime() >> 32);
+
+            return (int)S_OK;
+        }
+
+        public long GetThumbnail(int squareLength, out IntPtr hBitmap, out int bitmapType)
+        {
+            //Debugger.Launch();
+
+            WriteLine("tlogThumbnailHandler GetThumbnail");
+            hBitmap = IntPtr.Zero;
+            bitmapType = (int)WTS_ALPHATYPE.WTSAT_UNKNOWN;
+
+            m_size = new Size(squareLength, squareLength);
+            try
+            {
+                return Extract(out hBitmap);
+            }
+            catch (Exception e)
+            {
+                WriteLine("{0}", e);
+                return E_FAIL;
+            }
         }
 
         public void GetClassID(out Guid pClassID)
         {
-            Console.WriteLine("tlogThumbnailHandler GetClassID");
+            WriteLine("tlogThumbnailHandler GetClassID");
             throw new NotImplementedException();
         }
 
         public void GetCurFile(out string ppszFileName)
         {
-            Console.WriteLine("tlogThumbnailHandler GetCurFile");
+            WriteLine("tlogThumbnailHandler GetCurFile");
             throw new NotImplementedException();
         }
 
         public int IsDirty()
         {
-            Console.WriteLine("tlogThumbnailHandler IsDirty");
+            WriteLine("tlogThumbnailHandler IsDirty");
             throw new NotImplementedException();
         }
 
         public void Load(string pszFileName, int dwMode)
         {
-            Console.WriteLine("tlogThumbnailHandler Load");
+            WriteLine("tlogThumbnailHandler Load {0}", pszFileName);
             m_filename = pszFileName;
         }
 
         public void Save(string pszFileName, bool fRemember)
         {
-            Console.WriteLine("tlogThumbnailHandler Save");
+            WriteLine("tlogThumbnailHandler Save");
             throw new NotImplementedException();
         }
 
         public void SaveCompleted(string pszFileName)
         {
-            Console.WriteLine("tlogThumbnailHandler SaveCompleted");
+            WriteLine("tlogThumbnailHandler SaveCompleted");
             throw new NotImplementedException();
         }
-    }
 
+        private string tmpfile = "";
+
+        public long Initialize(IStream stream, int grfMode)
+        {
+            WriteLine("tlogThumbnailHandler Initialize {0}", grfMode);
+
+            var data = GetStreamContents(stream);
+
+            stream = null;
+
+            tmpfile = Path.GetTempFileName();
+
+            if (data.Length > 20)
+            {
+                if (data[0] == 0xa3 && data[1] == 0x95)
+                {
+                    tmpfile += ".bin";
+                }
+                else if (data[8] == 0xfe || data[0] == 0xfe)
+                {
+                    tmpfile += ".tlog";
+                }
+                else
+                {
+                    tmpfile += ".tlog";
+                }
+            }
+
+            WriteLine("tlogThumbnailHandler GetThumbnail {0}", tmpfile);
+
+            File.WriteAllBytes(tmpfile, data);
+
+            data = null;
+
+            m_filename = tmpfile;
+
+            return S_OK;
+        }
+
+        private byte[] GetStreamContents(IStream stream)
+        {
+            if (stream == null) return null;
+
+            System.Runtime.InteropServices.ComTypes.STATSTG statData;
+            stream.Stat(out statData, 1);
+
+            byte[] Result = new byte[statData.cbSize];
+
+            WriteLine("tlogThumbnailHandler GetStreamContents {0}", statData.cbSize);
+
+            IntPtr P = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(UInt64)));
+            try
+            {
+                stream.Read(Result, Result.Length, P);
+            }
+            finally
+            {
+                Marshal.FreeCoTaskMem(P);
+            }
+            return Result;
+        }
+
+        public void Dispose()
+        {
+            if (File.Exists(tmpfile))
+                File.Delete(tmpfile);
+
+            try
+            {
+                WriteLine("tlogThumbnailHandler Dispose");
+            }
+            catch { }
+        }
+    }
 }

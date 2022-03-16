@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace MissionPlanner.Controls
             return dialog;
         }
         //from http://www.csharp-examples.net/inputbox/
-        public static DialogResult Show(string title, string promptText, ref string value, bool password = false)
+        public static DialogResult Show(string title, string promptText, ref string value, bool password = false, bool multiline = false)
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -45,12 +46,12 @@ namespace MissionPlanner.Controls
             {
                 Application.OpenForms[0].Invoke((MethodInvoker)delegate
                 {
-                    answer = ShowUI(title, promptText, passin, password);
+                    answer = ShowUI(title, promptText, passin, password, multiline);
                 });
             }
             else
             {
-                answer = ShowUI(title, promptText, passin, password);
+                answer = ShowUI(title, promptText, passin, password, multiline);
             }
 
             value = InputBox.value;
@@ -58,13 +59,38 @@ namespace MissionPlanner.Controls
             return answer;
         }
 
-        static DialogResult ShowUI(string title, string promptText, string value, bool password = false)
+        static DialogResult ShowUI(string title, string promptText, string value, bool password = false, bool multiline = false)
         {
             Form form = new Form();
             Label label = new Label();
             TextBox textBox = new TextBox();
             if (password)
+            {
                 textBox.UseSystemPasswordChar = true;
+            }            
+            else 
+            {
+                if (title != "")
+                {
+                    var oldlist = Settings.Instance.GetList("InputBox" + title.CleanString() + promptText.CleanString()).Where(a => a == null || a == "").ToArray();
+                    try
+                    {
+                        textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        textBox.AutoCompleteCustomSource = new AutoCompleteStringCollection();
+                        textBox.AutoCompleteCustomSource.AddRange(oldlist);
+                    } catch (Exception ex) { Console.WriteLine(ex); }
+                }
+            }
+
+            if (multiline)
+            {
+                textBox.Multiline = true;
+                textBox.ScrollBars = ScrollBars.Vertical;
+                textBox.AcceptsReturn = true;
+                textBox.AcceptsTab = true;
+                textBox.WordWrap = true;
+            }
             MyButton buttonOk = new MyButton();
             MyButton buttonCancel = new MyButton();
             //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
@@ -90,6 +116,11 @@ namespace MissionPlanner.Controls
             textBox.Size = new Size(372, 20);
             textBox.Text = value;
             textBox.TextChanged += textBox_TextChanged;
+
+            if (multiline)
+            {
+                textBox.Size = new Size(372, 400);
+            }
 
             //
             // buttonOk
@@ -139,8 +170,6 @@ namespace MissionPlanner.Controls
 
             Console.WriteLine("Input Box " + System.Threading.Thread.CurrentThread.Name);
 
-            Application.DoEvents();
-
             form.ShowDialog();
 
             Console.WriteLine("Input Box 2 " + System.Threading.Thread.CurrentThread.Name);
@@ -149,16 +178,24 @@ namespace MissionPlanner.Controls
 
             if (dialogResult == DialogResult.OK)
             {
+                if (textBox.AutoCompleteCustomSource != null)
+                {
+                    textBox.AutoCompleteCustomSource.Add(textBox.Text);
+                    Settings.Instance.SetList("InputBox" + title.CleanString() + promptText.CleanString(), textBox.AutoCompleteCustomSource.OfType<string>());
+                }
+                Console.WriteLine("Input Box 3 " + System.Threading.Thread.CurrentThread.Name);
                 value = textBox.Text;
                 InputBox.value = value;
             }
 
+            Console.WriteLine("Input Box 4 " + System.Threading.Thread.CurrentThread.Name);
             form.Dispose();
 
             TextChanged = null;
 
             form = null;
 
+            Console.WriteLine("Input Box 5 " + System.Threading.Thread.CurrentThread.Name);
             return dialogResult;
         }
 

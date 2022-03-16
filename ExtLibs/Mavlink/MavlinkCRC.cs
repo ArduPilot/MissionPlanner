@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public partial class MAVLink
+﻿public partial class MAVLink
 {
     public class MavlinkCRC
     {

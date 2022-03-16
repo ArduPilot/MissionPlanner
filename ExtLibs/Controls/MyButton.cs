@@ -24,14 +24,14 @@ namespace MissionPlanner.Controls
         internal Color _ColorMouseOver;
         internal Color _ColorMouseDown;
 
-       bool inOnPaint = false;
+        bool inOnPaint = false;
 
-       [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-       [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
-       public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; this.Invalidate(); } }
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
-       public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
+        public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
+        public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
         public Color ColorNotEnabled { get { return _ColorNotEnabled; } set { _ColorNotEnabled = value; this.Invalidate(); } }
@@ -43,12 +43,14 @@ namespace MissionPlanner.Controls
         public Color ColorMouseDown { get { return _ColorMouseDown; } set { _ColorMouseDown = value; this.Invalidate(); } }
 
         // i want to ignore forecolor
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
-         public Color TextColor { get { return _TextColor; } set { _TextColor = value; this.Invalidate(); } }
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
-         public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
+        public Color TextColor { get { return _TextColor; } set { _TextColor = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
+        public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
+
+        protected override Size DefaultSize => base.DefaultSize;
 
         public MyButton()
         {
@@ -106,7 +108,7 @@ namespace MissionPlanner.Controls
                 // bl
                 outline.AddArc(0, height - wid, wid, wid, 90, 90);
                 // left line
-                outline.AddLine(0, height - wid, 0, wid - wid /2);
+                outline.AddLine(0, height - wid, 0, wid - wid / 2);
 
 
                 gr.FillPath(linear, outline);
@@ -148,7 +150,7 @@ namespace MissionPlanner.Controls
                 gr.DrawString(display, this.Font, mybrush, outside, stringFormat);
             }
             catch { }
-            
+
             inOnPaint = false;
         }
 
@@ -184,6 +186,11 @@ namespace MissionPlanner.Controls
         {
             _mousedown = false;
             base.OnMouseUp(mevent);
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
         }
     }
 }

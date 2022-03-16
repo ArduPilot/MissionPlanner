@@ -1,4 +1,5 @@
-﻿using MissionPlanner.Controls;
+﻿using System.Windows.Forms;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.Log
 {
@@ -32,49 +33,68 @@ namespace MissionPlanner.Log
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogBrowse));
-            this.dataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exportVisibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BUT_Graphit = new MissionPlanner.Controls.MyButton();
             this.BUT_cleargraph = new MissionPlanner.Controls.MyButton();
             this.BUT_loadlog = new MissionPlanner.Controls.MyButton();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerZgGrid = new System.Windows.Forms.SplitContainer();
+            this.splitContainerZgMap = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.splitContainerButGrid = new System.Windows.Forms.SplitContainer();
+            this.chk_params = new System.Windows.Forms.CheckBox();
+            this.chk_events = new System.Windows.Forms.CheckBox();
+            this.chk_datagrid = new System.Windows.Forms.CheckBox();
+            this.chk_msg = new System.Windows.Forms.CheckBox();
+            this.chk_errors = new System.Windows.Forms.CheckBox();
+            this.chk_mode = new System.Windows.Forms.CheckBox();
+            this.BUT_Graphit_R = new MissionPlanner.Controls.MyButton();
             this.chk_time = new System.Windows.Forms.CheckBox();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.CHK_map = new System.Windows.Forms.CheckBox();
             this.CMB_preselect = new System.Windows.Forms.ComboBox();
             this.BUT_removeitem = new MissionPlanner.Controls.MyButton();
-            this.CHK_map = new System.Windows.Forms.CheckBox();
-            this.BUT_Graphit_R = new MissionPlanner.Controls.MyButton();
-            this.label4 = new System.Windows.Forms.Label();
+            this.dataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.splitContainerAllTree = new System.Windows.Forms.SplitContainer();
+            this.txt_info = new System.Windows.Forms.TextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerZgGrid)).BeginInit();
+            this.splitContainerZgGrid.Panel1.SuspendLayout();
+            this.splitContainerZgGrid.Panel2.SuspendLayout();
+            this.splitContainerZgGrid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerZgMap)).BeginInit();
+            this.splitContainerZgMap.Panel1.SuspendLayout();
+            this.splitContainerZgMap.Panel2.SuspendLayout();
+            this.splitContainerZgMap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerButGrid)).BeginInit();
+            this.splitContainerButGrid.Panel1.SuspendLayout();
+            this.splitContainerButGrid.Panel2.SuspendLayout();
+            this.splitContainerButGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerAllTree)).BeginInit();
+            this.splitContainerAllTree.Panel1.SuspendLayout();
+            this.splitContainerAllTree.Panel2.SuspendLayout();
+            this.splitContainerAllTree.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // contextMenuStrip1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            resources.ApplyResources(this.dataGridView1, "dataGridView1");
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
-            this.dataGridView1.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGridView1_CellValueNeeded);
-            this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseClick);
-            this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
-            this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportVisibleToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
+            // 
+            // exportVisibleToolStripMenuItem
+            // 
+            this.exportVisibleToolStripMenuItem.Name = "exportVisibleToolStripMenuItem";
+            resources.ApplyResources(this.exportVisibleToolStripMenuItem, "exportVisibleToolStripMenuItem");
+            this.exportVisibleToolStripMenuItem.Click += new System.EventHandler(this.exportVisibleToolStripMenuItem_Click);
             // 
             // BUT_Graphit
             // 
@@ -97,44 +117,40 @@ namespace MissionPlanner.Log
             this.BUT_loadlog.UseVisualStyleBackColor = true;
             this.BUT_loadlog.Click += new System.EventHandler(this.BUT_loadlog_Click);
             // 
-            // splitContainer1
+            // splitContainerZgGrid
             // 
-            resources.ApplyResources(this.splitContainer1, "splitContainer1");
-            this.splitContainer1.Name = "splitContainer1";
+            resources.ApplyResources(this.splitContainerZgGrid, "splitContainerZgGrid");
+            this.splitContainerZgGrid.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainerZgGrid.Name = "splitContainerZgGrid";
             // 
-            // splitContainer1.Panel1
+            // splitContainerZgGrid.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.splitContainerZgGrid.Panel1.Controls.Add(this.splitContainerZgMap);
             // 
-            // splitContainer1.Panel2
+            // splitContainerZgGrid.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.chk_time);
-            this.splitContainer1.Panel2.Controls.Add(this.treeView1);
-            this.splitContainer1.Panel2.Controls.Add(this.CMB_preselect);
-            this.splitContainer1.Panel2.Controls.Add(this.BUT_removeitem);
-            this.splitContainer1.Panel2.Controls.Add(this.CHK_map);
-            this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit_R);
-            this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit);
-            this.splitContainer1.Panel2.Controls.Add(this.BUT_loadlog);
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainer1.Panel2.Controls.Add(this.BUT_cleargraph);
+            this.splitContainerZgGrid.Panel2.Controls.Add(this.splitContainerButGrid);
+            this.splitContainerZgGrid.Resize += new System.EventHandler(this.splitContainer1_Resize);
             // 
-            // splitContainer2
+            // splitContainerZgMap
             // 
-            resources.ApplyResources(this.splitContainer2, "splitContainer2");
-            this.splitContainer2.Name = "splitContainer2";
+            resources.ApplyResources(this.splitContainerZgMap, "splitContainerZgMap");
+            this.splitContainerZgMap.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainerZgMap.Name = "splitContainerZgMap";
             // 
-            // splitContainer2.Panel1
+            // splitContainerZgMap.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.zg1);
+            this.splitContainerZgMap.Panel1.Controls.Add(this.zg1);
             // 
-            // splitContainer2.Panel2
+            // splitContainerZgMap.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.label4);
-            this.splitContainer2.Panel2.Controls.Add(this.label3);
-            this.splitContainer2.Panel2.Controls.Add(this.label2);
-            this.splitContainer2.Panel2.Controls.Add(this.label1);
-            this.splitContainer2.Panel2.Controls.Add(this.myGMAP1);
+            this.splitContainerZgMap.Panel2.Controls.Add(this.label4);
+            this.splitContainerZgMap.Panel2.Controls.Add(this.label3);
+            this.splitContainerZgMap.Panel2.Controls.Add(this.label2);
+            this.splitContainerZgMap.Panel2.Controls.Add(this.label1);
+            this.splitContainerZgMap.Panel2.Controls.Add(this.myGMAP1);
+            this.splitContainerZgMap.Panel2Collapsed = true;
+            this.splitContainerZgMap.Resize += new System.EventHandler(this.splitContainer2_Resize);
             // 
             // zg1
             // 
@@ -151,6 +167,13 @@ namespace MissionPlanner.Log
             this.zg1.ZoomEvent += new ZedGraph.ZedGraphControl.ZoomEventHandler(this.zg1_ZoomEvent);
             this.zg1.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zg1_MouseMoveEvent);
             this.zg1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.zg1_MouseDoubleClick);
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.ForeColor = System.Drawing.Color.Yellow;
+            this.label4.Name = "label4";
+            this.label4.Tag = "custom";
             // 
             // label3
             // 
@@ -181,45 +204,130 @@ namespace MissionPlanner.Log
             this.myGMAP1.EmptyTileColor = System.Drawing.Color.Navy;
             this.myGMAP1.GrayScaleMode = false;
             this.myGMAP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.myGMAP1.HoldInvalidation = false;
             this.myGMAP1.LevelsKeepInMemmory = 5;
             this.myGMAP1.MarkersEnabled = true;
-            this.myGMAP1.MaxZoom = 21;
+            this.myGMAP1.MaxZoom = 24;
             this.myGMAP1.MinZoom = 2;
-            this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.myGMAP1.Name = "myGMAP1";
             this.myGMAP1.NegativeMode = false;
             this.myGMAP1.PolygonsEnabled = true;
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
             this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.myGMAP1.SelectedArea = ((GMap.NET.RectLatLng)(resources.GetObject("myGMAP1.SelectedArea")));
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
             this.myGMAP1.OnRouteClick += new GMap.NET.WindowsForms.RouteClick(this.myGMAP1_OnRouteClick);
+            this.myGMAP1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.myGMAP1_MouseDown);
+            this.myGMAP1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.myGMAP1_MouseMove);
+            this.myGMAP1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.myGMAP1_MouseUp);
+            // 
+            // splitContainerButGrid
+            // 
+            resources.ApplyResources(this.splitContainerButGrid, "splitContainerButGrid");
+            this.splitContainerButGrid.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainerButGrid.Name = "splitContainerButGrid";
+            // 
+            // splitContainerButGrid.Panel1
+            // 
+            this.splitContainerButGrid.Panel1.Controls.Add(this.chk_params);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.chk_events);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.chk_datagrid);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.BUT_Graphit);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.chk_msg);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.BUT_cleargraph);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.chk_errors);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.BUT_loadlog);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.chk_mode);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.BUT_Graphit_R);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.chk_time);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.CHK_map);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.CMB_preselect);
+            this.splitContainerButGrid.Panel1.Controls.Add(this.BUT_removeitem);
+            // 
+            // splitContainerButGrid.Panel2
+            // 
+            this.splitContainerButGrid.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainerButGrid.Panel2Collapsed = true;
+            // 
+            // chk_params
+            // 
+            resources.ApplyResources(this.chk_params, "chk_params");
+            this.chk_params.Name = "chk_params";
+            this.chk_params.UseVisualStyleBackColor = true;
+            this.chk_params.CheckedChanged += new System.EventHandler(this.chk_params_CheckedChanged);
+            // 
+            // chk_events
+            // 
+            resources.ApplyResources(this.chk_events, "chk_events");
+            this.chk_events.Checked = true;
+            this.chk_events.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_events.Name = "chk_events";
+            this.chk_events.UseVisualStyleBackColor = true;
+            this.chk_events.CheckedChanged += new System.EventHandler(this.chk_events_CheckedChanged);
+            // 
+            // chk_datagrid
+            // 
+            resources.ApplyResources(this.chk_datagrid, "chk_datagrid");
+            this.chk_datagrid.Name = "chk_datagrid";
+            this.chk_datagrid.UseVisualStyleBackColor = true;
+            this.chk_datagrid.CheckedChanged += new System.EventHandler(this.chk_datagrid_CheckedChanged);
+            // 
+            // chk_msg
+            // 
+            resources.ApplyResources(this.chk_msg, "chk_msg");
+            this.chk_msg.Checked = true;
+            this.chk_msg.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_msg.Name = "chk_msg";
+            this.chk_msg.UseVisualStyleBackColor = true;
+            this.chk_msg.CheckedChanged += new System.EventHandler(this.chk_msg_CheckedChanged);
+            // 
+            // chk_errors
+            // 
+            resources.ApplyResources(this.chk_errors, "chk_errors");
+            this.chk_errors.Checked = true;
+            this.chk_errors.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_errors.Name = "chk_errors";
+            this.chk_errors.UseVisualStyleBackColor = true;
+            this.chk_errors.CheckedChanged += new System.EventHandler(this.chk_errors_CheckedChanged);
+            // 
+            // chk_mode
+            // 
+            resources.ApplyResources(this.chk_mode, "chk_mode");
+            this.chk_mode.Checked = true;
+            this.chk_mode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_mode.Name = "chk_mode";
+            this.chk_mode.UseVisualStyleBackColor = true;
+            this.chk_mode.CheckedChanged += new System.EventHandler(this.chk_mode_CheckedChanged);
+            // 
+            // BUT_Graphit_R
+            // 
+            resources.ApplyResources(this.BUT_Graphit_R, "BUT_Graphit_R");
+            this.BUT_Graphit_R.Name = "BUT_Graphit_R";
+            this.BUT_Graphit_R.UseVisualStyleBackColor = true;
+            this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
             // 
             // chk_time
             // 
             resources.ApplyResources(this.chk_time, "chk_time");
+            this.chk_time.Checked = true;
+            this.chk_time.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_time.Name = "chk_time";
             this.chk_time.UseVisualStyleBackColor = true;
             this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);
             // 
-            // treeView1
+            // CHK_map
             // 
-            resources.ApplyResources(this.treeView1, "treeView1");
-            this.treeView1.CheckBoxes = true;
-            this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("treeView1.Nodes"))),
-            ((System.Windows.Forms.TreeNode)(resources.GetObject("treeView1.Nodes1")))});
-            this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
-            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
-            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            resources.ApplyResources(this.CHK_map, "CHK_map");
+            this.CHK_map.Name = "CHK_map";
+            this.CHK_map.UseVisualStyleBackColor = true;
+            this.CHK_map.CheckedChanged += new System.EventHandler(this.CHK_map_CheckedChanged);
             // 
             // CMB_preselect
             // 
+            this.CMB_preselect.DropDownWidth = 300;
             this.CMB_preselect.FormattingEnabled = true;
             resources.ApplyResources(this.CMB_preselect, "CMB_preselect");
             this.CMB_preselect.Name = "CMB_preselect";
@@ -232,46 +340,84 @@ namespace MissionPlanner.Log
             this.BUT_removeitem.UseVisualStyleBackColor = true;
             this.BUT_removeitem.Click += new System.EventHandler(this.BUT_removeitem_Click);
             // 
-            // CHK_map
+            // dataGridView1
             // 
-            resources.ApplyResources(this.CHK_map, "CHK_map");
-            this.CHK_map.Name = "CHK_map";
-            this.CHK_map.UseVisualStyleBackColor = true;
-            this.CHK_map.CheckedChanged += new System.EventHandler(this.CHK_map_CheckedChanged);
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
+            resources.ApplyResources(this.dataGridView1, "dataGridView1");
+            this.dataGridView1.MultiSelect = false;
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            this.dataGridView1.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGridView1_CellValueNeeded);
+            this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseClick);
+            this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
             // 
-            // BUT_Graphit_R
+            // treeView1
             // 
-            resources.ApplyResources(this.BUT_Graphit_R, "BUT_Graphit_R");
-            this.BUT_Graphit_R.Name = "BUT_Graphit_R";
-            this.BUT_Graphit_R.UseVisualStyleBackColor = true;
-            this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
+            this.treeView1.CheckBoxes = true;
+            resources.ApplyResources(this.treeView1, "treeView1");
+            this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("treeView1.Nodes"))),
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("treeView1.Nodes1")))});
+            this.treeView1.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterCheck);
+            this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
+            this.treeView1.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeView1_TreeNodeMouseHover);
+            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
             // 
-            // label4
+            // splitContainerAllTree
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.ForeColor = System.Drawing.Color.Yellow;
-            this.label4.Name = "label4";
-            this.label4.Tag = "custom";
+            resources.ApplyResources(this.splitContainerAllTree, "splitContainerAllTree");
+            this.splitContainerAllTree.Name = "splitContainerAllTree";
+            // 
+            // splitContainerAllTree.Panel1
+            // 
+            this.splitContainerAllTree.Panel1.Controls.Add(this.splitContainerZgGrid);
+            // 
+            // splitContainerAllTree.Panel2
+            // 
+            this.splitContainerAllTree.Panel2.Controls.Add(this.treeView1);
+            this.splitContainerAllTree.Panel2.Controls.Add(this.txt_info);
+            // 
+            // txt_info
+            // 
+            resources.ApplyResources(this.txt_info, "txt_info");
+            this.txt_info.Name = "txt_info";
             // 
             // LogBrowse
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.splitContainerAllTree);
             this.Name = "LogBrowse";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LogBrowse_FormClosed);
             this.Load += new System.EventHandler(this.LogBrowse_Load);
+            this.Resize += new System.EventHandler(this.LogBrowse_Resize);
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.splitContainerZgGrid.Panel1.ResumeLayout(false);
+            this.splitContainerZgGrid.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerZgGrid)).EndInit();
+            this.splitContainerZgGrid.ResumeLayout(false);
+            this.splitContainerZgMap.Panel1.ResumeLayout(false);
+            this.splitContainerZgMap.Panel2.ResumeLayout(false);
+            this.splitContainerZgMap.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerZgMap)).EndInit();
+            this.splitContainerZgMap.ResumeLayout(false);
+            this.splitContainerButGrid.Panel1.ResumeLayout(false);
+            this.splitContainerButGrid.Panel1.PerformLayout();
+            this.splitContainerButGrid.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerButGrid)).EndInit();
+            this.splitContainerButGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.splitContainerAllTree.Panel1.ResumeLayout(false);
+            this.splitContainerAllTree.Panel2.ResumeLayout(false);
+            this.splitContainerAllTree.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerAllTree)).EndInit();
+            this.splitContainerAllTree.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -282,9 +428,9 @@ namespace MissionPlanner.Log
         private Controls.MyButton BUT_Graphit;
         private Controls.MyButton BUT_cleargraph;
         private Controls.MyButton BUT_loadlog;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainerZgGrid;
         private Controls.MyButton BUT_Graphit_R;
-        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.SplitContainer splitContainerZgMap;
         private ZedGraph.ZedGraphControl zg1;
         private Controls.myGMAP myGMAP1;
         private System.Windows.Forms.CheckBox CHK_map;
@@ -296,6 +442,18 @@ namespace MissionPlanner.Log
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem exportVisibleToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chk_mode;
+        private System.Windows.Forms.CheckBox chk_msg;
+        private System.Windows.Forms.CheckBox chk_errors;
+        private System.Windows.Forms.SplitContainer splitContainerAllTree;
+        private System.Windows.Forms.SplitContainer splitContainerButGrid;
+        private System.Windows.Forms.CheckBox chk_datagrid;
+        private System.Windows.Forms.CheckBox chk_events;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private TextBox txt_info;
+        private CheckBox chk_params;
     }
 }
 

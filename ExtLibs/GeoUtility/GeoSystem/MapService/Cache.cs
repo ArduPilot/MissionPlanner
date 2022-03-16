@@ -55,7 +55,7 @@ namespace GeoUtility.GeoSystem
                     
                     internal static bool _enabled = false;
                     internal static int _size = 50;
-                    internal static Dictionary<MapService, Image> _cache;                       // Beinhaltet MapService-Objekt und dazugehörendes Bild
+                    //internal static Dictionary<MapService, Image> _cache;                       // Beinhaltet MapService-Objekt und dazugehörendes Bild
                     internal static SortedList<long, MapService> _lruList;                // Eine LRU-Liste
                     internal static CacheEqualityMode _equalityMode = CacheEqualityMode.Image;  // Vergleichsmodus, s. Enumeration
                     

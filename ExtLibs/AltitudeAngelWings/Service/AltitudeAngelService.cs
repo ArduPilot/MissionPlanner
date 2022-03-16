@@ -1,114 +1,154 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using AltitudeAngel.IsolatedPlugin.Common;
-using AltitudeAngel.IsolatedPlugin.Common.Maps;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Models;
-using AltitudeAngelWings.Properties;
+using AltitudeAngelWings.Extra;
+using AltitudeAngelWings.Models;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
-using DotNetOpenAuth.OAuth2;
 using GeoJSON.Net;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using GMap.NET;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AltitudeAngelWings.Service
 {
-    public class AltitudeAngelService : IDisposable
+    public class AltitudeAngelService : IAltitudeAngelService
     {
         public ObservableProperty<bool> IsSignedIn { get; }
         public ObservableProperty<WeatherInfo> WeatherReport { get; }
         public ObservableProperty<Unit> SentTelemetry { get; }
         public UserProfileInfo CurrentUser { get; private set; }
-        public readonly List<string> FilteredOut = new List<string>();
-
-        private bool _grounddata = true;
-        public bool GroundDataDisplay
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.Ground")))
-                    return _grounddata;
-                _grounddata = bool.Parse(_missionPlanner.LoadSetting("AA.Ground"));
-                return _grounddata;
-            }
-            set
-            {
-                _grounddata = value;
-                _missionPlanner.SaveSetting("AA.Ground", _grounddata.ToString());
-            }
-        }
-
-        private bool _airdata = true;
-        public bool AirDataDisplay
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.Air")))
-                    return _airdata;
-                _airdata = bool.Parse(_missionPlanner.LoadSetting("AA.Air"));
-                return _airdata;
-            }
-            set
-            {
-                _airdata = value;
-                _missionPlanner.SaveSetting("AA.Air", _airdata.ToString());
-            }
-        }
+        public IList<string> FilteredOut { get; } = new List<string>();
 
         public AltitudeAngelService(
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
-            FlightDataService flightDataService
-            )
+            ISettings settings,
+            IFlightDataService flightDataService,
+            IAltitudeAngelClient client)
         {
             _messagesService = messagesService;
             _missionPlanner = missionPlanner;
-            _flightDataService = flightDataService;
+            _settings = settings;
+            _client = client;
+
             IsSignedIn = new ObservableProperty<bool>(false);
+            _disposer.Add(IsSignedIn);
             WeatherReport = new ObservableProperty<WeatherInfo>();
+            _disposer.Add(WeatherReport);
             SentTelemetry = new ObservableProperty<Unit>();
-
-            CreateClient((url, apiUrl, state) =>
-                new AltitudeAngelClient(url, apiUrl, state,
-                    (authUrl, existingState) => new AltitudeAngelHttpHandlerFactory(authUrl, existingState)));
-
-            _disposer.Add(_missionPlanner.FlightDataMap
-                .MapChanged
-                .Throttle(TimeSpan.FromSeconds(1))
-                .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightDataMap)));
-
-            _disposer.Add(_missionPlanner.FlightPlanningMap
-              .MapChanged
-              .Throttle(TimeSpan.FromSeconds(1))
-              .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightPlanningMap)));
+            _disposer.Add(SentTelemetry);
 
             try
             {
-                var list = JsonConvert.DeserializeObject<List<string>>(_missionPlanner.LoadSetting("AAWings.Filters"));
+                _disposer.Add(_missionPlanner.FlightDataMap
+                    .MapChanged
+                    .Throttle(TimeSpan.FromSeconds(10))
+                    .RepeatLastValue(TimeSpan.FromSeconds(60))
+                    .Subscribe(i => UpdateMapData(_missionPlanner.FlightDataMap)));
+            }
+            catch
+            {
+            }
 
-                FilteredOut.AddRange(list.Distinct());
-            } catch
+            try
+            {
+                _disposer.Add(_missionPlanner.FlightPlanningMap
+                    .MapChanged
+                    .Throttle(TimeSpan.FromSeconds(1))
+                    .RepeatLastValue(TimeSpan.FromSeconds(60))
+                    .Subscribe(i => UpdateMapData(_missionPlanner.FlightPlanningMap)));
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                _disposer.Add(flightDataService.FlightArmed
+                    .Subscribe( i =>  SubmitFlightReport(i)));
+                _disposer.Add(flightDataService.FlightDisarmed
+                    .Subscribe( i =>  CompleteFlightReport(i)));
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                FilteredOut = _settings.MapFilters;
+            }
+            catch
             {
 
             }
-
-            TryConnect();
         }
 
-        public void Dispose()
+        private async Task SubmitFlightReport(Models.FlightData flightData)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            if (!IsSignedIn)
+                return;
+
+            await _messagesService.AddMessageAsync(new Message($"ARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
+            if (!_settings.FlightReportEnable || _settings.CurrentFlightReportId != null)
+            {
+                return;
+            }
+
+            try
+            {
+                var centerPoint = new PointLatLng(flightData.CurrentPosition.Latitude,
+                    flightData.CurrentPosition.Longitude);
+                var bufferedBoundingRadius = 500;
+                var flightPlan = _missionPlanner.GetFlightPlan();
+                if (flightPlan != null)
+                {
+                    centerPoint.Lat = flightPlan.CenterLatitude;
+                    centerPoint.Lng = flightPlan.CenterLongitude;
+                    bufferedBoundingRadius = Math.Max(flightPlan.BoundingRadius + 50, bufferedBoundingRadius);
+                }
+
+                _settings.CurrentFlightReportId = await _client.CreateFlightReport(
+                    _settings.FlightReportName,
+                    _settings.FlightReportCommercial,
+                    DateTime.Now,
+                    DateTime.Now.Add(_settings.FlightReportTimeSpan),
+                    centerPoint,
+                    bufferedBoundingRadius);
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {_settings.CurrentFlightReportId} created"));
+                await UpdateMapData(_missionPlanner.FlightDataMap);
+            }
+            catch (Exception ex)
+            {
+                await _messagesService.AddMessageAsync(new Message($"Creating flight plan failed. {ex}"));
+            }
+        }
+
+        private async Task CompleteFlightReport(Models.FlightData flightData)
+        {
+            await _messagesService.AddMessageAsync(new Message($"DISARMED: {flightData.CurrentPosition.Latitude},{flightData.CurrentPosition.Longitude}"));
+            if (_settings.CurrentFlightReportId == null)
+            {
+                return;
+            }
+            try
+            {
+                await _client.CompleteFlightReport(_settings.CurrentFlightReportId);
+                _settings.CurrentFlightReportId = null;
+                await _messagesService.AddMessageAsync(new Message($"Flight plan {_settings.CurrentFlightReportId} marked as complete"));
+                await UpdateMapData(_missionPlanner.FlightDataMap);
+            }
+            catch (Exception ex)
+            {
+                await _messagesService.AddMessageAsync(new Message($"Marking flight plan {_settings.CurrentFlightReportId} as complete failed. {ex}"));
+            }
         }
 
         public async Task SignInAsync()
@@ -119,7 +159,7 @@ namespace AltitudeAngelWings.Service
                 await LoadUserProfile();
 
                 // Save the token from the auth process
-                _missionPlanner.SaveSetting("AAWings.Token", JsonConvert.SerializeObject(_aaClient.AuthorizationState));
+                _settings.AuthToken = _client.AuthorizationState;
 
                 SignedIn(true);
             }
@@ -131,20 +171,10 @@ namespace AltitudeAngelWings.Service
 
         public Task DisconnectAsync()
         {
-            _missionPlanner.ClearSetting("AAWings.Token");
-            _aaClient.Disconnect();
+            _settings.AuthToken = null;
+            _client.Disconnect();
             SignedOut();
-
             return null;
-        }
-
-        public async Task RemoveOverlays()
-        {
-            _missionPlanner.FlightDataMap.DeleteOverlay("AAMapData.Air");
-            _missionPlanner.FlightDataMap.DeleteOverlay("AAMapData.Ground");
-
-            _missionPlanner.FlightPlanningMap.DeleteOverlay("AAMapData.Air");
-            _missionPlanner.FlightPlanningMap.DeleteOverlay("AAMapData.Ground");
         }
 
         /// <summary>
@@ -152,62 +182,73 @@ namespace AltitudeAngelWings.Service
         /// </summary>
         /// <param name="map">The map to update</param>
         /// <returns></returns>
-        public async Task UpdateMapData(IMap map)
+        private async Task UpdateMapData(IMap map)
         {
             if (!IsSignedIn)
                 return;
 
-            RectLatLng area = map.GetViewArea();
-            await _messagesService.AddMessageAsync($"Map area {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
+            try
+            {
+                RectLatLng area = map.GetViewArea();
+                await _messagesService.AddMessageAsync($"Map area {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
 
-            AAFeatureCollection mapData = await _aaClient.GetMapData(area);
+                AAFeatureCollection mapData = await _client.GetMapData(area);
 
-            // build the filter list
-            mapData.GetFilters();
+                // build the filter list
+                mapData.GetFilters();
 
-            // this ensures the user sees the results before its saved
-            _missionPlanner.SaveSetting("AAWings.Filters", JsonConvert.SerializeObject(FilteredOut));
+                // this ensures the user sees the results before its saved
+                _settings.MapFilters = FilteredOut;
 
-            await _messagesService.AddMessageAsync($"Map area Loaded {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
+                await _messagesService.AddMessageAsync($"Map area Loaded {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
 
-            // add all items to cache
-            mapData.Features.ForEach(feature => cache[feature.Id] = feature);
+                // add all items to cache
+                MapFeatureCache.Clear();
+                mapData.Features.ForEach(feature => MapFeatureCache[feature.Id] = feature);
 
-            // Only get the features that are enabled by default, and have not been filtered out
-            IEnumerable<Feature> features = mapData.Features.Where(feature => feature.IsEnabledByDefault() && feature.IsFilterOutItem(FilteredOut)).ToList();
+                // Only get the features that are enabled by default, and have not been filtered out
+                IEnumerable<Feature> features = mapData.Features.Where(feature => feature.IsEnabledByDefault() && feature.IsFilterOutItem(FilteredOut)).ToList();
 
-            ProcessFeatures(map, features);
+                ProcessFeatures(map, features);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
-        static Dictionary<string, Feature> cache = new Dictionary<string, Feature>();
+        private static readonly Dictionary<string, Feature> MapFeatureCache = new Dictionary<string, Feature>();
 
         public void ProcessAllFromCache(IMap map)
         {
             map.DeleteOverlay("AAMapData.Air");
             map.DeleteOverlay("AAMapData.Ground");
-            ProcessFeatures(map, cache.Values.Where(feature => feature.IsEnabledByDefault() && feature.IsFilterOutItem(FilteredOut)).ToList());
+            ProcessFeatures(map, MapFeatureCache.Values.Where(feature => feature.IsEnabledByDefault() && feature.IsFilterOutItem(FilteredOut)).ToList());
             map.Invalidate();
         }
 
-        public void ProcessFeatures(IMap map, IEnumerable<Feature> features)
+        private void ProcessFeatures(IMap map, IEnumerable<Feature> features)
         {
             IOverlay airOverlay = map.GetOverlay("AAMapData.Air", true);
             IOverlay groundOverlay = map.GetOverlay("AAMapData.Ground", true);
 
-            groundOverlay.IsVisible = GroundDataDisplay;
-            airOverlay.IsVisible = AirDataDisplay;
+            groundOverlay.IsVisible = _settings.GroundDataDisplay;
+            airOverlay.IsVisible = _settings.AirDataDisplay;
+
+            var polygons = new List<string>();
+            var lines = new List<string>();
 
             foreach (Feature feature in features)
             {
-                IOverlay overlay = string.Equals((string) feature.Properties.Get("category"), "airspace")
+                IOverlay overlay = string.Equals((string)feature.Properties.Get("category"), "airspace")
                     ? airOverlay
                     : groundOverlay;
 
-                var altitude = ((JObject) feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
+                var altitude = ((JObject)feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
 
                 if (altitude == null || altitude.Meters <= 152)
                 {
-                    if (!GroundDataDisplay)
+                    if (!_settings.GroundDataDisplay)
                     {
                         if (overlay.PolygonExists(feature.Id))
                             continue;
@@ -215,7 +256,7 @@ namespace AltitudeAngelWings.Service
                 }
                 else
                 {
-                    if (!AirDataDisplay)
+                    if (!_settings.AirDataDisplay)
                     {
                         continue;
                     }
@@ -224,10 +265,8 @@ namespace AltitudeAngelWings.Service
                 switch (feature.Geometry.Type)
                 {
                     case GeoJSONObjectType.Point:
-                    {
-                        if (!overlay.PolygonExists(feature.Id))
                         {
-                            var pnt = (Point) feature.Geometry;
+                            var pnt = (Point)feature.Geometry;
 
                             List<PointLatLng> coordinates = new List<PointLatLng>();
 
@@ -235,67 +274,61 @@ namespace AltitudeAngelWings.Service
                             {
                                 var rad = double.Parse(feature.Properties["radius"].ToString());
 
-                                for (int i = 0; i <= 360; i+=10)
+                                for (int i = 0; i <= 360; i += 10)
                                 {
                                     coordinates.Add(
-                                        newpos(new PointLatLng(((GeographicPosition) pnt.Coordinates).Latitude,
-                                            ((GeographicPosition) pnt.Coordinates).Longitude), i, rad));
+                                        newpos(new PointLatLng(((Position)pnt.Coordinates).Latitude,
+                                            ((Position)pnt.Coordinates).Longitude), i, rad));
                                 }
                             }
 
                             ColorInfo colorInfo = feature.ToColorInfo();
                             colorInfo.StrokeColor = 0xFFFF0000;
-                            overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
+                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
+                            polygons.Add(feature.Id);
                         }
-                    }
                         break;
                     case GeoJSONObjectType.MultiPoint:
                         break;
                     case GeoJSONObjectType.LineString:
-                    {
-                        if (!overlay.LineExists(feature.Id))
                         {
-                            var line = (LineString) feature.Geometry;
-                            List<PointLatLng> coordinates = line.Coordinates.OfType<GeographicPosition>()
+                            var line = (LineString)feature.Geometry;
+                            List<PointLatLng> coordinates = line.Coordinates.OfType<Position>()
                                 .Select(c => new PointLatLng(c.Latitude, c.Longitude))
                                 .ToList();
-                            overlay.AddLine(feature.Id, coordinates, new ColorInfo {StrokeColor = 0xFFFF0000}, feature);
+                            overlay.AddOrUpdateLine(feature.Id, coordinates, new ColorInfo { StrokeColor = 0xFFFF0000 }, feature);
+                            lines.Add(feature.Id);
                         }
-                    }
                         break;
 
                     case GeoJSONObjectType.MultiLineString:
                         break;
                     case GeoJSONObjectType.Polygon:
-                    {
-                        if (!overlay.PolygonExists(feature.Id))
                         {
-                            var poly = (Polygon) feature.Geometry;
+                            var poly = (Polygon)feature.Geometry;
                             List<PointLatLng> coordinates =
-                                poly.Coordinates[0].Coordinates.OfType<GeographicPosition>()
+                                poly.Coordinates[0].Coordinates.OfType<Position>()
                                     .Select(c => new PointLatLng(c.Latitude, c.Longitude))
                                     .ToList();
 
                             ColorInfo colorInfo = feature.ToColorInfo();
                             colorInfo.StrokeColor = 0xFFFF0000;
-                            overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
+                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
+                            polygons.Add(feature.Id);
                         }
-                    }
                         break;
                     case GeoJSONObjectType.MultiPolygon:
-                        if (!overlay.PolygonExists(feature.Id))
+                        foreach (var poly in ((MultiPolygon)feature.Geometry).Coordinates)
                         {
-                            foreach (var poly in ((MultiPolygon) feature.Geometry).Coordinates)
-                            {
-                                List<PointLatLng> coordinates =
-                                    poly.Coordinates[0].Coordinates.OfType<GeographicPosition>()
-                                        .Select(c => new PointLatLng(c.Latitude, c.Longitude))
-                                        .ToList();
+                            List<PointLatLng> coordinates =
+                                poly.Coordinates[0].Coordinates.OfType<Position>()
+                                    .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                    .ToList();
 
-                                ColorInfo colorInfo = feature.ToColorInfo();
-                                colorInfo.StrokeColor = 0xFFFF0000;
-                                overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
-                            }
+                            ColorInfo colorInfo = feature.ToColorInfo();
+                            colorInfo.StrokeColor = 0xFFFF0000;
+                            overlay.AddOrUpdatePolygon(feature.Id, coordinates, colorInfo, feature);
+                            polygons.Add(feature.Id);
                         }
                         break;
                     case GeoJSONObjectType.GeometryCollection:
@@ -308,10 +341,14 @@ namespace AltitudeAngelWings.Service
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
+            airOverlay.RemovePolygonsExcept(polygons);
+            groundOverlay.RemovePolygonsExcept(polygons);
+            airOverlay.RemoveLinesExcept(lines);
+            groundOverlay.RemoveLinesExcept(lines);
         }
 
-
-        public PointLatLng newpos(PointLatLng input, double bearing, double distance)
+        private PointLatLng newpos(PointLatLng input, double bearing, double distance)
         {
             const double rad2deg = (180 / Math.PI);
             const double deg2rad = (1.0 / rad2deg);
@@ -344,27 +381,14 @@ namespace AltitudeAngelWings.Service
         /// </summary>
         /// <param name="center">The point to get weather for</param>
         /// <returns></returns>
-        public async Task UpdateWeatherData(PointLatLng center)
+        private async Task UpdateWeatherData(PointLatLng center)
         {
-            WeatherReport.Value = await _aaClient.GetWeather(center);
+            WeatherReport.Value = await _client.GetWeather(center);
         }
 
-        private void CreateClient(AltitudeAngelClient.Create aaClientFactory)
+        public async Task SignInIfAuthenticated()
         {
-            string stateString = _missionPlanner.LoadSetting("AAWings.Token");
-            AuthorizationState existingState = null;
-            if (stateString != null)
-            {
-                existingState = JsonConvert.DeserializeObject<AuthorizationState>(stateString);
-            }
-
-            _aaClient = aaClientFactory(ConfigurationManager.AppSettings["AuthURL"],
-                ConfigurationManager.AppSettings["APIURL"], existingState);
-        }
-
-        private async void TryConnect()
-        {
-            if (_missionPlanner.LoadSetting("AAWings.Token") != null)
+            if (_settings.AuthToken != null)
             {
                 await SignInAsync();
             }
@@ -372,7 +396,7 @@ namespace AltitudeAngelWings.Service
 
         private async Task LoadUserProfile()
         {
-            CurrentUser = await _aaClient.GetUserProfile();
+            CurrentUser = await _client.GetUserProfile();
         }
 
         private void SignedIn(bool isSignedIn)
@@ -418,24 +442,24 @@ namespace AltitudeAngelWings.Service
             IsSignedIn.Value = false;
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         private void Dispose(bool isDisposing)
         {
             if (isDisposing)
             {
                 _disposer?.Dispose();
-                _disposer = null;
             }
         }
 
-        private readonly FlightDataService _flightDataService;
         private readonly IMessagesService _messagesService;
         private readonly IMissionPlanner _missionPlanner;
-        private AltitudeAngelClient _aaClient;
-        private CompositeDisposable _disposer = new CompositeDisposable();
-
-        public AltitudeAngelClient Client
-        {
-            get { return _aaClient; }
-        }
+        private readonly CompositeDisposable _disposer = new CompositeDisposable();
+        private readonly IAltitudeAngelClient _client;
+        private readonly ISettings _settings;
     }
 }

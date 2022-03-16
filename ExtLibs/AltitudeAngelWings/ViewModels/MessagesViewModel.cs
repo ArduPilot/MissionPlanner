@@ -32,8 +32,7 @@ namespace AltitudeAngelWings.ViewModels
             Messages = new ObservableCollection<string>();
 
             messagesService.Messages
-                            .ObserveOnDispatcher()
-                            .Subscribe(message => Messages.Add(message.Content));
+                .Subscribe(message => Messages.Add(message.Content));
         }
 
         private void CreateSampleData()

@@ -112,52 +112,22 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
     <value>Geo Ref-Bilder</value>
   </data>
-  <data name="TXT_offsetseconds.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Breitengrad</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Längengrad</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Offset in Sekunden</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Log Offsets</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Dir fov</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Alt</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Kompasskurs</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Cross fov</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Rotation</value>
   </data>
   <data name="BUT_doit.Text" xml:space="preserve">
     <value>Tu es!</value>
   </data>
   <data name="BUT_browsedir.Text" xml:space="preserve">
     <value>Verzeichnis durchsuchen</value>
-  </data>
-  <data name="BUT_networklinkgeoref.Text" xml:space="preserve">
-    <value>Location Kml</value>
   </data>
   <data name="BUT_browselog.Text" xml:space="preserve">
     <value>Logs durchsuchen</value>

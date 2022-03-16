@@ -1,0 +1,2308 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "The Dowding HTTP REST API allows you to add and retrieve contact data from Dowding as well as perform other peripheral functions.",
+        "version": "1.0.0",
+        "title": "Dowding HTTP REST API"
+    },
+    "basePath": "/api/1.0",
+    "tags": [],
+    "schemes": [],
+    "securityDefinitions": {
+        "bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "paths": {
+        "/authentication/login": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "LoginDto",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/LoginDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/AuthToken"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Invalid login"
+                    }
+                },
+                "tags": [
+                    "Authentication"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+       "/authentication/refresh": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "EmptyObject",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/EmptyObject"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/AuthToken"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Invalid login"
+                    }
+                },
+                "tags": [
+                    "Authentication"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+     "/agent": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "AgentUpdateDto",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/AgentUpdateDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/AgentLoginDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Invalid login"
+                    }
+                },
+                "tags": [
+                    "Agent"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            },
+            "get": {
+                "parameters": [
+                    {
+                        "name": "type",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Agent"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Invalid login"
+                    }
+                },
+                "tags": [
+                    "Agent"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+       "/agent/status/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/AgentStatusGetDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Invalid login"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    }
+                },
+                "tags": [
+                    "Agent"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/agent/{id}": {
+       },
+       "/agent/tick": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "AgentTickDto",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/AgentTickDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/AgentTick"
+                        }
+                    }
+                },
+                "tags": [
+                    "Agent Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/AgentTick"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Agent Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/agent/tick/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/AgentTick"
+                        }
+                    }
+                },
+                "tags": [
+                    "Agent Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+       },
+      "/contact/export": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "ContactExportDto",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ContactExportDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "tags": [
+                    "Contact"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/contact": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "required": false,
+                        "in": "query",
+                        "description": "Index of first row to be returned. Ignored if `thin` === true (Defaults to 0)",
+                        "type": "number"
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Limits number of rows returned. Ignored if `thin` === true (Defaults to 500)",
+                        "type": "number"
+                    },
+                    {
+                        "name": "thin",
+                        "required": false,
+                        "in": "query",
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "format",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "max_lon",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "min_lon",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "max_lat",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "min_lat",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "max_ts",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "min_ts",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Contact"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Contact"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/contact/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "required": true,
+                        "in": "path"
+                    },
+                    {
+                        "name": "format",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Contact"
+                        }
+                    }
+                },
+                "tags": [
+                    "Contact"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+       },
+      "/vehicle-tick": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "VehicleTickDto",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/VehicleTickDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/VehicleTick"
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            },
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "contact_ids",
+                        "required": false,
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/VehicleTick"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/vehicle-tick/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/VehicleTick"
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/vehicle": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vehicle"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/vehicle/unlisted": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vehicle"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/vehicle/goodlist": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vehicle"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/vehicle/goodlist/{serial}": {
+            "post": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "serial",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Vehicle"
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/vehicle/badlist": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Vehicle"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/vehicle/badlist/{serial}": {
+            "post": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "serial",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Vehicle"
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/vehicle/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Vehicle"
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicle"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+       },
+        "/operator-tick": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "OperatorTickDto",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/OperatorTickDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OperatorTick"
+                        }
+                    }
+                },
+                "tags": [
+                    "Operator Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/OperatorTick"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Operator Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/operator-tick/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OperatorTick"
+                        }
+                    }
+                },
+                "tags": [
+                    "Operator Tick"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/homepoint": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "HomepointDto",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/HomepointDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Homepoint"
+                        }
+                    }
+                },
+                "tags": [
+                    "Homepoint"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Homepoint"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Homepoint"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/homepoint/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Homepoint"
+                        }
+                    }
+                },
+                "tags": [
+                    "Homepoint"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+      "/zone": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Zone"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized access attempt"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    }
+                },
+                "tags": [
+                    "Zone"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "name": "ZoneDto",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/ZoneDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Zone"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized access attempt"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    }
+                },
+                "tags": [
+                    "Zone"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/zone/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Zone"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized access attempt"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    }
+                },
+                "tags": [
+                    "Zone"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+       }
+   },
+    "definitions": {
+        "LoginDto": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "User Email"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "User Password"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Agent Auto-generated ID"
+                },
+                "api_key": {
+                    "type": "string",
+                    "description": "Agent API Key"
+                }
+            }
+        },
+        "AuthToken": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "token"
+            ]
+        },
+        "UserRegisterDto": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "String representing the user's email, which is used for login"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "String representing the user's password"
+                },
+                "first_name": {
+                    "type": "string",
+                    "description": "String representing the first name of the user"
+                },
+                "last_name": {
+                    "type": "string",
+                    "description": "String representing the last name of the user"
+                },
+                "org": {
+                    "type": "string",
+                    "description": "String representing the organization of the user"
+                },
+                "phone_number": {
+                    "type": "string",
+                    "description": "String representing the SMS-capable phone number of the user (E.164 format)"
+                }
+            },
+            "required": [
+                "email",
+                "password",
+                "first_name",
+                "last_name",
+                "org"
+            ]
+        },
+        "EmptyObject": {
+            "type": "object",
+            "properties": {}
+        },
+       "AgentUpdateDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "String representing the plain-english name of the agent"
+                },
+                "vendor": {
+                    "type": "string",
+                    "description": "String of the manufacturer/developer of the agent (i.e. DeDrone)"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "String of the specific model of the agent (i.e. RF-300)"
+                },
+                "mode": {
+                    "type": "string",
+                    "description": "Arbitrary string representing device's operating mode for use by the vendor"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "String representing an agent type (i.e. Acoustic, Radar, Camera, etc.)"
+                },
+                "hw_version": {
+                    "type": "string",
+                    "description": "String representing agent hardware version"
+                },
+                "sw_version": {
+                    "type": "string",
+                    "description": "String representing agent software version"
+                }
+            },
+            "required": [
+                "name",
+                "vendor",
+                "model"
+            ]
+        },
+        "AgentLoginDto": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Auto-generated ID"
+                },
+                "api_key": {
+                    "type": "string",
+                    "description": "String representing the key used for posting to the API"
+                }
+            },
+            "required": [
+                "id",
+                "api_key"
+            ]
+        },
+       "AgentStatusGetDto": {
+            "type": "object",
+            "properties": {
+                "health": {
+                    "type": "string",
+                    "description": "String representing a built-in test status (i.e. OK, Degraded, Disabled)"
+                },
+                "last_checkin": {
+                    "type": "number",
+                    "description": "Number of milliseconds from the unix epoch when last heartbeat from agent received"
+                }
+            },
+            "required": [
+                "health",
+                "last_checkin"
+            ]
+        },
+        "AgentTick": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "ts": {
+                    "type": "number",
+                    "description": "Number representing the timestamp in milliseconds since the unix epoch that this tick occurred"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Number representing the agent's WGS84 latitude at this tick in degrees"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Number representing the agent's WGS84 longitude at this tick in degrees"
+                },
+                "hae": {
+                    "type": "number",
+                    "description": "Number representing the agent's height in meters above the WGS84 ellipsoid"
+                },
+                "ce": {
+                    "type": "number",
+                    "description": "Number representing the circular error around the coordinate"
+                },
+                "le": {
+                    "type": "number",
+                    "description": "Number representing the linear error in the height above ellipsoid"
+                },
+                "vn": {
+                    "type": "number",
+                    "description": "Number representing the velocity east component in meters per second"
+                },
+                "ve": {
+                    "type": "number",
+                    "description": "Number representing the velocity north component in meters per second"
+                },
+                "vd": {
+                    "type": "number",
+                    "description": "Number representing the velocity down component in meters per second"
+                },
+                "other_info": {
+                    "type": "object",
+                    "description": "Key-value object for arbitrary information"
+                },
+                "agent_id": {
+                    "type": "string",
+                    "description": "UUID of AGENT that this AGENT_TICK is attached to"
+                }
+            },
+            "required": [
+                "ts",
+                "lat",
+                "lon",
+                "agent_id"
+            ]
+        },
+        "Agent": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "String representing the plain-english name of the agent"
+                },
+                "vendor": {
+                    "type": "string",
+                    "description": "String of the manufacturer/developer of the agent (i.e. DeDrone)"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "String of the specific model of the agent (i.e. RF-300)"
+                },
+                "mode": {
+                    "type": "string",
+                    "description": "Arbitrary string representing device's operating mode for use by the vendor"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "String representing an agent type (i.e. Acoustic, Radar, Camera, etc.)"
+                },
+                "hw_version": {
+                    "type": "string",
+                    "description": "String representing agent hardware version"
+                },
+                "sw_version": {
+                    "type": "string",
+                    "description": "String representing agent software version"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "health": {
+                    "type": "string",
+                    "description": "String representing a built-in test status (i.e. OK, Degraded, Disabled)"
+                },
+                "is_enabled": {
+                    "type": "boolean",
+                    "description": "Boolean signifying data is allowed to stream to/from this agent"
+                },
+                "last_checkin": {
+                    "type": "number",
+                    "description": "Number of milliseconds from the unix epoch when last heartbeat from agent received"
+                },
+                "last_login": {
+                    "type": "number",
+                    "description": "Number of milliseconds from the unix epoch when the agent last logged in"
+                },
+                "date_created": {
+                    "type": "number",
+                    "description": "Number of milliseconds from the unix epoch when the agent was created"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "UUID of USER that created this AGENT"
+                },
+                "agent_track": {
+                    "type": "array",
+                    "description": "List of ticks showing where the agent traveled",
+                    "items": {
+                        "$ref": "#/definitions/AgentTick"
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "vendor",
+                "model",
+                "id",
+                "health",
+                "is_enabled",
+                "last_checkin",
+                "last_login",
+                "date_created",
+                "user_id"
+            ]
+        },
+        "AgentIsEnabledDto": {
+            "type": "object",
+            "properties": {
+                "is_enabled": {
+                    "type": "boolean",
+                    "description": "Boolean signifying data is allowed to stream to/from this agent"
+                }
+            },
+            "required": [
+                "is_enabled"
+            ]
+        },
+        "AgentTickDto": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "ts": {
+                    "type": "number",
+                    "description": "Number representing the timestamp in milliseconds since the unix epoch that this tick occurred"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Number representing the agent's WGS84 latitude at this tick in degrees"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Number representing the agent's WGS84 longitude at this tick in degrees"
+                },
+                "hae": {
+                    "type": "number",
+                    "description": "Number representing the agent's height in meters above the WGS84 ellipsoid"
+                },
+                "ce": {
+                    "type": "number",
+                    "description": "Number representing the circular error around the coordinate"
+                },
+                "le": {
+                    "type": "number",
+                    "description": "Number representing the linear error in the height above ellipsoid"
+                },
+                "vn": {
+                    "type": "number",
+                    "description": "Number representing the velocity east component in meters per second"
+                },
+                "ve": {
+                    "type": "number",
+                    "description": "Number representing the velocity north component in meters per second"
+                },
+                "vd": {
+                    "type": "number",
+                    "description": "Number representing the velocity down component in meters per second"
+                },
+                "other_info": {
+                    "type": "object",
+                    "description": "Key-value object for arbitrary information"
+                },
+                "agent_id": {
+                    "type": "string",
+                    "description": "UUID of AGENT that this AGENT_TICK is attached to"
+                }
+            },
+            "required": [
+                "ts",
+                "lat",
+                "lon",
+                "agent_id"
+            ]
+        },
+      "ContactExportDto": {
+            "type": "object",
+            "properties": {
+                "format": {
+                    "type": "string",
+                    "description": "String representing export format"
+                },
+                "ids": {
+                    "type": "array",
+                    "description": "Array of contact_ids for which to export data",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "format",
+                "ids"
+            ]
+        },
+        "VehicleTick": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "number",
+                    "description": "Number representing the timestamp in milliseconds since the unix epoch that this tick occurred"
+                },
+                "correlation_id": {
+                    "type": "string",
+                    "description": "String representing the correlated contact the correlatable belongs to"
+                },
+                "agent_id": {
+                    "type": "string",
+                    "description": "UUID of AGENT that provided this correlatable"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Number representing the vehicle's WGS84 latitude at this tick in degrees"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Number representing the vehicle's WGS84 longitude at this tick in degrees"
+                },
+                "hae": {
+                    "type": "number",
+                    "description": "Number representing the vehicle's height in meters above the WGS84 ellipsoid"
+                },
+                "ce": {
+                    "type": "number",
+                    "description": "Number representing the circular error around the coordinate"
+                },
+                "le": {
+                    "type": "number",
+                    "description": "Number representing the linear error in the height above ellipsoid"
+                },
+                "vn": {
+                    "type": "number",
+                    "description": "Number representing the velocity north component in meters per second"
+                },
+                "ve": {
+                    "type": "number",
+                    "description": "Number representing the velocity east component in meters per second"
+                },
+                "vd": {
+                    "type": "number",
+                    "description": "Number representing the velocity down component in meters per second"
+                },
+                "other_info": {
+                    "type": "object",
+                    "description": "Key-value object for arbitrary information"
+                },
+                "vendor": {
+                    "type": "string",
+                    "description": "String of the vendor who manufactured the vehicle"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "String of the vehicle model name"
+                },
+                "serial": {
+                    "type": "string",
+                    "description": "String representing primary vehicle serial number"
+                },
+                "vehicle_type": {
+                    "type": "string",
+                    "description": "String representing the CoT vehicle type (i.e. A-M-H-Q-r)"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "contact_id": {
+                    "type": "string",
+                    "description": "UUID of Contact that this VehicleTick is attached to"
+                }
+            },
+            "required": [
+                "ts",
+                "correlation_id",
+                "agent_id",
+                "lat",
+                "lon",
+                "contact_id"
+            ]
+        },
+        "OperatorTick": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "number",
+                    "description": "Number representing the timestamp in milliseconds since the unix epoch that this tick occurred"
+                },
+                "correlation_id": {
+                    "type": "string",
+                    "description": "String representing the correlated contact the correlatable belongs to"
+                },
+                "agent_id": {
+                    "type": "string",
+                    "description": "UUID of AGENT that provided this correlatable"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Number representing the operator's WGS84 latitude at this tick in degrees"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Number representing the operator's WGS84 longitude at this tick in degrees"
+                },
+                "hae": {
+                    "type": "number",
+                    "description": "Number representing the operator's height in meters above the WGS84 ellipsoid"
+                },
+                "ce": {
+                    "type": "number",
+                    "description": "Number representing the circular error around the coordinate"
+                },
+                "le": {
+                    "type": "number",
+                    "description": "Number representing the linear error in the height above ellipsoid"
+                },
+                "vn": {
+                    "type": "number",
+                    "description": "Number representing the velocity north component in meters per second"
+                },
+                "ve": {
+                    "type": "number",
+                    "description": "Number representing the velocity east component in meters per second"
+                },
+                "vd": {
+                    "type": "number",
+                    "description": "Number representing the velocity down component in meters per second"
+                },
+                "other_info": {
+                    "type": "object",
+                    "description": "Key-value object for arbitrary information"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "contact_id": {
+                    "type": "string",
+                    "description": "UUID of Contact that this OperatorTick is attached to"
+                }
+            },
+            "required": [
+                "ts",
+                "correlation_id",
+                "agent_id",
+                "lat",
+                "lon",
+                "contact_id"
+            ]
+        },
+        "Homepoint": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "number",
+                    "description": "Number representing the timestamp in milliseconds since the unix epoch that this tick occurred"
+                },
+                "correlation_id": {
+                    "type": "string",
+                    "description": "String representing the correlated contact the correlatable belongs to"
+                },
+                "agent_id": {
+                    "type": "string",
+                    "description": "UUID of AGENT that provided this correlatable"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Number representing the WGS84 latitude of the homepoint that was set for the vehicle"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Number representing the WGS84 longitude of the homepoint that was set for the vehicle"
+                },
+                "hae": {
+                    "type": "number",
+                    "description": "Number representing the WGS84 height above ellipsoid of the homepoint that was set for the vehicle"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "contact_id": {
+                    "type": "string",
+                    "description": "UUID of Contact that this homepoint is attached to"
+                }
+            },
+            "required": [
+                "ts",
+                "correlation_id",
+                "agent_id",
+                "lat",
+                "lon",
+                "contact_id"
+            ]
+        },
+        "Event": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "start_ts": {
+                    "type": "number",
+                    "description": "Number representing the epoch timestamp (ms) of the correlatable that first violated a rule (inclusive)"
+                },
+                "end_ts": {
+                    "type": "number",
+                    "description": "Number representing the epoch timestamp (ms) of the earliest time at which the system had knowledge that a flight stopped violating a rule for the event period (exclusive)"
+                },
+                "rule_key": {
+                    "type": "string",
+                    "description": "String representing a keyed name of rule the event applies to"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "String representing the event message"
+                },
+                "contact_id": {
+                    "type": "string",
+                    "description": "UUID of Contact that this event is attached to"
+                }
+            },
+            "required": [
+                "start_ts",
+                "end_ts",
+                "rule_key",
+                "message",
+                "contact_id"
+            ]
+        },
+        "Vehicle": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "String representing the plain-english name of the vehicle"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "correlation_id": {
+                    "type": "string",
+                    "description": "String representing primary vehicle correlation ID"
+                },
+                "affiliation": {
+                    "type": "string",
+                    "description": "Single character representing the default CoT affiliation applied to this vehicle's future contacts"
+                },
+                "contacts": {
+                    "type": "array",
+                    "description": "List of contacts for this vehicle",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "Contact": {
+            "type": "object",
+            "properties": {
+                "vendor": {
+                    "type": "string",
+                    "description": "String of the vendor who manufactured the vehicle"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "String of the vehicle model name"
+                },
+                "affiliation": {
+                    "type": "string",
+                    "description": "Single character representing the CoT affiliation"
+                },
+                "serial": {
+                    "type": "string",
+                    "description": "String representing primary vehicle serial number"
+                },
+                "other_info": {
+                    "type": "object",
+                    "description": "Key-value object for arbitrary information"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "vehicle_track": {
+                    "type": "array",
+                    "description": "List of ticks showing where the vehicle traveled",
+                    "items": {
+                        "$ref": "#/definitions/VehicleTick"
+                    }
+                },
+                "operator_track": {
+                    "type": "array",
+                    "description": "List of ticks showing where the operator traveled",
+                    "items": {
+                        "$ref": "#/definitions/OperatorTick"
+                    }
+                },
+                "homepoints": {
+                    "type": "array",
+                    "description": "List of home locations programmed into the vehicle",
+                    "items": {
+                        "$ref": "#/definitions/Homepoint"
+                    }
+                },
+                "events": {
+                    "type": "array",
+                    "description": "List of events for this contact",
+                    "items": {
+                        "$ref": "#/definitions/Event"
+                    }
+                },
+                "vehicle_id": {
+                    "type": "string",
+                    "description": "UUID of VEHICLE that this CONTACT is attached to"
+                },
+                "vehicle": {
+                    "title": "Vehicle",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/Vehicle"
+                        },
+                        {
+                            "description": "VEHICLE that this CONTACT is attached to"
+                        }
+                    ]
+                },
+                "vehicle_first_ts": {
+                    "type": "number",
+                    "description": "Number representing the first tick's timestamp in milliseconds in the vehicle track"
+                },
+                "vehicle_first_lat": {
+                    "type": "number",
+                    "description": "Number representing the first tick's WGS84 latitude in the vehicle track"
+                },
+                "vehicle_first_lon": {
+                    "type": "number",
+                    "description": "Number representing the first tick's WGS84 longitude in the vehicle track"
+                },
+                "vehicle_first_hae": {
+                    "type": "number",
+                    "description": "Number representing the first tick's height above the WGS84 elipsoid in the vehicle track"
+                },
+                "vehicle_last_ts": {
+                    "type": "number",
+                    "description": "Number representing the last tick's timestamp in milliseconds in the vehicle track"
+                },
+                "vehicle_last_lat": {
+                    "type": "number",
+                    "description": "Number representing the last tick's WGS84 latitude in the vehicle track"
+                },
+                "vehicle_last_lon": {
+                    "type": "number",
+                    "description": "Number representing the last tick's WGS84 longitude in the vehicle track"
+                },
+                "vehicle_last_hae": {
+                    "type": "number",
+                    "description": "Number representing the last tick's height above the WGS84 elipsoid in the vehicle track"
+                },
+                "vehicle_last_ce": {
+                    "type": "number",
+                    "description": "Number representing the last tick's circular error within the vehicle track"
+                },
+                "operator_first_ts": {
+                    "type": "number",
+                    "description": "Number representing the first tick's timestamp in milliseconds in the operator track"
+                },
+                "operator_first_lat": {
+                    "type": "number",
+                    "description": "Number representing the first tick's WGS84 latitude in the operator track"
+                },
+                "operator_first_lon": {
+                    "type": "number",
+                    "description": "Number representing the first tick's WGS84 longitude in the operator track"
+                },
+                "operator_first_hae": {
+                    "type": "number",
+                    "description": "Number representing the first tick's height above the WGS84 elipsoid in the operator track"
+                },
+                "operator_last_ts": {
+                    "type": "number",
+                    "description": "Number representing the last tick's timestamp in milliseconds in the operator track"
+                },
+                "operator_last_lat": {
+                    "type": "number",
+                    "description": "Number representing the last tick's WGS84 latitude in the operator track"
+                },
+                "operator_last_lon": {
+                    "type": "number",
+                    "description": "Number representing the last tick's WGS84 longitude in the operator track"
+                },
+                "operator_last_hae": {
+                    "type": "number",
+                    "description": "Number representing the last tick's height above the WGS84 elipsoid in the operator track"
+                },
+                "homepoint_first_ts": {
+                    "type": "number",
+                    "description": "Number representing the first tick's timestamp in milliseconds in the homepoint track"
+                },
+                "homepoint_first_lat": {
+                    "type": "number",
+                    "description": "Number representing the first tick's WGS84 latitude in the homepoint track"
+                },
+                "homepoint_first_lon": {
+                    "type": "number",
+                    "description": "Number representing the first tick's WGS84 longitude in the homepoint track"
+                },
+                "homepoint_first_hae": {
+                    "type": "number",
+                    "description": "Number representing the first tick's height above the WGS84 elipsoid in the homepoint track"
+                },
+                "homepoint_last_ts": {
+                    "type": "number",
+                    "description": "Number representing the last tick's timestamp in milliseconds in the homepoint track"
+                },
+                "homepoint_last_lat": {
+                    "type": "number",
+                    "description": "Number representing the last tick's WGS84 latitude in the homepoint track"
+                },
+                "homepoint_last_lon": {
+                    "type": "number",
+                    "description": "Number representing the last tick's WGS84 longitude in the homepoint track"
+                },
+                "homepoint_last_hae": {
+                    "type": "number",
+                    "description": "Number representing the last tick's height above the WGS84 elipsoid in the homepoint track"
+                },
+                "bbox_north": {
+                    "type": "number",
+                    "description": "Number representing the farthest north WGS84 latitude of the vehicle track"
+                },
+                "bbox_south": {
+                    "type": "number",
+                    "description": "Number representing the farthest south WGS84 latitude of the vehicle track"
+                },
+                "bbox_east": {
+                    "type": "number",
+                    "description": "Number representing the farthest east WGS84 longitude of the vehicle track"
+                },
+                "bbox_west": {
+                    "type": "number",
+                    "description": "Number representing the farthest west WGS84 longitude of the vehicle track"
+                }
+            },
+            "required": [
+                "vehicle_id",
+                "vehicle_first_ts",
+                "vehicle_first_lat",
+                "vehicle_first_lon",
+                "vehicle_first_hae",
+                "vehicle_last_ts",
+                "vehicle_last_lat",
+                "vehicle_last_lon",
+                "vehicle_last_hae",
+                "vehicle_last_ce",
+                "operator_first_ts",
+                "operator_first_lat",
+                "operator_first_lon",
+                "operator_first_hae",
+                "operator_last_ts",
+                "operator_last_lat",
+                "operator_last_lon",
+                "operator_last_hae",
+                "homepoint_first_ts",
+                "homepoint_first_lat",
+                "homepoint_first_lon",
+                "homepoint_first_hae",
+                "homepoint_last_ts",
+                "homepoint_last_lat",
+                "homepoint_last_lon",
+                "homepoint_last_hae",
+                "bbox_north",
+                "bbox_south",
+                "bbox_east",
+                "bbox_west"
+            ]
+        },
+        "ContactDto": {
+            "type": "object",
+            "properties": {
+                "vendor": {
+                    "type": "string",
+                    "description": "String of the vendor who manufactured the vehicle"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "String of the vehicle model name"
+                },
+                "affiliation": {
+                    "type": "string",
+                    "description": "Single character representing the CoT affiliation"
+                },
+                "serial": {
+                    "type": "string",
+                    "description": "String representing primary vehicle serial number"
+                },
+                "other_info": {
+                    "type": "object",
+                    "description": "Key-value object for arbitrary information"
+                }
+            }
+        },
+       "VehicleTickDto": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "number",
+                    "description": "Number representing the timestamp in milliseconds since the unix epoch that this tick occurred"
+                },
+                "correlation_id": {
+                    "type": "string",
+                    "description": "String representing the correlated contact the correlatable belongs to"
+                },
+                "agent_id": {
+                    "type": "string",
+                    "description": "UUID of AGENT that provided this correlatable"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Number representing the vehicle's WGS84 latitude at this tick in degrees"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Number representing the vehicle's WGS84 longitude at this tick in degrees"
+                },
+                "hae": {
+                    "type": "number",
+                    "description": "Number representing the vehicle's height in meters above the WGS84 ellipsoid"
+                },
+                "ce": {
+                    "type": "number",
+                    "description": "Number representing the circular error around the coordinate"
+                },
+                "le": {
+                    "type": "number",
+                    "description": "Number representing the linear error in the height above ellipsoid"
+                },
+                "vn": {
+                    "type": "number",
+                    "description": "Number representing the velocity north component in meters per second"
+                },
+                "ve": {
+                    "type": "number",
+                    "description": "Number representing the velocity east component in meters per second"
+                },
+                "vd": {
+                    "type": "number",
+                    "description": "Number representing the velocity down component in meters per second"
+                },
+                "other_info": {
+                    "type": "object",
+                    "description": "Key-value object for arbitrary information"
+                },
+                "vendor": {
+                    "type": "string",
+                    "description": "String of the vendor who manufactured the vehicle"
+                },
+                "model": {
+                    "type": "string",
+                    "description": "String of the vehicle model name"
+                },
+                "serial": {
+                    "type": "string",
+                    "description": "String representing primary vehicle serial number"
+                },
+                "vehicle_type": {
+                    "type": "string",
+                    "description": "String representing the CoT vehicle type (i.e. A-M-H-Q-r)"
+                }
+            },
+            "required": [
+                "ts",
+                "correlation_id",
+                "agent_id",
+                "lat",
+                "lon"
+            ]
+        },
+        "VehicleDto": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "String representing the plain-english name of the vehicle"
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "OperatorTickDto": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "number",
+                    "description": "Number representing the timestamp in milliseconds since the unix epoch that this tick occurred"
+                },
+                "correlation_id": {
+                    "type": "string",
+                    "description": "String representing the correlated contact the correlatable belongs to"
+                },
+                "agent_id": {
+                    "type": "string",
+                    "description": "UUID of AGENT that provided this correlatable"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Number representing the operator's WGS84 latitude at this tick in degrees"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Number representing the operator's WGS84 longitude at this tick in degrees"
+                },
+                "hae": {
+                    "type": "number",
+                    "description": "Number representing the operator's height in meters above the WGS84 ellipsoid"
+                },
+                "ce": {
+                    "type": "number",
+                    "description": "Number representing the circular error around the coordinate"
+                },
+                "le": {
+                    "type": "number",
+                    "description": "Number representing the linear error in the height above ellipsoid"
+                },
+                "vn": {
+                    "type": "number",
+                    "description": "Number representing the velocity north component in meters per second"
+                },
+                "ve": {
+                    "type": "number",
+                    "description": "Number representing the velocity east component in meters per second"
+                },
+                "vd": {
+                    "type": "number",
+                    "description": "Number representing the velocity down component in meters per second"
+                },
+                "other_info": {
+                    "type": "object",
+                    "description": "Key-value object for arbitrary information"
+                }
+            },
+            "required": [
+                "ts",
+                "correlation_id",
+                "agent_id",
+                "lat",
+                "lon"
+            ]
+        },
+        "HomepointDto": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "number",
+                    "description": "Number representing the timestamp in milliseconds since the unix epoch that this tick occurred"
+                },
+                "correlation_id": {
+                    "type": "string",
+                    "description": "String representing the correlated contact the correlatable belongs to"
+                },
+                "agent_id": {
+                    "type": "string",
+                    "description": "UUID of AGENT that provided this correlatable"
+                },
+                "lat": {
+                    "type": "number",
+                    "description": "Number representing the WGS84 latitude of the homepoint that was set for the vehicle"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Number representing the WGS84 longitude of the homepoint that was set for the vehicle"
+                },
+                "hae": {
+                    "type": "number",
+                    "description": "Number representing the WGS84 height above ellipsoid of the homepoint that was set for the vehicle"
+                }
+            },
+            "required": [
+                "ts",
+                "correlation_id",
+                "agent_id",
+                "lat",
+                "lon"
+            ]
+        },
+       "Zone": {
+            "type": "object",
+            "properties": {
+                "geom": {
+                    "type": "object",
+                    "description": "GeoJSON geometry object representing the shape of this zone"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "String representing the name of this zone"
+                },
+                "zone_severity_id": {
+                    "type": "string",
+                    "description": "UUID of the ZONE_SEVERITY for this ZONE"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "UUID (Primary key)"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "UUID of USER that created this ZONE"
+                },
+                "zone_severity": {
+                    "title": "ZoneSeverity",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ZoneSeverity"
+                        },
+                        {
+                            "description": "ZONE_SEVERITY for this ZONE"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "geom",
+                "name",
+                "zone_severity_id",
+                "id",
+                "user_id"
+            ]
+        },
+        "ZoneDto": {
+            "type": "object",
+            "properties": {
+                "geom": {
+                    "type": "object",
+                    "description": "GeoJSON geometry object representing the shape of this zone"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "String representing the name of this zone"
+                },
+                "zone_severity_id": {
+                    "type": "string",
+                    "description": "UUID of the ZONE_SEVERITY for this ZONE"
+                }
+            },
+            "required": [
+                "geom",
+                "name",
+                "zone_severity_id"
+            ]
+        },
+      "CenterpointConfigurationDto": {
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "type": "number",
+                    "description": "Latitude in decimal form (ex. 37.4499622)"
+                },
+                "lon": {
+                    "type": "number",
+                    "description": "Longitude in decimal form (ex. -122.0486533)"
+                },
+                "zoom": {
+                    "type": "number",
+                    "description": "Zoom level, between 0-22 (ex. 14)"
+                }
+            },
+            "required": [
+                "lat",
+                "lon",
+                "zoom"
+            ]
+        },
+        "HealthResponse": {
+            "type": "object",
+            "properties": {
+                "webServer": {
+                    "type": "string",
+                    "description": "Will always return true if server responds",
+                    "enum": [
+                        "UP",
+                        "DOWN"
+                    ]
+                }
+            },
+            "required": [
+                "webServer"
+            ]
+        }
+   }
+}

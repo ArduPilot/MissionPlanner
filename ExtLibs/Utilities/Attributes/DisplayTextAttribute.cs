@@ -1,15 +1,24 @@
 ﻿#region Using Statements
 
 using System;
+using System.ComponentModel;
 
 #endregion
 
 namespace MissionPlanner.Attributes
 {
+    public sealed class GroupText : DisplayNameAttribute
+    {
+        public GroupText(string text) : base(text)
+        {
+
+        }
+    }
+
    /// <summary>
    /// Used to decorate a type or type member with display text.
    /// </summary>
-   [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
    public sealed class DisplayTextAttribute : Attribute
    {
 

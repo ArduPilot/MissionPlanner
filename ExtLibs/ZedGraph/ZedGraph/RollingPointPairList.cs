@@ -173,25 +173,31 @@ namespace ZedGraph
 		{
 			get
 			{
-				if ( index >= Count || index < 0 )
-					throw new ArgumentOutOfRangeException();
+			    lock (_mBuffer)
+			    {
+			        if (index >= Count || index < 0)
+			            throw new ArgumentOutOfRangeException();
 
-				index += _tailIdx;
-				if ( index >= _mBuffer.Length )
-					index -= _mBuffer.Length;
+			        index += _tailIdx;
+			        if (index >= _mBuffer.Length)
+			            index -= _mBuffer.Length;
 
-				return _mBuffer[index];
+			        return _mBuffer[index];
+			    }
 			}
 			set
 			{
-				if ( index >= Count || index < 0 )
-					throw new ArgumentOutOfRangeException();
+			    lock (_mBuffer)
+			    {
+			        if (index >= Count || index < 0)
+			            throw new ArgumentOutOfRangeException();
 
-				index += _tailIdx;
-				if ( index >= _mBuffer.Length )
-					index -= _mBuffer.Length;
+			        index += _tailIdx;
+			        if (index >= _mBuffer.Length)
+			            index -= _mBuffer.Length;
 
-				_mBuffer[index] = value;
+			        _mBuffer[index] = value;
+			    }
 			}
 
 		}
@@ -242,20 +248,26 @@ namespace ZedGraph
 			}
 			else
 			{
-				// Determine the index to write to.
-				if ( ++_headIdx == _mBuffer.Length )
-				{	// Wrap around.
-					_headIdx = 0;
-				}
+                lock (_mBuffer)
+                {
+                    // Determine the index to write to.
+                    if (++_headIdx == _mBuffer.Length)
+                    {
+                        // Wrap around.
+                        _headIdx = 0;
+                    }
 
-				if ( _headIdx == _tailIdx )
-				{	// Buffer overflow. Increment tailIdx.
-					if ( ++_tailIdx == _mBuffer.Length )
-					{	// Wrap around.
-						_tailIdx = 0;
-					}
-				}
-			}
+                    if (_headIdx == _tailIdx)
+                    {
+                        // Buffer overflow. Increment tailIdx.
+                        if (++_tailIdx == _mBuffer.Length)
+                        {
+                            // Wrap around.
+                            _tailIdx = 0;
+                        }
+                    }
+                }
+            }
 
 			return _headIdx;
 		}

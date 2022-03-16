@@ -23,7 +23,8 @@ namespace MissionPlanner.Utilities
         public static void GetKIndex()
         {
             var request = WebRequest.Create(kindexurl);
-
+            if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
+                ((HttpWebRequest)request).UserAgent = Settings.Instance.UserAgent;
             request.BeginGetResponse(kindexcallback, request);
         }
 

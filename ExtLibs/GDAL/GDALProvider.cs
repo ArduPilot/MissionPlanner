@@ -1,18 +1,14 @@
-﻿using System;
+﻿using GMap.NET.WindowsForms;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace GDAL
 {
-    using System;
-    using GMap.NET.Projections;
-    using System.Globalization;
-    using GMap.NET.MapProviders;
     using GMap.NET;
+    using GMap.NET.MapProviders;
+    using GMap.NET.Projections;
+    using System;
     using System.Reflection;
-    using GMap.NET.WindowsForms;
 
     /// <summary>
     /// GDAL Custom
@@ -21,18 +17,19 @@ namespace GDAL
     {
         public static readonly GDALProvider Instance;
 
-        GDALProvider()
+        public GDALProvider()
         {
             MaxZoom = 24;
+            BypassCache = true;
         }
 
         static GDALProvider()
         {
             Instance = new GDALProvider();
 
-            Type mytype = typeof (GMapProviders);
+            Type mytype = typeof(GMapProviders);
             FieldInfo field = mytype.GetField("DbHash", BindingFlags.Static | BindingFlags.NonPublic);
-            Dictionary<int, GMapProvider> list = (Dictionary<int, GMapProvider>) field.GetValue(Instance);
+            Dictionary<int, GMapProvider> list = (Dictionary<int, GMapProvider>)field.GetValue(Instance);
 
             list.Add(Instance.DbId, Instance);
 

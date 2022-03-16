@@ -1,0 +1,274 @@
+<graphs>
+
+  <graph name='EKF2/Gyro Bias'>
+    <description>EKF2 Gyro Bias</description>
+    <expression>NKF1[0].GX NKF1[0].GY NKF1[0].GZ NKF1[1].GX NKF1[1].GY NKF1[1].GZ NKF1[2].GX NKF1[2].GY NKF1[2].GZ</expression>
+    <expression>NKF1[0].GX NKF1[0].GY NKF1[0].GZ NKF1[1].GX NKF1[1].GY NKF1[1].GZ</expression>
+    <expression>NKF1.GX NKF1.GY NKF1.GZ</expression>
+  </graph>
+
+  <graph name='EKF2/Origin Height'>
+    <description>EKF2 Origin Height</description>
+    <expression>NKF1[0].OH NKF1[1].OH NKF1[2].OH</expression>
+    <expression>NKF1[0].OH NKF1[1].OH</expression>
+    <expression>NKF1.OH</expression>
+  </graph>
+
+  <graph name='EKF2/Pos NE'>
+    <description>EKF2 Position North/East</description>
+    <expression>NKF1[0].PN NKF1[1].PN NKF1[2].PN NKF1[0].PE NKF1[1].PE NKF1[2].PE</expression>
+    <expression>NKF1[0].PN NKF1[1].PN NKF1[0].PE NKF1[1].PE</expression>
+    <expression>NKF1.PN NKF1.PE</expression>
+  </graph>
+
+  <graph name='EKF2/Pos D'>
+    <description>EKF2 Position Down</description>
+    <expression>NKF1[0].PD NKF1[1].PD NKF1[2].PD</expression>
+    <expression>NKF1[0].PD NKF1[1].PD</expression>
+    <expression>NKF1.PD</expression>
+  </graph>
+
+  <graph name='EKF2/Position Innovation NE'>
+    <description>EKF2 Position Innovation North/East</description>
+    <expression>NKF3[0].IPN NKF3[1].IPN NKF3[2].IPN NKF3[0].IPE NKF3[1].IPE NKF3[2].IPE</expression>
+    <expression>NKF3[0].IPN NKF3[1].IPN NKF3[0].IPE NKF3[1].IPE</expression>
+    <expression>NKF3.IPN NKF3.IPE</expression>
+  </graph>
+
+  <graph name='EKF2/Position Innovation Down'>
+    <description>EKF2 Position Down</description>
+    <expression>NKF3[0].IPD NKF3[1].IPD NKF3[2].IPD</expression>
+    <expression>NKF3[0].IPD NKF3[1].IPD</expression>
+    <expression>NKF3.IPD</expression>
+  </graph>
+
+  <graph name='EKF2/Velocity Innovation NE'>
+    <description>EKF2 Velocity Innovation North/East</description>
+    <expression>NKF3[0].IVN NKF3[1].IVN NKF3[2].IVN NKF3[0].IVE NKF3[1].IVE NKF3[2].IVE</expression>
+    <expression>NKF3[0].IVN NKF3[1].IVN NKF3[0].IVE NKF3[1].IVE</expression>
+    <expression>NKF3.IVN NKF3.IVE</expression>
+  </graph>
+
+  <graph name='EKF2/Velocity Innovation Down'>
+    <description>EKF2 Velocity Down</description>
+    <expression>NKF3[0].IVD NKF3[1].IVD NKF3[2].IVD</expression>
+    <expression>NKF3[0].IVD NKF3[1].IVD</expression>
+    <expression>NKF3.IVD</expression>
+  </graph>
+  
+  <graph name='EKF2/Euler Roll'>
+    <description>EKF2 Euler Roll</description>
+    <expression>ATT.Roll NKF1[0].Roll NKF1[1].Roll NKF1[2].Roll</expression>
+    <expression>ATT.Roll NKF1[0].Roll NKF1[1].Roll</expression>
+    <expression>ATT.Roll NKF1.Roll NKF6.Roll</expression>
+    <expression>ATT.Roll NKF1.Roll</expression>
+  </graph>
+
+  <graph name='EKF2/Euler Pitch'>
+    <description>EKF2 Euler Pitch</description>
+    <expression>ATT.Pitch NKF1[0].Pitch NKF1[1].Pitch NKF1[2].Pitch</expression>
+    <expression>ATT.Pitch NKF1[0].Pitch NKF1[1].Pitch</expression>
+    <expression>ATT.Pitch NKF1.Pitch NKF6.Pitch</expression>
+    <expression>ATT.Pitch NKF1.Pitch</expression>
+  </graph>
+
+  <graph name='EKF2/Euler Yaw'>
+    <description>EKF2 Euler Yaw</description>
+    <expression>ATT.Yaw NKF1[0].Yaw NKF1[1].Yaw NKF1[2].Yaw</expression>
+    <expression>ATT.Yaw NKF1[0].Yaw NKF1[1].Yaw</expression>
+    <expression>ATT.Yaw NKF1.Yaw NKF6.Yaw</expression>
+    <expression>ATT.Yaw NKF1.Yaw</expression>
+  </graph>
+  
+  <graph name='EKF2/Velocity N'>
+    <description>EKF2 Velocity North</description>
+    <expression>NKF1[0].VN NKF1[1].VN NKF1[2].VN</expression>
+    <expression>NKF1[0].VN NKF1[1].VN</expression>
+    <expression>NKF1.VN</expression>
+  </graph>
+
+  <graph name='EKF2/Velocity E'>
+    <description>EKF2 Velocity East</description>
+    <expression>NKF1[0].VE NKF1[1].VE NKF1[2].VE</expression>
+    <expression>NKF1[0].VE NKF1[1].VE</expression>
+    <expression>NKF1.VE NKF6.VE</expression>
+    <expression>NKF1.VE</expression>
+  </graph>
+
+  <graph name='EKF2/Velocity D'>
+    <description>EKF2 Velocity Down</description>
+    <expression>NKF1[0].VD NKF1[1].VD NKF1[2].VD</expression>
+    <expression>NKF1[0].VD NKF1[1].VD</expression>
+    <expression>NKF1.VD NKF6.VD</expression>
+    <expression>NKF1.VD</expression>
+  </graph>
+
+  <graph name='EKF2/Velocity dDP'>
+    <description>EKF2 Velocity Down (DP derivative)</description>
+    <expression>NKF1[0].dPD NKF1[1].dPD NKF1[2].dPD</expression>
+    <expression>NKF1[0].dPD NKF1[1].dPD</expression>
+    <expression>NKF1.dPD</expression>
+  </graph>
+
+  <graph name='EKF2/AZBias'>
+    <description>EKF2 AccelZ Bias</description>
+    <expression>NKF2[0].AZbias NKF2[1].AZbias NKF2[2].AZbias</expression>
+    <expression>NKF2[0].AZbias NKF2[1].AZbias</expression>
+    <expression>NKF2.AZbias NKF7.AZbias</expression>
+    <expression>NKF2.AZbias</expression>
+  </graph>
+
+  <graph name='EKF2/Gyro Scale Factor'>
+    <description>EKF2 Gyro Scale Factor</description>
+    <expression>NKF2[0].GSX NKF2[0].GSY NKF2[0].GSZ NKF2[1].GSX NKF2[1].GSY NKF2[1].GSZ NKF2[2].GSX NKF2[2].GSY NKF2[2].GSZ</expression>
+    <expression>NKF2[0].GSX NKF2[0].GSY NKF2[0].GSZ NKF2[1].GSX NKF2[1].GSY NKF2[1].GSZ</expression>
+    <expression>NKF2.GSX NKF2.GSY NKF2.GSZ</expression>
+  </graph>
+
+  <graph name='EKF2/Mag Earth Field'>
+    <description>EKF2 Mag Earth Field</description>
+    <expression>NKF2[0].MN NKF2[0].ME NKF2[0].MD NKF2[1].MN NKF2[1].ME NKF2[1].MD NKF2[2].MN NKF2[2].ME NKF2[2].MD</expression>
+    <expression>NKF2[0].MN NKF2[0].ME NKF2[0].MD NKF2[1].MN NKF2[1].ME NKF2[1].MD</expression>
+    <expression>NKF2.MN NKF2.ME NKF2.MD</expression>
+  </graph>
+
+  <graph name='EKF2/Mag Body Field'>
+    <description>EKF2 Mag Body Field</description>
+    <expression>NKF2[0].MX NKF2[0].MY NKF2[0].MZ NKF2[1].MX NKF2[1].MY NKF2[1].MZ NKF2[2].MX NKF2[2].MY NKF2[2].MZ</expression>
+    <expression>NKF2[0].MX NKF2[0].MY NKF2[0].MZ NKF2[1].MX NKF2[1].MY NKF2[1].MZ</expression>
+    <expression>NKF2.MX NKF2.MY NKF2.MZ</expression>
+  </graph>
+
+  <graph name='EKF2/Wind NE'>
+    <description>EKF2 Wind NE</description>
+    <expression>NKF2[0].VWN NKF2[0].VWE NKF2[1].VWN NKF2[1].VWE NKF2[2].VWN NKF2[2].VWE</expression>
+    <expression>NKF2[0].VWN NKF2[0].VWE NKF2[1].VWN NKF2[1].VWE</expression>
+    <expression>NKF2.VWN NKF2.VWE</expression>
+  </graph>
+
+  <graph name='EKF2/Mag Innovations Lane1'>
+    <description>EKF2 Mag Innovations Lane1</description>
+    <expression>NKF3[0].IMX NKF2[0].IMY NKF2[0].IMZ NKF3[0].IYAW:2</expression>
+    <expression>NKF3.IMX NKF2.IMY NKF2.IMZ NKF3.IYAW:2</expression>
+  </graph>
+
+  <graph name='EKF2/Mag Innovations Lane2'>
+    <description>EKF2 Mag Innovations Lane2</description>
+    <expression>NKF3[1].IMX NKF2[1].IMY NKF2[1].IMZ NKF3[1].IYAW:2</expression>
+  </graph>
+
+  <graph name='EKF2/Mag Innovations Lane3'>
+    <description>EKF2 Mag Innovations Lane3</description>
+    <expression>NKF3[2].IMX NKF2[2].IMY NKF2[2].IMZ NKF3[2].IYAW:2</expression>
+  </graph>
+  
+  <graph name='EKF2/Pos Innovations Lane1'>
+    <description>EKF2 Pos Innovations Lane1</description>
+    <expression>NKF3[0].IPN NKF2[0].IPE NKF2[0].IPD</expression>
+    <expression>NKF3.IPN NKF2.IPE NKF2.IPD</expression>
+  </graph>
+
+  <graph name='EKF2/Pos Innovations Lane2'>
+    <description>EKF2 Pos Innovations Lane2</description>
+    <expression>NKF3[1].IPN NKF2[1].IPE NKF2[1].IPD</expression>
+  </graph>
+
+  <graph name='EKF2/Pos Innovations Lane3'>
+    <description>EKF2 Pos Innovations Lane3</description>
+    <expression>NKF3[2].IPN NKF2[2].IPE NKF2[2].IPD</expression>
+  </graph>
+
+  <graph name='EKF2/Velocity Innovations Lane1'>
+    <description>EKF2 Velocity Innovations Lane1</description>
+    <expression>NKF3[0].IVN NKF2[0].IVE NKF2[0].IVD</expression>
+    <expression>NKF3.IVN NKF2.IVE NKF2.IVD</expression>
+  </graph>
+
+  <graph name='EKF2/Velocity Innovations Lane2'>
+    <description>EKF2 Velocity Innovations Lane2</description>
+    <expression>NKF3[1].IVN NKF2[1].IVE NKF2[1].IVD</expression>
+  </graph>
+
+  <graph name='EKF2/Velocity Innovations Lane3'>
+    <description>EKF2 Velocity Innovations Lane3</description>
+    <expression>NKF3[2].IVN NKF2[2].IVE NKF2[2].IVD</expression>
+  </graph>
+  
+
+  <graph name='EKF2/Normalised Innovations EK2 Lane1'>
+    <description>EKF2 Normalized Innovations Lane1</description>
+    <expression>NKF4[0].SV NKF4[0].SP NKF4[0].SH NKF4[0].SM NKF4[0].SVT</expression>
+    <expression>NKF4.SV NKF4.SP NKF4.SH NKF4.SM NKF4.SVT</expression>
+  </graph>
+
+  <graph name='EKF2/Normalised Innovations EK2 Lane2'>
+    <description>EKF2  Normalized Innovations Lane2</description>
+    <expression>NKF4[1].SV NKF4[1].SP NKF4[1].SH NKF4[1].SM NKF4[1].SVT</expression>
+    <expression>NKF9.SV NKF9.SP NKF9.SH NKF9.SM NKF9.SVT</expression>
+  </graph>
+
+  <graph name='EKF2/Mag Innovations Lane1'>
+    <description>EKF2 Mag Innovations Lane1</description>
+    <expression>NKF3[0].IMX NKF3[0].IMY NKF3[0].IMZ NKF3[0].IYAW:2</expression>
+  </graph>
+
+  <graph name='EKF2/Mag Innovations Lane2'>
+    <description>EKF2 Mag Innovations Lane2</description>
+    <expression>NKF3[1].IMX NKF3[1].IMY NKF3[1].IMZ NKF3[1].IYAW:2</expression>
+  </graph>
+
+  <graph name='EKF2/Mag Innovations Lane3'>
+    <description>EKF2 Mag Innovations Lane3</description>
+    <expression>NKF3[2].IMX NKF3[2].IMY NKF3[2].IMZ NKF3[2].IYAW:2</expression>
+  </graph>
+  
+  <graph name='EKF2/Wind Speed and Direction'>
+    <description>EKF2 Wind Velocity NE</description>
+    <expression>sqrt(NKF2[0].VWN**2+NKF2[0].VWE**2) wrap_360(degrees(atan2(-NKF2[0].VWE,-NKF2[0].VWN))):2 sqrt(NKF2[1].VWN**2+NKF2[1].VWE**2) wrap_360(degrees(atan2(-NKF2[1].VWE,-NKF2[1].VWN))):2</expression>
+    <expression>sqrt(NKF2.VWN**2+NKF2.VWE**2) wrap_360(degrees(atan2(-NKF2.VWE,-NKF2.VWN))):2 sqrt(NKF7.VWN**2+NKF7.VWE**2) wrap_360(degrees(atan2(-NKF7.VWE,-NKF7.VWN))):2</expression>
+  </graph>
+
+  <graph name='EKF2/Solution Status'>
+    <description>EKF2 Solution Status</description>
+    <expression>NKF4[0].SS NKF4[1].SS NKF4[2].SS</expression>
+    <expression>NKF4[0].SS NKF4[1].SS</expression>
+    <expression>NKF4.SS NKF9.SS</expression>
+    <expression>NKF4.SS</expression>
+  </graph>
+
+  <graph name='EKF2/GPS Check Status'>
+    <description>EKF2 GPS Check Status</description>
+    <expression>NKF4[0].GPS NKF4[1].GPS NKF4[2].GPS</expression>
+    <expression>NKF4[0].GPS NKF4[1].GPS</expression>
+    <expression>NKF4.GPS NKF9.GPS</expression>
+    <expression>NKF4.GPS</expression>
+  </graph>
+
+  <graph name='EKF2/Optical Flow Innovations'>
+    <description>EKF2 Optical Flow Innovations</description>
+    <expression>NKF5[0].FIX NKF5[0].FIY NKF5[0].AFI</expression>
+    <expression>NKF5.FIX NKF5.FIY NKF5.AFI</expression>
+  </graph>
+
+  <graph name='EKF2/Rangefinder Innovations'>
+    <description>EKF2 Rangefinder Innovations</description>
+    <expression>NKF5[0].RI NKF5[1].RI NKF5[2].RI</expression>
+    <expression>NKF5[0].RI NKF5[1].RI</expression>
+    <expression>NKF5.RI</expression>
+  </graph>
+
+  <graph name='EKF2/Magnetometer Selection'>
+    <description>EKF2 Magnetometer Selection</description>
+    <expression>NKF2[0].MI NKF2[1].MI NKF2[2].MI</expression>
+    <expression>NKF2[0].MI NKF2[1].MI</expression>
+    <expression>NKF2.MI NKF7.MI</expression>
+    <expression>NKF2.MI</expression>
+  </graph>
+
+  <graph name='EKF2/Primary Core'>
+    <description>EKF2 Primary Core</description>
+    <expression>NKF4.PI</expression>
+  </graph>
+
+</graphs>
+

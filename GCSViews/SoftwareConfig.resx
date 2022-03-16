@@ -129,7 +129,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="backstageView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1000, 450</value>
+    <value>665, 485</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="backstageView.TabIndex" type="System.Int32, mscorlib">
@@ -151,7 +151,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1000, 450</value>
+    <value>665, 485</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SoftwareConfig</value>

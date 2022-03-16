@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:video="clr-namespace:FormsVideoLibrary"
+             xmlns:forms="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:controls="clr-namespace:MissionPlanner.Controls;assembly=Xamarin"
+             xmlns:GMap="clr-namespace:GMap.NET.WindowsForms;assembly=Xamarin"
+             xmlns:tabView="clr-namespace:Xam.Plugin.TabView;assembly=Xam.Plugin.TabView"
+             x:Class="Xamarin.FlightData" >
+    <Grid Margin="0" Padding="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="32*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35*" />
+            <ColumnDefinition Width="65*" />
+        </Grid.ColumnDefinitions>
+        <controls:HUD BackgroundColor="Blue" x:Name="hud1" Grid.Column="0" Grid.Row="0"/>
+        <tabView:TabViewControl BackgroundColor="red" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3">
+            <tabView:TabViewControl.ItemSource>
+                <tabView:TabItem HeaderText="Map" >
+                    <Grid Margin="0" Padding="0">
+                        <GMap:GMapControl  BackgroundColor="CornflowerBlue" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"  x:Name="gMapControl1"/>
+                    </Grid>
+                </tabView:TabItem>
+                <tabView:TabItem HeaderText="Actions">
+                    <ScrollView>                        
+                        <StackLayout>                            
+                            <Button x:Name="Arm" Text="Arm"  Clicked="Arm_OnClicked"></Button>
+                            <Button x:Name="Disarm" Text="Disarm"  Clicked="Disarm_OnClicked"></Button>
+                            <Picker x:Name="Mode"  SelectedIndexChanged="Mode_OnSelectedIndexChanged"></Picker>
+                            <Button x:Name="Set_Mode" Text="Set Mode"  Clicked="Set_Mode_OnClicked"></Button>
+                            <Button x:Name="Get_Mission" Text="Get Mission"  Clicked="Get_Mission_OnClicked"></Button>
+                            <Button x:Name="Get_Fence" Text="Get Fence"  Clicked="Get_Fence_OnClicked"></Button>
+                            <Button x:Name="Get_Rally" Text="Get Rally"  Clicked="Get_Rally_OnClicked"></Button>
+                            <Button x:Name="Takeoff_2m"  Text="TakeOff - 2m" Clicked="Takeoff___2m_OnClicked"></Button>
+                        </StackLayout>
+                    </ScrollView>
+                </tabView:TabItem>
+                <tabView:TabItem HeaderText="Telemetry Logs">
+                    <ScrollView>
+                        <StackLayout>
+                            <Button x:Name="BUT_loadtelem" Clicked="BUT_loadtelem_Click" Text="Load Log"/>
+                            <Label x:Name="lbl_playbackspeed" Text="x 1.0"/>
+                            <Label x:Name="lbl_logpercent" Text="0.00 %"/>
+
+                            <Slider  x:Name="tracklog" ValueChanged="tracklog_Scroll" Minimum="0" Maximum="100"/>
+
+                            <Label x:Name="LBL_logfn" Text=""/>
+                            <Button x:Name="BUT_log2kml" Clicked="BUT_log2kml_Click" Text="Tlog &gt; Kml or Graph"/>
+                            <Button x:Name="BUT_playlog" Clicked="BUT_playlog_Click" Text="Play/Pause"/>
+                        </StackLayout>
+                    </ScrollView>
+                </tabView:TabItem>
+            </tabView:TabViewControl.ItemSource>
+        </tabView:TabViewControl>
+
+        <video:VideoPlayer BackgroundColor="green" Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" x:Name="videoPlayer" VerticalOptions="FillAndExpand"></video:VideoPlayer>
+
+    </Grid>
+</ContentPage>

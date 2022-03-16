@@ -43,7 +43,7 @@ namespace AssortedWidgets
         uint width;
         uint height;
         bool pressed;
-        /*
+        
         Menu menuFile;
         MenuItemButton menuItemFileOpen;
         MenuItemButton menuItemFileSave;
@@ -83,7 +83,7 @@ namespace AssortedWidgets
         MenuItemButton menuItemTextNDropTest;
         TextNDropTestDialog textNDropTestDialog;
 
-        */
+        
         
         List<Component> componentList = new List<Component>();
 
@@ -127,7 +127,7 @@ namespace AssortedWidgets
             UI.Instance.CurrentTheme = theme;
             MenuBar.Instance.Init(width);
 
-            /*
+            
 
             menuFile = new Menu("FlightData");
             menuItemFileOpen = new MenuItemButton("Open");
@@ -195,14 +195,14 @@ namespace AssortedWidgets
             MenuBar.Instance.AddMenu(menuHelp);
             MenuBar.Instance.AddMenu(menuAssortedWidgetsTest);
 
-            menuItemDialogTest.MousePressedEvent += new MousePressedHandler(menuItemDialogTest_MousePressedEvent);
-            menuItemCheckNRadioTest.MousePressedEvent += new MousePressedHandler(menuItemCheckNRadioTest_MousePressedEvent);
-            menuItemProgressNSliderTest.MousePressedEvent += new MousePressedHandler(menuItemProgressNSliderTest_MousePressedEvent);
-            menuItemMultipleTest.MousePressedEvent += new MousePressedHandler(menuItemMultipleTest_MousePressedEvent);
-            menuItemScrollPanelTest.MousePressedEvent += new MousePressedHandler(menuItemScrollPanelTest_MousePressedEvent);
-            menuItemTextNDropTest.MousePressedEvent += new MousePressedHandler(menuItemTextNDropTest_MousePressedEvent);
+            //menuItemDialogTest.MousePressedEvent += new MousePressedHandler(menuItemDialogTest_MousePressedEvent);
+            //menuItemCheckNRadioTest.MousePressedEvent += new MousePressedHandler(menuItemCheckNRadioTest_MousePressedEvent);
+            //menuItemProgressNSliderTest.MousePressedEvent += new MousePressedHandler(menuItemProgressNSliderTest_MousePressedEvent);
+            //menuItemMultipleTest.MousePressedEvent += new MousePressedHandler(menuItemMultipleTest_MousePressedEvent);
+            //menuItemScrollPanelTest.MousePressedEvent += new MousePressedHandler(menuItemScrollPanelTest_MousePressedEvent);
+            //menuItemTextNDropTest.MousePressedEvent += new MousePressedHandler(menuItemTextNDropTest_MousePressedEvent);
 
-            */
+            
         }
 
 
@@ -272,7 +272,7 @@ namespace AssortedWidgets
             GL.Disable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Texture2D);
             GL.Disable(EnableCap.CullFace);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.Enable(EnableCap.Blend);
         }
         void End2D()

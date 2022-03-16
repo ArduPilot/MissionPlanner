@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="elevationGraphToolStripMenuItem.Text" xml:space="preserve">
     <value>標高グラフ</value>
@@ -142,7 +142,7 @@
     <value>ラリーをファイルからロード</value>
   </data>
   <data name="lbl_prevdist.Text" xml:space="preserve">
-    <value>以前の</value>
+    <value>直前からの距離</value>
   </data>
   <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
     <value>ロードして追加する</value>
@@ -187,7 +187,7 @@
     <value>オート WP</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>long</value>
+    <value>経度</value>
   </data>
   <data name="insertSplineWPToolStripMenuItem.Text" xml:space="preserve">
     <value>スプラインWPの挿入</value>
@@ -223,10 +223,10 @@
     <value>相対的</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>ホーム　ロケーション</value>
+    <value>ホームロケーション</value>
   </data>
   <data name="BUT_loadwpfile.Text" xml:space="preserve">
-    <value>WPファイルのロード</value>
+    <value>WPファイル読込</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>ロイター半径</value>
@@ -292,7 +292,7 @@
     <value>グリッド</value>
   </data>
   <data name="Delete.ToolTipText" xml:space="preserve">
-    <value>行を削除します</value>
+    <value>行を削除</value>
   </data>
   <data name="pOIToolStripMenuItem.Text" xml:space="preserve">
     <value>POI</value>
@@ -310,7 +310,7 @@
     <value>ロイター</value>
   </data>
   <data name="Command.ToolTipText" xml:space="preserve">
-    <value>APM のコマンド</value>
+    <value>APMのコマンド</value>
   </data>
   <data name="setRallyPointToolStripMenuItem.Text" xml:space="preserve">
     <value>ラリーポントのセット</value>
@@ -328,7 +328,7 @@
     <value>距離</value>
   </data>
   <data name="Down.ToolTipText" xml:space="preserve">
-    <value>行を下がる</value>
+    <value>一行下に移動</value>
   </data>
   <data name="BUT_write.Text" xml:space="preserve">
     <value>WPの書込み</value>
@@ -376,7 +376,7 @@
     <value>ファイルに保存</value>
   </data>
   <data name="insertWpToolStripMenuItem.Text" xml:space="preserve">
-    <value>Wpの挿入</value>
+    <value>WPの挿入</value>
   </data>
   <data name="TXT_WPRad.Text" xml:space="preserve">
     <value>30</value>
@@ -388,7 +388,7 @@
     <value>削除</value>
   </data>
   <data name="Up.HeaderText" xml:space="preserve">
-    <value>アップ</value>
+    <value>上に</value>
   </data>
   <data name="Delete.HeaderText" xml:space="preserve">
     <value>削除</value>
@@ -442,7 +442,7 @@
     <value>ポリゴンの保存</value>
   </data>
   <data name="createWpCircleToolStripMenuItem.Text" xml:space="preserve">
-    <value>Wpサークルを生成</value>
+    <value>WPサークルを生成</value>
   </data>
   <data name="ContextMeasure.Text" xml:space="preserve">
     <value>距離の計測</value>
@@ -454,7 +454,7 @@
     <value>SHPから</value>
   </data>
   <data name="Down.HeaderText" xml:space="preserve">
-    <value>ダウン</value>
+    <value>下に</value>
   </data>
   <data name="lnk_kml.Text" xml:space="preserve">
     <value>KML表示</value>
@@ -464,5 +464,8 @@
   </data>
   <data name="reverseWPsToolStripMenuItem.Text" xml:space="preserve">
     <value>WPの逆行</value>
+  </data>
+  <data name="currentPositionToolStripMenuItem.Text" xml:space="preserve">
+    <value>現在の位置に</value>
   </data>
 </root>

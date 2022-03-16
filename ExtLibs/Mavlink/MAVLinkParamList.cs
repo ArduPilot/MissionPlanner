@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 public partial class MAVLink
 {
-    public class MAVLinkParamList: List<MAVLinkParam>
+    public class MAVLinkParamList : List<MAVLinkParam>, INotifyPropertyChanged
     {
         object locker = new object();
 
@@ -18,7 +17,7 @@ public partial class MAVLink
         }
 
         public MAVLinkParam this[string name]
-        { 
+        {
             get
             {
                 lock (locker)
@@ -43,15 +42,50 @@ public partial class MAVLink
                         if (item.Name == name)
                         {
                             this[index] = value;
+                            OnPropertyChanged();
                             return;
                         }
 
                         index++;
                     }
 
-                    this.Add(value);
+                    base.Add(value);
                 }
             }
+        }
+
+        // Only works if one param from the name list if found, will fail if multiple list items are found
+        // for use in cases of param conversion where the two names will not coexist
+        public MAVLinkParam this[string[] names]
+        {
+            get
+            {
+                MAVLinkParam item = null;
+                foreach (var s in names)
+                {
+                    MAVLinkParam new_item = this[s];
+                    if (new_item != null)
+                    {
+                        if (item != null)
+                        {
+                            // found multiple items in list
+                            return null;
+                        }
+                        item = new_item;
+                    }
+                }
+                return item;
+            }
+
+            set
+            {
+                MAVLinkParam item = this[names];
+                if (item != null)
+                {
+                    item = value;
+                }
+            }
+
         }
 
         public IEnumerable<string> Keys
@@ -92,7 +126,7 @@ public partial class MAVLink
         {
             lock (locker)
             {
-                base.Add(item);
+                this[item.Name] = item;
             }
         }
 
@@ -101,18 +135,29 @@ public partial class MAVLink
             lock (locker)
             {
                 base.AddRange(collection);
+                OnPropertyChanged();
             }
         }
 
-        public static implicit operator Hashtable(MAVLinkParamList list)
+        public static implicit operator Dictionary<string, double>(MAVLinkParamList list)
         {
-            Hashtable copy = new Hashtable();
-            foreach (MAVLinkParam item in list.ToArray())
+            var copy = new Dictionary<string, double>();
+            lock (list.locker)
             {
-                copy[item.Name] = item.Value;
+                foreach (MAVLinkParam item in list.ToArray())
+                {
+                    copy[item.Name] = item.Value;
+                }
             }
 
             return copy;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

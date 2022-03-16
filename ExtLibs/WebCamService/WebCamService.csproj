@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <OutputTypeEx>library</OutputTypeEx>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputType>Library</OutputType>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup>
+   <ProjectReference Include="..\DirectShowLib\DirectShowLib.csproj" />
+  </ItemGroup>
+</Project>

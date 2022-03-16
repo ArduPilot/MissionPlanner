@@ -1,0 +1,1 @@
+namespace MissionPlanner.GCSViews.ConfigurationView { public partial class ConfigHWParachute{public ConfigHWParachute(){this.InitializeComponent();}}}

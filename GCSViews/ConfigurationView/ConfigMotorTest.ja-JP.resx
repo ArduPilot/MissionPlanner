@@ -112,15 +112,15 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>注意：あなたの機体をしっかり保持してください
+    <value>注意：機体をしっかり固定してください
 このテストではモータが動きます。
-右の前側のモータから順に
+右前側のモータから順に
 時計回りでテストしていきます。</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
@@ -133,5 +133,8 @@
     <value>ここをクリックすると、Webページを開きます。
 モーター番号を確認できます。
 また、最下部にモータテストの説明もあります。</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>モーターテスト</value>
   </data>
 </root>

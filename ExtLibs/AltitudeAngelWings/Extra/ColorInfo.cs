@@ -1,6 +1,6 @@
 using System;
 
-namespace AltitudeAngel.IsolatedPlugin.Common.Maps
+namespace AltitudeAngelWings.Extra
 {
     [Serializable]
     public class ColorInfo

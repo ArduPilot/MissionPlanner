@@ -105,7 +105,7 @@ namespace TrackerHomeGPS
             uint theBufferSize = 0;
             byte[] theBuffer = new byte[0];
 
-            for (; ; )
+            for (int a = 0; a < 100; a++)
             {
                 IntPtr theTempBuffer = Marshal.AllocHGlobal(ASYNC_DATA_SIZE);
                 byte[] theNewBuffer;
@@ -186,7 +186,7 @@ namespace TrackerHomeGPS
 
             _sendPacket(theProductDataPacket);
 
-            for (; ; )
+            for (int a = 0; a < 100; a++)
             {
                 responsePacket = _getPacket();
 
@@ -197,7 +197,7 @@ namespace TrackerHomeGPS
                 }
             }
 
-            for (; ; )
+            for (int a = 0; a < 100; a++)
             {
                 responsePacket = _getPacket();
 
@@ -218,7 +218,7 @@ namespace TrackerHomeGPS
 
             _sendPacket(theStartSessionPacket);
 
-            for (; ; )
+            for (int a = 0; a < 100; a++)
             {
                 responsePacket = _getPacket();
 

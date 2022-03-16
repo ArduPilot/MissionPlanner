@@ -1,0 +1,50 @@
+<UserControl x:Class="MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput" d:DesignHeight="406" d:DesignWidth="628"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><ProgressBar Name="BAR14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="510,234,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BAR13" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="510,178,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BAR12" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="510,123,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BAR11" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="510,68,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BAR10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="510,13,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BAR9" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="384,234,0,0" Width="118" Height="25"></ProgressBar>
+<Grid Name="groupBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="418,356,0,0" Width="207" Height="42">
+<Button Name="BUT_BindDSM2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="6,15,0,0" Width="63" Height="23">Bind DSM2</Button>
+<Button Name="BUT_BindDSM8" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="138,15,0,0" Width="65" Height="23">Bind DSM8</Button>
+<Button Name="BUT_BindDSMX" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="71,15,0,0" Width="65" Height="23">Bind DSMX</Button>
+</Grid>
+<Grid Name="groupBoxElevons" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,356,0,0" Width="409" Height="42">
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="13,19,0,0" Width="64" Height="18"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="293,19,0,0" Width="112" Height="18"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="83,19,0,0" Width="87" Height="18"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="176,19,0,0" Width="112" Height="18"></Controls:MavlinkCheckBox>
+</Grid>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="304,161,0,0" Width="65" Height="18"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="306,313,0,0" Width="65" Height="18"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,161,0,0" Width="65" Height="18"></Controls:MavlinkCheckBox>
+<Controls:MavlinkCheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="306,19,0,0" Width="65" Height="18"></Controls:MavlinkCheckBox>
+<Button Name="BUT_Calibrateradio" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="491,327,0,0" Width="134" Height="23">Calibrate Radio</Button>
+<ProgressBar Name="BAR8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="384,178,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BAR7" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="384,123,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BAR6" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="384,68,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BAR5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="384,13,0,0" Width="118" Height="25"></ProgressBar>
+<ProgressBar Name="BARpitch" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,64,0,0" Width="211" Height="47" >    <ProgressBar.RenderTransform>
+                <CompositeTransform Rotation="90" TranslateX="47"/>
+            </ProgressBar.RenderTransform> </ProgressBar>
+<ProgressBar Name="BARthrottle" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="251,64,0,0" Width="211" Height="47" >    <ProgressBar.RenderTransform>
+                <CompositeTransform Rotation="90" TranslateX="47"/>
+            </ProgressBar.RenderTransform> </ProgressBar>
+<ProgressBar Name="BARyaw" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,307,0,0" Width="288" Height="23"></ProgressBar>
+<ProgressBar Name="BARroll" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,13,0,0" Width="288" Height="23"></ProgressBar>
+</Grid></UserControl>

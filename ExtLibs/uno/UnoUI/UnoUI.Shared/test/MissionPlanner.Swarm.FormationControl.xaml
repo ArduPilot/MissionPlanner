@@ -1,0 +1,27 @@
+<UserControl x:Class="MissionPlanner.Swarm.FormationControl" d:DesignHeight="510" d:DesignWidth="947"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="but_guided" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="544,12,0,0" Width="75" Height="23">Guided Mode</Button>
+<Grid Name="PNL_status" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="783,61,0,0" Width="147" Height="398">
+</Grid>
+<Button Name="BUT_Updatepos" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="625,12,0,0" Width="75" Height="23">Update Pos</Button>
+<Button Name="BUT_Start" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="706,12,0,0" Width="75" Height="23">Start</Button>
+<Button Name="BUT_leader" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="463,12,0,0" Width="75" Height="23">Set Leader</Button>
+<ComboBox Name="CMB_mavs" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="336,12,0,0" Width="121" Height="21"></ComboBox>
+<Button Name="BUT_Land" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="255,12,0,0" Width="75" Height="23">Land (all)</Button>
+<Button Name="BUT_Takeoff" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="174,12,0,0" Width="75" Height="23">Takeoff</Button>
+<Button Name="BUT_Disarm" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="93,12,0,0" Width="75" Height="23">Disarm (exl leader)</Button>
+<Button Name="BUT_Arm" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,12,0,0" Width="75" Height="23">Arm (exl leader)</Button>
+</Grid></UserControl>

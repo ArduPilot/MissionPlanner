@@ -1,17 +1,17 @@
-using System;
+using AltitudeAngelWings.Extra;
+using GeoJSON.Net.Feature;
+using GMap.NET;
+using GMap.NET.WindowsForms;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using AltitudeAngel.IsolatedPlugin.Common.Maps;
-using GeoJSON.Net.Feature;
-using GMap.NET;
-using GMap.NET.WindowsForms;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-    class OverlayAdapter : IOverlay
+    internal class OverlayAdapter : IOverlay
     {
         private readonly GMapOverlay _overlay;
         private readonly SynchronizationContext _context;
@@ -27,66 +27,153 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             get
             {
                 bool value = false;
-                _context.Send(state =>
+                try
                 {
-                    value = _overlay.IsVisibile;
-                }, null);
+                    _context.Send(state =>
+                    {
+                        value = _overlay.IsVisibile;
+                    }, null);
+                }
+                catch (InvalidAsynchronousStateException)
+                {
 
+                }
                 return value;
             }
             set
             {
-                _context.Send(state =>
+                try
                 {
-                    _overlay.IsVisibile = value;
+                    _context.Send(state =>
+                    {
+                        _overlay.IsVisibile = value;
+                    }, null);
+                }
+                catch (InvalidAsynchronousStateException)
+                {
+
+                }
+            }
+        }
+
+        public void AddOrUpdatePolygon(string name, List<PointLatLng> points, ColorInfo colorInfo, Feature featureInfo)
+        {
+            try
+            {
+                _context.Send(_ =>
+                {
+                    var polygon = _overlay.Polygons.FirstOrDefault(p => p.Name == name);
+                    if (polygon == null)
+                    {
+                        polygon = new GMapPolygon(points, name);
+                        _overlay.Polygons.Add(polygon);
+                    }
+                    polygon.Fill = new SolidBrush(Color.FromArgb((int)colorInfo.FillColor));
+                    polygon.Stroke = new Pen(Color.FromArgb((int)colorInfo.StrokeColor), colorInfo.StrokeWidth);
+                    polygon.IsHitTestVisible = true;
+                    polygon.Tag = featureInfo;
                 }, null);
+            }
+            catch (InvalidAsynchronousStateException)
+            {
 
             }
         }
 
-        public void AddPolygon(string name, List<PointLatLng> points, ColorInfo colorInfo, Feature featureInfo)
+        public void RemovePolygonsExcept(List<string> names)
         {
-            _context.Send(_ =>
+            try
             {
-                _overlay.Polygons.Add(new GMapPolygon(points, name)
+                _context.Send(_ =>
                 {
-                    Fill = new SolidBrush(Color.FromArgb((int) colorInfo.FillColor)),
-                    Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor), colorInfo.StrokeWidth),
-                    IsHitTestVisible = true,
-                    Tag = featureInfo
-                });
+                    for (var pos = 0; pos < _overlay.Polygons.Count; pos++)
+                    {
+                        var polygon = _overlay.Polygons[pos];
+                        if (!names.Contains(polygon.Name))
+                        {
+                            _overlay.Polygons.Remove(polygon);
+                        }
+                    }
+                }, null);
+            }
+            catch (InvalidAsynchronousStateException)
+            {
 
-            }, null);
+            }
         }
 
         public bool PolygonExists(string name)
         {
             bool polygonExists = false;
 
-            _context.Send(_ => polygonExists = _overlay.Polygons.Any(i => i.Name == name), null);
+            try
+            {
+                _context.Send(_ => polygonExists = _overlay.Polygons.Any(i => i.Name == name), null);
+            }
+            catch (InvalidAsynchronousStateException)
+            {
+
+            }
 
             return polygonExists;
         }
 
-        public void AddLine(string name, List<PointLatLng> points, ColorInfo colorInfo, Feature featureInfo)
+        public void AddOrUpdateLine(string name, List<PointLatLng> points, ColorInfo colorInfo, Feature featureInfo)
         {
-            _context.Send(_ =>
+            try
             {
-                _overlay.Routes.Add(new GMapRoute(points, name)
+                _context.Send(_ =>
                 {
-                    Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor), colorInfo.StrokeWidth +2),
-                    IsHitTestVisible = true,
-                    Tag = featureInfo
-                });
-            }, null);
+                    var route = _overlay.Routes.FirstOrDefault(r => r.Name == name);
+                    if (route == null)
+                    {
+                        route = new GMapRoute(points, name);
+                        _overlay.Routes.Add(route);
+                    }
+                    route.Stroke = new Pen(Color.FromArgb((int)colorInfo.StrokeColor), colorInfo.StrokeWidth + 2);
+                    route.IsHitTestVisible = true;
+                    route.Tag = featureInfo;
+                }, null);
+            }
+            catch (InvalidAsynchronousStateException)
+            {
+
+            }
+        }
+
+        public void RemoveLinesExcept(List<string> names)
+        {
+            try
+            {
+                _context.Send(_ =>
+                {
+                    for (var pos = 0; pos < _overlay.Routes.Count; pos++)
+                    {
+                        var route = _overlay.Routes[pos];
+                        if (!names.Contains(route.Name))
+                        {
+                            _overlay.Routes.Remove(route);
+                        }
+                    }
+                }, null);
+            }
+            catch (InvalidAsynchronousStateException)
+            {
+
+            }
         }
 
         public bool LineExists(string name)
         {
             bool exists = false;
+            try
+            {
+                _context.Send(_ => exists = _overlay.Routes.Any(i => i.Name == name), null);
+            }
+            catch (InvalidAsynchronousStateException)
+            {
 
-            _context.Send(_ => exists = _overlay.Routes.Any(i => i.Name == name), null);
-
+            }
             return exists;
         }
     }

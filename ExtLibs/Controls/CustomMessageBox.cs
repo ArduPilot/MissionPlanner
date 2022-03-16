@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
 using System.Threading;
 
-namespace System
+namespace MissionPlanner.MsgBox
 {
     public static class CustomMessageBox
     {
@@ -34,7 +34,7 @@ namespace System
             return Show(text, caption, buttons, MessageBoxIcon.None);
         }
 
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
         {
             DialogResult answer = DialogResult.Cancel;
 
@@ -49,7 +49,7 @@ namespace System
                     {
                         Console.WriteLine("CustomMessageBox thread running invoke " +
                                           System.Threading.Thread.CurrentThread.Name);
-                        answer = ShowUI(text, caption, buttons, icon);
+                        answer = ShowUI(text, caption, buttons, icon, YesText, NoText);
                     });
                 }
                 catch (Exception ex)
@@ -57,19 +57,19 @@ namespace System
                     Console.WriteLine(ex);
                     // fall back
                     Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                    answer = ShowUI(text, caption, buttons, icon);
+                    answer = ShowUI(text, caption, buttons, icon, YesText, NoText);
                 }
             }
             else
             {
                 Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                answer =  ShowUI(text, caption, buttons, icon);
+                answer =  ShowUI(text, caption, buttons, icon, YesText, NoText);
             }
 
             return answer;
         }
 
-        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, string YesText = "Yes", string NoText = "No")
         {
             DialogResult answer = DialogResult.Abort;
 
@@ -94,9 +94,11 @@ namespace System
 
             // ensure we are always in a known state
             _state = DialogResult.None;
-
+            
+            SizeF sz = TextRenderer.MeasureText ("The quick brown Fox", SystemFonts.DefaultFont);
+            var perchar = sz.Width / 20;
             // convert to nice wrapped lines.
-            text = AddNewLinesToText(text);
+            text = AddNewLinesToText(text, Screen.PrimaryScreen.Bounds.Width / (int)perchar);
             // get pixel width and height
             Size textSize = TextRenderer.MeasureText(text, SystemFonts.DefaultFont);
             // allow for icon
@@ -111,7 +113,7 @@ namespace System
                 Text = caption,
                 MaximizeBox = false,
                 MinimizeBox = false,
-                Width = textSize.Width + 50,
+                Width = textSize.Width + 20,
                 Height = textSize.Height + 120,
                 TopMost = true,
                 AutoScaleMode = AutoScaleMode.None,
@@ -127,7 +129,8 @@ namespace System
                     Top = 15,
                     Width = textSize.Width + 10,
                     Height = textSize.Height + 10,
-                    Text = text
+                    Text = text,
+                    AutoSize = true
                 };
 
                 msgBoxFrm.Controls.Add(lblMessage);
@@ -136,18 +139,33 @@ namespace System
 
                 if (link != "" && linktext != "")
                 {
+                    linktext = AddNewLinesToText(linktext);
+                    Size textSize2 = TextRenderer.MeasureText(linktext, SystemFonts.DefaultFont);
                     var linklbl = new LinkLabel
                     {
-                        Left = lblMessage.Left,
+                        Left = FORM_X_MARGIN,
                         Top = lblMessage.Bottom,
-                        Width = lblMessage.Width,
-                        Height = 15,
+                        Width = textSize2.Width,
+                        Height = textSize2.Height,
                         Text = linktext,
-                        Tag = link
+                        Tag = link,
+                        AutoSize = true
                     };
-                    linklbl.Click += linklbl_Click;
+                    linklbl.Click += (sender, args) =>
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
+                        }
+                        catch (Exception)
+                        {
+                            Show("Failed to open link " + ((LinkLabel)sender).Tag.ToString());
+                        }
+                    };
 
                     msgBoxFrm.Controls.Add(linklbl);
+
+                    msgBoxFrm.Width = Math.Max(msgBoxFrm.Width, linklbl.Right + 16);
                 }
 
                 var actualIcon = getMessageBoxIcon(icon);
@@ -167,7 +185,7 @@ namespace System
                 }
 
 
-                AddButtonsToForm(msgBoxFrm, buttons);
+                AddButtonsToForm(msgBoxFrm, buttons, YesText, NoText);
 
                 // display even if theme fails
                 try
@@ -188,19 +206,13 @@ namespace System
             return answer;
         }
 
-        static void linklbl_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
-        }
-
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
-        private static int maximumSingleLineTooltipLength = 85;
 
-        private static string AddNewLinesToText(string text)
+        private static string AddNewLinesToText(string text, int length = 85)
         {
-            if (text.Length < maximumSingleLineTooltipLength)
+            if (text.Length < length)
                 return text;
-            int lineLength = maximumSingleLineTooltipLength;
+            int lineLength = length;
             StringBuilder sb = new StringBuilder();
             int currentLinePosition = 0;
             for (int textIndex = 0; textIndex < text.Length; textIndex++)
@@ -229,7 +241,7 @@ namespace System
             return sb.ToString();
         }
 
-        private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons)
+        private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons, string YesText = "Yes", string NoText = "No")
         {
             Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
             int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
@@ -262,7 +274,7 @@ namespace System
                     var butyes = new MyButton
                     {
                         Size = new Size(75, 23),
-                        Text = "Yes",
+                        Text = YesText,
                         Left = msgBoxFrm.Width - 75 * 2 - FORM_X_MARGIN * 2,
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };
@@ -274,7 +286,7 @@ namespace System
                     var butno = new MyButton
                     {
                         Size = new Size(75, 23),
-                        Text = "No",
+                        Text = NoText,
                         Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };

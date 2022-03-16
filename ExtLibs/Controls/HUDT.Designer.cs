@@ -19,10 +19,10 @@ namespace MissionPlanner.Controls {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class HUDT {
+    public class HUDT {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace MissionPlanner.Controls {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MissionPlanner.Controls.HUDT", typeof(HUDT).Assembly);
@@ -51,7 +51,7 @@ namespace MissionPlanner.Controls {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,39 @@ namespace MissionPlanner.Controls {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap _2dfix_wide {
+            get {
+                object obj = ResourceManager.GetObject("_2dfix_wide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap _3ddgps_wide {
+            get {
+                object obj = ResourceManager.GetObject("_3ddgps_wide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap _3dfix_wide {
+            get {
+                object obj = ResourceManager.GetObject("_3dfix_wide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ARMED.
         /// </summary>
-        internal static string ARMED {
+        public static string ARMED {
             get {
                 return ResourceManager.GetString("ARMED", resourceCulture);
             }
@@ -72,7 +102,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to AS .
         /// </summary>
-        internal static string AS {
+        public static string AS {
             get {
                 return ResourceManager.GetString("AS", resourceCulture);
             }
@@ -81,16 +111,85 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to Bat .
         /// </summary>
-        internal static string Bat {
+        public static string Bat {
             get {
                 return ResourceManager.GetString("Bat", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap batt_1 {
+            get {
+                object obj = ResourceManager.GetObject("batt_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap batt_2 {
+            get {
+                object obj = ResourceManager.GetObject("batt_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap batt_3 {
+            get {
+                object obj = ResourceManager.GetObject("batt_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap batt_4 {
+            get {
+                object obj = ResourceManager.GetObject("batt_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap batt_red {
+            get {
+                object obj = ResourceManager.GetObject("batt_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap batt_yellow {
+            get {
+                object obj = ResourceManager.GetObject("batt_yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cell.
+        /// </summary>
+        public static string Cell {
+            get {
+                return ResourceManager.GetString("Cell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DISARMED.
         /// </summary>
-        internal static string DISARMED {
+        public static string DISARMED {
             get {
                 return ResourceManager.GetString("DISARMED", resourceCulture);
             }
@@ -99,16 +198,46 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to E.
         /// </summary>
-        internal static string E {
+        public static string E {
             get {
                 return ResourceManager.GetString("E", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ekf_green {
+            get {
+                object obj = ResourceManager.GetObject("ekf_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ekf_red {
+            get {
+                object obj = ResourceManager.GetObject("ekf_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ekf_yellow {
+            get {
+                object obj = ResourceManager.GetObject("ekf_yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FAILSAFE.
         /// </summary>
-        internal static string FAILSAFE {
+        public static string FAILSAFE {
             get {
                 return ResourceManager.GetString("FAILSAFE", resourceCulture);
             }
@@ -117,7 +246,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized resource of type System.Int32 similar to 5.
         /// </summary>
-        internal static int FailsafeH {
+        public static int FailsafeH {
             get {
                 object obj = ResourceManager.GetObject("FailsafeH", resourceCulture);
                 return ((int)(obj));
@@ -127,7 +256,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to Arial.
         /// </summary>
-        internal static string Font {
+        public static string Font {
             get {
                 return ResourceManager.GetString("Font", resourceCulture);
             }
@@ -136,7 +265,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to GPS: No GPS.
         /// </summary>
-        internal static string GPS0 {
+        public static string GPS0 {
             get {
                 return ResourceManager.GetString("GPS0", resourceCulture);
             }
@@ -145,7 +274,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to GPS: No Fix.
         /// </summary>
-        internal static string GPS1 {
+        public static string GPS1 {
             get {
                 return ResourceManager.GetString("GPS1", resourceCulture);
             }
@@ -154,7 +283,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to GPS: 2D Fix.
         /// </summary>
-        internal static string GPS2 {
+        public static string GPS2 {
             get {
                 return ResourceManager.GetString("GPS2", resourceCulture);
             }
@@ -163,7 +292,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to GPS: 3D Fix.
         /// </summary>
-        internal static string GPS3 {
+        public static string GPS3 {
             get {
                 return ResourceManager.GetString("GPS3", resourceCulture);
             }
@@ -172,7 +301,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to GPS: 3D dgps.
         /// </summary>
-        internal static string GPS4 {
+        public static string GPS4 {
             get {
                 return ResourceManager.GetString("GPS4", resourceCulture);
             }
@@ -181,7 +310,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to GPS: rtk Float.
         /// </summary>
-        internal static string GPS5 {
+        public static string GPS5 {
             get {
                 return ResourceManager.GetString("GPS5", resourceCulture);
             }
@@ -190,7 +319,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to GPS: rtk Fixed.
         /// </summary>
-        internal static string GPS6 {
+        public static string GPS6 {
             get {
                 return ResourceManager.GetString("GPS6", resourceCulture);
             }
@@ -199,7 +328,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to GS .
         /// </summary>
-        internal static string GS {
+        public static string GS {
             get {
                 return ResourceManager.GetString("GS", resourceCulture);
             }
@@ -208,7 +337,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to N.
         /// </summary>
-        internal static string N {
+        public static string N {
             get {
                 return ResourceManager.GetString("N", resourceCulture);
             }
@@ -217,25 +346,65 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to NE.
         /// </summary>
-        internal static string NE {
+        public static string NE {
             get {
                 return ResourceManager.GetString("NE", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap nofix_wide {
+            get {
+                object obj = ResourceManager.GetObject("nofix_wide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap nogps_wide {
+            get {
+                object obj = ResourceManager.GetObject("nogps_wide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NW.
         /// </summary>
-        internal static string NW {
+        public static string NW {
             get {
                 return ResourceManager.GetString("NW", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap rtkfixed_wide {
+            get {
+                object obj = ResourceManager.GetObject("rtkfixed_wide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap rtkfloat_wide {
+            get {
+                object obj = ResourceManager.GetObject("rtkfloat_wide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to S.
         /// </summary>
-        internal static string S {
+        public static string S {
             get {
                 return ResourceManager.GetString("S", resourceCulture);
             }
@@ -244,7 +413,7 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to SE.
         /// </summary>
-        internal static string SE {
+        public static string SE {
             get {
                 return ResourceManager.GetString("SE", resourceCulture);
             }
@@ -253,16 +422,56 @@ namespace MissionPlanner.Controls {
         /// <summary>
         ///   Looks up a localized string similar to SW.
         /// </summary>
-        internal static string SW {
+        public static string SW {
             get {
                 return ResourceManager.GetString("SW", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap unknown {
+            get {
+                object obj = ResourceManager.GetObject("unknown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap vibe_green {
+            get {
+                object obj = ResourceManager.GetObject("vibe_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap vibe_red {
+            get {
+                object obj = ResourceManager.GetObject("vibe_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap vibe_yellow {
+            get {
+                object obj = ResourceManager.GetObject("vibe_yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to W.
         /// </summary>
-        internal static string W {
+        public static string W {
             get {
                 return ResourceManager.GetString("W", resourceCulture);
             }

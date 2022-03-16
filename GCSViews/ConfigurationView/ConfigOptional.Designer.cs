@@ -40,7 +40,7 @@
             // ConfigOptional
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            
             this.Controls.Add(this.label1);
             this.Name = "ConfigOptional";
             this.ResumeLayout(false);

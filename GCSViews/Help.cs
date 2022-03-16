@@ -1,10 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
 using MissionPlanner.Properties;
 using MissionPlanner.Utilities;
+using System;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews
 {
@@ -13,7 +12,6 @@ namespace MissionPlanner.GCSViews
         public Help()
         {
             InitializeComponent();
-            PIC_wizard.Image = MainV2.displayicons.wizard;
         }
 
         public void Activate()
@@ -25,12 +23,22 @@ namespace MissionPlanner.GCSViews
             catch
             {
             }
+
+            if (Program.WindowsStoreApp)
+            {
+                BUT_betaupdate.Visible = false;
+                BUT_updatecheck.Visible = false;
+            }
         }
 
         public void BUT_updatecheck_Click(object sender, EventArgs e)
         {
             try
             {
+                if (Program.WindowsStoreApp)
+                {
+                    return;
+                }
                 Utilities.Update.CheckForUpdate(true);
             }
             catch (Exception ex)
@@ -52,14 +60,7 @@ namespace MissionPlanner.GCSViews
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://firmware.ardupilot.org/Tools/MissionPlanner/upgrade/ChangeLog.txt");
-        }
-
-        private void PIC_wizard_Click(object sender, EventArgs e)
-        {
-            var cfg = new Wizard.Wizard();
-
-            cfg.ShowDialog(this);
+            Process.Start("https://firmware.ardupilot.org/Tools/MissionPlanner/upgrade/ChangeLog.txt");
         }
 
         private void BUT_betaupdate_Click(object sender, EventArgs e)
@@ -67,6 +68,12 @@ namespace MissionPlanner.GCSViews
             try
             {
                 Utilities.Update.dobeta = true;
+                if (Control.ModifierKeys == Keys.Control)
+                {
+                    Utilities.Update.domaster = true;
+                    CustomMessageBox.Show("This will update to MASTER release");
+                }
+
                 Utilities.Update.DoUpdate();
             }
             catch (Exception ex)

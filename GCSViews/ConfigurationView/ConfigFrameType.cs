@@ -1,24 +1,15 @@
-﻿using System;
+﻿using log4net;
+using MissionPlanner.ArduPilot;
+using MissionPlanner.Controls;
+using System;
 using System.Reflection;
 using System.Windows.Forms;
-using log4net;
-using MissionPlanner.Controls;
 using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFrameType : MyUserControl, IActivate, IDeactivate
     {
-        public enum Frame
-        {
-            Plus = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_PLUS,
-            X = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_X,
-            V = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_V,
-            H = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_H,
-            VTail = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_VTAIL,
-            Y = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_Y6B
-        }
-
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -39,7 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            DoChange((Frame) Enum.Parse(typeof (Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
+            DoChange((Frame)Enum.Parse(typeof(Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
         }
 
         public void Deactivate()
@@ -166,7 +157,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.setParam("FRAME", (int) frame);
+                MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "FRAME", (int)frame);
             }
             catch
             {

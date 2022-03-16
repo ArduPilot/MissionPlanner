@@ -1,0 +1,30 @@
+<UserControl x:Class="resedit.Form1" d:DesignHeight="523" d:DesignWidth="884"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+xmlns:BackstageView="using:MissionPlanner.Controls.BackstageView"
+xmlns:Controls="using:MissionPlanner.Controls"
+xmlns:GCSViews="using:MissionPlanner.GCSViews"
+xmlns:Wizard="using:MissionPlanner.Wizard"
+xmlns:ConfigurationView="using:MissionPlanner.GCSViews.ConfigurationView"
+xmlns:Custom="using:Custom"
+xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+xmlns:PreFlight="using:MissionPlanner.Controls.PreFlight"
+mc:Ignorable="d"
+> <Grid><Button Name="BUT_clipboard" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="12,459,0,0" Width="106" Height="23">Copy Clipboard</Button>
+<Button Name="button3" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="781,457,0,0" Width="75" Height="23">Load trans</Button>
+<TextBlock Name="richTextBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,13,0,0" Width="844" Height="61">How to use:
+First time, if this is the first load, just pick your language down the bottom and edit. click save.
+
+More uses, Pick your language, and it will autoload, existing for that language
+
+if you get halfway though, click the load trans button
+
+NOTE, the autoload only works after Michael has added it to the planner. otherwise you will need to use load trans
+</TextBlock>
+<ComboBox Name="comboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="298,459,0,0" Width="274" Height="21"></ComboBox>
+<Button Name="button2" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Microsoft Sans Serif" FontSize="8.25" Margin="578,457,0,0" Width="75" Height="23">Save</Button>
+<controls:DataGrid Name="dataGridView1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,80,0,0" Width="844"></controls:DataGrid>
+</Grid></UserControl>

@@ -1,0 +1,157 @@
+﻿<graphs>
+
+  <graph name="Builtin/Distance From EKF Origin">
+    <expression>sqrt(XKF1.PE**2+XKF1.PN**2) sqrt(NKF1.PE**2+NKF1.PN**2) sqrt(NKF6.PE**2+NKF6.PN**2)</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/Velocity vs Innovation Velocity E">
+    <expression>NKF1.VE NKF3.IVE:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/Velocity vs Innovation Velocity N">
+    <expression>NKF1.VN NKF3.IVN:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/Velocity vs Innovation Velocity D">
+    <expression>NKF1.VD NKF3.IVD:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/attitude deltas ATT">
+    <expression>ATT.DesRoll-ATT.Roll ATT.DesPitch-ATT.Pitch ATT.DesYaw-ATT.Yaw:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/attitude deltas CTUN">
+    <expression>CTUN.NavRoll-CTUN.Roll CTUN.NavPitch-CTUN.Pitch</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/velocity deltas">
+    <expression>NTUN.DVelX-NTUN.VelX NTUN.DVelY-NTUN.VelY</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/position deltas">
+    <expression>NTUN.DPosX-NTUN.PosX NTUN.DPosY-NTUN.PosY</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/Velocity accel vs gps x">
+    <expression>earth_accel_df(IMU2,ATT).x earth_accel_df(IMU,ATT).x delta(gps_velocity_df(GPS).x,'x',GPS.TimeUS) delta(gps_velocity_df(GPS2).x,'x',GPS2.TimeUS)</expression>
+    <description>
+Velocity comparison x
+    </description>
+  </graph>
+  <graph name="Builtin/Velocity accel vs gps y">
+    <expression>earth_accel_df(IMU2,ATT).y earth_accel_df(IMU,ATT).y delta(gps_velocity_df(GPS).y,'y',GPS.TimeUS) delta(gps_velocity_df(GPS2).y,'y',GPS2.TimeUS)</expression>
+    <description>
+      Velocity comparison y
+    </description>
+  </graph>
+  <graph name="Builtin/Velocity accel vs gps z">
+    <expression>earth_accel_df(IMU2,ATT).z earth_accel_df(IMU,ATT).z delta(gps_velocity_df(GPS).z,'z',GPS.TimeUS)-9.8 delta(gps_velocity_df(GPS2).z,'z',GPS2.TimeUS)-9.8</expression>
+    <description>
+      Velocity comparison z
+    </description>
+  </graph>
+
+  <graph name="Builtin/TECS deltas">
+    <expression>TECS.h-TECS.hdem TECS.h-TECS.hdem TECS.sp-TECS.spdem</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/TECS Alt delta">
+    <expression>TECS.h-TECS.hdem</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/TECS Climbrate delta">
+    <expression>TECS.dh-TECS.dhdem:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Builtin/TECS Speed delta">
+    <expression>TECS.sp-TECS.spdem</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name='Builtin/Position Innovations'>
+    <description>Position Innovations</description>
+    <expression>sqrt(NKF3.IPN**2+NKF3.IPE**2) sqrt(NKF8.IPN**2+NKF8.IPE**2)</expression>
+  </graph>
+
+ <graph name='Speed/GPS vs NKF1'>
+  <description></description>
+  <expression>GPS.Spd sqrt(NKF1[0].VN**2+NKF1[0].VE**2)</expression>
+  <expression>GPS.Spd sqrt(NKF1.VN**2+NKF1.VE**2)</expression>
+ </graph>
+ 
+ <graph name='Sensors/GPS/Accuracy'>
+  <description></description>
+  <expression>GPA.HAcc GPA.SAcc GPA.VAcc GPS.NSats:2</expression>
+ </graph>
+
+  <graph name='Sensors/Compass/Compass vs Throttle'>
+    <description>Compass vs Throttle</description>
+    <expression>RAW_IMU.xmag RAW_IMU.ymag RAW_IMU.zmag mag_field(RAW_IMU)</expression>
+    <expression>CTUN.ThO:2 sqrt(MAG.MagX**2+MAG.MagY**2+MAG.MagZ**2) sqrt(MAG2.MagX**2+MAG2.MagY**2+MAG2.MagZ**2) sqrt(MAG3.MagX**2+MAG3.MagY**2+MAG3.MagZ**2)</expression>
+  </graph>
+  
+
+  <graph name='Sensors/Compass/Compass vs Yaw all'>
+    <description>Primary Compass vs Yaw</description>
+    <expression>mag_heading(RAW_IMU,ATTITUDE) degrees(ATTITUDE.yaw)</expression>
+    <expression>mag_heading_df(MAG,ATT) mag_heading_df(MAG2,ATT) mag_heading_df(MAG3,ATT) ATT.Yaw</expression>
+  </graph>
+
+
+  <graph name='Sensors/Lidar/Rangefinder vs Baro'>
+    <description>Rangefinders vs Barometric Altitude</description>
+    <expression>BARO.Alt RFND.Dist1 RFND.Dist2 CTUN.Salt</expression>
+  </graph>
+
+  <graph name='Plane/AutoLand'>
+    <description>AutoLand target tracking</description>
+    <expression>TECS.h_dem TECS.h TECS.sp_dem:2 TECS.sp:2</expression>
+  </graph>
+
+
+  <graph name='Builtin/Battery Watts'>
+    <description>Battery Watts</description>
+    <expression>BAT.Volt BAT.Curr BAT.Volt*BAT.Curr:2</expression>
+  </graph>
+  
+  <graph name="Builtin/Efficiency mah-KM">
+    <expression>(delta(BAT.CurrTot,'mas',GPS.TimeUS)/max(2,GPS.Spd))*1000</expression>
+    <description>mah per km</description>
+  </graph>
+  
+  <graph name="Builtin/Efficiency mah-KM-2">
+    <expression>((BAT.Curr)/(max(2,GPS.Spd)*3.6))*1000</expression>
+    <description>mah per km</description>
+  </graph>
+  <graph name="Builtin/watth-KM">
+    <expression>((BAT.Volt*BAT.Curr)/((GPS.Spd*3600)/1000))</expression>
+    <description>watth per km</description>
+  </graph>
+  <graph name="Builtin/DistDelta">
+    <expression>distance_from(GPS,GPS.Lat-diff(GPS.Lat,"Lat"),GPS.Lng-diff(GPS.Lng,"Lng"))</expression>
+    <description>    </description>
+  </graph>
+</graphs>

@@ -112,21 +112,21 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="chk_advview.Text" xml:space="preserve">
     <value>高度なメニュー</value>
   </data>
   <data name="BUT_Find.Text" xml:space="preserve">
-    <value>Find</value>
+    <value>検索</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>パラメータ　書込み</value>
+    <value>パラメータ書込</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
-    <value>パラメータ　リフレッシュ</value>
+    <value>パラメータリフレッシュ</value>
   </data>
 </root>

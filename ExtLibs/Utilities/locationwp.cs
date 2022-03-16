@@ -17,6 +17,7 @@ namespace MissionPlanner.Utilities
             this.lng = lng;
             this.alt = (float)alt;
             this.id = id;
+            this.frame = 3;
 
             return this;
         }
@@ -29,6 +30,25 @@ namespace MissionPlanner.Utilities
         public static implicit operator MAVLink.mavlink_mission_item_int_t(Locationwp input)
         {
             return (MAVLink.mavlink_mission_item_int_t)Convert(input, true);
+        }
+
+        public static implicit operator Locationwp(MAVLink.mavlink_set_position_target_global_int_t input)
+        {
+            Locationwp temp = new Locationwp()
+            {
+                id = (byte) MAVLink.MAV_CMD.WAYPOINT,
+                p1 = 0,
+                p2 = 0,
+                p3 = 0,
+                p4 = 0,
+                lat = input.lat_int / 1e7,
+                lng = input.lon_int / 1e7,
+                alt = input.alt,
+                _seq = 0,
+                frame = input.coordinate_frame
+            };
+
+            return temp;
         }
 
         public static implicit operator Locationwp(MAVLink.mavlink_mission_item_t input)
@@ -44,7 +64,7 @@ namespace MissionPlanner.Utilities
                 lng = input.y,
                 alt = input.z,
                 _seq = input.seq,
-                _frame = input.frame
+                frame = input.frame
             };
 
             return temp;
@@ -63,43 +83,39 @@ namespace MissionPlanner.Utilities
                 lng = input.y / 1.0e7,
                 alt = input.z,
                 _seq = input.seq,
-                _frame = input.frame
+                frame = input.frame
             };
 
             return temp;
         }
 
-        public static implicit operator Locationwp(MissionFile.MissionItem input)
+        public static implicit operator Locationwp(MissionFile.Item input)
         {
             Locationwp temp = new Locationwp()
             {
-                id = input.command,
-                p1 = input.param1,
-                p2 = input.param2,
-                p3 = input.param3,
-                p4 = input.param4,
-                lat = input.coordinate[0],
-                lng = input.coordinate[1],
-                alt = (float)input.coordinate[2],
-                _seq = (ushort)input.id,
-                _frame = input.frame
+                id = (ushort)input.command,
+                p1 = (float)(input.@params[0] ?? 0.0f),
+                p2 = (float)(input.@params[1] ?? 0.0f),
+                p3 = (float)(input.@params[2] ?? 0.0f),
+                p4 = (float)(input.@params[3] ?? 0.0f),
+                lat = input.@params[4] ?? 0.0,
+                lng = input.@params[5] ?? 0.0,
+                alt = (float)(input.@params[6] ?? 0.0f),
+                _seq = (ushort)input.doJumpId,
+                frame = (byte)input.frame
             };
 
             return temp;
         }
 
-        public static implicit operator MissionFile.MissionItem(Locationwp input)
+        public static implicit operator MissionFile.Item(Locationwp input)
         {
-            MissionFile.MissionItem temp = new MissionFile.MissionItem()
+            MissionFile.Item temp = new MissionFile.Item()
             {
                 command = input.id,
-                param1 = input.p1,
-                param2 = input.p2,
-                param3 = input.p3,
-                param4 = input.p4,
-                coordinate = new double[] { input.lat, input.lng, input.alt },
-                id = input._seq,
-                frame = input._frame
+                @params = new List<double?>(new double?[] { input.p1,input.p2,input.p3,input.p4, input.lat, input.lng, input.alt }),
+                doJumpId = input._seq,
+                frame = input.frame
             };
 
             return temp;
@@ -120,7 +136,7 @@ namespace MissionPlanner.Utilities
                     y = (int)(cmd.lng * 1.0e7),
                     z = (float) cmd.alt,
                     seq = cmd._seq,
-                    frame = cmd._frame
+                    frame = cmd.frame
                 };
 
                 return temp;
@@ -138,7 +154,7 @@ namespace MissionPlanner.Utilities
                     y = (float) cmd.lng,
                     z = (float) cmd.alt,
                     seq = cmd._seq,
-                    frame = cmd._frame
+                    frame = cmd.frame
                 };
 
                 return temp;
@@ -146,11 +162,10 @@ namespace MissionPlanner.Utilities
         }
 
         private ushort _seq;
-        private byte _frame;
+        public byte frame;
         public object Tag;
 
         public ushort id;				// command id
-        public byte options;
         public float p1;				// param 1
         public float p2;				// param 2
         public float p3;				// param 3

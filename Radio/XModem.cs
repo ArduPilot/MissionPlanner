@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MissionPlanner.Comms;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using MissionPlanner.Comms;
 
 namespace MissionPlanner.Radio
 {
     public class XModem
     {
-        public static event Sikradio.LogEventHandler LogEvent;
-        public static event Sikradio.ProgressEventHandler ProgressEvent;
+        public delegate void LogEventHandler(string message, int level = 0);
+
+        public delegate void ProgressEventHandler(double completed);
+
+        public static event LogEventHandler LogEvent;
+        public static event ProgressEventHandler ProgressEvent;
 
         const byte SOH = 0x01;
         const byte EOT = 0x04;
@@ -68,18 +69,20 @@ namespace MissionPlanner.Radio
                 packet[131] = (byte)(CRC >> 8);
                 packet[132] = (byte)(CRC);
                 Serial.Write(packet, 0, packet.Length);
-                Serial.Write("" + EOT);
-                CustomMessageBox.Show("Firmware upgraded successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Serial.Write(new byte[] { EOT }, 0, 1);
+                ProgressEvent?.Invoke(100);
             }
             else if (bytesRead == 0)
             {
-                Serial.Write("" + EOT);
-                CustomMessageBox.Show("Firmware upgraded successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Serial.Write(new byte[] { EOT }, 0, 1);
+                ProgressEvent?.Invoke(100);
             }
         }
 
         public static void Upload(string firmwarebin, ICommsSerial comPort)
         {
+            comPort.ReadTimeout = 2000;
+
             using (var fs = new FileStream(firmwarebin, FileMode.Open))
             {
                 var len = (int)fs.Length;
@@ -87,10 +90,10 @@ namespace MissionPlanner.Radio
                 var startlen = len;
 
                 int a = 1;
+                int NoAckCount = 0;
                 while (len > 0)
                 {
-                    if (LogEvent != null)
-                        LogEvent("Uploading block " + a + "/" + startlen);
+                    LogEvent?.Invoke("Uploading block " + a + "/" + startlen);
 
                     SendBlock(fs, comPort, a);
                     // responce ACK
@@ -100,23 +103,34 @@ namespace MissionPlanner.Radio
 
                     if (ack == ACK)
                     {
+                        NoAckCount = 0;
                         len--;
                         a++;
 
-                        if (ProgressEvent != null)
-                            ProgressEvent(len / startlen);
+                        ProgressEvent?.Invoke(1 - ((double)len / (double)startlen));
                     }
                     else if (ack == NAK)
                     {
-                        CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
+                        MsgBox.CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         len = 0;
+                    }
+                    else
+                    {
+                        NoAckCount++;
+                        if (NoAckCount >= 10)
+                        {
+                        }
                     }
                 }
             }
 
             // boot
-            comPort.Write("b");
+            Thread.Sleep(100);
+            comPort.Write("\r\n");
+            Thread.Sleep(100);
+            comPort.Write("BOOTNEW\r\n");
+            Thread.Sleep(100);
         }
     }
 }

@@ -1,0 +1,12 @@
+{
+	"name": "mpu 9250",
+	"scan": [{
+		"device": "mpu9250",
+		"query": "0x75",
+		"responce": ["0x71"]
+	},{
+		"device": "mpu9250_ext",
+		"query": "0x75",
+		"responce": ["0x71"]
+	}]
+}

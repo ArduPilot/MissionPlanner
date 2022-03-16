@@ -1,0 +1,299 @@
+<graphs>
+
+  <graph name='EKF3/Gyro Bias'>
+    <description>EKF3 Gyro Bias</description>
+    <expression>XKF1[0].GX XKF1[0].GY XKF1[0].GZ XKF1[1].GX XKF1[1].GY XKF1[1].GZ XKF1[2].GX XKF1[2].GY XKF1[2].GZ</expression>
+    <expression>XKF1[0].GX XKF1[0].GY XKF1[0].GZ XKF1[1].GX XKF1[1].GY XKF1[1].GZ</expression>
+    <expression>XKF1.GX XKF1.GY XKF1.GZ</expression>
+  </graph>
+
+  <graph name='EKF3/Origin Height'>
+    <description>EKF3 Origin Height</description>
+    <expression>XKF1[0].OH XKF1[1].OH XKF1[2].OH</expression>
+    <expression>XKF1[0].OH XKF1[1].OH</expression>
+    <expression>XKF1.OH</expression>
+  </graph>
+
+  <graph name='EKF3/Pos D'>
+    <description>EKF3 Position Down</description>
+    <expression>XKF1[0].PD XKF1[1].PD XKF1[2].PD</expression>
+    <expression>XKF1[0].PD XKF1[1].PD</expression>
+    <expression>XKF1.PD</expression>
+  </graph>
+
+
+  <graph name='EKF3/Pos NE'>
+    <description>EKF3 Position North/East</description>
+    <expression>XKF1[0].PN XKF1[1].PN XKF1[2].PN XKF1[0].PE XKF1[1].PE XKF1[2].PE</expression>
+    <expression>XKF1[0].PN XKF1[1].PN XKF1[0].PE XKF1[1].PE</expression>
+    <expression>XKF1.PN XKF1.PE</expression>
+  </graph>
+
+  <graph name='EKF3/Pos D'>
+    <description>EKF3 Position Down</description>
+    <expression>XKF1[0].PD XKF1[1].PD XKF1[2].PD</expression>
+    <expression>XKF1[0].PD XKF1[1].PD</expression>
+    <expression>XKF1.PD</expression>
+  </graph>
+
+  <graph name='EKF3/Position Innovation NE'>
+    <description>EKF3 Position Innovation North/East</description>
+    <expression>XKF3[0].IPN XKF3[1].IPN XKF3[2].IPN XKF3[0].IPE XKF3[1].IPE XKF3[2].IPE</expression>
+    <expression>XKF3[0].IPN XKF3[1].IPN XKF3[0].IPE XKF3[1].IPE</expression>
+    <expression>XKF3.IPN XKF3.IPE</expression>
+  </graph>
+
+  <graph name='EKF3/Position Innovation Down'>
+    <description>EKF3 Position Down</description>
+    <expression>XKF3[0].IPD XKF3[1].IPD XKF3[2].IPD</expression>
+    <expression>XKF3[0].IPD XKF3[1].IPD</expression>
+    <expression>XKF3.IPD</expression>
+  </graph>
+
+  <graph name='EKF3/Velocity Innovation NE'>
+    <description>EKF3 Velocity Innovation North/East</description>
+    <expression>XKF3[0].IVN XKF3[1].IVN XKF3[2].IVN XKF3[0].IVE XKF3[1].IVE XKF3[2].IVE</expression>
+    <expression>XKF3[0].IVN XKF3[1].IVN XKF3[0].IVE XKF3[1].IVE</expression>
+    <expression>XKF3.IVN XKF3.IVE</expression>
+  </graph>
+
+  <graph name='EKF3/Velocity Innovation Down'>
+    <description>EKF3 Velocity Down</description>
+    <expression>XKF3[0].IVD XKF3[1].IVD XKF3[2].IVD</expression>
+    <expression>XKF3[0].IVD XKF3[1].IVD</expression>
+    <expression>XKF3.IVD</expression>
+  </graph>
+
+  <graph name='EKF3/Mag Innovations Lane1'>
+    <description>EKF3 Mag Innovations Lane1</description>
+    <expression>XKF3[0].IMX XKF3[0].IMY XKF3[0].IMZ XKF3[0].IYAW:2</expression>
+  </graph>
+
+  <graph name='EKF3/Mag Innovations Lane2'>
+    <description>EKF3 Mag Innovations Lane2</description>
+    <expression>XKF3[1].IMX XKF3[1].IMY XKF3[1].IMZ XKF3[1].IYAW:2</expression>
+  </graph>
+
+  <graph name='EKF3/Mag Innovations Lane3'>
+    <description>EKF3 Mag Innovations Lane3</description>
+    <expression>XKF3[2].IMX XKF3[2].IMY XKF3[2].IMZ XKF3[2].IYAW:2</expression>
+  </graph>
+  
+  <graph name='EKF3/Euler Roll'>
+    <description>EKF3 Euler Roll</description>
+    <expression>ATT.Roll XKF1[0].Roll XKF1[1].Roll XKF1[2].Roll</expression>
+    <expression>ATT.Roll XKF1[0].Roll XKF1[1].Roll</expression>
+    <expression>ATT.Roll XKF1.Roll</expression>
+  </graph>
+
+  <graph name='EKF3/Euler Pitch'>
+    <description>EKF3 Euler Pitch</description>
+    <expression>ATT.Pitch XKF1[0].Pitch XKF1[1].Pitch XKF1[2].Pitch</expression>
+    <expression>ATT.Pitch XKF1[0].Pitch XKF1[1].Pitch</expression>
+    <expression>ATT.Pitch XKF1.Pitch</expression>
+  </graph>
+
+  <graph name='EKF3/Euler Yaw'>
+    <description>EKF3 Euler Yaw</description>
+    <expression>ATT.Yaw XKF1[0].Yaw XKF1[1].Yaw XKF1[2].Yaw</expression>
+    <expression>ATT.Yaw XKF1[0].Yaw XKF1[1].Yaw</expression>
+    <expression>ATT.Yaw XKF1.Yaw</expression>
+  </graph>
+  
+  <graph name='EKF3/Velocity N'>
+    <description>EKF3 Velocity North</description>
+    <expression>XKF1[0].VN XKF1[1].VN XKF1[2].VN</expression>
+    <expression>XKF1[0].VN XKF1[1].VN</expression>
+    <expression>XKF1.VN</expression>
+  </graph>
+
+  <graph name='EKF3/Velocity E'>
+    <description>EKF3 Velocity East</description>
+    <expression>XKF1[0].VE XKF1[1].VE XKF1[2].VE</expression>
+    <expression>XKF1[0].VE XKF1[1].VE</expression>
+    <expression>XKF1.VE</expression>
+  </graph>
+
+  <graph name='EKF3/Velocity D'>
+    <description>EKF3 Velocity Down</description>
+    <expression>XKF1[0].VD XKF1[1].VD XKF1[2].VD</expression>
+    <expression>XKF1[0].VD XKF1[1].VD</expression>
+    <expression>XKF1.VD</expression>
+  </graph>
+
+  <graph name='EKF3/Velocity dDP'>
+    <description>EKF3 Velocity Down (DP derivative)</description>
+    <expression>XKF1[0].dPD XKF1[1].dPD XKF1[2].dPD</expression>
+    <expression>XKF1[0].dPD XKF1[1].dPD</expression>
+    <expression>XKF1.dPD</expression>
+  </graph>
+
+  <graph name='EKF3/Accel Bias Lane1'>
+    <description>EKF3 Accel Bias Lane1</description>
+    <expression>XKF2[0].AX XKF2[0].AY XKF2[0].AZ</expression>
+    <expression>XKF2.AX XKF2.AY XKF2.AZ</expression>
+  </graph>
+
+  <graph name='EKF3/Accel Bias Lane2'>
+    <description>EKF3 Accel Bias Lane2</description>
+    <expression>XKF2[1].AX XKF2[1].AY XKF2[1].AZ</expression>
+  </graph>
+
+  <graph name='EKF3/Accel Bias Lane3'>
+    <description>EKF3 Accel Bias Lane3</description>
+    <expression>XKF2[2].AX XKF2[2].AY XKF2[2].AZ</expression>
+  </graph>
+  
+  <graph name='EKF3/Gyro Scale Factor'>
+    <description>EKF3 Gyro Scale Factor</description>
+    <expression>XKF2[0].GSX XKF2[0].GSY XKF2[0].GSZ XKF2[1].GSX XKF2[1].GSY XKF2[1].GSZ XKF2[2].GSX XKF2[2].GSY XKF2[2].GSZ</expression>
+    <expression>XKF2[0].GSX XKF2[0].GSY XKF2[0].GSZ XKF2[1].GSX XKF2[1].GSY XKF2[1].GSZ</expression>
+    <expression>XKF2.GSX XKF2.GSY XKF2.GSZ</expression>
+  </graph>
+
+  <graph name='EKF3/Mag Earth Field'>
+    <description>EKF3 Mag Earth Field</description>
+    <expression>XKF2[0].MN XKF2[0].ME XKF2[0].MD XKF2[1].MN XKF2[1].ME XKF2[1].MD XKF2[2].MN XKF2[2].ME XKF2[2].MD</expression>
+    <expression>XKF2[0].MN XKF2[0].ME XKF2[0].MD XKF2[1].MN XKF2[1].ME XKF2[1].MD</expression>
+    <expression>XKF2.MN XKF2.ME XKF2.MD</expression>
+  </graph>
+
+  <graph name='EKF3/Mag Body Field'>
+    <description>EKF3 Mag Body Field</description>
+    <expression>XKF2[0].MX XKF2[0].MY XKF2[0].MZ XKF2[1].MX XKF2[1].MY XKF2[1].MZ XKF2[2].MX XKF2[2].MY XKF2[2].MZ</expression>
+    <expression>XKF2[0].MX XKF2[0].MY XKF2[0].MZ XKF2[1].MX XKF2[1].MY XKF2[1].MZ</expression>
+    <expression>XKF2.MX XKF2.MY XKF2.MZ</expression>
+  </graph>
+
+  <graph name='EKF3/Wind NE'>
+    <description>EKF3 Wind NE</description>
+    <expression>XKF2[0].VWN XKF2[0].VWE XKF2[1].VWN XKF2[1].VWE XKF2[2].VWN XKF2[2].VWE</expression>
+    <expression>XKF2[0].VWN XKF2[0].VWE XKF2[1].VWN XKF2[1].VWE</expression>
+    <expression>XKF2.VWN XKF2.VWE</expression>
+  </graph>
+
+  <graph name='EKF3/Mag Innovations Lane1'>
+    <description>EKF3 Mag Innovations Lane1</description>
+    <expression>XKF3[0].IMX XKF2[0].IMY XKF2[0].IMZ XKF3[0].IYAW:2</expression>
+    <expression>XKF3.IMX XKF2.IMY XKF2.IMZ XKF3.IYAW:2</expression>
+  </graph>
+
+  <graph name='EKF3/Mag Innovations Lane2'>
+    <description>EKF3 Mag Innovations Lane2</description>
+    <expression>XKF3[1].IMX XKF2[1].IMY XKF2[1].IMZ XKF3[1].IYAW:2</expression>
+  </graph>
+
+  <graph name='EKF3/Mag Innovations Lane3'>
+    <description>EKF3 Mag Innovations Lane3</description>
+    <expression>XKF3[2].IMX XKF2[2].IMY XKF2[2].IMZ XKF3[2].IYAW:2</expression>
+  </graph>
+  
+  <graph name='EKF3/Pos Innovations Lane1'>
+    <description>EKF3 Pos Innovations Lane1</description>
+    <expression>XKF3[0].IPN XKF2[0].IPE XKF2[0].IPD</expression>
+    <expression>XKF3.IPN XKF2.IPE XKF2.IPD</expression>
+  </graph>
+
+  <graph name='EKF3/Pos Innovations Lane2'>
+    <description>EKF3 Pos Innovations Lane2</description>
+    <expression>XKF3[1].IPN XKF2[1].IPE XKF2[1].IPD</expression>
+  </graph>
+
+  <graph name='EKF3/Pos Innovations Lane3'>
+    <description>EKF3 Pos Innovations Lane3</description>
+    <expression>XKF3[2].IPN XKF2[2].IPE XKF2[2].IPD</expression>
+  </graph>
+
+  <graph name='EKF3/Velocity Innovations Lane1'>
+    <description>EKF3 Velocity Innovations Lane1</description>
+    <expression>XKF3[0].IVN XKF2[0].IVE XKF2[0].IVD</expression>
+    <expression>XKF3.IVN XKF2.IVE XKF2.IVD</expression>
+  </graph>
+
+  <graph name='EKF3/Velocity Innovations Lane2'>
+    <description>EKF3 Velocity Innovations Lane2</description>
+    <expression>XKF3[1].IVN XKF2[1].IVE XKF2[1].IVD</expression>
+  </graph>
+
+  <graph name='EKF3/Velocity Innovations Lane3'>
+    <description>EKF3 Velocity Innovations Lane3</description>
+    <expression>XKF3[2].IVN XKF2[2].IVE XKF2[2].IVD</expression>
+  </graph>
+  
+
+  <graph name='EKF3/Normalised Innovations EK3 Lane1'>
+    <description>EKF3 Normalized Innovations Lane1</description>
+    <expression>XKF4[0].SV XKF4[0].SP XKF4[0].SH XKF4[0].SM XKF4[0].SVT</expression>
+    <expression>XKF4.SV XKF4.SP XKF4.SH XKF4.SM XKF4.SVT</expression>
+  </graph>
+
+  <graph name='EKF3/Normalised Innovations EK3 Lane2'>
+    <description>EKF3  Normalized Innovations Lane2</description>
+    <expression>XKF4[1].SV XKF4[1].SP XKF4[1].SH XKF4[1].SM XKF4[1].SVT</expression>
+    <expression>XKF9.SV XKF9.SP XKF9.SH XKF9.SM XKF9.SVT</expression>
+  </graph>
+
+  <graph name='EKF3/Wind Speed and Direction'>
+    <description>EKF3 Wind Velocity NE</description>
+    <expression>sqrt(XKF2[0].VWN**2+XKF2[0].VWE**2) wrap_360(degrees(atan2(-XKF2[0].VWE,-XKF2[0].VWN))):2 sqrt(XKF2[1].VWN**2+XKF2[1].VWE**2) wrap_360(degrees(atan2(-XKF2[1].VWE,-XKF2[1].VWN))):2</expression>
+    <expression>sqrt(XKF2.VWN**2+XKF2.VWE**2) wrap_360(degrees(atan2(-XKF2.VWE,-XKF2.VWN))):2 sqrt(XKF7.VWN**2+XKF7.VWE**2) wrap_360(degrees(atan2(-XKF7.VWE,-XKF7.VWN))):2</expression>
+  </graph>
+
+  <graph name='EKF3/Solution Status'>
+    <description>EKF3 Solution Status</description>
+    <expression>XKF4[0].SS XKF4[1].SS XKF4[2].SS</expression>
+    <expression>XKF4[0].SS XKF4[1].SS</expression>
+    <expression>XKF4.SS XKF9.SS</expression>
+    <expression>XKF4.SS</expression>
+  </graph>
+
+  <graph name='EKF3/GPS Check Status'>
+    <description>EKF3 GPS Check Status</description>
+    <expression>XKF4[0].GPS XKF4[1].GPS XKF4[2].GPS</expression>
+    <expression>XKF4[0].GPS XKF4[1].GPS</expression>
+    <expression>XKF4.GPS XKF9.GPS</expression>
+    <expression>XKF4.GPS</expression>
+  </graph>
+
+  <graph name='EKF3/Optical Flow Innovations'>
+    <description>EKF3 Optical Flow Innovations</description>
+    <expression>XKF5[0].FIX XKF5[0].FIY XKF5[0].AFI</expression>
+    <expression>XKF5.FIX XKF5.FIY XKF5.AFI</expression>
+  </graph>
+
+  <graph name='EKF3/Rangefinder Innovations'>
+    <description>EKF3 Rangefinder Innovations</description>
+    <expression>XKF5[0].RI XKF5[1].RI XKF5[2].RI</expression>
+    <expression>XKF5[0].RI XKF5[1].RI</expression>
+    <expression>XKF5.RI</expression>
+  </graph>
+
+  <graph name='EKF3/Magnetometer Selection'>
+    <description>EKF3 Magnetometer Selection</description>
+    <expression>XKF2[0].MI XKF2[1].MI XKF2[2].MI</expression>
+    <expression>XKF2[0].MI XKF2[1].MI</expression>
+    <expression>XKF2.MI XKF7.MI</expression>
+    <expression>XKF2.MI</expression>
+  </graph>
+
+  <graph name='EKF3/Primary Core'>
+    <description>EKF3 Primary Core</description>
+    <expression>XKF4.PI</expression>
+  </graph>
+
+  <graph name='EKF3/Error Scores'>
+    <description>EKF3 Error Scores</description>
+    <expression>XKF3[0].ErSc XKF3[1].ErSc XKF3[2].ErSc XKF4.PI:2</expression>
+    <expression>XKF3[0].ErSc XKF3[1].ErSc XKF4.PI:2</expression>
+    <expression>XKF3.ErSc XKF4.PI:2</expression>
+  </graph>
+
+  <graph name='EKF3/Relative Errors'>
+    <description>EKF3 Relative Errors</description>
+    <expression>XKF3[0].RErr XKF3[1].RErr XKF3[2].RErr XKF4.PI:2</expression>
+    <expression>XKF3[0].RErr XKF3[1].RErr XKF4.PI:2</expression>
+    <expression>XKF3.RErr XKF4.PI:2</expression>
+  </graph>
+  
+</graphs>
+
