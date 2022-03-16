@@ -1,4 +1,100 @@
-﻿*Mission Planner 1.3.76 - 25-12-2021
+﻿*Mission Planner 1.3.77 - 16-03-2022
+LowBrowse: sort instance numbers #2817
+UdpSerialConnect: 30 second multicast join
+UdpSerialConnect: add debug for multicast
+SerialOutputCoT: add ATAK MC
+Compression: copy to output
+MAVFtp: param get more verbose
+MAVLinkInspector: add comp description
+MainV2: dedup comports
+Mavlink: fix crc extra
+mono: update
+Drawing: handle bad Bitmap size
+px4uploader: better filter fw file contents
+Xamarin: update sdk version
+Installer: update paths
+Project: compression fix
+MAVLinkInterface: allow unknown packets to pass to ProcessMirrorStream
+Project: add System.IO.Compression
+MAVLinkInterface: cleanup STX
+Mavlink: update for CAN_FRAME and python 3.10
+UsbSerialForAndroid: api 30
+Xamarin: fix speech android 11
+Actions: exclude apk from cache
+Android: release apk
+suppress errors when not analog battery monitor
+fixed "Sonar Range" units
+Actions: sign apk with common key
+Fix typo at setup->advanced
+InputBox: handle bad autocomplete
+MAVLinkInterface: fix spelling
+PointLatLngAlt: add GetGreatCirclePathPoint
+Uploader: fix for ardupilot flaw in bootloader version #2800
+px4firmware: update for extf #2800
+PLAN: Add MAV_CMD_DO_SPRAYER to the command list
+Fix application local data path in *nix based OS
+Updater: improve performance
+Plugins: update herelink baud
+Updater: update ts server
+Speech: festival working under wsl
+TerrainFollow: less verbose
+ConfigParamLoading: add retry button
+adsb: add extra callsign types
+Show me Again Firmware Checkbox now working
+adsb: fix HAE alt
+SerialOutputNMEA: add \r
+ImageViz: update for 2022
+Xamarin: cleanup old projectref
+net 472
+nuget: update Microsoft.NETFramework.ReferenceAssemblies
+Google: remove key and elevation usage
+SITL: fix multi sitl
+Readme: update with .vsconfig
+FlightData: add multiline option
+ZedGraphControl: fix zoom box on screenscaled display
+FlightData: make action dropdown wider, script stop/restart working
+MAVFtp: dont override size on requests #2784
+FlightData: add right axis in tuning #2788
+MainV2: save config on more than just exit
+CurrentState: fix altasl unit display #2790
+Offset Polygon Menu Item
+Grid circular pattern exposed number of laps to UI
+GCSViews: FLOWHOLD and ZIGZAG support simple mode
+MAVLinkInterface: getHeartBeatAsync accepts HIGH_LATENCY2
+MAVLinkInterface: treat highlatency as a hb
+added pidSRate and pidPDmod graph fields
+MavFTP: make multi select download folder based
+Actions: beta
+ConfigHWID: update devids
+FlightPlanner: prevent exception
+Plugins: add LED example
+Actions: continue on google play error
+display a warning for bad airspeed health
+GCSViews: FlightData: persist namedfloat over re-load
+Actions: beta build
+app.config: move from appveyor to github for beta release
+Grid: Remove duplicated ToolstripMenu item creation.
+GCSViews: Set the home position to the seventh decimal place
+CTRL-F screen, add editor to add/delete mavlink commands to Planner grid dropdown
+Fix route drawing on Log MAP when waypoints changed during logging
+LogBrowser: Fix X scale name after load a loag (time vs. line)
+Display the latest param value from log
+Xamarin: move to SKDrawable
+Drawing: ResetTransform doesnt reset clip
+Utilities: gstreamer multi platform
+GStreamer: fix for net48
+Xamarin:  gles 3.0 min
+SkiaTest: Update
+Xamarin: log opengl version
+Drawing: use bitmap
+MavLinkInterface.readPackeyAsync() include sequencing in readlock
+Controls: invalidate check
+Drawing: null checks
+Xamarin: usbdevice null check
+display DO_AUX_FUNCTION in mission editor
+Update Czech map provider for the new api format.
+
+*Mission Planner 1.3.76 - 25-12-2021
 Vario: move to async
 FlightPlanner: clear mavmarkers every 10 seconds
 wasm: update nugets
