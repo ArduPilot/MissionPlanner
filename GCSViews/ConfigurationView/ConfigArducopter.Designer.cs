@@ -477,9 +477,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox24
             // 
-            this.groupBox24.Controls.Add(this.ATC_RAT_RLL_FLTT);
+            this.groupBox24.Controls.Add(this.ATC_RAT_PIT_FLTT);
             this.groupBox24.Controls.Add(this.label30);
-            this.groupBox24.Controls.Add(this.ATC_RAT_RLL_FLTD);
+            this.groupBox24.Controls.Add(this.ATC_RAT_PIT_FLTD);
             this.groupBox24.Controls.Add(this.label29);
             this.groupBox24.Controls.Add(this.RATE_PIT_FILT);
             this.groupBox24.Controls.Add(this.label14);
@@ -532,9 +532,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox25
             // 
-            this.groupBox25.Controls.Add(this.ATC_RAT_PIT_FLTT);
+            this.groupBox25.Controls.Add(this.ATC_RAT_RLL_FLTT);
             this.groupBox25.Controls.Add(this.label28);
-            this.groupBox25.Controls.Add(this.ATC_RAT_PIT_FLTD);
+            this.groupBox25.Controls.Add(this.ATC_RAT_RLL_FLTD);
             this.groupBox25.Controls.Add(this.P_FLTD);
             this.groupBox25.Controls.Add(this.RATE_RLL_FILT);
             this.groupBox25.Controls.Add(this.label12);
