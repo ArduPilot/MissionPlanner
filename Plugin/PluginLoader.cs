@@ -11,6 +11,7 @@ using MissionPlanner.Controls;
 using DroneCAN;
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace MissionPlanner.Plugin
 {
@@ -241,6 +242,9 @@ namespace MissionPlanner.Plugin
 
                         InitPlugin(ans, Path.GetFileName(csFile));
 
+                        log.Info("CodeGenRoslyn: " + csFile);
+                        if (Program.MONO)
+                            Thread.Sleep(2000);
                         continue;
                     }
                     catch (Exception ex)
@@ -263,7 +267,12 @@ namespace MissionPlanner.Plugin
                         InitPlugin(results?.CompiledAssembly, Path.GetFileName(csFile));
 
                         if (results?.CompiledAssembly != null)
+                        {
+                            log.Info("CodeGen: " + csFile);
+                            if (Program.MONO)
+                                Thread.Sleep(2000);
                             continue;
+                        }
                     }
                     catch (Exception ex)
                     {
