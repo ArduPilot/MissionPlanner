@@ -871,7 +871,34 @@ namespace MissionPlanner.GCSViews
 
         private void addMissionRouteMarker(GMapMarker marker)
         {
-            BeginInvoke((Action) delegate { routes.Markers.Add(marker); });
+            if (marker == null) return;
+
+            this.BeginInvokeIfRequired((Action) delegate
+            {
+                routes.Markers.InsertSorted(marker, Comparer<GMapMarker>.Create((a, b) =>
+                {
+                    var bvalue = 0;
+                    if (b is GMapMarkerBoat)
+                        bvalue = 0;
+                    else if (b is GMapMarkerRover)
+                        bvalue = 1;
+                    else if (b is GMapMarkerPlane)
+                        bvalue = 2;
+                    else if (b is GMapMarkerQuad)
+                        bvalue = 3;
+
+                    if (a is GMapMarkerBoat)
+                        return 0.CompareTo(bvalue);
+                    else if (a is GMapMarkerRover)
+                        return 1.CompareTo(bvalue);
+                    else if (a is GMapMarkerPlane)
+                        return 2.CompareTo(bvalue);
+                    else if (a is GMapMarkerQuad)
+                        return 3.CompareTo(bvalue);
+
+                    return a.GetType().Name.CompareTo(b.GetType().Name);
+                }));
+            });
         }
 
         private void addPoiToolStripMenuItem_Click(object sender, EventArgs e)
