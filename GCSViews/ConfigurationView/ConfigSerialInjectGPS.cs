@@ -654,7 +654,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 msgseen[msgname] = (int)msgseen[msgname] + 1;
                             }
                             // can_rtcm
-                            if ((seenmsg = can.Read(buffer[a])) > 0)
+                            if ((seenmsg = can.ReadSLCAN(buffer[a])) > 0)
                             {
                                 sbp.resetParser();
                                 ubx_m8p.resetParser();

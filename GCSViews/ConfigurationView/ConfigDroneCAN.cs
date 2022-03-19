@@ -222,8 +222,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req gnireq = new DroneCAN.DroneCAN.uavcan_protocol_GetNodeInfo_req() { };
                             gnireq.encode(DroneCAN.DroneCAN.dronecan_transmit_chunk_handler, statetracking);
 
-                            var slcan = can.PackageMessage(frame.SourceNode, 30, 0, gnireq);
-                            can.WriteToStream(slcan);
+                            var slcan = can.PackageMessageSLCAN(frame.SourceNode, 30, 0, gnireq);
+                            can.WriteToStreamSLCAN(slcan);
                         }
 
                         foreach (var item in nodes)
@@ -608,10 +608,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                                         Console.WriteLine();
                                         tcpbps += read;
-                                        var slcan = can.PackageMessage(0, 30, 0,
+                                        var slcan = can.PackageMessageSLCAN(0, 30, 0,
                                             new DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream()
                                                 {protocol_id = 3, data = buffer, data_len = (byte) read});
-                                        can.WriteToStream(slcan);
+                                        can.WriteToStreamSLCAN(slcan);
                                     }
 
                                     Thread.Sleep(1);

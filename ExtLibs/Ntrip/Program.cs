@@ -138,7 +138,7 @@ namespace Ntrip
                                 gotRTCMData?.Invoke(rtcm.packet, rtcm.length);
                                 file.Write(rtcm.packet, 0, rtcm.length);
                             }
-                            if ((by >= 0 && can.Read(by) > 0))// can_rtcm
+                            if ((by >= 0 && can.ReadSLCAN(by) > 0))// can_rtcm
                             {
                                 ubx.resetParser();
                             }
