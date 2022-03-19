@@ -4516,7 +4516,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 buildplaintxtline = "";
                             }
 
-                            TCPConsole.Write(buffer[0]);
+                            //TCPConsole.Write(buffer[0]);
                             Console.Write((char)buffer[0]);
                             buildplaintxtline += (char)buffer[0];
                         }

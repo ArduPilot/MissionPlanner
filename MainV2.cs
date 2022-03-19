@@ -768,9 +768,6 @@ namespace MissionPlanner
 
             View = MyView;
 
-            //startup console
-            TCPConsole.Write((byte) 'S');
-
             // define default basestream
             comPort.BaseStream = new SerialPort();
             comPort.BaseStream.BaudRate = 57600;
