@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_ardupilot_indication_Button(ardupilot_indication_Button msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,67 +31,22 @@ namespace DroneCAN
         }
 
         static void _encode_ardupilot_indication_Button(uint8_t[] buffer, ardupilot_indication_Button msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.button);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.press_time);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
         }
 
         static void _decode_ardupilot_indication_Button(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_indication_Button msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.button);
-
-
             bit_ofs += 8;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.press_time);
-
-
             bit_ofs += 8;
 
-
-
-
-
-
         }
-
     }
-
 }

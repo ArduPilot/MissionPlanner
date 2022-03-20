@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_equipment_power_PrimaryPowerSupplyStatus(uavcan_equipment_power_PrimaryPowerSupplyStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,143 +31,54 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_equipment_power_PrimaryPowerSupplyStatus(uint8_t[] buffer, uavcan_equipment_power_PrimaryPowerSupplyStatus msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.hours_to_empty_at_10sec_avg_power);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.hours_to_empty_at_10sec_avg_power_variance);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.external_power_available);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 7, msg.remaining_energy_pct);
-
             chunk_cb(buffer, 7, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 7, msg.remaining_energy_pct_stdev);
-
             chunk_cb(buffer, 7, ctx);
-
-
-
-
-
         }
 
         static void _decode_uavcan_equipment_power_PrimaryPowerSupplyStatus(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_power_PrimaryPowerSupplyStatus msg, bool tao) {
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.hours_to_empty_at_10sec_avg_power = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.hours_to_empty_at_10sec_avg_power_variance = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.external_power_available);
-
-
             bit_ofs += 1;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.remaining_energy_pct);
-
-
             bit_ofs += 7;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.remaining_energy_pct_stdev);
-
-
             bit_ofs += 7;
 
-
-
-
-
-
         }
-
     }
-
 }

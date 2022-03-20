@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,47 +17,21 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
+    public partial class DroneCAN 
+    {
 //using uavcan.protocol.HardwareVersion.cs
-
-//using uavcan.protocol.NodeStatus.cs
-
 //using uavcan.protocol.SoftwareVersion.cs
-
-
-        public const int UAVCAN_PROTOCOL_GETNODEINFO_RES_MAX_PACK_SIZE = 377;
-        public const ulong UAVCAN_PROTOCOL_GETNODEINFO_RES_DT_SIG = 0xEE468A8121C46A9E;
-
-        public const int UAVCAN_PROTOCOL_GETNODEINFO_RES_DT_ID = 1;
-
-
-
-
-
-
-        public partial class uavcan_protocol_GetNodeInfo_res: IDroneCANSerialize {
-
-
+//using uavcan.protocol.NodeStatus.cs
+        public partial class uavcan_protocol_GetNodeInfo_res: IDroneCANSerialize 
+        {
+            public const int UAVCAN_PROTOCOL_GETNODEINFO_RES_MAX_PACK_SIZE = 377;
+            public const ulong UAVCAN_PROTOCOL_GETNODEINFO_RES_DT_SIG = 0xEE468A8121C46A9E;
+            public const int UAVCAN_PROTOCOL_GETNODEINFO_RES_DT_ID = 1;
 
             public uavcan_protocol_NodeStatus status = new uavcan_protocol_NodeStatus();
-
-
-
             public uavcan_protocol_SoftwareVersion software_version = new uavcan_protocol_SoftwareVersion();
-
-
-
             public uavcan_protocol_HardwareVersion hardware_version = new uavcan_protocol_HardwareVersion();
-
-
-
             public uint8_t name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)] public uint8_t[] name = Enumerable.Range(1, 80).Select(i => new uint8_t()).ToArray();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -68,6 +41,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_protocol_GetNodeInfo_res(transfer, this);
+            }
+
+            public static uavcan_protocol_GetNodeInfo_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_protocol_GetNodeInfo_res();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

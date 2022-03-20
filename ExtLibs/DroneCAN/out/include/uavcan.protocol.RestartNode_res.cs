@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,29 +17,15 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_PROTOCOL_RESTARTNODE_RES_MAX_PACK_SIZE = 1;
-        public const ulong UAVCAN_PROTOCOL_RESTARTNODE_RES_DT_SIG = 0x569E05394A3017F0;
-
-        public const int UAVCAN_PROTOCOL_RESTARTNODE_RES_DT_ID = 5;
-
-
-
-
-
-
-        public partial class uavcan_protocol_RestartNode_res: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_protocol_RestartNode_res: IDroneCANSerialize 
+        {
+            public const int UAVCAN_PROTOCOL_RESTARTNODE_RES_MAX_PACK_SIZE = 1;
+            public const ulong UAVCAN_PROTOCOL_RESTARTNODE_RES_DT_SIG = 0x569E05394A3017F0;
+            public const int UAVCAN_PROTOCOL_RESTARTNODE_RES_DT_ID = 5;
 
             public bool ok = new bool();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -50,6 +35,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_protocol_RestartNode_res(transfer, this);
+            }
+
+            public static uavcan_protocol_RestartNode_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_protocol_RestartNode_res();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

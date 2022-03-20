@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,41 +17,18 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_EQUIPMENT_HARDPOINT_STATUS_MAX_PACK_SIZE = 7;
-        public const ulong UAVCAN_EQUIPMENT_HARDPOINT_STATUS_DT_SIG = 0x624A519D42553D82;
-
-        public const int UAVCAN_EQUIPMENT_HARDPOINT_STATUS_DT_ID = 1071;
-
-
-
-
-
-
-        public partial class uavcan_equipment_hardpoint_Status: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_equipment_hardpoint_Status: IDroneCANSerialize 
+        {
+            public const int UAVCAN_EQUIPMENT_HARDPOINT_STATUS_MAX_PACK_SIZE = 7;
+            public const ulong UAVCAN_EQUIPMENT_HARDPOINT_STATUS_DT_SIG = 0x624A519D42553D82;
+            public const int UAVCAN_EQUIPMENT_HARDPOINT_STATUS_DT_ID = 1071;
 
             public uint8_t hardpoint_id = new uint8_t();
-
-
-
             public Single payload_weight = new Single();
-
-
-
             public Single payload_weight_variance = new Single();
-
-
-
             public uint16_t status = new uint16_t();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -62,6 +38,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_equipment_hardpoint_Status(transfer, this);
+            }
+
+            public static uavcan_equipment_hardpoint_Status ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_equipment_hardpoint_Status();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_equipment_gnss_Auxiliary(uavcan_equipment_gnss_Auxiliary msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,256 +31,113 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_equipment_gnss_Auxiliary(uint8_t[] buffer, uavcan_equipment_gnss_Auxiliary msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.gdop);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.pdop);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.hdop);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.vdop);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.tdop);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.ndop);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.edop);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 7, msg.sats_visible);
-
             chunk_cb(buffer, 7, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 6, msg.sats_used);
-
             chunk_cb(buffer, 6, ctx);
-
-
-
-
-
         }
 
         static void _decode_uavcan_equipment_gnss_Auxiliary(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_gnss_Auxiliary msg, bool tao) {
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.gdop = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.pdop = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.hdop = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.vdop = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.tdop = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.ndop = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.edop = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.sats_visible);
-
-
             bit_ofs += 7;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.sats_used);
-
-
             bit_ofs += 6;
 
-
-
-
-
-
         }
-
     }
-
 }

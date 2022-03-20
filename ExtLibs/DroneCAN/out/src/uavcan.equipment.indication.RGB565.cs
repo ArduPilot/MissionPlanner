@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_equipment_indication_RGB565(uavcan_equipment_indication_RGB565 msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,89 +31,28 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_equipment_indication_RGB565(uint8_t[] buffer, uavcan_equipment_indication_RGB565 msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 5, msg.red);
-
             chunk_cb(buffer, 5, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 6, msg.green);
-
             chunk_cb(buffer, 6, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 5, msg.blue);
-
             chunk_cb(buffer, 5, ctx);
-
-
-
-
-
         }
 
         static void _decode_uavcan_equipment_indication_RGB565(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_indication_RGB565 msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 5, false, ref msg.red);
-
-
             bit_ofs += 5;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.green);
-
-
             bit_ofs += 6;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 5, false, ref msg.blue);
-
-
             bit_ofs += 5;
 
-
-
-
-
-
         }
-
     }
-
 }

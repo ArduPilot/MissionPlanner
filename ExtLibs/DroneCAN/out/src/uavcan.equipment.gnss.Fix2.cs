@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_equipment_gnss_Fix2(uavcan_equipment_gnss_Fix2 msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,476 +31,155 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_equipment_gnss_Fix2(uint8_t[] buffer, uavcan_equipment_gnss_Fix2 msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             _encode_uavcan_Timestamp(buffer, msg.timestamp, chunk_cb, ctx, false);
-
-
-
-
-
             _encode_uavcan_Timestamp(buffer, msg.gnss_timestamp, chunk_cb, ctx, false);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 3, msg.gnss_time_standard);
-
             chunk_cb(buffer, 3, ctx);
-
-
-
-
-
             chunk_cb(null, 13, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.num_leap_seconds);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 37, msg.longitude_deg_1e8);
-
             chunk_cb(buffer, 37, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 37, msg.latitude_deg_1e8);
-
             chunk_cb(buffer, 37, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 27, msg.height_ellipsoid_mm);
-
             chunk_cb(buffer, 27, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 27, msg.height_msl_mm);
-
             chunk_cb(buffer, 27, ctx);
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.ned_velocity[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 6, msg.sats_used);
-
             chunk_cb(buffer, 6, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 2, msg.status);
-
             chunk_cb(buffer, 2, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 4, msg.mode);
-
             chunk_cb(buffer, 4, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 6, msg.sub_mode);
-
             chunk_cb(buffer, 6, ctx);
-
-
-
-
-
-
-
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 6, msg.covariance_len);
             chunk_cb(buffer, 6, ctx);
-
             for (int i=0; i < msg.covariance_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.covariance[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.pdop);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 1, msg.ecef_position_velocity_len);
                 chunk_cb(buffer, 1, ctx);
-
-
             }
-
             for (int i=0; i < msg.ecef_position_velocity_len; i++) {
-
-
-
                     _encode_uavcan_equipment_gnss_ECEFPositionVelocity(buffer, msg.ecef_position_velocity[i], chunk_cb, ctx, false);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_uavcan_equipment_gnss_Fix2(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_gnss_Fix2 msg, bool tao) {
 
-
-
-
-
-
             _decode_uavcan_Timestamp(transfer, ref bit_ofs, msg.timestamp, false);
-
-
-
-
-
 
             _decode_uavcan_Timestamp(transfer, ref bit_ofs, msg.gnss_timestamp, false);
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.gnss_time_standard);
-
-
             bit_ofs += 3;
-
-
-
-
-
 
             bit_ofs += 13;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.num_leap_seconds);
-
-
             bit_ofs += 8;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 37, true, ref msg.longitude_deg_1e8);
-
-
             bit_ofs += 37;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 37, true, ref msg.latitude_deg_1e8);
-
-
             bit_ofs += 37;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 27, true, ref msg.height_ellipsoid_mm);
-
-
             bit_ofs += 27;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 27, true, ref msg.height_msl_mm);
-
-
             bit_ofs += 27;
 
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.ned_velocity[i]);
-
                 bit_ofs += 32;
-
-
             }
 
-
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.sats_used);
-
-
             bit_ofs += 6;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 2, false, ref msg.status);
-
-
             bit_ofs += 2;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.mode);
-
-
             bit_ofs += 4;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.sub_mode);
-
-
             bit_ofs += 6;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.covariance_len);
             bit_ofs += 6;
-
-
             msg.covariance = new Single[msg.covariance_len];
             for (int i=0; i < msg.covariance_len; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
-
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.pdop = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
 
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.ecef_position_velocity_len);
                 bit_ofs += 1;
-
-
-
             }
-
-
 
 
             if (tao) {
-
                 msg.ecef_position_velocity_len = 0;
                 var temp = new List<uavcan_equipment_gnss_ECEFPositionVelocity>();
                 while (((transfer.payload_len*8)-bit_ofs) > 0) {
-
                     msg.ecef_position_velocity_len++;
                     temp.Add(new uavcan_equipment_gnss_ECEFPositionVelocity());
                     _decode_uavcan_equipment_gnss_ECEFPositionVelocity(transfer, ref bit_ofs, temp[msg.ecef_position_velocity_len - 1], false);
-
                 }
                 msg.ecef_position_velocity = temp.ToArray();
-
             } else {
-
-
                 msg.ecef_position_velocity = new uavcan_equipment_gnss_ECEFPositionVelocity[msg.ecef_position_velocity_len];
                 for (int i=0; i < msg.ecef_position_velocity_len; i++) {
-
-
-
                     _decode_uavcan_equipment_gnss_ECEFPositionVelocity(transfer, ref bit_ofs, msg.ecef_position_velocity[i], false);
-
-
                 }
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

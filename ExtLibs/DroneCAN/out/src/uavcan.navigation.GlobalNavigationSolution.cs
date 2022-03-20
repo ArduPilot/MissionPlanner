@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_navigation_GlobalNavigationSolution(uavcan_navigation_GlobalNavigationSolution msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,479 +31,162 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_navigation_GlobalNavigationSolution(uint8_t[] buffer, uavcan_navigation_GlobalNavigationSolution msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             _encode_uavcan_Timestamp(buffer, msg.timestamp, chunk_cb, ctx, false);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 64, msg.longitude);
-
             chunk_cb(buffer, 64, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 64, msg.latitude);
-
             chunk_cb(buffer, 64, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.height_ellipsoid);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.height_msl);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.height_agl);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.height_baro);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.qnh_hpa);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
-
             for (int i=0; i < 4; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.orientation_xyzw[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
-
-
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 6, msg.pose_covariance_len);
             chunk_cb(buffer, 6, ctx);
-
             for (int i=0; i < msg.pose_covariance_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.pose_covariance[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.linear_velocity_body[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.angular_velocity_body[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.linear_acceleration_body[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 6, msg.velocity_covariance_len);
                 chunk_cb(buffer, 6, ctx);
-
-
             }
-
             for (int i=0; i < msg.velocity_covariance_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.velocity_covariance[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_uavcan_navigation_GlobalNavigationSolution(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_navigation_GlobalNavigationSolution msg, bool tao) {
 
-
-
-
-
-
             _decode_uavcan_Timestamp(transfer, ref bit_ofs, msg.timestamp, false);
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 64, true, ref msg.longitude);
-
-
             bit_ofs += 64;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 64, true, ref msg.latitude);
-
-
             bit_ofs += 64;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.height_ellipsoid);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.height_msl);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.height_agl);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.height_baro);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.qnh_hpa = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
 
-
-
-
-
-
-
             for (int i=0; i < 4; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.orientation_xyzw[i]);
-
                 bit_ofs += 32;
-
-
             }
-
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.pose_covariance_len);
             bit_ofs += 6;
-
-
             msg.pose_covariance = new Single[msg.pose_covariance_len];
             for (int i=0; i < msg.pose_covariance_len; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.pose_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
 
-
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.linear_velocity_body[i]);
-
                 bit_ofs += 32;
-
-
             }
 
-
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.angular_velocity_body[i]);
-
                 bit_ofs += 32;
-
-
             }
 
-
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.linear_acceleration_body[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
-
-
-
-
-
-
-
-
 
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 6, false, ref msg.velocity_covariance_len);
                 bit_ofs += 6;
-
-
-
             } else {
-
                 msg.velocity_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
-
-
             }
-
-
 
             msg.velocity_covariance = new Single[msg.velocity_covariance_len];
             for (int i=0; i < msg.velocity_covariance_len; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.velocity_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_olliw_storm32_Status(uavcan_olliw_storm32_Status msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,215 +31,67 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_olliw_storm32_Status(uint8_t[] buffer, uavcan_olliw_storm32_Status msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.gimbal_id);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.mode);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.status);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.orientation_type);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
-
             for (int i=0; i < 4; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.orientation[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 2, msg.angular_velocity_len);
                 chunk_cb(buffer, 2, ctx);
-
-
             }
-
             for (int i=0; i < msg.angular_velocity_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.angular_velocity[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_uavcan_olliw_storm32_Status(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_olliw_storm32_Status msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.gimbal_id);
-
-
             bit_ofs += 8;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.mode);
-
-
             bit_ofs += 8;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.status);
-
-
             bit_ofs += 32;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.orientation_type);
-
-
             bit_ofs += 8;
 
-
-
-
-
-
-
             for (int i=0; i < 4; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.orientation[i]);
-
                 bit_ofs += 32;
-
-
             }
-
-
-
-
-
-
-
-
 
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 2, false, ref msg.angular_velocity_len);
                 bit_ofs += 2;
-
-
-
             } else {
-
                 msg.angular_velocity_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/32);
-
-
             }
-
-
 
             msg.angular_velocity = new Single[msg.angular_velocity_len];
             for (int i=0; i < msg.angular_velocity_len; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.angular_velocity[i]);
-
                 bit_ofs += 32;
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

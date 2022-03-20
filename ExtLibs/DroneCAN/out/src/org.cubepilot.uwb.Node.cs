@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_org_cubepilot_uwb_Node(org_cubepilot_uwb_Node msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,104 +31,32 @@ namespace DroneCAN
         }
 
         static void _encode_org_cubepilot_uwb_Node(uint8_t[] buffer, org_cubepilot_uwb_Node msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 39, msg.node_id);
-
             chunk_cb(buffer, 39, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.is_tag);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.pos[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_org_cubepilot_uwb_Node(CanardRxTransfer transfer,ref uint32_t bit_ofs, org_cubepilot_uwb_Node msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 39, false, ref msg.node_id);
-
-
             bit_ofs += 39;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.is_tag);
-
-
             bit_ofs += 1;
 
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.pos[i]);
-
                 bit_ofs += 32;
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

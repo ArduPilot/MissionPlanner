@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,45 +17,19 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_OLLIW_STORM32_CONTROL_MAX_PACK_SIZE = 32;
-        public const ulong UAVCAN_OLLIW_STORM32_CONTROL_DT_SIG = 0xBF15FB6305CE5599;
-
-        public const int UAVCAN_OLLIW_STORM32_CONTROL_DT_ID = 28300;
-
-
-
-
-
-
-        public partial class uavcan_olliw_storm32_Control: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_olliw_storm32_Control: IDroneCANSerialize 
+        {
+            public const int UAVCAN_OLLIW_STORM32_CONTROL_MAX_PACK_SIZE = 32;
+            public const ulong UAVCAN_OLLIW_STORM32_CONTROL_DT_SIG = 0xBF15FB6305CE5599;
+            public const int UAVCAN_OLLIW_STORM32_CONTROL_DT_ID = 28300;
 
             public uint8_t gimbal_id = new uint8_t();
-
-
-
             public uint8_t mode = new uint8_t();
-
-
-
             public uint8_t control_mode = new uint8_t();
-
-
-
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)] public Single[] orientation = new Single[4];
-
-
-
             public uint8_t angular_velocity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] angular_velocity = Enumerable.Range(1, 3).Select(i => new Single()).ToArray();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -66,6 +39,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_olliw_storm32_Control(transfer, this);
+            }
+
+            public static uavcan_olliw_storm32_Control ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_olliw_storm32_Control();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

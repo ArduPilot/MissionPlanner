@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,33 +17,16 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_MAX_PACK_SIZE = 4;
-        public const ulong UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_DT_SIG = 0xBE9EA9FEC2B15D52;
-
-        public const int UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_DT_ID = 1080;
-
-
-
-
-
-
-        public partial class uavcan_equipment_indication_BeepCommand: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_equipment_indication_BeepCommand: IDroneCANSerialize 
+        {
+            public const int UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_MAX_PACK_SIZE = 4;
+            public const ulong UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_DT_SIG = 0xBE9EA9FEC2B15D52;
+            public const int UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_DT_ID = 1080;
 
             public Single frequency = new Single();
-
-
-
             public Single duration = new Single();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -54,6 +36,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_equipment_indication_BeepCommand(transfer, this);
+            }
+
+            public static uavcan_equipment_indication_BeepCommand ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_equipment_indication_BeepCommand();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

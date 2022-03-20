@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,41 +17,19 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
+    public partial class DroneCAN 
+    {
 //using com.hex.equipment.gnss.Signal.cs
-
 //using uavcan.Timestamp.cs
-
-
-        public const int COM_HEX_EQUIPMENT_GNSS_SIGNALS_MAX_PACK_SIZE = 987;
-        public const ulong COM_HEX_EQUIPMENT_GNSS_SIGNALS_DT_SIG = 0xE448A43008E96FA0;
-
-        public const int COM_HEX_EQUIPMENT_GNSS_SIGNALS_DT_ID = 20212;
-
-
-
-
-
-
-        public partial class com_hex_equipment_gnss_Signals: IDroneCANSerialize {
-
-
+        public partial class com_hex_equipment_gnss_Signals: IDroneCANSerialize 
+        {
+            public const int COM_HEX_EQUIPMENT_GNSS_SIGNALS_MAX_PACK_SIZE = 987;
+            public const ulong COM_HEX_EQUIPMENT_GNSS_SIGNALS_DT_SIG = 0xE448A43008E96FA0;
+            public const int COM_HEX_EQUIPMENT_GNSS_SIGNALS_DT_ID = 20212;
 
             public uavcan_Timestamp timestamp = new uavcan_Timestamp();
-
-
-
             public uint32_t iTOW = new uint32_t();
-
-
-
             public uint8_t signals_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=120)] public com_hex_equipment_gnss_Signal[] signals = Enumerable.Range(1, 120).Select(i => new com_hex_equipment_gnss_Signal()).ToArray();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -62,6 +39,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_com_hex_equipment_gnss_Signals(transfer, this);
+            }
+
+            public static com_hex_equipment_gnss_Signals ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new com_hex_equipment_gnss_Signals();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

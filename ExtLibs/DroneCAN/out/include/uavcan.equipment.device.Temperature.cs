@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,43 +17,20 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_equipment_device_Temperature: IDroneCANSerialize 
+        {
+            public const int UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_MAX_PACK_SIZE = 5;
+            public const ulong UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_DT_SIG = 0x70261C28A94144C6;
+            public const int UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_DT_ID = 1110;
 
-
-
-
-        public const int UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_MAX_PACK_SIZE = 5;
-        public const ulong UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_DT_SIG = 0x70261C28A94144C6;
-
-        public const int UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_DT_ID = 1110;
-
-
-
-
-
-        public const double UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_ERROR_FLAG_OVERHEATING = 1; // saturated uint8
-
-        public const double UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_ERROR_FLAG_OVERCOOLING = 2; // saturated uint8
-
-
-
-
-        public partial class uavcan_equipment_device_Temperature: IDroneCANSerialize {
-
-
+            public const double UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_ERROR_FLAG_OVERHEATING = 1; // saturated uint8
+            public const double UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_ERROR_FLAG_OVERCOOLING = 2; // saturated uint8
 
             public uint16_t device_id = new uint16_t();
-
-
-
             public Single temperature = new Single();
-
-
-
             public uint8_t error_flags = new uint8_t();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -64,6 +40,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_equipment_device_Temperature(transfer, this);
+            }
+
+            public static uavcan_equipment_device_Temperature ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_equipment_device_Temperature();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

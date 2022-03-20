@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_com_hex_equipment_gnss_MovingBaseFix(com_hex_equipment_gnss_MovingBaseFix msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,267 +31,88 @@ namespace DroneCAN
         }
 
         static void _encode_com_hex_equipment_gnss_MovingBaseFix(uint8_t[] buffer, com_hex_equipment_gnss_MovingBaseFix msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             _encode_uavcan_Timestamp(buffer, msg.timestamp, chunk_cb, ctx, false);
-
-
-
-
-
-
             for (int i=0; i < 16; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 8, msg.base_in_use_hwid[i]);
-
                     chunk_cb(buffer, 8, ctx);
-
-
             }
-
-
-
-
-
             chunk_cb(null, 6, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 2, msg.carrier_solution_type);
-
             chunk_cb(buffer, 2, ctx);
-
-
-
-
-
-
-
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 2, msg.pos_rel_body_len);
             chunk_cb(buffer, 2, ctx);
-
             for (int i=0; i < msg.pos_rel_body_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.pos_rel_body[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 32, msg.pos_rel_ecef[i]);
-
                     chunk_cb(buffer, 32, ctx);
-
-
             }
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 3, msg.pos_rel_ecef_covariance_len);
                 chunk_cb(buffer, 3, ctx);
-
-
             }
-
             for (int i=0; i < msg.pos_rel_ecef_covariance_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.pos_rel_ecef_covariance[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_com_hex_equipment_gnss_MovingBaseFix(CanardRxTransfer transfer,ref uint32_t bit_ofs, com_hex_equipment_gnss_MovingBaseFix msg, bool tao) {
 
-
-
-
-
-
             _decode_uavcan_Timestamp(transfer, ref bit_ofs, msg.timestamp, false);
 
-
-
-
-
-
-
             for (int i=0; i < 16; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.base_in_use_hwid[i]);
-
                 bit_ofs += 8;
-
-
             }
-
-
-
-
-
-
 
             bit_ofs += 6;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 2, false, ref msg.carrier_solution_type);
-
-
             bit_ofs += 2;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 2, false, ref msg.pos_rel_body_len);
             bit_ofs += 2;
-
-
             msg.pos_rel_body = new Single[msg.pos_rel_body_len];
             for (int i=0; i < msg.pos_rel_body_len; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.pos_rel_body[i]);
-
                 bit_ofs += 32;
-
-
             }
-
-
-
-
-
-
-
 
             for (int i=0; i < 3; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.pos_rel_ecef[i]);
-
                 bit_ofs += 32;
-
-
             }
-
-
-
-
-
-
-
-
 
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.pos_rel_ecef_covariance_len);
                 bit_ofs += 3;
-
-
-
             } else {
-
                 msg.pos_rel_ecef_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
-
-
             }
-
-
 
             msg.pos_rel_ecef_covariance = new Single[msg.pos_rel_ecef_covariance_len];
             for (int i=0; i < msg.pos_rel_ecef_covariance_len; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.pos_rel_ecef_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,57 +17,25 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
+    public partial class DroneCAN 
+    {
 //using uavcan.protocol.DataTypeKind.cs
+        public partial class uavcan_protocol_GetDataTypeInfo_res: IDroneCANSerialize 
+        {
+            public const int UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_MAX_PACK_SIZE = 93;
+            public const ulong UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_DT_SIG = 0x1B283338A7BED2D8;
+            public const int UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_DT_ID = 2;
 
-
-        public const int UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_MAX_PACK_SIZE = 93;
-        public const ulong UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_DT_SIG = 0x1B283338A7BED2D8;
-
-        public const int UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_DT_ID = 2;
-
-
-
-
-
-        public const double UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_FLAG_KNOWN = 1; // saturated uint8
-
-        public const double UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_FLAG_SUBSCRIBED = 2; // saturated uint8
-
-        public const double UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_FLAG_PUBLISHING = 4; // saturated uint8
-
-        public const double UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_FLAG_SERVING = 8; // saturated uint8
-
-
-
-
-        public partial class uavcan_protocol_GetDataTypeInfo_res: IDroneCANSerialize {
-
-
+            public const double UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_FLAG_KNOWN = 1; // saturated uint8
+            public const double UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_FLAG_SUBSCRIBED = 2; // saturated uint8
+            public const double UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_FLAG_PUBLISHING = 4; // saturated uint8
+            public const double UAVCAN_PROTOCOL_GETDATATYPEINFO_RES_FLAG_SERVING = 8; // saturated uint8
 
             public uint64_t signature = new uint64_t();
-
-
-
             public uint16_t id = new uint16_t();
-
-
-
             public uavcan_protocol_DataTypeKind kind = new uavcan_protocol_DataTypeKind();
-
-
-
             public uint8_t flags = new uint8_t();
-
-
-
             public uint8_t name_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)] public uint8_t[] name = Enumerable.Range(1, 80).Select(i => new uint8_t()).ToArray();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -78,6 +45,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_protocol_GetDataTypeInfo_res(transfer, this);
+            }
+
+            public static uavcan_protocol_GetDataTypeInfo_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_protocol_GetDataTypeInfo_res();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

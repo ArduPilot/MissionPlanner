@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_olliw_storm32_CommandAck(uavcan_olliw_storm32_CommandAck msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,112 +31,39 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_olliw_storm32_CommandAck(uint8_t[] buffer, uavcan_olliw_storm32_CommandAck msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.gimbal_id);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 8, msg.payload_len);
                 chunk_cb(buffer, 8, ctx);
-
-
             }
-
             for (int i=0; i < msg.payload_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 8, msg.payload[i]);
-
                     chunk_cb(buffer, 8, ctx);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_uavcan_olliw_storm32_CommandAck(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_olliw_storm32_CommandAck msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.gimbal_id);
-
-
             bit_ofs += 8;
 
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.payload_len);
                 bit_ofs += 8;
-
-
-
             } else {
-
                 msg.payload_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/8);
-
-
             }
-
-
 
             msg.payload = new uint8_t[msg.payload_len];
             for (int i=0; i < msg.payload_len; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.payload[i]);
-
                 bit_ofs += 8;
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_dronecan_sensors_hygrometer_Hygrometer(dronecan_sensors_hygrometer_Hygrometer msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,99 +31,42 @@ namespace DroneCAN
         }
 
         static void _encode_dronecan_sensors_hygrometer_Hygrometer(uint8_t[] buffer, dronecan_sensors_hygrometer_Hygrometer msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.temperature);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.humidity);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.id);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
         }
 
         static void _decode_dronecan_sensors_hygrometer_Hygrometer(CanardRxTransfer transfer,ref uint32_t bit_ofs, dronecan_sensors_hygrometer_Hygrometer msg, bool tao) {
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.temperature = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.humidity = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.id);
-
-
             bit_ofs += 8;
 
-
-
-
-
-
         }
-
     }
-
 }

@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,47 +17,23 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_protocol_AccessCommandShell_req: IDroneCANSerialize 
+        {
+            public const int UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_MAX_PACK_SIZE = 130;
+            public const ulong UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_DT_SIG = 0x59276B5921C9246E;
+            public const int UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_DT_ID = 6;
 
-
-
-
-        public const int UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_MAX_PACK_SIZE = 130;
-        public const ulong UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_DT_SIG = 0x59276B5921C9246E;
-
-        public const int UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_DT_ID = 6;
-
-
-
-
-
-        public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_NEWLINE = 10; // saturated uint8
-
-        public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_MIN_OUTPUT_LIFETIME_SEC = 10; // saturated uint8
-
-        public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_RESET_SHELL = 1; // saturated uint8
-
-        public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_CLEAR_OUTPUT_BUFFERS = 2; // saturated uint8
-
-        public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_READ_STDOUT = 64; // saturated uint8
-
-        public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_READ_STDERR = 128; // saturated uint8
-
-
-
-
-        public partial class uavcan_protocol_AccessCommandShell_req: IDroneCANSerialize {
-
-
+            public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_NEWLINE = 10; // saturated uint8
+            public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_MIN_OUTPUT_LIFETIME_SEC = 10; // saturated uint8
+            public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_RESET_SHELL = 1; // saturated uint8
+            public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_CLEAR_OUTPUT_BUFFERS = 2; // saturated uint8
+            public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_READ_STDOUT = 64; // saturated uint8
+            public const double UAVCAN_PROTOCOL_ACCESSCOMMANDSHELL_REQ_FLAG_READ_STDERR = 128; // saturated uint8
 
             public uint8_t flags = new uint8_t();
-
-
-
             public uint8_t input_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)] public uint8_t[] input = Enumerable.Range(1, 128).Select(i => new uint8_t()).ToArray();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -68,6 +43,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_protocol_AccessCommandShell_req(transfer, this);
+            }
+
+            public static uavcan_protocol_AccessCommandShell_req ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_protocol_AccessCommandShell_req();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

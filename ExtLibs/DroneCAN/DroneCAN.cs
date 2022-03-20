@@ -316,8 +316,8 @@ namespace DroneCAN
                             var slcan = PackageMessageSLCAN(SourceNode, 0, transferID++,
                                 new DroneCAN.uavcan_protocol_NodeStatus()
                                 {
-                                    health = (byte) DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK,
-                                    mode = (byte) DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0,
+                                    health = (byte) DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK,
+                                    mode = (byte) DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0,
                                     uptime_sec = (uint) (DateTime.Now - uptime).TotalSeconds,
                                     vendor_specific_status_code = 0
                                 });
@@ -378,7 +378,7 @@ namespace DroneCAN
                     gnires.name = ASCIIEncoding.ASCII.GetBytes("org.missionplanner");
                     gnires.name_len = (byte)gnires.name.Length;
                     gnires.status = new DroneCAN.uavcan_protocol_NodeStatus()
-                    { health = (byte)DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK, mode = (byte)DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0, uptime_sec = (uint)(DateTime.Now - uptime).TotalSeconds, vendor_specific_status_code = 0 };
+                    { health = (byte)DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK, mode = (byte)DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL, sub_mode = 0, uptime_sec = (uint)(DateTime.Now - uptime).TotalSeconds, vendor_specific_status_code = 0 };
 
                     var slcan = PackageMessageSLCAN(frame.SourceNode, frame.Priority, transferID, gnires);
                
@@ -439,7 +439,7 @@ namespace DroneCAN
 
             MessageReceived += configdelgate;
 
-            var req = new DroneCAN.uavcan_protocol_param_ExecuteOpcode_req() { opcode = (byte)DroneCAN.UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_REQ_OPCODE_SAVE};
+            var req = new DroneCAN.uavcan_protocol_param_ExecuteOpcode_req() { opcode = (byte)DroneCAN.uavcan_protocol_param_ExecuteOpcode_req.UAVCAN_PROTOCOL_PARAM_EXECUTEOPCODE_REQ_OPCODE_SAVE };
 
             var trys = 0;
             DateTime nextsend = DateTime.MinValue;
@@ -627,7 +627,7 @@ namespace DroneCAN
                             data = buffer,
                             data_len = (ushort)read,
                             error = new DroneCAN.uavcan_protocol_file_Error()
-                            { value = (short)DroneCAN.UAVCAN_PROTOCOL_FILE_ERROR_OK }
+                            { value = (short)DroneCAN.uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_OK }
                         };
 
                         var slcan = PackageMessageSLCAN(frame.SourceNode, frame.Priority, transferID, readRes);
@@ -707,15 +707,15 @@ namespace DroneCAN
                 {
                     var gdei = msg as DroneCAN.uavcan_protocol_file_GetDirectoryEntryInfo_res;
 
-                    if (gdei.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    if (gdei.error.value == uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_OK)
                     {
                         // add our valid entry
                         var fullpath = ASCIIEncoding.ASCII.GetString(gdei.entry_full_path.path).TrimEnd('\0');
                         answer.Add(new DroneCANFileInfo(Path.GetFileName(fullpath), path,
-                            (gdei.entry_type.flags & (byte)UAVCAN_PROTOCOL_FILE_ENTRYTYPE_FLAG_DIRECTORY) > 0, 0));
+                            (gdei.entry_type.flags & (byte)uavcan_protocol_file_EntryType.UAVCAN_PROTOCOL_FILE_ENTRYTYPE_FLAG_DIRECTORY) > 0, 0));
                         wait.Set();
                     } 
-                    else if (gdei.error.value == UAVCAN_PROTOCOL_FILE_ERROR_NOT_FOUND)
+                    else if (gdei.error.value == uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_NOT_FOUND)
                     {
                         // set max index to 0
                         counttoget = 0;
@@ -783,7 +783,7 @@ namespace DroneCAN
                 {
                     var frr = msg as DroneCAN.uavcan_protocol_file_Read_res;
 
-                    if (frr.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    if (frr.error.value == uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_OK)
                     {
                         destfile.Seek((int) fileReadReq.offset, SeekOrigin.Begin);
                         destfile.Write(frr.data, 0, frr.data_len);
@@ -856,7 +856,7 @@ namespace DroneCAN
                 {
                     var frr = msg as DroneCAN.uavcan_protocol_file_Write_res;
 
-                    if (frr.error.value == UAVCAN_PROTOCOL_FILE_ERROR_OK)
+                    if (frr.error.value == uavcan_protocol_file_Error.UAVCAN_PROTOCOL_FILE_ERROR_OK)
                     {
                         wait.Set();
                     }
@@ -1105,8 +1105,8 @@ namespace DroneCAN
                 if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res))
                 {
                     var bfures = msg as DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res;
-                    if (bfures.error != DroneCAN.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_IN_PROGRESS &&
-                        bfures.error != DroneCAN.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_OK)
+                    if (bfures.error != DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_IN_PROGRESS &&
+                        bfures.error != DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_res.UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_RES_ERROR_OK)
                         exception = new Exception(frame.SourceNode + " " + "Begin Firmware Update returned an error");
                     acceptbegin = true;
                 }
@@ -1126,7 +1126,7 @@ namespace DroneCAN
                                 double.Parse(gnires.hardware_version.major + "." + gnires.hardware_version.minor,
                                     CultureInfo.InvariantCulture) || hwversion == 0)
                             {
-                                if (gnires.status.mode != DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE)
+                                if (gnires.status.mode != DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE)
                                 {
                                     var req_msg =
                                         new DroneCAN.uavcan_protocol_file_BeginFirmwareUpdate_req()
@@ -1220,7 +1220,7 @@ namespace DroneCAN
                     break;
                 }
 
-                if (NodeList.Any(a => a.Key == nodeid && a.Value.mode == DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
+                if (NodeList.Any(a => a.Key == nodeid && a.Value.mode == DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE))
                 {
                     var lastrxts = NodeList.First(a => a.Key == nodeid).Value.uptime_sec;
                     if(lastrxts != timestamp)
@@ -1954,7 +1954,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
                 try
                 {
-                    var ans = msgtype.Item4.Invoke(null, new object[] {result, startbyte});
+                    var ans = msgtype.Item4(result, startbyte);
 
                     frame.SizeofEntireMsg = result.Length - startbyte;
                     //Console.WriteLine(("RX") + " " + msgtype.Item1 + " " + JsonConvert.SerializeObject(ans));
@@ -2001,7 +2001,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             return SetParameter(node, name, valuein, type);
         }
 
-        public bool SetParameter(byte node, string name, object valuein, uavcan_protocol_param_Value_type_t type)
+        public bool SetParameter(byte node, string name, object valuein, uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t type)
         {
             DroneCAN.uavcan_protocol_param_GetSet_req req = new DroneCAN.uavcan_protocol_param_GetSet_req()
             {
@@ -2021,36 +2021,36 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
 
             switch (type)
             {
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
+                case uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE:
                     req.value = new DroneCAN.uavcan_protocol_param_Value()
                     {
-                        uavcan_protocol_param_Value_type = DroneCAN.uavcan_protocol_param_Value_type_t
+                        uavcan_protocol_param_Value_type = uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_BOOLEAN_VALUE,
                         union = new DroneCAN.uavcan_protocol_param_Value.unions()
                             {boolean_value = (value) > 0 ? (byte) 1 : (byte) 0}
                     };
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
+                case uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE:
                     req.value = new DroneCAN.uavcan_protocol_param_Value()
                     {
-                        uavcan_protocol_param_Value_type = DroneCAN.uavcan_protocol_param_Value_type_t
+                        uavcan_protocol_param_Value_type = uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_INTEGER_VALUE,
                         union = new DroneCAN.uavcan_protocol_param_Value.unions() {integer_value = (int) value}
                     };
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
+                case uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE:
                     req.value = new DroneCAN.uavcan_protocol_param_Value()
                     {
-                        uavcan_protocol_param_Value_type = DroneCAN.uavcan_protocol_param_Value_type_t
+                        uavcan_protocol_param_Value_type = uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_REAL_VALUE,
                         union = new DroneCAN.uavcan_protocol_param_Value.unions() {real_value = (float) value}
                     };
 
                     break;
-                case DroneCAN.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
+                case uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t.UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE:
                     req.value = new DroneCAN.uavcan_protocol_param_Value()
                     {
-                        uavcan_protocol_param_Value_type = DroneCAN.uavcan_protocol_param_Value_type_t
+                        uavcan_protocol_param_Value_type = uavcan_protocol_param_Value.uavcan_protocol_param_Value_type_t
                             .UAVCAN_PROTOCOL_PARAM_VALUE_TYPE_STRING_VALUE,
                         union = new DroneCAN.uavcan_protocol_param_Value.unions()
                         {
@@ -2178,7 +2178,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             MessageReceived += configdelgate;
 
             var req = new DroneCAN.uavcan_protocol_RestartNode_req()
-                {magic_number = (ulong)UAVCAN_PROTOCOL_RESTARTNODE_REQ_MAGIC_NUMBER };
+                {magic_number = (ulong)uavcan_protocol_RestartNode_req.UAVCAN_PROTOCOL_RESTARTNODE_REQ_MAGIC_NUMBER };
 
             var trys = 0;
             DateTime nextsend = DateTime.MinValue;

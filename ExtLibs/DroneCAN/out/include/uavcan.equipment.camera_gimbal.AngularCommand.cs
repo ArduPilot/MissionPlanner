@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,39 +17,18 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
+    public partial class DroneCAN 
+    {
 //using uavcan.equipment.camera_gimbal.Mode.cs
-
-
-        public const int UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_MAX_PACK_SIZE = 10;
-        public const ulong UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_DT_SIG = 0x4AF6E57B2B2BE29C;
-
-        public const int UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_DT_ID = 1040;
-
-
-
-
-
-
-        public partial class uavcan_equipment_camera_gimbal_AngularCommand: IDroneCANSerialize {
-
-
+        public partial class uavcan_equipment_camera_gimbal_AngularCommand: IDroneCANSerialize 
+        {
+            public const int UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_MAX_PACK_SIZE = 10;
+            public const ulong UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_DT_SIG = 0x4AF6E57B2B2BE29C;
+            public const int UAVCAN_EQUIPMENT_CAMERA_GIMBAL_ANGULARCOMMAND_DT_ID = 1040;
 
             public uint8_t gimbal_id = new uint8_t();
-
-
-
             public uavcan_equipment_camera_gimbal_Mode mode = new uavcan_equipment_camera_gimbal_Mode();
-
-
-
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)] public Single[] quaternion_xyzw = new Single[4];
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -60,6 +38,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_equipment_camera_gimbal_AngularCommand(transfer, this);
+            }
+
+            public static uavcan_equipment_camera_gimbal_AngularCommand ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_equipment_camera_gimbal_AngularCommand();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

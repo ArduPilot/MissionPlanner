@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,39 +17,17 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_OLLIW_UC4H_DISTANCESENSORPROPERTIES_MAX_PACK_SIZE = 8;
-        public const ulong UAVCAN_OLLIW_UC4H_DISTANCESENSORPROPERTIES_DT_SIG = 0x7FC8D57D4F2EF1D1;
-
-
-
-
-
-
-        public partial class uavcan_olliw_uc4h_DistanceSensorProperties: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_olliw_uc4h_DistanceSensorProperties: IDroneCANSerialize 
+        {
+            public const int UAVCAN_OLLIW_UC4H_DISTANCESENSORPROPERTIES_MAX_PACK_SIZE = 8;
+            public const ulong UAVCAN_OLLIW_UC4H_DISTANCESENSORPROPERTIES_DT_SIG = 0x7FC8D57D4F2EF1D1;
 
             public Single range_min = new Single();
-
-
-
             public Single range_max = new Single();
-
-
-
             public Single vertical_field_of_view = new Single();
-
-
-
             public Single horizontal_field_of_view = new Single();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -60,6 +37,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_olliw_uc4h_DistanceSensorProperties(transfer, this);
+            }
+
+            public static uavcan_olliw_uc4h_DistanceSensorProperties ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_olliw_uc4h_DistanceSensorProperties();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

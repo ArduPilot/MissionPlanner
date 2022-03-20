@@ -47,7 +47,7 @@ namespace DroneCAN
 @[  end if]@
 @[    for field in msg_fields]@
 @[      if msg_union]@
-@(ind)case @(msg_underscored_name)_type_t.@(msg_underscored_name.upper())_TYPE_@(field.name.upper()): {
+@(ind)case @(msg_underscored_name).@(msg_underscored_name)_type_t.@(msg_underscored_name.upper())_TYPE_@(field.name.upper()): {
 @{indent += 1}@{ind = '    '*indent}@
 @[      end if]@
 @[      if field.type.category == field.type.CATEGORY_COMPOUND]@
@@ -119,7 +119,7 @@ namespace DroneCAN
 @[  if msg_union]@
 @(ind)@(union_msg_tag_uint_type_from_num_fields(len(msg_fields))) @(msg_underscored_name)_type = 0;
 @(ind)canardDecodeScalar(transfer, bit_ofs, @(union_msg_tag_bitlen_from_num_fields(len(msg_fields))), false, ref @(msg_underscored_name)_type);
-@(ind)msg.@(msg_underscored_name)_type = (@(msg_underscored_name)_type_t)@(msg_underscored_name)_type;
+@(ind)msg.@(msg_underscored_name)_type = (@(msg_underscored_name).@(msg_underscored_name)_type_t)@(msg_underscored_name)_type;
 @(ind)bit_ofs += @(union_msg_tag_bitlen_from_num_fields(len(msg_fields)));
 
 @(ind)switch(msg.@(msg_underscored_name)_type) {
@@ -127,7 +127,7 @@ namespace DroneCAN
 @[  end if]@
 @[    for field in msg_fields]@
 @[      if msg_union]@
-@(ind)case @(msg_underscored_name)_type_t.@(msg_underscored_name.upper())_TYPE_@(field.name.upper()): {
+@(ind)case @(msg_underscored_name).@(msg_underscored_name)_type_t.@(msg_underscored_name.upper())_TYPE_@(field.name.upper()): {
 @{indent += 1}@{ind = '    '*indent}@
 @[      end if]@
 @[      if field.type.category == field.type.CATEGORY_COMPOUND]@

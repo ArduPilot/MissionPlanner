@@ -18,8 +18,8 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
+    public partial class DroneCAN 
+    {
 @{
 dep_headers = set()
 for field in msg_fields:
@@ -31,28 +31,26 @@ for field in msg_fields:
 @[  for header in dep_headers]@
 //using @(header)
 @[  end for]@
+        public partial class @(msg_c_type): IDroneCANSerialize 
+        {
+            public const int @(msg_underscored_name.upper())_MAX_PACK_SIZE = @(int((msg_max_bitlen + 7) / 8));
+            public const ulong @(msg_underscored_name.upper())_DT_SIG = @('0x%08X' % (msg_dt_sig,));
+@[if msg_default_dtid is not None]@
+            public const int @(msg_underscored_name.upper())_DT_ID = @(msg_default_dtid);
+@[end if]@
+@[if msg_constants]
+@[for constant in msg_constants]@
+            public const double @(msg_underscored_name.upper())_@(constant.name.upper()) = @(constant.value); // @(constant.type)
+@[end for]@
+@[end if]@
+@[if msg_union]
+            public enum @(msg_underscored_name)_type_t {
+@[for field in msg_fields]@
+                @(msg_underscored_name.upper())_TYPE_@(field.name.upper()),
+@[end for]@
+            }
+@[end if]@
 
-        public const int @(msg_underscored_name.upper())_MAX_PACK_SIZE = @((msg_max_bitlen+7)/8);
-        public const ulong @(msg_underscored_name.upper())_DT_SIG = @('0x%08X' % (msg_dt_sig,));
-@[  if msg_default_dtid is not None]@
-        public const int @(msg_underscored_name.upper())_DT_ID = @(msg_default_dtid);
-@[  end if]@
-
-
-@[  if msg_constants]
-@[    for constant in msg_constants]@
-        public const double @(msg_underscored_name.upper())_@(constant.name.upper()) = @(constant.value); // @(constant.type)
-@[    end for]@
-@[  end if]@
-@[  if msg_union]
-        public enum @(msg_underscored_name)_type_t {
-@[    for field in msg_fields]@
-            @(msg_underscored_name.upper())_TYPE_@(field.name.upper()),
-@[    end for]@
-        }
-@[  end if]@
-
-        public partial class @(msg_c_type): IDroneCANSerialize {
 @[  if msg_union]@
             public @(msg_underscored_name)_type_t @(msg_underscored_name)_type;
             //[StructLayout(LayoutKind.Explicit, Pack = 1)] 
@@ -81,6 +79,13 @@ for field in msg_fields:
             public void decode(CanardRxTransfer transfer)
             {
                 decode_@(msg_c_type)(transfer, this);
+            }
+
+            public static @(msg_c_type) ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new @(msg_c_type)();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

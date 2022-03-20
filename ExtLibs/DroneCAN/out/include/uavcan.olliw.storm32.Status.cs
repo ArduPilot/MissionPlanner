@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,49 +17,20 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int UAVCAN_OLLIW_STORM32_STATUS_MAX_PACK_SIZE = 36;
-        public const ulong UAVCAN_OLLIW_STORM32_STATUS_DT_SIG = 0xFD38D6AA0F5099A5;
-
-        public const int UAVCAN_OLLIW_STORM32_STATUS_DT_ID = 28301;
-
-
-
-
-
-
-        public partial class uavcan_olliw_storm32_Status: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_olliw_storm32_Status: IDroneCANSerialize 
+        {
+            public const int UAVCAN_OLLIW_STORM32_STATUS_MAX_PACK_SIZE = 36;
+            public const ulong UAVCAN_OLLIW_STORM32_STATUS_DT_SIG = 0xFD38D6AA0F5099A5;
+            public const int UAVCAN_OLLIW_STORM32_STATUS_DT_ID = 28301;
 
             public uint8_t gimbal_id = new uint8_t();
-
-
-
             public uint8_t mode = new uint8_t();
-
-
-
             public uint32_t status = new uint32_t();
-
-
-
             public uint8_t orientation_type = new uint8_t();
-
-
-
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)] public Single[] orientation = new Single[4];
-
-
-
             public uint8_t angular_velocity_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] angular_velocity = Enumerable.Range(1, 3).Select(i => new Single()).ToArray();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -70,6 +40,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_olliw_storm32_Status(transfer, this);
+            }
+
+            public static uavcan_olliw_storm32_Status ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_olliw_storm32_Status();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

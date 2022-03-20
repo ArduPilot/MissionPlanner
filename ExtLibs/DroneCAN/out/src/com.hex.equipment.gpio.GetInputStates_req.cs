@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_com_hex_equipment_gpio_GetInputStates_req(com_hex_equipment_gpio_GetInputStates_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,23 +31,10 @@ namespace DroneCAN
         }
 
         static void _encode_com_hex_equipment_gpio_GetInputStates_req(uint8_t[] buffer, com_hex_equipment_gpio_GetInputStates_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
         }
 
         static void _decode_com_hex_equipment_gpio_GetInputStates_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, com_hex_equipment_gpio_GetInputStates_req msg, bool tao) {
 
-
-
-
-
-
         }
-
     }
-
 }

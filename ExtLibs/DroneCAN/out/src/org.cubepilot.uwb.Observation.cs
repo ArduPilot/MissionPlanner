@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_org_cubepilot_uwb_Observation(org_cubepilot_uwb_Observation msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,155 +31,55 @@ namespace DroneCAN
         }
 
         static void _encode_org_cubepilot_uwb_Observation(uint8_t[] buffer, org_cubepilot_uwb_Observation msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 56, msg.timestamp_us);
-
             chunk_cb(buffer, 56, ctx);
-
-
-
-
-
             _encode_org_cubepilot_uwb_Node(buffer, msg.tx_node, chunk_cb, ctx, false);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 40, msg.tx_timestamp);
-
             chunk_cb(buffer, 40, ctx);
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 4, msg.rx_timestamps_len);
                 chunk_cb(buffer, 4, ctx);
-
-
             }
-
             for (int i=0; i < msg.rx_timestamps_len; i++) {
-
-
-
                     _encode_org_cubepilot_uwb_ReceiveTimestamp(buffer, msg.rx_timestamps[i], chunk_cb, ctx, false);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_org_cubepilot_uwb_Observation(CanardRxTransfer transfer,ref uint32_t bit_ofs, org_cubepilot_uwb_Observation msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 56, false, ref msg.timestamp_us);
-
-
             bit_ofs += 56;
-
-
-
-
-
 
             _decode_org_cubepilot_uwb_Node(transfer, ref bit_ofs, msg.tx_node, false);
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 40, false, ref msg.tx_timestamp);
-
-
             bit_ofs += 40;
 
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.rx_timestamps_len);
                 bit_ofs += 4;
-
-
-
             }
-
-
 
 
             if (tao) {
-
                 msg.rx_timestamps_len = 0;
                 var temp = new List<org_cubepilot_uwb_ReceiveTimestamp>();
                 while (((transfer.payload_len*8)-bit_ofs) > 0) {
-
                     msg.rx_timestamps_len++;
                     temp.Add(new org_cubepilot_uwb_ReceiveTimestamp());
                     _decode_org_cubepilot_uwb_ReceiveTimestamp(transfer, ref bit_ofs, temp[msg.rx_timestamps_len - 1], false);
-
                 }
                 msg.rx_timestamps = temp.ToArray();
-
             } else {
-
-
                 msg.rx_timestamps = new org_cubepilot_uwb_ReceiveTimestamp[msg.rx_timestamps_len];
                 for (int i=0; i < msg.rx_timestamps_len; i++) {
-
-
-
                     _decode_org_cubepilot_uwb_ReceiveTimestamp(transfer, ref bit_ofs, msg.rx_timestamps[i], false);
-
-
                 }
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

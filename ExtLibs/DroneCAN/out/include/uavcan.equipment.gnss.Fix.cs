@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,107 +17,39 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
+    public partial class DroneCAN 
+    {
 //using uavcan.Timestamp.cs
+        public partial class uavcan_equipment_gnss_Fix: IDroneCANSerialize 
+        {
+            public const int UAVCAN_EQUIPMENT_GNSS_FIX_MAX_PACK_SIZE = 79;
+            public const ulong UAVCAN_EQUIPMENT_GNSS_FIX_DT_SIG = 0x54C1572B9E07F297;
+            public const int UAVCAN_EQUIPMENT_GNSS_FIX_DT_ID = 1060;
 
-
-        public const int UAVCAN_EQUIPMENT_GNSS_FIX_MAX_PACK_SIZE = 79;
-        public const ulong UAVCAN_EQUIPMENT_GNSS_FIX_DT_SIG = 0x54C1572B9E07F297;
-
-        public const int UAVCAN_EQUIPMENT_GNSS_FIX_DT_ID = 1060;
-
-
-
-
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_GNSS_TIME_STANDARD_NONE = 0; // saturated uint3
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_GNSS_TIME_STANDARD_TAI = 1; // saturated uint3
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_GNSS_TIME_STANDARD_UTC = 2; // saturated uint3
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_GNSS_TIME_STANDARD_GPS = 3; // saturated uint3
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_NUM_LEAP_SECONDS_UNKNOWN = 0; // saturated uint8
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_STATUS_NO_FIX = 0; // saturated uint2
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_STATUS_TIME_ONLY = 1; // saturated uint2
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_STATUS_2D_FIX = 2; // saturated uint2
-
-        public const double UAVCAN_EQUIPMENT_GNSS_FIX_STATUS_3D_FIX = 3; // saturated uint2
-
-
-
-
-        public partial class uavcan_equipment_gnss_Fix: IDroneCANSerialize {
-
-
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_GNSS_TIME_STANDARD_NONE = 0; // saturated uint3
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_GNSS_TIME_STANDARD_TAI = 1; // saturated uint3
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_GNSS_TIME_STANDARD_UTC = 2; // saturated uint3
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_GNSS_TIME_STANDARD_GPS = 3; // saturated uint3
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_NUM_LEAP_SECONDS_UNKNOWN = 0; // saturated uint8
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_STATUS_NO_FIX = 0; // saturated uint2
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_STATUS_TIME_ONLY = 1; // saturated uint2
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_STATUS_2D_FIX = 2; // saturated uint2
+            public const double UAVCAN_EQUIPMENT_GNSS_FIX_STATUS_3D_FIX = 3; // saturated uint2
 
             public uavcan_Timestamp timestamp = new uavcan_Timestamp();
-
-
-
             public uavcan_Timestamp gnss_timestamp = new uavcan_Timestamp();
-
-
-
             public uint8_t gnss_time_standard = new uint8_t();
-
-
-
-
-
             public uint8_t num_leap_seconds = new uint8_t();
-
-
-
             public int64_t longitude_deg_1e8 = new int64_t();
-
-
-
             public int64_t latitude_deg_1e8 = new int64_t();
-
-
-
             public int32_t height_ellipsoid_mm = new int32_t();
-
-
-
             public int32_t height_msl_mm = new int32_t();
-
-
-
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] ned_velocity = new Single[3];
-
-
-
             public uint8_t sats_used = new uint8_t();
-
-
-
             public uint8_t status = new uint8_t();
-
-
-
             public Single pdop = new Single();
-
-
-
-
-
             public uint8_t position_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] position_covariance = Enumerable.Range(1, 9).Select(i => new Single()).ToArray();
-
-
-
             public uint8_t velocity_covariance_len; [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)] public Single[] velocity_covariance = Enumerable.Range(1, 9).Select(i => new Single()).ToArray();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -128,6 +59,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_equipment_gnss_Fix(transfer, this);
+            }
+
+            public static uavcan_equipment_gnss_Fix ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_equipment_gnss_Fix();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

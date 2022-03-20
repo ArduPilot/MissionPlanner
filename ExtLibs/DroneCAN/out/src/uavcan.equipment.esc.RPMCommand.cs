@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_equipment_esc_RPMCommand(uavcan_equipment_esc_RPMCommand msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,90 +31,33 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_equipment_esc_RPMCommand(uint8_t[] buffer, uavcan_equipment_esc_RPMCommand msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 5, msg.rpm_len);
                 chunk_cb(buffer, 5, ctx);
-
-
             }
-
             for (int i=0; i < msg.rpm_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 18, msg.rpm[i]);
-
                     chunk_cb(buffer, 18, ctx);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_uavcan_equipment_esc_RPMCommand(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_esc_RPMCommand msg, bool tao) {
 
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 5, false, ref msg.rpm_len);
                 bit_ofs += 5;
-
-
-
             } else {
-
                 msg.rpm_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/18);
-
-
             }
-
-
 
             msg.rpm = new int32_t[msg.rpm_len];
             for (int i=0; i < msg.rpm_len; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 18, true, ref msg.rpm[i]);
-
                 bit_ofs += 18;
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

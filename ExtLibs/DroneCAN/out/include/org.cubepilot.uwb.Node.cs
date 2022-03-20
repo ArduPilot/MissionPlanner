@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,35 +17,16 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
-
-        public const int ORG_CUBEPILOT_UWB_NODE_MAX_PACK_SIZE = 17;
-        public const ulong ORG_CUBEPILOT_UWB_NODE_DT_SIG = 0xCF728D1C28AB0C3B;
-
-
-
-
-
-
-        public partial class org_cubepilot_uwb_Node: IDroneCANSerialize {
-
-
+    public partial class DroneCAN 
+    {
+        public partial class org_cubepilot_uwb_Node: IDroneCANSerialize 
+        {
+            public const int ORG_CUBEPILOT_UWB_NODE_MAX_PACK_SIZE = 17;
+            public const ulong ORG_CUBEPILOT_UWB_NODE_DT_SIG = 0xCF728D1C28AB0C3B;
 
             public uint64_t node_id = new uint64_t();
-
-
-
             public bool is_tag = new bool();
-
-
-
             [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)] public Single[] pos = new Single[3];
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -56,6 +36,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_org_cubepilot_uwb_Node(transfer, this);
+            }
+
+            public static org_cubepilot_uwb_Node ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new org_cubepilot_uwb_Node();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

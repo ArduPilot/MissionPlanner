@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,31 +17,16 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
-
-
-
+    public partial class DroneCAN 
+    {
 //using com.hex.equipment.gpio.InputStateArray.cs
-
-
-        public const int COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_RES_MAX_PACK_SIZE = 161;
-        public const ulong COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_RES_DT_SIG = 0x6147C4FB7586515E;
-
-        public const int COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_RES_DT_ID = 225;
-
-
-
-
-
-
-        public partial class com_hex_equipment_gpio_GetInputStates_res: IDroneCANSerialize {
-
-
+        public partial class com_hex_equipment_gpio_GetInputStates_res: IDroneCANSerialize 
+        {
+            public const int COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_RES_MAX_PACK_SIZE = 161;
+            public const ulong COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_RES_DT_SIG = 0x6147C4FB7586515E;
+            public const int COM_HEX_EQUIPMENT_GPIO_GETINPUTSTATES_RES_DT_ID = 225;
 
             public com_hex_equipment_gpio_InputStateArray input_state_array = new com_hex_equipment_gpio_InputStateArray();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -52,6 +36,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_com_hex_equipment_gpio_GetInputStates_res(transfer, this);
+            }
+
+            public static com_hex_equipment_gpio_GetInputStates_res ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new com_hex_equipment_gpio_GetInputStates_res();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

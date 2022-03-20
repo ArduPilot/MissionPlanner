@@ -501,7 +501,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     msgseen[msgname] = 0;
                 msgseen[msgname] = (int) msgseen[msgname] + 1;
 
-                if (frame.MsgTypeID == (ushort)DroneCAN.DroneCAN.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                if (frame.MsgTypeID == (ushort)DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
                 {
                     var rtcm = (DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream) msg;
 

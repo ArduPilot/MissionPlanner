@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_equipment_ahrs_Solution(uavcan_equipment_ahrs_Solution msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,378 +31,146 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_equipment_ahrs_Solution(uint8_t[] buffer, uavcan_equipment_ahrs_Solution msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             _encode_uavcan_Timestamp(buffer, msg.timestamp, chunk_cb, ctx, false);
-
-
-
-
-
-
             for (int i=0; i < 4; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.orientation_xyzw[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
             chunk_cb(null, 4, ctx);
-
-
-
-
-
-
-
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 4, msg.orientation_covariance_len);
             chunk_cb(buffer, 4, ctx);
-
             for (int i=0; i < msg.orientation_covariance_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.orientation_covariance[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.angular_velocity[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
             chunk_cb(null, 4, ctx);
-
-
-
-
-
-
-
             memset(buffer,0,8);
             canardEncodeScalar(buffer, 0, 4, msg.angular_velocity_covariance_len);
             chunk_cb(buffer, 4, ctx);
-
             for (int i=0; i < msg.angular_velocity_covariance_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.angular_velocity_covariance[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.linear_acceleration[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 4, msg.linear_acceleration_covariance_len);
                 chunk_cb(buffer, 4, ctx);
-
-
             }
-
             for (int i=0; i < msg.linear_acceleration_covariance_len; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.linear_acceleration_covariance[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_uavcan_equipment_ahrs_Solution(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_equipment_ahrs_Solution msg, bool tao) {
 
-
-
-
-
-
             _decode_uavcan_Timestamp(transfer, ref bit_ofs, msg.timestamp, false);
 
-
-
-
-
-
-
             for (int i=0; i < 4; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.orientation_xyzw[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
 
-
-
-
-
-
-
             bit_ofs += 4;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.orientation_covariance_len);
             bit_ofs += 4;
-
-
             msg.orientation_covariance = new Single[msg.orientation_covariance_len];
             for (int i=0; i < msg.orientation_covariance_len; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.orientation_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
 
-
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.angular_velocity[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
 
-
-
-
-
-
-
             bit_ofs += 4;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.angular_velocity_covariance_len);
             bit_ofs += 4;
-
-
             msg.angular_velocity_covariance = new Single[msg.angular_velocity_covariance_len];
             for (int i=0; i < msg.angular_velocity_covariance_len; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.angular_velocity_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
 
-
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.linear_acceleration[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
-
-
-
-
-
-
-
-
 
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 4, false, ref msg.linear_acceleration_covariance_len);
                 bit_ofs += 4;
-
-
-
             } else {
-
                 msg.linear_acceleration_covariance_len = (uint8_t)(((transfer.payload_len*8)-bit_ofs)/16);
-
-
             }
-
-
 
             msg.linear_acceleration_covariance = new Single[msg.linear_acceleration_covariance_len];
             for (int i=0; i < msg.linear_acceleration_covariance_len; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.linear_acceleration_covariance[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

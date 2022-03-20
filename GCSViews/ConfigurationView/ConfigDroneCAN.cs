@@ -230,34 +230,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             switch (ns.health)
                             {
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_OK:
                                     item.Health = "OK";
                                     break;
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_WARNING:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_WARNING:
                                     item.Health = "WARNING";
                                     break;
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_ERROR:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_ERROR:
                                     item.Health = "ERROR";
                                     break;
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_CRITICAL:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_HEALTH_CRITICAL:
                                     item.Health = "CRITICAL";
                                     break;
                             }
                             switch (ns.mode)
                             {
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL:
                                     item.Mode = "OPERATIONAL";
                                     break;
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_INITIALIZATION:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_INITIALIZATION:
                                     item.Mode = "INITIALIZATION";
                                     break;
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_MAINTENANCE:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_MAINTENANCE:
                                     item.Mode = "MAINTENANCE";
                                     break;
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE:
                                     item.Mode = "SOFTWARE_UPDATE";
                                     break;
-                                case (byte)DroneCAN.DroneCAN.UAVCAN_PROTOCOL_NODESTATUS_MODE_OFFLINE:
+                                case (byte)DroneCAN.DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_OFFLINE:
                                     item.Mode = "OFFLINE";
                                     break;
                             }
@@ -558,7 +558,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             DroneCAN.DroneCAN.MessageRecievedDel mrd =  (frame, msg, id) =>
                             {
                                 combps += frame.SizeofEntireMsg;
-                                if (frame.MsgTypeID == DroneCAN.DroneCAN.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
+                                if (frame.MsgTypeID == DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream.UAVCAN_EQUIPMENT_GNSS_RTCMSTREAM_DT_ID)
                                 {
                                     var data = msg as DroneCAN.DroneCAN.uavcan_equipment_gnss_RTCMStream;
                                     try
@@ -573,7 +573,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                     }
                                 }
 
-                                if (frame.MsgTypeID == DroneCAN.DroneCAN.ARDUPILOT_GNSS_MOVINGBASELINEDATA_DT_ID)
+                                if (frame.MsgTypeID == DroneCAN.DroneCAN.ardupilot_gnss_MovingBaselineData.ARDUPILOT_GNSS_MOVINGBASELINEDATA_DT_ID)
                                 {
                                     var data = msg as DroneCAN.DroneCAN.ardupilot_gnss_MovingBaselineData;
                                     try

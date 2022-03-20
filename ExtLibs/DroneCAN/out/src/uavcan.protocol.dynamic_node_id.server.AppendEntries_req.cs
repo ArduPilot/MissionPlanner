@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_protocol_dynamic_node_id_server_AppendEntries_req(uavcan_protocol_dynamic_node_id_server_AppendEntries_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,186 +31,64 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_protocol_dynamic_node_id_server_AppendEntries_req(uint8_t[] buffer, uavcan_protocol_dynamic_node_id_server_AppendEntries_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.term);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.prev_log_term);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.prev_log_index);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 8, msg.leader_commit);
-
             chunk_cb(buffer, 8, ctx);
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 memset(buffer,0,8);
                 canardEncodeScalar(buffer, 0, 1, msg.entries_len);
                 chunk_cb(buffer, 1, ctx);
-
-
             }
-
             for (int i=0; i < msg.entries_len; i++) {
-
-
-
                     _encode_uavcan_protocol_dynamic_node_id_server_Entry(buffer, msg.entries[i], chunk_cb, ctx, false);
-
-
             }
-
-
-
-
-
         }
 
         static void _decode_uavcan_protocol_dynamic_node_id_server_AppendEntries_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_dynamic_node_id_server_AppendEntries_req msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.term);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.prev_log_term);
-
-
             bit_ofs += 32;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.prev_log_index);
-
-
             bit_ofs += 8;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.leader_commit);
-
-
             bit_ofs += 8;
 
-
-
-
-
-
-
-
             if (!tao) {
-
-
                 canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.entries_len);
                 bit_ofs += 1;
-
-
-
             }
-
-
 
 
             if (tao) {
-
                 msg.entries_len = 0;
                 var temp = new List<uavcan_protocol_dynamic_node_id_server_Entry>();
                 while (((transfer.payload_len*8)-bit_ofs) > 0) {
-
                     msg.entries_len++;
                     temp.Add(new uavcan_protocol_dynamic_node_id_server_Entry());
                     _decode_uavcan_protocol_dynamic_node_id_server_Entry(transfer, ref bit_ofs, temp[msg.entries_len - 1], false);
-
                 }
                 msg.entries = temp.ToArray();
-
             } else {
-
-
                 msg.entries = new uavcan_protocol_dynamic_node_id_server_Entry[msg.entries_len];
                 for (int i=0; i < msg.entries_len; i++) {
-
-
-
                     _decode_uavcan_protocol_dynamic_node_id_server_Entry(transfer, ref bit_ofs, msg.entries[i], false);
-
-
                 }
-
-
             }
 
-
-
-
-
-
-
         }
-
     }
-
 }

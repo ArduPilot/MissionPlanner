@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_com_hex_equipment_gpio_InputState(com_hex_equipment_gpio_InputState msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,89 +31,28 @@ namespace DroneCAN
         }
 
         static void _encode_com_hex_equipment_gpio_InputState(uint8_t[] buffer, com_hex_equipment_gpio_InputState msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 7, msg.input_idx);
-
             chunk_cb(buffer, 7, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.binary_input);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.input_value);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
         }
 
         static void _decode_com_hex_equipment_gpio_InputState(CanardRxTransfer transfer,ref uint32_t bit_ofs, com_hex_equipment_gpio_InputState msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.input_idx);
-
-
             bit_ofs += 7;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.binary_input);
-
-
             bit_ofs += 1;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.input_value);
-
-
             bit_ofs += 32;
 
-
-
-
-
-
         }
-
     }
-
 }

@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_protocol_file_GetDirectoryEntryInfo_req(uavcan_protocol_file_GetDirectoryEntryInfo_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,58 +31,19 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_protocol_file_GetDirectoryEntryInfo_req(uint8_t[] buffer, uavcan_protocol_file_GetDirectoryEntryInfo_req msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.entry_index);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             _encode_uavcan_protocol_file_Path(buffer, msg.directory_path, chunk_cb, ctx, tao);
-
-
-
-
-
         }
 
         static void _decode_uavcan_protocol_file_GetDirectoryEntryInfo_req(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_file_GetDirectoryEntryInfo_req msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.entry_index);
-
-
             bit_ofs += 32;
-
-
-
-
-
 
             _decode_uavcan_protocol_file_Path(transfer, ref bit_ofs, msg.directory_path, tao);
 
-
-
-
-
-
         }
-
     }
-
 }

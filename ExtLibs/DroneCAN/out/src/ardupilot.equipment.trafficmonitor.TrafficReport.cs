@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_ardupilot_equipment_trafficmonitor_TrafficReport(ardupilot_equipment_trafficmonitor_TrafficReport msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,518 +31,155 @@ namespace DroneCAN
         }
 
         static void _encode_ardupilot_equipment_trafficmonitor_TrafficReport(uint8_t[] buffer, ardupilot_equipment_trafficmonitor_TrafficReport msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             _encode_uavcan_Timestamp(buffer, msg.timestamp, chunk_cb, ctx, false);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.icao_address);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 16, msg.tslc);
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.latitude_deg_1e7);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.longitude_deg_1e7);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 32, msg.alt_m);
-
             chunk_cb(buffer, 32, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             {
                 uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.heading);
                 canardEncodeScalar(buffer, 0, 16, float16_val);
             }
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     {
                         uint16_t float16_val = canardConvertNativeFloatToFloat16(msg.velocity[i]);
                         canardEncodeScalar(buffer, 0, 16, float16_val);
                     }
-
                     chunk_cb(buffer, 16, ctx);
-
-
             }
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 16, msg.squawk);
-
             chunk_cb(buffer, 16, ctx);
-
-
-
-
-
-
             for (int i=0; i < 9; i++) {
-
-
-
                     memset(buffer,0,8);
-
                     canardEncodeScalar(buffer, 0, 8, msg.callsign[i]);
-
                     chunk_cb(buffer, 8, ctx);
-
-
             }
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 3, msg.source);
-
             chunk_cb(buffer, 3, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 5, msg.traffic_type);
-
             chunk_cb(buffer, 5, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 7, msg.alt_type);
-
             chunk_cb(buffer, 7, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.lat_lon_valid);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.heading_valid);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.velocity_valid);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.callsign_valid);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.ident_valid);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.simulated_report);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.vertical_velocity_valid);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.baro_valid);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
         }
 
         static void _decode_ardupilot_equipment_trafficmonitor_TrafficReport(CanardRxTransfer transfer,ref uint32_t bit_ofs, ardupilot_equipment_trafficmonitor_TrafficReport msg, bool tao) {
 
-
-
-
-
-
             _decode_uavcan_Timestamp(transfer, ref bit_ofs, msg.timestamp, false);
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 32, false, ref msg.icao_address);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 16, false, ref msg.tslc);
-
-
             bit_ofs += 16;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.latitude_deg_1e7);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.longitude_deg_1e7);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 32, true, ref msg.alt_m);
-
-
             bit_ofs += 32;
-
-
-
-
-
-
 
             {
                 uint16_t float16_val = 0;
                 canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                 msg.heading = canardConvertFloat16ToNativeFloat(float16_val);
             }
-
             bit_ofs += 16;
 
-
-
-
-
-
-
             for (int i=0; i < 3; i++) {
-
-
-
-
                 {
                     uint16_t float16_val = 0;
                     canardDecodeScalar(transfer, bit_ofs, 16, true, ref float16_val);
                     msg.velocity[i] = canardConvertFloat16ToNativeFloat(float16_val);
                 }
-
                 bit_ofs += 16;
-
-
             }
-
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 16, false, ref msg.squawk);
-
-
             bit_ofs += 16;
 
-
-
-
-
-
-
             for (int i=0; i < 9; i++) {
-
-
-
-
                 canardDecodeScalar(transfer, bit_ofs, 8, false, ref msg.callsign[i]);
-
                 bit_ofs += 8;
-
-
             }
 
-
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 3, false, ref msg.source);
-
-
             bit_ofs += 3;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 5, false, ref msg.traffic_type);
-
-
             bit_ofs += 5;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 7, false, ref msg.alt_type);
-
-
             bit_ofs += 7;
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.lat_lon_valid);
-
-
             bit_ofs += 1;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.heading_valid);
-
-
             bit_ofs += 1;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.velocity_valid);
-
-
             bit_ofs += 1;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.callsign_valid);
-
-
             bit_ofs += 1;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.ident_valid);
-
-
             bit_ofs += 1;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.simulated_report);
-
-
             bit_ofs += 1;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.vertical_velocity_valid);
-
-
             bit_ofs += 1;
-
-
-
-
-
-
-
 
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.baro_valid);
-
-
             bit_ofs += 1;
 
-
-
-
-
-
         }
-
     }
-
 }

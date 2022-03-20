@@ -1,5 +1,4 @@
 
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -18,31 +17,16 @@ using System.Runtime.InteropServices;
 
 namespace DroneCAN
 {
-    public partial class DroneCAN {
+    public partial class DroneCAN 
+    {
+        public partial class uavcan_Timestamp: IDroneCANSerialize 
+        {
+            public const int UAVCAN_TIMESTAMP_MAX_PACK_SIZE = 7;
+            public const ulong UAVCAN_TIMESTAMP_DT_SIG = 0x5BD0B5C81087E0D;
 
-
-
-
-        public const int UAVCAN_TIMESTAMP_MAX_PACK_SIZE = 7;
-        public const ulong UAVCAN_TIMESTAMP_DT_SIG = 0x5BD0B5C81087E0D;
-
-
-
-
-
-        public const double UAVCAN_TIMESTAMP_UNKNOWN = 0; // saturated uint56
-
-
-
-
-        public partial class uavcan_Timestamp: IDroneCANSerialize {
-
-
+            public const double UAVCAN_TIMESTAMP_UNKNOWN = 0; // saturated uint56
 
             public uint64_t usec = new uint64_t();
-
-
-
 
             public void encode(dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx)
             {
@@ -52,6 +36,13 @@ namespace DroneCAN
             public void decode(CanardRxTransfer transfer)
             {
                 decode_uavcan_Timestamp(transfer, this);
+            }
+
+            public static uavcan_Timestamp ByteArrayToDroneCANMsg(byte[] transfer, int startoffset)
+            {
+                var ans = new uavcan_Timestamp();
+                ans.decode(new DroneCAN.CanardRxTransfer(transfer.Skip(startoffset).ToArray()));
+                return ans;
             }
         }
     }

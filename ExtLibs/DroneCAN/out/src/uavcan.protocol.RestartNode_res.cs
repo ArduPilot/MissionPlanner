@@ -1,6 +1,4 @@
 
-
-
 using uint8_t = System.Byte;
 using uint16_t = System.UInt16;
 using uint32_t = System.UInt32;
@@ -20,7 +18,6 @@ using System.Collections.Generic;
 
 namespace DroneCAN
 {
-
     public partial class DroneCAN {
         static void encode_uavcan_protocol_RestartNode_res(uavcan_protocol_RestartNode_res msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx) {
             uint8_t[] buffer = new uint8_t[8];
@@ -34,45 +31,16 @@ namespace DroneCAN
         }
 
         static void _encode_uavcan_protocol_RestartNode_res(uint8_t[] buffer, uavcan_protocol_RestartNode_res msg, dronecan_serializer_chunk_cb_ptr_t chunk_cb, object ctx, bool tao) {
-
-
-
-
-
-
             memset(buffer,0,8);
-
             canardEncodeScalar(buffer, 0, 1, msg.ok);
-
             chunk_cb(buffer, 1, ctx);
-
-
-
-
-
         }
 
         static void _decode_uavcan_protocol_RestartNode_res(CanardRxTransfer transfer,ref uint32_t bit_ofs, uavcan_protocol_RestartNode_res msg, bool tao) {
 
-
-
-
-
-
-
-
             canardDecodeScalar(transfer, bit_ofs, 1, false, ref msg.ok);
-
-
             bit_ofs += 1;
 
-
-
-
-
-
         }
-
     }
-
 }
