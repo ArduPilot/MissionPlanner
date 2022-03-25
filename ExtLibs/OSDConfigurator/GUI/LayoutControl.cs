@@ -10,12 +10,13 @@ namespace OSDConfigurator.GUI
 {
     public partial class LayoutControl : UserControl
     {
-        private readonly Visualizer visualizer;
         private ICollection<OSDItem> items;
         private bool itemMoving;
         private Point moveShift;
 
         public ScreenControl ScreenControl { get; set; }
+
+        public Visualizer Visualizer { get; set; }
 
         public ICollection<OSDItem> Items
         {
@@ -39,15 +40,13 @@ namespace OSDConfigurator.GUI
         {
             set
             {
-                this.Size = visualizer.GetCanvasSize(value);
+                this.Size = Visualizer.GetCanvasSize(value);
                 ReDraw();
             }
         }
 
         public LayoutControl()
         {
-            visualizer = new Visualizer();
-
             InitializeComponent();
             
             this.Paint += Draw;
@@ -72,7 +71,7 @@ namespace OSDConfigurator.GUI
             var loc = e.Location;
             loc.Offset(moveShift);
 
-            var newLocation = visualizer.ToOSDLocation(loc);
+            var newLocation = Visualizer.ToOSDLocation(loc);
             
             if (newLocation.X != ScreenControl.SelectedItem.X.Value 
                 || newLocation.Y != ScreenControl.SelectedItem.Y.Value)
@@ -86,14 +85,14 @@ namespace OSDConfigurator.GUI
 
         private void LayoutControlMouseDown(object sender, MouseEventArgs e)
         {
-            var hitItem = items?.FirstOrDefault(i => i.Enabled.Value > 0 && visualizer.Contains(i, e.Location));
+            var hitItem = items?.FirstOrDefault(i => i.Enabled.Value > 0 && Visualizer.Contains(i, e.Location));
             
             if (hitItem != null && ScreenControl != null)
             {
                 ScreenControl.SelectedItem = hitItem;
                 itemMoving = true;
 
-                var currentLoc = visualizer.ToScreenPoint(hitItem, 0);
+                var currentLoc = Visualizer.ToScreenPoint(hitItem, 0);
                 moveShift.X = currentLoc.X - e.X;
                 moveShift.Y = currentLoc.Y - e.Y;
 
@@ -118,14 +117,14 @@ namespace OSDConfigurator.GUI
 
         private void Draw(object sender, PaintEventArgs e)
         {
-            visualizer.DrawBackground(e.Graphics);
+            Visualizer.DrawBackground(e.Graphics);
 
             if (items != null)
             {
                 foreach (var i in items.Where(o => o.Enabled.Value > 0))
                 {
-                    visualizer.Draw(i, e.Graphics);
-                    visualizer.DrawSelection(ScreenControl.SelectedItem, e.Graphics);
+                    Visualizer.Draw(i, e.Graphics);
+                    Visualizer.DrawSelection(ScreenControl.SelectedItem, e.Graphics);
                 }
             }
         }

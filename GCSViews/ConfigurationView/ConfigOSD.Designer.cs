@@ -30,15 +30,17 @@
         {
             this.osdUserControl = new OSDConfigurator.GUI.OSDUserControl();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnWrite = new System.Windows.Forms.Button();
-            this.cbAutoWriteOnLeave = new System.Windows.Forms.CheckBox();
-            this.btnDiscardChanges = new System.Windows.Forms.Button();
+            this.btnOsd56ItemsSetup = new System.Windows.Forms.Button();
             this.btnRefreshParameters = new System.Windows.Forms.Button();
+            this.btnDiscardChanges = new System.Windows.Forms.Button();
+            this.cbAutoWriteOnLeave = new System.Windows.Forms.CheckBox();
+            this.btnWrite = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // osdUserControl
             // 
+            this.osdUserControl.CaptionProvider = null;
             this.osdUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.osdUserControl.Location = new System.Drawing.Point(8, 8);
             this.osdUserControl.Name = "osdUserControl";
@@ -47,6 +49,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnOsd56ItemsSetup);
             this.panel1.Controls.Add(this.btnRefreshParameters);
             this.panel1.Controls.Add(this.btnDiscardChanges);
             this.panel1.Controls.Add(this.cbAutoWriteOnLeave);
@@ -57,14 +60,32 @@
             this.panel1.Size = new System.Drawing.Size(182, 807);
             this.panel1.TabIndex = 1;
             // 
-            // btnWrite
+            // btnOsd56ItemsSetup
             // 
-            this.btnWrite.Location = new System.Drawing.Point(20, 23);
-            this.btnWrite.Name = "btnWrite";
-            this.btnWrite.Size = new System.Drawing.Size(145, 32);
-            this.btnWrite.TabIndex = 0;
-            this.btnWrite.Text = "Write customization";
-            this.btnWrite.UseVisualStyleBackColor = true;
+            this.btnOsd56ItemsSetup.Location = new System.Drawing.Point(20, 112);
+            this.btnOsd56ItemsSetup.Name = "btnOsd56ItemsSetup";
+            this.btnOsd56ItemsSetup.Size = new System.Drawing.Size(145, 42);
+            this.btnOsd56ItemsSetup.TabIndex = 4;
+            this.btnOsd56ItemsSetup.Text = "OSD / Telmetry Slots Config";
+            this.btnOsd56ItemsSetup.UseVisualStyleBackColor = true;
+            // 
+            // btnRefreshParameters
+            // 
+            this.btnRefreshParameters.Location = new System.Drawing.Point(20, 197);
+            this.btnRefreshParameters.Name = "btnRefreshParameters";
+            this.btnRefreshParameters.Size = new System.Drawing.Size(145, 32);
+            this.btnRefreshParameters.TabIndex = 3;
+            this.btnRefreshParameters.Text = "Refresh";
+            this.btnRefreshParameters.UseVisualStyleBackColor = true;
+            // 
+            // btnDiscardChanges
+            // 
+            this.btnDiscardChanges.Location = new System.Drawing.Point(20, 235);
+            this.btnDiscardChanges.Name = "btnDiscardChanges";
+            this.btnDiscardChanges.Size = new System.Drawing.Size(145, 32);
+            this.btnDiscardChanges.TabIndex = 2;
+            this.btnDiscardChanges.Text = "Discard all changes";
+            this.btnDiscardChanges.UseVisualStyleBackColor = true;
             // 
             // cbAutoWriteOnLeave
             // 
@@ -78,23 +99,14 @@
             this.cbAutoWriteOnLeave.Text = "Auto write on leaving";
             this.cbAutoWriteOnLeave.UseVisualStyleBackColor = true;
             // 
-            // btnDiscardChanges
+            // btnWrite
             // 
-            this.btnDiscardChanges.Location = new System.Drawing.Point(20, 162);
-            this.btnDiscardChanges.Name = "btnDiscardChanges";
-            this.btnDiscardChanges.Size = new System.Drawing.Size(145, 32);
-            this.btnDiscardChanges.TabIndex = 2;
-            this.btnDiscardChanges.Text = "Discard all changes";
-            this.btnDiscardChanges.UseVisualStyleBackColor = true;
-            // 
-            // btnRefreshParameters
-            // 
-            this.btnRefreshParameters.Location = new System.Drawing.Point(20, 124);
-            this.btnRefreshParameters.Name = "btnRefreshParameters";
-            this.btnRefreshParameters.Size = new System.Drawing.Size(145, 32);
-            this.btnRefreshParameters.TabIndex = 3;
-            this.btnRefreshParameters.Text = "Refresh";
-            this.btnRefreshParameters.UseVisualStyleBackColor = true;
+            this.btnWrite.Location = new System.Drawing.Point(20, 23);
+            this.btnWrite.Name = "btnWrite";
+            this.btnWrite.Size = new System.Drawing.Size(145, 32);
+            this.btnWrite.TabIndex = 0;
+            this.btnWrite.Text = "Write customization";
+            this.btnWrite.UseVisualStyleBackColor = true;
             // 
             // ConfigOSD
             // 
@@ -119,5 +131,6 @@
         private System.Windows.Forms.CheckBox cbAutoWriteOnLeave;
         private System.Windows.Forms.Button btnDiscardChanges;
         private System.Windows.Forms.Button btnRefreshParameters;
+        private System.Windows.Forms.Button btnOsd56ItemsSetup;
     }
 }

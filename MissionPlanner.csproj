@@ -727,6 +727,7 @@
     </Compile>
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
     <Compile Include="Utilities\NativeLibrary.cs" />
+    <Compile Include="Utilities\OsdTuningSlotProvider.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Utilities\SSHTerminal.cs" />
     <Compile Include="Grid\camerainfo.cs" />

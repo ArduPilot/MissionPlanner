@@ -9,12 +9,11 @@ namespace OSDConfigurator
 {
     public static class ConfigFactory
     {
-        public static OSDConfiguration Create(IList<IOSDSetting> settings)
+        public static OSDConfiguration Create(IList<IOSDSetting> settings, IEnumerable<int> screenIndexes)
         {
-            var screens = Enumerable.Range(1, 4)
-                                    .Select(i => MakeScreen(i, settings))
-                                    .Where(o => o != null)
-                                    .ToArray();
+            var screens = screenIndexes.Select(i => MakeScreen(i, settings))
+                                       .Where(o => o != null)
+                                       .ToArray();
 
             var options = settings.Where(o => o.Name.StartsWith("OSD_"))
                                   .ToArray();

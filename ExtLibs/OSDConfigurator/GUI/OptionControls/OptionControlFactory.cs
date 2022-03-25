@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -75,7 +76,10 @@ namespace OSDConfigurator.GUI
 
             if (setting.Name.EndsWith("_Y"))
                 return new IntSpinSettingControl(setting, Weight.Y);
-            
+
+            if (Regex.IsMatch(setting.Name, "OSD\\d_PARAM\\d_TYPE"))
+                return new DropdownSettingControl(setting, OSDConfigurator.GUI.Osd56ItemsSetup.ItemControl.ItemTypes, Weight.MEDIUM);
+
             return new IntSettingControl(setting, Weight.MEDIUM);
         }
     }
