@@ -30,12 +30,12 @@ namespace MissionPlanner.ArduPilot
             bytes. Pad bytes are used to ensure that a parameter data[] field
             does not cross a read packet boundary
         */
-        static Dictionary<int, (int size, char type)> map = new Dictionary<int, (int size, char type)>()
+        static Dictionary<int, (int type_len, char type_format)> map = new Dictionary<int, (int type_len, char type_format)>()
         {
             { 1, (1, 'b') },
             { 2, (2, 'h') },
-            {3, (4, 'i')},
-            {4, (4, 'f')},
+            { 3, (4, 'i') },
+            { 4, (4, 'f') },
         };
 
         public static MAVLink.MAVLinkParamList unpack(byte[] data)
@@ -45,49 +45,59 @@ namespace MissionPlanner.ArduPilot
             if (data.Length < 6)
                 return null;
 
-            var magic2 = BitConverter.ToUInt16(data.Take(6).ToArray(), 0);
-            var num_params = BitConverter.ToUInt16(data.Take(6).ToArray(), 2);
-            var total_params = BitConverter.ToUInt16(data.Take(6).ToArray(), 4);
+            int dataPointer = 0;
+
+            var magic2 = BitConverter.ToUInt16(data, dataPointer);
+            var num_params = BitConverter.ToUInt16(data, dataPointer+=2);
+            var total_params = BitConverter.ToUInt16(data, dataPointer+=2);
+            dataPointer+=2;
 
             if (magic2 != magic)
                 return null;
-
-            data = data.Skip(6).ToArray();
 
             byte pad_byte = 0;
             int count = 0;
             var last_name = "";
             while (true)
             {
-                while (len(data) > 0 && ord(data[0]) == pad_byte)
-                    data = data.Skip(1).ToArray();
+                while (data.Length - dataPointer > 0 && data[dataPointer] == pad_byte)
+                    dataPointer++;
 
-                if (len(data) == 0)
+                if (data.Length - dataPointer == 0)
                     break;
 
-                var ptype = data[0];
-                var plen = data[1];
-                var flags = (ptype >> 4) & 0x0F;
+                var ptype = data[dataPointer++];
+                var plen = data[dataPointer++];
+                // var flags = (ptype >> 4) & 0x0F;
                 ptype &= 0x0F;
 
-                if (!map.ContainsKey(ptype))
+                if (!map.TryGetValue(ptype, out (int type_len, char type_format) mapped))
                     return null;
 
-                var (type_len, type_format) = map[ptype];
-
                 var name_len = ((plen >> 4) & 0x0F) + 1;
-                var common_len = (plen & 0x0F);
-                var name = new StringBuilder().Append(last_name.Take(common_len).ToArray())
-                    .Append(data.Skip(2).Take(name_len).Select(a => (char)a).ToArray()).ToString();
-                var vdata = data.Skip(2 + name_len).Take(type_len);
+                var common_len = plen & 0x0F;
+
+                var nameBuilder = new StringBuilder().Append(last_name.Substring(0, common_len));
+
+                for (int i = dataPointer; i < dataPointer + name_len; i++)
+                    nameBuilder.Append((char)data[i]);
+
+                dataPointer += name_len;
+
+                var name = nameBuilder.ToString();
+                
                 last_name = name;
-                data = data.Skip(2 + name_len + type_len).ToArray();
-                var v = decode_value(ptype, vdata);
+                var v = decode_value(mapped.type_format, data, dataPointer);
+                
                 count += 1;
-                log.DebugFormat("{0,-16} {1,-16} {2,-16} {3,-16}", name, v, type_len, type_format);
+                log.DebugFormat("{0,-16} {1,-16} {2,-16} {3,-16}", name, v, mapped.type_len, mapped.type_format);
                 //print("%-16s %f" % (name, float (v)))
 
-                list.Add(new MAVLink.MAVLinkParam(name, vdata.ToArray().MakeSize(4),
+                var vdata = new byte[4];
+                Array.Copy(data, dataPointer, vdata, 0, mapped.type_len);
+                dataPointer += mapped.type_len;
+
+                list.Add(new MAVLink.MAVLinkParam(name, vdata,
                     (ptype == 1 ? MAVLink.MAV_PARAM_TYPE.INT8 :
                         ptype == 2 ? MAVLink.MAV_PARAM_TYPE.INT16 :
                         ptype == 3 ? MAVLink.MAV_PARAM_TYPE.INT32 :
@@ -104,52 +114,18 @@ namespace MissionPlanner.ArduPilot
             return list;
         }
 
-        private static object decode_value(byte ptype, IEnumerable<byte> vdata)
+        private static object decode_value(char type_format, byte[] data, int startIndex)
         {
-            if (ptype == 1)
+            switch (type_format)
             {
-                vdata = pad_data(vdata, 1);
-                return vdata.First();
+                case 'b': return data[startIndex];
+                case 'h': return BitConverter.ToUInt16(data, startIndex);
+                case 'i': return BitConverter.ToUInt32(data, startIndex);
+                case 'f': return BitConverter.ToSingle(data, startIndex);
+
+                default:
+                    throw new Exception($"Unexpected type_format: {type_format}");
             }
-
-            if (ptype == 2)
-            {
-                vdata = pad_data(vdata, 2);
-                return BitConverter.ToUInt16(vdata.ToArray(), 0);
-            }
-
-            if (ptype == 3)
-            {
-                vdata = pad_data(vdata, 4);
-                return BitConverter.ToUInt32(vdata.ToArray(), 0);
-            }
-
-            if (ptype == 4)
-            {
-                vdata = pad_data(vdata, 4);
-                return BitConverter.ToSingle(vdata.ToArray(), 0);
-            }
-
-            //print("bad ptype %u" % ptype)
-            return 0;
-        }
-
-        private static byte[] pad_data(IEnumerable<byte> vdata, int vlen)
-        {
-            var ans = vdata.ToList();
-            while (len(ans) < vlen)
-                ans.Add(0);
-            return ans.ToArray();
-        }
-
-        private static int ord(byte b)
-        {
-            return b;
-        }
-
-        private static int len(IEnumerable<byte> data)
-        {
-            return data.Count();
         }
     }
 }
