@@ -1662,7 +1662,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             else return 0;
         }
 
-        static uint8_t dlcToDataLength(uint8_t dlc)
+        public static uint8_t dlcToDataLength(uint8_t dlc)
         {
             /*
             Data Length Code      9  10  11  12  13  14  15
@@ -1698,7 +1698,7 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             }
             return 64;
         }
-        static uint8_t dataLengthToDlc(int data_length)
+        public static uint8_t dataLengthToDlc(int data_length)
         {
             if (data_length <= 8)
             {

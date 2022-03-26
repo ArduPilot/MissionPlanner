@@ -8,7 +8,10 @@ namespace DroneCAN
     /// </summary>
     public class CANFrame
     {
-        private byte[] packet_data;
+        /// <summary>
+        /// raw packet data
+        /// </summary>
+        public byte[] packet_data;
 
         public enum FrameType
         {
