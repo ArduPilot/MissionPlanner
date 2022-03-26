@@ -486,7 +486,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return $"MP97+Q6H";
 
                 case "SIDEBARS":
-                    return Symbols.SYM_SIDEBAR_A.ToString();
+                    xOffset = -4;
+                    return $"{Symbols.SYM_SIDEBAR_A}           {Symbols.SYM_SIDEBAR_A}";
 
                 case "CLK":
                     return $"{Symbols.SYM_CLK}12:00";
