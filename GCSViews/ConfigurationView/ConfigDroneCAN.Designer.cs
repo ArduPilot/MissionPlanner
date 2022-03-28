@@ -62,6 +62,10 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.chk_log = new System.Windows.Forms.CheckBox();
             this.DGDebug = new System.Windows.Forms.DataGridView();
+            this.Node = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UAVText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chk_canonclose = new System.Windows.Forms.CheckBox();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,10 +77,6 @@
             this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Node = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UAVText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
@@ -110,9 +110,9 @@
             this.but_slcanmode1.Name = "but_slcanmode1";
             this.but_slcanmode1.Size = new System.Drawing.Size(125, 23);
             this.but_slcanmode1.TabIndex = 82;
-            this.but_slcanmode1.Text = "SLCan Mode CAN1";
+            this.but_slcanmode1.Text = "SLCan Direct";
             this.but_slcanmode1.UseVisualStyleBackColor = true;
-            this.but_slcanmode1.Click += new System.EventHandler(this.but_slcanmode_Click);
+            this.but_slcanmode1.Click += new System.EventHandler(this.but_slcandirect_Click);
             // 
             // contextMenu1
             // 
@@ -170,9 +170,9 @@
             this.but_slcanmode2.Name = "but_slcanmode2";
             this.but_slcanmode2.Size = new System.Drawing.Size(125, 23);
             this.but_slcanmode2.TabIndex = 84;
-            this.but_slcanmode2.Text = "SLCan Mode CAN2";
+            this.but_slcanmode2.Text = "SLCan Mavlink";
             this.but_slcanmode2.UseVisualStyleBackColor = true;
-            this.but_slcanmode2.Click += new System.EventHandler(this.but_slcanmode2_Click);
+            this.but_slcanmode2.Click += new System.EventHandler(this.but_slcanmavlink_Click);
             // 
             // but_uavcaninspector
             // 
@@ -234,7 +234,6 @@
             // 
             this.uAVCANModelBindingSource.AllowNew = true;
             this.uAVCANModelBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.DroneCANModel);
-   
             // 
             // textBox13
             // 
@@ -406,6 +405,34 @@
             this.DGDebug.Size = new System.Drawing.Size(757, 144);
             this.DGDebug.TabIndex = 89;
             // 
+            // Node
+            // 
+            this.Node.HeaderText = "Node";
+            this.Node.Name = "Node";
+            this.Node.ReadOnly = true;
+            this.Node.Width = 40;
+            // 
+            // Level
+            // 
+            this.Level.HeaderText = "Level";
+            this.Level.Name = "Level";
+            this.Level.ReadOnly = true;
+            this.Level.Width = 40;
+            // 
+            // Source
+            // 
+            this.Source.HeaderText = "Source";
+            this.Source.Name = "Source";
+            this.Source.ReadOnly = true;
+            this.Source.Width = 50;
+            // 
+            // UAVText
+            // 
+            this.UAVText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.UAVText.HeaderText = "Text";
+            this.UAVText.Name = "UAVText";
+            this.UAVText.ReadOnly = true;
+            // 
             // chk_canonclose
             // 
             this.chk_canonclose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -523,35 +550,7 @@
             this.Menu.ReadOnly = true;
             this.Menu.Width = 50;
             // 
-            // Node
-            // 
-            this.Node.HeaderText = "Node";
-            this.Node.Name = "Node";
-            this.Node.ReadOnly = true;
-            this.Node.Width = 40;
-            // 
-            // Level
-            // 
-            this.Level.HeaderText = "Level";
-            this.Level.Name = "Level";
-            this.Level.ReadOnly = true;
-            this.Level.Width = 40;
-            // 
-            // Source
-            // 
-            this.Source.HeaderText = "Source";
-            this.Source.Name = "Source";
-            this.Source.ReadOnly = true;
-            this.Source.Width = 50;
-            // 
-            // UAVText
-            // 
-            this.UAVText.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.UAVText.HeaderText = "Text";
-            this.UAVText.Name = "UAVText";
-            this.UAVText.ReadOnly = true;
-            // 
-            // ConfigUAVCAN
+            // ConfigDroneCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -566,7 +565,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.myDataGridView1);
-            this.Name = "ConfigUAVCAN";
+            this.Name = "ConfigDroneCAN";
             this.Size = new System.Drawing.Size(767, 584);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
