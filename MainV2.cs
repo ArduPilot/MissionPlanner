@@ -2849,21 +2849,20 @@ namespace MissionPlanner
                         }
                     }
 
-                    // data loss warning - wait min of 10 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
-                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 10
+                    // data loss warning - wait min of 3 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
+                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 3
                         && (DateTime.Now - connecttime).TotalSeconds > 30
                         && (DateTime.Now - nodatawarning).TotalSeconds > 5
                         && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen)
                         && MainV2.comPort.MAV.cs.armed)
                     {
+                        var msg = "WARNING No Data for " + (int)(DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds + " Seconds";
+                        MainV2.comPort.MAV.cs.messageHigh = msg;
                         if (speechEnable && speechEngine != null)
                         {
                             if (MainV2.speechEngine.IsReady)
                             {
-                                MainV2.speechEngine.SpeakAsync("WARNING No Data for " +
-                                                               (int)
-                                                               (DateTime.Now - MainV2.comPort.MAV.lastvalidpacket)
-                                                               .TotalSeconds + " Seconds");
+                                MainV2.speechEngine.SpeakAsync(msg);
                                 nodatawarning = DateTime.Now;
                             }
                         }
