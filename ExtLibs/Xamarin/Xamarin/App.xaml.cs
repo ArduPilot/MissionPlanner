@@ -75,6 +75,11 @@ namespace Xamarin
         protected override void OnStart()
         {
             MainV2.isHerelink = Test.SystemInfo?.GetSystemTag().Contains("CubePilot") ?? false;
+            if (MainV2.isHerelink) {
+                var video = AutoConnect.connectionInfos.Find(a => a.Label.Equals("HereLink GCS"));
+                if (video != null)
+                    video.Enabled = true;
+            }
 
             // Handle when your app starts
             /*

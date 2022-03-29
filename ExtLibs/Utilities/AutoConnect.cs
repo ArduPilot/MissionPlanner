@@ -18,7 +18,7 @@ namespace MissionPlanner.Utilities
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static List<ConnectionInfo> connectionInfos = new List<ConnectionInfo>()
+        public static List<ConnectionInfo> connectionInfos = new List<ConnectionInfo>()
         {
             new ConnectionInfo("Mavlink default port", true, 14550, ProtocolType.Udp, ConnectionFormat.MAVLink,
                 Direction.Inbound, ""),
@@ -44,8 +44,11 @@ namespace MissionPlanner.Utilities
 
             new ConnectionInfo("SkyViper", false, 554, ProtocolType.Tcp, ConnectionFormat.Video, Direction.Outbound,
                 "rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=1 latency=100 ntp-time-source=3 ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false"),
-            new ConnectionInfo("HereLink", false, 8554, ProtocolType.Tcp, ConnectionFormat.Video, Direction.Outbound,
+            new ConnectionInfo("HereLink Wifi", false, 8554, ProtocolType.Tcp, ConnectionFormat.Video, Direction.Outbound,
                 "rtspsrc location=rtsp://192.168.43.1:8554/fpv_stream latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false"),
+            new ConnectionInfo("HereLink GCS", false, 8554, ProtocolType.Tcp, ConnectionFormat.Video, Direction.Outbound,
+                "rtspsrc location=rtsp://192.168.0.10:8554/H264Video latency=41 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink sync=false"),
+
             new ConnectionInfo("Serial", false, 57600, ProtocolType.Serial, ConnectionFormat.MAVLink,
                 Direction.Outbound, ""),
 
