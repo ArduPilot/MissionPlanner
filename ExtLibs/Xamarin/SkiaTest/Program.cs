@@ -270,85 +270,10 @@ namespace SkiaTest
                 base.Dispose(disposing);
             }
         }
-        
+
         public sealed class SkiaWindow : SkiaWindowBase
         {
-            protected override void OnSkiaPaint(SKSurface e)
-            {
-                try
-                {
-                    
-                var canvas = e.Canvas;
 
-                canvas.Clear(SKColors.Gray);
-
-                canvas.Scale((float) scale.Width, (float) scale.Height);
-
-                foreach (Form form in Application.OpenForms.Select(a=>a).ToArray())
-                {
-                    if (form.IsHandleCreated)
-                    {
-                        if (form is MainV2 && form.WindowState != FormWindowState.Maximized)
-                            form.BeginInvokeIfRequired(() => { form.WindowState = FormWindowState.Maximized; });
-
-                        try
-                        {
-                          DrawOntoCanvas(form.Handle, canvas, true);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                        }
-                    }
-                }
-
-                IEnumerable<Hwnd> menu;
-                lock(Hwnd.windows)
-                    menu = Hwnd.windows.Values.OfType<Hwnd>()
-                    .Where(hw => hw.topmost && hw.Mapped && hw.Visible).ToArray();
-                foreach (Hwnd hw in menu)
-                {
-                    var ctlmenu = Control.FromHandle(hw.ClientWindow);
-                        if (ctlmenu != null)
-                            DrawOntoCanvas(hw.ClientWindow, canvas, true);
-                }
-
-               // if (Device.RuntimePlatform != Device.macOS && Device.RuntimePlatform != Device.UWP)
-                {
-                    canvas.ClipRect(
-                        SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
-                            Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
-
-                    var path = new SKPath();
-            
-                    path.MoveTo(cursorPoints.First());
-                    cursorPoints.ForEach(a => path.LineTo(a));
-                    path.Transform(new SKMatrix(1, 0, XplatUI.driver.MousePosition.X, 0, 1,
-                        XplatUI.driver.MousePosition.Y, 0, 0, 1));
-
-                    canvas.DrawPath(path,
-                        new SKPaint()
-                            {Color = SKColors.White, Style = SKPaintStyle.Fill, StrokeJoin = SKStrokeJoin.Miter});
-                    canvas.DrawPath(path,
-                        new SKPaint()
-                            {Color = SKColors.Black, Style = SKPaintStyle.Stroke, StrokeJoin = SKStrokeJoin.Miter, IsAntialias = true});
-                }
-
-                canvas.DrawText("" + DateTime.Now.ToString("HH:mm:ss.fff"),
-                    new SKPoint(10, 10), new SKPaint() {Color = SKColor.Parse("ffff00")});
-
-                canvas.Flush();
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-                finally
-                {
-
-                }
-            }
 
             private SKPaint paint = new SKPaint() {FilterQuality = SKFilterQuality.Low};
             
@@ -392,8 +317,7 @@ namespace SkiaTest
 
                 if (hwnd.ClientWindow != hwnd.WholeWindow)
                 {
-                    var ctl = Control.FromHandle(hwnd.ClientWindow);
-                    var frm = ctl as Form;
+                    var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
 
                     Hwnd.Borders borders = new Hwnd.Borders();
 
@@ -514,6 +438,84 @@ namespace SkiaTest
             return true;
         }
 
+
+
+            protected override void OnSkiaPaint(SKSurface e)
+            {
+                try
+                {
+                    
+                var canvas = e.Canvas;
+
+                canvas.Clear(SKColors.Gray);
+
+                canvas.Scale((float) scale.Width, (float) scale.Height);
+
+                foreach (Form form in Application.OpenForms.Select(a=>a).ToArray())
+                {
+                    if (form.IsHandleCreated)
+                    {
+                        if (form is MainV2 && form.WindowState != FormWindowState.Maximized)
+                            form.BeginInvokeIfRequired(() => { form.WindowState = FormWindowState.Maximized; });
+
+                        try
+                        {
+                          DrawOntoCanvas(form.Handle, canvas, true);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                        }
+                    }
+                }
+
+                IEnumerable<Hwnd> menu;
+                lock(Hwnd.windows)
+                    menu = Hwnd.windows.Values.OfType<Hwnd>()
+                    .Where(hw => hw.topmost && hw.Mapped && hw.Visible).ToArray();
+                foreach (Hwnd hw in menu)
+                {
+                    var ctlmenu = Control.FromHandle(hw.ClientWindow);
+                        if (ctlmenu != null)
+                            DrawOntoCanvas(hw.ClientWindow, canvas, true);
+                }
+
+                //if (Device.RuntimePlatform != Device.macOS && Device.RuntimePlatform != Device.UWP)
+                {
+                    canvas.ClipRect(
+                        SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width,
+                            Screen.PrimaryScreen.Bounds.Height), (SKClipOperation) 5);
+
+                    var path = new SKPath();
+            
+                    path.MoveTo(cursorPoints.First());
+                    cursorPoints.ForEach(a => path.LineTo(a));
+                    path.Transform(new SKMatrix(1, 0, XplatUI.driver.MousePosition.X, 0, 1,
+                        XplatUI.driver.MousePosition.Y, 0, 0, 1));
+
+                    canvas.DrawPath(path,
+                        new SKPaint()
+                            {Color = SKColors.White, Style = SKPaintStyle.Fill, StrokeJoin = SKStrokeJoin.Miter});
+                    canvas.DrawPath(path,
+                        new SKPaint()
+                            {Color = SKColors.Black, Style = SKPaintStyle.Stroke, StrokeJoin = SKStrokeJoin.Miter, IsAntialias = true});
+                }
+
+                canvas.DrawText("" + DateTime.Now.ToString("HH:mm:ss.fff"),
+                    new SKPoint(10, 10), new SKPaint() {Color = SKColor.Parse("ffff00")});
+
+                canvas.Flush();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+
+                }
+            }
 
             private SKPoint[] cursorPoints = new SKPoint[]
             {
