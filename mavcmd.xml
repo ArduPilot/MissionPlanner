@@ -282,6 +282,15 @@
       <Y></Y>
       <Z></Z>
     </DO_SPRAYER>
+    <SCRIPT_TIME>
+      <P1>command</P1>
+      <P2>timeout</P2>
+      <P3>arg1</P3>
+      <P4>arg2</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SCRIPT_TIME>
 
   </AC2>
   <!-- -->
