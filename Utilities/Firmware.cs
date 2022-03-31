@@ -705,9 +705,9 @@ namespace MissionPlanner.Utilities
 
                         updateProgress(-1, port + " Identify");
                         log.InfoFormat(
-                            "Found board type {0} brdrev {1} blrev {2} fwmax {3} chip {5:X} chipdes {6} on {4}",
+                            "Found board type {0} brdrev {1} blrev {2} fwmax {3} chip {5:X} chipdes {6} on {4} extmax {7}",
                             up.board_type,
-                            up.board_rev, up.bl_rev, up.fw_maxsize, port, up.chip, up.chip_desc);
+                            up.board_rev, up.bl_rev, up.fw_maxsize, port, up.chip, up.chip_desc, up.extf_maxsize);
 
                         up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
                         up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
@@ -742,6 +742,14 @@ namespace MissionPlanner.Utilities
                     {
                         log.Error(ex);
                         CustomMessageBox.Show("lost communication with the board.", "lost comms");
+                        uploader.close();
+                        result = false;
+                        return false;
+                    }
+                    catch (TimeoutException ex)
+                    {
+                        log.Error(ex);
+                        CustomMessageBox.Show("lost communication with the board.", "comms timeout");
                         uploader.close();
                         result = false;
                         return false;
