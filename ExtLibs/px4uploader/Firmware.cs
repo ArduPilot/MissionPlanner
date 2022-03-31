@@ -147,7 +147,7 @@ namespace px4uploader
                 Console.WriteLine("extf_image_size {0} size {1}", fw.extf_image_size, size);
 
                 // pad image to 4-byte length
-                while ((fw.imagebyte.Length % 4) != 0)
+                while ((fw.extf_imagebyte.Length % 4) != 0)
                 {
                     Array.Resize(ref fw.extf_imagebyte, fw.extf_imagebyte.Length + (4 - (fw.extf_imagebyte.Length % 4)));
                 }
@@ -170,7 +170,18 @@ namespace px4uploader
         {
             uint state = __crc32(imagebyte, 0);
 
-            for (int i = imagebyte.Length; i < (padlen -1); i += 4)
+            for (int i = imagebyte.Length; i < (padlen - 1); i += 4)
+            {
+                state = __crc32(crcpad, state);
+            }
+            return (int)state;
+        }
+
+        public int extf_crc(int padlen)
+        {
+            uint state = __crc32(extf_imagebyte, 0);
+
+            for (int i = extf_imagebyte.Length; i < (padlen - 1); i += 4)
             {
                 state = __crc32(crcpad, state);
             }
