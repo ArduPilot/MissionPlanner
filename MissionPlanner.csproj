@@ -647,6 +647,9 @@
     <None Include="plugins\example15-leds.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="plugins\example16-donate.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Utilities\AirMarket.cs">
       <SubType>UserControl</SubType>
     </Compile>
