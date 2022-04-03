@@ -252,6 +252,8 @@ namespace System.Drawing
             bool gdiVerticalFont = false)
         {
             try {
+                var loader = SKTypeface.Default;
+
                 nativeFont = new SKPaint()
                 {
                     Typeface = SKTypeface.FromFamilyName(genericSansSerif?.Name), TextSize = size,

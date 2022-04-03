@@ -889,12 +889,16 @@ StringToSign = VERB + "\n" +
 
             log.Debug(info.ToJSON());
 
-            buffer = new byte[info.Size];
+            //buffer = new byte[info.Size];
 
-            var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            //var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
 
-            var js = JSRuntime as WebAssemblyJSRuntime;
-            js.InvokeUnmarshalled<byte[], string, bool>("filebuffer", buffer, "fileReadyDF");
+            //var js = JSRuntime as WebAssemblyJSRuntime;
+            //js.InvokeUnmarshalled<byte[], string, bool>("filebuffer", buffer, "fileReadyDF");
+
+            MemoryStream memoryStream = await file.CreateMemoryStreamAsync(4096);
+
+            instance.ProcessStream(memoryStream);
         }
 
         log.Info("ReadFile done");

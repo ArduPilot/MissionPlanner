@@ -128,6 +128,10 @@ namespace MissionPlanner.Controls
 
         Rectangle vibehitzone = new Rectangle();
 
+        private Pen redcustom = new Pen(
+            Color.FromArgb(200, 255, 0, 0),
+            4.0f);
+
         //      private static ImageCodecInfo ici = GetImageCodec("image/jpeg");
         //      private static EncoderParameters eps = new EncoderParameters(1);
         public HUD()
@@ -1297,18 +1301,15 @@ namespace MissionPlanner.Controls
                     Rectangle centercircle = new Rectangle(-halfwidth / 2, -halfwidth / 2, halfwidth, halfwidth);
 
                     //  graphicsObject.DrawEllipse(redPen, centercircle);
-                    using (Pen redtemp =
-                        new Pen(Color.FromArgb(200, this._redPen.Color.R, this._redPen.Color.G, this._redPen.Color.B),
-                            4.0f))
                     {
                         // left
-                        graphicsObject.DrawLine(redtemp, centercircle.Left - halfwidth / 5, 0, centercircle.Left, 0);
+                        graphicsObject.DrawLine(redcustom, centercircle.Left - halfwidth / 5, 0, centercircle.Left, 0);
                         // right
-                        graphicsObject.DrawLine(redtemp, centercircle.Right, 0, centercircle.Right + halfwidth / 5, 0);
+                        graphicsObject.DrawLine(redcustom, centercircle.Right, 0, centercircle.Right + halfwidth / 5, 0);
                         // center point
-                        graphicsObject.DrawLine(redtemp, 0 - 1, 0, centercircle.Right - halfwidth / 3,
+                        graphicsObject.DrawLine(redcustom, 0 - 1, 0, centercircle.Right - halfwidth / 3,
                             0 + halfheight / 10);
-                        graphicsObject.DrawLine(redtemp, 0 + 1, 0, centercircle.Left + halfwidth / 3,
+                        graphicsObject.DrawLine(redcustom, 0 + 1, 0, centercircle.Left + halfwidth / 3,
                             0 + halfheight / 10);
                     }
                 }

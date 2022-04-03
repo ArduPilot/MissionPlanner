@@ -32,10 +32,13 @@ namespace System.Drawing
         {
             Width = width;
             Color = Color.FromArgb(color.Alpha, color.Red, color.Green, color.Blue);
-            Brush = new SolidBrush(Color);
-
+            
             try
             {
+                var loader = SKTypeface.Default;
+
+                Brush = new SolidBrush(Color);
+
                 nativePen = new SKPaint()
                 {
                     Color = color,
@@ -46,9 +49,9 @@ namespace System.Drawing
                     FilterQuality = SKFilterQuality.High
                 };
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //Console.WriteLine(e);
+                Console.WriteLine(e);
             }
         }
 

@@ -38,6 +38,7 @@
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="Excubo.Blazor.Canvas" Version="3.0.6" />
     <PackageReference Include="log4net" Version="2.0.13" />
+    <PackageReference Include="SkiaSharp.Views.Blazor" Version="2.88.0-preview.232" />
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" />
@@ -45,16 +46,14 @@
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Reshiru.Blazor.IndexedDB.Framework" Version="1.0.1" />
-    <PackageReference Include="SkiaSharp" Version="2.80.3" />
-    <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" Version="2.80.3" />
     <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
     <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.3.0.21348" />
-    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="3.0.0" />
-    <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="9.0.0" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.3.1.21360" />
+    <PackageReference Include="Tewr.BlazorWorker.BackgroundService" Version="3.1.0" />
+    <PackageReference Include="Toolbelt.Blazor.SpeechSynthesis" Version="9.0.1" />
     <PackageReference Include="WebGLDotNET" Version="2.1.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
 

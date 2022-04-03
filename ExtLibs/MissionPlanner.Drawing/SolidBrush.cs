@@ -17,11 +17,13 @@ namespace System.Drawing
 
             try
             {
+                var loader = SKTypeface.Default;
+
                 nativeBrush = new SKPaint() {Color = color.ToSKColor()};
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //Console.WriteLine(e);
+                Console.WriteLine(e);
             }
         }
 
