@@ -803,7 +803,7 @@ namespace px4uploader
 
             this.port.ReadTimeout = 1000; // 1 sec
 
-            if (self.fw_maxsize > 0 && false)
+            if (self.fw_maxsize > 0)
             {
                 int expect_crc = fw.crc(self.fw_maxsize);
                 __send(new byte[] {(byte)Code.GET_CRC,
