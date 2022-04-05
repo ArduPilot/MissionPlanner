@@ -15,6 +15,8 @@ namespace OSDConfigurator.GUI
     {
         private OSDConfiguration config;
         
+        public IItemCaptionProvider CaptionProvider { get; set; }
+
         public OSDUserControl()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace OSDConfigurator.GUI
 
             ScreenControl.ScreenToCopy = null;
 
-            config = ConfigFactory.Create(settings);
+            config = ConfigFactory.Create(settings, Enumerable.Range(1, 6));
 
             FillGlobalOptions();
 
@@ -52,7 +54,7 @@ namespace OSDConfigurator.GUI
         
         private void AddScreen(OSDScreen screen)
         {
-            var screenControl = new ScreenControl(screen);
+            var screenControl = new ScreenControl(screen, CaptionProvider);
             screenControl.Dock = DockStyle.Fill;
 
             var tab = new TabPage($"   {screen.Name}   ");

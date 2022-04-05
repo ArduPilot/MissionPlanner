@@ -34,12 +34,13 @@
             this.tableRight = new System.Windows.Forms.TableLayoutPanel();
             this.groupOptions = new System.Windows.Forms.GroupBox();
             this.grEditorOptions = new System.Windows.Forms.GroupBox();
+            this.cbUseNameCaptions = new System.Windows.Forms.CheckBox();
+            this.btnClearAll = new System.Windows.Forms.Button();
+            this.btnPaste = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.cbReducedView = new System.Windows.Forms.CheckBox();
             this.tableLeft = new System.Windows.Forms.TableLayoutPanel();
             this.layoutControl = new OSDConfigurator.GUI.LayoutControl();
-            this.btnCopy = new System.Windows.Forms.Button();
-            this.btnClearAll = new System.Windows.Forms.Button();
-            this.btnPaste = new System.Windows.Forms.Button();
             this.tableRoot.SuspendLayout();
             this.tableRight.SuspendLayout();
             this.grEditorOptions.SuspendLayout();
@@ -111,6 +112,7 @@
             // 
             // grEditorOptions
             // 
+            this.grEditorOptions.Controls.Add(this.cbUseNameCaptions);
             this.grEditorOptions.Controls.Add(this.btnClearAll);
             this.grEditorOptions.Controls.Add(this.btnPaste);
             this.grEditorOptions.Controls.Add(this.btnCopy);
@@ -123,14 +125,51 @@
             this.grEditorOptions.TabStop = false;
             this.grEditorOptions.Text = "Editor Options";
             // 
+            // cbUseNameCaptions
+            // 
+            this.cbUseNameCaptions.AutoSize = true;
+            this.cbUseNameCaptions.Location = new System.Drawing.Point(23, 58);
+            this.cbUseNameCaptions.Name = "cbUseNameCaptions";
+            this.cbUseNameCaptions.Size = new System.Drawing.Size(89, 17);
+            this.cbUseNameCaptions.TabIndex = 4;
+            this.cbUseNameCaptions.Text = "Show Names";
+            this.cbUseNameCaptions.UseVisualStyleBackColor = true;
+            // 
+            // btnClearAll
+            // 
+            this.btnClearAll.Location = new System.Drawing.Point(145, 58);
+            this.btnClearAll.Name = "btnClearAll";
+            this.btnClearAll.Size = new System.Drawing.Size(110, 33);
+            this.btnClearAll.TabIndex = 3;
+            this.btnClearAll.Text = "Clear All";
+            this.btnClearAll.UseVisualStyleBackColor = true;
+            // 
+            // btnPaste
+            // 
+            this.btnPaste.Location = new System.Drawing.Point(261, 19);
+            this.btnPaste.Name = "btnPaste";
+            this.btnPaste.Size = new System.Drawing.Size(110, 33);
+            this.btnPaste.TabIndex = 2;
+            this.btnPaste.Text = "Paste Layout";
+            this.btnPaste.UseVisualStyleBackColor = true;
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Location = new System.Drawing.Point(145, 19);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(110, 33);
+            this.btnCopy.TabIndex = 1;
+            this.btnCopy.Text = "Copy Layout";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            // 
             // cbReducedView
             // 
             this.cbReducedView.AutoSize = true;
             this.cbReducedView.Location = new System.Drawing.Point(23, 28);
             this.cbReducedView.Name = "cbReducedView";
-            this.cbReducedView.Size = new System.Drawing.Size(96, 17);
+            this.cbReducedView.Size = new System.Drawing.Size(72, 17);
             this.cbReducedView.TabIndex = 0;
-            this.cbReducedView.Text = "Reduced View";
+            this.cbReducedView.Text = "Decrease";
             this.cbReducedView.UseVisualStyleBackColor = true;
             // 
             // tableLeft
@@ -160,33 +199,7 @@
             this.layoutControl.ScreenControl = null;
             this.layoutControl.Size = new System.Drawing.Size(253, 186);
             this.layoutControl.TabIndex = 2;
-            // 
-            // btnCopy
-            // 
-            this.btnCopy.Location = new System.Drawing.Point(145, 19);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(110, 33);
-            this.btnCopy.TabIndex = 1;
-            this.btnCopy.Text = "Copy Layout";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            // 
-            // btnClearAll
-            // 
-            this.btnClearAll.Location = new System.Drawing.Point(145, 58);
-            this.btnClearAll.Name = "btnClearAll";
-            this.btnClearAll.Size = new System.Drawing.Size(110, 33);
-            this.btnClearAll.TabIndex = 3;
-            this.btnClearAll.Text = "Clear All";
-            this.btnClearAll.UseVisualStyleBackColor = true;
-            // 
-            // btnPaste
-            // 
-            this.btnPaste.Location = new System.Drawing.Point(261, 19);
-            this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Size = new System.Drawing.Size(110, 33);
-            this.btnPaste.TabIndex = 2;
-            this.btnPaste.Text = "Paste Layout";
-            this.btnPaste.UseVisualStyleBackColor = true;
+            this.layoutControl.Visualizer = null;
             // 
             // ScreenControl
             // 
@@ -218,5 +231,6 @@
         private System.Windows.Forms.Button btnClearAll;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Button btnPaste;
+        private System.Windows.Forms.CheckBox cbUseNameCaptions;
     }
 }

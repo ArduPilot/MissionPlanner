@@ -1,5 +1,6 @@
 ﻿using OSDConfigurator.Models;
 using OSDConfigurator.Properties;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -10,16 +11,17 @@ namespace OSDConfigurator.GUI
         private Size charSizePix= new Size(24, 36);
         private readonly Size fontCharSizePix = new Size(12, 18); 
         private readonly Size screenSizeChar = new Size(30, 16); 
-        private readonly int NtscRows = 13; 
-
+        private readonly int NtscRows = 13;
+        private readonly IItemCaptionProvider captionProvider;
         private static Font noteFont = new Font("Arial", 6, FontStyle.Regular);
 
         private static List<Bitmap> font;
         
-        public Visualizer()
+        public Visualizer(IItemCaptionProvider captionProvider)
         {
             if (font == null)
                 font = MakeFont(Resources.clarity, 16, 16, 1);
+            this.captionProvider = captionProvider;
         }
         
         public Size GetCanvasSize(Size charSizePix)
@@ -42,14 +44,14 @@ namespace OSDConfigurator.GUI
 
         private Rectangle ToScreenRectangle(OSDItem item)
         {
-            var size = new Size(ItemCaptions.GetCaption(item, out int xOffset).Length * charSizePix.Width, charSizePix.Height);
+            var size = new Size(captionProvider.GetItemCaption(item, out int xOffset).Length * charSizePix.Width, charSizePix.Height);
             var loc = ToScreenPoint(item, xOffset);
             return new Rectangle(loc, size);
         }
 
         public void Draw(OSDItem item, Graphics graphics)
         {
-            var caption = ItemCaptions.GetCaption(item, out int xOffset);
+            var caption = captionProvider.GetItemCaption(item, out int xOffset); // ItemCaptions.GetCaption(item, out int xOffset);
             Point loc = ToScreenPoint(item, xOffset);
             
             foreach (var c in caption)
