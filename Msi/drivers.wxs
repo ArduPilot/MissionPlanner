@@ -32,6 +32,8 @@
 				<File Id="ChibiOS_inf" Source="..\bin\release\net461\Drivers\ChibiOS.inf" />
                 <File Id="chibioscomp_cat" Source="..\bin\release\net461\Drivers\chibioscomp.cat" />
 				<File Id="ChibiOScomp_inf" Source="..\bin\release\net461\Drivers\ChibiOScomp.inf" />
+				<File Id="CubeOrangePlus_cat" Source="..\bin\release\net461\Drivers\CubeOrangePlus.cat" />
+				<File Id="CubeOrangePlus_inf" Source="..\bin\release\net461\Drivers\CubeOrangePlus.inf" />
 				<File Id="cube_cat" Source="..\bin\release\net461\Drivers\cube.cat" />
 				<File Id="Cube_inf" Source="..\bin\release\net461\Drivers\Cube.inf" />
 				<File Id="CubeComp_cat" Source="..\bin\release\net461\Drivers\CubeComp.cat" />
