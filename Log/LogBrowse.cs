@@ -482,24 +482,28 @@ namespace MissionPlanner.Log
         // get extra info derived from paramters
         private string get_extra_info(string LogMSG, string felid, string VehicleType)
         {
-            switch(LogMSG)
+            try
             {
-                case "RCOU":
+                switch (LogMSG)
+                {
+                    case "RCOU":
                     {
-                        return get_param_value_string("SERVO" + Regex.Match(felid, @"\d+").Value + "_FUNCTION", VehicleType);
+                        return get_param_value_string("SERVO" + Regex.Match(felid, @"\d+").Value + "_FUNCTION",
+                            VehicleType);
                     }
 
-                case "RCIN":
+                    case "RCIN":
                     {
                         var rc_in_num = Regex.Match(felid, @"\d+").Value;
                         if (rc_in_num.Length == 0)
                         {
                             return "";
                         }
+
                         var ret = "";
 
                         // Check RCMAP values
-                        var rc_map = new[] { "ROLL", "PITCH", "THROTTLE", "YAW", "FORWARD", "LATERAL" };
+                        var rc_map = new[] {"ROLL", "PITCH", "THROTTLE", "YAW", "FORWARD", "LATERAL"};
                         foreach (string map in rc_map)
                         {
                             var map_param = MainV2.comPort.MAV.param["RCMAP_" + map];
@@ -509,6 +513,7 @@ namespace MissionPlanner.Log
                                 {
                                     ret += " + ";
                                 }
+
                                 ret += map;
                             }
                         }
@@ -521,6 +526,7 @@ namespace MissionPlanner.Log
                             {
                                 ret += " + ";
                             }
+
                             ret += "FlightMode";
                         }
 
@@ -532,10 +538,17 @@ namespace MissionPlanner.Log
                             {
                                 ret += " + ";
                             }
+
                             return ret + opt;
                         }
+
                         return ret;
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
             }
 
             return "";
@@ -544,9 +557,11 @@ namespace MissionPlanner.Log
         // Get per intance info
         private string get_instance_info(string LogMSG, string instance, string VehicleType)
         {
-            switch (LogMSG)
+            try
             {
-                case "BARO":
+                switch (LogMSG)
+                {
+                    case "BARO":
                     {
                         // convert to 1 indexed
                         var param = "BARO" + (Convert.ToUInt32(instance) + 1).ToString() + "_DEVID";
@@ -555,12 +570,13 @@ namespace MissionPlanner.Log
                         {
                             return "";
                         }
+
                         Device.DeviceStructure baro = new Device.DeviceStructure(param, Convert.ToUInt32(dev_id.Value));
                         return baro.ToString();
                     }
 
-                case "GPS":
-                case "GPA":
+                    case "GPS":
+                    case "GPA":
                     {
                         var param = "GPS_TYPE";
                         if (Convert.ToUInt32(instance) > 0)
@@ -568,10 +584,11 @@ namespace MissionPlanner.Log
                             // GPS instance 1 is GPS_TPYE2
                             param += (Convert.ToUInt32(instance) + 2).ToString();
                         }
+
                         return get_param_value_string(param, VehicleType);
                     }
 
-                case "MAG":
+                    case "MAG":
                     {
                         var param = "COMPASS_PRIO" + (Convert.ToUInt32(instance) + 1).ToString() + "_ID";
                         var dev_id = MainV2.comPort.MAV.param[param];
@@ -579,10 +596,17 @@ namespace MissionPlanner.Log
                         {
                             return "";
                         }
+
                         Device.DeviceStructure mag = new Device.DeviceStructure(param, Convert.ToUInt32(dev_id.Value));
                         return mag.ToString();
                     }
+                }
             }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
             return "";
         }
 
