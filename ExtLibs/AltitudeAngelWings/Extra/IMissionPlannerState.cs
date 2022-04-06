@@ -7,7 +7,8 @@ namespace AltitudeAngelWings.Extra
         double Latitude { get; }
         float Altitude { get; }
         float GroundSpeed { get; }
-        float MagneticDeclination { get; }
+        float GroundCourse { get; }
         bool IsConnected { get; }
+        float VerticalSpeed { get; }
     }
 }

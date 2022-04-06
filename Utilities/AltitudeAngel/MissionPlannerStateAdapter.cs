@@ -1,5 +1,5 @@
-﻿using AltitudeAngelWings.Extra;
-using System;
+﻿using System;
+using AltitudeAngelWings.Extra;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
@@ -17,7 +17,8 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         public double Latitude => _getCurrentState().lat;
         public float Altitude => _getCurrentState().alt;
         public float GroundSpeed => _getCurrentState().groundspeed;
-        public float MagneticDeclination => _getCurrentState().mag_declination;
+        public float GroundCourse => _getCurrentState().groundcourse;
         public bool IsConnected => _getCurrentState().connected;
+        public float VerticalSpeed => _getCurrentState().verticalspeed;
     }
 }

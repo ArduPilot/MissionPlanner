@@ -25,16 +25,19 @@ namespace AltitudeAngelWings.ApiClient.Models
         /// <summary>
         ///     Is this flight intending to flight beyond visual range.
         /// </summary>
+        [JsonProperty("flyingBvr")]
         public bool FlyingBvr { get; set; }
 
         /// <summary>
         ///     Is This a commercial flight.
         /// </summary>
+        [JsonProperty("isCommercial")]
         public bool IsCommercial { get; set; }
 
         /// <summary>
         ///     (optional) User id of the pilot, can only be specified if delegating.
         /// </summary>
+        [JsonProperty("pilotId")]
         public string PilotId { get; set; }
     }
 }

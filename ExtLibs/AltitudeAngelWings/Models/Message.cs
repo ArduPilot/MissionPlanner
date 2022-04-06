@@ -1,3 +1,5 @@
+using System;
+
 namespace AltitudeAngelWings.Models
 {
     public class Message
@@ -17,6 +19,7 @@ namespace AltitudeAngelWings.Models
             return new Message(content);
         }
 
-        public string Content { get; set; } 
+        public string Content { get; set; }
+        public TimeSpan TimeToLive { get; set; } = TimeSpan.FromSeconds(1);
     }
 }
