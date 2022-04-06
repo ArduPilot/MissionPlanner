@@ -71,7 +71,7 @@ namespace donate
 
 
             idx = MainV2.instance.MainMenu.Items.IndexOfKey("MenuArduPilot");
-            MainV2.instance.MainMenu.Items[idx].Image = new Bitmap(new Bitmap(new MemoryStream(Convert.FromBase64String(logo))), new Size(200, 44));
+            //MainV2.instance.MainMenu.Items[idx].Image = new Bitmap(new Bitmap(new MemoryStream(Convert.FromBase64String(logo))), new Size(200, 44));
             var mgn = MainV2.instance.MainMenu.Items[idx].Margin;
                 mgn.Right = 3;
             MainV2.instance.MainMenu.Items[idx].Margin = mgn;
