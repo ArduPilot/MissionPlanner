@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using DotNetOpenAuth.Messaging;
 using Newtonsoft.Json;
 
 namespace AltitudeAngelWings.ApiClient.Models
@@ -7,7 +6,8 @@ namespace AltitudeAngelWings.ApiClient.Models
     public class ReportRequest
     {
         [JsonProperty(PropertyName = "types")]
-        public IList<string> RequestedReportTypes { get; set; } = new List<string>();
+        public IList<string> RequestedReportTypes { get; set; }
+
         [JsonProperty(PropertyName = "flight")]
         public FlightInfo FlightInfo { get; set; }
 
@@ -18,7 +18,7 @@ namespace AltitudeAngelWings.ApiClient.Models
         {
             AircraftInfo = aircraftInfo;
             FlightInfo = flightInfo;
-            RequestedReportTypes.AddRange(reportTypes);
+            RequestedReportTypes = new List<string>(reportTypes);
         }
     }
 }

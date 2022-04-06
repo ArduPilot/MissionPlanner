@@ -6,6 +6,7 @@ namespace AltitudeAngelWings.Models
         public double Latitude { get; set; }
         public double Speed { get; set; }
         public int Altitude { get; set; }
-        public int Heading { get; set; }
+        public float Course { get; set; }
+        public float VerticalSpeed { get; set; }
     }
 }
