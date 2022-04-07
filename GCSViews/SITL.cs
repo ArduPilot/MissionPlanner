@@ -687,7 +687,10 @@ namespace MissionPlanner.GCSViews
 
             await Task.Delay(2000);
 
-            MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
+            MainV2.instance.InvokeIfRequired(() =>
+            {
+                MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
+            });
 
             var client = new Comms.TcpSerial();
 
