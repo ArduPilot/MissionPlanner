@@ -938,6 +938,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_AAsignin_Click(object sender, EventArgs e)
         {
 #if !LIB
+            MissionPlanner.Utilities.AltitudeAngel.AltitudeAngel.Configure();
             new Utilities.AltitudeAngel.AASettings().Show(this);
 #endif
         }

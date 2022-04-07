@@ -3606,8 +3606,7 @@ namespace MissionPlanner
                 {
 #if !LIB
                     log.Info("Load AltitudeAngel");
-                    AltitudeAngel.Configure();
-                    _ = AltitudeAngel.Initialize().ConfigureAwait(false);
+                    _ = AltitudeAngel.Initialize();
                     log.Info("Load AltitudeAngel... Done");
 #endif
                 }
