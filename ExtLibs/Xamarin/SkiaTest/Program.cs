@@ -182,6 +182,7 @@ namespace SkiaTest
         public class SkiaWindowBase : EventedWindowCore
         {
             private readonly NativePixelBuffer m_pixelBuffer = new NativePixelBuffer();
+            private bool exit;
 
             public SkiaWindowBase()
             {
@@ -208,7 +209,7 @@ namespace SkiaTest
             {
                 base.OnClose(ref packet);
 
-                Application.Exit();
+                exit = true;
             }
 
             private void Application_Idle(object sender, EventArgs e)
@@ -218,6 +219,9 @@ namespace SkiaTest
                     this.Invalidate();
                     XplatUIMine.PaintPending = false;
                 }
+
+                if(exit)
+                    Application.Exit();
 
                 //Thread.Sleep(10);
             }
@@ -254,7 +258,8 @@ namespace SkiaTest
                         var lparam = msg.LParam;
 
                         if (msgid == Msg.WM_MOUSEMOVE || msgid == Msg.WM_LBUTTONDOWN || msgid == Msg.WM_LBUTTONUP || msgid == Msg.WM_MOUSEMOVE
-                            || msgid == Msg.WM_RBUTTONDOWN || msgid == Msg.WM_RBUTTONUP || msgid == Msg.WM_QUIT || msgid == Msg.WM_CLOSE)
+                            || msgid == Msg.WM_RBUTTONDOWN || msgid == Msg.WM_RBUTTONUP || msgid == Msg.WM_QUIT || msgid == Msg.WM_CLOSE ||
+                            msgid == Msg.WM_LBUTTONDBLCLK || msgid == Msg.WM_RBUTTONDBLCLK)
                             XplatUI.driver.SendMessage(hnd, msgid, wparam, lparam);                      
                     }
                 }
