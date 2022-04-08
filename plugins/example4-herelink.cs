@@ -207,13 +207,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -239,13 +239,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -271,13 +271,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/H264Video latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -302,13 +302,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/H264Video1 latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -333,13 +333,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
@@ -364,13 +364,13 @@ namespace CameraControl
                 "rtspsrc location=rtsp://{0}:8554/fpv_stream1 latency=1 udp-reconnect=1 timeout=0 do-retransmission=false ! application/x-rtp ! decodebin3 ! queue max-size-buffers=1 leaky=2 ! videoconvert ! video/x-raw,format=BGRx ! appsink name=outsink",
                 ipaddr);
 
-            GStreamer.LookForGstreamer();
+            GStreamer.gstlaunch = GStreamer.LookForGstreamer();
 
-            if (!File.Exists(GStreamer.gstlaunch))
+            if (!GStreamer.gstlaunchexists)
             {
                 GStreamerUI.DownloadGStreamer();
 
-                if (!File.Exists(GStreamer.gstlaunch))
+                if (!GStreamer.gstlaunchexists)
                 {
                     return;
                 }
