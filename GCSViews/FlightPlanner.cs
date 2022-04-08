@@ -1788,7 +1788,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp;*.plan";
+                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp;*.plan;*.kml";
                 if (Directory.Exists(Settings.Instance["WPFileDirectory"] ?? ""))
                     fd.InitialDirectory = Settings.Instance["WPFileDirectory"];
                 DialogResult result = fd.ShowDialog();
@@ -1802,6 +1802,21 @@ namespace MissionPlanner.GCSViews
                         try
                         {
                             LoadSHPFile(file);
+                        }
+                        catch
+                        {
+                            CustomMessageBox.Show("Error opening File", Strings.ERROR);
+                            return;
+                        }
+                    }
+                    else if (file.ToLower().EndsWith(".kml"))
+                    {
+                        try
+                        {
+                            var kml = File.ReadAllText(file);
+                            var parser = new Parser();
+                            parser.ElementAdded += processKMLMission;
+                            parser.ParseString(kml, false);
                         }
                         catch
                         {
