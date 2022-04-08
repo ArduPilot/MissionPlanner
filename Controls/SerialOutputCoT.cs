@@ -267,7 +267,7 @@ namespace MissionPlanner.Controls
                 }
             };
 
-            using(StringWriter textWriter = new StringWriter())
+            using(StringWriter textWriter = new Utf8StringWriter())
             {
                 XmlWriterSettings xws = new XmlWriterSettings();
                 xws.OmitXmlDeclaration = false;
@@ -354,5 +354,9 @@ namespace MissionPlanner.Controls
         {
             Settings.Instance["SerialOutputCot_TB_xml_uid"] = TB_xml_uid.Text;
         }
+    }
+
+    public sealed class Utf8StringWriter : StringWriter
+    { public override Encoding Encoding => Encoding.UTF8;
     }
 }
