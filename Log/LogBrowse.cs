@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.ServiceModel.Security.Tokens;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -3675,6 +3676,49 @@ main()
                 if (node != null)
                 {
                     node.Checked = !node.Checked;
+                }
+            }
+        }
+
+        private void exportFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = "Where to save the files";
+            fbd.ShowNewFolderButton = true;
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                var dir = fbd.SelectedPath;
+                if (Directory.Exists(dir))
+                {
+                    var files = logdata.GetEnumeratorType("FILE");
+
+                    Dictionary<string, FileStream> filehandles = new Dictionary<string, FileStream>();
+
+                    foreach (var file in files)
+                    {
+                        var name = file.GetRaw<string>("FileName");
+                        var offset = file.GetRaw<uint>("Offset");
+                        var length = file.GetRaw<byte>("Length");
+                        var data = file.GetRaw<string>("Data");
+
+                        var path = Path.Combine(dir, name);
+
+                        Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+                        FileStream f;
+                        if (!filehandles.TryGetValue(name, out f))
+                        {
+                            f = File.OpenWrite(path);
+                            filehandles.Add(name, f);
+                        }
+
+                        f.Seek(offset, SeekOrigin.Begin);
+                        var data2 = data.Select(a => (byte) a).ToArray().MakeSize(length);
+                        f.Write(data2, 0, length);
+                    }
+
+                    filehandles.ForEach(a => a.Value.Close());
                 }
             }
         }

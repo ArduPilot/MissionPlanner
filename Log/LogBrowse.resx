@@ -122,13 +122,19 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="exportVisibleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="exportVisibleToolStripMenuItem.Text" xml:space="preserve">
     <value>Export Visible</value>
   </data>
+  <data name="exportFilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="exportFilesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Export Files</value>
+  </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 26</value>
+    <value>181, 70</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>
@@ -823,7 +829,7 @@
     <value>dataGridView1</value>
   </data>
   <data name="&gt;&gt;dataGridView1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.7875.38745, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8134.28673, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dataGridView1.Parent" xml:space="preserve">
     <value>splitContainerButGrid.Panel2</value>
@@ -1140,6 +1146,12 @@
   </data>
   <data name="&gt;&gt;toolTip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;exportFilesToolStripMenuItem.Name" xml:space="preserve">
+    <value>exportFilesToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;exportFilesToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LogBrowse</value>

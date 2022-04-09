@@ -63,6 +63,7 @@ namespace MissionPlanner.Log
             this.splitContainerAllTree = new System.Windows.Forms.SplitContainer();
             this.txt_info = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.exportFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerZgGrid)).BeginInit();
             this.splitContainerZgGrid.Panel1.SuspendLayout();
@@ -86,7 +87,8 @@ namespace MissionPlanner.Log
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportVisibleToolStripMenuItem});
+            this.exportVisibleToolStripMenuItem,
+            this.exportFilesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             // 
@@ -389,6 +391,12 @@ namespace MissionPlanner.Log
             resources.ApplyResources(this.txt_info, "txt_info");
             this.txt_info.Name = "txt_info";
             // 
+            // exportFilesToolStripMenuItem
+            // 
+            this.exportFilesToolStripMenuItem.Name = "exportFilesToolStripMenuItem";
+            resources.ApplyResources(this.exportFilesToolStripMenuItem, "exportFilesToolStripMenuItem");
+            this.exportFilesToolStripMenuItem.Click += new System.EventHandler(this.exportFilesToolStripMenuItem_Click);
+            // 
             // LogBrowse
             // 
             resources.ApplyResources(this, "$this");
@@ -454,6 +462,7 @@ namespace MissionPlanner.Log
         private System.Windows.Forms.ToolTip toolTip1;
         private TextBox txt_info;
         private CheckBox chk_params;
+        private ToolStripMenuItem exportFilesToolStripMenuItem;
     }
 }
 
