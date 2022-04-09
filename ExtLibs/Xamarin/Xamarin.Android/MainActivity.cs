@@ -287,7 +287,7 @@ namespace Xamarin.Droid
                     Thread.Sleep(1000);
                     var text = "Checking Permissions - " + DateTime.Now.ToString("T");
 
-                    DoToastMessage(text);
+                    //DoToastMessage(text);
                 }
             }
 
@@ -311,7 +311,7 @@ namespace Xamarin.Droid
                 // clean start, see if it was an intent/usb attach
                 //if (savedInstanceState == null)
                 {
-                    DoToastMessage("Init Saved State");
+                    //DoToastMessage("Init Saved State");
                     proxyIfUsbAttached(this.Intent);
 
                     Console.WriteLine(this.Intent?.Action);
@@ -347,7 +347,7 @@ namespace Xamarin.Droid
             });
             
 
-            DoToastMessage("Launch App");
+            //DoToastMessage("Launch App");
 
             LoadApplication(new App());
         }
