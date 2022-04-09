@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MissionPlanner.Plugin;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
@@ -134,6 +135,15 @@ namespace MissionPlanner.Controls
         private void PluginUI_Shown(object sender, EventArgs e)
         {
             ResizeFormForDataGrid();
+        }
+
+        private void but_errors_Click(object sender, EventArgs e)
+        {
+            var msg = PluginLoader.ErrorInfo.Aggregate("", (s, pair) => s + pair.Value + "\n");
+            if (msg == "")
+                CustomMessageBox.Show("No Errors", "Errors");
+            else
+                CustomMessageBox.Show(msg, "Errors");
         }
     }
 }

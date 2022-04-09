@@ -89,7 +89,7 @@ namespace CANLogExtract
                         {
                             try
                             {
-                                can.Read((byte) b);
+                                can.ReadSLCAN((byte) b);
                                 stream.WriteByte((byte) b);
                             }
                             catch (Exception ex)

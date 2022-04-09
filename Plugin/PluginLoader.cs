@@ -34,6 +34,8 @@ namespace MissionPlanner.Plugin
 
         public static Dictionary<string, string[]> filecache = new Dictionary<string, string[]>();
 
+        public static Dictionary<string, string> ErrorInfo = new Dictionary<string, string>();
+
         static Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
         {
             if (args.RequestingAssembly == null)
@@ -240,6 +242,9 @@ namespace MissionPlanner.Plugin
                         // csharp 8
                         var ans = CodeGenRoslyn.BuildCode(csFile);
 
+                        if (CodeGenRoslyn.lasterror != "")
+                            ErrorInfo[csFile] = CodeGenRoslyn.lasterror;
+
                         InitPlugin(ans, Path.GetFileName(csFile));
 
                         log.Info("CodeGenRoslyn: " + csFile);
@@ -263,6 +268,9 @@ namespace MissionPlanner.Plugin
                         var parms = CodeGen.CreateCompilerParameters();
                         // compile the code into an assembly
                         var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
+
+                        if (CodeGenRoslyn.lasterror != "")
+                            ErrorInfo[csFile] = CodeGen.lasterror;
 
                         InitPlugin(results?.CompiledAssembly, Path.GetFileName(csFile));
 

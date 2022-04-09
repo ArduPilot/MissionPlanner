@@ -183,6 +183,12 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static IEnumerable<T> ToEnumerable<T>(this IEnumerator enumerator)
+        {
+            while (enumerator.MoveNext())
+                yield return (T)enumerator.Current;
+        }
+
         /// <summary>
         /// Chunk based on a field selector from the type
         /// </summary>
