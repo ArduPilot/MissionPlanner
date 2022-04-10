@@ -70,12 +70,15 @@ namespace Dowding
             this.cmb_cotbaud = new System.Windows.Forms.ComboBox();
             this.but_cotstart = new MissionPlanner.Controls.MyButton();
             this.cmb_cotport = new System.Windows.Forms.ComboBox();
+            this.num_yawonvif = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_yawonvif)).BeginInit();
             this.SuspendLayout();
             // 
             // chk_enable
@@ -342,6 +345,8 @@ namespace Dowding
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label11);
+            this.panel3.Controls.Add(this.num_yawonvif);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.txt_onvifpassword);
             this.panel3.Controls.Add(this.label5);
@@ -354,7 +359,6 @@ namespace Dowding
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(420, 106);
             this.panel3.TabIndex = 9;
-            this.panel3.Visible = false;
             // 
             // label6
             // 
@@ -480,6 +484,22 @@ namespace Dowding
             this.cmb_cotport.Size = new System.Drawing.Size(121, 21);
             this.cmb_cotport.TabIndex = 9;
             // 
+            // num_yawonvif
+            // 
+            this.num_yawonvif.Location = new System.Drawing.Point(310, 77);
+            this.num_yawonvif.Name = "num_yawonvif";
+            this.num_yawonvif.Size = new System.Drawing.Size(72, 20);
+            this.num_yawonvif.TabIndex = 15;
+            this.num_yawonvif.ValueChanged += new System.EventHandler(this.num_yawonvif_ValueChanged);
+            // 
+            // label11
+            // 
+            this.label11.Location = new System.Drawing.Point(223, 77);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(75, 23);
+            this.label11.TabIndex = 16;
+            this.label11.Text = "Yaw";
+            // 
             // DowdingUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -491,7 +511,7 @@ namespace Dowding
             this.Controls.Add(this.panel1);
             this.MinimumSize = new System.Drawing.Size(467, 500);
             this.Name = "DowdingUI";
-            this.Size = new System.Drawing.Size(467, 500);
+            this.Size = new System.Drawing.Size(450, 500);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
@@ -502,6 +522,7 @@ namespace Dowding
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.num_yawonvif)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -548,5 +569,7 @@ namespace Dowding
         private System.Windows.Forms.ComboBox cmb_cotbaud;
         private MissionPlanner.Controls.MyButton but_cotstart;
         private System.Windows.Forms.ComboBox cmb_cotport;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown num_yawonvif;
     }
 }

@@ -61,6 +61,10 @@ namespace Dowding
             txt_trackerlong.Text = Settings.Instance["Dowding_trackerlng"];
             txt_trackerhae.Text = Settings.Instance["Dowding_trackerhae"];
 
+            HomeLoc.Lat = Settings.Instance.GetDouble("Dowding_trackerlat");
+            HomeLoc.Lng = Settings.Instance.GetDouble("Dowding_trackerlng");
+            HomeLoc.Alt = Settings.Instance.GetDouble("Dowding_trackerhae");
+
             CMB_serialport.Items.Clear();
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             CMB_serialport.Items.Add("TCP Host - 14551");
@@ -389,6 +393,7 @@ namespace Dowding
 
         private void OnvifUpdate(object sender, PointLatLngAlt e)
         {
+            device.YawOffset = Settings.Instance.GetDouble("Dowding_trackeryaw", 0);
             device.SetTrack(HomeLoc,
                 e).ConfigureAwait(false);
         }
@@ -627,6 +632,12 @@ namespace Dowding
                 ((long)DateTime.Parse(data.time).toUnixTime() * 1000L ), Lat: (decimal) plla.Lat,
                 Lon: (decimal) plla.Lng, Hae: (decimal) plla.Alt, CorrelationId: data.uid, AgentId: "",
                 ContactId: data.uid, Id: data.uid, Serial: data.uid, Model: data.type, Vendor: "CoT");
+        }
+
+        private void num_yawonvif_ValueChanged(object sender, EventArgs e)
+        {
+            device.YawOffset = (double)num_yawonvif.Value;
+            Settings.Instance["Dowding_trackeryaw"] = device.YawOffset.ToString();
         }
     }
 }
