@@ -469,7 +469,7 @@ namespace MissionPlanner.Utilities
 
             types.ForEach(x =>
             {                
-                // match ACC[0] GPS[0]
+                // match ACC[0] GPS[0] or ACC or GPS
                 var m = Regex.Match(x, @"(\w+)(\[([0-9]+)\])?", RegexOptions.None);
                 if (m.Success)
                 {
@@ -521,7 +521,8 @@ namespace MissionPlanner.Utilities
                 var ans = this[(long) l];
                 var inst = instances[ans.msgtype];
                 // instance was requested, and its not a match
-                if (!inst.Contains(ans.instance))
+                //if (inst != "" && ans.instance != inst)
+                if (!inst.Contains("") && !inst.Contains(ans.instance))
                     continue;
                 yield return ans;
             }
