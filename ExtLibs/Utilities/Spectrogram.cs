@@ -274,7 +274,7 @@ namespace MissionPlanner.Utilities
 
         static Rgba32 GetColor(double actualValue, int min = -80, int max = -20)
         {
-            var scale = SCALE * Math.Log(actualValue + double.Epsilon);
+            var scale = actualValue;// SCALE * Math.Log(actualValue + double.Epsilon);
 
             scale = MathHelper.mapConstrained(scale, min, max, 0, 255);
 

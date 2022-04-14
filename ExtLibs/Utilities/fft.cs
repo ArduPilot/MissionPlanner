@@ -154,7 +154,7 @@ namespace MissionPlanner.Utilities
 
                 m_mag[i] = Math.Sqrt(re*re + im*im); // Convert magnitude to decibels
                 //m_angle[i] = Math.Atan(im/re);
-                //m_mag[i] = SCALE * Math.Log(m_mag[i] + double.Epsilon);
+                m_mag[i] = SCALE * Math.Log(m_mag[i] + double.Epsilon);
             }
 
 
