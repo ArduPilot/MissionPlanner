@@ -32,6 +32,7 @@ using MissionPlanner.Controls;
 using System.Globalization;
 using log4net;
 using System.Text.RegularExpressions;
+using Size = System.Drawing.Size;
 
 namespace Xamarin.GCSViews
 {
@@ -47,7 +48,9 @@ namespace Xamarin.GCSViews
             InitializeComponent();
 
             size = Device.Info.ScaledScreenSize;
+            Console.WriteLine("ScaledScreenSize " + size);
             size = Device.Info.PixelScreenSize;
+            Console.WriteLine("PixelScreenSize " + size);
 
             Xamarin.Forms.Platform.WinForms.Forms.UIThread = Thread.CurrentThread.ManagedThreadId;
 
@@ -75,6 +78,8 @@ namespace Xamarin.GCSViews
 
                 }
             }
+
+            Console.WriteLine("Final Size " + size);
 
             Instance = this;
             try
@@ -376,6 +381,13 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             get => _initDevice;
             set => _initDevice = value;
         }
+
+        public static void Resize(int width, int height)
+        {
+            Instance.size = new Forms.Size(width, height);
+            Screen.PrimaryScreen.Bounds = new Rectangle(0, 0, width, height);
+        }
+        
 
         protected override void OnAppearing()
         {
@@ -856,63 +868,66 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                 }
 
                 Monitor.Enter(XplatUIMine.paintlock);
-
-                if (hwnd.ClientWindow != hwnd.WholeWindow)
+                try
                 {
-                    var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
-
-                    Hwnd.Borders borders = new Hwnd.Borders();
-
-                    if (frm != null)
+                    if (hwnd.ClientWindow != hwnd.WholeWindow)
                     {
-                        borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
+                        var frm = Control.FromHandle(hwnd.ClientWindow) as Form;
 
-                        Canvas.ClipRect(
-                            SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width*2,
-                                Screen.PrimaryScreen.Bounds.Height*2), (SKClipOperation) 5);
-                    }
+                        Hwnd.Borders borders = new Hwnd.Borders();
 
-                    if (Canvas.DeviceClipBounds.Width > 0 &&
-                        Canvas.DeviceClipBounds.Height > 0)
-                    {
-                        if (hwnd.DrawNeeded || forcerender)
+                        if (frm != null)
                         {
-                            if (hwnd.hwndbmpNC != null)
-                                Canvas.DrawImage(hwnd.hwndbmpNC,
-                                    new SKPoint(x - borders.left, y - borders.top), paint);
+                            borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
 
                             Canvas.ClipRect(
-                                SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
-                                    hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
-
-                            Canvas.DrawDrawable(hwnd.hwndbmp,
-                                new SKPoint(x, y));
-
-                            wasdrawn = true;
+                                SKRect.Create(0, 0, Screen.PrimaryScreen.Bounds.Width * 2,
+                                    Screen.PrimaryScreen.Bounds.Height * 2), (SKClipOperation) 5);
                         }
 
-                        hwnd.DrawNeeded = false;
+                        if (Canvas.DeviceClipBounds.Width > 0 &&
+                            Canvas.DeviceClipBounds.Height > 0)
+                        {
+                            if (hwnd.DrawNeeded || forcerender)
+                            {
+                                if (hwnd.hwndbmpNC != null)
+                                    Canvas.DrawImage(hwnd.hwndbmpNC,
+                                        new SKPoint(x - borders.left, y - borders.top), paint);
+
+                                Canvas.ClipRect(
+                                    SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
+                                        hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
+
+                                if(hwnd.hwndbmp != null)
+                                Canvas.DrawDrawable(hwnd.hwndbmp,
+                                    new SKPoint(x, y));
+
+                                wasdrawn = true;
+                            }
+
+                            hwnd.DrawNeeded = false;
+                        }
+                        else
+                        {
+                            Monitor.Exit(XplatUIMine.paintlock);
+                            return true;
+                        }
                     }
                     else
                     {
-                        Monitor.Exit(XplatUIMine.paintlock);
-                        return true;
-                    }
-                }
-                else
-                {
-                    if (Canvas.DeviceClipBounds.Width > 0 &&
-                        Canvas.DeviceClipBounds.Height > 0)
-                    {
-                        if (hwnd.DrawNeeded || forcerender)
+                        if (Canvas.DeviceClipBounds.Width > 0 &&
+                            Canvas.DeviceClipBounds.Height > 0)
                         {
-                            Canvas.DrawDrawable(hwnd.hwndbmp,
-                                new SKPoint(x + 0, y + 0));
+                            if (hwnd.DrawNeeded || forcerender)
+                            {
+                                if (hwnd.hwndbmp != null)
+                                    Canvas.DrawDrawable(hwnd.hwndbmp,
+                                    new SKPoint(x + 0, y + 0));
 
-                            wasdrawn = true;
-                        }
+                                wasdrawn = true;
+                            }
 
-                        hwnd.DrawNeeded = false;
+                            hwnd.DrawNeeded = false;
 /*
                         surface.Canvas.DrawText(Control.FromHandle(hwnd.ClientWindow).Name,
                             new SKPoint(x, y + 15),
@@ -920,15 +935,20 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                         /*surface.Canvas.DrawText(hwnd.ClientWindow.ToString(), new SKPoint(x,y+15),
                             new SKPaint() {Color = SKColor.Parse("ffff00")});*/
 
-                    }
-                    else
-                    {
-                        Monitor.Exit(XplatUIMine.paintlock);
-                        return true;
+                        }
+                        else
+                        {
+                            Monitor.Exit(XplatUIMine.paintlock);
+                            return true;
+                        }
                     }
                 }
-
-                Monitor.Exit(XplatUIMine.paintlock);
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    Monitor.Exit(XplatUIMine.paintlock);
+                    return true;
+                }
             }
 
             //surface.Canvas.DrawText(x + " " + y, x, y+10, new SKPaint() { Color =  SKColors.Red});

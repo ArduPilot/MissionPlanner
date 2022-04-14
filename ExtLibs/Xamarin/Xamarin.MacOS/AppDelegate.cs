@@ -42,6 +42,8 @@ namespace Xamarin.MacOS
 
         private void MainWindow_DidResize(object sender, EventArgs e)
         {
+            Console.WriteLine("MainWindow_DidResize " + mainWindow.Frame.Size);
+            WinForms.Resize((int)mainWindow.Frame.Size.Width, (int)mainWindow.Frame.Size.Height);
         }
 
         private  NSWindow mainWindow;
