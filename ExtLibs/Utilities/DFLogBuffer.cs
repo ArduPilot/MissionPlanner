@@ -465,18 +465,35 @@ namespace MissionPlanner.Utilities
 
         public IEnumerable<DFLog.DFItem> GetEnumeratorType(string[] types)
         {
-            Dictionary<string, string> instances = new Dictionary<string, string>();
+            Dictionary<string, List<string>> instances = new Dictionary<string, List<string>>();
 
             types.ForEach(x =>
-            {
+            {                
+                // match ACC[0] GPS[0]
                 var m = Regex.Match(x, @"(\w+)(\[([0-9]+)\])?", RegexOptions.None);
                 if (m.Success)
                 {
-                    instances[m.Groups[1].ToString()] = m.Groups[2].Success ? m.Groups[2].ToString() : "";
+                    if (!instances.ContainsKey(m.Groups[1].ToString()))
+                        instances[m.Groups[1].ToString()] = new List<string>();
+
+                    instances[m.Groups[1].ToString()].Add(m.Groups[2].Success ? m.Groups[2].ToString() : "");
                 }
                 else
                 {
-                    instances[x] = "";
+                    if (!instances.ContainsKey(x))
+                        instances[x] = new List<string>();
+
+                    instances[x].Add("");
+                }
+
+                // match ACC1  GYR1
+                m = Regex.Match(x, @"(\w+)([0-9]+)$", RegexOptions.None);
+                if (m.Success)
+                {
+                    if (!instances.ContainsKey(m.Groups[1].ToString()))
+                        instances[m.Groups[1].ToString()] = new List<string>();
+
+                    instances[m.Groups[1].ToString()].Add(m.Groups[2].Success ? (int.Parse(m.Groups[2].ToString()) - 1).ToString() : "");
                 }
             });
 
@@ -504,7 +521,7 @@ namespace MissionPlanner.Utilities
                 var ans = this[(long) l];
                 var inst = instances[ans.msgtype];
                 // instance was requested, and its not a match
-                if (inst != "" && ans.instance != inst)
+                if (!inst.Contains(ans.instance))
                     continue;
                 yield return ans;
             }
