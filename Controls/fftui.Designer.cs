@@ -90,7 +90,7 @@
             this.myButton1.TabIndex = 2;
             this.myButton1.Text = "Run Log - imu1 ACC1 GYR1 MSG";
             this.myButton1.UseVisualStyleBackColor = true;
-            this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
+            this.myButton1.Click += new System.EventHandler(this.acc1gyr1myButton1_Click);
             // 
             // tableLayoutPanel1
             // 

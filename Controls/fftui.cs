@@ -135,7 +135,7 @@ namespace MissionPlanner.Controls
         //FMT, 176, 23, GYR2, IIfff, TimeMS,TimeUS,GyrX,GyrY,GyrZ
         //FMT, 177, 23, GYR3, IIfff, TimeMS,TimeUS,GyrX,GyrY,GyrZ
 
-        private void myButton1_Click(object sender, EventArgs e)
+        private void acc1gyr1myButton1_Click(object sender, EventArgs e)
         {
             Utilities.FFT2 fft = new FFT2();
 
@@ -192,14 +192,14 @@ namespace MissionPlanner.Controls
                 double[] freqt = null;
                 double samplerate = 0;
 
-                foreach (var item in file.GetEnumeratorType(new string[] { "ACC1", "GYR1" }))
+                foreach (var item in file.GetEnumeratorType(new string[] { "ACC1", "GYR1"}))
                 {
-                    if (item.msgtype == "ACC1")
+                    if (item.msgtype == "ACC1" || item.msgtype == "ACC" && item.instance == "0")
                     {
-                        int offsetAX = file.dflog.FindMessageOffset("ACC1", "AccX");
-                        int offsetAY = file.dflog.FindMessageOffset("ACC1", "AccY");
-                        int offsetAZ = file.dflog.FindMessageOffset("ACC1", "AccZ");
-                        int offsetTime = file.dflog.FindMessageOffset("ACC1", "TimeUS");
+                        int offsetAX = file.dflog.FindMessageOffset(item.msgtype, "AccX");
+                        int offsetAY = file.dflog.FindMessageOffset(item.msgtype, "AccY");
+                        int offsetAZ = file.dflog.FindMessageOffset(item.msgtype, "AccZ");
+                        int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
                                           CultureInfo.InvariantCulture) / 1000.0;
@@ -221,12 +221,12 @@ namespace MissionPlanner.Controls
 
                         lasttime = time;
                     }
-                    else if (item.msgtype == "GYR1")
+                    else if (item.msgtype == "GYR1" || item.msgtype == "GYR" && item.instance == "0")
                     {
-                        int offsetGX = file.dflog.FindMessageOffset("GYR1", "GyrX");
-                        int offsetGY = file.dflog.FindMessageOffset("GYR1", "GyrY");
-                        int offsetGZ = file.dflog.FindMessageOffset("GYR1", "GyrZ");
-                        int offsetTime = file.dflog.FindMessageOffset("ACC1", "TimeUS");
+                        int offsetGX = file.dflog.FindMessageOffset(item.msgtype, "GyrX");
+                        int offsetGY = file.dflog.FindMessageOffset(item.msgtype, "GyrY");
+                        int offsetGZ = file.dflog.FindMessageOffset(item.msgtype, "GyrZ");
+                        int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
                                           CultureInfo.InvariantCulture) / 1000.0;
@@ -364,8 +364,8 @@ namespace MissionPlanner.Controls
 
                     if (item.msgtype.StartsWith("ACC"))
                     {
-                        int sensorno = int.Parse(item.msgtype.Substring(3),
-                                           CultureInfo.InvariantCulture) - 1 + 3;
+                        int sensorno = item.instance == "" ? int.Parse(item.msgtype.Substring(3),
+                                           CultureInfo.InvariantCulture) - 1 + 3 : int.Parse(item.instance) + 3;
                         alldata[sensorno].type = item.msgtype;
 
                         int offsetAX = file.dflog.FindMessageOffset(item.msgtype, "AccX");
@@ -394,8 +394,8 @@ namespace MissionPlanner.Controls
                     }
                     else if (item.msgtype.StartsWith("GYR"))
                     {
-                        int sensorno = int.Parse(item.msgtype.Substring(3),
-                                           CultureInfo.InvariantCulture) - 1;
+                        int sensorno = item.instance == "" ? int.Parse(item.msgtype.Substring(3),
+                                           CultureInfo.InvariantCulture) - 1 : int.Parse(item.instance);
                         alldata[sensorno].type = item.msgtype;
 
                         int offsetGX = file.dflog.FindMessageOffset(item.msgtype, "GyrX");
