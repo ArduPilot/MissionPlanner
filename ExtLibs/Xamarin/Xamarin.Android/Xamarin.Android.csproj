@@ -167,6 +167,7 @@
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libarduplane.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libardurover.so" />
     <AndroidNativeLibrary Include="lib\armeabi-v7a\libardusub.so" />
+    <AndroidNativeLibrary Include="lib\x86\libarducopter.so" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -256,7 +257,7 @@
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionXamarinAndroidHideInfoBar="True" TriggeredFromHotReload="False" />
+      <UserProperties TriggeredFromHotReload="False" XamarinHotReloadDebuggerTimeoutExceptionXamarinAndroidHideInfoBar="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
