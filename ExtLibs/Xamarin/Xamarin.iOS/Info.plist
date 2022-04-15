@@ -35,5 +35,7 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>UIMainStoryboardFile</key>
+	<string>LaunchScreen</string>
 </dict>
 </plist>

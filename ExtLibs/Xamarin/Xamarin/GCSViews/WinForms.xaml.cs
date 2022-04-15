@@ -898,9 +898,9 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                                     SKRect.Create(x, y, hwnd.width - borders.right - borders.left,
                                         hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
 
-                                if(hwnd.hwndbmp != null)
-                                Canvas.DrawDrawable(hwnd.hwndbmp,
-                                    new SKPoint(x, y));
+                                if (hwnd.hwndbmp != null)
+                                    Canvas.DrawDrawable(hwnd.hwndbmp,
+                                        new SKPoint(x, y));
 
                                 wasdrawn = true;
                             }
@@ -909,7 +909,6 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                         }
                         else
                         {
-                            Monitor.Exit(XplatUIMine.paintlock);
                             return true;
                         }
                     }
@@ -922,7 +921,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                             {
                                 if (hwnd.hwndbmp != null)
                                     Canvas.DrawDrawable(hwnd.hwndbmp,
-                                    new SKPoint(x + 0, y + 0));
+                                        new SKPoint(x + 0, y + 0));
 
                                 wasdrawn = true;
                             }
@@ -938,7 +937,6 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                         }
                         else
                         {
-                            Monitor.Exit(XplatUIMine.paintlock);
                             return true;
                         }
                     }
@@ -946,8 +944,11 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
-                    Monitor.Exit(XplatUIMine.paintlock);
                     return true;
+                }
+                finally
+                {
+                    Monitor.Exit(XplatUIMine.paintlock);
                 }
             }
 
