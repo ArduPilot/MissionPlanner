@@ -134,6 +134,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("ShowNoFly", chk_shownofly);
             SetCheckboxFromConfig("Params_BG", CHK_params_bg);
             SetCheckboxFromConfig("SlowMachine", chk_slowMachine);
+            SetCheckboxFromConfig("speech_armed_only", CHK_speechArmedOnly);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength", 200);
@@ -337,6 +338,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (CHK_enablespeech.Checked)
             {
+                CHK_speechArmedOnly.Visible = true;
                 CHK_speechwaypoint.Visible = true;
                 CHK_speechaltwarning.Visible = true;
                 CHK_speechbattery.Visible = true;
@@ -347,6 +349,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
+                CHK_speechArmedOnly.Visible = false;
                 CHK_speechwaypoint.Visible = false;
                 CHK_speechaltwarning.Visible = false;
                 CHK_speechbattery.Visible = false;
@@ -992,6 +995,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void chk_slowMachine_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["SlowMachine"] = chk_slowMachine.Checked.ToString();
+        }
+
+        private void CHK_speechArmedOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.speech_armed_only = CHK_speechArmedOnly.Checked;
+            Settings.Instance["speech_armed_only"] = CHK_speechArmedOnly.Checked.ToString();
         }
     }
 }
