@@ -6156,6 +6156,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             return doCommand(sysid, compid, MAV_CMD.PREFLIGHT_SET_SENSOR_OFFSETS, (int) sensor, x, y, z, 0, 0, 0);
         }
 
+        public void send_text(byte severity, string txt)
+        {
+            var temp = Encoding.ASCII.GetBytes(txt);
+            generatePacket((byte) MAVLINK_MSG_ID.STATUSTEXT,
+                new mavlink_statustext_t() {severity = (byte) severity, text = temp});
+        }
+
         private Dictionary<Stream, Tuple<string, long>> streamfncache = new Dictionary<Stream, Tuple<string, long>>();
         private EventHandler<MAVLinkMessage> _OnPacketReceived;
         private EventHandler<MAVLinkMessage> _OnPacketSent;
