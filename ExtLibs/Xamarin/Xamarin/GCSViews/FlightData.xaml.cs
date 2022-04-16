@@ -801,7 +801,7 @@ namespace Xamarin
                     {
                     }
 
-                    if (LogPlayBackSpeed >= 4 && MainV2.speechEnable)
+                    if (LogPlayBackSpeed >= 4 && MainV2.speechEnabled())
                         MainV2.speechEngine.SpeakAsyncCancelAll();
 
                     double timetook = (DateTime.Now - tsreal).TotalMilliseconds;
