@@ -149,7 +149,7 @@ namespace MissionPlanner.GCSViews
                     mand);
             }
 
-            if (isCopter && MainV2.DisplayConfiguration.displayInitialParams)
+            if ((isCopter || isQuadPlane) && MainV2.DisplayConfiguration.displayInitialParams)
             {
                 AddBackstageViewPage(typeof(ConfigInitialParams), rm.GetString("backstageViewPageInitialParams.Text"), isConnected && gotAllParams, mand);
             }
