@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
 using System.Drawing;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -149,55 +150,63 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (cb_tmotor.Checked) mot_thst_expo = 0.2;
 
 
+            var atc_prefix = "ATC";
+            var mot_prefix = "MOT";
+            if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane)
+            {
+                atc_prefix = "Q_A";
+                mot_prefix = "Q_M";
+            }
+
             var new_params = new Dictionary<string, double>();
 
             //Fill up the list of params to change
             new_params.Add("ACRO_YAW_P", acro_yaw_p);
-            new_params.Add("ATC_ACCEL_P_MAX", atc_accel_p_max);
-            new_params.Add("ATC_ACCEL_R_MAX", atc_accel_r_max);
-            new_params.Add("ATC_ACCEL_Y_MAX", atc_accel_y_max);
+            new_params.Add(atc_prefix + "_ACCEL_P_MAX", atc_accel_p_max);
+            new_params.Add(atc_prefix + "_ACCEL_R_MAX", atc_accel_r_max);
+            new_params.Add(atc_prefix + "_ACCEL_Y_MAX", atc_accel_y_max);
 
             //Filters has different name in 4.x and in 3.x
             if (MainV2.comPort.MAV.cs.version.Major == 4)
             {
 
-                new_params.Add("ATC_RAT_PIT_FLTD", atc_rat_pit_fltd);
-                new_params.Add("ATC_RAT_PIT_FLTE", atc_rat_pit_flte);
-                new_params.Add("ATC_RAT_PIT_FLTT", atc_rat_pit_fltt);
-                new_params.Add("ATC_RAT_RLL_FLTD", atc_rat_rll_fltd);
-                new_params.Add("ATC_RAT_RLL_FLTE", atc_rat_rll_flte);
-                new_params.Add("ATC_RAT_RLL_FLTT", atc_rat_rll_fltt);
-                new_params.Add("ATC_RAT_YAW_FLTD", atc_rat_yaw_fltd);
-                new_params.Add("ATC_RAT_YAW_FLTE", atc_rat_yaw_flte);
-                new_params.Add("ATC_RAT_YAW_FLTT", atc_rat_yaw_fltt);
+                new_params.Add(atc_prefix + "_RAT_PIT_FLTD", atc_rat_pit_fltd);
+                new_params.Add(atc_prefix + "_RAT_PIT_FLTE", atc_rat_pit_flte);
+                new_params.Add(atc_prefix + "_RAT_PIT_FLTT", atc_rat_pit_fltt);
+                new_params.Add(atc_prefix + "_RAT_RLL_FLTD", atc_rat_rll_fltd);
+                new_params.Add(atc_prefix + "_RAT_RLL_FLTE", atc_rat_rll_flte);
+                new_params.Add(atc_prefix + "_RAT_RLL_FLTT", atc_rat_rll_fltt);
+                new_params.Add(atc_prefix + "_RAT_YAW_FLTD", atc_rat_yaw_fltd);
+                new_params.Add(atc_prefix + "_RAT_YAW_FLTE", atc_rat_yaw_flte);
+                new_params.Add(atc_prefix + "_RAT_YAW_FLTT", atc_rat_yaw_fltt);
             }
             else
             {
-                new_params.Add("ATC_RAT_PIT_FILT", atc_rat_pit_fltd);
-                new_params.Add("ATC_RAT_RLL_FILT", atc_rat_rll_fltd);
-                new_params.Add("ATC_RAT_YAW_FILT", atc_rat_yaw_flte);
+                new_params.Add(atc_prefix + "_RAT_PIT_FILT", atc_rat_pit_fltd);
+                new_params.Add(atc_prefix + "_RAT_RLL_FILT", atc_rat_rll_fltd);
+                new_params.Add(atc_prefix + "_RAT_YAW_FILT", atc_rat_yaw_flte);
 
             }
 
-            new_params.Add("ATC_THR_MIX_MAN", atc_thr_mix_man);
+            new_params.Add(atc_prefix + "_THR_MIX_MAN", atc_thr_mix_man);
             new_params.Add("INS_ACCEL_FILTER", ins_accel_filter);
             new_params.Add("INS_GYRO_FILTER", ins_gyro_filter);
-            new_params.Add("MOT_THST_EXPO", mot_thst_expo);
-            new_params.Add("MOT_THST_HOVER", mot_thst_hover);
+            new_params.Add(mot_prefix + "_THST_EXPO", mot_thst_expo);
+            new_params.Add(mot_prefix + "_THST_HOVER", mot_thst_hover);
             new_params.Add("BATT_ARM_VOLT", batt_arm_volt);
             new_params.Add("BATT_CRT_VOLT", batt_crt_volt);
             new_params.Add("BATT_LOW_VOLT", batt_low_volt);
-            new_params.Add("MOT_BAT_VOLT_MAX", mot_bat_volt_max);
-            new_params.Add("MOT_BAT_VOLT_MIN", mot_bat_volt_min);
+            new_params.Add(mot_prefix + "_BAT_VOLT_MAX", mot_bat_volt_max);
+            new_params.Add(mot_prefix + "_BAT_VOLT_MIN", mot_bat_volt_min);
 
             if (cb_tmotor.Checked)
             {
-                new_params.Add("MOT_PWM_MIN", 1100);
-                new_params.Add("MOT_PWM_MAX", 1940);
+                new_params.Add(mot_prefix + "_PWM_MIN", 1100);
+                new_params.Add(mot_prefix + "_PWM_MAX", 1940);
 
             }
 
-            if (cb_suggested.Checked && MainV2.comPort.MAV.cs.version.Major == 4)
+            if (cb_suggested.Checked && MainV2.comPort.MAV.cs.version.Major == 4 && (MainV2.comPort.MAV.cs.firmware != Firmwares.ArduPlane))
             {
                 new_params.Add("BATT_FS_CRT_ACT", 1);
                 new_params.Add("BATT_FS_LOW_ACT", 2);
