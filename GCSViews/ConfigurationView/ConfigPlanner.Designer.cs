@@ -106,6 +106,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.CHK_params_bg = new System.Windows.Forms.CheckBox();
             this.chk_slowMachine = new System.Windows.Forms.CheckBox();
+            this.CHK_speechArmedOnly = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).BeginInit();
             this.SuspendLayout();
@@ -735,9 +736,17 @@
             this.chk_slowMachine.UseVisualStyleBackColor = true;
             this.chk_slowMachine.CheckedChanged += new System.EventHandler(this.chk_slowMachine_CheckedChanged);
             // 
+            // CHK_speechArmedOnly
+            // 
+            resources.ApplyResources(this.CHK_speechArmedOnly, "CHK_speechArmedOnly");
+            this.CHK_speechArmedOnly.Name = "CHK_speechArmedOnly";
+            this.CHK_speechArmedOnly.UseVisualStyleBackColor = true;
+            this.CHK_speechArmedOnly.CheckedChanged += new System.EventHandler(this.CHK_speechArmedOnly_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.CHK_speechArmedOnly);
             this.Controls.Add(this.chk_slowMachine);
             this.Controls.Add(this.CHK_params_bg);
             this.Controls.Add(this.label7);
@@ -903,5 +912,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox CHK_params_bg;
         private System.Windows.Forms.CheckBox chk_slowMachine;
+        private System.Windows.Forms.CheckBox CHK_speechArmedOnly;
     }
 }
