@@ -1212,7 +1212,7 @@ namespace Xamarin.GCSViews
 
         public void SpeakAsync(string text)
         {
-            if (!speechEnable)
+            if (!MainV2.speechEnabled())
                 return;
 
             if (text == null || String.IsNullOrWhiteSpace(text))
