@@ -1156,6 +1156,26 @@ namespace MissionPlanner.GCSViews
             new JoystickSetup().ShowUserControl();
         }
 
+
+        private void BUT_SendMSG_Click(object sender, EventArgs e)
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return;
+
+            // Send a message
+            try
+            {
+                string txt = "";
+                if (DialogResult.Cancel == InputBox.Show("Enter Message", "Enter Message to be logged", ref txt))
+                    return;
+                MainV2.comPort.send_text(5, txt);
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+            }
+        }
+
         private string tlogdir = Settings.Instance.LogDir;
 
         private void BUT_loadtelem_Click(object sender, EventArgs e)
