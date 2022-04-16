@@ -457,6 +457,18 @@ namespace MissionPlanner
             }
         }
 
+        public static bool speech_armed_only = false;
+        public static bool speechEnabled()
+        {
+            if (!speechEnable) {
+                return false;
+            }
+            if (speech_armed_only) {
+                return MainV2.comPort.MAV.cs.armed;
+            }
+            return true;
+        }
+
         /// <summary>
         /// spech engine static class
         /// </summary>
@@ -2696,7 +2708,7 @@ namespace MissionPlanner
                     }
 
                     // 30 seconds interval speech options
-                    if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
+                    if (speechEnabled() && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (MainV2.speechEngine.IsReady)
@@ -2740,7 +2752,7 @@ namespace MissionPlanner
                     }
 
                     // speech for airspeed alerts
-                    if (speechEnable && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 &&
+                    if (speechEnabled() && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (Settings.Instance.GetBoolean("speechlowspeedenabled") == true &&
@@ -2777,7 +2789,7 @@ namespace MissionPlanner
                     }
 
                     // speech altitude warning - message high warning
-                    if (speechEnable && speechEngine != null &&
+                    if (speechEnabled() && speechEngine != null &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         float warnalt = float.MaxValue;
@@ -2858,7 +2870,7 @@ namespace MissionPlanner
                     {
                         var msg = "WARNING No Data for " + (int)(DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds + " Seconds";
                         MainV2.comPort.MAV.cs.messageHigh = msg;
-                        if (speechEnable && speechEngine != null)
+                        if (speechEnabled() && speechEngine != null)
                         {
                             if (MainV2.speechEngine.IsReady)
                             {
