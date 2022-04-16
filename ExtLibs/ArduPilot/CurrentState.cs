@@ -2517,7 +2517,8 @@ namespace MissionPlanner
                                 {
                                     if (oldmode != mode && Speech != null && Speech.speechEnable &&
                                         parent?.parent?.MAV?.cs == this &&
-                                        Settings.Instance.GetBoolean("speechmodeenabled"))
+                                        Settings.Instance.GetBoolean("speechmodeenabled") &&
+                                        (armed || !Settings.Instance.GetBoolean("speech_armed_only")))
                                         Speech.SpeakAsync(Common.speechConversion(parent,
                                             "" + Settings.Instance["speechmode"]));
                                 }
@@ -3027,7 +3028,8 @@ namespace MissionPlanner
                             {
                                 if (oldwp != wpno && Speech != null && Speech.speechEnable && parent != null &&
                                     parent.parent.MAV.cs == this &&
-                                    Settings.Instance.GetBoolean("speechwaypointenabled"))
+                                    Settings.Instance.GetBoolean("speechwaypointenabled") &&
+                                    (armed || !Settings.Instance.GetBoolean("speech_armed_only")))
                                     Speech.SpeakAsync(Common.speechConversion(parent,
                                         "" + Settings.Instance["speechwaypoint"]));
                             }
