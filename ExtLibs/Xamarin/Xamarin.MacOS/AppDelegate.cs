@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AppKit;
 using Foundation;
@@ -31,6 +34,11 @@ namespace Xamarin.MacOS
             Test.SystemInfo = new SystemInfo();
 
             WinForms.OSX = true;
+
+            Acr.UserDialogs.Infrastructure.Log.Out += (s, s1, arg3) =>
+            {
+                Console.WriteLine(s + ": " + s1);
+            };
 
             new System.Drawing.android.android();
         }
@@ -101,14 +109,86 @@ namespace Xamarin.MacOS
                 throw new NotImplementedException();
             }
 
-            public Task<ICommsSerial> GetUSB(DeviceInfo di)
+            public async Task<ICommsSerial> GetUSB(DeviceInfo di)
             {
-                throw new NotImplementedException();
+                var data = GetUSBList();
+
+                var devs = GetDevList().Split(new[] { '\r', '\n' });
+
+                var regex = new Regex(@"-o\s+([\w\s]+@.{4}).*\n.*idProduct""\s+=\s+(.*)\n.*\n.*idVendor""\s+=\s+(.*)");
+
+                Console.WriteLine("Looking for " + di.board);
+
+                foreach (Match match in regex.Matches(data))
+                {
+                    var name = match.Groups[1].Value;
+                    var loc = name.Split("@").Last();
+                    var pid = int.Parse(match.Groups[2].Value);
+                    var vid = int.Parse(match.Groups[3].Value);
+                    
+                    foreach (var dev in devs)
+                    {
+                        Console.WriteLine("usb location {0} == {1} && {2}.Contains({3})", di.board, name, dev.ToLower(),
+                            loc.ToLower());
+                        if (di.board == name && dev.ToLower().Contains(loc.ToLower()))
+                        {
+                            Console.WriteLine("GetUSB: Port: " + dev.TrimEnd());
+                            return new SerialPort(dev.TrimEnd());
+                        }
+                    }
+                }
+
+                return null;
             }
 
             async Task<List<DeviceInfo>> IUSBDevices.GetDeviceInfoList()
             {
-                return new List<DeviceInfo>();
+                var ans =  new List<DeviceInfo>();
+
+                var data = GetUSBList();
+
+                GetDevList();
+
+                var regex = new Regex(@"-o\s+([\w\s]+@.{4}).*\n.*idProduct""\s+=\s+(.*)\n.*\n.*idVendor""\s+=\s+(.*)");
+
+                foreach (Match match in regex.Matches(data))
+                {
+                    var name = match.Groups[1].Value;
+                    var pid = int.Parse(match.Groups[2].Value);
+                    var vid = int.Parse(match.Groups[3].Value);
+
+                    var deviceInfo = new DeviceInfo()
+                    {
+                        board = name,
+                        description = name,
+                        hardwareid = String.Format("USB\\VID_{0:X4}&PID_{1:X4}&", vid, pid),
+                        name = name
+                    };
+
+                    ans.Add(deviceInfo);
+                }
+
+                return ans;
+            }
+
+            private static string GetDevList()
+            {
+                var proc = System.Diagnostics.Process.Start("bash",
+                    @"-c ""ls /dev/tty.* > /tmp/dev.list""");
+                proc.WaitForExit();
+
+                var data = File.ReadAllText("/tmp/dev.list");
+                return data;
+            }
+
+        private static string GetUSBList()
+            {
+                var proc = System.Diagnostics.Process.Start("bash",
+                    @"-c ""ioreg -p IOUSB -w0 -l | grep -E '@|idVendor|idProduct|bcdDevice' > /tmp/usb.list""");
+                proc.WaitForExit();
+
+                var data = File.ReadAllText("/tmp/usb.list");
+                return data;
             }
         }
     }

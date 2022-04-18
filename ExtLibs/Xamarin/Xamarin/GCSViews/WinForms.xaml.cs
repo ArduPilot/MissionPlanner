@@ -92,12 +92,6 @@ namespace Xamarin.GCSViews
             // init seril port type
             SerialPort.DefaultType = (self, s, i) =>
             {
-                if (Device.RuntimePlatform == Device.macOS)
-                {
-                    Log.Info(TAG, "SerialPort.DefaultType in " + s + " " + i + " for " + Device.RuntimePlatform);
-                    return new MonoSerialPort();
-                }
-
                 return Task.Run(async () =>
                 {
                     Log.Info(TAG, "SerialPort.DefaultType in " + s + " " + i);
@@ -162,6 +156,16 @@ namespace Xamarin.GCSViews
                                     "SerialPort.DefaultType found device " + di.First().board + " search " + s);
                                 return await Test.UsbDevices.GetUSB(di.First());
                             }
+                        }
+
+                        if (Device.RuntimePlatform == Device.macOS || s != null && File.Exists(s))
+                        {
+                            Log.Info(TAG, "SerialPort.DefaultType in " + s + " " + i + " for " + Device.RuntimePlatform);
+                            if (s != null && i > 0)
+                                return new MonoSerialPort(s, i);
+                            if(s!= null)
+                                return new MonoSerialPort(s);
+                            return new MonoSerialPort();
                         }
                     }
 
