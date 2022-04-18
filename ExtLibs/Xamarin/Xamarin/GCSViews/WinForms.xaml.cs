@@ -382,11 +382,23 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
             set => _initDevice = value;
         }
 
+        public static void Exit()
+        {
+            Application.Exit();
+        }
+
         public static void Resize(int width, int height)
         {
             Instance.size = new Forms.Size(width, height);
             Screen.PrimaryScreen.Bounds = new Rectangle(0, 0, width, height);
             Screen.PrimaryScreen.WorkingArea = new Rectangle(0, 0, width, height);
+            var pos = new XplatUIMine.tagWINDOWPOS() {cx = width, cy = height + XplatUIMine.GetInstance().CaptionHeight, flags = 0x2, x = 0, y = 0};
+            int size = Marshal.SizeOf(typeof(XplatUIMine.tagWINDOWPOS));
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+            Marshal.StructureToPtr(pos, ptr, true);
+            XplatUIMine.GetInstance().SendMessage(IntPtr.Zero, Msg.WM_WINDOWPOSCHANGED, IntPtr.Zero, ptr);
+            Marshal.FreeHGlobal(ptr);
+            //.SetWindowPos(IntPtr.Zero, 0, 0, width, height);
         }
         
 

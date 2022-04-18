@@ -37,6 +37,8 @@ namespace Xamarin.MacOS
 
         private void MainWindow_WillClose(object sender, EventArgs e)
         {
+            Console.WriteLine("MainWindow_WillClose");
+            WinForms.Exit();
             System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
         }
 
