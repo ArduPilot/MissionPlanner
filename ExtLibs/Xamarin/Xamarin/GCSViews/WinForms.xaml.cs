@@ -195,17 +195,20 @@ namespace Xamarin.GCSViews
 
                 return list1;
             };
-            /*
-// support for fw upload
-MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>
-{
-    return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
-};
 
-MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =>
-{
-    return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
-};*/
+            if (Device.RuntimePlatform == Device.macOS)
+            {
+                // support for fw upload
+                MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareManifest.ExtraDeviceInfo += () =>
+                {
+                    return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
+                };
+
+                MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =>
+                {
+                    return Task.Run(async () => { return await Test.UsbDevices.GetDeviceInfoList(); }).Result;
+                };
+            }
         }
 
         // Calculates the checksum for a sentence

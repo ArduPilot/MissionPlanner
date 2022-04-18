@@ -327,11 +327,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
 
                 }
+                /*
+                // allow scanning multiple ports
                 else
                 {
                     CustomMessageBox.Show("Failed to discover board id. Please reconnect via usb and try again.", Strings.ERROR);
                     return;
                 }
+                */
             }
 
             CustomMessageBox.Show("Failed to detect port to upload to", Strings.ERROR);

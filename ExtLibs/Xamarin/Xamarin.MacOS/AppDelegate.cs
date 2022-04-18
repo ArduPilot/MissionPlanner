@@ -147,13 +147,14 @@ namespace Xamarin.MacOS
 
                 var data = GetUSBList();
 
-                GetDevList();
+                var devs = GetDevList().Split(new[] { '\r', '\n' });
 
                 var regex = new Regex(@"-o\s+([\w\s]+@.{4}).*\n.*idProduct""\s+=\s+(.*)\n.*\n.*idVendor""\s+=\s+(.*)");
 
                 foreach (Match match in regex.Matches(data))
                 {
                     var name = match.Groups[1].Value;
+                    var loc = name.Split("@").Last();
                     var pid = int.Parse(match.Groups[2].Value);
                     var vid = int.Parse(match.Groups[3].Value);
 
@@ -165,7 +166,12 @@ namespace Xamarin.MacOS
                         name = name
                     };
 
-                    ans.Add(deviceInfo);
+                    foreach (var dev in devs)
+                    {
+                        // only add ports where we find a matching tty dev
+                        if (deviceInfo.board == name && dev.ToLower().Contains(loc.ToLower()))
+                            ans.Add(deviceInfo);
+                    }
                 }
 
                 return ans;
