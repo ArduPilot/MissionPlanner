@@ -386,6 +386,7 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
         {
             Instance.size = new Forms.Size(width, height);
             Screen.PrimaryScreen.Bounds = new Rectangle(0, 0, width, height);
+            Screen.PrimaryScreen.WorkingArea = new Rectangle(0, 0, width, height);
         }
         
 
@@ -561,8 +562,8 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
 
         private void StartThreads()
         {
-            XplatUIMine.GetInstance()._virtualScreen = new Rectangle(0, 0, (int) size.Width, (int) size.Height);
-            XplatUIMine.GetInstance()._workingArea = new Rectangle(0, 0, (int) size.Width, (int) size.Height);
+            Screen.PrimaryScreen.Bounds = new Rectangle(0, 0, (int) size.Width, (int) size.Height);
+            Screen.PrimaryScreen.WorkingArea = new Rectangle(0, 0, (int) size.Width, (int) size.Height);
 
             winforms = new Thread(() =>
             {
@@ -598,9 +599,9 @@ MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware.ExtraDeviceInfo += () =
                         Instance.scale = new Forms.Size((Instance.SkCanvasView.CanvasSize.Width / Instance.size.Width),
                             (Instance.SkCanvasView.CanvasSize.Height / Instance.size.Height));
 
-                        XplatUIMine.GetInstance()._virtualScreen =
+                        Screen.PrimaryScreen.WorkingArea =
                             new Rectangle(0, 0, (int) Instance.size.Width, (int) Instance.size.Height);
-                        XplatUIMine.GetInstance()._workingArea =
+                        Screen.PrimaryScreen.Bounds =
                             new Rectangle(0, 0, (int) Instance.size.Width, (int) Instance.size.Height);
 
                         Device.BeginInvokeOnMainThread(() => { Instance.SkCanvasView.InvalidateSurface(); });
