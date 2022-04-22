@@ -395,13 +395,23 @@
 
    <Compile Include="ExtLibs\Comms\System.IO.Ports\WinSerialStream.cs" />
 
+   <Compile Include="plugins\example15-leds.cs" />
+
+   <Compile Include="plugins\example16-donate.cs" />
+
+   <Compile Include="plugins\example18-externalapi.cs" />
+
    <Compile Include="plugins\example3-fencedist.cs" />
 
    <Compile Include="plugins\example4-herelink.cs" />
 
    <Compile Include="plugins\example6-mapicondesc.cs" />
 
+   <Compile Include="plugins\example7-canrtcm.cs" />
+
    <Compile Include="plugins\example9-hudonoff.cs" />
+
+   <Compile Include="plugins\generator.cs" />
 
    <Compile Include="plugins\InitialParamsCalculator.cs" />
 
