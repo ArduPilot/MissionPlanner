@@ -9,6 +9,7 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -30,6 +31,8 @@ namespace MissionPlanner
             var refFiles = refs.Where(a =>
                     !a.IsDynamic && !a.FullName.Contains("MissionPlanner.Drawing"))
                 .Select(a => a.Location);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                refFiles = refs.Where(a => !a.IsDynamic).Select(a => a.Location);
             var refmeta = refFiles.Select(a =>
             {
                 try
@@ -123,6 +126,9 @@ namespace MissionPlanner
             var refs = AppDomain.CurrentDomain.GetAssemblies();
             var refFiles = refs.Where(a => !a.IsDynamic && !a.FullName.Contains("mscorlib") && !a.FullName.Contains("MissionPlanner.Drawing"))
                 .Select(a => a.Location);
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                refFiles = refs.Where(a => !a.IsDynamic && !a.FullName.Contains("mscorlib")).Select(a => a.Location);
 
             //add compiler parameters and assembly references
             CompilerParameters compilerParams = new CompilerParameters(refFiles.ToArray());
