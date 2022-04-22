@@ -92,6 +92,10 @@ namespace MissionPlanner.Controls
                 {
                     var temp = new port_sysid() { compid = (item % 256), sysid = (item / 256), port = port };
 
+                    // exclude GCS's from the list
+                    if (temp.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                        continue;
+
                     var idx = cmb_sysid.Items.Add(temp);
 
                     if (temp.port == MainV2.comPort && temp.sysid == MainV2.comPort.sysidcurrent && temp.compid == MainV2.comPort.compidcurrent)
