@@ -492,7 +492,9 @@ namespace MissionPlanner.Utilities
                     {
                         if (key == "" || key.Contains("/") || key.Contains(" ")
                             || key.Contains("-") || key.Contains(":")
-                            || key.Contains(";"))
+                            || key.Contains(";") || key.Contains("@")
+                            || key.Contains("!") || key.Contains("#")
+                            || key.Contains("$") || key.Contains("%"))
                         {
                             Debugger.Break();
                             Console.WriteLine("Bad config key " + key);
