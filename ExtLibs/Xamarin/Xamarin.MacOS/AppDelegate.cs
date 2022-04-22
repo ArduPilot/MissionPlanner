@@ -26,6 +26,7 @@ namespace Xamarin.MacOS
             mainWindow.TitleVisibility = NSWindowTitleVisibility.Hidden;
             mainWindow.DidResize += MainWindow_DidResize;
             mainWindow.WillClose += MainWindow_WillClose;
+            NSEvent.AddLocalMonitorForEventsMatchingMask(NSEventMask.KeyDown, KeyboardEventHandler);
 
             Test.BlueToothDevice = new BTDevice();
             Test.UsbDevices = new USBDevices();
@@ -41,6 +42,13 @@ namespace Xamarin.MacOS
             };
 
             new System.Drawing.android.android();
+        }
+
+        private NSEvent KeyboardEventHandler(NSEvent keyEvent)
+        {
+            Console.WriteLine(keyEvent.KeyCode);
+
+            return keyEvent;
         }
 
         private void MainWindow_WillClose(object sender, EventArgs e)
