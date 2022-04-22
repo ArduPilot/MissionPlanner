@@ -31,7 +31,7 @@ namespace MissionPlanner.Utilities
                 double sample_rate = -1;
                 double multiplier = -1;
 
-                var data = cb.GetEnumeratorType(new string[] {"ISBH", "ISBD"})
+                var data = cb.GetEnumeratorType(new string[] { "ISBH", "ISBD" })
                     .SelectMany(
                         item =>
                         {
@@ -46,7 +46,7 @@ namespace MissionPlanner.Utilities
 
                                 if (instance != sensorno || type1 != sensor)
                                     return new (double time, double d)[0];
-                                
+
                                 sample_rate = double.Parse(
                                     item.items[cb.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
                                     CultureInfo.InvariantCulture);
@@ -73,17 +73,16 @@ namespace MissionPlanner.Utilities
 
                                 double time = double.Parse(item.items[offsetTime], CultureInfo.InvariantCulture);
 
-                                var ua = (BinaryLog.UnionArray) item.GetRaw(field.ToLower()
+                                var ua = (BinaryLog.UnionArray)item.GetRaw(field.ToLower()
                                     .Substring(field.Length - 1));
 
                                 return ua.Shorts.Take(ua.ShortsLength).Select(ds =>
                                     {
-                                        double d = ((double) ds / multiplier);
+                                        double d = ((double)ds / multiplier);
                                         return (time, d);
                                     })
                                     .ToArray();
                             }
-
                             return new (double time, double d)[0];
                         }).ToArray();
 
@@ -107,7 +106,7 @@ namespace MissionPlanner.Utilities
                 log.Debug("done and count ");
                 while (count > 1) // skip last part
                 {
-                    var fftdata = data.Skip((int) (N * (done / (double) divisor))).Take(N);
+                    var fftdata = data.Skip((int)(N * (done / (double)divisor))).Take(N);
 
                     if (fftdata.Count() < N)
                     {
@@ -116,8 +115,8 @@ namespace MissionPlanner.Utilities
 
                     var timeusvalue = fftdata.Min(a => a.time);
 
-                    var fftanswerz = fft.rin(fftdata.Select(a => (double) a.d).ToArray(),
-                        (uint) bins);
+                    var fftanswerz = fft.rin(fftdata.Select(a => (double)a.d).ToArray(),
+                        (uint)bins);
 
                     allfftdata.Add((timeusvalue, fftanswerz));
 
@@ -142,7 +141,9 @@ namespace MissionPlanner.Utilities
 
                 var acc1data = cb.GetEnumeratorType(type).ToArray();
                 log.Debug(type);
-                var firstsample = acc1data.Take(N);
+                if (cb.dflog.FindMessageOffset(acc1data[0].msgtype, "TimeUS") == -1)
+                    timeus = "SampleUS";
+                var firstsample = acc1data.Skip(N).Take(N);
                 var samplemin = double.Parse(firstsample.Min(a => a[timeus]));
                 var samplemax = double.Parse(firstsample.Max(a => a[timeus]));
 
