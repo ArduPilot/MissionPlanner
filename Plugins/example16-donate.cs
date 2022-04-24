@@ -44,6 +44,8 @@ namespace donate
 
         public override bool Loaded()
         {
+            return true;
+            
             var MenuCustom = new System.Windows.Forms.ToolStripButton();
             MenuCustom.Name = "MenuCustom";
             MenuCustom.Margin = new System.Windows.Forms.Padding(0);
