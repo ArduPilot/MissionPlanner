@@ -20,6 +20,9 @@ namespace MissionPlanner.Utilities
         public static extern IntPtr dlopen(string filename, int flags);
 
         [DllImport("libdl.so")]
+        public static extern string dlerror();
+
+        [DllImport("libdl.so")]
         public static extern IntPtr dlsym(IntPtr handle, string symbol);
 
         public const int RTLD_NOW = 2; // for dlopen's flags 

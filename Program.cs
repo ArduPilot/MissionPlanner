@@ -127,6 +127,9 @@ namespace MissionPlanner
             Console.WriteLine("To fix any filename case issues under mono use    export MONO_IOMAP=drive:case");
             Console.WriteLine("for pinvoke      MONO_LOG_LEVEL=debug MONO_LOG_MASK=dll mono MissionPlanner.exe");
 
+            Console.WriteLine("watch -n 1 ls -l /proc/$(pidof mono)/fd");
+            Console.WriteLine("watch -n 1 lsof -p $(pidof mono)");
+
             Console.WriteLine("Data Dir " + Settings.GetDataDirectory());
             Console.WriteLine("Log Dir " + Settings.GetDefaultLogDir());
             Console.WriteLine("Running Dir " + Settings.GetRunningDirectory());
@@ -208,8 +211,12 @@ namespace MissionPlanner
                 IntPtr ptr = IntPtr.Zero;
 
                 if (MONO)
+                {
                     ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
                         MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
+                    log.Info("Skia Error " + MissionPlanner.Utilities.NativeLibrary.dlerror());
+                }
+
                 if (ptr == IntPtr.Zero)
                     ptr = MissionPlanner.Utilities.NativeLibrary.LoadLibrary(file + ".dll");
 
