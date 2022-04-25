@@ -35,6 +35,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         private MAVLink.mavlink_file_transfer_protocol_t fileTransferProtocol =
             new MAVLink.mavlink_file_transfer_protocol_t();
 
+        /// incremented anytime its not a retransmit
         private uint16_t seq_no = 0;
 
         public MAVFtp(MAVLinkInterface mavint, byte sysid, byte compid)
@@ -545,6 +546,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         {
             log.InfoFormat("GetFile {0}-{1} {2}", _sysid, _compid, file);
             Progress?.Invoke("Opening file " + file, -1);
+            kCmdResetSessions();
             kCmdOpenFileRO(file, out var size, cancel);
             if (size == -1)
                 return null;
@@ -553,13 +555,13 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 answer = kCmdReadFile(file, size, cancel, readsize);
             else
                 answer = kCmdBurstReadFile(file, size, cancel, readsize);
-            kCmdResetSessions();
             return answer;
         }
 
         public void UploadFile(string file, string srcfile, CancellationTokenSource cancel)
         {
             var size = 0;
+            kCmdResetSessions();
             kCmdCreateFile(file, ref size, cancel);
             kCmdWriteFile(srcfile, cancel);
             kCmdResetSessions();
@@ -702,6 +704,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 // error at far end
                 if (ftphead.opcode == FTPOpcode.kRspNak)
                 {
+                    seq_no = (ushort)(ftphead.seq_number + 1);
                     var errorcode = (FTPErrorCode) ftphead.data[0];
                     if (errorcode == FTPErrorCode.kErrFailErrno)
                     {
@@ -1747,7 +1750,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode);
             Exception ex = null;
-            RetryTimeout timeout = new RetryTimeout();
+            RetryTimeout timeout = new RetryTimeout(5, 1000);
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
