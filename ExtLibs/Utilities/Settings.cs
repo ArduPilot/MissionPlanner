@@ -254,12 +254,16 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
+        private static string _GetRunningDirectory = "";
         /// <summary>
         /// Install directory path
         /// </summary>
         /// <returns></returns>
         public static string GetRunningDirectory()
         {
+            if(_GetRunningDirectory != "")
+                return _GetRunningDirectory;
+
             var ass = Assembly.GetEntryAssembly();
 
             if (ass == null)
@@ -280,7 +284,9 @@ namespace MissionPlanner.Utilities
                 path = Path.GetDirectoryName(GetDataDirectory());
             }
 
-            return path + Path.DirectorySeparatorChar;
+            _GetRunningDirectory = path + Path.DirectorySeparatorChar;
+
+            return _GetRunningDirectory;
         }
 
         static bool isMono()
