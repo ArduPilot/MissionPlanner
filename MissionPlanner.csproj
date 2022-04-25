@@ -389,11 +389,11 @@
     </PackageReference>
     <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
-    <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux">
-      <Version>1.68.1.1</Version>
+    <PackageReference Include="SkiaSharp" Version="2.80.2" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies">
+      <Version>2.80.3</Version>
     </PackageReference>
-    <PackageReference Include="SkiaSharp.Views" Version="1.68.1.1" />
+    <PackageReference Include="SkiaSharp.Views" Version="2.80.2" />
     <PackageReference Include="SSH.NET" version="2016.1.0" targetFramework="net40" />
     <PackageReference Include="System.CodeDom">
       <Version>4.7.0</Version>
@@ -621,12 +621,6 @@
       <DependentUpon>MainV2.cs</DependentUpon>
     </Compile>
     <Compile Include="NativeMethods.cs" />
-    <None Include="arm64\libSkiaSharp.so">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="arm\libSkiaSharp.so">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Drivers\cubeorangeplus.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

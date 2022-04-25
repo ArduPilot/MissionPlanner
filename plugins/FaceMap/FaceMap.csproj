@@ -35,6 +35,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors)</WarningsAsErrors>
+	  <NoWarn>1701;1702;NU1605</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors)</WarningsAsErrors>
+	  <NoWarn>1701;1702;NU1605</NoWarn>
+  </PropertyGroup>
 
 
   <ItemGroup>
