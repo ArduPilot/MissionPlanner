@@ -84,7 +84,10 @@ namespace Xamarin.GCSViews
             Instance = this;
             try
             {
-                MainV2.speechEngine = new Speech();
+                if (Test.Speech != null)
+                    MainV2.speechEngine = Test.Speech;
+                else
+                    MainV2.speechEngine = new Speech();
             } catch{}
 
             RestoreFiles();

@@ -20,6 +20,8 @@ namespace Xamarin
             get;
             set;
         }
+
+        public static ISpeech Speech { get; set; }
     }
 
     public interface ISystemInfo

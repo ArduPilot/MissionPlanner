@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using AppKit;
 using Foundation;
@@ -10,6 +11,7 @@ using MissionPlanner.ArduPilot;
 using Xamarin.Forms.Platform.MacOS;
 using Xamarin.Forms;
 using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
 using Xamarin.GCSViews;
 
 namespace Xamarin.MacOS
@@ -33,7 +35,8 @@ namespace Xamarin.MacOS
             Test.Radio = new Radio();
             Test.GPS = new GPS();
             Test.SystemInfo = new SystemInfo();
-
+            Test.Speech = new OSXSpeech();
+            
             WinForms.OSX = true;
 
             Acr.UserDialogs.Infrastructure.Log.Out += (s, s1, arg3) =>
@@ -204,6 +207,37 @@ namespace Xamarin.MacOS
                 var data = File.ReadAllText("/tmp/usb.list");
                 return data;
             }
+        }
+    }
+
+    public class OSXSpeech : ISpeech
+    {
+        NSSpeechSynthesizer speechSynthesizer;
+
+        public bool speechEnable { get; set; }
+        public bool IsReady { get; set; }
+        public void SpeakAsync(string text)
+        {
+            if (!speechEnable)
+                return;
+
+            _ = Task.Run(() =>
+            {
+                IsReady = false;
+                try
+                {
+                    speechSynthesizer.StartSpeakingString(text);
+                }
+                catch
+                {
+                }
+                IsReady = true;
+            });
+        }
+
+        public void SpeakAsyncCancelAll()
+        {
+            speechSynthesizer.StopSpeaking();
         }
     }
 }
