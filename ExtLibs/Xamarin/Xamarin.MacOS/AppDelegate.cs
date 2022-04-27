@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using Xamarin.GCSViews;
+using Device = Xamarin.Forms.Device;
 
 namespace Xamarin.MacOS
 {
@@ -36,7 +37,7 @@ namespace Xamarin.MacOS
             Test.GPS = new GPS();
             Test.SystemInfo = new SystemInfo();
             Test.Speech = new OSXSpeech();
-            
+
             WinForms.OSX = true;
 
             Acr.UserDialogs.Infrastructure.Log.Out += (s, s1, arg3) =>
@@ -212,7 +213,7 @@ namespace Xamarin.MacOS
 
     public class OSXSpeech : ISpeech
     {
-        NSSpeechSynthesizer speechSynthesizer;
+        private NSSpeechSynthesizer speechSynthesizer = new NSSpeechSynthesizer();
 
         public bool speechEnable { get; set; }
         public bool IsReady { get; set; }
@@ -220,13 +221,14 @@ namespace Xamarin.MacOS
         {
             if (!speechEnable)
                 return;
-
+            
             _ = Task.Run(() =>
             {
                 IsReady = false;
                 try
                 {
-                    speechSynthesizer.StartSpeakingString(text);
+                    //NSRunLoop.Main.BeginInvokeOnMainThread();
+                    Device.InvokeOnMainThreadAsync(() => speechSynthesizer.StartSpeakingString(text));
                 }
                 catch
                 {
@@ -237,7 +239,7 @@ namespace Xamarin.MacOS
 
         public void SpeakAsyncCancelAll()
         {
-            speechSynthesizer.StopSpeaking();
+            Device.InvokeOnMainThreadAsync(() => speechSynthesizer.StopSpeaking());
         }
     }
 }
