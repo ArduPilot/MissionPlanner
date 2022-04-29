@@ -13,8 +13,13 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 {
     internal static class AltitudeAngel
     {
+        private static bool _configured;
+
         internal static void Configure()
         {
+            if (_configured)
+                return;
+            _configured = true;
             AltitudeAngelPlugin.Configure();
             ServiceLocator.Register<IUiThreadInvoke>(l => new UiThreadInvoke(
                 action => Task.Factory.FromAsync(MainV2.instance.BeginInvoke(action), result => MainV2.instance.EndInvoke(result))));
