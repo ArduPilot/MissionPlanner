@@ -389,6 +389,15 @@ namespace MissionPlanner.GCSViews
                 return true;
             }
 
+            if (keyData == (Keys.Control | Keys.W | Keys.Shift))
+            {
+                but_writewpfast_Click(this, EventArgs.Empty);
+            }
+            if (keyData == (Keys.Control | Keys.R | Keys.Shift))
+            {
+                BUT_read_Click(this, EventArgs.Empty);
+            }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
