@@ -9,8 +9,7 @@ adb shell am start -a "android.intent.action.MAIN" -c "android.intent.category.L
 
 echo press after finished run
 pause
-adb root
-adb pull /data/data/com.michaeloborne.MissionPlanner/files/.__override__
+adb shell "run-as com.michaeloborne.MissionPlanner cat /data/data/com.michaeloborne.MissionPlanner/files/.__override__/profile.mlpd" > profile2.mlpd
 
 adb shell setprop debug.mono.profile \"\"
 

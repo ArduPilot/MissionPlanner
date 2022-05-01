@@ -27,6 +27,8 @@ namespace Xamarin
     public interface ISystemInfo
     {
         string GetSystemTag();
+
+        void StartProcess(string[] cmd);
     }
 
     public interface IGPS

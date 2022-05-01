@@ -39,7 +39,7 @@ namespace Xamarin
                 (Hierarchy)log4net.LogManager.GetRepository(Assembly.GetAssembly(typeof(App)));
 
             var patternLayout = new PatternLayout();
-            patternLayout.ConversionPattern = "[%thread] %-5level %logger %memory - %message";
+            patternLayout.ConversionPattern = "[%thread] %-5level %logger %memory - %message\r\n";
             patternLayout.AddConverter(new ConverterInfo() {Name = "memory", Type = typeof(MemoryConverterInfo)});
             patternLayout.ActivateOptions();
 

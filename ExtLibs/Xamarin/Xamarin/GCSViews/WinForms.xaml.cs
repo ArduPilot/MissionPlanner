@@ -92,6 +92,8 @@ namespace Xamarin.GCSViews
 
             RestoreFiles();
 
+            FileDialog.CustomDirectory = Settings.GetUserDataDirectory();
+
             // init seril port type
             SerialPort.DefaultType = (self, s, i) =>
             {

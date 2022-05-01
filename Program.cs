@@ -135,6 +135,12 @@ namespace MissionPlanner
             Console.WriteLine("Running Dir " + Settings.GetRunningDirectory());
             Console.WriteLine("User Data Dir " + Settings.GetUserDataDirectory());
 
+
+            Console.WriteLine("PlacesRecentDocuments Dir " + Environment.GetFolderPath(Environment.SpecialFolder.Recent));
+            Console.WriteLine("PlacesDesktop Dir " +  Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+            Console.WriteLine("PlacesPersonal Dir " +  Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+            Console.WriteLine("PlacesMyComputer Dir " + Environment.GetFolderPath(Environment.SpecialFolder.MyComputer));
+
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
 

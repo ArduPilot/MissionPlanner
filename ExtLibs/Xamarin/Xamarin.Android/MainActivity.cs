@@ -248,7 +248,7 @@ namespace Xamarin.Droid
             {
                 WinForms.SetHUDbg(o);
             };
-            
+
 
             //ConfigFirmwareManifest.ExtraDeviceInfo
             /*
@@ -679,6 +679,11 @@ namespace Xamarin.Droid
             {
                 return "";
             }
+        }
+
+        public void StartProcess(string[] cmd)
+        {
+            Runtime.GetRuntime().Exec(cmd);
         }
     }
 }
