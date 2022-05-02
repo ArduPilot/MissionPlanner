@@ -47,6 +47,7 @@ using String = System.String;
 using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 using Uri = Android.Net.Uri;
 using View = Android.Views.View;
+using Interfaces;
 
 [assembly: UsesFeature("android.hardware.usb.host", Required = false)]
 [assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
@@ -235,11 +236,17 @@ namespace Xamarin.Droid
             }
             catch (Exception ex) { Log.Error("MP", ex.ToString()); }
 
-            Test.BlueToothDevice = new BTDevice();
-            Test.UsbDevices = new USBDevices();
-            Test.Radio = new Radio();
-            Test.GPS = new GPS();
-            Test.SystemInfo = new SystemInfo();
+            ServiceLocator.Register<IBlueToothDevice>(() => new BTDevice());
+            ServiceLocator.Register<IUSBDevices>(() => new USBDevices());
+            ServiceLocator.Register<IRadio>(() => new Radio());
+            ServiceLocator.Register<IGPS>(() => new GPS());
+            ServiceLocator.Register<ISystemInfo>(() => new SystemInfo());
+
+            Test.BlueToothDevice = ServiceLocator.Get<IBlueToothDevice>();
+            Test.UsbDevices = ServiceLocator.Get<IUSBDevices>();
+            Test.Radio = ServiceLocator.Get<IRadio>();
+            Test.GPS = ServiceLocator.Get<IGPS>();
+            Test.SystemInfo = ServiceLocator.Get<ISystemInfo>();
 
             androidvideo = new AndroidVideo();
             //disable
