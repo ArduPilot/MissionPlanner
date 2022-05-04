@@ -65,7 +65,7 @@ namespace MissionPlanner.Controls
                     {
                         samples++;
 
-                        var fftanswer = fft.rin(buffer, (uint)bins);
+                        var fftanswer = fft.rin(buffer, (uint)bins, indB);
 
                         var freqt = fft.FreqTable(buffer.Length, hz);
 
@@ -251,7 +251,7 @@ namespace MissionPlanner.Controls
 
                         foreach (var itemlist in datas)
                         {
-                            var fftanswer = fft.rin((double[])itemlist, (uint)bins);
+                            var fftanswer = fft.rin((double[])itemlist, (uint)bins, indB);
 
                             for (int b = 0; b < N / 2; b++)
                             {
@@ -446,9 +446,9 @@ namespace MissionPlanner.Controls
                     int done = 0;
                     while (count > 1) // skip last part
                     {
-                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins);
-                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins);
-                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
+                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
+                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
 
                         for (int b = 0; b < N / 2; b++)
                         {
@@ -650,9 +650,9 @@ namespace MissionPlanner.Controls
                     int done = 0;
                     while (count > 1) // skip last part
                     {
-                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins);
-                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins);
-                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
+                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
+                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
 
                         for (int b = 0; b < N / 2; b++)
                         {
@@ -706,6 +706,7 @@ namespace MissionPlanner.Controls
 
         double prevMouseX = 0;
         double prevMouseY = 0;
+        private bool indB = true;
 
         private bool zedGraphControl1_MouseMoveEvent(ZedGraphControl sender, MouseEventArgs e)
         {
@@ -856,9 +857,9 @@ CultureInfo.InvariantCulture)/multiplier);
                     int done = 0;
                     while (count > 1) // skip last part
                     {
-                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins);
-                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins);
-                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
+                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
+                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins, indB);
 
                         for (int b = 0; b < N / 2; b++)
                         {
@@ -908,6 +909,11 @@ CultureInfo.InvariantCulture)/multiplier);
 
                 SetScale(ctls);
             }
+        }
+
+        private void chk_mag_CheckedChanged(object sender, EventArgs e)
+        {
+            indB = !chk_mag.Checked;
         }
     }
 }
