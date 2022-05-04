@@ -6172,7 +6172,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
         private EventHandler _MavChanged;
         private EventHandler _CommsClose;
         public bool printbps = true;
-        private bool _openComplete;
+        private bool _openComplete = true;
 
         private MAVLinkMessage readlogPacketMavlink()
         {
