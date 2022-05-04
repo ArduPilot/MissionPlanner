@@ -106,23 +106,35 @@ namespace MissionPlanner.Utilities
                 log.Debug("done and count ");
                 while (count > 1) // skip last part
                 {
-                    var fftdata = data.Skip((int)(N * (done / (double)divisor))).Take(N);
+                    if ((int)(N * (done / (double)divisor)) > data.Length - N)
+                        break;
 
-                    if (fftdata.Count() < N)
+                    var fftdata = data.AsSpan().Slice((int)(N * (done / (double)divisor)), N);
+
+                    if (fftdata.Length < N)
                     {
                         break;
                     }
 
-                    var timeusvalue = fftdata.Min(a => a.time);
+                    var timeusvalue = double.MaxValue;
+                    var data1 = new double[N];
+                    int c = 0;
+                    foreach (var a in fftdata)
+                    {
+                        timeusvalue = Math.Min(timeusvalue, a.time);
+                        data1[c++] = a.d;
+                    }
 
-                    var fftanswerz = fft.rin(fftdata.Select(a => (double)a.d).ToArray(),
-                        (uint)bins);
+                    var fftanswerz = fft.rin(data1, (uint)bins);
 
                     allfftdata.Add((timeusvalue, fftanswerz));
 
-                    //plotlydata.root.z.Add(fftanswerz.Select(a => a > 2 ? 0 : a).ToArray());
-                    freqt.Select((y, i) => img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max))
-                        .ToArray();
+                    var i = 0;
+                    foreach (var y in freqt)
+                    {
+                        img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max);
+                        i++;
+                    }
 
                     count--;
                     done++;
@@ -168,28 +180,38 @@ namespace MissionPlanner.Utilities
                 log.Debug("done and count ");
                 while (count > 1) // skip last part
                 {
-                    var fftdata = acc1data.Skip((int) (N * (done / (double) divisor))).Take(N);
+                    if ((int)(N * (done / (double)divisor)) > acc1data.Length - N)
+                        break;
 
-                    if (fftdata.Count() < N)
+                    var fftdata = acc1data.AsSpan().Slice((int)(N * (done / (double)divisor)), N);
+
+                    if (fftdata.Length < N)
                     {
                         break;
                     }
 
-                    var timeusvalue = double.Parse(fftdata.Min(a => a[timeus]));
+                    var timeusvalue = double.MaxValue;
+                    var data = new double[N];
+                    int c = 0;
+                    foreach (var a in fftdata)
+                    {
+                        timeusvalue = Math.Min(timeusvalue, Convert.ToDouble(a.GetRaw(timeus)));
+                        data[c++] = Convert.ToDouble(a.GetRaw(field));
+                    }
 
                     timedelta = timedelta * 0.99 + (timeusvalue - lasttime) * 0.01;
                     lasttime = timeusvalue;
 
-                    //var time = fftdata.Skip(N / 2).First().time.ToString("o");
-
-                    var fftanswerz = fft.rin(fftdata.Select(a => (double) (float) a.GetRaw(field)).ToArray(),
-                        (uint) bins);
+                    var fftanswerz = fft.rin(data, (uint)bins);
 
                     allfftdata.Add((timeusvalue, fftanswerz));
 
-                    //plotlydata.root.z.Add(fftanswerz.Select(a => a > 2 ? 0 : a).ToArray());
-                    freqt.Select((y, i) => img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max))
-                        .ToArray();
+                    var i = 0;
+                    foreach (var y in freqt) 
+                    {
+                        img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max);
+                        i++;
+                    }
 
                     count--;
                     done++;
@@ -267,9 +289,9 @@ namespace MissionPlanner.Utilities
                 }
             }
             Rgba32 rgb = new Rgba32(0, 0, 0);
-            rgb.R = Convert.ToByte(r * 255.0f);
-            rgb.G = Convert.ToByte(g * 255.0f);
-            rgb.B = Convert.ToByte(b * 255.0f);
+            rgb.R = Convert.ToByte(r * 255);
+            rgb.G = Convert.ToByte(g * 255);
+            rgb.B = Convert.ToByte(b * 255);
             return rgb;
         }
 
