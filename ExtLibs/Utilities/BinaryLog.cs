@@ -450,21 +450,22 @@ namespace MissionPlanner.Utilities
         
         private object[] ProcessMessageObjects(byte[] message, string name, string format)
         {
-            char[] form = format.ToCharArray();
-
             int offset = 0;
 
-            List<object> answer = new List<object>();
+            object[] answer = new object[format.Length + 1];
 
-            answer.Add(name);
+            answer[0] = name;
 
-            foreach (char ch in form)
+            int a = 1;
+
+            foreach (char ch in format)
             {
                 var temp = GetObjectFromMessage(ch, message, offset);
-                answer.Add(temp.item);
+                answer[a] = temp.item;
                 offset += temp.size;
+                a++;
             }
-            return answer.ToArray();
+            return answer;
         }
 
         public (object item, int size) GetObjectFromMessage(char type, byte[] message, int offset)
@@ -532,7 +533,7 @@ namespace MissionPlanner.Utilities
                     return (Encoding.ASCII.GetString(message, offset, 64).Trim('\0'), 64);
 
                 case 'a':
-                    return (new UnionArray(message.Skip(offset).Take(64).ToArray()), 2 * 32);
+                    return (new UnionArray(new ReadOnlySpan<byte>(message, offset, 64).ToArray()), 2 * 32);
 
                 default:
                     return (null, 0);

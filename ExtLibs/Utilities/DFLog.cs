@@ -50,10 +50,18 @@ namespace MissionPlanner.Utilities
                 }
             }
 
+            private static Dictionary<int, int> instanceCache = new Dictionary<int, int>();
             public string instance
             {
                 get
                 {
+                    // double access save
+                    if (_instance != null)
+                        return _instance;
+                    // field offset save
+                    if (instanceCache.ContainsKey(msgtype.GetHashCode()))
+                        return raw[instanceCache[msgtype.GetHashCode()]].ToString();
+
                     var typeno = parent.logformat[msgtype].Id;
 
                     if (!parent._dfLogBuffer.InstanceType.ContainsKey(typeno))
@@ -62,7 +70,9 @@ namespace MissionPlanner.Utilities
                     var unittypes = parent._dfLogBuffer.FMTU[typeno].Item1;
 
                     int colinst = unittypes.IndexOf("#") + 1;
-                    return raw[colinst].ToString();
+                    instanceCache[msgtype.GetHashCode()] = colinst;
+                    _instance = raw[colinst].ToString();
+                    return _instance;
                 }
             }
 
@@ -135,6 +145,7 @@ namespace MissionPlanner.Utilities
             }
 
             public DFLog parent;
+            private string _instance;
 
             public DFItem(DFLog _parent, object[] _answer, int lineno) : this()
             {
@@ -667,10 +678,15 @@ namespace MissionPlanner.Utilities
             return basetime.ToLocalTime();
         }
 
+        Dictionary<int, int> msgoffsetcache = new Dictionary<int, int>();
+
         public int FindMessageOffset(string linetype, string find)
         {
             if (linetype == null || find == null)
                 return -1;
+
+            if (msgoffsetcache.ContainsKey(linetype.GetHashCode() ^ find.GetHashCode()))
+                return msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()];
 
             if (logformat.ContainsKey(linetype.ToUpper()))
             {
@@ -678,7 +694,8 @@ namespace MissionPlanner.Utilities
                 if (ans == -1)
                     return -1;
                 // + type
-                return ans + 1;
+                msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()] = ans + 1;
+                return msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()];
             }
 
             return -1;

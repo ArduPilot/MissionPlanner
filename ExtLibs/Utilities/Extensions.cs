@@ -174,6 +174,14 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// this could be unsafe
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static Span<T> AsSpan<T>(this List<T> list) => list is null ? default : new Span<T>((T[])list.GetPropertyOrFieldPrivate("_items"), 0, (int)list.GetPropertyOrFieldPrivate("_size"));
+
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
         {
             while (source.Any())
