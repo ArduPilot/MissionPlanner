@@ -201,11 +201,15 @@ namespace MissionPlanner.Utilities
                         if (ProjectedCSTypeGeoKey > 32700)
                         {
                             UTMZone = (ProjectedCSTypeGeoKey - 32700) * -1;
+                            //tl
                             var pnt = PointLatLngAlt.FromUTM(UTMZone, x, y);
+                            //br
                             var pnt2 = PointLatLngAlt.FromUTM(UTMZone, x + width * xscale,
-                                y + height * yscale);
+                                y - height * yscale);
+                            //tr
                             var pnt3 = PointLatLngAlt.FromUTM(UTMZone, x + width * xscale, y);
-                            var pnt4 = PointLatLngAlt.FromUTM(UTMZone, x, y + height * yscale);
+                            //bl
+                            var pnt4 = PointLatLngAlt.FromUTM(UTMZone, x, y - height * yscale);
 
                             ymin = Math.Min(Math.Min(Math.Min(pnt.Lat, pnt2.Lat), pnt3.Lat), pnt4.Lat);
                             xmin = Math.Min(Math.Min(Math.Min(pnt.Lng, pnt2.Lng), pnt3.Lng), pnt4.Lng);
