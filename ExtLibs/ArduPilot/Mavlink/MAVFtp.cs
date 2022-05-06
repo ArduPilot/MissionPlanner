@@ -542,7 +542,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             kRspNak
         };
 
-        public MemoryStream GetFile(string file, CancellationTokenSource cancel, bool burst = true, byte readsize = 0)
+        public MemoryStream GetFile(string file, CancellationTokenSource cancel, bool burst = true, byte readsize = 239)
         {
             log.InfoFormat("GetFile {0}-{1} {2}", _sysid, _compid, file);
             Progress?.Invoke("Opening file " + file, -1);
@@ -667,7 +667,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
-        public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 0)
+        public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 239)
         {
             RetryTimeout timeout = new RetryTimeout();
             fileTransferProtocol.target_system = _sysid;
@@ -1377,7 +1377,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
-        public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 0)
+        public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 239)
         {
             RetryTimeout timeout = new RetryTimeout();
             KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub;
