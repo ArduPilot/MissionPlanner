@@ -188,8 +188,11 @@ namespace MissionPlanner.Maps
 
                                 imageDataCenter = center;
                                 var tl = gMapControl1.FromLocalToLatLng(-extend / 2, -extend / 2);
-                                var rb = gMapControl1.FromLocalToLatLng(width + extend / 2,
-                                    height + extend / 2);
+                                // FromLocalToLatLng trims off anything out of bounds, this handles that
+                                var tloffset = gMapControl1.FromLatLngToLocal(tl);
+
+                                var rb = gMapControl1.FromLocalToLatLng((int)tloffset.X + width + extend, (int)tloffset.Y + height + extend);
+
                                 imageDataRect = RectLatLng.FromLTRB(tl.Lng, tl.Lat, rb.Lng, rb.Lat);
 
                                 CancellationTokenSource cts = new CancellationTokenSource();
@@ -209,7 +212,7 @@ namespace MissionPlanner.Maps
                                         for (var x = res / 2; x < width + extend - res; x += res)
                                         {
                                             if (cts.IsCancellationRequested) return;
-                                            var lnglat = gMapControl1.FromLocalToLatLng(x - extend / 2, y - extend / 2);
+                                            var lnglat = gMapControl1.FromLocalToLatLng((int)tloffset.X + x, (int)tloffset.Y + y);
                                             var altresponce = srtm.getAltitude(lnglat.Lat, lnglat.Lng, zoom);
                                             if (altresponce != srtm.altresponce.Invalid &&
                                                 altresponce != srtm.altresponce.Ocean && altresponce.alt != 0)
