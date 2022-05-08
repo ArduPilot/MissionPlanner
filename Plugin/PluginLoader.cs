@@ -243,7 +243,8 @@ namespace MissionPlanner.Plugin
                         var ans = CodeGenRoslyn.BuildCode(csFile);
 
                         if (CodeGenRoslyn.lasterror != "")
-                            ErrorInfo[csFile] = CodeGenRoslyn.lasterror;
+                            lock(ErrorInfo)
+                                ErrorInfo[csFile] = CodeGenRoslyn.lasterror;
 
                         InitPlugin(ans, Path.GetFileName(csFile));
 
@@ -270,7 +271,8 @@ namespace MissionPlanner.Plugin
                         var results = CodeGen.CompileCodeFile(compiler, parms, csFile);
 
                         if (CodeGenRoslyn.lasterror != "")
-                            ErrorInfo[csFile] = CodeGen.lasterror;
+                            lock (ErrorInfo)
+                                ErrorInfo[csFile] = CodeGen.lasterror;
 
                         InitPlugin(results?.CompiledAssembly, Path.GetFileName(csFile));
 
