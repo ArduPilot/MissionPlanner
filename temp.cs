@@ -952,18 +952,29 @@ namespace MissionPlanner
         {
             UserControl ctl = new UserControl() { Width = 1100, AutoSize = true };
 
+            FlowLayoutPanel flp = new FlowLayoutPanel() { Dock = DockStyle.Fill };
+            var lbl2 = new Label() { Text = "Click on line to zoom to it", AutoSize = true };
+            flp.Controls.Add(lbl2);
             string line = "";
 
             foreach (var item in GeoTiff.index)
             {
                 //log.InfoFormat("Start Point ({0},{1},{2}) --> ({3},{4},{5})", item.i, item.j, item.k, item.x, item.y, item.z);
 
-                line += String.Format("{0} = {1} = {2}*{3} {4}\n", item.FileName, item.Area, item.width, item.height, item.bits,
+                line = String.Format("{0} = {1} = {2}*{3} {4}\n", item.FileName, item.Area, item.width, item.height, item.bits,
                     item.xscale, item.yscale, item.zscale);
+
+                var lbl = new Label() { Text = line, AutoSize = true};
+                lbl.Click += (o, args) =>
+                {
+                    FlightData.instance.gMapControl1.SetZoomToFitRect(item.Area);
+                    FlightPlanner.instance.MainMap.SetZoomToFitRect(item.Area);
+                };
+                flp.Controls.Add(lbl);
             }
 
-            ctl.Controls.Add(new Label() { Text = line, AutoSize = true, Location = new Point(0, 30) });
-            var butt = new MyButton() { Text = "Open DEM Dir" };
+            ctl.Controls.Add(flp);
+            var butt = new MyButton() { Text = "Open DEM Dir", Dock = DockStyle.Top };
             butt.Click += (a, ev) =>
             {
                 System.Diagnostics.Process.Start(@"C:\ProgramData\Mission Planner\srtm\");
