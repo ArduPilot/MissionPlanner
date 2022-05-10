@@ -611,22 +611,23 @@ namespace MissionPlanner.Utilities
                             else
                             {
                                 //log.Info("read scanline " + x);
-                                scanline = new byte[geotiffdata.Tiff.ScanlineSize()];
 
                                 //RowsPerStrip
                                 //http://www.libtiff.org/man/TIFFReadScanline.3t.html   
                                 var rps = geotiffdata.Tiff.GetField(TiffTag.ROWSPERSTRIP);
                                 if (rps != null && rps.Length > 0 &&  (int)rps[0].Value > 1)
-                                {
+                                {                                    
                                     var start = x - (x % (int)rps[0].Value);
                                     for (int i = start; i < start + (int)rps[0].Value; i++)
                                     {
+                                        scanline = new byte[geotiffdata.Tiff.ScanlineSize()];
                                         geotiffdata.Tiff.ReadScanline(scanline, i);
                                         AddToCache(geotiffdata, i, scanline);
                                     }
                                 }
                                 else
                                 {
+                                    scanline = new byte[geotiffdata.Tiff.ScanlineSize()];
                                     geotiffdata.Tiff.ReadScanline(scanline, x);
                                     AddToCache(geotiffdata, x, scanline);
                                 }
