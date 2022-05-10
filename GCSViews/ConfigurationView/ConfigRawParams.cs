@@ -597,7 +597,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (paramfiles == null)
                 {
-                    paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/", ".param");
+                    string subdir = "";
+                    if (MainV2.comPort.MAV.param.ContainsKey("Q_ENABLE") &&
+                        MainV2.comPort.MAV.param["Q_ENABLE"].Value >= 1.0)
+                    {
+                        subdir = "QuadPlanes/";
+                    }
+                    paramfiles = GitHubContent.GetDirContent("ardupilot", "ardupilot", "/Tools/Frame_params/" + subdir, ".param");
                 }
 
                 BeginInvoke((Action)delegate
