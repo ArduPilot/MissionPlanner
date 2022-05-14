@@ -6,7 +6,7 @@
     <NoWarn>1701;1702;NU1605</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <ProjectReference Include="..\MavlinkMessagePlugin\MavlinkMessagePlugin.csproj" />
     <ProjectReference Include="..\Mavlink\MAVLink.csproj" />
   </ItemGroup>

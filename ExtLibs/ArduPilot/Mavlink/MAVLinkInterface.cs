@@ -1349,6 +1349,29 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             }
         }
 
+        public bool Write(byte[] packet)
+        {
+            lock (objlock)
+            {
+                if (BaseStream.IsOpen)
+                {
+                    BaseStream.Write(packet, 0, packet.Length);
+                    _bytesSentSubj.OnNext(packet.Length);
+                }
+
+                try
+                {
+                    SaveToTlog(new Span<byte>(packet, 0, packet.Length));
+
+                    _OnPacketSent?.Invoke(this, new MAVLinkMessage(packet));
+                }
+                catch
+                {
+                }
+            }
+            return true;
+        }
+
         public bool Write(string line)
         {
             lock (objlock)
