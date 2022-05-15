@@ -176,6 +176,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void LookForPort(APFirmware.MAV_TYPE mavtype, bool alloptions = false)
         {
             var ports = Win32DeviceMgmt.GetAllCOMPorts();
+            ports.AddRange(Linux.GetAllCOMPorts());
 
             if (ExtraDeviceInfo != null)
             {
@@ -430,6 +431,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         else
                         {
                             var ports = Win32DeviceMgmt.GetAllCOMPorts();
+                            ports.AddRange(Linux.GetAllCOMPorts());
 
                             if (ExtraDeviceInfo != null)
                             {

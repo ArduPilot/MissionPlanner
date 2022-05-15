@@ -424,7 +424,10 @@ namespace MissionPlanner.Utilities
                                         case "xml":
                                             break;
                                         default:
-                                            config[xmlreader.Name] = xmlreader.ReadString();
+                                            var key = xmlreader.Name;
+                                            if (key.Contains("____"))
+                                                key = key.Replace("____", "/");
+                                            config[key] = xmlreader.ReadString();
                                             break;
                                     }
                                 }
@@ -492,10 +495,14 @@ namespace MissionPlanner.Utilities
 
                 xmlwriter.WriteStartElement("Config");
 
-                foreach (string key in config.Keys.OrderBy(a=>a))
+                foreach (string key2 in config.Keys.OrderBy(a=>a))
                 {
+                    var key = key2;
                     try
                     {
+                        if (key.Contains("/"))
+                            key = key.Replace("/", "____");
+
                         if (key == "" || key.Contains("/") || key.Contains(" ")
                             || key.Contains("-") || key.Contains(":")
                             || key.Contains(";") || key.Contains("@")

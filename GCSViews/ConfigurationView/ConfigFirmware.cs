@@ -430,6 +430,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 var ports = Win32DeviceMgmt.GetAllCOMPorts();
+                ports.AddRange(Linux.GetAllCOMPorts());
 
                 if (ExtraDeviceInfo != null)
                 {
@@ -552,6 +553,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         else
                         {
                             var ports = Win32DeviceMgmt.GetAllCOMPorts();
+                            ports.AddRange(Linux.GetAllCOMPorts());
 
                             if (ExtraDeviceInfo != null)
                             {
