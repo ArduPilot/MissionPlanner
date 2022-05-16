@@ -57,10 +57,25 @@ jobs:
           dotnet --list-sdks
           msbuild -v:m -restore  -p:Configuration=Release "ExtLibs\Xamarin\Xamarin.MacOS\Xamarin.MacOS.csproj"
 
+      - name: Package
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          npm install --global create-dmg
+          cd ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/
+          create-dmg 'Mission Planner.app' --dmg-title='Mission Planner'
+          
       - uses: actions/upload-artifact@v2
         with:
           name: osx
           path: |
-            ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/*.pkg
-            ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/*.app
+            ExtLibs/Xamarin/Xamarin.MacOS/bin/Release/*.dmg
 
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        if: ${{ github.event_name == 'push' }}
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "osxlatest"
+          prerelease: true
+          title: "OSX Development Build"
+          files: '**/*.dmg'
