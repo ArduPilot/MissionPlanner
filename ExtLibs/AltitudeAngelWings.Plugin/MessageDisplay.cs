@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using AltitudeAngelWings;
 using AltitudeAngelWings.Service.Messaging;
 using Message = AltitudeAngelWings.Models.Message;
 
-namespace MissionPlanner.Utilities.AltitudeAngel
+namespace AltitudeAngelWings.Plugin
 {
     public class MessageDisplay : IMessageDisplay
     {

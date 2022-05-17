@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace AltitudeAngelWings
 {
@@ -60,6 +62,35 @@ namespace AltitudeAngelWings
                     }
                 }
                 ServiceInstances.Clear();
+            }
+        }
+
+        public static void ConfigureFromAssembly(Assembly assembly)
+        {
+            if (assembly.IsDynamic) return;
+            foreach (var configuration in assembly.GetExportedTypes()
+                 .Where(t => t.IsClass 
+                             && !t.IsAbstract
+                             && typeof(IServiceLocatorConfiguration).IsAssignableFrom(t)
+                             && t.GetConstructors().Any(c => c.IsPublic
+                                                             && c.GetParameters().Length == 0))
+                 .Select(Activator.CreateInstance)
+                 .Cast<IServiceLocatorConfiguration>())
+            {
+                configuration.Configure();
+            }
+        }
+
+        public static void Configure(AppDomain appDomain = null)
+        {
+            if (appDomain == null)
+            {
+                appDomain = AppDomain.CurrentDomain;
+            }
+
+            foreach (var assembly in appDomain.GetAssemblies())
+            {
+                ConfigureFromAssembly(assembly);
             }
         }
     }

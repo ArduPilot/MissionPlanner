@@ -4,13 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Models;
 using AltitudeAngelWings.Extra;
 using AltitudeAngelWings.Models;
+using AltitudeAngelWings.Service.AltitudeAngelTelemetry;
+using AltitudeAngelWings.Service.FlightService;
 using AltitudeAngelWings.Service.Messaging;
 using Flurl.Http;
 using GeoJSON.Net;
@@ -28,6 +29,8 @@ namespace AltitudeAngelWings.Service
         private readonly IMissionPlanner _missionPlanner;
         private readonly CompositeDisposable _disposer = new CompositeDisposable();
         private readonly IAltitudeAngelClient _client;
+        private readonly ITelemetryService _telemetryService;
+        private readonly IFlightService _flightService;
         private readonly ISettings _settings;
         private readonly SemaphoreSlim _processLock = new SemaphoreSlim(1);
 
@@ -40,12 +43,16 @@ namespace AltitudeAngelWings.Service
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
             ISettings settings,
-            IAltitudeAngelClient client)
+            IAltitudeAngelClient client,
+            ITelemetryService telemetryService,
+            IFlightService flightService)
         {
             _messagesService = messagesService;
             _missionPlanner = missionPlanner;
             _settings = settings;
             _client = client;
+            _telemetryService = telemetryService;
+            _flightService = flightService;
 
             IsSignedIn = new ObservableProperty<bool>(false);
             _disposer.Add(IsSignedIn);
@@ -74,6 +81,10 @@ namespace AltitudeAngelWings.Service
 
         public async Task SignInAsync()
         {
+            if (!_settings.CheckEnableAltitudeAngel)
+            {
+                return;
+            }
             try
             {
                 // Load the user's profile, will trigger auth
@@ -102,6 +113,7 @@ namespace AltitudeAngelWings.Service
             if (!IsSignedIn)
             {
                 MapFeatureCache.Clear();
+                await SignInAsync();
             }
 
             if (!map.Enabled)
@@ -312,10 +324,11 @@ namespace AltitudeAngelWings.Service
 
         private void Dispose(bool isDisposing)
         {
-            if (isDisposing)
-            {
-                _disposer?.Dispose();
-            }
+            if (!isDisposing) return;
+            _telemetryService.Dispose();
+            _flightService.Dispose();
+            _client.Dispose();
+            _disposer?.Dispose();
         }
     }
 }

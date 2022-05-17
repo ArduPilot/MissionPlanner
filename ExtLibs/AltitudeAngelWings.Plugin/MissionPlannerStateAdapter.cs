@@ -1,7 +1,8 @@
 ﻿using System;
 using AltitudeAngelWings.Extra;
+using MissionPlanner;
 
-namespace MissionPlanner.Utilities.AltitudeAngel
+namespace AltitudeAngelWings.Plugin
 {
     internal class MissionPlannerStateAdapter : IMissionPlannerState
     {

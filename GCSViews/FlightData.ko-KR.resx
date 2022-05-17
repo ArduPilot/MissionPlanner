@@ -4210,12 +4210,6 @@
   <data name="onOffCameraOverlapToolStripMenuItem.Text" xml:space="preserve">
     <value>카메라 오버래핑</value>
   </data>
-  <data name="altitudeAngelSettingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 22</value>
-  </data>
-  <data name="altitudeAngelSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Altitude Angel 설정</value>
-  </data>
   <data name="contextMenuStripMap.Size" type="System.Drawing.Size, System.Drawing">
     <value>196, 268</value>
   </data>
@@ -5075,12 +5069,6 @@
     <value>onOffCameraOverlapToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;onOffCameraOverlapToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;altitudeAngelSettingsToolStripMenuItem.Name" xml:space="preserve">
-    <value>altitudeAngelSettingsToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;altitudeAngelSettingsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;bindingSource1.Name" xml:space="preserve">

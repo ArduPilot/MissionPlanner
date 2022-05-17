@@ -1,5 +1,5 @@
 ﻿#if !LIB
-extern alias Drawing;using AltitudeAngelWings;using MissionPlanner.Utilities.AltitudeAngel;
+extern alias Drawing;
 #endif
 
 using GMap.NET.WindowsForms;
@@ -2079,9 +2079,6 @@ namespace MissionPlanner
 
             log.Info("close logs");
 
-#if !LIB
-            AltitudeAngel.Dispose();
-#endif
             // close bases connection
             try
             {
@@ -3611,26 +3608,6 @@ namespace MissionPlanner
                     catch { }
                 }
             };
-
-            try
-            {
-                if (!MONO)
-                {
-#if !LIB
-                    log.Info("Load AltitudeAngel");
-                    _ = AltitudeAngel.Initialize();
-                    log.Info("Load AltitudeAngel... Done");
-#endif
-                }
-            }
-            catch (TypeInitializationException) // windows xp lacking patch level
-            {
-                //CustomMessageBox.Show("Please update your .net version. kb2468871");
-            }
-            catch (Exception ex)
-            {
-                Tracking.AddException(ex);
-            }
 
             this.ResumeLayout();
 

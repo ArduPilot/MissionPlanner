@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Forms;
-using AltitudeAngelWings;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.Extra;
+using AltitudeAngelWings.Plugin.Properties;
 using AltitudeAngelWings.Service;
+using MissionPlanner;
+using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Utilities.AltitudeAngel
+namespace AltitudeAngelWings.Plugin
 {
     internal partial class AASettings : Form
     {
@@ -36,7 +39,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             _missionPlanner.FlightPlanningMap.MapChanged.ObserveOn(MainV2.instance).Subscribe(OnMapChanged);
 
             ThemeManager.ApplyThemeTo(this);
-            pic_AboutLogo.Image = Image.FromStream(AltitudeAngelPlugin.Resources.Logo);
+            pic_AboutLogo.Image = Image.FromStream(new MemoryStream(Resources.AALogo));
 
             // load settings
             chk_FlightReportEnable.Checked = _settings.FlightReportEnable;
@@ -66,10 +69,20 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             txt_IcaoAddress.Text = _settings.FlightIdentifierIcaoAddress;
             chk_SerialNumber.Checked = _settings.FlightIdentifierSerial;
             txt_SerialNumber.Text = _settings.FlightIdentifierSerialNumber;
-            web_About.DocumentText =
-                "<html><body><h1>Mission Planner</h1><h2>Altitude Angel</h2><p>These Mission Planner extensions enable use of Mission Planner with Altitude Angel's GuardianUTM platform.</p></body></html>";
+            web_About.DocumentText = Resources.About;
 
             RefreshControlStates();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            if (Owner != null)
+            {
+                Location = new Point(
+                    Owner.Location.X + Owner.Width / 2 - Width / 2,
+                    Owner.Location.Y + Owner.Height / 2 - Height / 2);
+            }
+            base.OnLoad(e);
         }
 
         private void but_SignIn_Click(object sender, EventArgs e)

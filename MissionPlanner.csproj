@@ -126,10 +126,6 @@
       <Project>{b994d8d2-c052-4616-9d20-386640c7387f}</Project>
       <Name>alglibnet</Name>
     </ProjectReference>
-    <ProjectReference Include="ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj">
-      <Project>{098f542c-7c70-4b9c-b2e2-ac5dc5e0294b}</Project>
-      <Name>AltitudeAngelWings</Name>
-    </ProjectReference>
     <ProjectReference Include="ExtLibs\Antenna\MissionPlanner.Antenna.csproj">
       <Project>{94836116-0CD5-4EA9-8049-447FEA886406}</Project>
       <Name>MissionPlanner.Antenna</Name>
@@ -731,7 +727,6 @@
     <Compile Include="test\FirmwareSelection.xaml.cs">
       <DependentUpon>FirmwareSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\AltitudeAngel\MissionPlannerStateAdapter.cs" />
     <Compile Include="Utilities\NativeLibrary.cs" />
     <Compile Include="Utilities\OsdTuningSlotProvider.cs" />
     <Compile Include="Utilities\Speech.cs" />
@@ -1330,16 +1325,6 @@
     <Compile Include="Utilities\GStreamerUI.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Utilities\Win32DeviceMgnt.cs" />
-    <Compile Include="Utilities\AltitudeAngel\AASettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utilities\AltitudeAngel\AltitudeAngel.cs" />
-    <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
-    <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdapter.cs" />
-    <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
-    <Compile Include="Utilities\AltitudeAngel\MapInfoDockPanel.cs" />
-    <Compile Include="Utilities\AltitudeAngel\MessageDisplay.cs" />
-    <Compile Include="Utilities\AltitudeAngel\WpfAuthorizeDisplay.cs" />
     <Compile Include="Utilities\XMLColor.cs" />
     <Compile Include="Warnings\WarningControl.cs">
       <SubType>UserControl</SubType>
@@ -1648,9 +1633,6 @@
     </Compile>
     <Compile Include="Controls\fftui.Designer.cs">
       <DependentUpon>fftui.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\AltitudeAngel\AASettings.Designer.cs">
-      <DependentUpon>AASettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Warnings\WarningsManager.Designer.cs">
       <DependentUpon>WarningsManager.cs</DependentUpon>
@@ -2313,6 +2295,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.az-Latn-AZ.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.de-DE.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
@@ -2334,15 +2317,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ko-KR.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.pl.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.pt.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ru-KZ.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ru-RU.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
@@ -3892,15 +3878,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.ar.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.az-Latn-AZ.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.de-DE.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.fr.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
@@ -3916,9 +3905,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.ko-KR.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.pt.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.ru-KZ.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
@@ -4585,9 +4576,6 @@
     <EmbeddedResource Include="Controls\fftui.resx">
       <DependentUpon>fftui.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utilities\AltitudeAngel\AASettings.resx">
-      <DependentUpon>AASettings.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Warnings\WarningControl.resx">
       <DependentUpon>WarningControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -4991,6 +4979,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(ProjectDir)\ExtLibs\System.IO.Compression.dll $(ProjectDir)$(OutDir)</PostBuildEvent>

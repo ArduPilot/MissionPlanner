@@ -1,9 +1,7 @@
-﻿using System;
-using GeoJSON.Net.Feature;
+﻿using GeoJSON.Net.Feature;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json.Linq;
 
 namespace AltitudeAngelWings.ApiClient.Client
@@ -52,6 +50,10 @@ namespace AltitudeAngelWings.ApiClient.Client
                 if (change.Update == null)
                 {
                     filterInfoToUpdate.Add(change.Item);
+                    if (change.Item.Name == "Airspace")
+                    {
+                        change.Item.Visible = false;
+                    }
                 }
                 else
                 {
@@ -61,7 +63,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                     change.Update.Property = change.Item.Property;
                     if (resetFilters)
                     {
-                        change.Update.Visible = change.Item.Visible;
+                        change.Update.Visible = change.Item.Name != "Airspace" && change.Item.Visible;
                     }
                 }
             }
@@ -69,70 +71,5 @@ namespace AltitudeAngelWings.ApiClient.Client
 
         public static DisplayInfo GetDisplayInfo(this Feature feature)
             => JsonConvert.DeserializeObject<DisplayInfo>(feature.Properties["display"].ToString());
-
-        public static string GetMapInfoMessage(this DisplayInfo displayInfo, int wrapPoint = 60, ICollection<char> whitespaceChars = null)
-        {
-            if (whitespaceChars == null)
-            {
-                whitespaceChars = DefaultWhitespaceChars;
-            }
-
-            var builder = new StringBuilder();
-            builder.AppendLine(displayInfo.DetailedCategory);
-            builder.AppendLine(displayInfo.Title);
-            builder.AppendLine();
-            foreach (var section in displayInfo.Sections)
-            {
-                builder.AppendLine(section.DisplayTitle);
-                builder.AppendLine(section.Text);
-                builder.AppendLine();
-            }
-
-            WrapText(builder, wrapPoint, whitespaceChars);
-            return builder.ToString().Trim(whitespaceChars.ToArray());
-        }
-
-        private static void WrapText(StringBuilder builder, int wrap, ICollection<char> whitespaceChars)
-        {
-            var pos = wrap;
-            while (pos < builder.Length)
-            {
-                var closest = FindClosest(builder, pos, whitespaceChars);
-                if (closest < 0)
-                {
-                    break;
-                }
-
-                builder.Insert(closest, Environment.NewLine);
-                closest += Environment.NewLine.Length;
-                builder.Remove(closest, 1);
-                pos = closest + wrap;
-            }
-        }
-
-        private static int FindClosest(StringBuilder builder, int pos, ICollection<char> options)
-        {
-            if (options.Contains(builder[pos]))
-            {
-                return pos;
-            }
-
-            var offset = 1;
-            while (pos - offset > 0 && pos + offset < builder.Length)
-            {
-                if (options.Contains(builder[pos - offset]))
-                {
-                    return pos - offset;
-                }
-                if (options.Contains(builder[pos + offset]))
-                {
-                    return pos + offset;
-                }
-
-                offset++;
-            }
-
-            return -1;
-        }
     }
 }

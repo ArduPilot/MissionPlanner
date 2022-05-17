@@ -1,15 +1,15 @@
-using AltitudeAngelWings.Extra;
-using GeoJSON.Net.Feature;
-using GMap.NET;
-using GMap.NET.WindowsForms;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using AltitudeAngelWings.ApiClient.Models;
+using AltitudeAngelWings.Extra;
+using GeoJSON.Net.Feature;
+using GMap.NET;
+using GMap.NET.WindowsForms;
 
-namespace MissionPlanner.Utilities.AltitudeAngel
+namespace AltitudeAngelWings.Plugin
 {
     internal class OverlayAdapter : IOverlay
     {

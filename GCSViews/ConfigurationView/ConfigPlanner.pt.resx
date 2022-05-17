@@ -216,9 +216,6 @@
   <data name="CHK_mavdebug.Text" xml:space="preserve">
     <value>Debugar Mensagem Mavlink</value>
   </data>
-  <data name="but_AAsignin.Text" xml:space="preserve">
-    <value>AnguloAltitude</value>
-  </data>
   <data name="chk_temp.Text" xml:space="preserve">
     <value>Tela de teste</value>
   </data>

@@ -1,10 +1,9 @@
-﻿using AltitudeAngelWings.ApiClient.Client;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AltitudeAngelWings;
+using AltitudeAngelWings.ApiClient.Client;
 
-namespace MissionPlanner.Utilities.AltitudeAngel
+namespace AltitudeAngelWings.Plugin
 {
     /// <summary>
     ///     Provides auth code URIs from an auth URI.
@@ -12,14 +11,16 @@ namespace MissionPlanner.Utilities.AltitudeAngel
     public class WpfAuthorizeDisplay : IAuthorizeCodeProvider
     {
         private readonly IUiThreadInvoke _invoke;
+        private readonly IWin32Window _owner;
         private readonly int _width;
         private readonly int _height;
         private Uri _result;
         private Action _close = () => { };
 
-        public WpfAuthorizeDisplay(IUiThreadInvoke invoke, int width = 800, int height = 600)
+        public WpfAuthorizeDisplay(IUiThreadInvoke invoke, IWin32Window owner = null, int width = 800, int height = 600)
         {
             _invoke = invoke;
+            _owner = owner;
             _width = width;
             _height = height;
         }
@@ -32,6 +33,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                     _result = redirectUri;
                     // ReSharper disable once AccessToDisposedClosure
                     _close = () => form.Close();
+                    form.StartPosition = FormStartPosition.CenterParent;
                     form.Width = _width;
                     form.Height = _height;
                     var webBrowser = new WebBrowser();
@@ -40,7 +42,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                     webBrowser.Dock = DockStyle.Fill;
                     form.Controls.Add(webBrowser);
                     webBrowser.Navigate(authorizeUri);
-                    form.ShowDialog();
+                    form.ShowDialog(_owner);
                     return _result;
                 }
             });
