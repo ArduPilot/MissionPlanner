@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Models;
@@ -58,6 +57,10 @@ namespace AltitudeAngelWings.Service.FlightService
 
         private async Task StartTelemetryFlight(FlightPlan flightPlan)
         {
+            if (flightPlan == null)
+            {
+                return;
+            }
             if (_settings.CurrentFlightId != null)
             {
                 // Complete flight if starting one before the previous ends.

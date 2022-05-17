@@ -2161,33 +2161,6 @@
   <data name="&gt;&gt;chk_norcreceiver.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="but_AAsignin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="but_AAsignin.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 474</value>
-  </data>
-  <data name="but_AAsignin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 20</value>
-  </data>
-  <data name="but_AAsignin.TabIndex" type="System.Int32, mscorlib">
-    <value>112</value>
-  </data>
-  <data name="but_AAsignin.Text" xml:space="preserve">
-    <value>AltitudeAngel</value>
-  </data>
-  <data name="&gt;&gt;but_AAsignin.Name" xml:space="preserve">
-    <value>but_AAsignin</value>
-  </data>
-  <data name="&gt;&gt;but_AAsignin.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;but_AAsignin.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;but_AAsignin.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
   <data name="CMB_Layout.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 421</value>
   </data>

@@ -213,9 +213,6 @@
   <data name="CHK_mavdebug.Text" xml:space="preserve">
     <value>Mavlink Meldungen Debug</value>
   </data>
-  <data name="but_AAsignin.Text" xml:space="preserve">
-    <value>Höhenwinkel</value>
-  </data>
   <data name="chk_temp.Text" xml:space="preserve">
     <value>Testbildschirm</value>
   </data>

@@ -95,7 +95,6 @@
             this.chk_tfr = new System.Windows.Forms.CheckBox();
             this.chk_temp = new System.Windows.Forms.CheckBox();
             this.chk_norcreceiver = new System.Windows.Forms.CheckBox();
-            this.but_AAsignin = new MissionPlanner.Controls.MyButton();
             this.CMB_Layout = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.CHK_AutoParamCommit = new System.Windows.Forms.CheckBox();
@@ -645,13 +644,6 @@
             this.chk_norcreceiver.UseVisualStyleBackColor = true;
             this.chk_norcreceiver.CheckedChanged += new System.EventHandler(this.chk_norcreceiver_CheckedChanged);
             // 
-            // but_AAsignin
-            // 
-            resources.ApplyResources(this.but_AAsignin, "but_AAsignin");
-            this.but_AAsignin.Name = "but_AAsignin";
-            this.but_AAsignin.UseVisualStyleBackColor = true;
-            this.but_AAsignin.Click += new System.EventHandler(this.but_AAsignin_Click);
-            // 
             // CMB_Layout
             // 
             this.CMB_Layout.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -757,7 +749,6 @@
             this.Controls.Add(this.CHK_AutoParamCommit);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CMB_Layout);
-            this.Controls.Add(this.but_AAsignin);
             this.Controls.Add(this.chk_norcreceiver);
             this.Controls.Add(this.chk_temp);
             this.Controls.Add(this.chk_tfr);
@@ -901,7 +892,6 @@
         private System.Windows.Forms.CheckBox chk_tfr;
         private System.Windows.Forms.CheckBox chk_temp;
         private System.Windows.Forms.CheckBox chk_norcreceiver;
-        private Controls.MyButton but_AAsignin;
         public System.Windows.Forms.ComboBox CMB_Layout;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox CHK_AutoParamCommit;

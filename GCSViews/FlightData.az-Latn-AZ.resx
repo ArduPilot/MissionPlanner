@@ -240,9 +240,6 @@
   <data name="Zoomlevel.ToolTip" xml:space="preserve">
     <value>Yaxınlaşdırma səviyyəsini dəyiş</value>
   </data>
-  <data name="altitudeAngelSettingsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Hündürlük bucaq tənzimlə</value>
-  </data>
   <data name="but_disablejoystick.Text" xml:space="preserve">
     <value>Joystick Deaktiv et </value>
   </data>

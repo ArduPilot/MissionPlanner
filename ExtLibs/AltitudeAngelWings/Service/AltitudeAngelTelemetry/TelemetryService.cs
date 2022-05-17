@@ -5,7 +5,6 @@ using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
 using System;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace AltitudeAngelWings.Service.AltitudeAngelTelemetry

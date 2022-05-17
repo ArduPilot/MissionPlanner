@@ -23,7 +23,7 @@ namespace AltitudeAngelWings.Service
 
         public bool CheckEnableAltitudeAngel
         {
-            get => Get(nameof(CheckEnableAltitudeAngel), false, bool.Parse);
+            get => Get(nameof(CheckEnableAltitudeAngel), true, bool.Parse);
             set => Set(nameof(CheckEnableAltitudeAngel), value);
         }
 
