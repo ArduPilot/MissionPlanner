@@ -2666,7 +2666,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     if (retrys > 0)
                     {
                         log.Info("doCommandIntAsync Retry " + retrys);
-                        generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+                        generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
                         start = DateTime.Now;
                         retrys--;
                         continue;
