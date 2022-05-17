@@ -1,5 +1,6 @@
 ﻿using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
+using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,9 @@ namespace MissionPlanner
             {
                 engine.Runtime.LoadAssembly(ass);
             }
+            scope.SetVariable("MainV2", MainV2.instance);
+            scope.SetVariable("FlightPlanner", FlightPlanner.instance);
+            scope.SetVariable("FlightData", FlightData.instance);
             scope.SetVariable("Ports", MainV2.Comports);
             scope.SetVariable("MAV", MainV2.comPort);
             scope.SetVariable("cs", MainV2.comPort.MAV.cs);
