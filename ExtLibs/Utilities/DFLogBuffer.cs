@@ -515,9 +515,15 @@ namespace MissionPlanner.Utilities
             if(types.Length > 1)
                 slist.Sort();
 
+            int progress = DateTime.Now.Second;
             // work through list of lines
             foreach (var l in slist)
             {
+                if (DateTime.Now.Second != progress)
+                {
+                    Console.WriteLine(l);
+                    progress = DateTime.Now.Second;
+                }
                 var ans = this[(long) l];
                 var inst = instances[ans.msgtype];
                 // instance was requested, and its not a match

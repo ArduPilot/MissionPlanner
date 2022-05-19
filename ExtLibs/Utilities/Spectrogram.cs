@@ -155,28 +155,15 @@ namespace MissionPlanner.Utilities
                 log.Debug(type);
                 if (cb.dflog.FindMessageOffset(acc1data[0].msgtype, "TimeUS") == -1)
                     timeus = "SampleUS";
-                var firstsample = acc1data.Skip(N).Take(N);
-                var samplemin = double.Parse(firstsample.Min(a => a[timeus]));
-                var samplemax = double.Parse(firstsample.Max(a => a[timeus]));
 
-                log.Debug("samplemin " + samplemin + " samplemax " + samplemax);
-
-                var timedelta = samplemin - samplemax;
-
-                log.Debug(" timedelta " + timedelta);
-
-                var freqt = fft.FreqTable(N, (int) (1000 / (N / timedelta)));
-
-                // time , freq , [color] &freqcount
-
-                double lasttime = 0;
                 int totalsamples = acc1data.Count();
                 int count = totalsamples / N;
                 int done = 0;
+                double timedelta = 0;
                 // 50% overlap
                 int divisor = 4;
                 count *= divisor;
-                var img = new Image<Rgba32>(count, freqt.Length);
+                var img = new Image<Rgba32>(count, N / 2);
                 log.Debug("done and count ");
                 while (count > 1) // skip last part
                 {
@@ -191,25 +178,27 @@ namespace MissionPlanner.Utilities
                     }
 
                     var timeusvalue = double.MaxValue;
+                    var timeusvalueend = double.MinValue;
                     var data = new double[N];
                     int c = 0;
                     foreach (var a in fftdata)
                     {
-                        timeusvalue = Math.Min(timeusvalue, Convert.ToDouble(a.GetRaw(timeus)));
+                        var time = Convert.ToDouble(a.GetRaw(timeus));
+                        timeusvalue = Math.Min(timeusvalue, time);
+                        timeusvalueend = Math.Max(timeusvalueend, time);
                         data[c++] = Convert.ToDouble(a.GetRaw(field));
                     }
 
-                    timedelta = timedelta * 0.99 + (timeusvalue - lasttime) * 0.01;
-                    lasttime = timeusvalue;
+                    timedelta = timedelta * 0.99 + ((timeusvalueend - timeusvalue)) * 0.01;
 
                     var fftanswerz = fft.rin(data, (uint)bins);
 
                     allfftdata.Add((timeusvalue, fftanswerz));
 
                     var i = 0;
-                    foreach (var y in freqt) 
+                    foreach (var y in Enumerable.Range(0, N/2))
                     {
-                        img[done, (freqt.Length - 1) - i] = GetColor(fftanswerz[i], min, max);
+                        img[done, ((N / 2) - 1) - i] = GetColor(fftanswerz[i], min, max);
                         i++;
                     }
 
@@ -217,7 +206,9 @@ namespace MissionPlanner.Utilities
                     done++;
                 }
 
-                freqtout = fft.FreqTable(N, (int) (1.0 / (N / (timedelta * divisor))));
+                // 1s / (1/ (N/delta))
+                var sample_rate = (int)(1000000 / (1.0 / (N / (timedelta))));
+                freqtout = fft.FreqTable(N, sample_rate);
 
                 return img;
             }
