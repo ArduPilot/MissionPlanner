@@ -1,4 +1,5 @@
-﻿using GMap.NET;
+﻿using GeoJSON.Net;
+using GMap.NET;
 using GMap.NET.WindowsForms;
 using Ionic.Zip;
 using MissionPlanner.Utilities;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace MissionPlanner.NoFly
 {
@@ -55,6 +57,51 @@ namespace MissionPlanner.NoFly
                 catch
                 {
                 }
+            }
+
+            try
+            {
+                Utilities.nfz.HK.ConfirmNoFly += () => 
+                { 
+                    return CustomMessageBox.Show("Show Hong Kong No fly zones?", "NoFly Zones", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
+                };
+
+                var nfzinfo = Utilities.nfz.HK.LoadNFZ().Result;
+
+                if (nfzinfo != null && nfzinfo.Type == GeoJSONObjectType.FeatureCollection)
+                {
+                    foreach (var item in nfzinfo.Features)
+                    {
+                        if (item.Type == GeoJSONObjectType.Feature)
+                        {
+                            if (item.Geometry.Type == GeoJSONObjectType.Polygon)
+                            {
+                                var poly = (GeoJSON.Net.Geometry.Polygon)item.Geometry;
+                                var coordinates =
+                                    poly.Coordinates[0].Coordinates.OfType<GeoJSON.Net.Geometry.Position>()
+                                        .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                        .ToList();
+
+                                var name = item.Properties["name"];
+                                var desc = item.Properties["description"];
+
+                                GMapPolygon nfzpolygon = new GMapPolygon(coordinates, "kmlpolygon");
+
+                                nfzpolygon.Stroke.Color = Color.Purple;
+
+                                nfzpolygon.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
+                                MainV2.instance.BeginInvoke(new Action(() =>
+                                {
+                                    kmlpolygonsoverlay.Polygons.Add(nfzpolygon);
+                                }));
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
             }
 
             if (NoFlyEvent != null)
