@@ -59,7 +59,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_slcanmavlink_Click(object sender, EventArgs e)
         {
-            byte bus = 1;
+            StartMavlinkSLCAN(1);
+        }
+
+        private void StartMavlinkSLCAN(int bus = 1) { 
 
             Task.Run(() =>
             {
@@ -67,14 +70,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // send every second, timeout is in 5 seconds
                 while (mavlinkCANRun)
                 {
-                    // setup forwarding on can port 1
-                    var ans = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.CAN_FORWARD, bus, 0, 0, 0, 0, 0, 0);
-
-                    if (ans == false) // MAVLink.MAV_RESULT.UNSUPPORTED)
+                    try
                     {
-                        return;
-                    }
+                        // setup forwarding on can port 1
+                        var ans = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)0, MAVLink.MAV_CMD.CAN_FORWARD, bus, 0, 0, 0, 0, 0, 0, false);
 
+                        if (ans == false) // MAVLink.MAV_RESULT.UNSUPPORTED)
+                        {
+                            //return;
+                        }
+                    }
+                    catch (Exception ex) {  }
                     Thread.Sleep(1000);
                 }
             });
@@ -86,20 +92,33 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
 
                 if (payload.packet_data.Length > 8)
-                    MainV2.comPort.sendPacket(new MAVLink.mavlink_canfd_frame_t(BitConverter.ToUInt32(frame.packet_data, 0),
+                    MainV2.comPort.sendPacket(new MAVLink.mavlink_canfd_frame_t(BitConverter.ToUInt32(frame.packet_data, 0) + 0x80000000,
                             (byte)MainV2.comPort.sysidcurrent,
-                            (byte)MainV2.comPort.compidcurrent, (byte)(bus), (byte)payload.packet_data.Length,
+                            (byte)MainV2.comPort.compidcurrent, (byte)(bus-1), (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
                             payload.packet_data),
                         (byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
                 else
                 {
-                    MainV2.comPort.sendPacket(new MAVLink.mavlink_can_frame_t(BitConverter.ToUInt32(frame.packet_data, 0),
+                    var frame2 = new MAVLink.mavlink_can_frame_t(BitConverter.ToUInt32(frame.packet_data, 0) + 0x80000000,
                             (byte)MainV2.comPort.sysidcurrent,
-                            (byte)MainV2.comPort.compidcurrent, (byte)(bus), (byte)payload.packet_data.Length,
-                            payload.packet_data),
+                            (byte)MainV2.comPort.compidcurrent, (byte)(bus-1), (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
+                            payload.packet_data);
+                    MainV2.comPort.sendPacket(frame2,
                         (byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
+
+                    // local echo
+                    var canfd = false;
+                    var pkt = frame2;
+                    var cf = new CANFrame(BitConverter.GetBytes(pkt.id));
+                    var length = pkt.len;
+                    var payload2 = new CANPayload(pkt.data);
+
+                    var ans2 = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
+                    , payload2.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
+
+                    port.AppendBuffer(ASCIIEncoding.ASCII.GetBytes(ans2));
                 }
             };
 
@@ -127,7 +146,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var cf = new CANFrame(BitConverter.GetBytes(pkt.id));
                     var length = pkt.len;
                     var payload = new CANPayload(pkt.data);
-               
+
                     var ans2 = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
                     , payload.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
 
@@ -762,6 +781,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void menu_updatebeta_Click(object sender, EventArgs e)
         {
             FirmwareUpdate(byte.Parse(myDataGridView1.CurrentRow.Cells[iDDataGridViewTextBoxColumn.Index].Value.ToString()), true);
+        }
+
+        private void but_slcanmode2_2_Click(object sender, EventArgs e)
+        {
+            StartMavlinkSLCAN(2);
         }
     }
 }
