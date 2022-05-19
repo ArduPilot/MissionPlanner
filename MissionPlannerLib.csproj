@@ -23,6 +23,7 @@
     <Compile Remove="APMPlannerXplanes\**" />
     <Compile Remove="ExtLibs\7zip\**" />
     <Compile Remove="ExtLibs\alglibnet\**" />
+    <Compile Remove="ExtLibs\AltitudeAngelWings.Plugin\**" />
     <Compile Remove="ExtLibs\AltitudeAngelWings\**" />
     <Compile Remove="ExtLibs\Antenna\**" />
     <Compile Remove="ExtLibs\Arduino\**" />
@@ -117,6 +118,7 @@
     <EmbeddedResource Remove="APMPlannerXplanes\**" />
     <EmbeddedResource Remove="ExtLibs\7zip\**" />
     <EmbeddedResource Remove="ExtLibs\alglibnet\**" />
+    <EmbeddedResource Remove="ExtLibs\AltitudeAngelWings.Plugin\**" />
     <EmbeddedResource Remove="ExtLibs\AltitudeAngelWings\**" />
     <EmbeddedResource Remove="ExtLibs\Antenna\**" />
     <EmbeddedResource Remove="ExtLibs\Arduino\**" />
@@ -210,6 +212,7 @@
     <None Remove="APMPlannerXplanes\**" />
     <None Remove="ExtLibs\7zip\**" />
     <None Remove="ExtLibs\alglibnet\**" />
+    <None Remove="ExtLibs\AltitudeAngelWings.Plugin\**" />
     <None Remove="ExtLibs\AltitudeAngelWings\**" />
     <None Remove="ExtLibs\Antenna\**" />
     <None Remove="ExtLibs\Arduino\**" />
