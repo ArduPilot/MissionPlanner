@@ -722,6 +722,26 @@ namespace MissionPlanner
         [GroupText("ESC")] public float esc8_rpm { get; set; }
         [GroupText("ESC")] public float esc8_temp { get; set; }
 
+        [GroupText("ESC")] public float esc9_volt { get; set; }
+        [GroupText("ESC")] public float esc9_curr { get; set; }
+        [GroupText("ESC")] public float esc9_rpm { get; set; }
+        [GroupText("ESC")] public float esc9_temp { get; set; }
+
+        [GroupText("ESC")] public float esc10_volt { get; set; }
+        [GroupText("ESC")] public float esc10_curr { get; set; }
+        [GroupText("ESC")] public float esc10_rpm { get; set; }
+        [GroupText("ESC")] public float esc10_temp { get; set; }
+
+        [GroupText("ESC")] public float esc11_volt { get; set; }
+        [GroupText("ESC")] public float esc11_curr { get; set; }
+        [GroupText("ESC")] public float esc11_rpm { get; set; }
+        [GroupText("ESC")] public float esc11_temp { get; set; }
+
+        [GroupText("ESC")] public float esc12_volt { get; set; }
+        [GroupText("ESC")] public float esc12_curr { get; set; }
+        [GroupText("ESC")] public float esc12_rpm { get; set; }
+        [GroupText("ESC")] public float esc12_temp { get; set; }
+
         public float ch3percent
         {
             get
@@ -3179,6 +3199,32 @@ namespace MissionPlanner
                             esc8_curr = esc.current[3] / 100.0f;
                             esc8_rpm = esc.rpm[3];
                             esc8_temp = esc.temperature[3];
+                        }
+
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ESC_TELEMETRY_9_TO_12:
+
+                        {
+                            var esc = mavLinkMessage.ToStructure<MAVLink.mavlink_esc_telemetry_9_to_12_t>();
+                            esc9_volt = esc.voltage[0] / 100.0f;
+                            esc9_curr = esc.current[0] / 100.0f;
+                            esc9_rpm = esc.rpm[0];
+                            esc9_temp = esc.temperature[0];
+
+                            esc10_volt = esc.voltage[1] / 100.0f;
+                            esc10_curr = esc.current[1] / 100.0f;
+                            esc10_rpm = esc.rpm[1];
+                            esc10_temp = esc.temperature[1];
+
+                            esc11_volt = esc.voltage[2] / 100.0f;
+                            esc11_curr = esc.current[2] / 100.0f;
+                            esc11_rpm = esc.rpm[2];
+                            esc11_temp = esc.temperature[2];
+
+                            esc12_volt = esc.voltage[3] / 100.0f;
+                            esc12_curr = esc.current[3] / 100.0f;
+                            esc12_rpm = esc.rpm[3];
+                            esc12_temp = esc.temperature[3];
                         }
 
                         break;
