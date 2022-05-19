@@ -105,7 +105,7 @@ namespace MissionPlanner.Controls
                     msgidnode.Text = msgidheader;
 
                 var minfo = DroneCAN.DroneCAN.MSG_INFO.First(a => a.Item1 == dronecanMessage.Item2.GetType());
-                var fields = minfo.Item1.GetFields();
+                var fields = minfo.Item1.GetFields().Where(f => !f.IsLiteral).ToArray();
 
                 PopulateMSG(fields, msgidnode, dronecanMessage.message);
             }
