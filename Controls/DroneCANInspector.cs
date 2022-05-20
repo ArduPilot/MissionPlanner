@@ -155,7 +155,7 @@ namespace MissionPlanner.Controls
                         if (field.FieldType.IsClass)
                         {
                             var elementtype = field.FieldType.GetElementType();
-                            var fields = elementtype.GetFields();
+                            var fields = elementtype.GetFields().Where(f => !f.IsLiteral).ToArray();
 
                             if (!elementtype.IsPrimitive)
                             {
