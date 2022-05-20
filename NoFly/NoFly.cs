@@ -104,6 +104,38 @@ namespace MissionPlanner.NoFly
             {
             }
 
+            try
+            {
+                var nfzinfo = Utilities.nfz.EU.LoadNFZ().Result;
+
+
+                foreach (var feat in nfzinfo.Features)
+                {
+                    foreach (var item in feat.Geometry)
+                    {
+                        if (item.HorizontalProjection?.Type == "Polygon")
+                        {
+                            var coordinates = item.HorizontalProjection.Coordinates[0].Select(c => new PointLatLng(c[1], c[0])).ToList();
+
+                            GMapPolygon nfzpolygon = new GMapPolygon(coordinates, "kmlpolygon");
+
+                            nfzpolygon.Stroke.Color = Color.Purple;
+
+                            nfzpolygon.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
+                            MainV2.instance.BeginInvoke(new Action(() =>
+                            {
+                                kmlpolygonsoverlay.Polygons.Add(nfzpolygon);
+                            }));
+                        }
+                    }
+
+                }
+            }
+            catch
+            {
+            }
+
             if (NoFlyEvent != null)
                 NoFlyEvent(null, new NoFlyEventArgs(kmlpolygonsoverlay));
         }
