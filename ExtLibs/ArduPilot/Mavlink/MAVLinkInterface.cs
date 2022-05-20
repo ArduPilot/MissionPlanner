@@ -5212,7 +5212,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         len = MirrorStream.Read(buf, 0, len);
 
                         if (MirrorStreamWrite)
-                            BaseStream.Write(buf, 0, len);
+                            lock (objlock)
+                            {
+                                BaseStream.Write(buf, 0, len);
+
+                                if (rawlogfile != null && rawlogfile.CanWrite)
+                                    rawlogfile.Write(buf, 0, len);
+                            }
                     }
                 }
             }
