@@ -4631,6 +4631,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="MissionPlanner.GCSViews.ConfigurationView.DeviceInfo.datasource" />
+    <None Include="README.md" />
     <None Include="Resources\Gaugebg.png" />
     <None Include="appxmanifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

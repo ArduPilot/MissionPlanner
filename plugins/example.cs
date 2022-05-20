@@ -20,8 +20,7 @@ namespace test
 
         public override bool Init()
         {
-            srtm.baseurl = "https://firmware.oborne.me/SRTM/";
-            return false;
+            return false;         
         }
 
         public override bool Loaded()
