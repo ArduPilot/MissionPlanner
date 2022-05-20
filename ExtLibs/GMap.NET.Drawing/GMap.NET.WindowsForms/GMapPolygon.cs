@@ -7,11 +7,12 @@
    using GMap.NET;
    //using System.Windows.Forms;
    using System;
+    using System.Linq;
 
-   /// <summary>
-   /// GMap.NET polygon
-   /// </summary>
-   [System.Serializable]
+    /// <summary>
+    /// GMap.NET polygon
+    /// </summary>
+    [System.Serializable]
 #if !PocketPC
    public class GMapPolygon : MapRoute, ISerializable, IDeserializationCallback, IDisposable
 #else
@@ -98,14 +99,16 @@
          }
       }
 
+        public RectLatLng Bounds { get; private set; }
+
 #if !PocketPC
-      /// <summary>
-      /// Indicates whether the specified point is contained within this System.Drawing.Drawing2D.GraphicsPath
-      /// </summary>
-      /// <param name="x"></param>
-      /// <param name="y"></param>
-      /// <returns></returns>
-      public bool IsInsideLocal(int x, int y)
+        /// <summary>
+        /// Indicates whether the specified point is contained within this System.Drawing.Drawing2D.GraphicsPath
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool IsInsideLocal(int x, int y)
       {
           if (graphicsPath != null)
           {
@@ -130,6 +133,14 @@
           {
               if (LocalPoints.Count == 0)
                   return;
+
+            // inside or within the current view
+            var minx = Points.Min(a => a.Lng);
+            var maxx = Points.Max(a => a.Lng);
+            var miny = Points.Min(a => a.Lat);
+            var maxy = Points.Max(a => a.Lat);
+
+             Bounds = RectLatLng.FromLTRB(minx, maxy, maxx, miny);
 
               List<Point> pnts = new List<Point>();
               var last = Point.Empty;
