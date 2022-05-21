@@ -1527,8 +1527,11 @@ namespace GMap.NET.WindowsForms
         {
             PointF center = new PointF(Core.Width / 2, Core.Height / 2);
 
-            rotationMatrix.Reset();
-            rotationMatrix.RotateAt(-Bearing, center);
+            lock (rotationMatrix)
+            {
+                rotationMatrix.Reset();
+                rotationMatrix.RotateAt(-Bearing, center);
+            }
 
             rotationMatrixInvert.Reset();
             rotationMatrixInvert.RotateAt(-Bearing, center);
@@ -2027,7 +2030,10 @@ namespace GMap.NET.WindowsForms
             if (IsRotated)
             {
                 System.Drawing.Point[] tt = new System.Drawing.Point[] {new System.Drawing.Point(x, y)};
-                rotationMatrix.TransformPoints(tt);
+                lock (rotationMatrix)
+                {
+                    rotationMatrix.TransformPoints(tt);
+                }
                 var f = tt[0];
 
                 ret.X = f.X;
@@ -2544,7 +2550,10 @@ namespace GMap.NET.WindowsForms
             {
                 System.Drawing.Point[] tt = new System.Drawing.Point[]
                     {new System.Drawing.Point((int) ret.X, (int) ret.Y)};
-                rotationMatrix.TransformPoints(tt);
+                lock (rotationMatrix)
+                {
+                    rotationMatrix.TransformPoints(tt);
+                }
                 var f = tt[0];
 
                 if (VirtualSizeEnabled)
