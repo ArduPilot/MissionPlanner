@@ -78,6 +78,7 @@
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
             this.but_mavlinkcanmode2_2 = new MissionPlanner.Controls.MyButton();
+            this.but_filter = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
@@ -177,9 +178,9 @@
             // 
             // but_uavcaninspector
             // 
-            this.but_uavcaninspector.Location = new System.Drawing.Point(320, 29);
+            this.but_uavcaninspector.Location = new System.Drawing.Point(338, 29);
             this.but_uavcaninspector.Name = "but_uavcaninspector";
-            this.but_uavcaninspector.Size = new System.Drawing.Size(75, 23);
+            this.but_uavcaninspector.Size = new System.Drawing.Size(57, 23);
             this.but_uavcaninspector.TabIndex = 85;
             this.but_uavcaninspector.Text = "Inspector";
             this.but_uavcaninspector.UseVisualStyleBackColor = true;
@@ -561,10 +562,21 @@
             this.but_mavlinkcanmode2_2.UseVisualStyleBackColor = true;
             this.but_mavlinkcanmode2_2.Click += new System.EventHandler(this.but_slcanmode2_2_Click);
             // 
+            // but_filter
+            // 
+            this.but_filter.Location = new System.Drawing.Point(290, 29);
+            this.but_filter.Name = "but_filter";
+            this.but_filter.Size = new System.Drawing.Size(42, 23);
+            this.but_filter.TabIndex = 92;
+            this.but_filter.Text = "Filter";
+            this.but_filter.UseVisualStyleBackColor = true;
+            this.but_filter.Click += new System.EventHandler(this.but_filter_Click);
+            // 
             // ConfigDroneCAN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_filter);
             this.Controls.Add(this.but_mavlinkcanmode2_2);
             this.Controls.Add(this.chk_canonclose);
             this.Controls.Add(this.DGDebug);
@@ -639,5 +651,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Source;
         private System.Windows.Forms.DataGridViewTextBoxColumn UAVText;
         private Controls.MyButton but_mavlinkcanmode2_2;
+        private Controls.MyButton but_filter;
     }
 }

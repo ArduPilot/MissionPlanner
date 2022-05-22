@@ -419,8 +419,8 @@ namespace MissionPlanner.Utilities
                 return s;
             }
         }
-        
-        public static byte[] MakeSize(this byte[] buffer, int length)
+
+        public static T[] MakeSize<T>(this T[] buffer, int length)
         {
             if (buffer.Length == length)
                 return buffer;
