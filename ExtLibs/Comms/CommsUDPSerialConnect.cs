@@ -16,6 +16,9 @@ namespace MissionPlanner.Comms
     public class UdpSerialConnect : CommsBase, ICommsSerial, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(UdpSerialConnect));
+        /// <summary>
+        /// set hostEndPoint as well, if injecting
+        /// </summary>
         public UdpClient client = new UdpClient();
         private byte[] rbuffer = new byte[0];
         private int rbufferread;

@@ -17,11 +17,14 @@ namespace MissionPlanner.Comms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly List<IPEndPoint> EndPointList = new List<IPEndPoint>();
+        public readonly List<IPEndPoint> EndPointList = new List<IPEndPoint>();
 
         private bool _isopen;
 
         public bool CancelConnect = false;
+        /// <summary>
+        /// add to EndPointList if need when injecting
+        /// </summary>
         public UdpClient client = new UdpClient();
 
         private byte[] rbuffer = new byte[0];
