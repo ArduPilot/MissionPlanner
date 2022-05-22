@@ -32,6 +32,9 @@ namespace MissionPlanner.NoFly
 
         public static void Scan()
         {
+            if (!Settings.Instance.GetBoolean("ShowNoFly", true))
+                return;
+
             var files = Directory.GetFiles(directory, "*.kmz");
 
             foreach (var file in files)
@@ -61,8 +64,8 @@ namespace MissionPlanner.NoFly
 
             try
             {
-                Utilities.nfz.HK.ConfirmNoFly += () => 
-                { 
+                Utilities.nfz.HK.ConfirmNoFly += () =>
+                {
                     return CustomMessageBox.Show("Show Hong Kong No fly zones?", "NoFly Zones", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
                 };
 
