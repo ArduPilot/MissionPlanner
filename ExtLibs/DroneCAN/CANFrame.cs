@@ -20,9 +20,10 @@ namespace DroneCAN
             message
         }
 
-        public CANFrame(byte[] packet_data)
+        public CANFrame(byte[] packet_data, bool extended = true)
         {
             this.packet_data = packet_data;
+            Extended = extended;
         }
 
         //[JsonConverter(typeof(StringEnumConverter))]
@@ -114,6 +115,8 @@ namespace DroneCAN
             get;
             internal set;
         }
+
+        public bool Extended { get; }
 
         public string ToHex()
         {

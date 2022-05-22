@@ -59,13 +59,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_slcanmavlink_Click(object sender, EventArgs e)
         {
-            StartMavlinkSLCAN(1);
+            mavlinkCANRun = false;
+            StartMavlinkCAN(1);
         }
 
-        private void StartMavlinkSLCAN(int bus = 1) { 
+        private void StartMavlinkCAN(int bus = 1) 
+        {
+            but_slcanmode1.Enabled = false;
+            but_mavlinkcanmode2.Enabled = true;
+            but_mavlinkcanmode2_2.Enabled = true;
 
             Task.Run(() =>
             {
+                // allows old instance to exit
+                Thread.Sleep(1000);
                 mavlinkCANRun = true;
                 // send every second, timeout is in 5 seconds
                 while (mavlinkCANRun)
@@ -81,7 +88,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                     }
                     catch (Exception ex) {  }
-                    Thread.Sleep(1000);
+
+                    if (mavlinkCANRun)
+                        Thread.Sleep(1000);
                 }
             });
 
@@ -90,9 +99,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var can = new DroneCAN.DroneCAN();
             can.FrameReceived += (frame, payload) =>
             {
+                //https://github.com/dronecan/pydronecan/blob/master/dronecan/driver/mavcan.py#L114
+                //if frame.extended:
+                //  message_id |= 1 << 31
 
                 if (payload.packet_data.Length > 8)
-                    MainV2.comPort.sendPacket(new MAVLink.mavlink_canfd_frame_t(BitConverter.ToUInt32(frame.packet_data, 0) + 0x80000000,
+                    MainV2.comPort.sendPacket(new MAVLink.mavlink_canfd_frame_t(BitConverter.ToUInt32(frame.packet_data, 0) + (frame.Extended ? 0x80000000: 0),
                             (byte)MainV2.comPort.sysidcurrent,
                             (byte)MainV2.comPort.compidcurrent, (byte)(bus-1), (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
                             payload.packet_data),
@@ -100,25 +112,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         (byte)MainV2.comPort.compidcurrent);
                 else
                 {
-                    var frame2 = new MAVLink.mavlink_can_frame_t(BitConverter.ToUInt32(frame.packet_data, 0) + 0x80000000,
+                    var frame2 = new MAVLink.mavlink_can_frame_t(BitConverter.ToUInt32(frame.packet_data, 0) + (frame.Extended ? 0x80000000 : 0),
                             (byte)MainV2.comPort.sysidcurrent,
                             (byte)MainV2.comPort.compidcurrent, (byte)(bus-1), (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
                             payload.packet_data);
                     MainV2.comPort.sendPacket(frame2,
                         (byte)MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
-
-                    // local echo
-                    var canfd = false;
-                    var pkt = frame2;
-                    var cf = new CANFrame(BitConverter.GetBytes(pkt.id));
-                    var length = pkt.len;
-                    var payload2 = new CANPayload(pkt.data);
-
-                    var ans2 = String.Format("{0}{1}{2}{3}\r", canfd ? 'B' : 'T', cf.ToHex(), length.ToString("X")
-                    , payload2.ToHex(DroneCAN.DroneCAN.dlcToDataLength(length)));
-
-                    port.AppendBuffer(ASCIIEncoding.ASCII.GetBytes(ans2));
                 }
             };
 
@@ -175,7 +175,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void startslcan(byte canport)
         {
             but_slcanmode1.Enabled = false;
-            but_slcanmode2.Enabled = false;
+            but_mavlinkcanmode2.Enabled = false;
+            but_mavlinkcanmode2_2.Enabled = false;
 
             try
             {
@@ -785,7 +786,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_slcanmode2_2_Click(object sender, EventArgs e)
         {
-            StartMavlinkSLCAN(2);
+            mavlinkCANRun = false;
+            StartMavlinkCAN(2);
         }
     }
 }
