@@ -1371,6 +1371,7 @@ namespace DroneCAN
         {
             var ans = "";
             var canframes = PackageMessage(destNode, priority, transferID, msg, canfd);
+            InvokeMessageReceived(canframes[0].cf, msg, transferID);
             foreach (var canframe in canframes)
             {
                 var cf = canframe.cf;
@@ -1967,6 +1968,17 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
                     Console.WriteLine(ex);
                 }
             }
+        }
+
+        /// <summary>
+        /// used mainly for GCS loopback viewing
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <param name="msg"></param>
+        /// <param name="transferID"></param>
+        public void InvokeMessageReceived(CANFrame frame, object msg, byte transferID)
+        {
+            MessageReceived?.Invoke(frame, msg, transferID);
         }
 
         /// <summary>
