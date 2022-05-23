@@ -1,5 +1,10 @@
-$msbuildPath = Split-Path (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\Current\Bin\amd64\MSBuild.exe | Select-Object -First 1) -Parent
-$env:PATH = $msbuildPath + ';' + $env:PATH
+$installationPath = ./vswhere.exe -prerelease -latest -property installationPath
+if ($installationPath -and (test-path "$installationPath\Common7\Tools\vsdevcmd.bat")) {
+  & "${env:COMSPEC}" /s /c "`"$installationPath\Common7\Tools\vsdevcmd.bat`" -no_logo && set" | foreach-object {
+    $name, $value = $_ -split '=', 2
+    set-content env:\"$name" $value
+  }
+}
 
 $env:PATH="$env:PATH;C:\Program Files\7-Zip;C:\Program Files (x86)\Android\android-sdk\build-tools\29.0.2;C:\Program Files\Android\Android Studio\jre\bin;C:\Program Files (x86)\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin;C:\Program Files (x86)\Microsoft Visual Studio\Preview\Community\MSBuild\15.0\Bin;C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\MSBuild\15.0\Bin"
 
