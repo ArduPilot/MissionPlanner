@@ -48,6 +48,9 @@ namespace MissionPlanner.Utilities
                 if (answer == string.Empty)
                     answer = ParameterMetaDataRepositoryAPM.GetParameterMetaData(nodeKey, metaKey, vechileType);
 
+                if (answer == string.Empty)
+                    return String.Empty;
+
                 lock (_cache)
                 {
                     try
