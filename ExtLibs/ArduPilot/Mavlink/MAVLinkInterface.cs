@@ -5580,6 +5580,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             req.target_component = compid;
             req.target_system = sysid;
 
+            // use both methods
+            doCommand(MAV_CMD.REQUEST_AUTOPILOT_CAPABILITIES, 0, 0, 0, 0, 0, 0, 0, false);
+
             if (responcerequired)
                 giveComport = true;
 
