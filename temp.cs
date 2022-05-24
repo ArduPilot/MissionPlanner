@@ -31,6 +31,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -1414,6 +1416,76 @@ namespace MissionPlanner
         {
             var CMDList = new MavCommandSelection();
             CMDList.Show();
+        }
+
+        private void but_signfw_Click(object sender, EventArgs e)
+        {
+            
+            // get and open certificate store for current user
+            System.Security.Cryptography.X509Certificates.X509Store store =
+                new System.Security.Cryptography.X509Certificates.X509Store(
+                    System.Security.Cryptography.X509Certificates.StoreLocation.CurrentUser);
+
+            store.Open(System.Security.Cryptography.X509Certificates.OpenFlags.ReadOnly);
+            
+            // retrieve the certificate using the integrated Windows UI
+            System.Security.Cryptography.X509Certificates.X509Certificate2Collection certificates =
+                System.Security.Cryptography.X509Certificates.X509Certificate2UI.SelectFromCollection(
+                    store.Certificates,
+                    "Choose your certificate",
+                    "Please select a certificate that is used.",
+                    System.Security.Cryptography.X509Certificates.X509SelectionFlag.SingleSelection);
+            
+            
+
+            var cert = certificates[0];
+            store.Close();
+
+            var publickey = cert.Export(X509ContentType.Cert);
+             //
+            // To idendify the Smart Card CryptoGraphic Providers on your
+            // computer, use the Microsoft Registry Editor (Regedit.exe).
+            // The available Smart Card CryptoGraphic Providers are listed
+            // in HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider.
+
+            // Create a new CspParameters object that identifies a
+            // Smart Card CryptoGraphic Provider.
+            // The 1st parameter comes from HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider Types.
+            // The 2nd parameter comes from HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Defaults\Provider.
+            CspParameters csp;
+            try
+            {
+                // private csp
+                csp = new CspParameters(1, "EnterSafe ePass2003 CSP v2.0");
+            }
+            catch
+            {
+                // ms csp
+                csp = new CspParameters(1, "Microsoft Base Smart Card Crypto Provider");
+            }
+
+            csp.Flags = CspProviderFlags.UseDefaultKeyContainer;
+
+            // Initialize an RSACryptoServiceProvider object using
+            // the CspParameters object.
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(csp);
+
+            var name = rsa.CspKeyContainerInfo.UniqueKeyContainerName;
+
+            // Create some data to sign.
+            byte[] data = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+            Console.WriteLine("Data			: " + BitConverter.ToString(data));
+
+            // Sign the data using the Smart Card CryptoGraphic Provider.
+            byte[] sig = rsa.SignData(data, "SHA256");
+
+            Console.WriteLine("Signature	: " + BitConverter.ToString(sig));
+
+            // Verify the data using the Smart Card CryptoGraphic Provider.
+            bool verified = rsa.VerifyData(data, "SHA256", sig);
+
+            Console.WriteLine("Verified		: " + verified);
         }
     }
 }
