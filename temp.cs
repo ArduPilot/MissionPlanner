@@ -1431,7 +1431,7 @@ namespace MissionPlanner
             // retrieve the certificate using the integrated Windows UI
             System.Security.Cryptography.X509Certificates.X509Certificate2Collection certificates =
                 System.Security.Cryptography.X509Certificates.X509Certificate2UI.SelectFromCollection(
-                    store.Certificates,
+                    store.Certificates.Find(X509FindType.FindByKeyUsage, X509KeyUsageFlags.DigitalSignature, true),
                     "Choose your certificate",
                     "Please select a certificate that is used.",
                     System.Security.Cryptography.X509Certificates.X509SelectionFlag.SingleSelection);
@@ -1477,9 +1477,17 @@ namespace MissionPlanner
 
             Console.WriteLine("Data			: " + BitConverter.ToString(data));
 
+            var enc = rsa.Encrypt(data, RSAEncryptionPadding.Pkcs1);
+
+            Console.WriteLine("Data	encrypted: " + BitConverter.ToString(enc));
+
+            var dec = rsa.Decrypt(enc, RSAEncryptionPadding.Pkcs1);
+
+            Console.WriteLine("Data	decrypted: " + BitConverter.ToString(dec));
+
             // Sign the data using the Smart Card CryptoGraphic Provider.
             byte[] sig = rsa.SignData(data, "SHA256");
-
+            
             Console.WriteLine("Signature	: " + BitConverter.ToString(sig));
 
             // Verify the data using the Smart Card CryptoGraphic Provider.
