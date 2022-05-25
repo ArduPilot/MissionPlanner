@@ -812,7 +812,7 @@ namespace MissionPlanner
 
             test.Show();
 
-            var flow = new OpticalFlow(MainV2.comPort);
+            var flow = new OpticalFlow(MainV2.comPort, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             // disable on close form
             test.Closed += (o, args) =>

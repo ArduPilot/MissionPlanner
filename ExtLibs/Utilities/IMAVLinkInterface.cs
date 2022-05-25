@@ -11,12 +11,11 @@ namespace MissionPlanner.Utilities
 
         void sendPacket(object indata, int sysid, int compid);
 
-        KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> SubscribeToPacketType(
+        int SubscribeToPacketType(
             MAVLink.MAVLINK_MSG_ID type,
-            Func<MAVLink.MAVLinkMessage, bool> function, bool exclusive = false);
+            Func<MAVLink.MAVLinkMessage, bool> function, byte sysid, byte compid, bool exclusive = false);
 
-        void UnSubscribeToPacketType(KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> item);
-        void UnSubscribeToPacketType(MAVLink.MAVLINK_MSG_ID msgtype, Func<MAVLink.MAVLinkMessage, bool> item);
+        void UnSubscribeToPacketType(int msgid);
 
         event EventHandler<MAVLink.MAVLinkMessage> OnPacketReceived;
         event EventHandler<MAVLink.MAVLinkMessage> OnPacketSent;

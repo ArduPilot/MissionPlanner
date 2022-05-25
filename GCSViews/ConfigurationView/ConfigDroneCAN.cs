@@ -169,7 +169,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 return true;
-            }, true);
+            }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
 
             SetupSLCanPort(port);
         }

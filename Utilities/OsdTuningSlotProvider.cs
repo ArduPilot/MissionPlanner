@@ -22,18 +22,18 @@ namespace MissionPlanner.Utilities
 
         public event Action<(byte Screen, byte Index, bool Success)> OnParamSetResponce;
 
-        private readonly KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub1;
-        private readonly KeyValuePair<MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>> sub2;
+        private readonly int sub1;
+        private readonly int sub2;
 
         private uint request;
 
         public OsdTuningSlotProvider()
         {
             sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OSD_PARAM_SHOW_CONFIG_REPLY,
-                    HandleParamShowResponse);
+                    HandleParamShowResponse, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OSD_PARAM_CONFIG_REPLY,
-                    HandleParamSetResponse);
+                    HandleParamSetResponse, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
         }
 
         public void ParamShow(byte screen, byte index)

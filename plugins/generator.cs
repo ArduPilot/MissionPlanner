@@ -376,7 +376,7 @@ namespace generator
                 get { return "Michael Oborne"; }
             }
 
-            private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>>? sub = null;
+            private int sub = 0;
 
             public override bool Init()
             {
@@ -401,12 +401,12 @@ namespace generator
                     if (sub == null)
                         sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.GENERATOR_STATUS, message =>
                         {
-                            MainV2.instance.BeginInvoke((MethodInvoker) delegate
+                            MainV2.instance.BeginInvoke((MethodInvoker)delegate
                             {
                                 if (!FlightData.instance.tabControlactions.Parent.Controls.Contains(gen))
                                     FlightData.instance.tabControlactions.Parent.Controls.Add(gen);
                             });
-                            
+
                             var genmsg = (MAVLink.mavlink_generator_status_t)message.data;
                             status = genmsg.status;
                             generator_speed = genmsg.generator_speed;
@@ -415,7 +415,7 @@ namespace generator
                             run_time = genmsg.runtime;
                             timemaint = genmsg.time_until_maintenance;
                             return true;
-                        });
+                        }, 0, 0);
 
                     MainV2.instance.BeginInvoke((MethodInvoker)delegate
                    {
@@ -448,7 +448,7 @@ namespace generator
                 else
                 {
                     if (sub != null)
-                        MainV2.comPort.UnSubscribeToPacketType(sub.Value);
+                        MainV2.comPort.UnSubscribeToPacketType(sub);
                 }
 
                 return true;

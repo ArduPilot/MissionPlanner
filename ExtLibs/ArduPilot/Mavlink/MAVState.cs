@@ -99,7 +99,7 @@ namespace MissionPlanner
             this.SerialString = "";
             this.FrameString = "";
             if (sysid != 255 && !(compid == 0 && sysid == 0)) // && !parent.logreadmode)
-                this.Proximity = new Proximity(this);
+                this.Proximity = new Proximity(this, sysid, compid);
 
             camerapoints.Clear();
 

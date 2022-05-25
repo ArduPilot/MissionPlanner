@@ -136,8 +136,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public string ParameterMode { get; set; }
 
         private int y = 10;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub1;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> sub2;
+        private int sub1;
+        private int sub2;
 
         #endregion
 
