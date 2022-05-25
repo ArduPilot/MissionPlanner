@@ -5408,7 +5408,7 @@ namespace MissionPlanner.GCSViews
             //It is not defined in MAV_CMD
 
             Dictionary<string, ushort> configCommands = new Dictionary<string, ushort>();
-            configCommands = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(Settings.Instance["PlannerExtraCommandIDs"]);
+            configCommands = JsonConvert.DeserializeObject<Dictionary<string, ushort>>(Settings.Instance["PlannerExtraCommandIDs"] ?? "{}");
             //It will return NULL to fall back to UNKNOWN if ID not defined
             return configCommands.FirstOrDefault(x => x.Value == cmdID).Key;
 
