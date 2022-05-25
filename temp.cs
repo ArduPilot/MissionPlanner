@@ -1427,7 +1427,8 @@ namespace MissionPlanner
                     System.Security.Cryptography.X509Certificates.StoreLocation.CurrentUser);
 
             store.Open(System.Security.Cryptography.X509Certificates.OpenFlags.ReadOnly);
-            
+
+#if !LIB
             // retrieve the certificate using the integrated Windows UI
             System.Security.Cryptography.X509Certificates.X509Certificate2Collection certificates =
                 System.Security.Cryptography.X509Certificates.X509Certificate2UI.SelectFromCollection(
@@ -1435,8 +1436,11 @@ namespace MissionPlanner
                     "Choose your certificate",
                     "Please select a certificate that is used.",
                     System.Security.Cryptography.X509Certificates.X509SelectionFlag.SingleSelection);
-            
-            
+
+#else
+            var certificates = store.Certificates.Find(X509FindType.FindByKeyUsage, X509KeyUsageFlags.DigitalSignature, true);
+#endif
+
 
             var cert = certificates[0];
             store.Close();
