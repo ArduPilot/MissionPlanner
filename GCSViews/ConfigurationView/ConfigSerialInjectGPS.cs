@@ -424,7 +424,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 this.LogInfo("Setup UBLOX");
 
-                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
+                try
+                {
+                    ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    CustomMessageBox.Show("Error configuring\n" +
+                                          ex.ToString());
+                    return;
+                }
+
 
                 if (basepos != PointLatLngAlt.Zero)
                 {
@@ -1272,12 +1283,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (comPort.IsOpen)
             {
-                ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true);
+                try
+                {
+                    ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true);
 
-                ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
+                    ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
 
-                ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
+                    ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
                     double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    CustomMessageBox.Show("Error configuring\n" +
+                                          ex.ToString());
+                    return;
+                }
             }
         }
 
