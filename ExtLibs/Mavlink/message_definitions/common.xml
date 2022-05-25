@@ -216,11 +216,27 @@
       </entry>
     </enum>
     <enum name="MAV_FRAME">
+      <description>Co-ordinate frames used by MAVLink. Not all frames are supported by all commands, messages, or vehicles.
+      
+      Global frames use the following naming conventions:
+      - "GLOBAL": Global co-ordinate frame with WGS84 latitude/longitude and altitude positive over mean sea level (MSL) by default. 
+        The following modifiers may be used with "GLOBAL":
+        - "RELATIVE_ALT": Altitude is relative to the vehicle home position rather than MSL.
+        - "TERRAIN_ALT": Altitude is relative to ground level rather than MSL.
+        - "INT": Latitude/longitude (in degrees) are scaled by multiplying by 1E7.
+
+      Local frames use the following naming conventions:
+      - "LOCAL": Origin of local frame is fixed relative to earth. Unless otherwise specified this origin is the origin of the vehicle position-estimator ("EKF").
+      - "BODY": Origin of local frame travels with the vehicle. NOTE, "BODY" does NOT indicate alignment of frame axis with vehicle attitude.
+      - "OFFSET": Deprecated synonym for "BODY" (origin travels with the vehicle). Not to be used for new frames.
+
+      Some deprecated frames do not follow these conventions (e.g. MAV_FRAME_BODY_NED and MAV_FRAME_BODY_OFFSET_NED).
+ </description>
       <entry value="0" name="MAV_FRAME_GLOBAL">
         <description>Global (WGS84) coordinate frame + MSL altitude. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL).</description>
       </entry>
       <entry value="1" name="MAV_FRAME_LOCAL_NED">
-        <description>Local coordinate frame, Z-down (x: North, y: East, z: Down).</description>
+        <description>NED local tangent frame (x: North, y: East, z: Down) with origin fixed relative to earth.</description>
       </entry>
       <entry value="2" name="MAV_FRAME_MISSION">
         <description>NOT a coordinate frame, indicates a mission command.</description>
@@ -229,33 +245,33 @@
         <description>Global (WGS84) coordinate frame + altitude relative to the home position. First value / x: latitude, second value / y: longitude, third value / z: positive altitude with 0 being at the altitude of the home location.</description>
       </entry>
       <entry value="4" name="MAV_FRAME_LOCAL_ENU">
-        <description>Local coordinate frame, Z-up (x: East, y: North, z: Up).</description>
+        <description>ENU local tangent frame (x: East, y: North, z: Up) with origin fixed relative to earth.</description>
       </entry>
       <entry value="5" name="MAV_FRAME_GLOBAL_INT">
-        <description>Global (WGS84) coordinate frame (scaled) + MSL altitude. First value / x: latitude in degrees*1.0e-7, second value / y: longitude in degrees*1.0e-7, third value / z: positive altitude over mean sea level (MSL).</description>
+        <description>Global (WGS84) coordinate frame (scaled) + MSL altitude. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude over mean sea level (MSL).</description>
       </entry>
       <entry value="6" name="MAV_FRAME_GLOBAL_RELATIVE_ALT_INT">
-        <description>Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude with 0 being at the altitude of the home location.</description>
+        <description>Global (WGS84) coordinate frame (scaled) + altitude relative to the home position. First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude with 0 being at the altitude of the home location.</description>
       </entry>
       <entry value="7" name="MAV_FRAME_LOCAL_OFFSET_NED">
-        <description>Offset to the current local frame. Anything expressed in this frame should be added to the current local frame position.</description>
+        <description>NED local tangent frame (x: North, y: East, z: Down) with origin that travels with the vehicle.</description>
       </entry>
       <entry value="8" name="MAV_FRAME_BODY_NED">
         <deprecated since="2019-08" replaced_by="MAV_FRAME_BODY_FRD"/>
-        <description>Setpoint in body NED frame. This makes sense if all position control is externalized - e.g. useful to command 2 m/s^2 acceleration to the right.</description>
+        <description>Same as MAV_FRAME_LOCAL_NED when used to represent position values. Same as MAV_FRAME_BODY_FRD when used with velocity/accelaration values.</description>
       </entry>
       <entry value="9" name="MAV_FRAME_BODY_OFFSET_NED">
         <deprecated since="2019-08" replaced_by="MAV_FRAME_BODY_FRD"/>
-        <description>Offset in body NED frame. This makes sense if adding setpoints to the current flight path, to avoid an obstacle - e.g. useful to command 2 m/s^2 acceleration to the east.</description>
+        <description>This is the same as MAV_FRAME_BODY_FRD.</description>
       </entry>
       <entry value="10" name="MAV_FRAME_GLOBAL_TERRAIN_ALT">
         <description>Global (WGS84) coordinate frame with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees, second value / y: longitude in degrees, third value / z: positive altitude in meters with 0 being at ground level in terrain model.</description>
       </entry>
       <entry value="11" name="MAV_FRAME_GLOBAL_TERRAIN_ALT_INT">
-        <description>Global (WGS84) coordinate frame (scaled) with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude in meters with 0 being at ground level in terrain model.</description>
+        <description>Global (WGS84) coordinate frame (scaled) with AGL altitude (at the waypoint coordinate). First value / x: latitude in degrees*1E7, second value / y: longitude in degrees*1E7, third value / z: positive altitude in meters with 0 being at ground level in terrain model.</description>
       </entry>
       <entry value="12" name="MAV_FRAME_BODY_FRD">
-        <description>Body fixed frame of reference, Z-down (x: Forward, y: Right, z: Down).</description>
+        <description>FRD local tangent frame (x: Forward, y: Right, z: Down) with origin that travels with vehicle. The forward axis is aligned to the front of the vehicle in the horizontal plane.</description>
       </entry>
       <entry value="13" name="MAV_FRAME_RESERVED_13">
         <deprecated since="2019-04" replaced_by=""/>
@@ -286,10 +302,10 @@
         <description>MAV_FRAME_ESTIM_ENU - Odometry local coordinate frame of data given by an estimator running onboard the vehicle, Z-up (x: East, y: North, z: Up).</description>
       </entry>
       <entry value="20" name="MAV_FRAME_LOCAL_FRD">
-        <description>Forward, Right, Down coordinate frame. This is a local frame with Z-down and arbitrary F/R alignment (i.e. not aligned with NED/earth frame).</description>
+        <description>FRD local tangent frame (x: Forward, y: Right, z: Down) with origin fixed relative to earth. The forward axis is aligned to the front of the vehicle in the horizontal plane.</description>
       </entry>
       <entry value="21" name="MAV_FRAME_LOCAL_FLU">
-        <description>Forward, Left, Up coordinate frame. This is a local frame with Z-up and arbitrary F/L alignment (i.e. not aligned with ENU/earth frame).</description>
+        <description>FLU local tangent frame (x: Forward, y: Left, z: Up) with origin fixed relative to earth. The forward axis is aligned to the front of the vehicle in the horizontal plane.</description>
       </entry>
     </enum>
     <enum name="MAVLINK_DATA_STREAM_TYPE">
@@ -436,13 +452,31 @@
     <enum name="WINCH_ACTIONS">
       <description>Winch actions.</description>
       <entry value="0" name="WINCH_RELAXED">
-        <description>Relax winch.</description>
+        <description>Allow motor to freewheel.</description>
       </entry>
       <entry value="1" name="WINCH_RELATIVE_LENGTH_CONTROL">
-        <description>Wind or unwind specified length of cable, optionally using specified rate.</description>
+        <description>Wind or unwind specified length of line, optionally using specified rate.</description>
       </entry>
       <entry value="2" name="WINCH_RATE_CONTROL">
-        <description>Wind or unwind cable at specified rate.</description>
+        <description>Wind or unwind line at specified rate.</description>
+      </entry>
+      <entry value="3" name="WINCH_LOCK">
+        <description>Perform the locking sequence to relieve motor while in the fully retracted position. Only action and instance command parameters are used, others are ignored.</description>
+      </entry>
+      <entry value="4" name="WINCH_DELIVER">
+        <description>Sequence of drop, slow down, touch down, reel up, lock. Only action and instance command parameters are used, others are ignored.</description>
+      </entry>
+      <entry value="5" name="WINCH_HOLD">
+        <description>Engage motor and hold current position. Only action and instance command parameters are used, others are ignored.</description>
+      </entry>
+      <entry value="6" name="WINCH_RETRACT">
+        <description>Return the reel to the fully retracted position. Only action and instance command parameters are used, others are ignored.</description>
+      </entry>
+      <entry value="7" name="WINCH_LOAD_LINE">
+        <description>Load the reel with line. The winch will calculate the total loaded length and stop when the tension exceeds a threshold. Only action and instance command parameters are used, others are ignored.</description>
+      </entry>
+      <entry value="8" name="WINCH_ABANDON_LINE">
+        <description>Spool out the entire length of the line. Only action and instance command parameters are used, others are ignored.</description>
       </entry>
     </enum>
     <!-- UAVCAN node health enumeration -->
@@ -629,7 +663,7 @@
       <entry value="31" name="MAV_CMD_NAV_LOITER_TO_ALT" hasLocation="true" isDestination="true">
         <description>Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached. Additionally, if the Heading Required parameter is non-zero the aircraft will not leave the loiter until heading toward the next waypoint.</description>
         <param index="1" label="Heading Required" minValue="0" maxValue="1" increment="1">Heading Required (0 = False)</param>
-        <param index="2" label="Radius" units="m">Radius. If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.</param>
+        <param index="2" label="Radius" units="m">Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.</param>
         <param index="3">Empty</param>
         <param index="4" label="Xtrack Location" minValue="0" maxValue="1" increment="1">Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location</param>
         <param index="5" label="Latitude">Latitude</param>
@@ -688,7 +722,7 @@
         <param index="7" label="Altitude/Z">Altitude/Z of goal</param>
       </entry>
       <entry value="84" name="MAV_CMD_NAV_VTOL_TAKEOFF" hasLocation="true" isDestination="true">
-        <description>Takeoff from ground using VTOL mode, and transition to forward flight with specified heading.</description>
+        <description>Takeoff from ground using VTOL mode, and transition to forward flight with specified heading. The command should be ignored by vehicles that dont support both VTOL and fixed-wing flight (multicopters, boats,etc.).</description>
         <param index="1">Empty</param>
         <param index="2" label="Transition Heading" enum="VTOL_TRANSITION_HEADING">Front transition heading.</param>
         <param index="3">Empty</param>
@@ -945,7 +979,7 @@
         <description>Reposition the vehicle to a specific WGS84 global position.</description>
         <param index="1" label="Speed" units="m/s" minValue="-1">Ground speed, less than 0 (-1) for default</param>
         <param index="2" label="Bitmask" enum="MAV_DO_REPOSITION_FLAGS">Bitmask of option flags.</param>
-        <param index="3">Reserved</param>
+        <param index="3" label="Radius" units="m">Loiter radius for planes. Positive values only, direction is controlled by Yaw value. A value of zero or NaN is ignored. </param>
         <param index="4" label="Yaw" units="deg">Yaw heading. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.). For planes indicates loiter direction (0: clockwise, 1: counter clockwise)</param>
         <param index="5" label="Latitude">Latitude</param>
         <param index="6" label="Longitude">Longitude</param>
@@ -2341,7 +2375,7 @@
         <description>Autopilot supports the new param union message type.</description>
       </entry>
       <entry value="32" name="MAV_PROTOCOL_CAPABILITY_FTP">
-        <description>Autopilot supports the new FILE_TRANSFER_PROTOCOL message type.</description>
+        <description>Autopilot supports the File Transfer Protocol v1: https://mavlink.io/en/services/ftp.html.</description>
       </entry>
       <entry value="64" name="MAV_PROTOCOL_CAPABILITY_SET_ATTITUDE_TARGET">
         <description>Autopilot supports commanding attitude offboard.</description>
@@ -2359,7 +2393,7 @@
         <description>Autopilot supports direct actuator control.</description>
       </entry>
       <entry value="2048" name="MAV_PROTOCOL_CAPABILITY_FLIGHT_TERMINATION">
-        <description>Autopilot supports the flight termination command.</description>
+        <description>Autopilot supports the MAV_CMD_DO_FLIGHTTERMINATION command (flight termination).</description>
       </entry>
       <entry value="4096" name="MAV_PROTOCOL_CAPABILITY_COMPASS_CALIBRATION">
         <description>Autopilot supports onboard compass calibration.</description>
@@ -2476,10 +2510,10 @@
         <description>Battery state is too low for ordinary abort sequence. Perform fastest possible emergency stop to prevent damage.</description>
       </entry>
       <entry value="5" name="MAV_BATTERY_CHARGE_STATE_FAILED">
-        <description>Battery failed, damage unavoidable.</description>
+        <description>Battery failed, damage unavoidable. Possible causes (faults) are listed in MAV_BATTERY_FAULT.</description>
       </entry>
       <entry value="6" name="MAV_BATTERY_CHARGE_STATE_UNHEALTHY">
-        <description>Battery is diagnosed to be defective or an error occurred, usage is discouraged / prohibited.</description>
+        <description>Battery is diagnosed to be defective or an error occurred, usage is discouraged / prohibited. Possible causes (faults) are listed in MAV_BATTERY_FAULT.</description>
       </entry>
       <entry value="7" name="MAV_BATTERY_CHARGE_STATE_CHARGING">
         <description>Battery is charging.</description>
@@ -2728,29 +2762,31 @@
     </enum>
     <!-- motor test type enum -->
     <enum name="MOTOR_TEST_ORDER">
+      <description>Sequence that motors are tested when using MAV_CMD_DO_MOTOR_TEST.</description>
       <entry name="MOTOR_TEST_ORDER_DEFAULT" value="0">
-        <description>default autopilot motor test method</description>
+        <description>Default autopilot motor test method.</description>
       </entry>
       <entry name="MOTOR_TEST_ORDER_SEQUENCE" value="1">
-        <description>motor numbers are specified as their index in a predefined vehicle-specific sequence</description>
+        <description>Motor numbers are specified as their index in a predefined vehicle-specific sequence.</description>
       </entry>
       <entry name="MOTOR_TEST_ORDER_BOARD" value="2">
-        <description>motor numbers are specified as the output as labeled on the board</description>
+        <description>Motor numbers are specified as the output as labeled on the board.</description>
       </entry>
     </enum>
     <!-- motor test throttle type enum -->
     <enum name="MOTOR_TEST_THROTTLE_TYPE">
+      <description>Defines how throttle value is represented in MAV_CMD_DO_MOTOR_TEST.</description>
       <entry value="0" name="MOTOR_TEST_THROTTLE_PERCENT">
-        <description>throttle as a percentage from 0 ~ 100</description>
+        <description>Throttle as a percentage (0 ~ 100)</description>
       </entry>
       <entry value="1" name="MOTOR_TEST_THROTTLE_PWM">
-        <description>throttle as an absolute PWM value (normally in range of 1000~2000)</description>
+        <description>Throttle as an absolute PWM value (normally in range of 1000~2000).</description>
       </entry>
       <entry value="2" name="MOTOR_TEST_THROTTLE_PILOT">
-        <description>throttle pass-through from pilot's transmitter</description>
+        <description>Throttle pass-through from pilot's transmitter.</description>
       </entry>
       <entry value="3" name="MOTOR_TEST_COMPASS_CAL">
-        <description>per-motor compass calibration test</description>
+        <description>Per-motor compass calibration test.</description>
       </entry>
     </enum>
     <!-- GPS_INPUT ignore flags enum -->
