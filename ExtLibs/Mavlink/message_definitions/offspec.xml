@@ -1,31 +1,81 @@
 <?xml version="1.0"?>
 <mavlink>
-  <version>3</version>
-  <dialect>0</dialect>
+	<version>3</version>
+	<dialect>0</dialect>
 
-  <messages>
-    <message id="26900" name="VIDEO_STREAM_INFORMATION99">
-      <wip/>
-      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
-      <description>Information about video stream</description>
-      <field type="uint8_t" name="camera_id">Video Stream ID (1 for first, 2 for second, etc.)</field>
-      <field type="uint8_t" name="status">Number of streams available.</field>
-      <field type="float" name="framerate" units="Hz">Frame rate.</field>
-      <field type="uint16_t" name="resolution_h" units="pix">Horizontal resolution.</field>
-      <field type="uint16_t" name="resolution_v" units="pix">Vertical resolution.</field>
-      <field type="uint32_t" name="bitrate" units="bits/s">Bit rate.</field>
-      <field type="uint16_t" name="rotation" units="deg">Video image rotation clockwise.</field>
-      <field type="char[230]" name="uri">Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).</field>
-    </message>
-    <message id="50003" name="HERELINK_TELEM">
-        <field type="uint8_t" name="rssi"></field>
-        <field type="int16_t" name="snr"></field>
-        <field type="uint32_t" name="rf_freq"></field>
-        <field type="uint32_t" name="link_bw"></field>
-        <field type="uint32_t" name="link_rate"></field>
-        <field type="int16_t" name="cpu_temp"></field>
-        <field type="int16_t" name="board_temp"></field>
-    </message>
-  </messages>
+	<messages>
+		<message id="26900" name="VIDEO_STREAM_INFORMATION99">
+			<wip/>
+			<!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+			<description>Information about video stream</description>
+			<field type="uint8_t" name="camera_id">Video Stream ID (1 for first, 2 for second, etc.)</field>
+			<field type="uint8_t" name="status">Number of streams available.</field>
+			<field type="float" name="framerate" units="Hz">Frame rate.</field>
+			<field type="uint16_t" name="resolution_h" units="pix">Horizontal resolution.</field>
+			<field type="uint16_t" name="resolution_v" units="pix">Vertical resolution.</field>
+			<field type="uint32_t" name="bitrate" units="bits/s">Bit rate.</field>
+			<field type="uint16_t" name="rotation" units="deg">Video image rotation clockwise.</field>
+			<field type="char[230]" name="uri">Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).</field>
+		</message>
+		<message id="50003" name="HERELINK_TELEM">
+			<field type="uint8_t" name="rssi"></field>
+			<field type="int16_t" name="snr"></field>
+			<field type="uint32_t" name="rf_freq"></field>
+			<field type="uint32_t" name="link_bw"></field>
+			<field type="uint32_t" name="link_rate"></field>
+			<field type="int16_t" name="cpu_temp"></field>
+			<field type="int16_t" name="board_temp"></field>
+		</message>
+		<message id="284" name="GIMBAL_DEVICE_SET_ATTITUDE">
+			<wip/>
+			<!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+			<description>Low level message to control a gimbal device's attitude. This message is to be sent from the gimbal manager to the gimbal device component. Angles and rates can be set to NaN according to use case.</description>
+			<field type="uint8_t" name="target_system">System ID</field>
+			<field type="uint8_t" name="target_component">Component ID</field>
+			<field type="uint16_t" name="flags" enum="GIMBAL_DEVICE_FLAGS">Low level gimbal flags.</field>
+			<field type="float[4]" name="q" invalid="[NaN]">Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)</field>
+			<field type="float" name="angular_velocity_x" units="rad/s" invalid="NaN">X component of angular velocity, positive is rolling to the right, NaN to be ignored.</field>
+			<field type="float" name="angular_velocity_y" units="rad/s" invalid="NaN">Y component of angular velocity, positive is pitching up, NaN to be ignored.</field>
+			<field type="float" name="angular_velocity_z" units="rad/s" invalid="NaN">Z component of angular velocity, positive is yawing to the right, NaN to be ignored.</field>
+		</message>
+	</messages>
+	<enums>
+		<enum name="GIMBAL_DEVICE_FLAGS" bitmask="true">
+			<description>Flags for gimbal device (lower level) operation.</description>
+			<entry value="1" name="GIMBAL_DEVICE_FLAGS_RETRACT">
+				<description>Set to retracted safe position (no stabilization), takes presedence over all other flags.</description>
+			</entry>
+			<entry value="2" name="GIMBAL_DEVICE_FLAGS_NEUTRAL">
+				<description>Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (pitch=yaw=0) but may be any orientation.</description>
+			</entry>
+			<entry value="4" name="GIMBAL_DEVICE_FLAGS_ROLL_LOCK">
+				<description>Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default with a stabilizing gimbal.</description>
+			</entry>
+			<entry value="8" name="GIMBAL_DEVICE_FLAGS_PITCH_LOCK">
+				<description>Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default.</description>
+			</entry>
+			<entry value="16" name="GIMBAL_DEVICE_FLAGS_YAW_LOCK">
+				<description>Lock yaw angle to absolute angle relative to North (not relative to drone). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute). If this flag is not set, the quaternion frame is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle).</description>
+			</entry>
+		</enum>
+		<enum name="GIMBAL_MANAGER_FLAGS" bitmask="true">
+			<description>Flags for high level gimbal manager operation The first 16 bits are identical to the GIMBAL_DEVICE_FLAGS.</description>
+			<entry value="1" name="GIMBAL_MANAGER_FLAGS_RETRACT">
+				<description>Based on GIMBAL_DEVICE_FLAGS_RETRACT</description>
+			</entry>
+			<entry value="2" name="GIMBAL_MANAGER_FLAGS_NEUTRAL">
+				<description>Based on GIMBAL_DEVICE_FLAGS_NEUTRAL</description>
+			</entry>
+			<entry value="4" name="GIMBAL_MANAGER_FLAGS_ROLL_LOCK">
+				<description>Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK</description>
+			</entry>
+			<entry value="8" name="GIMBAL_MANAGER_FLAGS_PITCH_LOCK">
+				<description>Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK</description>
+			</entry>
+			<entry value="16" name="GIMBAL_MANAGER_FLAGS_YAW_LOCK">
+				<description>Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK</description>
+			</entry>
+		</enum>
+	</enums>
 </mavlink>
 

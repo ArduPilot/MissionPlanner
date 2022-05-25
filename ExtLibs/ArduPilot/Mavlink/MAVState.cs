@@ -324,6 +324,7 @@ namespace MissionPlanner
         internal int recvpacketcount = 0;
         public Int64 time_offset_ns { get; set; }
         public CameraProtocol Camera { get; set; }
+        public GimbalProtocol Gimbal { get; set; }
 
         public override string ToString()
         {

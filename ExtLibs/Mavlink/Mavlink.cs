@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Wed May 25 2022";
+    public const string MAVLINK_BUILD_DATE = "Fri May 27 2022";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -293,6 +293,9 @@ public partial class MAVLink
         new message_info(12920, "HYGROMETER_SENSOR", 20, 5, 5, typeof( mavlink_hygrometer_sensor_t )),
         new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
         new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
+        new message_info(284, "GIMBAL_DEVICE_SET_ATTITUDE", 99, 32, 32, typeof( mavlink_gimbal_device_set_attitude_t )),
+        new message_info(26900, "VIDEO_STREAM_INFORMATION99", 222, 246, 246, typeof( mavlink_video_stream_information99_t )),
+        new message_info(50003, "HERELINK_TELEM", 62, 19, 19, typeof( mavlink_herelink_telem_t )),
         new message_info(0, "HEARTBEAT", 50, 9, 9, typeof( mavlink_heartbeat_t )),
 
     };
@@ -586,6 +589,9 @@ public partial class MAVLink
         HYGROMETER_SENSOR = 12920,
         ICAROUS_HEARTBEAT = 42000,
         ICAROUS_KINEMATIC_BANDS = 42001,
+        GIMBAL_DEVICE_SET_ATTITUDE = 284,
+        VIDEO_STREAM_INFORMATION99 = 26900,
+        HERELINK_TELEM = 50003,
         HEARTBEAT = 0,
     }
     
@@ -2307,6 +2313,51 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         OSD_PARAM_INVALID_PARAMETER=3, 
+        
+    };
+    
+    
+    ///<summary> Flags for gimbal device (lower level) operation. </summary>
+    [Flags]
+	public enum GIMBAL_DEVICE_FLAGS: ushort
+    {
+        ///<summary> Set to retracted safe position (no stabilization), takes presedence over all other flags. | </summary>
+        [Description("Set to retracted safe position (no stabilization), takes presedence over all other flags.")]
+        RETRACT=1, 
+        ///<summary> Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (pitch=yaw=0) but may be any orientation. | </summary>
+        [Description("Set to neutral/default position, taking precedence over all other flags except RETRACT. Neutral is commonly forward-facing and horizontal (pitch=yaw=0) but may be any orientation.")]
+        NEUTRAL=2, 
+        ///<summary> Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default with a stabilizing gimbal. | </summary>
+        [Description("Lock roll angle to absolute angle relative to horizon (not relative to drone). This is generally the default with a stabilizing gimbal.")]
+        ROLL_LOCK=4, 
+        ///<summary> Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default. | </summary>
+        [Description("Lock pitch angle to absolute angle relative to horizon (not relative to drone). This is generally the default.")]
+        PITCH_LOCK=8, 
+        ///<summary> Lock yaw angle to absolute angle relative to North (not relative to drone). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute). If this flag is not set, the quaternion frame is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle). | </summary>
+        [Description("Lock yaw angle to absolute angle relative to North (not relative to drone). If this flag is set, the quaternion is in the Earth frame with the x-axis pointing North (yaw absolute). If this flag is not set, the quaternion frame is in the Earth frame rotated so that the x-axis is pointing forward (yaw relative to vehicle).")]
+        YAW_LOCK=16, 
+        
+    };
+    
+    ///<summary> Flags for high level gimbal manager operation The first 16 bits are identical to the GIMBAL_DEVICE_FLAGS. </summary>
+    [Flags]
+	public enum GIMBAL_MANAGER_FLAGS: int /*default*/
+    {
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_RETRACT | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_RETRACT")]
+        RETRACT=1, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_NEUTRAL | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_NEUTRAL")]
+        NEUTRAL=2, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_ROLL_LOCK")]
+        ROLL_LOCK=4, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_PITCH_LOCK")]
+        PITCH_LOCK=8, 
+        ///<summary> Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK | </summary>
+        [Description("Based on GIMBAL_DEVICE_FLAGS_YAW_LOCK")]
+        YAW_LOCK=16, 
         
     };
     
@@ -9687,6 +9738,198 @@ public partial class MAVLink
         [Description("MCU instance")]
         //[FieldOffset(8)]
         public  byte id;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=246)]
+    ///<summary> Information about video stream </summary>
+    public struct mavlink_video_stream_information99_t
+    {
+        public mavlink_video_stream_information99_t(float framerate,uint bitrate,ushort resolution_h,ushort resolution_v,ushort rotation,byte camera_id,byte status,byte[] uri) 
+        {
+            this.framerate = framerate;
+            this.bitrate = bitrate;
+            this.resolution_h = resolution_h;
+            this.resolution_v = resolution_v;
+            this.rotation = rotation;
+            this.camera_id = camera_id;
+            this.status = status;
+            this.uri = uri;
+            
+        }
+
+        /// <summary>Frame rate.  [Hz] </summary>
+        [Units("[Hz]")]
+        [Description("Frame rate.")]
+        //[FieldOffset(0)]
+        public  float framerate;
+
+        /// <summary>Bit rate.  [bits/s] </summary>
+        [Units("[bits/s]")]
+        [Description("Bit rate.")]
+        //[FieldOffset(4)]
+        public  uint bitrate;
+
+        /// <summary>Horizontal resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Horizontal resolution.")]
+        //[FieldOffset(8)]
+        public  ushort resolution_h;
+
+        /// <summary>Vertical resolution.  [pix] </summary>
+        [Units("[pix]")]
+        [Description("Vertical resolution.")]
+        //[FieldOffset(10)]
+        public  ushort resolution_v;
+
+        /// <summary>Video image rotation clockwise.  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Video image rotation clockwise.")]
+        //[FieldOffset(12)]
+        public  ushort rotation;
+
+        /// <summary>Video Stream ID (1 for first, 2 for second, etc.)   </summary>
+        [Units("")]
+        [Description("Video Stream ID (1 for first, 2 for second, etc.)")]
+        //[FieldOffset(14)]
+        public  byte camera_id;
+
+        /// <summary>Number of streams available.   </summary>
+        [Units("")]
+        [Description("Number of streams available.")]
+        //[FieldOffset(15)]
+        public  byte status;
+
+        /// <summary>Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).   </summary>
+        [Units("")]
+        [Description("Video stream URI (TCP or RTSP URI ground station should connect to) or port number (UDP port ground station should listen to).")]
+        //[FieldOffset(16)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=230)]
+		public byte[] uri;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=19)]
+    ///<summary>  </summary>
+    public struct mavlink_herelink_telem_t
+    {
+        public mavlink_herelink_telem_t(uint rf_freq,uint link_bw,uint link_rate,short snr,short cpu_temp,short board_temp,byte rssi) 
+        {
+            this.rf_freq = rf_freq;
+            this.link_bw = link_bw;
+            this.link_rate = link_rate;
+            this.snr = snr;
+            this.cpu_temp = cpu_temp;
+            this.board_temp = board_temp;
+            this.rssi = rssi;
+            
+        }
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(0)]
+        public  uint rf_freq;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(4)]
+        public  uint link_bw;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(8)]
+        public  uint link_rate;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(12)]
+        public  short snr;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(14)]
+        public  short cpu_temp;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(16)]
+        public  short board_temp;
+
+        /// <summary>   </summary>
+        [Units("")]
+        [Description("")]
+        //[FieldOffset(18)]
+        public  byte rssi;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    ///<summary> Low level message to control a gimbal device's attitude. This message is to be sent from the gimbal manager to the gimbal device component. Angles and rates can be set to NaN according to use case. </summary>
+    public struct mavlink_gimbal_device_set_attitude_t
+    {
+        public mavlink_gimbal_device_set_attitude_t(float[] q,float angular_velocity_x,float angular_velocity_y,float angular_velocity_z,/*GIMBAL_DEVICE_FLAGS*/ushort flags,byte target_system,byte target_component) 
+        {
+            this.q = q;
+            this.angular_velocity_x = angular_velocity_x;
+            this.angular_velocity_y = angular_velocity_y;
+            this.angular_velocity_z = angular_velocity_z;
+            this.flags = flags;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+
+        /// <summary>Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)   </summary>
+        [Units("")]
+        [Description("Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation, the frame is depends on whether the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, set all fields to NaN if only angular velocity should be used)")]
+        //[FieldOffset(0)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+
+        /// <summary>X component of angular velocity, positive is rolling to the right, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("X component of angular velocity, positive is rolling to the right, NaN to be ignored.")]
+        //[FieldOffset(16)]
+        public  float angular_velocity_x;
+
+        /// <summary>Y component of angular velocity, positive is pitching up, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Y component of angular velocity, positive is pitching up, NaN to be ignored.")]
+        //[FieldOffset(20)]
+        public  float angular_velocity_y;
+
+        /// <summary>Z component of angular velocity, positive is yawing to the right, NaN to be ignored.  [rad/s] </summary>
+        [Units("[rad/s]")]
+        [Description("Z component of angular velocity, positive is yawing to the right, NaN to be ignored.")]
+        //[FieldOffset(24)]
+        public  float angular_velocity_z;
+
+        /// <summary>Low level gimbal flags. GIMBAL_DEVICE_FLAGS  </summary>
+        [Units("")]
+        [Description("Low level gimbal flags.")]
+        //[FieldOffset(28)]
+        public  /*GIMBAL_DEVICE_FLAGS*/ushort flags;
+
+        /// <summary>System ID   </summary>
+        [Units("")]
+        [Description("System ID")]
+        //[FieldOffset(30)]
+        public  byte target_system;
+
+        /// <summary>Component ID   </summary>
+        [Units("")]
+        [Description("Component ID")]
+        //[FieldOffset(31)]
+        public  byte target_component;
     };
 
     

@@ -455,7 +455,6 @@ namespace MissionPlanner
                 {
                     try
                     {
-
                         // Open holds this
                         while (!_openComplete)
                         {
@@ -467,6 +466,32 @@ namespace MissionPlanner
                         await MAVlist[tuple.Item1, tuple.Item2]
                             .Camera.StartID(MAVlist[tuple.Item1, tuple.Item2])
                             .ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error(e);
+                    }
+                });
+            }
+            // gimbals
+            if (tuple.Item2 >= (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_GIMBAL &&
+                tuple.Item2 <= (byte)MAV_COMPONENT.MAV_COMP_ID_GIMBAL6)
+            {
+                MAVlist[tuple.Item1, tuple.Item2].Gimbal = new GimbalProtocol();
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        // Open holds this
+                        while (!_openComplete)
+                        {
+                            await Task.Delay(1000);
+                        }
+
+                        await Task.Delay(2000);
+
+                        MAVlist[tuple.Item1, tuple.Item2]
+                            .Gimbal.Discover(this);
                     }
                     catch (Exception e)
                     {
