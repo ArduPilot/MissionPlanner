@@ -2581,7 +2581,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                         log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD) ack.command, (MAV_RESULT) ack.result);
 
-                        if (ack.result == (byte) MAV_RESULT.ACCEPTED)
+
+                        if (ack.result == (byte)MAV_RESULT.IN_PROGRESS)
+                        {
+                            start = DateTime.Now;
+                            retrys = 0;
+                            continue;
+                        } 
+                        else if (ack.result == (byte) MAV_RESULT.ACCEPTED)
                         {
                             giveComport = false;
                             return true;
