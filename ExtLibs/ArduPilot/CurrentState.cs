@@ -682,6 +682,38 @@ namespace MissionPlanner
 
         [GroupText("RadioOut")] public float ch16out { get; set; }
 
+        [GroupText("RadioOut")] public float ch17out { get; set; }
+
+        [GroupText("RadioOut")] public float ch18out { get; set; }
+
+        [GroupText("RadioOut")] public float ch19out { get; set; }
+
+        [GroupText("RadioOut")] public float ch20out { get; set; }
+
+        [GroupText("RadioOut")] public float ch21out { get; set; }
+
+        [GroupText("RadioOut")] public float ch22out { get; set; }
+
+        [GroupText("RadioOut")] public float ch23out { get; set; }
+
+        [GroupText("RadioOut")] public float ch24out { get; set; }
+
+        [GroupText("RadioOut")] public float ch25out { get; set; }
+
+        [GroupText("RadioOut")] public float ch26out { get; set; }
+
+        [GroupText("RadioOut")] public float ch27out { get; set; }
+
+        [GroupText("RadioOut")] public float ch28out { get; set; }
+
+        [GroupText("RadioOut")] public float ch29out { get; set; }
+
+        [GroupText("RadioOut")] public float ch30out { get; set; }
+
+        [GroupText("RadioOut")] public float ch31out { get; set; }
+
+        [GroupText("RadioOut")] public float ch32out { get; set; }
+
         [GroupText("ESC")] public float esc1_volt { get; set; }
         [GroupText("ESC")] public float esc1_curr { get; set; }
         [GroupText("ESC")] public float esc1_rpm { get; set; }
@@ -3233,24 +3265,41 @@ namespace MissionPlanner
                         {
                             var servoout = mavLinkMessage.ToStructure<MAVLink.mavlink_servo_output_raw_t>();
 
-                            ch1out = servoout.servo1_raw;
-                            ch2out = servoout.servo2_raw;
-                            ch3out = servoout.servo3_raw;
-                            ch4out = servoout.servo4_raw;
-                            ch5out = servoout.servo5_raw;
-                            ch6out = servoout.servo6_raw;
-                            ch7out = servoout.servo7_raw;
-                            ch8out = servoout.servo8_raw;
-
-                            // mavlink2 extension
-                            ch9out = servoout.servo9_raw;
-                            ch10out = servoout.servo10_raw;
-                            ch11out = servoout.servo11_raw;
-                            ch12out = servoout.servo12_raw;
-                            ch13out = servoout.servo13_raw;
-                            ch14out = servoout.servo14_raw;
-                            ch15out = servoout.servo15_raw;
-                            ch16out = servoout.servo16_raw;
+                            if (servoout.port == 0) {
+                                ch1out = servoout.servo1_raw;
+                                ch2out = servoout.servo2_raw;
+                                ch3out = servoout.servo3_raw;
+                                ch4out = servoout.servo4_raw;
+                                ch5out = servoout.servo5_raw;
+                                ch6out = servoout.servo6_raw;
+                                ch7out = servoout.servo7_raw;
+                                ch8out = servoout.servo8_raw;
+                                ch9out = servoout.servo9_raw;
+                                ch10out = servoout.servo10_raw;
+                                ch11out = servoout.servo11_raw;
+                                ch12out = servoout.servo12_raw;
+                                ch13out = servoout.servo13_raw;
+                                ch14out = servoout.servo14_raw;
+                                ch15out = servoout.servo15_raw;
+                                ch16out = servoout.servo16_raw;
+                            } else if (servoout.port == 1) {
+                                ch17out = servoout.servo1_raw;
+                                ch18out = servoout.servo2_raw;
+                                ch19out = servoout.servo3_raw;
+                                ch20out = servoout.servo4_raw;
+                                ch21out = servoout.servo5_raw;
+                                ch22out = servoout.servo6_raw;
+                                ch23out = servoout.servo7_raw;
+                                ch24out = servoout.servo8_raw;
+                                ch25out = servoout.servo9_raw;
+                                ch26out = servoout.servo10_raw;
+                                ch27out = servoout.servo11_raw;
+                                ch28out = servoout.servo12_raw;
+                                ch29out = servoout.servo13_raw;
+                                ch30out = servoout.servo14_raw;
+                                ch31out = servoout.servo15_raw;
+                                ch32out = servoout.servo16_raw;
+                            }
                         }
 
                         break;
