@@ -1,12 +1,10 @@
-﻿using DotSpatial.Data;
-using DotSpatial.Projections;
-using DotSpatial.Symbology;
+﻿using DotSpatial.Projections;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using log4net;
-using Microsoft.Scripting.Utils;
 using MissionPlanner.ArduPilot;
+using MissionPlanner.ArduPilot.Mavlink;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.GCSViews;
@@ -40,7 +38,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using MissionPlanner.ArduPilot.Mavlink;
+using DotSpatial.Data;
+using Microsoft.Scripting.Utils;
 using static MissionPlanner.Utilities.Firmware;
 using Formatting = Newtonsoft.Json.Formatting;
 using ILog = log4net.ILog;
@@ -1428,19 +1427,7 @@ namespace MissionPlanner
 
             store.Open(System.Security.Cryptography.X509Certificates.OpenFlags.ReadOnly);
 
-#if !LIB
-            // retrieve the certificate using the integrated Windows UI
-            System.Security.Cryptography.X509Certificates.X509Certificate2Collection certificates =
-                System.Security.Cryptography.X509Certificates.X509Certificate2UI.SelectFromCollection(
-                    store.Certificates.Find(X509FindType.FindByKeyUsage, X509KeyUsageFlags.DigitalSignature, true),
-                    "Choose your certificate",
-                    "Please select a certificate that is used.",
-                    System.Security.Cryptography.X509Certificates.X509SelectionFlag.SingleSelection);
-
-#else
             var certificates = store.Certificates.Find(X509FindType.FindByKeyUsage, X509KeyUsageFlags.DigitalSignature, true);
-#endif
-
 
             var cert = certificates[0];
             store.Close();
