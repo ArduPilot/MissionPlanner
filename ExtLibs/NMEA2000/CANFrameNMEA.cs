@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using MissionPlanner.Utilities;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ namespace NMEA2000
 {
     using System;
     using System.Collections.Generic;
-
+    using System.Diagnostics;
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
@@ -31,6 +32,8 @@ namespace NMEA2000
         static void Main(string[] args)
         {
             msggen.run();
+
+            ConvertCANLogToYDWG.runme();
         }
     }
     public partial class Pgns
@@ -459,24 +462,13 @@ namespace NMEA2000
 2021-10-27T12:02:25.513 7 002 255 127258 : 00 f8 ff ff f6 07 ff ff
          */
 
-        public static object Process(byte[] frame) 
-        {
-            var cf = new CANFrameNMEA(frame.Take(4).Reverse().ToArray());
-
-            var msginfo = NMEA2000msgs.msgs.Where(a => a.Item1 == cf.PDU);
-
-            var msg = Activator.CreateInstance(msginfo.First().Item2) as INMEA2000;
-
-            msg.SetPacketData(frame.Skip(4).ToArray());
-
-            return null;
-        }
-
         public static void run()
         {
             var pgns = JsonConvert.DeserializeObject<Pgns>(File.ReadAllText("Resources/pgns.json"), Converter.Settings);
 
-            Console.WriteLine(@"using System;
+            List<string> ans = new List<string>();
+
+            ans.Add(@"using System;
 using MissionPlanner.Utilities;
 using System.Collections.Generic;
 
@@ -484,12 +476,12 @@ namespace NMEA2000
 {
     public class NMEA2000msgs
     {
-        public static readonly (int, Type)[] msgs = {
+        public static readonly (int, Type, PgnType, int)[] msgs = {
 ");
             foreach (var pgn in pgns.PgNs)
-                Console.WriteLine(@"                ("+pgn.PgnPgn+", typeof("+pgn.Id+")),");
+                ans.Add(@"                (" + pgn.PgnPgn + ", typeof(" + pgn.Id + "), PgnType." + pgn.Type + ", " + pgn.Length + "),");
 
-            Console.WriteLine(@"};
+            ans.Add(@"};
     }
 
     public interface INMEA2000
@@ -513,13 +505,14 @@ namespace NMEA2000
                     continue;
                 msgnames.Add(pgn.Id);
 
-                Console.WriteLine(" /// " + desc);
-                Console.WriteLine(" /// " + type);
-                Console.WriteLine(" /// " + pgnno);
-                Console.WriteLine(" public class " + pgn.Id + " : INMEA2000 { ");
-                Console.WriteLine(" byte[] _packet;");
-                Console.WriteLine(" public void SetPacketData(byte[] packet) { _packet = packet; }");
-                Console.WriteLine(" public " + pgn.Id + "(byte[] packet) { _packet = packet; }");
+                ans.Add("/// Description: " + desc);
+                ans.Add("/// Type: " + type);
+                ans.Add("/// PGNNO: " + pgnno);
+                ans.Add("/// Length: " + length);
+                ans.Add("public class " + pgn.Id + " : INMEA2000 {");
+                ans.Add("    byte[] _packet;");
+                ans.Add("    public void SetPacketData(byte[] packet) { _packet = packet; }");
+                ans.Add("    public " + pgn.Id + "(byte[] packet) { _packet = packet; }");
 
                 // event
                 // override
@@ -532,16 +525,33 @@ namespace NMEA2000
                     // name same as class
                     if (a.Id.Equals(pgn.Id))
                         a.Id += "_";
-                    Console.WriteLine($"    public {ConvertType(a.Type)} {ConvertName(a.Id)} {{ get {{ return _packet.GetBitOffsetLength<{ConvertType(a.Type)}>({a.BitStart}, {a.BitOffset}, {a.BitLength}, {a.Signed.ToString().ToLower()}, {a.Resolution ?? 0}); }} set {{ }}  }}");
+                    ans.Add($"    public {ConvertTypeOUTPUT(a)} {ConvertName(a.Id)} {{ get {{ return _packet.GetBitOffsetLength<{ConvertType(a.Type, a.BitLength)}, {ConvertTypeOUTPUT(a)}>({a.BitStart}, {a.BitOffset}, {a.BitLength}, {a.Signed.ToString().ToLower()},  {a.Resolution ?? 0}); }} set {{ }}  }}");
                 });
-                
 
-                Console.WriteLine("}");
+                fields?
+      .Distinct(new MissionPlanner.Utilities.EqualityComparer<Field>((a, b) => a.Id == b.Id)).Where(a => a.Type == FieldType.LookupTable)
+      .ForEach(a =>
+      {
+          if (a.EnumValues == null)
+              return;
+          // name same as class
+          if (a.Id.Equals(pgn.Id))
+              a.Id += "_";
+
+          // ans.Add($"    public enum {ConvertName(a.Id)}_enum {{ " + $"{a.EnumValues.Aggregate("", (q, w) => q + "" + w.Name.Replace(" ", "_").Replace("/", "_").Replace("-", "minus").Replace("+", "plus").Replace("(", "_").Replace(")", "_").Replace("#", "_").Replace(".", "_").Replace(":", "_") + " = " + w.Value + ",\n")} }}");
+      });
+
+
+                ans.Add("}");
+
+
             }
 
-            Console.WriteLine(@"
+            ans.Add(@"
 }
 ");
+
+            File.WriteAllLines("..\\..\\..\\NMEA2000pgns.cs", ans);
         }
 
         public static string ConvertName(string no)
@@ -553,7 +563,7 @@ namespace NMEA2000
                  .Replace("unused", "@unused");
         }
 
-        private static string ConvertType(FieldType? jToken)
+        private static string ConvertType(FieldType? jToken, long bitwidth = 0)
         {
             if(jToken == null)
                 return "int";
@@ -571,13 +581,84 @@ namespace NMEA2000
                 case FieldType.Bitfield:
                      return "long";
                 case FieldType.Date:
-                    return "DateTime";
+                    return "int";
                 case FieldType.DecimalEncodedNumber:
                     return "decimal";
                 case FieldType.IeeeFloat:
                    return "float";
                 case FieldType.Integer:
                    return "int";
+                case FieldType.Latitude:
+                    if (bitwidth == 64)
+                        return "long";
+                    return "int";
+                case FieldType.Longitude:
+                    if (bitwidth == 64)
+                        return "long";
+                    return "int";
+                case FieldType.LookupTable:
+                    return "string";
+                case FieldType.ManufacturerCode:
+                    return "long";
+                case FieldType.Pressure:
+                    if (bitwidth == 64)
+                        return "long";
+                    return "int";
+                case FieldType.PressureHires:
+                    if (bitwidth == 64)
+                        return "long";
+                    return "int";
+                case FieldType.StringWithStartStopByte:
+                    return "string";
+                case FieldType.Temperature:
+                    if (bitwidth == 64)
+                        return "long";
+                    return "int";
+                case FieldType.TemperatureHires:
+                    if (bitwidth == 64)
+                        return "long";
+                    return "int";
+                case FieldType.Time:
+                     return "int";
+            }
+
+            throw new Exception();
+        }
+               
+        private static string ConvertTypeOUTPUT(Field jToken)
+        {
+            if (jToken.Type == null)
+            {
+                if (jToken.Resolution == null)
+                    if (jToken.BitLength <= 32)
+                        return "int";
+                    else 
+                        return "long";
+                if (jToken.Resolution != 1 && jToken.Resolution != 0)
+                    return "double";
+                return "int";
+            }
+
+            switch (jToken.Type)
+            {
+                case FieldType.AsciiOrUnicodeStringStartingWithLengthAndControlByte:
+                    return "string";
+                case FieldType.AsciiStringStartingWithLengthByte:
+                    return "string";
+                case FieldType.AsciiText:
+                    return "string";
+                case FieldType.BinaryData:
+                    return "byte[]";
+                case FieldType.Bitfield:
+                    return "long";
+                case FieldType.Date:
+                    return "int";
+                case FieldType.DecimalEncodedNumber:
+                    return "decimal";
+                case FieldType.IeeeFloat:
+                    return "float";
+                case FieldType.Integer:
+                    return "int";
                 case FieldType.Latitude:
                     return "double";
                 case FieldType.Longitude:
@@ -597,7 +678,7 @@ namespace NMEA2000
                 case FieldType.TemperatureHires:
                     return "double";
                 case FieldType.Time:
-                     return "DateTime";
+                    return "int";
             }
 
             throw new Exception();
@@ -614,6 +695,8 @@ namespace NMEA2000
 
             var lines = File.ReadAllLines(file);
 
+            Dictionary<int, List<byte>> msgbuffer = new Dictionary<int32_t, List<uint8_t>>();
+
             foreach (var line in lines)
             {
                 var match = reg.Match(line);
@@ -621,7 +704,56 @@ namespace NMEA2000
                 {
                     // ts prio src dst  pgn
                     var cf = new CANFrameNMEA((match.Groups[1].Value.HexStringToByteArray().Reverse().ToArray()));
+                    
+                    var type = NMEA2000msgs.msgs.Where(a => a.Item1 == cf.PDU);
+                    if (type.Count() > 0)
+                    {
+                        if (type.First().Item3 == PgnType.Single)
+                        {
+                            var msg = type.First().Item2.GetConstructor(new Type[] { typeof(byte[]) })
+                                .Invoke(new Object[] { match.Groups[3].Value.HexStringToByteArray() });
 
+                            Console.WriteLine(msg.ToJSONWithType());
+                        }
+                        if (type.First().Item3 == PgnType.Fast)
+                        {
+                            //0x1f
+                            // E0 size data...
+                            // E1 data...
+                            var data = match.Groups[3].Value.HexStringToByteArray();
+
+                            if ((data[0] & 0x1f) == 0)
+                            {
+                                //first frame
+                                var size = data[1];
+
+                                msgbuffer[type.First().Item1] = new List<uint8_t>(size);
+                                msgbuffer[type.First().Item1].AddRange(data.Skip(2));
+                            }
+                            else 
+                            {
+                                msgbuffer[type.First().Item1].AddRange(data.Skip(1));
+                                var size = type.First().Item4;
+
+                                if (msgbuffer[type.First().Item1].Count >= size)
+                                {
+                                    var msg = type.First().Item2.GetConstructor(new Type[] { typeof(byte[]) })
+                                  .Invoke(new Object[] { msgbuffer[type.First().Item1].ToArray() });
+
+
+                                    Console.WriteLine(msg.ToJSONWithType());
+
+                                    msgbuffer.Remove(type.First().Item1);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //iso
+                    
+                        }
+                    }
+                    
                     //       {4} {5} {6} {7}
                     Console.WriteLine("{0} {1} {2} {3}", DateTime.Now.ToString("hh:mm:ss.fff"), "T", match.Groups[1].Value, (match.Groups[3].Value.HexStringToSpacedHex()), cf.Priority, cf.DataPage, cf.PDU, cf.SourceAddress);
                 }

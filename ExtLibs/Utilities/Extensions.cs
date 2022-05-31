@@ -283,6 +283,19 @@ namespace MissionPlanner.Utilities
             return st;
         }
 
+        
+        public static ulong getbituEndian(this byte[] buff, uint pos, uint len)
+        {
+            var normal = getbitu(buff, pos, len);
+            return BitConverter.ToUInt64(BitConverter.GetBytes(normal).Take((int)Math.Ceiling(len / 8.0)).Reverse().ToArray().MakeSize(8), 0);
+        }
+        public static long getbitsEndian(this byte[] buff, uint pos, uint len)
+        {
+            var bits = getbituEndian(buff, pos, len);
+            if (len <= 0 || 64 <= len || !((bits & (1u << (int)(len - 1))) != 0))
+                return (long)bits;
+            return (long)(bits | (~0ul << (int)len));
+        }
         /// <summary>
         /// get upto 64 bits at a time
         /// </summary>
@@ -307,43 +320,32 @@ namespace MissionPlanner.Utilities
             return (long)(bits | (~0ul << (int)len));
         }
 
-        public static T GetBitOffsetLength<T>(this byte[] input, int start, int offset, int length, bool signed, double resolution = 0)
+        public static OUT GetBitOffsetLength<IN,OUT>(this byte[] input, int start, int offset, int length, bool signed, double resolution = 0)
         {
             if (resolution == 0)
                 resolution = 1;
 
-            if (typeof(T) == typeof(string))
+            if (typeof(OUT) == typeof(string))
             {
-                return (T)(object)Encoding.ASCII.GetString(BitConverter.GetBytes(input.getbitu((uint)offset, (uint)length)));
+                return (OUT)(object)Encoding.ASCII.GetString(input.Skip(offset/8).Take((length / 8) + 1).ToArray()).TrimEnd();
             }
 
-            if (typeof(T) == typeof(int) && signed)
+            if (typeof(OUT) == typeof(byte[]))
             {
-                return (T)(object)input.getbits((uint)offset, (uint)length);
-            }
-            if (typeof(T) == typeof(uint) && !signed)
-            {
-                return (T)(object)input.getbitu((uint)offset, (uint)length);
+                return (OUT)(object)BitConverter.GetBytes(input.getbituEndian((uint)offset, (uint)length)).MakeSize((length/8) + 1);
             }
 
-            if (typeof(T) == typeof(float) && signed)
+            if (length <= 64 && signed)
             {
-                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.f32;
-            }
-            if (typeof(T) == typeof(double) && signed)
-            {
-                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.d64;
-            }
-            if (typeof(T) == typeof(long) && signed)
-            {
-                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.s64;
-            }
-            if (typeof(T) == typeof(DateTime))
-            {
-                return (T)(object)new typeunion() { u64 = input.getbitu((uint)offset, (uint)length) }.u32;
+                return (OUT)Convert.ChangeType(input.getbitsEndian((uint)offset, (uint)length) * resolution, typeof(OUT));
             }
 
-            return default(T);
+            if (length <= 64 && !signed)
+            {
+                return (OUT)Convert.ChangeType(input.getbituEndian((uint)offset, (uint)length) * resolution, typeof(OUT));
+            }
+
+            return default(OUT);
         }
 
         public static string ToHexString(this byte[] input)
