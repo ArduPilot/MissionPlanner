@@ -5,7 +5,7 @@ using AltitudeAngelWings.Service;
 
 namespace AltitudeAngelWings.Plugin
 {
-    public class AltitudeAngel : MissionPlanner.Plugin.Plugin
+    public class AltitudeAngelPlugin : MissionPlanner.Plugin.Plugin
     {
         private const string SettingsMenuItemName = "altitudeAngelSettings";
 
@@ -17,8 +17,11 @@ namespace AltitudeAngelWings.Plugin
 
         private bool _enabled;
 
+        static internal AltitudeAngelPlugin Instance;
+
         public override bool Init()
         {
+            Instance = this;
             Host.MainForm.Invoke((Action)(() => 
             {
                 Host.FDMenuMap.Items.Add(CreateSettingsMenuItem());

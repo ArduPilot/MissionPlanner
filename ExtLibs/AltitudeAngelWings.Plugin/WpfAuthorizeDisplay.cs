@@ -28,27 +28,30 @@ namespace AltitudeAngelWings.Plugin
 
         public async Task<Uri> GetCodeUri(Uri authorizeUri, Uri redirectUri)
         {
-            var mre = new SemaphoreSlim(0, 1);
+            var ss = new SemaphoreSlim(0, 1);
 
+            // BeginInvoke onto the ui thread, and await until closed
+            AltitudeAngelPlugin.Instance.Host.MainForm.BeginInvoke((Action)delegate ()
+            {
+                var form = new Form();
+                _result = redirectUri;
+                // ReSharper disable once AccessToDisposedClosure
+                _close = () => { form.Close(); };
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.Width = _width;
+                form.Height = _height;
+                var webBrowser = new WebBrowser();
+                webBrowser.Navigating += WebBrowserOnNavigating;
+                webBrowser.Navigated += WebBrowserOnNavigated;
+                webBrowser.Dock = DockStyle.Fill;
+                form.Controls.Add(webBrowser);
+                webBrowser.Navigate(authorizeUri);
+                form.FormClosed += (s, e) => { ss.Release(); };
 
-            var form = new Form();
+                form.Show(_owner);
+            });
 
-            _result = redirectUri;
-            // ReSharper disable once AccessToDisposedClosure
-            _close = () => { form.Close(); mre.Release(); };
-            form.StartPosition = FormStartPosition.CenterParent;
-            form.Width = _width;
-            form.Height = _height;
-            var webBrowser = new WebBrowser();
-            webBrowser.Navigating += WebBrowserOnNavigating;
-            webBrowser.Navigated += WebBrowserOnNavigated;
-            webBrowser.Dock = DockStyle.Fill;
-            form.Controls.Add(webBrowser);
-            webBrowser.Navigate(authorizeUri);
-
-            form.Show(_owner);
-
-            await mre.WaitAsync();
+            await ss.WaitAsync();
 
             return _result;
         }
