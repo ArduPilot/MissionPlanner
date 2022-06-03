@@ -42,7 +42,7 @@ namespace AltitudeAngelWings.Plugin
                     webBrowser.Dock = DockStyle.Fill;
                     form.Controls.Add(webBrowser);
                     webBrowser.Navigate(authorizeUri);
-                    form.ShowDialog(_owner);
+                    form.Show(_owner);
                     return _result;
                 }
             });
