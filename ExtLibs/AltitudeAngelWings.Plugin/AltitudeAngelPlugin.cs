@@ -30,9 +30,9 @@ namespace AltitudeAngelWings.Plugin
         public override bool Loaded()
         {
             ServiceLocator.Clear();
-            if (Host.config.ContainsKey("AACheck2"))
+            if (Host.config.ContainsKey("AA_CheckEnableAltitudeAngel"))
             {
-                _enabled = !Host.config.GetBoolean("AACheck2");
+                _enabled = Host.config.GetBoolean("AA_CheckEnableAltitudeAngel");
             }
             else
             {
@@ -62,7 +62,7 @@ namespace AltitudeAngelWings.Plugin
                 text,
                 Resources.AskToEnableCaption,
                 CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes;
-            Host.config["AACheck2"] = (!_enabled).ToString();
+            Host.config["AA_CheckEnableAltitudeAngel"] = (_enabled).ToString();
             Host.config.Save();
         }
 
