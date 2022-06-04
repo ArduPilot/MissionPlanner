@@ -392,49 +392,50 @@ namespace GMap.NET.MapProviders
             return response.ContentType.Contains(responseContentType);
         }
 
+        HttpClient client = new HttpClient();
+
         protected PureImage GetTileImageUsingHttp(string url)
         {
             PureImage ret = null;
 
-            HttpClient client = new HttpClient();
-            if (!string.IsNullOrEmpty(UserAgent))
-                client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
-            if (!string.IsNullOrEmpty(requestAccept))
-                client.DefaultRequestHeaders.Add("Accept", requestAccept);
-            if (!string.IsNullOrEmpty(RefererUrl))
-                client.DefaultRequestHeaders.Add("Referer", RefererUrl);
-
-            MemoryStream data = Task.Run(async () =>
+            using (var request = new HttpRequestMessage(HttpMethod.Get, url))
             {
-                using (var response = await client.GetAsync(url))
+                request.Headers.Add("User-Agent", UserAgent);
+                request.Headers.Add("Accept", requestAccept);
+                request.Headers.Add("Referer", RefererUrl);
+
+                MemoryStream data = Task.Run(async () =>
                 {
-                    if (response.IsSuccessStatusCode)
+                    using (var response = await client.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
-                        return Stuff.CopyStream(stream, false);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var stream = await response.Content.ReadAsStreamAsync();
+                            return Stuff.CopyStream(stream, false);
+                        }
+
+                        throw new WebException((int)response.StatusCode + " " + response.ReasonPhrase);
                     }
+                }).GetAwaiter().GetResult();
 
-                    throw new WebException((int)response.StatusCode + " " + response.ReasonPhrase);
-                }
-            }).GetAwaiter().GetResult();
+                Debug.WriteLine("Response[" + data.Length + " bytes]: " + url);
 
-            Debug.WriteLine("Response[" + data.Length + " bytes]: " + url);
-
-            if (data.Length > 0)
-            {
-                ret = TileImageProxy.FromStream(data);
-
-                if (ret != null)
+                if (data.Length > 0)
                 {
-                    ret.Data = data;
-                    ret.Data.Position = 0;
+                    ret = TileImageProxy.FromStream(data);
+
+                    if (ret != null)
+                    {
+                        ret.Data = data;
+                        ret.Data.Position = 0;
+                    }
+                    else
+                    {
+                        data.Dispose();
+                    }
                 }
-                else
-                {
-                    data.Dispose();
-                }
+                data = null;
             }
-            data = null;
             return ret;
         }
 
