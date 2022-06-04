@@ -6609,7 +6609,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 //TXT_WPRad.Text = (127 * CurrentState.multiplierdist).ToString();
             }
 
-            writeKML();
+            if (this.ActiveControl != null)
+            {
+                writeKML();
+            }
         }
 
         public void updateCMDParams()
