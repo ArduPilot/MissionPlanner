@@ -27,6 +27,9 @@
     <EmbeddedResource Remove="Resources\Resource1.resx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BouncyCastle\BouncyCastle.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="GMap.NET.ObjectModel\ObservableCollection.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
