@@ -41,24 +41,39 @@ namespace MissionPlanner.Utilities
         {
             public UnionArray(byte[] bytes)
             {
-                this.Shorts = null;
-                this.Bytes = bytes;
+                this._shorts = null;
+                this._bytes = bytes;
             }
 
             [FieldOffset(0)]
-            public byte[] Bytes;
+            byte[] _bytes;
 
             [FieldOffset(0)]
-            public short[] Shorts;
+            short[] _shorts;
 
-            public int ShortsLength
+            public byte[] Bytes
             {
-                get { return Bytes.Length / 2; }
+                get
+                {
+                    return _bytes;
+                }
+                set
+                {
+                    _bytes = value;
+                }
+            }
+
+            public ReadOnlySpan<short> Shorts
+            {
+                get
+                {
+                    return new ReadOnlySpan<short>(_shorts, 0, _bytes.Length / 2);
+                }
             }
 
             public override string ToString()
             {
-                return "[" + String.Join(" ", Shorts.Take((Bytes.Length / 2)).ToList()) + "]";
+                return "[" + String.Join(" ", _shorts.Take((_bytes.Length / 2)).ToList()) + "]";
             }
         }
 

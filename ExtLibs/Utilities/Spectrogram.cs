@@ -76,7 +76,7 @@ namespace MissionPlanner.Utilities
                                 var ua = (BinaryLog.UnionArray)item.GetRaw(field.ToLower()
                                     .Substring(field.Length - 1));
 
-                                return ua.Shorts.Take(ua.ShortsLength).Select(ds =>
+                                return ua.Shorts.Select(ds =>
                                     {
                                         double d = ((double)ds / multiplier);
                                         return (time, d);

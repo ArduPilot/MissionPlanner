@@ -403,6 +403,26 @@ namespace MissionPlanner.Utilities
             return JsonConvert.DeserializeObject<T>(msg);
         }
 
+        public static void ForEach<T>(this ReadOnlySpan<T> span, Action<T> action) 
+        {
+            var enumerator = span.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                action(enumerator.Current);
+            }
+        }
+
+        public static IEnumerable<TOut> Select<T,TOut>(this ReadOnlySpan<T> span, Func<T,TOut> action)
+        {
+            List<TOut> list = new List<TOut>();
+            var enumerator = span.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                list.Add(action(enumerator.Current));
+            }
+            return list;
+        }
+
         public static string CleanString(this string dirtyString)
         {
             return new String(dirtyString.Where(Char.IsLetterOrDigit).ToArray());

@@ -836,17 +836,17 @@ namespace MissionPlanner.Controls
                         alldata[sensorno].lasttime = time;
 
                         var ua = (BinaryLog.UnionArray)item.raw[offsetX];
-                        ua.Shorts.Take(ua.ShortsLength).ForEach(aa =>
+                        ua.Shorts.ForEach(aa =>
                         {
                             alldata[sensorno].datax.Add(aa / multiplier);
                         });
                         ua = (BinaryLog.UnionArray)item.raw[offsetY];
-                        ua.Shorts.Take(ua.ShortsLength).ForEach(aa =>
+                        ua.Shorts.ForEach(aa =>
                         {
                             alldata[sensorno].datay.Add(aa / multiplier);
                         });
                         ua = (BinaryLog.UnionArray)item.raw[offsetZ];
-                        ua.Shorts.Take(ua.ShortsLength).ForEach(aa =>
+                        ua.Shorts.ForEach(aa =>
                         {
                             alldata[sensorno].dataz.Add(aa / multiplier);
                         });
