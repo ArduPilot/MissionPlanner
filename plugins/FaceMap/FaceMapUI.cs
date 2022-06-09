@@ -580,7 +580,7 @@ namespace MissionPlanner
 
 
             const decimal BENCH_ANGLE_MAX = 90;
-            const decimal BENCH_ANGLE_MIN = 45;
+            const decimal BENCH_ANGLE_MIN = 1;
 
             int strips = 0;
             int images = 0;
