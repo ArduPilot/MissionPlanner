@@ -760,7 +760,7 @@
             // 
             resources.ApplyResources(this.NUM_toepoint_runs, "NUM_toepoint_runs");
             this.NUM_toepoint_runs.Maximum = new decimal(new int[] {
-            25,
+            9999,
             0,
             0,
             0});
@@ -777,7 +777,7 @@
             65536});
             resources.ApplyResources(this.NUM_toepoint, "NUM_toepoint");
             this.NUM_toepoint.Maximum = new decimal(new int[] {
-            50,
+            9999,
             0,
             0,
             0});
@@ -918,6 +918,11 @@
             // 
             this.NUM_Distance.DecimalPlaces = 1;
             resources.ApplyResources(this.NUM_Distance, "NUM_Distance");
+            this.NUM_Distance.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
             this.NUM_Distance.Minimum = new decimal(new int[] {
             6,
             0,
@@ -974,7 +979,7 @@
             // 
             resources.ApplyResources(this.NUM_spacing, "NUM_spacing");
             this.NUM_spacing.Maximum = new decimal(new int[] {
-            5000,
+            9999,
             0,
             0,
             0});
@@ -1076,7 +1081,7 @@
             this.NUM_cameraPitch.Cursor = System.Windows.Forms.Cursors.Default;
             resources.ApplyResources(this.NUM_cameraPitch, "NUM_cameraPitch");
             this.NUM_cameraPitch.Maximum = new decimal(new int[] {
-            45,
+            89,
             0,
             0,
             0});
@@ -1087,7 +1092,7 @@
             // 
             resources.ApplyResources(this.NUM_Benches, "NUM_Benches");
             this.NUM_Benches.Maximum = new decimal(new int[] {
-            10,
+            9999,
             0,
             0,
             0});
@@ -1190,7 +1195,7 @@
             this.NUM_BenchHeight.DecimalPlaces = 2;
             resources.ApplyResources(this.NUM_BenchHeight, "NUM_BenchHeight");
             this.NUM_BenchHeight.Maximum = new decimal(new int[] {
-            9999,
+            99999,
             0,
             0,
             0});
