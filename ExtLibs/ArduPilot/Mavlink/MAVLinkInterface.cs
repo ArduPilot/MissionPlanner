@@ -3338,6 +3338,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                             loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONFIGURE)
                         {
                             loc.lat = wp.x;
+                            loc.lng = wp.y;
                         }
 
                         log.InfoFormat("getWPint {0} {1} {2} {3} {4} opt {5}", loc.id, loc.p1, loc.alt, loc.lat,
