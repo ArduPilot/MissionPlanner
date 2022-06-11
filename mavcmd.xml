@@ -12,60 +12,6 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </WAYPOINT>
-    <SPLINE_WAYPOINT>
-      <P1>Delay</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </SPLINE_WAYPOINT>
-    <LOITER_TURNS>
-      <P1>Turns</P1>
-      <P2></P2>
-      <P3>Radius</P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </LOITER_TURNS>
-    <LOITER_TIME>
-      <P1>Time s</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </LOITER_TIME>
-    <LOITER_UNLIM>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </LOITER_UNLIM>
-    <RETURN_TO_LAUNCH>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </RETURN_TO_LAUNCH>
-    <LAND>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </LAND>
     <TAKEOFF>
       <P1></P1>
       <P2></P2>
@@ -75,6 +21,24 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
+    <RETURN_TO_LAUNCH>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </RETURN_TO_LAUNCH>
+    <ATTITUDE_TIME>
+      <P1>Time (sec)</P1>
+      <P2>Roll</P2>
+      <P3>Pitch</P3>
+      <P4>Yaw</P4>
+      <X>ClimbRate</X>
+      <Y></Y>
+      <Z></Z>
+    </ATTITUDE_TIME>
     <DELAY>
       <P1>Seconds (or -1)</P1>
       <P2>Hour UTC (or -1)</P2>
@@ -93,6 +57,42 @@
       <Y></Y>
       <Z></Z>
     </GUIDED_ENABLE>
+    <LAND>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </LAND>
+    <LOITER_TIME>
+      <P1>Time s</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </LOITER_TIME>
+    <LOITER_TURNS>
+      <P1>Turns</P1>
+      <P2></P2>
+      <P3>Radius</P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </LOITER_TURNS>
+    <LOITER_UNLIM>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </LOITER_UNLIM>
     <PAYLOAD_PLACE>
       <P1>max descent</P1>
       <P2></P2>
@@ -111,24 +111,15 @@
       <Y></Y>
       <Z></Z>
     </SCRIPT_TIME>
-    <ATTITUDE_TIME>
-      <P1>Time (sec)</P1>
-      <P2>Roll</P2>
-      <P3>Pitch</P3>
-      <P4>Yaw</P4>
-      <X>ClimbRate</X>
-      <Y></Y>
-      <Z></Z>
-    </ATTITUDE_TIME>
-    <DO_LAND_START>
-      <P1></P1>
+    <SPLINE_WAYPOINT>
+      <P1>Delay</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_LAND_START>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </SPLINE_WAYPOINT>
     <DO_AUX_FUNCTION>
       <P1>AuxFunction</P1>
       <P2>SwitchPosition</P2>
@@ -138,6 +129,60 @@
       <Y></Y>
       <Z></Z>
     </DO_AUX_FUNCTION>
+    <DO_CHANGE_SPEED>
+      <P1>Type</P1>
+      <P2>Speed m/s</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_CHANGE_SPEED>
+    <DO_DIGICAM_CONFIGURE>
+      <P1>Mode</P1>
+      <P2>Shutter Speed</P2>
+      <P3>Aperture</P3>
+      <P4>ISO</P4>
+      <X>ExposureMode</X>
+      <Y>CommandID</Y>
+      <Z></Z>
+    </DO_DIGICAM_CONFIGURE>
+    <DO_DIGICAM_CONTROL>
+      <P1>On/Off</P1>
+      <P2>Zoom Position</P2>
+      <P3>Zoom Step</P3>
+      <P4>Focus Lock</P4>
+      <X>Shutter Cmd</X>
+      <Y>CommandID</Y>
+      <Z></Z>
+    </DO_DIGICAM_CONTROL>
+    <DO_ENGINE_CONTROL>
+      <P1>Start Engine</P1>
+      <P2>Cold Start</P2>
+      <P3>Height Delay</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_ENGINE_CONTROL>
+    <DO_GIMBAL_MANAGER_PITCHYAW>
+      <P1>Pitch Angle</P1>
+      <P2>Yaw Angle</P2>
+      <P3>Pitch Rate</P3>
+      <P4>Yaw Rate</P4>
+      <X>Flags</X>
+      <Y></Y>
+      <Z>Gimbal Id</Z>
+    </DO_GIMBAL_MANAGER_PITCHYAW>
+    <DO_GRIPPER>
+      <P1>Gripper No</P1>
+      <P2>drop(0)/grab(1)</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_GRIPPER>
     <DO_GUIDED_LIMITS>
       <P1>timeout S</P1>
       <P2>min alt</P2>
@@ -147,15 +192,87 @@
       <Y></Y>
       <Z></Z>
     </DO_GUIDED_LIMITS>
-    <DO_WINCH>
-      <P1>winch no</P1>
-      <P2>action</P2>
-      <P3>length</P3>
-      <P4>rate</P4>
+    <DO_JUMP>
+      <P1>WP #</P1>
+      <P2>Repeat#</P2>
+      <P3></P3>
+      <P4></P4>
       <X></X>
       <Y></Y>
       <Z></Z>
-    </DO_WINCH>
+    </DO_JUMP>
+    <DO_LAND_START>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_LAND_START>
+    <DO_MOUNT_CONTROL>
+      <P1>Pitch</P1>
+      <P2>Roll</P2>
+      <P3>Yaw</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_MOUNT_CONTROL>
+    <DO_PARACHUTE>
+      <P1>Enable(1)/Release(2)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_PARACHUTE>
+    <DO_REPEAT_RELAY>
+      <P1>Relay No</P1>
+      <P2>Repeat#</P2>
+      <P3>Delay (s)</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_REPEAT_RELAY>
+    <DO_REPEAT_SERVO>
+      <P1>Ser No</P1>
+      <P2>PWM</P2>
+      <P3>Repeat#</P3>
+      <P4>Delay (s)</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_REPEAT_SERVO>
+    <DO_SET_CAM_TRIGG_DIST>
+      <P1>Dist (m)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_CAM_TRIGG_DIST>
+    <DO_SET_RELAY>
+      <P1>Relay No</P1>
+      <P2>off(0)/on(1)</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_RELAY>
+    <DO_SET_RESUME_REPEAT_DIST>
+      <P1>Distance(m)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_RESUME_REPEAT_DIST>   
     <DO_SET_ROI>
       <P1></P1>
       <P2></P2>
@@ -165,6 +282,33 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </DO_SET_ROI>
+    <DO_SET_SERVO>
+      <P1>Ser No</P1>
+      <P2>PWM</P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_SERVO>
+    <DO_SPRAYER>
+      <P1>Sprayer Enable</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SPRAYER>
+    <DO_WINCH>
+      <P1>winch no</P1>
+      <P2>action</P2>
+      <P3>length</P3>
+      <P4>rate</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_WINCH>
     <CONDITION_DELAY>
       <P1>Time (sec)</P1>
       <P2></P2>
@@ -192,151 +336,6 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_YAW>
-    <DO_JUMP>
-      <P1>WP #</P1>
-      <P2>Repeat#</P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_JUMP>
-    <DO_CHANGE_SPEED>
-      <P1>Type</P1>
-      <P2>Speed m/s</P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_CHANGE_SPEED>
-    <DO_GRIPPER>
-      <P1>Gripper No</P1>
-      <P2>drop(0)/grab(1)</P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_GRIPPER>
-    <DO_PARACHUTE>
-      <P1>Enable(1)/Release(2)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_PARACHUTE>
-    <DO_SET_CAM_TRIGG_DIST>
-      <P1>Dist (m)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SET_CAM_TRIGG_DIST>
-    <DO_SET_RELAY>
-      <P1>Relay No</P1>
-      <P2>off(0)/on(1)</P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SET_RELAY>
-    <DO_REPEAT_RELAY>
-      <P1>Relay No</P1>
-      <P2>Repeat#</P2>
-      <P3>Delay (s)</P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_REPEAT_RELAY>
-    <DO_SET_SERVO>
-      <P1>Ser No</P1>
-      <P2>PWM</P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SET_SERVO>
-    <DO_REPEAT_SERVO>
-      <P1>Ser No</P1>
-      <P2>PWM</P2>
-      <P3>Repeat#</P3>
-      <P4>Delay (s)</P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_REPEAT_SERVO>
-    <DO_DIGICAM_CONFIGURE>
-      <P1>Mode</P1>
-      <P2>Shutter Speed</P2>
-      <P3>Aperture</P3>
-      <P4>ISO</P4>
-      <X>ExposureMode</X>
-      <Y>CommandID</Y>
-      <Z></Z>
-    </DO_DIGICAM_CONFIGURE>
-    <DO_DIGICAM_CONTROL>
-      <P1>On/Off</P1>
-      <P2>Zoom Position</P2>
-      <P3>Zoom Step</P3>
-      <P4>Focus Lock</P4>
-      <X>Shutter Cmd</X>
-      <Y>CommandID</Y>
-      <Z></Z>
-    </DO_DIGICAM_CONTROL>
-    <DO_MOUNT_CONTROL>
-      <P1>Pitch</P1>
-      <P2>Roll</P2>
-      <P3>Yaw</P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_MOUNT_CONTROL>
-    <DO_GIMBAL_MANAGER_PITCHYAW>
-      <P1>Pitch Angle</P1>
-      <P2>Yaw Angle</P2>
-      <P3>Pitch Rate</P3>
-      <P4>Yaw Rate</P4>
-      <X>Flags</X>
-      <Y></Y>
-      <Z>Gimbal Id</Z>
-    </DO_GIMBAL_MANAGER_PITCHYAW>
-    <DO_SPRAYER>
-      <P1>Sprayer Enable</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SPRAYER>
-    <DO_ENGINE_CONTROL>
-      <P1>Start Engine</P1>
-      <P2>Cold Start</P2>
-      <P3>Height Delay</P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_ENGINE_CONTROL>
-    <DO_SET_RESUME_REPEAT_DIST>
-      <P1>Distance(m)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SET_RESUME_REPEAT_DIST>   
-
   </AC2>
   <!-- -->
   <APM>
