@@ -17,7 +17,4 @@
   </ItemGroup>  <ItemGroup>
     <Compile Remove="netstandard2.0\Shim.cs" Condition="'$(TargetFramework)' != 'netstandard2.0'" />
   </ItemGroup>
-  <ItemGroup>
-
-  </ItemGroup>
 </Project>

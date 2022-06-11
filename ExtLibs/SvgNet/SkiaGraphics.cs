@@ -236,6 +236,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             }
         }
 
+        public SKCanvas Image => _image;
+
 
         public void Dispose()
         {

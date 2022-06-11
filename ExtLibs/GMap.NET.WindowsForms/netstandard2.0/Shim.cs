@@ -33,4 +33,6 @@ public class SkiaGraphics : Graphics
     public SkiaGraphics(IntPtr handle, int width, int height) : base(handle, width, height)
     {
     }
+
+    public SKCanvas Image => _image;
 }
