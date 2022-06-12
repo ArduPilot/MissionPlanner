@@ -287,6 +287,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     case 8:
                         pwm = MainV2.comPort.MAV.cs.ch8in;
                         break;
+                    case 9:
+                        pwm = MainV2.comPort.MAV.cs.ch9in;
+                        break;
+                    case 10:
+                        pwm = MainV2.comPort.MAV.cs.ch10in;
+                        break;
+                    case 11:
+                        pwm = MainV2.comPort.MAV.cs.ch11in;
+                        break;
+                    case 12:
+                        pwm = MainV2.comPort.MAV.cs.ch12in;
+                        break;
+                    case 13:
+                        pwm = MainV2.comPort.MAV.cs.ch13in;
+                        break;
+                    case 14:
+                        pwm = MainV2.comPort.MAV.cs.ch14in;
+                        break;
+                    case 15:
+                        pwm = MainV2.comPort.MAV.cs.ch15in;
+                        break;
+                    case 16:
+                        pwm = MainV2.comPort.MAV.cs.ch16in;
+                        break;
                     default:
 
                         break;
