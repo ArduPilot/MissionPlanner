@@ -39,3 +39,6 @@ docs/
 /Plugins/Dowding/server/node_modules
 /Plugins/Dowding/server/package-lock.json
 /ExtLibs/Tests
+*.p12
+*.pem
+*.key

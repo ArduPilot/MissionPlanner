@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="but_followswarm.Text" xml:space="preserve">
+    <value>Слідкуйте за оточенням</value>
+  </data>
+  <data name="BUT_follow_me.Text" xml:space="preserve">
+    <value>Слідкуйте за мною</value>
+  </data>
+  <data name="myButton_vlc.Text" xml:space="preserve">
+    <value>vлц</value>
+  </data>
+  <data name="but_signfw.Text" xml:space="preserve">
+    <value>Підписати FW</value>
+  </data>
+  <data name="BUT_followleader.Text" xml:space="preserve">
+    <value>Стежте за лідером</value>
+  </data>
+  <data name="but_logdlscp.Text" xml:space="preserve">
+    <value>журнал сканування</value>
+  </data>
+  <data name="label48.Text" xml:space="preserve">
+    <value>настроїти qnh</value>
+  </data>
+  <data name="label49.Text" xml:space="preserve">
+    <value>етикет49</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>показати додаткову іконку на карті поточного місцезнаходження.</value>
+  </data>
+  <data name="BUT_fft.Text" xml:space="preserve">
+    <value>ФТТ</value>
+  </data>
+  <data name="but_ManageCMDList.Text" xml:space="preserve">
+    <value>Управління списком команд</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>багатоповерховий інтерфейс</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>конвертувати shp файл для багатокутника</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>слідуйте керівнику оточуйте</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>температура</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>сортувати журнали в каталоги типу та sysid</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>створити ексклюзивний прохід до GPS (порт 500)</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>завантажити всі поточні fws</value>
+  </data>
+  <data name="BUT_outputnmea.Text" xml:space="preserve">
+    <value>НМЕА</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>додати власне зображення до mp</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>очистити зображення користувача</value>
+  </data>
+  <data name="BUT_QNH.Text" xml:space="preserve">
+    <value>К-ть</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>тест на швидкість конверсії</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>Створити файл вводу індикатора системи</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>чотири: рука та злітка</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>працювати на осі нахилу точки</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Створити користувацькі аудіо попередження</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>створити карту jpg для всіх журналів в dir</value>
+  </data>
+  <data name="but_signkey.Text" xml:space="preserve">
+    <value>підписання</value>
+  </data>
+  <data name="BUT_swarm.Text" xml:space="preserve">
+    <value>Оточення</value>
+  </data>
+  <data name="label54.Text" xml:space="preserve">
+    <value>показати датчик наближення ui</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>використовувати nmea-GPS, щоб слідувати за мною</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>tlog-браузер</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>отримати Масу зміщення з журналу</value>
+  </data>
+  <data name="but_sortlogs.Text" xml:space="preserve">
+    <value>Пересортувати всі логи</value>
+  </data>
+  <data name="label52.Text" xml:space="preserve">
+    <value>генерація даних param</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>переміщено в вкладку dataflash</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Керувати списком команд Planner</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>дзеркально отриманий mavlink потік</value>
+  </data>
+  <data name="label55.Text" xml:space="preserve">
+    <value>м'який стиль</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>відображати зображення даних з пікс.4 оптичного датчика потоку</value>
+  </data>
+  <data name="label50.Text" xml:space="preserve">
+    <value>відображати відео потік через vlc - натомість USE Gstream</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>відновити інформацію про парам, яка використовується всередині mp</value>
+  </data>
+  <data name="but_hexmavlink.Text" xml:space="preserve">
+    <value>шістнадцятковий розпад Mavlink</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>повертає положення mav в nmea</value>
+  </data>
+  <data name="label53.Text" xml:space="preserve">
+    <value>видобувати дані rtcm із tlog-у</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>вихідні значення розташування mav у форматі microdrone</value>
+  </data>
+  <data name="label51.Text" xml:space="preserve">
+    <value>видалити зображення старше 30 днів</value>
+  </data>
+  <data name="but_agemapdata.Text" xml:space="preserve">
+    <value>Дані вікової карти</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>редактор мови перекладу</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>накладати Хнуд у записані відео</value>
+  </data>
+  <data name="but_lockup.Text" xml:space="preserve">
+    <value>Блокування MMAV</value>
+  </data>
+  <data name="but_dashware.Text" xml:space="preserve">
+    <value>Дашваре</value>
+  </data>
+  <data name="BUT_sorttlogs.Text" xml:space="preserve">
+    <value>Сортувати записи</value>
+  </data>
+  <data name="but_getfw.Text" xml:space="preserve">
+    <value>реп усіх футів</value>
+  </data>
+  <data name="but_remotedflogger.Text" xml:space="preserve">
+    <value>Почати журнал віддаленого df</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>видалити встановлених драйверів</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>встановити користувацький інтервал повідомлень</value>
+  </data>
+  <data name="but_anonlog.Text" xml:space="preserve">
+    <value>Анон Лог</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>віртуальне натискання на кнопку сатей</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>оновити завантажувач</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>Дослідити всі пакети, що передаються через Mavlink</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>показати інформацію про апаратний ідентифікатор, введений в</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>Тривимірне тестування</value>
+  </data>
+  <data name="but_blupdate.Text" xml:space="preserve">
+    <value>Покращення завантажувача</value>
+  </data>
+  <data name="BUT_CoT.Text" xml:space="preserve">
+    <value>Кот</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>зміна "alt баро"</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>налагодити шістнадцятковий рядок пакета mavlink</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>причиною блокування автопілота</value>
+  </data>
+  <data name="but_gimbaltest.Text" xml:space="preserve">
+    <value>підвісний тест</value>
+  </data>
+  <data name="BUT_outputMD.Text" xml:space="preserve">
+    <value>Мікродрон</value>
+  </data>
+  <data name="but_GDAL.Text" xml:space="preserve">
+    <value>Власний GDAL</value>
+  </data>
+  <data name="but_proximity.Text" xml:space="preserve">
+    <value>Наближення</value>
+  </data>
+  <data name="BUT_clearcustommaps.Text" xml:space="preserve">
+    <value>Очистити користувацькі мапи</value>
+  </data>
+  <data name="BUT_movingbase.Text" xml:space="preserve">
+    <value>Рухома база</value>
+  </data>
+  <data name="but_osdvideo.Text" xml:space="preserve">
+    <value>OSDвідео</value>
+  </data>
+  <data name="but_td.Text" xml:space="preserve">
+    <value>захопити threads.txt</value>
+  </data>
+  <data name="BUT_shptopoly.Text" xml:space="preserve">
+    <value>Одягти полю</value>
+  </data>
+  <data name="but_3dmap.Text" xml:space="preserve">
+    <value>3D карта</value>
+  </data>
+  <data name="but_optflowcalib.Text" xml:space="preserve">
+    <value>оптичний каліб</value>
+  </data>
+  <data name="but_hwids.Text" xml:space="preserve">
+    <value>декод HWIDs</value>
+  </data>
+  <data name="BUT_geinjection.Text" xml:space="preserve">
+    <value>Ввести GE</value>
+  </data>
+  <data name="but_acbarohight.Text" xml:space="preserve">
+    <value>налаштувати висоту ЛА</value>
+  </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>Менеджер попереджень</value>
+  </data>
+  <data name="but_sitl_comb.Text" xml:space="preserve">
+    <value>кумедний комбайнер</value>
+  </data>
+  <data name="but_armandtakeoff.Text" xml:space="preserve">
+    <value>руки та зрив</value>
+  </data>
+  <data name="but_driverclean.Text" xml:space="preserve">
+    <value>чистий водій</value>
+  </data>
+  <data name="but_gpsinj.Text" xml:space="preserve">
+    <value>витягнути gps_inject</value>
+  </data>
+  <data name="but_packetbytes.Text" xml:space="preserve">
+    <value>проаналізувати пакети байт</value>
+  </data>
+  <data name="but_maplogs.Text" xml:space="preserve">
+    <value>журнал карт</value>
+  </data>
+  <data name="but_trimble.Text" xml:space="preserve">
+    <value>Послідовність оточення</value>
+  </data>
+  <data name="but_disablearmswitch.Text" xml:space="preserve">
+    <value>Перемикач безпечного режиму</value>
+  </data>
+  <data name="label47.Text" xml:space="preserve">
+    <value>перезавантажте автопілот</value>
+  </data>
+  <data name="BUT_magfit2.Text" xml:space="preserve">
+    <value>Чернетка теля</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>перервати всі журнали в папці журналювання MP</value>
+  </data>
+  <data name="but_messageinterval.Text" xml:space="preserve">
+    <value>Інтервал написання повідомлень</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>завантажити джерело плиток користувальницьких мап через GDAL</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>показати інформацію про поточний завантажений DEM</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>logdownload за допомогою scp - ssh (apsync)</value>
+  </data>
+</root>
