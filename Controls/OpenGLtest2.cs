@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -350,8 +351,11 @@ namespace MissionPlanner.Controls
                 if (_center.GetDistance(core.Position) > 30)
                 {
                     core.Position = _center;
-                    //core.Zoom = minzoom;
                 }
+
+                if (DateTime.Now.Second % 3 == 1 && tileArea != null)
+                    lock(tileArea)
+                        CleanupOldTextures(tileArea);
 
                 // wait for current to load
                 if (core.tileLoadQueue.Count > 0)
@@ -366,15 +370,7 @@ namespace MissionPlanner.Controls
 
                 // current has loaded - process
                 generateTextures();
-                // change zoom and loop
-                if (core.Zoom >= zoom)
-                {
-                    //System.Threading.Thread.Sleep(5000);
-                    //core.Zoom = minzoom;
-                    //continue;
-                }
 
-                //core.Zoom = core.Zoom + 1;
                 System.Threading.Thread.Sleep(100);
             }
         }
@@ -404,6 +400,7 @@ namespace MissionPlanner.Controls
         private bool fogon = true;
         private Lines _flightPlanLines;
         private DateTime _centerTime;
+        private List<tileZoomArea> tileArea = new List<tileZoomArea>();
 
         double[] convertCoords(PointLatLngAlt plla)
         {
@@ -716,9 +713,9 @@ namespace MissionPlanner.Controls
             core.LevelsKeepInMemmory = 10;
             core.Provider = type;
             //core.ReloadMap();
-            List<tileZoomArea> tileArea = new List<tileZoomArea>();
-            //if (center.GetDistance(oldcenter) > 30)
+            lock (tileArea)
             {
+                tileArea = new List<tileZoomArea>();
                 for (int a = minzoom; a <= zoom; a++)
                 {
                     var area2 = new RectLatLng(_center.Lat, _center.Lng, 0, 0);
@@ -754,13 +751,14 @@ namespace MissionPlanner.Controls
                 }
 
                 //Minimumtile(tileArea);
-            }
 
-            var totaltiles = 0;
-            foreach (var a in tileArea) totaltiles += a.points.Count;
-            Console.Write(DateTime.Now.Millisecond + " Total tiles " + totaltiles + "   \r");
-            if (DateTime.Now.Second % 3 == 1)
-                CleanupOldTextures(tileArea);
+                var totaltiles = 0;
+                foreach (var a in tileArea) totaltiles += a.points.Count;
+                Console.Write(DateTime.Now.Millisecond + " Total tiles " + totaltiles + "   \r");
+                if (DateTime.Now.Second % 3 == 1)
+                    CleanupOldTextures(tileArea);
+            }
+      
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             var C = 2 * Math.PI * 6378137.000;
             // horizontal distance by each tile square
@@ -769,7 +767,10 @@ namespace MissionPlanner.Controls
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             // zoom 20 = 38m
             // get tiles & combine into one
-            foreach (var tilearea in tileArea)
+            tileZoomArea[] talist;
+            lock (tileArea)
+                talist = tileArea.ToArray();
+            foreach (var tilearea in talist)
             {
                 stile = C * Math.Cos(_center.Lat) / Math.Pow(2, tilearea.zoom);
                 pxstep = (int)(stile / 45);
@@ -855,6 +856,8 @@ namespace MissionPlanner.Controls
                                             }
 
                                             textureid[p] = ti;
+
+                                            //File.WriteAllText(p.ToString(), ti.ToJSON());
                                         }
                                     }
                                     catch
