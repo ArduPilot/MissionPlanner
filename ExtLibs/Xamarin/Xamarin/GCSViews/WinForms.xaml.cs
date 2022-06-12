@@ -1247,7 +1247,7 @@ namespace Xamarin.GCSViews
                       {
                           Volume = 1.0f,
                           Pitch = 1.0f,
-                          Locale = locale
+                          //Locale = locale
                       };
 
                       await TextToSpeech.SpeakAsync(text, settings, cts.Token).ConfigureAwait(false);
