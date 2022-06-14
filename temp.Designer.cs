@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(temp));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.but_apjtool = new MissionPlanner.Controls.MyButton();
             this.BUT_CoT = new MissionPlanner.Controls.MyButton();
             this.but_proximity = new MissionPlanner.Controls.MyButton();
             this.but_followswarm = new MissionPlanner.Controls.MyButton();
@@ -145,7 +146,6 @@
             this.but_ManageCMDList = new MissionPlanner.Controls.MyButton();
             this.label28 = new System.Windows.Forms.Label();
             this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
-            this.but_signfw = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -153,7 +153,7 @@
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.but_signfw, 0, 27);
+            this.tableLayoutPanel1.Controls.Add(this.but_apjtool, 0, 27);
             this.tableLayoutPanel1.Controls.Add(this.BUT_CoT, 0, 29);
             this.tableLayoutPanel1.Controls.Add(this.but_proximity, 2, 27);
             this.tableLayoutPanel1.Controls.Add(this.but_followswarm, 2, 28);
@@ -269,6 +269,13 @@
             this.tableLayoutPanel1.Controls.Add(this.but_ManageCMDList, 2, 29);
             this.tableLayoutPanel1.Controls.Add(this.label28, 3, 29);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // but_apjtool
+            // 
+            resources.ApplyResources(this.but_apjtool, "but_apjtool");
+            this.but_apjtool.Name = "but_apjtool";
+            this.but_apjtool.UseVisualStyleBackColor = true;
+            this.but_apjtool.Click += new System.EventHandler(this.but_signfw_Click);
             // 
             // BUT_CoT
             // 
@@ -961,13 +968,6 @@
             resources.ApplyResources(this.controlSensorsStatus1, "controlSensorsStatus1");
             this.controlSensorsStatus1.Name = "controlSensorsStatus1";
             // 
-            // but_signfw
-            // 
-            resources.ApplyResources(this.but_signfw, "but_signfw");
-            this.but_signfw.Name = "but_signfw";
-            this.but_signfw.UseVisualStyleBackColor = true;
-            this.but_signfw.Click += new System.EventHandler(this.but_signfw_Click);
-            // 
             // temp
             // 
             resources.ApplyResources(this, "$this");
@@ -1102,6 +1102,6 @@
         private System.Windows.Forms.Label label12;
         private Controls.MyButton but_ManageCMDList;
         private System.Windows.Forms.Label label28;
-        private Controls.MyButton but_signfw;
+        private Controls.MyButton but_apjtool;
     }
 }
