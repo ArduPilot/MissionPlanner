@@ -36,6 +36,7 @@ namespace px4uploader
         public string chip_desc;
         public int bl_rev;
         public bool libre = false;
+        public byte[] sn = new byte[0];
 
         public enum Code : byte
         {
@@ -388,7 +389,7 @@ namespace px4uploader
                 __send(new byte[] { (byte)Code.EOC });
                 byte[] ans = __recv(4);
                 __getSync();
-                ans = ans.Reverse().ToArray();
+                //ans = ans.Reverse().ToArray();
                 Array.Copy(ans, 0, sn, a, 4);
             }
 
@@ -883,13 +884,25 @@ namespace px4uploader
             {
                 try
                 {
+                    self.sn = self.__get_sn();
+                }
+                catch { __sync(); }
+            }
+
+            if (bl_rev >= 5)
+            {
+                try
+                {
                     self.extf_maxsize = __getInfo(Info.EXTF_SIZE);
                 }
                 catch { __sync(); }
             }
 
-            Console.WriteLine("Found board type {0} brdrev {1} blrev {2} fwmax {3} extf {7} chip {5:X} chipdes {6} on {4}", board_type,
-                        board_rev, bl_rev, fw_maxsize, port, chip, chip_desc, extf_maxsize);
+            Console.WriteLine(
+                "Found board type {0} brdrev {1} blrev {2} fwmax {3} extf {7} chip {5:X} chipdes {6} SN {8} on {4}",
+                board_type,
+                board_rev, bl_rev, fw_maxsize, port, chip, chip_desc, extf_maxsize,
+                BitConverter.ToString(self.sn).Replace("-", string.Empty));
         }
 
         public void upload(Firmware fw)
