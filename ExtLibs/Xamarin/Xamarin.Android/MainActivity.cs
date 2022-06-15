@@ -30,6 +30,7 @@ using Environment = Android.OS.Environment;
 using Settings = MissionPlanner.Utilities.Settings;
 using Thread = System.Threading.Thread;
 using Android.Content;
+using Android.Media;
 using Android.Provider;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -48,6 +49,8 @@ using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 using Uri = Android.Net.Uri;
 using View = Android.Views.View;
 using Interfaces;
+using Encoding = Android.Media.Encoding;
+using Stream = Android.Media.Stream;
 
 [assembly: UsesFeature("android.hardware.usb.host", Required = false)]
 [assembly: UsesFeature("android.hardware.bluetooth", Required = false)]
@@ -248,6 +251,8 @@ namespace Xamarin.Droid
             Test.GPS = ServiceLocator.Get<IGPS>();
             Test.SystemInfo = ServiceLocator.Get<ISystemInfo>();
 
+            Vario.Beep = (i, i1) => { playSound(i, i1); };
+
             androidvideo = new AndroidVideo();
             //disable
             //androidvideo.Start();
@@ -357,6 +362,45 @@ namespace Xamarin.Droid
             //DoToastMessage("Launch App");
 
             LoadApplication(new App());
+        }
+
+        byte[] genTone(int sampleRate, int freqOfTone, int numSamples)
+        {
+            byte[] generatedSnd = new byte[2 * numSamples];
+            double[] sample = new double[numSamples];
+            // fill out the array
+            for (int i = 0; i < numSamples; ++i)
+            {
+                sample[i] = System.Math.Sin(2 * System.Math.PI * i / (sampleRate / freqOfTone));
+            }
+
+            // convert to 16 bit pcm sound array
+            // assumes the sample buffer is normalised.
+            int idx = 0;
+            foreach (double dVal in sample)
+            {
+                // scale to maximum amplitude
+                short val = (short)((dVal * 32767));
+                // in 16 bit wav PCM, first byte is the low order byte
+                generatedSnd[idx++] = (byte)(val & 0x00ff);
+                generatedSnd[idx++] = (byte)((val & 0xff00) >> 8);
+
+            }
+
+            return generatedSnd;
+        }
+
+        void playSound(int freq, int duration)
+        {
+            var sampleRate = 8000;
+            var generatedSnd = genTone(sampleRate, freq, (duration * sampleRate) / 1000);
+            AudioTrack audioTrack = new AudioTrack(Stream.Music,
+                sampleRate, ChannelConfiguration.Mono, Encoding.Pcm16bit, generatedSnd.Length, AudioTrackMode.Stream);
+            audioTrack.Play();
+            audioTrack.Write(generatedSnd, 0, generatedSnd.Length);
+            while (audioTrack.PlayState == PlayState.Playing)
+                Thread.Sleep(10);
+            audioTrack.Stop();
         }
 
         public override bool OnGenericMotionEvent(MotionEvent e)
