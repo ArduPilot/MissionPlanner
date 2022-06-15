@@ -398,7 +398,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Lbl_Custom_firmware_label_Click(object sender, EventArgs e)
         {
             using (var fd = new OpenFileDialog
-                {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|All files (*.*)|*.*"})
+                {Filter = "Firmware (*.hex;*.px4;*.vrx;*.apj)|*.hex;*.px4;*.vrx;*.apj|DFU|*.hex;*.bin;*.dfu|All files (*.*)|*.*"})
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
@@ -415,7 +415,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var boardtype = BoardDetect.boards.none;
                     try
                     {
-                        if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
+                        if (fd.FileName.ToLower().EndsWith(".dfu"))
+                        {
+                            DFU.Flash(fd.FileName);
+                            return;
+                        }
+                        else if(fd.FileName.ToLower().EndsWith(".bin"))
+                        {
+                            if (CustomMessageBox.Show("Flashing image to 0x08000000", "", CustomMessageBox.MessageBoxButtons.OKCancel) == CustomMessageBox.DialogResult.OK)
+                                DFU.Flash(fd.FileName, 0x08000000);
+                            return;
+                        }
+                        else if (fd.FileName.ToLower().EndsWith(".px4") || fd.FileName.ToLower().EndsWith(".apj"))
                         {
                             if (solo.Solo.is_solo_alive &&
                                 CustomMessageBox.Show("Solo", "Is this a Solo?",
