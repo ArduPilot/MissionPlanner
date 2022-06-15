@@ -82,14 +82,18 @@ namespace px4uploader
 
         public static Firmware ProcessFirmware(string path)
         {
-            Firmware fw;
-
             Console.WriteLine("Read File " + path);
 
             // read the file
-            StreamReader f = new StreamReader(File.OpenRead(path));
-            //fw = serializer.Deserialize<Firmware>(f.ReadToEnd());
-            fw = JSON.Instance.ToObject<Firmware>(f.ReadToEnd());
+            using (StreamReader f = new StreamReader(File.OpenRead(path)))
+            {
+                return ProcessFirmware(f);
+            }
+        }
+
+        public static Firmware ProcessFirmware(StreamReader f)
+        {
+            Firmware fw = JSON.Instance.ToObject<Firmware>(f.ReadToEnd());
             f.Close();
 
             if (fw.image_size > 0)
