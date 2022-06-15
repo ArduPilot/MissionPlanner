@@ -496,6 +496,10 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float magfield => (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2));
 
+        [DisplayText("IMU Temperature")]
+        [GroupText("Sensor")]
+        public float imu_temp { get; set; }
+
         // accel2
         [DisplayText("Accel2 X")]
         [GroupText("Sensor")]
@@ -546,6 +550,10 @@ namespace MissionPlanner
         [DisplayText("Mag2 Field")]
         [GroupText("Sensor")]
         public float magfield2 => (float)Math.Sqrt(Math.Pow(mx2, 2) + Math.Pow(my2, 2) + Math.Pow(mz2, 2));
+
+        [DisplayText("IMU2 Temperature")]
+        [GroupText("Sensor")]
+        public float imu_temp2 { get; set; }
 
         // accel3
         [DisplayText("Accel3 X")]
@@ -598,8 +606,13 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float magfield3 => (float)Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2));
 
+
+        [DisplayText("IMU3 Temperature")]
+        [GroupText("Sensor")]
+        public float imu_temp3 { get; set; }
+
         // hygrometer1
-        [DisplayText("hygrotemp1 (cdegC)")]
+      [DisplayText("hygrotemp1 (cdegC)")]
         [GroupText("Sensor")]
         public short hygrotemp1 { get; set; }
 
@@ -3320,6 +3333,8 @@ namespace MissionPlanner
                             my = imu.ymag;
                             mz = imu.zmag;
 
+                            imu_temp = imu.temperature / 100.0f;
+
                             var timesec = imu.time_usec * 1.0e-6;
 
                             var deltawall = (DateTime.Now - lastimutime).TotalSeconds;
@@ -3376,6 +3391,8 @@ namespace MissionPlanner
                             mx2 = imu2.xmag;
                             my2 = imu2.ymag;
                             mz2 = imu2.zmag;
+
+                            imu_temp2 = imu2.temperature / 100.0f;
                         }
 
 
@@ -3396,6 +3413,8 @@ namespace MissionPlanner
                             mx3 = imu3.xmag;
                             my3 = imu3.ymag;
                             mz3 = imu3.zmag;
+
+                            imu_temp3 = imu3.temperature / 100.0f;
                         }
 
                         break;
