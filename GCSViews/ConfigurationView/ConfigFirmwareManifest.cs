@@ -417,11 +417,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         if (fd.FileName.ToLower().EndsWith(".dfu"))
                         {
+                            DFU.Progress = fw_Progress1;
                             DFU.Flash(fd.FileName);
                             return;
                         }
                         else if(fd.FileName.ToLower().EndsWith(".bin"))
                         {
+                            DFU.Progress = fw_Progress1;
                             if (CustomMessageBox.Show("Flashing image to 0x08000000", "", CustomMessageBox.MessageBoxButtons.OKCancel) == CustomMessageBox.DialogResult.OK)
                                 DFU.Flash(fd.FileName, 0x08000000);
                             return;

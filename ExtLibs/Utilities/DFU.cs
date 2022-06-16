@@ -19,6 +19,8 @@ namespace MissionPlanner.Utilities
         private static readonly Regex VersionRegex = new Regex
             (@"^(?<major>[0-9]{1,2})\.(?<minor>[0-9]{1,2})$", RegexOptions.Compiled);
 
+        public static Action<int, string> Progress { get; set; } = (i, s) => { };
+
         public static void Flash(string filePath, int BinMemOffset = 0, int vid = 0x0483, int pid = 0xDF11)
         {
             // version is optional, FF means forced update
@@ -29,10 +31,13 @@ namespace MissionPlanner.Utilities
 
             EventHandler<ProgressChangedEventArgs> printDownloadProgress = (obj, e) =>
             {
+                Progress(e.ProgressPercentage, "Download progress");
                 Console.WriteLine("Download progress: {0}%", e.ProgressPercentage);
             };
             EventHandler<ErrorEventArgs> printDevError = (obj, e) =>
             {
+                Progress(-1,
+                    String.Format("The DFU device reported the following error: {0}", e.GetException().Message));
                 Console.Error.WriteLine("The DFU device reported the following error: {0}", e.GetException().Message);
             };
 
@@ -140,6 +145,7 @@ namespace MissionPlanner.Utilities
                 device.DownloadProgressChanged -= printDownloadProgress;
 
                 Console.WriteLine("Download successful, manifesting update...");
+                Progress(100, "Download successful, manifesting update...");
                 device.Manifest();
 
                 // if the device detached, clean up
@@ -152,11 +158,13 @@ namespace MissionPlanner.Utilities
 
                 // TODO find device again to verify new version
                 Console.WriteLine("The device has been successfully upgraded.");
+                Progress(100, "The device has been successfully upgraded.");
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine("Device Firmware Upgrade failed with exception: {0}.", e.ToString());
                 //Environment.Exit(-1);
+                Progress(-1, String.Format("Device Firmware Upgrade failed with exception: {0}.", e.ToString()));
             }
             finally
             {
