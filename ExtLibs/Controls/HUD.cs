@@ -495,6 +495,49 @@ namespace MissionPlanner.Controls
         }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float batterylevel2
+        {
+            get { return _batterylevel2; }
+            set
+            {
+                if (_batterylevel2 != value)
+                {
+                    _batterylevel2 = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float batteryremaining2
+        {
+            get { return _batteryremaining2; }
+            set
+            {
+                if (_batteryremaining2 != value)
+                {
+                    _batteryremaining2 = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float current2
+        {
+            get { return _current2; }
+            set
+            {
+                if (_current2 != value)
+                {
+                    _current2 = value;
+                    this.Invalidate();
+                    if (_current2 > 0) batteryon = true;
+                }
+            }
+        }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public int batterycellcount
         {
             get { return _batterycellcount; }
@@ -1322,6 +1365,9 @@ namespace MissionPlanner.Controls
         }
 
         private character[] _texture = new character[2];
+        private float _batterylevel2;
+        private float _batteryremaining2;
+        private float _current2;
 
         public void DrawImage(Image img, int x, int y, int width, int height, int textureno = 0)
         {
@@ -2703,13 +2749,21 @@ namespace MissionPlanner.Controls
                     else
                     {
 
-                        text = HUDT.Bat + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
+                        text = HUDT.Bat + "1" + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
 
                         drawstring(text, font, fontsize + 2, textcolor, fontsize,
                             this.Height - ((fontsize + 2) * 3) - fontoffset);
 
                         if (displayCellVoltage & (_batterycellcount != 0))
                             drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, textcolor, fontsize, this.Height - (fontsize * 2) - fontoffset);
+                        else if (_batterylevel2 > 0)
+                        {
+                            text = HUDT.Bat + "2" + _batterylevel2.ToString("0.00v") + " " + _current2.ToString("0.0 A") + " " +
+                                   (_batteryremaining2) + "%";
+
+                            drawstring(text, font, fontsize + 2, textcolor, fontsize,
+                                this.Height - ((fontsize + 2) * 2) - fontoffset);
+                        }
                     }
                 }
 
