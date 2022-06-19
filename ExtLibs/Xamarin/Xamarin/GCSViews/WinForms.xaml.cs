@@ -924,7 +924,7 @@ namespace Xamarin.GCSViews
                                         hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
 
                                 if (hwnd.hwndbmp != null)
-                                    Canvas.DrawDrawable(hwnd.hwndbmp,
+                                    Canvas.DrawImage(hwnd.hwndbmp,
                                         new SKPoint(x, y));
 
                                 wasdrawn = true;
@@ -945,7 +945,7 @@ namespace Xamarin.GCSViews
                             if (hwnd.DrawNeeded || forcerender)
                             {
                                 if (hwnd.hwndbmp != null)
-                                    Canvas.DrawDrawable(hwnd.hwndbmp,
+                                    Canvas.DrawImage(hwnd.hwndbmp,
                                         new SKPoint(x + 0, y + 0));
 
                                 wasdrawn = true;
