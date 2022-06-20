@@ -2749,7 +2749,7 @@ namespace MissionPlanner.Controls
                     else
                     {
 
-                        text = HUDT.Bat + "1" + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
+                        text = HUDT.Bat + "1 " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
 
                         drawstring(text, font, fontsize + 2, textcolor, fontsize,
                             this.Height - ((fontsize + 2) * 3) - fontoffset);
@@ -2758,7 +2758,7 @@ namespace MissionPlanner.Controls
                             drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, textcolor, fontsize, this.Height - (fontsize * 2) - fontoffset);
                         else if (_batterylevel2 > 0)
                         {
-                            text = HUDT.Bat + "2" + _batterylevel2.ToString("0.00v") + " " + _current2.ToString("0.0 A") + " " +
+                            text = HUDT.Bat + "2 " + _batterylevel2.ToString("0.00v") + " " + _current2.ToString("0.0 A") + " " +
                                    (_batteryremaining2) + "%";
 
                             drawstring(text, font, fontsize + 2, textcolor, fontsize,

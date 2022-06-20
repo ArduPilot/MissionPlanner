@@ -124,7 +124,7 @@
     <value>空速 </value>
   </data>
   <data name="Bat" xml:space="preserve">
-    <value>电池 </value>
+    <value>电池</value>
   </data>
   <data name="DISARMED" xml:space="preserve">
     <value>            已锁定</value>
