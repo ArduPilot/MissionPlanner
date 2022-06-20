@@ -735,7 +735,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
 
-                        if (hb.type != (byte) MAV_TYPE.GCS)
+                        // no GCS's and no broadcast compid's (ping adsb)
+                        if (hb.type != (byte) MAV_TYPE.GCS && buffer.compid != 0)
                         {
                             hbhistory.Add(buffer);
                         }
