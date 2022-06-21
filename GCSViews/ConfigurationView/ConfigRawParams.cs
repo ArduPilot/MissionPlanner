@@ -261,7 +261,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam(value, (float)_changes[value]);
+                    MainV2.comPort.setParam(value, (double)_changes[value]);
 
                     try
                     {
@@ -385,8 +385,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
                 value = value.Replace(',', '.');
 
-                var newvalue = (float) new Expression(value).calculate();
-                if (float.IsNaN(newvalue) || float.IsInfinity(newvalue))
+                var newvalue = (double) new Expression(value).calculate();
+                if (double.IsNaN(newvalue) || double.IsInfinity(newvalue))
                 {
                     throw new Exception();
                 }
@@ -721,16 +721,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.Show(Strings.ErrorCommunicating + "\n" + ex, Strings.ERROR);
                 }
             }
-        }
-
-        public struct paramsettings // hk's
-        {
-            public string desc;
-            public float maxvalue;
-            public float minvalue;
-            public string name;
-            public float normalvalue;
-            public float scale;
         }
 
         private readonly System.Timers.Timer _filterTimer = new System.Timers.Timer();

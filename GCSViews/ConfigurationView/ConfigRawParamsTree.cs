@@ -171,7 +171,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (name == "FORMAT_VERSION")
                 return;
 
-            paramCompareForm_dtlvcallback(name, float.Parse(value));
+            paramCompareForm_dtlvcallback(name, double.Parse(value));
         }
 
         private void BUT_save_Click(object sender, EventArgs e)
@@ -244,7 +244,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam(value, (float)_changes[value]);
+                    MainV2.comPort.setParam(value, (double)_changes[value]);
 
                     _changes.Remove(value);
                 }
@@ -602,7 +602,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void paramCompareForm_dtlvcallback(string param, float value)
+        private void paramCompareForm_dtlvcallback(string param, double value)
         {
             foreach (data item in Params.Objects)
             {
@@ -661,11 +661,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 double min = 0;
                 double max = 0;
 
-                float newvalue = 0;
+                double newvalue = 0;
 
                 try
                 {
-                    newvalue = float.Parse(e.NewValue.ToString().Replace(',','.'), CultureInfo.InvariantCulture);
+                    newvalue = double.Parse(e.NewValue.ToString().Replace(',','.'), CultureInfo.InvariantCulture);
                 }
                 catch
                 {
@@ -740,16 +740,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (size.Height >= Params.RowHeight)
                     Params.RowHeight = Math.Min(size.Height, 50);
             }
-        }
-
-        public struct paramsettings // hk's
-        {
-            public string desc;
-            public float maxvalue;
-            public float minvalue;
-            public string name;
-            public float normalvalue;
-            public float scale;
         }
 
         public class data
