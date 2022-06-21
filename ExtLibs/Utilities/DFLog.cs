@@ -318,6 +318,17 @@ namespace MissionPlanner.Utilities
             STANDBY_ENABLE = 74,
             STANDBY_DISABLE = 75,
 
+            FENCE_FLOOR_ENABLE = 80,
+            FENCE_FLOOR_DISABLE = 81,
+
+            // if the EKF's source input set is changed (e.g. via a switch or
+            // a script), we log an event:
+            EK3_SOURCES_SET_TO_PRIMARY = 85,
+            EK3_SOURCES_SET_TO_SECONDARY = 86,
+            EK3_SOURCES_SET_TO_TERTIARY = 87,
+
+            AIRSPEED_PRIMARY_CHANGED = 90,
+
             SURFACED = 163,
             NOT_SURFACED = 164,
             BOTTOMED = 165,
@@ -355,6 +366,8 @@ namespace MissionPlanner.Utilities
             FAILSAFE_LEAK = 27,
             PILOT_INPUT = 28,
             FAILSAFE_VIBE = 29,
+            INTERNAL_ERROR = 30,
+            FAILSAFE_DEADRECKON = 31
         }
 
         // bizarrely this enumeration has lots of duplicate values, offering
@@ -384,6 +397,9 @@ namespace MissionPlanner.Utilities
             RESTARTED_RTL = 3,
             FAILED_CIRCLE_INIT = 4,
             DEST_OUTSIDE_FENCE = 5,
+            RTL_MISSING_RNGFND = 6,
+            // subsystem specific error codes -- internal_error
+            INTERNAL_ERRORS_DETECTED = 1,
 
             // parachute failed to deploy because of low altitude or landed
             PARACHUTE_TOO_LOW = 2,
