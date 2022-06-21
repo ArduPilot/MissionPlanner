@@ -42,7 +42,7 @@ namespace MissionPlanner.Utilities
                 Reload(vehicle);
         }
 
-        public static async Task GetMetaData()
+        public static async Task GetMetaData(bool force = false)
         {
             List<Task> tlist = new List<Task>();
 
@@ -53,7 +53,7 @@ namespace MissionPlanner.Utilities
                     var newurl = String.Format(url, a);
                     var file = Path.Combine(Settings.GetDataDirectory(), a + ".apm.pdef.xml.gz");
                     if(File.Exists(file))
-                        if (new FileInfo(file).LastWriteTime.AddDays(7) > DateTime.Now)
+                        if (new FileInfo(file).LastWriteTime.AddDays(7) > DateTime.Now && !force)
                             return;
                     var dltask = Download.getFilefromNetAsync(newurl, file);
                     tlist.Add(dltask);
@@ -68,6 +68,7 @@ namespace MissionPlanner.Utilities
                 try
                 {
                     var fileout = Path.Combine(Settings.GetDataDirectory(), a + ".apm.pdef.xml");
+                    var fileouttemp = Path.Combine(Path.GetTempFileName());
                     var file = Path.Combine(Settings.GetDataDirectory(), a + ".apm.pdef.xml.gz");
                     if (File.Exists(file))
                         using (var read = File.OpenRead(file))
@@ -77,10 +78,13 @@ namespace MissionPlanner.Utilities
                                 read.Position = 0;
                                 var stream = new GZipStream(read, CompressionMode.Decompress);
                                 //var stream = new XZStream(read);
-                                using (var outst = File.Open(fileout, FileMode.Create))
+                                using (var outst = File.Open(fileouttemp, FileMode.Create))
                                 {
                                     stream.CopyTo(outst);
                                 }
+                                // move after good decompress
+                                File.Delete(fileout);
+                                File.Move(fileouttemp, fileout);
                             }
                         }
                 }
@@ -89,6 +93,13 @@ namespace MissionPlanner.Utilities
                     log.Error(ex);
                 }
             });
+
+            Reset();
+        }
+
+        public static void Reset()
+        {
+            _parameterMetaDataXML.Clear();
         }
 
         public static void Reload(string vehicle = "")

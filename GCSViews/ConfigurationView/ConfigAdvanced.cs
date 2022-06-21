@@ -69,6 +69,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     "https://raw.githubusercontent.com/ArduPilot/ardupilot/plane3.9/ArduCopter/Parameters.cpp;" +
                     "https://raw.githubusercontent.com/ArduPilot/ardupilot/plane3.8/ArduCopter/Parameters.cpp;");
 
+                ParameterMetaDataRepositoryAPMpdef.GetMetaData(true);
+
                 ParameterMetaDataRepositoryAPM.Reload();
             };
 
