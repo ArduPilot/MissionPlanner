@@ -1444,7 +1444,10 @@ namespace MissionPlanner.Utilities
                     var ans = Directory.GetFiles(dir, "*.*", SearchOption.AllDirectories).Where(a => a.ToLower().Contains("libgstreamer-1.0-0.dll") || a.ToLower().Contains("libgstreamer-1.0.so.0") || a.ToLower().Contains("libgstreamer_android.so")).ToArray();
 
                     ans = ans.Where(a =>
-                        (!is64bit && !a.ToLower().Contains("_64")) || is64bit && a.ToLower().Contains("_64")).ToArray();
+                        (!is64bit && !a.ToLower().Contains("_64")) || // windows
+                        is64bit && a.ToLower().Contains("_64") || // windows
+                        a.ToLower().Contains(".so.") // linux/rpi
+                        ).ToArray();
 
                     if (ans.Length > 0)
                     {
