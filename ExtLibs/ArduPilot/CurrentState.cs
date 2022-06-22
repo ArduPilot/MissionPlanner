@@ -437,6 +437,12 @@ namespace MissionPlanner
         [DisplayText("Airspeed Ratio")]
         public float asratio { get; set; }
 
+        [DisplayText("Airspeed1 Temperature")]
+        public float airspeed1_temp { get; set; }
+
+        [DisplayText("Airspeed2 Temperature")]
+        public float airspeed2_temp { get; set; }
+
         [GroupText("Position")]
         [DisplayText("GroundSpeed (speed)")]
         public float groundspeed
@@ -2157,7 +2163,7 @@ namespace MissionPlanner
                             gpsstatus = highlatency.gps_fix_type;
                             battery_remaining = highlatency.battery_remaining;
                             press_temp = highlatency.temperature;
-                            raw_temp = highlatency.temperature_air;
+                            airspeed1_temp = highlatency.temperature_air;
                             failsafe = highlatency.failsafe > 0;
                             wpno = highlatency.wp_num;
                             wp_dist = highlatency.wp_distance;
@@ -2234,7 +2240,7 @@ namespace MissionPlanner
                             wind_dir = highlatency.wind_heading * 2;
                             gpshdop = highlatency.eph;
                             // epv
-                            raw_temp = highlatency.temperature_air;
+                            airspeed1_temp = highlatency.temperature_air;
                             climbrate = highlatency.climb_rate;
                             battery_remaining = highlatency.battery;
 
