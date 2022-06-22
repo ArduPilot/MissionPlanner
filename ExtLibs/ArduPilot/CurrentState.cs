@@ -2903,6 +2903,7 @@ namespace MissionPlanner
                         }
 
                         break;
+                    // SENSOR_OFFSET message was removed in Copter-4.2
                     case (uint)MAVLink.MAVLINK_MSG_ID.SENSOR_OFFSETS:
 
                         {
