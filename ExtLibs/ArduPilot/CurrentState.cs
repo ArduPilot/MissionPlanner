@@ -502,9 +502,9 @@ namespace MissionPlanner
         [GroupText("Sensor")]
         public float magfield => (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2));
 
-        [DisplayText("IMU Temperature")]
+        [DisplayText("IMU1 Temperature")]
         [GroupText("Sensor")]
-        public float imu_temp { get; set; }
+        public float imu1_temp { get; set; }
 
         // accel2
         [DisplayText("Accel2 X")]
@@ -559,7 +559,7 @@ namespace MissionPlanner
 
         [DisplayText("IMU2 Temperature")]
         [GroupText("Sensor")]
-        public float imu_temp2 { get; set; }
+        public float imu2_temp { get; set; }
 
         // accel3
         [DisplayText("Accel3 X")]
@@ -615,7 +615,7 @@ namespace MissionPlanner
 
         [DisplayText("IMU3 Temperature")]
         [GroupText("Sensor")]
-        public float imu_temp3 { get; set; }
+        public float imu3_temp { get; set; }
 
         // hygrometer1
       [DisplayText("hygrotemp1 (cdegC)")]
@@ -3344,7 +3344,7 @@ namespace MissionPlanner
                             my = imu.ymag;
                             mz = imu.zmag;
 
-                            imu_temp = imu.temperature / 100.0f;
+                            imu1_temp = imu.temperature / 100.0f;
 
                             var timesec = imu.time_usec * 1.0e-6;
 
@@ -3382,7 +3382,7 @@ namespace MissionPlanner
                             my = imu.ymag;
                             mz = imu.zmag;
 
-                            //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RAW_IMU);
+                            imu1_temp = imu.temperature / 100.0f;
                         }
 
                         break;
@@ -3403,7 +3403,7 @@ namespace MissionPlanner
                             my2 = imu2.ymag;
                             mz2 = imu2.zmag;
 
-                            imu_temp2 = imu2.temperature / 100.0f;
+                            imu2_temp = imu2.temperature / 100.0f;
                         }
 
 
@@ -3425,7 +3425,7 @@ namespace MissionPlanner
                             my3 = imu3.ymag;
                             mz3 = imu3.zmag;
 
-                            imu_temp3 = imu3.temperature / 100.0f;
+                            imu3_temp = imu3.temperature / 100.0f;
                         }
 
                         break;
