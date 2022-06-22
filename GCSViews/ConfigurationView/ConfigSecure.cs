@@ -14,7 +14,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
-using Microsoft.Web.WebView2.WinForms;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
@@ -26,7 +25,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     public partial class ConfigSecure : UserControl
     {
         private Uri _result;
-        private WebView2 webBrowser;
         private HttpClient httpclient;
         private TcpListener listener;
 
