@@ -136,6 +136,9 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            AddBackstageViewPage(typeof(ConfigSecure), "Secure",
+                isDisConnected);
+
 
             var mand = AddBackstageViewPage(typeof(ConfigMandatory), rm.GetString("backstageViewPagemand.Text"), isConnected && gotAllParams);
 

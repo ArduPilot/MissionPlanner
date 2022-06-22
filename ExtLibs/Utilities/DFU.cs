@@ -5,9 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using DeviceProgramming.Dfu;
 using DeviceProgramming.FileFormat;
 using DeviceProgramming.Memory;
 using LibUsbDotNet;
+using LibUsbDotNet.Info;
 
 namespace MissionPlanner.Utilities
 {
@@ -21,6 +24,18 @@ namespace MissionPlanner.Utilities
 
         public static Action<int, string> Progress { get; set; } = (i, s) => { };
 
+        static EventHandler<ProgressChangedEventArgs> printDownloadProgress = (obj, e) =>
+        {
+            Progress(e.ProgressPercentage, "Download progress");
+            Console.WriteLine("Download progress: {0}%", e.ProgressPercentage);
+        };
+        static EventHandler<ErrorEventArgs> printDevError = (obj, e) =>
+        {
+            Progress(-1,
+                String.Format("The DFU device reported the following error: {0}", e.GetException().Message));
+            Console.Error.WriteLine("The DFU device reported the following error: {0}", e.GetException().Message);
+        };
+
         public static void Flash(string filePath, int BinMemOffset = 0, int vid = 0x0483, int pid = 0xDF11)
         {
             // version is optional, FF means forced update
@@ -28,18 +43,6 @@ namespace MissionPlanner.Utilities
 
             var fileExt = Path.GetExtension(filePath);
             var isDfuFile = Dfu.IsExtensionSupported(fileExt);
-
-            EventHandler<ProgressChangedEventArgs> printDownloadProgress = (obj, e) =>
-            {
-                Progress(e.ProgressPercentage, "Download progress");
-                Console.WriteLine("Download progress: {0}%", e.ProgressPercentage);
-            };
-            EventHandler<ErrorEventArgs> printDevError = (obj, e) =>
-            {
-                Progress(-1,
-                    String.Format("The DFU device reported the following error: {0}", e.GetException().Message));
-                Console.Error.WriteLine("The DFU device reported the following error: {0}", e.GetException().Message);
-            };
 
             LibUsbDfu.Device device = null;
             try
@@ -173,6 +176,52 @@ namespace MissionPlanner.Utilities
                     device.Dispose();
                 }
             }
+        }
+
+        /// <summary>
+        /// Returned in flash order, needs int reversal
+        /// </summary>
+        /// <param name="vid"></param>
+        /// <param name="pid"></param>
+        /// <returns></returns>
+        public static byte[] GetSN(int vid = 0x0483, int pid = 0xDF11)
+        {
+            var UDID_START = 0x1FF1E800;
+
+            LibUsbDfu.Device device = null;
+
+            // find the DFU device
+            if (vid == 0 && pid == 0)
+                LibUsbDfu.Device.TryOpen(UsbDevice.AllDevices.First(), out device);
+            else
+                device = LibUsbDfu.Device.OpenFirst(UsbDevice.AllDevices, vid, pid);
+
+            device.DeviceError += printDevError;
+            ((UsbConfigInfo)device.GetPropertyOrFieldPrivate("ConfigInfo")).InterfaceInfoList.ForEach(a => Console.WriteLine(a.InterfaceString));
+
+            device.Abort();
+            device.ResetToIdle();
+            device.Dnload((ushort)0, new byte[5]
+            {
+                (byte) 33,
+                (byte) UDID_START,
+                (byte) (UDID_START >> 8),
+                (byte) (UDID_START >> 16),
+                (byte) (UDID_START >> 24)
+            });
+            var status = device.GetStatus();
+            for (status = device.GetStatus(); status.State == State.DnloadBusy; status = device.GetStatus())
+                Thread.Sleep(status.PollTimeout);
+            device.Abort();
+            //Address = ((wBlockNum – 2) × wTransferSize) +Address_Pointer, where:
+            //– wTransferSize is the length of the requested data buffer.
+            var sn = device.Upload(2, (uint)1024);
+
+            device.Close();
+
+            Array.Resize(ref sn, 12);
+
+            return sn;
         }
     }
 }

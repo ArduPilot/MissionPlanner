@@ -257,6 +257,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigREPL.uk.resx">
       <DependentUpon>ConfigREPL.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSecure.resx">
+      <DependentUpon>ConfigSecure.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.uk.resx">
       <DependentUpon>ConfigSerialInjectGPS.cs</DependentUpon>
     </EmbeddedResource>
@@ -615,6 +618,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Web.WebView2">
+      <Version>1.0.1245.22</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>
@@ -816,6 +822,12 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigParamLoading.Designer.cs">
       <DependentUpon>ConfigParamLoading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSecure.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSecure.Designer.cs">
+      <DependentUpon>ConfigSecure.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigSerialInjectGPS.Designer.cs">
       <DependentUpon>ConfigSerialInjectGPS.cs</DependentUpon>
