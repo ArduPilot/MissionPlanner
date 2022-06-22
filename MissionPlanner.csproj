@@ -895,6 +895,7 @@
     <None Include="plugins\example19-multiforward.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="plugins\example20-multiplepositions.cs" />
     <Compile Include="Utilities\AirMarket.cs">
       <SubType>UserControl</SubType>
     </Compile>
