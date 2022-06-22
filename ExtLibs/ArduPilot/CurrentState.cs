@@ -2875,6 +2875,8 @@ namespace MissionPlanner
                             var pres = mavLinkMessage.ToStructure<MAVLink.mavlink_scaled_pressure_t>();
                             press_abs = pres.press_abs;
                             press_temp = pres.temperature;
+
+                            airspeed1_temp = pres.temperature_press_diff;
                         }
 
                         break;
@@ -2884,6 +2886,8 @@ namespace MissionPlanner
                             var pres = mavLinkMessage.ToStructure<MAVLink.mavlink_scaled_pressure2_t>();
                             press_abs2 = pres.press_abs;
                             press_temp2 = pres.temperature;
+
+                            airspeed2_temp = pres.temperature_press_diff;
                         }
 
                         break;
