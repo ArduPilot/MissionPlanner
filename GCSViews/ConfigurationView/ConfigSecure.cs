@@ -14,6 +14,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using DeviceProgramming.FileFormat;
+using LibUsbDotNet;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
@@ -46,6 +48,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
             httpclient = new HttpClient();
             httpclient.DefaultRequestHeaders.ExpectContinue = false;
+
+            UpdateStatus("Waiting...", 0);
         }
 
         private async void but_login_Click(object sender, EventArgs e)
@@ -83,8 +87,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             listener?.Stop();
 
-            but_getsn.Enabled = true;
-            but_bootloader.Enabled = true;
+            UpdateStatus("Login Done.", 100);
+
+            if (UsbDevice.AllDevices.Count > 0)
+            {
+                but_bootloader.Enabled = true;
+            }
+            else
+            {
+                but_getsn.Enabled = true;
+            }
+        }
+
+        private void UpdateStatus(string v1, int v2)
+        {
+            try
+            {
+                this.BeginInvoke((Action) delegate
+                {
+                    label2.Text = v1;
+                    progressBar1.Value = v2;
+                });
+            } catch { }
         }
 
         private void but_getsn_Click(object sender, EventArgs e)
@@ -96,6 +120,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.instance.DeviceChanged += Instance_DeviceChanged;
 
             CustomMessageBox.Show("Please re-power to autopilot");
+            UpdateStatus("Please re-power to autopilot", 100);
 
             but_dfu.Enabled = true;
             but_firmware.Enabled = true;
@@ -108,6 +133,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Task.Run(() =>
             {
+                UpdateStatus("Scanning Ports", 0);
                 Parallel.ForEach(SerialPort.GetPortNames(), port =>
                 {
                     px4uploader.Uploader up;
@@ -129,6 +155,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         up.identify();
                         up.close();
                         detectedport = port;
+                        UpdateStatus("Detected " + port, 100);
                         this.InvokeIfRequired(() => this.textBox1.Text = BitConverter.ToString(up.sn).Replace("-", ""));
                     }
                     catch (Exception)
@@ -149,7 +176,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var up = new Uploader(detectedport, 115200);
             up.identify();
             up.currentChecksum(fw);
-            up.ProgressEvent += completed => progressBar1.Value = (int)completed;
+            up.ProgressEvent += completed => UpdateStatus("DFU Download ", (int)completed);
             up.upload(fw);
             up.close();
 
@@ -163,15 +190,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //https://www.st.com/resource/en/application_note/an1577-device-firmware-upgrade-dfu-implementation-in-st7-usb-devices-stmicroelectronics.pdf
             var sn = DFU.GetSN();
 
-            sn = sn.Skip(0).Take(4).Reverse().Concat(sn.Skip(4).Take(4).Reverse()).Concat(sn.Skip(8).Take(4).Reverse())
-                .ToArray();
-
             textBox1.Text = BitConverter.ToString(sn).Replace("-", String.Empty);
 
             var bl = await httpclient.PostAsync(bootloaderurl + $"?SN={textBox1.Text}", null);
             var tempfile = Path.GetTempFileName();
             File.WriteAllBytes(tempfile, await bl.Content.ReadAsByteArrayAsync());
-            DFU.Progress += (i, s) => progressBar1.Value = (int)i;
+            DFU.Progress += (i, s) => UpdateStatus("DFU Download Bootloader", (int)i);
             DFU.Flash(tempfile, 0x08000000);
         }
 
@@ -197,6 +221,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     var up = new Uploader(detectedport);
                     up.identify();
+                    up.ProgressEvent += completed => UpdateStatus("Firmware Uploading", (int)completed);
                     up.currentChecksum(fw);
                     up.ProgressEvent += completed => progressBar1.Value = (int)completed;
                     up.upload(fw);
@@ -204,6 +229,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
+                    UpdateStatus("Firmware Uploading FAILED", (int)0);
                     CustomMessageBox.Show("Web request failed: " + fwresp.StatusCode);
                     Console.WriteLine(await fwresp.Content.ReadAsStringAsync());
                 }
