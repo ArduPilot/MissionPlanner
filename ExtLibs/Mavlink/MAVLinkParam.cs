@@ -116,7 +116,13 @@ public partial class MAVLink
                 case MAV_PARAM_TYPE.INT32:
                     return (double)int32_value;
                 case MAV_PARAM_TYPE.REAL32:
-                    return (double)float_value;
+                    /*
+item.float_value
+0.8
+(double)item.float_value
+0.800000011920929
+ */
+                    return (double)(decimal)float_value;
             }
 
             throw new FormatException("invalid type");
