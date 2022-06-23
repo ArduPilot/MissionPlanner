@@ -50,6 +50,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             httpclient.DefaultRequestHeaders.ExpectContinue = false;
 
             UpdateStatus("Waiting...", 0);
+
+            timer1.Start();
         }
 
         private async void but_login_Click(object sender, EventArgs e)
@@ -89,14 +91,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             UpdateStatus("Login Done.", 100);
 
-            if (UsbDevice.AllDevices.Count > 0)
-            {
-                but_bootloader.Enabled = true;
-            }
-            else
-            {
-                but_getsn.Enabled = true;
-            }
+            // run a single scan incase its already in BL mode
+            Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL);
         }
 
         private void UpdateStatus(string v1, int v2)
@@ -106,7 +102,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 this.BeginInvoke((Action) delegate
                 {
                     label2.Text = v1;
-                    progressBar1.Value = v2;
+                    if(v2 >= 0)
+                        progressBar1.Value = v2;
                 });
             } catch { }
         }
@@ -121,9 +118,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CustomMessageBox.Show("Please re-power to autopilot");
             UpdateStatus("Please re-power to autopilot", 100);
-
-            but_dfu.Enabled = true;
-            but_firmware.Enabled = true;
         }
 
         private void Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum cause)
@@ -170,17 +164,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private async void but_dfu_Click(object sender, EventArgs e)
         {
             progressBar1.Value = 0;
+            UpdateStatus("Downloading DFU FW", 0);
             var dfufw = await httpclient.GetByteArrayAsync(dfufirmware);
             MemoryStream ms = new MemoryStream(dfufw);
             var fw = Firmware.ProcessFirmware(new StreamReader(ms));
             var up = new Uploader(detectedport, 115200);
             up.identify();
             up.currentChecksum(fw);
-            up.ProgressEvent += completed => UpdateStatus("DFU Download ", (int)completed);
+            up.ProgressEvent += completed => UpdateStatus("DFU FW Download ", (int)completed);
+            up.LogEvent += (message, level) => UpdateStatus(message, -1);
             up.upload(fw);
             up.close();
-
-            but_bootloader.Enabled = true;
         }
 
         private async void but_bootloader_Click(object sender, EventArgs e)
@@ -192,6 +186,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             textBox1.Text = BitConverter.ToString(sn).Replace("-", String.Empty);
 
+            UpdateStatus("Downloading Bootloader FW", 0);
             var bl = await httpclient.PostAsync(bootloaderurl + $"?SN={textBox1.Text}", null);
             var tempfile = Path.GetTempFileName();
             File.WriteAllBytes(tempfile, await bl.Content.ReadAsByteArrayAsync());
@@ -214,6 +209,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 filecontent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 var mp = new MultipartContent("form-data");
                 mp.Add(filecontent);
+                UpdateStatus("Uploading/Downloading FW", 0);
                 var fwresp = await httpclient.PostAsync(firmwareurl + $"?SN={textBox1.Text}", mp);
                 if (fwresp.IsSuccessStatusCode)
                 {
@@ -222,8 +218,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var up = new Uploader(detectedport);
                     up.identify();
                     up.ProgressEvent += completed => UpdateStatus("Firmware Uploading", (int)completed);
+                    up.LogEvent += (message, level) => UpdateStatus(message, -1);
                     up.currentChecksum(fw);
-                    up.ProgressEvent += completed => progressBar1.Value = (int)completed;
                     up.upload(fw);
                     up.close();
                 }
@@ -233,6 +229,53 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.Show("Web request failed: " + fwresp.StatusCode);
                     Console.WriteLine(await fwresp.Content.ReadAsStringAsync());
                 }
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // logged in
+            if (!String.IsNullOrEmpty(token))
+            {
+                if (UsbDevice.AllDevices.Count > 0)
+                {
+                    // is in dfu mode, enable BL upload
+                    but_bootloader.Enabled = true;
+                    but_getsn.Enabled = false;
+                }
+                else
+                {
+                    but_bootloader.Enabled = false;
+
+                    var ports = Win32DeviceMgmt.GetAllCOMPorts();
+                    var validbl = ports.Where(a => a.board.EndsWith("BL"));
+
+                    // valid BL detected and SN rx'ed
+                    if (validbl.Count() > 0 && textBox1.Text != "")
+                    {
+                        // in BL already
+                        but_getsn.Enabled = false;
+                        if (validbl.First().board.Contains("SecureBL"))
+                        {
+                            // secure bootloader
+                            but_firmware.Enabled = true;
+                            but_dfu.Enabled = false;
+                        }
+                        else
+                        {
+                            // is in bootloader but not secure
+                            but_dfu.Enabled = true;
+                        }
+                    }
+                    else
+                    {
+                        // no bl detected - prompt user
+                        but_getsn.Enabled = true;
+                        but_firmware.Enabled = false;
+                        but_bootloader.Enabled = false;
+                    }
+                }
+
             }
         }
     }
