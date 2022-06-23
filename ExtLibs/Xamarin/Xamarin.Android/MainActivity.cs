@@ -398,8 +398,7 @@ namespace Xamarin.Droid
                 sampleRate, ChannelConfiguration.Mono, Encoding.Pcm16bit, generatedSnd.Length, AudioTrackMode.Stream);
             audioTrack.Play();
             audioTrack.Write(generatedSnd, 0, generatedSnd.Length);
-            while (audioTrack.PlayState == PlayState.Playing)
-                Thread.Sleep(10);
+            Thread.Sleep(duration + 40);
             audioTrack.Stop();
         }
 
