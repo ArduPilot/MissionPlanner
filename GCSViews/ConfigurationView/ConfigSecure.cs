@@ -24,7 +24,7 @@ using Firmware = px4uploader.Firmware;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigSecure : UserControl
+    public partial class ConfigSecure : UserControl, IDeactivate, IActivate
     {
         private Uri _result;
         private HttpClient httpclient;
@@ -64,8 +64,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             listener = new TcpListener(IPAddress.Loopback, port);
             listener.Start();
 
+            UpdateStatus("Started Auth", 0);
+
             Common.OpenUrl(login.ToString() + $"?return_url=http://localhost:{port}{tokenurl.AbsolutePath}");
 
+            UpdateStatus("Waiting for Auth token", 50);
             var tcpClient = await listener.AcceptTcpClientAsync();
             tcpClient.NoDelay = true;
             var stream = tcpClient.GetStream();
@@ -80,7 +83,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             httpclient.DefaultRequestHeaders.Remove("Authorization");
             httpclient.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
 
-            byte[] data = Encoding.UTF8.GetBytes("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nConnection: close\r\n\r\n<html><script>window.open('', '_self').close()</script>");
+            byte[] data =
+                Encoding.UTF8.GetBytes(
+                    "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nConnection: close\r\n\r\n<html><script>window.open('', '_self').close()</script>"
+                        .PadRight(2048));
 
             stream.Write(data, 0, data.Length);
             await stream.FlushAsync();
@@ -101,10 +107,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                this.BeginInvoke((Action) delegate
+                this.BeginInvoke((Action)delegate
                 {
-                    label2.Text = v1;
-                    if(v2 >= 0)
+                    if (v1 != "")
+                        label2.Text = v1;
+                    if (v2 >= 0)
                         progressBar1.Value = v2;
                 });
             } catch { }
@@ -131,7 +138,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Task.Run(() =>
             {
-                UpdateStatus("Scanning Ports", 0);
                 Parallel.ForEach(SerialPort.GetPortNames(), port =>
                 {
                     px4uploader.Uploader up;
@@ -150,6 +156,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     try
                     {
+                        up.ProgressEvent += completed => UpdateStatus("", (int)completed);
+                        up.LogEvent += (message, level) => UpdateStatus(message, -1);
                         up.identify();
                         up.close();
                         detectedport = port;
@@ -185,10 +193,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MemoryStream ms = new MemoryStream(dfufw);
             var fw = Firmware.ProcessFirmware(new StreamReader(ms));
             var up = new Uploader(detectedport, 115200);
+            up.ProgressEvent += completed => UpdateStatus("", (int)completed);
+            up.LogEvent += (message, level) => UpdateStatus(message, -1);
             up.identify();
             up.currentChecksum(fw);
-            up.ProgressEvent += completed => UpdateStatus("DFU FW Download ", (int)completed);
-            up.LogEvent += (message, level) => UpdateStatus(message, -1);
             up.upload(fw);
             up.close();
         }
@@ -237,9 +245,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var fw = Firmware.ProcessFirmware(new StreamReader(await fwresp.Content.ReadAsStreamAsync()));
 
                     var up = new Uploader(detectedport);
-                    up.identify();
-                    up.ProgressEvent += completed => UpdateStatus("Firmware Uploading", (int)completed);
+                    up.ProgressEvent += completed => UpdateStatus("", (int)completed);
                     up.LogEvent += (message, level) => UpdateStatus(message, -1);
+                    up.identify();
                     up.currentChecksum(fw);
                     up.upload(fw);
                     up.close();
@@ -298,6 +306,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
             }
+        }
+
+        public void Deactivate()
+        {
+            MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
+        }
+
+        public void Activate()
+        {
+            MainV2.instance.DeviceChanged -= Instance_DeviceChanged;
+            Instance_DeviceChanged(MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL);
         }
     }
 }

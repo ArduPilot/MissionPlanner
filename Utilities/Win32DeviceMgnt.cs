@@ -433,7 +433,7 @@ public class Win32DeviceMgmt
                 bool success = SetupDiEnumDeviceInfo(hDeviceInfoSet, iMemberIndex, ref deviceInfoData);
                 if (!success)
                 {
-                    log.Info("no more devices " + GetLastError());
+                    log.Debug("no more devices " + GetLastError());
                     // No more devices in the device information set
                     break;
                 }
@@ -445,10 +445,16 @@ public class Win32DeviceMgmt
                 try
                 {
                     deviceInfo.name = GetDeviceName(hDeviceInfoSet, deviceInfoData);
+
+                    if (deviceInfo.name == null)
+                    {
+                        iMemberIndex++;
+                        continue;
+                    }
                 }
                 catch (Exception e)
                 {
-                    log.Error(e);
+                    log.Debug(e);
                     iMemberIndex++;
                     continue;
                 }
@@ -481,8 +487,7 @@ public class Win32DeviceMgmt
                 {
                     try
                     {
-                        log.Info((SPDRP)prop + ": " +
-                                 GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP)prop));
+                        //log.Info((SPDRP)prop + ": " + GetDeviceDescription(hDeviceInfoSet, deviceInfoData, (SPDRP)prop));
                     }
                     catch
                     {
@@ -492,7 +497,7 @@ public class Win32DeviceMgmt
                 //https://github.com/tpn/winsdk-10/blob/master/Include/10.0.10240.0/shared/devpkey.h
 
                 var list = new[]
-                {
+                {/*
                     DEFINE_DEVPROPKEY("DEVPKEY_Device_DeviceDesc", 0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0x20, 0x67, 0xd1,
                         0x46, 0xa8, 0x50, 0xe0, 2), // DEVPROP_TYPE_STRING
                     DEFINE_DEVPROPKEY("DEVPKEY_Device_Manufacturer", 0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0x20, 0x67, 0xd1,
@@ -504,10 +509,10 @@ public class Win32DeviceMgmt
 
                     DEFINE_DEVPROPKEY("DEVPKEY_Device_Model", 0x78c34fc8, 0x104a, 0x4aca, 0x9e, 0xa4, 0x52, 0x4d, 0x52,
                         0x99, 0x6e, 0x57, 39), // DEVPROP_TYPE_STRING
-
+                    */
                     DEFINE_DEVPROPKEY("DEVPKEY_Device_BusReportedDeviceDesc", 0x540b947e, 0x8b40, 0x45bc, 0xa8, 0xa2,
                         0x6a, 0x0b, 0x89, 0x4c, 0xbd, 0xa2, 4), // DEVPROP_TYPE_STRING
-
+                    /*
                     DEFINE_DEVPROPKEY("DEVPKEY_DeviceContainer_FriendlyName", 0x656A3BB3, 0xECC0, 0x43FD, 0x84, 0x77,
                         0x4A, 0xE0, 0x40, 0x4A, 0x96, 0xCD, 12288), // DEVPROP_TYPE_STRING
 
@@ -524,6 +529,7 @@ public class Win32DeviceMgmt
 
                     DEFINE_DEVPROPKEY("DEVPKEY_DeviceContainer_DeviceDescription2", 0x78c34fc8, 0x104a, 0x4aca, 0x9e,
                         0xa4, 0x52, 0x4d, 0x52, 0x99, 0x6e, 0x57, 82), // DEVPROP_TYPE_STRING
+                    */
                 };
 
                 ulong propertyType = 0;
@@ -537,7 +543,7 @@ public class Win32DeviceMgmt
                             buffer, 1024, out requiredSize, 0))
                         {
                             var out11 = Marshal.PtrToStringAuto(buffer);
-                            log.Info(list[i].name + " " + out11);
+                            log.Debug(list[i].name + " " + out11);
 
                             if (list[i].name == "DEVPKEY_Device_BusReportedDeviceDesc")
                                 deviceInfo.board = out11;
@@ -590,6 +596,7 @@ public class Win32DeviceMgmt
             int result = RegQueryValueEx(hDeviceRegistryKey, "PortName", 0, out lpRegKeyType, deviceNameBuf, ref length);
             if (result != 0)
             {
+                return null;
                 throw new Exception("Can not read registry value PortName for device " + deviceInfoData.ClassGuid);
             }
         }

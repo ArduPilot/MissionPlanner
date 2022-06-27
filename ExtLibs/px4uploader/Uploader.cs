@@ -898,11 +898,13 @@ namespace px4uploader
                 catch { __sync(); }
             }
 
-            Console.WriteLine(
+            var line = string.Format(
                 "Found board type {0} brdrev {1} blrev {2} fwmax {3} extf {7} chip {5:X} chipdes {6} SN {8} on {4}",
                 board_type,
                 board_rev, bl_rev, fw_maxsize, port, chip, chip_desc, extf_maxsize,
                 BitConverter.ToString(self.sn).Replace("-", string.Empty));
+
+            print(line);
         }
 
         public void upload(Firmware fw)
