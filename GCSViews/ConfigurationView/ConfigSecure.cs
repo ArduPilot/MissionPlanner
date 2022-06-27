@@ -39,7 +39,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Uri bootloaderurl = new Uri("https://secure.cubepilot.com/api/Firmware/CreateBootLoader");
         
         private Uri dfufirmware = new Uri("https://secure.cubepilot.com/CubeOrange_dfusetup.apj");
-        
+
+        private Uri sncheck = new Uri("https://secure.cubepilot.com/api/Firmware/CheckSN");
+
         private string token;
         private string detectedport;
 
@@ -125,6 +127,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (cause != MainV2.WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL)
                 return;
 
+            timer1_Tick(this, null);
+
             Task.Run(() =>
             {
                 UpdateStatus("Scanning Ports", 0);
@@ -150,7 +154,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         up.close();
                         detectedport = port;
                         UpdateStatus("Detected " + port, 100);
-                        this.InvokeIfRequired(() => this.textBox1.Text = BitConverter.ToString(up.sn).Replace("-", ""));
+                        this.InvokeIfRequired(() =>
+                        {
+                            this.textBox1.Text = BitConverter.ToString(up.sn).Replace("-", "");
+                            timer1_Tick(this, null);
+                        });
                     }
                     catch (Exception)
                     {
@@ -163,6 +171,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private async void but_dfu_Click(object sender, EventArgs e)
         {
+            var resp = await httpclient.GetAsync(sncheck + "?SN=" + this.textBox1.Text);
+            if (!resp.IsSuccessStatusCode)
+            {
+                CustomMessageBox.Show(resp.ReasonPhrase, "Error");
+                UpdateStatus(resp.ReasonPhrase, 0);
+                return;
+            }
+
             progressBar1.Value = 0;
             UpdateStatus("Downloading DFU FW", 0);
             var dfufw = await httpclient.GetByteArrayAsync(dfufirmware);
@@ -188,6 +204,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             UpdateStatus("Downloading Bootloader FW", 0);
             var bl = await httpclient.PostAsync(bootloaderurl + $"?SN={textBox1.Text}", null);
+            if (!bl.IsSuccessStatusCode)
+            {
+                UpdateStatus("Failed to download " + bl.ReasonPhrase + " " + await bl.Content.ReadAsStringAsync(), 0);
+                return;
+            }
             var tempfile = Path.GetTempFileName();
             File.WriteAllBytes(tempfile, await bl.Content.ReadAsByteArrayAsync());
             DFU.Progress += (i, s) => UpdateStatus("DFU Download Bootloader", (int)i);
@@ -226,7 +247,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else
                 {
                     UpdateStatus("Firmware Uploading FAILED", (int)0);
-                    CustomMessageBox.Show("Web request failed: " + fwresp.StatusCode);
+                    CustomMessageBox.Show("Web request failed: " + fwresp.ReasonPhrase);
                     Console.WriteLine(await fwresp.Content.ReadAsStringAsync());
                 }
             }
