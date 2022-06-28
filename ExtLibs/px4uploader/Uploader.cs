@@ -442,6 +442,8 @@ namespace px4uploader
             while (pos < count)
             {
                 pos += port.Read(c, pos, count - pos);
+                if (count >= 4 && c[0] == (byte)Code.INSYNC && c[1] == (byte)Code.INVALID)
+                    throw new Exception("Bad Request INSYNC INVALID");
             }
 
             //foreach (var i in c)
