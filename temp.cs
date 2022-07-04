@@ -951,9 +951,9 @@ namespace MissionPlanner
 
         private void but_dem_Click(object sender, EventArgs e)
         {
-            UserControl ctl = new UserControl() { Width = 1100, AutoSize = true };
+            UserControl ctl = new UserControl() { Width = 1100, Height = 600, AutoSize = true };
 
-            FlowLayoutPanel flp = new FlowLayoutPanel() { Dock = DockStyle.Fill };
+            FlowLayoutPanel flp = new FlowLayoutPanel() { Dock = DockStyle.Fill, AutoScroll = true };
             var lbl2 = new Label() { Text = "Click on line to zoom to it", AutoSize = true };
             flp.Controls.Add(lbl2);
             string line = "";
@@ -978,7 +978,7 @@ namespace MissionPlanner
             var butt = new MyButton() { Text = "Open DEM Dir", Dock = DockStyle.Top };
             butt.Click += (a, ev) =>
             {
-                System.Diagnostics.Process.Start(@"C:\ProgramData\Mission Planner\srtm\");
+                System.Diagnostics.Process.Start(srtm.datadirectory);
             };
             ctl.Controls.Add(butt);
 
