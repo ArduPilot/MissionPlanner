@@ -266,11 +266,32 @@ namespace MissionPlanner.Utilities
                         }
                         catch (Exception ex) { log.Error(ex); srcProjection = null; }
                     }
-                    else 
+                    else if (GeoKeys.ContainsKey(GKID.PCSCitationGeoKey))
                     {
                         try
                         {
                             srcProjection = ProjectionInfo.FromEsriString(GeoKeys[GKID.PCSCitationGeoKey].ToString());
+
+                            ProjectionInfo pESRIEnd = KnownCoordinateSystems.Geographic.World.WGS1984;
+
+                            double[] xyarray = { x,y,
+                            x + width * xscale, y - height * yscale ,
+                            x + width * xscale, y,
+                            x, y - height * yscale };
+                            Reproject.ReprojectPoints(xyarray, null, srcProjection, pESRIEnd, 0, xyarray.Length / 2);
+
+                            ymin = Math.Min(Math.Min(Math.Min(xyarray[1], xyarray[3]), xyarray[5]), xyarray[7]);
+                            xmin = Math.Min(Math.Min(Math.Min(xyarray[0], xyarray[2]), xyarray[4]), xyarray[6]);
+                            ymax = Math.Max(Math.Max(Math.Max(xyarray[1], xyarray[3]), xyarray[5]), xyarray[7]);
+                            xmax = Math.Max(Math.Max(Math.Max(xyarray[0], xyarray[2]), xyarray[4]), xyarray[6]);
+                        }
+                        catch (Exception ex) { log.Error(ex); srcProjection = null; }
+                    }
+                    else if (GeoKeys.ContainsKey(GKID.GeographicTypeGeoKey))
+                    {
+                        try
+                        {
+                            srcProjection = ProjectionInfo.FromEpsgCode((ushort)GeoKeys[GKID.GeographicTypeGeoKey]);
 
                             ProjectionInfo pESRIEnd = KnownCoordinateSystems.Geographic.World.WGS1984;
 

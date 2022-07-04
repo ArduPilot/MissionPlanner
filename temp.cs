@@ -962,8 +962,8 @@ namespace MissionPlanner
             {
                 //log.InfoFormat("Start Point ({0},{1},{2}) --> ({3},{4},{5})", item.i, item.j, item.k, item.x, item.y, item.z);
 
-                line = String.Format("{0} = {1} = {2}*{3} {4}\n", item.FileName, item.Area, item.width, item.height, item.bits,
-                    item.xscale, item.yscale, item.zscale);
+                line = String.Format("{0} = {1} = {2}*{3} {4} {8}\r\n", item.FileName, item.Area, item.width, item.height, item.bits,
+                    item.xscale, item.yscale, item.zscale, item.srcProjection?.Name ?? item.srcProjection?.Transform?.Name);
 
                 var lbl = new Label() { Text = line, AutoSize = true};
                 lbl.Click += (o, args) =>
