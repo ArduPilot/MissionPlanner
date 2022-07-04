@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.but_slcanmode1 = new MissionPlanner.Controls.MyButton();
@@ -68,6 +69,8 @@
             this.UAVText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chk_canonclose = new System.Windows.Forms.CheckBox();
             this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.but_mavlinkcanmode2_2 = new MissionPlanner.Controls.MyButton();
+            this.but_filter = new MissionPlanner.Controls.MyButton();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.modeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,8 +80,6 @@
             this.SoftwareVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoftwareCRC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Menu = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.but_mavlinkcanmode2_2 = new MissionPlanner.Controls.MyButton();
-            this.but_filter = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uAVCANModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGDebug)).BeginInit();
@@ -478,6 +479,26 @@
             this.myDataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowEnter);
             this.myDataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.myDataGridView1_RowsAdded);
             // 
+            // but_mavlinkcanmode2_2
+            // 
+            this.but_mavlinkcanmode2_2.Location = new System.Drawing.Point(193, 29);
+            this.but_mavlinkcanmode2_2.Name = "but_mavlinkcanmode2_2";
+            this.but_mavlinkcanmode2_2.Size = new System.Drawing.Size(91, 23);
+            this.but_mavlinkcanmode2_2.TabIndex = 91;
+            this.but_mavlinkcanmode2_2.Text = "MAVlink-CAN2";
+            this.but_mavlinkcanmode2_2.UseVisualStyleBackColor = true;
+            this.but_mavlinkcanmode2_2.Click += new System.EventHandler(this.but_slcanmode2_2_Click);
+            // 
+            // but_filter
+            // 
+            this.but_filter.Location = new System.Drawing.Point(290, 29);
+            this.but_filter.Name = "but_filter";
+            this.but_filter.Size = new System.Drawing.Size(42, 23);
+            this.but_filter.TabIndex = 92;
+            this.but_filter.Text = "Filter";
+            this.but_filter.UseVisualStyleBackColor = true;
+            this.but_filter.Click += new System.EventHandler(this.but_filter_Click);
+            // 
             // iDDataGridViewTextBoxColumn
             // 
             this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
@@ -547,30 +568,13 @@
             // 
             // Menu
             // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.NullValue = "Menu";
+            this.Menu.DefaultCellStyle = dataGridViewCellStyle2;
             this.Menu.HeaderText = "Menu";
             this.Menu.Name = "Menu";
             this.Menu.ReadOnly = true;
             this.Menu.Width = 50;
-            // 
-            // but_mavlinkcanmode2_2
-            // 
-            this.but_mavlinkcanmode2_2.Location = new System.Drawing.Point(193, 29);
-            this.but_mavlinkcanmode2_2.Name = "but_mavlinkcanmode2_2";
-            this.but_mavlinkcanmode2_2.Size = new System.Drawing.Size(91, 23);
-            this.but_mavlinkcanmode2_2.TabIndex = 91;
-            this.but_mavlinkcanmode2_2.Text = "MAVlink-CAN2";
-            this.but_mavlinkcanmode2_2.UseVisualStyleBackColor = true;
-            this.but_mavlinkcanmode2_2.Click += new System.EventHandler(this.but_slcanmode2_2_Click);
-            // 
-            // but_filter
-            // 
-            this.but_filter.Location = new System.Drawing.Point(290, 29);
-            this.but_filter.Name = "but_filter";
-            this.but_filter.Size = new System.Drawing.Size(42, 23);
-            this.but_filter.TabIndex = 92;
-            this.but_filter.Text = "Filter";
-            this.but_filter.UseVisualStyleBackColor = true;
-            this.but_filter.Click += new System.EventHandler(this.but_filter_Click);
             // 
             // ConfigDroneCAN
             // 
@@ -636,6 +640,13 @@
         private System.Windows.Forms.MenuItem menu_update;
         private System.Windows.Forms.MenuItem menu_parameters;
         private System.Windows.Forms.MenuItem menu_restart;
+        private System.Windows.Forms.MenuItem menu_updatebeta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Node;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Source;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UAVText;
+        private Controls.MyButton but_mavlinkcanmode2_2;
+        private Controls.MyButton but_filter;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn modeDataGridViewTextBoxColumn;
@@ -645,12 +656,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn SoftwareCRC;
         private System.Windows.Forms.DataGridViewButtonColumn Menu;
-        private System.Windows.Forms.MenuItem menu_updatebeta;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Node;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Source;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UAVText;
-        private Controls.MyButton but_mavlinkcanmode2_2;
-        private Controls.MyButton but_filter;
     }
 }

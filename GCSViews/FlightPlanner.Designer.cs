@@ -431,8 +431,8 @@ namespace MissionPlanner.GCSViews
             // 
             // CMB_altmode
             // 
-            resources.ApplyResources(this.CMB_altmode, "CMB_altmode");
             this.CMB_altmode.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_altmode, "CMB_altmode");
             this.CMB_altmode.Name = "CMB_altmode";
             this.CMB_altmode.SelectedIndexChanged += new System.EventHandler(this.CMB_altmode_SelectedIndexChanged);
             // 

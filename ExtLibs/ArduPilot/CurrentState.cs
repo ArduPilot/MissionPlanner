@@ -17,7 +17,7 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        [JsonIgnore] [IgnoreDataMember] public static ISpeech Speech;
+        [JsonIgnore][IgnoreDataMember] public static ISpeech Speech;
 
         // multipliers
         public static float multiplierdist = 1;
@@ -417,12 +417,13 @@ namespace MissionPlanner
         [GroupText("Position")]
         public DateTime gpstime { get; set; }
 
-        public float altd1000 => alt / 1000 % 10;
+        [GroupText("Other")] public float altd1000 => alt / 1000 % 10;
 
-        public float altd100 => alt / 100 % 10;
+        [GroupText("Other")] public float altd100 => alt / 100 % 10;
 
         // speeds
         [DisplayText("AirSpeed (speed)")]
+        [GroupText("Sensor")]
         public float airspeed
         {
             get => _airspeed * multiplierspeed;
@@ -430,17 +431,21 @@ namespace MissionPlanner
         }
 
         [DisplayText("Airspeed Target (speed)")]
+        [GroupText("NAV")]
         public float targetairspeed { get; private set; }
 
         public bool lowairspeed { get; set; }
 
         [DisplayText("Airspeed Ratio")]
+        [GroupText("Calibration")]
         public float asratio { get; set; }
 
         [DisplayText("Airspeed1 Temperature")]
+        [GroupText("Sensor")]
         public float airspeed1_temp { get; set; }
 
         [DisplayText("Airspeed2 Temperature")]
+        [GroupText("Sensor")]
         public float airspeed2_temp { get; set; }
 
         [GroupText("Position")]
@@ -618,7 +623,7 @@ namespace MissionPlanner
         public float imu3_temp { get; set; }
 
         // hygrometer1
-      [DisplayText("hygrotemp1 (cdegC)")]
+        [DisplayText("hygrotemp1 (cdegC)")]
         [GroupText("Sensor")]
         public short hygrotemp1 { get; set; }
 
@@ -793,6 +798,7 @@ namespace MissionPlanner
         [GroupText("ESC")] public float esc12_rpm { get; set; }
         [GroupText("ESC")] public float esc12_temp { get; set; }
 
+        [GroupText("RadioOut")]
         public float ch3percent
         {
             get
@@ -822,10 +828,11 @@ namespace MissionPlanner
             set => _ch3percent = value;
         }
 
-        [DisplayText("Failsafe")] public bool failsafe { get; set; }
+        [DisplayText("Failsafe")][GroupText("Software")] public bool failsafe { get; set; }
 
-        [DisplayText("RX Rssi")] public int rxrssi { get; set; }
-
+        [DisplayText("RX Rssi")][GroupText("Telem")] public int rxrssi { get; set; }
+        [GroupText("Attitude")]
+        [DisplayText("Crit AOA (deg)")]
         public float crit_AOA
         {
             get
@@ -850,6 +857,7 @@ namespace MissionPlanner
         public bool lowgroundspeed { get; set; }
 
         [DisplayText("Vertical Speed (speed)")]
+        [GroupText("Position")]
         public float verticalspeed
         {
             get
@@ -860,9 +868,10 @@ namespace MissionPlanner
             set => _verticalspeed = _verticalspeed * 0.4f + value * 0.6f;
         }
 
-        [DisplayText("Vertical Speed (fpm)")] public double verticalspeed_fpm => vz * -3.28084 * 60;
+        [DisplayText("Vertical Speed (fpm)")][GroupText("Position")] public double verticalspeed_fpm => vz * -3.28084 * 60;
 
         [DisplayText("Glide Ratio")]
+        [GroupText("Position")]
         public double glide_ratio
         {
             get
@@ -944,6 +953,7 @@ namespace MissionPlanner
         public string mode { get; set; }
 
         [DisplayText("ClimbRate (speed)")]
+        [GroupText("Position")]
         public float climbrate
         {
             get => _climbrate * multiplierspeed;
@@ -976,18 +986,20 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("Dist Traveled (dist)")] public float distTraveled { get; set; }
+        [DisplayText("Dist Traveled (dist)")][GroupText("Position")] public float distTraveled { get; set; }
 
-        [DisplayText("Time in Air (sec)")] public float timeSinceArmInAir { get; set; }
+        [DisplayText("Time in Air (sec)")][GroupText("Position")] public float timeSinceArmInAir { get; set; }
 
-        [DisplayText("Time in Air (sec)")] public float timeInAir { get; set; }
+        [DisplayText("Time in Air (sec)")][GroupText("Position")] public float timeInAir { get; set; }
 
         //Time in Air converted to min.sec format for easier reading
         [DisplayText("Time in Air (min.sec)")]
+        [GroupText("Position")]
         public float timeInAirMinSec => (int)(timeInAir / 60) + timeInAir % 60 / 100;
 
         // calced turn rate
         [DisplayText("Turn Rate (speed)")]
+        [GroupText("Position")]
         public float turnrate
         {
             get
@@ -998,10 +1010,11 @@ namespace MissionPlanner
         }
 
         //https://en.wikipedia.org/wiki/Load_factor_(aeronautics)
-        [DisplayText("Turn Gs (load)")] public float turng => (float)(1 / Math.Cos(MathHelper.deg2rad * roll));
+        [DisplayText("Turn Gs (load)")][GroupText("Position")] public float turng => (float)(1 / Math.Cos(MathHelper.deg2rad * roll));
 
         // turn radius
         [DisplayText("Turn Radius (dist)")]
+        [GroupText("Position")]
         public float radius
         {
             get
@@ -1010,7 +1023,7 @@ namespace MissionPlanner
                 return (float)(groundspeed * groundspeed / (9.80665 * Math.Tan(roll * MathHelper.deg2rad)));
             }
         }
-
+        [GroupText("Position")]
         public float QNH
         {
             get
@@ -1027,15 +1040,16 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("Wind Direction (Deg)")] public float wind_dir { get; set; }
+        [DisplayText("Wind Direction (Deg)")][GroupText("Position")] public float wind_dir { get; set; }
 
-        [DisplayText("Wind Velocity (speed)")] public float wind_vel { get; set; }
+        [DisplayText("Wind Velocity (speed)")][GroupText("Position")] public float wind_vel { get; set; }
 
-        public float targetaltd100 => targetalt / 100 % 10;
+        [GroupText("NAV")] public float targetaltd100 => targetalt / 100 % 10;
         [GroupText("NAV")]
         public float targetalt { get; private set; }
 
-        [JsonIgnore] [IgnoreDataMember]
+        [JsonIgnore]
+        [IgnoreDataMember]
         public List<(DateTime time, string message)> messages { get; set; } = new List<(DateTime, string)>();
 
         /// <summary>
@@ -1054,7 +1068,7 @@ namespace MissionPlanner
             get { if (DateTime.Now > _messageHighTime.AddSeconds(10)) return ""; return _messagehigh.TrimUnPrintable(); }
             set
             {
-                if(value == null || value == "")
+                if (value == null || value == "")
                     return;
                 // check against get
                 if (messageHigh == value)
@@ -1069,7 +1083,7 @@ namespace MissionPlanner
         string _messagehigh = "";
         DateTime _messageHighTime;
 
-        public MAVLink.MAV_SEVERITY messageHighSeverity { get; set; }
+        [GroupText("Other")] public MAVLink.MAV_SEVERITY messageHighSeverity { get; set; }
 
         //battery
         [GroupText("Battery")]
@@ -1369,7 +1383,9 @@ namespace MissionPlanner
         [GroupText("Position")] public PointLatLngAlt Location => new PointLatLngAlt(lat, lng, altasl);
         [GroupText("Position")] public PointLatLngAlt TargetLocation { get; set; } = PointLatLngAlt.Zero;
 
-        [JsonIgnore] [IgnoreDataMember]
+        [JsonIgnore]
+        [IgnoreDataMember]
+        [GroupText("Other")]
         public float GeoFenceDist
         {
             get
@@ -1553,6 +1569,7 @@ namespace MissionPlanner
         }
 
         [DisplayText("Elevation to Mav (deg)")]
+        [GroupText("Position")]
         public float ELToMAV
         {
             get
@@ -1560,7 +1577,7 @@ namespace MissionPlanner
                 var dist = DistToHome / multiplierdist;
 
                 //if (dist < 5)
-                    //return 0;
+                //return 0;
 
                 var altdiff = (float)(_altasl - TrackerLocation.Alt);
 
@@ -1571,6 +1588,7 @@ namespace MissionPlanner
         }
 
         [DisplayText("Bearing to Mav (deg)")]
+        [GroupText("Position")]
         public float AZToMAV
         {
             get
@@ -1585,37 +1603,38 @@ namespace MissionPlanner
                 var dstlat = (TrackerLocation.Lat - lat) * scaleLongUp; //OffSet Y
                 var bearing = 90 + Math.Atan2(dstlat, -dstlon) * 57.295775; //absolut home direction
                 if (bearing < 0) bearing += 360; //normalization
-                //bearing = bearing - 180;//absolut return direction
-                //if (bearing < 0) bearing += 360;//normalization
+                                                 //bearing = bearing - 180;//absolut return direction
+                                                 //if (bearing < 0) bearing += 360;//normalization
 
                 //var dist = DistToHome / multiplierdist;
 
                 //if (dist < 5)
-                    //return 0;
+                //return 0;
 
                 return (float)bearing;
             }
         }
 
         [DisplayText("Sonar Range (alt)")]
+        [GroupText("Sensor")]
         public float sonarrange
         {
             get => (float)toAltDisplayUnit(_sonarrange);
             set => _sonarrange = value;
         }
 
-        [DisplayText("Sonar Voltage (Volt)")] public float sonarvoltage { get; set; }
+        [DisplayText("Sonar Voltage (Volt)")][GroupText("Sensor")] public float sonarvoltage { get; set; }
 
-        [DisplayText("RangeFinder1 (cm)")] public uint rangefinder1 { get; set; }
+        [DisplayText("RangeFinder1 (cm)")][GroupText("Sensor")] public uint rangefinder1 { get; set; }
 
-        [DisplayText("RangeFinder2 (cm)")] public uint rangefinder2 { get; set; }
+        [DisplayText("RangeFinder2 (cm)")][GroupText("Sensor")] public uint rangefinder2 { get; set; }
 
-        [DisplayText("RangeFinder3 (cm)")] public uint rangefinder3 { get; set; }
-
+        [DisplayText("RangeFinder3 (cm)")][GroupText("Sensor")] public uint rangefinder3 { get; set; }
+        [GroupText("Software")]
         public float freemem { get; set; }
-        public float load { get; set; }
-        public float brklevel { get; set; }
-        public bool armed { get; set; }
+        [GroupText("Software")] public float load { get; set; }
+        [GroupText("Software")] public float brklevel { get; set; }
+        [GroupText("Software")] public bool armed { get; set; }
 
         // Sik radio
         [GroupText("Telem")]
@@ -1693,26 +1712,27 @@ namespace MissionPlanner
         }
 
         // stats
-        public ushort packetdropremote { get; set; }
-        public ushort linkqualitygcs { get; set; }
+        [GroupText("Telem")] public ushort packetdropremote { get; set; }
+        [GroupText("Telem")] public ushort linkqualitygcs { get; set; }
 
-        [DisplayText("Error Type")] public ushort errors_count1 { get; set; }
+        [DisplayText("Error Type")][GroupText("Hardware")] public ushort errors_count1 { get; set; }
 
-        [DisplayText("Error Type")] public ushort errors_count2 { get; set; }
-        public ushort errors_count3 { get; set; }
+        [DisplayText("Error Type")][GroupText("Hardware")] public ushort errors_count2 { get; set; }
+        [DisplayText("Error Type")][GroupText("Hardware")] public ushort errors_count3 { get; set; }
 
-        [DisplayText("Error Count")] public ushort errors_count4 { get; set; }
+        [DisplayText("Error Count")][GroupText("Hardware")] public ushort errors_count4 { get; set; }
 
-        [DisplayText("HW Voltage")] public float hwvoltage { get; set; }
+        [DisplayText("HW Voltage")][GroupText("Hardware")] public float hwvoltage { get; set; }
 
-        [DisplayText("Board Voltage")] public float boardvoltage { get; set; }
+        [DisplayText("Board Voltage")][GroupText("Hardware")] public float boardvoltage { get; set; }
 
-        [DisplayText("Servo Rail Voltage")] public float servovoltage { get; set; }
+        [DisplayText("Servo Rail Voltage")][GroupText("Hardware")] public float servovoltage { get; set; }
 
-        [DisplayText("Voltage Flags")] public uint voltageflag { get; set; }
+        [DisplayText("Voltage Flags")][GroupText("Hardware")] public uint voltageflag { get; set; }
 
-        public ushort i2cerrors { get; set; }
+        [GroupText("Hardware")] public ushort i2cerrors { get; set; }
 
+        [GroupText("Other")]
         public double timesincelastshot { get; set; }
 
         // pressure
@@ -1736,11 +1756,11 @@ namespace MissionPlanner
         [GroupText("Calibration")] public float accel_cal_z { get; set; }
 
         // requested stream rates
-        public int rateattitude { get; set; }
-        public int rateposition { get; set; }
-        public int ratestatus { get; set; }
-        public int ratesensors { get; set; }
-        public int raterc { get; set; }
+        [GroupText("Telem")] public int rateattitude { get; set; }
+        [GroupText("Telem")] public int rateposition { get; set; }
+        [GroupText("Telem")] public int ratestatus { get; set; }
+        [GroupText("Telem")] public int ratesensors { get; set; }
+        [GroupText("Telem")] public int raterc { get; set; }
 
         // reference
         public DateTime datetime { get; set; }
@@ -1749,14 +1769,15 @@ namespace MissionPlanner
                                  parent.parent.logreadmode;
 
 
-        public float campointa { get; set; }
+        [GroupText("Mount")] public float campointa { get; set; }
 
-        public float campointb { get; set; }
+        [GroupText("Mount")] public float campointb { get; set; }
 
-        public float campointc { get; set; }
+        [GroupText("Mount")] public float campointc { get; set; }
 
-        public PointLatLngAlt GimbalPoint { get; set; }
+        [GroupText("Mount")] public PointLatLngAlt GimbalPoint { get; set; }
 
+        [GroupText("Mount")]
         public float gimballat
         {
             get
@@ -1766,6 +1787,7 @@ namespace MissionPlanner
             }
         }
 
+        [GroupText("Mount")]
         public float gimballng
         {
             get
@@ -1776,9 +1798,9 @@ namespace MissionPlanner
         }
 
 
-        public bool landed { get; set; }
+        [GroupText("Software")] public bool landed { get; set; }
 
-        [GroupText("Saftey")] public bool safteyactive { get; set; }
+        [GroupText("Software")] public bool safteyactive { get; set; }
 
         [GroupText("Terrain")] public bool terrainactive { get; set; }
 
@@ -1804,17 +1826,18 @@ namespace MissionPlanner
 
         [GroupText("Terrain")] public float ter_space { get; set; }
 
+        [GroupText("Enviromental")]
         public int KIndex => KIndexstatic;
 
-        [GroupText("Flow")] [DisplayText("flow_comp_m_x")] public float opt_m_x { get; set; }
+        [GroupText("Flow")][DisplayText("flow_comp_m_x")] public float opt_m_x { get; set; }
 
-        [GroupText("Flow")] [DisplayText("flow_comp_m_y")] public float opt_m_y { get; set; }
+        [GroupText("Flow")][DisplayText("flow_comp_m_y")] public float opt_m_y { get; set; }
 
-        [GroupText("Flow")] [DisplayText("flow_x")] public short opt_x { get; set; }
+        [GroupText("Flow")][DisplayText("flow_x")] public short opt_x { get; set; }
 
-        [GroupText("Flow")] [DisplayText("flow_y")] public short opt_y { get; set; }
+        [GroupText("Flow")][DisplayText("flow_y")] public short opt_y { get; set; }
 
-        [GroupText("Flow")] [DisplayText("flow quality")] public byte opt_qua { get; set; }
+        [GroupText("Flow")][DisplayText("flow quality")] public byte opt_qua { get; set; }
 
         [GroupText("EKF")] public float ekfstatus { get; set; }
 
@@ -1848,31 +1871,31 @@ namespace MissionPlanner
 
         [GroupText("PID")] public float pidPDmod { get; set; }
 
-        public uint vibeclip0 { get; set; }
+        [GroupText("Vibe")] public uint vibeclip0 { get; set; }
 
-        public uint vibeclip1 { get; set; }
+        [GroupText("Vibe")] public uint vibeclip1 { get; set; }
 
-        public uint vibeclip2 { get; set; }
+        [GroupText("Vibe")] public uint vibeclip2 { get; set; }
 
-        public float vibex { get; set; }
+        [GroupText("Vibe")] public float vibex { get; set; }
 
-        public float vibey { get; set; }
+        [GroupText("Vibe")] public float vibey { get; set; }
 
-        public float vibez { get; set; }
+        [GroupText("Vibe")] public float vibez { get; set; }
 
-        public Version version { get; set; }
-        public ulong uid { get; set; }
-        public string uid2 { get; set; }
-        public float rpm1 { get; set; }
+        [GroupText("Software")] public Version version { get; set; }
+        [GroupText("Software")] public ulong uid { get; set; }
+        [GroupText("Software")] public string uid2 { get; set; }
+        [GroupText("Sensor")] public float rpm1 { get; set; }
 
-        public float rpm2 { get; set; }
+        [GroupText("Sensor")] public float rpm2 { get; set; }
 
-        public uint capabilities { get; set; }
+        [GroupText("Software")] public uint capabilities { get; set; }
 
-        public float speedup { get; set; }
+        [GroupText("Software")] public float speedup { get; set; }
 
-        public byte vtol_state { get; private set; }
-        public byte landed_state { get; private set; }
+        [GroupText("Software")] public byte vtol_state { get; private set; }
+        [GroupText("Software")] public byte landed_state { get; private set; }
         [GroupText("Generator")]
         public float gen_status { get; set; }
         [GroupText("Generator")]
@@ -2095,7 +2118,7 @@ namespace MissionPlanner
                             fenceb_type = fence.breach_type;
                             fenceb_status = fence.breach_status;
                             fenceb_count = fence.breach_count;
-                                        
+
 
                             if (fence.breach_status != 0)
                             {
@@ -2173,7 +2196,7 @@ namespace MissionPlanner
                     case (uint)MAVLink.MAVLINK_MSG_ID.HIGH_LATENCY2:
                         {
                             var highlatency = mavLinkMessage.ToStructure<MAVLink.mavlink_high_latency2_t>();
-                            
+
                             {
                                 var modelist = Common.getModesList(firmware);
 
@@ -2205,14 +2228,14 @@ namespace MissionPlanner
                             targetalt = highlatency.target_altitude;
                             wp_dist = highlatency.target_distance;
                             wpno = highlatency.wp_num;
-                           
+
                             if (highlatency.failure_flags != 0)
                             {
                                 var flags = highlatency.failure_flags;
 
                                 var errors = "";
 
-                                for (var a = 1; a <= (int) MAVLink.HL_FAILURE_FLAG.MISSION; a = a << 1)
+                                for (var a = 1; a <= (int)MAVLink.HL_FAILURE_FLAG.MISSION; a = a << 1)
                                 {
                                     var currentbit = flags & a;
                                     if (currentbit == 1)
@@ -2231,7 +2254,7 @@ namespace MissionPlanner
                             }
 
                             yaw = highlatency.heading * 2;
-                            target_bearing = highlatency.target_heading*2;
+                            target_bearing = highlatency.target_heading * 2;
                             ch3percent = highlatency.throttle;
                             airspeed = highlatency.airspeed;
                             targetairspeed = highlatency.airspeed_sp;
@@ -2493,11 +2516,11 @@ namespace MissionPlanner
                             {
                                 voltageflag = (uint)(MAVLink.MAV_POWER_STATUS)power.flags;
 
-                                if(voltageflag == (uint)MAVLink.MAV_POWER_STATUS.PERIPH_OVERCURRENT)
+                                if (voltageflag == (uint)MAVLink.MAV_POWER_STATUS.PERIPH_OVERCURRENT)
                                 {
                                     messageHigh = "PERIPH_OVERCURRENT";
-                                } 
-                                else if(voltageflag == (uint)MAVLink.MAV_POWER_STATUS.PERIPH_HIPOWER_OVERCURRENT)
+                                }
+                                else if (voltageflag == (uint)MAVLink.MAV_POWER_STATUS.PERIPH_HIPOWER_OVERCURRENT)
                                 {
                                     messageHigh = "PERIPH_HIPOWER_OVERCURRENT";
                                 }
@@ -2538,7 +2561,7 @@ namespace MissionPlanner
                                         (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
 
                                 // reset state on armed state change
-                                if(armed == false && newarmed == true)
+                                if (armed == false && newarmed == true)
                                 {
                                     timeSinceArmInAir = 0;
                                 }
@@ -2971,7 +2994,7 @@ namespace MissionPlanner
                         }
 
                         break;
-                    case (uint) MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT:
 
                         {
                             var gps = mavLinkMessage.ToStructure<MAVLink.mavlink_gps_raw_int_t>();
@@ -2991,7 +3014,7 @@ namespace MissionPlanner
                             //                    Console.WriteLine("gpsfix {0}",gpsstatus);
 
                             if (gps.eph != ushort.MaxValue)
-                                gpshdop = (float) Math.Round(gps.eph / 100.0, 2);
+                                gpshdop = (float)Math.Round(gps.eph / 100.0, 2);
 
                             if (gps.satellites_visible != byte.MaxValue)
                                 satcount = gps.satellites_visible;
@@ -3289,7 +3312,8 @@ namespace MissionPlanner
                         {
                             var servoout = mavLinkMessage.ToStructure<MAVLink.mavlink_servo_output_raw_t>();
 
-                            if (servoout.port == 0) {
+                            if (servoout.port == 0)
+                            {
                                 ch1out = servoout.servo1_raw;
                                 ch2out = servoout.servo2_raw;
                                 ch3out = servoout.servo3_raw;
@@ -3306,7 +3330,9 @@ namespace MissionPlanner
                                 ch14out = servoout.servo14_raw;
                                 ch15out = servoout.servo15_raw;
                                 ch16out = servoout.servo16_raw;
-                            } else if (servoout.port == 1) {
+                            }
+                            else if (servoout.port == 1)
+                            {
                                 ch17out = servoout.servo1_raw;
                                 ch18out = servoout.servo2_raw;
                                 ch19out = servoout.servo3_raw;
@@ -3452,7 +3478,7 @@ namespace MissionPlanner
 
                         {
                             var hygrometer = mavLinkMessage.ToStructure<MAVLink.mavlink_hygrometer_sensor_t>();
-                            
+
                             if (hygrometer.id == 0)
                             {
                                 hygrotemp1 = hygrometer.temperature;
@@ -3590,12 +3616,12 @@ namespace MissionPlanner
 
                         }
                         break;
-                    case (uint) MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS:
                         {
                             var status = mavLinkMessage.ToStructure<MAVLink.mavlink_uavionix_adsb_out_status_t>();
 
                             xpdr_es1090_tx_enabled = (status.state & 128) != 0;
-                            xpdr_mode_S_enabled = (status.state & 64) != 0 ;
+                            xpdr_mode_S_enabled = (status.state & 64) != 0;
                             xpdr_mode_C_enabled = (status.state & 32) != 0;
                             xpdr_mode_A_enabled = (status.state & 16) != 0;
                             xpdr_ident_active = (status.state & 8) != 0;
@@ -3637,13 +3663,13 @@ namespace MissionPlanner
 
         [GroupText("Position")]
         [DisplayText("North")]
-        public float posn { get;  set; }
+        public float posn { get; set; }
         [GroupText("Position")]
         [DisplayText("East")]
-        public float pose { get;  set; }
+        public float pose { get; set; }
         [GroupText("Position")]
         [DisplayText("Down")]
-        public float posd { get;  set; }
+        public float posd { get; set; }
 
         public event EventHandler csCallBack;
 
@@ -4223,6 +4249,44 @@ namespace MissionPlanner
             {
                 return Convert.ToString(Value, 2);
             }
+        }
+
+        public static string GetGroupText(string fieldname)
+        {
+            try
+            {
+                var typeofthing = (typeof(CurrentState)).GetProperty(fieldname);
+                if (typeofthing != null)
+                {
+                    var attrib = typeofthing.GetCustomAttributes(typeof(GroupText), false);
+                    if (attrib.Length > 0)
+                        return attrib.OfType<GroupText>()?.First().DisplayName;
+                }
+            }
+            catch
+            {
+            }
+
+            return "";
+        }
+
+        public static string GetDisplayText(string fieldname)
+        {
+            try
+            {
+                var typeofthing = (typeof(CurrentState)).GetProperty(fieldname);
+                if (typeofthing != null)
+                {
+                    var attrib = typeofthing.GetCustomAttributes(typeof(DisplayTextAttribute), false);
+                    if (attrib.Length > 0)
+                        return attrib.OfType<DisplayTextAttribute>()?.First().Text;
+                }
+            }
+            catch
+            {
+            }
+
+            return "";
         }
     }
 }
