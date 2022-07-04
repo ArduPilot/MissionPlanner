@@ -919,6 +919,8 @@ namespace MissionPlanner.Log
             myPane.Title.Text = "Value Graph";
             myPane.XAxis.Title.Text = "Line Number";
             myPane.YAxis.Title.Text = "";
+            myPane.YAxis.Title.FontSpec.Size += 2;
+            myPane.Y2Axis.Title.FontSpec.Size += 2;
 
             // Show the x axis grid
             myPane.XAxis.MajorGrid.IsVisible = true;

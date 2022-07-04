@@ -547,6 +547,7 @@ namespace MissionPlanner.GCSViews
             myPane.Title.Text = "Tuning - Double click to change items";
             myPane.XAxis.Title.Text = "Time (s)";
             myPane.YAxis.Title.Text = "Unit";
+            myPane.YAxis.Title.FontSpec.Size += 2;
 
             // Show the x axis grid
             myPane.XAxis.MajorGrid.IsVisible = true;
@@ -5095,7 +5096,7 @@ namespace MissionPlanner.GCSViews
 
             int max_length = 0;
             List<(string name, string desc)> fields = new List<(string, string)>();
-
+                        
             foreach (var field in test.GetProperties())
             {
                 // field.Name has the field's name.
@@ -5123,13 +5124,19 @@ namespace MissionPlanner.GCSViews
             }
 
             max_length += 25;
-            fields.Sort((a, b) => a.Item2.CompareTo(b.Item2));
+            fields.Sort((a, b) => {
+                var ans = CurrentState.GetGroupText(a.name).CompareTo(CurrentState.GetGroupText(b.name));
+                if (ans == 0) return a.Item2.CompareTo(b.Item2); 
+                return ans;
+            });
 
             int col_count = (int) (Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
             int row_height = 20;
 
             selectform.SuspendLayout();
+
+            (string name, string desc) last = ("", "");
 
             int i = 1;
             foreach (var field in fields)
@@ -5198,6 +5205,16 @@ namespace MissionPlanner.GCSViews
                     chk_box.BackColor = Color.Green;
                 }
 
+                if (CurrentState.GetGroupText(field.name) != CurrentState.GetGroupText(last.name))
+                {
+                    selectform.Controls.Add(new System.Windows.Forms.Label()
+                    {
+                        Text = CurrentState.GetGroupText(field.name),
+                        Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height)
+                    });
+                    i++;
+                }
+
                 chk_box.Text = field.desc;
                 chk_box.Name = field.name;
                 chk_box.Tag = "custom";
@@ -5209,6 +5226,8 @@ namespace MissionPlanner.GCSViews
 
                 selectform.Controls.Add(chk_box);
                 i++;
+
+                last = field;
             }
 
             selectform.ResumeLayout();
