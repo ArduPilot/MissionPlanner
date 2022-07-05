@@ -271,6 +271,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     // is in dfu mode, enable BL upload
                     but_bootloader.Enabled = true;
                     but_getsn.Enabled = false;
+                    label4.Text = String.Format("Detected DFU Devices {0}", UsbDevice.AllDevices.Count);
                 }
                 else
                 {
@@ -303,8 +304,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         but_firmware.Enabled = false;
                         but_bootloader.Enabled = false;
                     }
-                }
 
+                    label4.Text = String.Format("Detected DFU Devices {0}, Bootloader Devices {1}", UsbDevice.AllDevices.Count, validbl.Count());
+                }
             }
         }
 
