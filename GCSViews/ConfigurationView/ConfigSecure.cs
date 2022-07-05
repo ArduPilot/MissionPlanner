@@ -277,7 +277,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     but_bootloader.Enabled = false;
 
                     var ports = Win32DeviceMgmt.GetAllCOMPorts();
-                    var validbl = ports.Where(a => a.board.EndsWith("BL"));
+                    var validbl = ports.Where(a => a.board != null && a.board.EndsWith("BL"));
 
                     // valid BL detected and SN rx'ed
                     if (validbl.Count() > 0 && textBox1.Text != "")
