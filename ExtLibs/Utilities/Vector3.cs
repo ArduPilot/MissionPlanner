@@ -159,11 +159,22 @@ namespace MissionPlanner.Utilities
             set
             {
                 if (index == 0)
+                {
                     x = value;
+                    return;
+                }
+
                 if (index == 1)
+                {
                     y = value;
+                    return;
+                }
+
                 if (index == 2)
+                {
                     z = value;
+                    return;
+                }
 
                 throw new Exception("Bad index");
             }

@@ -25,6 +25,52 @@ namespace MissionPlanner.Utilities
             this.c = c;
         }
 
+        public double item(int v1, int v2)
+        {
+            return this[v1, v2];
+        }
+
+        public double this[int v1, int v2]
+        {
+            get
+            {
+                if (v1 == 0)
+                {
+                    return a[v2];
+                }
+                else if (v1 == 1)
+                {
+                    return b[v2];
+                }
+                else if (v1 == 2)
+                {
+                    return c[v2];
+                }
+
+                throw new Exception("Invalid Matrix item");
+            }
+            set
+            {
+                if (v1 == 0)
+                {
+                    a[v2] = value;
+                    return;
+                }
+                else if (v1 == 1)
+                {
+                    b[v2] = value;
+                    return;
+                }
+                else if (v1 == 2)
+                {
+                    c[v2] = value;
+                    return;
+                }
+
+                throw new Exception("Invalid Matrix item");
+            }
+        }
+
         public Matrix3(float a, float b, float c, float d, float e, float f, float g, float h, float i) : this(new Vector3(a,b,c), new Vector3(d,e,f), new Vector3(g,h,i))
         {
 
