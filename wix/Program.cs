@@ -61,6 +61,8 @@ namespace wix
         [STAThread]
         static void Main(string[] args)
         {
+            Drivers.process();
+
             if (args.Length == 0)
             {
                 Console.WriteLine("Bad Directory");
