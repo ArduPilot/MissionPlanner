@@ -793,21 +793,21 @@
       <Z></Z>
     </DO_CHANGE_SPEED>
     <DO_DIGICAM_CONFIGURE>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
+      <P1>Mode</P1>
+      <P2>Shutter Speed</P2>
+      <P3>Aperture</P3>
+      <P4>ISO</P4>
+      <X>ExposureMode</X>
+      <Y>CommandID</Y>
       <Z></Z>
     </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
+      <P1>On/Off</P1>
+      <P2>Zoom Position</P2>
+      <P3>Zoom Step</P3>
+      <P4>Focus Lock</P4>
+      <X>Shutter Cmd</X>
+      <Y>CommandID</Y>
       <Z></Z>
     </DO_DIGICAM_CONTROL>
     <DO_GIMBAL_MANAGER_PITCHYAW>
