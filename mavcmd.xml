@@ -837,15 +837,6 @@
       <Y></Y>
       <Z></Z>
     </DO_CHANGE_SPEED>
-    <DO_SET_HOME>
-      <P1>Current(1)/Spec(0)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </DO_SET_HOME>
     <DO_SET_RELAY>
       <P1>Relay No</P1>
       <P2>off(0)/on(1)</P2>
