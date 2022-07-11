@@ -729,6 +729,15 @@
       <Y></Y>
       <Z></Z>
     </DELAY>
+    <GUIDED_ENABLE>
+      <P1>on=1/off=0</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </GUIDED_ENABLE>
     <LOITER_UNLIM>
       <P1></P1>
       <P2></P2>
@@ -747,6 +756,15 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </LOITER_TIME>
+    <SCRIPT_TIME>
+      <P1>command</P1>
+      <P2>timeout</P2>
+      <P3>arg1</P3>
+      <P4>arg2</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </SCRIPT_TIME>
     <SET_YAW_SPEED>
       <P1>angle(CD)</P1>
       <P2>Speed(0..1)</P2>
@@ -819,6 +837,15 @@
       <Y></Y>
       <Z></Z>
     </DO_JUMP>
+    <DO_GUIDED_LIMITS>
+      <P1>timeout S</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4>max dist</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_GUIDED_LIMITS>
     <DO_MOUNT_CONFIGURE>
       <P1></P1>
       <P2></P2>
