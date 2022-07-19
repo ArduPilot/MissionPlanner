@@ -1753,7 +1753,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                     $"Getting Param MAVFTP {sysid}-{compid} : {s}");
                         };
                         return ftp.GetFile(
-                            "@PARAM/param.pck", cancel, true, 110);
+                            // always try to get defualts, AP will send orginal format if not avalable
+                            "@PARAM/param.pck?withdefaults=1", cancel, true, 110);
                     });
                     while (!paramfileTask.IsCompleted)
                     {
