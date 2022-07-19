@@ -30,6 +30,11 @@ public partial class MAVLink
             }
         }
 
+        /// <summary>
+        /// Default value of parameter as a double, readonly, NaN if not available
+        /// </summary>
+        public readonly decimal? default_value = null;
+
         private MAV_PARAM_TYPE _typeap = 0;
         public MAV_PARAM_TYPE TypeAP {
             get 
@@ -91,12 +96,13 @@ public partial class MAVLink
         /// <param name="inputwire"></param>
         /// <param name="wiretype"></param>
         /// <param name="typeap"></param>
-        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE wiretype, MAV_PARAM_TYPE typeap)
+        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE wiretype, MAV_PARAM_TYPE typeap, decimal? _default_value = null)
         {
             Name = name;
             Type = wiretype;
             TypeAP = typeap;
             Array.Copy(inputwire, _data, 4);
+            default_value = _default_value;
         }
 
         public double GetValue()
@@ -205,6 +211,15 @@ item.float_value
             if (Type == MAV_PARAM_TYPE.REAL32)
                 return ((float)this).ToString();
             return Value.ToString();
+        }
+
+        public string default_value_to_string()
+        {
+            if (!default_value.HasValue)
+                return "NaN";
+            if (Type == MAV_PARAM_TYPE.REAL32)
+                return ((float)default_value).ToString();
+            return default_value.ToString();
         }
     }
 }
