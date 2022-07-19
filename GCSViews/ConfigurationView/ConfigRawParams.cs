@@ -493,6 +493,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 rowlist.Clear();
 
+                bool has_defaults = false;
+
                 Parallel.ForEach(list, value =>
                 {
                     if (value == null || value == "")
@@ -506,6 +508,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     row.Cells[Value.Index].Value = MainV2.comPort.MAV.param[value].ToString();
                     var fav_params = Settings.Instance.GetList("fav_params");
                     row.Cells[Fav.Index].Value = fav_params.Contains(value);
+
+                    if (MainV2.comPort.MAV.param[value].default_value.HasValue) {
+                        has_defaults = true;
+                        row.Cells[Default_value.Index].Value = MainV2.comPort.MAV.param[value].default_value_to_string();
+                    } else {
+                        row.Cells[Default_value.Index].Value = "NaN";
+                    }
                     try
                     {
                         var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
@@ -532,6 +541,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         log.Error(ex);
                     }
                 });
+
+                Default_value.Visible = has_defaults;
             }
             //update values in rowlist
             if (!startup)

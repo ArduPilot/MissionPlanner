@@ -527,7 +527,7 @@ format with no scaling</value>
     <value>True</value>
   </metadata>
   <data name="Command.HeaderText" xml:space="preserve">
-    <value>Command</value>
+    <value>Name</value>
   </data>
   <data name="Command.MinimumWidth" type="System.Int32, mscorlib">
     <value>50</value>
@@ -545,6 +545,21 @@ format with no scaling</value>
     <value>50</value>
   </data>
   <data name="Value.Width" type="System.Int32, mscorlib">
+    <value>69</value>
+  </data>
+  <metadata name="Default_value.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="Default_value.HeaderText" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Default_value.MinimumWidth" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="Default_value.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="Default_value.Width" type="System.Int32, mscorlib">
     <value>69</value>
   </data>
   <metadata name="Units.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -605,7 +620,7 @@ format with no scaling</value>
     <value>Params</value>
   </data>
   <data name="&gt;&gt;Params.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8024.23319, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8234.42523, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Params.Parent" xml:space="preserve">
     <value>$this</value>
@@ -665,6 +680,12 @@ format with no scaling</value>
     <value>Value</value>
   </data>
   <data name="&gt;&gt;Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Default_value.Name" xml:space="preserve">
+    <value>Default_value</value>
+  </data>
+  <data name="&gt;&gt;Default_value.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Units.Name" xml:space="preserve">
