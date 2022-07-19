@@ -543,6 +543,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 });
 
                 Default_value.Visible = has_defaults;
+                chk_none_default.Visible = has_defaults;
             }
             //update values in rowlist
             if (!startup)
@@ -669,6 +670,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
             }
+
+            if (chk_none_default.Checked)
+            {
+                foreach (DataGridViewRow row in Params.Rows)
+                {
+                    row.Visible = (string)row.Cells[Default_value.Index].Value != (string)row.Cells[Value.Index].Value;
+                }
+            }
+
             Params.Enabled = true;
             Params.ResumeLayout();
 
@@ -865,7 +875,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void chk_modified_CheckedChanged(object sender, EventArgs e)
+        private void chk_filter_CheckedChanged(object sender, EventArgs e)
         {
             FilterTimerOnElapsed(null, null);
         }
