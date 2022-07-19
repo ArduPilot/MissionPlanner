@@ -13,6 +13,7 @@ namespace MissionPlanner.ArduPilot
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         static readonly int magic = 0x671b;
+        static readonly int magic_with_defaults = 0x671c;
         /*
           packed format:
             file header:
@@ -21,11 +22,11 @@ namespace MissionPlanner.ArduPilot
               uint16_t total_params
             per-parameter:
             uint8_t type:4;         // AP_Param type NONE=0, INT8=1, INT16=2, INT32=3, FLOAT=4
-            uint8_t flags:4;        // for future use
+            uint8_t flags:4;        // bit 0: includes default value for this param
             uint8_t common_len:4;   // number of name bytes in common with previous entry, 0..15
             uint8_t name_len:4;     // non-common length of param name -1 (0..15)
             uint8_t name[name_len]; // name
-            uint8_t data[];         // value, length given by variable type
+            uint8_t data[];         // value, length given by variable type, data length doubled if default is included
             Any leading zero bytes after the header should be discarded as pad
             bytes. Pad bytes are used to ensure that a parameter data[] field
             does not cross a read packet boundary
@@ -52,8 +53,10 @@ namespace MissionPlanner.ArduPilot
             var total_params = BitConverter.ToUInt16(data, dataPointer+=2);
             dataPointer+=2;
 
-            if (magic2 != magic)
+            if ((magic2 != magic) && (magic2 != magic_with_defaults))
                 return null;
+
+            bool with_defaults = magic2 == magic_with_defaults;
 
             byte pad_byte = 0;
             int count = 0;
@@ -68,7 +71,7 @@ namespace MissionPlanner.ArduPilot
 
                 var ptype = data[dataPointer++];
                 var plen = data[dataPointer++];
-                // var flags = (ptype >> 4) & 0x0F;
+                var flags = (ptype >> 4) & 0x0F;
                 ptype &= 0x0F;
 
                 if (!map.TryGetValue(ptype, out (int type_len, char type_format) mapped))
@@ -88,7 +91,7 @@ namespace MissionPlanner.ArduPilot
                 
                 last_name = name;
                 var v = decode_value(mapped.type_format, data, dataPointer);
-                
+
                 count += 1;
                 log.DebugFormat("{0,-16} {1,-16} {2,-16} {3,-16}", name, v, mapped.type_len, mapped.type_format);
                 //print("%-16s %f" % (name, float (v)))
@@ -96,6 +99,16 @@ namespace MissionPlanner.ArduPilot
                 var vdata = new byte[4];
                 Array.Copy(data, dataPointer, vdata, 0, mapped.type_len);
                 dataPointer += mapped.type_len;
+
+                decimal? default_value = null;
+                if (with_defaults) {
+                    if ((flags & 1U) == 0) {
+                        default_value = Convert.ToDecimal(v);
+                    } else {
+                        default_value = Convert.ToDecimal(decode_value(mapped.type_format, data, dataPointer));
+                        dataPointer += mapped.type_len;
+                    }
+                }
 
                 list.Add(new MAVLink.MAVLinkParam(name, vdata,
                     (ptype == 1 ? MAVLink.MAV_PARAM_TYPE.INT8 :
@@ -105,7 +118,8 @@ namespace MissionPlanner.ArduPilot
                     (ptype == 1 ? MAVLink.MAV_PARAM_TYPE.INT8 :
                         ptype == 2 ? MAVLink.MAV_PARAM_TYPE.INT16 :
                         ptype == 3 ? MAVLink.MAV_PARAM_TYPE.INT32 :
-                        ptype == 4 ? MAVLink.MAV_PARAM_TYPE.REAL32 : (MAVLink.MAV_PARAM_TYPE)0)));
+                        ptype == 4 ? MAVLink.MAV_PARAM_TYPE.REAL32 : (MAVLink.MAV_PARAM_TYPE)0),
+                        default_value));
             }
 
             if (count != num_params || count > total_params)
@@ -118,9 +132,9 @@ namespace MissionPlanner.ArduPilot
         {
             switch (type_format)
             {
-                case 'b': return data[startIndex];
-                case 'h': return BitConverter.ToUInt16(data, startIndex);
-                case 'i': return BitConverter.ToUInt32(data, startIndex);
+                case 'b': return (sbyte)data[startIndex];
+                case 'h': return BitConverter.ToInt16(data, startIndex);
+                case 'i': return BitConverter.ToInt32(data, startIndex);
                 case 'f': return BitConverter.ToSingle(data, startIndex);
 
                 default:
