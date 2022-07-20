@@ -567,6 +567,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
             kCmdResetSessions();
         }
 
+        public void UploadFile(string file, Stream srcfile, CancellationTokenSource cancel)
+        {
+            var size = 0;
+            kCmdResetSessions();
+            kCmdCreateFile(file, ref size, cancel);
+            kCmdWriteFile(srcfile, Path.GetFileName(file), cancel);
+            kCmdResetSessions();
+        }
+
         public bool kCmdOpenFileRO(string file, out int size, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
