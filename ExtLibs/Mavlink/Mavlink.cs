@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Jun 07 2022";
+    public const string MAVLINK_BUILD_DATE = "Wed Jul 20 2022";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -275,6 +275,7 @@ public partial class MAVLink
         new message_info(10006, "UAVIONIX_ADSB_GET", 193, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
         new message_info(10007, "UAVIONIX_ADSB_OUT_CONTROL", 71, 17, 17, typeof( mavlink_uavionix_adsb_out_control_t )),
         new message_info(10008, "UAVIONIX_ADSB_OUT_STATUS", 240, 14, 14, typeof( mavlink_uavionix_adsb_out_status_t )),
+        new message_info(10151, "LOWEHEISER_GOV_EFI", 195, 85, 85, typeof( mavlink_loweheiser_gov_efi_t )),
         new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
         new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
         new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
@@ -297,6 +298,13 @@ public partial class MAVLink
         new message_info(11042, "ESC_TELEMETRY_21_TO_24", 201, 44, 44, typeof( mavlink_esc_telemetry_21_to_24_t )),
         new message_info(11043, "ESC_TELEMETRY_25_TO_28", 193, 44, 44, typeof( mavlink_esc_telemetry_25_to_28_t )),
         new message_info(11044, "ESC_TELEMETRY_29_TO_32", 189, 44, 44, typeof( mavlink_esc_telemetry_29_to_32_t )),
+        new message_info(12900, "OPEN_DRONE_ID_BASIC_ID", 114, 44, 44, typeof( mavlink_open_drone_id_basic_id_t )),
+        new message_info(12901, "OPEN_DRONE_ID_LOCATION", 254, 59, 59, typeof( mavlink_open_drone_id_location_t )),
+        new message_info(12902, "OPEN_DRONE_ID_AUTHENTICATION", 140, 53, 53, typeof( mavlink_open_drone_id_authentication_t )),
+        new message_info(12903, "OPEN_DRONE_ID_SELF_ID", 249, 46, 46, typeof( mavlink_open_drone_id_self_id_t )),
+        new message_info(12904, "OPEN_DRONE_ID_SYSTEM", 77, 54, 54, typeof( mavlink_open_drone_id_system_t )),
+        new message_info(12905, "OPEN_DRONE_ID_OPERATOR_ID", 49, 43, 43, typeof( mavlink_open_drone_id_operator_id_t )),
+        new message_info(12915, "OPEN_DRONE_ID_MESSAGE_PACK", 94, 249, 249, typeof( mavlink_open_drone_id_message_pack_t )),
         new message_info(12920, "HYGROMETER_SENSOR", 20, 5, 5, typeof( mavlink_hygrometer_sensor_t )),
         new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
         new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
@@ -577,6 +585,7 @@ public partial class MAVLink
         UAVIONIX_ADSB_GET = 10006,
         UAVIONIX_ADSB_OUT_CONTROL = 10007,
         UAVIONIX_ADSB_OUT_STATUS = 10008,
+        LOWEHEISER_GOV_EFI = 10151,
         DEVICE_OP_READ = 11000,
         DEVICE_OP_READ_REPLY = 11001,
         DEVICE_OP_WRITE = 11002,
@@ -599,6 +608,13 @@ public partial class MAVLink
         ESC_TELEMETRY_21_TO_24 = 11042,
         ESC_TELEMETRY_25_TO_28 = 11043,
         ESC_TELEMETRY_29_TO_32 = 11044,
+        OPEN_DRONE_ID_BASIC_ID = 12900,
+        OPEN_DRONE_ID_LOCATION = 12901,
+        OPEN_DRONE_ID_AUTHENTICATION = 12902,
+        OPEN_DRONE_ID_SELF_ID = 12903,
+        OPEN_DRONE_ID_SYSTEM = 12904,
+        OPEN_DRONE_ID_OPERATOR_ID = 12905,
+        OPEN_DRONE_ID_MESSAGE_PACK = 12915,
         HYGROMETER_SENSOR = 12920,
         ICAROUS_HEARTBEAT = 42000,
         ICAROUS_KINEMATIC_BANDS = 42001,
@@ -1064,6 +1080,9 @@ public partial class MAVLink
         ///<summary> Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec. |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
         [Description("Trigger the start of an ADSB-out IDENT. This should only be used when requested to do so by an Air Traffic Controller in controlled airspace. This starts the IDENT which is then typically held for 18 seconds by the hardware per the Mode A, C, and S transponder spec.")]
         DO_ADSB_OUT_IDENT=10001, 
+        ///<summary> Set Loweheiser desired states |EFI Index| Desired Engine/EFI State (0: Power Off, 1:Running)| Desired Governor State (0:manual throttle, 1:Governed throttle)| Manual throttle level, 0% - 100%| Electronic Start up (0:Off, 1:On)| Empty| Empty|  </summary>
+        [Description("Set Loweheiser desired states")]
+        LOWEHEISER_SET_STATE=10151, 
         ///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.| Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)| Altitude (MSL)|  </summary>
         [Description("Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity.")]
         PAYLOAD_PREPARE_DEPLOY=30001, 
@@ -1133,7 +1152,7 @@ public partial class MAVLink
         ///<summary> Magnetometer calibration based on fixed position         in earth field given by inclination, declination and intensity. |Magnetic declination.| Magnetic inclination.| Magnetic intensity.| Yaw.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on fixed position         in earth field given by inclination, declination and intensity.")]
         FIXED_MAG_CAL=42004, 
-        ///<summary> Magnetometer calibration based on fixed expected field values. |Field strength X.| Field strength Y.| th Z.| Empty.| Empty.| Empty.| Empty.|  </summary>
+        ///<summary> Magnetometer calibration based on fixed expected field values. |Field strength X.| Field strength Y.| Field strength Z.| Empty.| Empty.| Empty.| Empty.|  </summary>
         [Description("Magnetometer calibration based on fixed expected field values.")]
         FIXED_MAG_CAL_FIELD=42005, 
         ///<summary> Magnetometer calibration based on provided known yaw. This allows for fast calibration using WMM field tables in the vehicle, given only the known yaw of the vehicle. If Latitude and longitude are both zero then use the current vehicle location. |Yaw of vehicle in earth frame.| CompassMask, 0 for all.| Latitude.| Longitude.| Empty.| Empty.| Empty.|  </summary>
@@ -4555,6 +4574,375 @@ public partial class MAVLink
         
     };
     
+    ///<summary>  </summary>
+    public enum MAV_ODID_ID_TYPE: byte
+    {
+        ///<summary> No type defined. | </summary>
+        [Description("No type defined.")]
+        NONE=0, 
+        ///<summary> Manufacturer Serial Number (ANSI/CTA-2063 format). | </summary>
+        [Description("Manufacturer Serial Number (ANSI/CTA-2063 format).")]
+        SERIAL_NUMBER=1, 
+        ///<summary> CAA (Civil Aviation Authority) registered ID. Format: [ICAO Country Code].[CAA Assigned ID]. | </summary>
+        [Description("CAA (Civil Aviation Authority) registered ID. Format: [ICAO Country Code].[CAA Assigned ID].")]
+        CAA_REGISTRATION_ID=2, 
+        ///<summary> UTM (Unmanned Traffic Management) assigned UUID (RFC4122). | </summary>
+        [Description("UTM (Unmanned Traffic Management) assigned UUID (RFC4122).")]
+        UTM_ASSIGNED_UUID=3, 
+        ///<summary> A 20 byte ID for a specific flight/session. The exact ID type is indicated by the first byte of uas_id and these type values are managed by ICAO. | </summary>
+        [Description("A 20 byte ID for a specific flight/session. The exact ID type is indicated by the first byte of uas_id and these type values are managed by ICAO.")]
+        SPECIFIC_SESSION_ID=4, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_UA_TYPE: byte
+    {
+        ///<summary> No UA (Unmanned Aircraft) type defined. | </summary>
+        [Description("No UA (Unmanned Aircraft) type defined.")]
+        NONE=0, 
+        ///<summary> Aeroplane/Airplane. Fixed wing. | </summary>
+        [Description("Aeroplane/Airplane. Fixed wing.")]
+        AEROPLANE=1, 
+        ///<summary> Helicopter or multirotor. | </summary>
+        [Description("Helicopter or multirotor.")]
+        HELICOPTER_OR_MULTIROTOR=2, 
+        ///<summary> Gyroplane. | </summary>
+        [Description("Gyroplane.")]
+        GYROPLANE=3, 
+        ///<summary> VTOL (Vertical Take-Off and Landing). Fixed wing aircraft that can take off vertically. | </summary>
+        [Description("VTOL (Vertical Take-Off and Landing). Fixed wing aircraft that can take off vertically.")]
+        HYBRID_LIFT=4, 
+        ///<summary> Ornithopter. | </summary>
+        [Description("Ornithopter.")]
+        ORNITHOPTER=5, 
+        ///<summary> Glider. | </summary>
+        [Description("Glider.")]
+        GLIDER=6, 
+        ///<summary> Kite. | </summary>
+        [Description("Kite.")]
+        KITE=7, 
+        ///<summary> Free Balloon. | </summary>
+        [Description("Free Balloon.")]
+        FREE_BALLOON=8, 
+        ///<summary> Captive Balloon. | </summary>
+        [Description("Captive Balloon.")]
+        CAPTIVE_BALLOON=9, 
+        ///<summary> Airship. E.g. a blimp. | </summary>
+        [Description("Airship. E.g. a blimp.")]
+        AIRSHIP=10, 
+        ///<summary> Free Fall/Parachute (unpowered). | </summary>
+        [Description("Free Fall/Parachute (unpowered).")]
+        FREE_FALL_PARACHUTE=11, 
+        ///<summary> Rocket. | </summary>
+        [Description("Rocket.")]
+        ROCKET=12, 
+        ///<summary> Tethered powered aircraft. | </summary>
+        [Description("Tethered powered aircraft.")]
+        TETHERED_POWERED_AIRCRAFT=13, 
+        ///<summary> Ground Obstacle. | </summary>
+        [Description("Ground Obstacle.")]
+        GROUND_OBSTACLE=14, 
+        ///<summary> Other type of aircraft not listed earlier. | </summary>
+        [Description("Other type of aircraft not listed earlier.")]
+        OTHER=15, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_STATUS: byte
+    {
+        ///<summary> The status of the (UA) Unmanned Aircraft is undefined. | </summary>
+        [Description("The status of the (UA) Unmanned Aircraft is undefined.")]
+        UNDECLARED=0, 
+        ///<summary> The UA is on the ground. | </summary>
+        [Description("The UA is on the ground.")]
+        GROUND=1, 
+        ///<summary> The UA is in the air. | </summary>
+        [Description("The UA is in the air.")]
+        AIRBORNE=2, 
+        ///<summary> The UA is having an emergency. | </summary>
+        [Description("The UA is having an emergency.")]
+        EMERGENCY=3, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_HEIGHT_REF: byte
+    {
+        ///<summary> The height field is relative to the take-off location. | </summary>
+        [Description("The height field is relative to the take-off location.")]
+        OVER_TAKEOFF=0, 
+        ///<summary> The height field is relative to ground. | </summary>
+        [Description("The height field is relative to ground.")]
+        OVER_GROUND=1, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_HOR_ACC: byte
+    {
+        ///<summary> The horizontal accuracy is unknown. | </summary>
+        [Description("The horizontal accuracy is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> The horizontal accuracy is smaller than 10 Nautical Miles. 18.52 km. | </summary>
+        [Description("The horizontal accuracy is smaller than 10 Nautical Miles. 18.52 km.")]
+        _10NM=1, 
+        ///<summary> The horizontal accuracy is smaller than 4 Nautical Miles. 7.408 km. | </summary>
+        [Description("The horizontal accuracy is smaller than 4 Nautical Miles. 7.408 km.")]
+        _4NM=2, 
+        ///<summary> The horizontal accuracy is smaller than 2 Nautical Miles. 3.704 km. | </summary>
+        [Description("The horizontal accuracy is smaller than 2 Nautical Miles. 3.704 km.")]
+        _2NM=3, 
+        ///<summary> The horizontal accuracy is smaller than 1 Nautical Miles. 1.852 km. | </summary>
+        [Description("The horizontal accuracy is smaller than 1 Nautical Miles. 1.852 km.")]
+        _1NM=4, 
+        ///<summary> The horizontal accuracy is smaller than 0.5 Nautical Miles. 926 m. | </summary>
+        [Description("The horizontal accuracy is smaller than 0.5 Nautical Miles. 926 m.")]
+        _0_5NM=5, 
+        ///<summary> The horizontal accuracy is smaller than 0.3 Nautical Miles. 555.6 m. | </summary>
+        [Description("The horizontal accuracy is smaller than 0.3 Nautical Miles. 555.6 m.")]
+        _0_3NM=6, 
+        ///<summary> The horizontal accuracy is smaller than 0.1 Nautical Miles. 185.2 m. | </summary>
+        [Description("The horizontal accuracy is smaller than 0.1 Nautical Miles. 185.2 m.")]
+        _0_1NM=7, 
+        ///<summary> The horizontal accuracy is smaller than 0.05 Nautical Miles. 92.6 m. | </summary>
+        [Description("The horizontal accuracy is smaller than 0.05 Nautical Miles. 92.6 m.")]
+        _0_05NM=8, 
+        ///<summary> The horizontal accuracy is smaller than 30 meter. | </summary>
+        [Description("The horizontal accuracy is smaller than 30 meter.")]
+        _30_METER=9, 
+        ///<summary> The horizontal accuracy is smaller than 10 meter. | </summary>
+        [Description("The horizontal accuracy is smaller than 10 meter.")]
+        _10_METER=10, 
+        ///<summary> The horizontal accuracy is smaller than 3 meter. | </summary>
+        [Description("The horizontal accuracy is smaller than 3 meter.")]
+        _3_METER=11, 
+        ///<summary> The horizontal accuracy is smaller than 1 meter. | </summary>
+        [Description("The horizontal accuracy is smaller than 1 meter.")]
+        _1_METER=12, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_VER_ACC: byte
+    {
+        ///<summary> The vertical accuracy is unknown. | </summary>
+        [Description("The vertical accuracy is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> The vertical accuracy is smaller than 150 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 150 meter.")]
+        _150_METER=1, 
+        ///<summary> The vertical accuracy is smaller than 45 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 45 meter.")]
+        _45_METER=2, 
+        ///<summary> The vertical accuracy is smaller than 25 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 25 meter.")]
+        _25_METER=3, 
+        ///<summary> The vertical accuracy is smaller than 10 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 10 meter.")]
+        _10_METER=4, 
+        ///<summary> The vertical accuracy is smaller than 3 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 3 meter.")]
+        _3_METER=5, 
+        ///<summary> The vertical accuracy is smaller than 1 meter. | </summary>
+        [Description("The vertical accuracy is smaller than 1 meter.")]
+        _1_METER=6, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_SPEED_ACC: byte
+    {
+        ///<summary> The speed accuracy is unknown. | </summary>
+        [Description("The speed accuracy is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> The speed accuracy is smaller than 10 meters per second. | </summary>
+        [Description("The speed accuracy is smaller than 10 meters per second.")]
+        _10_METERS_PER_SECOND=1, 
+        ///<summary> The speed accuracy is smaller than 3 meters per second. | </summary>
+        [Description("The speed accuracy is smaller than 3 meters per second.")]
+        _3_METERS_PER_SECOND=2, 
+        ///<summary> The speed accuracy is smaller than 1 meters per second. | </summary>
+        [Description("The speed accuracy is smaller than 1 meters per second.")]
+        _1_METERS_PER_SECOND=3, 
+        ///<summary> The speed accuracy is smaller than 0.3 meters per second. | </summary>
+        [Description("The speed accuracy is smaller than 0.3 meters per second.")]
+        _0_3_METERS_PER_SECOND=4, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_TIME_ACC: byte
+    {
+        ///<summary> The timestamp accuracy is unknown. | </summary>
+        [Description("The timestamp accuracy is unknown.")]
+        UNKNOWN=0, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.1 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.1 second.")]
+        _0_1_SECOND=1, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.2 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.2 second.")]
+        _0_2_SECOND=2, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.3 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.3 second.")]
+        _0_3_SECOND=3, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.4 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.4 second.")]
+        _0_4_SECOND=4, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.5 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.5 second.")]
+        _0_5_SECOND=5, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.6 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.6 second.")]
+        _0_6_SECOND=6, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.7 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.7 second.")]
+        _0_7_SECOND=7, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.8 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.8 second.")]
+        _0_8_SECOND=8, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 0.9 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 0.9 second.")]
+        _0_9_SECOND=9, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.0 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.0 second.")]
+        _1_0_SECOND=10, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.1 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.1 second.")]
+        _1_1_SECOND=11, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.2 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.2 second.")]
+        _1_2_SECOND=12, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.3 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.3 second.")]
+        _1_3_SECOND=13, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.4 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.4 second.")]
+        _1_4_SECOND=14, 
+        ///<summary> The timestamp accuracy is smaller than or equal to 1.5 second. | </summary>
+        [Description("The timestamp accuracy is smaller than or equal to 1.5 second.")]
+        _1_5_SECOND=15, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_AUTH_TYPE: byte
+    {
+        ///<summary> No authentication type is specified. | </summary>
+        [Description("No authentication type is specified.")]
+        NONE=0, 
+        ///<summary> Signature for the UAS (Unmanned Aircraft System) ID. | </summary>
+        [Description("Signature for the UAS (Unmanned Aircraft System) ID.")]
+        UAS_ID_SIGNATURE=1, 
+        ///<summary> Signature for the Operator ID. | </summary>
+        [Description("Signature for the Operator ID.")]
+        OPERATOR_ID_SIGNATURE=2, 
+        ///<summary> Signature for the entire message set. | </summary>
+        [Description("Signature for the entire message set.")]
+        MESSAGE_SET_SIGNATURE=3, 
+        ///<summary> Authentication is provided by Network Remote ID. | </summary>
+        [Description("Authentication is provided by Network Remote ID.")]
+        NETWORK_REMOTE_ID=4, 
+        ///<summary> The exact authentication type is indicated by the first byte of authentication_data and these type values are managed by ICAO. | </summary>
+        [Description("The exact authentication type is indicated by the first byte of authentication_data and these type values are managed by ICAO.")]
+        SPECIFIC_AUTHENTICATION=5, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_DESC_TYPE: byte
+    {
+        ///<summary> Free-form text description of the purpose of the flight. | </summary>
+        [Description("Free-form text description of the purpose of the flight.")]
+        TEXT=0, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_OPERATOR_LOCATION_TYPE: byte
+    {
+        ///<summary> The location of the operator is the same as the take-off location. | </summary>
+        [Description("The location of the operator is the same as the take-off location.")]
+        TAKEOFF=0, 
+        ///<summary> The location of the operator is based on live GNSS data. | </summary>
+        [Description("The location of the operator is based on live GNSS data.")]
+        LIVE_GNSS=1, 
+        ///<summary> The location of the operator is a fixed location. | </summary>
+        [Description("The location of the operator is a fixed location.")]
+        FIXED=2, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_CLASSIFICATION_TYPE: byte
+    {
+        ///<summary> The classification type for the UA is undeclared. | </summary>
+        [Description("The classification type for the UA is undeclared.")]
+        UNDECLARED=0, 
+        ///<summary> The classification type for the UA follows EU (European Union) specifications. | </summary>
+        [Description("The classification type for the UA follows EU (European Union) specifications.")]
+        EU=1, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_CATEGORY_EU: byte
+    {
+        ///<summary> The category for the UA, according to the EU specification, is undeclared. | </summary>
+        [Description("The category for the UA, according to the EU specification, is undeclared.")]
+        UNDECLARED=0, 
+        ///<summary> The category for the UA, according to the EU specification, is the Open category. | </summary>
+        [Description("The category for the UA, according to the EU specification, is the Open category.")]
+        OPEN=1, 
+        ///<summary> The category for the UA, according to the EU specification, is the Specific category. | </summary>
+        [Description("The category for the UA, according to the EU specification, is the Specific category.")]
+        SPECIFIC=2, 
+        ///<summary> The category for the UA, according to the EU specification, is the Certified category. | </summary>
+        [Description("The category for the UA, according to the EU specification, is the Certified category.")]
+        CERTIFIED=3, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_CLASS_EU: byte
+    {
+        ///<summary> The class for the UA, according to the EU specification, is undeclared. | </summary>
+        [Description("The class for the UA, according to the EU specification, is undeclared.")]
+        UNDECLARED=0, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 0. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 0.")]
+        CLASS_0=1, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 1. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 1.")]
+        CLASS_1=2, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 2. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 2.")]
+        CLASS_2=3, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 3. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 3.")]
+        CLASS_3=4, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 4. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 4.")]
+        CLASS_4=5, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 5. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 5.")]
+        CLASS_5=6, 
+        ///<summary> The class for the UA, according to the EU specification, is Class 6. | </summary>
+        [Description("The class for the UA, according to the EU specification, is Class 6.")]
+        CLASS_6=7, 
+        
+    };
+    
+    ///<summary>  </summary>
+    public enum MAV_ODID_OPERATOR_ID_TYPE: byte
+    {
+        ///<summary> CAA (Civil Aviation Authority) registered operator ID. | </summary>
+        [Description("CAA (Civil Aviation Authority) registered operator ID.")]
+        CAA=0, 
+        
+    };
+    
     ///<summary> Type of AIS vessel, enum duplicated from AIS standard, https://gpsd.gitlab.io/gpsd/AIVDM.html </summary>
     public enum AIS_TYPE: byte
     {
@@ -5429,6 +5817,7 @@ public partial class MAVLink
     };
     
     
+    
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
     public enum MAV_AUTOPILOT: byte
     {
@@ -6136,7 +6525,7 @@ public partial class MAVLink
         
     };
     
-    
+    [Obsolete]
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     ///<summary> Offsets and calibrations values for hardware sensors. This makes it easier to debug the calibration process. </summary>
@@ -22877,6 +23266,557 @@ public partial class MAVLink
         public  short temperature;
     };
 
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=44)]
+    ///<summary> Data for filling the OpenDroneID Basic ID message. This and the below messages are primarily meant for feeding data to/from an OpenDroneID implementation. E.g. https://github.com/opendroneid/opendroneid-core-c. These messages are compatible with the ASTM F3411 Remote ID standard and the ASD-STAN prEN 4709-002 Direct Remote ID standard. Additional information and usage of these messages is documented at https://mavlink.io/en/services/opendroneid.html. </summary>
+    public struct mavlink_open_drone_id_basic_id_t
+    {
+        public mavlink_open_drone_id_basic_id_t(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_ID_TYPE*/byte id_type,/*MAV_ODID_UA_TYPE*/byte ua_type,byte[] uas_id) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.id_type = id_type;
+            this.ua_type = ua_type;
+            this.uas_id = uas_id;
+            
+        }
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(2)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates the format for the uas_id field of this message. MAV_ODID_ID_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the format for the uas_id field of this message.")]
+        //[FieldOffset(22)]
+        public  /*MAV_ODID_ID_TYPE*/byte id_type;
+
+        /// <summary>Indicates the type of UA (Unmanned Aircraft). MAV_ODID_UA_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the type of UA (Unmanned Aircraft).")]
+        //[FieldOffset(23)]
+        public  /*MAV_ODID_UA_TYPE*/byte ua_type;
+
+        /// <summary>UAS (Unmanned Aircraft System) ID following the format specified by id_type. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("UAS (Unmanned Aircraft System) ID following the format specified by id_type. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] uas_id;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=59)]
+    ///<summary> Data for filling the OpenDroneID Location message. The float data types are 32-bit IEEE 754. The Location message provides the location, altitude, direction and speed of the aircraft. </summary>
+    public struct mavlink_open_drone_id_location_t
+    {
+        public mavlink_open_drone_id_location_t(int latitude,int longitude,float altitude_barometric,float altitude_geodetic,float height,float timestamp,ushort direction,ushort speed_horizontal,short speed_vertical,byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_STATUS*/byte status,/*MAV_ODID_HEIGHT_REF*/byte height_reference,/*MAV_ODID_HOR_ACC*/byte horizontal_accuracy,/*MAV_ODID_VER_ACC*/byte vertical_accuracy,/*MAV_ODID_VER_ACC*/byte barometer_accuracy,/*MAV_ODID_SPEED_ACC*/byte speed_accuracy,/*MAV_ODID_TIME_ACC*/byte timestamp_accuracy) 
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.altitude_barometric = altitude_barometric;
+            this.altitude_geodetic = altitude_geodetic;
+            this.height = height;
+            this.timestamp = timestamp;
+            this.direction = direction;
+            this.speed_horizontal = speed_horizontal;
+            this.speed_vertical = speed_vertical;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.status = status;
+            this.height_reference = height_reference;
+            this.horizontal_accuracy = horizontal_accuracy;
+            this.vertical_accuracy = vertical_accuracy;
+            this.barometer_accuracy = barometer_accuracy;
+            this.speed_accuracy = speed_accuracy;
+            this.timestamp_accuracy = timestamp_accuracy;
+            
+        }
+
+        /// <summary>Current latitude of the unmanned aircraft. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Current latitude of the unmanned aircraft. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(0)]
+        public  int latitude;
+
+        /// <summary>Current longitude of the unmanned aircraft. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Current longitude of the unmanned aircraft. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(4)]
+        public  int longitude;
+
+        /// <summary>The altitude calculated from the barometric pressue. Reference is against 29.92inHg or 1013.2mb. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("The altitude calculated from the barometric pressue. Reference is against 29.92inHg or 1013.2mb. If unknown: -1000 m.")]
+        //[FieldOffset(8)]
+        public  float altitude_barometric;
+
+        /// <summary>The geodetic altitude as defined by WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("The geodetic altitude as defined by WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(12)]
+        public  float altitude_geodetic;
+
+        /// <summary>The current height of the unmanned aircraft above the take-off location or the ground as indicated by height_reference. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("The current height of the unmanned aircraft above the take-off location or the ground as indicated by height_reference. If unknown: -1000 m.")]
+        //[FieldOffset(16)]
+        public  float height;
+
+        /// <summary>Seconds after the full hour with reference to UTC time. Typically the GPS outputs a time-of-week value in milliseconds. First convert that to UTC and then convert for this field using ((float) (time_week_ms % (60*60*1000))) / 1000. If unknown: 0xFFFF.  [s] </summary>
+        [Units("[s]")]
+        [Description("Seconds after the full hour with reference to UTC time. Typically the GPS outputs a time-of-week value in milliseconds. First convert that to UTC and then convert for this field using ((float) (time_week_ms % (60*60*1000))) / 1000. If unknown: 0xFFFF.")]
+        //[FieldOffset(20)]
+        public  float timestamp;
+
+        /// <summary>Direction over ground (not heading, but direction of movement) measured clockwise from true North: 0 - 35999 centi-degrees. If unknown: 36100 centi-degrees.  [cdeg] </summary>
+        [Units("[cdeg]")]
+        [Description("Direction over ground (not heading, but direction of movement) measured clockwise from true North: 0 - 35999 centi-degrees. If unknown: 36100 centi-degrees.")]
+        //[FieldOffset(24)]
+        public  ushort direction;
+
+        /// <summary>Ground speed. Positive only. If unknown: 25500 cm/s. If speed is larger than 25425 cm/s, use 25425 cm/s.  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("Ground speed. Positive only. If unknown: 25500 cm/s. If speed is larger than 25425 cm/s, use 25425 cm/s.")]
+        //[FieldOffset(26)]
+        public  ushort speed_horizontal;
+
+        /// <summary>The vertical speed. Up is positive. If unknown: 6300 cm/s. If speed is larger than 6200 cm/s, use 6200 cm/s. If lower than -6200 cm/s, use -6200 cm/s.  [cm/s] </summary>
+        [Units("[cm/s]")]
+        [Description("The vertical speed. Up is positive. If unknown: 6300 cm/s. If speed is larger than 6200 cm/s, use 6200 cm/s. If lower than -6200 cm/s, use -6200 cm/s.")]
+        //[FieldOffset(28)]
+        public  short speed_vertical;
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(30)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(31)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(32)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates whether the unmanned aircraft is on the ground or in the air. MAV_ODID_STATUS  </summary>
+        [Units("")]
+        [Description("Indicates whether the unmanned aircraft is on the ground or in the air.")]
+        //[FieldOffset(52)]
+        public  /*MAV_ODID_STATUS*/byte status;
+
+        /// <summary>Indicates the reference point for the height field. MAV_ODID_HEIGHT_REF  </summary>
+        [Units("")]
+        [Description("Indicates the reference point for the height field.")]
+        //[FieldOffset(53)]
+        public  /*MAV_ODID_HEIGHT_REF*/byte height_reference;
+
+        /// <summary>The accuracy of the horizontal position. MAV_ODID_HOR_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the horizontal position.")]
+        //[FieldOffset(54)]
+        public  /*MAV_ODID_HOR_ACC*/byte horizontal_accuracy;
+
+        /// <summary>The accuracy of the vertical position. MAV_ODID_VER_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the vertical position.")]
+        //[FieldOffset(55)]
+        public  /*MAV_ODID_VER_ACC*/byte vertical_accuracy;
+
+        /// <summary>The accuracy of the barometric altitude. MAV_ODID_VER_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the barometric altitude.")]
+        //[FieldOffset(56)]
+        public  /*MAV_ODID_VER_ACC*/byte barometer_accuracy;
+
+        /// <summary>The accuracy of the horizontal and vertical speed. MAV_ODID_SPEED_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the horizontal and vertical speed.")]
+        //[FieldOffset(57)]
+        public  /*MAV_ODID_SPEED_ACC*/byte speed_accuracy;
+
+        /// <summary>The accuracy of the timestamps. MAV_ODID_TIME_ACC  </summary>
+        [Units("")]
+        [Description("The accuracy of the timestamps.")]
+        //[FieldOffset(58)]
+        public  /*MAV_ODID_TIME_ACC*/byte timestamp_accuracy;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=53)]
+    ///<summary> Data for filling the OpenDroneID Authentication message. The Authentication Message defines a field that can provide a means of authenticity for the identity of the UAS (Unmanned Aircraft System). The Authentication message can have two different formats. For data page 0, the fields PageCount, Length and TimeStamp are present and AuthData is only 17 bytes. For data page 1 through 15, PageCount, Length and TimeStamp are not present and the size of AuthData is 23 bytes. </summary>
+    public struct mavlink_open_drone_id_authentication_t
+    {
+        public mavlink_open_drone_id_authentication_t(uint timestamp,byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_AUTH_TYPE*/byte authentication_type,byte data_page,byte last_page_index,byte length,byte[] authentication_data) 
+        {
+            this.timestamp = timestamp;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.authentication_type = authentication_type;
+            this.data_page = data_page;
+            this.last_page_index = last_page_index;
+            this.length = length;
+            this.authentication_data = authentication_data;
+            
+        }
+
+        /// <summary>This field is only present for page 0. 32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.  [s] </summary>
+        [Units("[s]")]
+        [Description("This field is only present for page 0. 32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.")]
+        //[FieldOffset(0)]
+        public  uint timestamp;
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(4)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(5)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(6)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates the type of authentication. MAV_ODID_AUTH_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the type of authentication.")]
+        //[FieldOffset(26)]
+        public  /*MAV_ODID_AUTH_TYPE*/byte authentication_type;
+
+        /// <summary>Allowed range is 0 - 15.   </summary>
+        [Units("")]
+        [Description("Allowed range is 0 - 15.")]
+        //[FieldOffset(27)]
+        public  byte data_page;
+
+        /// <summary>This field is only present for page 0. Allowed range is 0 - 15. See the description of struct ODID_Auth_data at https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h.   </summary>
+        [Units("")]
+        [Description("This field is only present for page 0. Allowed range is 0 - 15. See the description of struct ODID_Auth_data at https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h.")]
+        //[FieldOffset(28)]
+        public  byte last_page_index;
+
+        /// <summary>This field is only present for page 0. Total bytes of authentication_data from all data pages. See the description of struct ODID_Auth_data at https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h.  [bytes] </summary>
+        [Units("[bytes]")]
+        [Description("This field is only present for page 0. Total bytes of authentication_data from all data pages. See the description of struct ODID_Auth_data at https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h.")]
+        //[FieldOffset(29)]
+        public  byte length;
+
+        /// <summary>Opaque authentication data. For page 0, the size is only 17 bytes. For other pages, the size is 23 bytes. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("Opaque authentication data. For page 0, the size is only 17 bytes. For other pages, the size is 23 bytes. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(30)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=23)]
+		public byte[] authentication_data;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=46)]
+    ///<summary> Data for filling the OpenDroneID Self ID message. The Self ID Message is an opportunity for the operator to (optionally) declare their identity and purpose of the flight. This message can provide additional information that could reduce the threat profile of a UA (Unmanned Aircraft) flying in a particular area or manner. This message can also be used to provide optional additional clarification in an emergency/remote ID system failure situation. </summary>
+    public struct mavlink_open_drone_id_self_id_t
+    {
+        public mavlink_open_drone_id_self_id_t(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_DESC_TYPE*/byte description_type,byte[] description) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.description_type = description_type;
+            this.description = description;
+            
+        }
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(2)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates the type of the description field. MAV_ODID_DESC_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the type of the description field.")]
+        //[FieldOffset(22)]
+        public  /*MAV_ODID_DESC_TYPE*/byte description_type;
+
+        /// <summary>Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(23)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=23)]
+		public byte[] description;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=54)]
+    ///<summary> Data for filling the OpenDroneID System message. The System Message contains general system information including the operator location/altitude and possible aircraft group and/or category/class information. </summary>
+    public struct mavlink_open_drone_id_system_t
+    {
+        public mavlink_open_drone_id_system_t(int operator_latitude,int operator_longitude,float area_ceiling,float area_floor,float operator_altitude_geo,uint timestamp,ushort area_count,ushort area_radius,byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_OPERATOR_LOCATION_TYPE*/byte operator_location_type,/*MAV_ODID_CLASSIFICATION_TYPE*/byte classification_type,/*MAV_ODID_CATEGORY_EU*/byte category_eu,/*MAV_ODID_CLASS_EU*/byte class_eu) 
+        {
+            this.operator_latitude = operator_latitude;
+            this.operator_longitude = operator_longitude;
+            this.area_ceiling = area_ceiling;
+            this.area_floor = area_floor;
+            this.operator_altitude_geo = operator_altitude_geo;
+            this.timestamp = timestamp;
+            this.area_count = area_count;
+            this.area_radius = area_radius;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.operator_location_type = operator_location_type;
+            this.classification_type = classification_type;
+            this.category_eu = category_eu;
+            this.class_eu = class_eu;
+            
+        }
+
+        /// <summary>Latitude of the operator. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of the operator. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(0)]
+        public  int operator_latitude;
+
+        /// <summary>Longitude of the operator. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of the operator. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(4)]
+        public  int operator_longitude;
+
+        /// <summary>Area Operations Ceiling relative to WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("Area Operations Ceiling relative to WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(8)]
+        public  float area_ceiling;
+
+        /// <summary>Area Operations Floor relative to WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("Area Operations Floor relative to WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(12)]
+        public  float area_floor;
+
+        /// <summary>Geodetic altitude of the operator relative to WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("Geodetic altitude of the operator relative to WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(16)]
+        public  float operator_altitude_geo;
+
+        /// <summary>32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.  [s] </summary>
+        [Units("[s]")]
+        [Description("32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.")]
+        //[FieldOffset(20)]
+        public  uint timestamp;
+
+        /// <summary>Number of aircraft in the area, group or formation (default 1).   </summary>
+        [Units("")]
+        [Description("Number of aircraft in the area, group or formation (default 1).")]
+        //[FieldOffset(24)]
+        public  ushort area_count;
+
+        /// <summary>Radius of the cylindrical area of the group or formation (default 0).  [m] </summary>
+        [Units("[m]")]
+        [Description("Radius of the cylindrical area of the group or formation (default 0).")]
+        //[FieldOffset(26)]
+        public  ushort area_radius;
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(28)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(29)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(30)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Specifies the operator location type. MAV_ODID_OPERATOR_LOCATION_TYPE  </summary>
+        [Units("")]
+        [Description("Specifies the operator location type.")]
+        //[FieldOffset(50)]
+        public  /*MAV_ODID_OPERATOR_LOCATION_TYPE*/byte operator_location_type;
+
+        /// <summary>Specifies the classification type of the UA. MAV_ODID_CLASSIFICATION_TYPE  </summary>
+        [Units("")]
+        [Description("Specifies the classification type of the UA.")]
+        //[FieldOffset(51)]
+        public  /*MAV_ODID_CLASSIFICATION_TYPE*/byte classification_type;
+
+        /// <summary>When classification_type is MAV_ODID_CLASSIFICATION_TYPE_EU, specifies the category of the UA. MAV_ODID_CATEGORY_EU  </summary>
+        [Units("")]
+        [Description("When classification_type is MAV_ODID_CLASSIFICATION_TYPE_EU, specifies the category of the UA.")]
+        //[FieldOffset(52)]
+        public  /*MAV_ODID_CATEGORY_EU*/byte category_eu;
+
+        /// <summary>When classification_type is MAV_ODID_CLASSIFICATION_TYPE_EU, specifies the class of the UA. MAV_ODID_CLASS_EU  </summary>
+        [Units("")]
+        [Description("When classification_type is MAV_ODID_CLASSIFICATION_TYPE_EU, specifies the class of the UA.")]
+        //[FieldOffset(53)]
+        public  /*MAV_ODID_CLASS_EU*/byte class_eu;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=43)]
+    ///<summary> Data for filling the OpenDroneID Operator ID message, which contains the CAA (Civil Aviation Authority) issued operator ID. </summary>
+    public struct mavlink_open_drone_id_operator_id_t
+    {
+        public mavlink_open_drone_id_operator_id_t(byte target_system,byte target_component,byte[] id_or_mac,/*MAV_ODID_OPERATOR_ID_TYPE*/byte operator_id_type,byte[] operator_id) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.operator_id_type = operator_id_type;
+            this.operator_id = operator_id;
+            
+        }
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(2)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>Indicates the type of the operator_id field. MAV_ODID_OPERATOR_ID_TYPE  </summary>
+        [Units("")]
+        [Description("Indicates the type of the operator_id field.")]
+        //[FieldOffset(22)]
+        public  /*MAV_ODID_OPERATOR_ID_TYPE*/byte operator_id_type;
+
+        /// <summary>Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("Text description or numeric value expressed as ASCII characters. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(23)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] operator_id;
+    };
+
+    [Obsolete]
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=249)]
+    ///<summary> An OpenDroneID message pack is a container for multiple encoded OpenDroneID messages (i.e. not in the format given for the above message descriptions but after encoding into the compressed OpenDroneID byte format). Used e.g. when transmitting on Bluetooth 5.0 Long Range/Extended Advertising or on WiFi Neighbor Aware Networking or on WiFi Beacon. </summary>
+    public struct mavlink_open_drone_id_message_pack_t
+    {
+        public mavlink_open_drone_id_message_pack_t(byte target_system,byte target_component,byte[] id_or_mac,byte single_message_size,byte msg_pack_size,byte[] messages) 
+        {
+            this.target_system = target_system;
+            this.target_component = target_component;
+            this.id_or_mac = id_or_mac;
+            this.single_message_size = single_message_size;
+            this.msg_pack_size = msg_pack_size;
+            this.messages = messages;
+            
+        }
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(0)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(1)]
+        public  byte target_component;
+
+        /// <summary>Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html.    </summary>
+        [Units("")]
+        [Description("Only used for drone ID data received from other UAs. See detailed description at https://mavlink.io/en/services/opendroneid.html. ")]
+        //[FieldOffset(2)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=20)]
+		public byte[] id_or_mac;
+
+        /// <summary>This field must currently always be equal to 25 (bytes), since all encoded OpenDroneID messages are specificed to have this length.  [bytes] </summary>
+        [Units("[bytes]")]
+        [Description("This field must currently always be equal to 25 (bytes), since all encoded OpenDroneID messages are specificed to have this length.")]
+        //[FieldOffset(22)]
+        public  byte single_message_size;
+
+        /// <summary>Number of encoded messages in the pack (not the number of bytes). Allowed range is 1 - 9.   </summary>
+        [Units("")]
+        [Description("Number of encoded messages in the pack (not the number of bytes). Allowed range is 1 - 9.")]
+        //[FieldOffset(23)]
+        public  byte msg_pack_size;
+
+        /// <summary>Concatenation of encoded OpenDroneID messages. Shall be filled with nulls in the unused portion of the field.   </summary>
+        [Units("")]
+        [Description("Concatenation of encoded OpenDroneID messages. Shall be filled with nulls in the unused portion of the field.")]
+        //[FieldOffset(24)]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=225)]
+		public byte[] messages;
+    };
+
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
@@ -23432,6 +24372,179 @@ public partial class MAVLink
         [Description("See the TRACK_BAND_TYPES enum.")]
         //[FieldOffset(45)]
         public  /*ICAROUS_TRACK_BAND_TYPES*/byte type5;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=85)]
+    ///<summary> Composite EFI and Governor data from Loweheiser equipment.  This message is created by the EFI unit based on its own data and data received from a governor attached to that EFI unit. </summary>
+    public struct mavlink_loweheiser_gov_efi_t
+    {
+        public mavlink_loweheiser_gov_efi_t(float volt_batt,float curr_batt,float curr_gen,float curr_rot,float fuel_level,float throttle,uint runtime,int until_maintenance,float rectifier_temp,float generator_temp,float efi_batt,float efi_rpm,float efi_pw,float efi_fuel_flow,float efi_fuel_consumed,float efi_baro,float efi_mat,float efi_clt,float efi_tps,float efi_exhaust_gas_temperature,ushort generator_status,ushort efi_status,byte efi_index) 
+        {
+            this.volt_batt = volt_batt;
+            this.curr_batt = curr_batt;
+            this.curr_gen = curr_gen;
+            this.curr_rot = curr_rot;
+            this.fuel_level = fuel_level;
+            this.throttle = throttle;
+            this.runtime = runtime;
+            this.until_maintenance = until_maintenance;
+            this.rectifier_temp = rectifier_temp;
+            this.generator_temp = generator_temp;
+            this.efi_batt = efi_batt;
+            this.efi_rpm = efi_rpm;
+            this.efi_pw = efi_pw;
+            this.efi_fuel_flow = efi_fuel_flow;
+            this.efi_fuel_consumed = efi_fuel_consumed;
+            this.efi_baro = efi_baro;
+            this.efi_mat = efi_mat;
+            this.efi_clt = efi_clt;
+            this.efi_tps = efi_tps;
+            this.efi_exhaust_gas_temperature = efi_exhaust_gas_temperature;
+            this.generator_status = generator_status;
+            this.efi_status = efi_status;
+            this.efi_index = efi_index;
+            
+        }
+
+        /// <summary>Generator Battery voltage.  [V] </summary>
+        [Units("[V]")]
+        [Description("Generator Battery voltage.")]
+        //[FieldOffset(0)]
+        public  float volt_batt;
+
+        /// <summary>Generator Battery current.  [A] </summary>
+        [Units("[A]")]
+        [Description("Generator Battery current.")]
+        //[FieldOffset(4)]
+        public  float curr_batt;
+
+        /// <summary>Current being produced by generator.  [A] </summary>
+        [Units("[A]")]
+        [Description("Current being produced by generator.")]
+        //[FieldOffset(8)]
+        public  float curr_gen;
+
+        /// <summary>Load current being consumed by the UAV (sum of curr_gen and curr_batt)  [A] </summary>
+        [Units("[A]")]
+        [Description("Load current being consumed by the UAV (sum of curr_gen and curr_batt)")]
+        //[FieldOffset(12)]
+        public  float curr_rot;
+
+        /// <summary>Generator fuel remaining in litres.  [l] </summary>
+        [Units("[l]")]
+        [Description("Generator fuel remaining in litres.")]
+        //[FieldOffset(16)]
+        public  float fuel_level;
+
+        /// <summary>Throttle Output.  [%] </summary>
+        [Units("[%]")]
+        [Description("Throttle Output.")]
+        //[FieldOffset(20)]
+        public  float throttle;
+
+        /// <summary>Seconds this generator has run since it was rebooted.  [s] </summary>
+        [Units("[s]")]
+        [Description("Seconds this generator has run since it was rebooted.")]
+        //[FieldOffset(24)]
+        public  uint runtime;
+
+        /// <summary>Seconds until this generator requires maintenance.  A negative value indicates maintenance is past due.  [s] </summary>
+        [Units("[s]")]
+        [Description("Seconds until this generator requires maintenance.  A negative value indicates maintenance is past due.")]
+        //[FieldOffset(28)]
+        public  int until_maintenance;
+
+        /// <summary>The Temperature of the rectifier.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("The Temperature of the rectifier.")]
+        //[FieldOffset(32)]
+        public  float rectifier_temp;
+
+        /// <summary>The temperature of the mechanical motor, fuel cell core or generator.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("The temperature of the mechanical motor, fuel cell core or generator.")]
+        //[FieldOffset(36)]
+        public  float generator_temp;
+
+        /// <summary> EFI Supply Voltage.  [V] </summary>
+        [Units("[V]")]
+        [Description(" EFI Supply Voltage.")]
+        //[FieldOffset(40)]
+        public  float efi_batt;
+
+        /// <summary>Motor RPM.  [rpm] </summary>
+        [Units("[rpm]")]
+        [Description("Motor RPM.")]
+        //[FieldOffset(44)]
+        public  float efi_rpm;
+
+        /// <summary>Injector pulse-width in miliseconds.  [ms] </summary>
+        [Units("[ms]")]
+        [Description("Injector pulse-width in miliseconds.")]
+        //[FieldOffset(48)]
+        public  float efi_pw;
+
+        /// <summary>Fuel flow rate in litres/hour.   </summary>
+        [Units("")]
+        [Description("Fuel flow rate in litres/hour.")]
+        //[FieldOffset(52)]
+        public  float efi_fuel_flow;
+
+        /// <summary>Fuel consumed.  [l] </summary>
+        [Units("[l]")]
+        [Description("Fuel consumed.")]
+        //[FieldOffset(56)]
+        public  float efi_fuel_consumed;
+
+        /// <summary>Atmospheric pressure.  [kPa] </summary>
+        [Units("[kPa]")]
+        [Description("Atmospheric pressure.")]
+        //[FieldOffset(60)]
+        public  float efi_baro;
+
+        /// <summary>Manifold Air Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Manifold Air Temperature.")]
+        //[FieldOffset(64)]
+        public  float efi_mat;
+
+        /// <summary>Cylinder Head Temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Cylinder Head Temperature.")]
+        //[FieldOffset(68)]
+        public  float efi_clt;
+
+        /// <summary>Throttle Position.  [%] </summary>
+        [Units("[%]")]
+        [Description("Throttle Position.")]
+        //[FieldOffset(72)]
+        public  float efi_tps;
+
+        /// <summary>Exhaust gas temperature.  [degC] </summary>
+        [Units("[degC]")]
+        [Description("Exhaust gas temperature.")]
+        //[FieldOffset(76)]
+        public  float efi_exhaust_gas_temperature;
+
+        /// <summary>Generator status.   </summary>
+        [Units("")]
+        [Description("Generator status.")]
+        //[FieldOffset(80)]
+        public  ushort generator_status;
+
+        /// <summary>EFI status.   </summary>
+        [Units("")]
+        [Description("EFI status.")]
+        //[FieldOffset(82)]
+        public  ushort efi_status;
+
+        /// <summary>EFI index.   </summary>
+        [Units("")]
+        [Description("EFI index.")]
+        //[FieldOffset(84)]
+        public  byte efi_index;
     };
 
     
