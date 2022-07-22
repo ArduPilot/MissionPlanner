@@ -3937,6 +3937,7 @@ namespace MissionPlanner.GCSViews
                     var paramfileTask = Task.Run<MemoryStream>(() =>
                     {
                         var ftp = new MAVFtp(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+                        ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus((int)(percent), status); };
                         if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
                             return ftp.GetFile(
                                 "@MISSION/mission.dat", null, true, 110);
@@ -5850,6 +5851,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     {
                         var values = missionpck.pack(commandlist.Select(a => (MAVLink.mavlink_mission_item_int_t)a).ToList(), type, 0);
                         var ftp = new MAVFtp(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+                        ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus((int)(percent), status); };
                         if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
                             ftp.UploadFile("@MISSION/mission.dat", new MemoryStream(values), null);
                         if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
