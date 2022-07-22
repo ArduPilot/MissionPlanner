@@ -24,7 +24,7 @@
             }
             set 
             { 
-                Settings.Instance["hknfzforceshow"] = value.ToString();
+                Settings.Instance["eunfzforceshow"] = value.ToString();
             }
         }
 
@@ -33,11 +33,11 @@
         {
             get
             {
-                return Settings.Instance.GetBoolean("hknfzshow", true);
+                return Settings.Instance.GetBoolean("eunfzshow", true);
             }
             set
             {
-                Settings.Instance["hknfzshow"] = value.ToString();
+                Settings.Instance["eunfzshow"] = value.ToString();
             }
         }
 
@@ -45,11 +45,11 @@
         {
             get
             {
-                return Settings.Instance.GetBoolean("hknfzshowask", false);
+                return Settings.Instance.GetBoolean("eunfzshowask", false);
             }
             set
             {
-                Settings.Instance["hknfzshowask"] = value.ToString();
+                Settings.Instance["eunfzshowask"] = value.ToString();
             }
         }
 
