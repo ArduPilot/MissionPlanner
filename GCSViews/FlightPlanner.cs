@@ -95,7 +95,7 @@ namespace MissionPlanner.GCSViews
         public GMapMarker center = new GMarkerGoogle(new PointLatLng(0.0, 0.0), GMarkerGoogleType.none);
         private Dictionary<string, string[]> cmdParamNames = new Dictionary<string, string[]>();
         private GMapMarkerRect CurentRectMarker;
-        private altmode currentaltmode = altmode.Relative;
+        private altmode currentaltmode = (altmode) Settings.Instance.GetInt32("FPaltmode", (int)altmode.Relative);
         private GMapMarker CurrentGMapMarker;
         public GMapMarker currentMarker;
         private GMapMarkerPOI CurrentPOIMarker;
@@ -2147,6 +2147,7 @@ namespace MissionPlanner.GCSViews
             else
             {
                 currentaltmode = (altmode) CMB_altmode.SelectedValue;
+                Settings.Instance["FPaltmode"] = ((int) currentaltmode).ToString();
             }
         }
 
