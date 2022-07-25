@@ -107,11 +107,6 @@ namespace px4uploader
                 int size = fw.image_size + (fw.image_size % 4);
                 fw.imagebyte = new byte[size];
 
-                for (int a = 0; a < fw.imagebyte.Length; a++)
-                {
-                    fw.imagebyte[a] = 0xff;
-                }
-
                 try
                 {
                     decompressionStream.Read(fw.imagebyte, 0, fw.image_size);

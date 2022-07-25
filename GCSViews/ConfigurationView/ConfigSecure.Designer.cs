@@ -44,6 +44,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label4 = new System.Windows.Forms.Label();
+            this.txt_sha = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -51,7 +52,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(253, 156);
+            this.textBox1.Location = new System.Drawing.Point(253, 147);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(193, 20);
@@ -68,7 +69,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(25, 206);
+            this.progressBar1.Location = new System.Drawing.Point(25, 219);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(428, 23);
             this.progressBar1.TabIndex = 7;
@@ -76,7 +77,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 232);
+            this.label2.Location = new System.Drawing.Point(22, 245);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 8;
@@ -171,7 +172,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(250, 140);
+            this.label3.Location = new System.Drawing.Point(250, 131);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 13);
             this.label3.TabIndex = 12;
@@ -185,16 +186,25 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 190);
+            this.label4.Location = new System.Drawing.Point(22, 203);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(19, 13);
             this.label4.TabIndex = 13;
             this.label4.Text = "....";
             // 
+            // txt_sha
+            // 
+            this.txt_sha.Location = new System.Drawing.Point(253, 173);
+            this.txt_sha.Name = "txt_sha";
+            this.txt_sha.ReadOnly = true;
+            this.txt_sha.Size = new System.Drawing.Size(193, 20);
+            this.txt_sha.TabIndex = 14;
+            // 
             // ConfigSecure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txt_sha);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox3);
@@ -205,7 +215,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Name = "ConfigSecure";
-            this.Size = new System.Drawing.Size(477, 263);
+            this.Size = new System.Drawing.Size(477, 285);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -231,5 +241,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txt_sha;
     }
 }

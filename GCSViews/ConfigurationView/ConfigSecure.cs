@@ -19,6 +19,7 @@ using LibUsbDotNet;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using Org.BouncyCastle.Crypto.Digests;
 using px4uploader;
 using Firmware = px4uploader.Firmware;
 
@@ -231,6 +232,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ofd.ShowDialog();
             if (File.Exists(ofd.FileName))
             {
+                {
+                    var fw = Firmware.ProcessFirmware(new StreamReader(ofd.FileName));
+                    var sha = new Sha256Digest();
+                    sha.BlockUpdate(fw.imagebyte, 0, fw.imagebyte.Length);
+                    var hash = new byte[32];
+                    sha.DoFinal(hash, 0);
+                    txt_sha.Text = hash.ToHexString();
+                }
                 var bytes = File.ReadAllBytes(ofd.FileName);
                 var filecontent = new ByteArrayContent(bytes);
                 filecontent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
@@ -241,7 +250,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 UpdateStatus("Uploading/Downloading FW", 0);
                 var fwresp = await httpclient.PostAsync(firmwareurl + $"?SN={textBox1.Text}", mp);
                 if (fwresp.IsSuccessStatusCode)
-                {
+                {                   
                     var fw = Firmware.ProcessFirmware(new StreamReader(await fwresp.Content.ReadAsStreamAsync()));
 
                     var up = new Uploader(detectedport);

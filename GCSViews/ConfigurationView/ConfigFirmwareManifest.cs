@@ -421,6 +421,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             DFU.Flash(fd.FileName);
                             return;
                         }
+                        else if (fd.FileName.ToLower().EndsWith(".hex"))
+                        {
+                            DFU.Progress = fw_Progress1;
+                            if (CustomMessageBox.Show("Do you want to upload this via DFU?", "", CustomMessageBox.MessageBoxButtons.OKCancel) == CustomMessageBox.DialogResult.OK)
+                            {
+                                DFU.Flash(fd.FileName);
+                                return;
+                            }
+                        }
                         else if(fd.FileName.ToLower().EndsWith(".bin"))
                         {
                             DFU.Progress = fw_Progress1;
