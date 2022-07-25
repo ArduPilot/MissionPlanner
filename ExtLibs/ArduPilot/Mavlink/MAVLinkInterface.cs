@@ -1527,7 +1527,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 return false;
             }
 
-            if (MAVlist[sysid, compid].param[paramname].Value == value && !force)
+            MAVLinkParam param = MAVlist[sysid, compid].param[paramname];
+            if (param.Value == value && !force)
             {
                 log.Warn("setParam " + paramname + " not modified as same");
                 return true;
@@ -1588,7 +1589,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     {
                         var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
                         MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(par.param_value),
-                            MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
+                            MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type, param.default_value);
                     }
                     else
                     {
