@@ -84,7 +84,11 @@ namespace MissionPlanner.Utilities
 
                 // find the DFU device
                 if (vid == 0 && pid == 0)
+                {
                     LibUsbDfu.Device.TryOpen(UsbDevice.AllDevices.First(), out device);
+                    vid = device.Info.VendorId;
+                    pid = device.Info.ProductId;
+                }
                 else
                     device = LibUsbDfu.Device.OpenFirst(UsbDevice.AllDevices, vid, pid);
 
