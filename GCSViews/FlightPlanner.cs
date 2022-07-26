@@ -392,9 +392,13 @@ namespace MissionPlanner.GCSViews
                 return true;
             }
 
-            if (keyData == (Keys.Control | Keys.W | Keys.Shift))
+            if (keyData == (Keys.Control | Keys.F | Keys.Shift))
             {
                 but_writewpfast_Click(this, EventArgs.Empty);
+            }
+            if (keyData == (Keys.Control | Keys.W | Keys.Shift))
+            {
+                BUT_write_Click(this, EventArgs.Empty);
             }
             if (keyData == (Keys.Control | Keys.R | Keys.Shift))
             {
