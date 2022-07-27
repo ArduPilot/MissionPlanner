@@ -229,23 +229,24 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            foreach (var item in GetEnumeratorType("UNIT"))
-            {
-                try
+            if (Unit.Count > 0)
+                foreach (var item in GetEnumeratorType("UNIT"))
                 {
-                    Unit[(char)int.Parse(item["Id"])] = item["Label"].Trim();
+                    try
+                    {
+                        Unit[(char)int.Parse(item["Id"])] = item["Label"].Trim();
+                    }
+                    catch { }
                 }
-                catch { }
-            }
-
-            foreach (var item in GetEnumeratorType("MULT"))
-            {
-                try
+            if (Mult.Count > 0)
+                foreach (var item in GetEnumeratorType("MULT"))
                 {
-                    Mult[(char)int.Parse(item["Id"])] = item["Mult"].Trim();
+                    try
+                    {
+                        Mult[(char)int.Parse(item["Id"])] = item["Mult"].Trim();
+                    }
+                    catch { }
                 }
-                catch { }
-            }
 
             BuildUnitMultiList();
 
