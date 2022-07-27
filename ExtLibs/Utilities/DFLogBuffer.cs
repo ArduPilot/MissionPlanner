@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -147,10 +148,13 @@ namespace MissionPlanner.Utilities
                 int b = 0;
                 foreach (var item in this)
                 {
-					var idx = item.IndexOf(',');
-					
-					if (idx <= 0)
-						continue;
+                    var idx = item.IndexOf(',');
+
+                    if (idx <= 0)
+                    {
+                        b++;
+                        continue;
+                    }
 					
                     var msgtype = item.Substring(0, idx);
 
