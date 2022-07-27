@@ -504,6 +504,28 @@ namespace MissionPlanner
                 CustomMessageBox.Show(Strings.PleaseConnect, Strings.ERROR);
         }
 
+        private string[] GetFiles(string path, string pattern)
+        {
+            var files = new List<string>();
+            var directories = new string[] { };
+
+            try
+            {
+                files.AddRange(Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly));
+                directories = Directory.GetDirectories(path);
+            }
+            catch (UnauthorizedAccessException) { }
+
+            foreach (var directory in directories)
+                try
+                {
+                    files.AddRange(GetFiles(directory, pattern));
+                }
+                catch (UnauthorizedAccessException) { }
+
+            return files.ToArray();
+        }
+
         private void but_maplogs_Click(object sender, EventArgs e)
         {
             var fbd = new FolderBrowserDialog();
@@ -511,9 +533,9 @@ namespace MissionPlanner
 
             if (fbd.ShowDialog() == DialogResult.OK)
             {
-                LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog", SearchOption.AllDirectories));
-                LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.bin", SearchOption.AllDirectories));
-                LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.log", SearchOption.AllDirectories));
+                LogMap.MapLogs(GetFiles(fbd.SelectedPath, "*.tlog"));
+                LogMap.MapLogs(GetFiles(fbd.SelectedPath, "*.bin"));
+                LogMap.MapLogs(GetFiles(fbd.SelectedPath, "*.log"));
             }
         }
 

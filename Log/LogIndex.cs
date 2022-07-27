@@ -34,15 +34,37 @@ namespace MissionPlanner.Log
             System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
         }
 
+        private List<string> GetFiles(string path, string pattern)
+        {
+            var files = new List<string>();
+            var directories = new string[] { };
+
+            try
+            {
+                files.AddRange(Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly));
+                directories = Directory.GetDirectories(path);
+            }
+            catch (UnauthorizedAccessException) { }
+
+            foreach (var directory in directories)
+                try
+                {
+                    files.AddRange(GetFiles(directory, pattern));
+                }
+                catch (UnauthorizedAccessException) { }
+
+            return files;
+        }
+
         List<string> files = new List<string>();
 
         void createFileList(object directory)
         {
             Loading.ShowLoading("Scanning for files", this);
 
-            string[] files1 = Directory.GetFiles(directory.ToString(), "*.tlog", SearchOption.AllDirectories);
-            string[] files2 = Directory.GetFiles(directory.ToString(), "*.bin", SearchOption.AllDirectories);
-            string[] files3 = Directory.GetFiles(directory.ToString(), "*.log", SearchOption.AllDirectories);
+            var files1 = GetFiles(directory.ToString(), "*.tlog");
+            var files2 = GetFiles(directory.ToString(), "*.bin");
+            var files3 = GetFiles(directory.ToString(), "*.log");
 
             files.Clear();
 
