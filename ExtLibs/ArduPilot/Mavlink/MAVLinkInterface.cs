@@ -463,6 +463,9 @@ namespace MissionPlanner
 
                         await Task.Delay(2000);
 
+                        if (MAVlist[tuple.Item1, tuple.Item2].Camera == null)
+                            return;
+
                         await MAVlist[tuple.Item1, tuple.Item2]
                             .Camera.StartID(MAVlist[tuple.Item1, tuple.Item2])
                             .ConfigureAwait(false);
