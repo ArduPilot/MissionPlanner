@@ -611,16 +611,58 @@ namespace MissionPlanner.GCSViews
 
                         // set description and unit
                         string desc = Settings.Instance["quickView" + f];
-                        if (QV.Tag == null)
-                            QV.Tag = desc;
-                        QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+
+                        // Check if customfield is specified by fieldname
+                        if(desc.StartsWith("customfield:"))
+                        {
+                            desc = CurrentState.GetCustomField(desc.Substring(12));
+                        }
+
+                        QV.Tag = desc;
+                        if (Settings.Instance["quickView" + f + "_label"] != null)
+                        {
+                            QV.desc = Settings.Instance["quickView" + f + "_label"];
+                        }
+                        else
+                        {
+                            QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
+                        }
+                    
+                        // set the number format
+                        string numberformat = Settings.Instance["quickView" + f + "_format"];
+                        QV.numberformat = numberformat != null ? numberformat : "0.00";
+
+                        // set the number color
+                        string numberColor = Settings.Instance["quickView" + f + "_color"];
+                        if (numberColor != null)
+                        {
+                            try
+                            {
+                                QV.numberColor = System.Drawing.ColorTranslator.FromHtml(numberColor);
+                                QV.numberColorBackup = QV.numberColor;
+                            }
+                            catch
+                            {
+                                Settings.Instance.Remove("quickView" + f + "_color");
+                            }
+                        }
+
+                        // Set character width
+                        string charWidth = Settings.Instance["quickView" + f + "_charWidth"];
+                        QV.charWidth = charWidth != null ? int.Parse(charWidth) : -1;
+
+
+                        // Set scale and offset
+                        string scale = Settings.Instance["quickView" + f + "_scale"];
+                        QV.scale = scale != null ? double.Parse(scale) : 1;
+                        string offset = Settings.Instance["quickView" + f + "_offset"];
+                        QV.offset = offset != null ? double.Parse(offset) : 0;
 
                         // set databinding for value
                         QV.DataBindings.Clear();
                         try
                         {
-                            var b = new Binding("number", bindingSourceQuickTab,
-                                Settings.Instance["quickView" + f], true);
+                            var b = new Binding("number", bindingSourceQuickTab, (string)QV.Tag, true);
                             b.Format += new ConvertEventHandler(BindingTypeToNumber);
                             b.Parse += new ConvertEventHandler(NumberToBindingType);
 
@@ -642,8 +684,7 @@ namespace MissionPlanner.GCSViews
                         {
                             QuickView QV = (QuickView) ctls[0];
                             string desc = QV.desc;
-                            if (QV.Tag == null)
-                                QV.Tag = desc;
+                            QV.Tag = desc;
                             QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(QV.Tag.ToString());
                         }
                     }

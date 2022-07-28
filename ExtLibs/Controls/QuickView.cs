@@ -21,6 +21,14 @@ namespace MissionPlanner.Controls
 
         double _number = -9999;
 
+        // Optionally set this value to force the text size to fit this many "0" characters 
+        // in the view. This allows for matching the text size of adjacent views.
+        public int charWidth = -1;
+
+        // Optional offset and scale for unit conversions
+        public double offset = 0;
+        public double scale = 1;
+
         [System.ComponentModel.Browsable(true)]
         public double number
         {
@@ -68,6 +76,8 @@ namespace MissionPlanner.Controls
             InitializeComponent();
 
             PaintSurface+= OnPaintSurface;
+
+            DoubleBuffered = true;
         }
 
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e2)
@@ -90,11 +100,30 @@ namespace MissionPlanner.Controls
             if (numberAreaHeight <= 0)
                 return;
 
-            // Draw number - calculate font size to fit available space
-            var numb = number.ToString(numberformat);
+            // Format the number with scale/offset and TimeSpan support
+            string numb;
+            double scaled_number = scale * number + offset;
+            try
+            {
+                if (numberformat.Contains(":"))
+                {
+                    numb = TimeSpan.FromSeconds(scaled_number).ToString(numberformat);
+                }
+                else
+                {
+                    numb = scaled_number.ToString(numberformat);
+                }
+            }
+            catch (FormatException)
+            {
+                numberformat = "0.00";
+                numb = scaled_number.ToString(numberformat);
+            }
 
             // Use a reference string for consistent sizing (prevents jumping when digits change)
-            string refString = "0".PadLeft(Math.Max(numb.Length + 1, 5), '0');
+            // charWidth allows forcing consistent sizing across multiple QuickViews
+            var refCharWidth = Math.Max(this.charWidth, numb.Length) + 1;
+            string refString = "0".PadLeft(Math.Max(refCharWidth, 5), '0');
 
             // Start with a base font size and calculate the optimal size
             float fontSize = 8f;
