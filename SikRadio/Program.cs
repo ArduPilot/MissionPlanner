@@ -82,6 +82,8 @@
  * 2.63 - Settings GUI can now dynamically show settings read from the modem which are unknown to this software.  Supports the
  *          RSSI_IN_DBM, AUXSER_SPEED and AIR_FRAMELEN settings.  
  * 2.64 - Can now save settings to file and load settings from file.
+ * 2.65 - Now checks whether min freq is greater than max freq before saving settings to modem(s).  Resolved issue in which it
+ *          showed erroneous "Set command error" message when saving encryption key to modem.  
  */
 
 using System;

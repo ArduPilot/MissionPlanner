@@ -16,6 +16,21 @@ namespace RFDLib
 
             return Result;
         }
+
+        /// <summary>
+        /// Update the given original dictionary with new values from NewValues.
+        /// </summary>
+        /// <typeparam name="K"></typeparam>
+        /// <typeparam name="V"></typeparam>
+        /// <param name="Original"></param>
+        /// <param name="NewValues"></param>
+        public static void Update<K, V>(Dictionary<K, V> Original, Dictionary<K, V> NewValues)
+        {
+            foreach (var kvp in NewValues)
+            {
+                Original[kvp.Key] = kvp.Value;
+            }
+        }
     }
 
 }

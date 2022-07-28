@@ -1299,6 +1299,8 @@ namespace RFD.RFD900
     public class TSettings
     {
         Dictionary<string, TBaseSetting> _Settings = new Dictionary<string, TBaseSetting>();
+        const string MIN_FREQ = "MIN_FREQ";
+        const string MAX_FREQ = "MAX_FREQ";
 
         public TSettings(Dictionary<string, TBaseSetting> Settings)
         {
@@ -1408,6 +1410,32 @@ namespace RFD.RFD900
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Check if this set of settings is valid.  Return a list of error descriptions.
+        /// If returned array is zero-length, settings are valid.  
+        /// </summary>
+        /// <returns></returns>
+        public string[] CheckValid()
+        {
+            List<string> Result = new List<string>();
+
+            if (_Settings.ContainsKey(MIN_FREQ) && _Settings.ContainsKey(MAX_FREQ))
+            {
+                var Min = _Settings[MIN_FREQ];
+                var Max = _Settings[MAX_FREQ];
+
+                if (Min is TShortSetting && Max is TShortSetting)
+                {
+                    if (((TShortSetting)Min).Value > ((TShortSetting)Max).Value)
+                    {
+                        Result.Add("MIN_FREQ can't be more than MAX_FREQ");
+                    }
+                }
+            }
+
+            return Result.ToArray();
         }
 
         public class TNameAndValue

@@ -615,6 +615,44 @@ S15: MAX_WINDOW=131
         }
 
         /// <summary>
+        /// Check that the settings in the given groupbox are valid.  If invalid, shows a message box listing the issues.
+        /// </summary>
+        /// <param name="GB"></param>
+        /// <param name="Remote">Whether it's for the remote modem.</param>
+        /// <param name="Orig">The settings read from the modem.  Must not be null.</param>
+        /// <returns>true if valid, false if invalid.  </returns>
+        bool CheckSettingsValid(GroupBox GB, bool Remote,
+            Dictionary<string, RFD.RFD900.TBaseSetting> Orig)
+        {
+            var Changed = GetUpdatedSettingsFromGroupBox(Orig, GB, Remote);
+
+            Dictionary<string, RFD.RFD900.TBaseSetting> NewSettings = new Dictionary<string, RFD.RFD900.TBaseSetting>(Orig);
+            RFDLib.Collections.Update(NewSettings, Changed);
+
+            RFD.RFD900.TSettings Settings = new RFD.RFD900.TSettings(NewSettings);
+
+            var Errors = Settings.CheckValid();
+
+            if (Errors.Length == 0)
+            {
+                return true;
+            }
+            else
+            {
+                string ErrorMsg = Remote ? "Remote" : "Local" + " settings invalid, operation aborted:";
+
+                foreach (var em in Errors)
+                {
+                    ErrorMsg += "\n\t" + em;
+                }
+
+                MsgBox.CustomMessageBox.Show(ErrorMsg);
+
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Save settings from GUI to a modem.
         /// </summary>
         /// <param name="GB">The relevant groupbox.  Must not be null.</param>
@@ -632,7 +670,8 @@ S15: MAX_WINDOW=131
                 if (!kvp.Key.Contains("FORMAT"))
                 {
                     var cmdanswer = doCommand(Port,
-                        CommandPrefix + "T" + kvp.Value.Designator + "=" + kvp.Value.GetValueAsString());
+                        CommandPrefix + "T" + kvp.Value.Designator + "=" + kvp.Value.GetValueAsString(), 
+                        kvp.Value.Designator.Contains("&E"));
 
                     if (cmdanswer.Contains("OK"))
                     {
@@ -759,146 +798,165 @@ S15: MAX_WINDOW=131
 
         private void BUT_savesettings_Click(object sender, EventArgs e)
         {
-            //EndSession();
-            var Session = GetSession();
-            
-            if (Session == null)
+            if (
+                    (
+                        (RTI.Text == "") || 
+                        CheckSettingsValid
+                            (
+                                groupBoxRemote, true,
+                                RFDLib.Collections.Translate(_RemoteSettings.Settings, (x) => (RFD.RFD900.TBaseSetting)x)
+                            )
+                    )
+                    &&
+                    CheckSettingsValid
+                    (
+                        groupBoxLocal, false,
+                        RFDLib.Collections.Translate(_LocalSettings.Settings, (x) => (RFD.RFD900.TBaseSetting)x)
+                    )
+                )
             {
-                return;
-            }
 
-            List<Control> EnabledControls = new List<Control>();
-            foreach (Control C in groupBoxLocal.Controls)
-            {
-                if (C.Enabled)
+                //EndSession();
+                var Session = GetSession();
+
+                if (Session == null)
                 {
-                    EnabledControls.Add(C);
-                }
-            }
-            foreach (Control C in groupBoxRemote.Controls)
-            {
-                if (C.Enabled)
-                {
-                    EnabledControls.Add(C);
-                }
-            }
-
-            EnableConfigControls(false, false);
-            EnableProgrammingControls(false);
-            lbl_status.Text = "Connecting";
-
-            if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
-            {
-                // cleanup
-                doCommand(Session.Port, "AT&T", false, 1);
-
-                Session.Port.DiscardInBuffer();
-
-                lbl_status.Text = "Doing Command";
-
-
-                if (RTI.Text != "")
-                {
-                    // remote
-                    var answer = doCommand(Session.Port, "RTI5", true);
-
-                    SaveSettingsFromGroupBox(groupBoxRemote, true, Session.Port,
-                        RFDLib.Collections.Translate(_RemoteSettings.Settings, (x) => (RFD.RFD900.TBaseSetting)x));
-
-                    Sleep(100);
+                    return;
                 }
 
-                Session.Port.DiscardInBuffer();
+                List<Control> EnabledControls = new List<Control>();
+                foreach (Control C in groupBoxLocal.Controls)
                 {
-                    //local
-                    string answer = "";
-                    for (int n = 0; n < 5; n++)
+                    if (C.Enabled)
                     {
-                        answer = doCommand(Session.Port, "ATI5", true);
-                        if (answer.Length != 0)
-                        {
-                            break;
-                        }
+                        EnabledControls.Add(C);
                     }
-
-                    SaveSettingsFromGroupBox(groupBoxLocal, false, Session.Port,
-                        RFDLib.Collections.Translate(_LocalSettings.Settings, (x) => (RFD.RFD900.TBaseSetting)x));
-
-                    // set encryption keys at the same time, so if we are enabled we dont lose comms.
-                    // we have set encryption to on for both radios, they will be using the default key atm
-                    if (GetIsEncryptionEnabled(RENCRYPTION_LEVEL))
+                }
+                foreach (Control C in groupBoxRemote.Controls)
+                {
+                    if (C.Enabled)
                     {
-                        int MaxKeyLength = GetEncryptionMaxKeyLength(RENCRYPTION_LEVEL);
-
-                        if (System.Text.RegularExpressions.Regex.IsMatch(RAESKEY.Text, @"\A\b[0-9a-fA-F]+\b\Z")
-                            && (RAESKEY.Text.Length <= MaxKeyLength))
-                        {
-                            doCommand(Session.Port, "RT&E=" + RAESKEY.Text.PadRight(MaxKeyLength, '0'), true);
-                        }
-                        else
-                        {
-                            //Complain that encryption key invalid.
-                            lbl_status.Text = "Fail";
-                            MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
-                        }
+                        EnabledControls.Add(C);
                     }
-                    if (GetIsEncryptionEnabled(ENCRYPTION_LEVEL))
-                    {
-                        int MaxKeyLength = GetEncryptionMaxKeyLength(ENCRYPTION_LEVEL);
+                }
 
-                        if (System.Text.RegularExpressions.Regex.IsMatch(AESKEY.Text, @"\A\b[0-9a-fA-F]+\b\Z")
-                            && (AESKEY.Text.Length <= MaxKeyLength))
-                        {
-                            doCommand(Session.Port, "AT&E=" + AESKEY.Text.PadRight(MaxKeyLength, '0'), true);
-                        }
-                        else
-                        {
-                            //Complain that encryption key invalid.
-                            lbl_status.Text = "Fail";
-                            MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
-                        }
-                    }
+                EnableConfigControls(false, false);
+                EnableProgrammingControls(false);
+                lbl_status.Text = "Connecting";
+
+                if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
+                {
+                    // cleanup
+                    doCommand(Session.Port, "AT&T", false, 1);
+
+                    Session.Port.DiscardInBuffer();
+
+                    lbl_status.Text = "Doing Command";
 
 
                     if (RTI.Text != "")
                     {
+                        // remote
+                        var answer = doCommand(Session.Port, "RTI5", true);
+
+                        SaveSettingsFromGroupBox(groupBoxRemote, true, Session.Port,
+                            RFDLib.Collections.Translate(_RemoteSettings.Settings, (x) => (RFD.RFD900.TBaseSetting)x));
+
+                        Sleep(100);
+                    }
+
+                    Session.Port.DiscardInBuffer();
+                    {
+                        //local
+                        string answer = "";
+                        for (int n = 0; n < 5; n++)
+                        {
+                            answer = doCommand(Session.Port, "ATI5", true);
+                            if (answer.Length != 0)
+                            {
+                                break;
+                            }
+                        }
+
+                        SaveSettingsFromGroupBox(groupBoxLocal, false, Session.Port,
+                            RFDLib.Collections.Translate(_LocalSettings.Settings, (x) => (RFD.RFD900.TBaseSetting)x));
+
+                        // set encryption keys at the same time, so if we are enabled we dont lose comms.
+                        // we have set encryption to on for both radios, they will be using the default key atm
+                        if (GetIsEncryptionEnabled(RENCRYPTION_LEVEL))
+                        {
+                            int MaxKeyLength = GetEncryptionMaxKeyLength(RENCRYPTION_LEVEL);
+
+                            if (System.Text.RegularExpressions.Regex.IsMatch(RAESKEY.Text, @"\A\b[0-9a-fA-F]+\b\Z")
+                                && (RAESKEY.Text.Length <= MaxKeyLength))
+                            {
+                                doCommand(Session.Port, "RT&E=" + RAESKEY.Text.PadRight(MaxKeyLength, '0'), true);
+                            }
+                            else
+                            {
+                                //Complain that encryption key invalid.
+                                lbl_status.Text = "Fail";
+                                MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
+                            }
+                        }
+                        if (GetIsEncryptionEnabled(ENCRYPTION_LEVEL))
+                        {
+                            int MaxKeyLength = GetEncryptionMaxKeyLength(ENCRYPTION_LEVEL);
+
+                            if (System.Text.RegularExpressions.Regex.IsMatch(AESKEY.Text, @"\A\b[0-9a-fA-F]+\b\Z")
+                                && (AESKEY.Text.Length <= MaxKeyLength))
+                            {
+                                doCommand(Session.Port, "AT&E=" + AESKEY.Text.PadRight(MaxKeyLength, '0'), true);
+                            }
+                            else
+                            {
+                                //Complain that encryption key invalid.
+                                lbl_status.Text = "Fail";
+                                MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
+                            }
+                        }
+
+
+                        if (RTI.Text != "")
+                        {
+                            // write it
+                            doCommand(Session.Port, "RT&W");
+
+                            // return to normal mode
+                            doCommand(Session.Port, "RTZ");
+                        }
+
                         // write it
-                        doCommand(Session.Port, "RT&W");
+                        var cmdwriteanswer = doCommand(Session.Port, "AT&W");
+                        if (!cmdwriteanswer.Contains("OK"))
+                        {
+                            MsgBox.CustomMessageBox.Show("Failed to save parameters");
+                        }
 
                         // return to normal mode
-                        doCommand(Session.Port, "RTZ");
+                        doCommand(Session.Port, "ATZ");
                     }
 
-                    // write it
-                    var cmdwriteanswer = doCommand(Session.Port, "AT&W");
-                    if (!cmdwriteanswer.Contains("OK"))
-                    {
-                        MsgBox.CustomMessageBox.Show("Failed to save parameters");
-                    }
-
+                    lbl_status.Text = "Done";
+                    EnableConfigControls(true, true);
+                }
+                else
+                {
                     // return to normal mode
                     doCommand(Session.Port, "ATZ");
+
+                    lbl_status.Text = "Fail";
+                    MsgBox.CustomMessageBox.Show("Failed to enter command mode");
+                    EnableConfigControls(true, false);
                 }
 
-                lbl_status.Text = "Done";
-                EnableConfigControls(true, true);
+                //Need to do this because modem rebooted.
+                Session.PutIntoATCommandModeAssumingInTransparentMode();
+
+                EnableProgrammingControls(true);
+
+                UpdateSetPPMFailSafeButtons();
             }
-            else
-            {
-                // return to normal mode
-                doCommand(Session.Port, "ATZ");
-
-                lbl_status.Text = "Fail";
-                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
-                EnableConfigControls(true, false);
-            }
-
-            //Need to do this because modem rebooted.
-            Session.PutIntoATCommandModeAssumingInTransparentMode();
-
-            EnableProgrammingControls(true);
-
-            UpdateSetPPMFailSafeButtons();
         }
 
         /// <summary>
