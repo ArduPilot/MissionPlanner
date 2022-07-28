@@ -886,6 +886,7 @@ S15: MAX_WINDOW=131
                         if (GetIsEncryptionEnabled(RENCRYPTION_LEVEL))
                         {
                             int MaxKeyLength = GetEncryptionMaxKeyLength(RENCRYPTION_LEVEL);
+                            RAESKEY.Text = RAESKEY.Text.Trim();
 
                             if (System.Text.RegularExpressions.Regex.IsMatch(RAESKEY.Text, @"\A\b[0-9a-fA-F]+\b\Z")
                                 && (RAESKEY.Text.Length <= MaxKeyLength))
@@ -902,6 +903,7 @@ S15: MAX_WINDOW=131
                         if (GetIsEncryptionEnabled(ENCRYPTION_LEVEL))
                         {
                             int MaxKeyLength = GetEncryptionMaxKeyLength(ENCRYPTION_LEVEL);
+                            AESKEY.Text = AESKEY.Text.Trim();
 
                             if (System.Text.RegularExpressions.Regex.IsMatch(AESKEY.Text, @"\A\b[0-9a-fA-F]+\b\Z")
                                 && (AESKEY.Text.Length <= MaxKeyLength))
@@ -2524,7 +2526,7 @@ red LED solid - in firmware update mode");
                 //Read AES key back out of modem and display it.  
                 //BUT_getcurrent_Click(this, null);
                 //txt_aeskey.Text = doCommand(Session.Port, "AT&E?").Trim();
-                EncKeyTextBox.Text = RemoveMultiPointLocalNodeID(doCommand(Session.Port, EncKeyQuery).Trim());
+                EncKeyTextBox.Text = RemoveMultiPointLocalNodeID(doCommand(Session.Port, EncKeyQuery).Trim()).Trim();
                 lbl_status.Text = "Done.";
             }
             finally

@@ -84,6 +84,9 @@
  * 2.64 - Can now save settings to file and load settings from file.
  * 2.65 - Now checks whether min freq is greater than max freq before saving settings to modem(s).  Resolved issue in which it
  *          showed erroneous "Set command error" message when saving encryption key to modem.  
+ * 2.66 - Fixed bug for multipoint firmware in which it showed an error message of 'Encryption key not valid hex number 
+ *          <=32[/64] hex numerals' when saving change to encryption level setting to the modem.  
+ *          
  */
 
 using System;
