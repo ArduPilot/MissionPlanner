@@ -2722,6 +2722,16 @@ namespace MissionPlanner.Controls
                     graphicsObject.DrawPolygon(this._whitePen, AOA_arrow);
                 }
 
+
+                // Text line positions for all text at bottom of the screen
+                int yBotOffset = (fontsize >= 8) ? (fontsize / 3) : 2; // this replaces fontoffset for bottom lines
+                int yTextOffset = (fontsize + yBotOffset + 2); // creates a 25% font size space between multiple lines
+                int xPos = fontsize; // spaces text off left 1 character
+                Int32[] yPos = new Int32[] {this.Height - 2*yTextOffset - yBotOffset - 4,  //line upper
+                                  this.Height - yTextOffset - yBotOffset - 4 };            //line lower
+                
+                //Console.WriteLine("HUD Height " + this.Height + " fontsize " + fontsize + " offset " + yBotOffset + " ypos0: " + yPos[0] + " ypos1: " + yPos[1]);
+
                 // battery
                 if (batteryon)
                 {
@@ -2750,11 +2760,7 @@ namespace MissionPlanner.Controls
                         else icon = HUDT.batt_1;
                     }
 
-                    var yBotOffset = (fontsize >= 8) ? (fontsize / 3):2; // this replaces fontoffset for bottom lines
-                    var yTextOffset = (fontsize + yBotOffset + 2); // creates a 25% font size space between multiple lines
-                    var xPos = fontsize; // spaces text off left 1 character
-                    var yPos = this.Height - yTextOffset - yBotOffset - 4; //creates a 50% font size margin at bottom, plus 4 pixels (for small huds)
-                    Console.WriteLine("HUD Height " + this.Height + " fontsize " + fontsize + " offset " + yBotOffset);
+                    int textIdx = 0;
 
                     if (displayicons)
                     {
@@ -2762,35 +2768,32 @@ namespace MissionPlanner.Controls
                         DrawImage(icon, 3, this.Height - bottomsize, bottomsize / 2, bottomsize);
 
                         text = _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
-                        drawstring(text, font, fontsize + 1, textcolor, bottomsize / 2 + 6, yPos);
+                        drawstring(text, font, fontsize + 1, textcolor, bottomsize / 2 + 6, yPos[1]);
                         if (displayCellVoltage & (_batterycellcount != 0))
-                            drawstring((_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize, textcolor, bottomsize / 2 + 6, yPos);
+                            drawstring((_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize, textcolor, bottomsize / 2 + 6, yPos[1]);
 
                     }
                     else
                     {
 
-                        Console.WriteLine("HUD Height " + this.Height + " fontsize " + fontsize + " offset " + fontoffset);
-
                         if (displayCellVoltage & (_batterycellcount != 0))
-                            drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, textcolor, xPos, yPos);
+                            drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, textcolor, xPos, yPos[1]);
                         else if (_batterylevel2 > 0)
                         {
                             text = HUDT.Bat + "2 " + _batterylevel2.ToString("0.00v") + " " + _current2.ToString("0.0 A") + " " +
                                    (_batteryremaining2) + "%";
 
-                            drawstring(text, font, fontsize + 2, textcolor, xPos, yPos);
+                            drawstring(text, font, fontsize, textcolor, xPos, yPos[1]);
                         } else {
-                            yTextOffset = 0;
+                            textIdx=1;
                         }
 
-                        yPos -= yTextOffset;
+                       
 
                         text = HUDT.Bat + "1 " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
+                        
+                        drawstring(text, font, fontsize, textcolor, xPos, yPos[textIdx]);
 
-                        drawstring(text, font, fontsize + 2, textcolor, xPos, yPos);
- 
-                    }
                 }
 
                 // gps
@@ -2804,7 +2807,7 @@ namespace MissionPlanner.Controls
 
 
 
-                    foreach (var _fix in new[] {_gpsfix, _gpsfix2})
+                    foreach (var _fix in new[] {_gpsfix2, _gpsfix})
                     {
                         if (_fix == 0)
                         {
@@ -2876,6 +2879,7 @@ namespace MissionPlanner.Controls
                             drawstring(gps, font, fontsize + 2, col, this.Width - 13 * fontsize,
                                 this.Height - ((fontsize + 2) * 3) - fontoffset + ((fontsize + 2) * a));
                         }
+                        
                         a++;
                     }
                 }
