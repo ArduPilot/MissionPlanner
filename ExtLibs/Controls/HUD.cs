@@ -3014,7 +3014,7 @@ namespace MissionPlanner.Controls
                     }
                     else
                     {
-                        vibehitzone = new Rectangle(this.Width - 18 * fontsize, this.Height - ((fontsize + 2) * 3) - fontoffset, 40, fontsize * 2);
+                        vibehitzone = new Rectangle(this.Width - 18 * fontsize, yPos[1], 40, fontsize * 2);
                     }
 
                     if (vibex > 30 || vibey > 30 || vibez > 30)
@@ -3066,7 +3066,7 @@ namespace MissionPlanner.Controls
                     }
                     else
                     {
-                        ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - ((fontsize + 2) * 3) - fontoffset, 40, fontsize * 2);
+                        ekfhitzone = new Rectangle(this.Width - 23 * fontsize,yPos[1], 40, fontsize * 2);
                     }
 
                     if (ekfstatus > 0.5)
