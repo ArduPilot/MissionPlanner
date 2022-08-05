@@ -2794,6 +2794,8 @@ namespace MissionPlanner.Controls
                         
                         drawstring(text, font, fontsize, textcolor, xPos, yPos[textIdx]);
 
+
+                    }
                 }
 
                 // gps
@@ -2807,7 +2809,7 @@ namespace MissionPlanner.Controls
 
 
 
-                    foreach (var _fix in new[] {_gpsfix2, _gpsfix})
+                    foreach (var _fix in new[] {_gpsfix, _gpsfix2})
                     {
                         if (_fix == 0)
                         {
@@ -2859,6 +2861,9 @@ namespace MissionPlanner.Controls
                             continue;
 
 
+                        int textIdx = (a == 0 && _gpsfix2 > 0) ? 0:1; 
+
+
                         //If displayicons is true then we display image icons instead of text on GPS staus
                         if (displayicons)
                         {
@@ -2876,8 +2881,7 @@ namespace MissionPlanner.Controls
                         else
                         {
 
-                            drawstring(gps, font, fontsize + 2, col, this.Width - 13 * fontsize,
-                                this.Height - ((fontsize + 2) * 3) - fontoffset + ((fontsize + 2) * a));
+                            drawstring(gps, font, fontsize, col, this.Width - 13 * fontsize,yPos[textIdx]);
                         }
                         
                         a++;
