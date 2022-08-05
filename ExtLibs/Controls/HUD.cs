@@ -31,9 +31,9 @@ using SkiaSharp;
 
 namespace MissionPlanner.Controls
 {
-    public class HUD2: HUD
+    public class graphicsObject: HUD
     {
-        public HUD2(): base()
+        public graphicsObject(): base()
         {
             started = true;
             opengl = false;
@@ -101,6 +101,21 @@ namespace MissionPlanner.Controls
                 Bitmap.Dispose();
                 bitmap = null;
             }
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // graphicsObject
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.hudcolor = System.Drawing.Color.LightGray;
+            this.Name = "graphicsObject";
+            this.Size = new System.Drawing.Size(675, 527);
+            this.VSync = false;
+            this.ResumeLayout(false);
+
         }
     }
 
@@ -2735,35 +2750,46 @@ namespace MissionPlanner.Controls
                         else icon = HUDT.batt_1;
                     }
 
+                    var yBotOffset = (fontsize >= 8) ? (fontsize / 3):2; // this replaces fontoffset for bottom lines
+                    var yTextOffset = (fontsize + yBotOffset + 2); // creates a 25% font size space between multiple lines
+                    var xPos = fontsize; // spaces text off left 1 character
+                    var yPos = this.Height - yTextOffset - yBotOffset - 4; //creates a 50% font size margin at bottom, plus 4 pixels (for small huds)
+                    Console.WriteLine("HUD Height " + this.Height + " fontsize " + fontsize + " offset " + yBotOffset);
+
                     if (displayicons)
                     {
-                        var bottomsize = ((fontsize + 2) * 3) + fontoffset - 2;
+                        var bottomsize = yTextOffset; // ((fontsize + 2) * 3) + fontoffset - 2;
                         DrawImage(icon, 3, this.Height - bottomsize, bottomsize / 2, bottomsize);
 
                         text = _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
-                        drawstring(text, font, fontsize + 1, textcolor, bottomsize / 2 + 6, this.Height - ((fontsize + 2) * 3) - fontoffset);
+                        drawstring(text, font, fontsize + 1, textcolor, bottomsize / 2 + 6, yPos);
                         if (displayCellVoltage & (_batterycellcount != 0))
-                            drawstring((_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize, textcolor, bottomsize / 2 + 6, this.Height - (fontsize * 2) - fontoffset);
+                            drawstring((_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize, textcolor, bottomsize / 2 + 6, yPos);
 
                     }
                     else
                     {
 
-                        text = HUDT.Bat + "1 " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
-
-                        drawstring(text, font, fontsize + 2, textcolor, fontsize,
-                            this.Height - ((fontsize + 2) * 3) - fontoffset);
+                        Console.WriteLine("HUD Height " + this.Height + " fontsize " + fontsize + " offset " + fontoffset);
 
                         if (displayCellVoltage & (_batterycellcount != 0))
-                            drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, textcolor, fontsize, this.Height - (fontsize * 2) - fontoffset);
+                            drawstring(HUDT.Cell + " " + (_batterylevel / _batterycellcount).ToString("0.00v"), font, fontsize + 2, textcolor, xPos, yPos);
                         else if (_batterylevel2 > 0)
                         {
                             text = HUDT.Bat + "2 " + _batterylevel2.ToString("0.00v") + " " + _current2.ToString("0.0 A") + " " +
                                    (_batteryremaining2) + "%";
 
-                            drawstring(text, font, fontsize + 2, textcolor, fontsize,
-                                this.Height - ((fontsize + 2) * 2) - fontoffset);
+                            drawstring(text, font, fontsize + 2, textcolor, xPos, yPos);
+                        } else {
+                            yTextOffset = 0;
                         }
+
+                        yPos -= yTextOffset;
+
+                        text = HUDT.Bat + "1 " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
+
+                        drawstring(text, font, fontsize + 2, textcolor, xPos, yPos);
+ 
                     }
                 }
 
@@ -2775,6 +2801,9 @@ namespace MissionPlanner.Controls
                     Image icon;
 
                     int a = 0;
+
+
+
                     foreach (var _fix in new[] {_gpsfix, _gpsfix2})
                     {
                         if (_fix == 0)
