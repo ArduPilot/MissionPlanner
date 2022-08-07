@@ -31,9 +31,9 @@ using SkiaSharp;
 
 namespace MissionPlanner.Controls
 {
-    public class graphicsObject: HUD
+    public class HUD2: HUD
     {
-        public graphicsObject(): base()
+        public HUD2(): base()
         {
             started = true;
             opengl = false;
@@ -101,21 +101,6 @@ namespace MissionPlanner.Controls
                 Bitmap.Dispose();
                 bitmap = null;
             }
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // graphicsObject
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.hudcolor = System.Drawing.Color.LightGray;
-            this.Name = "graphicsObject";
-            this.Size = new System.Drawing.Size(675, 527);
-            this.VSync = false;
-            this.ResumeLayout(false);
-
         }
     }
 
@@ -2764,7 +2749,7 @@ namespace MissionPlanner.Controls
 
                     if (displayicons)
                     {
-                        var bottomsize = yTextOffset; // ((fontsize + 2) * 3) + fontoffset - 2;
+                        var bottomsize = ((fontsize + 2) * 3) + fontoffset - 2;
                         DrawImage(icon, 3, this.Height - bottomsize, bottomsize / 2, bottomsize);
 
                         text = _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
@@ -2806,9 +2791,6 @@ namespace MissionPlanner.Controls
                     Image icon;
 
                     int a = 0;
-
-
-
                     foreach (var _fix in new[] {_gpsfix, _gpsfix2})
                     {
                         if (_fix == 0)
