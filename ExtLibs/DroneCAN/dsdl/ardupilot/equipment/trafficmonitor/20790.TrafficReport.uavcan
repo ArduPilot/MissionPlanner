@@ -16,7 +16,7 @@ float32 alt_m
 # Course over ground if heading is unavailable. 0 if neither are available.
 float16 heading
 
-# Traffic velocity in m/s
+# Traffic velocity in m/s (NED frame)
 float16[3] velocity
 
 # Traffic squawk code

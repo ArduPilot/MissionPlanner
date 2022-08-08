@@ -19,8 +19,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using uavcan.protocol.file.EntryType.cs
 //using uavcan.protocol.file.Error.cs
+//using uavcan.protocol.file.EntryType.cs
 //using uavcan.protocol.file.Path.cs
         public partial class uavcan_protocol_file_GetDirectoryEntryInfo_res: IDroneCANSerialize 
         {

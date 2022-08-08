@@ -23,7 +23,7 @@ namespace DroneCAN
         {
             public const int MPPT_STREAM_MAX_PACK_SIZE = 14;
             public const ulong MPPT_STREAM_DT_SIG = 0xDD7096B255FB6358;
-            public const int MPPT_STREAM_DT_ID = 20020;
+            public const int MPPT_STREAM_DT_ID = 20009;
 
             public const double MPPT_STREAM_OV_FAULT = 1; // saturated uint8
             public const double MPPT_STREAM_UV_FAULT = 2; // saturated uint8

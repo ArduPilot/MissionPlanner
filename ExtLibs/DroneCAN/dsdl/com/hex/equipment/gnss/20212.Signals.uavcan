@@ -1,3 +1,0 @@
-uavcan.Timestamp timestamp
-uint32 iTOW
-Signal[<=120] signals

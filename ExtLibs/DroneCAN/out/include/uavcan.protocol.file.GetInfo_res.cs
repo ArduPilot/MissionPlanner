@@ -19,8 +19,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using uavcan.protocol.file.EntryType.cs
 //using uavcan.protocol.file.Error.cs
+//using uavcan.protocol.file.EntryType.cs
         public partial class uavcan_protocol_file_GetInfo_res: IDroneCANSerialize 
         {
             public const int UAVCAN_PROTOCOL_FILE_GETINFO_RES_MAX_PACK_SIZE = 8;

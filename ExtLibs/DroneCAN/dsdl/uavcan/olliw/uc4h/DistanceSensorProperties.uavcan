@@ -1,5 +1,0 @@
-float16 range_min                    # Meters. Can be NAN if unknown.
-float16 range_max                    # Meters. Can be NAN if unknown.
-float16 vertical_field_of_view       # Radians. Can be NAN if unknown.
-float16 horizontal_field_of_view     # Radians. Can be NAN if unknown.
-

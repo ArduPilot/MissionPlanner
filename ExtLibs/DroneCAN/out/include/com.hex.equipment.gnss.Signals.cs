@@ -19,8 +19,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using com.hex.equipment.gnss.Signal.cs
 //using uavcan.Timestamp.cs
+//using com.hex.equipment.gnss.Signal.cs
         public partial class com_hex_equipment_gnss_Signals: IDroneCANSerialize 
         {
             public const int COM_HEX_EQUIPMENT_GNSS_SIGNALS_MAX_PACK_SIZE = 987;
