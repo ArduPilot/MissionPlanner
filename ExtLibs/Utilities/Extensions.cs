@@ -453,7 +453,7 @@ namespace MissionPlanner.Utilities
         public static byte[] MakeBytesSize(this string item, int length)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
-            var buffer = ASCIIEncoding.ASCII.GetBytes(item);
+            var buffer = ASCIIEncoding.UTF8.GetBytes(item);
             if (buffer.Length == length)
                 return buffer;
             Array.Resize(ref buffer, length);
@@ -462,7 +462,7 @@ namespace MissionPlanner.Utilities
         public static byte[] MakeBytes(this string item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
-            var buffer = ASCIIEncoding.ASCII.GetBytes(item);
+            var buffer = ASCIIEncoding.UTF8.GetBytes(item);
             return buffer;
         }
 

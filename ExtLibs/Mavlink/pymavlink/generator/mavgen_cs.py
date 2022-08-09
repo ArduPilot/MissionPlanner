@@ -250,11 +250,23 @@ def generate_message_h(f, directory, m):
     ///<summary> ${description} </summary>
     public struct mavlink_${name_lower}_t
     {
+        /// packet ordered constructor
         public mavlink_${name_lower}_t(${{ordered_fields:${type} ${name},}}) 
         {
             ${{ordered_fields:this.${name} = ${name};
             }}
         }
+        
+        /// packet xml order
+        public static mavlink_${name_lower}_t PopulateXMLOrder(${{fields:${type} ${name},}}) 
+        {
+            var msg = new mavlink_${name_lower}_t();
+
+            ${{fields:msg.${name} = ${name};
+            }}
+            return msg;
+        }
+        
 ${{ordered_fields:
         /// <summary>${description} ${enum} ${units} ${display}</summary>
         [Units("${units}")]
