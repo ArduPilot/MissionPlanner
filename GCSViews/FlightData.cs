@@ -32,6 +32,7 @@ using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 using TableLayoutPanelCellPosition = System.Windows.Forms.TableLayoutPanelCellPosition;
 using UnauthorizedAccessException = System.UnauthorizedAccessException;
+using MissionPlanner.ArduPilot; 
 
 // written by michael oborne
 
@@ -51,6 +52,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay tfrpolygons;
         internal GMapMarker CurrentGMapMarker;
+        public static OpenDroneID myDID = new OpenDroneID(); 
 
         internal PointLatLng MouseDownStart;
 
@@ -664,6 +666,38 @@ namespace MissionPlanner.GCSViews
 
             ThemeManager.ApplyThemeTo(tabControlactions);
         }
+
+        public void updateDIDTabVisible()
+        {
+            bool didPresent = false;
+            //if the currently connected target is a flight controller check if there is an associated mavlink gimbal
+            if (MainV2.comPort.compidcurrent == 1)
+            {
+                foreach (var mav in MainV2.comPort.MAVlist)
+                {
+                    if (mav.sysid == MainV2.comPort.sysidcurrent &&
+                        (mav.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1 ||
+                         mav.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_2 ||
+                         mav.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_3 
+                        ))
+                    {
+                        Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + mav.sysid);
+                        didPresent = true;
+                        if (myDID != null && !myDID.isRunning() && didPresent == true)
+                        {
+                            myDID.Start(MainV2.comPort, mav.sysid, mav.compid);
+                        }
+                        break; // Need to evaluate this, technically, there should only be one DID comp per MAV
+                    }
+
+                }
+                if (tabControlactions.TabPages.Contains(tabDroneID) == false && didPresent == true)
+                {
+                    tabControlactions.TabPages.Add(tabDroneID);
+                } 
+            }
+        }
+
 
         //Updates the visibility of the payload control tab based on whether the payload target is available or not
         public void updatePayloadTabVisible()
