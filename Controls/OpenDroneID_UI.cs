@@ -12,7 +12,7 @@ namespace MissionPlanner.Controls
     {
         static OpenDroneID_UI Instance;
         static TcpListener listener;
-        static ICommsSerial comPort = new SerialPort();
+        static ICommsSerial comPort = null;
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
 
@@ -21,13 +21,17 @@ namespace MissionPlanner.Controls
             Instance = this;
 
             InitializeComponent();
-
-            CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
-            CMB_serialport.Items.Add("TCP Host - 14551");
-            CMB_serialport.Items.Add("TCP Client");
-            CMB_serialport.Items.Add("UDP Host - 14551");
-            CMB_serialport.Items.Add("UDP Client");
-
+            try
+            {
+                CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+                CMB_serialport.Items.Add("TCP Host - 14551");
+                CMB_serialport.Items.Add("TCP Client");
+                CMB_serialport.Items.Add("UDP Host - 14551");
+                CMB_serialport.Items.Add("UDP Client");
+            } catch
+            {
+                Console.WriteLine("Couldn't Init Open DID Form.");
+            }
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)
