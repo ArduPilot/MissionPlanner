@@ -669,7 +669,7 @@ namespace MissionPlanner.GCSViews
 
         public void updateDIDTabVisible()
         {
-            bool didPresent = false;
+            
             //if the currently connected target is a flight controller check if there is an associated mavlink gimbal
             if (MainV2.comPort.compidcurrent == 1)
             {
@@ -682,8 +682,12 @@ namespace MissionPlanner.GCSViews
                         ))
                     {
                         Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + mav.sysid);
-                        didPresent = true;
-                        if (myDID != null && !myDID.isRunning() && didPresent == true)
+                        openDroneID_Map_Status1.Visible = true;
+                        if (tabControlactions.TabPages.Contains(tabDroneID) == false )
+                        {
+                            tabControlactions.TabPages.Add(tabDroneID);
+                        }
+                        if (myDID != null && !myDID.isRunning())
                         {
                             myDID.Start(MainV2.comPort, mav.sysid, mav.compid);
                         }
@@ -691,10 +695,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                 }
-                if (tabControlactions.TabPages.Contains(tabDroneID) == false && didPresent == true)
-                {
-                    tabControlactions.TabPages.Add(tabDroneID);
-                } 
+
             }
         }
 
@@ -5821,5 +5822,6 @@ namespace MissionPlanner.GCSViews
             tabControlactions.Multiline = !tabControlactions.Multiline;
             Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
         }
+
     }
 }
