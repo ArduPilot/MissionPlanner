@@ -31,7 +31,7 @@ namespace MissionPlanner.Controls
         {
             this.components = new System.ComponentModel.Container();
             this.txt_UserID = new System.Windows.Forms.TextBox();
-            this.lblMovingBaseStatus = new System.Windows.Forms.Label();
+            this.LBL_gpsStatus = new System.Windows.Forms.Label();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
@@ -70,14 +70,16 @@ namespace MissionPlanner.Controls
             this.txt_UserID.Size = new System.Drawing.Size(113, 18);
             this.txt_UserID.TabIndex = 0;
             // 
-            // lblMovingBaseStatus
+            // LBL_gpsStatus
             // 
-            this.lblMovingBaseStatus.AutoSize = true;
-            this.lblMovingBaseStatus.Location = new System.Drawing.Point(10, 31);
-            this.lblMovingBaseStatus.Name = "lblMovingBaseStatus";
-            this.lblMovingBaseStatus.Size = new System.Drawing.Size(80, 13);
-            this.lblMovingBaseStatus.TabIndex = 1;
-            this.lblMovingBaseStatus.Text = "Not Yet Started";
+            this.LBL_gpsStatus.AutoSize = true;
+            this.LBL_gpsStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_gpsStatus.Location = new System.Drawing.Point(10, 31);
+            this.LBL_gpsStatus.Name = "LBL_gpsStatus";
+            this.LBL_gpsStatus.Size = new System.Drawing.Size(259, 12);
+            this.LBL_gpsStatus.TabIndex = 1;
+            this.LBL_gpsStatus.Text = "Not Yet Started                                                                  " +
+    "                              ";
             // 
             // BUT_connect
             // 
@@ -391,7 +393,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.CMB_serialport);
             this.Controls.Add(this.BUT_connect);
-            this.Controls.Add(this.lblMovingBaseStatus);
+            this.Controls.Add(this.LBL_gpsStatus);
             this.Controls.Add(this.txt_UserID);
             this.Name = "OpenDroneID_UI";
             this.Size = new System.Drawing.Size(350, 200);
@@ -403,7 +405,7 @@ namespace MissionPlanner.Controls
         #endregion
 
         private System.Windows.Forms.TextBox txt_UserID;
-        private System.Windows.Forms.Label lblMovingBaseStatus;
+        private System.Windows.Forms.Label LBL_gpsStatus;
         private MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_baudrate;
         private System.Windows.Forms.ComboBox CMB_serialport;

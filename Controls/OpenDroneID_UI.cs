@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 
+
 namespace MissionPlanner.Controls
 {
     public partial class OpenDroneID_UI : UserControl
@@ -15,7 +16,7 @@ namespace MissionPlanner.Controls
         static ICommsSerial comPort = null;
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
-
+        
         public OpenDroneID_UI()
         {
             Instance = this;
@@ -37,7 +38,7 @@ namespace MissionPlanner.Controls
         private void BUT_connect_Click(object sender, EventArgs e)
         {
             
-            if (comPort.IsOpen)
+            if (comPort != null && comPort.IsOpen)
             {
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
@@ -100,6 +101,11 @@ namespace MissionPlanner.Controls
                     return;
                 }
 
+                if (comPort != null && comPort.IsOpen)
+                    Console.WriteLine("Moving Base COM Port Opened at port " + comPort.PortName);
+
+                timer1.Start(); 
+
                 BUT_connect.Text = Strings.Stop;
             } 
         }
@@ -129,12 +135,13 @@ namespace MissionPlanner.Controls
         {
             try // Process Comport Data
             {
-                if (comPort.IsOpen)
+                if (comPort != null && comPort.IsOpen)
                 {
-                    BUT_connect.Text = Strings.Disconnect;
+                    
                     while (comPort.BytesToRead > 0)
                     {
                         string line = comPort.ReadLine();
+                        //Console.WriteLine(line); // for debug
 
                         //string line = string.Format("$GP{0},{1:HHmmss},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA", DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng * 100), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", MainV2.comPort.MAV.cs.gpsstatus, MainV2.comPort.MAV.cs.satcount, MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.alt, "M", 0, "M", "");
                         if (line.StartsWith("$GPGGA") || line.StartsWith("$GNGGA")) // 
@@ -169,7 +176,9 @@ namespace MissionPlanner.Controls
 
                             gotolocation.Alt = double.Parse(items[9], CultureInfo.InvariantCulture);
 
-                            gotolocation.Tag = "Sats " + items[7] + " hdop " + items[8];
+                            gotolocation.Tag = "Sats " + items[7] + " hdop " + items[8] + (items[6]=="2" ? " - DGPS Fix":" - GPS Fix");
+
+                            udpate_gps_text();
                         }
 
                         // Sanity Check
@@ -186,6 +195,21 @@ namespace MissionPlanner.Controls
                 Console.WriteLine("Error Processing NMEA Data for Moving Base.");
             }
             
+        }
+
+        private void udpate_gps_text()
+        {
+            if (!Instance.IsDisposed)
+            {
+                Instance.BeginInvoke(
+                    (MethodInvoker)
+                        delegate
+                        {
+                            Instance.LBL_gpsStatus.Text = Math.Round(gotolocation.Lat, 6) + " " + Math.Round(gotolocation.Lng, 6) + " " +
+                                                         Math.Round(gotolocation.Alt, 2) + gotolocation.Tag;
+                        }
+                    );
+            }
         }
 
 
