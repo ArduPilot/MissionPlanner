@@ -60,6 +60,7 @@ namespace MissionPlanner.Controls
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.LBL_armed_txt = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.LED_ArmedError = new Bulb.LedBulb();
             this.SuspendLayout();
             // 
             // txt_UserID
@@ -360,10 +361,21 @@ namespace MissionPlanner.Controls
             this.label12.TabIndex = 31;
             this.label12.Text = "Drone ID Arm Status";
             // 
+            // LED_ArmedError
+            // 
+            this.LED_ArmedError.Color = System.Drawing.Color.Gray;
+            this.LED_ArmedError.Location = new System.Drawing.Point(210, 144);
+            this.LED_ArmedError.Name = "LED_ArmedError";
+            this.LED_ArmedError.On = true;
+            this.LED_ArmedError.Size = new System.Drawing.Size(15, 12);
+            this.LED_ArmedError.TabIndex = 32;
+            this.LED_ArmedError.Text = "ledBulb1";
+            // 
             // OpenDroneID_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.LED_ArmedError);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.LBL_armed_txt);
             this.Controls.Add(this.checkBox3);
@@ -432,5 +444,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Label LBL_armed_txt;
         private System.Windows.Forms.Label label12;
+        private Bulb.LedBulb LED_ArmedError;
     }
 }

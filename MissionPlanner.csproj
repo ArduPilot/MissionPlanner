@@ -461,6 +461,10 @@
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
       <Name>KMLib</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\LEDBulb\Bulb\Bulb.csproj">
+      <Project>{AF81C41B-06E6-4CA5-9FD4-A4E7042F1107}</Project>
+      <Name>Bulb</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\LibTessDotNet\LibTessDotNet.csproj">
       <Project>{a7c98a7e-1bcb-4a38-aac4-2eec63a5bc5c}</Project>
       <Name>LibTessDotNet</Name>
