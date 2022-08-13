@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using System.Drawing;
 
 
 namespace MissionPlanner.Controls
@@ -16,7 +17,8 @@ namespace MissionPlanner.Controls
         static ICommsSerial comPort = null;
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
-        
+        static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status; 
+
         public OpenDroneID_UI()
         {
             Instance = this;
@@ -33,7 +35,19 @@ namespace MissionPlanner.Controls
             {
                 Console.WriteLine("Couldn't Init Open DID Form.");
             }
+            MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
         }
+
+
+        private bool handleODIDArmMSg(MAVLink.MAVLinkMessage arg)
+        {
+            odid_arm_status = arg.ToStructure<MAVLink.mavlink_open_drone_id_arm_status_t>();
+
+            //led_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
+            LBL_armed_txt.Text = (odid_arm_status.error).ToString();
+            return true; 
+        }
+
 
         private void BUT_connect_Click(object sender, EventArgs e)
         {

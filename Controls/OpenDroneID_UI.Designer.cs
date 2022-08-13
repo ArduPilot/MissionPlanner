@@ -58,7 +58,7 @@ namespace MissionPlanner.Controls
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.LBL_armed_txt = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -340,34 +340,32 @@ namespace MissionPlanner.Controls
             this.checkBox3.Text = "Remote ID from UAS";
             this.checkBox3.UseVisualStyleBackColor = false;
             // 
-            // checkBox4
+            // LBL_armed_txt
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.BackColor = System.Drawing.SystemColors.Control;
-            this.checkBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox4.Location = new System.Drawing.Point(210, 144);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(74, 16);
-            this.checkBox4.TabIndex = 28;
-            this.checkBox4.Text = "UAS Armed";
-            this.checkBox4.UseVisualStyleBackColor = false;
+            this.LBL_armed_txt.AutoSize = true;
+            this.LBL_armed_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_armed_txt.Location = new System.Drawing.Point(227, 158);
+            this.LBL_armed_txt.Name = "LBL_armed_txt";
+            this.LBL_armed_txt.Size = new System.Drawing.Size(61, 12);
+            this.LBL_armed_txt.TabIndex = 29;
+            this.LBL_armed_txt.Text = "{reason if not}";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(227, 158);
+            this.label12.Location = new System.Drawing.Point(227, 144);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(61, 12);
-            this.label12.TabIndex = 29;
-            this.label12.Text = "{reason if not}";
+            this.label12.Size = new System.Drawing.Size(91, 12);
+            this.label12.TabIndex = 31;
+            this.label12.Text = "Drone ID Arm Status";
             // 
             // OpenDroneID_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.checkBox4);
+            this.Controls.Add(this.LBL_armed_txt);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -432,7 +430,7 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.Label LBL_armed_txt;
         private System.Windows.Forms.Label label12;
     }
 }
