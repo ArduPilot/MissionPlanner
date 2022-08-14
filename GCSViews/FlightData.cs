@@ -52,7 +52,8 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay tfrpolygons;
         internal GMapMarker CurrentGMapMarker;
-        public static OpenDroneID myDID = new OpenDroneID(); 
+        public static OpenDroneID myDID = new OpenDroneID();
+        static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
 
         internal PointLatLng MouseDownStart;
 
@@ -486,6 +487,17 @@ namespace MissionPlanner.GCSViews
                 {
                 }
             }
+            try
+            {
+                if (MainV2.comPort != null)
+                {
+                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
+                }
+            }
+            catch
+            {
+                // Couldn't subscribe to ODID
+            }
 
             hud1.doResize();
         }
@@ -667,37 +679,31 @@ namespace MissionPlanner.GCSViews
             ThemeManager.ApplyThemeTo(tabControlactions);
         }
 
-        public void updateDIDTabVisible()
+
+
+        // subscription based ODID check for this MAV
+        private bool handleODIDArmMSg(MAVLink.MAVLinkMessage arg)
         {
-            
-            //if the currently connected target is a flight controller check if there is an associated mavlink gimbal
-            if (MainV2.comPort.compidcurrent == 1)
+            odid_arm_status = arg.ToStructure<MAVLink.mavlink_open_drone_id_arm_status_t>();
+            if (openDroneID_UI1.Visible != true)
             {
-                foreach (var mav in MainV2.comPort.MAVlist)
-                {
-                    if (mav.sysid == MainV2.comPort.sysidcurrent &&
-                        (mav.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1 ||
-                         mav.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_2 ||
-                         mav.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_3 
-                        ))
-                    {
-                        Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + mav.sysid);
-                        openDroneID_Map_Status1.Visible = true;
-                        if (tabControlactions.TabPages.Contains(tabDroneID) == false )
-                        {
-                            tabControlactions.TabPages.Add(tabDroneID);
-                        }
-                        if (myDID != null && !myDID.isRunning())
-                        {
-                            myDID.Start(MainV2.comPort, mav.sysid, mav.compid);
-                        }
-                        break; // Need to evaluate this, technically, there should only be one DID comp per MAV
-                    }
-
-                }
-
+                Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + MainV2.comPort.MAV.sysid);
+                if (openDroneID_Map_Status1.InvokeRequired)
+                    openDroneID_Map_Status1.Invoke(new MethodInvoker(delegate { openDroneID_Map_Status1.Visible = true; }));
+                else
+                    openDroneID_Map_Status1.Visible = true; openDroneID_Map_Status1.Visible = true;
+                myDID.Start(MainV2.comPort, MainV2.comPort.MAV.sysid, 0);
             }
+            if (tabControlactions.TabPages.Contains(tabDroneID) == false)
+            {
+                instance.tabControlactions.TabPages.Add(tabDroneID);
+            }
+
+            // Send data to ODID process 
+            instance.openDroneID_UI1.handleODIDArmMSg(odid_arm_status);
+            return true;
         }
+
 
 
         //Updates the visibility of the payload control tab based on whether the payload target is available or not

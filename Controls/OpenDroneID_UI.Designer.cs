@@ -44,10 +44,8 @@ namespace MissionPlanner.Controls
             this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -57,10 +55,17 @@ namespace MissionPlanner.Controls
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.LBL_armed_txt = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.LED_ArmedError = new Bulb.LedBulb();
+            this.label13 = new System.Windows.Forms.Label();
+            this.LED_RemoteID_Messages = new Bulb.LedBulb();
+            this.ledBulb1 = new Bulb.LedBulb();
+            this.label14 = new System.Windows.Forms.Label();
+            this.ledBulb2 = new Bulb.LedBulb();
+            this.label15 = new System.Windows.Forms.Label();
+            this.ledBulb3 = new Bulb.LedBulb();
+            this.label16 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txt_UserID
@@ -197,17 +202,6 @@ namespace MissionPlanner.Controls
             this.textBox3.Size = new System.Drawing.Size(23, 18);
             this.textBox3.TabIndex = 13;
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(210, 72);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(124, 16);
-            this.checkBox1.TabIndex = 14;
-            this.checkBox1.Text = "GCS Geolocation is Live";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -228,22 +222,11 @@ namespace MissionPlanner.Controls
             this.label6.TabIndex = 16;
             this.label6.Text = "Requirements";
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox2.Location = new System.Drawing.Point(210, 91);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(113, 16);
-            this.checkBox2.TabIndex = 17;
-            this.checkBox2.Text = "Operating Area is set:";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(227, 107);
+            this.label7.Location = new System.Drawing.Point(227, 143);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(106, 12);
             this.label7.TabIndex = 18;
@@ -329,33 +312,22 @@ namespace MissionPlanner.Controls
             this.label11.TabIndex = 26;
             this.label11.Text = "m AGL";
             // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.BackColor = System.Drawing.SystemColors.Control;
-            this.checkBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox3.Location = new System.Drawing.Point(210, 122);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(112, 16);
-            this.checkBox3.TabIndex = 27;
-            this.checkBox3.Text = "Remote ID from UAS";
-            this.checkBox3.UseVisualStyleBackColor = false;
-            // 
             // LBL_armed_txt
             // 
             this.LBL_armed_txt.AutoSize = true;
             this.LBL_armed_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LBL_armed_txt.Location = new System.Drawing.Point(227, 158);
+            this.LBL_armed_txt.Location = new System.Drawing.Point(229, 170);
             this.LBL_armed_txt.Name = "LBL_armed_txt";
-            this.LBL_armed_txt.Size = new System.Drawing.Size(61, 12);
+            this.LBL_armed_txt.Size = new System.Drawing.Size(133, 12);
             this.LBL_armed_txt.TabIndex = 29;
-            this.LBL_armed_txt.Text = "{reason if not}";
+            this.LBL_armed_txt.Text = "{reason if not}                                    ";
+            this.LBL_armed_txt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(227, 144);
+            this.label12.Location = new System.Drawing.Point(229, 156);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(91, 12);
             this.label12.TabIndex = 31;
@@ -364,21 +336,108 @@ namespace MissionPlanner.Controls
             // LED_ArmedError
             // 
             this.LED_ArmedError.Color = System.Drawing.Color.Gray;
-            this.LED_ArmedError.Location = new System.Drawing.Point(210, 144);
+            this.LED_ArmedError.Location = new System.Drawing.Point(210, 156);
             this.LED_ArmedError.Name = "LED_ArmedError";
             this.LED_ArmedError.On = true;
             this.LED_ArmedError.Size = new System.Drawing.Size(15, 12);
             this.LED_ArmedError.TabIndex = 32;
             this.LED_ArmedError.Text = "ledBulb1";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(227, 75);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(132, 12);
+            this.label13.TabIndex = 33;
+            this.label13.Text = "RemoteID Message from UAS";
+            // 
+            // LED_RemoteID_Messages
+            // 
+            this.LED_RemoteID_Messages.Color = System.Drawing.Color.Gray;
+            this.LED_RemoteID_Messages.Location = new System.Drawing.Point(210, 76);
+            this.LED_RemoteID_Messages.Name = "LED_RemoteID_Messages";
+            this.LED_RemoteID_Messages.On = true;
+            this.LED_RemoteID_Messages.Size = new System.Drawing.Size(15, 12);
+            this.LED_RemoteID_Messages.TabIndex = 34;
+            this.LED_RemoteID_Messages.Text = "ledBulb1";
+            // 
+            // ledBulb1
+            // 
+            this.ledBulb1.Color = System.Drawing.Color.Gray;
+            this.ledBulb1.Location = new System.Drawing.Point(210, 94);
+            this.ledBulb1.Name = "ledBulb1";
+            this.ledBulb1.On = true;
+            this.ledBulb1.Size = new System.Drawing.Size(15, 12);
+            this.ledBulb1.TabIndex = 36;
+            this.ledBulb1.Text = "ledBulb1";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(227, 93);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(99, 12);
+            this.label14.TabIndex = 35;
+            this.label14.Text = "GCS Geolocation Valid";
+            // 
+            // ledBulb2
+            // 
+            this.ledBulb2.Color = System.Drawing.Color.Gray;
+            this.ledBulb2.Location = new System.Drawing.Point(210, 132);
+            this.ledBulb2.Name = "ledBulb2";
+            this.ledBulb2.On = true;
+            this.ledBulb2.Size = new System.Drawing.Size(15, 12);
+            this.ledBulb2.TabIndex = 38;
+            this.ledBulb2.Text = "ledBulb2";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(227, 131);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(101, 12);
+            this.label15.TabIndex = 37;
+            this.label15.Text = "Operating Area is Valid ";
+            // 
+            // ledBulb3
+            // 
+            this.ledBulb3.Color = System.Drawing.Color.Gray;
+            this.ledBulb3.Location = new System.Drawing.Point(210, 112);
+            this.ledBulb3.Name = "ledBulb3";
+            this.ledBulb3.On = true;
+            this.ledBulb3.Size = new System.Drawing.Size(15, 12);
+            this.ledBulb3.TabIndex = 40;
+            this.ledBulb3.Text = "ledBulb3";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(227, 111);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(113, 12);
+            this.label16.TabIndex = 39;
+            this.label16.Text = "Operator Information Valid";
+            // 
             // OpenDroneID_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ledBulb3);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.ledBulb2);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.ledBulb1);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.LED_RemoteID_Messages);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.LED_ArmedError);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.LBL_armed_txt);
-            this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBox5);
@@ -388,10 +447,8 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label4);
@@ -406,7 +463,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.LBL_gpsStatus);
             this.Controls.Add(this.txt_UserID);
             this.Name = "OpenDroneID_UI";
-            this.Size = new System.Drawing.Size(350, 200);
+            this.Size = new System.Drawing.Size(370, 200);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -428,10 +485,8 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.RadioButton radioButton1;
@@ -441,9 +496,16 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Label LBL_armed_txt;
         private System.Windows.Forms.Label label12;
         private Bulb.LedBulb LED_ArmedError;
+        private System.Windows.Forms.Label label13;
+        private Bulb.LedBulb LED_RemoteID_Messages;
+        private Bulb.LedBulb ledBulb1;
+        private System.Windows.Forms.Label label14;
+        private Bulb.LedBulb ledBulb2;
+        private System.Windows.Forms.Label label15;
+        private Bulb.LedBulb ledBulb3;
+        private System.Windows.Forms.Label label16;
     }
 }

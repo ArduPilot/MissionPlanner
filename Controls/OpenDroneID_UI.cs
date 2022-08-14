@@ -36,16 +36,16 @@ namespace MissionPlanner.Controls
                 Console.WriteLine("Couldn't Init Open DID Form.");
             }
             Console.WriteLine("[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent); 
-            MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
         }
 
 
-        private bool handleODIDArmMSg(MAVLink.MAVLinkMessage arg)
+        public bool handleODIDArmMSg(MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status)
         {
-            odid_arm_status = arg.ToStructure<MAVLink.mavlink_open_drone_id_arm_status_t>();
+            // TODO: Check timestamp of ODID message and indicate error
 
             LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
-            LBL_armed_txt.Text = (odid_arm_status.error).ToString();
+            LBL_armed_txt.Text = ((odid_arm_status.status > 0) ? "Error: ":"Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
             return true; 
         }
 
