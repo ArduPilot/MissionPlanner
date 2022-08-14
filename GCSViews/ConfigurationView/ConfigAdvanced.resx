@@ -154,13 +154,13 @@
     <value>NoControl</value>
   </data>
   <data name="but_mavinspector.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 40</value>
+    <value>5, 45</value>
   </data>
   <data name="but_mavinspector.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="but_mavinspector.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="but_mavinspector.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
@@ -178,7 +178,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;but_mavinspector.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="but_warningmanager.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -193,7 +193,7 @@
     <value>5, 5, 5, 5</value>
   </data>
   <data name="but_warningmanager.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="but_warningmanager.TabIndex" type="System.Int32, mscorlib">
     <value>94</value>
@@ -211,7 +211,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;but_warningmanager.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="but_proximity.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -220,13 +220,13 @@
     <value>NoControl</value>
   </data>
   <data name="but_proximity.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 75</value>
+    <value>5, 85</value>
   </data>
   <data name="but_proximity.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="but_proximity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="but_proximity.TabIndex" type="System.Int32, mscorlib">
     <value>95</value>
@@ -244,7 +244,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;but_proximity.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="but_signkey.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -253,13 +253,13 @@
     <value>NoControl</value>
   </data>
   <data name="but_signkey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 110</value>
+    <value>5, 125</value>
   </data>
   <data name="but_signkey.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="but_signkey.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="but_signkey.TabIndex" type="System.Int32, mscorlib">
     <value>96</value>
@@ -277,7 +277,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;but_signkey.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="BUT_outputMavlink.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -286,13 +286,13 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_outputMavlink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 145</value>
+    <value>5, 165</value>
   </data>
   <data name="BUT_outputMavlink.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="BUT_outputMavlink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="BUT_outputMavlink.TabIndex" type="System.Int32, mscorlib">
     <value>97</value>
@@ -310,7 +310,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_outputMavlink.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="BUT_outputnmea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -319,13 +319,13 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_outputnmea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 180</value>
+    <value>5, 205</value>
   </data>
   <data name="BUT_outputnmea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="BUT_outputnmea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="BUT_outputnmea.TabIndex" type="System.Int32, mscorlib">
     <value>98</value>
@@ -343,10 +343,43 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_outputnmea.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
+  </data>
+  <data name="BUT_spect.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="BUT_spect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_spect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 445</value>
+  </data>
+  <data name="BUT_spect.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="BUT_spect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 35</value>
+  </data>
+  <data name="BUT_spect.TabIndex" type="System.Int32, mscorlib">
+    <value>114</value>
+  </data>
+  <data name="BUT_spect.Text" xml:space="preserve">
+    <value>Spectrogram</value>
+  </data>
+  <data name="&gt;&gt;BUT_spect.Name" xml:space="preserve">
+    <value>BUT_spect</value>
+  </data>
+  <data name="&gt;&gt;BUT_spect.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_spect.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_spect.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="but_fft.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -355,7 +388,7 @@
     <value>NoControl</value>
   </data>
   <data name="but_fft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 355</value>
+    <value>5, 405</value>
   </data>
   <data name="but_fft.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
@@ -379,7 +412,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;but_fft.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -388,7 +421,7 @@
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 175</value>
+    <value>97, 200</value>
   </data>
   <data name="label7.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -412,7 +445,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -421,7 +454,7 @@
     <value>NoControl</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 140</value>
+    <value>97, 160</value>
   </data>
   <data name="label6.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -445,7 +478,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -454,7 +487,7 @@
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 105</value>
+    <value>97, 120</value>
   </data>
   <data name="label5.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -478,7 +511,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -487,7 +520,7 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 70</value>
+    <value>97, 80</value>
   </data>
   <data name="label4.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -511,7 +544,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -544,13 +577,13 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 35</value>
+    <value>97, 40</value>
   </data>
   <data name="label3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -574,7 +607,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -583,7 +616,7 @@
     <value>NoControl</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 315</value>
+    <value>97, 360</value>
   </data>
   <data name="label11.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -607,7 +640,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="BUT_follow_me.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -616,13 +649,13 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_follow_me.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 215</value>
+    <value>5, 245</value>
   </data>
   <data name="BUT_follow_me.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="BUT_follow_me.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="BUT_follow_me.TabIndex" type="System.Int32, mscorlib">
     <value>105</value>
@@ -640,7 +673,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_follow_me.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -649,7 +682,7 @@
     <value>NoControl</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 210</value>
+    <value>97, 240</value>
   </data>
   <data name="label8.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -673,7 +706,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -682,7 +715,7 @@
     <value>NoControl</value>
   </data>
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 245</value>
+    <value>97, 280</value>
   </data>
   <data name="label9.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -706,7 +739,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="BUT_paramgen.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -715,13 +748,13 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_paramgen.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 250</value>
+    <value>5, 285</value>
   </data>
   <data name="BUT_paramgen.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="BUT_paramgen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="BUT_paramgen.TabIndex" type="System.Int32, mscorlib">
     <value>107</value>
@@ -739,7 +772,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_paramgen.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -748,7 +781,7 @@
     <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 280</value>
+    <value>97, 320</value>
   </data>
   <data name="label10.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -772,7 +805,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="BUT_movingbase.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -781,13 +814,13 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_movingbase.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 285</value>
+    <value>5, 325</value>
   </data>
   <data name="BUT_movingbase.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="BUT_movingbase.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="BUT_movingbase.TabIndex" type="System.Int32, mscorlib">
     <value>109</value>
@@ -805,7 +838,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_movingbase.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="but_anonlog.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -814,13 +847,13 @@
     <value>NoControl</value>
   </data>
   <data name="but_anonlog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 320</value>
+    <value>5, 365</value>
   </data>
   <data name="but_anonlog.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
   <data name="but_anonlog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 25</value>
+    <value>84, 30</value>
   </data>
   <data name="but_anonlog.TabIndex" type="System.Int32, mscorlib">
     <value>111</value>
@@ -838,7 +871,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;but_anonlog.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -847,7 +880,7 @@
     <value>NoControl</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 350</value>
+    <value>97, 400</value>
   </data>
   <data name="label12.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 0, 0</value>
@@ -871,16 +904,49 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
+  </data>
+  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>97, 440</value>
+  </data>
+  <data name="label13.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 0, 0</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 18</value>
+  </data>
+  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+    <value>115</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Plot a FFT from a log</value>
+  </data>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
+  </data>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+    <value>23</value>
   </data>
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>73, 27</value>
   </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 390</value>
+    <value>408, 485</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>99</value>
@@ -898,13 +964,13 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="but_fft" Row="10" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label7" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label6" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label5" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="but_warningmanager" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_outputnmea" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_mavinspector" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_outputMavlink" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_proximity" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_signkey" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label11" Row="9" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_follow_me" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label8" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label9" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_paramgen" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="8" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_movingbase" Row="8" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_anonlog" Row="9" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label12" Row="10" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,23.03922,Percent,76.96078" /&gt;&lt;Rows Styles="Percent,9.090908,Percent,9.090908,Percent,9.090908,Percent,9.090908,Percent,9.090908,Percent,9.090908,Percent,9.090908,Percent,9.090908,Percent,9.090908,Percent,9.090908,Percent,9.090908" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="BUT_spect" Row="11" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_fft" Row="10" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label7" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label6" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label5" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="but_warningmanager" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_outputnmea" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_mavinspector" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_outputMavlink" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_proximity" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_signkey" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label11" Row="9" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_follow_me" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label8" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label9" Row="7" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_paramgen" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="8" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_movingbase" Row="8" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="but_anonlog" Row="9" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label12" Row="10" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label13" Row="11" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,23.03922,Percent,76.96078" /&gt;&lt;Rows Styles="Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>547, 420</value>
+    <value>547, 524</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigAdvanced</value>

@@ -115,5 +115,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             new fftui().Show();
         }
+
+        private void BUT_spect_Click(object sender, EventArgs e)
+        {
+            new SpectrogramUI().Show();
+        }
     }
 }

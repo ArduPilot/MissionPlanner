@@ -37,6 +37,7 @@
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.BUT_spect = new MissionPlanner.Controls.MyButton();
             this.but_fft = new MissionPlanner.Controls.MyButton();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -53,6 +54,7 @@
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_anonlog = new MissionPlanner.Controls.MyButton();
             this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,6 +108,7 @@
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.BUT_spect, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.but_fft, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.label7, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.label6, 1, 4);
@@ -128,7 +131,15 @@
             this.tableLayoutPanel1.Controls.Add(this.BUT_movingbase, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.but_anonlog, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.label12, 1, 10);
+            this.tableLayoutPanel1.Controls.Add(this.label13, 1, 11);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // BUT_spect
+            // 
+            resources.ApplyResources(this.BUT_spect, "BUT_spect");
+            this.BUT_spect.Name = "BUT_spect";
+            this.BUT_spect.UseVisualStyleBackColor = true;
+            this.BUT_spect.Click += new System.EventHandler(this.BUT_spect_Click);
             // 
             // but_fft
             // 
@@ -220,6 +231,11 @@
             resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
             // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
             // ConfigAdvanced
             // 
             this.Controls.Add(this.tableLayoutPanel1);
@@ -259,5 +275,7 @@
         private System.Windows.Forms.Label label11;
         private Controls.MyButton but_fft;
         private System.Windows.Forms.Label label12;
+        private Controls.MyButton BUT_spect;
+        private System.Windows.Forms.Label label13;
     }
 }
