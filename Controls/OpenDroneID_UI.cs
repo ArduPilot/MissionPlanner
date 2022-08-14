@@ -17,8 +17,8 @@ namespace MissionPlanner.Controls
         static ICommsSerial comPort = null;
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
-        static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status; 
-
+        static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
+        private bool portsAreLoaded = false;
         public OpenDroneID_UI()
         {
             Instance = this;
@@ -26,17 +26,70 @@ namespace MissionPlanner.Controls
             InitializeComponent();
             try
             {
-                CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
-                CMB_serialport.Items.Add("TCP Host - 14551");
-                CMB_serialport.Items.Add("TCP Client");
-                CMB_serialport.Items.Add("UDP Host - 14551");
-                CMB_serialport.Items.Add("UDP Client");
-            } catch
+                init_com_port_list();
+            }
+            catch
             {
                 Console.WriteLine("Couldn't Init Open DID Form.");
             }
-            Console.WriteLine("[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent); 
+            Console.WriteLine("[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
             //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+
+            timer2.Start();
+        }
+
+        private void init_com_port_list()
+        {
+            CMB_serialport.Items.Clear();
+            CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+            CMB_serialport.Items.Add("TCP Host - 14551");
+            CMB_serialport.Items.Add("TCP Client");
+            CMB_serialport.Items.Add("UDP Host - 14551");
+            CMB_serialport.Items.Add("UDP Client");
+            portsAreLoaded = true;
+            
+        }
+
+
+        private void autoConnectGPS()
+        {
+            // TODO quick autoconnect after 2 minutes
+
+            if (portsAreLoaded == false ||  CMB_serialport.SelectedIndex > 0) return;
+            init_com_port_list();
+            Console.Write("Checking Auto Connect {" + Settings.Instance["moving_gps_com"] + "," + Settings.Instance["moving_gps_baud"] + "}... ");
+            try
+            {
+                if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_com"]) && CMB_serialport.Items.Contains(Settings.Instance["moving_gps_com"]))
+                {
+                    CMB_serialport.SelectedIndex = CMB_serialport.Items.IndexOf(Settings.Instance["moving_gps_com"]);
+                    Console.Write("COM: " + CMB_serialport.Text);
+                }
+                else
+                    return;
+
+                if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_baud"]) && CMB_baudrate.Items.Contains(Settings.Instance["moving_gps_baud"]))
+                {
+                    CMB_baudrate.SelectedIndex = CMB_baudrate.Items.IndexOf(Settings.Instance["moving_gps_baud"]);
+                    Console.Write(" BAUD: " + CMB_baudrate.Text);
+                }
+
+                Console.WriteLine();
+                timer2.Stop();
+                
+                //if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_auto"]) && Settings.Instance["moving_gps_auto"]=="True")
+                if (Settings.Instance.GetBoolean("moving_gps_auto"))
+                {
+                    CB_auto_connect.Checked = true;
+                    //doGPSConnect();
+                }
+
+
+            } catch
+            {
+                Console.WriteLine("Auto Connect Failed.");
+            }
+
         }
 
 
@@ -49,10 +102,8 @@ namespace MissionPlanner.Controls
             return true; 
         }
 
-
-        private void BUT_connect_Click(object sender, EventArgs e)
+        private void doGPSConnect()
         {
-            
             if (comPort != null && comPort.IsOpen)
             {
                 comPort.Close();
@@ -119,10 +170,22 @@ namespace MissionPlanner.Controls
                 if (comPort != null && comPort.IsOpen)
                     Console.WriteLine("Moving Base COM Port Opened at port " + comPort.PortName);
 
-                timer1.Start(); 
+
+                Settings.Instance["moving_gps_com"] = CMB_serialport.Text;
+                Settings.Instance["moving_gps_baud"] = CMB_baudrate.Text;
+                Settings.Instance["moving_gps_auto"] = CB_auto_connect.Checked.ToString(); 
+
+                timer1.Start();
 
                 BUT_connect.Text = Strings.Stop;
-            } 
+            }
+        }
+
+
+        private void BUT_connect_Click(object sender, EventArgs e)
+        {
+            doGPSConnect();
+            
         }
 
         void DoAcceptTcpClientCallback(IAsyncResult ar)
@@ -144,10 +207,24 @@ namespace MissionPlanner.Controls
             
         }
 
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            try // auto connect GPS
+            {
+                autoConnectGPS();
+            }
+            catch
+            {
+                Console.WriteLine("[MOVING GPS] Auto Connect Failed");
+            }
+        }
         //TO-DO - we may want to move this to a more centralized spot, or make this 
         //the primary thread for Moving Base GPS read. 
         private void timer1_Tick(object sender, EventArgs e)
         {
+
+
+
             try // Process Comport Data
             {
                 if (comPort != null && comPort.IsOpen)
@@ -260,6 +337,11 @@ namespace MissionPlanner.Controls
             }
             // Return the checksum formatted as a two-character hexadecimal
             return Checksum.ToString("X2");
+        }
+
+        private void CB_auto_connect_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_auto_connect.Checked == true && CMB_serialport.SelectedIndex > 0) doGPSConnect();
         }
     }
 

@@ -66,6 +66,8 @@ namespace MissionPlanner.Controls
             this.label15 = new System.Windows.Forms.Label();
             this.ledBulb3 = new Bulb.LedBulb();
             this.label16 = new System.Windows.Forms.Label();
+            this.CB_auto_connect = new System.Windows.Forms.CheckBox();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // txt_UserID
@@ -91,7 +93,7 @@ namespace MissionPlanner.Controls
             // 
             this.BUT_connect.Location = new System.Drawing.Point(243, 7);
             this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Size = new System.Drawing.Size(104, 20);
+            this.BUT_connect.Size = new System.Drawing.Size(115, 20);
             this.BUT_connect.TabIndex = 3;
             this.BUT_connect.Text = "Connect Base GPS";
             this.BUT_connect.UseVisualStyleBackColor = true;
@@ -423,10 +425,27 @@ namespace MissionPlanner.Controls
             this.label16.TabIndex = 39;
             this.label16.Text = "Operator Information Valid";
             // 
+            // CB_auto_connect
+            // 
+            this.CB_auto_connect.AutoSize = true;
+            this.CB_auto_connect.Location = new System.Drawing.Point(267, 29);
+            this.CB_auto_connect.Name = "CB_auto_connect";
+            this.CB_auto_connect.Size = new System.Drawing.Size(91, 17);
+            this.CB_auto_connect.TabIndex = 41;
+            this.CB_auto_connect.Text = "Auto Connect";
+            this.CB_auto_connect.UseVisualStyleBackColor = true;
+            this.CB_auto_connect.CheckedChanged += new System.EventHandler(this.CB_auto_connect_CheckedChanged);
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // OpenDroneID_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CB_auto_connect);
             this.Controls.Add(this.ledBulb3);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.ledBulb2);
@@ -507,5 +526,7 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label15;
         private Bulb.LedBulb ledBulb3;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckBox CB_auto_connect;
+        private System.Windows.Forms.Timer timer2;
     }
 }
