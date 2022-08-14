@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System.Drawing;
-
+using System.Diagnostics;
 
 namespace MissionPlanner.Controls
 {
@@ -19,6 +19,9 @@ namespace MissionPlanner.Controls
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
         static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
         private bool portsAreLoaded = false;
+        private bool gpsHasSBAS = false;
+        private Stopwatch last_odid_msg = new Stopwatch(); 
+
         public OpenDroneID_UI()
         {
             Instance = this;
@@ -96,7 +99,7 @@ namespace MissionPlanner.Controls
         public bool handleODIDArmMSg(MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status)
         {
             // TODO: Check timestamp of ODID message and indicate error
-
+            last_odid_msg.Restart();
             LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
             LBL_armed_txt.Text = ((odid_arm_status.status > 0) ? "Error: ":"Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
             return true; 
@@ -222,8 +225,9 @@ namespace MissionPlanner.Controls
         //the primary thread for Moving Base GPS read. 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-
+            if (!last_odid_msg.IsRunning)
+                LED_RemoteID_Messages.Color = (last_odid_msg.ElapsedMilliseconds > 5000) ? Color.Red : Color.Green;
+            
 
             try // Process Comport Data
             {
@@ -269,13 +273,22 @@ namespace MissionPlanner.Controls
                             gotolocation.Alt = double.Parse(items[9], CultureInfo.InvariantCulture);
 
                             gotolocation.Tag = "Sats " + items[7] + " hdop " + items[8] + (items[6]=="2" ? " - DGPS Fix":" - GPS Fix");
-
+                            gpsHasSBAS = (items[6] == "2");
                             udpate_gps_text();
                         }
 
                         // Sanity Check
                         if (gotolocation.Lat != 0.0 && gotolocation.Lng != 0.0)
+                        {
                             MainV2.comPort.MAV.cs.MovingBase = gotolocation;
+
+                            LED_gps_valid.Color = (gpsHasSBAS) ? Color.Green : Color.Yellow;
+                            
+
+                        } else
+                        {
+                            LED_gps_valid.Color = Color.Red;
+                        }
                     }
                 } else
                 {

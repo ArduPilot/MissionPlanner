@@ -60,7 +60,7 @@ namespace MissionPlanner.Controls
             this.LED_ArmedError = new Bulb.LedBulb();
             this.label13 = new System.Windows.Forms.Label();
             this.LED_RemoteID_Messages = new Bulb.LedBulb();
-            this.ledBulb1 = new Bulb.LedBulb();
+            this.LED_gps_valid = new Bulb.LedBulb();
             this.label14 = new System.Windows.Forms.Label();
             this.ledBulb2 = new Bulb.LedBulb();
             this.label15 = new System.Windows.Forms.Label();
@@ -365,15 +365,15 @@ namespace MissionPlanner.Controls
             this.LED_RemoteID_Messages.TabIndex = 34;
             this.LED_RemoteID_Messages.Text = "ledBulb1";
             // 
-            // ledBulb1
+            // LED_gps_valid
             // 
-            this.ledBulb1.Color = System.Drawing.Color.Gray;
-            this.ledBulb1.Location = new System.Drawing.Point(210, 94);
-            this.ledBulb1.Name = "ledBulb1";
-            this.ledBulb1.On = true;
-            this.ledBulb1.Size = new System.Drawing.Size(15, 12);
-            this.ledBulb1.TabIndex = 36;
-            this.ledBulb1.Text = "ledBulb1";
+            this.LED_gps_valid.Color = System.Drawing.Color.Gray;
+            this.LED_gps_valid.Location = new System.Drawing.Point(210, 94);
+            this.LED_gps_valid.Name = "LED_gps_valid";
+            this.LED_gps_valid.On = true;
+            this.LED_gps_valid.Size = new System.Drawing.Size(15, 12);
+            this.LED_gps_valid.TabIndex = 36;
+            this.LED_gps_valid.Text = "LED_gps_sbas";
             // 
             // label14
             // 
@@ -450,7 +450,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.label16);
             this.Controls.Add(this.ledBulb2);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.ledBulb1);
+            this.Controls.Add(this.LED_gps_valid);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.LED_RemoteID_Messages);
             this.Controls.Add(this.label13);
@@ -482,7 +482,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.LBL_gpsStatus);
             this.Controls.Add(this.txt_UserID);
             this.Name = "OpenDroneID_UI";
-            this.Size = new System.Drawing.Size(370, 200);
+            this.Size = new System.Drawing.Size(380, 200);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -520,7 +520,7 @@ namespace MissionPlanner.Controls
         private Bulb.LedBulb LED_ArmedError;
         private System.Windows.Forms.Label label13;
         private Bulb.LedBulb LED_RemoteID_Messages;
-        private Bulb.LedBulb ledBulb1;
+        private Bulb.LedBulb LED_gps_valid;
         private System.Windows.Forms.Label label14;
         private Bulb.LedBulb ledBulb2;
         private System.Windows.Forms.Label label15;
