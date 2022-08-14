@@ -121,26 +121,26 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="exportVisibleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="exportVisibleToolStripMenuItem.Text" xml:space="preserve">
-    <value>Export Visible</value>
-  </data>
-  <data name="exportFilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
-  </data>
-  <data name="exportFilesToolStripMenuItem.Text" xml:space="preserve">
-    <value>Export Files</value>
-  </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 70</value>
+    <value>146, 48</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="exportVisibleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 22</value>
+  </data>
+  <data name="exportVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Export Visible</value>
+  </data>
+  <data name="exportFilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 22</value>
+  </data>
+  <data name="exportFilesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Export Files</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BUT_Graphit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -247,7 +247,7 @@
     <value>0, 0</value>
   </data>
   <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1068, 494</value>
+    <value>534, 275</value>
   </data>
   <data name="zg1.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
@@ -403,7 +403,7 @@
     <value>0, 0</value>
   </data>
   <data name="myGMAP1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>530, 494</value>
+    <value>530, 275</value>
   </data>
   <data name="myGMAP1.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -433,7 +433,7 @@
     <value>1</value>
   </data>
   <data name="splitContainerZgMap.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1068, 494</value>
+    <value>1068, 275</value>
   </data>
   <data name="splitContainerZgMap.SplitterDistance" type="System.Int32, mscorlib">
     <value>534</value>
@@ -820,7 +820,7 @@
     <value>10</value>
   </data>
   <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1068, 25</value>
+    <value>1068, 228</value>
   </data>
   <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -829,7 +829,7 @@
     <value>dataGridView1</value>
   </data>
   <data name="&gt;&gt;dataGridView1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8134.28673, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.3.8253.23263, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dataGridView1.Parent" xml:space="preserve">
     <value>splitContainerButGrid.Panel2</value>
@@ -850,7 +850,7 @@
     <value>1</value>
   </data>
   <data name="splitContainerButGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1068, 37</value>
+    <value>1068, 257</value>
   </data>
   <data name="splitContainerButGrid.SplitterDistance" type="System.Int32, mscorlib">
     <value>25</value>
@@ -886,10 +886,7 @@
     <value>1068, 536</value>
   </data>
   <data name="splitContainerZgGrid.SplitterDistance" type="System.Int32, mscorlib">
-    <value>494</value>
-  </data>
-  <data name="splitContainerZgGrid.SplitterWidth" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>275</value>
   </data>
   <data name="splitContainerZgGrid.TabIndex" type="System.Int32, mscorlib">
     <value>34</value>
@@ -1141,17 +1138,17 @@
   <data name="&gt;&gt;exportVisibleToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
-    <value>toolTip1</value>
-  </data>
-  <data name="&gt;&gt;toolTip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;exportFilesToolStripMenuItem.Name" xml:space="preserve">
     <value>exportFilesToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;exportFilesToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
+    <value>toolTip1</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LogBrowse</value>

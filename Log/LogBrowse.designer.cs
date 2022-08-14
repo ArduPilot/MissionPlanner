@@ -35,6 +35,7 @@ namespace MissionPlanner.Log
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogBrowse));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportVisibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BUT_Graphit = new MissionPlanner.Controls.MyButton();
             this.BUT_cleargraph = new MissionPlanner.Controls.MyButton();
             this.BUT_loadlog = new MissionPlanner.Controls.MyButton();
@@ -63,7 +64,6 @@ namespace MissionPlanner.Log
             this.splitContainerAllTree = new System.Windows.Forms.SplitContainer();
             this.txt_info = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.exportFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerZgGrid)).BeginInit();
             this.splitContainerZgGrid.Panel1.SuspendLayout();
@@ -97,6 +97,12 @@ namespace MissionPlanner.Log
             this.exportVisibleToolStripMenuItem.Name = "exportVisibleToolStripMenuItem";
             resources.ApplyResources(this.exportVisibleToolStripMenuItem, "exportVisibleToolStripMenuItem");
             this.exportVisibleToolStripMenuItem.Click += new System.EventHandler(this.exportVisibleToolStripMenuItem_Click);
+            // 
+            // exportFilesToolStripMenuItem
+            // 
+            this.exportFilesToolStripMenuItem.Name = "exportFilesToolStripMenuItem";
+            resources.ApplyResources(this.exportFilesToolStripMenuItem, "exportFilesToolStripMenuItem");
+            this.exportFilesToolStripMenuItem.Click += new System.EventHandler(this.exportFilesToolStripMenuItem_Click);
             // 
             // BUT_Graphit
             // 
@@ -151,7 +157,6 @@ namespace MissionPlanner.Log
             this.splitContainerZgMap.Panel2.Controls.Add(this.label2);
             this.splitContainerZgMap.Panel2.Controls.Add(this.label1);
             this.splitContainerZgMap.Panel2.Controls.Add(this.myGMAP1);
-            this.splitContainerZgMap.Panel2Collapsed = true;
             this.splitContainerZgMap.Resize += new System.EventHandler(this.splitContainer2_Resize);
             // 
             // zg1
@@ -252,7 +257,6 @@ namespace MissionPlanner.Log
             // splitContainerButGrid.Panel2
             // 
             this.splitContainerButGrid.Panel2.Controls.Add(this.dataGridView1);
-            this.splitContainerButGrid.Panel2Collapsed = true;
             // 
             // chk_params
             // 
@@ -390,12 +394,6 @@ namespace MissionPlanner.Log
             // 
             resources.ApplyResources(this.txt_info, "txt_info");
             this.txt_info.Name = "txt_info";
-            // 
-            // exportFilesToolStripMenuItem
-            // 
-            this.exportFilesToolStripMenuItem.Name = "exportFilesToolStripMenuItem";
-            resources.ApplyResources(this.exportFilesToolStripMenuItem, "exportFilesToolStripMenuItem");
-            this.exportFilesToolStripMenuItem.Click += new System.EventHandler(this.exportFilesToolStripMenuItem_Click);
             // 
             // LogBrowse
             // 
