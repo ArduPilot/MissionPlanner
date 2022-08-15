@@ -29,46 +29,57 @@ namespace MissionPlanner.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
+            this.LBL_ODID_reason = new System.Windows.Forms.Label();
+            this.LED_ODID_Status = new Bulb.LedBulb();
+            this.LBL_ODID_OK = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // radioButton1
+            // LBL_ODID_reason
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(9, 7);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(101, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Drone ID Status";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.LBL_ODID_reason.AutoSize = true;
+            this.LBL_ODID_reason.Location = new System.Drawing.Point(32, 26);
+            this.LBL_ODID_reason.Name = "LBL_ODID_reason";
+            this.LBL_ODID_reason.Size = new System.Drawing.Size(65, 13);
+            this.LBL_ODID_reason.TabIndex = 1;
+            this.LBL_ODID_reason.Text = "{Loading....}";
             // 
-            // label1
+            // LED_ODID_Status
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "{xxxxxxxxxxxxxxxxx}";
+            this.LED_ODID_Status.Color = System.Drawing.Color.White;
+            this.LED_ODID_Status.Location = new System.Drawing.Point(4, 4);
+            this.LED_ODID_Status.Name = "LED_ODID_Status";
+            this.LED_ODID_Status.On = true;
+            this.LED_ODID_Status.Size = new System.Drawing.Size(20, 20);
+            this.LED_ODID_Status.TabIndex = 2;
+            this.LED_ODID_Status.Text = "ledBulb1";
+            // 
+            // LBL_ODID_OK
+            // 
+            this.LBL_ODID_OK.AutoSize = true;
+            this.LBL_ODID_OK.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_ODID_OK.Location = new System.Drawing.Point(31, 1);
+            this.LBL_ODID_OK.Name = "LBL_ODID_OK";
+            this.LBL_ODID_OK.Size = new System.Drawing.Size(87, 20);
+            this.LBL_ODID_OK.TabIndex = 3;
+            this.LBL_ODID_OK.Text = "Remote ID";
             // 
             // OpenDroneID_Map_Status
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.LBL_ODID_OK);
+            this.Controls.Add(this.LED_ODID_Status);
+            this.Controls.Add(this.LBL_ODID_reason);
             this.Name = "OpenDroneID_Map_Status";
-            this.Size = new System.Drawing.Size(150, 42);
+            this.Size = new System.Drawing.Size(174, 42);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LBL_ODID_reason;
+        private Bulb.LedBulb LED_ODID_Status;
+        private System.Windows.Forms.Label LBL_ODID_OK;
     }
 }

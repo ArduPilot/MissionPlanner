@@ -685,13 +685,13 @@ namespace MissionPlanner.GCSViews
         private bool handleODIDArmMSg(MAVLink.MAVLinkMessage arg)
         {
             odid_arm_status = arg.ToStructure<MAVLink.mavlink_open_drone_id_arm_status_t>();
-            if (openDroneID_UI1.Visible != true)
+            if (myODID_Status.Visible != true)
             {
                 Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + MainV2.comPort.MAV.sysid);
-                if (openDroneID_Map_Status1.InvokeRequired)
-                    openDroneID_Map_Status1.Invoke(new MethodInvoker(delegate { openDroneID_Map_Status1.Visible = true; }));
+                if (myODID_Status.InvokeRequired)
+                    myODID_Status.Invoke(new MethodInvoker(delegate { myODID_Status.Visible = true; }));
                 else
-                    openDroneID_Map_Status1.Visible = true; openDroneID_Map_Status1.Visible = true;
+                    myODID_Status.Visible = true; myODID_Status.Visible = true;
                 myDID.Start(MainV2.comPort, MainV2.comPort.MAV.sysid, 0);
             }
             if (tabControlactions.TabPages.Contains(tabDroneID) == false)

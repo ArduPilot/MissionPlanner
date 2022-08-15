@@ -17,17 +17,17 @@ namespace MissionPlanner.Controls
         static ICommsSerial comPort = null;
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
-        static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
+        //static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
+        private bool hasODID = false;
         private bool portsAreLoaded = false;
         private bool gpsHasSBAS = false;
         private double wgs84_alt;
-        private string dgps_info;
         private Stopwatch last_odid_msg = new Stopwatch();
         private Stopwatch last_gps_msg = new Stopwatch();
 
-        private bool _odid_arm_msg, _operator_id, _gcs_gps, _odid_arm_status; 
+        private bool _odid_arm_msg, _uas_id, _gcs_gps, _odid_arm_status; 
 
-        static private int ODID_ARM_MESSAGE_TIMEOUT;
+        private const int ODID_ARM_MESSAGE_TIMEOUT = 5000;
 
         public OpenDroneID_UI()
         {
@@ -42,8 +42,10 @@ namespace MissionPlanner.Controls
             {
                 Console.WriteLine("Couldn't Init Open DID Form.");
             }
-            Console.WriteLine("[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
+            //Console.WriteLine("[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
             //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            
+
 
             timer2.Start();
         }
@@ -106,10 +108,15 @@ namespace MissionPlanner.Controls
         public bool handleODIDArmMSg(MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status)
         {
             // TODO: Check timestamp of ODID message and indicate error
-            last_odid_msg.Restart();
+            if (hasODID == true)
+                last_odid_msg.Restart();
+            else
+                last_odid_msg.Start();
+
             LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
             LBL_armed_invalid.Text = ((odid_arm_status.status > 0) ? "Error: ":"Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
-            _odid_arm_msg = true;
+            hasODID = true;
+
             return true; 
         }
 
@@ -239,14 +246,59 @@ namespace MissionPlanner.Controls
         {
 
             // Check GPS
-            checkNMEAGPS();
+            readNMEAGPS();
 
-            checkPart89Requirements();
-            
+            checkGCSGPS();
 
+            checkODIDMsgs();
+
+            checkODID_OK();
+
+            checkUID();
         }
 
-        private void checkPart89Requirements()
+        private void checkODIDMsgs()
+        {
+            if (hasODID == false) return;
+
+            // Check Requirements
+            _odid_arm_msg = (last_odid_msg.ElapsedMilliseconds < 5000);
+           LED_RemoteID_Messages.Color = (_odid_arm_msg==false) ? Color.Red : Color.Green;
+        }
+
+        private void checkODID_OK()
+        {
+            
+            if (_gcs_gps == false)
+            {
+                
+                myODID_Status.setStatusAlert("GCS GPS Invalid");
+                MainV2.instance.FlightData.myODID_Status.setStatusAlert("GCS GPS Invalid");
+            } else if (_odid_arm_msg == false)
+            {
+                myODID_Status.setStatusAlert("Remote ID Msg Timeout");
+                MainV2.instance.FlightData.myODID_Status.setStatusAlert("Remote ID Msg Timeout");
+            } else if (_odid_arm_status == false)
+            {
+                myODID_Status.setStatusAlert("Remote ID ARM Error");
+                MainV2.instance.FlightData.myODID_Status.setStatusAlert("Remote ID ARM Error");
+            } else
+            {
+                myODID_Status.setStatusOK();
+                MainV2.instance.FlightData.myODID_Status.setStatusOK();
+            }
+            
+        }
+
+        private void checkUID()
+        {
+
+            _uas_id = !String.IsNullOrEmpty(TXT_UAS_ID.Text);
+            LED_UAS_ID.Color = _uas_id ? Color.Green : Color.Red;
+            
+        }
+
+        private void checkGCSGPS()
         {
             // Check GCS GPS
             if (last_gps_msg.ElapsedMilliseconds > 5000)
@@ -273,16 +325,12 @@ namespace MissionPlanner.Controls
                 _gcs_gps = true;
             }
 
-            // Check Requirements
-            _odid_arm_msg = (last_odid_msg.ElapsedMilliseconds > ODID_ARM_MESSAGE_TIMEOUT) ? false : _odid_arm_msg;
-
-            if (last_odid_msg.IsRunning == true)
-                LED_RemoteID_Messages.Color = (_odid_arm_msg) ? Color.Red : Color.Green;
+           
         }
 
 
 
-        private void checkNMEAGPS()
+        private void readNMEAGPS()
         {
             try // Process Comport Data
             {
@@ -366,6 +414,11 @@ namespace MissionPlanner.Controls
             }
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["ODID_UAS_ID"] = TXT_UAS_ID.Text; 
+        }
+
         private void udpate_gps_text()
         {
             if (!Instance.IsDisposed)
@@ -375,7 +428,7 @@ namespace MissionPlanner.Controls
                         delegate
                         {
                             Instance.LBL_gpsStatus.Text = String.Format("{0:0.00000}",gotolocation.Lat) + " " + String.Format("{0:0.00000}", gotolocation.Lng) + " " +
-                                                         String.Format("{0:0.002} m", gotolocation.Lat) + Environment.NewLine + gotolocation.Tag;
+                                                         String.Format("{0:0.002} m", gotolocation.Alt) + Environment.NewLine + gotolocation.Tag;
                         }
                     );
             }

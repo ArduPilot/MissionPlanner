@@ -193,7 +193,7 @@ namespace MissionPlanner.GCSViews
             this.setHomeHereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.takeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onOffCameraOverlapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDroneID_Map_Status1 = new MissionPlanner.Controls.OpenDroneID_Map_Status();
+            this.myODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
             this.but_disablejoystick = new MissionPlanner.Controls.MyButton();
             this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             this.windDir1 = new MissionPlanner.Controls.WindDir();
@@ -2291,7 +2291,7 @@ namespace MissionPlanner.GCSViews
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
-            this.splitContainer1.Panel2.Controls.Add(this.openDroneID_Map_Status1);
+            this.splitContainer1.Panel2.Controls.Add(this.myODID_Status);
             this.splitContainer1.Panel2.Controls.Add(this.but_disablejoystick);
             this.splitContainer1.Panel2.Controls.Add(this.distanceBar1);
             this.splitContainer1.Panel2.Controls.Add(this.windDir1);
@@ -2444,10 +2444,10 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.onOffCameraOverlapToolStripMenuItem, "onOffCameraOverlapToolStripMenuItem");
             this.onOffCameraOverlapToolStripMenuItem.Click += new System.EventHandler(this.onOffCameraOverlapToolStripMenuItem_Click);
             // 
-            // openDroneID_Map_Status1
+            // myODID_Status
             // 
-            resources.ApplyResources(this.openDroneID_Map_Status1, "openDroneID_Map_Status1");
-            this.openDroneID_Map_Status1.Name = "openDroneID_Map_Status1";
+            resources.ApplyResources(this.myODID_Status, "myODID_Status");
+            this.myODID_Status.Name = "myODID_Status";
             // 
             // but_disablejoystick
             // 
@@ -2472,7 +2472,7 @@ namespace MissionPlanner.GCSViews
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2962,6 +2962,6 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton BUT_SendMSG;
         private TabPage tabDroneID;
         private Controls.OpenDroneID_UI openDroneID_UI1;
-        private Controls.OpenDroneID_Map_Status openDroneID_Map_Status1;
+        public Controls.OpenDroneID_Map_Status myODID_Status;
     }
 }
