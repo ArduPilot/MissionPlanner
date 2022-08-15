@@ -7,6 +7,7 @@ using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System.Drawing;
 using System.Diagnostics;
+using MissionPlanner.ArduPilot;
 
 namespace MissionPlanner.Controls
 {
@@ -28,6 +29,7 @@ namespace MissionPlanner.Controls
         private bool _odid_arm_msg, _uas_id, _gcs_gps, _odid_arm_status; 
 
         private const int ODID_ARM_MESSAGE_TIMEOUT = 5000;
+        public OpenDroneID myDID = new OpenDroneID();
 
         public OpenDroneID_UI()
         {
@@ -105,14 +107,16 @@ namespace MissionPlanner.Controls
         }
 
 
-        public bool handleODIDArmMSg(MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status)
+        public bool handleODIDArmMSg(MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status, byte odid_sys_id, byte odid_comp_id)
         {
             // TODO: Check timestamp of ODID message and indicate error
             if (hasODID == true)
                 last_odid_msg.Restart();
             else
+            {
                 last_odid_msg.Start();
-
+                myDID.Start(MainV2.comPort, odid_sys_id, odid_comp_id);
+            }
             LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
             LBL_armed_invalid.Text = ((odid_arm_status.status > 0) ? "Error: ":"Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
             hasODID = true;
@@ -396,7 +400,10 @@ namespace MissionPlanner.Controls
                         {
                             MainV2.comPort.MAV.cs.MovingBase = gotolocation;
 
-                            
+                            myDID.operator_latitude = gotolocation.Lat;
+                            myDID.operator_longitude = gotolocation.Lng;
+                            myDID.operator_altitude_geo = (float) wgs84_alt;
+                            myDID.operator_location_type = MAVLink.MAV_ODID_OPERATOR_LOCATION_TYPE.LIVE_GNSS;
 
 
                         }

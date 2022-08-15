@@ -32,7 +32,7 @@ using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 using TableLayoutPanelCellPosition = System.Windows.Forms.TableLayoutPanelCellPosition;
 using UnauthorizedAccessException = System.UnauthorizedAccessException;
-using MissionPlanner.ArduPilot; 
+
 
 // written by michael oborne
 
@@ -52,7 +52,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay tfrpolygons;
         internal GMapMarker CurrentGMapMarker;
-        public static OpenDroneID myDID = new OpenDroneID();
+        
         static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
 
         internal PointLatLng MouseDownStart;
@@ -492,6 +492,9 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.comPort != null)
                 {
                     MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
+                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_2);
+                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_3);
+
                 }
             }
             catch
@@ -692,7 +695,7 @@ namespace MissionPlanner.GCSViews
                     myODID_Status.Invoke(new MethodInvoker(delegate { myODID_Status.Visible = true; }));
                 else
                     myODID_Status.Visible = true; myODID_Status.Visible = true;
-                myDID.Start(MainV2.comPort, MainV2.comPort.MAV.sysid, 0);
+                
             }
             if (tabControlactions.TabPages.Contains(tabDroneID) == false)
             {
@@ -700,7 +703,7 @@ namespace MissionPlanner.GCSViews
             }
 
             // Send data to ODID process 
-            instance.openDroneID_UI1.handleODIDArmMSg(odid_arm_status);
+            instance.openDroneID_UI1.handleODIDArmMSg(odid_arm_status, arg.sysid, arg.compid);
             return true;
         }
 
