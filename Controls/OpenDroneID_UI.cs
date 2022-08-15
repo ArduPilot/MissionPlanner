@@ -20,7 +20,14 @@ namespace MissionPlanner.Controls
         static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
         private bool portsAreLoaded = false;
         private bool gpsHasSBAS = false;
-        private Stopwatch last_odid_msg = new Stopwatch(); 
+        private double wgs84_alt;
+        private string dgps_info;
+        private Stopwatch last_odid_msg = new Stopwatch();
+        private Stopwatch last_gps_msg = new Stopwatch();
+
+        private bool _odid_arm_msg, _operator_id, _gcs_gps, _odid_arm_status; 
+
+        static private int ODID_ARM_MESSAGE_TIMEOUT;
 
         public OpenDroneID_UI()
         {
@@ -101,7 +108,8 @@ namespace MissionPlanner.Controls
             // TODO: Check timestamp of ODID message and indicate error
             last_odid_msg.Restart();
             LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
-            LBL_armed_txt.Text = ((odid_arm_status.status > 0) ? "Error: ":"Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
+            LBL_armed_invalid.Text = ((odid_arm_status.status > 0) ? "Error: ":"Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
+            _odid_arm_msg = true;
             return true; 
         }
 
@@ -179,7 +187,7 @@ namespace MissionPlanner.Controls
                 Settings.Instance["moving_gps_auto"] = CB_auto_connect.Checked.ToString(); 
 
                 timer1.Start();
-
+                last_gps_msg.Start();
                 BUT_connect.Text = Strings.Stop;
             }
         }
@@ -221,19 +229,66 @@ namespace MissionPlanner.Controls
                 Console.WriteLine("[MOVING GPS] Auto Connect Failed");
             }
         }
+
+
+
+
         //TO-DO - we may want to move this to a more centralized spot, or make this 
         //the primary thread for Moving Base GPS read. 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (!last_odid_msg.IsRunning)
-                LED_RemoteID_Messages.Color = (last_odid_msg.ElapsedMilliseconds > 5000) ? Color.Red : Color.Green;
+
+            // Check GPS
+            checkNMEAGPS();
+
+            checkPart89Requirements();
             
 
+        }
+
+        private void checkPart89Requirements()
+        {
+            // Check GCS GPS
+            if (last_gps_msg.ElapsedMilliseconds > 5000)
+            {
+                LBL_GCS_GPS_Invalid.Text = "GCS Data Timeout.";
+                _gcs_gps = false;
+            }
+            else if (gotolocation.Lat == 0.0 || gotolocation.Lng == 0.0)
+            {
+                LBL_GCS_GPS_Invalid.Text = "GCS GPS Lock Invalid.";
+                LED_gps_valid.Color = Color.Orange;
+                _gcs_gps = false;
+            }
+            else if (gpsHasSBAS == false)
+            {
+                LED_gps_valid.Color = Color.Yellow;
+                LBL_GCS_GPS_Invalid.Text = "GCS No DGPS Corr.";
+                _gcs_gps = false;
+            }
+            else
+            {
+                LED_gps_valid.Color = Color.Green;
+                LBL_GCS_GPS_Invalid.Text = "";
+                _gcs_gps = true;
+            }
+
+            // Check Requirements
+            _odid_arm_msg = (last_odid_msg.ElapsedMilliseconds > ODID_ARM_MESSAGE_TIMEOUT) ? false : _odid_arm_msg;
+
+            if (last_odid_msg.IsRunning == true)
+                LED_RemoteID_Messages.Color = (_odid_arm_msg) ? Color.Red : Color.Green;
+        }
+
+
+
+        private void checkNMEAGPS()
+        {
             try // Process Comport Data
             {
                 if (comPort != null && comPort.IsOpen)
                 {
-                    
+
                     while (comPort.BytesToRead > 0)
                     {
                         string line = comPort.ReadLine();
@@ -272,8 +327,19 @@ namespace MissionPlanner.Controls
 
                             gotolocation.Alt = double.Parse(items[9], CultureInfo.InvariantCulture);
 
-                            gotolocation.Tag = "Sats " + items[7] + " hdop " + items[8] + (items[6]=="2" ? " - DGPS Fix":" - GPS Fix");
+                            if (!String.IsNullOrEmpty(items[11]))
+                            {
+                                wgs84_alt = gotolocation.Alt + double.Parse(items[11], CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                wgs84_alt = -1.0;
+                            }
+
+                            gotolocation.Tag = "WGS84: " + String.Format("{0:0.0}m", wgs84_alt) + " Sats " + items[7].PadLeft(2) + " hdop " + items[8].PadLeft(4) + (items[6] == "2" ? " - DGPS Fix" : " - GPS Fix");
                             gpsHasSBAS = (items[6] == "2");
+
+                            last_gps_msg.Restart();
                             udpate_gps_text();
                         }
 
@@ -282,15 +348,14 @@ namespace MissionPlanner.Controls
                         {
                             MainV2.comPort.MAV.cs.MovingBase = gotolocation;
 
-                            LED_gps_valid.Color = (gpsHasSBAS) ? Color.Green : Color.Yellow;
                             
 
-                        } else
-                        {
-                            LED_gps_valid.Color = Color.Red;
+
                         }
+
                     }
-                } else
+                }
+                else
                 {
                     BUT_connect.Text = Strings.Connect;
                 }
@@ -299,7 +364,6 @@ namespace MissionPlanner.Controls
             {
                 Console.WriteLine("Error Processing NMEA Data for Moving Base.");
             }
-            
         }
 
         private void udpate_gps_text()
@@ -310,8 +374,8 @@ namespace MissionPlanner.Controls
                     (MethodInvoker)
                         delegate
                         {
-                            Instance.LBL_gpsStatus.Text = Math.Round(gotolocation.Lat, 6) + " " + Math.Round(gotolocation.Lng, 6) + " " +
-                                                         Math.Round(gotolocation.Alt, 2) + gotolocation.Tag;
+                            Instance.LBL_gpsStatus.Text = String.Format("{0:0.00000}",gotolocation.Lat) + " " + String.Format("{0:0.00000}", gotolocation.Lng) + " " +
+                                                         String.Format("{0:0.002} m", gotolocation.Lat) + Environment.NewLine + gotolocation.Tag;
                         }
                     );
             }
