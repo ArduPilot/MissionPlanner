@@ -42,8 +42,6 @@ namespace MissionPlanner.Controls
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -68,6 +66,12 @@ namespace MissionPlanner.Controls
             this.label16 = new System.Windows.Forms.Label();
             this.CB_auto_connect = new System.Windows.Forms.CheckBox();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txt_UserID
@@ -174,35 +178,19 @@ namespace MissionPlanner.Controls
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(11, 117);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 12);
+            this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 10;
-            this.label3.Text = "UAS Type";
+            this.label3.Text = "UAS ID Type";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(121, 120);
+            this.label4.Location = new System.Drawing.Point(12, 143);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
             this.label4.TabIndex = 11;
             this.label4.Text = "UA Type";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(78, 117);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(23, 18);
-            this.textBox2.TabIndex = 12;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(168, 117);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(23, 18);
-            this.textBox3.TabIndex = 13;
             // 
             // label5
             // 
@@ -228,7 +216,7 @@ namespace MissionPlanner.Controls
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(227, 143);
+            this.label7.Location = new System.Drawing.Point(227, 156);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(106, 12);
             this.label7.TabIndex = 18;
@@ -238,7 +226,7 @@ namespace MissionPlanner.Controls
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(12, 138);
+            this.label8.Location = new System.Drawing.Point(9, 223);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(24, 12);
             this.label8.TabIndex = 19;
@@ -249,7 +237,7 @@ namespace MissionPlanner.Controls
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
             this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.Location = new System.Drawing.Point(42, 136);
+            this.radioButton1.Location = new System.Drawing.Point(39, 221);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(85, 16);
             this.radioButton1.TabIndex = 20;
@@ -261,7 +249,7 @@ namespace MissionPlanner.Controls
             // 
             this.radioButton2.AutoSize = true;
             this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2.Location = new System.Drawing.Point(133, 136);
+            this.radioButton2.Location = new System.Drawing.Point(130, 221);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(67, 16);
             this.radioButton2.TabIndex = 21;
@@ -272,7 +260,7 @@ namespace MissionPlanner.Controls
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(12, 155);
+            this.label9.Location = new System.Drawing.Point(9, 240);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(57, 12);
             this.label9.TabIndex = 22;
@@ -281,7 +269,7 @@ namespace MissionPlanner.Controls
             // textBox4
             // 
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(78, 155);
+            this.textBox4.Location = new System.Drawing.Point(75, 240);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(37, 18);
             this.textBox4.TabIndex = 23;
@@ -289,7 +277,7 @@ namespace MissionPlanner.Controls
             // textBox5
             // 
             this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(128, 155);
+            this.textBox5.Location = new System.Drawing.Point(125, 240);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(37, 18);
             this.textBox5.TabIndex = 24;
@@ -298,7 +286,7 @@ namespace MissionPlanner.Controls
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(115, 157);
+            this.label10.Location = new System.Drawing.Point(112, 242);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(12, 13);
             this.label10.TabIndex = 25;
@@ -308,7 +296,7 @@ namespace MissionPlanner.Controls
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(168, 158);
+            this.label11.Location = new System.Drawing.Point(165, 243);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(34, 12);
             this.label11.TabIndex = 26;
@@ -318,7 +306,7 @@ namespace MissionPlanner.Controls
             // 
             this.LBL_armed_txt.AutoSize = true;
             this.LBL_armed_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LBL_armed_txt.Location = new System.Drawing.Point(229, 170);
+            this.LBL_armed_txt.Location = new System.Drawing.Point(229, 188);
             this.LBL_armed_txt.Name = "LBL_armed_txt";
             this.LBL_armed_txt.Size = new System.Drawing.Size(133, 12);
             this.LBL_armed_txt.TabIndex = 29;
@@ -329,7 +317,7 @@ namespace MissionPlanner.Controls
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(229, 156);
+            this.label12.Location = new System.Drawing.Point(230, 174);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(91, 12);
             this.label12.TabIndex = 31;
@@ -338,10 +326,10 @@ namespace MissionPlanner.Controls
             // LED_ArmedError
             // 
             this.LED_ArmedError.Color = System.Drawing.Color.Gray;
-            this.LED_ArmedError.Location = new System.Drawing.Point(210, 156);
+            this.LED_ArmedError.Location = new System.Drawing.Point(210, 174);
             this.LED_ArmedError.Name = "LED_ArmedError";
             this.LED_ArmedError.On = true;
-            this.LED_ArmedError.Size = new System.Drawing.Size(15, 12);
+            this.LED_ArmedError.Size = new System.Drawing.Size(18, 18);
             this.LED_ArmedError.TabIndex = 32;
             this.LED_ArmedError.Text = "ledBulb1";
             // 
@@ -361,17 +349,17 @@ namespace MissionPlanner.Controls
             this.LED_RemoteID_Messages.Location = new System.Drawing.Point(210, 76);
             this.LED_RemoteID_Messages.Name = "LED_RemoteID_Messages";
             this.LED_RemoteID_Messages.On = true;
-            this.LED_RemoteID_Messages.Size = new System.Drawing.Size(15, 12);
+            this.LED_RemoteID_Messages.Size = new System.Drawing.Size(18, 18);
             this.LED_RemoteID_Messages.TabIndex = 34;
             this.LED_RemoteID_Messages.Text = "ledBulb1";
             // 
             // LED_gps_valid
             // 
             this.LED_gps_valid.Color = System.Drawing.Color.Gray;
-            this.LED_gps_valid.Location = new System.Drawing.Point(210, 94);
+            this.LED_gps_valid.Location = new System.Drawing.Point(210, 99);
             this.LED_gps_valid.Name = "LED_gps_valid";
             this.LED_gps_valid.On = true;
-            this.LED_gps_valid.Size = new System.Drawing.Size(15, 12);
+            this.LED_gps_valid.Size = new System.Drawing.Size(18, 19);
             this.LED_gps_valid.TabIndex = 36;
             this.LED_gps_valid.Text = "LED_gps_sbas";
             // 
@@ -379,7 +367,7 @@ namespace MissionPlanner.Controls
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(227, 93);
+            this.label14.Location = new System.Drawing.Point(227, 98);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(99, 12);
             this.label14.TabIndex = 35;
@@ -388,10 +376,10 @@ namespace MissionPlanner.Controls
             // ledBulb2
             // 
             this.ledBulb2.Color = System.Drawing.Color.Gray;
-            this.ledBulb2.Location = new System.Drawing.Point(210, 132);
+            this.ledBulb2.Location = new System.Drawing.Point(210, 145);
             this.ledBulb2.Name = "ledBulb2";
             this.ledBulb2.On = true;
-            this.ledBulb2.Size = new System.Drawing.Size(15, 12);
+            this.ledBulb2.Size = new System.Drawing.Size(18, 18);
             this.ledBulb2.TabIndex = 38;
             this.ledBulb2.Text = "ledBulb2";
             // 
@@ -399,7 +387,7 @@ namespace MissionPlanner.Controls
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(227, 131);
+            this.label15.Location = new System.Drawing.Point(227, 144);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(101, 12);
             this.label15.TabIndex = 37;
@@ -408,10 +396,10 @@ namespace MissionPlanner.Controls
             // ledBulb3
             // 
             this.ledBulb3.Color = System.Drawing.Color.Gray;
-            this.ledBulb3.Location = new System.Drawing.Point(210, 112);
+            this.ledBulb3.Location = new System.Drawing.Point(210, 122);
             this.ledBulb3.Name = "ledBulb3";
             this.ledBulb3.On = true;
-            this.ledBulb3.Size = new System.Drawing.Size(15, 12);
+            this.ledBulb3.Size = new System.Drawing.Size(18, 18);
             this.ledBulb3.TabIndex = 40;
             this.ledBulb3.Text = "ledBulb3";
             // 
@@ -419,7 +407,7 @@ namespace MissionPlanner.Controls
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(227, 111);
+            this.label16.Location = new System.Drawing.Point(227, 121);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(113, 12);
             this.label16.TabIndex = 39;
@@ -441,10 +429,68 @@ namespace MissionPlanner.Controls
             this.timer2.Interval = 1000;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(78, 117);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(115, 21);
+            this.comboBox1.TabIndex = 42;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(78, 143);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(115, 21);
+            this.comboBox2.TabIndex = 43;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(12, 170);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(50, 12);
+            this.label17.TabIndex = 44;
+            this.label17.Text = "Flight Type";
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(78, 170);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(115, 21);
+            this.comboBox3.TabIndex = 45;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(11, 197);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(52, 12);
+            this.label18.TabIndex = 47;
+            this.label18.Text = "Flight Desc";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(78, 197);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(119, 18);
+            this.textBox2.TabIndex = 46;
+            // 
             // OpenDroneID_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.CB_auto_connect);
             this.Controls.Add(this.ledBulb3);
             this.Controls.Add(this.label16);
@@ -468,8 +514,6 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -482,7 +526,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.LBL_gpsStatus);
             this.Controls.Add(this.txt_UserID);
             this.Name = "OpenDroneID_UI";
-            this.Size = new System.Drawing.Size(380, 200);
+            this.Size = new System.Drawing.Size(380, 280);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -502,8 +546,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
@@ -528,5 +570,11 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox CB_auto_connect;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
