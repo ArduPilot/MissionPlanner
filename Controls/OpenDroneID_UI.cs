@@ -44,13 +44,52 @@ namespace MissionPlanner.Controls
             {
                 Console.WriteLine("Couldn't Init Open DID Form.");
             }
-            //Console.WriteLine("[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
-            //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-            
+            Console.WriteLine("[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
+            //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
+
 
 
             timer2.Start();
         }
+
+        private bool handleODIDArmMSg2(MAVLink.MAVLinkMessage arg)
+        {
+            MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
+            odid_arm_status = arg.ToStructure<MAVLink.mavlink_open_drone_id_arm_status_t>();
+
+            // TODO: Check timestamp of ODID message and indicate error
+            if (hasODID == true)
+                last_odid_msg.Restart();
+            else
+            {
+                Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + MainV2.comPort.MAV.sysid);
+                last_odid_msg.Start();
+                myDID.Start(MainV2.comPort, arg.sysid, arg.compid);
+            }
+            LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
+            LBL_armed_invalid.Text = ((odid_arm_status.status > 0) ? "Error: " : "Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
+            hasODID = true;
+
+            return true; ;
+        }
+
+/*        public bool handleODIDArmMSg(MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status, byte odid_sys_id, byte odid_comp_id)
+        {
+            // TODO: Check timestamp of ODID message and indicate error
+            if (hasODID == true)
+                last_odid_msg.Restart();
+            else
+            {
+                last_odid_msg.Start();
+                myDID.Start(MainV2.comPort, odid_sys_id, odid_comp_id);
+            }
+            LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
+            LBL_armed_invalid.Text = ((odid_arm_status.status > 0) ? "Error: " : "Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
+            hasODID = true;
+
+            return true;
+        }*/
 
         private void init_com_port_list()
         {
@@ -107,22 +146,7 @@ namespace MissionPlanner.Controls
         }
 
 
-        public bool handleODIDArmMSg(MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status, byte odid_sys_id, byte odid_comp_id)
-        {
-            // TODO: Check timestamp of ODID message and indicate error
-            if (hasODID == true)
-                last_odid_msg.Restart();
-            else
-            {
-                last_odid_msg.Start();
-                myDID.Start(MainV2.comPort, odid_sys_id, odid_comp_id);
-            }
-            LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
-            LBL_armed_invalid.Text = ((odid_arm_status.status > 0) ? "Error: ":"Ready ") + System.Text.Encoding.UTF8.GetString(odid_arm_status.error);
-            hasODID = true;
 
-            return true; 
-        }
 
         private void doGPSConnect()
         {
