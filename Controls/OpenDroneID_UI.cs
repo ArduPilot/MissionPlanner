@@ -301,19 +301,19 @@ namespace MissionPlanner.Controls
             {
                 
                 myODID_Status.setStatusAlert("GCS GPS Invalid");
-                MainV2.instance.FlightData.myODID_Status.setStatusAlert("GCS GPS Invalid");
+                
             } else if (_odid_arm_msg == false)
             {
                 myODID_Status.setStatusAlert("Remote ID Msg Timeout");
-                MainV2.instance.FlightData.myODID_Status.setStatusAlert("Remote ID Msg Timeout");
+                
             } else if (_odid_arm_status == false)
             {
                 myODID_Status.setStatusAlert("Remote ID ARM Error");
-                MainV2.instance.FlightData.myODID_Status.setStatusAlert("Remote ID ARM Error");
+                
             } else
             {
                 myODID_Status.setStatusOK();
-                MainV2.instance.FlightData.myODID_Status.setStatusOK();
+                
             }
             
         }
