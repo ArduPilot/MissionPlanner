@@ -487,20 +487,7 @@ namespace MissionPlanner.GCSViews
                 {
                 }
             }
-            try
-            {
-                if (MainV2.comPort != null)
-                {
-                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
-                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_2);
-                    MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_3);
 
-                }
-            }
-            catch
-            {
-                // Couldn't subscribe to ODID
-            }
 
             hud1.doResize();
         }
@@ -681,32 +668,6 @@ namespace MissionPlanner.GCSViews
 
             ThemeManager.ApplyThemeTo(tabControlactions);
         }
-
-
-
-        // subscription based ODID check for this MAV
-        private bool handleODIDArmMSg(MAVLink.MAVLinkMessage arg)
-        {
-            odid_arm_status = arg.ToStructure<MAVLink.mavlink_open_drone_id_arm_status_t>();
-            if (myODID_Status.Visible != true)
-            {
-                Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + MainV2.comPort.MAV.sysid);
-                if (myODID_Status.InvokeRequired)
-                    myODID_Status.Invoke(new MethodInvoker(delegate { myODID_Status.Visible = true; }));
-                else
-                    myODID_Status.Visible = true; myODID_Status.Visible = true;
-                
-            }
-            if (tabControlactions.TabPages.Contains(tabDroneID) == false)
-            {
-                instance.tabControlactions.TabPages.Add(tabDroneID);
-            }
-
-            // Send data to ODID process 
-            instance.openDroneID_UI1.handleODIDArmMSg(odid_arm_status, arg.sysid, arg.compid);
-            return true;
-        }
-
 
 
         //Updates the visibility of the payload control tab based on whether the payload target is available or not
