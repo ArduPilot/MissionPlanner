@@ -1462,6 +1462,9 @@ main()
             if (isexpression)
                 unit = "";
 
+            if (unit == null)
+                unit = "";
+
             if (unit != "")
                 header += " (" + unit + ")";
 
