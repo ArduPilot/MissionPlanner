@@ -38,6 +38,21 @@ namespace MissionPlanner.Controls
 
             InitializeComponent();
 
+            CMB_op_id_type.DisplayMember = "Value";
+            CMB_op_id_type.ValueMember = "Key";
+            CMB_op_id_type.DataSource = System.Enum.GetValues(typeof(MAVLink.MAV_ODID_OPERATOR_ID_TYPE));
+
+            CMB_uas_id_type.DisplayMember = "Value";
+            CMB_uas_id_type.ValueMember = "Key";
+            CMB_uas_id_type.DataSource = System.Enum.GetValues(typeof(MAVLink.MAV_ODID_ID_TYPE));
+
+            CMB_uas_type.DisplayMember = "Value";
+            CMB_uas_type.ValueMember = "Key";
+            CMB_uas_type.DataSource = System.Enum.GetValues(typeof(MAVLink.MAV_ODID_UA_TYPE));
+
+            CMB_self_id_type.DisplayMember = "Value";
+            CMB_self_id_type.ValueMember = "Key";
+            CMB_self_id_type.DataSource = System.Enum.GetValues(typeof(MAVLink.MAV_ODID_DESC_TYPE));
 
             timer1.Start();
             timer2.Start();
@@ -132,9 +147,9 @@ namespace MissionPlanner.Controls
 
             // Check Requirements
             _odid_arm_msg = (last_odid_msg.ElapsedMilliseconds < 5000);
-            LED_RemoteID_Messages.Color = (_odid_arm_msg==false) ? Color.White : Color.Green;
+            LED_RemoteID_Messages.Color = (_odid_arm_msg==false) ? Color.Red : Color.Green;
 
-            LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.White : Color.Green);
+            LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
 
             TXT_RID_Status_Msg.Text = ((odid_arm_status.status == 0) ? "Ready" : System.Text.Encoding.UTF8.GetString(odid_arm_status.error));
                         
@@ -168,7 +183,15 @@ namespace MissionPlanner.Controls
         {
 
             _uas_id = !String.IsNullOrEmpty(TXT_UAS_ID.Text);
-            LED_UAS_ID.Color = _uas_id ? Color.Green : Color.White;
+            LED_UAS_ID.Color = _uas_id ? Color.Green : Color.Red;
+
+            // Note - this needs to be updated later to accomondate a Standard Remote ID Configuratoin
+            if (_uas_id)
+            {
+                myDID.UAS_ID = TXT_UAS_ID.Text;
+            }
+
+            // TODO - UAS Type and ID Type
             
         }
 

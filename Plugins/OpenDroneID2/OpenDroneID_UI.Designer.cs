@@ -30,9 +30,9 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle4 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle5 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle6 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle7 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle8 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle9 = new BrightIdeasSoftware.HeaderStateStyle();
             this.txt_UserID = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -48,12 +48,12 @@ namespace MissionPlanner.Controls
             this.label14 = new System.Windows.Forms.Label();
             this.LED_UAS_ID = new Bulb.LedBulb();
             this.label16 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.CMB_uas_id_type = new System.Windows.Forms.ComboBox();
+            this.CMB_uas_type = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.CMB_self_id_type = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.TXT_self_id_TXT = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.headerFormatStyle1 = new BrightIdeasSoftware.HeaderFormatStyle();
             this.ODOD_tabs = new System.Windows.Forms.TabControl();
@@ -66,6 +66,9 @@ namespace MissionPlanner.Controls
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.nmea_GPS_1 = new MissionPlanner.NMEA_GPS_Connection();
             this.myODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CMB_op_id_type = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.ODOD_tabs.SuspendLayout();
             this.tabStatus.SuspendLayout();
@@ -75,10 +78,11 @@ namespace MissionPlanner.Controls
             // 
             // txt_UserID
             // 
-            this.txt_UserID.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_UserID.Location = new System.Drawing.Point(73, 3);
+            this.txt_UserID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_UserID.Location = new System.Drawing.Point(100, 9);
+            this.txt_UserID.MaxLength = 20;
             this.txt_UserID.Name = "txt_UserID";
-            this.txt_UserID.Size = new System.Drawing.Size(116, 18);
+            this.txt_UserID.Size = new System.Drawing.Size(195, 20);
             this.txt_UserID.TabIndex = 0;
             // 
             // timer1
@@ -89,10 +93,10 @@ namespace MissionPlanner.Controls
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(6, 3);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(6, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 7;
             this.label1.Text = "Operator ID";
             // 
@@ -110,6 +114,7 @@ namespace MissionPlanner.Controls
             // 
             this.TXT_UAS_ID.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TXT_UAS_ID.Location = new System.Drawing.Point(109, 17);
+            this.TXT_UAS_ID.MaxLength = 20;
             this.TXT_UAS_ID.Name = "TXT_UAS_ID";
             this.TXT_UAS_ID.Size = new System.Drawing.Size(205, 20);
             this.TXT_UAS_ID.TabIndex = 8;
@@ -215,59 +220,61 @@ namespace MissionPlanner.Controls
             this.label16.TabIndex = 39;
             this.label16.Text = "UAS ID";
             // 
-            // comboBox1
+            // CMB_uas_id_type
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(109, 45);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(205, 21);
-            this.comboBox1.TabIndex = 42;
+            this.CMB_uas_id_type.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CMB_uas_id_type.FormattingEnabled = true;
+            this.CMB_uas_id_type.Location = new System.Drawing.Point(109, 45);
+            this.CMB_uas_id_type.Name = "CMB_uas_id_type";
+            this.CMB_uas_id_type.Size = new System.Drawing.Size(205, 21);
+            this.CMB_uas_id_type.TabIndex = 42;
             // 
-            // comboBox2
+            // CMB_uas_type
             // 
-            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(109, 76);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(205, 21);
-            this.comboBox2.TabIndex = 43;
+            this.CMB_uas_type.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CMB_uas_type.FormattingEnabled = true;
+            this.CMB_uas_type.Location = new System.Drawing.Point(109, 76);
+            this.CMB_uas_type.Name = "CMB_uas_type";
+            this.CMB_uas_type.Size = new System.Drawing.Size(205, 21);
+            this.CMB_uas_type.TabIndex = 43;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(7, 26);
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(7, 116);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(50, 12);
+            this.label17.Size = new System.Drawing.Size(66, 13);
             this.label17.TabIndex = 44;
-            this.label17.Text = "Flight Type";
+            this.label17.Text = "Self ID Type";
             // 
-            // comboBox3
+            // CMB_self_id_type
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(73, 26);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(116, 21);
-            this.comboBox3.TabIndex = 45;
+            this.CMB_self_id_type.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CMB_self_id_type.FormattingEnabled = true;
+            this.CMB_self_id_type.Location = new System.Drawing.Point(100, 116);
+            this.CMB_self_id_type.Name = "CMB_self_id_type";
+            this.CMB_self_id_type.Size = new System.Drawing.Size(195, 21);
+            this.CMB_self_id_type.TabIndex = 45;
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(6, 53);
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(6, 88);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(52, 12);
+            this.label18.Size = new System.Drawing.Size(67, 13);
             this.label18.TabIndex = 47;
-            this.label18.Text = "Flight Desc";
+            this.label18.Text = "Self ID Desc";
             // 
-            // textBox2
+            // TXT_self_id_TXT
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(73, 53);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(116, 18);
-            this.textBox2.TabIndex = 46;
+            this.TXT_self_id_TXT.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_self_id_TXT.Location = new System.Drawing.Point(100, 88);
+            this.TXT_self_id_TXT.MaxLength = 23;
+            this.TXT_self_id_TXT.Name = "TXT_self_id_TXT";
+            this.TXT_self_id_TXT.Size = new System.Drawing.Size(195, 20);
+            this.TXT_self_id_TXT.TabIndex = 46;
             // 
             // groupBox2
             // 
@@ -289,9 +296,9 @@ namespace MissionPlanner.Controls
             // 
             // headerFormatStyle1
             // 
-            this.headerFormatStyle1.Hot = headerStateStyle4;
-            this.headerFormatStyle1.Normal = headerStateStyle5;
-            this.headerFormatStyle1.Pressed = headerStateStyle6;
+            this.headerFormatStyle1.Hot = headerStateStyle7;
+            this.headerFormatStyle1.Normal = headerStateStyle8;
+            this.headerFormatStyle1.Pressed = headerStateStyle9;
             // 
             // ODOD_tabs
             // 
@@ -348,8 +355,8 @@ namespace MissionPlanner.Controls
             this.tab_uid.Controls.Add(this.TXT_UAS_ID);
             this.tab_uid.Controls.Add(this.label2);
             this.tab_uid.Controls.Add(this.label4);
-            this.tab_uid.Controls.Add(this.comboBox1);
-            this.tab_uid.Controls.Add(this.comboBox2);
+            this.tab_uid.Controls.Add(this.CMB_uas_id_type);
+            this.tab_uid.Controls.Add(this.CMB_uas_type);
             this.tab_uid.Controls.Add(this.label3);
             this.tab_uid.Location = new System.Drawing.Point(4, 22);
             this.tab_uid.Name = "tab_uid";
@@ -361,12 +368,15 @@ namespace MissionPlanner.Controls
             // 
             // tab_ops
             // 
+            this.tab_ops.Controls.Add(this.label7);
+            this.tab_ops.Controls.Add(this.label6);
+            this.tab_ops.Controls.Add(this.CMB_op_id_type);
             this.tab_ops.Controls.Add(this.label17);
             this.tab_ops.Controls.Add(this.label1);
             this.tab_ops.Controls.Add(this.txt_UserID);
-            this.tab_ops.Controls.Add(this.comboBox3);
+            this.tab_ops.Controls.Add(this.CMB_self_id_type);
             this.tab_ops.Controls.Add(this.label18);
-            this.tab_ops.Controls.Add(this.textBox2);
+            this.tab_ops.Controls.Add(this.TXT_self_id_TXT);
             this.tab_ops.Location = new System.Drawing.Point(4, 22);
             this.tab_ops.Name = "tab_ops";
             this.tab_ops.Padding = new System.Windows.Forms.Padding(3);
@@ -393,6 +403,35 @@ namespace MissionPlanner.Controls
             this.myODID_Status.Name = "myODID_Status";
             this.myODID_Status.Size = new System.Drawing.Size(140, 40);
             this.myODID_Status.TabIndex = 54;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(7, 34);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 13);
+            this.label6.TabIndex = 48;
+            this.label6.Text = "Oper. ID Type";
+            // 
+            // CMB_op_id_type
+            // 
+            this.CMB_op_id_type.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CMB_op_id_type.FormattingEnabled = true;
+            this.CMB_op_id_type.Location = new System.Drawing.Point(100, 34);
+            this.CMB_op_id_type.Name = "CMB_op_id_type";
+            this.CMB_op_id_type.Size = new System.Drawing.Size(195, 21);
+            this.CMB_op_id_type.TabIndex = 49;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(7, 66);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(45, 13);
+            this.label7.TabIndex = 50;
+            this.label7.Text = "Self ID: ";
             // 
             // OpenDroneID_UI
             // 
@@ -434,12 +473,12 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label14;
         private Bulb.LedBulb LED_UAS_ID;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox CMB_uas_id_type;
+        private System.Windows.Forms.ComboBox CMB_uas_type;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox CMB_self_id_type;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox TXT_self_id_TXT;
         private System.Windows.Forms.GroupBox groupBox2;
         private BrightIdeasSoftware.HeaderFormatStyle headerFormatStyle1;
         private OpenDroneID_Map_Status myODID_Status;
@@ -452,5 +491,8 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.TextBox TXT_RID_Status_Msg;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox CMB_op_id_type;
+        private System.Windows.Forms.Label label7;
     }
 }
