@@ -73,7 +73,7 @@ namespace MissionPlanner.Controls
             else if (_host.comPort.sysidcurrent != _mySYS && _host.comPort.sysidcurrent > 0)
             {
                 addStatusMessage("Sub. to ODID ARM_STATUS for SysId: " + _host.comPort.sysidcurrent);
-                //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                
                 _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte) _host.comPort.sysidcurrent, (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
                 _mySYS =  _host.comPort.sysidcurrent;
                 hasODID = false;
@@ -186,11 +186,12 @@ namespace MissionPlanner.Controls
             LED_UAS_ID.Color = _uas_id ? Color.Green : Color.Red;
 
             // Note - this needs to be updated later to accomondate a Standard Remote ID Configuratoin
-            if (_uas_id)
+            if (_uas_id && CMB_uas_id_type.SelectedIndex > 0 && CMB_uas_type.SelectedIndex > 0)
             {
                 myDID.UAS_ID = TXT_UAS_ID.Text;
-                myDID.UA_type = (MAVLink.MAV_ODID_ID_TYPE) int.Parse(CMB_uas_id_type.Text);
-                myDID.UAS_ID_type = (MAVLink.MAV_ODID_UA_TYPE)int.Parse(CMB_uas_type.Text);
+                
+                myDID.UA_type = (MAVLink.MAV_ODID_ID_TYPE) CMB_uas_id_type.SelectedIndex;
+                myDID.UAS_ID_type = (MAVLink.MAV_ODID_UA_TYPE) CMB_uas_type.SelectedIndex;
 
             }
 
@@ -198,7 +199,13 @@ namespace MissionPlanner.Controls
             {
                 // Send Self ID Info
                 myDID.description = TXT_self_id_TXT.Text;
-                myDID.description_type = (MAVLink.MAV_ODID_DESC_TYPE)int.Parse(CMB_self_id_type.Text);
+                myDID.description_type = (MAVLink.MAV_ODID_DESC_TYPE) CMB_self_id_type.SelectedIndex;
+            }
+
+            if (txt_UserID.Text.Length > 0)
+            {
+                myDID.operator_id = txt_UserID.Text;
+                myDID.operator_id_type = (MAVLink.MAV_ODID_OPERATOR_ID_TYPE)CMB_op_id_type.SelectedIndex;
             }
 
             
