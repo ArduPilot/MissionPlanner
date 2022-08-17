@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Globalization;
 using System.IO;
 using System.Net.Sockets;
@@ -8,6 +9,8 @@ using MissionPlanner.Utilities;
 using System.Drawing;
 using System.Diagnostics;
 using MissionPlanner.ArduPilot;
+using static MissionPlanner.Utilities.LTM;
+
 
 namespace MissionPlanner.Controls
 {
@@ -31,6 +34,8 @@ namespace MissionPlanner.Controls
         private Plugin.PluginHost _host = null;
 
         private int _mySYS = 0; 
+
+        private int _last_odid_error_agg;
 
         public OpenDroneID_UI()
         {
@@ -78,36 +83,58 @@ namespace MissionPlanner.Controls
                 _mySYS =  _host.comPort.sysidcurrent;
                 hasODID = false;
                 last_odid_msg.Stop();
+                
                 //myDID.Stop();
             }
         }
 
         private bool handleODIDArmMSg2(MAVLink.MAVLinkMessage arg)
         {
-            Console.WriteLine("Got ODID Message!");
-            //MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
+            
             odid_arm_status = arg.ToStructure<MAVLink.mavlink_open_drone_id_arm_status_t>();
+
 
             // TODO: Check timestamp of ODID message and indicate error
             if (hasODID == true)
+            {
                 last_odid_msg.Restart();
+
+                int _this_agg = (odid_arm_status.status == 0) ? 0 : odid_arm_status.error.Aggregate(0, (a, b) => a + b);
+
+                if (_this_agg != _last_odid_error_agg)
+                {
+                    if (odid_arm_status.status != 0) {
+                        string s = System.Text.Encoding.ASCII.GetString(odid_arm_status.error);
+                        addStatusMessage("Arm Error: " + s.Substring(0, s.IndexOf((char)0)));
+                    }
+                    else
+                        addStatusMessage("Arm Stats: Ready");
+                    _last_odid_error_agg = _this_agg;
+                }
+            }
             else
             {
                 try
                 {
                     Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + _host.comPort.MAV.sysid);
                     addStatusMessage("Detected and Starting on System ID: " + _host.comPort.MAV.sysid);
-                    
+
                     last_odid_msg.Start();
                     myDID.Start(_host.comPort, arg.sysid, arg.compid);
-                } catch
+                }
+                catch
                 {
                     Console.WriteLine("Error Initializing ODID Message Handler");
                 }
-                
+
             }
             
             hasODID = true;
+
+            
+
+
+
 
             return true; ;
         }
@@ -117,7 +144,7 @@ namespace MissionPlanner.Controls
         {
             if (!hasODID) return;
 
-            Console.WriteLine("Running Timer 1");
+           
 
             checkODIDMsgs();
 
@@ -182,7 +209,7 @@ namespace MissionPlanner.Controls
         private void checkUID()
         {
 
-            _uas_id = !String.IsNullOrEmpty(TXT_UAS_ID.Text);
+            _uas_id = (!String.IsNullOrEmpty(TXT_UAS_ID.Text) && CMB_uas_id_type.SelectedIndex > 0 && CMB_uas_type.SelectedIndex > 0);
             LED_UAS_ID.Color = _uas_id ? Color.Green : Color.Red;
 
             // Note - this needs to be updated later to accomondate a Standard Remote ID Configuratoin
