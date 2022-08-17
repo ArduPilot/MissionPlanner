@@ -37,7 +37,7 @@ namespace MissionPlanner.Controls
             // LBL_ODID_reason
             // 
             this.LBL_ODID_reason.AutoSize = true;
-            this.LBL_ODID_reason.Location = new System.Drawing.Point(32, 26);
+            this.LBL_ODID_reason.Location = new System.Drawing.Point(24, 23);
             this.LBL_ODID_reason.Name = "LBL_ODID_reason";
             this.LBL_ODID_reason.Size = new System.Drawing.Size(65, 13);
             this.LBL_ODID_reason.TabIndex = 1;
@@ -49,17 +49,17 @@ namespace MissionPlanner.Controls
             this.LED_ODID_Status.Location = new System.Drawing.Point(4, 4);
             this.LED_ODID_Status.Name = "LED_ODID_Status";
             this.LED_ODID_Status.On = true;
-            this.LED_ODID_Status.Size = new System.Drawing.Size(20, 20);
+            this.LED_ODID_Status.Size = new System.Drawing.Size(16, 16);
             this.LED_ODID_Status.TabIndex = 2;
             this.LED_ODID_Status.Text = "ledBulb1";
             // 
             // LBL_ODID_OK
             // 
             this.LBL_ODID_OK.AutoSize = true;
-            this.LBL_ODID_OK.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LBL_ODID_OK.Location = new System.Drawing.Point(31, 1);
+            this.LBL_ODID_OK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_ODID_OK.Location = new System.Drawing.Point(24, 4);
             this.LBL_ODID_OK.Name = "LBL_ODID_OK";
-            this.LBL_ODID_OK.Size = new System.Drawing.Size(87, 20);
+            this.LBL_ODID_OK.Size = new System.Drawing.Size(71, 16);
             this.LBL_ODID_OK.TabIndex = 3;
             this.LBL_ODID_OK.Text = "Remote ID";
             // 
@@ -71,7 +71,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.LED_ODID_Status);
             this.Controls.Add(this.LBL_ODID_reason);
             this.Name = "OpenDroneID_Map_Status";
-            this.Size = new System.Drawing.Size(174, 42);
+            this.Size = new System.Drawing.Size(140, 42);
             this.ResumeLayout(false);
             this.PerformLayout();
 
