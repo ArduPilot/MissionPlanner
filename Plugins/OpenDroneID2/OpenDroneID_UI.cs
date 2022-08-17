@@ -189,9 +189,19 @@ namespace MissionPlanner.Controls
             if (_uas_id)
             {
                 myDID.UAS_ID = TXT_UAS_ID.Text;
+                myDID.UA_type = (MAVLink.MAV_ODID_ID_TYPE) int.Parse(CMB_uas_id_type.Text);
+                myDID.UAS_ID_type = (MAVLink.MAV_ODID_UA_TYPE)int.Parse(CMB_uas_type.Text);
+
             }
 
-            // TODO - UAS Type and ID Type
+            if (TXT_self_id_TXT.Text.Length > 0)
+            {
+                // Send Self ID Info
+                myDID.description = TXT_self_id_TXT.Text;
+                myDID.description_type = (MAVLink.MAV_ODID_DESC_TYPE)int.Parse(CMB_self_id_type.Text);
+            }
+
+            
             
         }
 

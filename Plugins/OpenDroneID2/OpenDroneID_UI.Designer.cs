@@ -30,9 +30,9 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle7 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle8 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle9 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle10 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle11 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle12 = new BrightIdeasSoftware.HeaderStateStyle();
             this.txt_UserID = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -69,6 +69,7 @@ namespace MissionPlanner.Controls
             this.label6 = new System.Windows.Forms.Label();
             this.CMB_op_id_type = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.ODOD_tabs.SuspendLayout();
             this.tabStatus.SuspendLayout();
@@ -296,9 +297,9 @@ namespace MissionPlanner.Controls
             // 
             // headerFormatStyle1
             // 
-            this.headerFormatStyle1.Hot = headerStateStyle7;
-            this.headerFormatStyle1.Normal = headerStateStyle8;
-            this.headerFormatStyle1.Pressed = headerStateStyle9;
+            this.headerFormatStyle1.Hot = headerStateStyle10;
+            this.headerFormatStyle1.Normal = headerStateStyle11;
+            this.headerFormatStyle1.Pressed = headerStateStyle12;
             // 
             // ODOD_tabs
             // 
@@ -314,6 +315,7 @@ namespace MissionPlanner.Controls
             // 
             // tabStatus
             // 
+            this.tabStatus.Controls.Add(this.label8);
             this.tabStatus.Controls.Add(this.TXT_RID_Status_Msg);
             this.tabStatus.Controls.Add(this.label5);
             this.tabStatus.Controls.Add(this.TXT_ODID_Status);
@@ -346,7 +348,7 @@ namespace MissionPlanner.Controls
             // 
             this.TXT_ODID_Status.Location = new System.Drawing.Point(4, 30);
             this.TXT_ODID_Status.Name = "TXT_ODID_Status";
-            this.TXT_ODID_Status.Size = new System.Drawing.Size(347, 150);
+            this.TXT_ODID_Status.Size = new System.Drawing.Size(347, 133);
             this.TXT_ODID_Status.TabIndex = 0;
             this.TXT_ODID_Status.Text = "";
             // 
@@ -433,6 +435,16 @@ namespace MissionPlanner.Controls
             this.label7.TabIndex = 50;
             this.label7.Text = "Self ID: ";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(6, 166);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(273, 13);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "This version of Open Drone ID Plugin is for Testing Only.";
+            // 
             // OpenDroneID_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -494,5 +506,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CMB_op_id_type;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
     }
 }
