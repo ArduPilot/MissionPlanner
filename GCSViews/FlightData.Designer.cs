@@ -78,7 +78,7 @@ namespace MissionPlanner.GCSViews
             this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.tabDroneID = new System.Windows.Forms.TabPage();
-            this.openDroneID_UI1 = new MissionPlanner.Controls.OpenDroneID_UI();
+            
             this.tabPagePreFlight = new System.Windows.Forms.TabPage();
             this.checkListControl1 = new MissionPlanner.Controls.PreFlight.CheckListControl();
             this.tabGauges = new System.Windows.Forms.TabPage();
@@ -1083,18 +1083,7 @@ namespace MissionPlanner.GCSViews
             this.toolTip1.SetToolTip(this.myButton3, resources.GetString("myButton3.ToolTip"));
             this.myButton3.UseVisualStyleBackColor = true;
             this.myButton3.Click += new System.EventHandler(this.BUT_quickauto_Click);
-            // 
-            // tabDroneID
-            // 
-            this.tabDroneID.Controls.Add(this.openDroneID_UI1);
-            resources.ApplyResources(this.tabDroneID, "tabDroneID");
-            this.tabDroneID.Name = "tabDroneID";
-            this.tabDroneID.UseVisualStyleBackColor = true;
-            // 
-            // openDroneID_UI1
-            // 
-            resources.ApplyResources(this.openDroneID_UI1, "openDroneID_UI1");
-            this.openDroneID_UI1.Name = "openDroneID_UI1";
+           
             // 
             // tabPagePreFlight
             // 
@@ -2954,6 +2943,6 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem multiLineToolStripMenuItem;
         private Controls.MyButton BUT_SendMSG;
         private TabPage tabDroneID;
-        private Controls.OpenDroneID_UI openDroneID_UI1;
+       
     }
 }

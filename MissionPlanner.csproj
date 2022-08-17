@@ -110,12 +110,6 @@
     <EmbeddedResource Include="Controls\MovingBase.uk.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\OpenDroneID_Map_Status.resx">
-      <DependentUpon>OpenDroneID_Map_Status.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\OpenDroneID_UI.resx">
-      <DependentUpon>OpenDroneID_UI.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PropagationSettings.uk.resx">
       <DependentUpon>PropagationSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -704,18 +698,6 @@
     </Compile>
     <Compile Include="Controls\MavCommandSelection.Designer.cs">
       <DependentUpon>MavCommandSelection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\OpenDroneID_Map_Status.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\OpenDroneID_Map_Status.Designer.cs">
-      <DependentUpon>OpenDroneID_Map_Status.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\OpenDroneID_UI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\OpenDroneID_UI.Designer.cs">
-      <DependentUpon>OpenDroneID_UI.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SerialOutputCoT.cs">
       <SubType>Form</SubType>

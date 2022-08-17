@@ -44,17 +44,33 @@ namespace MissionPlanner.Controls
             {
                 Console.WriteLine("Couldn't Init Open DID Form.");
             }
-            Console.WriteLine("[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
-            //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-            MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
 
+
+
+            start_sub(true);
 
 
             timer2.Start();
         }
 
+        private void start_sub(bool force = false)
+        {
+            if (!force && (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen))
+            {
+                // pass
+            }
+            else
+            {
+                Console.WriteLine("\n\n\n[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
+                //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, 0, 0);
+
+            }
+        }
+
         private bool handleODIDArmMSg2(MAVLink.MAVLinkMessage arg)
         {
+            Console.WriteLine("Got ODID Message!");
             MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
             odid_arm_status = arg.ToStructure<MAVLink.mavlink_open_drone_id_arm_status_t>();
 
