@@ -10,7 +10,7 @@
     <DebugSymbols>True</DebugSymbols>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyName>FaceMap</AssemblyName>
+    <AssemblyName>opendroneid</AssemblyName>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <RootNamespace>MissionPlanner</RootNamespace>
   </PropertyGroup>

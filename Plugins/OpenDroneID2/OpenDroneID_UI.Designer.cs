@@ -56,15 +56,16 @@ namespace MissionPlanner.Controls
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.headerFormatStyle1 = new BrightIdeasSoftware.HeaderFormatStyle();
-            this.myODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
-            this.nmea_GPS_1 = new MissionPlanner.NMEA_GPS_Connection();
             this.ODOD_tabs = new System.Windows.Forms.TabControl();
             this.tabStatus = new System.Windows.Forms.TabPage();
+            this.TXT_RID_Status_Msg = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.TXT_ODID_Status = new System.Windows.Forms.RichTextBox();
             this.tab_uid = new System.Windows.Forms.TabPage();
             this.tab_ops = new System.Windows.Forms.TabPage();
-            this.TXT_RID_Status_Msg = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.nmea_GPS_1 = new MissionPlanner.NMEA_GPS_Connection();
+            this.myODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
             this.groupBox2.SuspendLayout();
             this.ODOD_tabs.SuspendLayout();
             this.tabStatus.SuspendLayout();
@@ -82,6 +83,7 @@ namespace MissionPlanner.Controls
             // 
             // timer1
             // 
+            this.timer1.Interval = 200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label1
@@ -291,20 +293,6 @@ namespace MissionPlanner.Controls
             this.headerFormatStyle1.Normal = headerStateStyle5;
             this.headerFormatStyle1.Pressed = headerStateStyle6;
             // 
-            // myODID_Status
-            // 
-            this.myODID_Status.Location = new System.Drawing.Point(6, 97);
-            this.myODID_Status.Name = "myODID_Status";
-            this.myODID_Status.Size = new System.Drawing.Size(140, 40);
-            this.myODID_Status.TabIndex = 54;
-            // 
-            // nmea_GPS_1
-            // 
-            this.nmea_GPS_1.Location = new System.Drawing.Point(6, 3);
-            this.nmea_GPS_1.Name = "nmea_GPS_1";
-            this.nmea_GPS_1.Size = new System.Drawing.Size(369, 88);
-            this.nmea_GPS_1.TabIndex = 56;
-            // 
             // ODOD_tabs
             // 
             this.ODOD_tabs.Controls.Add(this.tabStatus);
@@ -328,6 +316,24 @@ namespace MissionPlanner.Controls
             this.tabStatus.TabIndex = 2;
             this.tabStatus.Text = "Status";
             this.tabStatus.UseVisualStyleBackColor = true;
+            // 
+            // TXT_RID_Status_Msg
+            // 
+            this.TXT_RID_Status_Msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_RID_Status_Msg.Location = new System.Drawing.Point(146, 4);
+            this.TXT_RID_Status_Msg.Name = "TXT_RID_Status_Msg";
+            this.TXT_RID_Status_Msg.Size = new System.Drawing.Size(205, 20);
+            this.TXT_RID_Status_Msg.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(6, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "RID Armed Status";
             // 
             // TXT_ODID_Status
             // 
@@ -369,23 +375,24 @@ namespace MissionPlanner.Controls
             this.tab_ops.Text = "Operations";
             this.tab_ops.UseVisualStyleBackColor = true;
             // 
-            // TXT_RID_Status_Msg
+            // timer2
             // 
-            this.TXT_RID_Status_Msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TXT_RID_Status_Msg.Location = new System.Drawing.Point(146, 4);
-            this.TXT_RID_Status_Msg.Name = "TXT_RID_Status_Msg";
-            this.TXT_RID_Status_Msg.Size = new System.Drawing.Size(205, 20);
-            this.TXT_RID_Status_Msg.TabIndex = 10;
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
-            // label5
+            // nmea_GPS_1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(6, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 13);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "RID Armed Status";
+            this.nmea_GPS_1.Location = new System.Drawing.Point(6, 3);
+            this.nmea_GPS_1.Name = "nmea_GPS_1";
+            this.nmea_GPS_1.Size = new System.Drawing.Size(369, 88);
+            this.nmea_GPS_1.TabIndex = 56;
+            // 
+            // myODID_Status
+            // 
+            this.myODID_Status.Location = new System.Drawing.Point(6, 97);
+            this.myODID_Status.Name = "myODID_Status";
+            this.myODID_Status.Size = new System.Drawing.Size(140, 40);
+            this.myODID_Status.TabIndex = 54;
             // 
             // OpenDroneID_UI
             // 
@@ -444,5 +451,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.RichTextBox TXT_ODID_Status;
         private System.Windows.Forms.TextBox TXT_RID_Status_Msg;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Timer timer2;
     }
 }

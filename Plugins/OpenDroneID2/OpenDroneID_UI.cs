@@ -28,27 +28,42 @@ namespace MissionPlanner.Controls
         private const int ODID_ARM_MESSAGE_TIMEOUT = 5000;
         public OpenDroneID myDID = new OpenDroneID();
 
+        private Plugin.PluginHost _host = null;
+
+        private int _mySYS = 0; 
+
         public OpenDroneID_UI()
         {
             Instance = this;
 
             InitializeComponent();
 
-            start_sub(true);
+
+            timer1.Start();
+            timer2.Start();
+        }
+
+        public void setHost(Plugin.PluginHost host)
+        {
+            _host = host;
         }
 
         private void start_sub(bool force = false)
         {
-            if (!force && (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen))
+
+            if (!force && (_host.comPort.BaseStream == null || !_host.comPort.BaseStream.IsOpen))
             {
                 // pass
             }
-            else
+            else if (_host.comPort.sysidcurrent != _mySYS && _host.comPort.sysidcurrent > 0)
             {
-                Console.WriteLine("\n\n\n[DRONE ID] Subscribing to OPEN_DRONE_ID_ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
+                addStatusMessage("Sub. to ODID ARM_STATUS for SysId: " + _host.comPort.sysidcurrent);
                 //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, 0, 0);
-
+                _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte) _host.comPort.sysidcurrent, (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
+                _mySYS =  _host.comPort.sysidcurrent;
+                hasODID = false;
+                last_odid_msg.Stop();
+                //myDID.Stop();
             }
         }
 
@@ -63,10 +78,18 @@ namespace MissionPlanner.Controls
                 last_odid_msg.Restart();
             else
             {
-                Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + MainV2.comPort.MAV.sysid);
-                addStatusMessage("Detected and Starting on System ID: " + MainV2.comPort.MAV.sysid);
-                last_odid_msg.Start();
-                myDID.Start(MainV2.comPort, arg.sysid, arg.compid);
+                try
+                {
+                    Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + _host.comPort.MAV.sysid);
+                    addStatusMessage("Detected and Starting on System ID: " + _host.comPort.MAV.sysid);
+                    
+                    last_odid_msg.Start();
+                    myDID.Start(_host.comPort, arg.sysid, arg.compid);
+                } catch
+                {
+                    Console.WriteLine("Error Initializing ODID Message Handler");
+                }
+                
             }
             
             hasODID = true;
@@ -74,13 +97,12 @@ namespace MissionPlanner.Controls
             return true; ;
         }
 
-        //TO-DO - we may want to move this to a more centralized spot, or make this 
-        //the primary thread for Moving Base GPS read. 
+ 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (!hasODID) return;
 
-
-            checkGCSGPS();
+            Console.WriteLine("Running Timer 1");
 
             checkODIDMsgs();
 
@@ -89,17 +111,32 @@ namespace MissionPlanner.Controls
             checkUID();
         }
 
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            
+
+            checkGCSGPS();
+
+            start_sub();
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            Console.WriteLine("Running Timer 3");
+        }
+
+
         private void checkODIDMsgs()
         {
             if (hasODID == false) return;
 
             // Check Requirements
             _odid_arm_msg = (last_odid_msg.ElapsedMilliseconds < 5000);
-            LED_RemoteID_Messages.Color = (_odid_arm_msg==false) ? Color.Red : Color.Green;
+            LED_RemoteID_Messages.Color = (_odid_arm_msg==false) ? Color.White : Color.Green;
 
-            LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
+            LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.White : Color.Green);
 
-            TXT_ODID_Status.Text = ((odid_arm_status.status > 0) ? "Ready" : System.Text.Encoding.UTF8.GetString(odid_arm_status.error));
+            TXT_RID_Status_Msg.Text = ((odid_arm_status.status == 0) ? "Ready" : System.Text.Encoding.UTF8.GetString(odid_arm_status.error));
                         
         }
 
@@ -131,9 +168,11 @@ namespace MissionPlanner.Controls
         {
 
             _uas_id = !String.IsNullOrEmpty(TXT_UAS_ID.Text);
-            LED_UAS_ID.Color = _uas_id ? Color.Green : Color.Red;
+            LED_UAS_ID.Color = _uas_id ? Color.Green : Color.White;
             
         }
+
+   
 
         private void checkGCSGPS()
         {
@@ -150,8 +189,8 @@ namespace MissionPlanner.Controls
                     gotolocation.Lng = nmea_GPS_1.Lng;
                     gotolocation.Alt = nmea_GPS_1.Alt; 
 
-
-                    MainV2.comPort.MAV.cs.MovingBase = gotolocation;
+                    if (_host != null)
+                        _host.comPort.MAV.cs.MovingBase = gotolocation;
 
                     myDID.operator_latitude = nmea_GPS_1.Lat;
                     myDID.operator_longitude = nmea_GPS_1.Lng;
@@ -162,7 +201,7 @@ namespace MissionPlanner.Controls
                 }
             } catch
             {
-
+                Console.WriteLine("Error Setting NMEA GPS Data");
             }
 
             // Check GCS GPS
@@ -205,7 +244,5 @@ namespace MissionPlanner.Controls
         }
 
     }
-
-
 
 }

@@ -1,12 +1,17 @@
 ﻿using MissionPlanner.Grid;
 using System;
 using System.Windows.Forms;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
-    public class FaceMapOpenDroneID_Plugin : MissionPlanner.Plugin.Plugin
+    public class OpenDroneID_Plugin : MissionPlanner.Plugin.Plugin
     {
-        ToolStripMenuItem but;
+        //TabPage
+        private System.Windows.Forms.TabPage tab = new System.Windows.Forms.TabPage();
+        private TabControl tabctrl;
+        private OpenDroneID_UI myODID_UI = new OpenDroneID_UI();
 
         public override string Name
         {
@@ -25,11 +30,24 @@ namespace MissionPlanner
 
         public override bool Init()
         {
+            myODID_UI.setHost(Host);
+
+            
+
             return true;
         }
 
         public override bool Loaded()
         {
+
+            tabctrl = Host.MainForm.FlightData.tabControlactions;
+            tab.Text = "Drone ID";
+            tab.Controls.Add(myODID_UI);
+            tabctrl.TabPages.Insert(5,tab);
+            
+            Host.MainForm.FlightPlanner.updateDisplayView();
+            ThemeManager.ApplyThemeTo(tab);
+            
 
             return true;
         }

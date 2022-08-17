@@ -43,11 +43,11 @@
             // CB_auto_connect
             // 
             this.CB_auto_connect.AutoSize = true;
-            this.CB_auto_connect.Location = new System.Drawing.Point(260, 42);
+            this.CB_auto_connect.Location = new System.Drawing.Point(303, 42);
             this.CB_auto_connect.Name = "CB_auto_connect";
-            this.CB_auto_connect.Size = new System.Drawing.Size(91, 17);
+            this.CB_auto_connect.Size = new System.Drawing.Size(48, 17);
             this.CB_auto_connect.TabIndex = 46;
-            this.CB_auto_connect.Text = "Auto Connect";
+            this.CB_auto_connect.Text = "Auto";
             this.CB_auto_connect.UseVisualStyleBackColor = true;
             this.CB_auto_connect.CheckedChanged += new System.EventHandler(this.CB_auto_connect_CheckedChanged);
             // 
