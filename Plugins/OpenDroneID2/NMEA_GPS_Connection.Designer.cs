@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.CB_auto_connect = new System.Windows.Forms.CheckBox();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.LBL_gpsStatus = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +49,7 @@
             this.CB_auto_connect.TabIndex = 46;
             this.CB_auto_connect.Text = "Auto Connect";
             this.CB_auto_connect.UseVisualStyleBackColor = true;
+            this.CB_auto_connect.CheckedChanged += new System.EventHandler(this.CB_auto_connect_CheckedChanged);
             // 
             // CMB_baudrate
             // 
@@ -82,6 +86,7 @@
             this.BUT_connect.TabIndex = 43;
             this.BUT_connect.Text = "Connect Base GPS";
             this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // LBL_gpsStatus
             // 
@@ -108,6 +113,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "GCS GPS ";
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // NMEA_GPS_Connection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -129,5 +143,7 @@
         private Controls.MyButton BUT_connect;
         private System.Windows.Forms.Label LBL_gpsStatus;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer2;
     }
 }

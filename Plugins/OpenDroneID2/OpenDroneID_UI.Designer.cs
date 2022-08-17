@@ -30,9 +30,9 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle4 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle5 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle6 = new BrightIdeasSoftware.HeaderStateStyle();
             this.txt_UserID = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -48,7 +48,6 @@ namespace MissionPlanner.Controls
             this.label14 = new System.Windows.Forms.Label();
             this.LED_UAS_ID = new Bulb.LedBulb();
             this.label16 = new System.Windows.Forms.Label();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
@@ -58,17 +57,19 @@ namespace MissionPlanner.Controls
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.headerFormatStyle1 = new BrightIdeasSoftware.HeaderFormatStyle();
             this.myODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
-            this.nmeA_GPS_Connection1 = new MissionPlanner.NMEA_GPS_Connection();
+            this.nmea_GPS_1 = new MissionPlanner.NMEA_GPS_Connection();
             this.ODOD_tabs = new System.Windows.Forms.TabControl();
-            this.tab_uid = new System.Windows.Forms.TabPage();
-            this.tab_ops = new System.Windows.Forms.TabPage();
             this.tabStatus = new System.Windows.Forms.TabPage();
             this.TXT_ODID_Status = new System.Windows.Forms.RichTextBox();
+            this.tab_uid = new System.Windows.Forms.TabPage();
+            this.tab_ops = new System.Windows.Forms.TabPage();
+            this.TXT_RID_Status_Msg = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.ODOD_tabs.SuspendLayout();
+            this.tabStatus.SuspendLayout();
             this.tab_uid.SuspendLayout();
             this.tab_ops.SuspendLayout();
-            this.tabStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // txt_UserID
@@ -144,7 +145,7 @@ namespace MissionPlanner.Controls
             // 
             // LED_ArmedError
             // 
-            this.LED_ArmedError.Color = System.Drawing.Color.Gray;
+            this.LED_ArmedError.Color = System.Drawing.Color.White;
             this.LED_ArmedError.Location = new System.Drawing.Point(92, 41);
             this.LED_ArmedError.Name = "LED_ArmedError";
             this.LED_ArmedError.On = true;
@@ -164,7 +165,7 @@ namespace MissionPlanner.Controls
             // 
             // LED_RemoteID_Messages
             // 
-            this.LED_RemoteID_Messages.Color = System.Drawing.Color.Gray;
+            this.LED_RemoteID_Messages.Color = System.Drawing.Color.White;
             this.LED_RemoteID_Messages.Location = new System.Drawing.Point(7, 19);
             this.LED_RemoteID_Messages.Name = "LED_RemoteID_Messages";
             this.LED_RemoteID_Messages.On = true;
@@ -174,7 +175,7 @@ namespace MissionPlanner.Controls
             // 
             // LED_gps_valid
             // 
-            this.LED_gps_valid.Color = System.Drawing.Color.Gray;
+            this.LED_gps_valid.Color = System.Drawing.Color.White;
             this.LED_gps_valid.Location = new System.Drawing.Point(8, 41);
             this.LED_gps_valid.Name = "LED_gps_valid";
             this.LED_gps_valid.On = true;
@@ -194,7 +195,7 @@ namespace MissionPlanner.Controls
             // 
             // LED_UAS_ID
             // 
-            this.LED_UAS_ID.Color = System.Drawing.Color.Gray;
+            this.LED_UAS_ID.Color = System.Drawing.Color.White;
             this.LED_UAS_ID.Location = new System.Drawing.Point(93, 20);
             this.LED_UAS_ID.Name = "LED_UAS_ID";
             this.LED_UAS_ID.On = true;
@@ -211,11 +212,6 @@ namespace MissionPlanner.Controls
             this.label16.Size = new System.Drawing.Size(43, 13);
             this.label16.TabIndex = 39;
             this.label16.Text = "UAS ID";
-            // 
-            // timer2
-            // 
-            this.timer2.Interval = 1000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // comboBox1
             // 
@@ -291,9 +287,9 @@ namespace MissionPlanner.Controls
             // 
             // headerFormatStyle1
             // 
-            this.headerFormatStyle1.Hot = headerStateStyle1;
-            this.headerFormatStyle1.Normal = headerStateStyle2;
-            this.headerFormatStyle1.Pressed = headerStateStyle3;
+            this.headerFormatStyle1.Hot = headerStateStyle4;
+            this.headerFormatStyle1.Normal = headerStateStyle5;
+            this.headerFormatStyle1.Pressed = headerStateStyle6;
             // 
             // myODID_Status
             // 
@@ -302,12 +298,12 @@ namespace MissionPlanner.Controls
             this.myODID_Status.Size = new System.Drawing.Size(140, 40);
             this.myODID_Status.TabIndex = 54;
             // 
-            // nmeA_GPS_Connection1
+            // nmea_GPS_1
             // 
-            this.nmeA_GPS_Connection1.Location = new System.Drawing.Point(6, 3);
-            this.nmeA_GPS_Connection1.Name = "nmeA_GPS_Connection1";
-            this.nmeA_GPS_Connection1.Size = new System.Drawing.Size(369, 88);
-            this.nmeA_GPS_Connection1.TabIndex = 56;
+            this.nmea_GPS_1.Location = new System.Drawing.Point(6, 3);
+            this.nmea_GPS_1.Name = "nmea_GPS_1";
+            this.nmea_GPS_1.Size = new System.Drawing.Size(369, 88);
+            this.nmea_GPS_1.TabIndex = 56;
             // 
             // ODOD_tabs
             // 
@@ -320,6 +316,26 @@ namespace MissionPlanner.Controls
             this.ODOD_tabs.SelectedIndex = 0;
             this.ODOD_tabs.Size = new System.Drawing.Size(362, 209);
             this.ODOD_tabs.TabIndex = 57;
+            // 
+            // tabStatus
+            // 
+            this.tabStatus.Controls.Add(this.TXT_RID_Status_Msg);
+            this.tabStatus.Controls.Add(this.label5);
+            this.tabStatus.Controls.Add(this.TXT_ODID_Status);
+            this.tabStatus.Location = new System.Drawing.Point(4, 22);
+            this.tabStatus.Name = "tabStatus";
+            this.tabStatus.Size = new System.Drawing.Size(354, 183);
+            this.tabStatus.TabIndex = 2;
+            this.tabStatus.Text = "Status";
+            this.tabStatus.UseVisualStyleBackColor = true;
+            // 
+            // TXT_ODID_Status
+            // 
+            this.TXT_ODID_Status.Location = new System.Drawing.Point(4, 30);
+            this.TXT_ODID_Status.Name = "TXT_ODID_Status";
+            this.TXT_ODID_Status.Size = new System.Drawing.Size(347, 150);
+            this.TXT_ODID_Status.TabIndex = 0;
+            this.TXT_ODID_Status.Text = "";
             // 
             // tab_uid
             // 
@@ -353,30 +369,30 @@ namespace MissionPlanner.Controls
             this.tab_ops.Text = "Operations";
             this.tab_ops.UseVisualStyleBackColor = true;
             // 
-            // tabStatus
+            // TXT_RID_Status_Msg
             // 
-            this.tabStatus.Controls.Add(this.TXT_ODID_Status);
-            this.tabStatus.Location = new System.Drawing.Point(4, 22);
-            this.tabStatus.Name = "tabStatus";
-            this.tabStatus.Size = new System.Drawing.Size(354, 183);
-            this.tabStatus.TabIndex = 2;
-            this.tabStatus.Text = "Status";
-            this.tabStatus.UseVisualStyleBackColor = true;
+            this.TXT_RID_Status_Msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_RID_Status_Msg.Location = new System.Drawing.Point(146, 4);
+            this.TXT_RID_Status_Msg.Name = "TXT_RID_Status_Msg";
+            this.TXT_RID_Status_Msg.Size = new System.Drawing.Size(205, 20);
+            this.TXT_RID_Status_Msg.TabIndex = 10;
             // 
-            // TXT_ODID_Status
+            // label5
             // 
-            this.TXT_ODID_Status.Location = new System.Drawing.Point(4, 4);
-            this.TXT_ODID_Status.Name = "TXT_ODID_Status";
-            this.TXT_ODID_Status.Size = new System.Drawing.Size(347, 176);
-            this.TXT_ODID_Status.TabIndex = 0;
-            this.TXT_ODID_Status.Text = "";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(6, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "RID Armed Status";
             // 
             // OpenDroneID_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ODOD_tabs);
-            this.Controls.Add(this.nmeA_GPS_Connection1);
+            this.Controls.Add(this.nmea_GPS_1);
             this.Controls.Add(this.myODID_Status);
             this.Controls.Add(this.groupBox2);
             this.Name = "OpenDroneID_UI";
@@ -384,11 +400,12 @@ namespace MissionPlanner.Controls
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ODOD_tabs.ResumeLayout(false);
+            this.tabStatus.ResumeLayout(false);
+            this.tabStatus.PerformLayout();
             this.tab_uid.ResumeLayout(false);
             this.tab_uid.PerformLayout();
             this.tab_ops.ResumeLayout(false);
             this.tab_ops.PerformLayout();
-            this.tabStatus.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -410,7 +427,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label14;
         private Bulb.LedBulb LED_UAS_ID;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label17;
@@ -420,11 +436,13 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.GroupBox groupBox2;
         private BrightIdeasSoftware.HeaderFormatStyle headerFormatStyle1;
         private OpenDroneID_Map_Status myODID_Status;
-        private NMEA_GPS_Connection nmeA_GPS_Connection1;
+        private NMEA_GPS_Connection nmea_GPS_1;
         private System.Windows.Forms.TabControl ODOD_tabs;
         private System.Windows.Forms.TabPage tab_uid;
         private System.Windows.Forms.TabPage tab_ops;
         private System.Windows.Forms.TabPage tabStatus;
         private System.Windows.Forms.RichTextBox TXT_ODID_Status;
+        private System.Windows.Forms.TextBox TXT_RID_Status_Msg;
+        private System.Windows.Forms.Label label5;
     }
 }
