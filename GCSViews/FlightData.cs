@@ -33,7 +33,6 @@ using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 using TableLayoutPanelCellPosition = System.Windows.Forms.TableLayoutPanelCellPosition;
 using UnauthorizedAccessException = System.UnauthorizedAccessException;
 
-
 // written by michael oborne
 
 namespace MissionPlanner.GCSViews
@@ -486,7 +485,6 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-
             hud1.doResize();
         }
 
@@ -666,7 +664,6 @@ namespace MissionPlanner.GCSViews
 
             ThemeManager.ApplyThemeTo(tabControlactions);
         }
-
 
         //Updates the visibility of the payload control tab based on whether the payload target is available or not
         public void updatePayloadTabVisible()
@@ -5790,6 +5787,5 @@ namespace MissionPlanner.GCSViews
             tabControlactions.Multiline = !tabControlactions.Multiline;
             Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
         }
-
     }
 }

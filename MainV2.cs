@@ -1186,7 +1186,6 @@ namespace MissionPlanner
                     if (instance.FlightData != null)
                     {
                         instance.FlightData.updatePayloadTabVisible();
-                        
                     }
 
                     instance.MyView.Reload();
@@ -1200,7 +1199,6 @@ namespace MissionPlanner
                 if (instance.FlightData != null)
                 {
                     instance.FlightData.updatePayloadTabVisible();
-                    
                 }
 
                 instance.MyView.Reload();
