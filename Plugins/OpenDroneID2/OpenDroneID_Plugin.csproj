@@ -60,6 +60,7 @@
     <ProjectReference Include="..\..\ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\ExtLibs\LEDBulb\Bulb\Bulb.csproj" />
     <ProjectReference Include="..\..\ExtLibs\Maps\MissionPlanner.Maps.csproj">
       <Aliases></Aliases>
       <Private>false</Private>
