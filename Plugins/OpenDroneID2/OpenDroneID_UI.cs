@@ -80,6 +80,9 @@ namespace MissionPlanner.Controls
                 addStatusMessage("Sub. to ODID ARM_STATUS for SysId: " + _host.comPort.sysidcurrent);
                 
                 _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte) _host.comPort.sysidcurrent, (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
+                _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)_host.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_2);
+                _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)_host.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_3);
+                _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)_host.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1);
                 _mySYS =  _host.comPort.sysidcurrent;
                 hasODID = false;
                 last_odid_msg.Stop();
@@ -144,13 +147,11 @@ namespace MissionPlanner.Controls
         {
             if (!hasODID) return;
 
-           
-
             checkODIDMsgs();
 
-            checkODID_OK();
-
             checkUID();
+
+            checkODID_OK();
         }
 
         private void timer2_Tick(object sender, EventArgs e)
@@ -162,10 +163,6 @@ namespace MissionPlanner.Controls
             start_sub();
         }
 
-        private void timer3_Tick(object sender, EventArgs e)
-        {
-            Console.WriteLine("Running Timer 3");
-        }
 
 
         private void checkODIDMsgs()
@@ -174,34 +171,52 @@ namespace MissionPlanner.Controls
 
             // Check Requirements
             _odid_arm_msg = (last_odid_msg.ElapsedMilliseconds < 5000);
+
+            if (_odid_arm_msg == false)
+            {
+                _odid_arm_status = false;  // can't be valid if it's timed out. 
+            } 
+
             LED_RemoteID_Messages.Color = (_odid_arm_msg==false) ? Color.Red : Color.Green;
 
-            LED_ArmedError.Color = ((odid_arm_status.status > 0) ? Color.Red : Color.Green);
+            _odid_arm_status = (odid_arm_status.status == 0);
+            LED_ArmedError.Color = (_odid_arm_status==false ? Color.Red : Color.Green);
 
-            TXT_RID_Status_Msg.Text = ((odid_arm_status.status == 0) ? "Ready" : System.Text.Encoding.UTF8.GetString(odid_arm_status.error));
+
+            if (_odid_arm_msg == false)
+                TXT_RID_Status_Msg.Text = "Timeout.";
+            else
+                TXT_RID_Status_Msg.Text = ((odid_arm_status.status == 0) ? "Ready" : System.Text.Encoding.UTF8.GetString(odid_arm_status.error));
                         
         }
 
         private void checkODID_OK()
         {
-            
+
             if (_gcs_gps == false)
             {
-                
+
                 myODID_Status.setStatusAlert("GCS GPS Invalid");
-                
-            } else if (_odid_arm_msg == false)
+
+            }
+            else if (_odid_arm_msg == false)
             {
                 myODID_Status.setStatusAlert("Remote ID Msg Timeout");
-                
-            } else if (_odid_arm_status == false)
+
+            }
+            else if (_odid_arm_status == false)
             {
                 myODID_Status.setStatusAlert("Remote ID ARM Error");
-                
-            } else
+
+            }
+            else if (_uas_id == false)
+            {
+                myODID_Status.setStatusAlert("Need to input UAS ID");
+            }
+            else
             {
                 myODID_Status.setStatusOK();
-                
+
             }
             
         }
@@ -288,7 +303,7 @@ namespace MissionPlanner.Controls
             {
                 LED_gps_valid.Color = Color.Yellow;
                 //LBL_GCS_GPS_Invalid.Text = "GCS No DGPS Corr.";
-                _gcs_gps = false;
+                _gcs_gps = true;  // NOTE: This may need to be changed in the future to enforce SBAS only solutions
             }
             else
             {

@@ -16,7 +16,7 @@ namespace MissionPlanner.ArduPilot
         private byte target_system;
         private byte target_component;
 
-        public float rate_hz { get; set; } = 0.2f;
+        public float rate_hz { get; set; } = 1.0f;
         public MAVLink.MAV_ODID_UA_TYPE UAS_ID_type { get; set; } = 0;
         public string UAS_ID { get; set; } = "";
         public MAVLink.MAV_ODID_ID_TYPE UA_type { get; set; } = 0;
@@ -49,7 +49,7 @@ namespace MissionPlanner.ArduPilot
             target_component = compid;
 
             running = true;
-            timer = new Timer(Send, this, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(500));
+            timer = new Timer(Send, this, TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(50));
         }
 
         public void Stop()
@@ -72,7 +72,7 @@ namespace MissionPlanner.ArduPilot
         public void Send()
         {
             var now = DateTime.Now;
-            if ((now - last_send_s).TotalSeconds > (1.0 / rate_hz) / 4)
+            if ((now - last_send_s).TotalSeconds > (1.0 / (rate_hz*4)) )
             {
                 last_send_s = now;
 
