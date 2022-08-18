@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
-namespace MissionPlanner
+namespace OpenDroneID_Plugin
 {
     public class OpenDroneID_Plugin : MissionPlanner.Plugin.Plugin
     {
