@@ -77,8 +77,6 @@ namespace MissionPlanner.GCSViews
             this.myButton1 = new MissionPlanner.Controls.MyButton();
             this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.myButton3 = new MissionPlanner.Controls.MyButton();
-            this.tabDroneID = new System.Windows.Forms.TabPage();
-            
             this.tabPagePreFlight = new System.Windows.Forms.TabPage();
             this.checkListControl1 = new MissionPlanner.Controls.PreFlight.CheckListControl();
             this.tabGauges = new System.Windows.Forms.TabPage();
@@ -237,7 +235,6 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.SuspendLayout();
             this.tabPagemessages.SuspendLayout();
             this.tabActionsSimple.SuspendLayout();
-            this.tabDroneID.SuspendLayout();
             this.tabPagePreFlight.SuspendLayout();
             this.tabGauges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).BeginInit();
@@ -311,9 +308,7 @@ namespace MissionPlanner.GCSViews
             this.hud1.BackColor = System.Drawing.Color.Black;
             this.hud1.batterycellcount = 4;
             this.hud1.batterylevel = 0F;
-            this.hud1.batterylevel2 = 0F;
             this.hud1.batteryremaining = 0F;
-            this.hud1.batteryremaining2 = 0F;
             this.hud1.bgimage = null;
             this.hud1.connected = false;
             this.hud1.ContextMenuStrip = this.contextMenuStripHud;
@@ -321,7 +316,6 @@ namespace MissionPlanner.GCSViews
             this.hud1.criticalvoltagealert = false;
             this.hud1.critSSA = 30F;
             this.hud1.current = 0F;
-            this.hud1.current2 = 0F;
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("airspeed", this.bindingSourceHud, "airspeed", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("alt", this.bindingSourceHud, "alt", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("batterylevel", this.bindingSourceHud, "battery_voltage", true));
@@ -541,7 +535,6 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.Controls.Add(this.tabActions);
             this.tabControlactions.Controls.Add(this.tabPagemessages);
             this.tabControlactions.Controls.Add(this.tabActionsSimple);
-            this.tabControlactions.Controls.Add(this.tabDroneID);
             this.tabControlactions.Controls.Add(this.tabPagePreFlight);
             this.tabControlactions.Controls.Add(this.tabGauges);
             this.tabControlactions.Controls.Add(this.tabTransponder);
@@ -1083,7 +1076,6 @@ namespace MissionPlanner.GCSViews
             this.toolTip1.SetToolTip(this.myButton3, resources.GetString("myButton3.ToolTip"));
             this.myButton3.UseVisualStyleBackColor = true;
             this.myButton3.Click += new System.EventHandler(this.BUT_quickauto_Click);
-           
             // 
             // tabPagePreFlight
             // 
@@ -2454,7 +2446,7 @@ namespace MissionPlanner.GCSViews
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2686,7 +2678,6 @@ namespace MissionPlanner.GCSViews
             this.tabPagemessages.ResumeLayout(false);
             this.tabPagemessages.PerformLayout();
             this.tabActionsSimple.ResumeLayout(false);
-            this.tabDroneID.ResumeLayout(false);
             this.tabPagePreFlight.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).EndInit();
@@ -2942,7 +2933,5 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem showIconsToolStripMenuItem;
         private ToolStripMenuItem multiLineToolStripMenuItem;
         private Controls.MyButton BUT_SendMSG;
-        private TabPage tabDroneID;
-       
     }
 }
