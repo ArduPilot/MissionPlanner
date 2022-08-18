@@ -52,8 +52,6 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay tfrpolygons;
         internal GMapMarker CurrentGMapMarker;
-        
-        static MAVLink.mavlink_open_drone_id_arm_status_t odid_arm_status;
 
         internal PointLatLng MouseDownStart;
 
