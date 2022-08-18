@@ -189,6 +189,11 @@ namespace MissionPlanner.Plugin
                     }
                 }
             }
+            catch (ReflectionTypeLoadException ex)
+            {
+                log.Error("Failed to load plugin " + asm.FullName, ex);
+                log.Error("Failed to load plugin " + asm.FullName, ex.LoaderExceptions.FirstOrDefault());
+            }
             catch (Exception ex)
             {
                 log.Error("Failed to load plugin " + asm.FullName, ex);
