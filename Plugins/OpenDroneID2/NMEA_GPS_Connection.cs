@@ -131,6 +131,7 @@ namespace MissionPlanner
             }
             else
             {
+                LBL_gpsStatus.Text = "Connecting to " + CMB_serialport.Text;
                 try
                 {
                     switch (CMB_serialport.Text)
@@ -183,13 +184,15 @@ namespace MissionPlanner
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show(Strings.ErrorConnecting + "\n" + ex.ToString(), Strings.ERROR);
+                    //CustomMessageBox.Show(Strings.ErrorConnecting + "\n" + ex.ToString(), Strings.ERROR);
+                    LBL_gpsStatus.Text = "Error Connecting to " + CMB_serialport.Text + ". Try again.";
                     return;
                 }
 
                 if (comPort != null && comPort.IsOpen)
                 {
                     Console.WriteLine("Moving Base COM Port Opened at port " + comPort.PortName);
+                    LBL_gpsStatus.Text = "Connected to " + comPort.PortName + ". Waiting for fix";
                     timer2.Stop();
                 }
 
@@ -247,7 +250,7 @@ namespace MissionPlanner
 
                             if (items[6] == "0")
                             {
-                                Console.WriteLine("No Fix");
+                                LBL_gpsStatus.Text = "Connected, No Fix";
                                 continue;
                             }
 
