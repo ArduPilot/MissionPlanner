@@ -8,7 +8,6 @@ using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System.Drawing;
 using System.Diagnostics;
-using MissionPlanner.ArduPilot;
 using static MissionPlanner.Utilities.LTM;
 
 
@@ -29,7 +28,8 @@ namespace MissionPlanner.Controls
         private bool _odid_arm_msg, _uas_id, _gcs_gps, _odid_arm_status; 
 
         private const int ODID_ARM_MESSAGE_TIMEOUT = 5000;
-        public OpenDroneID myDID = new OpenDroneID();
+        private OpenDroneID_Backend myDID = new OpenDroneID_Backend();
+        
 
         private Plugin.PluginHost _host = null;
 
