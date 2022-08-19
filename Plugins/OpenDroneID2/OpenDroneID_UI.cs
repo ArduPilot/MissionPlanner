@@ -254,8 +254,6 @@ namespace MissionPlanner.Controls
             
         }
 
-   
-
         private void checkGCSGPS()
         {
             try 

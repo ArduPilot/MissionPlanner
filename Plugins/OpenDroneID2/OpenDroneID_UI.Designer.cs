@@ -30,9 +30,9 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle10 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle11 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle12 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle7 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle8 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle9 = new BrightIdeasSoftware.HeaderStateStyle();
             this.txt_UserID = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -58,18 +58,18 @@ namespace MissionPlanner.Controls
             this.headerFormatStyle1 = new BrightIdeasSoftware.HeaderFormatStyle();
             this.ODOD_tabs = new System.Windows.Forms.TabControl();
             this.tabStatus = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
             this.TXT_RID_Status_Msg = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.TXT_ODID_Status = new System.Windows.Forms.RichTextBox();
             this.tab_uid = new System.Windows.Forms.TabPage();
             this.tab_ops = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CMB_op_id_type = new System.Windows.Forms.ComboBox();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.nmea_GPS_1 = new MissionPlanner.NMEA_GPS_Connection();
             this.myODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
-            this.label6 = new System.Windows.Forms.Label();
-            this.CMB_op_id_type = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.ODOD_tabs.SuspendLayout();
             this.tabStatus.SuspendLayout();
@@ -297,9 +297,9 @@ namespace MissionPlanner.Controls
             // 
             // headerFormatStyle1
             // 
-            this.headerFormatStyle1.Hot = headerStateStyle10;
-            this.headerFormatStyle1.Normal = headerStateStyle11;
-            this.headerFormatStyle1.Pressed = headerStateStyle12;
+            this.headerFormatStyle1.Hot = headerStateStyle7;
+            this.headerFormatStyle1.Normal = headerStateStyle8;
+            this.headerFormatStyle1.Pressed = headerStateStyle9;
             // 
             // ODOD_tabs
             // 
@@ -326,6 +326,17 @@ namespace MissionPlanner.Controls
             this.tabStatus.Text = "Status";
             this.tabStatus.UseVisualStyleBackColor = true;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(6, 155);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(273, 26);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "This version of Open Drone ID Plugin is for Testing Only.\r\nDouble Click GPS Data " +
+    "for RAW NMEA Viewer. ";
+            // 
             // TXT_RID_Status_Msg
             // 
             this.TXT_RID_Status_Msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -348,7 +359,7 @@ namespace MissionPlanner.Controls
             // 
             this.TXT_ODID_Status.Location = new System.Drawing.Point(4, 30);
             this.TXT_ODID_Status.Name = "TXT_ODID_Status";
-            this.TXT_ODID_Status.Size = new System.Drawing.Size(347, 133);
+            this.TXT_ODID_Status.Size = new System.Drawing.Size(347, 122);
             this.TXT_ODID_Status.TabIndex = 0;
             this.TXT_ODID_Status.Text = "";
             // 
@@ -387,24 +398,15 @@ namespace MissionPlanner.Controls
             this.tab_ops.Text = "Operations";
             this.tab_ops.UseVisualStyleBackColor = true;
             // 
-            // timer2
+            // label7
             // 
-            this.timer2.Interval = 1000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
-            // nmea_GPS_1
-            // 
-            this.nmea_GPS_1.Location = new System.Drawing.Point(6, 3);
-            this.nmea_GPS_1.Name = "nmea_GPS_1";
-            this.nmea_GPS_1.Size = new System.Drawing.Size(369, 88);
-            this.nmea_GPS_1.TabIndex = 56;
-            // 
-            // myODID_Status
-            // 
-            this.myODID_Status.Location = new System.Drawing.Point(6, 97);
-            this.myODID_Status.Name = "myODID_Status";
-            this.myODID_Status.Size = new System.Drawing.Size(140, 40);
-            this.myODID_Status.TabIndex = 54;
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(7, 66);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(45, 13);
+            this.label7.TabIndex = 50;
+            this.label7.Text = "Self ID: ";
             // 
             // label6
             // 
@@ -425,25 +427,24 @@ namespace MissionPlanner.Controls
             this.CMB_op_id_type.Size = new System.Drawing.Size(195, 21);
             this.CMB_op_id_type.TabIndex = 49;
             // 
-            // label7
+            // timer2
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(7, 66);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(45, 13);
-            this.label7.TabIndex = 50;
-            this.label7.Text = "Self ID: ";
+            this.timer2.Interval = 1000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
-            // label8
+            // nmea_GPS_1
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(6, 166);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(273, 13);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "This version of Open Drone ID Plugin is for Testing Only.";
+            this.nmea_GPS_1.Location = new System.Drawing.Point(6, 3);
+            this.nmea_GPS_1.Name = "nmea_GPS_1";
+            this.nmea_GPS_1.Size = new System.Drawing.Size(369, 88);
+            this.nmea_GPS_1.TabIndex = 56;
+            // 
+            // myODID_Status
+            // 
+            this.myODID_Status.Location = new System.Drawing.Point(6, 97);
+            this.myODID_Status.Name = "myODID_Status";
+            this.myODID_Status.Size = new System.Drawing.Size(140, 40);
+            this.myODID_Status.TabIndex = 54;
             // 
             // OpenDroneID_UI
             // 

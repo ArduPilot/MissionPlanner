@@ -98,6 +98,7 @@
             this.LBL_gpsStatus.TabIndex = 42;
             this.LBL_gpsStatus.Text = "Not Yet Started                                                                  " +
     "                              ";
+            this.LBL_gpsStatus.DoubleClick += new System.EventHandler(this.LBL_gpsStatus_DoubleClick);
             // 
             // groupBox1
             // 

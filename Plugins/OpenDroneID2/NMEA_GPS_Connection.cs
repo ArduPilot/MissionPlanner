@@ -35,6 +35,8 @@ namespace MissionPlanner
         private bool portsAreLoaded = false;
         static NMEA_GPS_Connection Instance;
 
+        private NMEA_Viewer _nmeaViewer;
+
         public NMEA_GPS_Connection()
         {
             InitializeComponent();
@@ -236,6 +238,7 @@ namespace MissionPlanner
                     {
                         string line = comPort.ReadLine();
                         //Console.WriteLine(line); // for debug
+                        
 
                         //string line = string.Format("$GP{0},{1:HHmmss},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA", DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng * 100), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", MainV2.comPort.MAV.cs.gpsstatus, MainV2.comPort.MAV.cs.satcount, MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.alt, "M", 0, "M", "");
                         if (line.StartsWith("$GPGGA") || line.StartsWith("$GNGGA")) // 
@@ -284,6 +287,10 @@ namespace MissionPlanner
 
                             last_gps_msg.Restart();
                             udpate_gps_text();
+                            updateNMEAViewer(true, line);
+                        } else
+                        {
+                            updateNMEAViewer(false, line);
                         }
 
 
@@ -301,7 +308,19 @@ namespace MissionPlanner
             }
         }
 
-        private void udpate_gps_text()
+        private void updateNMEAViewer(bool inUse, string line)
+        {
+            try
+            {
+                if (_nmeaViewer != null)
+                {
+                    _nmeaViewer.update_NMEA_String(((inUse==true)?"> ":"X ") + line);
+                }
+            }
+            catch { }
+        }
+
+    private void udpate_gps_text()
         {
             if (!Instance.IsDisposed)
             {
@@ -326,6 +345,13 @@ namespace MissionPlanner
             {
 
             }
+        }
+
+        private void LBL_gpsStatus_DoubleClick(object sender, EventArgs e)
+        {
+            _nmeaViewer = new NMEA_Viewer(); 
+            _nmeaViewer.Show();
+            _nmeaViewer.setLabel("Showing Feed from: " + comPort.PortName);
         }
 
         // Calculates the checksum for a sentence
