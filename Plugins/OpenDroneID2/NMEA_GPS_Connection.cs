@@ -75,13 +75,14 @@ namespace MissionPlanner
 
             if (portsAreLoaded == false || CMB_serialport.SelectedIndex > 0) return;
             init_com_port_list();
-            Console.Write("Checking Auto Connect {" + Settings.Instance["moving_gps_com"] + "," + Settings.Instance["moving_gps_baud"] + "}... ");
+            
+            
             try
             {
                 if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_com"]) && CMB_serialport.Items.Contains(Settings.Instance["moving_gps_com"]))
                 {
                     CMB_serialport.SelectedIndex = CMB_serialport.Items.IndexOf(Settings.Instance["moving_gps_com"]);
-                    Console.Write("COM: " + CMB_serialport.Text);
+                    //Console.Write("COM: " + CMB_serialport.Text);
                 }
                 else
                     return;
@@ -89,24 +90,29 @@ namespace MissionPlanner
                 if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_baud"]) && CMB_baudrate.Items.Contains(Settings.Instance["moving_gps_baud"]))
                 {
                     CMB_baudrate.SelectedIndex = CMB_baudrate.Items.IndexOf(Settings.Instance["moving_gps_baud"]);
-                    Console.Write(" BAUD: " + CMB_baudrate.Text);
+                    //Console.Write(" BAUD: " + CMB_baudrate.Text);
                 }
 
-                Console.WriteLine();
-                timer2.Stop();
+                
 
                 //if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_auto"]) && Settings.Instance["moving_gps_auto"]=="True")
                 if (Settings.Instance.GetBoolean("moving_gps_auto"))
                 {
-                    CB_auto_connect.Checked = true;
-                    //doGPSConnect();
+                    if (CB_auto_connect.Checked == true)
+                        doGPSConnect();
+                    else
+                        CB_auto_connect.Checked = true; // will auto try to connect
+                    
                 }
+
+                //Console.WriteLine();
+                
 
 
             }
             catch
             {
-                Console.WriteLine("Auto Connect Failed.");
+                Console.WriteLine("Auto Connect Setup Failed.");
             }
 
         }
@@ -182,8 +188,10 @@ namespace MissionPlanner
                 }
 
                 if (comPort != null && comPort.IsOpen)
+                {
                     Console.WriteLine("Moving Base COM Port Opened at port " + comPort.PortName);
-
+                    timer2.Stop();
+                }
 
                 Settings.Instance["moving_gps_com"] = CMB_serialport.Text;
                 Settings.Instance["moving_gps_baud"] = CMB_baudrate.Text;
