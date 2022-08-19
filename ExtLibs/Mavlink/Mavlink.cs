@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Aug 09 2022";
+    public const string MAVLINK_BUILD_DATE = "Fri Aug 19 2022";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -306,6 +306,7 @@ public partial class MAVLink
         new message_info(12905, "OPEN_DRONE_ID_OPERATOR_ID", 49, 43, 43, typeof( mavlink_open_drone_id_operator_id_t )),
         new message_info(12915, "OPEN_DRONE_ID_MESSAGE_PACK", 94, 249, 249, typeof( mavlink_open_drone_id_message_pack_t )),
         new message_info(12918, "OPEN_DRONE_ID_ARM_STATUS", 139, 51, 51, typeof( mavlink_open_drone_id_arm_status_t )),
+        new message_info(12919, "OPEN_DRONE_ID_SYSTEM_UPDATE", 7, 18, 18, typeof( mavlink_open_drone_id_system_update_t )),
         new message_info(12920, "HYGROMETER_SENSOR", 20, 5, 5, typeof( mavlink_hygrometer_sensor_t )),
         new message_info(42000, "ICAROUS_HEARTBEAT", 227, 1, 1, typeof( mavlink_icarous_heartbeat_t )),
         new message_info(42001, "ICAROUS_KINEMATIC_BANDS", 239, 46, 46, typeof( mavlink_icarous_kinematic_bands_t )),
@@ -617,6 +618,7 @@ public partial class MAVLink
         OPEN_DRONE_ID_OPERATOR_ID = 12905,
         OPEN_DRONE_ID_MESSAGE_PACK = 12915,
         OPEN_DRONE_ID_ARM_STATUS = 12918,
+        OPEN_DRONE_ID_SYSTEM_UPDATE = 12919,
         HYGROMETER_SENSOR = 12920,
         ICAROUS_HEARTBEAT = 42000,
         ICAROUS_KINEMATIC_BANDS = 42001,
@@ -28751,6 +28753,77 @@ public partial class MAVLink
         //[FieldOffset(24)]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=225)]
 		public byte[] messages;
+    };
+
+    
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=18)]
+    ///<summary> Update the data in the OPEN_DRONE_ID_SYSTEM message with new location information. This can be sent to update the location information for the operator when no other information in the SYSTEM message has changed. This message allows for efficient operation on radio links which have limited uplink bandwidth while meeting requirements for update frequency of the operator location. </summary>
+    public struct mavlink_open_drone_id_system_update_t
+    {
+        /// packet ordered constructor
+        public mavlink_open_drone_id_system_update_t(int operator_latitude,int operator_longitude,float operator_altitude_geo,uint timestamp,byte target_system,byte target_component) 
+        {
+            this.operator_latitude = operator_latitude;
+            this.operator_longitude = operator_longitude;
+            this.operator_altitude_geo = operator_altitude_geo;
+            this.timestamp = timestamp;
+            this.target_system = target_system;
+            this.target_component = target_component;
+            
+        }
+        
+        /// packet xml order
+        public static mavlink_open_drone_id_system_update_t PopulateXMLOrder(byte target_system,byte target_component,int operator_latitude,int operator_longitude,float operator_altitude_geo,uint timestamp) 
+        {
+            var msg = new mavlink_open_drone_id_system_update_t();
+
+            msg.target_system = target_system;
+            msg.target_component = target_component;
+            msg.operator_latitude = operator_latitude;
+            msg.operator_longitude = operator_longitude;
+            msg.operator_altitude_geo = operator_altitude_geo;
+            msg.timestamp = timestamp;
+            
+            return msg;
+        }
+        
+
+        /// <summary>Latitude of the operator. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Latitude of the operator. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(0)]
+        public  int operator_latitude;
+
+        /// <summary>Longitude of the operator. If unknown: 0 (both Lat/Lon).  [degE7] </summary>
+        [Units("[degE7]")]
+        [Description("Longitude of the operator. If unknown: 0 (both Lat/Lon).")]
+        //[FieldOffset(4)]
+        public  int operator_longitude;
+
+        /// <summary>Geodetic altitude of the operator relative to WGS84. If unknown: -1000 m.  [m] </summary>
+        [Units("[m]")]
+        [Description("Geodetic altitude of the operator relative to WGS84. If unknown: -1000 m.")]
+        //[FieldOffset(8)]
+        public  float operator_altitude_geo;
+
+        /// <summary>32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.  [s] </summary>
+        [Units("[s]")]
+        [Description("32 bit Unix Timestamp in seconds since 00:00:00 01/01/2019.")]
+        //[FieldOffset(12)]
+        public  uint timestamp;
+
+        /// <summary>System ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("System ID (0 for broadcast).")]
+        //[FieldOffset(16)]
+        public  byte target_system;
+
+        /// <summary>Component ID (0 for broadcast).   </summary>
+        [Units("")]
+        [Description("Component ID (0 for broadcast).")]
+        //[FieldOffset(17)]
+        public  byte target_component;
     };
 
     
