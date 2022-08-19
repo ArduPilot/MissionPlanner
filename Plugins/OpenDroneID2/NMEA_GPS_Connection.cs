@@ -29,7 +29,7 @@ namespace MissionPlanner
         public double Lat, Lng;
         public double Alt, Alt_WGS84;
         public float hdop;
-        int Sats;
+        int sats;
         int fix_type;
         public Stopwatch last_gps_msg = new Stopwatch();
         private bool portsAreLoaded = false;
@@ -285,6 +285,9 @@ namespace MissionPlanner
                             
                             fix_type = (int.Parse(items[6]));
 
+                            sats = (int.Parse(items[7]));
+                            hdop = (float.Parse(items[8]));
+
                             last_gps_msg.Restart();
                             udpate_gps_text();
                             updateNMEAViewer(true, line);
@@ -330,7 +333,7 @@ namespace MissionPlanner
                         {
                             Instance.LBL_gpsStatus.Text = String.Format("{0:0.00000}", Lat) + " " + String.Format("{0:0.00000}", Lng) + " " +
                                                          String.Format("{0:0.002} m", Alt) + Environment.NewLine + "WGS84: " + String.Format("{0:0.002} m", Alt_WGS84) + 
-                                                         " Sats: " + Sats + " HDOP: " + String.Format("{0:0.002} m", hdop) + " DGPS: " + ((fix_type > 1) ? "Yes":"No");
+                                                         " Sats: " + sats + " HDOP: " + String.Format("{0:0.002} m", hdop) + " DGPS: " + ((fix_type > 1) ? "Yes":"No");
                         }
                     );
             }
