@@ -77,7 +77,7 @@ namespace MissionPlanner.Joystick
                 var ax = new JoystickAxis()
                 {
                     ChannelNo = a,
-                    Label = "Ch " + a,
+                    Label = "RC " + a,
                     AxisArray = (Enum.GetValues(typeof(joystickaxis))),
                     ChannelValue = config.axis.ToString(),
                     ExpoValue = config.expo.ToString(),
