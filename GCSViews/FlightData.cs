@@ -4859,6 +4859,8 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private List<Form> isDropperdOut = new List<Form>();
+
         private void updateBindingSourceWork()
         {
             try
@@ -4905,8 +4907,13 @@ namespace MissionPlanner.GCSViews
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(
                         bindingSourceHud.UpdateDataSource(MainV2.comPort.MAV.cs));
                 }
-                //if the tab detached wi have to update it 
+                
+                // if the tab detached we have to update it 
                 if (tabQuickDetached) MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
+
+                // if any tabs are dropped out, we have to upodate them
+                foreach (Form form in isDropperdOut)
+                    updateFirstBindingSource(form);
 
                 lastscreenupdate = DateTime.Now;
             }
@@ -4914,6 +4921,21 @@ namespace MissionPlanner.GCSViews
             {
                 log.Error(ex);
                 Tracking.AddException(ex);
+            }
+        }
+
+        private void updateFirstBindingSource(Control startingControl)
+        {
+            if (startingControl.DataBindings.Count > 0)
+            {
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings((startingControl.DataBindings[0].DataSource as BindingSource).UpdateDataSource(MainV2.comPort.MAV.cs));
+            }
+            else if (startingControl.Controls.Count > 0)
+            {
+                foreach (Control childControl in startingControl.Controls)
+                {
+                    updateFirstBindingSource(childControl);
+                }
             }
         }
 
@@ -5474,7 +5496,6 @@ namespace MissionPlanner.GCSViews
 
         private void undockDockToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             Form dropout = new Form();
             TabControl tab = new TabControl();
             dropout.FormBorderStyle = FormBorderStyle.Sizable;
