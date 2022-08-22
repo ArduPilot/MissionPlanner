@@ -2231,17 +2231,6 @@ namespace MissionPlanner.GCSViews
             POI.POIDelete((GMapMarkerPOI) CurrentGMapMarker);
         }
 
-        void dropout_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            (sender as Form).SaveStartupLocation();
-            //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
-            ((sender as Form).Tag as Control).Controls.Add(hud1);
-            //SubMainLeft.Panel1.Controls.Add(hud1);
-            if (hud1.Parent == SubMainLeft.Panel1)
-                SubMainLeft.Panel1Collapsed = false;
-            huddropout = false;
-        }
-
         void dropout_Resize(object sender, EventArgs e)
         {
             if (huddropoutresize)
@@ -2864,6 +2853,17 @@ namespace MissionPlanner.GCSViews
             dropout.RestoreStartupLocation();
             dropout.Show();
             huddropout = true;
+        }
+
+        void dropout_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            (sender as Form).SaveStartupLocation();
+            //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
+            ((sender as Form).Tag as Control).Controls.Add(hud1);
+            //SubMainLeft.Panel1.Controls.Add(hud1);
+            if (hud1.Parent == SubMainLeft.Panel1)
+                SubMainLeft.Panel1Collapsed = false;
+            huddropout = false;
         }
 
         private void hud1_ekfclick(object sender, EventArgs e)
