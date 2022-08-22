@@ -4598,6 +4598,47 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void TabControlactions_DoubleClick(object sender, System.EventArgs e)
+        {
+            Form dropoutForm = new Form();
+            TabControl sourceTC = sender as TabControl;
+            TabPage sourceTP = sourceTC.SelectedTab;
+            TabControl dropoutTab = new TabControl();
+
+            dropoutForm.RestoreStartupLocation();
+            dropoutForm.Text = $"{sourceTP.Text} Tab Dropout";
+            dropoutForm.FormClosed += DropoutForm_FormClosed;
+            dropoutForm.FormBorderStyle = FormBorderStyle.Sizable;
+            dropoutForm.ShowInTaskbar = false;
+            dropoutForm.Size = new Size(sourceTP.Width, sourceTP.Width);
+
+            sourceTP.Tag = sourceTC.SelectedIndex;
+
+            dropoutTab.Appearance = TabAppearance.FlatButtons;
+            dropoutTab.ItemSize = new Size(0, 0);
+            dropoutTab.SizeMode = TabSizeMode.Fixed;
+            dropoutTab.Size = new Size(dropoutForm.ClientSize.Width, dropoutForm.ClientSize.Height + 22);
+            dropoutTab.Location = new Point(0, -22);
+            dropoutTab.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControlactions.Controls.Remove(sourceTP);
+            dropoutTab.Controls.Add(sourceTP);
+            sourceTP.BorderStyle = BorderStyle.Fixed3D;
+            dropoutForm.Controls.Add(dropoutTab);
+
+            isDropperdOut.Add(dropoutForm);
+            dropoutForm.Show();
+        }
+
+        private void DropoutForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form dropoutForm = sender as Form;
+            TabControl sourceTC = dropoutForm.Controls[0] as TabControl;
+            TabPage dropoutTP = sourceTC.TabPages[0];
+            isDropperdOut.Remove(dropoutForm);
+            dropoutForm.SaveStartupLocation();
+            tabControlactions.Controls.Add(dropoutTP);
+        }
+
         private void tabPage1_Resize(object sender, EventArgs e)
         {
             int mywidth, myheight;
