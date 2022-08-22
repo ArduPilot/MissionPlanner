@@ -4598,6 +4598,24 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private bool tabInserting = false;
+
+        private void TabControlactions_ControlAdded(object sender, ControlEventArgs e)
+        {
+            TabControl tc = sender as TabControl;
+            TabPage tp = e.Control as TabPage;
+
+            if (!tabInserting && tp.Tag != null && int.TryParse(tp.Tag.ToString(), out int tabIndex))
+            {
+                tabInserting = true;
+                tabIndex = Convert.ToInt32(tp.Tag);
+                tc.Controls.Remove(tp);
+                tc.TabPages.Insert(tabIndex, tp);
+                tc.SelectedTab = tp;
+                tabInserting = false;
+            }
+        }
+
         private void tabPage1_Resize(object sender, EventArgs e)
         {
             int mywidth, myheight;

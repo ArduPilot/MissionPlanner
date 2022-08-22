@@ -549,6 +549,7 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.SelectedIndex = 0;
             this.tabControlactions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             this.tabControlactions.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControlactions.ControlAdded += TabControlactions_ControlAdded;
             // 
             // contextMenuStripactionstab
             // 
@@ -2724,8 +2725,6 @@ namespace MissionPlanner.GCSViews
             this.ResumeLayout(false);
 
         }
-
-  
 
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Timer ZedGraphTimer;
