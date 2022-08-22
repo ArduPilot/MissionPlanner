@@ -1005,30 +1005,6 @@ namespace MissionPlanner.GCSViews
                 MainV2.comPort.MAV.camerapoints.Clear();
         }
 
-        void but_Click(object sender, EventArgs e)
-        {
-            foreach (MainSwitcher.Screen sc in MainV2.View.screens)
-            {
-                if (sc.Name == "FlightPlanner")
-                {
-                    splitContainer1.Panel2.Controls.Remove(sc.Control);
-                    splitContainer1.Panel2.Controls.Remove((Control) sender);
-                    sc.Control.Visible = false;
-
-                    if (sc.Control is IDeactivate)
-                    {
-                        ((IDeactivate) (sc.Control)).Deactivate();
-                    }
-
-                    break;
-                }
-            }
-
-            foreach (Control ctl in splitContainer1.Panel2.Controls)
-            {
-                ctl.Visible = true;
-            }
-        }
 
         private void but_dflogtokml_Click(object sender, EventArgs e)
         {
@@ -2445,38 +2421,40 @@ namespace MissionPlanner.GCSViews
 
         private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (Control ctl in splitContainer1.Panel2.Controls)
+            Form flightPlannerDropout = new Form();
+            flightPlannerDropout.Text = "Flight Planner";
+            flightPlannerDropout.FormBorderStyle = FormBorderStyle.Sizable;
+            flightPlannerDropout.FormClosed += FilghtPlannerDropout_FormClosed;
+            flightPlannerDropout.RestoreStartupLocation();
+
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+            flightPlannerDropout.Controls.Add(flightPlannerScreen.Control);
+            flightPlannerScreen.Control.Dock = DockStyle.Fill;
+            flightPlannerScreen.Control.Visible = true;
+
+            ThemeManager.ApplyThemeTo(flightPlannerScreen.Control);
+            ThemeManager.ApplyThemeTo(flightPlannerDropout);
+            ThemeManager.ApplyThemeTo(this);
+
+            if (flightPlannerScreen.Control is IActivate)
             {
-                ctl.Visible = false;
+                ((IActivate) (flightPlannerScreen.Control)).Activate();
             }
 
-            foreach (MainSwitcher.Screen sc in MainV2.View.screens)
+            if (flightPlannerDropout != null) flightPlannerDropout.Show();
+        }
+
+        private void FilghtPlannerDropout_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form flightPlannerDropout = sender as Form;
+            flightPlannerDropout.SaveStartupLocation();
+
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+            flightPlannerScreen.Control.Visible = false;
+
+            if (flightPlannerScreen.Control is IDeactivate)
             {
-                if (sc.Name == "FlightPlanner")
-                {
-                    MyButton but = new MyButton
-                    {
-                        Location = new Point(splitContainer1.Panel2.Width / 2, 0),
-                        Text = "Close"
-                    };
-                    but.Click += but_Click;
-
-                    splitContainer1.Panel2.Controls.Add(but);
-                    splitContainer1.Panel2.Controls.Add(sc.Control);
-                    ThemeManager.ApplyThemeTo(sc.Control);
-                    ThemeManager.ApplyThemeTo(this);
-
-                    sc.Control.Dock = DockStyle.Fill;
-                    sc.Control.Visible = true;
-
-                    if (sc.Control is IActivate)
-                    {
-                        ((IActivate) (sc.Control)).Activate();
-                    }
-
-                    but.BringToFront();
-                    break;
-                }
+                ((IDeactivate)(flightPlannerScreen.Control)).Deactivate();
             }
         }
 
