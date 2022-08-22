@@ -11,6 +11,13 @@ namespace MissionPlanner.Controls
 {
     public static class ControlHelpers
     {
+        public class FormStartLocation
+        {
+            public Point Location { get; set; }
+            public Size Size { get; set; }
+            public FormWindowState State { get; set; }
+        }
+
         public static void RestoreStartupLocation(this Form control)
         {
             var value = Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"];
@@ -21,23 +28,25 @@ namespace MissionPlanner.Controls
                 {
                     var fsl = value.FromJSON<FormStartLocation>();
                     control.Location = fsl.Location;
-                    control.StartPosition = FormStartPosition.Manual;
                     control.Size = fsl.Size;
+                    control.StartPosition = RectVisible(control.Bounds) ? FormStartPosition.Manual : FormStartPosition.WindowsDefaultLocation;
                     control.WindowState = fsl.State;
                 } catch {}
             }
         }
 
-        public class FormStartLocation
-        {
-            public Point Location { get; set; }
-            public Size Size { get; set; }
-            public FormWindowState State { get; set; }
-        }
-
         public static void SaveStartupLocation(this Form control)
         {
             Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
+        }
+
+        private static bool RectVisible(Rectangle rectangle)
+        {
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                if (screen.Bounds.Contains(rectangle)) return true;
+            }
+            return false;
         }
 
         public static void InvokeIfRequired<T>(this T control, Action<T> action) where T : ISynchronizeInvoke
