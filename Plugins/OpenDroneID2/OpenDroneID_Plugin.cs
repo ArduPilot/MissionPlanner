@@ -32,21 +32,24 @@ namespace OpenDroneID_Plugin
         {
             myODID_UI.setHost(Host);
 
-            
+
 
             return true;
         }
 
         public override bool Loaded()
         {
+            forceSettings();
+
+            //TODO Uncomment once Beta is updates
+            Host.MainForm.FlightData.TabListOriginal.Add(tab);
 
             tabctrl = Host.MainForm.FlightData.tabControlactions;
             tab.Text = "Drone ID";
             tab.Controls.Add(myODID_UI);
             tabctrl.TabPages.Insert(5,tab);
 
-            //TODO Uncomment once Beta is updates
-            Host.MainForm.FlightData.TabListOriginal.Add(tab);
+
 
             Host.MainForm.FlightPlanner.updateDisplayView();
 
@@ -55,6 +58,24 @@ namespace OpenDroneID_Plugin
 
             return true;
         }
+
+
+        private void forceSettings()
+        {
+            
+
+            string tabs = Settings.Instance["tabcontrolactions"];
+
+            // setup default if doesnt exist
+            if (tabs == null)
+            {
+                CustomMessageBox.Show("Restart Mission Planner to enable Drone ID Tab");
+                Host.MainForm.FlightData.saveTabControlActions();
+                tabs = Settings.Instance["tabcontrolactions"];
+                Settings.Instance.Save();
+            }
+        }
+
 
         public override bool Exit()
         {
