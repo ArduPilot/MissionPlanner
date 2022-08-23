@@ -45,7 +45,7 @@ namespace OpenDroneID_Plugin
             tab.Controls.Add(myODID_UI);
             tabctrl.TabPages.Insert(5,tab);
             
-            Host.MainForm.FlightPlanner.updateDisplayView();
+            
             ThemeManager.ApplyThemeTo(tab);
             
 
