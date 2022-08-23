@@ -4,19 +4,23 @@ using System.Text;
 using System.Threading;
 using MissionPlanner.Utilities;
 using DateTime = System.DateTime;
+using MissionPlanner;
 
-namespace MissionPlanner.ArduPilot
+
+namespace MissionPlanner
 {
     /// <summary>
     /// https://mavlink.io/en/services/opendroneid.html
     /// </summary>
-    public class OpenDroneID
+    public class OpenDroneID_Backend
     {
         private MAVLinkInterface _mav;
         private byte target_system;
         private byte target_component;
 
-        public float rate_hz { get; set; } = 1.0f;
+        public float rate_hz { get; set; } = 0.1f;
+        public float system_updaterate_hz { get; set; } = 1.0f;
+
         public MAVLink.MAV_ODID_UA_TYPE UAS_ID_type { get; set; } = 0;
         public string UAS_ID { get; set; } = "";
         public MAVLink.MAV_ODID_ID_TYPE UA_type { get; set; } = 0;
@@ -38,7 +42,8 @@ namespace MissionPlanner.ArduPilot
         public float operator_altitude_geo { get; set; } = 0;
 
         int count;
-        private DateTime last_send_s = DateTime.MinValue;
+        private DateTime last_ext_send_s = DateTime.MinValue;
+        private DateTime last_update_send_s = DateTime.MinValue;
         private Timer timer;
         private bool running;
 
@@ -49,7 +54,7 @@ namespace MissionPlanner.ArduPilot
             target_component = compid;
 
             running = true;
-            timer = new Timer(Send, this, TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(50));
+            timer = new Timer(Send, this, TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(100));
         }
 
         public void Stop()
@@ -66,15 +71,19 @@ namespace MissionPlanner.ArduPilot
         internal void Send(object self)
         {
             running = true;
-            Send();
+            if (!Send_Update())
+            {
+                Send_Extended();
+            }
+            
         }
 
-        public void Send()
+        public void Send_Extended()
         {
             var now = DateTime.Now;
-            if ((now - last_send_s).TotalSeconds > (1.0 / (rate_hz*4)) )
+            if ((now - last_ext_send_s).TotalSeconds > (1.0 / (rate_hz*4)) )
             {
-                last_send_s = now;
+                last_ext_send_s = now;
 
                 switch (count++ % 4)
                 {
@@ -105,6 +114,19 @@ namespace MissionPlanner.ArduPilot
             }
         }
 
+        public bool Send_Update()
+        {
+            var now = DateTime.Now;
+            
+            if ((now - last_update_send_s).TotalSeconds > (1.0 / system_updaterate_hz))
+            {
+                last_update_send_s = now;
+                send_system_update();
+                return true;
+            }
+                return false;
+        }
+
         public void send_basic_id()
         {
             var basic_id =
@@ -133,6 +155,18 @@ namespace MissionPlanner.ArduPilot
                 area_floor,
                 (byte)category_eu,
                 (byte)class_eu,
+                operator_altitude_geo,
+                timestamp_2019());
+            _mav.sendPacket(id_system, target_system, target_component);
+        }
+
+        public void send_system_update()
+        {
+            
+            var id_system = MAVLink.mavlink_open_drone_id_system_update_t.PopulateXMLOrder(target_system,
+                target_component,
+                (int)(operator_latitude * 1.0e7),
+                (int)(operator_longitude * 1.0e7),
                 operator_altitude_geo,
                 timestamp_2019());
             _mav.sendPacket(id_system, target_system, target_component);
