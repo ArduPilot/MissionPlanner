@@ -8,12 +8,9 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using LibVLC.NET;
-using MissionPlanner.Controls;
+using System.IO;
 
 namespace MissionPlanner
 {
@@ -37,6 +34,14 @@ namespace MissionPlanner
 
         private NMEA_Viewer _nmeaViewer;
 
+        System.Threading.Thread _thread;
+        static bool threadrun = false;
+        DateTime _last_time_1 = DateTime.Now;
+        DateTime _last_time_2 = DateTime.Now;
+        DateTime _startup_time = DateTime.Now;
+        float _update_rate_hz_1 = 10.0f; // 10 hz
+        float _update_rate_hz_2 = 1.0f; // 1 hz
+
         public NMEA_GPS_Connection()
         {
             InitializeComponent();
@@ -50,14 +55,24 @@ namespace MissionPlanner
             {
                 Console.WriteLine("Couldn't Init Open DID Form.");
             }
-            timer2.Start();
+            //timer2.Start();
+
+            MissionPlanner.Utilities.Tracking.AddPage(
+                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(),
+                System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            //Console.WriteLine();
+            _thread = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
+            {
+                IsBackground = true,
+                Name = "NMEA_Thread"
+            };
+            _thread.Start();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            // Check GPS
-            readNMEAGPS();
-        }
+        
+
+
 
         private void init_com_port_list()
         {
@@ -106,9 +121,6 @@ namespace MissionPlanner
                         CB_auto_connect.Checked = true; // will auto try to connect
                     
                 }
-
-                //Console.WriteLine();
-                
 
 
             }
@@ -195,14 +207,14 @@ namespace MissionPlanner
                 {
                     Console.WriteLine("Moving Base COM Port Opened at port " + comPort.PortName);
                     LBL_gpsStatus.Text = "Connected to " + comPort.PortName + ". Waiting for fix";
-                    timer2.Stop();
+                    
                 }
 
                 Settings.Instance["moving_gps_com"] = CMB_serialport.Text;
                 Settings.Instance["moving_gps_baud"] = CMB_baudrate.Text;
                 Settings.Instance["moving_gps_auto"] = CB_auto_connect.Checked.ToString();
 
-                timer1.Start();
+                threadrun = true;
                 last_gps_msg.Start();
                 BUT_connect.Text = Strings.Stop;
             }
@@ -339,16 +351,7 @@ namespace MissionPlanner
             }
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                autoConnectGPS();   
-            } catch
-            {
 
-            }
-        }
 
         private void LBL_gpsStatus_DoubleClick(object sender, EventArgs e)
         {
@@ -395,6 +398,49 @@ namespace MissionPlanner
         {
             doGPSConnect();
 
+        }
+
+        private void mainloop()
+        {
+            threadrun = true;
+            while (threadrun)
+            {
+                DateTime _now = DateTime.Now;
+                if ((comPort != null && comPort.IsOpen))
+                {
+                    try
+                    {
+                        if (_now > _last_time_1.AddSeconds(1.0 / _update_rate_hz_1))
+                        {
+                            // Check GPS
+                            readNMEAGPS();
+                            _last_time_1 = DateTime.Now;
+                        }
+                    }
+                    catch
+                    {
+                        System.Threading.Thread.Sleep((int)(1000 / _update_rate_hz_1));
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        if (_now.AddSeconds(-300) < _startup_time && _now > _last_time_2.AddSeconds(1.0 / _update_rate_hz_2))
+                        {
+                            // Check GPS
+                            autoConnectGPS();
+                            _last_time_2 = DateTime.Now;
+                        }
+                    }
+                    catch
+                    {
+                        System.Threading.Thread.Sleep((int)(1000 / _update_rate_hz_2));
+                    }
+
+
+                }
+            }
         }
 
     }
