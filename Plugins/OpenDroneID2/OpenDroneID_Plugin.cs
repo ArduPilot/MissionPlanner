@@ -44,8 +44,12 @@ namespace OpenDroneID_Plugin
             tab.Text = "Drone ID";
             tab.Controls.Add(myODID_UI);
             tabctrl.TabPages.Insert(5,tab);
-            
-            
+
+            //TODO Uncomment once Beta is updates
+            //Host.MainForm.FlightData.TabListOriginal.Add(tab);
+
+            Host.MainForm.FlightPlanner.updateDisplayView();
+
             ThemeManager.ApplyThemeTo(tab);
             
 
