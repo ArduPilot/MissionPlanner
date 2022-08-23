@@ -29,12 +29,10 @@ namespace MissionPlanner.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle7 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle8 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle9 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
+            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
             this.txt_UserID = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.TXT_UAS_ID = new System.Windows.Forms.TextBox();
@@ -67,7 +65,6 @@ namespace MissionPlanner.Controls
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.CMB_op_id_type = new System.Windows.Forms.ComboBox();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.nmea_GPS_1 = new MissionPlanner.NMEA_GPS_Connection();
             this.myODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
             this.groupBox2.SuspendLayout();
@@ -85,11 +82,6 @@ namespace MissionPlanner.Controls
             this.txt_UserID.Name = "txt_UserID";
             this.txt_UserID.Size = new System.Drawing.Size(195, 20);
             this.txt_UserID.TabIndex = 0;
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 200;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label1
             // 
@@ -297,9 +289,9 @@ namespace MissionPlanner.Controls
             // 
             // headerFormatStyle1
             // 
-            this.headerFormatStyle1.Hot = headerStateStyle7;
-            this.headerFormatStyle1.Normal = headerStateStyle8;
-            this.headerFormatStyle1.Pressed = headerStateStyle9;
+            this.headerFormatStyle1.Hot = headerStateStyle1;
+            this.headerFormatStyle1.Normal = headerStateStyle2;
+            this.headerFormatStyle1.Pressed = headerStateStyle3;
             // 
             // ODOD_tabs
             // 
@@ -427,11 +419,6 @@ namespace MissionPlanner.Controls
             this.CMB_op_id_type.Size = new System.Drawing.Size(195, 21);
             this.CMB_op_id_type.TabIndex = 49;
             // 
-            // timer2
-            // 
-            this.timer2.Interval = 1000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
             // nmea_GPS_1
             // 
             this.nmea_GPS_1.Location = new System.Drawing.Point(6, 3);
@@ -472,7 +459,6 @@ namespace MissionPlanner.Controls
         #endregion
 
         private System.Windows.Forms.TextBox txt_UserID;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox TXT_UAS_ID;
@@ -503,7 +489,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.RichTextBox TXT_ODID_Status;
         private System.Windows.Forms.TextBox TXT_RID_Status_Msg;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CMB_op_id_type;
         private System.Windows.Forms.Label label7;

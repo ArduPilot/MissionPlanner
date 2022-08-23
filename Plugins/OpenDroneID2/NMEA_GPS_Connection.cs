@@ -57,10 +57,15 @@ namespace MissionPlanner
             }
             //timer2.Start();
 
-            MissionPlanner.Utilities.Tracking.AddPage(
-                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(),
-                System.Reflection.MethodBase.GetCurrentMethod().Name);
+            start();
 
+        }
+
+        
+
+        
+        public void start()
+        {
             //Console.WriteLine();
             _thread = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
             {
@@ -69,9 +74,6 @@ namespace MissionPlanner
             };
             _thread.Start();
         }
-
-        
-
 
 
         private void init_com_port_list()

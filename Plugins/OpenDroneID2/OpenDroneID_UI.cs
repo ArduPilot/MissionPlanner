@@ -9,6 +9,7 @@ using MissionPlanner.Utilities;
 using System.Drawing;
 using System.Diagnostics;
 using static MissionPlanner.Utilities.LTM;
+using System.Runtime.InteropServices;
 
 
 namespace MissionPlanner.Controls
@@ -21,7 +22,7 @@ namespace MissionPlanner.Controls
         private bool hasODID = false;
         
         private bool gpsHasSBAS = false;
-        private double wgs84_alt;
+
         private Stopwatch last_odid_msg = new Stopwatch();
         PointLatLngAlt gotolocation = new PointLatLngAlt();
 
@@ -36,6 +37,13 @@ namespace MissionPlanner.Controls
         private int _mySYS = 0; 
 
         private int _last_odid_error_agg;
+
+        System.Threading.Thread _thread_odid;
+        static bool threadrun = false;
+        DateTime _last_time_1 = DateTime.Now;
+        float _update_rate_hz_1 = 10.0f; // 10 hz
+        DateTime _last_time_2 = DateTime.Now;
+        float _update_rate_hz_2 = 1.0f; // 1 hz
 
         public OpenDroneID_UI()
         {
@@ -59,8 +67,19 @@ namespace MissionPlanner.Controls
             CMB_self_id_type.ValueMember = "Key";
             CMB_self_id_type.DataSource = System.Enum.GetValues(typeof(MAVLink.MAV_ODID_DESC_TYPE));
 
-            timer1.Start();
-            timer2.Start();
+
+            start();
+        }
+
+        public void start()
+        {
+            //Console.WriteLine();
+            _thread_odid = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
+            {
+                IsBackground = true,
+                Name = "ODID_Thread"
+            };
+            _thread_odid.Start();
         }
 
         public void setHost(Plugin.PluginHost host)
@@ -70,6 +89,7 @@ namespace MissionPlanner.Controls
 
         private void start_sub(bool force = false)
         {
+            if (_host == null) return;
 
             if (!force && (_host.comPort.BaseStream == null || !_host.comPort.BaseStream.IsOpen))
             {
@@ -86,7 +106,7 @@ namespace MissionPlanner.Controls
                 _mySYS =  _host.comPort.sysidcurrent;
                 hasODID = false;
                 last_odid_msg.Stop();
-                
+
                 //myDID.Stop();
             }
         }
@@ -124,6 +144,9 @@ namespace MissionPlanner.Controls
 
                     last_odid_msg.Start();
                     myDID.Start(_host.comPort, arg.sysid, arg.compid);
+
+
+
                 }
                 catch
                 {
@@ -143,26 +166,7 @@ namespace MissionPlanner.Controls
         }
 
  
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (!hasODID) return;
-
-            checkODIDMsgs();
-
-            checkUID();
-
-            checkODID_OK();
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            
-
-            checkGCSGPS();
-
-            start_sub();
-        }
-
+ 
 
 
         private void checkODIDMsgs()
@@ -274,7 +278,7 @@ namespace MissionPlanner.Controls
 
                     myDID.operator_latitude = nmea_GPS_1.Lat;
                     myDID.operator_longitude = nmea_GPS_1.Lng;
-                    myDID.operator_altitude_geo = (float)wgs84_alt;
+                    myDID.operator_altitude_geo = (float)nmea_GPS_1.Alt_WGS84;
                     myDID.operator_location_type = MAVLink.MAV_ODID_OPERATOR_LOCATION_TYPE.LIVE_GNSS;
 
 
@@ -321,6 +325,53 @@ namespace MissionPlanner.Controls
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             Settings.Instance["ODID_UAS_ID"] = TXT_UAS_ID.Text; 
+        }
+
+        private void mainloop()
+        {
+            threadrun = true;
+            while (threadrun)
+            {
+                DateTime _now = DateTime.Now;
+                try
+                {
+                    if (_now > _last_time_1.AddSeconds(1.0 / _update_rate_hz_1))
+                    {
+                        // Check GPS
+                        if (hasODID) {
+                            checkODIDMsgs();
+
+                            checkUID();
+
+                            checkODID_OK();
+                        }
+                        _last_time_1 = DateTime.Now;
+                    }
+                }
+                catch
+                {
+                    System.Threading.Thread.Sleep((int)(1000 / _update_rate_hz_1));
+                }
+
+                try
+                {
+                    if (_now > _last_time_2.AddSeconds(1.0 / _update_rate_hz_2))
+                    {
+
+                        checkGCSGPS();
+
+                        start_sub();
+                        _last_time_2 = DateTime.Now;
+                    }
+                }
+                catch
+                {
+                    System.Threading.Thread.Sleep((int)(1000 / _update_rate_hz_2));
+                }
+
+
+                System.Threading.Thread.Sleep((int)25);
+            }
         }
 
     }
