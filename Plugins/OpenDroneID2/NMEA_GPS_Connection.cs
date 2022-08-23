@@ -440,6 +440,7 @@ namespace MissionPlanner
 
 
                 }
+                System.Threading.Thread.Sleep((int)(10));
             }
         }
 
