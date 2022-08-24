@@ -57,7 +57,8 @@ namespace OpenDroneID_Plugin
             //Host.MainForm.FlightPlanner.updateDisplayView();
 
             ThemeManager.ApplyThemeTo(tab);
-            
+
+            myODID_UI.setVer("Ver: " + Version);
 
             return true;
         }

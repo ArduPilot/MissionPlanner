@@ -67,7 +67,6 @@ namespace MissionPlanner.Controls
             CMB_self_id_type.ValueMember = "Key";
             CMB_self_id_type.DataSource = System.Enum.GetValues(typeof(MAVLink.MAV_ODID_DESC_TYPE));
 
-
             start();
         }
 
@@ -82,6 +81,10 @@ namespace MissionPlanner.Controls
             _thread_odid.Start();
         }
 
+        public void setVer(String msg)
+        {
+            LBL_version.Text = msg;
+        }
         public void setHost(Plugin.PluginHost host)
         {
             _host = host;
