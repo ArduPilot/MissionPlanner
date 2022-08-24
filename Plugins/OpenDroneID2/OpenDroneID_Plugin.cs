@@ -20,7 +20,7 @@ namespace OpenDroneID_Plugin
 
         public override string Version
         {
-            get { return "0.01"; }
+            get { return "0.02"; }
         }
 
         public override string Author

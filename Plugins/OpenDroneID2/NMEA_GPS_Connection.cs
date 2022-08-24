@@ -11,23 +11,32 @@ using System.Net.Sockets;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace MissionPlanner
 {
+
     public partial class NMEA_GPS_Connection : UserControl
     {
+        public class PointNMEA
+        {
+            public double Lat { get; set; }
+            public double Lng { get; set; }
+            public double Alt { get; set; }
+            public double Alt_WGS84 { get; set; }
+            public float hdop { get; set; }
+            public int sats { get; set; }
+            public int fix_type { get; set; }
+        }
 
         static TcpListener listener;
         static ICommsSerial comPort = null;
         //static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         //static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
 
+        private PointNMEA _thisData { get; set; } = new PointNMEA();
 
-        public double Lat, Lng;
-        public double Alt, Alt_WGS84;
-        public float hdop;
-        int sats;
-        int fix_type;
         public Stopwatch last_gps_msg = new Stopwatch();
         private bool portsAreLoaded = false;
         static NMEA_GPS_Connection Instance;
@@ -40,7 +49,7 @@ namespace MissionPlanner
         DateTime _last_time_2 = DateTime.Now;
         DateTime _startup_time = DateTime.Now;
         float _update_rate_hz_1 = 10.0f; // 10 hz
-        float _update_rate_hz_2 = 1.0f; // 1 hz
+        float _update_rate_hz_2 = 1.0f; // 1 hz 
 
         public NMEA_GPS_Connection()
         {
@@ -53,26 +62,39 @@ namespace MissionPlanner
             }
             catch
             {
-                Console.WriteLine("Couldn't Init Open DID Form.");
+                Console.WriteLine("Couldn't Init Open NMEA Form.");
             }
             //timer2.Start();
 
-            start();
+            if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_com"]))
+                start();
 
         }
 
-        
-
-        
-        public void start()
+        private void start()
         {
-            //Console.WriteLine();
+/*            try
+            {
+                if (_thread != null)
+                {
+                    _thread.Abort();
+
+                }
+            }
+            catch { }*/
+
+            threadrun = true;
             _thread = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
             {
                 IsBackground = true,
                 Name = "NMEA_Thread"
             };
             _thread.Start();
+        }
+
+        public PointNMEA getPointNMEA()
+        {
+            return _thisData;
         }
 
 
@@ -98,6 +120,7 @@ namespace MissionPlanner
             
             try
             {
+                // Preload Serial port from settings
                 if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_com"]) && CMB_serialport.Items.Contains(Settings.Instance["moving_gps_com"]))
                 {
                     CMB_serialport.SelectedIndex = CMB_serialport.Items.IndexOf(Settings.Instance["moving_gps_com"]);
@@ -106,29 +129,28 @@ namespace MissionPlanner
                 else
                     return;
 
+                //Preload Baud Rate from Settings
                 if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_baud"]) && CMB_baudrate.Items.Contains(Settings.Instance["moving_gps_baud"]))
                 {
                     CMB_baudrate.SelectedIndex = CMB_baudrate.Items.IndexOf(Settings.Instance["moving_gps_baud"]);
                     //Console.Write(" BAUD: " + CMB_baudrate.Text);
-                }
+                }              
 
-                
-
-                //if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_auto"]) && Settings.Instance["moving_gps_auto"]=="True")
+                //Preload Auto-Connect from Settings
                 if (Settings.Instance.GetBoolean("moving_gps_auto"))
                 {
                     if (CB_auto_connect.Checked == true)
                         doGPSConnect();
                     else
                         CB_auto_connect.Checked = true; // will auto try to connect
-                    
                 }
 
 
             }
-            catch
+            catch (Exception ex)
             {
                 Console.WriteLine("Auto Connect Setup Failed.");
+                Console.WriteLine(ex.Message);
             }
 
         }
@@ -136,6 +158,9 @@ namespace MissionPlanner
         private void CB_auto_connect_CheckedChanged(object sender, EventArgs e)
         {
             if (CB_auto_connect.Checked == true && CMB_serialport.SelectedIndex > 0) doGPSConnect();
+
+            Settings.Instance["moving_gps_auto"] = CB_auto_connect.Checked.ToString();
+
         }
 
         private void doGPSConnect()
@@ -144,6 +169,10 @@ namespace MissionPlanner
             {
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
+                threadrun = false;
+                LBL_gpsStatus.Text = "Disconnected";
+                _thisData = new PointNMEA();
+                _thread.Abort();
             }
             else
             {
@@ -209,14 +238,15 @@ namespace MissionPlanner
                 {
                     Console.WriteLine("Moving Base COM Port Opened at port " + comPort.PortName);
                     LBL_gpsStatus.Text = "Connected to " + comPort.PortName + ". Waiting for fix";
-                    
+
+                    start();
+
                 }
 
                 Settings.Instance["moving_gps_com"] = CMB_serialport.Text;
                 Settings.Instance["moving_gps_baud"] = CMB_baudrate.Text;
                 Settings.Instance["moving_gps_auto"] = CB_auto_connect.Checked.ToString();
 
-                threadrun = true;
                 last_gps_msg.Start();
                 BUT_connect.Text = Strings.Stop;
             }
@@ -271,36 +301,36 @@ namespace MissionPlanner
                                 continue;
                             }
 
-                            Lat = double.Parse(items[2], CultureInfo.InvariantCulture) / 100.0;
+                            _thisData.Lat = double.Parse(items[2], CultureInfo.InvariantCulture) / 100.0;
 
-                            Lat = (int)Lat + ((Lat - (int)Lat) / 0.60);
+                            _thisData.Lat = (int)_thisData.Lat + ((_thisData.Lat - (int)_thisData.Lat) / 0.60);
 
                             if (items[3] == "S")
-                                Lat *= -1;
+                                _thisData.Lat *= -1;
 
-                            Lng = double.Parse(items[4], CultureInfo.InvariantCulture) / 100.0;
+                            _thisData.Lng = double.Parse(items[4], CultureInfo.InvariantCulture) / 100.0;
 
-                            Lng = (int)Lng + ((Lng - (int)Lng) / 0.60);
+                            _thisData.Lng = (int)_thisData.Lng + ((_thisData.Lng - (int)_thisData.Lng) / 0.60);
 
                             if (items[5] == "W")
-                                Lng *= -1;
+                                _thisData.Lng *= -1;
 
-                            Alt = double.Parse(items[9], CultureInfo.InvariantCulture);
+                            _thisData.Alt = double.Parse(items[9], CultureInfo.InvariantCulture);
 
                             if (!String.IsNullOrEmpty(items[11]))
                             {
-                                Alt_WGS84 = Alt + double.Parse(items[11], CultureInfo.InvariantCulture);
+                                _thisData.Alt_WGS84 = _thisData.Alt + double.Parse(items[11], CultureInfo.InvariantCulture);
                             }
                             else
                             {
-                                Alt_WGS84 = -1.0;
+                                _thisData.Alt_WGS84 = -1.0;
                             }
 
-                            
-                            fix_type = (int.Parse(items[6]));
 
-                            sats = (int.Parse(items[7]));
-                            hdop = (float.Parse(items[8]));
+                            _thisData.fix_type = (int.Parse(items[6]));
+
+                            _thisData.sats = (int.Parse(items[7]));
+                            _thisData.hdop = (float.Parse(items[8]));
 
                             last_gps_msg.Restart();
                             udpate_gps_text();
@@ -337,21 +367,21 @@ namespace MissionPlanner
             catch { }
         }
 
-    private void udpate_gps_text()
-        {
-            if (!Instance.IsDisposed)
+        private void udpate_gps_text()
             {
-                Instance.BeginInvoke(
-                    (MethodInvoker)
-                        delegate
-                        {
-                            Instance.LBL_gpsStatus.Text = String.Format("{0:0.00000}", Lat) + " " + String.Format("{0:0.00000}", Lng) + " " +
-                                                         String.Format("{0:0.002} m", Alt) + Environment.NewLine + "WGS84: " + String.Format("{0:0.002} m", Alt_WGS84) + 
-                                                         " Sats: " + sats + " HDOP: " + String.Format("{0:0.002} m", hdop) + " DGPS: " + ((fix_type > 1) ? "Yes":"No");
-                        }
-                    );
+                if (!Instance.IsDisposed)
+                {
+                    Instance.BeginInvoke(
+                        (MethodInvoker)
+                            delegate
+                            {
+                                Instance.LBL_gpsStatus.Text = String.Format("{0:0.00000}", _thisData.Lat) + " " + String.Format("{0:0.00000}", _thisData.Lng) + " " +
+                                                             String.Format("{0:0.002} m", _thisData.Alt) + Environment.NewLine + "WGS84: " + String.Format("{0:0.002} m", _thisData.Alt_WGS84) + 
+                                                             " Sats: " + _thisData.sats + " HDOP: " + String.Format("{0:0.02}", _thisData.hdop) + " DGPS: " + ((_thisData.fix_type > 1) ? "Yes":"No");
+                            }
+                        );
+                }
             }
-        }
 
 
 

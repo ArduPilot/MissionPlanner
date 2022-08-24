@@ -18,8 +18,10 @@ namespace MissionPlanner
         private byte target_system;
         private byte target_component;
 
-        public float rate_hz { get; set; } = 0.1f;
-        public float system_updaterate_hz { get; set; } = 1.0f;
+        private  float rate_hz  = 0.1f;
+        private float system_updaterate_hz  = 1.0f;
+
+        private long _gps_timeout_ms = 5000;
 
         public MAVLink.MAV_ODID_UA_TYPE UAS_ID_type { get; set; } = 0;
         public string UAS_ID { get; set; } = "";
@@ -40,6 +42,8 @@ namespace MissionPlanner
         public double operator_latitude { get; set; } = 0;
         public double operator_longitude { get; set; } = 0;
         public float operator_altitude_geo { get; set; } = 0;
+
+        public long since_last_msg_ms { get; set; }
 
         int count;
         private DateTime last_ext_send_s = DateTime.MinValue;
@@ -118,7 +122,9 @@ namespace MissionPlanner
         {
             var now = DateTime.Now;
             
-            if ((now - last_update_send_s).TotalSeconds > (1.0 / system_updaterate_hz))
+            // system update doesn't send if gps times out
+
+            if ((since_last_msg_ms < _gps_timeout_ms) && (now - last_update_send_s).TotalSeconds > (1.0 / system_updaterate_hz))
             {
                 last_update_send_s = now;
                 send_system_update();
@@ -142,20 +148,22 @@ namespace MissionPlanner
 
         public void send_id_system()
         {
+            // To meet compliance, sends 0's for lat/lng/alt if timeout
+
             var id_system = MAVLink.mavlink_open_drone_id_system_t.PopulateXMLOrder(target_system,
                 target_component,
                 id_or_mac(),
                 (byte)operator_location_type,
                 (byte)classification_type,
-                (int) (operator_latitude * 1.0e7),
-                (int) (operator_longitude * 1.0e7),
+                (since_last_msg_ms < _gps_timeout_ms) ? (int) (operator_latitude * 1.0e7): 0,
+                (since_last_msg_ms < _gps_timeout_ms) ? (int) (operator_longitude * 1.0e7): 0,
                 area_count,
                 area_radius,
                 area_ceiling,
                 area_floor,
                 (byte)category_eu,
                 (byte)class_eu,
-                operator_altitude_geo,
+                (since_last_msg_ms < _gps_timeout_ms) ? operator_altitude_geo:0.0f,
                 timestamp_2019());
             _mav.sendPacket(id_system, target_system, target_component);
         }

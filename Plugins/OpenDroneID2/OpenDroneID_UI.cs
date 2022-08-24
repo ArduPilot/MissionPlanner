@@ -263,24 +263,27 @@ namespace MissionPlanner.Controls
             try 
             {
                 // Check NMEA GPS information
+                NMEA_GPS_Connection.PointNMEA _gps_data = nmea_GPS_1.getPointNMEA();
+
                 
-                
+
                 // Sanity Check
-                if (nmea_GPS_1.Lat != 0.0 && nmea_GPS_1.Lng != 0.0)
+                if (_gps_data.Lat != 0.0 && _gps_data.Lng != 0.0)
                 {
 
-                    gotolocation.Lat = nmea_GPS_1.Lat; 
-                    gotolocation.Lng = nmea_GPS_1.Lng;
-                    gotolocation.Alt = nmea_GPS_1.Alt; 
+                    gotolocation.Lat = _gps_data.Lat; 
+                    gotolocation.Lng = _gps_data.Lng;
+                    gotolocation.Alt = _gps_data.Alt; 
 
                     if (_host != null)
                         _host.comPort.MAV.cs.MovingBase = gotolocation;
 
-                    myDID.operator_latitude = nmea_GPS_1.Lat;
-                    myDID.operator_longitude = nmea_GPS_1.Lng;
-                    myDID.operator_altitude_geo = (float)nmea_GPS_1.Alt_WGS84;
+                    myDID.operator_latitude = _gps_data.Lat;
+                    myDID.operator_longitude = _gps_data.Lng;
+                    myDID.operator_altitude_geo = (float)_gps_data.Alt_WGS84;
                     myDID.operator_location_type = MAVLink.MAV_ODID_OPERATOR_LOCATION_TYPE.LIVE_GNSS;
 
+                    myDID.since_last_msg_ms = nmea_GPS_1.last_gps_msg.ElapsedMilliseconds; 
 
                 }
             } catch
@@ -292,25 +295,21 @@ namespace MissionPlanner.Controls
             if (nmea_GPS_1.last_gps_msg.ElapsedMilliseconds > 5000)
             {
                 //TODO Fix
-                //LBL_GCS_GPS_Invalid.Text = "GCS Data Timeout.";
                 _gcs_gps = false;
             }
             else if (gotolocation.Lat == 0.0 || gotolocation.Lng == 0.0)
             {
-                //LBL_GCS_GPS_Invalid.Text = "GCS GPS Lock Invalid.";
                 LED_gps_valid.Color = Color.Orange;
                 _gcs_gps = false;
             }
             else if (gpsHasSBAS == false)
             {
                 LED_gps_valid.Color = Color.Yellow;
-                //LBL_GCS_GPS_Invalid.Text = "GCS No DGPS Corr.";
                 _gcs_gps = true;  // NOTE: This may need to be changed in the future to enforce SBAS only solutions
             }
             else
             {
                 LED_gps_valid.Color = Color.Green;
-                //LBL_GCS_GPS_Invalid.Text = "";
                 _gcs_gps = true;
             }
         }
