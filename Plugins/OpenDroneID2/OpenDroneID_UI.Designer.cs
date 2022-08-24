@@ -29,9 +29,6 @@ namespace MissionPlanner.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle1 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle2 = new BrightIdeasSoftware.HeaderStateStyle();
-            BrightIdeasSoftware.HeaderStateStyle headerStateStyle3 = new BrightIdeasSoftware.HeaderStateStyle();
             this.txt_UserID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,7 +50,6 @@ namespace MissionPlanner.Controls
             this.label18 = new System.Windows.Forms.Label();
             this.TXT_self_id_TXT = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.headerFormatStyle1 = new BrightIdeasSoftware.HeaderFormatStyle();
             this.ODOD_tabs = new System.Windows.Forms.TabControl();
             this.tabStatus = new System.Windows.Forms.TabPage();
             this.label8 = new System.Windows.Forms.Label();
@@ -287,12 +283,6 @@ namespace MissionPlanner.Controls
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Remote ID Status";
             // 
-            // headerFormatStyle1
-            // 
-            this.headerFormatStyle1.Hot = headerStateStyle1;
-            this.headerFormatStyle1.Normal = headerStateStyle2;
-            this.headerFormatStyle1.Pressed = headerStateStyle3;
-            // 
             // ODOD_tabs
             // 
             this.ODOD_tabs.Controls.Add(this.tabStatus);
@@ -479,7 +469,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox TXT_self_id_TXT;
         private System.Windows.Forms.GroupBox groupBox2;
-        private BrightIdeasSoftware.HeaderFormatStyle headerFormatStyle1;
         private OpenDroneID_Map_Status myODID_Status;
         private NMEA_GPS_Connection nmea_GPS_1;
         private System.Windows.Forms.TabControl ODOD_tabs;
