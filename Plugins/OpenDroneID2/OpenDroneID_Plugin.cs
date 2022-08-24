@@ -39,16 +39,29 @@ namespace OpenDroneID_Plugin
 
         public override bool Loaded()
         {
-
+            if (String.IsNullOrEmpty(Settings.Instance["tabcontrolactions"]))
+            { 
+                // no action - ie add it
+            }
+            else if(String.IsNullOrEmpty(Settings.Instance["OpenDroneID_init"]))
+            {
+                // first init, force add
+                Settings.Instance["tabcontrolactions"] += "tabDroneID";
+                Settings.Instance["OpenDroneID_init"] = true.ToString();
+            }
             tabctrl = Host.MainForm.FlightData.tabControlactions;
+            // set the display name
             tab.Text = "Drone ID";
+            // set the internal id
+            tab.Name = "tabDroneID";
+            // add the usercontrol to the tabpage
             tab.Controls.Add(myODID_UI);
-            tabctrl.TabPages.Insert(5,tab);
 
-            //TODO Uncomment once Beta is updates
-            //Host.MainForm.FlightData.TabListOriginal.Add(tab);
+            // add it to the list of options
+            Host.MainForm.FlightData.TabListOriginal.Add(tab);
 
-            Host.MainForm.FlightPlanner.updateDisplayView();
+            // refilter the display list based  on user selection
+            Host.MainForm.FlightData.loadTabControlActions();
 
             ThemeManager.ApplyThemeTo(tab);
             
