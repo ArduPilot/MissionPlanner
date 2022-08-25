@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Aug 19 2022";
+    public const string MAVLINK_BUILD_DATE = "Fri Aug 26 2022";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -4860,6 +4860,12 @@ public partial class MAVLink
         ///<summary> Free-form text description of the purpose of the flight. | </summary>
         [Description("Free-form text description of the purpose of the flight.")]
         TEXT=0, 
+        ///<summary> Optional additional clarification when status == MAV_ODID_STATUS_EMERGENCY. | </summary>
+        [Description("Optional additional clarification when status == MAV_ODID_STATUS_EMERGENCY.")]
+        EMERGENCY=1, 
+        ///<summary> Optional additional clarification when status != MAV_ODID_STATUS_EMERGENCY. | </summary>
+        [Description("Optional additional clarification when status != MAV_ODID_STATUS_EMERGENCY.")]
+        EXTENDED_STATUS=2, 
         
     };
     
