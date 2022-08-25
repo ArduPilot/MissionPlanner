@@ -4192,7 +4192,7 @@ namespace MissionPlanner.GCSViews
             POI.POISave();
         }
 
-        private void saveTabControlActions()
+        public void saveTabControlActions()
         {
             string answer = "";
 
