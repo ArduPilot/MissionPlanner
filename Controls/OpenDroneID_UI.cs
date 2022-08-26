@@ -187,33 +187,38 @@ namespace MissionPlanner.Controls
 
         private void checkODID_OK()
         {
+            string msg = "";
 
             if (_gcs_gps == false)
             {
-
-                myODID_Status.setStatusAlert("GCS GPS Invalid");
+                msg = "GCS GPS Invalid";
 
             }
             else if (_odid_arm_msg == false)
             {
-                myODID_Status.setStatusAlert("Remote ID Msg Timeout");
+                msg = "Remote ID Msg Timeout";
 
             }
             else if (_odid_arm_status == false)
             {
-                myODID_Status.setStatusAlert("Remote ID ARM Error");
+                msg="Remote ID ARM Error";
 
             }
             else if (_uas_id == false)
             {
-                myODID_Status.setStatusAlert("Need to input UAS ID");
+                msg="Need to input UAS ID";
             }
             else
             {
                 myODID_Status.setStatusOK();
-
+                MainV2.instance.FlightData.updateODID(true, "");
+                return;
             }
+
+            MainV2.instance.FlightData.updateODID(false, msg);
+            myODID_Status.setStatusAlert(msg);
             
+
         }
 
         private void checkUID()
@@ -337,9 +342,10 @@ namespace MissionPlanner.Controls
                         _last_time_1 = DateTime.Now;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    System.Threading.Thread.Sleep((int)(1000 / _update_rate_hz_1));
+                    Console.WriteLine(ex.ToString());
+                    System.Threading.Thread.Sleep((int)1000);
                 }
 
                 try
@@ -353,9 +359,10 @@ namespace MissionPlanner.Controls
                         _last_time_2 = DateTime.Now;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    System.Threading.Thread.Sleep((int)(1000 / _update_rate_hz_2));
+                    Console.WriteLine(ex.ToString());
+                    System.Threading.Thread.Sleep((int)1000);
                 }
 
 

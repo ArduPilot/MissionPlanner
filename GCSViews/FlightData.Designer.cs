@@ -79,6 +79,8 @@ namespace MissionPlanner.GCSViews
             this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.tabPagePreFlight = new System.Windows.Forms.TabPage();
             this.checkListControl1 = new MissionPlanner.Controls.PreFlight.CheckListControl();
+            this.tabDroneID = new System.Windows.Forms.TabPage();
+            this.openDroneID_UI1 = new MissionPlanner.Controls.OpenDroneID_UI();
             this.tabGauges = new System.Windows.Forms.TabPage();
             this.Gvspeed = new AGaugeApp.AGauge();
             this.bindingSourceGaugesTab = new System.Windows.Forms.BindingSource(this.components);
@@ -192,6 +194,7 @@ namespace MissionPlanner.GCSViews
             this.setHomeHereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.takeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onOffCameraOverlapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._map_ODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
             this.but_disablejoystick = new MissionPlanner.Controls.MyButton();
             this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             this.windDir1 = new MissionPlanner.Controls.WindDir();
@@ -216,8 +219,6 @@ namespace MissionPlanner.GCSViews
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
-            this.tabDroneID = new System.Windows.Forms.TabPage();
-            this.openDroneID_UI1 = new MissionPlanner.Controls.OpenDroneID_UI();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -239,6 +240,7 @@ namespace MissionPlanner.GCSViews
             this.tabPagemessages.SuspendLayout();
             this.tabActionsSimple.SuspendLayout();
             this.tabPagePreFlight.SuspendLayout();
+            this.tabDroneID.SuspendLayout();
             this.tabGauges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).BeginInit();
             this.tabTransponder.SuspendLayout();
@@ -271,7 +273,6 @@ namespace MissionPlanner.GCSViews
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceStatusTab)).BeginInit();
-            this.tabDroneID.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainH
@@ -1097,6 +1098,18 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.checkListControl1, "checkListControl1");
             this.checkListControl1.Name = "checkListControl1";
+            // 
+            // tabDroneID
+            // 
+            this.tabDroneID.Controls.Add(this.openDroneID_UI1);
+            resources.ApplyResources(this.tabDroneID, "tabDroneID");
+            this.tabDroneID.Name = "tabDroneID";
+            this.tabDroneID.UseVisualStyleBackColor = true;
+            // 
+            // openDroneID_UI1
+            // 
+            resources.ApplyResources(this.openDroneID_UI1, "openDroneID_UI1");
+            this.openDroneID_UI1.Name = "openDroneID_UI1";
             // 
             // tabGauges
             // 
@@ -2285,6 +2298,7 @@ namespace MissionPlanner.GCSViews
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
+            this.splitContainer1.Panel2.Controls.Add(this._map_ODID_Status);
             this.splitContainer1.Panel2.Controls.Add(this.but_disablejoystick);
             this.splitContainer1.Panel2.Controls.Add(this.distanceBar1);
             this.splitContainer1.Panel2.Controls.Add(this.windDir1);
@@ -2436,6 +2450,11 @@ namespace MissionPlanner.GCSViews
             this.onOffCameraOverlapToolStripMenuItem.Name = "onOffCameraOverlapToolStripMenuItem";
             resources.ApplyResources(this.onOffCameraOverlapToolStripMenuItem, "onOffCameraOverlapToolStripMenuItem");
             this.onOffCameraOverlapToolStripMenuItem.Click += new System.EventHandler(this.onOffCameraOverlapToolStripMenuItem_Click);
+            // 
+            // _map_ODID_Status
+            // 
+            resources.ApplyResources(this._map_ODID_Status, "_map_ODID_Status");
+            this._map_ODID_Status.Name = "_map_ODID_Status";
             // 
             // but_disablejoystick
             // 
@@ -2661,18 +2680,6 @@ namespace MissionPlanner.GCSViews
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
-            // tabDroneID
-            // 
-            this.tabDroneID.Controls.Add(this.openDroneID_UI1);
-            resources.ApplyResources(this.tabDroneID, "tabDroneID");
-            this.tabDroneID.Name = "tabDroneID";
-            this.tabDroneID.UseVisualStyleBackColor = true;
-            // 
-            // openDroneID_UI1
-            // 
-            resources.ApplyResources(this.openDroneID_UI1, "openDroneID_UI1");
-            this.openDroneID_UI1.Name = "openDroneID_UI1";
-            // 
             // FlightData
             // 
             this.Controls.Add(this.MainH);
@@ -2706,6 +2713,7 @@ namespace MissionPlanner.GCSViews
             this.tabPagemessages.PerformLayout();
             this.tabActionsSimple.ResumeLayout(false);
             this.tabPagePreFlight.ResumeLayout(false);
+            this.tabDroneID.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).EndInit();
             this.tabTransponder.ResumeLayout(false);
@@ -2748,7 +2756,6 @@ namespace MissionPlanner.GCSViews
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceStatusTab)).EndInit();
-            this.tabDroneID.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2964,5 +2971,6 @@ namespace MissionPlanner.GCSViews
         public Panel panel_persistent;
         private TabPage tabDroneID;
         private Controls.OpenDroneID_UI openDroneID_UI1;
+        private Controls.OpenDroneID_Map_Status _map_ODID_Status;
     }
 }
