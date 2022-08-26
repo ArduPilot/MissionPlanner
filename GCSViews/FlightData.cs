@@ -365,6 +365,8 @@ namespace MissionPlanner.GCSViews
 
             tabControlactions.Multiline = Settings.Instance.GetBoolean("tabControlactions_Multiline", false);
 
+            
+
         }
 
         public void Activate()
@@ -5791,9 +5793,7 @@ namespace MissionPlanner.GCSViews
         {
             if (!_map_ODID_Status.Visible)
             {
-                _map_ODID_Status.Visible = true;
-                ThemeManager.ApplyThemeTo(_map_ODID_Status);
-                _map_ODID_Status.Show();
+                this.BeginInvoke((MethodInvoker)delegate { _map_ODID_Status.Visible = true; });
             }
 
             if (isArmed)
