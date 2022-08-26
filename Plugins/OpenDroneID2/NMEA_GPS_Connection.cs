@@ -66,7 +66,7 @@ namespace MissionPlanner
             }
             //timer2.Start();
 
-            if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_com"]))
+            if ((LicenseManager.UsageMode != LicenseUsageMode.Designtime) && (!String.IsNullOrEmpty(Settings.Instance["moving_gps_com"])))
                 start();
 
         }
