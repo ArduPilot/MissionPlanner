@@ -32,23 +32,18 @@ namespace OpenDroneID_Plugin
         {
             myODID_UI.setHost(Host);
 
-            
+
 
             return true;
         }
 
         public override bool Loaded()
         {
-            if (String.IsNullOrEmpty(Settings.Instance["tabcontrolactions"]))
-            { 
-                // no action - ie add it
-            }
-            else if(String.IsNullOrEmpty(Settings.Instance["OpenDroneID_init"]))
-            {
-                // first init, force add
-                Settings.Instance["tabcontrolactions"] += "tabDroneID";
-                Settings.Instance["OpenDroneID_init"] = true.ToString();
-            }
+            forceSettings();
+
+            //TODO Uncomment once Beta is updates
+            //Host.MainForm.FlightData.TabListOriginal.Add(tab);
+
             tabctrl = Host.MainForm.FlightData.tabControlactions;
             // set the display name
             tab.Text = "Drone ID";
@@ -57,17 +52,34 @@ namespace OpenDroneID_Plugin
             // add the usercontrol to the tabpage
             tab.Controls.Add(myODID_UI);
 
-            // add it to the list of options
-            Host.MainForm.FlightData.TabListOriginal.Add(tab);
+            tabctrl.TabPages.Insert(5, tab);
 
-            // refilter the display list based  on user selection
-            Host.MainForm.FlightData.loadTabControlActions();
+            //Host.MainForm.FlightPlanner.updateDisplayView();
 
             ThemeManager.ApplyThemeTo(tab);
-            
+
+            myODID_UI.setVer("Ver: " + Version);
 
             return true;
         }
+
+
+        private void forceSettings()
+        {
+            
+
+            string tabs = Settings.Instance["tabcontrolactions"];
+
+            // setup default if doesnt exist
+            if (tabs == null)
+            {
+                CustomMessageBox.Show("Restart Mission Planner to enable Drone ID Tab. Disable Plugin if Not Required CTRL-P");
+                Host.MainForm.FlightData.saveTabControlActions();
+                tabs = Settings.Instance["tabcontrolactions"];
+                Settings.Instance.Save();
+            }
+        }
+
 
         public override bool Exit()
         {

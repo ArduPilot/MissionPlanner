@@ -55,7 +55,7 @@ namespace MissionPlanner
         {
             _mav = mav;
             target_system = sysid;
-            target_component = compid;
+            target_component = (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_ALL; // compid;
 
             running = true;
             timer = new Timer(Send, this, TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(100));
