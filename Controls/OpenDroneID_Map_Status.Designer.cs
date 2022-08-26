@@ -42,6 +42,7 @@ namespace MissionPlanner.Controls
             this.LBL_ODID_reason.Size = new System.Drawing.Size(65, 13);
             this.LBL_ODID_reason.TabIndex = 1;
             this.LBL_ODID_reason.Text = "{Loading....}";
+            this.LBL_ODID_reason.Click += new System.EventHandler(this.LBL_ODID_reason_Click);
             // 
             // LED_ODID_Status
             // 
@@ -52,6 +53,7 @@ namespace MissionPlanner.Controls
             this.LED_ODID_Status.Size = new System.Drawing.Size(16, 16);
             this.LED_ODID_Status.TabIndex = 2;
             this.LED_ODID_Status.Text = "ledBulb1";
+            this.LED_ODID_Status.Click += new System.EventHandler(this.LED_ODID_Status_Click);
             // 
             // LBL_ODID_OK
             // 
@@ -62,6 +64,7 @@ namespace MissionPlanner.Controls
             this.LBL_ODID_OK.Size = new System.Drawing.Size(71, 16);
             this.LBL_ODID_OK.TabIndex = 3;
             this.LBL_ODID_OK.Text = "Remote ID";
+            this.LBL_ODID_OK.Click += new System.EventHandler(this.LBL_ODID_OK_Click);
             // 
             // OpenDroneID_Map_Status
             // 
@@ -71,7 +74,8 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.LED_ODID_Status);
             this.Controls.Add(this.LBL_ODID_reason);
             this.Name = "OpenDroneID_Map_Status";
-            this.Size = new System.Drawing.Size(140, 42);
+            this.Size = new System.Drawing.Size(162, 42);
+            this.DoubleClick += new System.EventHandler(this.OpenDroneID_Map_Status_DoubleClick);
             this.ResumeLayout(false);
             this.PerformLayout();
 

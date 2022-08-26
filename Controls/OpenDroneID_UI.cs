@@ -156,7 +156,12 @@ namespace MissionPlanner.Controls
             return true; ;
         }
 
- 
+        public void setEmergencyFromMap()
+        {
+            TXT_self_id_TXT.Text = "Pilot Emergency Status Declared";
+            CMB_self_id_type.SelectedIndex = (int) MAVLink.MAV_ODID_DESC_TYPE.EMERGENCY;
+            addStatusMessage("Pilot Emergency Status");
+        }
  
 
 
@@ -189,6 +194,13 @@ namespace MissionPlanner.Controls
         {
             string msg = "";
 
+            if (CMB_self_id_type.SelectedIndex == (int) MAVLink.MAV_ODID_DESC_TYPE.EMERGENCY)
+            {
+                myODID_Status.setStatusEmergency(TXT_self_id_TXT.Text);
+                MainV2.instance.FlightData.updateODID(2, msg);
+                return;
+            }
+
             if (_gcs_gps == false)
             {
                 msg = "GCS GPS Invalid";
@@ -211,11 +223,11 @@ namespace MissionPlanner.Controls
             else
             {
                 myODID_Status.setStatusOK();
-                MainV2.instance.FlightData.updateODID(true, "");
+                MainV2.instance.FlightData.updateODID(0, "");
                 return;
             }
 
-            MainV2.instance.FlightData.updateODID(false, msg);
+            MainV2.instance.FlightData.updateODID(1, msg);
             myODID_Status.setStatusAlert(msg);
             
 

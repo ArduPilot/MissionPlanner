@@ -5789,15 +5789,17 @@ namespace MissionPlanner.GCSViews
             Settings.Instance["tabControlactions_Multiline"] = tabControlactions.Multiline.ToString();
         }
 
-        public void updateODID(bool isArmed, string msg)
+        public void updateODID(int type, string msg)
         {
             if (!_map_ODID_Status.Visible)
             {
                 this.BeginInvoke((MethodInvoker)delegate { _map_ODID_Status.Visible = true; });
             }
 
-            if (isArmed)
-                _map_ODID_Status.setStatusOK(); 
+            if (type == 0)
+                _map_ODID_Status.setStatusOK();
+            else if (type == 2)
+                _map_ODID_Status.setStatusEmergency(msg);
             else
                 _map_ODID_Status.setStatusAlert(msg);
         }
