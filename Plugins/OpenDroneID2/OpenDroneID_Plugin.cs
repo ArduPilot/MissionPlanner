@@ -20,7 +20,7 @@ namespace OpenDroneID_Plugin
 
         public override string Version
         {
-            get { return "0.02"; }
+            get { return "0.03"; }
         }
 
         public override string Author
@@ -30,16 +30,13 @@ namespace OpenDroneID_Plugin
 
         public override bool Init()
         {
-            myODID_UI.setHost(Host);
 
-
-
-            return true;
+            return false;
         }
 
         public override bool Loaded()
         {
-            forceSettings();
+/*            forceSettings();
 
             //TODO Uncomment once Beta is updates
             //Host.MainForm.FlightData.TabListOriginal.Add(tab);
@@ -58,13 +55,13 @@ namespace OpenDroneID_Plugin
 
             ThemeManager.ApplyThemeTo(tab);
 
-            myODID_UI.setVer("Ver: " + Version);
+            myODID_UI.setVer("Ver: " + Version);*/
 
-            return true;
+            return false;
         }
 
 
-        private void forceSettings()
+/*        private void forceSettings()
         {
             
 
@@ -78,7 +75,7 @@ namespace OpenDroneID_Plugin
                 tabs = Settings.Instance["tabcontrolactions"];
                 Settings.Instance.Save();
             }
-        }
+        }*/
 
 
         public override bool Exit()

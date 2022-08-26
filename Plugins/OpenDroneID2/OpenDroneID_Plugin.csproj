@@ -85,15 +85,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="OpenDroneID_Map_Status.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="OpenDroneID_UI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Update="System">
       <Private>false</Private>
     </Reference>

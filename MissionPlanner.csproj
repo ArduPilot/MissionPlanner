@@ -110,6 +110,15 @@
     <EmbeddedResource Include="Controls\MovingBase.uk.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\NMEA_GPS_Connection.resx">
+      <DependentUpon>NMEA_GPS_Connection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OpenDroneID_Map_Status.resx">
+      <DependentUpon>OpenDroneID_Map_Status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OpenDroneID_UI.resx">
+      <DependentUpon>OpenDroneID_UI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PropagationSettings.uk.resx">
       <DependentUpon>PropagationSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -455,6 +464,10 @@
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
       <Name>KMLib</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\LEDBulb\Bulb\Bulb.csproj">
+      <Project>{af81c41b-06e6-4ca5-9fd4-a4e7042f1107}</Project>
+      <Name>Bulb</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\LibTessDotNet\LibTessDotNet.csproj">
       <Project>{a7c98a7e-1bcb-4a38-aac4-2eec63a5bc5c}</Project>
       <Name>LibTessDotNet</Name>
@@ -694,6 +707,30 @@
     </Compile>
     <Compile Include="Controls\MavCommandSelection.Designer.cs">
       <DependentUpon>MavCommandSelection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NMEA_GPS_Connection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\NMEA_GPS_Connection.Designer.cs">
+      <DependentUpon>NMEA_GPS_Connection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NMEA_Viewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\NMEA_Viewer.designer.cs">
+      <DependentUpon>NMEA_Viewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OpenDroneID_Map_Status.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OpenDroneID_Map_Status.Designer.cs">
+      <DependentUpon>OpenDroneID_Map_Status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OpenDroneID_UI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OpenDroneID_UI.Designer.cs">
+      <DependentUpon>OpenDroneID_UI.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SerialOutputCoT.cs">
       <SubType>Form</SubType>

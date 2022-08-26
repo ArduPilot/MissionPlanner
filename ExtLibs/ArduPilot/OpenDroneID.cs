@@ -4,19 +4,25 @@ using System.Text;
 using System.Threading;
 using MissionPlanner.Utilities;
 using DateTime = System.DateTime;
+using MissionPlanner;
 
-namespace MissionPlanner.ArduPilot
+
+namespace MissionPlanner
 {
     /// <summary>
     /// https://mavlink.io/en/services/opendroneid.html
     /// </summary>
-    public class OpenDroneID
+    public class OpenDroneID_Backend
     {
         private MAVLinkInterface _mav;
         private byte target_system;
         private byte target_component;
 
-        public float rate_hz { get; set; } = 1.0f;
+        private float rate_hz = 0.1f;
+        private float system_updaterate_hz = 1.0f;
+
+        private long _gps_timeout_ms = 5000;
+
         public MAVLink.MAV_ODID_UA_TYPE UAS_ID_type { get; set; } = 0;
         public string UAS_ID { get; set; } = "";
         public MAVLink.MAV_ODID_ID_TYPE UA_type { get; set; } = 0;
@@ -37,8 +43,11 @@ namespace MissionPlanner.ArduPilot
         public double operator_longitude { get; set; } = 0;
         public float operator_altitude_geo { get; set; } = 0;
 
+        public long since_last_msg_ms { get; set; }
+
         int count;
-        private DateTime last_send_s = DateTime.MinValue;
+        private DateTime last_ext_send_s = DateTime.MinValue;
+        private DateTime last_update_send_s = DateTime.MinValue;
         private Timer timer;
         private bool running;
 
@@ -46,16 +55,16 @@ namespace MissionPlanner.ArduPilot
         {
             _mav = mav;
             target_system = sysid;
-            target_component = compid;
+            target_component = (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ALL; // compid;
 
             running = true;
-            timer = new Timer(Send, this, TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(50));
+            timer = new Timer(Send, this, TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(100));
         }
 
         public void Stop()
         {
             timer.Stop();
-            running= false;
+            running = false;
         }
 
         public bool isRunning()
@@ -66,43 +75,62 @@ namespace MissionPlanner.ArduPilot
         internal void Send(object self)
         {
             running = true;
-            Send();
+            if (!Send_Update())
+            {
+                Send_Extended();
+            }
+
         }
 
-        public void Send()
+        public void Send_Extended()
         {
             var now = DateTime.Now;
-            if ((now - last_send_s).TotalSeconds > (1.0 / (rate_hz*4)) )
+            if ((now - last_ext_send_s).TotalSeconds > (1.0 / (rate_hz * 4)))
             {
-                last_send_s = now;
+                last_ext_send_s = now;
 
                 switch (count++ % 4)
                 {
                     case 0:
-                    {
-                        send_basic_id();
-                        break;
-                    }
+                        {
+                            send_basic_id();
+                            break;
+                        }
 
                     case 1:
-                    {
-                        send_id_system();
-                        break;
-                    }
+                        {
+                            send_id_system();
+                            break;
+                        }
 
                     case 2:
-                    {
-                        send_self_id();
-                        break;
-                    }
+                        {
+                            send_self_id();
+                            break;
+                        }
 
                     case 3:
-                    {
-                        send_operator_id();
-                        break;
-                    }
+                        {
+                            send_operator_id();
+                            break;
+                        }
                 }
             }
+        }
+
+        public bool Send_Update()
+        {
+            var now = DateTime.Now;
+
+            // system update doesn't send if gps times out
+
+            if ((since_last_msg_ms < _gps_timeout_ms) && (now - last_update_send_s).TotalSeconds > (1.0 / system_updaterate_hz))
+            {
+                last_update_send_s = now;
+                send_system_update();
+                return true;
+            }
+            return false;
         }
 
         public void send_basic_id()
@@ -120,19 +148,33 @@ namespace MissionPlanner.ArduPilot
 
         public void send_id_system()
         {
+            // To meet compliance, sends 0's for lat/lng/alt if timeout
+
             var id_system = MAVLink.mavlink_open_drone_id_system_t.PopulateXMLOrder(target_system,
                 target_component,
                 id_or_mac(),
                 (byte)operator_location_type,
                 (byte)classification_type,
-                (int) (operator_latitude * 1.0e7),
-                (int) (operator_longitude * 1.0e7),
+                (since_last_msg_ms < _gps_timeout_ms) ? (int)(operator_latitude * 1.0e7) : 0,
+                (since_last_msg_ms < _gps_timeout_ms) ? (int)(operator_longitude * 1.0e7) : 0,
                 area_count,
                 area_radius,
                 area_ceiling,
                 area_floor,
                 (byte)category_eu,
                 (byte)class_eu,
+                (since_last_msg_ms < _gps_timeout_ms) ? operator_altitude_geo : 0.0f,
+                timestamp_2019());
+            _mav.sendPacket(id_system, target_system, target_component);
+        }
+
+        public void send_system_update()
+        {
+
+            var id_system = MAVLink.mavlink_open_drone_id_system_update_t.PopulateXMLOrder(target_system,
+                target_component,
+                (int)(operator_latitude * 1.0e7),
+                (int)(operator_longitude * 1.0e7),
                 operator_altitude_geo,
                 timestamp_2019());
             _mav.sendPacket(id_system, target_system, target_component);
@@ -171,7 +213,7 @@ namespace MissionPlanner.ArduPilot
         public uint timestamp_2019()
         {
             var jan_1_2019_s = 1546300800;
-            return (uint) (DateTime.UtcNow.toUnixTimeDouble() - jan_1_2019_s);
+            return (uint)(DateTime.UtcNow.toUnixTimeDouble() - jan_1_2019_s);
         }
     }
 }
