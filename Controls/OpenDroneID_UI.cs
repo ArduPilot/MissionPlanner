@@ -30,9 +30,6 @@ namespace MissionPlanner.Controls
 
         private const int ODID_ARM_MESSAGE_TIMEOUT = 5000;
         private OpenDroneID_Backend myDID = new OpenDroneID_Backend();
-        
-
-        private Plugin.PluginHost _host = null;
 
         private int _mySYS = 0; 
 
@@ -81,32 +78,23 @@ namespace MissionPlanner.Controls
             _thread_odid.Start();
         }
 
-        public void setVer(String msg)
-        {
-            LBL_version.Text = msg;
-        }
-        public void setHost(Plugin.PluginHost host)
-        {
-            _host = host;
-        }
 
         private void start_sub(bool force = false)
         {
-            if (_host == null) return;
 
-            if (!force && (_host.comPort.BaseStream == null || !_host.comPort.BaseStream.IsOpen))
+            if (!force && (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen))
             {
                 // pass
             }
-            else if (_host.comPort.sysidcurrent != _mySYS && _host.comPort.sysidcurrent > 0)
+            else if (MainV2.comPort.sysidcurrent != _mySYS && MainV2.comPort.sysidcurrent > 0)
             {
-                addStatusMessage("Sub. to ODID ARM_STATUS for SysId: " + _host.comPort.sysidcurrent);
+                addStatusMessage("Sub. to ODID ARM_STATUS for SysId: " + MainV2.comPort.sysidcurrent);
                 
-                _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte) _host.comPort.sysidcurrent, (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
-                _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)_host.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_2);
-                _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)_host.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_3);
-                _host.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)_host.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1);
-                _mySYS =  _host.comPort.sysidcurrent;
+                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte) MainV2.comPort.sysidcurrent, (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_1);
+                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_2);
+                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_ODID_TXRX_3);
+                MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_ARM_STATUS, handleODIDArmMSg2, (byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1);
+                _mySYS =  MainV2.comPort.sysidcurrent;
                 hasODID = false;
                 last_odid_msg.Stop();
 
@@ -142,11 +130,11 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
-                    Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + _host.comPort.MAV.sysid);
-                    addStatusMessage("Detected and Starting on System ID: " + _host.comPort.MAV.sysid);
+                    Console.WriteLine("[DRONE_ID] Detected and Starting on System ID: " + MainV2.comPort.MAV.sysid);
+                    addStatusMessage("Detected and Starting on System ID: " + MainV2.comPort.MAV.sysid);
 
                     last_odid_msg.Start();
-                    myDID.Start(_host.comPort, arg.sysid, arg.compid);
+                    myDID.Start(MainV2.comPort, arg.sysid, arg.compid);
 
 
 
@@ -278,8 +266,7 @@ namespace MissionPlanner.Controls
                     gotolocation.Lng = _gps_data.Lng;
                     gotolocation.Alt = _gps_data.Alt; 
 
-                    if (_host != null)
-                        _host.comPort.MAV.cs.MovingBase = gotolocation;
+                    MainV2.comPort.MAV.cs.MovingBase = gotolocation;
 
                     myDID.operator_latitude = _gps_data.Lat;
                     myDID.operator_longitude = _gps_data.Lng;
