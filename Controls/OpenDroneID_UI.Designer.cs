@@ -52,6 +52,7 @@ namespace MissionPlanner.Controls
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ODOD_tabs = new System.Windows.Forms.TabControl();
             this.tabStatus = new System.Windows.Forms.TabPage();
+            this.LBL_Disable_RID = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.TXT_RID_Status_Msg = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -297,6 +298,7 @@ namespace MissionPlanner.Controls
             // 
             // tabStatus
             // 
+            this.tabStatus.Controls.Add(this.LBL_Disable_RID);
             this.tabStatus.Controls.Add(this.label8);
             this.tabStatus.Controls.Add(this.TXT_RID_Status_Msg);
             this.tabStatus.Controls.Add(this.label5);
@@ -307,6 +309,17 @@ namespace MissionPlanner.Controls
             this.tabStatus.TabIndex = 2;
             this.tabStatus.Text = "Status";
             this.tabStatus.UseVisualStyleBackColor = true;
+            // 
+            // LBL_Disable_RID
+            // 
+            this.LBL_Disable_RID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.LBL_Disable_RID.AutoSize = true;
+            this.LBL_Disable_RID.Location = new System.Drawing.Point(341, 168);
+            this.LBL_Disable_RID.Name = "LBL_Disable_RID";
+            this.LBL_Disable_RID.Size = new System.Drawing.Size(10, 13);
+            this.LBL_Disable_RID.TabIndex = 13;
+            this.LBL_Disable_RID.Text = ".";
+            this.LBL_Disable_RID.DoubleClick += new System.EventHandler(this.LBL_Disable_RID_DoubleClick);
             // 
             // label8
             // 
@@ -482,5 +495,6 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.ComboBox CMB_op_id_type;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label LBL_Disable_RID;
     }
 }
