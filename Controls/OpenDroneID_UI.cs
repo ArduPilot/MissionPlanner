@@ -330,7 +330,7 @@ namespace MissionPlanner.Controls
         {
             // Note: this function is for development only and should be removed for production enviroments. 
 
-            if (CustomMessageBox.Show("Are you sure you want to declare Remote ID Emergency?", "RID Emergency?", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.No)
+            if (CustomMessageBox.Show("Are you sure you want to disable RID messages out?", "RID Disable?", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.No)
             {
                 return;
             }
