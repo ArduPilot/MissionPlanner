@@ -365,7 +365,6 @@ namespace MissionPlanner.GCSViews
             hud1.displayicons = Settings.Instance.GetBoolean("HUD_showicons", false);
 
             tabControlactions.Multiline = Settings.Instance.GetBoolean("tabControlactions_Multiline", false);
-
         }
 
         public void Activate()
@@ -4839,6 +4838,74 @@ namespace MissionPlanner.GCSViews
         {
             txt_messagebox.Select(txt_messagebox.Text.Length, 0);
             txt_messagebox.ScrollToCaret();
+        }
+
+        /// <summary>
+        /// A Control name paired with its droppped out state
+        /// </summary>
+        private class DropoutsStateItem
+        {
+            public string Name { get; set; }
+            public bool Dropped { get; set; }
+        }
+
+        /// <summary>
+        /// List of Control names and their droppped out state
+        /// </summary>
+        private List<DropoutsStateItem> DropoutsState = new List<DropoutsStateItem>();
+
+        /// <summary>
+        /// Changes the dropout state of a Control
+        /// </summary>
+        /// <param name="Name">Name of Control</param>
+        /// <param name="Dropped">Desired dropout state of Control</param>
+        public void SetDropoutsState(string Name, bool Dropped)
+        {
+            // if the control dropout state is being followed
+            if (DropoutsState.Select(DS => DS.Name).Contains(Name) &&
+                DropoutsState.Where(DS => DS.Name == Name).FirstOrDefault().Dropped != Dropped)
+            {
+                // Change the dropout state
+                DropoutsState.Where(DS => DS.Name == Name).FirstOrDefault().Dropped = Dropped;
+
+                // Save the dropout state
+                if (Dropped) // Add new item
+                    Settings.Instance.SetList("DropoutState", DropoutsState.Where(DS => DS.Dropped).Select(DS => DS.Name).ToList<string>());
+                else if (DropoutsState.Where(DS => DS.Dropped).Count() > 0) // Remove one item
+                    Settings.Instance.RemoveList("DropoutState", Name);
+                else // Remove last item
+                    Settings.Instance.Remove("DropoutState");
+            }
+        }
+
+        /// <summary>
+        /// Loads the dropout state list and drops out the Controls into their Forms (if needed)
+        /// </summary>
+        public void LoadDropoutsState()
+        {
+            // Initialize list with default values
+            DropoutsState = new List<DropoutsStateItem> // Individual Control items
+            {
+                new DropoutsStateItem {Name = "test", Dropped = true}
+            };
+
+            // Load list and flip Dropped to true where needed
+            if (Settings.Instance.ContainsKey("DropoutState"))
+                DropoutsState
+                    .Where(DS => (Settings.Instance.GetList("DropoutState").ToList<string>()).Contains(DS.Name))
+                    .ForEach(DS => DS.Dropped = true);
+
+            // Execute Form opening functions
+            foreach (var item in DropoutsState)
+            {
+                if (item.Dropped)
+                {
+                    //if (item.Name == "whatever")
+                    //{
+                    //    // call Form opening function(s)
+                    //}
+                }
+            }
         }
 
         private void updateBindingSource()
