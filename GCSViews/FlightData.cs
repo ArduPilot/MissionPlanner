@@ -5048,7 +5048,7 @@ namespace MissionPlanner.GCSViews
                 // if the tab detached we have to update it 
                 if (tabQuickDetached) MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
 
-                // if any tabs are dropped out, we have to upodate them
+                // if any tabs are dropped out, we have to update them
                 foreach (Form form in isDropperdOut)
                     updateFirstBindingSource(form);
 
