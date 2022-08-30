@@ -2834,6 +2834,7 @@ namespace MissionPlanner.GCSViews
             dropout.RestoreStartupLocation();
             dropout.Show();
             huddropout = true;
+            SetDropoutsState(hud1.Name, true);
         }
 
         void dropout_FormClosed(object sender, FormClosedEventArgs e)
@@ -2845,6 +2846,7 @@ namespace MissionPlanner.GCSViews
             if (hud1.Parent == SubMainLeft.Panel1)
                 SubMainLeft.Panel1Collapsed = false;
             huddropout = false;
+            SetDropoutsState(hud1.Name, false);
         }
 
         private void hud1_ekfclick(object sender, EventArgs e)
@@ -4892,6 +4894,7 @@ namespace MissionPlanner.GCSViews
             // Initialize list with default values
             DropoutsState = new List<DropoutsStateItem> // Individual Control items
             {
+                new DropoutsStateItem {Name = myhud.Name, Dropped = false},
                 new DropoutsStateItem {Name = "test", Dropped = true}
             };
 
@@ -4906,6 +4909,10 @@ namespace MissionPlanner.GCSViews
             {
                 if (item.Dropped)
                 {
+                    if (item.Name == myhud.Name) // HUD
+                    {
+                        hud1_DoubleClick(null, null);
+                    }
                     //if (item.Name == "whatever")
                     //{
                     //    // call Form opening function(s)
