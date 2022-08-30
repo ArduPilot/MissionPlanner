@@ -553,7 +553,7 @@ namespace MissionPlanner
 
         /// <summary>
         /// This 'Control' is the toolstrip control that holds the comport combo, baudrate combo etc
-        /// Otiginally seperate controls, each hosted in a toolstip sqaure, combined into this custom
+        /// Originally seperate controls, each hosted in a toolstip sqaure, combined into this custom
         /// control for layout reasons.
         /// </summary>
         public static ConnectionControl _connectionControl;
@@ -1346,7 +1346,7 @@ namespace MissionPlanner
             }
         }
 
-        private void ShowConnectionStatsForm()
+        public void ShowConnectionStatsForm()
         {
             if (this.connectionStatsForm == null || this.connectionStatsForm.IsDisposed)
             {
@@ -1369,11 +1369,18 @@ namespace MissionPlanner
             }
 
             this.connectionStatsForm.RestoreStartupLocation();
-            this.connectionStatsForm.FormClosed += (s, e) => this.connectionStatsForm.SaveStartupLocation();
-            this.connectionStatsForm.ResizeEnd += (s2, e2) => this.connectionStatsForm.SaveStartupLocation();
-            this.connectionStatsForm.LocationChanged += (s3, e3) => this.connectionStatsForm.SaveStartupLocation();
+            this.connectionStatsForm.FormClosed += ConnectionStatsForm_FormClosed;
+            this.connectionStatsForm.ResizeEnd += (s1, e1) => this.connectionStatsForm.SaveStartupLocation();
+            this.connectionStatsForm.LocationChanged += (s2, e2) => this.connectionStatsForm.SaveStartupLocation();
             this.connectionStatsForm.Show();
+            FlightData.SetDropoutsState("ConnectionStats", true);
             ThemeManager.ApplyThemeTo(this.connectionStatsForm);
+        }
+
+        private void ConnectionStatsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.connectionStatsForm.SaveStartupLocation();
+            FlightData.SetDropoutsState("ConnectionStats", false);
         }
 
         private void CMB_serialport_Click(object sender, EventArgs e)
