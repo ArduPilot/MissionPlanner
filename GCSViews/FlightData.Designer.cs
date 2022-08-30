@@ -276,6 +276,7 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.MainH, "MainH");
             this.MainH.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.MainH.Name = "MainH";
+            MainH.VisibleChanged += MainH_VisibleChanged;
             // 
             // MainH.Panel1
             // 
@@ -2725,8 +2726,6 @@ namespace MissionPlanner.GCSViews
             this.ResumeLayout(false);
 
         }
-
-  
 
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Timer ZedGraphTimer;

@@ -4921,6 +4921,11 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void MainH_VisibleChanged(object sender, System.EventArgs e)
+        {
+            if (Visible && !Disposing) LoadDropoutsState();
+        }
+
         private void updateBindingSource()
         {
             //  run at 20 hz.
