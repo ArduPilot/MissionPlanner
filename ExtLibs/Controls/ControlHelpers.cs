@@ -18,11 +18,19 @@ namespace MissionPlanner.Controls
             public FormWindowState State { get; set; }
         }
 
+        /// <summary>
+        /// Saves current position & size config for this control
+        /// </summary>
+        /// <param name="control">Control to save the config for</param>
         public static void SaveStartupLocation(this Form control)
         {
             Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
         }
 
+        /// <summary>
+        /// Loads and applies startup position & size config for this control
+        /// </summary>
+        /// <param name="control">Control to load the config for</param>
         public static void RestoreStartupLocation(this Form control)
         {
             var value = Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"];
@@ -40,6 +48,10 @@ namespace MissionPlanner.Controls
             }
         }
 
+        /// <summary>
+        /// Removes startup position & size config for this control
+        /// </summary>
+        /// <param name="control">Control to reset the config for</param>
         public static void ResetStartupLocation(this Form control)
         {
             Settings.Instance.Remove(control.Text.Replace(" ", "_") + "_StartLocation");
