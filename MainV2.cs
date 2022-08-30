@@ -1371,7 +1371,7 @@ namespace MissionPlanner
             this.connectionStatsForm.RestoreStartupLocation();
             this.connectionStatsForm.FormClosed += (s, e) => this.connectionStatsForm.SaveStartupLocation();
             this.connectionStatsForm.ResizeEnd += (s2, e2) => this.connectionStatsForm.SaveStartupLocation();
-            this.connectionStatsForm.LocationChanged += (s2, e2) => this.connectionStatsForm.SaveStartupLocation();
+            this.connectionStatsForm.LocationChanged += (s3, e3) => this.connectionStatsForm.SaveStartupLocation();
             this.connectionStatsForm.Show();
             ThemeManager.ApplyThemeTo(this.connectionStatsForm);
         }
