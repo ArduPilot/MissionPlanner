@@ -4588,15 +4588,15 @@ namespace MissionPlanner.GCSViews
             TabPage sourceTP = sourceTC.SelectedTab;
             TabControl dropoutTab = new TabControl();
 
-            dropoutForm.RestoreStartupLocation();
             dropoutForm.Text = $"{sourceTP.Text} Tab Dropout";
             dropoutForm.FormClosed += DropoutForm_FormClosed;
             dropoutForm.ResizeEnd += (s2, e2) => dropoutForm.SaveStartupLocation();
             dropoutForm.LocationChanged += (s3, e3) => dropoutForm.SaveStartupLocation();
             dropoutForm.FormBorderStyle = FormBorderStyle.Sizable;
-            dropoutForm.ShowInTaskbar = false;
+            //dropoutForm.ShowInTaskbar = false;
             dropoutForm.Size = new Size(sourceTP.Width, sourceTP.Width);
-
+            //dropoutForm.MinimumSize = new Size(515, 515);
+            dropoutForm.RestoreStartupLocation();
             sourceTP.Tag = sourceTC.SelectedIndex;
 
             dropoutTab.Appearance = TabAppearance.FlatButtons;
@@ -4611,6 +4611,7 @@ namespace MissionPlanner.GCSViews
             dropoutForm.Controls.Add(dropoutTab);
 
             isDropperdOut.Add(dropoutForm);
+            SetDropoutsState(sourceTP.Name, true);
             dropoutForm.Show();
         }
 
@@ -4619,8 +4620,9 @@ namespace MissionPlanner.GCSViews
             Form dropoutForm = sender as Form;
             TabControl sourceTC = dropoutForm.Controls[0] as TabControl;
             TabPage dropoutTP = sourceTC.TabPages[0];
-            isDropperdOut.Remove(dropoutForm);
             dropoutForm.SaveStartupLocation();
+            SetDropoutsState(dropoutTP.Name, false);
+            isDropperdOut.Remove(dropoutForm);
             tabControlactions.Controls.Add(dropoutTP);
         }
 
@@ -4897,6 +4899,8 @@ namespace MissionPlanner.GCSViews
                 new DropoutsStateItem {Name = myhud.Name, Dropped = false},
                 new DropoutsStateItem {Name = "test", Dropped = true}
             };
+            foreach (TabPage item in tabControlactions.TabPages) // Tabpages in bulk
+                DropoutsState.Add(new DropoutsStateItem {Name = item.Name, Dropped = false});
 
             // Load list and flip Dropped to true where needed
             if (Settings.Instance.ContainsKey("DropoutState"))
@@ -4912,6 +4916,12 @@ namespace MissionPlanner.GCSViews
                     if (item.Name == myhud.Name) // HUD
                     {
                         hud1_DoubleClick(null, null);
+                    }
+                    if (tabControlactions.TabPages.Select(TP => (TP as TabPage).Name).Contains(item.Name)) // One of the tabpages
+                    {
+                        tabControlactions.SelectTab(item.Name);
+                        TabControlactions_DoubleClick(tabControlactions, null);
+                    }
                     }
                     //if (item.Name == "whatever")
                     //{
