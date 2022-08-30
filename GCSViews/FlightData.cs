@@ -2442,7 +2442,11 @@ namespace MissionPlanner.GCSViews
                 ((IActivate) (flightPlannerScreen.Control)).Activate();
             }
 
-            if (flightPlannerDropout != null) flightPlannerDropout.Show();
+            if (flightPlannerDropout != null)
+            {
+                flightPlannerDropout.Show();
+                SetDropoutsState("FlightPlanner", true);
+            }    
         }
 
         private void FilghtPlannerDropout_FormClosed(object sender, FormClosedEventArgs e)
@@ -2457,6 +2461,8 @@ namespace MissionPlanner.GCSViews
             {
                 ((IDeactivate)(flightPlannerScreen.Control)).Deactivate();
             }
+
+            SetDropoutsState("FlightPlanner", false);
         }
 
         private void flyToHereAltToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4897,6 +4903,7 @@ namespace MissionPlanner.GCSViews
             DropoutsState = new List<DropoutsStateItem> // Individual Control items
             {
                 new DropoutsStateItem {Name = myhud.Name, Dropped = false},
+                new DropoutsStateItem {Name = "FlightPlanner", Dropped = false},
                 new DropoutsStateItem {Name = "test", Dropped = true}
             };
             foreach (TabPage item in tabControlactions.TabPages) // Tabpages in bulk
@@ -4921,6 +4928,10 @@ namespace MissionPlanner.GCSViews
                     {
                         tabControlactions.SelectTab(item.Name);
                         TabControlactions_DoubleClick(tabControlactions, null);
+                    }
+                    if (item.Name == "FlightPlanner")
+                    {
+                        flightPlannerToolStripMenuItem_Click(null, null);
                     }
                     }
                     //if (item.Name == "whatever")
