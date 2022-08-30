@@ -1368,6 +1368,10 @@ namespace MissionPlanner
                 this.connectionStatsForm.Width = _connectionStats.Width;
             }
 
+            this.connectionStatsForm.RestoreStartupLocation();
+            this.connectionStatsForm.FormClosed += (s, e) => this.connectionStatsForm.SaveStartupLocation();
+            this.connectionStatsForm.ResizeEnd += (s2, e2) => this.connectionStatsForm.SaveStartupLocation();
+            this.connectionStatsForm.LocationChanged += (s2, e2) => this.connectionStatsForm.SaveStartupLocation();
             this.connectionStatsForm.Show();
             ThemeManager.ApplyThemeTo(this.connectionStatsForm);
         }
