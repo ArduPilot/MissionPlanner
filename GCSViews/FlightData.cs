@@ -5529,7 +5529,7 @@ namespace MissionPlanner.GCSViews
 
             tab.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
-            dropout.Text = "Flight DATA";
+            dropout.Text = $"{tabQuick.Text} Tab Dropout";
             tabControlactions.Controls.Remove(tabQuick);
             tab.Controls.Add(tabQuick);
             tabQuick.BorderStyle = BorderStyle.Fixed3D;
