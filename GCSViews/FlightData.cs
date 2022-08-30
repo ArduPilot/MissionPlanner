@@ -4942,6 +4942,14 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// Resets the dropout Form configuration
+        /// </summary>
+        public void ResetDropoutsStates()
+        {
+            DropoutsState.Where(DS => DS.Dropped).ForEach(DS => SetDropoutsState(DS.Name, false));
+        }
+
         private void MainH_VisibleChanged(object sender, System.EventArgs e)
         {
             if (Visible && !Disposing) LoadDropoutsState();
