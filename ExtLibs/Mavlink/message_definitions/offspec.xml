@@ -26,6 +26,9 @@
 			<field type="int16_t" name="cpu_temp"></field>
 			<field type="int16_t" name="board_temp"></field>
 		</message>
+		<message id="50001" name="RAW_RC">
+			<field type="uint8_t[32]" name="rc_raw"></field>
+		</message>
 	</messages>
 	<enums>
 
