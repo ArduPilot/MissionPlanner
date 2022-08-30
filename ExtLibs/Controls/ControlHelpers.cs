@@ -11,6 +11,18 @@ namespace MissionPlanner.Controls
 {
     public static class ControlHelpers
     {
+        public class FormStartLocation
+        {
+            public Point Location { get; set; }
+            public Size Size { get; set; }
+            public FormWindowState State { get; set; }
+        }
+
+        public static void SaveStartupLocation(this Form control)
+        {
+            Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
+        }
+
         public static void RestoreStartupLocation(this Form control)
         {
             var value = Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"];
@@ -28,16 +40,9 @@ namespace MissionPlanner.Controls
             }
         }
 
-        public class FormStartLocation
+        public static void ResetStartupLocation(this Form control)
         {
-            public Point Location { get; set; }
-            public Size Size { get; set; }
-            public FormWindowState State { get; set; }
-        }
-
-        public static void SaveStartupLocation(this Form control)
-        {
-            Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
+            Settings.Instance.Remove(control.Text.Replace(" ", "_") + "_StartLocation");
         }
 
         public static void InvokeIfRequired<T>(this T control, Action<T> action) where T : ISynchronizeInvoke
