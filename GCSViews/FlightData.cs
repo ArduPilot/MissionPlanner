@@ -4922,16 +4922,16 @@ namespace MissionPlanner.GCSViews
                 {
                     if (item.Name == myhud.Name) // HUD
                     {
-                        hud1_DoubleClick(null, null);
+                        hud1_DoubleClick(null, EventArgs.Empty);
                     }
                     if (tabControlactions.TabPages.Select(TP => (TP as TabPage).Name).Contains(item.Name)) // One of the tabpages
                     {
                         tabControlactions.SelectTab(item.Name);
-                        TabControlactions_DoubleClick(tabControlactions, null);
+                        TabControlactions_DoubleClick(tabControlactions, EventArgs.Empty);
                     }
                     if (item.Name == "FlightPlanner")
                     {
-                        flightPlannerToolStripMenuItem_Click(null, null);
+                        flightPlannerToolStripMenuItem_Click(null, EventArgs.Empty);
                     }
                     }
                     //if (item.Name == "whatever")
