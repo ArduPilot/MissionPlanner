@@ -338,7 +338,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 */
             }
 
-            CustomMessageBox.Show("Failed to detect port to upload to (Unknown VID/PID or Board String)", Strings.ERROR);
+            CustomMessageBox.Show("Failed to detect port to upload to (Unknown VID/PID or Board String)\r\nPlease try Disconnect/Reconnect and upload while on this screen", Strings.ERROR);
             return;
         }
 
