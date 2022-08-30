@@ -2424,6 +2424,8 @@ namespace MissionPlanner.GCSViews
             flightPlannerDropout.Text = "Flight Planner";
             flightPlannerDropout.FormBorderStyle = FormBorderStyle.Sizable;
             flightPlannerDropout.FormClosed += FilghtPlannerDropout_FormClosed;
+            flightPlannerDropout.ResizeEnd += (s2, e2) => flightPlannerDropout.SaveStartupLocation();
+            flightPlannerDropout.LocationChanged += (s3, e3) => flightPlannerDropout.SaveStartupLocation();
             flightPlannerDropout.RestoreStartupLocation();
 
             MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
@@ -2827,6 +2829,8 @@ namespace MissionPlanner.GCSViews
             dropout.Controls.Add(hud1);
             dropout.Resize += dropout_Resize;
             dropout.FormClosed += dropout_FormClosed;
+            dropout.ResizeEnd += (s2, e2) => dropout.SaveStartupLocation();
+            dropout.LocationChanged += (s3, e3) => dropout.SaveStartupLocation();
             dropout.RestoreStartupLocation();
             dropout.Show();
             huddropout = true;
@@ -4585,6 +4589,8 @@ namespace MissionPlanner.GCSViews
             dropoutForm.RestoreStartupLocation();
             dropoutForm.Text = $"{sourceTP.Text} Tab Dropout";
             dropoutForm.FormClosed += DropoutForm_FormClosed;
+            dropoutForm.ResizeEnd += (s2, e2) => dropoutForm.SaveStartupLocation();
+            dropoutForm.LocationChanged += (s3, e3) => dropoutForm.SaveStartupLocation();
             dropoutForm.FormBorderStyle = FormBorderStyle.Sizable;
             dropoutForm.ShowInTaskbar = false;
             dropoutForm.Size = new Size(sourceTP.Width, sourceTP.Width);
