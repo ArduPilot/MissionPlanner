@@ -4904,8 +4904,7 @@ namespace MissionPlanner.GCSViews
             {
                 new DropoutsStateItem {Name = myhud.Name, Dropped = false},
                 new DropoutsStateItem {Name = "FlightPlanner", Dropped = false},
-                new DropoutsStateItem {Name = "ConnectionStats", Dropped = false},
-                new DropoutsStateItem {Name = "test", Dropped = true}
+                new DropoutsStateItem {Name = "ConnectionStats", Dropped = false}
             };
             foreach (TabPage item in tabControlactions.TabPages) // Tabpages in bulk
                 DropoutsState.Add(new DropoutsStateItem {Name = item.Name, Dropped = false});
