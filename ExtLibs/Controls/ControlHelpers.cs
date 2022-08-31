@@ -57,6 +57,11 @@ namespace MissionPlanner.Controls
             Settings.Instance.Remove(control.Text.Replace(" ", "_") + "_StartLocation");
         }
 
+        /// <summary>
+        /// Checks if a Rectangle is fully visible on the display area
+        /// </summary>
+        /// <param name="rectangle">Rectangle to check</param>
+        /// <returns></returns>
         private static bool RectVisible(Rectangle rectangle)
         {
             foreach (Screen screen in Screen.AllScreens)
