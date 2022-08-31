@@ -551,6 +551,7 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             this.tabControlactions.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControlactions.DoubleClick += TabControlactions_DoubleClick;
+            this.tabControlactions.ControlAdded += TabControlactions_ControlAdded;
             // 
             // contextMenuStripactionstab
             // 
