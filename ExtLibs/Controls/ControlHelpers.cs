@@ -57,6 +57,15 @@ namespace MissionPlanner.Controls
             Settings.Instance.Remove(control.Text.Replace(" ", "_") + "_StartLocation");
         }
 
+        private static bool RectVisible(Rectangle rectangle)
+        {
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                if (screen.Bounds.Contains(rectangle)) return true;
+            }
+            return false;
+        }
+
         public static void InvokeIfRequired<T>(this T control, Action<T> action) where T : ISynchronizeInvoke
         {
             if (control.InvokeRequired)
