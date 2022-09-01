@@ -40,8 +40,8 @@ namespace MissionPlanner.Controls
                 try
                 {
                     var fsl = value.FromJSON<FormStartLocation>();
-                    control.Location = fsl.Location;
                     control.Size = fsl.Size;
+                    control.Location = fsl.Location;
                     control.StartPosition = RectVisible(control.Bounds) ? FormStartPosition.Manual : FormStartPosition.WindowsDefaultLocation;
                     control.WindowState = fsl.State;
                 } catch {}
