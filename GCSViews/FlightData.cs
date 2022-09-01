@@ -2444,6 +2444,7 @@ namespace MissionPlanner.GCSViews
 
             if (flightPlannerDropout != null)
             {
+                flightPlannerDropout.TopMost = true;
                 flightPlannerDropout.Show();
                 SetDropoutsState("FlightPlanner", true);
             }    
@@ -2838,6 +2839,7 @@ namespace MissionPlanner.GCSViews
             dropout.ResizeEnd += (s2, e2) => dropout.SaveStartupLocation();
             dropout.LocationChanged += (s3, e3) => dropout.SaveStartupLocation();
             dropout.RestoreStartupLocation();
+            dropout.TopMost = true;
             dropout.Show();
             huddropout = true;
             SetDropoutsState(hud1.Name, true);
@@ -4618,6 +4620,7 @@ namespace MissionPlanner.GCSViews
 
             isDropperdOut.Add(dropoutForm);
             SetDropoutsState(sourceTP.Name, true);
+            dropoutForm.TopMost = true;
             dropoutForm.Show();
         }
 

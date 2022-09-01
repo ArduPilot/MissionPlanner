@@ -1372,6 +1372,7 @@ namespace MissionPlanner
             this.connectionStatsForm.FormClosed += ConnectionStatsForm_FormClosed;
             this.connectionStatsForm.ResizeEnd += (s1, e1) => this.connectionStatsForm.SaveStartupLocation();
             this.connectionStatsForm.LocationChanged += (s2, e2) => this.connectionStatsForm.SaveStartupLocation();
+            this.connectionStatsForm.TopMost = true;
             this.connectionStatsForm.Show();
             FlightData.SetDropoutsState("ConnectionStats", true);
             ThemeManager.ApplyThemeTo(this.connectionStatsForm);
