@@ -2444,8 +2444,8 @@ namespace MissionPlanner.GCSViews
 
             if (flightPlannerDropout != null)
             {
-                flightPlannerDropout.TopMost = true;
                 flightPlannerDropout.Show();
+                flightPlannerDropout.BringToFront();
                 SetDropoutsState("FlightPlanner", true);
             }    
         }
@@ -2839,8 +2839,8 @@ namespace MissionPlanner.GCSViews
             dropout.ResizeEnd += (s2, e2) => dropout.SaveStartupLocation();
             dropout.LocationChanged += (s3, e3) => dropout.SaveStartupLocation();
             dropout.RestoreStartupLocation();
-            dropout.TopMost = true;
             dropout.Show();
+            dropout.BringToFront();
             huddropout = true;
             SetDropoutsState(hud1.Name, true);
         }
@@ -4620,8 +4620,8 @@ namespace MissionPlanner.GCSViews
 
             isDropperdOut.Add(dropoutForm);
             SetDropoutsState(sourceTP.Name, true);
-            dropoutForm.TopMost = true;
             dropoutForm.Show();
+            dropoutForm.BringToFront();
         }
 
         private void DropoutForm_FormClosed(object sender, FormClosedEventArgs e)
