@@ -287,9 +287,9 @@ namespace MissionPlanner
                 }
 
                 // values
-                float rawmx = packet.xmag - (float)MainV2.comPort.MAV.cs.mag_ofs_x;
-                float rawmy = packet.ymag - (float)MainV2.comPort.MAV.cs.mag_ofs_y;
-                float rawmz = packet.zmag - (float)MainV2.comPort.MAV.cs.mag_ofs_z;
+                float rawmx = packet.xmag;
+                float rawmy = packet.ymag;
+                float rawmz = packet.zmag;
 
                 // add data
                 lock (_locker)
