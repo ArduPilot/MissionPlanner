@@ -1,8 +1,6 @@
-﻿using Microsoft.Scripting.Utils;
-using MissionPlanner.Comms;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.CoT;
-using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.IO;
@@ -12,7 +10,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using static IronPython.Modules.MmapModule;
 
 namespace MissionPlanner.Controls
 {
