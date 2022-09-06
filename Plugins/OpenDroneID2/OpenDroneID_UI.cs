@@ -50,6 +50,8 @@ namespace MissionPlanner.Controls
         public OpenDroneID_UI()
         {
             Instance = this;
+            
+            
 
             InitializeComponent();
 
@@ -68,6 +70,8 @@ namespace MissionPlanner.Controls
             CMB_self_id_type.DisplayMember = "Value";
             CMB_self_id_type.ValueMember = "Key";
             CMB_self_id_type.DataSource = System.Enum.GetValues(typeof(MAVLink.MAV_ODID_DESC_TYPE));
+
+            myODID_Status._parent_ODID = this;
 
             start();
         }
@@ -156,6 +160,7 @@ namespace MissionPlanner.Controls
                     {
                         _host.FDGMapControl.Controls.Add(host_map_status);
                         host_map_status.Location = new System.Drawing.Point(_host.FDGMapControl.Width-host_map_status.Width-10, 25);
+                        host_map_status._parent_ODID = this;
                     }));
                     host_map_status.Visible = true;
 
@@ -206,35 +211,56 @@ namespace MissionPlanner.Controls
                         
         }
 
+        public void setEmergencyFromMap()
+        {
+            Console.WriteLine("ODID - Pilot Declared an ODID Emergency");
+            TXT_self_id_TXT.Text = "Pilot Emergency Status Declared";
+            CMB_self_id_type.SelectedIndex = (int)MAVLink.MAV_ODID_DESC_TYPE.EMERGENCY;
+            addStatusMessage("Pilot Emergency Status");
+        }
+
         private void checkODID_OK()
         {
+            string msg = "";
+
+            if (CMB_self_id_type.SelectedIndex == (int)MAVLink.MAV_ODID_DESC_TYPE.EMERGENCY)
+            {
+                myODID_Status.setStatusEmergency(TXT_self_id_TXT.Text);
+                host_map_status.setStatusEmergency(TXT_self_id_TXT.Text);
+                
+                return;
+            }
 
             if (_gcs_gps == false)
             {
-
-                myODID_Status.setStatusAlert("GCS GPS Invalid");
+                msg = "GCS GPS Invalid";
 
             }
             else if (_odid_arm_msg == false)
             {
-                myODID_Status.setStatusAlert("Remote ID Msg Timeout");
+                msg = "Remote ID Msg Timeout";
 
             }
             else if (_odid_arm_status == false)
             {
-                myODID_Status.setStatusAlert("Remote ID ARM Error");
+                msg = "Remote ID ARM Error";
 
             }
             else if (_uas_id == false)
             {
-                myODID_Status.setStatusAlert("Need to input UAS ID");
+                msg = "Need to input UAS ID";
             }
             else
             {
                 myODID_Status.setStatusOK();
-
+                host_map_status.setStatusOK();
+                return;
             }
-            
+
+            myODID_Status.setStatusAlert(msg);
+            host_map_status.setStatusAlert(msg);
+
+
         }
 
         private void checkUID()
