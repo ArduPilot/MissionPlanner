@@ -127,7 +127,7 @@ namespace MissionPlanner.ArduPilot
 
         public static ManifestRoot Manifest { get; set; }
 
-        public static long? GetBoardID(DeviceInfo device, bool boardidcheck = true)
+        public static long[] GetBoardID(DeviceInfo device, bool boardidcheck = true)
         {
             GetList();
 
@@ -143,7 +143,7 @@ namespace MissionPlanner.ArduPilot
 
             if (ans.Any())
             {
-                return ans.First().BoardId;
+                return ans.Select(a => a.BoardId).Distinct().ToArray();
             }
 
             if (device.hardwareid == null)
@@ -161,7 +161,7 @@ namespace MissionPlanner.ArduPilot
 
                 if (vidandusbdesc.Any())
                 {
-                    return vidandusbdesc.First().BoardId;
+                    return vidandusbdesc.Select(a => a.BoardId).Distinct().ToArray();
                 }
             }
 

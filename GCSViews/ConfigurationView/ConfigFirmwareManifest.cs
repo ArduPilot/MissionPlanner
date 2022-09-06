@@ -196,12 +196,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             foreach (var deviceInfo in ports)
             {
                 long? devid = detectedboardid;
+                long[] devids = null;
 
                 // make best guess at board_id based on usb info
                 if (!devid.HasValue)
-                    devid = APFirmware.GetBoardID(deviceInfo);
+                    devids = APFirmware.GetBoardID(deviceInfo);
 
-                if (devid.HasValue && devid.Value != 0 || alloptions == true)
+                if (devid.HasValue && devid.Value != 0 || alloptions == true || devids != null)
                 {
                     log.InfoFormat("{0}: {1} - {2}", deviceInfo.name, deviceInfo.description, deviceInfo.board);
 
@@ -209,7 +210,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     // get the options for this device
                     var fwitems = APFirmware.Manifest.Firmware.Where(a =>
-                        a.BoardId == devid && a.MavType == mavtype.ToString() &&
+                        devids.Any(devidlocal => devidlocal == a.BoardId) && a.MavType == mavtype.ToString() &&
                         a.MavFirmwareVersionType == REL_Type.ToString()).ToList();
 
                     if (alloptions)
@@ -338,7 +339,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 */
             }
 
-            CustomMessageBox.Show("Failed to detect port to upload to", Strings.ERROR);
+            CustomMessageBox.Show("Failed to detect port to upload to (Unknown VID/PID or Board String)\r\nPlease try Disconnect/Reconnect and upload while on this screen", Strings.ERROR);
             return;
         }
 

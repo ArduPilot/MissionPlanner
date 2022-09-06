@@ -12,7 +12,7 @@ using System.Threading;
 /// </summary>
 public static class MavlinkUtil
 {
-    public static bool UseUnsafe { get; set; } = false;
+    public static bool UseUnsafe { get; set; } = true;
 
     /// <summary>
     /// Create a new mavlink packet object from a byte array as recieved over mavlink
@@ -59,6 +59,12 @@ public static class MavlinkUtil
             for (int i = len - (len % 8); i < len; i++)
             {
                 Marshal.WriteByte(iptr, i, 0x00);
+            }
+
+            if (payloadlength > len)
+            {
+                // unknown mavlink extension...
+                payloadlength = len;
             }
 
             // copy byte array to ptr
@@ -112,7 +118,7 @@ public static class MavlinkUtil
     }
     public static T ReadUsingPointer<T>(byte[] data, int startoffset) where T : struct
     {
-        if (data == null || data.Length < (startoffset))
+        if (data == null || data.Length < (startoffset) || (data.Length - startoffset) < Marshal.SizeOf(typeof(T)))
             return default(T);
         unsafe
         {
