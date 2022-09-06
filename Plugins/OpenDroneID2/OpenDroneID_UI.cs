@@ -45,6 +45,8 @@ namespace MissionPlanner.Controls
         DateTime _last_time_2 = DateTime.Now;
         float _update_rate_hz_2 = 1.0f; // 1 hz
 
+        bool dev_mode_rm = false;
+
         public OpenDroneID_UI()
         {
             Instance = this;
@@ -146,7 +148,8 @@ namespace MissionPlanner.Controls
                     addStatusMessage("Detected and Starting on System ID: " + _host.comPort.MAV.sysid);
 
                     last_odid_msg.Start();
-                    myDID.Start(_host.comPort, arg.sysid, arg.compid);
+                    if (dev_mode_rm == false)
+                        myDID.Start(_host.comPort, arg.sysid, arg.compid);
 
 
 
@@ -315,6 +318,21 @@ namespace MissionPlanner.Controls
                 LED_gps_valid.Color = Color.Green;
                 _gcs_gps = true;
             }
+        }
+
+        private void LBL_version_DoubleClick(object sender, EventArgs e)
+        {
+            // Note: this function is for development only and should be removed for production enviroments. 
+
+            if (CustomMessageBox.Show("Are you sure you want to disable outgoing Remote ID?", "RID Developer Mode?", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.No)
+            {
+                return;
+            }
+            Console.WriteLine("----------------- REMOTE ID Outgoing Messages have been disabled ------------------------------------");
+            addStatusMessage("REMOTE ID outgoing messages have been DIABLED");
+            dev_mode_rm = true;
+            myDID.Stop();
+            _thread_odid.Abort();
         }
 
         private void addStatusMessage(String msg)

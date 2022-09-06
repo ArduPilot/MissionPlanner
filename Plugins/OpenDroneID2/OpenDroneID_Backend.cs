@@ -63,8 +63,8 @@ namespace MissionPlanner
 
         public void Stop()
         {
-            timer.Stop();
-            running= false;
+            if (timer != null) timer.Stop();
+            running = false;
         }
 
         public bool isRunning()
