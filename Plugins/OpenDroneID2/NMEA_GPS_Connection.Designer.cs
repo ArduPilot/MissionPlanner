@@ -74,6 +74,7 @@
             this.CMB_serialport.Name = "CMB_serialport";
             this.CMB_serialport.Size = new System.Drawing.Size(121, 21);
             this.CMB_serialport.TabIndex = 44;
+            this.CMB_serialport.Enter += new System.EventHandler(this.CMB_serialport_Enter);
             // 
             // BUT_connect
             // 

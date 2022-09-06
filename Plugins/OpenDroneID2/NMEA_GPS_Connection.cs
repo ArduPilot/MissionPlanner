@@ -110,6 +110,12 @@ namespace MissionPlanner
 
         }
 
+
+        private void CMB_serialport_Enter(object sender, EventArgs e)
+        {
+            init_com_port_list();
+        }
+
         private void autoConnectGPS()
         {
             // TODO quick autoconnect after 2 minutes
