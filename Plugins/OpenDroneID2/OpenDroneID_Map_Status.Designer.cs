@@ -74,7 +74,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.LED_ODID_Status);
             this.Controls.Add(this.LBL_ODID_reason);
             this.Name = "OpenDroneID_Map_Status";
-            this.Size = new System.Drawing.Size(140, 42);
+            this.Size = new System.Drawing.Size(155, 42);
             this.ResumeLayout(false);
             this.PerformLayout();
 

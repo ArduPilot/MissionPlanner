@@ -164,6 +164,8 @@ namespace MissionPlanner.Controls
                     }));
                     host_map_status.Visible = true;
 
+                    addStatusMessage("Double Click Primary status indicator to declare Emergency over ODID.");
+
                 }
                 catch
                 {
