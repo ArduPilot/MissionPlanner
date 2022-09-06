@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Globalization;
 using System.IO;
@@ -30,7 +30,7 @@ namespace MissionPlanner.Controls
 
         private const int ODID_ARM_MESSAGE_TIMEOUT = 5000;
         private OpenDroneID_Backend myDID = new OpenDroneID_Backend();
-        
+        private OpenDroneID_Map_Status host_map_status = new OpenDroneID_Map_Status();
 
         private Plugin.PluginHost _host = null;
 
@@ -150,8 +150,14 @@ namespace MissionPlanner.Controls
                     last_odid_msg.Start();
                     if (dev_mode_rm == false)
                         myDID.Start(_host.comPort, arg.sysid, arg.compid);
-
-
+                    host_map_status.Anchor = AnchorStyles.Right | AnchorStyles.Top;
+                    
+                    _host.MainForm.Invoke((Action)(() =>
+                    {
+                        _host.FDGMapControl.Controls.Add(host_map_status);
+                        host_map_status.Location = new System.Drawing.Point(_host.FDGMapControl.Width-host_map_status.Width-10, 25);
+                    }));
+                    host_map_status.Visible = true;
 
                 }
                 catch
