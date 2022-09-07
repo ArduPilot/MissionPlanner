@@ -228,11 +228,16 @@
   </graph>
 
   <graph name='EKF3/Normalised Innovations EK3 Lane2'>
-    <description>EKF3  Normalized Innovations Lane2</description>
+    <description>EKF3 Normalized Innovations Lane2</description>
     <expression>XKF4[1].SV XKF4[1].SP XKF4[1].SH XKF4[1].SM XKF4[1].SVT</expression>
     <expression>XKF9.SV XKF9.SP XKF9.SH XKF9.SM XKF9.SVT</expression>
   </graph>
 
+  <graph name='EKF3/Normalised Innovations EK3 Lane3'>
+    <description>EKF3 Normalized Innovations Lane3</description>
+    <expression>XKF4[2].SV XKF4[2].SP XKF4[2].SH XKF4[2].SM XKF4[2].SVT</expression>
+  </graph>
+  
   <graph name='EKF3/Wind Speed and Direction'>
     <description>EKF3 Wind Velocity NE</description>
     <expression>sqrt(XKF2[0].VWN**2+XKF2[0].VWE**2) wrap_360(degrees(atan2(-XKF2[0].VWE,-XKF2[0].VWN))):2 sqrt(XKF2[1].VWN**2+XKF2[1].VWE**2) wrap_360(degrees(atan2(-XKF2[1].VWE,-XKF2[1].VWN))):2</expression>
@@ -296,4 +301,3 @@
   </graph>
   
 </graphs>
-
