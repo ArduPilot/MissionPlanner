@@ -1677,11 +1677,12 @@ namespace MissionPlanner.GCSViews
                         }
                     }
 
-                    src.BeginInvoke((Action)delegate
-                    {
-                        overlay.Markers.Add(m);
-                        overlay.Markers.Add(mBorders);
-                    });
+                    if (src.IsHandleCreated)
+                        src.BeginInvoke((Action) delegate
+                        {
+                            overlay.Markers.Add(m);
+                            overlay.Markers.Add(mBorders);
+                        });
                 }
             }
             catch (Exception)
