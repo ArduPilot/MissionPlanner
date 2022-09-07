@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Globalization;
 using System.IO;
@@ -30,7 +30,7 @@ namespace MissionPlanner.Controls
 
         private const int ODID_ARM_MESSAGE_TIMEOUT = 5000;
         private OpenDroneID_Backend myDID = new OpenDroneID_Backend();
-        
+        private OpenDroneID_Map_Status host_map_status = new OpenDroneID_Map_Status();
 
         private Plugin.PluginHost _host = null;
 
@@ -45,9 +45,13 @@ namespace MissionPlanner.Controls
         DateTime _last_time_2 = DateTime.Now;
         float _update_rate_hz_2 = 1.0f; // 1 hz
 
+        bool dev_mode_rm = false;
+
         public OpenDroneID_UI()
         {
             Instance = this;
+            
+            
 
             InitializeComponent();
 
@@ -66,6 +70,8 @@ namespace MissionPlanner.Controls
             CMB_self_id_type.DisplayMember = "Value";
             CMB_self_id_type.ValueMember = "Key";
             CMB_self_id_type.DataSource = System.Enum.GetValues(typeof(MAVLink.MAV_ODID_DESC_TYPE));
+
+            myODID_Status._parent_ODID = this;
 
             start();
         }
@@ -146,9 +152,19 @@ namespace MissionPlanner.Controls
                     addStatusMessage("Detected and Starting on System ID: " + _host.comPort.MAV.sysid);
 
                     last_odid_msg.Start();
-                    myDID.Start(_host.comPort, arg.sysid, arg.compid);
+                    if (dev_mode_rm == false)
+                        myDID.Start(_host.comPort, arg.sysid, arg.compid);
+                    host_map_status.Anchor = AnchorStyles.Right | AnchorStyles.Top;
+                    
+                    _host.MainForm.Invoke((Action)(() =>
+                    {
+                        _host.FDGMapControl.Controls.Add(host_map_status);
+                        host_map_status.Location = new System.Drawing.Point(_host.FDGMapControl.Width-host_map_status.Width-10, 25);
+                        host_map_status._parent_ODID = this;
+                    }));
+                    host_map_status.Visible = true;
 
-
+                    addStatusMessage("Double Click Primary status indicator to declare Emergency over ODID.");
 
                 }
                 catch
@@ -197,35 +213,56 @@ namespace MissionPlanner.Controls
                         
         }
 
+        public void setEmergencyFromMap()
+        {
+            Console.WriteLine("ODID - Pilot Declared an ODID Emergency");
+            TXT_self_id_TXT.Text = "Pilot Emergency Status Declared";
+            CMB_self_id_type.SelectedIndex = (int)MAVLink.MAV_ODID_DESC_TYPE.EMERGENCY;
+            addStatusMessage("Pilot Emergency Status");
+        }
+
         private void checkODID_OK()
         {
+            string msg = "";
+
+            if (CMB_self_id_type.SelectedIndex == (int)MAVLink.MAV_ODID_DESC_TYPE.EMERGENCY)
+            {
+                myODID_Status.setStatusEmergency(TXT_self_id_TXT.Text);
+                host_map_status.setStatusEmergency(TXT_self_id_TXT.Text);
+                
+                return;
+            }
 
             if (_gcs_gps == false)
             {
-
-                myODID_Status.setStatusAlert("GCS GPS Invalid");
+                msg = "GCS GPS Invalid";
 
             }
             else if (_odid_arm_msg == false)
             {
-                myODID_Status.setStatusAlert("Remote ID Msg Timeout");
+                msg = "Remote ID Msg Timeout";
 
             }
             else if (_odid_arm_status == false)
             {
-                myODID_Status.setStatusAlert("Remote ID ARM Error");
+                msg = "Remote ID ARM Error";
 
             }
             else if (_uas_id == false)
             {
-                myODID_Status.setStatusAlert("Need to input UAS ID");
+                msg = "Need to input UAS ID";
             }
             else
             {
                 myODID_Status.setStatusOK();
-
+                host_map_status.setStatusOK();
+                return;
             }
-            
+
+            myODID_Status.setStatusAlert(msg);
+            host_map_status.setStatusAlert(msg);
+
+
         }
 
         private void checkUID()
@@ -315,6 +352,21 @@ namespace MissionPlanner.Controls
                 LED_gps_valid.Color = Color.Green;
                 _gcs_gps = true;
             }
+        }
+
+        private void LBL_version_DoubleClick(object sender, EventArgs e)
+        {
+            // Note: this function is for development only and should be removed for production enviroments. 
+
+            if (CustomMessageBox.Show("Are you sure you want to disable outgoing Remote ID?", "RID Developer Mode?", CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.No)
+            {
+                return;
+            }
+            Console.WriteLine("----------------- REMOTE ID Outgoing Messages have been disabled ------------------------------------");
+            addStatusMessage("REMOTE ID outgoing messages have been DIABLED");
+            dev_mode_rm = true;
+            myDID.Stop();
+            _thread_odid.Abort();
         }
 
         private void addStatusMessage(String msg)

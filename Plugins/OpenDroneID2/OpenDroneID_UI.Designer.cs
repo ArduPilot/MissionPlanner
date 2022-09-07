@@ -52,6 +52,7 @@ namespace MissionPlanner.Controls
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.ODOD_tabs = new System.Windows.Forms.TabControl();
             this.tabStatus = new System.Windows.Forms.TabPage();
+            this.LBL_version = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.TXT_RID_Status_Msg = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -63,7 +64,6 @@ namespace MissionPlanner.Controls
             this.CMB_op_id_type = new System.Windows.Forms.ComboBox();
             this.nmea_GPS_1 = new MissionPlanner.NMEA_GPS_Connection();
             this.myODID_Status = new MissionPlanner.Controls.OpenDroneID_Map_Status();
-            this.LBL_version = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.ODOD_tabs.SuspendLayout();
             this.tabStatus.SuspendLayout();
@@ -310,6 +310,18 @@ namespace MissionPlanner.Controls
             this.tabStatus.Text = "Status";
             this.tabStatus.UseVisualStyleBackColor = true;
             // 
+            // LBL_version
+            // 
+            this.LBL_version.AutoSize = true;
+            this.LBL_version.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_version.Location = new System.Drawing.Point(278, 166);
+            this.LBL_version.Name = "LBL_version";
+            this.LBL_version.Size = new System.Drawing.Size(70, 13);
+            this.LBL_version.TabIndex = 13;
+            this.LBL_version.Text = "                     ";
+            this.LBL_version.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.LBL_version.DoubleClick += new System.EventHandler(this.LBL_version_DoubleClick);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -424,17 +436,6 @@ namespace MissionPlanner.Controls
             this.myODID_Status.Name = "myODID_Status";
             this.myODID_Status.Size = new System.Drawing.Size(140, 40);
             this.myODID_Status.TabIndex = 54;
-            // 
-            // LBL_version
-            // 
-            this.LBL_version.AutoSize = true;
-            this.LBL_version.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LBL_version.Location = new System.Drawing.Point(278, 166);
-            this.LBL_version.Name = "LBL_version";
-            this.LBL_version.Size = new System.Drawing.Size(70, 13);
-            this.LBL_version.TabIndex = 13;
-            this.LBL_version.Text = "                     ";
-            this.LBL_version.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // OpenDroneID_UI
             // 

@@ -66,7 +66,7 @@ namespace MissionPlanner
             }
             //timer2.Start();
 
-            if (!String.IsNullOrEmpty(Settings.Instance["moving_gps_com"]))
+            if ((LicenseManager.UsageMode != LicenseUsageMode.Designtime) && (!String.IsNullOrEmpty(Settings.Instance["moving_gps_com"])))
                 start();
 
         }
@@ -108,6 +108,12 @@ namespace MissionPlanner
             CMB_serialport.Items.Add("UDP Client");
             portsAreLoaded = true;
 
+        }
+
+
+        private void CMB_serialport_Enter(object sender, EventArgs e)
+        {
+            init_com_port_list();
         }
 
         private void autoConnectGPS()
