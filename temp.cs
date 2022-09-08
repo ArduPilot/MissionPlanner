@@ -1124,7 +1124,7 @@ namespace MissionPlanner
                 var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), cmb.Text.ToString());
                 float rateratio;
                 if (rate <= 0)
-                    rateratio = 0;
+                    rateratio = (float)rate;
                 else
                     rateratio = 1.0f / (float) rate * 1000000.0f;
                 try
@@ -1146,7 +1146,7 @@ namespace MissionPlanner
                 var rate = double.Parse(cmbrate.Text.ToString());
                 float rateratio;
                 if (rate <= 0)
-                    rateratio = 0;
+                    rateratio = (float)rate;
                 else
                     rateratio = 1.0f / (float)rate * 1000000.0f;
                 ((IList)cmb.DataSource).ForEach(a =>
