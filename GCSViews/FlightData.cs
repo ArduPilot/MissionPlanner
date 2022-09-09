@@ -2423,6 +2423,7 @@ namespace MissionPlanner.GCSViews
             Form flightPlannerDropout = new Form();
             flightPlannerDropout.Text = "Flight Planner";
             flightPlannerDropout.FormBorderStyle = FormBorderStyle.Sizable;
+            flightPlannerDropout.FormClosing += FlightPlannerDropout_FormClosing;
             flightPlannerDropout.FormClosed += FilghtPlannerDropout_FormClosed;
             flightPlannerDropout.ResizeEnd += (s2, e2) => flightPlannerDropout.SaveStartupLocation();
             flightPlannerDropout.LocationChanged += (s3, e3) => flightPlannerDropout.SaveStartupLocation();
@@ -2448,6 +2449,16 @@ namespace MissionPlanner.GCSViews
                 flightPlannerDropout.BringToFront();
                 SetDropoutsState("FlightPlanner", true);
             }    
+        }
+
+        private void FlightPlannerDropout_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                (sender as Form).Hide();
+                FilghtPlannerDropout_FormClosed(sender, FormClosedEventArgs.Empty as FormClosedEventArgs);
+            }
         }
 
         private void FilghtPlannerDropout_FormClosed(object sender, FormClosedEventArgs e)
