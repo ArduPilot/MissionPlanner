@@ -1,0 +1,53 @@
+[ req ]
+default_bits            = 4096                  # RSA key size
+encrypt_key             = yes                   # Protect private key
+default_md              = sha256                # MD to use
+utf8                    = yes                   # Input is UTF-8
+string_mask             = utf8only              # Emit UTF-8 strings
+prompt                  = no                    # Prompt for DN
+distinguished_name      = codesign_dn           # DN template
+req_extensions          = codesign_reqext       # Desired extensions
+
+[ codesign_dn ]
+commonName              = "Michael Oborne"
+
+[ codesign_reqext ]
+basicConstraints        = CA:FALSE
+keyUsage                = critical,digitalSignature
+extendedKeyUsage        = critical,codeSigning
+subjectKeyIdentifier    = hash
+
+[ca]
+default_ca    = my_ca_default
+
+[my_ca_default]
+#  a text file containing the next serial number to use in hex. Mandatory.
+#  This file must be present and contain a valid serial number.
+serial = ./serial
+new_certs_dir = ./certs
+# the file containing the CA certificate. Mandatory
+certificate = ./signed.crt
+# the file contaning the CA private key. Mandatory
+private_key = ./signed-nop.key
+# the text database file to use. Mandatory. This file must be present though
+# initially it will be empty.
+database = ./index.txt
+# the message digest algorithm. Remember to not use MD5
+default_md = sha256
+# for how many days will the signed certificate be valid
+default_days = 365
+# a section with a set of variables corresponding to DN fields
+policy = my_policy
+
+[ my_policy ]
+# if the value is "match" then the field value must match the same field in the
+# CA certificate. If the value is "supplied" then it must be present.
+# Optional means it may be present. Any fields not mentioned are silently
+# deleted.
+countryName = optional
+countryName = optional
+stateOrProvinceName = optional
+organizationName = optional
+commonName = optional
+organizationalUnitName = optional
+commonName = optional
