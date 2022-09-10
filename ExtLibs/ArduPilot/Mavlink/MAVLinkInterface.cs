@@ -1844,8 +1844,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 target_component = compid
             };
 
-            generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
-
             DateTime start = DateTime.Now;
             DateTime restart = DateTime.Now;
 
@@ -1894,6 +1892,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 return true;
             }, (byte)sysid, (byte)compid);
 
+            int seenvalid = 0;
+
             var sub1 = SubscribeToPacketType(MAVLINK_MSG_ID.PARAM_VALUE, buffer =>
             {
                 if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE && buffer.sysid == req.target_system &&
@@ -1932,6 +1932,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         return true;
                     }
 
+                    seenvalid++;
                     //Console.WriteLine(DateTime.Now.Millisecond + " gp2 ");
 
                     log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " +
@@ -1977,6 +1978,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 return true;
             }, (byte)sysid, (byte)compid);
 
+
+            generatePacket((byte)MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
+
+            short tenbytenindex = 0;
+
             do
             {
                 if (frmProgressReporter != null && frmProgressReporter.doWorkArgs.CancelRequested)
@@ -2005,13 +2011,25 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                     onebyone = true;
 
-                    if (lastonebyone.AddMilliseconds(600) < DateTime.Now)
+                    if (lastonebyone.AddMilliseconds(1000) < DateTime.Now)
                     {
-                        log.Info("Get param 1 by 1 - got " + indexsreceived.Count + " of " + param_total);
-
                         int queued = 0;
+                        short startindex = 0;
+                        var backupseenvalid = seenvalid;
+                        if (param_total > 1)
+                            startindex = (short) (tenbytenindex % (param_total - 1));
+                        
+                        seenvalid = 0;
+
+                        // seeing more than what we requested... skip this round - maybe full param list is still inflight
+                        if(backupseenvalid > 10)
+                            continue;
+
+                        log.Info("Get param 10 by 10 - got " + indexsreceived.Count + " of " + param_total +
+                                 " request from startindex " + startindex + " seen since last requests " + backupseenvalid);
+
                         // try getting individual params
-                        for (short i = 0; i <= (param_total - 1); i++)
+                        for (short i = startindex; i <= (param_total - 1); i++)
                         {
                             if (!indexsreceived.Contains(i))
                             {
@@ -2028,6 +2046,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 try
                                 {
                                     queued++;
+                                    tenbytenindex = (short)(i + 1);
 
                                     mavlink_param_request_read_t req2 = new mavlink_param_request_read_t
                                     {
