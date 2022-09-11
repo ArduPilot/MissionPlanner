@@ -1116,17 +1116,22 @@ namespace MissionPlanner
             Button but = new Button();
             but.Text = "Set";
             ComboBox cmbrate = new ComboBox();
-            cmbrate.DataSource = Enumerable.Range(1, 200).ToList();
+            cmbrate.DataSource = Enumerable.Range(0, 200).ToList();
 
             but.Click += (o, args) =>
             {
-                var rate = int.Parse(cmbrate.Text.ToString());
+                var rate = double.Parse(cmbrate.Text.ToString());
                 var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), cmb.Text.ToString());
+                float rateratio;
+                if (rate <= 0)
+                    rateratio = (float)rate;
+                else
+                    rateratio = 1.0f / (float) rate * 1000000.0f;
                 try
                 {
                     MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
-                        MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
-                        1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0);
+                        MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value, rateratio
+                        , 0, 0, 0, 0, 0);
                 }
                 catch (Exception ex)
                 {
@@ -1138,7 +1143,12 @@ namespace MissionPlanner
             but2.Text = "Set All";
             but2.Click += (o, args) =>
             {
-                var rate = int.Parse(cmbrate.Text.ToString());
+                var rate = double.Parse(cmbrate.Text.ToString());
+                float rateratio;
+                if (rate <= 0)
+                    rateratio = (float)rate;
+                else
+                    rateratio = 1.0f / (float)rate * 1000000.0f;
                 ((IList)cmb.DataSource).ForEach(a =>
                {
                    var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), a.ToString());
@@ -1146,7 +1156,7 @@ namespace MissionPlanner
                    {
                        MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                            MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
-                           1 / (float) rate * 1000000.0f, 0, 0, 0, 0, 0, false);
+                           rateratio, 0, 0, 0, 0, 0, false);
                    }
                    catch (Exception ex)
                    {
