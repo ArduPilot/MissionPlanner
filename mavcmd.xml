@@ -381,6 +381,24 @@
       <Y>Long</Y>
       <Z unitType="alt">Alt</Z>
     </DO_SET_ROI>
+    <DO_SET_ROI_LOCATION>
+      <P1>Gimbal Id</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </DO_SET_ROI_LOCATION>
+    <DO_SET_ROI_NONE>
+      <P1>Gimbal Id</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_ROI_NONE>
     <DO_SET_SERVO>
       <P1>Ser No</P1>
       <P2>PWM</P2>
@@ -717,6 +735,24 @@
       <Y>Long</Y>
       <Z unitType="alt">Alt</Z>
     </DO_SET_ROI>
+    <DO_SET_ROI_LOCATION>
+      <P1>Gimbal Id</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </DO_SET_ROI_LOCATION>
+    <DO_SET_ROI_NONE>
+      <P1>Gimbal Id</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_ROI_NONE>
     <DO_INVERTED_FLIGHT>
       <P1>0=normal, 1=inverted</P1>
       <P2></P2>
@@ -1233,6 +1269,24 @@
       <Y>Long</Y>
       <Z unitType="alt">Alt</Z>
     </DO_SET_ROI>
+    <DO_SET_ROI_LOCATION>
+      <P1>Gimbal Id</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </DO_SET_ROI_LOCATION>
+    <DO_SET_ROI_NONE>
+      <P1>Gimbal Id</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_ROI_NONE>
     <DO_SET_SERVO>
       <P1>Ser No</P1>
       <P2>PWM</P2>
