@@ -206,6 +206,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     log.InfoFormat("{0}: {1} - {2}", deviceInfo.name, deviceInfo.description, deviceInfo.board);
 
+                    if (devids == null && devid.HasValue)
+                        devids = new long[] {devid.Value};
+                    else if (devids == null)
+                        devids = new long[]{};
+
                     var baseurl = "";
 
                     // get the options for this device
