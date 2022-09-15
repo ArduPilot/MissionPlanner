@@ -175,7 +175,7 @@
     <value>8: CUAV HV PM</value>
   </data>
   <data name="CMB_batmonsensortype.Items9" xml:space="preserve">
-    <value>9: Holybro Pixhawk4 PM</value>
+    <value>9: Holybro Power Module</value>
   </data>
   <data name="CMB_batmonsensortype.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 68</value>
@@ -683,6 +683,9 @@
   </data>
   <data name="CMB_HWVersion.Items9" xml:space="preserve">
     <value>9: Durandal/ZealotH743</value>
+  </data>
+  <data name="CMB_HWVersion.Items10" xml:space="preserve">
+    <value>10: Pixhawk 6C/Pix32 v6</value>
   </data>
   <data name="CMB_HWVersion.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 95</value>
