@@ -159,7 +159,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                  else if (value == 8)
                 {
                     // Pixhawk 6C/Pix32 v6
-                    CMB_HWVersion.SelectedIndex = 9;
+                    CMB_HWVersion.SelectedIndex = 10;
                 }
             }
             else
