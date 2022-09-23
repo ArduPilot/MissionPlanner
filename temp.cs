@@ -1467,5 +1467,10 @@ namespace MissionPlanner
                 }
             }
         }
+
+        private void but_dfumode_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.doDFUBoot((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent);
+        }
     }
 }

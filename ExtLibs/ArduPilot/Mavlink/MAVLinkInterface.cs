@@ -2379,6 +2379,14 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             throw new NotImplementedException();
         }
 
+        public bool doDFUBoot(byte sysid, byte compid)
+        {
+            doCommand(sysid, compid, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN,
+                42, 24, 71, 99, 0, 0, 0, false);
+
+            return true;
+        }
+
         /// <summary>
         /// reboot the vehicle
         /// </summary>
