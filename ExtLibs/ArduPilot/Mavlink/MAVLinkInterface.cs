@@ -1171,6 +1171,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 if (messageType == (byte) MAVLINK_MSG_ID.MISSION_REQUEST_LIST ||
                     messageType == (byte) MAVLINK_MSG_ID.MISSION_REQUEST_PARTIAL_LIST ||
                     messageType == (byte) MAVLINK_MSG_ID.MISSION_REQUEST ||
+                    messageType == (byte) MAVLINK_MSG_ID.MISSION_REQUEST_INT ||
                     messageType == (byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST ||
                     messageType == (byte) MAVLINK_MSG_ID.PARAM_REQUEST_READ ||
                     messageType == (byte) MAVLINK_MSG_ID.RALLY_FETCH_POINT ||
@@ -3352,7 +3353,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         // received a packet, but not what we requested
                         if (index != wp.seq)
                         {
-                            generatePacket((byte) MAVLINK_MSG_ID.MISSION_REQUEST, req);
+                            generatePacket((byte) MAVLINK_MSG_ID.MISSION_REQUEST_INT, req);
                             continue;
                         }
 
@@ -4214,12 +4215,24 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 MAVLinkMessage buffer = await readPacketAsync().ConfigureAwait(false);
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == sysid &&
+                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST && buffer.sysid == sysid &&
                         buffer.compid == compid)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_request_t>();
 
                         log.InfoFormat("getRequestedWPNo seq {0} ts {1} tc {2}", ans.seq, ans.target_system,
+                            ans.target_component);
+
+                        giveComport = false;
+
+                        return ans.seq;
+                    }
+                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT && buffer.sysid == sysid &&
+                        buffer.compid == compid)
+                    {
+                        var ans = buffer.ToStructure<mavlink_mission_request_int_t>();
+
+                        log.InfoFormat("getRequestedWPNo INT seq {0} ts {1} tc {2}", ans.seq, ans.target_system,
                             ans.target_component);
 
                         giveComport = false;

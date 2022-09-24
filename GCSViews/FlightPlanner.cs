@@ -5988,6 +5988,23 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     return true;
                 }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
+            var sub3 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_INT,
+                message =>
+                {
+                    var data = ((MAVLink.mavlink_mission_request_int_t)message.data);
+                    // check what we sent is what the message is.
+                    if (MainV2.comPort.MAV.sysid != message.sysid &&
+                        MainV2.comPort.MAV.compid != message.compid)
+                        return true;
+                    // check this gcs sent it
+                    if (data.target_system != MAVLinkInterface.gcssysid ||
+                        data.target_component != (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                        return true;
+                    reqno = data.seq;
+                    Console.WriteLine("MISSION_REQUEST_INT " + reqno + " " + data.ToJSON(Formatting.None));
+                    return true;
+                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+
             ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set total wps ");
             MainV2.comPort.setWPTotal(totalwpcountforupload);
 
@@ -6029,6 +6046,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             MainV2.comPort.setWPTotal(0);
                             MainV2.comPort.UnSubscribeToPacketType(sub1);
                             MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            MainV2.comPort.UnSubscribeToPacketType(sub3);
                             return;
                         }
 
@@ -6061,6 +6079,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             sender.doWorkArgs.ErrorMessage = "Upload failed, please reduce the number of wp's";
                             MainV2.comPort.UnSubscribeToPacketType(sub1);
                             MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            MainV2.comPort.UnSubscribeToPacketType(sub3);
                             return;
                         }
 
@@ -6072,6 +6091,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                                 result;
                             MainV2.comPort.UnSubscribeToPacketType(sub1);
                             MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            MainV2.comPort.UnSubscribeToPacketType(sub3);
                             return;
                         }
 
@@ -6082,6 +6102,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                                                                  result.ToString());
                             MainV2.comPort.UnSubscribeToPacketType(sub1);
                             MainV2.comPort.UnSubscribeToPacketType(sub2);
+                            MainV2.comPort.UnSubscribeToPacketType(sub3);
                             return;
                         }
 
@@ -6153,6 +6174,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             MainV2.comPort.UnSubscribeToPacketType(sub1);
             MainV2.comPort.UnSubscribeToPacketType(sub2);
+            MainV2.comPort.UnSubscribeToPacketType(sub3);
 
             MainV2.comPort.setWPACK();
 
