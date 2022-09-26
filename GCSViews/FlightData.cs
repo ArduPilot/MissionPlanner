@@ -4986,9 +4986,15 @@ namespace MissionPlanner.GCSViews
             DropoutsState.Where(DS => DS.Dropped).ForEach(DS => SetDropoutsState(DS.Name, false));
         }
 
+        private bool programStarted = false;
+
         private void MainH_VisibleChanged(object sender, System.EventArgs e)
         {
-            if (Visible && !Disposing) LoadDropoutsState();
+            if (!programStarted && Visible && !Disposing)
+            {
+                    LoadDropoutsState();
+                    programStarted = true;
+            }
         }
 
         private void updateBindingSource()
