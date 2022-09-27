@@ -219,6 +219,16 @@ namespace MissionPlanner
         public float customfield7 { get; set; }
         public float customfield8 { get; set; }
         public float customfield9 { get; set; }
+        public float customfield10 { get; set; }
+        public float customfield11 { get; set; }
+        public float customfield12 { get; set; }
+        public float customfield13 { get; set; }
+        public float customfield14 { get; set; }
+        public float customfield15 { get; set; }
+        public float customfield16 { get; set; }
+        public float customfield17 { get; set; }
+        public float customfield18 { get; set; }
+        public float customfield19 { get; set; }
 
         // orientation - rads
         [DisplayText("Roll (deg)")]
@@ -3507,11 +3517,11 @@ namespace MissionPlanner
                             if (field == null)
                             {
                                 short i;
-                                for (i = 0; i < 10; i++)
+                                for (i = 0; i < 20; i++)
                                 {
                                     if (!custom_field_names.ContainsKey("customfield" + i.ToString())) break;
                                 }
-                                if (i < 10)
+                                if (i < 20)
                                 {
                                     field = "customfield" + i.ToString();
                                     custom_field_names.Add(field, name);
@@ -3552,6 +3562,36 @@ namespace MissionPlanner
                                         break;
                                     case "customfield9":
                                         customfield9 = value;
+                                        break;
+                                    case "customfield10":
+                                        customfield10 = value;
+                                        break;
+                                    case "customfield11":
+                                        customfield11 = value;
+                                        break;
+                                    case "customfield12":
+                                        customfield12 = value;
+                                        break;
+                                    case "customfield13":
+                                        customfield13 = value;
+                                        break;
+                                    case "customfield14":
+                                        customfield14 = value;
+                                        break;
+                                    case "customfield15":
+                                        customfield15 = value;
+                                        break;
+                                    case "customfield16":
+                                        customfield16 = value;
+                                        break;
+                                    case "customfield17":
+                                        customfield17 = value;
+                                        break;
+                                    case "customfield18":
+                                        customfield18 = value;
+                                        break;
+                                    case "customfield19":
+                                        customfield19 = value;
                                         break;
                                     default:
                                         break;
