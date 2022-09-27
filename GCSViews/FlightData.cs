@@ -71,9 +71,6 @@ namespace MissionPlanner.GCSViews
 
         DateTime lastscreenupdate = DateTime.Now;
         RollingPointPairList list1 = new RollingPointPairList(1200);
-        RollingPointPairList list10 = new RollingPointPairList(1200);
-        CurveItem list10curve;
-        PropertyInfo list10item;
         CurveItem list1curve;
         PropertyInfo list1item;
         RollingPointPairList list2 = new RollingPointPairList(1200);
@@ -100,6 +97,39 @@ namespace MissionPlanner.GCSViews
         RollingPointPairList list9 = new RollingPointPairList(1200);
         CurveItem list9curve;
         PropertyInfo list9item;
+        RollingPointPairList list10 = new RollingPointPairList(1200);
+        CurveItem list10curve;
+        PropertyInfo list10item;
+        RollingPointPairList list11 = new RollingPointPairList(1200);
+        CurveItem list11curve;
+        PropertyInfo list11item;
+        RollingPointPairList list12 = new RollingPointPairList(1200);
+        CurveItem list12curve;
+        PropertyInfo list12item;
+        RollingPointPairList list13 = new RollingPointPairList(1200);
+        CurveItem list13curve;
+        PropertyInfo list13item;
+        RollingPointPairList list14 = new RollingPointPairList(1200);
+        CurveItem list14curve;
+        PropertyInfo list14item;
+        RollingPointPairList list15 = new RollingPointPairList(1200);
+        CurveItem list15curve;
+        PropertyInfo list15item;
+        RollingPointPairList list16 = new RollingPointPairList(1200);
+        CurveItem list16curve;
+        PropertyInfo list16item;
+        RollingPointPairList list17 = new RollingPointPairList(1200);
+        CurveItem list17curve;
+        PropertyInfo list17item;
+        RollingPointPairList list18 = new RollingPointPairList(1200);
+        CurveItem list18curve;
+        PropertyInfo list18item;
+        RollingPointPairList list19 = new RollingPointPairList(1200);
+        CurveItem list19curve;
+        PropertyInfo list19item;
+        RollingPointPairList list20 = new RollingPointPairList(1200);
+        CurveItem list20curve;
+        PropertyInfo list20item;
         double LogPlayBackSpeed = 1.0;
         GMapMarker marker;
 
@@ -509,6 +539,16 @@ namespace MissionPlanner.GCSViews
                 list8.Clear();
                 list9.Clear();
                 list10.Clear();
+                list11.Clear();
+                list12.Clear();
+                list13.Clear();
+                list14.Clear();
+                list15.Clear();
+                list16.Clear();
+                list17.Clear();
+                list18.Clear();
+                list19.Clear();
+                list20.Clear();
                 tickStart = Environment.TickCount;
 
                 zg1.GraphPane.XAxis.Scale.Min = 0;
@@ -1928,9 +1968,179 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
+                else if (list11item == null)
+                {
+                    if (setupPropertyInfo(ref list11item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list11.Clear();
+                        list11curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list11, Color.Violet,
+                            SymbolType.None);
+                        list11curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list11curve.Label.Text += " R";
+                            list11curve.IsY2Axis = true;
+                            list11curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list12item == null)
+                {
+                    if (setupPropertyInfo(ref list12item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list12.Clear();
+                        list12curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list12, Color.Violet,
+                            SymbolType.None);
+                        list12curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list12curve.Label.Text += " R";
+                            list12curve.IsY2Axis = true;
+                            list12curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list13item == null)
+                {
+                    if (setupPropertyInfo(ref list13item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list13.Clear();
+                        list13curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list13, Color.Violet,
+                            SymbolType.None);
+                        list13curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list13curve.Label.Text += " R";
+                            list13curve.IsY2Axis = true;
+                            list13curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list14item == null)
+                {
+                    if (setupPropertyInfo(ref list14item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list14.Clear();
+                        list14curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list14, Color.Violet,
+                            SymbolType.None);
+                        list14curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list14curve.Label.Text += " R";
+                            list14curve.IsY2Axis = true;
+                            list14curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list15item == null)
+                {
+                    if (setupPropertyInfo(ref list15item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list15.Clear();
+                        list15curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list15, Color.Violet,
+                            SymbolType.None);
+                        list15curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list15curve.Label.Text += " R";
+                            list15curve.IsY2Axis = true;
+                            list15curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list16item == null)
+                {
+                    if (setupPropertyInfo(ref list16item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list16.Clear();
+                        list16curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list16, Color.Violet,
+                            SymbolType.None);
+                        list16curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list16curve.Label.Text += " R";
+                            list16curve.IsY2Axis = true;
+                            list16curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list17item == null)
+                {
+                    if (setupPropertyInfo(ref list17item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list17.Clear();
+                        list17curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list17, Color.Violet,
+                            SymbolType.None);
+                        list17curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list17curve.Label.Text += " R";
+                            list17curve.IsY2Axis = true;
+                            list17curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list18item == null)
+                {
+                    if (setupPropertyInfo(ref list18item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list18.Clear();
+                        list18curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list18, Color.Violet,
+                            SymbolType.None);
+                        list18curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list18curve.Label.Text += " R";
+                            list18curve.IsY2Axis = true;
+                            list18curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list19item == null)
+                {
+                    if (setupPropertyInfo(ref list19item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list19.Clear();
+                        list19curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list19, Color.Violet,
+                            SymbolType.None);
+                        list19curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list19curve.Label.Text += " R";
+                            list19curve.IsY2Axis = true;
+                            list19curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
+                else if (list20item == null)
+                {
+                    if (setupPropertyInfo(ref list20item, ((CheckBox) sender).Name, MainV2.comPort.MAV.cs))
+                    {
+                        list20.Clear();
+                        list20curve = zg1.GraphPane.AddCurve(((CheckBox) sender).Text, list20, Color.Violet,
+                            SymbolType.None);
+                        list20curve.Tag = ((CheckBox) sender).Name;
+                        if (tuningwasrightclick)
+                        {
+                            list20curve.Label.Text += " R";
+                            list20curve.IsY2Axis = true;
+                            list20curve.YAxisIndex = 0;
+                            zg1.GraphPane.Y2Axis.IsVisible = true;
+                        }
+                    }
+                }
                 else
                 {
-                    CustomMessageBox.Show("Max 10 at a time.");
+                    CustomMessageBox.Show("Max 20 at a time.");
                     ((CheckBox) sender).Checked = false;
                 }
 
@@ -2016,6 +2226,66 @@ namespace MissionPlanner.GCSViews
                 {
                     list10item = null;
                     zg1.GraphPane.CurveList.Remove(list10curve);
+                }
+
+                if (list11item != null && list11item.Name == ((CheckBox) sender).Name)
+                {
+                    list11item = null;
+                    zg1.GraphPane.CurveList.Remove(list11curve);
+                }
+
+                if (list12item != null && list12item.Name == ((CheckBox) sender).Name)
+                {
+                    list12item = null;
+                    zg1.GraphPane.CurveList.Remove(list12curve);
+                }
+
+                if (list13item != null && list13item.Name == ((CheckBox) sender).Name)
+                {
+                    list13item = null;
+                    zg1.GraphPane.CurveList.Remove(list13curve);
+                }
+
+                if (list14item != null && list14item.Name == ((CheckBox) sender).Name)
+                {
+                    list14item = null;
+                    zg1.GraphPane.CurveList.Remove(list14curve);
+                }
+
+                if (list15item != null && list15item.Name == ((CheckBox) sender).Name)
+                {
+                    list15item = null;
+                    zg1.GraphPane.CurveList.Remove(list15curve);
+                }
+
+                if (list16item != null && list16item.Name == ((CheckBox) sender).Name)
+                {
+                    list16item = null;
+                    zg1.GraphPane.CurveList.Remove(list16curve);
+                }
+
+                if (list17item != null && list17item.Name == ((CheckBox) sender).Name)
+                {
+                    list17item = null;
+                    zg1.GraphPane.CurveList.Remove(list17curve);
+                }
+
+                if (list18item != null && list18item.Name == ((CheckBox) sender).Name)
+                {
+                    list18item = null;
+                    zg1.GraphPane.CurveList.Remove(list18curve);
+                }
+
+                if (list19item != null && list19item.Name == ((CheckBox) sender).Name)
+                {
+                    list19item = null;
+                    zg1.GraphPane.CurveList.Remove(list19curve);
+                }
+
+                if (list20item != null && list20item.Name == ((CheckBox) sender).Name)
+                {
+                    list20item = null;
+                    zg1.GraphPane.CurveList.Remove(list20curve);
                 }
             }
         }
@@ -3244,6 +3514,26 @@ namespace MissionPlanner.GCSViews
                             list9.Add(time, (list9item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                         if (list10item != null)
                             list10.Add(time, (list10item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list11item != null)
+                            list11.Add(time, (list11item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list12item != null)
+                            list12.Add(time, (list12item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list13item != null)
+                            list13.Add(time, (list13item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list14item != null)
+                            list14.Add(time, (list14item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list15item != null)
+                            list15.Add(time, (list15item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list16item != null)
+                            list16.Add(time, (list16item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list17item != null)
+                            list17.Add(time, (list17item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list18item != null)
+                            list18.Add(time, (list18item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list19item != null)
+                            list19.Add(time, (list19item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
+                        if (list20item != null)
+                            list20.Add(time, (list20item.GetValue(MainV2.comPort.MAV.cs, null).ConvertToDouble()));
                     }
 
                     // update map - 0.3sec if connected , 2 sec if not connected
@@ -5199,6 +5489,65 @@ namespace MissionPlanner.GCSViews
                 }
 
                 if (list10item != null && list10item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+                if (list11item != null && list11item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list12item != null && list12item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list13item != null && list13item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list14item != null && list14item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list15item != null && list15item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list16item != null && list16item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list17item != null && list17item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list18item != null && list18item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list19item != null && list19item.Name == field.name)
+                {
+                    chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
+
+                if (list20item != null && list20item.Name == field.name)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
