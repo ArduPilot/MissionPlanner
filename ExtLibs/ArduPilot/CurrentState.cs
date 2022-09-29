@@ -1576,8 +1576,8 @@ namespace MissionPlanner
             {
                 var dist = DistToHome / multiplierdist;
 
-                //if (dist < 5)
-                //return 0;
+                if (dist == 0)
+                    return 0;
 
                 var altdiff = (float)(_altasl - TrackerLocation.Alt);
 
@@ -1606,10 +1606,10 @@ namespace MissionPlanner
                                                  //bearing = bearing - 180;//absolut return direction
                                                  //if (bearing < 0) bearing += 360;//normalization
 
-                //var dist = DistToHome / multiplierdist;
+                var dist = DistToHome / multiplierdist;
 
-                //if (dist < 5)
-                //return 0;
+                if (dist == 0)
+                    return 0;
 
                 return (float)bearing;
             }
@@ -1740,20 +1740,6 @@ namespace MissionPlanner
         [GroupText("Sensor")] public int press_temp { get; set; }
         [GroupText("Sensor")] public float press_abs2 { get; set; }
         [GroupText("Sensor")] public int press_temp2 { get; set; }
-
-        // sensor offsets
-        [GroupText("Calibration")] public int mag_ofs_x { get; set; }
-        [GroupText("Calibration")] public int mag_ofs_y { get; set; }
-        [GroupText("Calibration")] public int mag_ofs_z { get; set; }
-        [GroupText("Calibration")] public float mag_declination { get; set; }
-        [GroupText("Calibration")] public int raw_press { get; set; }
-        [GroupText("Calibration")] public int raw_temp { get; set; }
-        [GroupText("Calibration")] public float gyro_cal_x { get; set; }
-        [GroupText("Calibration")] public float gyro_cal_y { get; set; }
-        [GroupText("Calibration")] public float gyro_cal_z { get; set; }
-        [GroupText("Calibration")] public float accel_cal_x { get; set; }
-        [GroupText("Calibration")] public float accel_cal_y { get; set; }
-        [GroupText("Calibration")] public float accel_cal_z { get; set; }
 
         // requested stream rates
         [GroupText("Telem")] public int rateattitude { get; set; }
@@ -2906,30 +2892,6 @@ namespace MissionPlanner
                             ter_load = terrainrep.loaded;
                             ter_pend = terrainrep.pending;
                             ter_space = terrainrep.spacing;
-                        }
-
-                        break;
-                    // SENSOR_OFFSET message was removed in Copter-4.2
-                    case (uint)MAVLink.MAVLINK_MSG_ID.SENSOR_OFFSETS:
-
-                        {
-                            var sensofs = mavLinkMessage.ToStructure<MAVLink.mavlink_sensor_offsets_t>();
-
-                            mag_ofs_x = sensofs.mag_ofs_x;
-                            mag_ofs_y = sensofs.mag_ofs_y;
-                            mag_ofs_z = sensofs.mag_ofs_z;
-                            mag_declination = sensofs.mag_declination;
-
-                            raw_press = sensofs.raw_press;
-                            raw_temp = sensofs.raw_temp;
-
-                            gyro_cal_x = sensofs.gyro_cal_x;
-                            gyro_cal_y = sensofs.gyro_cal_y;
-                            gyro_cal_z = sensofs.gyro_cal_z;
-
-                            accel_cal_x = sensofs.accel_cal_x;
-                            accel_cal_y = sensofs.accel_cal_y;
-                            accel_cal_z = sensofs.accel_cal_z;
                         }
 
                         break;

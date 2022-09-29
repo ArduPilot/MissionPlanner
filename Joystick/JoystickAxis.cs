@@ -127,7 +127,7 @@ namespace MissionPlanner.Joystick
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(22, 13);
             this.label13.TabIndex = 60;
-            this.label13.Text = "CH";
+            this.label13.Text = "RC";
             // 
             // expo_ch
             // 

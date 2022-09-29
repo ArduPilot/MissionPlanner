@@ -481,7 +481,7 @@ namespace MissionPlanner.Utilities
                     if (!instances.ContainsKey(m.Groups[1].ToString()))
                         instances[m.Groups[1].ToString()] = new List<string>();
 
-                    instances[m.Groups[1].ToString()].Add(m.Groups[2].Success ? m.Groups[2].ToString() : "");
+                    instances[m.Groups[1].ToString()].Add(m.Groups[3].Success ? m.Groups[3].ToString() : "");
                 }
                 else
                 {

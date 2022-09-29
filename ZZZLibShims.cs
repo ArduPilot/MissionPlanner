@@ -133,28 +133,6 @@ namespace Microsoft.Scripting.Runtime
 
 namespace Microsoft.Scripting.Utils
 {
-    public static class CollectionUtils
-    {
-        public static IEnumerable<TRet> Select<TRet>(this IEnumerable enumerable, Func<object, TRet> selector)
-        {
-            ContractUtils.RequiresNotNull(enumerable, "enumerable");
-            ContractUtils.RequiresNotNull(selector, "selector");
-            foreach (object item in enumerable)
-            {
-                yield return selector(item);
-            }
-        }
-
-        public static IList<T> ToSortedList<T>(this ICollection<T> collection, Comparison<T> comparison)
-        {
-            ContractUtils.RequiresNotNull(collection, "collection");
-            ContractUtils.RequiresNotNull(comparison, "comparison");
-            T[] array = new T[collection.Count];
-            collection.CopyTo(array, 0);
-            Array.Sort(array, comparison);
-            return array;
-        }
-    }
 
     public static class ContractUtils
     {
@@ -174,6 +152,10 @@ public delegate int GetInt();
 namespace  IronPython.Runtime
 {
 
+}
+
+namespace IronPython.Runtime.Operations
+{
 }
 
 namespace SharpAdbClient

@@ -123,9 +123,8 @@ namespace MissionPlanner.GCSViews
 
         //the thread the script is running on
         Thread scriptthread;
-
-        // poi layer
-        List<TabPage> TabListOriginal = new List<TabPage>();
+                
+        public readonly List<TabPage> TabListOriginal = new List<TabPage>();
 
         Thread thisthread;
 
@@ -4193,7 +4192,7 @@ namespace MissionPlanner.GCSViews
             POI.POISave();
         }
 
-        private void saveTabControlActions()
+        public void saveTabControlActions()
         {
             string answer = "";
 

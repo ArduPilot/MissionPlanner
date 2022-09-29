@@ -179,12 +179,13 @@ namespace MissionPlanner
             return form;
         }
 
-        public static DialogResult MessageShowAgain(string title, string promptText)
+        public static DialogResult MessageShowAgain(string title, string promptText, bool show_cancel = false)
         {
             Form form = new Form();
             System.Windows.Forms.Label label = new System.Windows.Forms.Label();
             CheckBox chk = new CheckBox();
             Controls.MyButton buttonOk = new Controls.MyButton();
+            Controls.MyButton buttonCancel = new Controls.MyButton();
             System.ComponentModel.ComponentResourceManager resources =
                 new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             try
@@ -220,6 +221,7 @@ namespace MissionPlanner
                 form.Dispose();
                 chk.Dispose();
                 buttonOk.Dispose();
+                buttonCancel.Dispose();
                 label.Dispose();
                 return DialogResult.OK;
             }
@@ -228,13 +230,18 @@ namespace MissionPlanner
 
             buttonOk.Text = Strings.OK;
             buttonOk.DialogResult = DialogResult.OK;
-            buttonOk.Location = new Point(form.Right - 100, 80);
+            buttonOk.Location = new Point(form.Right - (show_cancel ? 180 : 100), 80);
+
+            buttonCancel.Text = Strings.Cancel;
+            buttonCancel.DialogResult = DialogResult.Cancel;
+            buttonCancel.Location = new Point(form.Right - 90, 80);
+            buttonCancel.Visible = show_cancel;
 
             label.SetBounds(9, 9, 372, 13);
 
             label.AutoSize = true;
 
-            form.Controls.AddRange(new Control[] { label, chk, buttonOk });
+            form.Controls.AddRange(new Control[] { label, chk, buttonOk, buttonCancel });
 
             if (link != "" && linktext != "")
             {

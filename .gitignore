@@ -42,3 +42,4 @@ docs/
 *.p12
 *.pem
 *.key
+/.vscode

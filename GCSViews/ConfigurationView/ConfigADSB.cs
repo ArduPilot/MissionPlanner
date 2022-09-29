@@ -214,8 +214,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            if ((int)DialogResult.OK ==
-                CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
+            if (DialogResult.OK == Common.MessageShowAgain("Refresh Params", Strings.WarningUpdateParamList, true))
             {
                 ((Control)sender).Enabled = false;
 
