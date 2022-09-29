@@ -4798,6 +4798,33 @@
   <data name="&gt;&gt;tabControlactions.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="panel_persistent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panel_persistent.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panel_persistent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panel_persistent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>298, 0</value>
+  </data>
+  <data name="panel_persistent.TabIndex" type="System.Int32, mscorlib">
+    <value>85</value>
+  </data>
+  <data name="&gt;&gt;panel_persistent.Name" xml:space="preserve">
+    <value>panel_persistent</value>
+  </data>
+  <data name="&gt;&gt;panel_persistent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel_persistent.Parent" xml:space="preserve">
+    <value>SubMainLeft.Panel2</value>
+  </data>
+  <data name="&gt;&gt;panel_persistent.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="&gt;&gt;SubMainLeft.Panel2.Name" xml:space="preserve">
     <value>SubMainLeft.Panel2</value>
   </data>

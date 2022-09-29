@@ -1,12 +1,20 @@
 <graphs>
   <graph name="Speed/Ground vs Air Speed">
     <expression>VFR_HUD.groundspeed VFR_HUD.airspeed</expression>
+    <expression>GPS[0].Spd GPS[1].Spd CTUN.As ARSP.Airspeed</expression>
+    <expression>GPS.Spd CTUN.As ARSP.Airspeed</expression>
     <expression>GPS.Spd ARSP.Airspeed</expression>
     <description>
       This shows the ground speed of the vehicle versus its air speed
     </description>
   </graph>
 
+  <graph name="Speed/Ground vs Corrected AirSpeed">
+    <expression>GPS[0].Spd GPS[1].Spd CTUN.As*CTUN.E2T</expression>
+    <expression>GPS.Spd CTUN.As*CTUN.E2T</expression>
+    <description>Airspeed correction</description>
+  </graph>
+  
   <graph name="Speed/Ground Speed">
     <expression>VFR_HUD.groundspeed</expression>
     <expression>GPS.Spd</expression>
@@ -32,6 +40,13 @@
     <expression>NAV_CONTROLLER_OUTPUT.nav_roll NAV_CONTROLLER_OUTPUT.nav_pitch degrees(ATTITUDE.roll) degrees(ATTITUDE.pitch)</expression>
     <expression>ATT.DesRoll ATT.Roll ATT.DesPitch ATT.Pitch</expression>
     <expression>CTUN.NavRoll CTUN.Roll CTUN.NavPitch CTUN.Pitch</expression>
+  </graph>
+
+  <graph name='Attitude/Circular Angle'>
+  <description>Total circular angle, as limited by ANGLE_MAX in Copter.</description>
+    <expression>sqrt(ATT.Roll*ATT.Roll+ATT.Pitch*ATT.Pitch)</expression>
+    <expression>sqrt(CTUN.Roll*CTUN.Roll+CTUN.Pitch*CTUN.Pitch)</expression>
+    <expression>degrees(sqrt(ATTITUDE.roll*ATTITUDE.roll+ATTITUDE.pitch*ATTITUDE.Pitch))</expression>
   </graph>
 
   <graph name='Sensors/Accelerometer/Accelerometers'>
@@ -270,6 +285,7 @@
  <graph name='Sensors/Lidar/Rangefinder vs Baro'>
   <description>Rangefinders vs Barometric Altitude</description>
   <expression>BARO.Alt RFND.Dist1 RFND.Dist2</expression>
+  <expression>BARO.Alt RFND.Dist[0]</expression>
  </graph>
 
  <graph name='Plane/PID Tuning/Pitch Controller'>
@@ -376,14 +392,14 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
 
  <graph name='Sensors/Compass/EarthField Error EK3 Lane1'>
   <description></description>
-  <expression>earth_field_error(GPS,XKF2).x earth_field_error(GPS,XKF2).y earth_field_error(GPS,XKF2).z</expression>
   <expression>earth_field_error(GPS,XKF2[0]).x earth_field_error(GPS,XKF2[0]).y earth_field_error(GPS,XKF2[0]).z</expression>
+  <expression>earth_field_error(GPS,XKF2).x earth_field_error(GPS,XKF2).y earth_field_error(GPS,XKF2).z</expression>
  </graph>
 
  <graph name='Sensors/Compass/EarthField Error EK3 Lane2'>
   <description></description>
-  <expression>earth_field_error(GPS,XKF7).x earth_field_error(GPS,XKF7).y earth_field_error(GPS,XKF7).z</expression>
   <expression>earth_field_error(GPS,XKF2[1]).x earth_field_error(GPS,XKF2[1]).y earth_field_error(GPS,XKF2[1]).z</expression>
+  <expression>earth_field_error(GPS,XKF7).x earth_field_error(GPS,XKF7).y earth_field_error(GPS,XKF7).z</expression>
  </graph>
  
  <graph name='Copter/PID/PIDP'>
@@ -436,6 +452,24 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
   <expression>GPA2.HAcc GPA2.SAcc GPA2.VAcc GPS2.NSats:2</expression>
  </graph>
 
+ <graph name='Sensors/GPS/GPS Vel NE'>
+  <description></description>
+  <expression>GPS[0].Spd*sin(radians(GPS[0].GCrs)) GPS[0].Spd*cos(radians(GPS[0].GCrs))</expression>
+  <expression>GPS.Spd*sin(radians(GPS.GCrs)) GPS.Spd*cos(radians(GPS.GCrs))</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/GPS2 Vel NE'>
+  <description></description>
+  <expression>GPS[1].Spd*sin(radians(GPS[1].GCrs)) GPS[1].Spd*cos(radians(GPS[1].GCrs))</expression>
+  <expression>GPS2.Spd*sin(radians(GPS2.GCrs)) GPS2.Spd*cos(radians(GPS2.GCrs))</expression>
+ </graph>
+
+ <graph name='Sensors/GPS/Dual GPS Vel NE'>
+  <description></description>
+  <expression>GPS[0].Spd*sin(radians(GPS[0].GCrs)) GPS[0].Spd*cos(radians(GPS[0].GCrs)) GPS[1].Spd*sin(radians(GPS[1].GCrs)) GPS[1].Spd*cos(radians(GPS[1].GCrs))</expression>
+  <expression>GPS.Spd*sin(radians(GPS.GCrs)) GPS.Spd*cos(radians(GPS.GCrs)) GPS2.Spd*sin(radians(GPS2.GCrs)) GPS2.Spd*cos(radians(GPS2.GCrs))</expression>
+ </graph>
+ 
  <graph name='Sensors/GPS/RTKPosAltDiff'>
   <description></description>
   <expression>distance_two(GPS,GPS2){GPS2.GMS==GPS.GMS} GPS2.Alt-GPS.Alt{GPS2.GMS==GPS.GMS}</expression>
@@ -454,6 +488,16 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
  <graph name='EKF3/GSF VelInnov Lane1'>
   <description></description>
   <expression>sqrt(XKY1[0].IVN0**2+XKY1[0].IVE0**2) sqrt(XKY1[0].IVN1**2+XKY1[0].IVE1**2) sqrt(XKY1[0].IVN2**2+XKY1[0].IVE2**2) sqrt(XKY1[0].IVN3**2+XKY1[0].IVE3**2) sqrt(XKY1[0].IVN4**2+XKY1[0].IVE4**2) ATT.Yaw:2</expression>
+ </graph>
+
+ <graph name='EKF3/GSF Weights Lane1'>
+  <description></description>
+  <expression>XKY0[0].W0 XKY0[0].W1 XKY0[0].W2 XKY0[0].W3 XKY0[0].W4</expression>
+ </graph>
+
+ <graph name='EKF3/GSF Weights Lane2'>
+  <description></description>
+  <expression>XKY0[1].W0 XKY0[1].W1 XKY0[1].W2 XKY0[1].W3 XKY0[1].W4</expression>
  </graph>
 
  <graph name='Replay/EK3 VelNE'>
@@ -514,6 +558,196 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
   <expression>lowpass(IMU.AccZ,0,0.9) lowpass(IMU2.AccZ,1,0.9) lowpass(IMU3.AccZ,2,0.9)</expression>
   <expression>lowpass(IMU.AccZ,0,0.9) lowpass(IMU2.AccZ,1,0.9)</expression>
  </graph>
+
+ <graph name='PSC/PSC Vel'>
+  <description></description>
+  <expression>sqrt(PSCN.DVN**2+PSCE.DVE**2) sqrt(PSCN.VN**2+PSCE.VE**2)</expression>
+ </graph>
+
+ <graph name='PSC/PSC Vel NE'>
+  <description></description>
+  <expression>PSCN.VN PSCN.DVN PSCN.TVN PSCE.VE PSCE.DVE PSCE.TVE</expression>
+ </graph>
+
+ <graph name='PSC/PSC Pos NE'>
+  <description></description>
+  <expression>PSCN.TPN PSCN.PN PSCE.TPE PSCE.PE</expression>
+ </graph>
+
+ <graph name='PSC/PSC Accel'>
+  <description></description>
+  <expression>sqrt(PSCN.DAN**2+PSCE.DAE**2) sqrt(PSCN.TAN**2+PSCE.TAE**2) sqrt(PSCN.AN**2+PSCE.AE**2)</expression>
+ </graph>
+
+ <graph name='PSC/PSC Vel2'>
+  <description></description>
+  <expression>sqrt(PSCN.DVN**2+PSCE.DVE**2) sqrt(PSCN.VN**2+PSCE.VE**2) QPOS.TSpd</expression>
+ </graph>
+
+ <graph name='PSC/AccelZ'>
+  <description></description>
+  <expression>PSCZ.AZ PSCZ.DAZ PSCZ.TAZ</expression>
+ </graph>
+
+ <graph name='PSC/VelZ'>
+  <description></description>
+  <expression>PSCZ.VZ PSCZ.TVZ</expression>
+ </graph>
+
+ <graph name='PSC/PosZ'>
+  <description></description>
+  <expression>PSCZ.PZ PSCZ.TPZ</expression>
+ </graph>
+
+
+ <graph name='EKF3/Normalised Innovations EKF3 Lane100'>
+  <description></description>
+  <expression>XKF4[100].SV XKF4[100].SP XKF4[100].SH XKF4[100].SM XKF4[100].SVT</expression>
+ </graph>
+
+ <graph name='EKF3/Normalised Innovations EKF3 Lane101'>
+  <description></description>
+  <expression>XKF4[101].SV XKF4[101].SP XKF4[101].SH XKF4[101].SM XKF4[101].SVT</expression>
+ </graph>
+
+ <graph name='Plane/Roll Dmod'>
+  <description></description>
+  <expression>PIDR.Dmod PIDR.SRate:2</expression>
+ </graph>
+
+ <graph name='Plane/Pitch Dmod'>
+  <description></description>
+  <expression>PIDP.Dmod PIDP.SRate:2</expression>
+ </graph>
+
+ <graph name='Plane/autotune/Roll FF'>
+  <description></description>
+  <expression>ATRP[0].FF ATRP[0].FF0</expression>
+ </graph>
+
+ <graph name='Plane/autotune/Pitch FF'>
+  <description></description>
+  <expression>ATRP[1].FF ATRP[1].FF0</expression>
+ </graph>
+
+ <graph name='Plane/autotune/Roll PD'>
+  <description></description>
+  <expression>ATRP[0].P ATRP[0].D:2</expression>
+ </graph>
+
+ <graph name='Plane/autotune/Pitch PD'>
+  <description></description>
+  <expression>ATRP[1].P ATRP[1].D:2</expression>
+ </graph>
+
+
+ <graph name='Servos/Servos 1-6'>
+  <description></description>
+  <expression>RCOU.C1 RCOU.C2 RCOU.C3 RCOU.C4 RCOU.C5 RCOU.C6</expression>
+ </graph>
+
+
+ <graph name='Plane/PitchRates'>
+  <description></description>
+  <expression>PIDP.Tar PIDP.Act</expression>
+ </graph>
+
+
+ <graph name='Plane/RollRates'>
+  <description></description>
+  <expression>PIDR.Act PIDR.Tar</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/GyroX lowpass Temp'>
+  <description></description>
+  <expression>lowpass(degrees(IMU[0].GyrX),0,0.9) lowpass(degrees(IMU[1].GyrX),1,0.9) lowpass(degrees(IMU[2].GyrX),2,0.9) IMU[0].T:2 IMU[1].T:2 IMU[3].T:2</expression>
+  <expression>lowpass(degrees(IMU[0].GyrX),0,0.9) lowpass(degrees(IMU[1].GyrX),1,0.9) IMU[0].T:2 IMU[1].T:2</expression>
+  <expression>lowpass(degrees(IMU[0].GyrX),0,0.9) IMU[0].T:2</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/GyroY lowpass Temp'>
+  <description></description>
+  <expression>lowpass(degrees(IMU[0].GyrY),0,0.9) lowpass(degrees(IMU[1].GyrY),1,0.9) lowpass(degrees(IMU[2].GyrY),2,0.9) IMU[0].T:2 IMU[1].T:2 IMU[3].T:2</expression>
+  <expression>lowpass(degrees(IMU[0].GyrY),0,0.9) lowpass(degrees(IMU[1].GyrY),1,0.9) IMU[0].T:2 IMU[1].T:2</expression>
+  <expression>lowpass(degrees(IMU[0].GyrY),0,0.9) IMU[0].T:2</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/GyroZ lowpass Temp'>
+  <description></description>
+  <expression>lowpass(degrees(IMU[0].GyrZ),0,0.9) lowpass(degrees(IMU[1].GyrZ),1,0.9) lowpass(degrees(IMU[2].GyrZ),2,0.9) IMU[0].T:2 IMU[1].T:2 IMU[3].T:2</expression>
+  <expression>lowpass(degrees(IMU[0].GyrZ),0,0.9) lowpass(degrees(IMU[1].GyrZ),1,0.9) IMU[0].T:2 IMU[1].T:2</expression>
+  <expression>lowpass(degrees(IMU[0].GyrZ),0,0.9) IMU[0].T:2</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/AccelX lowpass Temp'>
+  <description></description>
+  <expression>lowpass(IMU[0].AccX,0,0.9) lowpass(IMU[1].AccX),1,0.9) lowpass(IMU[2].AccX),2,0.9) IMU[0].T:2 IMU[1].T:2 IMU[3].T:2</expression>
+  <expression>lowpass(IMU[0].AccX,0,0.9) lowpass(IMU[1].AccX),1,0.9) IMU[0].T:2 IMU[1].T:2</expression>
+  <expression>lowpass(IMU[0].AccX,0,0.9) IMU[0].T:2</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/AccelY lowpass Temp'>
+  <description></description>
+  <expression>lowpass(IMU[0].AccY,0,0.9) lowpass(IMU[1].AccY),1,0.9) lowpass(IMU[2].AccY),2,0.9) IMU[0].T:2 IMU[1].T:2 IMU[3].T:2</expression>
+  <expression>lowpass(IMU[0].AccY,0,0.9) lowpass(IMU[1].AccY),1,0.9) IMU[0].T:2 IMU[1].T:2</expression>
+  <expression>lowpass(IMU[0].AccY,0,0.9) IMU[0].T:2</expression>
+ </graph>
+
+ <graph name='Sensors/Accelerometer/AccelZ lowpass Temp'>
+  <description></description>
+  <expression>lowpass(IMU[0].AccZ,0,0.9) lowpass(IMU[1].AccZ),1,0.9) lowpass(IMU[2].AccZ),2,0.9) IMU[0].T:2 IMU[1].T:2 IMU[3].T:2</expression>
+  <expression>lowpass(IMU[0].AccZ,0,0.9) lowpass(IMU[1].AccZ),1,0.9) IMU[0].T:2 IMU[1].T:2</expression>
+  <expression>lowpass(IMU[0].AccZ,0,0.9) IMU[0].T:2</expression>
+ </graph>
+
+ <graph name='Plane/FF/Roll'>
+  <description></description>
+  <expression>0.3*PIDR.Act*AETR.SS AETR.Ail*0.01</expression>
+ </graph>
+
+ <graph name='Plane/FF/Pitch'>
+  <description></description>
+  <expression>0.3*PIDP.Act*AETR.SS AETR.Elev*0.01</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/GyroX Lowpass'>
+  <description></description>
+  <expression>lowpass(degrees(IMU[0].GyrX),0,0.9) lowpass(degrees(IMU[1].GyrX),1,0.9) lowpass(degrees(IMU[2].GyrX),2,0.9)</expression>
+  <expression>lowpass(degrees(IMU[0].GyrX),0,0.9) lowpass(degrees(IMU[1].GyrX),1,0.9)</expression>
+  <expression>lowpass(degrees(IMU[0].GyrX),0,0.9)</expression>
+  <expression>lowpass(degrees(IMU.GyrX),0,0.9)</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/GyroY Lowpass'>
+  <description></description>
+  <expression>lowpass(degrees(IMU[0].GyrY),0,0.9) lowpass(degrees(IMU[1].GyrY),1,0.9) lowpass(degrees(IMU[2].GyrY),2,0.9)</expression>
+  <expression>lowpass(degrees(IMU[0].GyrY),0,0.9) lowpass(degrees(IMU[1].GyrY),1,0.9)</expression>
+  <expression>lowpass(degrees(IMU[0].GyrY),0,0.9)</expression>
+  <expression>lowpass(degrees(IMU.GyrY),0,0.9)</expression>
+ </graph>
+
+ <graph name='Sensors/Gyroscope/GyroZ Lowpass'>
+  <description></description>
+  <expression>lowpass(degrees(IMU[0].GyrZ),0,0.9) lowpass(degrees(IMU[1].GyrZ),1,0.9) lowpass(degrees(IMU[2].GyrZ),2,0.9)</expression>
+  <expression>lowpass(degrees(IMU[0].GyrZ),0,0.9) lowpass(degrees(IMU[1].GyrZ),1,0.9)</expression>
+  <expression>lowpass(degrees(IMU[0].GyrZ),0,0.9)</expression>
+  <expression>lowpass(degrees(IMU.GyrZ),0,0.9)</expression>
+ </graph>
+
+ <graph name='Copter/RateAttRoll'>
+  <description></description>
+  <expression>RATE.R RATE.RDes ATT.Roll:2 ATT.DesRoll:2</expression>
+ </graph>
+
+ <graph name='Copter/RateAttPitch'>
+  <description></description>
+  <expression>RATE.P RATE.PDes ATT.Pitch:2 ATT.DesPitch:2</expression>
+ </graph>
+
+ <graph name='Copter/RateAttYaw'>
+  <description></description>
+  <expression>RATE.Y RATE.YDes ATT.Yaw:2 ATT.DesYaw:2</expression>
+ </graph>
+
  
 </graphs>
-

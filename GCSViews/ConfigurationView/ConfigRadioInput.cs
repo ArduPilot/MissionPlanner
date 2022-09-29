@@ -107,10 +107,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BAR16.DataBindings.Add(new Binding("Value", currentStateBindingSource, "ch16in", true));
 
             //Add channel to pitch/roll/throttle/yaw bars labels
-            BARroll.Label = BARroll.Label + " (ch" + chroll.ToString() + ")";
-            BARpitch.Label = BARpitch.Label + " (ch" + chpitch.ToString() + ")";
-            BARthrottle.Label = BARthrottle.Label + " (ch" + chthro.ToString() + ")";
-            BARyaw.Label = BARyaw.Label + " (ch" + chyaw.ToString() + ")";
+            BARroll.Label = BARroll.Label + " (rc" + chroll.ToString() + ")";
+            BARpitch.Label = BARpitch.Label + " (rc" + chpitch.ToString() + ")";
+            BARthrottle.Label = BARthrottle.Label + " (rc" + chthro.ToString() + ")";
+            BARyaw.Label = BARyaw.Label + " (rc" + chyaw.ToString() + ")";
 
             try
             {

@@ -246,7 +246,7 @@ namespace MissionPlanner.Comms
         public void Write(string line)
         {
             VerifyConnected();
-            var data = new ASCIIEncoding().GetBytes(line);
+            var data = ASCIIEncoding.UTF8.GetBytes(line);
             Write(data, 0, data.Length);
         }
 

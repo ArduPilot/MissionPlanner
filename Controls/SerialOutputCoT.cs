@@ -21,6 +21,7 @@ namespace MissionPlanner.Controls
         System.Threading.Thread t12;
         static bool threadrun = false;
         static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0, 0, 0, "Home");
+        static object[,] tabledata;
 
         public SerialOutputCoT()
         {
@@ -170,18 +171,25 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
-                    String xmlStr = getXmlString();
+                    string view = "";
+                    MainV2.Comports.ForEach(port => {
+                        port.MAVlist.ForEach(mav =>
+                        {
+                            String xmlStr = getXmlString(mav.sysid, mav.compid);
+                            view += xmlStr;
 
-                    TB_output.Invoke((Action)delegate
-                    {
-                        TB_output.Text = xmlStr;
+                            if (CoTStream != null && CoTStream.IsOpen)
+                            {
+                                CoTStream.WriteLine(xmlStr);
+                            }
+                        });
                     });
 
-                    if (CoTStream != null && CoTStream.IsOpen)
-                    {
-                        CoTStream.WriteLine(xmlStr);
-                    }
-
+                    if (TB_output.IsHandleCreated)
+                        TB_output.Invoke((Action)delegate
+                        {
+                            TB_output.Text = view;
+                        }); 
 
                     var nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
                     var sleepfor = Math.Min((int)Math.Abs((nextsend - DateTime.Now).TotalMilliseconds), 4000);
@@ -215,18 +223,28 @@ namespace MissionPlanner.Controls
             catch { }
         }
 
-        private String getXmlString()
+        private String getXmlString(byte sysid, byte compid)
         {
-            double lat = MainV2.comPort.MAV.cs.lat;
-            double lng = MainV2.comPort.MAV.cs.lng;
-            double altitude = MainV2.comPort.MAV.cs.altasl;
-            double groundSpeed = MainV2.comPort.MAV.cs.groundspeed;
-            double groundcourse = MainV2.comPort.MAV.cs.groundcourse;
+            double lat = MainV2.comPort.MAVlist[sysid,compid].cs.lat;
+            double lng = MainV2.comPort.MAVlist[sysid, compid].cs.lng;
+            double altitude = MainV2.comPort.MAVlist[sysid, compid].cs.altasl;
+            double groundSpeed = MainV2.comPort.MAVlist[sysid, compid].cs.groundspeed;
+            double groundcourse = MainV2.comPort.MAVlist[sysid, compid].cs.groundcourse;
             String how = "m-g";
 
-            String xmlStr = getXmlString(TB_xml_uid.Text, TB_xml_type.Text, how, lat, lng, altitude, groundcourse, groundSpeed);
+            String xmlStr = getXmlString(FindUIDviaSysid(sysid), TB_xml_type.Text, how, lat, lng, altitude, groundcourse, groundSpeed);
 
             return xmlStr;
+        }
+
+        string FindUIDviaSysid(byte sysid) 
+        {
+            var rcnt = myDataGridView1.Rows.Count;
+            for (int x = 0; x < rcnt - 1; x++)
+                if (myDataGridView1[this.sysid.Index, x].Value?.ToString() == sysid.ToString())
+                    return myDataGridView1[this.UID.Index, x].Value?.ToString();
+
+            return "NOsysid" + sysid;
         }
 
         String getXmlString(String uid, String type, String how, double lat, double lng, double alt, double course = -1, double speed = -1)
@@ -341,18 +359,17 @@ namespace MissionPlanner.Controls
 
         private void SerialOutputCoT_Load(object sender, EventArgs e)
         {
-            String uid = Settings.Instance["SerialOutputCot_TB_xml_uid"];
-            if (uid == null)
-            {
-                uid = "";
-            }
-
-            TB_xml_uid.Text = uid;
+            myDataGridView1.Deserialize(Settings.Instance["CoTUID"]);
         }
 
         private void SerialOutputCoT_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Settings.Instance["SerialOutputCot_TB_xml_uid"] = TB_xml_uid.Text;
+            
+        }
+
+        private void myDataGridView1_RowValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            Settings.Instance["CoTUID"] = myDataGridView1.Serialize();
         }
     }
 

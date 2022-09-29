@@ -47,13 +47,15 @@
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.TB_output = new System.Windows.Forms.TextBox();
-            this.TB_xml_uid = new System.Windows.Forms.TextBox();
-            this.label_uid = new System.Windows.Forms.Label();
             this.BTN_clear_TB = new System.Windows.Forms.Button();
             this.GB_connection = new System.Windows.Forms.GroupBox();
             this.label_type = new System.Windows.Forms.Label();
             this.TB_xml_type = new System.Windows.Forms.TextBox();
+            this.myDataGridView1 = new MissionPlanner.Controls.MyDataGridView();
+            this.sysid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GB_connection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // CMB_updaterate
@@ -122,26 +124,9 @@
             this.TB_output.Name = "TB_output";
             this.TB_output.ReadOnly = true;
             this.TB_output.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.TB_output.Size = new System.Drawing.Size(383, 367);
+            this.TB_output.Size = new System.Drawing.Size(383, 233);
             this.TB_output.TabIndex = 12;
             this.TB_output.WordWrap = false;
-            // 
-            // TB_xml_uid
-            // 
-            this.TB_xml_uid.Location = new System.Drawing.Point(265, 21);
-            this.TB_xml_uid.Name = "TB_xml_uid";
-            this.TB_xml_uid.Size = new System.Drawing.Size(130, 20);
-            this.TB_xml_uid.TabIndex = 13;
-            this.TB_xml_uid.Text = "K1000ULE";
-            // 
-            // label_uid
-            // 
-            this.label_uid.AutoSize = true;
-            this.label_uid.Location = new System.Drawing.Point(233, 23);
-            this.label_uid.Name = "label_uid";
-            this.label_uid.Size = new System.Drawing.Size(26, 13);
-            this.label_uid.TabIndex = 15;
-            this.label_uid.Text = "UID";
             // 
             // BTN_clear_TB
             // 
@@ -183,23 +168,47 @@
             this.TB_xml_type.TabIndex = 20;
             this.TB_xml_type.Text = "a-f-A-M-F-Q";
             // 
+            // myDataGridView1
+            // 
+            this.myDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.myDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sysid,
+            this.UID});
+            this.myDataGridView1.Location = new System.Drawing.Point(12, 341);
+            this.myDataGridView1.Name = "myDataGridView1";
+            this.myDataGridView1.Size = new System.Drawing.Size(383, 121);
+            this.myDataGridView1.TabIndex = 22;
+            this.myDataGridView1.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowValidated);
+            // 
+            // sysid
+            // 
+            this.sysid.HeaderText = "sysid";
+            this.sysid.Name = "sysid";
+            // 
+            // UID
+            // 
+            this.UID.HeaderText = "UID";
+            this.UID.Name = "UID";
+            // 
             // SerialOutputCoT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(407, 474);
+            this.Controls.Add(this.myDataGridView1);
             this.Controls.Add(this.label_type);
             this.Controls.Add(this.TB_xml_type);
             this.Controls.Add(this.GB_connection);
             this.Controls.Add(this.BTN_clear_TB);
-            this.Controls.Add(this.label_uid);
-            this.Controls.Add(this.TB_xml_uid);
             this.Controls.Add(this.TB_output);
             this.Name = "SerialOutputCoT";
             this.Text = "Output Cursor on Target";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialOutputCoT_FormClosing);
             this.Load += new System.EventHandler(this.SerialOutputCoT_Load);
             this.GB_connection.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,11 +221,12 @@
         private MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_serialport;
         private System.Windows.Forms.TextBox TB_output;
-        private System.Windows.Forms.TextBox TB_xml_uid;
-        private System.Windows.Forms.Label label_uid;
         private System.Windows.Forms.Button BTN_clear_TB;
         private System.Windows.Forms.GroupBox GB_connection;
         private System.Windows.Forms.Label label_type;
         private System.Windows.Forms.TextBox TB_xml_type;
+        private MyDataGridView myDataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sysid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UID;
     }
 }
