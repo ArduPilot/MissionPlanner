@@ -2895,6 +2895,33 @@ namespace MissionPlanner.GCSViews
             frm.Show();
         }
 
+        /// <summary>
+        /// <para>Collapses or expands MainH.Panel1 depending on no. of controls within.</para>
+        /// If you add controls to <b>SubMainLeft</b> that can be hidden, displaced or removed, add their first parent control here. <br/>
+        /// Otherwise they'll prevent the collapsing of <b>SubMainLeft</b>.
+        /// </summary>
+        private void ManageLeftPanelVisibility()
+        {
+            // Define controls to check, ADD THEM HERE
+            List<Control> controlsToCheck = new List<Control>()
+            {
+                SubMainLeft.Panel1, // contains hud1
+                panel_persistent,   // might contain plugin controls
+                tabControlactions   // contains the tabs
+            };
+
+            bool controlsEmpty = controlsToCheck.Sum(x => x.Controls.Count) == 0;
+            bool panelVisible = !MainH.Panel1Collapsed;
+
+            // if controls are empty, but panel is visible -> hide
+            if (controlsEmpty && panelVisible)
+                MainH.Panel1Collapsed = true;
+
+            // if controls have content, but panel is hidden -> show
+            if (!controlsEmpty && !panelVisible)
+                MainH.Panel1Collapsed = false;
+        }
+
         private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             POI.POILoad();
