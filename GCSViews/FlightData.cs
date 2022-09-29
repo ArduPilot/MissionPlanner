@@ -2895,6 +2895,28 @@ namespace MissionPlanner.GCSViews
             frm.Show();
         }
 
+        private void ManageLeftPanelVisibility()
+        {
+            // Define controls to check
+            List<Control> controlsToCheck = new List<Control>()
+            {
+                SubMainLeft.Panel1, // contains hud1
+                panel_persistent,   // might contain Plugin stuff
+                tabControlactions   // contains the tabs
+            };
+
+            bool controlsEmpty = controlsToCheck.Sum(x => x.Controls.Count) == 0;
+            bool panelVisible = !MainH.Panel1Collapsed;
+
+            // if controls are empty, but panel is visible
+            if (controlsEmpty && panelVisible)
+                MainH.Panel1Collapsed = true;
+
+            // if controls have content, but panel is hidden
+            if (!controlsEmpty && !panelVisible)
+                MainH.Panel1Collapsed = false;
+        }
+
         private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             POI.POILoad();
