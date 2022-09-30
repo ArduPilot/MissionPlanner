@@ -11,26 +11,6 @@ namespace MissionPlanner.Controls
 {
     public static class ControlHelpers
     {
-        public class FormStartLocation
-        {
-            public Point Location { get; set; }
-            public Size Size { get; set; }
-            public FormWindowState State { get; set; }
-        }
-
-        /// <summary>
-        /// Saves current position & size config for this control
-        /// </summary>
-        /// <param name="control">Control to save the config for</param>
-        public static void SaveStartupLocation(this Form control)
-        {
-            Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
-        }
-
-        /// <summary>
-        /// Loads and applies startup position & size config for this control
-        /// </summary>
-        /// <param name="control">Control to load the config for</param>
         public static void RestoreStartupLocation(this Form control)
         {
             var value = Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"];
@@ -40,28 +20,26 @@ namespace MissionPlanner.Controls
                 try
                 {
                     var fsl = value.FromJSON<FormStartLocation>();
-                    control.Size = fsl.Size;
                     control.Location = fsl.Location;
+                    control.Size = fsl.Size;
                     control.StartPosition = RectVisible(control.Bounds) ? FormStartPosition.Manual : FormStartPosition.WindowsDefaultLocation;
                     control.WindowState = fsl.State;
                 } catch {}
             }
         }
 
-        /// <summary>
-        /// Removes startup position & size config for this control
-        /// </summary>
-        /// <param name="control">Control to reset the config for</param>
-        public static void ResetStartupLocation(this Form control)
+        public class FormStartLocation
         {
-            Settings.Instance.Remove(control.Text.Replace(" ", "_") + "_StartLocation");
+            public Point Location { get; set; }
+            public Size Size { get; set; }
+            public FormWindowState State { get; set; }
         }
 
-        /// <summary>
-        /// Checks if a Rectangle is fully visible on the display area
-        /// </summary>
-        /// <param name="rectangle">Rectangle to check</param>
-        /// <returns></returns>
+        public static void SaveStartupLocation(this Form control)
+        {
+            Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"] = new FormStartLocation {Location = control.Location, Size = control.Size, State = control.WindowState}.ToJSON();
+        }
+
         private static bool RectVisible(Rectangle rectangle)
         {
             foreach (Screen screen in Screen.AllScreens)
