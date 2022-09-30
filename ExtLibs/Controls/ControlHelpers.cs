@@ -11,13 +11,6 @@ namespace MissionPlanner.Controls
 {
     public static class ControlHelpers
     {
-        public class FormStartLocation
-        {
-            public Point Location { get; set; }
-            public Size Size { get; set; }
-            public FormWindowState State { get; set; }
-        }
-
         public static void RestoreStartupLocation(this Form control)
         {
             var value = Settings.Instance[control.Text.Replace(" ", "_") + "_StartLocation"];
@@ -33,6 +26,12 @@ namespace MissionPlanner.Controls
                     control.WindowState = fsl.State;
                 } catch {}
             }
+        }
+        public class FormStartLocation
+        {
+            public Point Location { get; set; }
+            public Size Size { get; set; }
+            public FormWindowState State { get; set; }
         }
 
         public static void SaveStartupLocation(this Form control)
