@@ -4626,6 +4626,9 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// Drops out the active tab into a seperate form
+        /// </summary>
         private void TabControlactions_DoubleClick(object sender, System.EventArgs e)
         {
             Form dropoutForm = new Form();
@@ -4672,8 +4675,14 @@ namespace MissionPlanner.GCSViews
             tabControlactions.Controls.Add(dropoutTP);
         }
 
+        /// <summary>
+        /// This is to prevent an infinite recursive loop call of TabControlactions_ControlAdded
+        /// </summary>
         private bool tabInserting = false;
 
+        /// <summary>
+        /// Tries to use tabpage tag as insertion index
+        /// </summary>
         private void TabControlactions_ControlAdded(object sender, ControlEventArgs e)
         {
             TabControl tc = sender as TabControl;
@@ -4935,7 +4944,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="Dropped">Desired dropout state of Control</param>
         public void SetDropoutsState(string Name, bool Dropped)
         {
-            // if the control dropout state is being followed
+            // if the control dropout state is being followed and has to be changed
             if (DropoutsState.Select(DS => DS.Name).Contains(Name) &&
                 DropoutsState.Where(DS => DS.Name == Name).FirstOrDefault().Dropped != Dropped)
             {
@@ -5012,14 +5021,20 @@ namespace MissionPlanner.GCSViews
             DropoutsState.Where(DS => DS.Dropped).ForEach(DS => SetDropoutsState(DS.Name, false));
         }
 
+        /// <summary>
+        /// Helper bool for MainH_VisibleChanged
+        /// </summary>
         private bool programStarted = false;
 
+        /// <summary>
+        /// Load dropout window names from config.xml
+        /// </summary>
         private void MainH_VisibleChanged(object sender, System.EventArgs e)
         {
             if (!programStarted && Visible && !Disposing)
             {
-                    LoadDropoutsState();
-                    programStarted = true;
+                LoadDropoutsState();
+                programStarted = true;
             }
         }
 
@@ -5060,6 +5075,9 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// Forms to update the data bindings for regularly
+        /// </summary>
         private List<Form> isDropperdOut = new List<Form>();
 
         private void updateBindingSourceWork()
@@ -5122,6 +5140,10 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// Find and update binding for first child control (that has one) recursively
+        /// </summary>
+        /// <param name="startingControl">Control to start the recursive search from</param>
         private void updateFirstBindingSource(Control startingControl)
         {
             if (startingControl.DataBindings.Count > 0)
