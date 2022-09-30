@@ -4682,8 +4682,8 @@ namespace MissionPlanner.GCSViews
             if (!tabInserting && tp.Tag != null && int.TryParse(tp.Tag.ToString(), out int tabIndex))
             {
                 tabInserting = true;
-                tabIndex = Convert.ToInt32(tp.Tag);
                 tc.Controls.Remove(tp);
+                if (tabIndex > tc.TabPages.Count) tabIndex = tc.TabPages.Count;
                 tc.TabPages.Insert(tabIndex, tp);
                 tc.SelectedTab = tp;
                 tabInserting = false;
