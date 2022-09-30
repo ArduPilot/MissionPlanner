@@ -27,6 +27,7 @@ namespace MissionPlanner.Controls
                 } catch {}
             }
         }
+
         public class FormStartLocation
         {
             public Point Location { get; set; }
