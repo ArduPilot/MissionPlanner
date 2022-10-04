@@ -1042,7 +1042,7 @@ namespace MissionPlanner
 
                 //Load customfield names from config
 
-                for (short i = 0; i < 10; i++)
+                for (short i = 0; i < 20; i++)
                 {
                     var fieldname = "customfield" + i.ToString();
                     if (Settings.Instance.ContainsKey(fieldname))
