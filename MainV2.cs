@@ -1403,6 +1403,12 @@ namespace MissionPlanner
 
         private void MenuFlightPlanner_Click(object sender, EventArgs e)
         {
+            // Close dropout window (if there is one)
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+            if (flightPlannerScreen.Control.ParentForm != null)
+                flightPlannerScreen.Control.ParentForm.Close();
+            
+            // Show flight planner screen
             MyView.ShowScreen("FlightPlanner");
 
             // save config
