@@ -2476,17 +2476,6 @@ namespace MissionPlanner.GCSViews
             POI.POIDelete((GMapMarkerPOI) CurrentGMapMarker);
         }
 
-        void dropout_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            (sender as Form).SaveStartupLocation();
-            //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
-            ((sender as Form).Tag as Control).Controls.Add(hud1);
-            //SubMainLeft.Panel1.Controls.Add(hud1);
-            if (hud1.Parent == SubMainLeft.Panel1)
-                SubMainLeft.Panel1Collapsed = false;
-            huddropout = false;
-        }
-
         void dropout_Resize(object sender, EventArgs e)
         {
             if (huddropoutresize)
@@ -3128,9 +3117,25 @@ namespace MissionPlanner.GCSViews
             dropout.Controls.Add(hud1);
             dropout.Resize += dropout_Resize;
             dropout.FormClosed += dropout_FormClosed;
+            dropout.ResizeEnd += (s2, e2) => dropout.SaveStartupLocation();
+            dropout.LocationChanged += (s3, e3) => dropout.SaveStartupLocation();
             dropout.RestoreStartupLocation();
             dropout.Show();
+            dropout.BringToFront();
             huddropout = true;
+            SetDropoutsState(hud1.Name, true);
+        }
+
+        void dropout_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            (sender as Form).SaveStartupLocation();
+            //GetFormFromGuid(GetOrCreateGuid("fd_hud_guid")).Controls.Add(hud1);
+            ((sender as Form).Tag as Control).Controls.Add(hud1);
+            //SubMainLeft.Panel1.Controls.Add(hud1);
+            if (hud1.Parent == SubMainLeft.Panel1)
+                SubMainLeft.Panel1Collapsed = false;
+            huddropout = false;
+            SetDropoutsState(hud1.Name, false);
         }
 
         private void hud1_ekfclick(object sender, EventArgs e)
@@ -5253,6 +5258,7 @@ namespace MissionPlanner.GCSViews
             // Initialize list with default values
             DropoutsState = new List<DropoutsStateItem> // Individual Control items
             {
+                new DropoutsStateItem {Name = myhud.Name, Dropped = false},
                 new DropoutsStateItem {Name = "FlightPlanner", Dropped = false},
             };
             foreach (TabPage item in tabControlactions.TabPages) // Tabpages in bulk
@@ -5269,6 +5275,10 @@ namespace MissionPlanner.GCSViews
             {
                 if (item.Dropped)
                 {
+                    if (item.Name == myhud.Name) // HUD
+                    {
+                        hud1_DoubleClick(null, EventArgs.Empty);
+                    }
                     if (tabControlactions.TabPages.Select(TP => (TP as TabPage).Name).Contains(item.Name)) // One of the tabpages
                     {
                         tabControlactions.SelectTab(item.Name);
