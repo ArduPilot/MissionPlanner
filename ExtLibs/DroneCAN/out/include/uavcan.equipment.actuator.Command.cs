@@ -28,6 +28,7 @@ namespace DroneCAN
             public const double UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_COMMAND_TYPE_POSITION = 1; // saturated uint8
             public const double UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_COMMAND_TYPE_FORCE = 2; // saturated uint8
             public const double UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_COMMAND_TYPE_SPEED = 3; // saturated uint8
+            public const double UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_COMMAND_TYPE_PWM = 4; // saturated uint8
 
             public uint8_t actuator_id = new uint8_t();
             public uint8_t command_type = new uint8_t();

@@ -19,8 +19,8 @@ namespace DroneCAN
 {
     public partial class DroneCAN 
     {
-//using uavcan.equipment.gnss.ECEFPositionVelocity.cs
 //using uavcan.Timestamp.cs
+//using uavcan.equipment.gnss.ECEFPositionVelocity.cs
         public partial class uavcan_equipment_gnss_Fix2: IDroneCANSerialize 
         {
             public const int UAVCAN_EQUIPMENT_GNSS_FIX2_MAX_PACK_SIZE = 222;
