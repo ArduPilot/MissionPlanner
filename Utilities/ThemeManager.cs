@@ -1325,7 +1325,7 @@ mc:Ignorable=""d""
                 }
                 else if (ctl.GetType() == typeof(LinkLabel))
                 {
-                    ctl.BackColor = BGColor;
+                    ctl.BackColor = System.Drawing.Color.Transparent;
                     ctl.ForeColor = TextColor;
                     LinkLabel LNK = (LinkLabel)ctl;
                     LNK.ActiveLinkColor = TextColor;

@@ -75,7 +75,6 @@
             // 
             resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Image = global::MissionPlanner.Properties.Resources.bgdark;
             this.linkLabel1.LinkColor = System.Drawing.Color.White;
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.TabStop = true;
