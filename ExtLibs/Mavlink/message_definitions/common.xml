@@ -924,8 +924,8 @@
       <entry value="178" name="MAV_CMD_DO_CHANGE_SPEED" hasLocation="false" isDestination="false">
         <description>Change speed and/or throttle set points.</description>
         <param index="1" label="Speed Type" minValue="0" maxValue="3" increment="1">Speed type (0=Airspeed, 1=Ground Speed, 2=Climb Speed, 3=Descent Speed)</param>
-        <param index="2" label="Speed" units="m/s" minValue="-1">Speed (-1 indicates no change)</param>
-        <param index="3" label="Throttle" units="%" minValue="-1">Throttle (-1 indicates no change)</param>
+        <param index="2" label="Speed" units="m/s" minValue="-2">Speed (-1 indicates no change, -2 indicates return to default vehicle speed)</param>
+        <param index="3" label="Throttle" units="%" minValue="-2">Throttle (-1 indicates no change, -2 indicates return to default vehicle throttle value)</param>
         <param index="4" label="Relative" minValue="0" maxValue="1" increment="1">0: absolute, 1: relative</param>
         <param index="5">Empty</param>
         <param index="6">Empty</param>
@@ -4075,7 +4075,7 @@
     <message id="36" name="SERVO_OUTPUT_RAW">
       <description>Superseded by ACTUATOR_OUTPUT_STATUS. The RAW values of the servo outputs (for RC input from the remote, use the RC_CHANNELS messages). The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%.</description>
       <field type="uint32_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
-      <field type="uint8_t" name="port">Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.</field>
+      <field type="uint8_t" name="port" instance="true">Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.</field>
       <field type="uint16_t" name="servo1_raw" units="us">Servo output 1 value</field>
       <field type="uint16_t" name="servo2_raw" units="us">Servo output 2 value</field>
       <field type="uint16_t" name="servo3_raw" units="us">Servo output 3 value</field>
