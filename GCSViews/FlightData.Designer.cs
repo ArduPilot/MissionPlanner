@@ -295,6 +295,8 @@ namespace MissionPlanner.GCSViews
             // SubMainLeft.Panel1
             // 
             this.SubMainLeft.Panel1.Controls.Add(this.hud1);
+            this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             // 
             // SubMainLeft.Panel2
             // 
@@ -551,6 +553,8 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.SelectedIndex = 0;
             this.tabControlactions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             this.tabControlactions.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControlactions.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.tabControlactions.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             // 
             // contextMenuStripactionstab
             // 
@@ -2258,6 +2262,8 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.panel_persistent, "panel_persistent");
             this.panel_persistent.Name = "panel_persistent";
+            this.panel_persistent.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.panel_persistent.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             // 
             // tableMap
             // 
