@@ -338,11 +338,11 @@ namespace MissionPlanner
         [GroupText("Position")]
         public float satcount { get; set; }
 
-        [DisplayText("Horizontal Accuracy")]
+        [DisplayText("H Acc (m)")]
         [GroupText("Position")]
         public float gpsh_acc { get; private set; }
 
-        [DisplayText("Vertical Accuracy")]
+        [DisplayText("V Acc (m)")]
         [GroupText("Position")]
         public float gpsv_acc { get; private set; }
 
@@ -390,11 +390,11 @@ namespace MissionPlanner
         public float groundcourse2 { get; set; }
 
 
-        [DisplayText("Horizontal Accuracy")]
+        [DisplayText("H Acc2 (m)")]
         [GroupText("Position")]
         public float gpsh_acc2 { get; private set; }
 
-        [DisplayText("Vertical Accuracy")]
+        [DisplayText("V Acc2 (m)")]
         [GroupText("Position")]
         public float gpsv_acc2 { get; private set; }
 
