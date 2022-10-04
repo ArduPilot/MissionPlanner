@@ -298,9 +298,9 @@ namespace Xamarin.GCSViews
 
                         string[] files = new[]
                         {
-                            "example2menu", "example3fencedist", "example4herelink", "example5latencytracker",
-                            "example6mapicondesc", "example7canrtcm", "example8modechange", "example9hudonoff",
-                            "examplewatchbutton", "generator", "InitialParamsCalculator"
+                            "example10_canlogfile", "example11_trace", "example3_fencedist", "example4_herelink",
+                            "example5_latencytracker", "example6_mapicondesc", "example7_canrtcm", "example8_modechange",
+                            "example9_hudonoff", "generator"
                         };
 
                         foreach (var file in files)
@@ -318,12 +318,9 @@ namespace Xamarin.GCSViews
                                     File.Delete(filename);
                                 }
 
-                                /*
-                                File.WriteAllText(filename
-                                    ,
-                                    new StreamReader(
-                                        Resources.OpenRawResource(id)).ReadToEnd());
-                                */
+
+                                File.WriteAllText(filename, MissionPlanner.files.ResourceManager.GetString(file));
+
                             }
                             catch
                             {

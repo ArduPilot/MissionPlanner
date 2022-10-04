@@ -110,6 +110,15 @@
     <None Include="Linked\Control.cs" />
     <None Include="Linked\MainV2.cs" />
     <None Include="Linked\UserControl.cs" />
+    <None Include="Resources\example10-canlogfile.cs" />
+    <None Include="Resources\example11-trace.cs" />
+    <None Include="Resources\example3-fencedist.cs" />
+    <None Include="Resources\example4-herelink.cs" />
+    <None Include="Resources\example5-latencytracker.cs" />
+    <None Include="Resources\example6-mapicondesc.cs" />
+    <None Include="Resources\example7-canrtcm.cs" />
+    <None Include="Resources\example8-modechange.cs" />
+    <None Include="Resources\example9-hudonoff.cs" />
     <None Include="RTSP\Properties\AssemblyInfo.cs" />
   </ItemGroup>
 
