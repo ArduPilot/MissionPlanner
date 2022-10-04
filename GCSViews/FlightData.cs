@@ -4931,6 +4931,7 @@ namespace MissionPlanner.GCSViews
             dropoutForm.FormBorderStyle = FormBorderStyle.Sizable;
             dropoutForm.Size = new Size(sourceTP.Width, sourceTP.Width);
             dropoutForm.RestoreStartupLocation();
+            sourceTP.Tag = sourceTC.SelectedIndex;
 
             dropoutTab.Appearance = TabAppearance.FlatButtons;
             dropoutTab.ItemSize = new Size(0, 0);
@@ -4958,6 +4959,30 @@ namespace MissionPlanner.GCSViews
             SetDropoutsState(dropoutTP.Name, false);
             isDropperdOut.Remove(dropoutForm);
             tabControlactions.Controls.Add(dropoutTP);
+        }
+
+        /// <summary>
+        /// This is to prevent an infinite recursive loop call of TabControlactions_ControlAdded
+        /// </summary>
+        private bool tabInserting = false;
+
+        /// <summary>
+        /// Tries to use tabpage tag as insertion index
+        /// </summary>
+        private void TabControlactions_ControlAdded(object sender, ControlEventArgs e)
+        {
+            TabControl tc = sender as TabControl;
+            TabPage tp = e.Control as TabPage;
+
+            if (!tabInserting && tp.Tag != null && int.TryParse(tp.Tag.ToString(), out int tabIndex))
+            {
+                tabInserting = true;
+                tc.Controls.Remove(tp);
+                if (tabIndex > tc.TabPages.Count) tabIndex = tc.TabPages.Count;
+                tc.TabPages.Insert(tabIndex, tp);
+                tc.SelectedTab = tp;
+                tabInserting = false;
+            }
         }
 
         private void tabPage1_Resize(object sender, EventArgs e)
