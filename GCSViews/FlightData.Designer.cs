@@ -39,7 +39,6 @@ namespace MissionPlanner.GCSViews
             this.quickView6 = new MissionPlanner.Controls.QuickView();
             this.contextMenuStripQuickView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setViewCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSourceQuickTab = new System.Windows.Forms.BindingSource(this.components);
             this.quickView5 = new MissionPlanner.Controls.QuickView();
             this.quickView4 = new MissionPlanner.Controls.QuickView();
@@ -628,8 +627,7 @@ namespace MissionPlanner.GCSViews
             // contextMenuStripQuickView
             // 
             this.contextMenuStripQuickView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setViewCountToolStripMenuItem,
-            this.undockToolStripMenuItem});
+            this.setViewCountToolStripMenuItem});
             this.contextMenuStripQuickView.Name = "contextMenuStripQuickView";
             resources.ApplyResources(this.contextMenuStripQuickView, "contextMenuStripQuickView");
             // 
@@ -638,12 +636,6 @@ namespace MissionPlanner.GCSViews
             this.setViewCountToolStripMenuItem.Name = "setViewCountToolStripMenuItem";
             resources.ApplyResources(this.setViewCountToolStripMenuItem, "setViewCountToolStripMenuItem");
             this.setViewCountToolStripMenuItem.Click += new System.EventHandler(this.setViewCountToolStripMenuItem_Click);
-            // 
-            // undockToolStripMenuItem
-            // 
-            this.undockToolStripMenuItem.Name = "undockToolStripMenuItem";
-            resources.ApplyResources(this.undockToolStripMenuItem, "undockToolStripMenuItem");
-            this.undockToolStripMenuItem.Click += new System.EventHandler(this.undockDockToolStripMenuItem_Click);
             // 
             // bindingSourceQuickTab
             // 
@@ -3000,7 +2992,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ToolStripMenuItem setBatteryCellCountToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem undockToolStripMenuItem;
         private System.Windows.Forms.Button ALT_btn;
         private System.Windows.Forms.Button STBY_btn;
         private System.Windows.Forms.Button ON_btn;
