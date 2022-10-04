@@ -288,6 +288,7 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.MainH, "MainH");
             this.MainH.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.MainH.Name = "MainH";
+            MainH.VisibleChanged += MainH_VisibleChanged;
             // 
             // MainH.Panel1
             // 

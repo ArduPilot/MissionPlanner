@@ -5138,6 +5138,98 @@ namespace MissionPlanner.GCSViews
             txt_messagebox.ScrollToCaret();
         }
 
+        /// <summary>
+        /// A Control name paired with its droppped out state
+        /// </summary>
+        private class DropoutsStateItem
+        {
+            public string Name { get; set; }
+            public bool Dropped { get; set; }
+        }
+
+        /// <summary>
+        /// List of Control names and their droppped out state
+        /// </summary>
+        private List<DropoutsStateItem> DropoutsState = new List<DropoutsStateItem>();
+
+        /// <summary>
+        /// Changes the dropout state of a Control
+        /// </summary>
+        /// <param name="Name">Name of Control</param>
+        /// <param name="Dropped">Desired dropout state of Control</param>
+        public void SetDropoutsState(string Name, bool Dropped)
+        {
+            // if the control dropout state is being followed and has to be changed
+            if (DropoutsState.Select(DS => DS.Name).Contains(Name) &&
+                DropoutsState.Where(DS => DS.Name == Name).FirstOrDefault().Dropped != Dropped)
+            {
+                // Change the dropout state
+                DropoutsState.Where(DS => DS.Name == Name).FirstOrDefault().Dropped = Dropped;
+
+                // Save the dropout state
+                if (Dropped) // Add new item
+                    Settings.Instance.SetList("DropoutState", DropoutsState.Where(DS => DS.Dropped).Select(DS => DS.Name).ToList<string>());
+                else if (DropoutsState.Where(DS => DS.Dropped).Count() > 0) // Remove one item
+                    Settings.Instance.RemoveList("DropoutState", Name);
+                else // Remove last item
+                    Settings.Instance.Remove("DropoutState");
+            }
+        }
+
+        /// <summary>
+        /// Loads the dropout state list and drops out the Controls into their Forms (if needed)
+        /// </summary>
+        public void LoadDropoutsState()
+        {
+            // Initialize list with default values
+            DropoutsState = new List<DropoutsStateItem> // Individual Control items
+            {
+            };
+
+            // Load list and flip Dropped to true where needed
+            if (Settings.Instance.ContainsKey("DropoutState"))
+                DropoutsState
+                    .Where(DS => (Settings.Instance.GetList("DropoutState").ToList<string>()).Contains(DS.Name))
+                    .ForEach(DS => DS.Dropped = true);
+
+            // Execute Form opening functions
+            foreach (var item in DropoutsState)
+            {
+                if (item.Dropped)
+                {
+                    //if (item.Name == "whatever")
+                    //{
+                    //    // call Form opening function(s)
+                    //}
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resets the dropout Form configuration
+        /// </summary>
+        public void ResetDropoutsStates()
+        {
+            DropoutsState.Where(DS => DS.Dropped).ForEach(DS => SetDropoutsState(DS.Name, false));
+        }
+
+        /// <summary>
+        /// Helper bool for MainH_VisibleChanged
+        /// </summary>
+        private bool programStarted = false;
+
+        /// <summary>
+        /// Load dropout window names from config.xml
+        /// </summary>
+        private void MainH_VisibleChanged(object sender, System.EventArgs e)
+        {
+            if (!programStarted && Visible && !Disposing)
+            {
+                LoadDropoutsState();
+                programStarted = true;
+            }
+        }
+
         private void updateBindingSource()
         {
             //  run at 20 hz.
