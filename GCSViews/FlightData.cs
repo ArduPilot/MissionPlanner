@@ -5260,6 +5260,7 @@ namespace MissionPlanner.GCSViews
             {
                 new DropoutsStateItem {Name = myhud.Name, Dropped = false},
                 new DropoutsStateItem {Name = "FlightPlanner", Dropped = false},
+                new DropoutsStateItem {Name = "ConnectionStats", Dropped = false}
             };
             foreach (TabPage item in tabControlactions.TabPages) // Tabpages in bulk
                 DropoutsState.Add(new DropoutsStateItem {Name = item.Name, Dropped = false});
@@ -5287,6 +5288,11 @@ namespace MissionPlanner.GCSViews
                     if (item.Name == "FlightPlanner")
                     {
                         flightPlannerToolStripMenuItem_Click(null, EventArgs.Empty);
+                    }
+                    if (item.Name == "ConnectionStats")
+                    {
+                        // trigger MainV2._connectionControl.ShowLinkStats event
+                        MainV2.instance.ShowConnectionStatsForm();
                     }
                     //if (item.Name == "whatever")
                     //{
