@@ -131,6 +131,9 @@
     <EmbeddedResource Include="Controls\SerialOutputPass.uk.resx">
       <DependentUpon>SerialOutputPass.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AuxOptions.resx">
+      <DependentUpon>AuxOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ServoOptions.uk.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </EmbeddedResource>
@@ -709,6 +712,12 @@
     </Compile>
     <Compile Include="Controls\Icon\File.cs" />
     <Compile Include="Controls\Icon\Zoom.cs" />
+    <Compile Include="Controls\AuxOptions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AuxOptions.Designer.cs">
+      <DependentUpon>AuxOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SpectrogramUI.cs">
       <SubType>Form</SubType>
     </Compile>

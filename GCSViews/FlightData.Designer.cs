@@ -122,6 +122,13 @@ namespace MissionPlanner.GCSViews
             this.relayOptions4 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions5 = new MissionPlanner.Controls.RelayOptions();
             this.relayOptions6 = new MissionPlanner.Controls.RelayOptions();
+            this.tabAuxFunction = new System.Windows.Forms.TabPage();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.auxOptions1 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions2 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions3 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions4 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions5 = new MissionPlanner.Controls.AuxOptions();
             this.tabScripts = new System.Windows.Forms.TabPage();
             this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
             this.BUT_edit_selected = new MissionPlanner.Controls.MyButton();
@@ -216,6 +223,8 @@ namespace MissionPlanner.GCSViews
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.auxOptions6 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions7 = new MissionPlanner.Controls.AuxOptions();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -243,6 +252,8 @@ namespace MissionPlanner.GCSViews
             ((System.ComponentModel.ISupportInitialize)(this.Squawk_nud)).BeginInit();
             this.tabServo.SuspendLayout();
             this.flowLayoutPanelServos.SuspendLayout();
+            this.tabAuxFunction.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.tabScripts.SuspendLayout();
             this.tabPayload.SuspendLayout();
             this.groupBoxRoll.SuspendLayout();
@@ -312,7 +323,9 @@ namespace MissionPlanner.GCSViews
             this.hud1.BackColor = System.Drawing.Color.Black;
             this.hud1.batterycellcount = 4;
             this.hud1.batterylevel = 0F;
+            this.hud1.batterylevel2 = 0F;
             this.hud1.batteryremaining = 0F;
+            this.hud1.batteryremaining2 = 0F;
             this.hud1.bgimage = null;
             this.hud1.connected = false;
             this.hud1.ContextMenuStrip = this.contextMenuStripHud;
@@ -320,6 +333,7 @@ namespace MissionPlanner.GCSViews
             this.hud1.criticalvoltagealert = false;
             this.hud1.critSSA = 30F;
             this.hud1.current = 0F;
+            this.hud1.current2 = 0F;
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("airspeed", this.bindingSourceHud, "airspeed", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("alt", this.bindingSourceHud, "alt", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("batterylevel", this.bindingSourceHud, "battery_voltage", true));
@@ -544,6 +558,7 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.Controls.Add(this.tabTransponder);
             this.tabControlactions.Controls.Add(this.tabStatus);
             this.tabControlactions.Controls.Add(this.tabServo);
+            this.tabControlactions.Controls.Add(this.tabAuxFunction);
             this.tabControlactions.Controls.Add(this.tabScripts);
             this.tabControlactions.Controls.Add(this.tabPayload);
             this.tabControlactions.Controls.Add(this.tabTLogs);
@@ -1832,6 +1847,50 @@ namespace MissionPlanner.GCSViews
             this.relayOptions6.Name = "relayOptions6";
             this.relayOptions6.thisrelay = 5;
             // 
+            // tabAuxFunction
+            // 
+            this.tabAuxFunction.Controls.Add(this.flowLayoutPanel1);
+            resources.ApplyResources(this.tabAuxFunction, "tabAuxFunction");
+            this.tabAuxFunction.Name = "tabAuxFunction";
+            this.tabAuxFunction.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.auxOptions1);
+            this.flowLayoutPanel1.Controls.Add(this.auxOptions2);
+            this.flowLayoutPanel1.Controls.Add(this.auxOptions3);
+            this.flowLayoutPanel1.Controls.Add(this.auxOptions4);
+            this.flowLayoutPanel1.Controls.Add(this.auxOptions5);
+            this.flowLayoutPanel1.Controls.Add(this.auxOptions6);
+            this.flowLayoutPanel1.Controls.Add(this.auxOptions7);
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            // 
+            // auxOptions1
+            // 
+            resources.ApplyResources(this.auxOptions1, "auxOptions1");
+            this.auxOptions1.Name = "auxOptions1";
+            // 
+            // auxOptions2
+            // 
+            resources.ApplyResources(this.auxOptions2, "auxOptions2");
+            this.auxOptions2.Name = "auxOptions2";
+            // 
+            // auxOptions3
+            // 
+            resources.ApplyResources(this.auxOptions3, "auxOptions3");
+            this.auxOptions3.Name = "auxOptions3";
+            // 
+            // auxOptions4
+            // 
+            resources.ApplyResources(this.auxOptions4, "auxOptions4");
+            this.auxOptions4.Name = "auxOptions4";
+            // 
+            // auxOptions5
+            // 
+            resources.ApplyResources(this.auxOptions5, "auxOptions5");
+            this.auxOptions5.Name = "auxOptions5";
+            // 
             // tabScripts
             // 
             this.tabScripts.Controls.Add(this.checkBoxRedirectOutput);
@@ -2660,6 +2719,16 @@ namespace MissionPlanner.GCSViews
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
+            // auxOptions6
+            // 
+            resources.ApplyResources(this.auxOptions6, "auxOptions6");
+            this.auxOptions6.Name = "auxOptions6";
+            // 
+            // auxOptions7
+            // 
+            resources.ApplyResources(this.auxOptions7, "auxOptions7");
+            this.auxOptions7.Name = "auxOptions7";
+            // 
             // FlightData
             // 
             this.Controls.Add(this.MainH);
@@ -2700,6 +2769,8 @@ namespace MissionPlanner.GCSViews
             ((System.ComponentModel.ISupportInitialize)(this.Squawk_nud)).EndInit();
             this.tabServo.ResumeLayout(false);
             this.flowLayoutPanelServos.ResumeLayout(false);
+            this.tabAuxFunction.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.tabScripts.ResumeLayout(false);
             this.tabScripts.PerformLayout();
             this.tabPayload.ResumeLayout(false);
@@ -2948,5 +3019,14 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem multiLineToolStripMenuItem;
         private Controls.MyButton BUT_SendMSG;
         public Panel panel_persistent;
+        private TabPage tabAuxFunction;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Controls.AuxOptions auxOptions1;
+        private Controls.AuxOptions auxOptions2;
+        private Controls.AuxOptions auxOptions3;
+        private Controls.AuxOptions auxOptions4;
+        private Controls.AuxOptions auxOptions5;
+        private Controls.AuxOptions auxOptions6;
+        private Controls.AuxOptions auxOptions7;
     }
 }
