@@ -4914,6 +4914,52 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// Drops out the active tab into a seperate form
+        /// </summary>
+        private void TabControlactions_DoubleClick(object sender, System.EventArgs e)
+        {
+            Form dropoutForm = new Form();
+            TabControl sourceTC = sender as TabControl;
+            TabPage sourceTP = sourceTC.SelectedTab;
+            TabControl dropoutTab = new TabControl();
+
+            dropoutForm.Text = $"{sourceTP.Text} Tab Dropout";
+            dropoutForm.FormClosed += DropoutForm_FormClosed;
+            dropoutForm.ResizeEnd += (s2, e2) => dropoutForm.SaveStartupLocation();
+            dropoutForm.LocationChanged += (s3, e3) => dropoutForm.SaveStartupLocation();
+            dropoutForm.FormBorderStyle = FormBorderStyle.Sizable;
+            dropoutForm.Size = new Size(sourceTP.Width, sourceTP.Width);
+            dropoutForm.RestoreStartupLocation();
+
+            dropoutTab.Appearance = TabAppearance.FlatButtons;
+            dropoutTab.ItemSize = new Size(0, 0);
+            dropoutTab.SizeMode = TabSizeMode.Fixed;
+            dropoutTab.Size = new Size(dropoutForm.ClientSize.Width, dropoutForm.ClientSize.Height + 22);
+            dropoutTab.Location = new Point(0, -22);
+            dropoutTab.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControlactions.Controls.Remove(sourceTP);
+            dropoutTab.Controls.Add(sourceTP);
+            sourceTP.BorderStyle = BorderStyle.Fixed3D;
+            dropoutForm.Controls.Add(dropoutTab);
+
+            isDropperdOut.Add(dropoutForm);
+            SetDropoutsState(sourceTP.Name, true);
+            dropoutForm.Show();
+            dropoutForm.BringToFront();
+        }
+
+        private void DropoutForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form dropoutForm = sender as Form;
+            TabControl sourceTC = dropoutForm.Controls[0] as TabControl;
+            TabPage dropoutTP = sourceTC.TabPages[0];
+            dropoutForm.SaveStartupLocation();
+            SetDropoutsState(dropoutTP.Name, false);
+            isDropperdOut.Remove(dropoutForm);
+            tabControlactions.Controls.Add(dropoutTP);
+        }
+
         private void tabPage1_Resize(object sender, EventArgs e)
         {
             int mywidth, myheight;
@@ -5185,6 +5231,8 @@ namespace MissionPlanner.GCSViews
             DropoutsState = new List<DropoutsStateItem> // Individual Control items
             {
             };
+            foreach (TabPage item in tabControlactions.TabPages) // Tabpages in bulk
+                DropoutsState.Add(new DropoutsStateItem {Name = item.Name, Dropped = false});
 
             // Load list and flip Dropped to true where needed
             if (Settings.Instance.ContainsKey("DropoutState"))
@@ -5197,6 +5245,11 @@ namespace MissionPlanner.GCSViews
             {
                 if (item.Dropped)
                 {
+                    if (tabControlactions.TabPages.Select(TP => (TP as TabPage).Name).Contains(item.Name)) // One of the tabpages
+                    {
+                        tabControlactions.SelectTab(item.Name);
+                        TabControlactions_DoubleClick(tabControlactions, EventArgs.Empty);
+                    }
                     //if (item.Name == "whatever")
                     //{
                     //    // call Form opening function(s)
@@ -5267,6 +5320,11 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// Forms to update the data bindings for regularly
+        /// </summary>
+        private List<Form> isDropperdOut = new List<Form>();
+
         private void updateBindingSourceWork()
         {
             try
@@ -5316,12 +5374,35 @@ namespace MissionPlanner.GCSViews
                 //if the tab detached wi have to update it 
                 if (tabQuickDetached) MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab.UpdateDataSource(MainV2.comPort.MAV.cs));
 
+                // if any tabs are dropped out, we have to update them
+                foreach (Form form in isDropperdOut)
+                    updateFirstBindingSource(form);
+
                 lastscreenupdate = DateTime.Now;
             }
             catch (Exception ex)
             {
                 log.Error(ex);
                 Tracking.AddException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Find and update binding for first child control (that has one) recursively
+        /// </summary>
+        /// <param name="startingControl">Control to start the recursive search from</param>
+        private void updateFirstBindingSource(Control startingControl)
+        {
+            if (startingControl.DataBindings.Count > 0)
+            {
+                MainV2.comPort.MAV.cs.UpdateCurrentSettings((startingControl.DataBindings[0].DataSource as BindingSource).UpdateDataSource(MainV2.comPort.MAV.cs));
+            }
+            else if (startingControl.Controls.Count > 0)
+            {
+                foreach (Control childControl in startingControl.Controls)
+                {
+                    updateFirstBindingSource(childControl);
+                }
             }
         }
 
