@@ -1417,7 +1417,7 @@ namespace MissionPlanner
         {
             // Close dropout window (if there is one)
             MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
-            if (flightPlannerScreen.Control.ParentForm != null)
+            if (flightPlannerScreen.Control.ParentForm != null && flightPlannerScreen.Control.ParentForm != this)
                 flightPlannerScreen.Control.ParentForm.Close();
             
             // Show flight planner screen
