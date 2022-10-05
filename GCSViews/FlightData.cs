@@ -2688,9 +2688,26 @@ namespace MissionPlanner.GCSViews
             //attitudeIndicatorInstrumentControl1;
         }
 
+        /// <summary>
+        /// Use FlightPlannerForm property instead
+        /// </summary>
+        private Form flightPlannerForm = null;
+
+        /// <summary>
+        /// Presistent form for Flight Planner
+        /// </summary>
+        public Form FlightPlannerForm
+        {
+            get
+            {
+                if (flightPlannerForm == null) flightPlannerForm = new Form();
+                return flightPlannerForm;
+            }
+        }
+
         private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form flightPlannerDropout = new Form();
+            Form flightPlannerDropout = FlightPlannerForm;
             flightPlannerDropout.Text = "Flight Planner";
             flightPlannerDropout.FormBorderStyle = FormBorderStyle.Sizable;
             flightPlannerDropout.FormClosing += FlightPlannerDropout_FormClosing;
