@@ -193,6 +193,7 @@ namespace MissionPlanner.GCSViews
             this.PointCameraCoordsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.triggerCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flightPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flightPlannerDropoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setEKFHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setHomeHereToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -2374,6 +2375,7 @@ namespace MissionPlanner.GCSViews
             this.PointCameraCoordsToolStripMenuItem1,
             this.triggerCameraToolStripMenuItem,
             this.flightPlannerToolStripMenuItem,
+            this.flightPlannerDropoutToolStripMenuItem,
             this.setHomeHereToolStripMenuItem,
             this.takeOffToolStripMenuItem,
             this.onOffCameraOverlapToolStripMenuItem});
@@ -2456,6 +2458,13 @@ namespace MissionPlanner.GCSViews
             this.flightPlannerToolStripMenuItem.Name = "flightPlannerToolStripMenuItem";
             resources.ApplyResources(this.flightPlannerToolStripMenuItem, "flightPlannerToolStripMenuItem");
             this.flightPlannerToolStripMenuItem.Click += new System.EventHandler(this.flightPlannerToolStripMenuItem_Click);
+            // 
+            // flightPlannerDropoutToolStripMenuItem
+            // 
+            this.flightPlannerDropoutToolStripMenuItem.Name = "flightPlannerDropoutToolStripMenuItem";
+            this.flightPlannerDropoutToolStripMenuItem.Text = "Flight Planner (dropout)";
+            resources.ApplyResources(this.flightPlannerDropoutToolStripMenuItem, "flightPlannerDropoutToolStripMenuItem");
+            this.flightPlannerDropoutToolStripMenuItem.Click += new System.EventHandler(this.flightPlannerDropoutToolStripMenuItem_Click);
             // 
             // setHomeHereToolStripMenuItem
             // 
@@ -2863,6 +2872,7 @@ namespace MissionPlanner.GCSViews
         private Controls.QuickView quickView4;
         private System.Windows.Forms.ToolStripMenuItem flyToHereAltToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flightPlannerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem flightPlannerDropoutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userItemsToolStripMenuItem;
         //private Crom.Controls.Docking.DockContainer dockContainer1;
         private Controls.MyButton BUT_ARM;

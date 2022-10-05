@@ -2688,6 +2688,62 @@ namespace MissionPlanner.GCSViews
             //attitudeIndicatorInstrumentControl1;
         }
 
+        private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+
+            // Close dropout window (if there is one)
+            if (flightPlannerScreen.Control.ParentForm != null)
+                flightPlannerScreen.Control.ParentForm.Close();
+
+            // Hide flight data map
+            foreach (Control ctl in splitContainer1.Panel2.Controls)
+                ctl.Visible = false;
+
+            // Add close button
+            MyButton but = new MyButton
+            {
+                Location = new Point(splitContainer1.Panel2.Width / 2, 0),
+                Text = "Close"
+            };
+            but.Click += but_Click;
+
+            // Add flight planner controls
+            splitContainer1.Panel2.Controls.Add(but);
+            splitContainer1.Panel2.Controls.Add(flightPlannerScreen.Control);
+            ThemeManager.ApplyThemeTo(flightPlannerScreen.Control);
+            ThemeManager.ApplyThemeTo(this);
+
+            // Set appearance
+            flightPlannerScreen.Control.Dock = DockStyle.Fill;
+            flightPlannerScreen.Control.Visible = true;
+
+            // Activate flight planner
+            if (flightPlannerScreen.Control is IActivate)
+                ((IActivate)(flightPlannerScreen.Control)).Activate();
+
+            // Show close button
+            but.BringToFront();
+        }
+
+        void but_Click(object sender, EventArgs e)
+        {
+            MainSwitcher.Screen flightPlannerScreen = MainV2.View.screens.Where(s => s.Name == "FlightPlanner").FirstOrDefault();
+
+            // Remove flight planner controls
+            splitContainer1.Panel2.Controls.Remove(flightPlannerScreen.Control);
+            splitContainer1.Panel2.Controls.Remove((Control)sender);
+            flightPlannerScreen.Control.Visible = false;
+
+            // Deactivate flight planner
+            if (flightPlannerScreen.Control is IDeactivate)
+                ((IDeactivate)(flightPlannerScreen.Control)).Deactivate();
+
+            // Show flight data map
+            foreach (Control ctl in splitContainer1.Panel2.Controls)
+                ctl.Visible = true;
+        }
+
         /// <summary>
         /// Use FlightPlannerForm property instead
         /// </summary>
@@ -2705,7 +2761,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void flightPlannerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void flightPlannerDropoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form flightPlannerDropout = FlightPlannerForm;
             flightPlannerDropout.Text = "Flight Planner";
@@ -2726,18 +2782,17 @@ namespace MissionPlanner.GCSViews
             ThemeManager.ApplyThemeTo(this);
 
             if (flightPlannerScreen.Control is IActivate)
-            {
-                ((IActivate) (flightPlannerScreen.Control)).Activate();
-            }
+                ((IActivate)(flightPlannerScreen.Control)).Activate();
 
             if (flightPlannerDropout != null)
             {
                 flightPlannerDropout.Show();
                 flightPlannerDropout.BringToFront();
                 SetDropoutsState("FlightPlanner", true);
-            }    
+            }
         }
 
+        // Catch Flight Planner dropout closing, and only hide it
         private void FlightPlannerDropout_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -2757,9 +2812,7 @@ namespace MissionPlanner.GCSViews
             flightPlannerScreen.Control.Visible = false;
 
             if (flightPlannerScreen.Control is IDeactivate)
-            {
                 ((IDeactivate)(flightPlannerScreen.Control)).Deactivate();
-            }
 
             SetDropoutsState("FlightPlanner", false);
         }
