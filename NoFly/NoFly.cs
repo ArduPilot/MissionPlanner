@@ -125,8 +125,8 @@ namespace MissionPlanner.NoFly
                         {
                             if (item.HorizontalProjection?.Type == "Polygon")
                             {
-                                //if (item.LowerVerticalReference == "AGL" && item.UomDimensions == "M" && item.LowerLimit > 300)
-                                //continue;
+                                if (item.LowerVerticalReference == "AGL" && item.UomDimensions == "M" && item.LowerLimit > 300)
+                                    continue;
 
                                 var coordinates = item.HorizontalProjection.Coordinates[0].Select(c => new PointLatLng(c[1], c[0])).ToList();
 
@@ -168,6 +168,12 @@ namespace MissionPlanner.NoFly
                 NoFlyEvent(null, new NoFlyEventArgs(kmlpolygonsoverlay));
         }
 
+        public static void UpdateNoFlyZone(object sender, PointLatLngAlt plla)
+        {
+            UpdateNoFlyZoneEvent?.Invoke(sender, plla);
+        }
+
+        public static event EventHandler<PointLatLngAlt> UpdateNoFlyZoneEvent;
 
         public static void LoadNoFly(string file)
         {

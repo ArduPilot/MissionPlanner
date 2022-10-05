@@ -223,6 +223,13 @@ namespace MissionPlanner.GCSViews
             log.Info("Components Done");
 
             instance = this;
+
+            this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
+            this.tabControlactions.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.tabControlactions.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
+            this.panel_persistent.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
+            this.panel_persistent.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             //    _serializer = new DockStateSerializer(dockContainer1);
             //    _serializer.SavePath = Application.StartupPath + Path.DirectorySeparatorChar + "FDscreen.xml";
             //    dockContainer1.PreviewRenderer = new PreviewRenderer();
@@ -3756,6 +3763,9 @@ namespace MissionPlanner.GCSViews
                                     }
                                 }
                             }
+
+                            //nofly
+                            NoFly.NoFly.UpdateNoFlyZone(this, gMapControl1.Position);
 
                             waypoints = DateTime.Now;
                         }

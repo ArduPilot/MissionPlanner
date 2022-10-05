@@ -129,6 +129,8 @@ namespace MissionPlanner.GCSViews
             this.auxOptions3 = new MissionPlanner.Controls.AuxOptions();
             this.auxOptions4 = new MissionPlanner.Controls.AuxOptions();
             this.auxOptions5 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions6 = new MissionPlanner.Controls.AuxOptions();
+            this.auxOptions7 = new MissionPlanner.Controls.AuxOptions();
             this.tabScripts = new System.Windows.Forms.TabPage();
             this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
             this.BUT_edit_selected = new MissionPlanner.Controls.MyButton();
@@ -223,8 +225,6 @@ namespace MissionPlanner.GCSViews
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
-            this.auxOptions6 = new MissionPlanner.Controls.AuxOptions();
-            this.auxOptions7 = new MissionPlanner.Controls.AuxOptions();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -306,8 +306,6 @@ namespace MissionPlanner.GCSViews
             // SubMainLeft.Panel1
             // 
             this.SubMainLeft.Panel1.Controls.Add(this.hud1);
-            this.SubMainLeft.Panel1.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
-            this.SubMainLeft.Panel1.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             // 
             // SubMainLeft.Panel2
             // 
@@ -568,8 +566,6 @@ namespace MissionPlanner.GCSViews
             this.tabControlactions.SelectedIndex = 0;
             this.tabControlactions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             this.tabControlactions.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-            this.tabControlactions.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
-            this.tabControlactions.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             // 
             // contextMenuStripactionstab
             // 
@@ -1891,6 +1887,16 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.auxOptions5, "auxOptions5");
             this.auxOptions5.Name = "auxOptions5";
             // 
+            // auxOptions6
+            // 
+            resources.ApplyResources(this.auxOptions6, "auxOptions6");
+            this.auxOptions6.Name = "auxOptions6";
+            // 
+            // auxOptions7
+            // 
+            resources.ApplyResources(this.auxOptions7, "auxOptions7");
+            this.auxOptions7.Name = "auxOptions7";
+            // 
             // tabScripts
             // 
             this.tabScripts.Controls.Add(this.checkBoxRedirectOutput);
@@ -2001,8 +2007,8 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.trackBarRoll, "trackBarRoll");
             this.trackBarRoll.LargeChange = 10;
-            this.trackBarRoll.Maximum = 45;
-            this.trackBarRoll.Minimum = -45;
+            this.trackBarRoll.Maximum = 90;
+            this.trackBarRoll.Minimum = -90;
             this.trackBarRoll.Name = "trackBarRoll";
             this.trackBarRoll.TickFrequency = 10;
             this.trackBarRoll.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
@@ -2025,8 +2031,8 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.trackBarYaw, "trackBarYaw");
             this.trackBarYaw.LargeChange = 10;
-            this.trackBarYaw.Maximum = 45;
-            this.trackBarYaw.Minimum = -45;
+            this.trackBarYaw.Maximum = 180;
+            this.trackBarYaw.Minimum = -180;
             this.trackBarYaw.Name = "trackBarYaw";
             this.trackBarYaw.TickFrequency = 10;
             this.trackBarYaw.Scroll += new System.EventHandler(this.gimbalTrackbar_Scroll);
@@ -2050,8 +2056,8 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.trackBarPitch, "trackBarPitch");
             this.trackBarPitch.LargeChange = 10;
-            this.trackBarPitch.Maximum = 45;
-            this.trackBarPitch.Minimum = -45;
+            this.trackBarPitch.Maximum = 90;
+            this.trackBarPitch.Minimum = -90;
             this.trackBarPitch.Name = "trackBarPitch";
             this.trackBarPitch.SmallChange = 5;
             this.trackBarPitch.TickFrequency = 10;
@@ -2321,8 +2327,6 @@ namespace MissionPlanner.GCSViews
             // 
             resources.ApplyResources(this.panel_persistent, "panel_persistent");
             this.panel_persistent.Name = "panel_persistent";
-            this.panel_persistent.ControlAdded += (sender, e) => ManageLeftPanelVisibility();
-            this.panel_persistent.ControlRemoved += (sender, e) => ManageLeftPanelVisibility();
             // 
             // tableMap
             // 
@@ -2518,7 +2522,7 @@ namespace MissionPlanner.GCSViews
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 360D;
+            this.windDir1.Direction = 180D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2718,16 +2722,6 @@ namespace MissionPlanner.GCSViews
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
-            // 
-            // auxOptions6
-            // 
-            resources.ApplyResources(this.auxOptions6, "auxOptions6");
-            this.auxOptions6.Name = "auxOptions6";
-            // 
-            // auxOptions7
-            // 
-            resources.ApplyResources(this.auxOptions7, "auxOptions7");
-            this.auxOptions7.Name = "auxOptions7";
             // 
             // FlightData
             // 
