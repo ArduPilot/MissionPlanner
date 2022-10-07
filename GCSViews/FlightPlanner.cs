@@ -1631,7 +1631,7 @@ namespace MissionPlanner.GCSViews
                     pos.Lat = lat;
                     pos.Lng = lng;
                     item.Position = pos;
-                    item.ToolTipText = tag + " - " + alt;
+                    item.ToolTipText = tag + " : " + alt;
 
                     var rect = overlay.Markers.OfType<GMapMarkerRect>().Where(a => a.InnerMarker == item);
                     var mBorders = rect.First();
