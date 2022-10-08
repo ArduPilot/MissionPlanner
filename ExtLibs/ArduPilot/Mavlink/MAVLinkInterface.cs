@@ -2407,12 +2407,27 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             {
                 var ans1 = doCommand((byte) sysidcurrent, (byte) compidcurrent, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN,
                     param1, 0, 0, 0, 0, 0, 0);
-                if (ans1)
-                    return true;
-                var ans2 = doCommand((byte) sysidcurrent, (byte) compidcurrent, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0,
+                var ans2 = false;
+                if (!ans1)
+                {
+                    ans2 = doCommand((byte)sysidcurrent, (byte)compidcurrent, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0,
                     0, 0, 0, 0, 0);
-                if (ans2)
+                }
+                // Successful reboot
+                if (ans1 || ans2)
+                {
+                    // Not going into bootloader and on a serial connection
+                    if (!bootloadermode && (BaseStream is SerialPort))
+                    {
+                        // Direct USB will disconnect after a reboot, wait and see if we should re-connect
+                        Thread.Sleep(500);
+                        if (!BaseStream.IsOpen)
+                        {
+                            Open(true);
+                        }
+                    }
                     return true;
+                }
 
                 giveComport = false;
                 return false;
