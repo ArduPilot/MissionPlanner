@@ -1699,7 +1699,9 @@ namespace MissionPlanner.GCSViews
 
                     if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
                     {
-                        param1 = 1; // reboot
+                        MainV2.comPort.doReboot();
+                        ((Control) sender).Enabled = true;
+                        return;
                     }
 
                     if (CMB_action.Text == actions.Battery_Reset.ToString())
