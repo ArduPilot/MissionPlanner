@@ -754,6 +754,16 @@ namespace MissionPlanner
             Application.DoEvents();
 
             instance = this;
+
+            MyView = new MainSwitcher(this);
+
+            View = MyView;
+
+            if (Settings.Instance.ContainsKey("language") && !string.IsNullOrEmpty(Settings.Instance["language"]))
+            {
+                changelanguage(CultureInfoEx.GetCultureInfo(Settings.Instance["language"]));
+            }
+
             InitializeComponent();
 
             //Init Theme table and load BurntKermit as a default
@@ -776,9 +786,6 @@ namespace MissionPlanner
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
-            MyView = new MainSwitcher(this);
-
-            View = MyView;
 
             // define default basestream
             comPort.BaseStream = new SerialPort();
@@ -858,11 +865,6 @@ namespace MissionPlanner
             }
 
             MissionPlanner.Utilities.Tracking.cid = new Guid(Settings.Instance["guid"].ToString());
-
-            if (Settings.Instance.ContainsKey("language") && !string.IsNullOrEmpty(Settings.Instance["language"]))
-            {
-                changelanguage(CultureInfoEx.GetCultureInfo(Settings.Instance["language"]));
-            }
 
             if (splash != null)
             {
