@@ -62,11 +62,6 @@ namespace MissionPlanner.GCSViews
                 {
                     if (MainV2.comPort.BaseStream.IsOpen)
                     {
-                        if (MainV2.DisplayConfiguration.displayFlightModes)
-                        {
-                            start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
-                        }
-
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                             AddBackstageViewPage(typeof(ConfigAC_Fence), Strings.GeoFence);
 
