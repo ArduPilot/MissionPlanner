@@ -1715,6 +1715,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         logdata.ToLower().Contains("plane"))
                     {
                         MAVlist[sysid, compid].VersionString = logdata;
+                        // Version string may allow to better identify type
+                        setAPType(sysid, compid);
                     }
                     else if (logdata.ToLower().Contains("nuttx") || logdata.ToLower().Contains("chibios"))
                     {
@@ -6515,6 +6517,26 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             switch (MAVlist[sysid, compid].apname)
             {
                 case MAV_AUTOPILOT.ARDUPILOTMEGA:
+                    // try and pull vehicle type from version string
+                    if (MAVlist[sysid, compid].VersionString != null && MAVlist[sysid, compid].VersionString.Length > 1)
+                    {
+                        var firmware_lookup = new Dictionary<string, Firmwares>()
+                                {
+                                    {"ArduPlane V", Firmwares.ArduPlane},
+                                    {"ArduCopter V", Firmwares.ArduCopter2},
+                                    {"Blimp V", Firmwares.ArduCopter2},
+                                    {"ArduRover V",Firmwares.ArduRover},
+                                    {"ArduSub V",Firmwares.ArduSub},
+                                    {"AntennaTracker V", Firmwares.ArduTracker}
+                                };
+                        var match = firmware_lookup.Where(d => MAVlist[sysid, compid].VersionString.StartsWith(d.Key)).ToArray();
+                        if (match.Count() == 1)
+                        {
+                            MAVlist[sysid, compid].cs.firmware = match[0].Value;
+                            break;
+                        }
+                    }
+
                     switch (MAVlist[sysid, compid].aptype)
                     {
                         case MAV_TYPE.FIXED_WING:
