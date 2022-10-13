@@ -4237,16 +4237,24 @@ namespace MissionPlanner.GCSViews
         {
             BeginInvoke((Action) delegate
             {
-                foreach (var poly in e.NoFlyZones.Polygons)
-                {
-                    kmlpolygons.Polygons.Add(poly);
-                }
+                gMapControl1.Overlays.Add(e.NoFlyZones);
             });
         }
 
         private void onOffCameraOverlapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CameraOverlap = onOffCameraOverlapToolStripMenuItem.Checked;
+
+            foreach (var mark in photosoverlay.Markers.ToArray())
+            {
+                if (mark is GMapMarkerPhoto)
+                {
+                    if (!CameraOverlap)
+                    {
+                        photosoverlay.Markers.Remove(mark);
+                    }
+                }
+            }
         }
 
         void POI_POIModified(object sender, EventArgs e)
