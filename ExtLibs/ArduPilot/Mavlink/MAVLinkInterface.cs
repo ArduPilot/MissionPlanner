@@ -5221,7 +5221,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (MAVlist[sysid, compidcurrent].cs.version.Major > 0 ||
                             MAVlist[sysid, compidcurrent].cs.version.Minor >= 4)
                         {
-                            if (sev <= (byte)MAV_SEVERITY.WARNING)
+                            if (sev <= (byte)Settings.Instance.GetInt32("severity", 4))
                             {
                                 printit = true;
                                 mavsev = (MAV_SEVERITY)sev;
