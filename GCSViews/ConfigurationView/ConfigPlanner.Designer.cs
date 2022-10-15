@@ -189,7 +189,7 @@
             0});
             resources.ApplyResources(this.NUM_tracklength, "NUM_tracklength");
             this.NUM_tracklength.Maximum = new decimal(new int[] {
-            2000,
+            200000,
             0,
             0,
             0});
