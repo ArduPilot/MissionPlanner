@@ -214,6 +214,12 @@ def generate_message_enums(f, xml):
             if hasattr(fe, "deprecated") and fe.deprecated is True:
                 fe.name = '''[Obsolete]
         %s''' % fe.name
+            if fe.has_location is True:
+                fe.name = '''[hasLocation()]
+        %s''' % fe.name
+            if hasattr(fe, "isDestination") and fe.isDestination is True:
+                fe.name = '''[isDestination()]
+        %s''' % fe.name
             
     t.write(f, '''
     ${{enum:

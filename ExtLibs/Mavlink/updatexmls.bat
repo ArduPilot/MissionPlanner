@@ -11,4 +11,6 @@ python -c "import urllib.request; print(urllib.request.urlopen('https://github.c
 
 python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/loweheiser.xml').read().decode('utf-8') )" > message_definitions\loweheiser.xml
 
+python -c "import urllib.request; print(urllib.request.urlopen('https://github.com/ArduPilot/mavlink/raw/master/message_definitions/v1.0/cubepilot.xml').read().decode('utf-8') )" > message_definitions\cubepilot.xml
+
 pause
