@@ -3383,11 +3383,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         loc.lat = ((wp.x / 1.0e7));
                         loc.lng = ((wp.y / 1.0e7));
 
-                        if (loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONTROL ||
-                            loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONFIGURE ||
-                            loc.id == (ushort) MAV_CMD.ATTITUDE_TIME ||
-                            loc.id == (ushort) MAV_CMD.SCRIPT_TIME ||
-                            loc.id == (ushort) MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW)
+                        if (!Locationwp.isLocationCommand(loc.id))
                         {
                             loc.lat = wp.x;
                             loc.lng = wp.y;
@@ -3852,11 +3848,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                     frame = (byte) frame
                 };
 
-                if (loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONTROL || 
-                    loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONFIGURE || 
-                    loc.id == (ushort) MAV_CMD.ATTITUDE_TIME ||
-                    loc.id == (ushort) MAV_CMD.SCRIPT_TIME ||
-                    loc.id == (ushort) MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW)
+                if (!Locationwp.isLocationCommand(loc.id))
                 {
                     req.y = (int) (loc.lng);
                     req.x = (int) (loc.lat);

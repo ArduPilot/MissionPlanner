@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
+using static MAVLink;
 
 namespace MissionPlanner.Utilities
 {
     /// <summary>
-    /// Struct as used in Ardupilot
+    /// Struct as used in Ardupilot 
     /// </summary>
     public struct Locationwp
     {
@@ -32,16 +31,24 @@ namespace MissionPlanner.Utilities
             return (MAVLink.mavlink_mission_item_int_t)Convert(input, true);
         }
 
+        /// <summary>
+        /// is the given command a location command
+        /// </summary>
+        /// <param name="id">the MAV_CMD</param>
+        /// <returns>true/false</returns>
         public static bool isLocationCommand(ushort id)
         {
-            switch (id)
+            try
             {
-            case (ushort)MAVLink.MAV_CMD.DO_DIGICAM_CONTROL:
-            case (ushort)MAVLink.MAV_CMD.ATTITUDE_TIME:
-            case (ushort)MAVLink.MAV_CMD.SCRIPT_TIME:
-            case (ushort)MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW:
+                var typeofthing = typeof(MAVLink.MAV_CMD);
+                var memInfo = typeofthing.GetMember(Enum.Parse(typeofthing, id.ToString()).ToString());
+                var attrib = memInfo[0].GetCustomAttributes(false).OfType<hasLocation>().ToArray();
+                if (attrib.Length > 0)
+                    return true;
                 return false;
-            default:
+            }
+            catch
+            {
                 return true;
             }
         }
