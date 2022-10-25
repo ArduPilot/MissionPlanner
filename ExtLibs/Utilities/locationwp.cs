@@ -32,6 +32,20 @@ namespace MissionPlanner.Utilities
             return (MAVLink.mavlink_mission_item_int_t)Convert(input, true);
         }
 
+        public static bool isLocationCommand(ushort id)
+        {
+            switch (id)
+            {
+            case (ushort)MAVLink.MAV_CMD.DO_DIGICAM_CONTROL:
+            case (ushort)MAVLink.MAV_CMD.ATTITUDE_TIME:
+            case (ushort)MAVLink.MAV_CMD.SCRIPT_TIME:
+            case (ushort)MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW:
+                return false;
+            default:
+                return true;
+            }
+        }
+
         public static implicit operator Locationwp(MAVLink.mavlink_set_position_target_global_int_t input)
         {
             Locationwp temp = new Locationwp()
@@ -72,6 +86,12 @@ namespace MissionPlanner.Utilities
 
         public static implicit operator Locationwp(MAVLink.mavlink_mission_item_int_t input)
         {
+            double x = input.x;
+            double y = input.y;
+            if (isLocationCommand(input.command)) {
+                x *= 1.0e-7;
+                y *= 1.0e-7;
+            }
             Locationwp temp = new Locationwp()
             {
                 id = input.command,
@@ -79,8 +99,8 @@ namespace MissionPlanner.Utilities
                 p2 = input.param2,
                 p3 = input.param3,
                 p4 = input.param4,
-                lat = input.x / 1.0e7,
-                lng = input.y / 1.0e7,
+                lat = x,
+                lng = y,
                 alt = input.z,
                 _seq = input.seq,
                 frame = input.frame
@@ -125,6 +145,12 @@ namespace MissionPlanner.Utilities
         {
             if (isint)
             {
+                double x = cmd.lat;
+                double y = cmd.lng;
+                if (isLocationCommand(cmd.id)) {
+                    x *= 1.0e7;
+                    y *= 1.0e7;
+                }
                 var temp = new MAVLink.mavlink_mission_item_int_t()
                 {
                     command = cmd.id,
@@ -132,8 +158,8 @@ namespace MissionPlanner.Utilities
                     param2 = cmd.p2,
                     param3 = cmd.p3,
                     param4 = cmd.p4,
-                    x = (int)(cmd.lat * 1.0e7),
-                    y = (int)(cmd.lng * 1.0e7),
+                    x = (int)(x),
+                    y = (int)(y),
                     z = (float) cmd.alt,
                     seq = cmd._seq,
                     frame = cmd.frame
