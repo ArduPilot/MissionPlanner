@@ -3386,6 +3386,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                         if (loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONTROL ||
                             loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONFIGURE ||
                             loc.id == (ushort) MAV_CMD.ATTITUDE_TIME ||
+                            loc.id == (ushort) MAV_CMD.SCRIPT_TIME ||
                             loc.id == (ushort) MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW)
                         {
                             loc.lat = wp.x;
@@ -3854,6 +3855,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 if (loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONTROL || 
                     loc.id == (ushort) MAV_CMD.DO_DIGICAM_CONFIGURE || 
                     loc.id == (ushort) MAV_CMD.ATTITUDE_TIME ||
+                    loc.id == (ushort) MAV_CMD.SCRIPT_TIME ||
                     loc.id == (ushort) MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW)
                 {
                     req.y = (int) (loc.lng);
