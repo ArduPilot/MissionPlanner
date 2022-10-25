@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace MissionPlanner
@@ -283,7 +284,18 @@ namespace MissionPlanner
 
             ThemeManager.ApplyThemeTo(form);
 
-            DialogResult dialogResult = form.ShowDialog();
+            DialogResult dialogResult = DialogResult.Cancel;
+            if (Application.OpenForms.Count > 0)
+            {
+                if (Application.OpenForms[0].InvokeRequired)
+                    Application.OpenForms[0].Invoke(new Action(() => { dialogResult = form.ShowDialog(); }));
+                else
+                    dialogResult = form.ShowDialog();
+            }
+            else
+            {
+                dialogResult = form.ShowDialog();
+            }
 
             form.Dispose();
 
