@@ -128,22 +128,18 @@ namespace MissionPlanner.Utilities
                                 chbootloader = item.board.Replace("-bl", "").Replace("-Bl", "").Replace("-BL", "");
                                 return boards.chbootloader;
                             }
-
                             // old style bootloader
-
                             else if (item.board == "PX4 FMU v5.x")
                             {
                                 //USB\VID_26AC&PID_0032\0
                                 log.Info("is a PX4 FMU v5.x (fmuv5)");
                                 return boards.fmuv5;
                             }
-
                             else if (item.board == "PX4 FMU v4.x")
                             {
                                 log.Info("is a px4v4 pixracer");
                                 return boards.px4v4;
                             }
-
                             else if (item.board == "PX4 FMU v2.x")
                             {
                                 CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);

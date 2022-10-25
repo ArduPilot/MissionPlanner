@@ -358,7 +358,7 @@ namespace MissionPlanner.Utilities
         /// <param name="temp"></param>
         /// <param name="historyhash"></param>
         /// <param name="relType"></param>
-        public bool update(string comport, software temp, string historyhash, List<DeviceInfo> ports)
+        public bool updateLegacy(string comport, software temp, string historyhash, List<DeviceInfo> ports)
         {
             BoardDetect.boards board = BoardDetect.boards.none;
             string baseurl = "";
