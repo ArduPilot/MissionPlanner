@@ -37,10 +37,10 @@ namespace MissionPlanner.Controls
 
                 List<double[]> avg = new List<double[]>
                 {
-                    new double[1<<bins]
+                    new double[1 << bins]
                 };
                 Color[] color = new Color[]
-                    {Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange};
+                    { Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange };
 
                 int hz = 8000;
                 InputBox.Show("fft sample rate", "nter source file sample rate", ref hz);
@@ -121,7 +121,39 @@ namespace MissionPlanner.Controls
                         buffer = new double[buffer.Length];
                     }
                 }
+
+                tableLayoutPanel1.Controls.Add(zedGraphControl1);
+                SetScale(new[]
+                {
+                    zedGraphControl1
+                });
             }
+        }
+
+        public ZedGraphControl NewZedGraph()
+        {
+            var zedGraphControl1 = new ZedGraphControl();
+            /*   zedGraphControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                       | System.Windows.Forms.AnchorStyles.Left)
+                   | System.Windows.Forms.AnchorStyles.Right))); */
+            zedGraphControl1.IsShowPointValues = true;
+            zedGraphControl1.Location = new System.Drawing.Point(3, 3);
+            zedGraphControl1.Name = "zedGraphControl1";
+            zedGraphControl1.ScrollGrace = 0D;
+            zedGraphControl1.ScrollMaxX = 0D;
+            zedGraphControl1.ScrollMaxY = 0D;
+            zedGraphControl1.ScrollMaxY2 = 0D;
+            zedGraphControl1.ScrollMinX = 0D;
+            zedGraphControl1.ScrollMinY = 0D;
+            zedGraphControl1.ScrollMinY2 = 0D;
+            zedGraphControl1.Size = new System.Drawing.Size(779, 483);
+            zedGraphControl1.TabIndex = 0;
+            zedGraphControl1.PointValueEvent +=
+                new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
+            zedGraphControl1.MouseMoveEvent +=
+                new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
+
+            return zedGraphControl1;
         }
 
         //FMT, 131, 43, IMU, IffffffIIf, TimeMS,GyrX,GyrY,GyrZ,AccX,AccY,AccZ,ErrG,ErrA,Temp
@@ -175,13 +207,12 @@ namespace MissionPlanner.Controls
 
                 object[] datas = new object[] { datainGX, datainGY, datainGZ, datainAX, datainAY, datainAZ };
                 string[] datashead = new string[]
-                {"GYR1-GyrX", "GYR1-GyrY", "GYR1-GyrZ", "ACC1-AccX", "ACC1-AccY", "ACC1-AccZ"};
+                    { "GYR1-GyrX", "GYR1-GyrY", "GYR1-GyrZ", "ACC1-AccX", "ACC1-AccY", "ACC1-AccZ" };
                 Color[] color = new Color[]
-                {Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange};
+                    { Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange };
                 ZedGraphControl[] ctls = new ZedGraphControl[]
                 {
-                    zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5,
-                    zedGraphControl6
+                    NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph()
                 };
 
                 int samplecounta = 0;
@@ -192,7 +223,7 @@ namespace MissionPlanner.Controls
                 double[] freqt = null;
                 double samplerate = 0;
 
-                foreach (var item in file.GetEnumeratorType(new string[] { "ACC1", "GYR1"}))
+                foreach (var item in file.GetEnumeratorType(new string[] { "ACC1", "GYR1" }))
                 {
                     if (item.msgtype == "ACC1" || item.msgtype == "ACC" && item.instance == "0")
                     {
@@ -202,7 +233,7 @@ namespace MissionPlanner.Controls
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
-                                          CultureInfo.InvariantCulture) / 1000.0;
+                            CultureInfo.InvariantCulture) / 1000.0;
 
                         timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
 
@@ -229,7 +260,7 @@ namespace MissionPlanner.Controls
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
-                                          CultureInfo.InvariantCulture) / 1000.0;
+                            CultureInfo.InvariantCulture) / 1000.0;
 
                         // we missed accel data
                         if (samplecountg >= N)
@@ -343,11 +374,10 @@ namespace MissionPlanner.Controls
                 int N = 1 << bins;
 
                 Color[] color = new Color[]
-                {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
+                    { Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange };
                 ZedGraphControl[] ctls = new ZedGraphControl[]
                 {
-                    zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5,
-                    zedGraphControl6
+                    NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph()
                 };
 
                 // 3 imus * 2 sets of measurements(gyr/acc)
@@ -360,7 +390,8 @@ namespace MissionPlanner.Controls
                 int second = DateTime.Now.Second;
                 long linesdone = 0;
 
-                foreach (var item in file.GetEnumeratorType(new string[] { "ACC1", "GYR1", "ACC2", "GYR2", "ACC3", "GYR3", "ACC4", "GYR4" }))
+                foreach (var item in file.GetEnumeratorType(new string[]
+                             { "ACC1", "GYR1", "ACC2", "GYR2", "ACC3", "GYR3", "ACC4", "GYR4" }))
                 {
                     linesdone++;
                     if (second != DateTime.Now.Second)
@@ -376,8 +407,10 @@ namespace MissionPlanner.Controls
 
                     if (item.msgtype.StartsWith("ACC"))
                     {
-                        int sensorno = item.instance == "" ? int.Parse(item.msgtype.Substring(3),
-                                           CultureInfo.InvariantCulture) - 1 + 3 : int.Parse(item.instance) + 3;
+                        int sensorno = item.instance == ""
+                            ? int.Parse(item.msgtype.Substring(3),
+                                CultureInfo.InvariantCulture) - 1 + 3
+                            : int.Parse(item.instance) + 3;
                         alldata[sensorno].type = item.msgtype;
 
                         if (offsetAX == 0)
@@ -390,7 +423,7 @@ namespace MissionPlanner.Controls
                             offsetTimeacc = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = Convert.ToDouble(item.raw[offsetTimeacc],
-                                          CultureInfo.InvariantCulture) / 1000.0;
+                            CultureInfo.InvariantCulture) / 1000.0;
 
                         if (time < alldata[sensorno].lasttime)
                             continue;
@@ -410,8 +443,10 @@ namespace MissionPlanner.Controls
                     }
                     else if (item.msgtype.StartsWith("GYR"))
                     {
-                        int sensorno = item.instance == "" ? int.Parse(item.msgtype.Substring(3),
-                                           CultureInfo.InvariantCulture) - 1 : int.Parse(item.instance);
+                        int sensorno = item.instance == ""
+                            ? int.Parse(item.msgtype.Substring(3),
+                                CultureInfo.InvariantCulture) - 1
+                            : int.Parse(item.instance);
                         alldata[sensorno].type = item.msgtype;
 
                         if (offsetGX == 0) offsetGX = file.dflog.FindMessageOffset(item.msgtype, "GyrX");
@@ -420,7 +455,7 @@ namespace MissionPlanner.Controls
                         if (offsetTimegyr == 0) offsetTimegyr = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = Convert.ToDouble(item.raw[offsetTimegyr],
-                                          CultureInfo.InvariantCulture) / 1000.0;
+                            CultureInfo.InvariantCulture) / 1000.0;
 
                         if (time < alldata[sensorno].lasttime)
                             continue;
@@ -532,6 +567,7 @@ namespace MissionPlanner.Controls
                     maxa = Math.Max(maxa, zedGraphControl.GraphPane.YAxis.Scale.Max);
                 }
             }
+
             // set the max scale
             foreach (var zedGraphControl in ctls)
             {
@@ -543,7 +579,19 @@ namespace MissionPlanner.Controls
                 {
                     zedGraphControl.GraphPane.YAxis.Scale.Max = maxa;
                 }
+
+                var h = (tableLayoutPanel1.Height - 30) / 2;
+                var w = (tableLayoutPanel1.Width - 30) / 3; //(ctls.Length / 2);
+
+                zedGraphControl.Size = new Size((int)(w), (int)(h));
+
+                if (!tableLayoutPanel1.Controls.Contains(zedGraphControl))
+                    tableLayoutPanel1.Controls.Add(zedGraphControl);
             }
+
+            ThemeManager.ApplyThemeTo(tableLayoutPanel1);
+
+            tableLayoutPanel1.Invalidate();
         }
 
         private string zedGraphControl_PointValueEvent(ZedGraphControl sender, GraphPane pane, CurveItem curve, int iPt)
@@ -570,11 +618,11 @@ namespace MissionPlanner.Controls
 
                 int N = 1 << bins;
 
-                Color[] color = new Color[] { Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange };
+                Color[] color = new Color[]
+                    { Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange };
                 ZedGraphControl[] ctls = new ZedGraphControl[]
                 {
-                    zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5,
-                    zedGraphControl6
+                    NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph(), NewZedGraph()
                 };
 
                 // 3 imus * 2 sets of measurements(gyr/acc)
@@ -607,11 +655,11 @@ namespace MissionPlanner.Controls
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime],
-                                          CultureInfo.InvariantCulture) / 1000.0;
+                            CultureInfo.InvariantCulture) / 1000.0;
 
                         if (time != alldata[sensorno + 3].lasttime)
                             alldata[sensorno + 3].timedelta = alldata[sensorno + 3].timedelta * 0.99 +
-                                                          (time - alldata[sensorno + 3].lasttime) * 0.01;
+                                                              (time - alldata[sensorno + 3].lasttime) * 0.01;
 
                         alldata[sensorno + 3].lasttime = time;
 
@@ -758,15 +806,10 @@ namespace MissionPlanner.Controls
                 int N = 1 << bins;
 
                 Color[] color = new Color[]
-                {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
-                ZedGraphControl[] ctls = new ZedGraphControl[]
-                {
-                    zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5,
-                    zedGraphControl6
-                };
+                    { Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange };
 
                 // 3 imus * 2 sets of measurements(gyr/acc)
-                FFT2.datastate[] alldata = new FFT2.datastate[3 * 2];
+                FFT2.datastate[] alldata = new FFT2.datastate[6 * 2];
                 for (int a = 0; a < alldata.Length; a++)
                     alldata[a] = new FFT2.datastate();
 
@@ -795,10 +838,11 @@ namespace MissionPlanner.Controls
                         instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")],
                             CultureInfo.InvariantCulture);
 
-                        sensorno = type * 3 + instance;
+                        sensorno = type * 6 + instance;
 
-                        alldata[sensorno].sample_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
-                        CultureInfo.InvariantCulture);
+                        alldata[sensorno].sample_rate = double.Parse(
+                            item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")],
+                            CultureInfo.InvariantCulture);
 
                         multiplier = double.Parse(
                             item.items[file.dflog.FindMessageOffset(item.msgtype, "mul")],
@@ -812,6 +856,9 @@ namespace MissionPlanner.Controls
                     }
                     else if (item.msgtype.StartsWith("ISBD"))
                     {
+                        if (sensorno >= alldata.Length)
+                            continue;
+
                         var Nsdata = Convert.ToInt32(item.GetRaw("N"),
                             CultureInfo.InvariantCulture);
 
@@ -824,7 +871,7 @@ namespace MissionPlanner.Controls
                         if (offsetTime == 0) offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = Convert.ToDouble(item.raw[offsetTime],
-                                          CultureInfo.InvariantCulture) / 1000.0;
+                            CultureInfo.InvariantCulture) / 1000.0;
 
                         if (time < alldata[sensorno].lasttime)
                             continue;
@@ -836,24 +883,16 @@ namespace MissionPlanner.Controls
                         alldata[sensorno].lasttime = time;
 
                         var ua = (BinaryLog.UnionArray)item.raw[offsetX];
-                        ua.Shorts.ForEach(aa =>
-                        {
-                            alldata[sensorno].datax.Add(aa / multiplier);
-                        });
+                        ua.Shorts.ForEach(aa => { alldata[sensorno].datax.Add(aa / multiplier); });
                         ua = (BinaryLog.UnionArray)item.raw[offsetY];
-                        ua.Shorts.ForEach(aa =>
-                        {
-                            alldata[sensorno].datay.Add(aa / multiplier);
-                        });
+                        ua.Shorts.ForEach(aa => { alldata[sensorno].datay.Add(aa / multiplier); });
                         ua = (BinaryLog.UnionArray)item.raw[offsetZ];
-                        ua.Shorts.ForEach(aa =>
-                        {
-                            alldata[sensorno].dataz.Add(aa / multiplier);
-                        });
+                        ua.Shorts.ForEach(aa => { alldata[sensorno].dataz.Add(aa / multiplier); });
                     }
                 }
 
                 int controlindex = 0;
+                tableLayoutPanel1.Controls.Clear();
 
                 foreach (var sensordata in alldata)
                 {
@@ -862,7 +901,7 @@ namespace MissionPlanner.Controls
 
                     double samplerate = 0;
 
-                    samplerate = sensordata.sample_rate;// Math.Round(1000 / sensordata.timedelta, 1);
+                    samplerate = sensordata.sample_rate; // Math.Round(1000 / sensordata.timedelta, 1);
 
                     double[] freqt = fft.FreqTable(N, (int)samplerate);
 
@@ -901,37 +940,44 @@ namespace MissionPlanner.Controls
                     var curvey = new LineItem(sensordata.type + " y", pply, color[1], SymbolType.None);
                     var curvez = new LineItem(sensordata.type + " z", pplz, color[2], SymbolType.None);
 
-                    ctls[controlindex].GraphPane.Legend.IsVisible = true;
+                    var ctl = NewZedGraph();
 
-                    ctls[controlindex].GraphPane.XAxis.Title.Text = "Freq Hz";
-                    ctls[controlindex].GraphPane.YAxis.Title.Text = "Amplitude";
-                    ctls[controlindex].GraphPane.Title.Text = "FFT " + sensordata.type + " - " +
-                                                              Path.GetFileName(ofd.FileName) + " - " + samplerate +
-                                                              "hz input";
+                    tableLayoutPanel1.Controls.Add(ctl);
 
-                    ctls[controlindex].GraphPane.CurveList.Clear();
+                    ctl.GraphPane.Legend.IsVisible = true;
 
-                    ctls[controlindex].GraphPane.CurveList.Add(curvex);
-                    ctls[controlindex].GraphPane.CurveList.Add(curvey);
-                    ctls[controlindex].GraphPane.CurveList.Add(curvez);
+                    ctl.GraphPane.XAxis.Title.Text = "Freq Hz";
+                    ctl.GraphPane.YAxis.Title.Text = "Amplitude";
+                    ctl.GraphPane.Title.Text = "FFT " + sensordata.type + " - " +
+                                               Path.GetFileName(ofd.FileName) + " - " + samplerate +
+                                               "hz input";
 
-                    ctls[controlindex].Invalidate();
-                    ctls[controlindex].AxisChange();
+                    ctl.GraphPane.CurveList.Clear();
 
-                    ctls[controlindex].GraphPane.XAxis.Scale.Max = samplerate / 2;
+                    ctl.GraphPane.CurveList.Add(curvex);
+                    ctl.GraphPane.CurveList.Add(curvey);
+                    ctl.GraphPane.CurveList.Add(curvez);
 
-                    ctls[controlindex].Refresh();
+                    ctl.Invalidate();
+                    ctl.AxisChange();
 
-                    controlindex++;
+                    ctl.GraphPane.XAxis.Scale.Max = samplerate / 2;
+
+                    ctl.Refresh();
                 }
 
-                SetScale(ctls);
+                SetScale(tableLayoutPanel1.Controls.OfType<ZedGraphControl>().ToArray());
             }
         }
 
         private void chk_mag_CheckedChanged(object sender, EventArgs e)
         {
             indB = !chk_mag.Checked;
+        }
+
+        private void fftui_Resize(object sender, EventArgs e)
+        {
+            SetScale(tableLayoutPanel1.Controls.OfType<ZedGraphControl>().ToArray());
         }
     }
 }

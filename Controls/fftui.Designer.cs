@@ -30,12 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.zedGraphControl6 = new ZedGraph.ZedGraphControl();
-            this.zedGraphControl5 = new ZedGraph.ZedGraphControl();
-            this.zedGraphControl4 = new ZedGraph.ZedGraphControl();
-            this.zedGraphControl3 = new ZedGraph.ZedGraphControl();
-            this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
+            this.tableLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.NUM_bins = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -66,7 +61,7 @@
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(255, 238);
+            this.zedGraphControl1.Size = new System.Drawing.Size(779, 0);
             this.zedGraphControl1.TabIndex = 0;
             this.zedGraphControl1.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
             this.zedGraphControl1.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
@@ -76,123 +71,12 @@
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Controls.Add(this.zedGraphControl6, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.zedGraphControl5, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.zedGraphControl4, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.zedGraphControl3, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.zedGraphControl2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.zedGraphControl1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.zedGraphControl1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(785, 489);
             this.tableLayoutPanel1.TabIndex = 3;
-            // 
-            // zedGraphControl6
-            // 
-            this.zedGraphControl6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.zedGraphControl6.IsShowPointValues = true;
-            this.zedGraphControl6.Location = new System.Drawing.Point(525, 247);
-            this.zedGraphControl6.Name = "zedGraphControl6";
-            this.zedGraphControl6.ScrollGrace = 0D;
-            this.zedGraphControl6.ScrollMaxX = 0D;
-            this.zedGraphControl6.ScrollMaxY = 0D;
-            this.zedGraphControl6.ScrollMaxY2 = 0D;
-            this.zedGraphControl6.ScrollMinX = 0D;
-            this.zedGraphControl6.ScrollMinY = 0D;
-            this.zedGraphControl6.ScrollMinY2 = 0D;
-            this.zedGraphControl6.Size = new System.Drawing.Size(257, 239);
-            this.zedGraphControl6.TabIndex = 5;
-            this.zedGraphControl6.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl6.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
-            // 
-            // zedGraphControl5
-            // 
-            this.zedGraphControl5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.zedGraphControl5.IsShowPointValues = true;
-            this.zedGraphControl5.Location = new System.Drawing.Point(264, 247);
-            this.zedGraphControl5.Name = "zedGraphControl5";
-            this.zedGraphControl5.ScrollGrace = 0D;
-            this.zedGraphControl5.ScrollMaxX = 0D;
-            this.zedGraphControl5.ScrollMaxY = 0D;
-            this.zedGraphControl5.ScrollMaxY2 = 0D;
-            this.zedGraphControl5.ScrollMinX = 0D;
-            this.zedGraphControl5.ScrollMinY = 0D;
-            this.zedGraphControl5.ScrollMinY2 = 0D;
-            this.zedGraphControl5.Size = new System.Drawing.Size(255, 239);
-            this.zedGraphControl5.TabIndex = 4;
-            this.zedGraphControl5.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl5.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
-            // 
-            // zedGraphControl4
-            // 
-            this.zedGraphControl4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.zedGraphControl4.IsShowPointValues = true;
-            this.zedGraphControl4.Location = new System.Drawing.Point(3, 247);
-            this.zedGraphControl4.Name = "zedGraphControl4";
-            this.zedGraphControl4.ScrollGrace = 0D;
-            this.zedGraphControl4.ScrollMaxX = 0D;
-            this.zedGraphControl4.ScrollMaxY = 0D;
-            this.zedGraphControl4.ScrollMaxY2 = 0D;
-            this.zedGraphControl4.ScrollMinX = 0D;
-            this.zedGraphControl4.ScrollMinY = 0D;
-            this.zedGraphControl4.ScrollMinY2 = 0D;
-            this.zedGraphControl4.Size = new System.Drawing.Size(255, 239);
-            this.zedGraphControl4.TabIndex = 3;
-            this.zedGraphControl4.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl4.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
-            // 
-            // zedGraphControl3
-            // 
-            this.zedGraphControl3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.zedGraphControl3.IsShowPointValues = true;
-            this.zedGraphControl3.Location = new System.Drawing.Point(525, 3);
-            this.zedGraphControl3.Name = "zedGraphControl3";
-            this.zedGraphControl3.ScrollGrace = 0D;
-            this.zedGraphControl3.ScrollMaxX = 0D;
-            this.zedGraphControl3.ScrollMaxY = 0D;
-            this.zedGraphControl3.ScrollMaxY2 = 0D;
-            this.zedGraphControl3.ScrollMinX = 0D;
-            this.zedGraphControl3.ScrollMinY = 0D;
-            this.zedGraphControl3.ScrollMinY2 = 0D;
-            this.zedGraphControl3.Size = new System.Drawing.Size(257, 238);
-            this.zedGraphControl3.TabIndex = 2;
-            this.zedGraphControl3.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl3.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
-            // 
-            // zedGraphControl2
-            // 
-            this.zedGraphControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.zedGraphControl2.IsShowPointValues = true;
-            this.zedGraphControl2.Location = new System.Drawing.Point(264, 3);
-            this.zedGraphControl2.Name = "zedGraphControl2";
-            this.zedGraphControl2.ScrollGrace = 0D;
-            this.zedGraphControl2.ScrollMaxX = 0D;
-            this.zedGraphControl2.ScrollMaxY = 0D;
-            this.zedGraphControl2.ScrollMaxY2 = 0D;
-            this.zedGraphControl2.ScrollMinX = 0D;
-            this.zedGraphControl2.ScrollMinY = 0D;
-            this.zedGraphControl2.ScrollMinY2 = 0D;
-            this.zedGraphControl2.Size = new System.Drawing.Size(255, 238);
-            this.zedGraphControl2.TabIndex = 1;
-            this.zedGraphControl2.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl2.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
+            tableLayoutPanel1.AutoScroll = true;
             // 
             // NUM_bins
             // 
@@ -323,6 +207,7 @@
             this.Controls.Add(this.BUT_runwav);
             this.Name = "fftui";
             this.Text = "fftui";
+            this.Resize += new System.EventHandler(this.fftui_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_bins)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_startfreq)).EndInit();
@@ -336,12 +221,7 @@
         private ZedGraph.ZedGraphControl zedGraphControl1;
         private Controls.MyButton BUT_runwav;
         private Controls.MyButton but_accgyr1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private ZedGraph.ZedGraphControl zedGraphControl6;
-        private ZedGraph.ZedGraphControl zedGraphControl5;
-        private ZedGraph.ZedGraphControl zedGraphControl4;
-        private ZedGraph.ZedGraphControl zedGraphControl3;
-        private ZedGraph.ZedGraphControl zedGraphControl2;
+        private System.Windows.Forms.FlowLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.NumericUpDown NUM_bins;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
