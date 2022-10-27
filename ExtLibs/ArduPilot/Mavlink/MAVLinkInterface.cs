@@ -5667,10 +5667,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             req.target_component = compid;
             req.target_system = sysid;
 
-            // use both methods
+            // use *all three* methods
+            doCommand(MAVLink.MAV_CMD.REQUEST_MESSAGE,
+                (float)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION,
+                0, 0, 0, 0, 0, 0, false);
+
+	    // MAV_CMD.REQUEST_AUTOPILOT_CAPABILITIES is deprecated
             doCommand(MAV_CMD.REQUEST_AUTOPILOT_CAPABILITIES, 0, 0, 0, 0, 0, 0, 0, false);
 
-            // request point
+	    // AUTOPILOT_VERSION_REQUEST is deprecated
             generatePacket((byte) MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST, req);
 
             if (!responcerequired)
